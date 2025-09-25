@@ -41,7 +41,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import type { Signal, TrackByFunction } from '@angular/core';
-import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { outputFromObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -228,7 +228,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
    */
-  dataSource = input.required<IWattTableDataSource<T>>();
+  readonly dataSource = input.required<IWattTableDataSource<T>>();
 
   /**
    * Column definition record with keys representing the column identifiers
@@ -236,75 +236,65 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * is determined by the property order, but can be overruled by the
    * `displayedColumns` input.
    */
-  columns = input<WattTableColumnDef<T>>({});
+  readonly columns = input<WattTableColumnDef<T>>({});
 
   /**
    * Used for hiding or reordering columns defined in the `columns` input.
    */
-  displayedColumns = input<string[]>();
+  readonly displayedColumns = input<string[]>();
 
   /**
    * Used for disabling the table. This will disable all user interaction
    */
-  disabled = input(false);
+  readonly disabled = input(false);
 
   /**
    * Provide a description of the table for visually impaired users.
    */
-  description = input('');
+  readonly description = input('');
 
   /**
    * If set to `true`, the table will show a loading indicator
    * when there is no data.
    */
-  loading = input(false);
+  readonly loading = input(false);
 
   /**
    * If true the footer will be sticky
    */
-  stickyFooter = input(false);
+  readonly stickyFooter = input(false);
 
   /**
    * Optional callback for determining header text for columns that
    * do not have a static header text set in the column definition.
    * Useful for providing translations of column headers.
    */
-  resolveHeader = input<(key: string) => string>();
+  readonly resolveHeader = input<(key: string) => string>();
 
   /**
    * Identifier for column that should be sorted initially.
    */
-  sortBy = input('');
+  readonly sortBy = input('');
 
   /**
    * The sort direction of the initially sorted column.
    */
-  sortDirection = input<SortDirection>('');
+  readonly sortDirection = input<SortDirection>('');
 
   /**
    * Whether to allow the user to clear the sort. Defaults to `true`.
    */
-  sortClear = input(true);
-
-  /**
-   * Whether the table should include a checkbox column for row selection.
-   */
-  selectable = input(false);
-
-  /**
-   * Sets the initially selected rows. Only works when selectable is `true`.
-   */
-  initialSelection = input<T[]>([]);
+  readonly sortClear = input(true);
 
   /**
    * Set to true to disable row hover highlight.
    */
-  suppressRowHoverHighlight = input(false);
+  readonly suppressRowHoverHighlight = input(false);
 
   /**
    * Highlights the currently active row.
    */
-  activeRow = input<T>();
+  readonly activeRow = input<T>();
 
   /**
    * Custom comparator function to determine if two rows are equal.
@@ -315,32 +305,68 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * as long as the instances remain the same, which may not be the case
    * if row data is recreated or rebuilt from serialization.
    */
-  activeRowComparator = input<(currentRow: T, activeRow: T) => boolean>();
+  readonly activeRowComparator = input<(currentRow: T, activeRow: T) => boolean>();
 
   /**
    * If set to `true`, the column headers will not be shown. Default is `false`.
    */
-  hideColumnHeaders = input(false);
+  readonly hideColumnHeaders = input(false);
 
   /**
    * Choose from a predefined set of display variants.
    */
-  variant = input<'zebra'>();
+  readonly variant = input<'zebra'>();
 
   /**
    * Array of rows that are currently expanded.
    */
-  expanded = model<T[]>([]);
+  readonly expanded = model<T[]>([]);
 
   /**
    * Optional function for uniquely identifying rows.
    */
-  trackBy = input<TrackByFunction<T> | keyof T>();
+  readonly trackBy = input<TrackByFunction<T> | keyof T>();
+
+  // Selectable
+  protected selectionModel = new SelectionModel<T>(true, []);
+  protected selected$ = this.selectionModel.changed.pipe(map(() => this.selectionModel.selected));
+  protected selected = toSignal(this.selected$, { initialValue: this.selectionModel.selected });
+  protected isAllSelected = signal(false);
+  protected filteredSelection = computed(() =>
+    this.selected().filter((row) => this.dataSource().filteredData.includes(row))
+  );
+
+  protected columnSelection = computed(() => {
+    if (this.dataSource().filteredData.length === 0) return false;
+    return this.dataSource().filteredData.every((row) => this.selectionModel.isSelected(row));
+  });
+
+  /** @ignore */
+  set _columnSelection(value) {
+    if (value) {
+      this.selectionModel.setSelection(...this.dataSource().filteredData);
+    } else {
+      this.clearSelection();
+    }
+  }
+
+  /**
+   * Whether the table should include a checkbox column for row selection.
+   */
+  readonly selectable = input(false);
+
+  /**
+   * Sets the initially selected rows. Only works when selectable is `true`.
+   */
+  readonly initialSelection = input<T[]>([]);
+  protected setInitialSelectionEffect = effect(() => {
+    this.selectionModel.setSelection(...this.initialSelection());
+  });
 
   /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
    */
-  selectionChange = output<T[]>();
+  readonly selectionChange = outputFromObservable(this.selected$);
 
   /**
    * @ignore
@@ -368,8 +394,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   protected tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
   protected animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
 
-  protected selectionModel = new SelectionModel<T>(true, []);
-
   // Unique names for special columns
   protected checkboxColumn = '__checkboxColumn__';
   protected expandableColumn = '__expandableColumn__';
@@ -392,18 +416,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     const { accessor } = column;
     const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
     return this.formatCellData(cell);
-  }
-
-  constructor() {
-    effect(() => {
-      this.selectionModel.setSelection(...(this.initialSelection() ?? []));
-    });
-    this.selectionModel.changed
-      .pipe(
-        map(() => this.selectionModel.selected),
-        takeUntilDestroyed()
-      )
-      .subscribe((selection) => this.selectionChange.emit(selection));
   }
 
   ngAfterViewInit() {
@@ -460,27 +472,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     if (this.selectable()) {
       this.selectionModel.clear();
     }
-  }
-
-  /** @ignore */
-  get _columnSelection() {
-    if (this.dataSource().filteredData.length === 0) return false;
-    return this.dataSource().filteredData.every((row) => this.selectionModel.isSelected(row));
-  }
-
-  /** @ignore */
-  set _columnSelection(value) {
-    if (value) {
-      this.selectionModel.setSelection(...this.dataSource().filteredData);
-    } else {
-      this.clearSelection();
-    }
-  }
-
-  get _filteredSelection() {
-    return this.selectionModel.selected.filter((row) =>
-      this.dataSource().filteredData.includes(row)
-    );
   }
 
   /** @ignore */

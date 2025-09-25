@@ -18,7 +18,7 @@ limitations under the License.
   mat-table
   matSort
   role="treegrid"
-  [ngClass]="{ 'watt-table-has-selection': _filteredSelection.length > 0 }"
+  [ngClass]="{ 'watt-table-has-selection': filteredSelection().length > 0 }"
   [matSortActive]="sortBy()"
   [matSortDirection]="sortDirection()"
   [matSortDisableClear]="!sortClear()"
@@ -176,7 +176,7 @@ limitations under the License.
 @if (toolbar(); as toolbar) {
   <div class="watt-table-toolbar" role="toolbar">
     <ng-container
-      *ngTemplateOutlet="toolbar.templateRef; context: { $implicit: _filteredSelection }"
+      *ngTemplateOutlet="toolbar.templateRef; context: { $implicit: filteredSelection() }"
     />
   </div>
 }
