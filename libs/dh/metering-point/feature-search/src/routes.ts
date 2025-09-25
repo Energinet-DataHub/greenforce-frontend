@@ -50,7 +50,7 @@ export const dhMeteringPointRoutes: Routes = [
   {
     path: '',
     canActivate: [
-      PermissionGuard(['metering-point:search'], `/${getPath<BasePaths>('message-archive')}`),
+      PermissionGuard(['metering-point:search']),
     ],
     children: [
       {
