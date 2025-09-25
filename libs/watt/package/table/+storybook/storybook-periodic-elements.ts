@@ -34,7 +34,6 @@ import { PeriodicElement } from './storybook-periodic-elements-data';
   `,
   template: `
     <watt-table
-      #table
       description="Atomic Elements"
       sortBy="position"
       sortDirection="asc"
@@ -47,13 +46,13 @@ import { PeriodicElement } from './storybook-periodic-elements-data';
       [activeRow]="activeRow()"
       (rowClick)="activeRow.set($event)"
     >
-      <ng-container *wattTableCell="table.columns.name; let element">
+      <ng-container *wattTableCell="columns.name; let element">
         <div class="watt-text-s">
           {{ element.name }}
           <div class="watt-on-light--medium-emphasis">Weight: {{ element.weight }}</div>
         </div>
       </ng-container>
-      <ng-container *wattTableCell="table.columns.symbol; let element">
+      <ng-container *wattTableCell="columns.symbol; let element">
         <div style="display: flex">
           <watt-icon name="date" size="xs" class="date-icon watt-space-inline-s" />
           <span class="watt-text-s">{{ element.symbol }}</span>

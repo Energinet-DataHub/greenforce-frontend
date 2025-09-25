@@ -21,31 +21,30 @@ import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/comm
 import {
   AfterViewInit,
   Component,
-  ContentChild,
-  ContentChildren,
+  contentChild,
+  contentChildren,
   Directive,
   effect,
   ElementRef,
-  EventEmitter,
   inject,
   input,
   Input,
   model,
   OnChanges,
-  Output,
+  output,
   signal,
   SimpleChanges,
   TemplateRef,
-  ViewChild,
+  viewChild,
   viewChildren,
   ViewEncapsulation,
 } from '@angular/core';
-import type { QueryList, Signal, TrackByFunction } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import type { Signal, TrackByFunction } from '@angular/core';
+import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { map } from 'rxjs';
+import { map, Subject } from 'rxjs';
 
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDatePipe } from '@energinet/watt/core/date';
@@ -228,7 +227,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
    */
-  @Input() dataSource!: IWattTableDataSource<T>;
+  dataSource = input.required<IWattTableDataSource<T>>();
 
   /**
    * Column definition record with keys representing the column identifiers
@@ -236,65 +235,60 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * is determined by the property order, but can be overruled by the
    * `displayedColumns` input.
    */
-  @Input() columns: WattTableColumnDef<T> = {};
+  columns = input<WattTableColumnDef<T>>({});
 
   /**
    * Used for hiding or reordering columns defined in the `columns` input.
    */
-  @Input() displayedColumns?: string[];
+  displayedColumns = input<string[]>();
 
   /**
    * Used for disabling the table. This will disable all user interaction
    */
-  @Input() disabled = false;
+  disabled = input(false);
 
   /**
    * Provide a description of the table for visually impaired users.
    */
-  @Input() description = '';
+  description = input('');
 
   /**
    * If set to `true`, the table will show a loading indicator
    * when there is no data.
    */
-  @Input() loading = false;
+  loading = input(false);
 
   /**
    * If true the footer will be sticky
    */
-  @Input() stickyFooter = false;
+  stickyFooter = input(false);
 
   /**
    * Optional callback for determining header text for columns that
    * do not have a static header text set in the column definition.
    * Useful for providing translations of column headers.
    */
-  @Input()
-  resolveHeader?: (key: string) => string;
+  resolveHeader = input<(key: string) => string>();
 
   /**
    * Identifier for column that should be sorted initially.
    */
-  @Input()
-  sortBy = '';
+  sortBy = input('');
 
   /**
    * The sort direction of the initially sorted column.
    */
-  @Input()
-  sortDirection: SortDirection = '';
+  sortDirection = input<SortDirection>('');
 
   /**
    * Whether to allow the user to clear the sort. Defaults to `true`.
    */
-  @Input()
-  sortClear = true;
+  sortClear = input(true);
 
   /**
    * Whether the table should include a checkbox column for row selection.
    */
-  @Input()
-  selectable = false;
+  selectable = input(false);
 
   /**
    * Sets the initially selected rows. Only works when selectable is `true`.
@@ -304,14 +298,12 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Set to true to disable row hover highlight.
    */
-  @Input()
-  suppressRowHoverHighlight = false;
+  suppressRowHoverHighlight = input(false);
 
   /**
    * Highlights the currently active row.
    */
-  @Input()
-  activeRow?: T;
+  activeRow = input<T>();
 
   /**
    * Custom comparator function to determine if two rows are equal.
@@ -322,14 +314,12 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * as long as the instances remain the same, which may not be the case
    * if row data is recreated or rebuilt from serialization.
    */
-  @Input()
-  activeRowComparator?: (currentRow: T, activeRow: T) => boolean;
+  activeRowComparator = input<(currentRow: T, activeRow: T) => boolean>();
 
   /**
    * If set to `true`, the column headers will not be shown. Default is `false`.
    */
-  @Input()
-  hideColumnHeaders = false;
+  hideColumnHeaders = input(false);
 
   /**
    * Choose from a predefined set of display variants.
@@ -349,38 +339,34 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
    */
-  @Output()
-  selectionChange = new EventEmitter<T[]>();
+  selectionChange = output<T[]>();
+
+  /**
+   * @ignore
+   * The `observed` boolean from the `Subject` is used to determine if a row is
+   * clickable or not. This is available on `EventEmitter`, but not on `output`,
+   * which is why this workaround is used.
+   */
+  protected _rowClick$ = new Subject<T>();
 
   /**
    * Emits whenever a row is clicked.
    */
-  @Output()
-  rowClick = new EventEmitter<T>();
+  rowClick = outputFromObservable(this._rowClick$);
 
   /**
    * Event emitted when the user changes the active sort or sort direction.
    */
-  @Output()
-  sortChange = new EventEmitter<Sort>();
+  sortChange = output<Sort>();
+
+  // Queries
+  protected cells = contentChildren(WattTableCellDirective<T>);
+  protected toolbar = contentChild(WattTableToolbarDirective<T>);
+  protected sort = viewChild(MatSort);
+  protected tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
 
   /** @ignore */
-  @ContentChildren(WattTableCellDirective)
-  _cells!: QueryList<WattTableCellDirective<T>>;
-
-  /** @ignore */
-  @ContentChild(WattTableToolbarDirective)
-  _toolbar?: WattTableToolbarDirective<T>;
-
-  /** @ignore */
-  @ViewChild(MatSort)
-  _sort!: MatSort;
-
-  /** @ignore */
-  _tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
-
-  /** @ignore */
-  _animationEffect = animateExpandableCells(this._tableCellElements, this.expanded);
+  _animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
 
   /** @ignore */
   _selectionModel = new SelectionModel<T>(true, []);
@@ -417,7 +403,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   private checkHasFooter(): void {
-    this._hasFooter.set(Object.values(this.columns).some((column) => !!column.footer));
+    this._hasFooter.set(Object.values(this.columns()).some((column) => !!column.footer));
   }
 
   constructor() {
@@ -433,13 +419,14 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.dataSource === undefined) return;
+    const dataSource = this.dataSource();
+    if (dataSource === undefined) return;
 
     this.checkHasFooter();
-    this.dataSource.sort = this._sort;
-    if (this.dataSource instanceof WattTableDataSource === false) return;
-    this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
-      const sortColumn = this.columns[sortHeaderId];
+    dataSource.sort = this.sort();
+    if (dataSource instanceof WattTableDataSource === false) return;
+    dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
+      const sortColumn = this.columns()[sortHeaderId];
       if (!sortColumn?.accessor) return '';
 
       // Access raw value for sorting, instead of applying default formatting.
@@ -455,17 +442,14 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
-      const { displayedColumns } = this;
-
-      if (this.columns === undefined) return;
-
-      const sizing = Object.keys(this.columns)
+      const displayedColumns = this.displayedColumns();
+      const sizing = Object.keys(this.columns())
         .filter((key) => !displayedColumns || displayedColumns.includes(key))
-        .map((key) => this.columns[key])
+        .map((key) => this.columns()[key])
         .filter((column) => !column.expandable)
         .map((column) => column.size ?? 'auto');
 
-      if (this.selectable) {
+      if (this.selectable()) {
         // Add space for extra checkbox column
         sizing.unshift('var(--watt-space-xl)');
       }
@@ -488,21 +472,21 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * Clears the selection. Only works when selectable is `true`.
    */
   clearSelection() {
-    if (this.selectable) {
+    if (this.selectable()) {
       this._selectionModel.clear();
     }
   }
 
   /** @ignore */
   get _columnSelection() {
-    if (this.dataSource.filteredData.length === 0) return false;
-    return this.dataSource.filteredData.every((row) => this._selectionModel.isSelected(row));
+    if (this.dataSource().filteredData.length === 0) return false;
+    return this.dataSource().filteredData.every((row) => this._selectionModel.isSelected(row));
   }
 
   /** @ignore */
   set _columnSelection(value) {
     if (value) {
-      this._selectionModel.setSelection(...this.dataSource.filteredData);
+      this._selectionModel.setSelection(...this.dataSource().filteredData);
     } else {
       this.clearSelection();
     }
@@ -510,32 +494,31 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   get _filteredSelection() {
     return this._selectionModel.selected.filter((row) =>
-      this.dataSource.filteredData.includes(row)
+      this.dataSource().filteredData.includes(row)
     );
   }
 
   /** @ignore */
   _getColumns() {
-    if (this.columns === undefined) return [];
-    const columns = this.displayedColumns ?? Object.keys(this.columns);
+    const columns = this.displayedColumns() ?? Object.keys(this.columns());
     return [
-      ...(this.selectable ? [this._checkboxColumn] : []),
-      ...columns.filter((key) => !this.columns[key].expandable),
+      ...(this.selectable() ? [this._checkboxColumn] : []),
+      ...columns.filter((key) => !this.columns()[key].expandable),
       ...(this._isExpandable() ? [this._expandableColumn] : []),
-      ...columns.filter((key) => this.columns[key].expandable),
+      ...columns.filter((key) => this.columns()[key].expandable),
     ];
   }
 
   /** @ignore */
   _getColumnTemplate(column: WattTableColumn<T>) {
-    return this._cells.find((item) => item.column === column)?.templateRef;
+    return this.cells().find((item) => item.column === column)?.templateRef;
   }
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
     if (typeof column.value.header === 'string') return column.value.header;
-    const cell = this._cells.find((item) => item.column === column.value);
-    return cell?.header ?? this.resolveHeader?.(column.key) ?? column.key;
+    const cell = this.cells().find((item) => item.column === column.value);
+    return cell?.header ?? this.resolveHeader()?.(column.key) ?? column.key;
   }
 
   /** @ignore */
@@ -558,32 +541,32 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     const trackBy = this.trackBy();
     if (typeof trackBy === 'string') return row[trackBy];
     if (typeof trackBy === 'function') return trackBy(index, row);
-    return this.dataSource.data.indexOf(row);
+    return this.dataSource().data.indexOf(row);
   };
 
   /** @ignore */
   _isActiveRow(row: T) {
-    if (!this.activeRow) return false;
-    return this.activeRowComparator
-      ? this.activeRowComparator(row, this.activeRow)
-      : row === this.activeRow;
+    const activeRow = this.activeRow();
+    const activeRowComparator = this.activeRowComparator();
+    if (!activeRow) return false;
+    return activeRowComparator ? activeRowComparator(row, activeRow) : row === activeRow;
   }
 
   /** @ignore */
   _isExpandable() {
-    return Object.values(this.columns).some((column) => column.expandable);
+    return Object.values(this.columns()).some((column) => column.expandable);
   }
 
   /** @ignore */
   _onRowClick(row: T) {
-    if (this.disabled || window.getSelection()?.toString() !== '') return;
+    if (this.disabled() || window.getSelection()?.toString() !== '') return;
     if (this._isExpandable()) {
       this.expanded.update((rows) =>
         rows.includes(row) ? rows.filter((r) => r != row) : [...rows, row]
       );
     }
 
-    this.rowClick.emit(row);
+    this._rowClick$.next(row);
   }
 }
 
