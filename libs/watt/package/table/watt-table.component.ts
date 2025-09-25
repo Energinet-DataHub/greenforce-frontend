@@ -16,15 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { SelectionModel } from '@angular/cdk/collections';
 import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  computed,
   contentChild,
   contentChildren,
   Directive,
-  effect,
   ElementRef,
   inject,
   input,
@@ -40,11 +39,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import type { Signal, TrackByFunction } from '@angular/core';
-import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { map, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDatePipe } from '@energinet/watt/core/date';
@@ -291,9 +290,9 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   selectable = input(false);
 
   /**
-   * Sets the initially selected rows. Only works when selectable is `true`.
+   * Sets the selected rows. Only applicable when selectable is `true`.
    */
-  initialSelection = input<T[]>([]);
+  selection = model<T[]>([]);
 
   /**
    * Set to true to disable row hover highlight.
@@ -337,11 +336,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   trackBy = input<TrackByFunction<T> | keyof T>();
 
   /**
-   * Emits whenever the selection updates. Only works when selectable is `true`.
-   */
-  selectionChange = output<T[]>();
-
-  /**
    * @ignore
    * The `observed` boolean from the `Subject` is used to determine if a row is
    * clickable or not. This is available on `EventEmitter`, but not on `output`,
@@ -365,11 +359,18 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   protected sort = viewChild(MatSort);
   protected tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
 
-  /** @ignore */
-  _animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
+  // Selectable
+  protected selectionSet = computed(() => new Set(this.selection()));
+  protected filterSelectionBy = (rows: T[]) => [...this.selectionSet().intersection(new Set(rows))];
+  protected getSelectionState = () => {
+    const filteredData = this.dataSource().filteredData;
+    const filteredSelection = this.filterSelectionBy(filteredData);
+    if (!filteredSelection.length) return false;
+    return filteredSelection.length === this.dataSource().filteredData.length ? true : null;
+  };
 
   /** @ignore */
-  _selectionModel = new SelectionModel<T>(true, []);
+  _animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
 
   /** @ignore */
   _checkboxColumn = '__checkboxColumn__';
@@ -404,18 +405,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /** @ignore */
   private checkHasFooter(): void {
     this._hasFooter.set(Object.values(this.columns()).some((column) => !!column.footer));
-  }
-
-  constructor() {
-    effect(() => {
-      this._selectionModel.setSelection(...(this.initialSelection() ?? []));
-    });
-    this._selectionModel.changed
-      .pipe(
-        map(() => this._selectionModel.selected),
-        takeUntilDestroyed()
-      )
-      .subscribe((selection) => this.selectionChange.emit(selection));
   }
 
   ngAfterViewInit() {
@@ -466,36 +455,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
       this.checkHasFooter();
     }
-  }
-
-  /**
-   * Clears the selection. Only works when selectable is `true`.
-   */
-  clearSelection() {
-    if (this.selectable()) {
-      this._selectionModel.clear();
-    }
-  }
-
-  /** @ignore */
-  get _columnSelection() {
-    if (this.dataSource().filteredData.length === 0) return false;
-    return this.dataSource().filteredData.every((row) => this._selectionModel.isSelected(row));
-  }
-
-  /** @ignore */
-  set _columnSelection(value) {
-    if (value) {
-      this._selectionModel.setSelection(...this.dataSource().filteredData);
-    } else {
-      this.clearSelection();
-    }
-  }
-
-  get _filteredSelection() {
-    return this._selectionModel.selected.filter((row) =>
-      this.dataSource().filteredData.includes(row)
-    );
   }
 
   /** @ignore */
@@ -568,6 +527,17 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
     this._rowClick$.next(row);
   }
+
+  /**
+   * Clears the selection.
+   */
+  clearSelection = () => this.selection.set([]);
+
+  /**
+   * Toggles the selection of a row.
+   */
+  toggleSelection = (row: T) =>
+    this.selection.set([...this.selectionSet().symmetricDifference(new Set([row]))]);
 }
 
 @Component({

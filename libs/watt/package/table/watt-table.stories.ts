@@ -49,7 +49,7 @@ export const Selectable: StoryObj<StorybookPeriodicElements> = {
   args: {
     data: periodicElements,
     selectable: true,
-    initialSelection: [periodicElements[0], periodicElements[1]],
+    selection: [periodicElements[0], periodicElements[1]],
   },
   render: (args) => ({
     props: args,
@@ -58,7 +58,7 @@ export const Selectable: StoryObj<StorybookPeriodicElements> = {
         <storybook-periodic-elements
           [data]="data"
           [selectable]="selectable"
-          [initialSelection]="initialSelection"
+          [selection]="selection"
         />
       </vater-flex>`,
   }),
