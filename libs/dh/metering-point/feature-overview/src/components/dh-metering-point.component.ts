@@ -122,8 +122,8 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
             <vater-stack direction="row" gap="ml">
               <span>
                 <span class="watt-label watt-space-inline-s">{{
-                  t('shared.meteringPointType')
-                }}</span>
+                    t('shared.meteringPointType')
+                  }}</span>
 
                 @if (metadata()?.type) {
                   {{ 'meteringPointType.' + metadata()?.type | transloco }}
@@ -144,8 +144,8 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
 
               <span direction="row" gap="s">
                 <span class="watt-label watt-space-inline-s">{{
-                  t('details.meteringPointSubType')
-                }}</span>
+                    t('details.meteringPointSubType')
+                  }}</span>
 
                 @if (metadata()?.subType) {
                   {{ 'meteringPointSubType.' + metadata()?.subType | transloco }}
@@ -156,8 +156,8 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
 
               <span direction="row" gap="s">
                 <span class="watt-label watt-space-inline-s">{{
-                  t('details.resolutionLabel')
-                }}</span>
+                    t('details.resolutionLabel')
+                  }}</span>
 
                 @if (metadata()?.resolution) {
                   {{ 'resolution.' + metadata()?.resolution | transloco }}
@@ -170,7 +170,8 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
 
           <vater-spacer />
 
-          <dh-metering-point-actions [subType]="meteringPoint()?.metadata?.subType" />
+          <dh-metering-point-actions [subType]="meteringPoint()?.metadata?.subType"
+                                     [installationAddress]="meteringPoint()?.metadata?.installationAddress" />
         </div>
 
         <div class="page-tabs" *transloco="let t; prefix: 'meteringPoint.tabs'">

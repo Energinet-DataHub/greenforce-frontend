@@ -25,7 +25,12 @@ import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
-import { MoveInContactDetailsFormType, MoveInCustomerDetailsFormType } from '../types';
+import {
+  AddressData,
+  InstallationAddress,
+  MoveInContactDetailsFormType,
+  MoveInCustomerDetailsFormType,
+} from '../types';
 import { DhCustomerDetailsComponent } from './customer-details.component';
 import { DhContactDetailsFormComponent } from './dh-contact-details-form.component';
 
@@ -40,7 +45,7 @@ import { DhContactDetailsFormComponent } from './dh-contact-details-form.compone
   ],
   templateUrl: './move-in.component.html',
 })
-export class DhMoveInComponent extends WattTypedModal {
+export class DhMoveInComponent extends WattTypedModal<{ installationAddress: InstallationAddress } > {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly customerTypeInitialValue = 'private';
 
@@ -69,19 +74,22 @@ export class DhMoveInComponent extends WattTypedModal {
     legalContactMobile: this.fb.control<string>(''),
     legalContactEmail: this.fb.control<string>(''),
     legalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
-    legalAddressStreet: this.fb.control<string>('', [Validators.required]),
-    legalAddressNumber: this.fb.control<string>(''),
-    legalAddressFloor: this.fb.control<string>(''),
-    legalAddressDoor: this.fb.control<string>(''),
-    legalAddressPostalCode: this.fb.control<string>('', [Validators.required]),
-    legalAddressCity: this.fb.control<string>('', [Validators.required]),
-    legalAddressCountry: this.fb.control<string>(''),
-    legalAddressRoadCode: this.fb.control<string>(''),
-    legalAddressPostalDistrict: this.fb.control<string>(''),
-    legalAddressPostBox: this.fb.control<string>(''),
-    legalAddressMunicipalityCode: this.fb.control<string>(''),
-    legalAddressDarReference: this.fb.control<string>(''),
+    legalAddressGroup: this.fb.group({
+      streetName: this.fb.control<string>({ value: this.modalData.installationAddress?.streetName ?? '', disabled: true}, [Validators.required]),
+      buildingNumber: this.fb.control<string>({ value: this.modalData.installationAddress?.buildingNumber ?? '', disabled: true}),
+      floor: this.fb.control<string>({ value: this.modalData.installationAddress?.floor ?? '', disabled: true}),
+      room: this.fb.control<string>({ value: this.modalData.installationAddress?.room ?? '', disabled: true}),
+      postCode: this.fb.control<string>({ value: this.modalData.installationAddress?.postCode ?? '', disabled: true}, [Validators.required]),
+      cityName: this.fb.control<string>({ value: this.modalData.installationAddress?.cityName ?? '', disabled: true}, [Validators.required]),
+      countryCode: this.fb.control<string>({ value: this.modalData.installationAddress?.countryCode ?? '', disabled: true}),
+      streetCode: this.fb.control<string>({ value: this.modalData.installationAddress?.streetCode ?? '', disabled: true}),
+      citySubdivisionName: this.fb.control<string>({ value: this.modalData.installationAddress?.citySubDivisionName ?? '', disabled: true}),
+      postBox: this.fb.control<string>({ value: '', disabled: true }), // TODO: MASEP Find out if needed?
+      municipalityCode: this.fb.control<string>({ value: this.modalData.installationAddress?.municipalityCode ?? '', disabled: true}),
+      darReference: this.fb.control<string>({ value: this.modalData.installationAddress?.darReference ?? '', disabled: true}),
+    }),
     legalNameAddressProtection: this.fb.control<boolean>(false),
+
     technicalContactSameAsCustomer: this.fb.control<boolean>(true),
     technicalContactName: this.fb.control<string>({value: '', disabled: true}, [Validators.required]),
     technicalContactTitle: this.fb.control<string>(''),
@@ -89,18 +97,20 @@ export class DhMoveInComponent extends WattTypedModal {
     technicalContactMobile: this.fb.control<string>(''),
     technicalContactEmail: this.fb.control<string>(''),
     technicalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
-    technicalAddressStreet: this.fb.control<string>('', [Validators.required]),
-    technicalAddressNumber: this.fb.control<string>(''),
-    technicalAddressFloor: this.fb.control<string>(''),
-    technicalAddressDoor: this.fb.control<string>(''),
-    technicalAddressPostalCode: this.fb.control<string>('', [Validators.required]),
-    technicalAddressCity: this.fb.control<string>('', [Validators.required]),
-    technicalAddressCountry: this.fb.control<string>(''),
-    technicalAddressRoadCode: this.fb.control<string>(''),
-    technicalAddressPostalDistrict: this.fb.control<string>(''),
-    technicalAddressPostBox: this.fb.control<string>(''),
-    technicalAddressMunicipalityCode: this.fb.control<string>(''),
-    technicalAddressDarReference: this.fb.control<string>(''),
+    technicalAddressGroup: this.fb.group({
+      streetName: this.fb.control<string>({ value: this.modalData.installationAddress?.streetName ?? '', disabled: true}, [Validators.required]),
+      buildingNumber: this.fb.control<string>({ value: this.modalData.installationAddress?.buildingNumber ?? '', disabled: true}),
+      floor: this.fb.control<string>({ value: this.modalData.installationAddress?.floor ?? '', disabled: true}),
+      room: this.fb.control<string>({ value: this.modalData.installationAddress?.room ?? '', disabled: true}),
+      postCode: this.fb.control<string>({ value: this.modalData.installationAddress?.postCode ?? '', disabled: true}, [Validators.required]),
+      cityName: this.fb.control<string>({ value: this.modalData.installationAddress?.cityName ?? '', disabled: true}, [Validators.required]),
+      countryCode: this.fb.control<string>({ value: this.modalData.installationAddress?.countryCode ?? '', disabled: true}),
+      streetCode: this.fb.control<string>({ value: this.modalData.installationAddress?.streetCode ?? '', disabled: true}),
+      citySubdivisionName: this.fb.control<string>({ value: this.modalData.installationAddress?.citySubDivisionName ?? '', disabled: true}),
+      postBox: this.fb.control<string>({ value: '', disabled: true }), // TODO: MASEP Find out if needed?
+      municipalityCode: this.fb.control<string>({ value: this.modalData.installationAddress?.municipalityCode ?? '', disabled: true}),
+      darReference: this.fb.control<string>({ value: this.modalData.installationAddress?.darReference ?? '', disabled: true}),
+    }),
     technicalNameAddressProtection: this.fb.control<boolean>(false),
   });
 
@@ -113,6 +123,8 @@ export class DhMoveInComponent extends WattTypedModal {
   private name2Changed = toSignal(this.privateCustomerForm.controls.name2.valueChanges);
   private legalContactSameAsCustomerChanged = toSignal(this.contactDetailsForm.controls.legalContactSameAsCustomer.valueChanges);
   private technicalContactSameAsCustomerChanged = toSignal(this.contactDetailsForm.controls.technicalContactSameAsCustomer.valueChanges);
+  private legalAddressSameAsMeteringPointAddressChanged = toSignal(this.contactDetailsForm.controls.legalAddressSameAsMeteringPoint.valueChanges);
+  private technicalAddressSameAsMeteringPointAddressChanged = toSignal(this.contactDetailsForm.controls.technicalAddressSameAsMeteringPoint.valueChanges);
 
   private customerTypeEffect = effect(() => {
     const customerType = this.customerTypeChanged();
@@ -176,6 +188,84 @@ export class DhMoveInComponent extends WattTypedModal {
       this.contactDetailsForm.controls.technicalContactName.enable();
     }
   });
+
+  private disableAddressInputsFromLegalAddressSameAsMeteringPointAddressChangedEffect = effect(() => {
+    const legalAddressSameAsMeteringPointAddress = this.legalAddressSameAsMeteringPointAddressChanged() ?? true;
+    if (legalAddressSameAsMeteringPointAddress) {
+      const addressFormData: AddressData = {
+        streetCode: this.modalData.installationAddress?.streetCode ?? '',
+        buildingNumber: this.modalData.installationAddress?.buildingNumber ?? '',
+        floor: this.modalData.installationAddress?.floor ?? '',
+        room: this.modalData.installationAddress?.room ?? '',
+        postCode: this.modalData.installationAddress?.postCode ?? '',
+        cityName: this.modalData.installationAddress?.cityName ?? '',
+        countryCode: this.modalData.installationAddress?.countryCode ?? '',
+        streetName: this.modalData.installationAddress?.streetName ?? '',
+        citySubdivisionName: this.modalData.installationAddress?.citySubDivisionName ?? '',
+        postBox: '',
+        municipalityCode: this.modalData.installationAddress?.municipalityCode ?? '',
+        darReference: this.modalData.installationAddress?.darReference ?? '',
+      };
+      this.setLegalAddressForm(addressFormData)
+      this.contactDetailsForm.controls.legalAddressGroup.disable();
+    } else {
+      this.contactDetailsForm.controls.legalAddressGroup.enable();
+    }
+  });
+
+  private disableAddressInputsFromTechnicalAddressSameAsMeteringPointAddressChangedEffect = effect(() => {
+    const technicalAddressSameAsMeteringPointAddress = this.technicalAddressSameAsMeteringPointAddressChanged() ?? true;
+    if (technicalAddressSameAsMeteringPointAddress) {
+      const addressFormData: AddressData = {
+        streetCode: this.modalData.installationAddress?.streetCode ?? '',
+        buildingNumber: this.modalData.installationAddress?.buildingNumber ?? '',
+        floor: this.modalData.installationAddress?.floor ?? '',
+        room: this.modalData.installationAddress?.room ?? '',
+        postCode: this.modalData.installationAddress?.postCode ?? '',
+        cityName: this.modalData.installationAddress?.cityName ?? '',
+        countryCode: this.modalData.installationAddress?.countryCode ?? '',
+        streetName: this.modalData.installationAddress?.streetName ?? '',
+        citySubdivisionName: this.modalData.installationAddress?.citySubDivisionName ?? '',
+        postBox: '',
+        municipalityCode: this.modalData.installationAddress?.municipalityCode ?? '',
+        darReference: this.modalData.installationAddress?.darReference ?? '',
+      };
+      this.setTechnicalAddressForm(addressFormData);
+      this.contactDetailsForm.controls.technicalAddressGroup.disable();
+    } else {
+      this.contactDetailsForm.controls.technicalAddressGroup.enable();
+    }
+  });
+
+  private setLegalAddressForm(data: AddressData) {
+    const controls = this.contactDetailsForm.controls.legalAddressGroup.controls;
+    controls.streetCode.setValue(data.streetCode);
+    controls.buildingNumber.setValue(data.buildingNumber);
+    controls.floor.setValue(data.floor);
+    controls.room.setValue(data.room);
+    controls.postCode.setValue(data.postCode);
+    controls.cityName.setValue(data.cityName);
+    controls.countryCode.setValue(data.countryCode);
+    controls.streetName.setValue(data.streetName);
+    controls.citySubdivisionName.setValue(data.citySubdivisionName);
+    controls.municipalityCode.setValue(data.municipalityCode);
+    controls.darReference.setValue(data.darReference);
+  }
+
+  private setTechnicalAddressForm(data: AddressData) {
+    const controls = this.contactDetailsForm.controls.technicalAddressGroup.controls;
+    controls.streetCode.setValue(data.streetCode);
+    controls.buildingNumber.setValue(data.buildingNumber);
+    controls.floor.setValue(data.floor);
+    controls.room.setValue(data.room);
+    controls.postCode.setValue(data.postCode);
+    controls.cityName.setValue(data.cityName);
+    controls.countryCode.setValue(data.countryCode);
+    controls.streetName.setValue(data.streetName);
+    controls.citySubdivisionName.setValue(data.citySubdivisionName);
+    controls.municipalityCode.setValue(data.municipalityCode);
+    controls.darReference.setValue(data.darReference);
+  }
 
   startMoveIn() {
     console.log('Starting move-in process...');
