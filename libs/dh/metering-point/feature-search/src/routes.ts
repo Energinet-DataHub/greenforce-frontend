@@ -49,9 +49,7 @@ const marketRolesWithDataAccess = [
 export const dhMeteringPointRoutes: Routes = [
   {
     path: '',
-    canActivate: [
-      PermissionGuard(['metering-point:search']),
-    ],
+    canActivate: [PermissionGuard(['metering-point:search'])],
     children: [
       {
         path: '',

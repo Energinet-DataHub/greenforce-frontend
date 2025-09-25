@@ -19,10 +19,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { concatAll, from, map, Observable, reduce } from 'rxjs';
-import {
-  BasePaths,
-  getPath,
-} from '@energinet-datahub/dh/core/routing';
+import { BasePaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 
@@ -34,7 +31,10 @@ export function PermissionGuard(permissions: Permission[]): CanActivateFn {
     const router = inject(Router);
 
     return permissionGuardCore(permissions, permissionService).pipe(
-      map((hasPermission) => hasPermission || router.parseUrl(`/${getPath<BasePaths>('message-archive')}`))
+      map(
+        (hasPermission) =>
+          hasPermission || router.parseUrl(`/${getPath<BasePaths>('message-archive')}`)
+      )
     );
   };
 }
