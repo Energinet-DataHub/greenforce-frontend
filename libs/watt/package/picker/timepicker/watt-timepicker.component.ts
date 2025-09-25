@@ -101,10 +101,9 @@ export class WattTimepickerComponent extends WattPickerBase {
    */
   sliderLabel = input('');
 
-  protected override input = viewChild.required<ElementRef<HTMLInputElement>>('timeInput');
-  protected override startInput =
-    viewChild.required<ElementRef<HTMLInputElement>>('startTimeInput');
-  protected override endInput = viewChild.required<ElementRef<HTMLInputElement>>('endTimeInput');
+  protected override input = viewChild<ElementRef<HTMLInputElement>>('timeInput');
+  protected override startInput = viewChild<ElementRef<HTMLInputElement>>('startTimeInput');
+  protected override endInput = viewChild<ElementRef<HTMLInputElement>>('endTimeInput');
 
   sliderId = `${this.id}-slider`;
 
@@ -172,9 +171,10 @@ export class WattTimepickerComponent extends WattPickerBase {
   }
 
   protected initSingleInput() {
-    if (this.initialValue) {
-      (this.input().nativeElement as HTMLInputElement).value = this.initialValue as string;
-      this.input().nativeElement.dispatchEvent(new InputEvent('input'));
+    const input = this.input();
+    if (this.initialValue && input) {
+      (input.nativeElement as HTMLInputElement).value = this.initialValue as string;
+      input.nativeElement.dispatchEvent(new InputEvent('input'));
     }
   }
 
@@ -227,8 +227,10 @@ export class WattTimepickerComponent extends WattPickerBase {
 
   setRangeValueAndNotify(start: string, end: string | null) {
     this.control?.setValue({ start, end });
-    (this.input().nativeElement as HTMLInputElement).value = start + this.rangeSeparator + end;
-    this.input().nativeElement.dispatchEvent(new InputEvent('input'));
+    const input = this.input();
+    if (!input) return;
+    (input.nativeElement as HTMLInputElement).value = start + this.rangeSeparator + end;
+    input.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
   protected setSingleValue(
