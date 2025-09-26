@@ -641,7 +641,8 @@
             "containsLetters": "Må ikke indeholde bogstaver",
             "containsDash": "Må ikke indeholde bindestreg",
             "invalidCprLength": "Skal bestå af 10 cifre"
-          }
+          },
+          "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
         },
         "contactDetails": {
           "label": "Kontakdetaljer",

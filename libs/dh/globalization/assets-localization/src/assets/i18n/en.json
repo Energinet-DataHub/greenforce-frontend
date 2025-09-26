@@ -641,7 +641,8 @@
             "containsLetters": "Can only contain letters",
             "containsDash": "Can not contain dashes",
             "invalidCprLength": "Must be 10 digits long"
-          }
+          },
+          "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
         },
         "contactDetails": {
           "label": "Contact details",
