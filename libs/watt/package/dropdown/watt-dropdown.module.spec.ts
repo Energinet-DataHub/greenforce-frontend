@@ -41,7 +41,7 @@ describe(WattDropdownComponent, () => {
    */
   async function openDropdown(): Promise<void> {
     const selectElement = screen.getByRole('combobox');
-    await userEvent.click(selectElement);
+    userEvent.click(selectElement);
     // Wait for the panel to be visible
     await waitFor(() => expect(document.querySelector('.mat-mdc-select-panel')).not.toBeNull());
   }
@@ -64,17 +64,6 @@ describe(WattDropdownComponent, () => {
     } catch {
       return null;
     }
-  }
-
-  /**
-   * Gets the select all checkbox for multi-select dropdowns
-   */
-  function getSelectAllCheckbox(): HTMLInputElement | null {
-    // Get all checkboxes in the document
-    const checkboxes = Array.from(document.querySelectorAll('.mat-pseudo-checkbox'));
-    // Find the select all checkbox (typically the first one in multi-select)
-    const selectAllCheckbox = checkboxes[0] as HTMLElement;
-    return (selectAllCheckbox as HTMLInputElement) || null;
   }
 
   /**
@@ -154,7 +143,7 @@ describe(WattDropdownComponent, () => {
 
       if (!option)
         throw new Error(`Could not find option with text ${firstDropdownOption.displayValue}`);
-      await userEvent.click(option);
+      userEvent.click(option);
 
       expect(component.dropdownControl.value).toBe(firstDropdownOption.value);
     });
@@ -195,7 +184,7 @@ describe(WattDropdownComponent, () => {
         expect(resetOption).not.toBeNull();
 
         if (resetOption) {
-          await userEvent.click(resetOption);
+          userEvent.click(resetOption);
         }
 
         expect(component.dropdownControl.value).toBeNull();
@@ -227,7 +216,7 @@ describe(WattDropdownComponent, () => {
         expect(filterInput).not.toBeNull();
 
         if (filterInput) {
-          await userEvent.type(filterInput, 'Bat');
+          userEvent.type(filterInput, 'Bat');
 
           // Wait for Batman option to appear after filtering
           await waitFor(() => {
@@ -298,7 +287,7 @@ describe(WattDropdownComponent, () => {
 
         if (filterInput) {
           // Filter for Batman
-          await userEvent.type(filterInput, 'Bat');
+          userEvent.type(filterInput, 'Bat');
 
           await waitFor(() => {
             const batmanOption = screen.queryByText('Batman');
@@ -309,7 +298,7 @@ describe(WattDropdownComponent, () => {
           const options = screen.getAllByRole('option', { hidden: true });
           const batmanOption = options.find((opt) => opt.textContent?.trim().includes('Batman'));
           if (!batmanOption) throw new Error('Batman option not found');
-          await userEvent.click(batmanOption);
+          userEvent.click(batmanOption);
 
           closeDropdown();
 
@@ -323,8 +312,8 @@ describe(WattDropdownComponent, () => {
 
           const newFilterInput = getFilterInput();
           if (newFilterInput) {
-            await userEvent.clear(newFilterInput);
-            await userEvent.type(newFilterInput, 'Titan');
+            userEvent.clear(newFilterInput);
+            userEvent.type(newFilterInput, 'Titan');
 
             await waitFor(() => {
               const titansOption = screen.queryByText('Titans');
@@ -335,7 +324,7 @@ describe(WattDropdownComponent, () => {
             const options = screen.getAllByRole('option', { hidden: true });
             const titansOption = options.find((opt) => opt.textContent?.trim().includes('Titans'));
             if (!titansOption) throw new Error('Titans option not found');
-            await userEvent.click(titansOption);
+            userEvent.click(titansOption);
 
             closeDropdown();
 
@@ -473,7 +462,7 @@ describe(WattDropdownComponent, () => {
 
       if (!option)
         throw new Error(`Could not find option with text ${firstDropdownOption.displayValue}`);
-      await userEvent.click(option);
+      userEvent.click(option);
 
       expect(component.dropdownModel).toBe(firstDropdownOption.value);
     });
@@ -482,7 +471,7 @@ describe(WattDropdownComponent, () => {
       it('can reset the dropdown', async () => {
         const [firstDropdownOption] = dropdownOptions;
 
-        const { component, fixture } = await setup({
+        const { component } = await setup({
           initialState: firstDropdownOption.value,
         });
 
@@ -492,7 +481,7 @@ describe(WattDropdownComponent, () => {
         expect(resetOption).not.toBeNull();
 
         if (resetOption) {
-          await userEvent.click(resetOption);
+          userEvent.click(resetOption);
         }
 
         expect(component.dropdownModel).toBeNull();
@@ -507,7 +496,7 @@ describe(WattDropdownComponent, () => {
         expect(filterInput).not.toBeNull();
 
         if (filterInput) {
-          await userEvent.type(filterInput, 'Vol');
+          userEvent.type(filterInput, 'Vol');
 
           await waitFor(() => {
             const options = getDropdownOptions().filter((option) =>
