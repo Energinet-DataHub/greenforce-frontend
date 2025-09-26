@@ -23,7 +23,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 import { MoveInContactDetailsFormType, MoveInCustomerDetailsFormType } from '../types';
 import { DhCustomerDetailsComponent } from './customer-details.component';
@@ -122,7 +122,7 @@ export class DhMoveInComponent extends WattTypedModal {
         'businessCustomer',
         this.fb.group({
           companyName: this.fb.control<string>(''),
-          cvr: this.fb.control<string>('', Validators.required),
+          cvr: this.fb.control<string>('', [Validators.required, dhCvrValidator()]),
         })
       );
 

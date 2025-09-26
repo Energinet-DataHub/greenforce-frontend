@@ -172,7 +172,13 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
             [label]="t('cvr')"
             class="cvr"
             [formControl]="businessCustomer.controls.cvr"
-          />
+          >
+            <watt-field-error>
+              @if (businessCustomer.controls.cvr.hasError('invalidCvrNumber')) {
+                {{ t('cvrInvalid') }}
+              }
+            </watt-field-error>
+          </watt-text-field>
         }
       }
 
