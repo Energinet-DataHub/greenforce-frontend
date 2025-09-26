@@ -127,7 +127,7 @@ public static partial class MeteringPointNode
             MarketRole = marketRole,
         };
         var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-        if (signature.Result == SignatureResult.Valid && signature.Signature != null)
+        if ((signature.Result == SignatureResult.Valid || signature.Result == SignatureResult.NoContent) && signature.Signature != null)
         {
             var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature.Signature);
             return await authClient.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
