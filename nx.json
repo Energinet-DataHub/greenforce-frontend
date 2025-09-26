@@ -7,7 +7,6 @@
       }
     }
   },
-  "nxCloudAccessToken": "Y2IyM2EwNDEtNjUxMy00OWFkLWI2ZTUtYjY2YzBiN2Y4YTUwfHJlYWQ=",
   "parallel": 1,
   "defaultProject": "app-dh",
   "generators": {
@@ -175,5 +174,6 @@
       "!{projectRoot}/src/test-setup.[jt]s"
     ]
   },
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "nxCloudId": "6124f33c6b561869a0db14ff"
 }
