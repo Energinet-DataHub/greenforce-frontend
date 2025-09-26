@@ -1,6 +1,5 @@
 # Frontend
 
-**/*.spec.ts
 **/datahub-bookmarks.html
 libs/gf/msw/util-msw/src/assets/mockServiceWorker.js
 !libs/dh/shared/data-access-graphql/schema.graphql
