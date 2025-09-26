@@ -43,8 +43,6 @@ export default defineConfig(() => ({
       provider: 'v8',
     },
     pool: 'forks',
-    // https://github.com/vitest-dev/vitest/issues/4685
-    poolMatchGlobs: [['**/watt-dropdown.module.spec.ts', 'vmThreads']],
     testTimeout: 10000,
     environmentOptions: {
       jsdom: {
