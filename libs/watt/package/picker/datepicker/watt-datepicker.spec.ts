@@ -27,6 +27,8 @@ import { danishLocalProviders } from '@energinet-datahub/gf/globalization/config
 import { WattDatepickerComponent } from '.';
 import { WattDateRange, WattRange, danishDatetimeProviders } from '../../core/date';
 
+const TEST_DATE_2023_01_15 = '2023-01-15T00:00:00.000Z';
+
 describe(WattDatepickerComponent, () => {
   async function setup({
     template,
@@ -109,7 +111,7 @@ describe(WattDatepickerComponent, () => {
     });
 
     it('can set an initial date', async () => {
-      const initialDate = new Date('2023-01-15T00:00:00.000Z');
+      const initialDate = new Date(TEST_DATE_2023_01_15);
       const { fixture } = await setup({
         template,
         initialState: initialDate.toISOString(),
@@ -164,7 +166,7 @@ describe(WattDatepickerComponent, () => {
     });
 
     it('handles incomplete date input', async () => {
-      const initialDate = new Date('2023-01-15T00:00:00.000Z');
+      const initialDate = new Date(TEST_DATE_2023_01_15);
       const { actualInput, fixture } = await setup({
         template,
         initialState: initialDate.toISOString(),
@@ -231,7 +233,7 @@ describe(WattDatepickerComponent, () => {
     });
 
     it('allows stepping through days when enabled', async () => {
-      const initialDate = new Date('2023-09-15T00:00:00.000Z');
+      const initialDate = new Date(TEST_DATE_2023_01_15);
       const { fixture } = await setup({
         template,
         initialState: initialDate.toISOString(),
@@ -256,7 +258,7 @@ describe(WattDatepickerComponent, () => {
       expect(nextButton).toBeDefined();
 
       // Set a specific date for testing
-      const testDate = new Date('2023-09-15T00:00:00.000Z');
+      const testDate = new Date(TEST_DATE_2023_01_15);
       const nextDayDate = new Date('2023-09-16T00:00:00.000Z');
 
       // First set the current date
@@ -310,7 +312,7 @@ describe(WattDatepickerComponent, () => {
 
     it('can set an initial date range', async () => {
       // Create specific dates for testing
-      const startTestDate = new Date('2023-01-15T00:00:00.000Z');
+      const startTestDate = new Date(TEST_DATE_2023_01_15);
       // Setting time to 23:59:59.999Z will make this appear as the next day (21st)
       // in many local timezones due to UTC conversion
       const endTestDate = new Date('2023-01-20T23:59:59.999Z');
@@ -449,7 +451,7 @@ describe(WattDatepickerComponent, () => {
 
     it('clears the range picker', async () => {
       const initialDateRange: WattDateRange = {
-        start: new Date('2023-01-15T00:00:00.000Z').toISOString(),
+        start: new Date(TEST_DATE_2023_01_15).toISOString(),
         end: new Date('2023-01-20T23:59:59.999Z').toISOString(),
       };
 
