@@ -358,6 +358,11 @@
     "3": "Øjebliksafregning (3)",
     "6": "Årsbaseret afregning (6)"
   },
+  "charges": {
+    "prices": {
+      "topBarTitle": "Priser"
+    }
+  },
   "meteringPoint": {
     "breadcrumb": "Søg målepunkt",
     "search": {
