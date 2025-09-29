@@ -37,6 +37,8 @@ import {
 } from '@energinet-datahub/dh/shared/release-toggle';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
+import { InstallationAddress } from '../types';
+
 @Component({
   selector: 'dh-metering-point-actions',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -111,6 +113,7 @@ export class DhMeteringPointActionsComponent {
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
 
   subType = input<MeteringPointSubType | null>();
+  installationAddress = input<InstallationAddress | null>();
 
   maybeShowMeasurementsUploadButton = computed(() => {
     return (
@@ -129,6 +132,7 @@ export class DhMeteringPointActionsComponent {
   startMoveIn() {
     this.modalService.open({
       component: DhMoveInComponent,
+      data: { installationAddress: this.installationAddress() },
     });
   }
 }
