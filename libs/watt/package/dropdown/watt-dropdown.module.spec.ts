@@ -25,6 +25,7 @@ import userEvent from '@testing-library/user-event';
 import { WattDropdownOptions } from './watt-dropdown-option';
 import { WattDropdownComponent } from './watt-dropdown.component';
 
+const placeholder = 'Select a team';
 const dropdownOptions: WattDropdownOptions = [
   { value: 'outlaws', displayValue: 'The Outlaws' },
   { value: 'batman', displayValue: 'Batman' },
@@ -33,59 +34,46 @@ const dropdownOptions: WattDropdownOptions = [
   { value: 'joules', displayValue: 'Joules' },
 ];
 
+/**
+ * Opens the dropdown and waits for it to be visible
+ */
+async function openDropdown(): Promise<void> {
+  const selectElement = screen.getByRole('combobox');
+  userEvent.click(selectElement);
+  await waitFor(() => expect(document.querySelector('.mat-mdc-select-panel')).not.toBeNull());
+}
+
+/**
+ * Finds all dropdown option elements
+ */
+function getDropdownOptions(): HTMLElement[] {
+  return screen.getAllByRole('option', { hidden: true });
+}
+
+/**
+ * Finds the filter input in the dropdown
+ */
+function getFilterInput(): HTMLInputElement | null {
+  return screen
+    .queryAllByRole('textbox', { hidden: true })
+    .find((input) => input.classList.contains('mat-select-search-input')) as HTMLInputElement;
+}
+
+/**
+ * Gets the reset/none option in the dropdown
+ */
+function getResetOption() {
+  return getDropdownOptions().find((option) => option.textContent?.trim() === '—');
+}
+
+/**
+ * Clicks the escape key to close the dropdown
+ */
+function closeDropdown(): void {
+  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+}
+
 describe(WattDropdownComponent, () => {
-  const placeholder = 'Select a team';
-
-  /**
-   * Opens the dropdown and waits for it to be visible
-   */
-  async function openDropdown(): Promise<void> {
-    const selectElement = screen.getByRole('combobox');
-    userEvent.click(selectElement);
-    // Wait for the panel to be visible
-    await waitFor(() => expect(document.querySelector('.mat-mdc-select-panel')).not.toBeNull());
-  }
-
-  /**
-   * Finds all dropdown option elements
-   */
-  function getDropdownOptions(): HTMLElement[] {
-    return screen.getAllByRole('option', { hidden: true });
-  }
-
-  /**
-   * Finds the filter input in the dropdown
-   */
-  function getFilterInput(): HTMLInputElement | null {
-    try {
-      return screen
-        .getAllByRole('textbox', { hidden: true })
-        .find((input) => input.classList.contains('mat-select-search-input')) as HTMLInputElement;
-    } catch {
-      return null;
-    }
-  }
-
-  /**
-   * Gets the reset/none option in the dropdown
-   */
-  function getResetOption(): HTMLElement | null {
-    // Find the reset option by looking for common text formats
-    const options = screen.getAllByRole('option', { hidden: true });
-    const resetOption = options.find((option) => {
-      const text = option.textContent?.trim();
-      return text === '—' || text === 'None';
-    });
-    return resetOption || null;
-  }
-
-  /**
-   * Clicks the escape key to close the dropdown
-   */
-  function closeDropdown(): void {
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-  }
-
   // eslint-disable-next-line sonarjs/cognitive-complexity
   describe('with reactive forms', () => {
     async function setup({
@@ -150,14 +138,11 @@ describe(WattDropdownComponent, () => {
 
     describe('single selection', () => {
       it('shows a reset option by default', async () => {
-        await setup({
-          showResetOption: true,
-        });
-
+        await setup({ showResetOption: true });
         await openDropdown();
 
         const resetOption = getResetOption();
-        expect(resetOption).not.toBeNull();
+        expect(resetOption).not.toBeUndefined();
       });
 
       it('can hide the reset option', async () => {
@@ -168,7 +153,7 @@ describe(WattDropdownComponent, () => {
         await openDropdown();
 
         const resetOption = getResetOption();
-        expect(resetOption).toBeNull();
+        expect(resetOption).toBeUndefined();
       });
 
       it('can reset the dropdown', async () => {
@@ -181,7 +166,7 @@ describe(WattDropdownComponent, () => {
         await openDropdown();
 
         const resetOption = getResetOption();
-        expect(resetOption).not.toBeNull();
+        expect(resetOption).not.toBeUndefined();
 
         if (resetOption) {
           userEvent.click(resetOption);
@@ -201,10 +186,13 @@ describe(WattDropdownComponent, () => {
         await openDropdown();
 
         const resetOption = getResetOption();
-        expect(resetOption).toBeNull();
+        expect(resetOption).toBeUndefined();
 
-        // The value remains unchanged
-        expect(component.dropdownControl.value).toBe(firstDropdownOption.value);
+        // for each option, click the option and verify selected is not null
+        for (const option of getDropdownOptions()) {
+          userEvent.click(option);
+          expect(component.dropdownControl.value).not.toBe(null);
+        }
       });
 
       it('can filter the available options', async () => {
@@ -478,7 +466,7 @@ describe(WattDropdownComponent, () => {
         await openDropdown();
 
         const resetOption = getResetOption();
-        expect(resetOption).not.toBeNull();
+        expect(resetOption).not.toBeUndefined();
 
         if (resetOption) {
           userEvent.click(resetOption);
