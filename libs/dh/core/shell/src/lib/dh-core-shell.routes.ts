@@ -97,7 +97,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('charges'),
-        loadChildren: () => import('@energinet-datahub/dh/charges/feature-prices'),
+        loadChildren: () => import('@energinet-datahub/dh/charges/feature-charges'),
         canActivate: [MsalGuard],
       },
     ],

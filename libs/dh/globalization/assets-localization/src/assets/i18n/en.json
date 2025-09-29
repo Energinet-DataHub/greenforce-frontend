@@ -223,7 +223,6 @@
         "requestCalculation": "Request calculation data"
       },
       "meteringPoints": "Metering Points",
-      "prices": "Prices",
       "marketParticipant": {
         "menuGroupLabel": "Market participants",
         "userManagement": "User Management",
@@ -360,7 +359,7 @@
     "6": "Yearly settlement (6)"
   },
   "charges": {
-    "prices": {
+    "charges": {
       "topBarTitle": "Prices"
     }
   },
