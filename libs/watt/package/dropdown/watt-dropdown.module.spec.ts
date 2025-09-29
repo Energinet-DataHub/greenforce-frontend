@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable sonarjs/no-duplicate-string */
 import { Component } from '@angular/core';
 import { FormControl, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -48,13 +49,6 @@ async function openDropdown() {
  */
 function getFilterInput() {
   return screen.getByRole('textbox', { name: 'dropdown search' });
-}
-
-/**
- * Clicks the escape key to close the dropdown
- */
-function closeDropdown() {
-  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
 }
 
 describe(WattDropdownComponent, () => {
@@ -236,7 +230,6 @@ describe(WattDropdownComponent, () => {
     });
   });
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   describe('with template-driven forms', () => {
     // Create single-select test component
     function createSingleSelectTestComponent() {
