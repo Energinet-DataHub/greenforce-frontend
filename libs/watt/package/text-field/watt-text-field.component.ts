@@ -25,9 +25,9 @@ import {
   inject,
   input,
   output,
-  signal,
   effect,
   viewChild,
+  model,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -151,30 +151,20 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   /** @ignore */
   inputField = viewChild<ElementRef<HTMLInputElement>>('inputField');
-  private modelSignal = signal<string>('');
-
-  /** Gets the current model value */
-  get model(): string {
-    return this.modelSignal();
-  }
+  model = model<string>('');
 
   constructor() {
     // Sync input value with model
     effect(() => {
       const inputValue = this.value();
       if (inputValue !== undefined) {
-        this.modelSignal.set(inputValue);
+        this.model.set(inputValue);
       }
     });
   }
 
   /** @ignore */
-  private isDisabledSignal = signal<boolean>(false);
-
-  /** @ignore */
-  get isDisabled(): boolean {
-    return this.isDisabledSignal();
-  }
+  isDisabled = model<boolean>(false);
 
   /** @ignore */
   onTouchedCallbacks: (() => void)[] = [];
@@ -237,7 +227,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   /** @ignore */
   writeValue(value: string): void {
-    this.modelSignal.set(value);
+    this.model.set(value);
   }
 
   /** @ignore */
@@ -252,7 +242,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   /** @ignore */
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabledSignal.set(isDisabled);
+    this.isDisabled.set(isDisabled);
   }
 
   /** @ignore */
