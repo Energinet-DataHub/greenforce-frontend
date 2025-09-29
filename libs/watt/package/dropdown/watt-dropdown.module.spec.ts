@@ -54,9 +54,7 @@ function getDropdownOptions() {
  * Finds the filter input in the dropdown
  */
 function getFilterInput() {
-  return screen
-    .queryAllByRole('textbox', { hidden: true })
-    .find((input) => input.classList.contains('mat-select-search-input')) as HTMLInputElement;
+  return screen.getByRole('textbox', { name: 'dropdown search', hidden: true });
 }
 
 /**
@@ -116,15 +114,15 @@ describe(WattDropdownComponent, () => {
       const component = await setup();
       await openDropdown();
 
-      const [firstDropdownOption] = dropdownOptions;
+      const [firstOption] = dropdownOptions;
       const option = screen.getByRole('option', {
-        name: firstDropdownOption.displayValue,
+        name: firstOption.displayValue,
         hidden: true,
       });
 
       userEvent.click(option);
 
-      expect(component.dropdownControl.value).toBe(firstDropdownOption.value);
+      expect(component.dropdownControl.value).toBe(firstOption.value);
     });
 
     describe('single selection', () => {
@@ -145,8 +143,8 @@ describe(WattDropdownComponent, () => {
       });
 
       it('can reset the dropdown', async () => {
-        const [firstDropdownOption] = dropdownOptions;
-        const component = await setup({ initialState: firstDropdownOption.value });
+        const [firstOption] = dropdownOptions;
+        const component = await setup({ initialState: firstOption.value });
         await openDropdown();
 
         const resetOption = getResetOption();
@@ -161,9 +159,9 @@ describe(WattDropdownComponent, () => {
       });
 
       it('cannot reset the dropdown if showResetOption is disabled', async () => {
-        const [firstDropdownOption] = dropdownOptions;
+        const [firstOption] = dropdownOptions;
         const component = await setup({
-          initialState: firstDropdownOption.value,
+          initialState: firstOption.value,
           showResetOption: false,
         });
 
@@ -184,35 +182,24 @@ describe(WattDropdownComponent, () => {
         await openDropdown();
 
         const filterInput = getFilterInput();
-        expect(filterInput).not.toBeNull();
+        userEvent.type(filterInput, 'Bat');
 
-        if (filterInput) {
-          userEvent.type(filterInput, 'Bat');
-
-          // Wait for Batman option to appear after filtering
-          await waitFor(() => {
-            const options = screen.getAllByRole('option', { hidden: true });
-            const filteredOption = options.filter((opt) =>
-              opt.textContent?.trim().includes('Batman')
-            );
-            expect(filteredOption.length).toBe(1);
-          });
-        }
+        const options = getDropdownOptions().map((option) => option.textContent?.trim());
+        expect(options).toContain('Batman');
+        expect(options).toHaveLength(2);
       });
     });
 
     describe('multi selection', () => {
       it('can reset the dropdown', async () => {
+        const [firstOption, secondOption] = dropdownOptions;
         const component = await setup({
-          initialState: [dropdownOptions[0].value, dropdownOptions[1].value],
+          initialState: [firstOption.value, secondOption.value],
           multiple: true,
         });
 
         // Verify initial state
-        expect(component.dropdownControl.value).toEqual([
-          dropdownOptions[0].value,
-          dropdownOptions[1].value,
-        ]);
+        expect(component.dropdownControl.value).toEqual([firstOption.value, secondOption.value]);
 
         // Skip testing actual reset interaction as it's causing test failures
         // Directly manipulate the control value instead
@@ -425,25 +412,24 @@ describe(WattDropdownComponent, () => {
 
       await openDropdown();
 
-      const [firstDropdownOption] = dropdownOptions;
+      const [firstOption] = dropdownOptions;
       const options = screen.getAllByRole('option', { hidden: true });
       const option = options.find((opt) =>
-        opt.textContent?.trim().includes(firstDropdownOption.displayValue)
+        opt.textContent?.trim().includes(firstOption.displayValue)
       );
 
-      if (!option)
-        throw new Error(`Could not find option with text ${firstDropdownOption.displayValue}`);
+      if (!option) throw new Error(`Could not find option with text ${firstOption.displayValue}`);
       userEvent.click(option);
 
-      expect(component.dropdownModel).toBe(firstDropdownOption.value);
+      expect(component.dropdownModel).toBe(firstOption.value);
     });
 
     describe('single selection', () => {
       it('can reset the dropdown', async () => {
-        const [firstDropdownOption] = dropdownOptions;
+        const [firstOption] = dropdownOptions;
 
         const { component } = await setup({
-          initialState: firstDropdownOption.value,
+          initialState: firstOption.value,
         });
 
         await openDropdown();
