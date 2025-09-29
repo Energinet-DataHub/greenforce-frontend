@@ -58,13 +58,6 @@ function getFilterInput() {
 }
 
 /**
- * Gets the reset/none option in the dropdown
- */
-function getResetOption() {
-  return getDropdownOptions().find((option) => option.textContent?.trim() === '—');
-}
-
-/**
  * Clicks the escape key to close the dropdown
  */
 function closeDropdown() {
@@ -130,16 +123,16 @@ describe(WattDropdownComponent, () => {
         await setup();
         await openDropdown();
 
-        const resetOption = getResetOption();
-        expect(resetOption).not.toBeUndefined();
+        const resetOption = screen.getByRole('option', { name: '—' });
+        expect(resetOption).toBeInTheDocument();
       });
 
       it('can hide the reset option', async () => {
         await setup({ showResetOption: false });
         await openDropdown();
 
-        const resetOption = getResetOption();
-        expect(resetOption).toBeUndefined();
+        const resetOption = screen.queryByRole('option', { name: '—' });
+        expect(resetOption).not.toBeInTheDocument();
       });
 
       it('can reset the dropdown', async () => {
@@ -147,14 +140,9 @@ describe(WattDropdownComponent, () => {
         const component = await setup({ initialState: firstOption.value });
         await openDropdown();
 
-        const resetOption = getResetOption();
-        expect(resetOption).not.toBeUndefined();
-
-        if (!resetOption) {
-          throw new Error('Reset option not found');
-        }
-
+        const resetOption = screen.getByRole('option', { name: '—' });
         userEvent.click(resetOption);
+
         expect(component.dropdownControl.value).toBeNull();
       });
 
@@ -166,9 +154,6 @@ describe(WattDropdownComponent, () => {
         });
 
         await openDropdown();
-
-        const resetOption = getResetOption();
-        expect(resetOption).toBeUndefined();
 
         // for each option, click the option and verify selected is not null
         for (const option of getDropdownOptions()) {
@@ -434,12 +419,8 @@ describe(WattDropdownComponent, () => {
 
         await openDropdown();
 
-        const resetOption = getResetOption();
-        expect(resetOption).not.toBeUndefined();
-
-        if (resetOption) {
-          userEvent.click(resetOption);
-        }
+        const resetOption = screen.getByRole('option', { name: '—' });
+        userEvent.click(resetOption);
 
         expect(component.dropdownModel).toBeNull();
       });
