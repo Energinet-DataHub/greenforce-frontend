@@ -224,50 +224,31 @@ describe(WattDropdownComponent, () => {
   });
 
   describe('sorting', () => {
-    function getVisibleOptionTexts(): string[] {
-      const options = screen.getAllByRole('option');
-      return options
-        .filter((option) => {
-          const text = option.textContent?.trim() || '';
-          // Skip filter input option, reset option, and empty text nodes
-          return text !== '' && text !== 'None' && text !== 'Reset' && text !== '—';
-        })
-        .map((option) => option.textContent?.trim() || '');
-    }
-
     it('does not apply sorting when not set', async () => {
-      await setup();
+      await setup({ showResetOption: false });
       await openDropdown();
 
-      const optionTexts = getVisibleOptionTexts();
-      const originalOptionOrder = dropdownOptions.map((option) => option.displayValue);
-
-      expect(optionTexts).toEqual(originalOptionOrder);
+      const optionTexts = screen.getAllByRole('option').map((o) => o.textContent?.trim());
+      expect(optionTexts).toStrictEqual(dropdownOptions.map((o) => o.displayValue));
     });
 
     it('sorts options in ascending order', async () => {
-      await setup({
-        sortDirection: 'asc',
-      });
-
+      await setup({ showResetOption: false, sortDirection: 'asc' });
       await openDropdown();
 
-      const optionTexts = getVisibleOptionTexts();
+      const optionTexts = screen.getAllByRole('option').map((o) => o.textContent?.trim());
       const sortedOptionTexts = [...dropdownOptions]
         .sort((a, b) => a.displayValue.localeCompare(b.displayValue))
         .map((option) => option.displayValue);
 
-      expect(optionTexts).toEqual(sortedOptionTexts);
+      expect(optionTexts).toStrictEqual(sortedOptionTexts);
     });
 
     it('sorts options in descending order', async () => {
-      await setup({
-        sortDirection: 'desc',
-      });
-
+      await setup({ showResetOption: false, sortDirection: 'desc' });
       await openDropdown();
 
-      const optionTexts = getVisibleOptionTexts();
+      const optionTexts = screen.getAllByRole('option').map((o) => o.textContent?.trim());
       const sortedOptionTexts = [...dropdownOptions]
         .sort((a, b) => b.displayValue.localeCompare(a.displayValue))
         .map((option) => option.displayValue);
