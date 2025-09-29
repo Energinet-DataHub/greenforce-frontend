@@ -18,16 +18,16 @@
 //#endregion
 import {
   Component,
-  Input,
   ViewEncapsulation,
-  HostBinding,
   ElementRef,
-  ViewChild,
   forwardRef,
   AfterViewInit,
   inject,
-  EventEmitter,
-  Output,
+  input,
+  output,
+  signal,
+  effect,
+  viewChild,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -47,6 +47,9 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  host: {
+    '[attr.watt-field-disabled]': 'isDisabled',
+  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -56,37 +59,37 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
   ],
   template: `<watt-field
     #wattField
-    [control]="formControl"
-    [label]="label"
-    [tooltip]="tooltip"
+    [control]="formControl()"
+    [label]="label()"
+    [tooltip]="tooltip()"
     matAutocompleteOrigin
   >
-    @if (prefix) {
-      <watt-icon [name]="prefix" />
+    @if (prefix()) {
+      <watt-icon [name]="prefix()" />
     }
 
-    @if (!autocompleteOptions) {
+    @if (!autocompleteOptions()) {
       <input
-        [attr.aria-label]="label"
-        [attr.type]="type"
-        [attr.placeholder]="placeholder"
-        [value]="value"
-        [formControl]="formControl"
+        [attr.aria-label]="label()"
+        [attr.type]="type()"
+        [attr.placeholder]="placeholder()"
+        [value]="model"
+        [formControl]="formControl()"
         (blur)="onTouched()"
         (input)="onChanged($event)"
-        [maxlength]="maxLength"
+        [maxlength]="maxLength()"
         #inputField
       />
     } @else {
       <input
-        [attr.aria-label]="label"
-        [attr.type]="type"
-        [attr.placeholder]="placeholder"
-        [value]="value"
-        [formControl]="formControl"
+        [attr.aria-label]="label()"
+        [attr.type]="type()"
+        [attr.placeholder]="placeholder()"
+        [value]="model"
+        [formControl]="formControl()"
         (blur)="onTouched()"
         (input)="onChanged($event)"
-        [maxlength]="maxLength"
+        [maxlength]="maxLength()"
         [matAutocomplete]="auto"
         [matAutocompleteConnectedTo]="{ elementRef: wattField.wrapper() ?? wattField.elementRef }"
         #inputField
@@ -97,7 +100,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         class="watt-autocomplete-panel"
         (optionSelected)="autocompleteOptionSelected.emit($event.option.value)"
       >
-        @for (option of autocompleteOptions; track option) {
+        @for (option of autocompleteOptions() || []; track option) {
           <mat-option [value]="option">
             {{ option }}
           </mat-option>
@@ -112,45 +115,66 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
   </watt-field>`,
 })
 export class WattTextFieldComponent implements ControlValueAccessor, AfterViewInit {
-  @Input() value!: string;
-  @Input() type: WattInputTypes = 'text';
-  @Input() placeholder?: string;
-  @Input() label = '';
-  @Input() tooltip?: string;
-  @Input() prefix?: WattIcon;
-  @Input() maxLength: string | number | null = null;
-  @Input() formControl!: FormControl;
-  @Input() autocompleteOptions!: string[];
-  @Input() autocompleteMatcherFn!: (value: string, option: string) => boolean;
+  value = input<string>('');
+  type = input<WattInputTypes>('text');
+  placeholder = input<string | undefined>(undefined);
+  label = input<string>('');
+  tooltip = input<string | undefined>(undefined);
+  prefix = input<WattIcon | undefined>(undefined);
+  maxLength = input<string | number | null>(null);
+  formControl = input.required<FormControl>();
+  autocompleteOptions = input<string[] | undefined>(undefined);
+  autocompleteMatcherFn = input<((value: string, option: string) => boolean) | undefined>(
+    undefined
+  );
 
   /** @ignore */
-  @ViewChild(MatAutocomplete) autocompleteRef!: MatAutocomplete;
+  autocompleteRef = viewChild(MatAutocomplete);
 
   /**
    * Emits the value of the input field when it changes.
    */
-  @Output() searchChanged = new EventEmitter<string>();
+  searchChanged = output<string>();
 
   /**
    * Emits the value of the input field when an autocomplete option is selected.
    */
-  @Output() autocompleteOptionSelected = new EventEmitter<string>();
+  autocompleteOptionSelected = output<string>();
 
   /**
    * Emits the value of the input field when an autocomplete option is selected.
    */
-  @Output() autocompleteOptionDeselected = new EventEmitter<void>();
+  autocompleteOptionDeselected = output<void>();
 
   /** @ignore */
   private element = inject(ElementRef);
 
   /** @ignore */
-  @ViewChild('inputField') inputField!: ElementRef<HTMLInputElement>;
-  model!: string;
+  inputField = viewChild<ElementRef<HTMLInputElement>>('inputField');
+  private modelSignal = signal<string>('');
+
+  /** Gets the current model value */
+  get model(): string {
+    return this.modelSignal();
+  }
+
+  constructor() {
+    // Sync input value with model
+    effect(() => {
+      const inputValue = this.value();
+      if (inputValue !== undefined) {
+        this.modelSignal.set(inputValue);
+      }
+    });
+  }
 
   /** @ignore */
-  @HostBinding('attr.watt-field-disabled')
-  isDisabled = false;
+  private isDisabledSignal = signal<boolean>(false);
+
+  /** @ignore */
+  get isDisabled(): boolean {
+    return this.isDisabledSignal();
+  }
 
   /** @ignore */
   onTouchedCallbacks: (() => void)[] = [];
@@ -160,23 +184,29 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
     const attrName = 'data-testid';
     const testIdAttribute = this.element.nativeElement.getAttribute(attrName);
     this.element.nativeElement.removeAttribute(attrName);
-    this.inputField.nativeElement.setAttribute(attrName, testIdAttribute);
-    this.registerOnTouched(() => {
-      const trimmedValue = this.inputField.nativeElement.value.trim();
-      this.inputField.nativeElement.value = trimmedValue;
-      this.formControl.setValue(trimmedValue);
-    });
+
+    const inputField = this.inputField();
+    if (inputField) {
+      inputField.nativeElement.setAttribute(attrName, testIdAttribute);
+      this.registerOnTouched(() => {
+        const trimmedValue = inputField.nativeElement.value.trim();
+        inputField.nativeElement.value = trimmedValue;
+        this.formControl().setValue(trimmedValue);
+      });
+    }
   }
 
   /** @ignore */
   onChanged(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
 
-    if (this.autocompleteRef) {
+    const autocomplete = this.autocompleteRef();
+    if (autocomplete) {
       // Reset the autocomplete selection if the value is not matching anymore, and auto-select if the value has a match
-      this.autocompleteRef.options.forEach((option) => {
-        const isMatchingOption = this.autocompleteMatcherFn
-          ? this.autocompleteMatcherFn(value, option.value)
+      autocomplete.options.forEach((option) => {
+        const matcherFn = this.autocompleteMatcherFn();
+        const isMatchingOption = matcherFn
+          ? matcherFn(value, option.value)
           : option.value === value;
 
         if (isMatchingOption) {
@@ -207,7 +237,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   /** @ignore */
   writeValue(value: string): void {
-    this.model = value;
+    this.modelSignal.set(value);
   }
 
   /** @ignore */
@@ -222,11 +252,14 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   /** @ignore */
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
+    this.isDisabledSignal.set(isDisabled);
   }
 
   /** @ignore */
   setFocus(): void {
-    this.inputField.nativeElement.focus();
+    const inputField = this.inputField();
+    if (inputField) {
+      inputField.nativeElement.focus();
+    }
   }
 }
