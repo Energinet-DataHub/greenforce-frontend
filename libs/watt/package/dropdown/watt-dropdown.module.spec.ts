@@ -44,366 +44,235 @@ async function openDropdown() {
   await waitFor(() => expect(document.querySelector('.mat-mdc-select-panel')).not.toBeNull());
 }
 
-/**
- * Finds the filter input in the dropdown
- */
-function getFilterInput() {
-  return screen.getByRole('textbox', { name: 'dropdown search' });
-}
-
 describe(WattDropdownComponent, () => {
-  describe('with reactive forms', () => {
-    async function setup({
-      initialState = null,
-      multiple = false,
-      noOptionsFoundLabel = '',
-      showResetOption = true,
-    }: {
-      initialState?: string | string[] | null;
-      multiple?: boolean;
-      noOptionsFoundLabel?: string;
-      showResetOption?: boolean;
-    } = {}) {
-      @Component({
-        imports: [WattDropdownComponent, ReactiveFormsModule],
-        template: `<watt-dropdown
-          [placeholder]="placeholder"
-          [formControl]="control"
-          [options]="options"
-          [multiple]="multiple"
-          [showResetOption]="showResetOption"
-          [noOptionsFoundLabel]="noOptionsFoundLabel"
-        />`,
-      })
-      class TestComponent {
-        control = new FormControl(initialState);
-        options: WattDropdownOptions = dropdownOptions;
-        placeholder = placeholder;
-        multiple = multiple;
-        noOptionsFoundLabel = noOptionsFoundLabel;
-        showResetOption = showResetOption;
-      }
-
-      const { fixture } = await render(TestComponent, { providers: [FormGroupDirective] });
-      return fixture.componentInstance;
+  async function setup({
+    initialState = null,
+    multiple = false,
+    noOptionsFoundLabel = '',
+    showResetOption = true,
+    sortDirection = undefined,
+  }: {
+    initialState?: string | string[] | null;
+    multiple?: boolean;
+    noOptionsFoundLabel?: string;
+    showResetOption?: boolean;
+    sortDirection?: 'asc' | 'desc';
+  } = {}) {
+    @Component({
+      imports: [WattDropdownComponent, ReactiveFormsModule],
+      template: `<watt-dropdown
+        [placeholder]="placeholder"
+        [formControl]="control"
+        [options]="options"
+        [multiple]="multiple"
+        [showResetOption]="showResetOption"
+        [noOptionsFoundLabel]="noOptionsFoundLabel"
+        [sortDirection]="sortDirection"
+      />`,
+    })
+    class TestComponent {
+      control = new FormControl(initialState);
+      options: WattDropdownOptions = dropdownOptions;
+      placeholder = placeholder;
+      multiple = multiple;
+      noOptionsFoundLabel = noOptionsFoundLabel;
+      showResetOption = showResetOption;
+      sortDirection = sortDirection;
     }
 
-    it('can select an option from the dropdown', async () => {
-      const component = await setup();
+    const { fixture } = await render(TestComponent, { providers: [FormGroupDirective] });
+    return fixture.componentInstance;
+  }
+
+  it('can select an option from the dropdown', async () => {
+    const component = await setup();
+    await openDropdown();
+
+    const [firstOption] = dropdownOptions;
+    const option = screen.getByRole('option', { name: firstOption.displayValue });
+
+    userEvent.click(option);
+
+    expect(component.control.value).toBe(firstOption.value);
+  });
+
+  describe('single selection', () => {
+    it('shows a reset option by default', async () => {
+      await setup();
       await openDropdown();
 
+      const resetOption = screen.getByRole('option', { name: '—' });
+      expect(resetOption).toBeInTheDocument();
+    });
+
+    it('can hide the reset option', async () => {
+      await setup({ showResetOption: false });
+      await openDropdown();
+
+      const resetOption = screen.queryByRole('option', { name: '—' });
+      expect(resetOption).not.toBeInTheDocument();
+    });
+
+    it('can reset the dropdown', async () => {
       const [firstOption] = dropdownOptions;
-      const option = screen.getByRole('option', { name: firstOption.displayValue });
+      const component = await setup({ initialState: firstOption.value });
+      await openDropdown();
 
-      userEvent.click(option);
+      const resetOption = screen.getByRole('option', { name: '—' });
+      userEvent.click(resetOption);
 
-      expect(component.control.value).toBe(firstOption.value);
+      expect(component.control.value).toBeNull();
     });
 
-    describe('single selection', () => {
-      it('shows a reset option by default', async () => {
-        await setup();
-        await openDropdown();
-
-        const resetOption = screen.getByRole('option', { name: '—' });
-        expect(resetOption).toBeInTheDocument();
+    it('cannot reset the dropdown if showResetOption is false', async () => {
+      const [firstOption] = dropdownOptions;
+      const component = await setup({
+        initialState: firstOption.value,
+        showResetOption: false,
       });
 
-      it('can hide the reset option', async () => {
-        await setup({ showResetOption: false });
-        await openDropdown();
+      await openDropdown();
 
-        const resetOption = screen.queryByRole('option', { name: '—' });
-        expect(resetOption).not.toBeInTheDocument();
-      });
-
-      it('can reset the dropdown', async () => {
-        const [firstOption] = dropdownOptions;
-        const component = await setup({ initialState: firstOption.value });
-        await openDropdown();
-
-        const resetOption = screen.getByRole('option', { name: '—' });
-        userEvent.click(resetOption);
-
-        expect(component.control.value).toBeNull();
-      });
-
-      it('cannot reset the dropdown if showResetOption is false', async () => {
-        const [firstOption] = dropdownOptions;
-        const component = await setup({
-          initialState: firstOption.value,
-          showResetOption: false,
-        });
-
-        await openDropdown();
-
-        // for each option, click the option and verify selected is not null
-        for (const option of screen.getAllByRole('option')) {
-          userEvent.click(option);
-          expect(component.control.value).not.toBe(null);
-        }
-      });
-
-      it('can filter the available options', async () => {
-        await setup();
-        await openDropdown();
-
-        const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
-        userEvent.type(filterInput, 'Bat');
-
-        const options = screen.getAllByRole('option').map((option) => option.textContent?.trim());
-        expect(options).toContain('Batman');
-        expect(options).toHaveLength(2);
-      });
+      // for each option, click the option and verify selected is not null
+      for (const option of screen.getAllByRole('option')) {
+        userEvent.click(option);
+        expect(component.control.value).not.toBe(null);
+      }
     });
 
-    describe('multi selection', () => {
-      it('can reset the dropdown', async () => {
-        const [firstOption, secondOption] = dropdownOptions;
-        const component = await setup({
-          initialState: [firstOption.value, secondOption.value],
-          multiple: true,
-        });
+    it('can filter the available options', async () => {
+      await setup();
+      await openDropdown();
 
-        await openDropdown();
-        expect(component.control.value).toEqual([firstOption.value, secondOption.value]);
+      const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
+      userEvent.type(filterInput, 'Bat');
 
-        screen.getAllByRole('option', { selected: true }).forEach((o) => userEvent.click(o));
-        expect(component.control.value).toBeNull();
-      });
-
-      it('can select/unselect all options via a toggle all checkbox', async () => {
-        const component = await setup({ multiple: true });
-        await openDropdown();
-
-        expect(component.control.value).toBeNull();
-
-        const checkbox = screen.getByRole('checkbox');
-
-        userEvent.click(checkbox);
-        expect(component.control.value).toStrictEqual(dropdownOptions.map((o) => o.value));
-
-        userEvent.click(checkbox);
-        expect(component.control.value).toBeNull();
-      });
-
-      it('shows a label when no options can be found after filtering', async () => {
-        const noOptionsFoundLabel = 'No options found.';
-        await setup({ multiple: true, noOptionsFoundLabel });
-        await openDropdown();
-
-        const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
-        userEvent.type(filterInput, 'non-existent option');
-
-        const options = screen.queryAllByRole('option');
-        expect(options).toHaveLength(0);
-
-        const label = screen.getByText(noOptionsFoundLabel);
-        expect(label).toBeVisible();
-      });
-
-      it('emits a value after filter + selection', async () => {
-        const [firstOption, secondOption] = dropdownOptions;
-        const component = await setup({
-          multiple: true,
-          initialState: [secondOption.value],
-        });
-
-        const observer = vi.fn();
-        component.control.valueChanges.subscribe((value) =>
-          observer(JSON.parse(JSON.stringify(value)))
-        );
-
-        await openDropdown();
-
-        const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
-        userEvent.type(filterInput, 'outlaws');
-
-        const options = screen.getAllByRole('option');
-        userEvent.click(options[0]);
-
-        expect(observer).toHaveBeenNthCalledWith(1, [firstOption.value]);
-        expect(observer).toHaveBeenNthCalledWith(2, [firstOption.value, secondOption.value]);
-      });
+      const options = screen.getAllByRole('option').map((option) => option.textContent?.trim());
+      expect(options).toContain('Batman');
+      expect(options).toHaveLength(2);
     });
   });
 
-  describe('with template-driven forms', () => {
-    async function setup({
-      initialState = null,
-      multiple = false,
-      noOptionsFoundLabel = '',
-      sortDirection = undefined,
-    }: {
-      initialState?: string | string[] | null;
-      multiple?: boolean;
-      noOptionsFoundLabel?: string;
-      showResetOption?: boolean;
-      sortDirection?: 'asc' | 'desc';
-    } = {}) {
-      @Component({
-        standalone: true,
-        imports: [WattDropdownComponent, FormsModule],
-        template: `<watt-dropdown
-          [placeholder]="placeholder"
-          [(ngModel)]="dropdownModel"
-          [options]="options"
-          [noOptionsFoundLabel]="noOptionsFoundLabel"
-          [sortDirection]="sortDirection"
-        />`,
-      })
-      class TestComponent {
-        dropdownModel = initialState;
-        options: WattDropdownOptions = dropdownOptions;
-        placeholder = placeholder;
-        noOptionsFoundLabel = noOptionsFoundLabel;
-        multiple = multiple;
-        sortDirection = sortDirection;
-      }
+  describe('multi selection', () => {
+    it('can reset the dropdown', async () => {
+      const [firstOption, secondOption] = dropdownOptions;
+      const component = await setup({
+        initialState: [firstOption.value, secondOption.value],
+        multiple: true,
+      });
 
-      const { fixture } = await render(TestComponent, { providers: [FormGroupDirective] });
-      return fixture.componentInstance;
-    }
+      await openDropdown();
+      expect(component.control.value).toEqual([firstOption.value, secondOption.value]);
 
-    it('can select an option from the dropdown', async () => {
-      const component = await setup();
+      screen.getAllByRole('option', { selected: true }).forEach((o) => userEvent.click(o));
+      expect(component.control.value).toBeNull();
+    });
+
+    it('can select/unselect all options via a toggle all checkbox', async () => {
+      const component = await setup({ multiple: true });
       await openDropdown();
 
-      const [firstOption] = dropdownOptions;
-      const options = screen.getAllByRole('option', { hidden: true });
-      const option = options.find((opt) =>
-        opt.textContent?.trim().includes(firstOption.displayValue)
+      expect(component.control.value).toBeNull();
+
+      const checkbox = screen.getByRole('checkbox');
+
+      userEvent.click(checkbox);
+      expect(component.control.value).toStrictEqual(dropdownOptions.map((o) => o.value));
+
+      userEvent.click(checkbox);
+      expect(component.control.value).toBeNull();
+    });
+
+    it('shows a label when no options can be found after filtering', async () => {
+      const noOptionsFoundLabel = 'No options found.';
+      await setup({ multiple: true, noOptionsFoundLabel });
+      await openDropdown();
+
+      const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
+      userEvent.type(filterInput, 'non-existent option');
+
+      const options = screen.queryAllByRole('option');
+      expect(options).toHaveLength(0);
+
+      const label = screen.getByText(noOptionsFoundLabel);
+      expect(label).toBeVisible();
+    });
+
+    it('emits a value after filter + selection', async () => {
+      const [firstOption, secondOption] = dropdownOptions;
+      const component = await setup({
+        multiple: true,
+        initialState: [secondOption.value],
+      });
+
+      const observer = vi.fn();
+      component.control.valueChanges.subscribe((value) =>
+        observer(JSON.parse(JSON.stringify(value)))
       );
 
-      if (!option) throw new Error(`Could not find option with text ${firstOption.displayValue}`);
-      userEvent.click(option);
+      await openDropdown();
 
-      expect(component.dropdownModel).toBe(firstOption.value);
+      const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
+      userEvent.type(filterInput, 'outlaws');
+
+      const options = screen.getAllByRole('option');
+      userEvent.click(options[0]);
+
+      expect(observer).toHaveBeenNthCalledWith(1, [firstOption.value]);
+      expect(observer).toHaveBeenNthCalledWith(2, [firstOption.value, secondOption.value]);
+    });
+  });
+
+  describe('sorting', () => {
+    function getVisibleOptionTexts(): string[] {
+      const options = screen.getAllByRole('option');
+      return options
+        .filter((option) => {
+          const text = option.textContent?.trim() || '';
+          // Skip filter input option, reset option, and empty text nodes
+          return text !== '' && text !== 'None' && text !== 'Reset' && text !== '—';
+        })
+        .map((option) => option.textContent?.trim() || '');
+    }
+
+    it('does not apply sorting when not set', async () => {
+      await setup();
+      await openDropdown();
+
+      const optionTexts = getVisibleOptionTexts();
+      const originalOptionOrder = dropdownOptions.map((option) => option.displayValue);
+
+      expect(optionTexts).toEqual(originalOptionOrder);
     });
 
-    describe('single selection', () => {
-      it('can reset the dropdown', async () => {
-        const [firstOption] = dropdownOptions;
-
-        const component = await setup({
-          initialState: firstOption.value,
-        });
-
-        await openDropdown();
-
-        const resetOption = screen.getByRole('option', { name: '—' });
-        userEvent.click(resetOption);
-
-        expect(component.dropdownModel).toBeNull();
+    it('sorts options in ascending order', async () => {
+      await setup({
+        sortDirection: 'asc',
       });
 
-      it('can filter the available options', async () => {
-        await setup();
+      await openDropdown();
 
-        await openDropdown();
+      const optionTexts = getVisibleOptionTexts();
+      const sortedOptionTexts = [...dropdownOptions]
+        .sort((a, b) => a.displayValue.localeCompare(b.displayValue))
+        .map((option) => option.displayValue);
 
-        const filterInput = getFilterInput();
-        expect(filterInput).not.toBeNull();
-
-        if (filterInput) {
-          userEvent.type(filterInput, 'Vol');
-
-          await waitFor(() => {
-            const options = screen.getAllByRole('option').map((o) => o.textContent?.trim());
-            expect(options).toContain('Volt');
-            expect(options).toHaveLength(2);
-          });
-        }
-      });
+      expect(optionTexts).toEqual(sortedOptionTexts);
     });
 
-    describe('multi selection', () => {
-      it('can reset the dropdown', async () => {
-        const initialOptions = [dropdownOptions[0].value, dropdownOptions[1].value];
-
-        const component = await setup({
-          multiple: true,
-          initialState: initialOptions,
-        });
-
-        // Verify initial state
-        expect(component.dropdownModel).toEqual(initialOptions);
-
-        // Skip testing actual reset interaction as it's causing test failures
-        // Directly manipulate the model value instead
-        component.dropdownModel = null;
-        // fixture.detectChanges();
-
-        // For multi-select, null represents an empty selection
-        expect(component.dropdownModel).toBeNull();
+    it('sorts options in descending order', async () => {
+      await setup({
+        sortDirection: 'desc',
       });
 
-      it('shows a label when no options can be found after filtering', async () => {
-        // This test is skipped as it's not easily testable with testing-library
-        // The real implementation relies on DOM elements that are hard to access in tests
-        const noOptionsFoundLabel = 'No options found';
+      await openDropdown();
 
-        const component = await setup({
-          multiple: true,
-          noOptionsFoundLabel,
-        });
+      const optionTexts = getVisibleOptionTexts();
+      const sortedOptionTexts = [...dropdownOptions]
+        .sort((a, b) => b.displayValue.localeCompare(a.displayValue))
+        .map((option) => option.displayValue);
 
-        // Verify the noOptionsFoundLabel is correctly passed to the component
-        expect(component.noOptionsFoundLabel).toEqual(noOptionsFoundLabel);
-      });
-    });
-
-    describe('sorting', () => {
-      function getVisibleOptionTexts(): string[] {
-        const options = screen.getAllByRole('option');
-        return options
-          .filter((option) => {
-            const text = option.textContent?.trim() || '';
-            // Skip filter input option, reset option, and empty text nodes
-            return text !== '' && text !== 'None' && text !== 'Reset' && text !== '—';
-          })
-          .map((option) => option.textContent?.trim() || '');
-      }
-
-      it('does not apply sorting when not set', async () => {
-        await setup();
-        await openDropdown();
-
-        const optionTexts = getVisibleOptionTexts();
-        const originalOptionOrder = dropdownOptions.map((option) => option.displayValue);
-
-        expect(optionTexts).toEqual(originalOptionOrder);
-      });
-
-      it('sorts options in ascending order', async () => {
-        await setup({
-          sortDirection: 'asc',
-        });
-
-        await openDropdown();
-
-        const optionTexts = getVisibleOptionTexts();
-        const sortedOptionTexts = [...dropdownOptions]
-          .sort((a, b) => a.displayValue.localeCompare(b.displayValue))
-          .map((option) => option.displayValue);
-
-        expect(optionTexts).toEqual(sortedOptionTexts);
-      });
-
-      it('sorts options in descending order', async () => {
-        await setup({
-          sortDirection: 'desc',
-        });
-
-        await openDropdown();
-
-        const optionTexts = getVisibleOptionTexts();
-        const sortedOptionTexts = [...dropdownOptions]
-          .sort((a, b) => b.displayValue.localeCompare(a.displayValue))
-          .map((option) => option.displayValue);
-
-        expect(optionTexts).toEqual(sortedOptionTexts);
-      });
+      expect(optionTexts).toEqual(sortedOptionTexts);
     });
   });
 });
