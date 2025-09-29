@@ -23,7 +23,7 @@ import userEvent from '@testing-library/user-event';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
-import { WattTimepickerComponent } from './';
+import { WattTimepickerComponent } from '.';
 import { WattDateRange, danishDatetimeProviders } from '../../core/date';
 
 const backspace = '{backspace}';
