@@ -44,17 +44,10 @@ async function openDropdown() {
 }
 
 /**
- * Finds all dropdown option elements
- */
-function getDropdownOptions() {
-  return screen.getAllByRole('option', { hidden: true });
-}
-
-/**
  * Finds the filter input in the dropdown
  */
 function getFilterInput() {
-  return screen.getByRole('textbox', { name: 'dropdown search', hidden: true });
+  return screen.getByRole('textbox', { name: 'dropdown search' });
 }
 
 /**
@@ -108,10 +101,7 @@ describe(WattDropdownComponent, () => {
       await openDropdown();
 
       const [firstOption] = dropdownOptions;
-      const option = screen.getByRole('option', {
-        name: firstOption.displayValue,
-        hidden: true,
-      });
+      const option = screen.getByRole('option', { name: firstOption.displayValue });
 
       userEvent.click(option);
 
@@ -146,7 +136,7 @@ describe(WattDropdownComponent, () => {
         expect(component.dropdownControl.value).toBeNull();
       });
 
-      it('cannot reset the dropdown if showResetOption is disabled', async () => {
+      it('cannot reset the dropdown if showResetOption is false', async () => {
         const [firstOption] = dropdownOptions;
         const component = await setup({
           initialState: firstOption.value,
@@ -156,7 +146,7 @@ describe(WattDropdownComponent, () => {
         await openDropdown();
 
         // for each option, click the option and verify selected is not null
-        for (const option of getDropdownOptions()) {
+        for (const option of screen.getAllByRole('option')) {
           userEvent.click(option);
           expect(component.dropdownControl.value).not.toBe(null);
         }
@@ -166,10 +156,10 @@ describe(WattDropdownComponent, () => {
         await setup();
         await openDropdown();
 
-        const filterInput = getFilterInput();
+        const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
         userEvent.type(filterInput, 'Bat');
 
-        const options = getDropdownOptions().map((option) => option.textContent?.trim());
+        const options = screen.getAllByRole('option').map((option) => option.textContent?.trim());
         expect(options).toContain('Batman');
         expect(options).toHaveLength(2);
       });
@@ -437,10 +427,9 @@ describe(WattDropdownComponent, () => {
           userEvent.type(filterInput, 'Vol');
 
           await waitFor(() => {
-            const options = getDropdownOptions().filter((option) =>
-              option.textContent?.includes('Volt')
-            );
-            expect(options.length).toBe(1);
+            const options = screen.getAllByRole('option').map((o) => o.textContent?.trim());
+            expect(options).toContain('Volt');
+            expect(options).toHaveLength(2);
           });
         }
       });
@@ -482,7 +471,7 @@ describe(WattDropdownComponent, () => {
 
     describe('sorting', () => {
       function getVisibleOptionTexts(): string[] {
-        const options = getDropdownOptions();
+        const options = screen.getAllByRole('option');
         return options
           .filter((option) => {
             const text = option.textContent?.trim() || '';
