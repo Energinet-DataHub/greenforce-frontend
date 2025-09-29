@@ -79,7 +79,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
             [label]="t('mobile')"
           />
 
-          <watt-text-field [formControl]="form.controls.legalContactEmail" [label]="t('email')" />
+          <watt-text-field [formControl]="form.controls.legalContactEmail" [label]="t('email')" type="email" />
 
           <h4>
             {{ t('addressDetails') }}
