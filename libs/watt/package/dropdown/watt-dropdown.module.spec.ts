@@ -75,7 +75,7 @@ describe(WattDropdownComponent, () => {
         imports: [WattDropdownComponent, ReactiveFormsModule],
         template: `<watt-dropdown
           [placeholder]="placeholder"
-          [formControl]="dropdownControl"
+          [formControl]="control"
           [options]="options"
           [multiple]="multiple"
           [showResetOption]="showResetOption"
@@ -83,7 +83,7 @@ describe(WattDropdownComponent, () => {
         />`,
       })
       class TestComponent {
-        dropdownControl = new FormControl(initialState);
+        control = new FormControl(initialState);
         options: WattDropdownOptions = dropdownOptions;
         placeholder = placeholder;
         multiple = multiple;
@@ -105,7 +105,7 @@ describe(WattDropdownComponent, () => {
 
       userEvent.click(option);
 
-      expect(component.dropdownControl.value).toBe(firstOption.value);
+      expect(component.control.value).toBe(firstOption.value);
     });
 
     describe('single selection', () => {
@@ -133,7 +133,7 @@ describe(WattDropdownComponent, () => {
         const resetOption = screen.getByRole('option', { name: '—' });
         userEvent.click(resetOption);
 
-        expect(component.dropdownControl.value).toBeNull();
+        expect(component.control.value).toBeNull();
       });
 
       it('cannot reset the dropdown if showResetOption is false', async () => {
@@ -148,7 +148,7 @@ describe(WattDropdownComponent, () => {
         // for each option, click the option and verify selected is not null
         for (const option of screen.getAllByRole('option')) {
           userEvent.click(option);
-          expect(component.dropdownControl.value).not.toBe(null);
+          expect(component.control.value).not.toBe(null);
         }
       });
 
@@ -174,12 +174,12 @@ describe(WattDropdownComponent, () => {
         });
 
         // Verify initial state
-        expect(component.dropdownControl.value).toEqual([firstOption.value, secondOption.value]);
+        expect(component.control.value).toEqual([firstOption.value, secondOption.value]);
 
         // Skip testing actual reset interaction as it's causing test failures
         // Directly manipulate the control value instead
-        component.dropdownControl.setValue(null);
-        expect(component.dropdownControl.value).toBeNull();
+        component.control.setValue(null);
+        expect(component.control.value).toBeNull();
       });
 
       it('can select/unselect all options via a toggle all checkbox', async () => {
@@ -190,16 +190,16 @@ describe(WattDropdownComponent, () => {
         // Instead of testing the UI interaction, test the component's behavior directly
         // Set all values
         const allValues = dropdownOptions.map((option) => option.value);
-        component.dropdownControl.setValue(allValues);
+        component.control.setValue(allValues);
 
         // Verify all options are selected
-        expect(component.dropdownControl.value).toEqual(allValues);
+        expect(component.control.value).toEqual(allValues);
 
         // Reset values
-        component.dropdownControl.setValue(null);
+        component.control.setValue(null);
 
         // Verify no options are selected
-        expect(component.dropdownControl.value).toBeNull();
+        expect(component.control.value).toBeNull();
       });
 
       it('shows a label when no options can be found after filtering', async () => {
@@ -236,7 +236,7 @@ describe(WattDropdownComponent, () => {
           closeDropdown();
 
           // Verify Batman is selected
-          const controlValue = component.dropdownControl.value;
+          const controlValue = component.control.value;
           expect(Array.isArray(controlValue)).toBe(true);
           expect(controlValue).toEqual(['batman']);
 
@@ -262,7 +262,7 @@ describe(WattDropdownComponent, () => {
             closeDropdown();
 
             // Verify both Batman and Titans are selected
-            const updatedValue = component.dropdownControl.value;
+            const updatedValue = component.control.value;
             expect(Array.isArray(updatedValue)).toBe(true);
             expect(updatedValue?.includes('batman')).toBe(true);
             expect(updatedValue?.includes('titans')).toBe(true);
