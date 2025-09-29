@@ -211,66 +211,27 @@ describe(WattDropdownComponent, () => {
       });
 
       it('emits a value after filter + selection', async () => {
+        const [firstOption, secondOption] = dropdownOptions;
         const component = await setup({
           multiple: true,
+          initialState: [secondOption.value],
         });
+
+        const observer = vi.fn();
+        component.control.valueChanges.subscribe((value) =>
+          observer(JSON.parse(JSON.stringify(value)))
+        );
 
         await openDropdown();
 
-        const filterInput = getFilterInput();
-        expect(filterInput).not.toBeNull();
+        const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
+        userEvent.type(filterInput, 'outlaws');
 
-        if (filterInput) {
-          // Filter for Batman
-          userEvent.type(filterInput, 'Bat');
+        const options = screen.getAllByRole('option');
+        userEvent.click(options[0]);
 
-          await waitFor(() => {
-            const batmanOption = screen.queryByText('Batman');
-            expect(batmanOption).toBeVisible();
-          });
-
-          // Find Batman option by role and text content
-          const options = screen.getAllByRole('option', { hidden: true });
-          const batmanOption = options.find((opt) => opt.textContent?.trim().includes('Batman'));
-          if (!batmanOption) throw new Error('Batman option not found');
-          userEvent.click(batmanOption);
-
-          closeDropdown();
-
-          // Verify Batman is selected
-          const controlValue = component.control.value;
-          expect(Array.isArray(controlValue)).toBe(true);
-          expect(controlValue).toEqual(['batman']);
-
-          // Open dropdown again and add Titans
-          await openDropdown();
-
-          const newFilterInput = getFilterInput();
-          if (newFilterInput) {
-            userEvent.clear(newFilterInput);
-            userEvent.type(newFilterInput, 'Titan');
-
-            await waitFor(() => {
-              const titansOption = screen.queryByText('Titans');
-              expect(titansOption).toBeVisible();
-            });
-
-            // Find Titans option by role and text content
-            const options = screen.getAllByRole('option', { hidden: true });
-            const titansOption = options.find((opt) => opt.textContent?.trim().includes('Titans'));
-            if (!titansOption) throw new Error('Titans option not found');
-            userEvent.click(titansOption);
-
-            closeDropdown();
-
-            // Verify both Batman and Titans are selected
-            const updatedValue = component.control.value;
-            expect(Array.isArray(updatedValue)).toBe(true);
-            expect(updatedValue?.includes('batman')).toBe(true);
-            expect(updatedValue?.includes('titans')).toBe(true);
-            expect(updatedValue?.length).toBe(2);
-          }
-        }
+        expect(observer).toHaveBeenNthCalledWith(1, [firstOption.value]);
+        expect(observer).toHaveBeenNthCalledWith(2, [firstOption.value, secondOption.value]);
       });
     });
   });
