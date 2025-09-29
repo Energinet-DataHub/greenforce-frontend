@@ -262,20 +262,6 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
       </vater-flex>
     </form>
   `,
-  styles: `
-    .form-flex {
-      display: flex;
-      height: 1000px;
-      gap: var(--watt-space-xl);
-      margin-right: var(--watt-space-xl);
-    }
-
-    .same-line-inputs {
-      display: flex;
-      align-content: space-between;
-      gap: var(--watt-space-m);
-    }
-  `,
 })
 export class DhContactDetailsFormComponent {
   contactDetailsForm = input.required<FormGroup<MoveInContactDetailsFormType>>();
