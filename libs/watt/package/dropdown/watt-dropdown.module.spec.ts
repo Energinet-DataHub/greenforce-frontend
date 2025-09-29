@@ -183,18 +183,31 @@ describe(WattDropdownComponent, () => {
       it('can select/unselect all options via a toggle all checkbox', async () => {
         const component = await setup({ multiple: true });
         await openDropdown();
+
         expect(component.control.value).toBeNull();
+
         const checkbox = screen.getByRole('checkbox');
+
         userEvent.click(checkbox);
         expect(component.control.value).toStrictEqual(dropdownOptions.map((o) => o.value));
+
         userEvent.click(checkbox);
         expect(component.control.value).toBeNull();
       });
 
       it('shows a label when no options can be found after filtering', async () => {
-        // This test is skipped as it's not easily testable with testing-library
-        // The real implementation relies on DOM elements that are hard to access in tests
-        expect(true).toBe(true);
+        const noOptionsFoundLabel = 'No options found.';
+        await setup({ multiple: true, noOptionsFoundLabel });
+        await openDropdown();
+
+        const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
+        userEvent.type(filterInput, 'non-existent option');
+
+        const options = screen.queryAllByRole('option');
+        expect(options).toHaveLength(0);
+
+        const label = screen.getByText(noOptionsFoundLabel);
+        expect(label).toBeInTheDocument();
       });
 
       it('emits a value after filter + selection', async () => {
