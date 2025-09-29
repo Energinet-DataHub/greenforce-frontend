@@ -34,6 +34,6 @@ export const chargeRoutes: Routes = [
     },
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES_UI')],
     path: getPath<ChargesSubPaths>('prices'),
-    loadComponent: () => import('./components/prices').then((m) => m.DhPricesComponent),
+    loadComponent: () => import('./components/prices.component').then((m) => m.DhPricesComponent),
   },
 ];
