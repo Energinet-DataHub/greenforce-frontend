@@ -207,7 +207,7 @@ describe(WattDropdownComponent, () => {
         expect(options).toHaveLength(0);
 
         const label = screen.getByText(noOptionsFoundLabel);
-        expect(label).toBeInTheDocument();
+        expect(label).toBeVisible();
       });
 
       it('emits a value after filter + selection', async () => {
