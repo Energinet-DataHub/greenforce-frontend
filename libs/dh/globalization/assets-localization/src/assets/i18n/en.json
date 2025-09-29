@@ -358,6 +358,11 @@
     "3": "Immediate settlement (3)",
     "6": "Yearly settlement (6)"
   },
+  "charges": {
+    "prices": {
+      "topBarTitle": "Prices"
+    }
+  },
   "meteringPoint": {
     "breadcrumb": "Search metering point",
     "search": {
