@@ -65,7 +65,6 @@ describe(WattDropdownComponent, () => {
       showResetOption?: boolean;
     } = {}) {
       @Component({
-        standalone: true,
         imports: [WattDropdownComponent, ReactiveFormsModule],
         template: `<watt-dropdown
           [placeholder]="placeholder"
@@ -86,7 +85,6 @@ describe(WattDropdownComponent, () => {
       }
 
       const { fixture } = await render(TestComponent, { providers: [FormGroupDirective] });
-
       return fixture.componentInstance;
     }
 
@@ -231,8 +229,18 @@ describe(WattDropdownComponent, () => {
   });
 
   describe('with template-driven forms', () => {
-    // Create single-select test component
-    function createSingleSelectTestComponent() {
+    async function setup({
+      initialState = null,
+      multiple = false,
+      noOptionsFoundLabel = '',
+      sortDirection = undefined,
+    }: {
+      initialState?: string | string[] | null;
+      multiple?: boolean;
+      noOptionsFoundLabel?: string;
+      showResetOption?: boolean;
+      sortDirection?: 'asc' | 'desc';
+    } = {}) {
       @Component({
         standalone: true,
         imports: [WattDropdownComponent, FormsModule],
@@ -245,102 +253,20 @@ describe(WattDropdownComponent, () => {
         />`,
       })
       class TestComponent {
-        dropdownModel: string | null = null;
+        dropdownModel = initialState;
         options: WattDropdownOptions = dropdownOptions;
         placeholder = placeholder;
-        noOptionsFoundLabel = '';
-        sortDirection?: 'asc' | 'desc';
+        noOptionsFoundLabel = noOptionsFoundLabel;
+        multiple = multiple;
+        sortDirection = sortDirection;
       }
 
-      return TestComponent;
-    }
-
-    // Create multi-select test component
-    function createMultiSelectTestComponent() {
-      @Component({
-        standalone: true,
-        imports: [WattDropdownComponent, FormsModule],
-        template: `<watt-dropdown
-          [placeholder]="placeholder"
-          [(ngModel)]="dropdownModel"
-          [options]="options"
-          [multiple]="true"
-          [noOptionsFoundLabel]="noOptionsFoundLabel"
-        />`,
-      })
-      class TestComponent {
-        dropdownModel: string[] | null = null;
-        options: WattDropdownOptions = dropdownOptions;
-        placeholder = placeholder;
-        noOptionsFoundLabel = '';
-      }
-
-      return TestComponent;
-    }
-
-    // Setup function for single selection
-    async function setup(
-      config: {
-        initialState?: string | null;
-        noOptionsFoundLabel?: string;
-        sortDirection?: 'asc' | 'desc';
-      } = {}
-    ) {
-      const TestComponent = createSingleSelectTestComponent();
-
-      const { fixture } = await render(TestComponent, {
-        imports: [FormsModule],
-      });
-
-      const component = fixture.componentInstance;
-
-      // Apply configuration
-      if (config.initialState !== undefined) component.dropdownModel = config.initialState;
-      if (config.noOptionsFoundLabel !== undefined)
-        component.noOptionsFoundLabel = config.noOptionsFoundLabel;
-      if (config.sortDirection !== undefined) component.sortDirection = config.sortDirection;
-
-      // Wait for any potential changes to be applied
-      fixture.detectChanges();
-
-      return {
-        fixture,
-        component,
-      };
-    }
-
-    // Setup function for multi-selection
-    async function setupMultiSelect(
-      config: {
-        initialState?: string[] | null;
-        noOptionsFoundLabel?: string;
-      } = {}
-    ) {
-      const TestComponent = createMultiSelectTestComponent();
-
-      const { fixture } = await render(TestComponent, {
-        imports: [FormsModule],
-      });
-
-      const component = fixture.componentInstance;
-
-      // Apply configuration
-      if (config.initialState !== undefined) component.dropdownModel = config.initialState;
-      if (config.noOptionsFoundLabel !== undefined)
-        component.noOptionsFoundLabel = config.noOptionsFoundLabel;
-
-      // Wait for any potential changes to be applied
-      fixture.detectChanges();
-
-      return {
-        fixture,
-        component,
-      };
+      const { fixture } = await render(TestComponent, { providers: [FormGroupDirective] });
+      return fixture.componentInstance;
     }
 
     it('can select an option from the dropdown', async () => {
-      const { component } = await setup();
-
+      const component = await setup();
       await openDropdown();
 
       const [firstOption] = dropdownOptions;
@@ -359,7 +285,7 @@ describe(WattDropdownComponent, () => {
       it('can reset the dropdown', async () => {
         const [firstOption] = dropdownOptions;
 
-        const { component } = await setup({
+        const component = await setup({
           initialState: firstOption.value,
         });
 
@@ -395,7 +321,8 @@ describe(WattDropdownComponent, () => {
       it('can reset the dropdown', async () => {
         const initialOptions = [dropdownOptions[0].value, dropdownOptions[1].value];
 
-        const { component, fixture } = await setupMultiSelect({
+        const component = await setup({
+          multiple: true,
           initialState: initialOptions,
         });
 
@@ -405,7 +332,7 @@ describe(WattDropdownComponent, () => {
         // Skip testing actual reset interaction as it's causing test failures
         // Directly manipulate the model value instead
         component.dropdownModel = null;
-        fixture.detectChanges();
+        // fixture.detectChanges();
 
         // For multi-select, null represents an empty selection
         expect(component.dropdownModel).toBeNull();
@@ -416,7 +343,8 @@ describe(WattDropdownComponent, () => {
         // The real implementation relies on DOM elements that are hard to access in tests
         const noOptionsFoundLabel = 'No options found';
 
-        const { component } = await setupMultiSelect({
+        const component = await setup({
+          multiple: true,
           noOptionsFoundLabel,
         });
 
@@ -439,7 +367,6 @@ describe(WattDropdownComponent, () => {
 
       it('does not apply sorting when not set', async () => {
         await setup();
-
         await openDropdown();
 
         const optionTexts = getVisibleOptionTexts();
