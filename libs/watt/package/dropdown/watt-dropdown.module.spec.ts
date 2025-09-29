@@ -173,12 +173,10 @@ describe(WattDropdownComponent, () => {
           multiple: true,
         });
 
-        // Verify initial state
+        await openDropdown();
         expect(component.control.value).toEqual([firstOption.value, secondOption.value]);
 
-        // Skip testing actual reset interaction as it's causing test failures
-        // Directly manipulate the control value instead
-        component.control.setValue(null);
+        screen.getAllByRole('option', { selected: true }).forEach((o) => userEvent.click(o));
         expect(component.control.value).toBeNull();
       });
 
