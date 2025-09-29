@@ -42,6 +42,7 @@
       "@energinet-datahub/dh/admin/shared": ["libs/dh/admin/shared/src/index.ts"],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
       "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/src/index.ts"],
+      "@energinet-datahub/dh/charges/feature-prices": ["libs/dh/charges/feature-prices/index.ts"],
       "@energinet-datahub/dh/core/feature-notifications": [
         "libs/dh/core/feature-notifications/src/index.ts"
       ],
@@ -139,7 +140,6 @@
       "@energinet-datahub/dh/reports/feature-settlement-reports": [
         "libs/dh/reports/feature-settlement-reports/src/index.ts"
       ],
-      "@energinet-datahub/dh/charges/feature-prices": ["libs/dh/charges/feature-prices/index.ts"],
       "@energinet-datahub/dh/shared/assets": ["libs/dh/shared/assets/src/index.ts"],
       "@energinet-datahub/dh/shared/data-access-graphql": [
         "libs/dh/shared/data-access-graphql/src/index.ts"
