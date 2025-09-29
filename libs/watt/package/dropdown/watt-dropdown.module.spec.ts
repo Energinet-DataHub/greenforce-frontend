@@ -19,7 +19,7 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable sonarjs/no-duplicate-string */
 import { Component } from '@angular/core';
-import { FormControl, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
@@ -34,15 +34,6 @@ const dropdownOptions: WattDropdownOptions = [
   { value: 'volt', displayValue: 'Volt' },
   { value: 'joules', displayValue: 'Joules' },
 ];
-
-/**
- * Opens the dropdown and waits for it to be visible
- */
-async function openDropdown() {
-  const selectElement = screen.getByRole('combobox');
-  userEvent.click(selectElement);
-  await waitFor(() => expect(document.querySelector('.mat-mdc-select-panel')).not.toBeNull());
-}
 
 describe(WattDropdownComponent, () => {
   async function setup({
@@ -81,12 +72,12 @@ describe(WattDropdownComponent, () => {
     }
 
     const { fixture } = await render(TestComponent, { providers: [FormGroupDirective] });
+    userEvent.click(screen.getByRole('combobox')); // open dropdown before each test
     return fixture.componentInstance;
   }
 
   it('can select an option from the dropdown', async () => {
     const component = await setup();
-    await openDropdown();
 
     const [firstOption] = dropdownOptions;
     const option = screen.getByRole('option', { name: firstOption.displayValue });
@@ -99,7 +90,6 @@ describe(WattDropdownComponent, () => {
   describe('single selection', () => {
     it('shows a reset option by default', async () => {
       await setup();
-      await openDropdown();
 
       const resetOption = screen.getByRole('option', { name: '—' });
       expect(resetOption).toBeInTheDocument();
@@ -107,7 +97,6 @@ describe(WattDropdownComponent, () => {
 
     it('can hide the reset option', async () => {
       await setup({ showResetOption: false });
-      await openDropdown();
 
       const resetOption = screen.queryByRole('option', { name: '—' });
       expect(resetOption).not.toBeInTheDocument();
@@ -116,7 +105,6 @@ describe(WattDropdownComponent, () => {
     it('can reset the dropdown', async () => {
       const [firstOption] = dropdownOptions;
       const component = await setup({ initialState: firstOption.value });
-      await openDropdown();
 
       const resetOption = screen.getByRole('option', { name: '—' });
       userEvent.click(resetOption);
@@ -131,8 +119,6 @@ describe(WattDropdownComponent, () => {
         showResetOption: false,
       });
 
-      await openDropdown();
-
       // for each option, click the option and verify selected is not null
       for (const option of screen.getAllByRole('option')) {
         userEvent.click(option);
@@ -142,7 +128,6 @@ describe(WattDropdownComponent, () => {
 
     it('can filter the available options', async () => {
       await setup();
-      await openDropdown();
 
       const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
       userEvent.type(filterInput, 'Bat');
@@ -161,7 +146,6 @@ describe(WattDropdownComponent, () => {
         multiple: true,
       });
 
-      await openDropdown();
       expect(component.control.value).toEqual([firstOption.value, secondOption.value]);
 
       screen.getAllByRole('option', { selected: true }).forEach((o) => userEvent.click(o));
@@ -170,7 +154,6 @@ describe(WattDropdownComponent, () => {
 
     it('can select/unselect all options via a toggle all checkbox', async () => {
       const component = await setup({ multiple: true });
-      await openDropdown();
 
       expect(component.control.value).toBeNull();
 
@@ -186,7 +169,6 @@ describe(WattDropdownComponent, () => {
     it('shows a label when no options can be found after filtering', async () => {
       const noOptionsFoundLabel = 'No options found.';
       await setup({ multiple: true, noOptionsFoundLabel });
-      await openDropdown();
 
       const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
       userEvent.type(filterInput, 'non-existent option');
@@ -210,8 +192,6 @@ describe(WattDropdownComponent, () => {
         observer(JSON.parse(JSON.stringify(value)))
       );
 
-      await openDropdown();
-
       const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
       userEvent.type(filterInput, 'outlaws');
 
@@ -226,7 +206,6 @@ describe(WattDropdownComponent, () => {
   describe('sorting', () => {
     it('does not apply sorting when not set', async () => {
       await setup({ showResetOption: false });
-      await openDropdown();
 
       const optionTexts = screen.getAllByRole('option').map((o) => o.textContent?.trim());
       expect(optionTexts).toStrictEqual(dropdownOptions.map((o) => o.displayValue));
@@ -234,7 +213,6 @@ describe(WattDropdownComponent, () => {
 
     it('sorts options in ascending order', async () => {
       await setup({ showResetOption: false, sortDirection: 'asc' });
-      await openDropdown();
 
       const optionTexts = screen.getAllByRole('option').map((o) => o.textContent?.trim());
       const sortedOptionTexts = [...dropdownOptions]
@@ -246,7 +224,6 @@ describe(WattDropdownComponent, () => {
 
     it('sorts options in descending order', async () => {
       await setup({ showResetOption: false, sortDirection: 'desc' });
-      await openDropdown();
 
       const optionTexts = screen.getAllByRole('option').map((o) => o.textContent?.trim());
       const sortedOptionTexts = [...dropdownOptions]
