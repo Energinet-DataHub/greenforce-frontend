@@ -181,22 +181,13 @@ describe(WattDropdownComponent, () => {
       });
 
       it('can select/unselect all options via a toggle all checkbox', async () => {
-        const component = await setup({
-          multiple: true,
-        });
-
-        // Instead of testing the UI interaction, test the component's behavior directly
-        // Set all values
-        const allValues = dropdownOptions.map((option) => option.value);
-        component.control.setValue(allValues);
-
-        // Verify all options are selected
-        expect(component.control.value).toEqual(allValues);
-
-        // Reset values
-        component.control.setValue(null);
-
-        // Verify no options are selected
+        const component = await setup({ multiple: true });
+        await openDropdown();
+        expect(component.control.value).toBeNull();
+        const checkbox = screen.getByRole('checkbox');
+        userEvent.click(checkbox);
+        expect(component.control.value).toStrictEqual(dropdownOptions.map((o) => o.value));
+        userEvent.click(checkbox);
         expect(component.control.value).toBeNull();
       });
 
