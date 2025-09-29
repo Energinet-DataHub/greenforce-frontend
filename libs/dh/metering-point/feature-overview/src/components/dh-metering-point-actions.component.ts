@@ -36,12 +36,8 @@ import {
   DhReleaseToggleService,
 } from '@energinet-datahub/dh/shared/release-toggle';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { InstallationAddress } from '../types';
 
-type MeteringPointActionsMetadata = {
-  subtype: MeteringPointSubType;
-  installationAddress: InstallationAddress;
-};
+import { InstallationAddress } from '../types';
 
 @Component({
   selector: 'dh-metering-point-actions',
