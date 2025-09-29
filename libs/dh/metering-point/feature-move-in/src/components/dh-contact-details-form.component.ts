@@ -79,7 +79,11 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
             [label]="t('mobile')"
           />
 
-          <watt-text-field [formControl]="form.controls.legalContactEmail" [label]="t('email')" type="email" />
+          <watt-text-field
+            [formControl]="form.controls.legalContactEmail"
+            [label]="t('email')"
+            type="email"
+          />
 
           <h4>
             {{ t('addressDetails') }}
@@ -88,14 +92,20 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
             {{ t('addressSameAsMeteringPoint') }}
           </watt-checkbox>
 
-          <watt-text-field [formControl]="legalAddressGroup.controls.streetName" [label]="t('street')" />
+          <watt-text-field
+            [formControl]="legalAddressGroup.controls.streetName"
+            [label]="t('street')"
+          />
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="legalAddressGroup.controls.buildingNumber"
               [label]="t('houseNumber')"
             />
-            <watt-text-field [formControl]="legalAddressGroup.controls.floor" [label]="t('floor')" />
+            <watt-text-field
+              [formControl]="legalAddressGroup.controls.floor"
+              [label]="t('floor')"
+            />
             <watt-text-field [formControl]="legalAddressGroup.controls.room" [label]="t('door')" />
           </vater-flex>
 
@@ -104,7 +114,10 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
               [formControl]="form.controls.legalAddressGroup.controls.postCode"
               [label]="t('postalCode')"
             />
-            <watt-text-field [formControl]="legalAddressGroup.controls.cityName" [label]="t('city')" />
+            <watt-text-field
+              [formControl]="legalAddressGroup.controls.cityName"
+              [label]="t('city')"
+            />
           </vater-flex>
 
           <watt-dropdown

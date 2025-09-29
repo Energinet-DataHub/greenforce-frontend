@@ -71,9 +71,9 @@ export type AddressData = {
   postBox: string;
   municipalityCode: string;
   darReference: string;
-}
+};
 
- type AddressGroup = {
+type AddressGroup = {
   streetName: FormControl<string>;
   buildingNumber: FormControl<string>;
   floor: FormControl<string>;
@@ -86,7 +86,7 @@ export type AddressData = {
   postBox: FormControl<string>;
   municipalityCode: FormControl<string>;
   darReference: FormControl<string>;
-}
+};
 
 export enum MoveInType {
   Ordinary = 'E65',
@@ -98,4 +98,3 @@ export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>
 export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
-

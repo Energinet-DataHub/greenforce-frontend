@@ -41,7 +41,7 @@ import { InstallationAddress } from '../types';
 type MeteringPointActionsMetadata = {
   subtype: MeteringPointSubType;
   installationAddress: InstallationAddress;
-}
+};
 
 @Component({
   selector: 'dh-metering-point-actions',
@@ -136,7 +136,7 @@ export class DhMeteringPointActionsComponent {
   startMoveIn() {
     this.modalService.open({
       component: DhMoveInComponent,
-      data: { installationAddress: this.installationAddress() }
+      data: { installationAddress: this.installationAddress() },
     });
   }
 }
