@@ -223,6 +223,7 @@
         "requestCalculation": "Anmod om beregnede data"
       },
       "meteringPoints": "Målepunkter",
+      "prices": "Priser",
       "marketParticipant": {
         "menuGroupLabel": "Aktører",
         "userManagement": "Brugeradministration",

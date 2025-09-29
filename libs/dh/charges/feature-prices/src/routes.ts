@@ -32,7 +32,7 @@ export const chargeRoutes: Routes = [
     data: {
       titleTranslationKey: 'charges.prices.topBarTitle',
     },
-    canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES_UI')],
+    canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
     path: getPath<ChargesSubPaths>('prices'),
     loadComponent: () => import('./components/prices.component').then((m) => m.DhPricesComponent),
   },
