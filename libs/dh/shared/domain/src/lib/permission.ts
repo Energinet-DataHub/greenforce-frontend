@@ -46,6 +46,7 @@ export const permissions = [
   'users:manage',
   'users:reactivate',
   'users:view',
+  'charges:view',
 ] as const;
 
 export type Permission = (typeof permissions)[number];
