@@ -223,6 +223,7 @@
         "requestCalculation": "Anmod om beregnede data"
       },
       "meteringPoints": "Målepunkter",
+      "prices": "Priser",
       "marketParticipant": {
         "menuGroupLabel": "Aktører",
         "userManagement": "Brugeradministration",
@@ -357,6 +358,11 @@
     "2": "Timebaseret afregning (2)",
     "3": "Øjebliksafregning (3)",
     "6": "Årsbaseret afregning (6)"
+  },
+  "charges": {
+    "charges": {
+      "topBarTitle": "Priser"
+    }
   },
   "meteringPoint": {
     "breadcrumb": "Søg målepunkt",
@@ -641,7 +647,8 @@
             "containsLetters": "Må ikke indeholde bogstaver",
             "containsDash": "Må ikke indeholde bindestreg",
             "invalidCprLength": "Skal bestå af 10 cifre"
-          }
+          },
+          "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
         },
         "contactDetails": {
           "label": "Kontakdetaljer",

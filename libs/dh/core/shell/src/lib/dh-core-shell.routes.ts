@@ -95,6 +95,11 @@ export const dhCoreShellRoutes: Routes = [
         loadChildren: () => import('@energinet-datahub/dh/admin/shell'),
         canActivate: [MsalGuard],
       },
+      {
+        path: getPath<BasePaths>('charges'),
+        loadChildren: () => import('@energinet-datahub/dh/charges/feature-charges'),
+        canActivate: [MsalGuard],
+      },
     ],
   },
   {

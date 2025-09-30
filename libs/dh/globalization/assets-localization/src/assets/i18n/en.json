@@ -358,6 +358,11 @@
     "3": "Immediate settlement (3)",
     "6": "Yearly settlement (6)"
   },
+  "charges": {
+    "charges": {
+      "topBarTitle": "Prices"
+    }
+  },
   "meteringPoint": {
     "breadcrumb": "Search metering point",
     "search": {
@@ -641,7 +646,8 @@
             "containsLetters": "Can only contain letters",
             "containsDash": "Can not contain dashes",
             "invalidCprLength": "Must be 10 digits long"
-          }
+          },
+          "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
         },
         "contactDetails": {
           "label": "Contact details",
