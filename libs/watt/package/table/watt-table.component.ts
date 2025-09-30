@@ -359,6 +359,9 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   protected sort = viewChild(MatSort);
   protected tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
 
+  /** @ignore */
+  _animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
+
   // Selectable
   protected selectionSet = computed(() => new Set(this.selection()));
   protected filterSelectionBy = (rows: T[]) => [...this.selectionSet().intersection(new Set(rows))];
@@ -368,9 +371,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     if (!filteredSelection.length) return false;
     return filteredSelection.length === this.dataSource().filteredData.length ? true : null;
   };
-
-  /** @ignore */
-  _animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
 
   /** @ignore */
   _checkboxColumn = '__checkboxColumn__';
