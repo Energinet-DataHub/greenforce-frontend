@@ -30,7 +30,7 @@ import {
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Charge } from '../types';
-import { SortDirection } from '@energinet-datahub/dh/shared/domain/graphql';
+import { SortDirection, SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-charges',
@@ -95,7 +95,7 @@ export class DhChargesComponent {
         to: new Date(),
       },
       order: {
-        type: SortDirection.Desc,
+        type: SortEnumType.Desc,
       },
     },
   });
