@@ -20,7 +20,6 @@ import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/comm
 import {
   AfterViewInit,
   Component,
-  computed,
   contentChild,
   contentChildren,
   Directive,
