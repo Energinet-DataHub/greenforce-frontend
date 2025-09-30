@@ -20,7 +20,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { Component } from '@angular/core';
 import { FormControl, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { WattDropdownOptions } from './watt-dropdown-option';
