@@ -18,25 +18,19 @@
 //#endregione';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { GetChargesByPeriodDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 import {
-  WattTableCellDirective,
   WattTableColumnDef,
   WattTableComponent,
-  WattTableDataSource,
+  WattTableCellDirective,
 } from '@energinet-datahub/watt/table';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
-
-type Charge = {
-  id: string;
-  type: string;
-  name: string;
-  owner: string;
-  status: string;
-};
+import { Charge } from '../types';
+import { SortDirection } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-charges',
@@ -57,6 +51,8 @@ type Charge = {
       [enableCount]="false"
       vater
       inset="ml"
+      [error]="dataSource.error"
+      [ready]="dataSource.called"
       *transloco="let t; prefix: 'charges.charges.table'"
     >
       <watt-data-filters />
@@ -70,16 +66,16 @@ type Charge = {
         (rowClick)="navigation.navigate('details', $event.id)"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ element.type }}
+          {{ element.chargeType }}
         </ng-container>
         <ng-container *wattTableCell="columns.id; let element">
           {{ element.id }}
         </ng-container>
         <ng-container *wattTableCell="columns.name; let element">
-          {{ element.name }}
+          {{ element.chargeName }}
         </ng-container>
         <ng-container *wattTableCell="columns.owner; let element">
-          {{ element.owner }}
+          {{ element.chargeOwner }}
         </ng-container>
         <ng-container *wattTableCell="columns.status; let element">
           {{ element.status }}
@@ -92,21 +88,23 @@ type Charge = {
 export class DhChargesComponent {
   protected readonly navigation = inject(DhNavigationService);
 
-  dataSource = new WattTableDataSource<Charge>([
-    {
-      id: '1',
-      type: 'Standard',
-      name: 'Standard Charge',
-      owner: 'EnergyCo',
-      status: 'Active',
+  dataSource = new GetChargesByPeriodDataSource({
+    variables: {
+      query: {
+        from: new Date(),
+        to: new Date(),
+      },
+      order: {
+        chargeType: SortDirection.Desc,
+      },
     },
-  ]);
+  });
 
   columns: WattTableColumnDef<Charge> = {
-    type: { accessor: 'type' },
+    type: { accessor: 'chargeType' },
     id: { accessor: 'id' },
-    name: { accessor: 'name' },
-    owner: { accessor: 'owner' },
+    name: { accessor: 'chargeName' },
+    owner: { accessor: 'chargeOwner' },
     status: { accessor: 'status' },
   };
 
