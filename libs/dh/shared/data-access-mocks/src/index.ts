@@ -35,6 +35,7 @@ import { requestMocks } from './lib/request.mocks';
 import { processMocks } from './lib/process';
 import { measurementsReportsMocks } from './lib/measurements-reports.mocks';
 import { releaseTogglesMocks } from './lib/release-toggles.mocks';
+import { moveInMocks } from './lib/move-in.mocks';
 
 export const mocks = [
   wholesaleMocks,
@@ -55,4 +56,5 @@ export const mocks = [
   processMocks,
   measurementsReportsMocks,
   releaseTogglesMocks,
+  moveInMocks,
 ];

@@ -891,6 +891,7 @@ type Mutation {
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
+  startMoveIn(input: StartMoveInInput!): StartMoveInPayload! @authorize(roles: [ "metering-point:search" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
@@ -1307,6 +1308,10 @@ type SettlementReport {
   includesBasisData: Boolean!
   progress: Float!
   includeMonthlyAmount: Boolean!
+}
+
+type StartMoveInPayload {
+  boolean: Boolean
 }
 
 type StopDelegationPayload {
@@ -1889,6 +1894,10 @@ input SendMeasurementsRequestV2Input {
   start: DateTime!
   end: DateTime!
   measurements: [MeasurementInput!]!
+}
+
+input StartMoveInInput {
+  name1: String!
 }
 
 input StopDelegationInput {
