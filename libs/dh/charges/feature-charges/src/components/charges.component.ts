@@ -59,7 +59,7 @@ type Charge = {
       inset="ml"
       *transloco="let t; prefix: 'charges.charges.table'"
     >
-      <watt-data-filters> </watt-data-filters>
+      <watt-data-filters />
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'charges.charges.table.columns'"
