@@ -21,7 +21,6 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 public static partial class MoveInOperations
 {
     [Mutation]
-    [UseRevisionLog]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static Task<bool> StartMoveInAsync(
         StartMoveInInput input)
