@@ -360,7 +360,16 @@
   },
   "charges": {
     "charges": {
-      "topBarTitle": "Prices"
+      "topBarTitle": "Prices",
+      "table": {
+        "columns": {
+          "id": "ID",
+          "type": "Type",
+          "name": "Name",
+          "owner": "Owner",
+          "status": "Status"
+        }
+      }
     }
   },
   "meteringPoint": {
