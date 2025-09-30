@@ -1610,10 +1610,10 @@ input CancelSettlementReportInput {
 }
 
 input ChargesSortInput {
-  chargeId: SortEnumType
-  chargeName: SortEnumType
-  chargeType: SortEnumType
-  chargeOwner: SortEnumType
+  id: SortEnumType
+  name: SortEnumType
+  type: SortEnumType
+  owner: SortEnumType
   status: SortEnumType
 }
 
