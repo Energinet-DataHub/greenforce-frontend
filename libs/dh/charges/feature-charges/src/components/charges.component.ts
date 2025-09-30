@@ -95,7 +95,7 @@ export class DhChargesComponent {
         to: new Date(),
       },
       order: {
-        chargeType: SortDirection.Desc,
+        type: SortDirection.Desc,
       },
     },
   });

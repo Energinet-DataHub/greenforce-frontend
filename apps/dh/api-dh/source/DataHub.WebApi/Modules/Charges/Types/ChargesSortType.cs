@@ -23,10 +23,10 @@ public sealed class ChargesSortType : SortInputType<ChargeDto>
     {
         descriptor.Name("ChargesSortInput");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.ChargeId);
-        descriptor.Field(f => f.ChargeName);
-        descriptor.Field(f => f.ChargeType);
-        descriptor.Field(f => f.ChargeOwner);
+        descriptor.Field(f => f.ChargeId).Name("id");
+        descriptor.Field(f => f.ChargeName).Name("name");
+        descriptor.Field(f => f.ChargeType).Name("type");
+        descriptor.Field(f => f.ChargeOwner).Name("owner");
         descriptor.Field(f => f.Status);
     }
 }
