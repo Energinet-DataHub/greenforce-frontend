@@ -363,8 +363,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
 
   // Selectable
-  protected selectionSet = computed(() => new Set(this.selection()));
-  protected filterSelectionBy = (rows: T[]) => [...this.selectionSet().intersection(new Set(rows))];
+  protected filterSelectionBy = (rows: T[]) => rows.filter((row) => this.selection().includes(row));
   protected getSelectionState = () => {
     const filteredData = this.dataSource().filteredData;
     const filteredSelection = this.filterSelectionBy(filteredData);
@@ -466,7 +465,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * Toggles the selection of a row.
    */
   toggleSelection = (row: T) =>
-    this.selection.set([...this.selectionSet().symmetricDifference(new Set([row]))]);
+    this.selection.update((s) => (s.includes(row) ? s.filter((r) => r !== row) : s.concat(row)));
 
   /** @ignore */
   _getColumns() {
