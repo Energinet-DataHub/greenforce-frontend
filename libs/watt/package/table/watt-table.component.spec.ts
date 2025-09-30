@@ -67,7 +67,7 @@ function setup<T>(properties: WattTableOptions<T>, template = '') {
       [activeRow]="activeRow"
       [resolveHeader]="resolveHeader"
       (selectionChange)="selectionChange($event)"
-      [selection]="selection"
+      [selection]="selection ?? []"
       (rowClick)="rowClick($event)"
       (sortChange)="sortChange($event)"
       >${template}</watt-table>`,
