@@ -457,6 +457,17 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     }
   }
 
+  /**
+   * Clears the selection.
+   */
+  clearSelection = () => this.selection.set([]);
+
+  /**
+   * Toggles the selection of a row.
+   */
+  toggleSelection = (row: T) =>
+    this.selection.set([...this.selectionSet().symmetricDifference(new Set([row]))]);
+
   /** @ignore */
   _getColumns() {
     const columns = this.displayedColumns() ?? Object.keys(this.columns());
@@ -527,17 +538,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
     this._rowClick$.next(row);
   }
-
-  /**
-   * Clears the selection.
-   */
-  clearSelection = () => this.selection.set([]);
-
-  /**
-   * Toggles the selection of a row.
-   */
-  toggleSelection = (row: T) =>
-    this.selection.set([...this.selectionSet().symmetricDifference(new Set([row]))]);
 }
 
 @Component({
