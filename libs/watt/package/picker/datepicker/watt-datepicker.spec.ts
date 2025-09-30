@@ -344,13 +344,13 @@ describe(WattDatepickerComponent, () => {
       expect(value.start).toBeDefined();
       expect(value.end).toBeDefined();
 
-      const startDate = dayjs(value.start);
+      const startDate = dayjs.utc(value.start);
 
       expect(startDate.date()).toBe(15);
       expect(startDate.month()).toBe(0); // January is 0
       expect(startDate.year()).toBe(2023);
 
-      const endDate = dayjs(value.end);
+      const endDate = dayjs.utc(value.end);
 
       expect(endDate.date()).toBe(20); // Adjusting expectation to match actual value
       expect(endDate.month()).toBe(0); // January is 0
