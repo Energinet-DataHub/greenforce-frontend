@@ -361,7 +361,16 @@
   },
   "charges": {
     "charges": {
-      "topBarTitle": "Priser"
+      "topBarTitle": "Priser",
+      "table": {
+        "columns": {
+          "id": "ID",
+          "type": "Type",
+          "name": "Navn",
+          "owner": "Ejer",
+          "status": "Status"
+        }
+      }
     }
   },
   "meteringPoint": {
