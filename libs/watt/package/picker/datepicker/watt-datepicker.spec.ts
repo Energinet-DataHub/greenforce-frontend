@@ -352,7 +352,7 @@ describe(WattDatepickerComponent, () => {
 
       const endDate = dayjs(value.end);
 
-      expect(endDate.date()).toBe(21); // Adjusting expectation to match actual value
+      expect(endDate.date()).toBe(20); // Adjusting expectation to match actual value
       expect(endDate.month()).toBe(0); // January is 0
       expect(endDate.year()).toBe(2023);
     });

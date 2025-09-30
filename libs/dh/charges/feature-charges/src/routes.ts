@@ -18,22 +18,17 @@
 //#endregion
 import { Routes } from '@angular/router';
 
-import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { getPath, ChargesSubPaths } from '@energinet-datahub/dh/core/routing';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 export const chargeRoutes: Routes = [
   {
+    data: {
+      titleTranslationKey: 'charges.charges.topBarTitle',
+    },
     path: '',
     pathMatch: 'full',
-    redirectTo: getPath<ChargesSubPaths>('prices'),
-  },
-  {
-    data: {
-      titleTranslationKey: 'charges.prices.topBarTitle',
-    },
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
-    path: getPath<ChargesSubPaths>('prices'),
-    loadComponent: () => import('./components/prices.component').then((m) => m.DhPricesComponent),
+    loadComponent: () => import('./components/charges.component').then((m) => m.DhChargesComponent),
   },
 ];
