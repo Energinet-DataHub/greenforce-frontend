@@ -16,14 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { Component, effect, inject, viewChild } from '@angular/core';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { StartMoveInDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import {
   AddressData,
@@ -49,7 +52,14 @@ export class DhMoveInComponent extends WattTypedModal<{
   installationAddress: InstallationAddress;
 }> {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly transloco = inject(TranslocoService);
+  private readonly startMoveInMutation = mutation(StartMoveInDocument);
+  private readonly toastService = inject(WattToastService);
+
+  private readonly modal = viewChild.required(WattModalComponent);
+
   private readonly customerTypeInitialValue = 'private';
+
   private readonly addressDataInitialValue: AddressData = {
     streetCode: this.modalData.installationAddress?.streetCode ?? '',
     buildingNumber: this.modalData.installationAddress?.buildingNumber ?? '',
@@ -74,6 +84,8 @@ export class DhMoveInComponent extends WattTypedModal<{
       dhCprValidator(),
     ]),
   });
+
+  moveInLoading = this.startMoveInMutation.loading;
 
   customerDetailsForm = this.fb.group<MoveInCustomerDetailsFormType>({
     cutOffDate: this.fb.control(new Date(), Validators.required),
@@ -313,7 +325,24 @@ export class DhMoveInComponent extends WattTypedModal<{
     this.contactDetailsForm.controls.technicalAddressGroup.reset(data);
   }
 
-  startMoveIn() {
-    console.log('Starting move-in process...');
+  async startMoveIn() {
+    if (this.customerDetailsForm.invalid || this.contactDetailsForm.invalid) return;
+
+    const name1 = this.privateCustomerForm.value.name1 ?? '';
+
+    const result = await this.startMoveInMutation.mutate({
+      variables: { input: { name1 } },
+    });
+
+    if (result.data?.startMoveIn.success) {
+      this.success();
+    }
+  }
+
+  private success() {
+    const message = this.transloco.translate('meteringPoint.moveIn.success');
+
+    this.toastService.open({ type: 'success', message });
+    this.modal().close(true);
   }
 }
