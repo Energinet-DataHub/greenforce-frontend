@@ -16,8 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-describe('dummy', () => {
-  it('should pass', () => {
-    expect(true).toBe(true);
-  });
-});
+export { chargeRoutes as default } from './src/routes';

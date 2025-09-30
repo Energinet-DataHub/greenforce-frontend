@@ -16,8 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-describe('dummy', () => {
-  it('should pass', () => {
-    expect(true).toBe(true);
-  });
-});
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
+import '@analogjs/vite-plugin-angular/setup-vitest';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();

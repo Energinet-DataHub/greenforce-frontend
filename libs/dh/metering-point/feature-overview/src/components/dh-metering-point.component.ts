@@ -170,7 +170,10 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
 
           <vater-spacer />
 
-          <dh-metering-point-actions [subType]="meteringPoint()?.metadata?.subType" />
+          <dh-metering-point-actions
+            [subType]="meteringPoint()?.metadata?.subType"
+            [installationAddress]="meteringPoint()?.metadata?.installationAddress"
+          />
         </div>
 
         <div class="page-tabs" *transloco="let t; prefix: 'meteringPoint.tabs'">

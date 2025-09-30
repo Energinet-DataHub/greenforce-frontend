@@ -16,8 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-describe('dummy', () => {
-  it('should pass', () => {
-    expect(true).toBe(true);
-  });
-});
+import { Routes } from '@angular/router';
+
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+
+export const chargeRoutes: Routes = [
+  {
+    data: {
+      titleTranslationKey: 'charges.charges.topBarTitle',
+    },
+    path: '',
+    pathMatch: 'full',
+    canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
+    loadComponent: () => import('./components/charges.component').then((m) => m.DhChargesComponent),
+  },
+];

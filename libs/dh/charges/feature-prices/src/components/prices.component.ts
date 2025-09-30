@@ -15,9 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//#endregion
-describe('dummy', () => {
-  it('should pass', () => {
-    expect(true).toBe(true);
-  });
-});
+//#endregione';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+@Component({
+  selector: 'dh-prices',
+  template: ` <h1>Prices</h1> `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class DhPricesComponent {}
