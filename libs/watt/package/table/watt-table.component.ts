@@ -541,19 +541,6 @@ export class WattTableComponent<T> implements AfterViewInit {
   }
 }
 
-@Component({
-  selector: 'watt-table-toolbar-spacer',
-  template: '',
-  styles: [
-    `
-      :host {
-        width: var(--watt-space-xl);
-      }
-    `,
-  ],
-})
-export class WattTableToolbarSpacerComponent {}
-
 export const WATT_TABLE = [
   WattTableComponent,
   WattTableCellDirective,
