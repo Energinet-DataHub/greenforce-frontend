@@ -56,6 +56,10 @@ const teams = [
     repo: 'Energinet-DataHub/greenforce-frontend',
   },
   {
+    team: 'Volt',
+    repo: 'Energinet-DataHub/team-volt',
+  },
+  {
     team: 'Datahub',
     repo: 'Energinet-DataHub/internal-repo',
   },
