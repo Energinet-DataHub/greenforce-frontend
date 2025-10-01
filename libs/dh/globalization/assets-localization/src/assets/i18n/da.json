@@ -369,6 +369,13 @@
           "name": "Navn",
           "owner": "Ejer",
           "status": "Status"
+        },
+        "chargeStatus": {
+          "AWAITING": "Afventer",
+          "CLOSED": "Lukket",
+          "CANCELLED": "Annulleret",
+          "CURRENT": "Aktuel",
+          "MISSING_PRICE_SERIES": "Mangler prisserie"
         }
       }
     }
