@@ -48,7 +48,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: {
-    '[attr.watt-field-disabled]': 'isDisabled',
+    '[attr.watt-field-disabled]': 'isDisabled()',
   },
   providers: [
     {
@@ -100,7 +100,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         class="watt-autocomplete-panel"
         (optionSelected)="autocompleteOptionSelected.emit($event.option.value)"
       >
-        @for (option of autocompleteOptions() || []; track option) {
+        @for (option of autocompleteOptions(); track option) {
           <mat-option [value]="option">
             {{ option }}
           </mat-option>
@@ -117,16 +117,14 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
 export class WattTextFieldComponent implements ControlValueAccessor, AfterViewInit {
   value = input<string>('');
   type = input<WattInputTypes>('text');
-  placeholder = input<string | undefined>(undefined);
+  placeholder = input<string | undefined>();
   label = input<string>('');
-  tooltip = input<string | undefined>(undefined);
-  prefix = input<WattIcon | undefined>(undefined);
-  maxLength = input<string | number | null>(null);
+  tooltip = input<string | undefined>();
+  prefix = input<WattIcon | undefined>();
+  maxLength = input<string | number | null>();
   formControl = input.required<FormControl>();
-  autocompleteOptions = input<string[] | undefined>(undefined);
-  autocompleteMatcherFn = input<((value: string, option: string) => boolean) | undefined>(
-    undefined
-  );
+  autocompleteOptions = input<string[] | undefined>([]);
+  autocompleteMatcherFn = input<((value: string, option: string) => boolean) | undefined>();
 
   /** @ignore */
   autocompleteRef = viewChild(MatAutocomplete);
