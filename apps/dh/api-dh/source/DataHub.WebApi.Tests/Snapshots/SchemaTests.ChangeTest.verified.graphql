@@ -147,6 +147,8 @@ type ArchivedMessagesConnection {
   edges: [ArchivedMessagesEdge!]
   "A flattened list of the nodes."
   nodes: [ArchivedMessage!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -165,6 +167,8 @@ type ArchivedMessagesForMeteringPointConnection {
   edges: [ArchivedMessagesForMeteringPointEdge!]
   "A flattened list of the nodes."
   nodes: [ArchivedMessage!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -213,6 +217,7 @@ type BalanceResponsibleCollectionSegment {
   pageInfo: CollectionSegmentInfo!
   "A flattened list of the items."
   items: [BalanceResponsible!]
+  totalCount: Int!
   balanceResponsiblesUrl(locale: String!): String
   balanceResponsibleImportUrl: String
 }
@@ -239,6 +244,8 @@ type CalculationsConnection {
   edges: [CalculationsEdge!]
   "A flattened list of the nodes."
   nodes: [Calculation!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
   capacitySettlementsUploadUrl: String
 }
 
@@ -277,10 +284,10 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 }
 
 type ChargeDto {
+  status: ChargeStatus!
   id: UUID!
   chargeType: ChargeType!
   resolution: ChargeResolution!
-  status: ChargeStatus!
   chargeId: String!
   chargeName: String!
   chargeDescription: String!
@@ -302,6 +309,8 @@ type ChargesByPeriodConnection {
   edges: [ChargesByPeriodEdge!]
   "A flattened list of the nodes."
   nodes: [ChargeDto!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -432,6 +441,7 @@ type EsettExchangeEventsCollectionSegment {
   pageInfo: CollectionSegmentInfo!
   "A flattened list of the items."
   items: [ExchangeEventSearchResult!]
+  totalCount: Int!
   gridAreaCount: Int!
 }
 
@@ -475,6 +485,8 @@ type FailedSendMeasurementsInstancesConnection {
   edges: [FailedSendMeasurementsInstancesEdge!]
   "A flattened list of the nodes."
   nodes: [SendMeasurementsInstanceDto!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -493,6 +505,8 @@ type FilteredPermissionsConnection {
   edges: [FilteredPermissionsEdge!]
   "A flattened list of the nodes."
   nodes: [Permission!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
   permissionRelationsUrl: String
 }
 
@@ -512,6 +526,8 @@ type FilteredUserRolesConnection {
   edges: [FilteredUserRolesEdge!]
   "A flattened list of the nodes."
   nodes: [UserRoleDto!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -575,6 +591,8 @@ type GridAreaOverviewItemsConnection {
   edges: [GridAreaOverviewItemsEdge!]
   "A flattened list of the nodes."
   nodes: [GridAreaOverviewItemDto!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -792,6 +810,7 @@ type MeteringGridAreaImbalanceCollectionSegment {
   pageInfo: CollectionSegmentInfo!
   "A flattened list of the items."
   items: [MeteringGridAreaImbalanceSearchResult!]
+  totalCount: Int!
 }
 
 type MeteringGridAreaImbalancePerDayDto {
@@ -1010,6 +1029,8 @@ type PaginatedMarketParticipantsConnection {
   edges: [PaginatedMarketParticipantsEdge!]
   "A flattened list of the nodes."
   nodes: [MarketParticipant!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -1028,6 +1049,8 @@ type PaginatedOrganizationsConnection {
   edges: [PaginatedOrganizationsEdge!]
   "A flattened list of the nodes."
   nodes: [Organization!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -1072,6 +1095,8 @@ type ProcessesConnection {
   edges: [ProcessesEdge!]
   "A flattened list of the nodes."
   nodes: [OrchestrationInstance!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -1090,6 +1115,8 @@ type ProcessesForMeteringPointConnection {
   edges: [ProcessesForMeteringPointEdge!]
   "A flattened list of the nodes."
   nodes: [MeteringPointProcess!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -1284,6 +1311,8 @@ type RequestsConnection {
   edges: [RequestsEdge!]
   "A flattened list of the nodes."
   nodes: [ActorRequestQueryResult!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -1477,6 +1506,7 @@ type UsersCollectionSegment {
   pageInfo: CollectionSegmentInfo!
   "A flattened list of the items."
   items: [UserOverviewItemDto!]
+  totalCount: Int!
 }
 
 type WholesaleAndEnergyCalculation implements Calculation & OrchestrationInstance {
@@ -2191,6 +2221,7 @@ enum ChargeStatus {
   AWAITING
   CLOSED
   MISSING_PRICE_SERIES
+  INVALID
 }
 
 enum ChargeType {

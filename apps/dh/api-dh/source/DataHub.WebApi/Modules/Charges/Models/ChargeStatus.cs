@@ -21,4 +21,5 @@ public enum ChargeStatus
     Awaiting = 3,
     Closed = 4,
     MissingPriceSeries = 5,
+    Invalid = 6,
 }

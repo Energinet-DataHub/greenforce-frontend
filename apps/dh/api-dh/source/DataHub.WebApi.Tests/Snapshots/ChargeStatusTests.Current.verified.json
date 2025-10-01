@@ -1,0 +1,15 @@
+﻿{
+  "data": {
+    "chargesByPeriod": {
+      "totalCount": 2,
+      "nodes": [
+        {
+          "status": "CURRENT"
+        },
+        {
+          "status": "CURRENT"
+        }
+      ]
+    }
+  }
+}
