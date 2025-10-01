@@ -27,7 +27,7 @@ import {
   output,
   effect,
   viewChild,
-  model,
+  model, signal,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -162,7 +162,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   }
 
   /** @ignore */
-  isDisabled = model<boolean>(false);
+  isDisabled = signal<boolean>(false);
 
   /** @ignore */
   onTouchedCallbacks: (() => void)[] = [];
