@@ -28,7 +28,6 @@ import {
   ElementRef,
   inject,
   input,
-  Input,
   model,
   OnChanges,
   output,
@@ -519,13 +518,13 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumnTemplate(column: WattTableColumn<T>) {
-    return this.cells().find((item) => item.column === column)?.templateRef;
+    return this.cells().find((item) => item.column() === column)?.templateRef;
   }
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
     if (typeof column.value.header === 'string') return column.value.header;
-    const cell = this.cells().find((item) => item.column === column.value);
+    const cell = this.cells().find((item) => item.column() === column.value);
     return cell?.header ?? this.resolveHeader()?.(column.key) ?? column.key;
   }
 
