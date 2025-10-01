@@ -33,7 +33,6 @@ import {
   model,
   OnChanges,
   output,
-  signal,
   SimpleChanges,
   TemplateRef,
   viewChild,
