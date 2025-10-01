@@ -26,7 +26,6 @@ import {
   ElementRef,
   inject,
   input,
-  Input,
   model,
   OnChanges,
   output,
@@ -171,10 +170,18 @@ interface WattTableToolbarContext<T> {
   selector: '[wattTableCell]',
 })
 export class WattTableCellDirective<T> {
-  /** The WattTableColumn this template applies to. */
-  @Input('wattTableCell') column!: WattTableColumn<T>;
-  @Input('wattTableCellHeader') header?: string;
   templateRef = inject(TemplateRef<WattTableCellContext<T>>);
+
+  /**
+   * The WattTableColumn this template applies to.
+   */
+  column = input.required<WattTableColumn<T>>({ alias: 'wattTableCell' });
+
+  /**
+   * Optional header text for the column.
+   */
+  header = input<string>(undefined, { alias: 'wattTableCellHeader' });
+
   static ngTemplateContextGuard<T>(
     _directive: WattTableCellDirective<T>,
     context: unknown
@@ -479,13 +486,13 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumnTemplate(column: WattTableColumn<T>) {
-    return this.cells().find((item) => item.column === column)?.templateRef;
+    return this.cells().find((item) => item.column() === column)?.templateRef;
   }
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
     if (typeof column.value.header === 'string') return column.value.header;
-    const cell = this.cells().find((item) => item.column === column.value);
+    const cell = this.cells().find((item) => item.column() === column.value);
     return cell?.header ?? this.resolveHeader()?.(column.key) ?? column.key;
   }
 
