@@ -31,9 +31,7 @@ import {
   input,
   Input,
   model,
-  OnChanges,
   output,
-  SimpleChanges,
   TemplateRef,
   viewChild,
   viewChildren,
@@ -220,9 +218,10 @@ export class WattTableToolbarDirective<T> {
   templateUrl: './watt-table.component.html',
   host: {
     '[class.watt-table-variant-zebra]': 'variant() === "zebra"',
+    '[style.--watt-table-grid-template-columns]': 'sizing().join(" ")',
   },
 })
-export class WattTableComponent<T> implements OnChanges, AfterViewInit {
+export class WattTableComponent<T> implements AfterViewInit {
   /**
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
@@ -378,9 +377,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _expandableColumn = '__expandableColumn__';
 
   /** @ignore */
-  _element = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  /** @ignore */
   _datePipe = inject(WattDatePipe);
 
   protected hasFooter = computed(() => Object.values(this.columns()).some((c) => c.footer));
@@ -393,6 +389,22 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
       ...(this.isExpandable() ? [this._expandableColumn] : []),
       ...columns.filter((key) => this.columns()[key].expandable),
     ];
+  });
+
+  protected sizing = computed(() => {
+    const columns = this.columns();
+    return this.renderedColumns()
+      .filter((key) => !columns[key]?.expandable)
+      .map((key) => {
+        switch (key) {
+          case this._checkboxColumn:
+            return 'var(--watt-space-xl)';
+          case this._expandableColumn:
+            return 'min-content';
+          default:
+            return columns[key]?.size ?? 'auto';
+        }
+      });
   });
 
   /** @ignore */
@@ -441,32 +453,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
       if (cell instanceof Date) return cell.getTime();
       return cell as number;
     };
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
-      const displayedColumns = this.displayedColumns();
-      const sizing = Object.keys(this.columns())
-        .filter((key) => !displayedColumns || displayedColumns.includes(key))
-        .map((key) => this.columns()[key])
-        .filter((column) => !column.expandable)
-        .map((column) => column.size ?? 'auto');
-
-      if (this.selectable()) {
-        // Add space for extra checkbox column
-        sizing.unshift('var(--watt-space-xl)');
-      }
-
-      if (this.isExpandable()) {
-        // Add space for extra expandable column
-        sizing.push('min-content');
-      }
-
-      this._element.nativeElement.style.setProperty(
-        '--watt-table-grid-template-columns',
-        sizing.join(' ')
-      );
-    }
   }
 
   /**
