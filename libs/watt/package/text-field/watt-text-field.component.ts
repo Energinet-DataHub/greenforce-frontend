@@ -27,7 +27,8 @@ import {
   output,
   effect,
   viewChild,
-  model, signal,
+  model,
+  signal,
 } from '@angular/core';
 import {
   ControlValueAccessor,
