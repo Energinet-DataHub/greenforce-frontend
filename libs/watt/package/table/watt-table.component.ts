@@ -473,11 +473,6 @@ export class WattTableComponent<T> {
   }
 
   /** @ignore */
-  _getColumnHelperAction(column: KeyValue<string, WattTableColumn<T>>) {
-    return column.value.helperAction;
-  }
-
-  /** @ignore */
   _getColumnHeaderTooltip(column: KeyValue<string, WattTableColumn<T>>) {
     return column.value.tooltip;
   }
