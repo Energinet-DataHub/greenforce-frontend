@@ -541,9 +541,4 @@ export class WattTableComponent<T> implements AfterViewInit {
   }
 }
 
-export const WATT_TABLE = [
-  WattTableComponent,
-  WattTableCellDirective,
-  WattTableToolbarDirective,
-  WattTableToolbarSpacerComponent,
-];
+export const WATT_TABLE = [WattTableComponent, WattTableCellDirective, WattTableToolbarDirective];
