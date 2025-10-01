@@ -96,7 +96,7 @@ export class DhMoveInComponent extends WattTypedModal<{
 
   contactDetailsForm = this.fb.group<MoveInContactDetailsFormType>({
     legalContactSameAsCustomer: this.fb.control<boolean>(true),
-    legalContactName: this.fb.control<string>({ value: '', disabled: true }, [Validators.required]),
+    legalContactName: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
     legalContactTitle: this.fb.control<string>(''),
     legalContactPhone: this.fb.control<string>(''),
     legalContactMobile: this.fb.control<string>(''),
@@ -104,47 +104,22 @@ export class DhMoveInComponent extends WattTypedModal<{
     legalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
     legalAddressGroup: this.fb.group({
       streetName: this.fb.control<string>(
-        { value: this.addressDataInitialValue.streetName, disabled: true },
-        [Validators.required]
+        this.addressDataInitialValue.streetName,
+        Validators.required
       ),
-      buildingNumber: this.fb.control<string>({
-        value: this.addressDataInitialValue.buildingNumber,
-        disabled: true,
-      }),
-      floor: this.fb.control<string>({ value: this.addressDataInitialValue.floor, disabled: true }),
-      room: this.fb.control<string>({ value: this.addressDataInitialValue.room, disabled: true }),
-      postCode: this.fb.control<string>(
-        { value: this.addressDataInitialValue.postCode, disabled: true },
-        [Validators.required]
+      buildingNumber: this.fb.control<string>(this.addressDataInitialValue.buildingNumber),
+      floor: this.fb.control<string>(this.addressDataInitialValue.floor),
+      room: this.fb.control<string>(this.addressDataInitialValue.room),
+      postCode: this.fb.control<string>(this.addressDataInitialValue.postCode, Validators.required),
+      cityName: this.fb.control<string>(this.addressDataInitialValue.cityName, Validators.required),
+      countryCode: this.fb.control<string>(this.addressDataInitialValue.countryCode),
+      streetCode: this.fb.control<string>(this.addressDataInitialValue.streetCode),
+      citySubdivisionName: this.fb.control<string>(
+        this.addressDataInitialValue.citySubdivisionName
       ),
-      cityName: this.fb.control<string>(
-        { value: this.addressDataInitialValue.cityName, disabled: true },
-        [Validators.required]
-      ),
-      countryCode: this.fb.control<string>({
-        value: this.addressDataInitialValue.countryCode,
-        disabled: true,
-      }),
-      streetCode: this.fb.control<string>({
-        value: this.addressDataInitialValue.streetCode,
-        disabled: true,
-      }),
-      citySubdivisionName: this.fb.control<string>({
-        value: this.addressDataInitialValue.citySubdivisionName,
-        disabled: true,
-      }),
-      postBox: this.fb.control<string>({
-        value: this.addressDataInitialValue.postBox,
-        disabled: true,
-      }), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>({
-        value: this.addressDataInitialValue.municipalityCode,
-        disabled: true,
-      }),
-      darReference: this.fb.control<string>({
-        value: this.addressDataInitialValue.darReference,
-        disabled: true,
-      }),
+      postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
+      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode),
+      darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
     }),
     legalNameAddressProtection: this.fb.control<boolean>(false),
 
@@ -159,47 +134,22 @@ export class DhMoveInComponent extends WattTypedModal<{
     technicalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
     technicalAddressGroup: this.fb.group({
       streetName: this.fb.control<string>(
-        { value: this.addressDataInitialValue.streetName, disabled: true },
-        [Validators.required]
+        this.addressDataInitialValue.streetName,
+        Validators.required
       ),
-      buildingNumber: this.fb.control<string>({
-        value: this.addressDataInitialValue.buildingNumber,
-        disabled: true,
-      }),
-      floor: this.fb.control<string>({ value: this.addressDataInitialValue.floor, disabled: true }),
-      room: this.fb.control<string>({ value: this.addressDataInitialValue.room, disabled: true }),
-      postCode: this.fb.control<string>(
-        { value: this.addressDataInitialValue.postCode, disabled: true },
-        [Validators.required]
+      buildingNumber: this.fb.control<string>(this.addressDataInitialValue.buildingNumber),
+      floor: this.fb.control<string>(this.addressDataInitialValue.floor),
+      room: this.fb.control<string>(this.addressDataInitialValue.room),
+      postCode: this.fb.control<string>(this.addressDataInitialValue.postCode, Validators.required),
+      cityName: this.fb.control<string>(this.addressDataInitialValue.cityName, Validators.required),
+      countryCode: this.fb.control<string>(this.addressDataInitialValue.countryCode),
+      streetCode: this.fb.control<string>(this.addressDataInitialValue.streetCode),
+      citySubdivisionName: this.fb.control<string>(
+        this.addressDataInitialValue.citySubdivisionName
       ),
-      cityName: this.fb.control<string>(
-        { value: this.addressDataInitialValue.cityName, disabled: true },
-        [Validators.required]
-      ),
-      countryCode: this.fb.control<string>({
-        value: this.addressDataInitialValue.countryCode,
-        disabled: true,
-      }),
-      streetCode: this.fb.control<string>({
-        value: this.addressDataInitialValue.streetCode,
-        disabled: true,
-      }),
-      citySubdivisionName: this.fb.control<string>({
-        value: this.addressDataInitialValue.citySubdivisionName,
-        disabled: true,
-      }),
-      postBox: this.fb.control<string>({
-        value: this.addressDataInitialValue.postBox,
-        disabled: true,
-      }), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>({
-        value: this.addressDataInitialValue.municipalityCode,
-        disabled: true,
-      }),
-      darReference: this.fb.control<string>({
-        value: this.addressDataInitialValue.darReference,
-        disabled: true,
-      }),
+      postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
+      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode),
+      darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
     }),
     technicalNameAddressProtection: this.fb.control<boolean>(false),
   });
@@ -234,7 +184,7 @@ export class DhMoveInComponent extends WattTypedModal<{
       this.customerDetailsForm.addControl(
         'businessCustomer',
         this.fb.group({
-          companyName: this.fb.control<string>(''),
+          companyName: this.fb.control<string>('', Validators.required),
           cvr: this.fb.control<string>('', [Validators.required, dhCvrValidator()]),
         })
       );
@@ -260,6 +210,7 @@ export class DhMoveInComponent extends WattTypedModal<{
     // Only proceed if the checkbox is checked
     if (this.contactDetailsForm.controls.legalContactSameAsCustomer.value) {
       const name1 = this.name1Changed();
+
       if (name1 !== undefined) {
         this.contactDetailsForm.controls.legalContactName.setValue(name1);
         this.contactDetailsForm.controls.technicalContactName.setValue(name1);
@@ -269,6 +220,7 @@ export class DhMoveInComponent extends WattTypedModal<{
 
   private disableNameInputFromLegalContactSameAsCustomerEffect = effect(() => {
     const legalContactSameAsCustomer = this.legalContactSameAsCustomerChanged() ?? true;
+
     if (legalContactSameAsCustomer) {
       this.contactDetailsForm.controls.legalContactName.disable();
       this.contactDetailsForm.controls.legalContactName.setValue(
@@ -281,6 +233,7 @@ export class DhMoveInComponent extends WattTypedModal<{
 
   private disableNameInputFromTechnicalContactSameAsCustomerEffect = effect(() => {
     const technicalContactSameAsCustomer = this.technicalContactSameAsCustomerChanged() ?? true;
+
     if (technicalContactSameAsCustomer) {
       this.contactDetailsForm.controls.technicalContactName.disable();
       this.contactDetailsForm.controls.technicalContactName.setValue(
@@ -295,6 +248,7 @@ export class DhMoveInComponent extends WattTypedModal<{
     () => {
       const legalAddressSameAsMeteringPointAddress =
         this.legalAddressSameAsMeteringPointAddressChanged() ?? true;
+
       if (legalAddressSameAsMeteringPointAddress) {
         this.resetLegalAddressFormGroup(this.addressDataInitialValue);
         this.contactDetailsForm.controls.legalAddressGroup.disable();
@@ -308,6 +262,7 @@ export class DhMoveInComponent extends WattTypedModal<{
     () => {
       const technicalAddressSameAsMeteringPointAddress =
         this.technicalAddressSameAsMeteringPointAddressChanged() ?? true;
+
       if (technicalAddressSameAsMeteringPointAddress) {
         this.resetTechnicalAddressFormGroup(this.addressDataInitialValue);
         this.contactDetailsForm.controls.technicalAddressGroup.disable();
