@@ -18,33 +18,13 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 
 public static class ChargeDtoExtensions
 {
-    public static ChargeStatus GetStatus(this ChargeDto charge)
+    public static ChargeStatus GetStatus(this ChargeDto charge) => charge switch
     {
-        if (charge.ValidFromDateTime == charge.ValidToDateTime.GetValueOrDefault())
-        {
-            return ChargeStatus.Cancelled;
-        }
-
-        if (charge.ValidFromDateTime > DateTimeOffset.Now && charge.HasAnyPrices == false)
-        {
-            return ChargeStatus.Awaiting;
-        }
-
-        if (charge.ValidFromDateTime < DateTimeOffset.Now && (charge.ValidToDateTime.HasValue == false || charge.ValidToDateTime.Value > DateTimeOffset.Now) && charge.HasAnyPrices == false)
-        {
-            return ChargeStatus.MissingPriceSeries;
-        }
-
-        if (charge.ValidFromDateTime < DateTimeOffset.Now && (charge.ValidToDateTime.HasValue == false || charge.ValidToDateTime.Value > DateTimeOffset.Now) && charge.HasAnyPrices)
-        {
-            return ChargeStatus.Current;
-        }
-
-        if (charge.ValidFromDateTime < DateTimeOffset.Now && charge.ValidToDateTime.HasValue && charge.ValidToDateTime.Value < DateTimeOffset.Now)
-        {
-            return ChargeStatus.Closed;
-        }
-
-        return ChargeStatus.Invalid;
-    }
+        { ValidToDateTime: not null } c when c.ValidFromDateTime == c.ValidToDateTime => ChargeStatus.Cancelled,
+        { ValidToDateTime: not null } c when c.ValidToDateTime < DateTimeOffset.Now => ChargeStatus.Closed,
+        { HasAnyPrices: false } c when c.ValidFromDateTime > DateTimeOffset.Now => ChargeStatus.Awaiting,
+        { HasAnyPrices: false } c when c.ValidFromDateTime < DateTimeOffset.Now => ChargeStatus.MissingPriceSeries,
+        { HasAnyPrices: true } c when c.ValidFromDateTime < DateTimeOffset.Now => ChargeStatus.Current,
+        _ => ChargeStatus.Invalid,
+    };
 }

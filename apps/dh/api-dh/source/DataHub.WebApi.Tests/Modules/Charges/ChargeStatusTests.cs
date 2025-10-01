@@ -52,10 +52,10 @@ public class ChargeStatusTests
 
     public static IEnumerable<object[]> GetTestCases()
     {
-        yield return new object[] { "Cancelled same date", _sameDate, _sameDate, false };
+        yield return new object[] { "CancelledSameDate", _sameDate, _sameDate, false };
         yield return new object[] { "Closed", DateTimeOffset.Now.AddDays(-4), DateTimeOffset.Now.AddDays(-4), true };
         yield return new object[] { "Current", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(10), true };
-        yield return new object[] { "Missing prices series with end", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(2), false };
+        yield return new object[] { "MissingPricesSeriesWithEnd", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(2), false };
     }
 
     [Theory]
@@ -66,7 +66,7 @@ public class ChargeStatusTests
     [Fact]
     public async Task ChargeStatus_MissingPricesSeriesWithoutEndDate()
     {
-        await ExecuteTestAsync("Missing prices series end", DateTimeOffset.Now.AddDays(-5), null, false);
+        await ExecuteTestAsync("MissingPricesSeriesWithoutEndDate", DateTimeOffset.Now.AddDays(-5), null, false);
     }
 
     private static async Task ExecuteTestAsync(string testname, DateTimeOffset validFrom, DateTimeOffset? validTo, bool hasAnyPrices)
