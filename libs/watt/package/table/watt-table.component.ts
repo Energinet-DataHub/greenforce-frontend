@@ -18,12 +18,12 @@
 //#endregion
 import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
   computed,
   contentChild,
   contentChildren,
   Directive,
+  effect,
   ElementRef,
   inject,
   input,
@@ -226,7 +226,7 @@ export class WattTableToolbarDirective<T> {
     '[style.--watt-table-grid-template-columns]': 'sizing().join(" ")',
   },
 })
-export class WattTableComponent<T> implements AfterViewInit {
+export class WattTableComponent<T> {
   /**
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
@@ -428,25 +428,25 @@ export class WattTableComponent<T> implements AfterViewInit {
     return this.formatCellData(cell);
   }
 
-  ngAfterViewInit() {
-    const dataSource = this.dataSource();
-    if (dataSource === undefined) return;
+  constructor() {
+    effect(() => {
+      const dataSource = this.dataSource();
+      dataSource.sort = this.sort();
+      if (!(dataSource instanceof WattTableDataSource)) return;
+      dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
+        const column = this.columns()[sortHeaderId];
+        if (!column?.accessor) return '';
 
-    dataSource.sort = this.sort();
-    if (dataSource instanceof WattTableDataSource === false) return;
-    dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
-      const sortColumn = this.columns()[sortHeaderId];
-      if (!sortColumn?.accessor) return '';
+        // Access raw value for sorting, instead of applying default formatting.
+        const { accessor } = column;
+        const value = typeof accessor === 'function' ? accessor(row) : row[accessor];
 
-      // Access raw value for sorting, instead of applying default formatting.
-      const { accessor } = sortColumn;
-      const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
-
-      // Make sorting by text case insensitive.
-      if (typeof cell === 'string') return cell.toLowerCase();
-      if (cell instanceof Date) return cell.getTime();
-      return cell as number;
-    };
+        // Make sorting by text case insensitive.
+        if (typeof value === 'string') return value.toLowerCase();
+        if (value instanceof Date) return value.getTime();
+        return value as number;
+      };
+    });
   }
 
   /**
