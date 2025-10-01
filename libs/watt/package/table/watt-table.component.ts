@@ -413,19 +413,13 @@ export class WattTableComponent<T> {
       });
   });
 
-  /** @ignore */
-  private formatCellData(cell: unknown) {
-    if (!cell) return '—';
-    if (cell instanceof Date) return this._datePipe.transform(cell);
-    return cell;
-  }
-
-  /** @ignore */
-  private getCellData(row: T, column?: WattTableColumn<T>) {
-    if (!column?.accessor) return null;
-    const { accessor } = column;
-    const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
-    return this.formatCellData(cell);
+  /** Try to get cell data for a specific `column` and `row`. */
+  private getCellData(column: WattTableColumn<T>, row: T) {
+    return !column.accessor
+      ? null
+      : typeof column.accessor === 'function'
+        ? column.accessor(row)
+        : row[column.accessor];
   }
 
   constructor() {
@@ -435,14 +429,8 @@ export class WattTableComponent<T> {
       if (!(dataSource instanceof WattTableDataSource)) return;
       dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
         const column = this.columns()[sortHeaderId];
-        if (!column?.accessor) return '';
-
-        // Access raw value for sorting, instead of applying default formatting.
-        const { accessor } = column;
-        const value = typeof accessor === 'function' ? accessor(row) : row[accessor];
-
-        // Make sorting by text case insensitive.
-        if (typeof value === 'string') return value.toLowerCase();
+        const value = this.getCellData(column, row);
+        if (typeof value === 'string') return value.toLowerCase(); // case insensitive sorting
         if (value instanceof Date) return value.getTime();
         return value as number;
       };
@@ -474,7 +462,11 @@ export class WattTableComponent<T> {
 
   /** @ignore */
   _getColumnCell(column: KeyValue<string, WattTableColumn<T>>, row: T) {
-    return column.value.cell?.(row) ?? this.getCellData(row, column.value);
+    if (column.value.cell) return column.value.cell(row);
+    const cell = this.getCellData(column.value, row);
+    if (!cell) return '—';
+    if (cell instanceof Date) return this._datePipe.transform(cell);
+    return cell;
   }
 
   /** @ignore */
