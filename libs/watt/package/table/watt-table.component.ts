@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { SelectionModel } from '@angular/cdk/collections';
 import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
@@ -25,11 +24,9 @@ import {
   contentChild,
   contentChildren,
   Directive,
-  effect,
   ElementRef,
   inject,
   input,
-  Input,
   model,
   output,
   TemplateRef,
@@ -38,11 +35,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import type { Signal, TrackByFunction } from '@angular/core';
-import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { map, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDatePipe } from '@energinet/watt/core/date';
@@ -171,10 +168,18 @@ interface WattTableToolbarContext<T> {
   selector: '[wattTableCell]',
 })
 export class WattTableCellDirective<T> {
-  /** The WattTableColumn this template applies to. */
-  @Input('wattTableCell') column!: WattTableColumn<T>;
-  @Input('wattTableCellHeader') header?: string;
   templateRef = inject(TemplateRef<WattTableCellContext<T>>);
+
+  /**
+   * The WattTableColumn this template applies to.
+   */
+  column = input.required<WattTableColumn<T>>({ alias: 'wattTableCell' });
+
+  /**
+   * Optional header text for the column.
+   */
+  header = input<string>(undefined, { alias: 'wattTableCellHeader' });
+
   static ngTemplateContextGuard<T>(
     _directive: WattTableCellDirective<T>,
     context: unknown
@@ -290,9 +295,9 @@ export class WattTableComponent<T> implements AfterViewInit {
   selectable = input(false);
 
   /**
-   * Sets the initially selected rows. Only works when selectable is `true`.
+   * Sets the selected rows. Only applicable when selectable is `true`.
    */
-  initialSelection = input<T[]>([]);
+  selection = model<T[]>([]);
 
   /**
    * Set to true to disable row hover highlight.
@@ -336,11 +341,6 @@ export class WattTableComponent<T> implements AfterViewInit {
   trackBy = input<TrackByFunction<T> | keyof T>();
 
   /**
-   * Emits whenever the selection updates. Only works when selectable is `true`.
-   */
-  selectionChange = output<T[]>();
-
-  /**
    * @ignore
    * The `observed` boolean from the `Subject` is used to determine if a row is
    * clickable or not. This is available on `EventEmitter`, but not on `output`,
@@ -367,8 +367,14 @@ export class WattTableComponent<T> implements AfterViewInit {
   /** @ignore */
   _animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
 
-  /** @ignore */
-  _selectionModel = new SelectionModel<T>(true, []);
+  // Selectable
+  protected filterSelectionBy = (rows: T[]) => rows.filter((row) => this.selection().includes(row));
+  protected getSelectionState = () => {
+    const filteredData = this.dataSource().filteredData;
+    const filteredSelection = this.filterSelectionBy(filteredData);
+    if (!filteredSelection.length) return false;
+    return filteredSelection.length === this.dataSource().filteredData.length ? true : null;
+  };
 
   /** @ignore */
   _checkboxColumn = '__checkboxColumn__';
@@ -422,18 +428,6 @@ export class WattTableComponent<T> implements AfterViewInit {
     return this.formatCellData(cell);
   }
 
-  constructor() {
-    effect(() => {
-      this._selectionModel.setSelection(...(this.initialSelection() ?? []));
-    });
-    this._selectionModel.changed
-      .pipe(
-        map(() => this._selectionModel.selected),
-        takeUntilDestroyed()
-      )
-      .subscribe((selection) => this.selectionChange.emit(selection));
-  }
-
   ngAfterViewInit() {
     const dataSource = this.dataSource();
     if (dataSource === undefined) return;
@@ -456,44 +450,25 @@ export class WattTableComponent<T> implements AfterViewInit {
   }
 
   /**
-   * Clears the selection. Only works when selectable is `true`.
+   * Clears the selection.
    */
-  clearSelection() {
-    if (this.selectable()) {
-      this._selectionModel.clear();
-    }
-  }
+  clearSelection = () => this.selection.set([]);
 
-  /** @ignore */
-  get _columnSelection() {
-    if (this.dataSource().filteredData.length === 0) return false;
-    return this.dataSource().filteredData.every((row) => this._selectionModel.isSelected(row));
-  }
-
-  /** @ignore */
-  set _columnSelection(value) {
-    if (value) {
-      this._selectionModel.setSelection(...this.dataSource().filteredData);
-    } else {
-      this.clearSelection();
-    }
-  }
-
-  get _filteredSelection() {
-    return this._selectionModel.selected.filter((row) =>
-      this.dataSource().filteredData.includes(row)
-    );
-  }
+  /**
+   * Toggles the selection of a row.
+   */
+  toggleSelection = (row: T) =>
+    this.selection.update((s) => (s.includes(row) ? s.filter((r) => r !== row) : s.concat(row)));
 
   /** @ignore */
   _getColumnTemplate(column: WattTableColumn<T>) {
-    return this.cells().find((item) => item.column === column)?.templateRef;
+    return this.cells().find((item) => item.column() === column)?.templateRef;
   }
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
     if (typeof column.value.header === 'string') return column.value.header;
-    const cell = this.cells().find((item) => item.column === column.value);
+    const cell = this.cells().find((item) => item.column() === column.value);
     return cell?.header ?? this.resolveHeader()?.(column.key) ?? column.key;
   }
 
