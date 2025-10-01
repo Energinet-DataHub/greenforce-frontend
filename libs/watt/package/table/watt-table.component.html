@@ -115,7 +115,7 @@ limitations under the License.
         }
       </td>
 
-      @if (_hasFooter()) {
+      @if (hasFooter()) {
         <td
           mat-footer-cell
           *matFooterCellDef
@@ -152,7 +152,7 @@ limitations under the License.
     <tr mat-footer-row *matFooterRowDef="['spacer']"></tr>
   }
 
-  @if (_hasFooter()) {
+  @if (hasFooter()) {
     <tr
       mat-footer-row
       [class.watt-table-hide-footer]="loading() || dataSource().filteredData.length === 0"

@@ -21,6 +21,7 @@ import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/comm
 import {
   AfterViewInit,
   Component,
+  computed,
   contentChild,
   contentChildren,
   Directive,
@@ -383,8 +384,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /** @ignore */
   _datePipe = inject(WattDatePipe);
 
-  /** @ignore */
-  _hasFooter = signal(false);
+  protected hasFooter = computed(() => Object.values(this.columns()).some((c) => c.footer));
 
   /** @ignore */
   private formatCellData(cell: unknown) {
@@ -399,11 +399,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     const { accessor } = column;
     const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
     return this.formatCellData(cell);
-  }
-
-  /** @ignore */
-  private checkHasFooter(): void {
-    this._hasFooter.set(Object.values(this.columns()).some((column) => !!column.footer));
   }
 
   constructor() {
@@ -422,7 +417,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     const dataSource = this.dataSource();
     if (dataSource === undefined) return;
 
-    this.checkHasFooter();
     dataSource.sort = this.sort();
     if (dataSource instanceof WattTableDataSource === false) return;
     dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
@@ -463,8 +457,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
         '--watt-table-grid-template-columns',
         sizing.join(' ')
       );
-
-      this.checkHasFooter();
     }
   }
 
