@@ -81,7 +81,7 @@ limitations under the License.
         >
           {{ _getColumnHeader(column) }}
         </div>
-        @if (_getColumnHeaderTooltip(column); as tooltip) {
+        @if (column.value.tooltip; as tooltip) {
           <watt-icon [title]="tooltip" name="info" />
         }
       </th>
