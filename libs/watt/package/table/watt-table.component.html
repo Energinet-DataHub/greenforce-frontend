@@ -134,11 +134,11 @@ limitations under the License.
   </ng-container>
 
   @if (!hideColumnHeaders()) {
-    <tr mat-header-row *matHeaderRowDef="_getColumns()"></tr>
+    <tr mat-header-row *matHeaderRowDef="renderedColumns()"></tr>
   }
   <tr
     mat-row
-    *matRowDef="let row; columns: _getColumns()"
+    *matRowDef="let row; columns: renderedColumns()"
     [attr.aria-selected]="row === activeRow()"
     [ngClass]="{
       'watt-table-highlight-row': !disabled() && !suppressRowHoverHighlight(),
@@ -156,7 +156,7 @@ limitations under the License.
     <tr
       mat-footer-row
       [class.watt-table-hide-footer]="loading() || dataSource().filteredData.length === 0"
-      *matFooterRowDef="_getColumns(); sticky: stickyFooter()"
+      *matFooterRowDef="renderedColumns(); sticky: stickyFooter()"
     ></tr>
   }
 
@@ -164,7 +164,7 @@ limitations under the License.
     @if (loading()) {
       @for (i of [1, 2, 3]; track i) {
         <tr class="mat-mdc-row">
-          @for (_ of _getColumns(); track _; let i = $index) {
+          @for (_ of renderedColumns(); track _; let i = $index) {
             <td class="mat-mdc-cell" [class.watt-table-loading-cell]="i > 0 || !selectable()"></td>
           }
         </tr>

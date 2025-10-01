@@ -386,6 +386,15 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   protected hasFooter = computed(() => Object.values(this.columns()).some((c) => c.footer));
   protected isExpandable = computed(() => Object.values(this.columns()).some((c) => c.expandable));
+  protected renderedColumns = computed(() => {
+    const columns = this.displayedColumns() ?? Object.keys(this.columns());
+    return [
+      ...(this.selectable() ? [this._checkboxColumn] : []),
+      ...columns.filter((key) => !this.columns()[key].expandable),
+      ...(this.isExpandable() ? [this._expandableColumn] : []),
+      ...columns.filter((key) => this.columns()[key].expandable),
+    ];
+  });
 
   /** @ignore */
   private formatCellData(cell: unknown) {
@@ -489,17 +498,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     return this._selectionModel.selected.filter((row) =>
       this.dataSource().filteredData.includes(row)
     );
-  }
-
-  /** @ignore */
-  _getColumns() {
-    const columns = this.displayedColumns() ?? Object.keys(this.columns());
-    return [
-      ...(this.selectable() ? [this._checkboxColumn] : []),
-      ...columns.filter((key) => !this.columns()[key].expandable),
-      ...(this.isExpandable() ? [this._expandableColumn] : []),
-      ...columns.filter((key) => this.columns()[key].expandable),
-    ];
   }
 
   /** @ignore */
