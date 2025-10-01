@@ -94,7 +94,7 @@ limitations under the License.
         class="watt-table-align-{{ column.value.align ?? 'left' }} {{ column.value.dataCellClass }}"
         (click)="!column.value.expandable && _onRowClick(row)"
       >
-        @if (_isExpandable()) {
+        @if (isExpandable()) {
           @defer (when !column.value.expandable || expanded().includes(row)) {
             @if (_getColumnTemplate(column.value); as template) {
               <div class="watt-table-cell-wrapper">

@@ -385,6 +385,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _datePipe = inject(WattDatePipe);
 
   protected hasFooter = computed(() => Object.values(this.columns()).some((c) => c.footer));
+  protected isExpandable = computed(() => Object.values(this.columns()).some((c) => c.expandable));
 
   /** @ignore */
   private formatCellData(cell: unknown) {
@@ -448,7 +449,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
         sizing.unshift('var(--watt-space-xl)');
       }
 
-      if (this._isExpandable()) {
+      if (this.isExpandable()) {
         // Add space for extra expandable column
         sizing.push('min-content');
       }
@@ -496,7 +497,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     return [
       ...(this.selectable() ? [this._checkboxColumn] : []),
       ...columns.filter((key) => !this.columns()[key].expandable),
-      ...(this._isExpandable() ? [this._expandableColumn] : []),
+      ...(this.isExpandable() ? [this._expandableColumn] : []),
       ...columns.filter((key) => this.columns()[key].expandable),
     ];
   }
@@ -545,14 +546,9 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   /** @ignore */
-  _isExpandable() {
-    return Object.values(this.columns()).some((column) => column.expandable);
-  }
-
-  /** @ignore */
   _onRowClick(row: T) {
     if (this.disabled() || window.getSelection()?.toString() !== '') return;
-    if (this._isExpandable()) {
+    if (this.isExpandable()) {
       this.expanded.update((rows) =>
         rows.includes(row) ? rows.filter((r) => r != row) : [...rows, row]
       );
