@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using HotChocolate.Data.Sorting;
 
@@ -27,6 +28,6 @@ public sealed class ChargesSortType : SortInputType<ChargeDto>
         descriptor.Field(f => f.ChargeName).Name("name");
         descriptor.Field(f => f.ChargeType).Name("type");
         descriptor.Field(f => f.ChargeOwner).Name("owner");
-        descriptor.Field(f => f.Status);
+        descriptor.Field(f => f.GetStatus()).Name("status");
     }
 }
