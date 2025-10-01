@@ -358,6 +358,20 @@
     "3": "Immediate settlement (3)",
     "6": "Yearly settlement (6)"
   },
+  "charges": {
+    "charges": {
+      "topBarTitle": "Prices",
+      "table": {
+        "columns": {
+          "id": "ID",
+          "type": "Type",
+          "name": "Name",
+          "owner": "Owner",
+          "status": "Status"
+        }
+      }
+    }
+  },
   "meteringPoint": {
     "breadcrumb": "Search metering point",
     "search": {
@@ -675,6 +689,7 @@
           "D29": "Secondary (D29)"
         }
       },
+      "success": "Move-in is now registered",
       "save": "Customer move-in"
     }
   },

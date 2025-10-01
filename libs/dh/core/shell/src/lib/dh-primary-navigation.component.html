@@ -33,6 +33,14 @@ limitations under the License.
     >
   </watt-nav-list>
 
+  <ng-container *dhReleaseToggle="'PM58-PRICES-UI'">
+    <watt-nav-list *dhFeatureFlag="'charges'">
+      <watt-nav-list-item *dhPermissionRequired="['charges:view']" [link]="getLink('charges')">{{
+        transloco("prices")
+      }}</watt-nav-list-item>
+    </watt-nav-list>
+  </ng-container>
+
   <watt-nav-list [title]="transloco('messageArchive.menuGroupLabel')" [expandable]="true">
     <watt-nav-list-item [link]="getLink('message-archive')">{{
       transloco("messageArchive.messageArchive")
