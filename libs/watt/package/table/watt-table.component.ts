@@ -457,7 +457,7 @@ export class WattTableComponent<T> {
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
     if (typeof column.value.header === 'string') return column.value.header;
     const cell = this.cells().find((item) => item.column() === column.value);
-    return cell?.header ?? this.resolveHeader()?.(column.key) ?? column.key;
+    return cell?.header() ?? this.resolveHeader()?.(column.key) ?? column.key;
   }
 
   /** @ignore */
