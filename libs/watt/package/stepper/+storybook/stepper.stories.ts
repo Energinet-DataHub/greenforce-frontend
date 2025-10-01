@@ -72,6 +72,11 @@ export const Modal: StoryFn = (args) => ({
   template: `<watt-stepper-modal-example />`,
 });
 
+export const BigModal: StoryFn = (args) => ({
+  props: args,
+  template: `<watt-stepper-modal-example [isBig]="true" />`,
+});
+
 Stepper.parameters = {
   docs: {
     source: {

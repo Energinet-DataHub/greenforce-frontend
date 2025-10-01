@@ -87,6 +87,7 @@
       "actions";
 
     .watt-stepper-content-wrapper {
+      max-height: 75vh;
       align-self: stretch;
       grid-area: content;
       overflow: auto;

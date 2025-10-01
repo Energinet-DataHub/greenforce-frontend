@@ -16,26 +16,28 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
+import { Component, TemplateRef, ViewChild, inject, viewChild, input } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 
 import { WATT_STEPPER } from '..';
 import { WattButtonComponent } from '../../button';
-import { WattModalComponent } from '../../modal/watt-modal.component';
 import { StepperExampleComponent } from './stepper.example.component';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL } from '../../modal/watt-modal.component';
 
 @Component({
   selector: 'watt-stepper-modal-example',
   templateUrl: './stepper.modal.example.component.html',
   imports: [
     WATT_STEPPER,
+    WATT_MODAL,
     ReactiveFormsModule,
     WattButtonComponent,
-    WattModalComponent,
     StepperExampleComponent,
     MatButtonModule,
   ],
+  providers: [WattModalService]
 })
 export class StepperModalExampleComponent {
   formBuilder = inject(FormBuilder);
@@ -45,8 +47,8 @@ export class StepperModalExampleComponent {
   });
   address = this.formBuilder.group({ street: [''], city: [''] });
   email = this.formBuilder.group({ email: [''] });
-  @ViewChild('modal')
-  modal!: TemplateRef<Element>;
+  modal = viewChild<TemplateRef<Element>>('modal');
+  isBig = input<boolean>(false);
 
   complete(): void {
     console.log('completed');
