@@ -115,55 +115,54 @@ export class DhMeasurementsNavigationComponent {
     effect(() => {
       const navigateTo = this.navigateTo();
       const currentView = this.currentView();
-      const params = new URLSearchParams(this.route.snapshot.queryParams['filters']);
 
-      let filters = null;
+      if (!navigateTo) return;
 
-      if (params.size > 0) {
-        if (navigateTo === 'year' && currentView === 'month') {
-          const yearMonth = params.get('yearMonth');
-          const year = dayjs(yearMonth).format('YYYY');
-          filters = qs.stringify({ year });
-        }
+      const filters = this.calculateFilters(navigateTo, currentView);
 
-        if (navigateTo === 'month' && currentView === 'year') {
-          const year = params.get('year');
-          const yearMonth = dayjs(year).startOf('month').format('YYYY-MM');
-          filters = qs.stringify({ yearMonth });
-        }
-
-        if (navigateTo === 'month' && currentView === 'day') {
-          const date = params.get('date');
-          const yearMonth = dayjs(date).format('YYYY-MM');
-          filters = qs.stringify({ yearMonth });
-        }
-
-        if (navigateTo === 'day' && currentView === 'month') {
-          const yearMonth = params.get('yearMonth');
-          const date = dayjs(yearMonth).startOf('month').format('YYYY-MM-DD');
-          filters = qs.stringify({ date });
-        }
-
-        if (navigateTo === 'day' && currentView === 'year') {
-          const year = params.get('year');
-          const date = dayjs(year).startOf('year').format('YYYY-MM-DD');
-          filters = qs.stringify({ date });
-        }
-
-        if (navigateTo === 'year' && currentView === 'day') {
-          const date = params.get('date');
-          const year = dayjs(date).format('YYYY');
-          filters = qs.stringify({ year });
-        }
-      }
-
-      if (navigateTo) {
-        this.router.navigate([navigateTo], {
-          relativeTo: this.route,
-          queryParams: { filters },
-          queryParamsHandling: 'merge',
-        });
-      }
+      this.router.navigate([navigateTo], {
+        relativeTo: this.route,
+        queryParams: filters ? { filters } : {},
+        queryParamsHandling: 'merge',
+      });
     });
+  }
+
+  private calculateFilters(navigateTo: string, currentView: string | undefined): string | null {
+    const params = new URLSearchParams(this.route.snapshot.queryParams['filters']);
+    if (params.size === 0) return null;
+
+    const navigationMap = this.getNavigationMap(params);
+    const key = `${navigateTo}_${currentView}`;
+
+    return navigationMap[key] || null;
+  }
+
+  private getNavigationMap(params: URLSearchParams): Record<string, string> {
+    return {
+      year_month: qs.stringify({
+        year: dayjs(params.get('yearMonth')).format('YYYY'),
+      }),
+
+      month_year: qs.stringify({
+        yearMonth: dayjs(params.get('year')).startOf('month').format('YYYY-MM'),
+      }),
+
+      month_day: qs.stringify({
+        yearMonth: dayjs(params.get('date')).format('YYYY-MM'),
+      }),
+
+      day_month: qs.stringify({
+        date: dayjs(params.get('yearMonth')).startOf('month').format('YYYY-MM-DD'),
+      }),
+
+      day_year: qs.stringify({
+        date: dayjs(params.get('year')).startOf('year').format('YYYY-MM-DD'),
+      }),
+
+      year_day: qs.stringify({
+        year: dayjs(params.get('date')).format('YYYY'),
+      }),
+    };
   }
 }
