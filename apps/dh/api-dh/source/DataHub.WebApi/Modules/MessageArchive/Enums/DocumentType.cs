@@ -32,4 +32,5 @@ public enum DocumentType
     NotifyWholesaleServices,
     ReminderOfMissingMeasurements,
     UpdateChargeLinks,
+    ConfirmRequestChangeBillingMasterData,
 }
