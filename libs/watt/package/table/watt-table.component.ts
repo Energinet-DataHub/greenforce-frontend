@@ -361,10 +361,10 @@ export class WattTableComponent<T> {
   protected cells = contentChildren(WattTableCellDirective<T>);
   protected toolbar = contentChild(WattTableToolbarDirective<T>);
   protected sort = viewChild(MatSort);
-  protected tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
 
-  /** @ignore */
-  _animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
+  // Enables animation for expanding/collapsing cells
+  protected tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
+  protected animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
 
   // Selectable
   protected filterSelectionBy = (rows: T[]) => rows.filter((row) => this.selection().includes(row));
