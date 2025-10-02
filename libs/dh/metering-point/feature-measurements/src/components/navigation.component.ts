@@ -119,16 +119,42 @@ export class DhMeasurementsNavigationComponent {
 
       let filters = null;
 
-      if (params.size > 0 && navigateTo === 'month' && currentView === 'day') {
-        const date = params.get('date');
-        const yearMonth = dayjs(date).format('YYYY-MM');
-        filters = qs.stringify({ yearMonth });
-      }
+      if (params.size > 0) {
+        if (navigateTo === 'year' && currentView === 'month') {
+          const yearMonth = params.get('yearMonth');
+          const year = dayjs(yearMonth).format('YYYY');
+          filters = qs.stringify({ year });
+        }
 
-      if (params.size > 0 && navigateTo === 'year' && currentView === 'month') {
-        const yearMonth = params.get('yearMonth');
-        const year = dayjs(yearMonth).format('YYYY');
-        filters = qs.stringify({ year });
+        if (navigateTo === 'month' && currentView === 'year') {
+          const year = params.get('year');
+          const yearMonth = dayjs(year).startOf('month').format('YYYY-MM');
+          filters = qs.stringify({ yearMonth });
+        }
+
+        if (navigateTo === 'month' && currentView === 'day') {
+          const date = params.get('date');
+          const yearMonth = dayjs(date).format('YYYY-MM');
+          filters = qs.stringify({ yearMonth });
+        }
+
+        if (navigateTo === 'day' && currentView === 'month') {
+          const yearMonth = params.get('yearMonth');
+          const date = dayjs(yearMonth).startOf('month').format('YYYY-MM-DD');
+          filters = qs.stringify({ date });
+        }
+
+        if (navigateTo === 'day' && currentView === 'year') {
+          const year = params.get('year');
+          const date = dayjs(year).startOf('year').format('YYYY-MM-DD');
+          filters = qs.stringify({ date });
+        }
+
+        if (navigateTo === 'year' && currentView === 'day') {
+          const date = params.get('date');
+          const year = dayjs(date).format('YYYY');
+          filters = qs.stringify({ year });
+        }
       }
 
       if (navigateTo) {
