@@ -27,7 +27,7 @@ limitations under the License.
   (matSortChange)="sortChange.emit($event)"
 >
   @if (selectable()) {
-    <ng-container [matColumnDef]="_checkboxColumn" [sticky]="true">
+    <ng-container [matColumnDef]="checkboxColumn" [sticky]="true">
       <th mat-header-cell *matHeaderCellDef class="watt-table-checkbox-cell">
         <watt-checkbox
           [ngModel]="getSelectionState()"
@@ -44,7 +44,7 @@ limitations under the License.
     </ng-container>
   }
 
-  <ng-container [matColumnDef]="_expandableColumn">
+  <ng-container [matColumnDef]="expandableColumn">
     <th mat-header-cell *matHeaderCellDef></th>
     <td
       #td

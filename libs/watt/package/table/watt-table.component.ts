@@ -376,9 +376,9 @@ export class WattTableComponent<T> {
     return filteredSelection.length === this.dataSource().filteredData.length ? true : null;
   };
 
-  /** @ignore */
-  _checkboxColumn = '__checkboxColumn__';
-  _expandableColumn = '__expandableColumn__';
+  // Unique names for special columns
+  protected checkboxColumn = '__checkboxColumn__';
+  protected expandableColumn = '__expandableColumn__';
 
   /** @ignore */
   _datePipe = inject(WattDatePipe);
@@ -388,9 +388,9 @@ export class WattTableComponent<T> {
   protected renderedColumns = computed(() => {
     const columns = this.displayedColumns() ?? Object.keys(this.columns());
     return [
-      ...(this.selectable() ? [this._checkboxColumn] : []),
+      ...(this.selectable() ? [this.checkboxColumn] : []),
       ...columns.filter((key) => !this.columns()[key].expandable),
-      ...(this.isExpandable() ? [this._expandableColumn] : []),
+      ...(this.isExpandable() ? [this.expandableColumn] : []),
       ...columns.filter((key) => this.columns()[key].expandable),
     ];
   });
@@ -401,9 +401,9 @@ export class WattTableComponent<T> {
       .filter((key) => !columns[key]?.expandable)
       .map((key) => {
         switch (key) {
-          case this._checkboxColumn:
+          case this.checkboxColumn:
             return 'var(--watt-space-xl)';
-          case this._expandableColumn:
+          case this.expandableColumn:
             return 'min-content';
           default:
             return columns[key]?.size ?? 'auto';
