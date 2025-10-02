@@ -21,8 +21,10 @@ concurrency:
   cancel-in-progress: true
 
 env:
+    # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
   NX_CI_EXECUTION_ID: ${{ github.run_id }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 on:
   pull_request:
