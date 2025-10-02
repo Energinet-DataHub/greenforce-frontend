@@ -438,9 +438,9 @@ export class WattTableComponent<T> {
   }
 
   /**
-   * Clears the selection.
+   * Clears the selection, emitting `selectionChange` if `selection` was not empty.
    */
-  clearSelection = () => this.selection.set([]);
+  clearSelection = () => this.selection.update((s) => (!s.length ? s : []));
 
   /**
    * Toggles the selection of a row.
