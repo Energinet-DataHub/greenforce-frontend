@@ -408,53 +408,46 @@ export class WattTableComponent<T> {
   });
 
   /** Try to get cell data for a specific `column` and `row`. */
-  private getCellData(column: WattTableColumn<T>, row: T) {
+  private getCellData = (column: WattTableColumn<T>, row: T) => {
     return !column.accessor
       ? null
       : typeof column.accessor === 'function'
         ? column.accessor(row)
         : row[column.accessor];
-  }
+  };
 
-  /** @ignore */
-  _getColumnTemplate(column: WattTableColumn<T>) {
-    return this.cells().find((item) => item.column() === column)?.templateRef;
-  }
+  protected getColumnTemplate = (column: WattTableColumn<T>) =>
+    this.cells().find((item) => item.column() === column)?.templateRef;
 
-  /** @ignore */
-  _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
+  protected getColumnHeader = (column: KeyValue<string, WattTableColumn<T>>) => {
     if (typeof column.value.header === 'string') return column.value.header;
     const cell = this.cells().find((item) => item.column() === column.value);
     return cell?.header() ?? this.resolveHeader()?.(column.key) ?? column.key;
-  }
+  };
 
-  /** @ignore */
-  _getColumnCell(column: KeyValue<string, WattTableColumn<T>>, row: T) {
-    if (column.value.cell) return column.value.cell(row);
-    const cell = this.getCellData(column.value, row);
+  protected getColumnCell = (column: WattTableColumn<T>, row: T) => {
+    if (column.cell) return column.cell(row);
+    const cell = this.getCellData(column, row);
     if (!cell) return '—';
     if (cell instanceof Date) return wattFormatDate(cell);
     return cell;
-  }
+  };
 
-  /** @ignore */
-  _getRowKey = (index: number, row: T) => {
+  protected getRowKey = (index: number, row: T) => {
     const trackBy = this.trackBy();
     if (typeof trackBy === 'string') return row[trackBy];
     if (typeof trackBy === 'function') return trackBy(index, row);
     return this.dataSource().data.indexOf(row);
   };
 
-  /** @ignore */
-  _isActiveRow(row: T) {
+  protected isActiveRow = (row: T) => {
     const activeRow = this.activeRow();
     const activeRowComparator = this.activeRowComparator();
     if (!activeRow) return false;
     return activeRowComparator ? activeRowComparator(row, activeRow) : row === activeRow;
-  }
+  };
 
-  /** @ignore */
-  _onRowClick(row: T) {
+  protected onRowClick = (row: T) => {
     if (this.disabled() || window.getSelection()?.toString() !== '') return;
     if (this.isExpandable()) {
       this.expanded.update((rows) =>
@@ -463,7 +456,7 @@ export class WattTableComponent<T> {
     }
 
     this.rowClick$.next(row);
-  }
+  };
 
   constructor() {
     effect(() => {
