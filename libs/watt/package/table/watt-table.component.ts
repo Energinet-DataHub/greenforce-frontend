@@ -18,20 +18,17 @@
 //#endregion
 import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
+  computed,
   contentChild,
   contentChildren,
   Directive,
+  effect,
   ElementRef,
   inject,
   input,
-  Input,
   model,
-  OnChanges,
   output,
-  signal,
-  SimpleChanges,
   TemplateRef,
   viewChild,
   viewChildren,
@@ -171,10 +168,18 @@ interface WattTableToolbarContext<T> {
   selector: '[wattTableCell]',
 })
 export class WattTableCellDirective<T> {
-  /** The WattTableColumn this template applies to. */
-  @Input('wattTableCell') column!: WattTableColumn<T>;
-  @Input('wattTableCellHeader') header?: string;
   templateRef = inject(TemplateRef<WattTableCellContext<T>>);
+
+  /**
+   * The WattTableColumn this template applies to.
+   */
+  column = input.required<WattTableColumn<T>>({ alias: 'wattTableCell' });
+
+  /**
+   * Optional header text for the column.
+   */
+  header = input<string>(undefined, { alias: 'wattTableCellHeader' });
+
   static ngTemplateContextGuard<T>(
     _directive: WattTableCellDirective<T>,
     context: unknown
@@ -218,9 +223,10 @@ export class WattTableToolbarDirective<T> {
   templateUrl: './watt-table.component.html',
   host: {
     '[class.watt-table-variant-zebra]': 'variant() === "zebra"',
+    '[style.--watt-table-grid-template-columns]': 'sizing().join(" ")',
   },
 })
-export class WattTableComponent<T> implements OnChanges, AfterViewInit {
+export class WattTableComponent<T> {
   /**
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
@@ -377,82 +383,58 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _expandableColumn = '__expandableColumn__';
 
   /** @ignore */
-  _element = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  /** @ignore */
   _datePipe = inject(WattDatePipe);
 
-  /** @ignore */
-  _hasFooter = signal(false);
+  protected hasFooter = computed(() => Object.values(this.columns()).some((c) => c.footer));
+  protected isExpandable = computed(() => Object.values(this.columns()).some((c) => c.expandable));
+  protected renderedColumns = computed(() => {
+    const columns = this.displayedColumns() ?? Object.keys(this.columns());
+    return [
+      ...(this.selectable() ? [this._checkboxColumn] : []),
+      ...columns.filter((key) => !this.columns()[key].expandable),
+      ...(this.isExpandable() ? [this._expandableColumn] : []),
+      ...columns.filter((key) => this.columns()[key].expandable),
+    ];
+  });
 
-  /** @ignore */
-  private formatCellData(cell: unknown) {
-    if (!cell) return '—';
-    if (cell instanceof Date) return this._datePipe.transform(cell);
-    return cell;
+  protected sizing = computed(() => {
+    const columns = this.columns();
+    return this.renderedColumns()
+      .filter((key) => !columns[key]?.expandable)
+      .map((key) => {
+        switch (key) {
+          case this._checkboxColumn:
+            return 'var(--watt-space-xl)';
+          case this._expandableColumn:
+            return 'min-content';
+          default:
+            return columns[key]?.size ?? 'auto';
+        }
+      });
+  });
+
+  /** Try to get cell data for a specific `column` and `row`. */
+  private getCellData(column: WattTableColumn<T>, row: T) {
+    return !column.accessor
+      ? null
+      : typeof column.accessor === 'function'
+        ? column.accessor(row)
+        : row[column.accessor];
   }
 
-  /** @ignore */
-  private getCellData(row: T, column?: WattTableColumn<T>) {
-    if (!column?.accessor) return null;
-    const { accessor } = column;
-    const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
-    return this.formatCellData(cell);
-  }
-
-  /** @ignore */
-  private checkHasFooter(): void {
-    this._hasFooter.set(Object.values(this.columns()).some((column) => !!column.footer));
-  }
-
-  ngAfterViewInit() {
-    const dataSource = this.dataSource();
-    if (dataSource === undefined) return;
-
-    this.checkHasFooter();
-    dataSource.sort = this.sort();
-    if (dataSource instanceof WattTableDataSource === false) return;
-    dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
-      const sortColumn = this.columns()[sortHeaderId];
-      if (!sortColumn?.accessor) return '';
-
-      // Access raw value for sorting, instead of applying default formatting.
-      const { accessor } = sortColumn;
-      const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
-
-      // Make sorting by text case insensitive.
-      if (typeof cell === 'string') return cell.toLowerCase();
-      if (cell instanceof Date) return cell.getTime();
-      return cell as number;
-    };
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
-      const displayedColumns = this.displayedColumns();
-      const sizing = Object.keys(this.columns())
-        .filter((key) => !displayedColumns || displayedColumns.includes(key))
-        .map((key) => this.columns()[key])
-        .filter((column) => !column.expandable)
-        .map((column) => column.size ?? 'auto');
-
-      if (this.selectable()) {
-        // Add space for extra checkbox column
-        sizing.unshift('var(--watt-space-xl)');
-      }
-
-      if (this._isExpandable()) {
-        // Add space for extra expandable column
-        sizing.push('min-content');
-      }
-
-      this._element.nativeElement.style.setProperty(
-        '--watt-table-grid-template-columns',
-        sizing.join(' ')
-      );
-
-      this.checkHasFooter();
-    }
+  constructor() {
+    effect(() => {
+      const dataSource = this.dataSource();
+      dataSource.sort = this.sort();
+      if (!(dataSource instanceof WattTableDataSource)) return;
+      dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
+        const column = this.columns()[sortHeaderId];
+        const value = this.getCellData(column, row);
+        if (typeof value === 'string') return value.toLowerCase(); // case insensitive sorting
+        if (value instanceof Date) return value.getTime();
+        return value as number;
+      };
+    });
   }
 
   /**
@@ -467,41 +449,24 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     this.selection.update((s) => (s.includes(row) ? s.filter((r) => r !== row) : s.concat(row)));
 
   /** @ignore */
-  _getColumns() {
-    const columns = this.displayedColumns() ?? Object.keys(this.columns());
-    return [
-      ...(this.selectable() ? [this._checkboxColumn] : []),
-      ...columns.filter((key) => !this.columns()[key].expandable),
-      ...(this._isExpandable() ? [this._expandableColumn] : []),
-      ...columns.filter((key) => this.columns()[key].expandable),
-    ];
-  }
-
-  /** @ignore */
   _getColumnTemplate(column: WattTableColumn<T>) {
-    return this.cells().find((item) => item.column === column)?.templateRef;
+    return this.cells().find((item) => item.column() === column)?.templateRef;
   }
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
     if (typeof column.value.header === 'string') return column.value.header;
-    const cell = this.cells().find((item) => item.column === column.value);
-    return cell?.header ?? this.resolveHeader()?.(column.key) ?? column.key;
-  }
-
-  /** @ignore */
-  _getColumnHelperAction(column: KeyValue<string, WattTableColumn<T>>) {
-    return column.value.helperAction;
-  }
-
-  /** @ignore */
-  _getColumnHeaderTooltip(column: KeyValue<string, WattTableColumn<T>>) {
-    return column.value.tooltip;
+    const cell = this.cells().find((item) => item.column() === column.value);
+    return cell?.header() ?? this.resolveHeader()?.(column.key) ?? column.key;
   }
 
   /** @ignore */
   _getColumnCell(column: KeyValue<string, WattTableColumn<T>>, row: T) {
-    return column.value.cell?.(row) ?? this.getCellData(row, column.value);
+    if (column.value.cell) return column.value.cell(row);
+    const cell = this.getCellData(column.value, row);
+    if (!cell) return '—';
+    if (cell instanceof Date) return this._datePipe.transform(cell);
+    return cell;
   }
 
   /** @ignore */
@@ -521,14 +486,9 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   /** @ignore */
-  _isExpandable() {
-    return Object.values(this.columns()).some((column) => column.expandable);
-  }
-
-  /** @ignore */
   _onRowClick(row: T) {
     if (this.disabled() || window.getSelection()?.toString() !== '') return;
-    if (this._isExpandable()) {
+    if (this.isExpandable()) {
       this.expanded.update((rows) =>
         rows.includes(row) ? rows.filter((r) => r != row) : [...rows, row]
       );
@@ -538,22 +498,4 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 }
 
-@Component({
-  selector: 'watt-table-toolbar-spacer',
-  template: '',
-  styles: [
-    `
-      :host {
-        width: var(--watt-space-xl);
-      }
-    `,
-  ],
-})
-export class WattTableToolbarSpacerComponent {}
-
-export const WATT_TABLE = [
-  WattTableComponent,
-  WattTableCellDirective,
-  WattTableToolbarDirective,
-  WattTableToolbarSpacerComponent,
-];
+export const WATT_TABLE = [WattTableComponent, WattTableCellDirective, WattTableToolbarDirective];

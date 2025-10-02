@@ -22,6 +22,7 @@ using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Mappers;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
@@ -61,6 +62,7 @@ public class GraphQLTestService
         MeasurementsResponseMapperMock = new Mock<IMeasurementsResponseMapper>();
         AuthorizationServiceMock = new Mock<IAuthorizationService>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
+        ChargesClientMock = new Mock<IChargesClient>();
 
         Services = new ServiceCollection()
             .AddLogging()
@@ -77,6 +79,12 @@ public class GraphQLTestService
             {
                 options.EnableOneOf = true;
                 options.StripLeadingIFromInterface = true;
+            })
+            .ModifyPagingOptions(options =>
+            {
+                options.RequirePagingBoundaries = true;
+                options.MaxPageSize = 250;
+                options.IncludeTotalCount = true;
             })
             .AddType<LocalDateType>()
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
@@ -102,6 +110,7 @@ public class GraphQLTestService
             .AddSingleton(MeasurementsApiHttpClientFactoryMock.Object)
             .AddSingleton(AuthorizationServiceMock.Object)
             .AddSingleton(MeasurementsResponseMapperMock.Object)
+            .AddSingleton(ChargesClientMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -111,6 +120,8 @@ public class GraphQLTestService
     public Mock<IFeatureManager> FeatureManagerMock { get; set; }
 
     public Mock<ICalculationsClient> CalculationsClientMock { get; set; }
+
+    public Mock<IChargesClient> ChargesClientMock { get; set; }
 
     public Mock<IRequestsClient> RequestsClientMock { get; set; }
 

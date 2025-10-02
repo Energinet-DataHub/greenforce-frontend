@@ -69,7 +69,7 @@ limitations under the License.
           column.value.headerCellClass
         }}"
       >
-        @if (_getColumnHelperAction(column); as action) {
+        @if (column.value.helperAction; as action) {
           <watt-icon name="help" (click)="action()" />
         }
 
@@ -81,7 +81,7 @@ limitations under the License.
         >
           {{ _getColumnHeader(column) }}
         </div>
-        @if (_getColumnHeaderTooltip(column); as tooltip) {
+        @if (column.value.tooltip; as tooltip) {
           <watt-icon [title]="tooltip" name="info" />
         }
       </th>
@@ -97,7 +97,7 @@ limitations under the License.
         class="watt-table-align-{{ column.value.align ?? 'left' }} {{ column.value.dataCellClass }}"
         (click)="!column.value.expandable && _onRowClick(row)"
       >
-        @if (_isExpandable()) {
+        @if (isExpandable()) {
           @defer (when !column.value.expandable || expanded().includes(row)) {
             @if (_getColumnTemplate(column.value); as template) {
               <div class="watt-table-cell-wrapper">
@@ -118,7 +118,7 @@ limitations under the License.
         }
       </td>
 
-      @if (_hasFooter()) {
+      @if (hasFooter()) {
         <td
           mat-footer-cell
           *matFooterCellDef
@@ -137,11 +137,11 @@ limitations under the License.
   </ng-container>
 
   @if (!hideColumnHeaders()) {
-    <tr mat-header-row *matHeaderRowDef="_getColumns()"></tr>
+    <tr mat-header-row *matHeaderRowDef="renderedColumns()"></tr>
   }
   <tr
     mat-row
-    *matRowDef="let row; columns: _getColumns()"
+    *matRowDef="let row; columns: renderedColumns()"
     [attr.aria-selected]="row === activeRow()"
     [ngClass]="{
       'watt-table-highlight-row': !disabled() && !suppressRowHoverHighlight(),
@@ -155,11 +155,11 @@ limitations under the License.
     <tr mat-footer-row *matFooterRowDef="['spacer']"></tr>
   }
 
-  @if (_hasFooter()) {
+  @if (hasFooter()) {
     <tr
       mat-footer-row
       [class.watt-table-hide-footer]="loading() || dataSource().filteredData.length === 0"
-      *matFooterRowDef="_getColumns(); sticky: stickyFooter()"
+      *matFooterRowDef="renderedColumns(); sticky: stickyFooter()"
     ></tr>
   }
 
@@ -167,7 +167,7 @@ limitations under the License.
     @if (loading()) {
       @for (i of [1, 2, 3]; track i) {
         <tr class="mat-mdc-row">
-          @for (_ of _getColumns(); track _; let i = $index) {
+          @for (_ of renderedColumns(); track _; let i = $index) {
             <td class="mat-mdc-cell" [class.watt-table-loading-cell]="i > 0 || !selectable()"></td>
           }
         </tr>

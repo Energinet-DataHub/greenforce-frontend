@@ -368,6 +368,13 @@
           "name": "Name",
           "owner": "Owner",
           "status": "Status"
+        },
+        "chargeStatus": {
+          "AWAITING": "Pending",
+          "CLOSED": "Closed",
+          "CANCELLED": "Cancelled",
+          "CURRENT": "Current",
+          "MISSING_PRICE_SERIES": "Missing price series"
         }
       }
     }

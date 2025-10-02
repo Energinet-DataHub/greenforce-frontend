@@ -31,6 +31,7 @@ import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Charge } from '../types';
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhChargeStatusComponent } from './status.component';
 
 @Component({
   selector: 'dh-charges',
@@ -42,8 +43,8 @@ import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
     WattTableCellDirective,
     WattDataTableComponent,
     WattDataFiltersComponent,
-
     VaterUtilityDirective,
+    DhChargeStatusComponent,
   ],
   providers: [DhNavigationService],
   template: `
@@ -78,7 +79,7 @@ import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
           {{ element.chargeOwner }}
         </ng-container>
         <ng-container *wattTableCell="columns.status; let element">
-          {{ element.status }}
+          <dh-charge-status [status]="element.status" />
         </ng-container>
       </watt-table>
     </watt-data-table>

@@ -101,9 +101,9 @@ export class WattTimepickerComponent extends WattPickerBase {
    */
   sliderLabel = input('');
 
-  protected override input = viewChild<ElementRef<HTMLInputElement>>('timeInput');
-  protected override startInput = viewChild<ElementRef<HTMLInputElement>>('startTimeInput');
-  protected override endInput = viewChild<ElementRef<HTMLInputElement>>('endTimeInput');
+  override input = viewChild<ElementRef<HTMLInputElement>>('timeInput');
+  override startInput = viewChild<ElementRef<HTMLInputElement>>('startTimeInput');
+  override endInput = viewChild<ElementRef<HTMLInputElement>>('endTimeInput');
 
   sliderId = `${this.id}-slider`;
 
@@ -164,7 +164,7 @@ export class WattTimepickerComponent extends WattPickerBase {
 
   inputMask = maskitoTimeOptionsGenerator({ mode: 'HH:MM' });
   rangeInputMask = maskitoTimeRangeOptionsGenerator();
-  destroyRef = inject(DestroyRef);
+  override destroyRef = inject(DestroyRef);
 
   constructor() {
     super(`watt-timepicker-${WattTimepickerComponent.nextId++}`);

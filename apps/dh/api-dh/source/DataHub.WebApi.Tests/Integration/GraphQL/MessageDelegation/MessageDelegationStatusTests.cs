@@ -45,23 +45,25 @@ public class MessageDelegationStatusTests
     """;
 
     private static readonly DateTimeOffset _sameDate = DateTimeOffset.Now.AddDays(5);
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
     public static IEnumerable<object[]> GetTestCases()
     {
         yield return new object[] { "Cancelled same date", _sameDate, _sameDate };
         yield return new object[] { "Cancelled", DateTimeOffset.Now.AddDays(5), DateTimeOffset.Now.AddDays(4) };
         yield return new object[] { "Active with end", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(10) };
-        yield return new object[] { "Active without end", DateTimeOffset.Now.AddDays(-5), null };
         yield return new object[] { "Expired", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(-1) };
     }
 
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-
     [Theory]
     [MemberData(nameof(GetTestCases))]
-    public async Task MessageDelegationWithStatus(string testname, DateTimeOffset validFrom, DateTimeOffset? validTo) =>
+    public async Task MessageDelegationWithStatus(string testname, DateTimeOffset validFrom, DateTimeOffset validTo) =>
         await ExecuteTestAsync(testname, validFrom, validTo);
+
+    [Fact]
+    public async Task MessageDelegationWithoutEndDate()
+    {
+        await ExecuteTestAsync("Active without end", DateTimeOffset.Now.AddDays(-5), null);
+    }
 
     private static async Task ExecuteTestAsync(string testname, DateTimeOffset validFrom, DateTimeOffset? validTo)
     {
@@ -117,7 +119,8 @@ public class MessageDelegationStatusTests
                                 GridAreaId = Guid.NewGuid(),
                                 Id = Guid.NewGuid(),
                                 StartsAt = validFrom,
-                                StopsAt = validTo,
+                                // Convert null to a valid DateTimeOffset if the model doesn't accept nullable values
+                                StopsAt = validTo ?? DateTimeOffset.MaxValue,
                             },
                         },
                     },
