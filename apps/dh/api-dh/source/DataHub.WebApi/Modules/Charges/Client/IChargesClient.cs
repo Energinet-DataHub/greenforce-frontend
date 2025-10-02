@@ -12,24 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Charges.Client;
-using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
-using HotChocolate.Authorization;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges;
+namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
-[ObjectType<ChargeDto>]
-public static partial class ChargesNode
+/// <summary>
+/// Client for interacting with charges.
+/// </summary>
+public interface IChargesClient
 {
-    public static ChargeStatus Status([Parent] ChargeDto charge) => charge.GetStatus();
-
-    [Query]
-    [UsePaging]
-    [UseSorting]
-    [Authorize(Roles = new[] { "charges:view" })]
-    public static IEnumerable<ChargeDto> GetChargesByPeriod(GetChargesByPeriodQuery query, [Service] IChargesClient client)
-    {
-        return client.GetChargesByPeriod(query);
-    }
+    /// <summary>
+    /// Get charges by period.
+    /// </summary>
+    IEnumerable<ChargeDto> GetChargesByPeriod(GetChargesByPeriodQuery query);
 }

@@ -18,7 +18,6 @@ public record ChargeDto(
         Guid Id,
         ChargeType ChargeType,
         ChargeResolution Resolution,
-        ChargeStatus Status,
         string ChargeId, // Is SenderProvidedChargeId.
         string ChargeName,
         string ChargeDescription,
