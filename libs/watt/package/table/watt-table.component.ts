@@ -411,7 +411,7 @@ export class WattTableComponent<T> {
   private getCellData = (column: WattTableColumn<T>, row: T) => {
     if (column.cell) return column.cell(row);
     return !column.accessor
-      ? null
+      ? ''
       : typeof column.accessor === 'function'
         ? column.accessor(row)
         : row[column.accessor];
@@ -428,7 +428,7 @@ export class WattTableComponent<T> {
 
   protected getColumnCell = (column: WattTableColumn<T>, row: T) => {
     const cell = this.getCellData(column, row);
-    if (!cell) return '—';
+    if (cell === undefined || cell === null) return '—';
     if (cell instanceof Date) return wattFormatDate(cell);
     return cell;
   };
