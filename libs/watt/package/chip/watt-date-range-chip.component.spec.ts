@@ -42,15 +42,17 @@ describe(WattDateRangeChipComponent.name, () => {
    * For tests that need to display a pre-selected date range, both should be provided
    * with the same initial value to ensure the component displays correctly.
    */
-  const setup = async (componentInputs: Partial<{
-    formControl: FormControl<WattRange<Date> | null>;
-    disabled: boolean;
-    label: string;
-    placeholder: boolean;
-    showActions: boolean;
-    value: WattRange<Date>;
-    customSelectionStrategy: (date: Date | null) => DateRange<Date>;
-  }> = {}) => {
+  const setup = async (
+    componentInputs: Partial<{
+      formControl: FormControl<WattRange<Date> | null>;
+      disabled: boolean;
+      label: string;
+      placeholder: boolean;
+      showActions: boolean;
+      value: WattRange<Date>;
+      customSelectionStrategy: (date: Date | null) => DateRange<Date>;
+    }> = {}
+  ) => {
     const defaultFormControl = new FormControl<WattRange<Date> | null>(null);
     const selectionChangeSpy = vi.fn();
 
@@ -75,17 +77,20 @@ describe(WattDateRangeChipComponent.name, () => {
 
   it('should render with label content', async () => {
     // Test using template syntax to verify ng-content projection
-    await render(`
+    await render(
+      `
       <watt-date-range-chip [formControl]="formControl">
         Select Period
       </watt-date-range-chip>
-    `, {
-      imports: [WattDateRangeChipComponent, MatNativeDateModule],
-      providers: [WattDatepickerIntlService, provideAnimations()],
-      componentProperties: {
-        formControl: new FormControl(null),
-      },
-    });
+    `,
+      {
+        imports: [WattDateRangeChipComponent, MatNativeDateModule],
+        providers: [WattDatepickerIntlService, provideAnimations()],
+        componentProperties: {
+          formControl: new FormControl(null),
+        },
+      }
+    );
 
     expect(screen.getByText('Select Period')).toBeInTheDocument();
   });
@@ -142,14 +147,14 @@ describe(WattDateRangeChipComponent.name, () => {
 
     it('should add has-placeholder class when placeholder is true', async () => {
       const { fixture } = await setup({ placeholder: true });
-      
+
       const component = fixture.debugElement.nativeElement;
       expect(component).toHaveClass(PLACEHOLDER_CLASS);
     });
 
     it('should not add has-placeholder class when placeholder is false', async () => {
       const { fixture } = await setup({ placeholder: false });
-      
+
       const component = fixture.debugElement.nativeElement;
       expect(component).not.toHaveClass(PLACEHOLDER_CLASS);
     });
@@ -157,7 +162,7 @@ describe(WattDateRangeChipComponent.name, () => {
     it('should have has-placeholder class by default', async () => {
       // placeholder defaults to true in the component
       const { fixture } = await setup();
-      
+
       const component = fixture.debugElement.nativeElement;
       expect(component).toHaveClass(PLACEHOLDER_CLASS);
     });
@@ -242,20 +247,16 @@ describe(WattDateRangeChipComponent.name, () => {
     });
 
     const component = fixture.componentInstance;
-    
+
     // Call clearInput directly
     component.clearInput();
 
     // Should clear the value
-    expect(component.value).toBeUndefined();
-    
+    expect(component.value()).toBeNull();
+
     // Should emit null
     expect(selectionChangeSpy).toHaveBeenCalledWith(null);
   });
-
-
-
-
 
   describe('edge cases', () => {
     it('should handle date range where start and end are the same day', async () => {
@@ -273,7 +274,6 @@ describe(WattDateRangeChipComponent.name, () => {
       // Should display just the single date (based on wattFormatDate logic)
       expect(screen.getByText('15-01-2024')).toBeInTheDocument();
     });
-
   });
 
   describe('Selection Strategy', () => {

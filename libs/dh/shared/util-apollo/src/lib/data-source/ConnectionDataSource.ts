@@ -83,6 +83,6 @@ export class ConnectionDataSource<
     after: null,
     before: null,
     first: null,
-    last: paginator.length % paginator.pageSize,
+    last: paginator.length % paginator.pageSize || paginator.pageSize,
   });
 }

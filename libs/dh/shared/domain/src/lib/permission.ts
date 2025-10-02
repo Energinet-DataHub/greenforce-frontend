@@ -25,6 +25,7 @@ export const permissions = [
   'balance-responsibility:view',
   'calculations:manage',
   'calculations:view',
+  'charges:view',
   'cpr:view',
   'delegation:manage',
   'delegation:view',

@@ -37,6 +37,8 @@ import {
 } from '@energinet-datahub/dh/shared/release-toggle';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
+import { InstallationAddress } from '../types';
+
 @Component({
   selector: 'dh-metering-point-actions',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,7 +61,7 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
     <ng-container *transloco="let t; prefix: 'meteringPoint.overview.actions'">
       @if (maybeShowActionsButton()) {
         <watt-button
-          *dhReleaseToggle="'PG56-Move-in'; else elseTmpl"
+          *dhReleaseToggle="'MoveInBrs009'; else elseTmpl"
           variant="secondary"
           [matMenuTriggerFor]="menu"
         >
@@ -92,7 +94,7 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
         }
 
         <button
-          *dhReleaseToggle="'PG56-Move-in'"
+          *dhReleaseToggle="'MoveInBrs009'"
           type="button"
           mat-menu-item
           (click)="startMoveIn()"
@@ -111,6 +113,7 @@ export class DhMeteringPointActionsComponent {
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
 
   subType = input<MeteringPointSubType | null>();
+  installationAddress = input<InstallationAddress | null>();
 
   maybeShowMeasurementsUploadButton = computed(() => {
     return (
@@ -122,13 +125,14 @@ export class DhMeteringPointActionsComponent {
   maybeShowActionsButton = computed(() => {
     return (
       this.maybeShowMeasurementsUploadButton() ||
-      this.releaseToggleService.isEnabled('PG56-Move-in')
+      this.releaseToggleService.isEnabled('MoveInBrs009')
     );
   });
 
   startMoveIn() {
     this.modalService.open({
       component: DhMoveInComponent,
+      data: { installationAddress: this.installationAddress() },
     });
   }
 }

@@ -358,6 +358,27 @@
     "3": "Immediate settlement (3)",
     "6": "Yearly settlement (6)"
   },
+  "charges": {
+    "charges": {
+      "topBarTitle": "Prices",
+      "table": {
+        "columns": {
+          "id": "ID",
+          "type": "Type",
+          "name": "Name",
+          "owner": "Owner",
+          "status": "Status"
+        },
+        "chargeStatus": {
+          "AWAITING": "Pending",
+          "CLOSED": "Closed",
+          "CANCELLED": "Cancelled",
+          "CURRENT": "Current",
+          "MISSING_PRICE_SERIES": "Missing price series"
+        }
+      }
+    }
+  },
   "meteringPoint": {
     "breadcrumb": "Search metering point",
     "search": {
@@ -625,7 +646,6 @@
       "steps": {
         "customerDetails": {
           "label": "Customer details",
-          "transactionId": "Transaction ID",
           "cutOffDate": "Cut-off date",
           "moveInType": "Move-in type",
           "customerInformation": "Customer information",
@@ -637,16 +657,46 @@
           "cpr2": "CPR 2",
           "companyName": "Company name",
           "cvr": "CVR 1",
-          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
+          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+          "cprError": {
+            "containsLetters": "Can only contain letters",
+            "containsDash": "Can not contain dashes",
+            "invalidCprLength": "Must be 10 digits long"
+          },
+          "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
         },
         "contactDetails": {
-          "label": "Contact details"
+          "label": "Contact details",
+          "legalContactSection": "Legal contact",
+          "technicalContactSection": "Technical contact",
+          "contactSameAsCustomer": "Same as customer name",
+          "contactName": "Contact name",
+          "attention": "Attn.",
+          "phoneNumber": "Phone number",
+          "mobile": "Mobile",
+          "email": "Email address",
+          "addressDetails": "Address details",
+          "addressSameAsMeteringPoint": "Same as metering point address",
+          "street": "Street",
+          "houseNumber": "House number",
+          "floor": "Floor",
+          "door": "Door",
+          "postalCode": "Postal code",
+          "city": "City",
+          "country": "Country",
+          "roadCode": "Road code",
+          "postalDistrict": "Postal district",
+          "postBox": "Post box",
+          "municipalityCode": "Municipality code",
+          "darReference": "Dar reference",
+          "nameAddressProtection": "Name and address protection"
         },
         "moveInType": {
           "E65": "Ordinary (E65)",
           "D29": "Secondary (D29)"
         }
       },
+      "success": "Move-in is now registered",
       "save": "Customer move-in"
     }
   },
@@ -715,7 +765,9 @@
       "REQUEST_WHOLESALE_SETTLEMENT": "Request for wholesale services (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Request for wholesale services (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
-      "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)"
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)",
+      "UPDATE_CHARGE_LINKS": "Update charge links (RSM-030)",
+      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm update charge links (RSM-030)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
@@ -1650,7 +1702,7 @@
       "updatedLabel": "Uploaded",
       "pricesNote": "Prices are shown in DKK for kWh"
     },
-    "fileName": "DataHub imbalance prices - {{ shared.downloadNameParams }}"
+    "fileName": "DataHub imbalance prices"
   },
   "reports": {
     "topBarTitle": "Reports",
@@ -2314,7 +2366,7 @@
             "search": "Search user roles"
           },
           "download": {
-            "fileName": "DataHub roles - {{ shared.downloadNameParams }}"
+            "fileName": "DataHub user roles - {{ shared.downloadNameParams }}"
           },
           "table": {
             "columns": {

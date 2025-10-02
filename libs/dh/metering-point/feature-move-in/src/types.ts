@@ -17,9 +17,10 @@
  */
 //#endregion
 import { type FormControl, type FormGroup } from '@angular/forms';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type MoveInCustomerDetailsFormType = {
-  transactionId: FormControl<string>;
   cutOffDate: FormControl<Date>;
   moveInType: FormControl<string>;
   customerType: FormControl<'private' | 'business'>;
@@ -36,7 +37,64 @@ export type MoveInCustomerDetailsFormType = {
   isProtectedAddress: FormControl<boolean>;
 };
 
+export type MoveInContactDetailsFormType = {
+  legalContactSameAsCustomer: FormControl<boolean>;
+  legalContactName: FormControl<string>;
+  legalContactTitle: FormControl<string>;
+  legalContactPhone: FormControl<string>;
+  legalContactMobile: FormControl<string>;
+  legalContactEmail: FormControl<string>;
+  legalAddressSameAsMeteringPoint: FormControl<boolean>;
+  legalAddressGroup: FormGroup<AddressGroup>;
+  legalNameAddressProtection: FormControl<boolean>;
+  technicalContactSameAsCustomer: FormControl<boolean>;
+  technicalContactName: FormControl<string>;
+  technicalContactTitle: FormControl<string>;
+  technicalContactPhone: FormControl<string>;
+  technicalContactMobile: FormControl<string>;
+  technicalContactEmail: FormControl<string>;
+  technicalAddressSameAsMeteringPoint: FormControl<boolean>;
+  technicalAddressGroup: FormGroup<AddressGroup>;
+  technicalNameAddressProtection: FormControl<boolean>;
+};
+
+export type AddressData = {
+  streetName: string;
+  buildingNumber: string;
+  floor: string;
+  room: string;
+  postCode: string;
+  cityName: string;
+  countryCode: string;
+  streetCode: string;
+  citySubdivisionName: string;
+  postBox: string;
+  municipalityCode: string;
+  darReference: string;
+};
+
+type AddressGroup = {
+  streetName: FormControl<string>;
+  buildingNumber: FormControl<string>;
+  floor: FormControl<string>;
+  room: FormControl<string>;
+  postCode: FormControl<string>;
+  cityName: FormControl<string>;
+  countryCode: FormControl<string>;
+  streetCode: FormControl<string>;
+  citySubdivisionName: FormControl<string>;
+  postBox: FormControl<string>;
+  municipalityCode: FormControl<string>;
+  darReference: FormControl<string>;
+};
+
 export enum MoveInType {
   Ordinary = 'E65',
   Secondary = 'D29',
 }
+
+export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
+
+export type InstallationAddress = NonNullable<
+  MeteringPointDetails['metadata']
+>['installationAddress'];

@@ -66,7 +66,7 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
     DhPermissionRequiredDirective,
   ],
   template: `<watt-data-table
-    *transloco="let t; read: 'admin.userManagement.tabs.roles'"
+    *transloco="let t; prefix: 'admin.userManagement.tabs.roles'"
     vater
     inset="ml"
     [searchLabel]="'shared.search' | transloco"
@@ -91,7 +91,7 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
     </watt-data-filters>
 
     <watt-table
-      *transloco="let resolveHeader; read: 'admin.userManagement.tabs.roles.table.columns'"
+      *transloco="let resolveHeader; prefix: 'admin.userManagement.tabs.roles.table.columns'"
       [dataSource]="dataSource"
       [columns]="columns"
       [loading]="dataSource.loading"

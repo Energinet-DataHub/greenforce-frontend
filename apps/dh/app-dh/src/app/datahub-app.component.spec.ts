@@ -56,9 +56,9 @@ describe(DataHubAppComponent, () => {
     expect(routerOutlet).toBeInstanceOf(RouterOutlet);
   });
 
-  it('navigation works', async () => {
+  it('navigation to login works', async () => {
     const { navigate } = await render(DataHubAppComponent, { providers });
-    const didNavigationSucceed = await navigate('/');
+    const didNavigationSucceed = await navigate('/login');
 
     expect(didNavigationSucceed).toBe(true);
   });

@@ -16,92 +16,163 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, effect, inject, viewChild } from '@angular/core';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
+import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { StartMoveInDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import {
-  dhEnumToWattDropdownOptions,
-  DhDropdownTranslatorDirective,
-} from '@energinet-datahub/dh/shared/ui-util';
-
-import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
+  AddressData,
+  InstallationAddress,
+  MoveInContactDetailsFormType,
+  MoveInCustomerDetailsFormType,
+} from '../types';
+import { DhCustomerDetailsComponent } from './customer-details.component';
+import { DhContactDetailsFormComponent } from './dh-contact-details-form.component';
 
 @Component({
   selector: 'dh-move-in',
   imports: [
-    ReactiveFormsModule,
     TranslocoDirective,
-
     WATT_MODAL,
     WATT_STEPPER,
-    WattTextFieldComponent,
-    WattDropdownComponent,
-    WattDatepickerComponent,
-    WattRadioComponent,
-    WattCheckboxComponent,
-    VaterStackComponent,
-    DhDropdownTranslatorDirective,
+    DhCustomerDetailsComponent,
+    DhContactDetailsFormComponent,
   ],
-  styles: `
-    .transactionId,
-    .cutOffDate,
-    .moveInType {
-      width: 320px;
-    }
-
-    .name {
-      width: 250px;
-    }
-
-    .cpr,
-    .cvr {
-      width: 150px;
-    }
-  `,
   templateUrl: './move-in.component.html',
 })
-export class DhMoveInComponent extends WattTypedModal {
+export class DhMoveInComponent extends WattTypedModal<{
+  installationAddress: InstallationAddress;
+}> {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly transloco = inject(TranslocoService);
+  private readonly startMoveInMutation = mutation(StartMoveInDocument);
+  private readonly toastService = inject(WattToastService);
+
+  private readonly modal = viewChild.required(WattModalComponent);
+
   private readonly customerTypeInitialValue = 'private';
 
+  private readonly addressDataInitialValue: AddressData = {
+    streetCode: this.modalData.installationAddress?.streetCode ?? '',
+    buildingNumber: this.modalData.installationAddress?.buildingNumber ?? '',
+    floor: this.modalData.installationAddress?.floor ?? '',
+    room: this.modalData.installationAddress?.room ?? '',
+    postCode: this.modalData.installationAddress?.postCode ?? '',
+    cityName: this.modalData.installationAddress?.cityName ?? '',
+    countryCode: this.modalData.installationAddress?.countryCode ?? '',
+    streetName: this.modalData.installationAddress?.streetName ?? '',
+    citySubdivisionName: this.modalData.installationAddress?.citySubDivisionName ?? '',
+    postBox: '',
+    municipalityCode: this.modalData.installationAddress?.municipalityCode ?? '',
+    darReference: this.modalData.installationAddress?.darReference ?? '',
+  };
+
+  private privateCustomerForm = this.fb.group({
+    name1: this.fb.control<string>('', Validators.required),
+    cpr1: this.fb.control<string>('', [Validators.required, dhCprValidator()]),
+    name2: this.fb.control<string>(''),
+    cpr2: this.fb.control<string>({ value: '', disabled: true }, [
+      Validators.required,
+      dhCprValidator(),
+    ]),
+  });
+
+  moveInLoading = this.startMoveInMutation.loading;
+
   customerDetailsForm = this.fb.group<MoveInCustomerDetailsFormType>({
-    transactionId: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
-    cutOffDate: this.fb.control({ value: new Date(), disabled: true }, Validators.required),
+    cutOffDate: this.fb.control(new Date(), Validators.required),
     moveInType: this.fb.control<string>('', Validators.required),
     customerType: this.fb.control(this.customerTypeInitialValue),
     isProtectedAddress: this.fb.control<boolean>(false),
   });
 
-  private privateCustomerForm = this.fb.group({
-    name1: this.fb.control<string>('', Validators.required),
-    cpr1: this.fb.control<string>('', Validators.required),
-    name2: this.fb.control<string>(''),
-    cpr2: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
-  });
+  contactDetailsForm = this.fb.group<MoveInContactDetailsFormType>({
+    legalContactSameAsCustomer: this.fb.control<boolean>(true),
+    legalContactName: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
+    legalContactTitle: this.fb.control<string>(''),
+    legalContactPhone: this.fb.control<string>(''),
+    legalContactMobile: this.fb.control<string>(''),
+    legalContactEmail: this.fb.control<string>(''),
+    legalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
+    legalAddressGroup: this.fb.group({
+      streetName: this.fb.control<string>(
+        this.addressDataInitialValue.streetName,
+        Validators.required
+      ),
+      buildingNumber: this.fb.control<string>(this.addressDataInitialValue.buildingNumber),
+      floor: this.fb.control<string>(this.addressDataInitialValue.floor),
+      room: this.fb.control<string>(this.addressDataInitialValue.room),
+      postCode: this.fb.control<string>(this.addressDataInitialValue.postCode, Validators.required),
+      cityName: this.fb.control<string>(this.addressDataInitialValue.cityName, Validators.required),
+      countryCode: this.fb.control<string>(this.addressDataInitialValue.countryCode),
+      streetCode: this.fb.control<string>(this.addressDataInitialValue.streetCode),
+      citySubdivisionName: this.fb.control<string>(
+        this.addressDataInitialValue.citySubdivisionName
+      ),
+      postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
+      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode),
+      darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
+    }),
+    legalNameAddressProtection: this.fb.control<boolean>(false),
 
-  contactDetailsForm = this.fb.group({
-    // Define form controls and validation here
+    technicalContactSameAsCustomer: this.fb.control<boolean>(true),
+    technicalContactName: this.fb.control<string>({ value: '', disabled: true }, [
+      Validators.required,
+    ]),
+    technicalContactTitle: this.fb.control<string>(''),
+    technicalContactPhone: this.fb.control<string>(''),
+    technicalContactMobile: this.fb.control<string>(''),
+    technicalContactEmail: this.fb.control<string>(''),
+    technicalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
+    technicalAddressGroup: this.fb.group({
+      streetName: this.fb.control<string>(
+        this.addressDataInitialValue.streetName,
+        Validators.required
+      ),
+      buildingNumber: this.fb.control<string>(this.addressDataInitialValue.buildingNumber),
+      floor: this.fb.control<string>(this.addressDataInitialValue.floor),
+      room: this.fb.control<string>(this.addressDataInitialValue.room),
+      postCode: this.fb.control<string>(this.addressDataInitialValue.postCode, Validators.required),
+      cityName: this.fb.control<string>(this.addressDataInitialValue.cityName, Validators.required),
+      countryCode: this.fb.control<string>(this.addressDataInitialValue.countryCode),
+      streetCode: this.fb.control<string>(this.addressDataInitialValue.streetCode),
+      citySubdivisionName: this.fb.control<string>(
+        this.addressDataInitialValue.citySubdivisionName
+      ),
+      postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
+      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode),
+      darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
+    }),
+    technicalNameAddressProtection: this.fb.control<boolean>(false),
   });
-
-  moveInTypeDropdownOptions = dhEnumToWattDropdownOptions(MoveInType);
 
   private customerTypeChanged = toSignal(
     this.customerDetailsForm.controls.customerType.valueChanges,
     { initialValue: this.customerTypeInitialValue }
   );
 
+  private name1Changed = toSignal(this.privateCustomerForm.controls.name1.valueChanges);
   private name2Changed = toSignal(this.privateCustomerForm.controls.name2.valueChanges);
+  private legalContactSameAsCustomerChanged = toSignal(
+    this.contactDetailsForm.controls.legalContactSameAsCustomer.valueChanges
+  );
+  private technicalContactSameAsCustomerChanged = toSignal(
+    this.contactDetailsForm.controls.technicalContactSameAsCustomer.valueChanges
+  );
+  private legalAddressSameAsMeteringPointAddressChanged = toSignal(
+    this.contactDetailsForm.controls.legalAddressSameAsMeteringPoint.valueChanges
+  );
+  private technicalAddressSameAsMeteringPointAddressChanged = toSignal(
+    this.contactDetailsForm.controls.technicalAddressSameAsMeteringPoint.valueChanges
+  );
 
   private customerTypeEffect = effect(() => {
     const customerType = this.customerTypeChanged();
@@ -113,8 +184,8 @@ export class DhMoveInComponent extends WattTypedModal {
       this.customerDetailsForm.addControl(
         'businessCustomer',
         this.fb.group({
-          companyName: this.fb.control<string>(''),
-          cvr: this.fb.control<string>('', Validators.required),
+          companyName: this.fb.control<string>('', Validators.required),
+          cvr: this.fb.control<string>('', [Validators.required, dhCvrValidator()]),
         })
       );
 
@@ -135,7 +206,98 @@ export class DhMoveInComponent extends WattTypedModal {
     }
   });
 
-  startMoveIn() {
-    console.log('Starting move-in process...');
+  private syncContactNameEffect = effect(() => {
+    // Only proceed if the checkbox is checked
+    if (this.contactDetailsForm.controls.legalContactSameAsCustomer.value) {
+      const name1 = this.name1Changed();
+
+      if (name1 !== undefined) {
+        this.contactDetailsForm.controls.legalContactName.setValue(name1);
+        this.contactDetailsForm.controls.technicalContactName.setValue(name1);
+      }
+    }
+  });
+
+  private disableNameInputFromLegalContactSameAsCustomerEffect = effect(() => {
+    const legalContactSameAsCustomer = this.legalContactSameAsCustomerChanged() ?? true;
+
+    if (legalContactSameAsCustomer) {
+      this.contactDetailsForm.controls.legalContactName.disable();
+      this.contactDetailsForm.controls.legalContactName.setValue(
+        this.privateCustomerForm.controls.name1.value
+      );
+    } else {
+      this.contactDetailsForm.controls.legalContactName.enable();
+    }
+  });
+
+  private disableNameInputFromTechnicalContactSameAsCustomerEffect = effect(() => {
+    const technicalContactSameAsCustomer = this.technicalContactSameAsCustomerChanged() ?? true;
+
+    if (technicalContactSameAsCustomer) {
+      this.contactDetailsForm.controls.technicalContactName.disable();
+      this.contactDetailsForm.controls.technicalContactName.setValue(
+        this.privateCustomerForm.controls.name1.value
+      );
+    } else {
+      this.contactDetailsForm.controls.technicalContactName.enable();
+    }
+  });
+
+  private disableAddressInputsFromLegalAddressSameAsMeteringPointAddressChangedEffect = effect(
+    () => {
+      const legalAddressSameAsMeteringPointAddress =
+        this.legalAddressSameAsMeteringPointAddressChanged() ?? true;
+
+      if (legalAddressSameAsMeteringPointAddress) {
+        this.resetLegalAddressFormGroup(this.addressDataInitialValue);
+        this.contactDetailsForm.controls.legalAddressGroup.disable();
+      } else {
+        this.contactDetailsForm.controls.legalAddressGroup.enable();
+      }
+    }
+  );
+
+  private disableAddressInputsFromTechnicalAddressSameAsMeteringPointAddressChangedEffect = effect(
+    () => {
+      const technicalAddressSameAsMeteringPointAddress =
+        this.technicalAddressSameAsMeteringPointAddressChanged() ?? true;
+
+      if (technicalAddressSameAsMeteringPointAddress) {
+        this.resetTechnicalAddressFormGroup(this.addressDataInitialValue);
+        this.contactDetailsForm.controls.technicalAddressGroup.disable();
+      } else {
+        this.contactDetailsForm.controls.technicalAddressGroup.enable();
+      }
+    }
+  );
+
+  private resetLegalAddressFormGroup(data: AddressData) {
+    this.contactDetailsForm.controls.legalAddressGroup.reset(data);
+  }
+
+  private resetTechnicalAddressFormGroup(data: AddressData) {
+    this.contactDetailsForm.controls.technicalAddressGroup.reset(data);
+  }
+
+  async startMoveIn() {
+    if (this.customerDetailsForm.invalid || this.contactDetailsForm.invalid) return;
+
+    const name1 = this.privateCustomerForm.value.name1 ?? '';
+
+    const result = await this.startMoveInMutation.mutate({
+      variables: { input: { name1 } },
+    });
+
+    if (result.data?.startMoveIn.success) {
+      this.success();
+    }
+  }
+
+  private success() {
+    const message = this.transloco.translate('meteringPoint.moveIn.success');
+
+    this.toastService.open({ type: 'success', message });
+    this.modal().close(true);
   }
 }

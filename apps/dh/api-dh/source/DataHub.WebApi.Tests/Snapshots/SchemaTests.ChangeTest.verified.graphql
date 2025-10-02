@@ -147,6 +147,8 @@ type ArchivedMessagesConnection {
   edges: [ArchivedMessagesEdge!]
   "A flattened list of the nodes."
   nodes: [ArchivedMessage!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -165,6 +167,8 @@ type ArchivedMessagesForMeteringPointConnection {
   edges: [ArchivedMessagesForMeteringPointEdge!]
   "A flattened list of the nodes."
   nodes: [ArchivedMessage!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -213,6 +217,7 @@ type BalanceResponsibleCollectionSegment {
   pageInfo: CollectionSegmentInfo!
   "A flattened list of the items."
   items: [BalanceResponsible!]
+  totalCount: Int!
   balanceResponsiblesUrl(locale: String!): String
   balanceResponsibleImportUrl: String
 }
@@ -239,6 +244,8 @@ type CalculationsConnection {
   edges: [CalculationsEdge!]
   "A flattened list of the nodes."
   nodes: [Calculation!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
   capacitySettlementsUploadUrl: String
 }
 
@@ -274,6 +281,44 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
   createdBy: AuditIdentityDto
   state: ProcessState!
   steps: [OrchestrationInstanceStep!]!
+}
+
+type ChargeDto {
+  status: ChargeStatus!
+  id: UUID!
+  chargeType: ChargeType!
+  resolution: ChargeResolution!
+  chargeId: String!
+  chargeName: String!
+  chargeDescription: String!
+  chargeOwner: String!
+  chargeOwnerName: String!
+  vatClassification: VatClassification!
+  taxIndicator: Boolean!
+  transparentInvoicing: Boolean!
+  hasAnyPrices: Boolean!
+  validFromDateTime: DateTime!
+  validToDateTime: DateTime
+}
+
+"A connection to a list of items."
+type ChargesByPeriodConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [ChargesByPeriodEdge!]
+  "A flattened list of the nodes."
+  nodes: [ChargeDto!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type ChargesByPeriodEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: ChargeDto!
 }
 
 "Information about the offset pagination."
@@ -396,6 +441,7 @@ type EsettExchangeEventsCollectionSegment {
   pageInfo: CollectionSegmentInfo!
   "A flattened list of the items."
   items: [ExchangeEventSearchResult!]
+  totalCount: Int!
   gridAreaCount: Int!
 }
 
@@ -439,6 +485,8 @@ type FailedSendMeasurementsInstancesConnection {
   edges: [FailedSendMeasurementsInstancesEdge!]
   "A flattened list of the nodes."
   nodes: [SendMeasurementsInstanceDto!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -457,6 +505,8 @@ type FilteredPermissionsConnection {
   edges: [FilteredPermissionsEdge!]
   "A flattened list of the nodes."
   nodes: [Permission!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
   permissionRelationsUrl: String
 }
 
@@ -476,6 +526,8 @@ type FilteredUserRolesConnection {
   edges: [FilteredUserRolesEdge!]
   "A flattened list of the nodes."
   nodes: [UserRoleDto!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -539,6 +591,8 @@ type GridAreaOverviewItemsConnection {
   edges: [GridAreaOverviewItemsEdge!]
   "A flattened list of the nodes."
   nodes: [GridAreaOverviewItemDto!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -756,6 +810,7 @@ type MeteringGridAreaImbalanceCollectionSegment {
   pageInfo: CollectionSegmentInfo!
   "A flattened list of the items."
   items: [MeteringGridAreaImbalanceSearchResult!]
+  totalCount: Int!
 }
 
 type MeteringGridAreaImbalancePerDayDto {
@@ -891,6 +946,7 @@ type Mutation {
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
+  startMoveIn(input: StartMoveInInput!): StartMoveInPayload! @authorize(roles: [ "metering-point:search" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
@@ -973,6 +1029,8 @@ type PaginatedMarketParticipantsConnection {
   edges: [PaginatedMarketParticipantsEdge!]
   "A flattened list of the nodes."
   nodes: [MarketParticipant!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -991,6 +1049,8 @@ type PaginatedOrganizationsConnection {
   edges: [PaginatedOrganizationsEdge!]
   "A flattened list of the nodes."
   nodes: [Organization!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -1035,6 +1095,8 @@ type ProcessesConnection {
   edges: [ProcessesEdge!]
   "A flattened list of the nodes."
   nodes: [OrchestrationInstance!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -1053,6 +1115,8 @@ type ProcessesForMeteringPointConnection {
   edges: [ProcessesForMeteringPointEdge!]
   "A flattened list of the nodes."
   nodes: [MeteringPointProcess!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -1064,6 +1128,7 @@ type ProcessesForMeteringPointEdge {
 }
 
 type Query {
+  chargesByPeriod(query: GetChargesByPeriodQueryInput! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargesSortInput!]): ChargesByPeriodConnection @authorize(roles: [ "charges:view" ])
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1246,6 +1311,8 @@ type RequestsConnection {
   edges: [RequestsEdge!]
   "A flattened list of the nodes."
   nodes: [ActorRequestQueryResult!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "An edge in a connection."
@@ -1307,6 +1374,10 @@ type SettlementReport {
   includesBasisData: Boolean!
   progress: Float!
   includeMonthlyAmount: Boolean!
+}
+
+type StartMoveInPayload {
+  boolean: Boolean
 }
 
 type StopDelegationPayload {
@@ -1435,6 +1506,7 @@ type UsersCollectionSegment {
   pageInfo: CollectionSegmentInfo!
   "A flattened list of the items."
   items: [UserOverviewItemDto!]
+  totalCount: Int!
 }
 
 type WholesaleAndEnergyCalculation implements Calculation & OrchestrationInstance {
@@ -1572,6 +1644,14 @@ input CancelSettlementReportInput {
   id: String!
 }
 
+input ChargesSortInput {
+  id: SortEnumType
+  name: SortEnumType
+  type: SortEnumType
+  owner: SortEnumType
+  status: SortEnumType
+}
+
 input CreateActorContactDtoInput {
   name: String!
   category: ContactCategory!
@@ -1676,6 +1756,11 @@ input GetByDayQueryInput {
   date: LocalDate!
   actorNumber: String!
   marketRole: AuthEicFunctionType!
+}
+
+input GetChargesByPeriodQueryInput {
+  from: DateTime!
+  to: DateTime!
 }
 
 input GetMonthlyAggregateByDateQueryInput {
@@ -1889,6 +1974,10 @@ input SendMeasurementsRequestV2Input {
   start: DateTime!
   end: DateTime!
   measurements: [MeasurementInput!]!
+}
+
+input StartMoveInInput {
+  name1: String!
 }
 
 input StopDelegationInput {
@@ -2119,6 +2208,28 @@ enum CalculationTypeQueryParameterV1 {
   MISSING_MEASUREMENTS_LOG
 }
 
+enum ChargeResolution {
+  PT15M
+  PT1H
+  P1D
+  P1M
+}
+
+enum ChargeStatus {
+  CANCELLED
+  CURRENT
+  AWAITING
+  CLOSED
+  MISSING_PRICE_SERIES
+  INVALID
+}
+
+enum ChargeType {
+  D01
+  D02
+  D03
+}
+
 enum ConnectionState {
   NOT_USED
   CLOSED_DOWN
@@ -2196,6 +2307,8 @@ enum DocumentType {
   B2C_REQUEST_WHOLESALE_SETTLEMENT
   NOTIFY_WHOLESALE_SERVICES
   REMINDER_OF_MISSING_MEASUREMENTS
+  UPDATE_CHARGE_LINKS
+  CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA
 }
 
 enum ESettStageComponent {
@@ -2407,6 +2520,8 @@ enum MeteringPointDocumentType {
   SEND_MEASUREMENTS
   REQUEST_MEASUREMENTS
   REJECT_REQUEST_MEASUREMENTS
+  UPDATE_CHARGE_LINKS
+  CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA
 }
 
 enum MeteringPointMeasureUnit {
@@ -2738,6 +2853,11 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
+}
+
+enum VatClassification {
+  NO_VAT
+  VAT25
 }
 
 enum WashInstructions {

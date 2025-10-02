@@ -223,6 +223,7 @@
         "requestCalculation": "Anmod om beregnede data"
       },
       "meteringPoints": "Målepunkter",
+      "prices": "Priser",
       "marketParticipant": {
         "menuGroupLabel": "Aktører",
         "userManagement": "Brugeradministration",
@@ -357,6 +358,27 @@
     "2": "Timebaseret afregning (2)",
     "3": "Øjebliksafregning (3)",
     "6": "Årsbaseret afregning (6)"
+  },
+  "charges": {
+    "charges": {
+      "topBarTitle": "Priser",
+      "table": {
+        "columns": {
+          "id": "ID",
+          "type": "Type",
+          "name": "Navn",
+          "owner": "Ejer",
+          "status": "Status"
+        },
+        "chargeStatus": {
+          "AWAITING": "Afventer",
+          "CLOSED": "Lukket",
+          "CANCELLED": "Annulleret",
+          "CURRENT": "Aktuel",
+          "MISSING_PRICE_SERIES": "Mangler prisserie"
+        }
+      }
+    }
   },
   "meteringPoint": {
     "breadcrumb": "Søg målepunkt",
@@ -625,9 +647,8 @@
       "steps": {
         "customerDetails": {
           "label": "Kundedetaljer",
-          "transactionId": "Transaktions ID",
           "cutOffDate": "Skæringsdato",
-          "moveInType": "Flytningstype",
+          "moveInType": "Tilflytningstype",
           "customerInformation": "Kundeoplysninger",
           "private": "Privat",
           "business": "Erhverv",
@@ -637,16 +658,46 @@
           "cpr2": "CPR 2",
           "companyName": "Kundenavn",
           "cvr": "CVR",
-          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
+          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+          "cprError": {
+            "containsLetters": "Må ikke indeholde bogstaver",
+            "containsDash": "Må ikke indeholde bindestreg",
+            "invalidCprLength": "Skal bestå af 10 cifre"
+          },
+          "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
         },
         "contactDetails": {
-          "label": "Kontakdetaljer"
+          "label": "Kontakdetaljer",
+          "legalContactSection": "Juridisk kontakt",
+          "technicalContactSection": "Teknisk kontakt",
+          "contactSameAsCustomer": "Samme som kundenavn",
+          "contactName": "Kontaktnavn",
+          "attention": "Att.",
+          "phoneNumber": "Telefonnr.",
+          "mobile": "Mobil",
+          "email": "E-mail adresse",
+          "addressDetails": "Adresseoplysninger",
+          "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+          "street": "Vejnavn",
+          "houseNumber": "Husnummer",
+          "floor": "Etage",
+          "door": "Dørbetegnelse",
+          "postalCode": "Postnummer",
+          "city": "Bynavn",
+          "country": "Land",
+          "roadCode": "Vejkode",
+          "postalDistrict": "Postdistrikt",
+          "postBox": "Postboks",
+          "municipalityCode": "Kommunekode",
+          "darReference": "Dar reference",
+          "nameAddressProtection": "Navne- og adressebeskyttelse"
         },
         "moveInType": {
           "E65": "Almindelig (E65)",
           "D29": "Sekundær (D29)"
         }
       },
+      "success": "Tilflytning er nu registreret",
       "save": "Tilflyt kunde"
     }
   },
@@ -715,7 +766,9 @@
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Anmod om engrosydelser (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
-      "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)"
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
+      "UPDATE_CHARGE_LINKS": "Opdatering af pristilknytninger (RSM-030)",
+      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Bekræftelse af anmodning om opdatering af pristilknytninger (RSM-030)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -1040,7 +1093,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
-      "fileName": "DataHub aktør - {{ shared.downloadNameParams }}",
+      "fileName": "DataHub aktører - {{ shared.downloadNameParams }}",
       "create": "Ny aktør",
       "actors": "Aktører",
       "columns": {
@@ -1650,7 +1703,7 @@
       "updatedLabel": "Indlæst",
       "pricesNote": "Prisen er angivet i DKK for kWh"
     },
-    "fileName": "DataHub ubalancepriser - {{ shared.downloadNameParams }}"
+    "fileName": "DataHub Ubalancepriser"
   },
   "reports": {
     "topBarTitle": "Rapporter",
@@ -2314,7 +2367,7 @@
             "search": "Søg brugerroller"
           },
           "download": {
-            "fileName": "DataHub roller - {{ shared.downloadNameParams }}"
+            "fileName": "DataHub brugerroller - {{ shared.downloadNameParams }}"
           },
           "table": {
             "columns": {

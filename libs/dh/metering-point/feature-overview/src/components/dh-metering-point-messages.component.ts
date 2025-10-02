@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input, signal } from '@angular/core';
+import { Component, computed, effect, input, signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -43,7 +43,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMessageArchiveSearchDetailsComponent } from '@energinet-datahub/dh/message-archive/feature-search';
-
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSource>;
 
 @Component({
@@ -154,6 +154,8 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
   `,
 })
 export class DhMeteringPointMessagesComponent {
+  private featureFlagsService = inject(DhFeatureFlagsService);
+
   meteringPointId = input.required<string>();
   selection = signal<ArchivedMessage | undefined>(undefined);
 
@@ -172,7 +174,15 @@ export class DhMeteringPointMessagesComponent {
     receiverId: new FormControl<string | null>(null),
   });
 
-  documentTypeOptions = dhEnumToWattDropdownOptions(MeteringPointDocumentType);
+  documentTypeOptions = dhEnumToWattDropdownOptions(MeteringPointDocumentType, [
+    !this.featureFlagsService.isEnabled('update-charge-links')
+      ? MeteringPointDocumentType.UpdateChargeLinks
+      : '',
+    !this.featureFlagsService.isEnabled('update-charge-links')
+      ? MeteringPointDocumentType.ConfirmRequestChangeBillingMasterData
+      : '',
+  ]);
+
   actorOptionsQuery = query(GetMarketParticipantOptionsDocument);
   actorOptions = computed(() => this.actorOptionsQuery.data()?.marketParticipants ?? []);
 
