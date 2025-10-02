@@ -104,10 +104,24 @@
     padding: var(--watt-modal-content-padding);
 
     &:has(watt-stepper) {
+      padding-left: 0;
+      padding-right: 0;
+
+      .mat-horizontal-content-container {
+        padding-left: 0;
+        padding-right: 0;
+      }
 
       .watt-stepper-content-wrapper {
         overflow-y: auto;
+        padding: 0 var(--watt-space-ml);
         max-height: calc(100vh - 250px);
+        border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+      }
+
+      .watt-stepper-button-wrapper {
+        padding-right: var(--watt-space-ml);
+        padding-left: var(--watt-space-ml);
       }
     }
 
