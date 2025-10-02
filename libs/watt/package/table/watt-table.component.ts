@@ -42,7 +42,7 @@ import { MatTableModule } from '@angular/material/table';
 import { Subject } from 'rxjs';
 
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
-import { WattDatePipe } from '@energinet/watt/core/date';
+import { wattFormatDate } from '@energinet/watt/core/date';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { IWattTableDataSource, WattTableDataSource } from './watt-table-data-source';
 import { animateExpandableCells } from './watt-table-expand-animation';
@@ -216,7 +216,6 @@ export class WattTableToolbarDirective<T> {
     WattIconComponent,
     WattCheckboxComponent,
   ],
-  providers: [WattDatePipe],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
@@ -379,9 +378,6 @@ export class WattTableComponent<T> {
   // Unique names for special columns
   protected checkboxColumn = '__checkboxColumn__';
   protected expandableColumn = '__expandableColumn__';
-
-  /** @ignore */
-  _datePipe = inject(WattDatePipe);
 
   protected hasFooter = computed(() => Object.values(this.columns()).some((c) => c.footer));
   protected isExpandable = computed(() => Object.values(this.columns()).some((c) => c.expandable));
