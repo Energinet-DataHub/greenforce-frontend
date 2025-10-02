@@ -416,32 +416,6 @@ export class WattTableComponent<T> {
         : row[column.accessor];
   }
 
-  constructor() {
-    effect(() => {
-      const dataSource = this.dataSource();
-      dataSource.sort = this.sort();
-      if (!(dataSource instanceof WattTableDataSource)) return;
-      dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
-        const column = this.columns()[sortHeaderId];
-        const value = this.getCellData(column, row);
-        if (typeof value === 'string') return value.toLowerCase(); // case insensitive sorting
-        if (value instanceof Date) return value.getTime();
-        return value as number;
-      };
-    });
-  }
-
-  /**
-   * Clears the selection.
-   */
-  clearSelection = () => this.selection.set([]);
-
-  /**
-   * Toggles the selection of a row.
-   */
-  toggleSelection = (row: T) =>
-    this.selection.update((s) => (s.includes(row) ? s.filter((r) => r !== row) : s.concat(row)));
-
   /** @ignore */
   _getColumnTemplate(column: WattTableColumn<T>) {
     return this.cells().find((item) => item.column() === column)?.templateRef;
@@ -490,6 +464,32 @@ export class WattTableComponent<T> {
 
     this.rowClick$.next(row);
   }
+
+  constructor() {
+    effect(() => {
+      const dataSource = this.dataSource();
+      dataSource.sort = this.sort();
+      if (!(dataSource instanceof WattTableDataSource)) return;
+      dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
+        const column = this.columns()[sortHeaderId];
+        const value = this.getCellData(column, row);
+        if (typeof value === 'string') return value.toLowerCase(); // case insensitive sorting
+        if (value instanceof Date) return value.getTime();
+        return value as number;
+      };
+    });
+  }
+
+  /**
+   * Clears the selection.
+   */
+  clearSelection = () => this.selection.set([]);
+
+  /**
+   * Toggles the selection of a row.
+   */
+  toggleSelection = (row: T) =>
+    this.selection.update((s) => (s.includes(row) ? s.filter((r) => r !== row) : s.concat(row)));
 }
 
 export const WATT_TABLE = [WattTableComponent, WattTableCellDirective, WattTableToolbarDirective];
