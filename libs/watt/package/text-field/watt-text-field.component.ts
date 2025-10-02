@@ -25,10 +25,8 @@ import {
   inject,
   input,
   output,
-  effect,
   viewChild,
-  model,
-  signal,
+  signal, linkedSignal,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -74,7 +72,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         [attr.aria-label]="label()"
         [attr.type]="type()"
         [attr.placeholder]="placeholder()"
-        [value]="model"
+        [value]="model()"
         [formControl]="formControl()"
         (blur)="onTouched()"
         (input)="onChanged($event)"
@@ -86,7 +84,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         [attr.aria-label]="label()"
         [attr.type]="type()"
         [attr.placeholder]="placeholder()"
-        [value]="model"
+        [value]="model()"
         [formControl]="formControl()"
         (blur)="onTouched()"
         (input)="onChanged($event)"
@@ -116,16 +114,16 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
   </watt-field>`,
 })
 export class WattTextFieldComponent implements ControlValueAccessor, AfterViewInit {
-  value = input<string>('');
+  value = input('');
   type = input<WattInputTypes>('text');
-  placeholder = input<string | undefined>();
-  label = input<string>('');
-  tooltip = input<string | undefined>();
-  prefix = input<WattIcon | undefined>();
-  maxLength = input<string | number | null>();
+  placeholder = input('');
+  label = input('');
+  tooltip = input('');
+  prefix = input<WattIcon>();
+  maxLength = input<string | number | null>(null);
   formControl = input.required<FormControl>();
-  autocompleteOptions = input<string[] | undefined>([]);
-  autocompleteMatcherFn = input<((value: string, option: string) => boolean) | undefined>();
+  autocompleteOptions = input<string[]>([]);
+  autocompleteMatcherFn = input<((value: string, option: string) => boolean)>();
 
   /** @ignore */
   autocompleteRef = viewChild(MatAutocomplete);
@@ -150,20 +148,10 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   /** @ignore */
   inputField = viewChild<ElementRef<HTMLInputElement>>('inputField');
-  model = model<string>('');
-
-  constructor() {
-    // Sync input value with model
-    effect(() => {
-      const inputValue = this.value();
-      if (inputValue !== undefined) {
-        this.model.set(inputValue);
-      }
-    });
-  }
+  model = linkedSignal(this.value);
 
   /** @ignore */
-  isDisabled = signal<boolean>(false);
+  isDisabled = signal(false);
 
   /** @ignore */
   onTouchedCallbacks: (() => void)[] = [];
