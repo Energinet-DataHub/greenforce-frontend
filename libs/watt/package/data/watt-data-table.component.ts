@@ -114,7 +114,9 @@ import { WattDataIntlService } from './watt-data-intl.service';
         <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
           @if (
-            enableEmptyState() && !table().loading && table().dataSource().filteredData.length === 0
+            enableEmptyState() &&
+            !table().loading() &&
+            table().dataSource().filteredData.length === 0
           ) {
             <vater-flex [autoSize]="autoSize()" fill="vertical">
               <vater-stack scrollable justify="center">
