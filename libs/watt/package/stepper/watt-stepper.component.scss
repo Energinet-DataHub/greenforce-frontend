@@ -70,31 +70,3 @@
     }
   }
 }
-
-.watt-modal--medium,
-.watt-modal--large {
-  watt-stepper,
-  .watt-stepper {
-    height: 100%;
-  }
-
-  .mat-horizontal-stepper-content {
-    display: grid;
-    align-items: center;
-    grid-template-rows: 1fr auto;
-    grid-template-areas:
-      "content"
-      "actions";
-
-    .watt-stepper-content-wrapper {
-      max-height: 75vh;
-      align-self: stretch;
-      grid-area: content;
-      overflow: auto;
-    }
-
-    .watt-stepper-button-wrapper {
-      grid-area: actions;
-    }
-  }
-}

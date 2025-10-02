@@ -103,6 +103,14 @@
     overflow: auto;
     padding: var(--watt-modal-content-padding);
 
+    &:has(watt-stepper) {
+
+      .watt-stepper-content-wrapper {
+        overflow-y: auto;
+        max-height: calc(100vh - 250px);
+      }
+    }
+
     .watt-modal-content--full-width {
       display: block;
 
