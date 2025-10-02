@@ -173,12 +173,12 @@ export class WattTableCellDirective<T> {
   /**
    * The WattTableColumn this template applies to.
    */
-  column = input.required<WattTableColumn<T>>({ alias: 'wattTableCell' });
+  readonly column = input.required<WattTableColumn<T>>({ alias: 'wattTableCell' });
 
   /**
    * Optional header text for the column.
    */
-  header = input<string>(undefined, { alias: 'wattTableCellHeader' });
+  readonly header = input<string>(undefined, { alias: 'wattTableCellHeader' });
 
   static ngTemplateContextGuard<T>(
     _directive: WattTableCellDirective<T>,
@@ -231,7 +231,7 @@ export class WattTableComponent<T> {
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
    */
-  dataSource = input.required<IWattTableDataSource<T>>();
+  readonly dataSource = input.required<IWattTableDataSource<T>>();
 
   /**
    * Column definition record with keys representing the column identifiers
@@ -239,75 +239,75 @@ export class WattTableComponent<T> {
    * is determined by the property order, but can be overruled by the
    * `displayedColumns` input.
    */
-  columns = input<WattTableColumnDef<T>>({});
+  readonly columns = input<WattTableColumnDef<T>>({});
 
   /**
    * Used for hiding or reordering columns defined in the `columns` input.
    */
-  displayedColumns = input<string[]>();
+  readonly displayedColumns = input<string[]>();
 
   /**
    * Used for disabling the table. This will disable all user interaction
    */
-  disabled = input(false);
+  readonly disabled = input(false);
 
   /**
    * Provide a description of the table for visually impaired users.
    */
-  description = input('');
+  readonly description = input('');
 
   /**
    * If set to `true`, the table will show a loading indicator
    * when there is no data.
    */
-  loading = input(false);
+  readonly loading = input(false);
 
   /**
    * If true the footer will be sticky
    */
-  stickyFooter = input(false);
+  readonly stickyFooter = input(false);
 
   /**
    * Optional callback for determining header text for columns that
    * do not have a static header text set in the column definition.
    * Useful for providing translations of column headers.
    */
-  resolveHeader = input<(key: string) => string>();
+  readonly resolveHeader = input<(key: string) => string>();
 
   /**
    * Identifier for column that should be sorted initially.
    */
-  sortBy = input('');
+  readonly sortBy = input('');
 
   /**
    * The sort direction of the initially sorted column.
    */
-  sortDirection = input<SortDirection>('');
+  readonly sortDirection = input<SortDirection>('');
 
   /**
    * Whether to allow the user to clear the sort. Defaults to `true`.
    */
-  sortClear = input(true);
+  readonly sortClear = input(true);
 
   /**
    * Whether the table should include a checkbox column for row selection.
    */
-  selectable = input(false);
+  readonly selectable = input(false);
 
   /**
    * Sets the selected rows. Only applicable when selectable is `true`.
    */
-  selection = model<T[]>([]);
+  readonly selection = model<T[]>([]);
 
   /**
    * Set to true to disable row hover highlight.
    */
-  suppressRowHoverHighlight = input(false);
+  readonly suppressRowHoverHighlight = input(false);
 
   /**
    * Highlights the currently active row.
    */
-  activeRow = input<T>();
+  readonly activeRow = input<T>();
 
   /**
    * Custom comparator function to determine if two rows are equal.
@@ -318,27 +318,27 @@ export class WattTableComponent<T> {
    * as long as the instances remain the same, which may not be the case
    * if row data is recreated or rebuilt from serialization.
    */
-  activeRowComparator = input<(currentRow: T, activeRow: T) => boolean>();
+  readonly activeRowComparator = input<(currentRow: T, activeRow: T) => boolean>();
 
   /**
    * If set to `true`, the column headers will not be shown. Default is `false`.
    */
-  hideColumnHeaders = input(false);
+  readonly hideColumnHeaders = input(false);
 
   /**
    * Choose from a predefined set of display variants.
    */
-  variant = input<'zebra'>();
+  readonly variant = input<'zebra'>();
 
   /**
    * Array of rows that are currently expanded.
    */
-  expanded = model<T[]>([]);
+  readonly expanded = model<T[]>([]);
 
   /**
    * Optional function for uniquely identifying rows.
    */
-  trackBy = input<TrackByFunction<T> | keyof T>();
+  readonly trackBy = input<TrackByFunction<T> | keyof T>();
 
   /**
    * @ignore
@@ -351,12 +351,12 @@ export class WattTableComponent<T> {
   /**
    * Emits whenever a row is clicked.
    */
-  rowClick = outputFromObservable(this._rowClick$);
+  readonly rowClick = outputFromObservable(this._rowClick$);
 
   /**
    * Event emitted when the user changes the active sort or sort direction.
    */
-  sortChange = output<Sort>();
+  readonly sortChange = output<Sort>();
 
   // Queries
   protected cells = contentChildren(WattTableCellDirective<T>);
@@ -378,8 +378,6 @@ export class WattTableComponent<T> {
 
   /** @ignore */
   _checkboxColumn = '__checkboxColumn__';
-
-  /** @ignore */
   _expandableColumn = '__expandableColumn__';
 
   /** @ignore */
