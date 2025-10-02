@@ -64,6 +64,7 @@ export abstract class WattPickerBase
 
   stateChanges = new Subject<void>();
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   userAriaDescribedBy = input<string>(undefined, { alias: 'aria-describedby' });
 
   get placeholder(): string {
