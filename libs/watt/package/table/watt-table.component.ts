@@ -345,12 +345,12 @@ export class WattTableComponent<T> {
    * clickable or not. This is available on `EventEmitter`, but not on `output`,
    * which is why this workaround is used.
    */
-  protected _rowClick$ = new Subject<T>();
+  protected rowClick$ = new Subject<T>();
 
   /**
    * Emits whenever a row is clicked.
    */
-  readonly rowClick = outputFromObservable(this._rowClick$);
+  readonly rowClick = outputFromObservable(this.rowClick$);
 
   /**
    * Event emitted when the user changes the active sort or sort direction.
@@ -488,7 +488,7 @@ export class WattTableComponent<T> {
       );
     }
 
-    this._rowClick$.next(row);
+    this.rowClick$.next(row);
   }
 }
 
