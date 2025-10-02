@@ -459,7 +459,7 @@ export class WattTableComponent<T> {
     if (column.value.cell) return column.value.cell(row);
     const cell = this.getCellData(column.value, row);
     if (!cell) return '—';
-    if (cell instanceof Date) return this._datePipe.transform(cell);
+    if (cell instanceof Date) return wattFormatDate(cell);
     return cell;
   }
 
