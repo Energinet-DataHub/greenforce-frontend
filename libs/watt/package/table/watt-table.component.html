@@ -27,7 +27,7 @@ limitations under the License.
   (matSortChange)="sortChange.emit($event)"
 >
   @if (selectable()) {
-    <ng-container [matColumnDef]="_checkboxColumn" [sticky]="true">
+    <ng-container [matColumnDef]="checkboxColumn" [sticky]="true">
       <th mat-header-cell *matHeaderCellDef class="watt-table-checkbox-cell">
         <watt-checkbox
           [ngModel]="getSelectionState()"
@@ -44,15 +44,15 @@ limitations under the License.
     </ng-container>
   }
 
-  <ng-container [matColumnDef]="_expandableColumn">
+  <ng-container [matColumnDef]="expandableColumn">
     <th mat-header-cell *matHeaderCellDef></th>
     <td
       #td
       mat-cell
       *matCellDef="let row; let index = index"
-      [attr.data-key]="_getRowKey(index, row)"
+      [attr.data-key]="getRowKey(index, row)"
       [attr.data-row-index]="index"
-      (click)="_onRowClick(row)"
+      (click)="onRowClick(row)"
       [class.watt-table-cell--expanded]="expanded().includes(row)"
     >
       <watt-icon name="right" size="xs" />
@@ -79,7 +79,7 @@ limitations under the License.
           [arrowPosition]="column.value.align === 'right' ? 'before' : 'after'"
           [disabled]="!column.value.accessor || column.value.sort === false"
         >
-          {{ _getColumnHeader(column) }}
+          {{ getColumnHeader(column) }}
         </div>
         @if (column.value.tooltip; as tooltip) {
           <watt-icon [title]="tooltip" name="info" />
@@ -90,30 +90,30 @@ limitations under the License.
         #td
         mat-cell
         *matCellDef="let row; let index = index"
-        [attr.data-key]="_getRowKey(index, row)"
+        [attr.data-key]="getRowKey(index, row)"
         [attr.data-row-index]="index"
         [class.watt-table-cell--expanded]="expanded().includes(row)"
         [class.watt-table-cell--expandable]="column.value.expandable"
         class="watt-table-align-{{ column.value.align ?? 'left' }} {{ column.value.dataCellClass }}"
-        (click)="!column.value.expandable && _onRowClick(row)"
+        (click)="!column.value.expandable && onRowClick(row)"
       >
         @if (isExpandable()) {
           @defer (when !column.value.expandable || expanded().includes(row)) {
-            @if (_getColumnTemplate(column.value); as template) {
+            @if (getColumnTemplate(column.value); as template) {
               <div class="watt-table-cell-wrapper">
                 <ng-container *ngTemplateOutlet="template; context: { $implicit: row }" />
               </div>
             } @else {
-              {{ _getColumnCell(column, row) }}
+              {{ getColumnCell(column.value, row) }}
             }
           }
         } @else {
-          @if (_getColumnTemplate(column.value); as template) {
+          @if (getColumnTemplate(column.value); as template) {
             <div class="watt-table-cell-wrapper">
               <ng-container *ngTemplateOutlet="template; context: { $implicit: row }" />
             </div>
           } @else {
-            {{ _getColumnCell(column, row) }}
+            {{ getColumnCell(column.value, row) }}
           }
         }
       </td>
@@ -145,8 +145,8 @@ limitations under the License.
     [attr.aria-selected]="row === activeRow()"
     [ngClass]="{
       'watt-table-highlight-row': !disabled() && !suppressRowHoverHighlight(),
-      'watt-table-clickable-row': !disabled() && _rowClick$.observed,
-      'watt-table-active-row': _isActiveRow(row),
+      'watt-table-clickable-row': !disabled() && rowClick$.observed,
+      'watt-table-active-row': isActiveRow(row),
       'watt-table-no-end-divider': hideColumnHeaders(),
     }"
   ></tr>
