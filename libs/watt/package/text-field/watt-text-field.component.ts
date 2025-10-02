@@ -26,7 +26,8 @@ import {
   input,
   output,
   viewChild,
-  signal, linkedSignal,
+  signal,
+  linkedSignal,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -56,30 +57,18 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       multi: true,
     },
   ],
-  template: `<watt-field
-    #wattField
-    [control]="formControl()"
-    [label]="label()"
-    [tooltip]="tooltip()"
-    matAutocompleteOrigin
-  >
-    @if (prefix()) {
-      <watt-icon [name]="prefix()" />
-    }
+  template: `
+    <watt-field
+      #wattField
+      [control]="formControl()"
+      [label]="label()"
+      [tooltip]="tooltip()"
+      matAutocompleteOrigin
+    >
+      @if (prefix()) {
+        <watt-icon [name]="prefix()" />
+      }
 
-    @if (!autocompleteOptions()) {
-      <input
-        [attr.aria-label]="label()"
-        [attr.type]="type()"
-        [attr.placeholder]="placeholder()"
-        [value]="model()"
-        [formControl]="formControl()"
-        (blur)="onTouched()"
-        (input)="onChanged($event)"
-        [maxlength]="maxLength()"
-        #inputField
-      />
-    } @else {
       <input
         [attr.aria-label]="label()"
         [attr.type]="type()"
@@ -90,6 +79,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         (input)="onChanged($event)"
         [maxlength]="maxLength()"
         [matAutocomplete]="auto"
+        [matAutocompleteDisabled]="!autocompleteOptions()"
         [matAutocompleteConnectedTo]="{ elementRef: wattField.wrapper() ?? wattField.elementRef }"
         #inputField
       />
@@ -105,13 +95,13 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
           </mat-option>
         }
       </mat-autocomplete>
-    }
 
-    <ng-content />
-    <ng-content ngProjectAs="watt-field-descriptor" select=".descriptor" />
-    <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
-    <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
-  </watt-field>`,
+      <ng-content />
+      <ng-content ngProjectAs="watt-field-descriptor" select=".descriptor" />
+      <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
+      <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
+    </watt-field>
+  `,
 })
 export class WattTextFieldComponent implements ControlValueAccessor, AfterViewInit {
   value = input('');
@@ -123,10 +113,10 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   maxLength = input<string | number | null>(null);
   formControl = input.required<FormControl>();
   autocompleteOptions = input<string[]>([]);
-  autocompleteMatcherFn = input<((value: string, option: string) => boolean)>();
+  autocompleteMatcherFn = input<(value: string, option: string) => boolean>();
 
   /** @ignore */
-  autocompleteRef = viewChild(MatAutocomplete);
+  autocompleteRef = viewChild.required(MatAutocomplete);
 
   /**
    * Emits the value of the input field when it changes.
@@ -147,7 +137,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   private element = inject(ElementRef);
 
   /** @ignore */
-  inputField = viewChild<ElementRef<HTMLInputElement>>('inputField');
+  inputField = viewChild.required<ElementRef<HTMLInputElement>>('inputField');
   model = linkedSignal(this.value);
 
   /** @ignore */
@@ -162,39 +152,31 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
     const testIdAttribute = this.element.nativeElement.getAttribute(attrName);
     this.element.nativeElement.removeAttribute(attrName);
 
-    const inputField = this.inputField();
-    if (inputField) {
-      inputField.nativeElement.setAttribute(attrName, testIdAttribute);
-      this.registerOnTouched(() => {
-        const trimmedValue = inputField.nativeElement.value.trim();
-        inputField.nativeElement.value = trimmedValue;
-        this.formControl().setValue(trimmedValue);
-      });
-    }
+    this.inputField().nativeElement.setAttribute(attrName, testIdAttribute);
+    this.registerOnTouched(() => {
+      const trimmedValue = this.inputField().nativeElement.value.trim();
+      this.inputField().nativeElement.value = trimmedValue;
+      this.formControl().setValue(trimmedValue);
+    });
   }
 
   /** @ignore */
   onChanged(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
 
-    const autocomplete = this.autocompleteRef();
-    if (autocomplete) {
-      // Reset the autocomplete selection if the value is not matching anymore, and auto-select if the value has a match
-      autocomplete.options.forEach((option) => {
-        const matcherFn = this.autocompleteMatcherFn();
-        const isMatchingOption = matcherFn
-          ? matcherFn(value, option.value)
-          : option.value === value;
+    // Reset the autocomplete selection if the value is not matching anymore, and auto-select if the value has a match
+    this.autocompleteRef().options.forEach((option) => {
+      const matcherFn = this.autocompleteMatcherFn();
+      const isMatchingOption = matcherFn ? matcherFn(value, option.value) : option.value === value;
 
-        if (isMatchingOption) {
-          option.select(false);
-          this.autocompleteOptionSelected.emit(option.value);
-        } else {
-          option.deselect(false);
-          this.autocompleteOptionDeselected.emit();
-        }
-      });
-    }
+      if (isMatchingOption) {
+        option.select(false);
+        this.autocompleteOptionSelected.emit(option.value);
+      } else {
+        option.deselect(false);
+        this.autocompleteOptionDeselected.emit();
+      }
+    });
 
     this.searchChanged.emit(value);
     this.onChange(value);
