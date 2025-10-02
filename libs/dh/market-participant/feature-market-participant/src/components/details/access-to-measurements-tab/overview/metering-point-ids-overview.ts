@@ -27,6 +27,7 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDataTableComponent, WattDataActionsComponent } from '@energinet-datahub/watt/data';
@@ -47,6 +48,7 @@ import {
     TranslocoDirective,
     TranslocoPipe,
 
+    VaterStackComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
     WattButtonComponent,
@@ -86,11 +88,12 @@ import {
           [selectable]="canManageAdditionalRecipients()"
         >
           <ng-container *wattTableToolbar="let selection">
-            {{ t('table.selectedRows', { count: selection.length }) }}
-            <watt-table-toolbar-spacer />
-            <watt-button icon="close" (click)="submit(selection)" [loading]="submitInProgress()">
-              {{ t('table.removeAccessToMeasurements') }}
-            </watt-button>
+            <vater-stack direction="row" gap="xl">
+              <span>{{ t('table.selectedRows', { count: selection.length }) }}</span>
+              <watt-button icon="close" (click)="submit(selection)" [loading]="submitInProgress()">
+                {{ t('table.removeAccessToMeasurements') }}
+              </watt-button>
+            </vater-stack>
           </ng-container>
         </watt-table>
       </watt-data-table>

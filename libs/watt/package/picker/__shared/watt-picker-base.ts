@@ -16,39 +16,41 @@
  * limitations under the License.
  */
 //#endregion
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  DestroyRef,
-  Directive,
-  ElementRef,
-  HostBinding,
   Input,
-  OnDestroy,
   OnInit,
   Signal,
   inject,
+  Directive,
+  OnDestroy,
+  ElementRef,
+  DestroyRef,
+  HostBinding,
+  AfterViewInit,
+  ChangeDetectorRef,
+  input,
 } from '@angular/core';
+
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+
 import { Subject } from 'rxjs';
 
 import { WattDateRange } from '@energinet/watt/core/date';
-import { WattPickerValue } from './watt-picker-value';
 
+import { WattPickerValue } from './watt-picker-value';
 @Directive()
 export abstract class WattPickerBase
   implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
 {
-  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected destroyRef = inject(DestroyRef);
   protected changeDetectionRef = inject(ChangeDetectorRef);
   protected ngControl = inject(NgControl, { optional: true });
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  protected abstract input: Signal<ElementRef<HTMLInputElement> | undefined>;
-
-  protected abstract startInput: Signal<ElementRef<HTMLInputElement> | undefined>;
-
-  protected abstract endInput: Signal<ElementRef<HTMLInputElement> | undefined>;
+  abstract input: Signal<ElementRef<HTMLInputElement> | undefined>;
+  abstract endInput: Signal<ElementRef<HTMLInputElement> | undefined>;
+  abstract startInput: Signal<ElementRef<HTMLInputElement> | undefined>;
 
   static nextId = 0;
 
@@ -62,7 +64,8 @@ export abstract class WattPickerBase
 
   stateChanges = new Subject<void>();
 
-  protected _destroyRef = inject(DestroyRef);
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  userAriaDescribedBy = input<string>(undefined, { alias: 'aria-describedby' });
 
   get placeholder(): string {
     return this._placeholder;
@@ -89,22 +92,22 @@ export abstract class WattPickerBase
   }
 
   set value(value: WattPickerValue) {
-    const inputNotToBeInTheDocument = !this.range ? !this.input() : !this.startInput();
+    const input = this.input();
+    const startInput = this.startInput();
+    const endInput = this.endInput();
+
+    const inputNotToBeInTheDocument = !this.range ? !input : !startInput;
 
     if (inputNotToBeInTheDocument) {
       this.initialValue = value;
       return;
     }
 
-    const startInput = this.startInput();
-    const endInput = this.endInput();
-    const input = this.input();
-
-    if (!startInput || !endInput || !input) return;
-
     if (this.range) {
+      if (!startInput || !endInput) return;
       this.setRangeValue(value as WattDateRange, startInput.nativeElement, endInput.nativeElement);
     } else {
+      if (!input) return;
       this.setSingleValue(value as Exclude<WattPickerValue, WattDateRange>, input.nativeElement);
     }
 
