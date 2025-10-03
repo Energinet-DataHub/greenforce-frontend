@@ -16,5 +16,5 @@ limitations under the License.
 -->
 <watt-button (click)="modal.open()">Open stepper dialog</watt-button>
 <watt-modal #modal title="Stepper dialog" size="medium" closeLabel="Close modal">
-  <watt-stepper-example />
+  <watt-stepper-example [isBig]="isBig()" />
 </watt-modal>

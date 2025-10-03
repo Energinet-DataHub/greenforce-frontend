@@ -50,6 +50,7 @@ export class StepperExampleComponent {
   disableRipple = input<boolean>(false);
   disablePreviousButton = input<boolean>(false);
   editable = input<boolean>(true);
+  isBig = input<boolean>(false);
 
   complete(): void {
     console.log('completed');
