@@ -27,11 +27,7 @@ import { WattMenuTriggerDirective } from './watt-menu-trigger.directive';
 
 @Component({
   standalone: true,
-  imports: [
-    WattMenuComponent,
-    WattMenuItemComponent,
-    WattMenuTriggerDirective,
-  ],
+  imports: [WattMenuComponent, WattMenuItemComponent, WattMenuTriggerDirective],
   template: `
     <button [wattMenuTriggerFor]="menu">Open Menu</button>
     <watt-menu #menu>
@@ -59,7 +55,7 @@ describe('WattMenuTriggerDirective', () => {
 
     fixture = TestBed.createComponent(TestComponent);
     fixture.detectChanges();
-    
+
     const triggerElement = fixture.debugElement.query(By.directive(WattMenuTriggerDirective));
     triggerDirective = triggerElement.injector.get(WattMenuTriggerDirective);
   });
@@ -82,11 +78,11 @@ describe('WattMenuTriggerDirective', () => {
 
   it('should toggle menu state', () => {
     expect(triggerDirective.menuOpen).toBe(false);
-    
+
     triggerDirective.toggleMenu();
     fixture.detectChanges();
     expect(triggerDirective.menuOpen).toBe(true);
-    
+
     triggerDirective.toggleMenu();
     fixture.detectChanges();
     expect(triggerDirective.menuOpen).toBe(false);

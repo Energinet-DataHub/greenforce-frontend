@@ -28,11 +28,7 @@ import { WattMenuTriggerDirective } from './watt-menu-trigger.directive';
 
 @Component({
   standalone: true,
-  imports: [
-    WattMenuComponent,
-    WattMenuItemComponent,
-    WattMenuTriggerDirective,
-  ],
+  imports: [WattMenuComponent, WattMenuItemComponent, WattMenuTriggerDirective],
   template: `
     <button [wattMenuTriggerFor]="menu">Open Menu</button>
     <watt-menu #menu>

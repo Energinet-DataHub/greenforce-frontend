@@ -39,48 +39,50 @@ import { MatMenuItem } from '@angular/material/menu';
       <ng-content />
     </span>
   </button>`,
-  styles: [`
-    /* Menu item button */
-    .watt-menu-item .mat-mdc-menu-item {
-      padding-inline: var(--watt-menu-padding-inline);
-    }
-
-    /* Menu item content layout */
-    .watt-menu-item-content {
-      display: flex;
-      align-items: center;
-      gap: var(--watt-menu-item-gap);
-      width: 100%;
-    }
-
-    /* Icon wrapper */
-    .watt-menu-item-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: var(--watt-menu-icon-size);
-      height: var(--watt-menu-icon-size);
-      flex-shrink: 0;
-
-      /* Hide when menu has no icons */
-      &:not(.watt-menu-item-icon--show) {
-        display: none;
+  styles: [
+    `
+      /* Menu item button */
+      .watt-menu-item .mat-mdc-menu-item {
+        padding-inline: var(--watt-menu-padding-inline);
       }
 
-      watt-icon {
+      /* Menu item content layout */
+      .watt-menu-item-content {
         display: flex;
+        align-items: center;
+        gap: var(--watt-menu-item-gap);
+        width: 100%;
       }
-    }
 
-    /* Reserve space for alignment when item has no icon */
-    .watt-menu-item-icon--show:empty {
-      visibility: hidden;
-    }
-  `],
+      /* Icon wrapper */
+      .watt-menu-item-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--watt-menu-icon-size);
+        height: var(--watt-menu-icon-size);
+        flex-shrink: 0;
+
+        /* Hide when menu has no icons */
+        &:not(.watt-menu-item-icon--show) {
+          display: none;
+        }
+
+        watt-icon {
+          display: flex;
+        }
+      }
+
+      /* Reserve space for alignment when item has no icon */
+      .watt-menu-item-icon--show:empty {
+        visibility: hidden;
+      }
+    `,
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'watt-menu-item',
+    class: 'watt-menu-item',
   },
 })
 export class WattMenuItemComponent implements AfterContentInit {

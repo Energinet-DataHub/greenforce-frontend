@@ -16,12 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  input,
-} from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, input } from '@angular/core';
 
 @Component({
   selector: 'watt-menu-group',
@@ -33,25 +28,27 @@ import {
       <ng-content />
     </div>
   `,
-  styles: [`
-    /* Menu group container */
-    .watt-menu-group:not(:last-child) {
-      border-bottom: 1px solid var(--watt-menu-divider-color);
-      padding-bottom: var(--watt-menu-padding-block);
-      margin-bottom: var(--watt-menu-padding-block);
-    }
-
-    /* Group heading */
-    .watt-menu-group-heading {
-      padding-block: var(--watt-menu-padding-block);
-      padding-inline: var(--watt-menu-padding-inline);
-
-      /* Align with menu items when icons are present */
-      .watt-menu-panel--has-icons & {
-        padding-inline-start: calc(var(--watt-menu-padding-inline) + var(--watt-menu-icon-space));
+  styles: [
+    `
+      /* Menu group container */
+      .watt-menu-group:not(:last-child) {
+        border-bottom: 1px solid var(--watt-menu-divider-color);
+        padding-bottom: var(--watt-menu-padding-block);
+        margin-bottom: var(--watt-menu-padding-block);
       }
-    }
-  `],
+
+      /* Group heading */
+      .watt-menu-group-heading {
+        padding-block: var(--watt-menu-padding-block);
+        padding-inline: var(--watt-menu-padding-inline);
+
+        /* Align with menu items when icons are present */
+        .watt-menu-panel--has-icons & {
+          padding-inline-start: calc(var(--watt-menu-padding-inline) + var(--watt-menu-icon-space));
+        }
+      }
+    `,
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

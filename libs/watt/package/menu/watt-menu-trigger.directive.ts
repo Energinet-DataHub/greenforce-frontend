@@ -44,11 +44,14 @@ import { WattMenuComponent } from './watt-menu.component';
   hostDirectives: [
     {
       directive: MatMenuTrigger,
-      inputs: ['matMenuTriggerData: wattMenuTriggerData', 'matMenuTriggerRestoreFocus: wattMenuTriggerRestoreFocus'],
-      outputs: ['menuOpened', 'menuClosed']
-    }
+      inputs: [
+        'matMenuTriggerData: wattMenuTriggerData',
+        'matMenuTriggerRestoreFocus: wattMenuTriggerRestoreFocus',
+      ],
+      outputs: ['menuOpened', 'menuClosed'],
+    },
   ],
-  standalone: true
+  standalone: true,
 })
 export class WattMenuTriggerDirective implements OnInit {
   private readonly matMenuTrigger = inject(MatMenuTrigger);

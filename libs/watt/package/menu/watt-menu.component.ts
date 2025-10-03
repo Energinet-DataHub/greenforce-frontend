@@ -67,31 +67,33 @@ import { WattMenuItemComponent } from './watt-menu-item.component';
       #menu="matMenu"
       [class]="'watt-menu-panel' + (hasIcons ? ' watt-menu-panel--has-icons' : '')"
     >
-      <ng-content select="watt-menu-group, watt-menu-item"/>
+      <ng-content select="watt-menu-group, watt-menu-item" />
     </mat-menu>
   `,
-  styles: [`
-    :root {
-      --watt-menu-padding-block: var(--watt-space-s);
-      --watt-menu-padding-inline: var(--watt-space-m);
-      --watt-menu-item-gap: var(--watt-space-s);
-      --watt-menu-icon-space: calc(var(--watt-menu-icon-size) + var(--watt-menu-item-gap));
-      --watt-menu-icon-size: var(--watt-icon-size-s);
-    }
-
-    /* Menu panel styles */
-    .watt-menu-panel {
-      /* Override Material menu padding to have consistent spacing */
-      .mat-mdc-menu-content {
-        padding-block: var(--watt-menu-padding-block);
+  styles: [
+    `
+      :root {
+        --watt-menu-padding-block: var(--watt-space-s);
+        --watt-menu-padding-inline: var(--watt-space-m);
+        --watt-menu-item-gap: var(--watt-space-s);
+        --watt-menu-icon-space: calc(var(--watt-menu-icon-size) + var(--watt-menu-item-gap));
+        --watt-menu-icon-size: var(--watt-icon-size-s);
       }
 
-      /* When menu has no icons, hide the icon space entirely */
-      &:not(.watt-menu-panel--has-icons) .watt-menu-item-icon {
-        display: none;
+      /* Menu panel styles */
+      .watt-menu-panel {
+        /* Override Material menu padding to have consistent spacing */
+        .mat-mdc-menu-content {
+          padding-block: var(--watt-menu-padding-block);
+        }
+
+        /* When menu has no icons, hide the icon space entirely */
+        &:not(.watt-menu-panel--has-icons) .watt-menu-item-icon {
+          display: none;
+        }
       }
-    }
-  `],
+    `,
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatMenuModule],
@@ -118,10 +120,10 @@ export class WattMenuComponent implements AfterContentInit {
 
   ngAfterContentInit(): void {
     // Check if any menu item has an icon
-    this.hasIcons = this.menuItems().some(item => item.hasIcon);
+    this.hasIcons = this.menuItems().some((item) => item.hasIcon);
 
     // Notify all menu items about the icon state
-    this.menuItems().forEach(item => {
+    this.menuItems().forEach((item) => {
       item.menuHasIcons = this.hasIcons;
     });
   }
