@@ -93,10 +93,11 @@ export class DhMeasurementsNavigationComponent {
     map((nav) => nav.urlAfterRedirects.split('/').pop()?.split('?')[0])
   );
 
-  protected currentView = toSignal(
+  protected currentView = toSignal<MeasurementsSubPaths>(
     this.routeOnLoad$.pipe(
       mergeWith(this.routeOnNavigation$),
       distinctUntilChanged(),
+      map((route) => route as MeasurementsSubPaths),
       takeUntilDestroyed()
     )
   );
@@ -131,7 +132,7 @@ export class DhMeasurementsNavigationComponent {
     });
   }
 
-  private mapViewToFilter = (view: unknown) => {
+  private mapViewToFilter = (view: MeasurementsSubPaths | undefined) => {
     switch (view) {
       case 'day':
         return { filter: 'date', format: 'YYYY-MM-DD' };
