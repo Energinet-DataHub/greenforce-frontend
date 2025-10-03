@@ -37,7 +37,7 @@ import { WATT_MODAL } from '../../modal/watt-modal.component';
     StepperExampleComponent,
     MatButtonModule,
   ],
-  providers: [WattModalService]
+  providers: [WattModalService],
 })
 export class StepperModalExampleComponent {
   formBuilder = inject(FormBuilder);
