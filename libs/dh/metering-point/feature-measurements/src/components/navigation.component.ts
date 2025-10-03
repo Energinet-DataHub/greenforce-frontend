@@ -38,6 +38,7 @@ import {
 
 import { dayjs } from '@energinet-datahub/watt/date';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+
 @Component({
   selector: 'dh-measurements-navigation',
   imports: [
@@ -113,56 +114,33 @@ export class DhMeasurementsNavigationComponent {
     });
 
     effect(() => {
-      const navigateTo = this.navigateTo();
-      const currentView = this.currentView();
+      const current = this.mapViewToFilter(this.currentView());
+      const next = this.mapViewToFilter(this.navigateTo());
+      if (!next) return;
 
-      if (!navigateTo) return;
+      const params = new URLSearchParams(this.route.snapshot.queryParams['filters']);
+      const filter = current
+        ? { [next.filter]: dayjs(params.get(current.filter)).format(next.format) }
+        : null;
 
-      const filters = this.calculateFilters(navigateTo, currentView);
-
-      this.router.navigate([navigateTo], {
+      this.router.navigate([this.navigateTo()], {
         relativeTo: this.route,
-        queryParams: filters ? { filters } : {},
+        queryParams: filter ? { filters: qs.stringify(filter) } : {},
         queryParamsHandling: 'merge',
       });
     });
   }
 
-  private calculateFilters(navigateTo: string, currentView: string | undefined): string | null {
-    const params = new URLSearchParams(this.route.snapshot.queryParams['filters']);
-    if (params.size === 0) return null;
-
-    const navigationMap = this.getNavigationMap(params);
-    const key = `${navigateTo}_${currentView}`;
-
-    return navigationMap[key] || null;
-  }
-
-  private getNavigationMap(params: URLSearchParams): Record<string, string> {
-    return {
-      year_month: qs.stringify({
-        year: dayjs(params.get('yearMonth')).format('YYYY'),
-      }),
-
-      month_year: qs.stringify({
-        yearMonth: dayjs(params.get('year')).startOf('month').format('YYYY-MM'),
-      }),
-
-      month_day: qs.stringify({
-        yearMonth: dayjs(params.get('date')).format('YYYY-MM'),
-      }),
-
-      day_month: qs.stringify({
-        date: dayjs(params.get('yearMonth')).startOf('month').format('YYYY-MM-DD'),
-      }),
-
-      day_year: qs.stringify({
-        date: dayjs(params.get('year')).startOf('year').format('YYYY-MM-DD'),
-      }),
-
-      year_day: qs.stringify({
-        year: dayjs(params.get('date')).format('YYYY'),
-      }),
-    };
-  }
+  private mapViewToFilter = (view: unknown) => {
+    switch (view) {
+      case 'day':
+        return { filter: 'date', format: 'YYYY-MM-DD' };
+      case 'month':
+        return { filter: 'yearMonth', format: 'YYYY-MM' };
+      case 'year':
+        return { filter: 'year', format: 'YYYY' };
+      default:
+        return null;
+    }
+  };
 }
