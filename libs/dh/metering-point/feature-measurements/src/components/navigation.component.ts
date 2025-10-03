@@ -38,6 +38,7 @@ import {
 
 import { dayjs } from '@energinet-datahub/watt/date';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+
 @Component({
   selector: 'dh-measurements-navigation',
   imports: [
@@ -113,31 +114,33 @@ export class DhMeasurementsNavigationComponent {
     });
 
     effect(() => {
-      const navigateTo = this.navigateTo();
-      const currentView = this.currentView();
+      const current = this.mapViewToFilter(this.currentView());
+      const next = this.mapViewToFilter(this.navigateTo());
+      if (!next) return;
+
       const params = new URLSearchParams(this.route.snapshot.queryParams['filters']);
+      const filter = current
+        ? { [next.filter]: dayjs(params.get(current.filter)).format(next.format) }
+        : null;
 
-      let filters = null;
-
-      if (params.size > 0 && navigateTo === 'month' && currentView === 'day') {
-        const date = params.get('date');
-        const yearMonth = dayjs(date).format('YYYY-MM');
-        filters = qs.stringify({ yearMonth });
-      }
-
-      if (params.size > 0 && navigateTo === 'year' && currentView === 'month') {
-        const yearMonth = params.get('yearMonth');
-        const year = dayjs(yearMonth).format('YYYY');
-        filters = qs.stringify({ year });
-      }
-
-      if (navigateTo) {
-        this.router.navigate([navigateTo], {
-          relativeTo: this.route,
-          queryParams: { filters },
-          queryParamsHandling: 'merge',
-        });
-      }
+      this.router.navigate([this.navigateTo()], {
+        relativeTo: this.route,
+        queryParams: filter ? { filters: qs.stringify(filter) } : {},
+        queryParamsHandling: 'merge',
+      });
     });
   }
+
+  private mapViewToFilter = (view: unknown) => {
+    switch (view) {
+      case 'day':
+        return { filter: 'date', format: 'YYYY-MM-DD' };
+      case 'month':
+        return { filter: 'yearMonth', format: 'YYYY-MM' };
+      case 'year':
+        return { filter: 'year', format: 'YYYY' };
+      default:
+        return null;
+    }
+  };
 }
