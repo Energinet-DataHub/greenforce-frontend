@@ -1,0 +1,15 @@
+﻿{
+  "data": {
+    "chargesByPeriod": {
+      "totalCount": 2,
+      "nodes": [
+        {
+          "status": "MISSING_PRICE_SERIES"
+        },
+        {
+          "status": "MISSING_PRICE_SERIES"
+        }
+      ]
+    }
+  }
+}

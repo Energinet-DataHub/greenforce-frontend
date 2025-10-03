@@ -61,7 +61,7 @@ import { InstallationAddress } from '../types';
     <ng-container *transloco="let t; prefix: 'meteringPoint.overview.actions'">
       @if (maybeShowActionsButton()) {
         <watt-button
-          *dhReleaseToggle="'PG56-Move-in'; else elseTmpl"
+          *dhReleaseToggle="'MoveInBrs009'; else elseTmpl"
           variant="secondary"
           [matMenuTriggerFor]="menu"
         >
@@ -94,7 +94,7 @@ import { InstallationAddress } from '../types';
         }
 
         <button
-          *dhReleaseToggle="'PG56-Move-in'"
+          *dhReleaseToggle="'MoveInBrs009'"
           type="button"
           mat-menu-item
           (click)="startMoveIn()"
@@ -125,7 +125,7 @@ export class DhMeteringPointActionsComponent {
   maybeShowActionsButton = computed(() => {
     return (
       this.maybeShowMeasurementsUploadButton() ||
-      this.releaseToggleService.isEnabled('PG56-Move-in')
+      this.releaseToggleService.isEnabled('MoveInBrs009')
     );
   });
 

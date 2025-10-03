@@ -40,7 +40,7 @@ import { PeriodicElement } from './storybook-periodic-elements-data';
       [dataSource]="dataSource()"
       [columns]="columns"
       [selectable]="selectable()"
-      [initialSelection]="initialSelection()"
+      [selection]="selection()"
       [suppressRowHoverHighlight]="suppressRowHoverHighlight()"
       [hideColumnHeaders]="hideColumnHeaders()"
       [activeRow]="activeRow()"
@@ -77,7 +77,7 @@ export class StorybookPeriodicElements {
   selectable = input(false);
   suppressRowHoverHighlight = input(false);
   hideColumnHeaders = input(false);
-  initialSelection = input<PeriodicElement[]>([]);
+  selection = input<PeriodicElement[]>([]);
   data = input.required<PeriodicElement[]>();
   dataSource = computed(() => new WattTableDataSource(this.data()));
   columns = {

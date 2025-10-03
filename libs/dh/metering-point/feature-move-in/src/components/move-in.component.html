@@ -14,13 +14,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-modal
-  #modal
-  size="large"
-  [title]="t('title')"
-  *transloco="let t; prefix: 'meteringPoint.moveIn'"
->
-  <watt-stepper class="watt-modal-content--full-width" [linear]="true" (completed)="startMoveIn()">
+<watt-modal size="large" [title]="t('title')" *transloco="let t; prefix: 'meteringPoint.moveIn'">
+  <watt-stepper
+    class="watt-modal-content--full-width"
+    [linear]="true"
+    [isCompleting]="moveInLoading()"
+    (completed)="startMoveIn()"
+  >
     <watt-stepper-step
       [stepControl]="customerDetailsForm"
       [label]="t('steps.customerDetails.label')"
@@ -34,7 +34,6 @@ limitations under the License.
       [label]="t('steps.contactDetails.label')"
       [previousButtonLabel]="t('steps.customerDetails.label')"
       [nextButtonLabel]="t('save')"
-      [loadingNextButton]="false"
     >
       <dh-contact-details-form [contactDetailsForm]="contactDetailsForm" />
     </watt-stepper-step>

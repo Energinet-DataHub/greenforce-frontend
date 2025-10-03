@@ -223,6 +223,7 @@
         "requestCalculation": "Anmod om beregnede data"
       },
       "meteringPoints": "Målepunkter",
+      "prices": "Priser",
       "marketParticipant": {
         "menuGroupLabel": "Aktører",
         "userManagement": "Brugeradministration",
@@ -357,6 +358,27 @@
     "2": "Timebaseret afregning (2)",
     "3": "Øjebliksafregning (3)",
     "6": "Årsbaseret afregning (6)"
+  },
+  "charges": {
+    "charges": {
+      "topBarTitle": "Priser",
+      "table": {
+        "columns": {
+          "id": "ID",
+          "type": "Type",
+          "name": "Navn",
+          "owner": "Ejer",
+          "status": "Status"
+        },
+        "chargeStatus": {
+          "AWAITING": "Afventer",
+          "CLOSED": "Lukket",
+          "CANCELLED": "Annulleret",
+          "CURRENT": "Aktuel",
+          "MISSING_PRICE_SERIES": "Mangler prisserie"
+        }
+      }
+    }
   },
   "meteringPoint": {
     "breadcrumb": "Søg målepunkt",
@@ -675,6 +697,7 @@
           "D29": "Sekundær (D29)"
         }
       },
+      "success": "Tilflytning er nu registreret",
       "save": "Tilflyt kunde"
     }
   },
@@ -744,7 +767,8 @@
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Anmod om engrosydelser (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
-      "UPDATE_CHARGE_LINKS": "Opdatering af pristilknytninger (RSM-030)"
+      "UPDATE_CHARGE_LINKS": "Opdatering af pristilknytninger (RSM-030)",
+      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Bekræftelse af anmodning om opdatering af pristilknytninger (RSM-030)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",

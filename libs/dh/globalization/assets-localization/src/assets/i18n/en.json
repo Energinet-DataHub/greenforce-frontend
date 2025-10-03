@@ -358,6 +358,27 @@
     "3": "Immediate settlement (3)",
     "6": "Yearly settlement (6)"
   },
+  "charges": {
+    "charges": {
+      "topBarTitle": "Prices",
+      "table": {
+        "columns": {
+          "id": "ID",
+          "type": "Type",
+          "name": "Name",
+          "owner": "Owner",
+          "status": "Status"
+        },
+        "chargeStatus": {
+          "AWAITING": "Pending",
+          "CLOSED": "Closed",
+          "CANCELLED": "Cancelled",
+          "CURRENT": "Current",
+          "MISSING_PRICE_SERIES": "Missing price series"
+        }
+      }
+    }
+  },
   "meteringPoint": {
     "breadcrumb": "Search metering point",
     "search": {
@@ -675,6 +696,7 @@
           "D29": "Secondary (D29)"
         }
       },
+      "success": "Move-in is now registered",
       "save": "Customer move-in"
     }
   },
@@ -744,7 +766,8 @@
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Request for wholesale services (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)",
-      "UPDATE_CHARGE_LINKS": "Update charge links (RSM-030)"
+      "UPDATE_CHARGE_LINKS": "Update charge links (RSM-030)",
+      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm update charge links (RSM-030)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
