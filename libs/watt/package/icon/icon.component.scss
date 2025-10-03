@@ -16,6 +16,11 @@
 
 :root {
   --watt-icon-fill: 0;
+
+  @each $name, $settings in variables.$settings {
+    $size: map.get($settings, size);
+    --watt-icon-size-#{$name}: #{$size};
+  }
 }
 
 watt-icon {
@@ -36,10 +41,10 @@ watt-icon {
     &.icon-size-#{$name} {
       .mat-icon,
       .watt-custom-icon {
-        font-size: $size;
-        line-height: $size;
-        width: $size;
-        height: $size;
+        font-size: var(--watt-icon-size-#{$name});
+        line-height: var(--watt-icon-size-#{$name});
+        width: var(--watt-icon-size-#{$name});
+        height: var(--watt-icon-size-#{$name});
       }
 
       .material-symbols-sharp {
