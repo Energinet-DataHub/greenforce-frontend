@@ -14,4 +14,6 @@
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Models;
 
-public record StartMoveInInput(string Name1);
+public record StartMoveInInput(
+    string Name1,
+    string Name2);

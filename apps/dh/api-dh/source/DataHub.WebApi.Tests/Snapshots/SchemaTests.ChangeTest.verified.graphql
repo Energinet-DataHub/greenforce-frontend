@@ -1978,6 +1978,7 @@ input SendMeasurementsRequestV2Input {
 
 input StartMoveInInput {
   name1: String!
+  name2: String!
 }
 
 input StopDelegationInput {

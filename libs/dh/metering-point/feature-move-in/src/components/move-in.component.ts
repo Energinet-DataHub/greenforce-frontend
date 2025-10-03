@@ -286,7 +286,7 @@ export class DhMoveInComponent extends WattTypedModal<{
     const name1 = this.privateCustomerForm.value.name1 ?? '';
 
     const result = await this.startMoveInMutation.mutate({
-      variables: { input: { name1 } },
+      variables: { input: { name1, name2: '' } },
     });
 
     if (result.data?.startMoveIn.success) {
