@@ -16,16 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, importProvidersFrom } from '@angular/core';
+import { importProvidersFrom } from '@angular/core';
 import { Meta, moduleMetadata, StoryObj, applicationConfig } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { WattButtonComponent } from '../../button';
-import { WattIconComponent } from '../../icon';
 import { WattMenuComponent } from '../watt-menu.component';
 import { WattMenuItemComponent } from '../watt-menu-item.component';
 import { WattMenuGroupComponent } from '../watt-menu-group.component';
 import { WattMenuTriggerDirective } from '../watt-menu-trigger.directive';
+import { WattButtonComponent } from '../../button';
+import { WattIconComponent } from '../../icon';
+import { MenuBasicStoryComponent } from './menu-basic-story.component';
+import { MenuGroupsStoryComponent } from './menu-groups-story.component';
 import {
   menuWithIconsTemplate,
   menuNoIconsTemplate,
@@ -34,86 +36,6 @@ import {
   menuGroupedNoIconsTemplate,
   menuGroupedMixedIconsTemplate,
 } from './watt-menu-story-templates';
-
-
-@Component({
-  selector: 'watt-menu-story',
-  standalone: true,
-  template: `
-    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-      <div>
-        <h3>All items with icons</h3>
-        ${menuWithIconsTemplate}
-      </div>
-
-      <div>
-        <h3>No icons</h3>
-        ${menuNoIconsTemplate}
-      </div>
-
-      <div>
-        <h3>Mixed (some with icons)</h3>
-        ${menuMixedIconsTemplate}
-      </div>
-    </div>
-
-    <p style="margin-top: 20px">Last action: {{ lastAction || 'None' }}</p>
-  `,
-  imports: [
-    WattButtonComponent,
-    WattIconComponent,
-    WattMenuComponent,
-    WattMenuItemComponent,
-    WattMenuTriggerDirective,
-  ],
-})
-class MenuBasicStoryComponent {
-  lastAction: string | null = null;
-
-  onAction(action: string) {
-    this.lastAction = action;
-  }
-}
-
-@Component({
-  selector: 'watt-menu-groups-story',
-  standalone: true,
-  template: `
-    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-      <div>
-        <h3>Grouped with icons</h3>
-        ${menuGroupedWithIconsTemplate}
-      </div>
-
-      <div>
-        <h3>Grouped without icons</h3>
-        ${menuGroupedNoIconsTemplate}
-      </div>
-
-      <div>
-        <h3>Grouped mixed icons</h3>
-        ${menuGroupedMixedIconsTemplate}
-      </div>
-    </div>
-
-    <p style="margin-top: 20px">Last action: {{ lastAction || 'None' }}</p>
-  `,
-  imports: [
-    WattButtonComponent,
-    WattIconComponent,
-    WattMenuComponent,
-    WattMenuItemComponent,
-    WattMenuGroupComponent,
-    WattMenuTriggerDirective,
-  ],
-})
-class MenuGroupsStoryComponent {
-  lastAction: string | null = null;
-
-  onAction(action: string) {
-    this.lastAction = action;
-  }
-}
 
 const meta: Meta<WattMenuComponent> = {
   title: 'Components/Menu',
@@ -127,6 +49,8 @@ const meta: Meta<WattMenuComponent> = {
         WattMenuComponent,
         WattMenuItemComponent,
         WattMenuGroupComponent,
+        WattButtonComponent,
+        WattIconComponent,
         MenuBasicStoryComponent,
         MenuGroupsStoryComponent,
         WattMenuTriggerDirective,
@@ -141,7 +65,7 @@ type Story = StoryObj<WattMenuComponent>;
 export const Basic: Story = {
   render: () => ({
     props: {},
-    template: `<watt-menu-story />`,
+    template: `<watt-menu-basic-story />`,
   }),
   parameters: {
     docs: {
