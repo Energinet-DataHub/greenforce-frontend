@@ -113,6 +113,8 @@ export class DhMoveInComponent extends WattTypedModal<{
     technicalContactEmail: this.fb.control<string>(''),
   });
 
+  readonly isForeignCompanyFormControl = this.fb.control<boolean>(false);
+
   addressDetailsForm = this.fb.group<MoveInAddressDetailsFormType>({
     legalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
     legalAddressGroup: this.fb.group({
@@ -163,6 +165,9 @@ export class DhMoveInComponent extends WattTypedModal<{
     { initialValue: this.customerTypeInitialValue }
   );
 
+  private isForeignCompanyChanged = toSignal<boolean>(
+    this.isForeignCompanyFormControl.valueChanges);
+
   private name1Changed = toSignal(this.privateCustomerForm.controls.name1.valueChanges);
   private name2Changed = toSignal(this.privateCustomerForm.controls.name2.valueChanges);
   private legalContactSameAsCustomerChanged = toSignal(
@@ -190,11 +195,23 @@ export class DhMoveInComponent extends WattTypedModal<{
         this.fb.group({
           companyName: this.fb.control<string>('', Validators.required),
           cvr: this.fb.control<string>('', [Validators.required, dhCvrValidator()]),
+          isForeignCompany: this.isForeignCompanyFormControl
         })
       );
 
       this.customerDetailsForm.removeControl('privateCustomer');
       this.privateCustomerForm.reset();
+    }
+  });
+
+  private isForeignCompanyEffect = effect(() => {
+    const isForeignCompany = this.isForeignCompanyChanged();
+    if (isForeignCompany) {
+      this.customerDetailsForm.controls.businessCustomer?.controls.cvr.disable();
+      this.customerDetailsForm.controls.businessCustomer?.controls.cvr.setValue('11111111');
+    } else {
+      this.customerDetailsForm.controls.businessCustomer?.controls.cvr.enable();
+      this.customerDetailsForm.controls.businessCustomer?.controls.cvr.reset();
     }
   });
 

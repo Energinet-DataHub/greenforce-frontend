@@ -133,6 +133,7 @@ export class DhMeteringPointActionsComponent {
     this.modalService.open({
       component: DhMoveInComponent,
       data: { installationAddress: this.installationAddress() },
+      disableClose: true,
     });
   }
 }
