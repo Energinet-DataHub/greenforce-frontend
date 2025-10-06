@@ -44,8 +44,8 @@ import { WattMenuComponent } from './watt-menu.component';
   hostDirectives: [
     {
       directive: MatMenuTrigger,
-      outputs: ['menuOpened', 'menuClosed']
-    }
+      outputs: ['menuOpened', 'menuClosed'],
+    },
   ],
   standalone: true,
 })

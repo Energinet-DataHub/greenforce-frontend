@@ -82,7 +82,7 @@ import { MatMenuItem } from '@angular/material/menu';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'watt-menu-item',
+    class: 'watt-menu-item',
     '[attr.disabled]': 'disabled() || null',
     '[class.watt-menu-item--disabled]': 'disabled()',
   },

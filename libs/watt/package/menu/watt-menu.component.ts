@@ -117,12 +117,12 @@ export class WattMenuComponent {
    * Whether any menu item has an icon.
    * @ignore
    */
-  hasIcons = computed(() => this.menuItems().some(item => item.hasIcon()));
+  hasIcons = computed(() => this.menuItems().some((item) => item.hasIcon()));
 
   constructor() {
     effect(() => {
       const hasIcons = this.hasIcons();
-      this.menuItems().forEach(item => {
+      this.menuItems().forEach((item) => {
         item.menuHasIcons.set(hasIcons);
       });
     });
