@@ -33,4 +33,5 @@ public enum DocumentType
     ReminderOfMissingMeasurements,
     UpdateChargeLinks,
     ConfirmRequestChangeBillingMasterData,
+    RejectRequestChangeBillingMasterData,
 }

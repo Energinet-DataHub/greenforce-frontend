@@ -181,6 +181,9 @@ export class DhMeteringPointMessagesComponent {
     !this.featureFlagsService.isEnabled('update-charge-links')
       ? MeteringPointDocumentType.ConfirmRequestChangeBillingMasterData
       : '',
+    !this.featureFlagsService.isEnabled('update-charge-links')
+      ? MeteringPointDocumentType.RejectRequestChangeBillingMasterData
+      : '',
   ]);
 
   actorOptionsQuery = query(GetMarketParticipantOptionsDocument);
