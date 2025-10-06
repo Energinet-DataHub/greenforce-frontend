@@ -25,7 +25,7 @@ import { WattFieldHintComponent } from '../../field/watt-field-hint.component';
 export const wattAutoCompleteTemplate = `
 <watt-text-field
   [autocompleteOptions]="filteredOptions"
-  (search)="search($event)"
+  (searchChanged)="search($event)"
   prefix="search"
   [formControl]="exampleFormControl"
   label="WattTextField with autocomplete"
