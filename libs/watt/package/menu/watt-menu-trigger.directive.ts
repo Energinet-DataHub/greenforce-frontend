@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Directive, inject, Input, OnInit } from '@angular/core';
+import { Directive, inject, input, effect } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { WattMenuComponent } from './watt-menu.component';
 
@@ -44,25 +44,24 @@ import { WattMenuComponent } from './watt-menu.component';
   hostDirectives: [
     {
       directive: MatMenuTrigger,
-      inputs: [
-        'matMenuTriggerData: wattMenuTriggerData',
-        'matMenuTriggerRestoreFocus: wattMenuTriggerRestoreFocus',
-      ],
-      outputs: ['menuOpened', 'menuClosed'],
-    },
+      outputs: ['menuOpened', 'menuClosed']
+    }
   ],
   standalone: true,
 })
-export class WattMenuTriggerDirective implements OnInit {
+export class WattMenuTriggerDirective {
   private readonly matMenuTrigger = inject(MatMenuTrigger);
 
-  @Input() wattMenuTriggerFor!: WattMenuComponent;
-  @Input() wattMenuTriggerData: unknown;
-  @Input() wattMenuTriggerRestoreFocus = true;
+  wattMenuTriggerFor = input.required<WattMenuComponent>();
 
-  ngOnInit(): void {
-    // Set the MatMenu instance from the WattMenuComponent
-    this.matMenuTrigger.menu = this.wattMenuTriggerFor.menu();
+  constructor() {
+    // Set the MatMenu instance from the WattMenuComponent when it changes
+    effect(() => {
+      const menu = this.wattMenuTriggerFor();
+      if (menu) {
+        this.matMenuTrigger.menu = menu.menu();
+      }
+    });
   }
 
   /** Opens the menu */

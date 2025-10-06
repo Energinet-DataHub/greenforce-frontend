@@ -21,10 +21,10 @@ import {
   ViewEncapsulation,
   ChangeDetectionStrategy,
   input,
-  HostBinding,
   ElementRef,
   inject,
-  AfterContentInit,
+  signal,
+  afterNextRender,
 } from '@angular/core';
 import { MatMenuItem } from '@angular/material/menu';
 
@@ -33,7 +33,7 @@ import { MatMenuItem } from '@angular/material/menu';
   imports: [MatMenuItem],
   template: `<button mat-menu-item [disabled]="disabled()">
     <span class="watt-menu-item-content">
-      <span class="watt-menu-item-icon" [class.watt-menu-item-icon--show]="menuHasIcons">
+      <span class="watt-menu-item-icon" [class.watt-menu-item-icon--show]="menuHasIcons()">
         <ng-content select="watt-icon" />
       </span>
       <ng-content />
@@ -82,34 +82,37 @@ import { MatMenuItem } from '@angular/material/menu';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'watt-menu-item',
+    'class': 'watt-menu-item',
+    '[attr.disabled]': 'disabled() || null',
+    '[class.watt-menu-item--disabled]': 'disabled()',
   },
 })
-export class WattMenuItemComponent implements AfterContentInit {
+export class WattMenuItemComponent {
   private readonly elementRef = inject(ElementRef);
 
   /**
    * Whether the menu item is disabled.
    */
-  @HostBinding('attr.disabled')
-  @HostBinding('class.watt-menu-item--disabled')
   disabled = input(false);
 
   /**
    * Whether this menu item has an icon.
    * @ignore
    */
-  hasIcon = false;
+  private readonly _hasIcon = signal(false);
+  hasIcon = this._hasIcon.asReadonly();
 
   /**
    * Whether the parent menu has any items with icons.
    * @ignore
    */
-  menuHasIcons = false;
+  menuHasIcons = signal(false);
 
-  ngAfterContentInit(): void {
+  constructor() {
     // Check if this menu item has an icon
-    const iconElement = this.elementRef.nativeElement.querySelector('watt-icon');
-    this.hasIcon = !!iconElement;
+    afterNextRender(() => {
+      const iconElement = this.elementRef.nativeElement.querySelector('watt-icon');
+      this._hasIcon.set(!!iconElement);
+    });
   }
 }

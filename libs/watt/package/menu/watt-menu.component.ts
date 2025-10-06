@@ -21,8 +21,9 @@ import {
   ViewEncapsulation,
   ChangeDetectionStrategy,
   viewChild,
-  AfterContentInit,
   contentChildren,
+  computed,
+  effect,
 } from '@angular/core';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { WattMenuItemComponent } from './watt-menu-item.component';
@@ -65,7 +66,7 @@ import { WattMenuItemComponent } from './watt-menu-item.component';
   template: `
     <mat-menu
       #menu="matMenu"
-      [class]="'watt-menu-panel' + (hasIcons ? ' watt-menu-panel--has-icons' : '')"
+      [class]="'watt-menu-panel' + (hasIcons() ? ' watt-menu-panel--has-icons' : '')"
     >
       <ng-content select="watt-menu-group, watt-menu-item" />
     </mat-menu>
@@ -99,7 +100,7 @@ import { WattMenuItemComponent } from './watt-menu-item.component';
   imports: [MatMenuModule],
   exportAs: 'wattMenu',
 })
-export class WattMenuComponent implements AfterContentInit {
+export class WattMenuComponent {
   /**
    * Reference to the underlying MatMenu instance.
    * @ignore
@@ -116,15 +117,14 @@ export class WattMenuComponent implements AfterContentInit {
    * Whether any menu item has an icon.
    * @ignore
    */
-  hasIcons = false;
+  hasIcons = computed(() => this.menuItems().some(item => item.hasIcon()));
 
-  ngAfterContentInit(): void {
-    // Check if any menu item has an icon
-    this.hasIcons = this.menuItems().some((item) => item.hasIcon);
-
-    // Notify all menu items about the icon state
-    this.menuItems().forEach((item) => {
-      item.menuHasIcons = this.hasIcons;
+  constructor() {
+    effect(() => {
+      const hasIcons = this.hasIcons();
+      this.menuItems().forEach(item => {
+        item.menuHasIcons.set(hasIcons);
+      });
     });
   }
 }
