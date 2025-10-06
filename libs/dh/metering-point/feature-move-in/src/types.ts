@@ -44,19 +44,22 @@ export type MoveInContactDetailsFormType = {
   legalContactPhone: FormControl<string>;
   legalContactMobile: FormControl<string>;
   legalContactEmail: FormControl<string>;
-  legalAddressSameAsMeteringPoint: FormControl<boolean>;
-  legalAddressGroup: FormGroup<AddressGroup>;
-  legalNameAddressProtection: FormControl<boolean>;
   technicalContactSameAsCustomer: FormControl<boolean>;
   technicalContactName: FormControl<string>;
   technicalContactTitle: FormControl<string>;
   technicalContactPhone: FormControl<string>;
   technicalContactMobile: FormControl<string>;
   technicalContactEmail: FormControl<string>;
+};
+
+export type MoveInAddressDetailsFormType = {
+  legalAddressSameAsMeteringPoint: FormControl<boolean>;
+  legalAddressGroup: FormGroup<AddressGroup>;
+  legalNameAddressProtection: FormControl<boolean>;
   technicalAddressSameAsMeteringPoint: FormControl<boolean>;
   technicalAddressGroup: FormGroup<AddressGroup>;
   technicalNameAddressProtection: FormControl<boolean>;
-};
+}
 
 export type AddressData = {
   streetName: string;

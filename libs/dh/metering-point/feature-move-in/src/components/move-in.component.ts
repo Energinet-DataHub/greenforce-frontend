@@ -31,11 +31,13 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import {
   AddressData,
   InstallationAddress,
+  MoveInAddressDetailsFormType,
   MoveInContactDetailsFormType,
   MoveInCustomerDetailsFormType,
 } from '../types';
 import { DhCustomerDetailsComponent } from './customer-details.component';
-import { DhContactDetailsFormComponent } from './dh-contact-details-form.component';
+import { DhContactDetailsFormComponent } from './contact-details-form.component';
+import { DhAddressDetailsFormComponent } from './address-details-form.component';
 
 @Component({
   selector: 'dh-move-in',
@@ -45,6 +47,7 @@ import { DhContactDetailsFormComponent } from './dh-contact-details-form.compone
     WATT_STEPPER,
     DhCustomerDetailsComponent,
     DhContactDetailsFormComponent,
+    DhAddressDetailsFormComponent,
   ],
   templateUrl: './move-in.component.html',
 })
@@ -101,6 +104,17 @@ export class DhMoveInComponent extends WattTypedModal<{
     legalContactPhone: this.fb.control<string>(''),
     legalContactMobile: this.fb.control<string>(''),
     legalContactEmail: this.fb.control<string>(''),
+    technicalContactSameAsCustomer: this.fb.control<boolean>(true),
+    technicalContactName: this.fb.control<string>({ value: '', disabled: true }, [
+      Validators.required,
+    ]),
+    technicalContactTitle: this.fb.control<string>(''),
+    technicalContactPhone: this.fb.control<string>(''),
+    technicalContactMobile: this.fb.control<string>(''),
+    technicalContactEmail: this.fb.control<string>(''),
+  });
+
+  addressDetailsForm = this.fb.group<MoveInAddressDetailsFormType>({
     legalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
     legalAddressGroup: this.fb.group({
       streetName: this.fb.control<string>(
@@ -122,15 +136,6 @@ export class DhMoveInComponent extends WattTypedModal<{
       darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
     }),
     legalNameAddressProtection: this.fb.control<boolean>(false),
-
-    technicalContactSameAsCustomer: this.fb.control<boolean>(true),
-    technicalContactName: this.fb.control<string>({ value: '', disabled: true }, [
-      Validators.required,
-    ]),
-    technicalContactTitle: this.fb.control<string>(''),
-    technicalContactPhone: this.fb.control<string>(''),
-    technicalContactMobile: this.fb.control<string>(''),
-    technicalContactEmail: this.fb.control<string>(''),
     technicalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
     technicalAddressGroup: this.fb.group({
       streetName: this.fb.control<string>(
@@ -168,10 +173,10 @@ export class DhMoveInComponent extends WattTypedModal<{
     this.contactDetailsForm.controls.technicalContactSameAsCustomer.valueChanges
   );
   private legalAddressSameAsMeteringPointAddressChanged = toSignal(
-    this.contactDetailsForm.controls.legalAddressSameAsMeteringPoint.valueChanges
+    this.addressDetailsForm.controls.legalAddressSameAsMeteringPoint.valueChanges
   );
   private technicalAddressSameAsMeteringPointAddressChanged = toSignal(
-    this.contactDetailsForm.controls.technicalAddressSameAsMeteringPoint.valueChanges
+    this.addressDetailsForm.controls.technicalAddressSameAsMeteringPoint.valueChanges
   );
 
   private customerTypeEffect = effect(() => {
@@ -251,9 +256,9 @@ export class DhMoveInComponent extends WattTypedModal<{
 
       if (legalAddressSameAsMeteringPointAddress) {
         this.resetLegalAddressFormGroup(this.addressDataInitialValue);
-        this.contactDetailsForm.controls.legalAddressGroup.disable();
+        this.addressDetailsForm.controls.legalAddressGroup.disable();
       } else {
-        this.contactDetailsForm.controls.legalAddressGroup.enable();
+        this.addressDetailsForm.controls.legalAddressGroup.enable();
       }
     }
   );
@@ -265,19 +270,19 @@ export class DhMoveInComponent extends WattTypedModal<{
 
       if (technicalAddressSameAsMeteringPointAddress) {
         this.resetTechnicalAddressFormGroup(this.addressDataInitialValue);
-        this.contactDetailsForm.controls.technicalAddressGroup.disable();
+        this.addressDetailsForm.controls.technicalAddressGroup.disable();
       } else {
-        this.contactDetailsForm.controls.technicalAddressGroup.enable();
+        this.addressDetailsForm.controls.technicalAddressGroup.enable();
       }
     }
   );
 
   private resetLegalAddressFormGroup(data: AddressData) {
-    this.contactDetailsForm.controls.legalAddressGroup.reset(data);
+    this.addressDetailsForm.controls.legalAddressGroup.reset(data);
   }
 
   private resetTechnicalAddressFormGroup(data: AddressData) {
-    this.contactDetailsForm.controls.technicalAddressGroup.reset(data);
+    this.addressDetailsForm.controls.technicalAddressGroup.reset(data);
   }
 
   async startMoveIn() {
@@ -299,5 +304,40 @@ export class DhMoveInComponent extends WattTypedModal<{
 
     this.toastService.open({ type: 'success', message });
     this.modal().close(true);
+  }
+
+  emptyLegalAddressFormGroup() {
+    // Reset all form controls to empty strings
+    this.addressDetailsForm.controls.legalAddressGroup.reset({
+      streetName: '',
+      buildingNumber: '',
+      floor: '',
+      room: '',
+      postCode: '',
+      cityName: '',
+      countryCode: '',
+      streetCode: '',
+      citySubdivisionName: '',
+      postBox: '',
+      municipalityCode: '',
+      darReference: '',
+    });
+  }
+
+  emptyTechnicalAddressFormGroup() {
+    this.addressDetailsForm.controls.technicalAddressGroup.reset({
+      streetName: '',
+      buildingNumber: '',
+      floor: '',
+      room: '',
+      postCode: '',
+      cityName: '',
+      countryCode: '',
+      streetCode: '',
+      citySubdivisionName: '',
+      postBox: '',
+      municipalityCode: '',
+      darReference: '',
+    });
   }
 }

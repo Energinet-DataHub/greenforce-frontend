@@ -675,8 +675,10 @@
           "attention": "Att.",
           "phoneNumber": "Telefonnr.",
           "mobile": "Mobil",
-          "email": "E-mail adresse",
-          "addressDetails": "Adresseoplysninger",
+          "email": "E-mail adresse"
+        },
+        "addressDetails": {
+          "label": "Adresseoplysninger",
           "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
           "street": "Vejnavn",
           "houseNumber": "Husnummer",
