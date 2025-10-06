@@ -40,7 +40,6 @@ import { DhContactDetailsFormComponent } from './contact-details-form.component'
 import { DhAddressDetailsFormComponent } from './address-details-form.component';
 
 @Component({
-  selector: 'dh-move-in',
   imports: [
     TranslocoDirective,
     WATT_MODAL,
@@ -339,5 +338,15 @@ export class DhMoveInComponent extends WattTypedModal<{
       municipalityCode: '',
       darReference: '',
     });
+  }
+
+  pasteLegalFormDataIntoTechnicalForm() {
+    const legalAddressValues = this.addressDetailsForm.controls.legalAddressGroup.getRawValue();
+    this.addressDetailsForm.controls.technicalAddressGroup.patchValue(legalAddressValues);
+  }
+
+  pasteTechnicalFormDataIntoLegalForm() {
+    const technicalAddressValues = this.addressDetailsForm.controls.technicalAddressGroup.getRawValue();
+    this.addressDetailsForm.controls.legalAddressGroup.patchValue(technicalAddressValues);
   }
 }

@@ -46,7 +46,9 @@ limitations under the License.
     >
       <dh-address-details-form [addressDetailsForm]="addressDetailsForm"
                                (resetLegalForm)="emptyLegalAddressFormGroup()"
-                               (resetTechnicalForm)="emptyTechnicalAddressFormGroup()" />
+                               (resetTechnicalForm)="emptyTechnicalAddressFormGroup()"
+                               (pasteLegalFormDataIntoTechnicalForm)="pasteLegalFormDataIntoTechnicalForm()"
+                               (pasteTechnicalFormDataIntoLegalForm)="pasteTechnicalFormDataIntoLegalForm()"/>
     </watt-stepper-step>
   </watt-stepper>
 </watt-modal>
