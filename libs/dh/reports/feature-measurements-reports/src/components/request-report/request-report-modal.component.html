@@ -47,15 +47,17 @@ limitations under the License.
           }
         </watt-datepicker>
 
-        <watt-checkbox
-          [formControl]="form.controls.switchToMeteringPointIDs"
-          data-testid="measurementreport.switchToMeteringPointIds"
-        >
-          {{ t("switchToMeteringPointIDs") }}
-        </watt-checkbox>
+        @if (!isSpecialMarketRole) {
+          <watt-checkbox
+            [formControl]="form.controls.switchToMeteringPointIDs"
+            data-testid="measurementreport.switchToMeteringPointIds"
+          >
+            {{ t("switchToMeteringPointIDs") }}
+          </watt-checkbox>
+        }
       </div>
 
-      @if (form.controls.switchToMeteringPointIDs.value) {
+      @if (isSpecialMarketRole || form.controls.switchToMeteringPointIDs.value) {
         <div class="items-group">
           <watt-textarea-field
             [formControl]="form.controls.meteringPointIDs"
@@ -84,52 +86,54 @@ limitations under the License.
         </div>
       }
 
-      <div class="items-group">
-        <watt-dropdown
-          [multiple]="true"
-          sortDirection="asc"
-          [label]="t('gridArea')"
-          [formControl]="form.controls.gridAreas"
-          [options]="gridAreaOptions()"
-          data-testid="measurementreport.gridAreas"
-        >
-          @if (multipleGridAreasSelected()) {
-            <watt-field-hint>
-              {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
-            </watt-field-hint>
-          }
-        </watt-dropdown>
-
-        <watt-checkbox
-          [formControl]="form.controls.allowLargeTextFiles"
-          data-testid="measurementreport.allowLargeTextFiles"
-        >
-          {{ t("allowLargeTextFiles") }}
-        </watt-checkbox>
-      </div>
-
-      <div class="items-group">
-        <watt-dropdown
-          dhDropdownTranslator
-          translateKey="meteringPointType"
-          [label]="t('meteringPointTypes')"
-          [multiple]="true"
-          [formControl]="form.controls.meteringPointTypes"
-          [options]="meteringPointTypesOptions"
-          data-testid="measurementreport.meteringPointTypes"
-        />
-      </div>
-
-      @if (showEnergySupplierDropdown && form.controls.energySupplier) {
+      @if (!isSpecialMarketRole) {
         <div class="items-group">
           <watt-dropdown
-            [label]="t('energySupplier')"
-            [showResetOption]="false"
-            [formControl]="form.controls.energySupplier"
-            [options]="energySupplierOptions()"
-            data-testid="measurementreport.energySupplier"
+            [multiple]="true"
+            sortDirection="asc"
+            [label]="t('gridArea')"
+            [formControl]="form.controls.gridAreas"
+            [options]="gridAreaOptions()"
+            data-testid="measurementreport.gridAreas"
+          >
+            @if (multipleGridAreasSelected()) {
+              <watt-field-hint>
+                {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
+              </watt-field-hint>
+            }
+          </watt-dropdown>
+
+          <watt-checkbox
+            [formControl]="form.controls.allowLargeTextFiles"
+            data-testid="measurementreport.allowLargeTextFiles"
+          >
+            {{ t("allowLargeTextFiles") }}
+          </watt-checkbox>
+        </div>
+
+        <div class="items-group">
+          <watt-dropdown
+            dhDropdownTranslator
+            translateKey="meteringPointType"
+            [label]="t('meteringPointTypes')"
+            [multiple]="true"
+            [formControl]="form.controls.meteringPointTypes"
+            [options]="meteringPointTypesOptions"
+            data-testid="measurementreport.meteringPointTypes"
           />
         </div>
+
+        @if (showEnergySupplierDropdown && form.controls.energySupplier) {
+          <div class="items-group">
+            <watt-dropdown
+              [label]="t('energySupplier')"
+              [showResetOption]="false"
+              [formControl]="form.controls.energySupplier"
+              [options]="energySupplierOptions()"
+              data-testid="measurementreport.energySupplier"
+            />
+          </div>
+        }
       }
 
       <div class="items-group">

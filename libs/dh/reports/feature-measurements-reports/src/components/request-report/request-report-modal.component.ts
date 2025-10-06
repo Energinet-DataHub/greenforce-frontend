@@ -156,6 +156,11 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   maxIDs = 50;
   normalizeMeteringPointIDs = normalizeMeteringPointIDs;
 
+  isSpecialMarketRole = new Array<EicFunction>(
+    EicFunction.DanishEnergyAgency,
+    EicFunction.SystemOperator
+  ).includes(this.modalData.marketRole);
+
   form: DhFormType = this.formBuilder.group({
     meteringPointTypes: new FormControl<MeasurementsReportMeteringPointType[] | null>(null),
     period: new FormControl<WattRange<Date> | null>(null, [Validators.required, maxDaysValidator]),
@@ -163,7 +168,10 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     resolution: new FormControl<AggregatedResolution | null>(null, Validators.required),
     allowLargeTextFiles: new FormControl<boolean>(false, { nonNullable: true }),
     meteringPointIDs: new FormControl('', {
-      validators: [dhMeteringPointIDsValidator(this.maxIDs)],
+      validators: [
+        dhMeteringPointIDsValidator(this.maxIDs),
+        this.isSpecialMarketRole ? Validators.required : Validators.nullValidator,
+      ],
       nonNullable: true,
     }),
     switchToMeteringPointIDs: new FormControl<boolean>(false, { nonNullable: true }),
@@ -188,6 +196,10 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   });
 
   private switchToMeteringPointIDsEffect = effect(() => {
+    if (this.isSpecialMarketRole) {
+      return;
+    }
+
     const switchToMeteringPointIDs = this.switchToMeteringPointIDsChanges();
     const gridAreas = untracked(() => this.gridAreaOptions().map((option) => option.value));
 
@@ -226,7 +238,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     return dhEnumToWattDropdownOptions(
       AggregatedResolution,
       undefined,
-      switchToMeteringPointIDs ? undefined : resolutionOptionsToDisable
+      this.isSpecialMarketRole || switchToMeteringPointIDs ? undefined : resolutionOptionsToDisable
     );
   });
 
@@ -254,6 +266,8 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     ...this.energySupplierOptionsSignal(),
   ]);
 
+  submitInProgress = this.requestReportMutation.loading;
+
   constructor() {
     super();
 
@@ -264,8 +278,6 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       );
     }
   }
-
-  submitInProgress = this.requestReportMutation.loading;
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   async submit() {
@@ -348,7 +360,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
         );
       }),
       tap((gridAreaOptions) => {
-        if (this.form.controls.switchToMeteringPointIDs.value) {
+        if (this.isSpecialMarketRole || this.form.controls.switchToMeteringPointIDs.value) {
           this.form.controls.gridAreas.setValue(gridAreaOptions.map((option) => option.value));
         } else {
           if (gridAreaOptions.length === 1) {

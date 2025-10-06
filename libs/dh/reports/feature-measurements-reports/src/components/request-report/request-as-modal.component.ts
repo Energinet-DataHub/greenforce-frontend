@@ -100,7 +100,7 @@ export class DhRequestAsModal extends WattTypedModal {
           this.openModal({
             isFas,
             actorId: this.actorStorage.getSelectedActor().id,
-            marketRole: this.actorStorage.getSelectedActor().marketRole,
+            marketRole: EicFunction.DanishEnergyAgency,
           });
         });
     } else {
@@ -116,7 +116,7 @@ export class DhRequestAsModal extends WattTypedModal {
           this.openModal({
             isFas: false,
             actorId: result.data.marketParticipantById.id,
-            marketRole: result.data.marketParticipantById.marketRole,
+            marketRole: EicFunction.DanishEnergyAgency,
           });
         });
     }
