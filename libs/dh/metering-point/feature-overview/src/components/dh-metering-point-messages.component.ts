@@ -174,17 +174,16 @@ export class DhMeteringPointMessagesComponent {
     receiverId: new FormControl<string | null>(null),
   });
 
-  documentTypeOptions = dhEnumToWattDropdownOptions(MeteringPointDocumentType, [
-    !this.featureFlagsService.isEnabled('update-charge-links')
-      ? MeteringPointDocumentType.UpdateChargeLinks
-      : '',
-    !this.featureFlagsService.isEnabled('update-charge-links')
-      ? MeteringPointDocumentType.ConfirmRequestChangeBillingMasterData
-      : '',
-    !this.featureFlagsService.isEnabled('update-charge-links')
-      ? MeteringPointDocumentType.RejectRequestChangeBillingMasterData
-      : '',
-  ]);
+  updateChargeLinksDocumentTypes = [
+      MeteringPointDocumentType.UpdateChargeLinks,
+      MeteringPointDocumentType.ConfirmRequestChangeBillingMasterData,
+      MeteringPointDocumentType.RejectRequestChangeBillingMasterData
+  ];
+
+  documentTypeOptions = dhEnumToWattDropdownOptions(
+    MeteringPointDocumentType,
+    !this.featureFlagsService.isEnabled('update-charge-links') ? this.updateChargeLinksDocumentTypes : [],
+  );
 
   actorOptionsQuery = query(GetMarketParticipantOptionsDocument);
   actorOptions = computed(() => this.actorOptionsQuery.data()?.marketParticipants ?? []);
