@@ -28,5 +28,6 @@ public static class MeteringPointDocumentTypeExtensions
             MeteringPointDocumentType.RejectRequestMeasurements => DocumentType.RejectRequestMeasurements,
             MeteringPointDocumentType.UpdateChargeLinks => DocumentType.UpdateChargeLinks,
             MeteringPointDocumentType.ConfirmRequestChangeBillingMasterData => DocumentType.ConfirmRequestChangeBillingMasterData,
+            MeteringPointDocumentType.RejectRequestChangeBillingMasterData => DocumentType.RejectRequestChangeBillingMasterData,
         };
 }
