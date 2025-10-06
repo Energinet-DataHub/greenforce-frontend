@@ -175,14 +175,16 @@ export class DhMeteringPointMessagesComponent {
   });
 
   updateChargeLinksDocumentTypes = [
-      MeteringPointDocumentType.UpdateChargeLinks,
-      MeteringPointDocumentType.ConfirmRequestChangeBillingMasterData,
-      MeteringPointDocumentType.RejectRequestChangeBillingMasterData
+    MeteringPointDocumentType.UpdateChargeLinks,
+    MeteringPointDocumentType.ConfirmRequestChangeBillingMasterData,
+    MeteringPointDocumentType.RejectRequestChangeBillingMasterData,
   ];
 
   documentTypeOptions = dhEnumToWattDropdownOptions(
     MeteringPointDocumentType,
-    !this.featureFlagsService.isEnabled('update-charge-links') ? this.updateChargeLinksDocumentTypes : [],
+    !this.featureFlagsService.isEnabled('update-charge-links')
+      ? this.updateChargeLinksDocumentTypes
+      : []
   );
 
   actorOptionsQuery = query(GetMarketParticipantOptionsDocument);
