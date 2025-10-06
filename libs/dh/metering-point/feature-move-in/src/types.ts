@@ -33,6 +33,7 @@ export type MoveInCustomerDetailsFormType = {
   businessCustomer?: FormGroup<{
     companyName: FormControl<string>;
     cvr: FormControl<string>;
+    isForeignCompany: FormControl<boolean>;
   }>;
   isProtectedAddress: FormControl<boolean>;
 };

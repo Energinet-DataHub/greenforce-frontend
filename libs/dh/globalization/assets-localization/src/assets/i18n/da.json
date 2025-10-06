@@ -658,6 +658,7 @@
           "cpr2": "CPR 2",
           "companyName": "Kundenavn",
           "cvr": "CVR",
+          "foreignCompany": "Udenlandsk virksomhed",
           "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
           "cprError": {
             "containsLetters": "Må ikke indeholde bogstaver",

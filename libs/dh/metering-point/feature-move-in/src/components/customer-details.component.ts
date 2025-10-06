@@ -168,6 +168,7 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
             [formControl]="businessCustomer.controls.companyName"
           />
 
+          <vater-stack direction="row" gap="m">
           <watt-text-field
             [label]="t('cvr')"
             class="cvr"
@@ -179,6 +180,11 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
               }
             </watt-field-error>
           </watt-text-field>
+            <watt-checkbox [formControl]="businessCustomer.controls.isForeignCompany">
+              {{ t('foreignCompany') }}
+            </watt-checkbox>
+          </vater-stack>
+
         }
       }
 
