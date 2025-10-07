@@ -365,7 +365,8 @@ export class DhMoveInComponent extends WattTypedModal<{
   }
 
   pasteTechnicalFormDataIntoLegalForm() {
-    const technicalAddressValues = this.addressDetailsForm.controls.technicalAddressGroup.getRawValue();
+    const technicalAddressValues =
+      this.addressDetailsForm.controls.technicalAddressGroup.getRawValue();
     this.addressDetailsForm.controls.legalAddressGroup.patchValue(technicalAddressValues);
   }
 }

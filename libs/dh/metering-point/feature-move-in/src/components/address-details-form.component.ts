@@ -117,10 +117,18 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         </vater-flex>
 
         <vater-stack>
-          <watt-button [disabled]="technicalGroupControls.streetName.disabled"
-                       (click)="pasteLegalFormDataIntoTechnicalForm.emit()" variant="icon" icon="right" />
-          <watt-button [disabled]="legalGroupControls.streetName.disabled"
-                       (click)="pasteTechnicalFormDataIntoLegalForm.emit()" variant="icon" icon="left" />
+          <watt-button
+            [disabled]="technicalGroupControls.streetName.disabled"
+            (click)="pasteLegalFormDataIntoTechnicalForm.emit()"
+            variant="icon"
+            icon="right"
+          />
+          <watt-button
+            [disabled]="legalGroupControls.streetName.disabled"
+            (click)="pasteTechnicalFormDataIntoLegalForm.emit()"
+            variant="icon"
+            icon="left"
+          />
         </vater-stack>
 
         <!-- Technical -->
@@ -129,8 +137,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
             <watt-checkbox [formControl]="form.controls.technicalAddressSameAsMeteringPoint">
               {{ t('addressSameAsMeteringPoint') }}
             </watt-checkbox>
-            <watt-button [disabled]="technicalGroupControls.streetName.disabled" (click)="resetTechnicalForm.emit()"
-                         variant="icon" icon="refresh" />
+            <watt-button
+              [disabled]="technicalGroupControls.streetName.disabled"
+              (click)="resetTechnicalForm.emit()"
+              variant="icon"
+              icon="refresh"
+            />
           </vater-stack>
 
           <watt-text-field

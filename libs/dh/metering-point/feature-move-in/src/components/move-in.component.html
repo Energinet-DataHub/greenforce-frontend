@@ -44,11 +44,13 @@ limitations under the License.
       [previousButtonLabel]="t('steps.contactDetails.label')"
       [nextButtonLabel]="t('save')"
     >
-      <dh-address-details-form [addressDetailsForm]="addressDetailsForm"
-                               (resetLegalForm)="emptyLegalAddressFormGroup()"
-                               (resetTechnicalForm)="emptyTechnicalAddressFormGroup()"
-                               (pasteLegalFormDataIntoTechnicalForm)="pasteLegalFormDataIntoTechnicalForm()"
-                               (pasteTechnicalFormDataIntoLegalForm)="pasteTechnicalFormDataIntoLegalForm()"/>
+      <dh-address-details-form
+        [addressDetailsForm]="addressDetailsForm"
+        (resetLegalForm)="emptyLegalAddressFormGroup()"
+        (resetTechnicalForm)="emptyTechnicalAddressFormGroup()"
+        (pasteLegalFormDataIntoTechnicalForm)="pasteLegalFormDataIntoTechnicalForm()"
+        (pasteTechnicalFormDataIntoLegalForm)="pasteTechnicalFormDataIntoLegalForm()"
+      />
     </watt-stepper-step>
   </watt-stepper>
 </watt-modal>
