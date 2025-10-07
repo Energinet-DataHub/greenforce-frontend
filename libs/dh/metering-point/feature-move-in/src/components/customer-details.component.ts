@@ -98,16 +98,14 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
             group="customer-type"
             [formControl]="form.controls.customerType"
             value="private"
-          >{{ t('private') }}
-          </watt-radio
-          >
+            >{{ t('private') }}
+          </watt-radio>
           <watt-radio
             group="customer-type"
             [formControl]="form.controls.customerType"
             value="business"
-          >{{ t('business') }}
-          </watt-radio
-          >
+            >{{ t('business') }}
+          </watt-radio>
         </vater-stack>
       </vater-stack>
 
@@ -187,7 +185,6 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
               {{ t('foreignCompany') }}
             </watt-checkbox>
           </vater-stack>
-
         }
       }
 

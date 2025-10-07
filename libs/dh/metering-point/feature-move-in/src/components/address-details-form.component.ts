@@ -57,8 +57,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
             <watt-checkbox [formControl]="form.controls.legalAddressSameAsMeteringPoint">
               {{ t('addressSameAsMeteringPoint') }}
             </watt-checkbox>
-            <watt-button [disabled]="legalGroupControls.streetName.disabled" (click)="resetLegalForm.emit()"
-                         variant="icon" icon="refresh" />
+            <watt-button
+              [disabled]="legalGroupControls.streetName.disabled"
+              (click)="resetLegalForm.emit()"
+              variant="icon"
+              icon="refresh"
+            />
           </vater-stack>
 
           <watt-text-field [formControl]="legalGroupControls.streetName" [label]="t('street')" />

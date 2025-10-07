@@ -166,7 +166,8 @@ export class DhMoveInComponent extends WattTypedModal<{
   );
 
   private isForeignCompanyChanged = toSignal<boolean>(
-    this.isForeignCompanyFormControl.valueChanges);
+    this.isForeignCompanyFormControl.valueChanges
+  );
 
   private name1Changed = toSignal(this.privateCustomerForm.controls.name1.valueChanges);
   private name2Changed = toSignal(this.privateCustomerForm.controls.name2.valueChanges);
@@ -195,7 +196,7 @@ export class DhMoveInComponent extends WattTypedModal<{
         this.fb.group({
           companyName: this.fb.control<string>('', Validators.required),
           cvr: this.fb.control<string>('', [Validators.required, dhCvrValidator()]),
-          isForeignCompany: this.isForeignCompanyFormControl
+          isForeignCompany: this.isForeignCompanyFormControl,
         })
       );
 

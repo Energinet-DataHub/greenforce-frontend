@@ -771,7 +771,8 @@
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
       "UPDATE_CHARGE_LINKS": "Opdatering af pristilknytninger (RSM-030)",
-      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Bekræftelse af anmodning om opdatering af pristilknytninger (RSM-030)"
+      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Bekræftelse af anmodning om opdatering af pristilknytninger (RSM-030)",
+      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af anmodning om opdatering af pristilknytninger (RSM-030)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",

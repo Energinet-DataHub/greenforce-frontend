@@ -60,7 +60,7 @@ export type MoveInAddressDetailsFormType = {
   technicalAddressSameAsMeteringPoint: FormControl<boolean>;
   technicalAddressGroup: FormGroup<AddressGroup>;
   technicalNameAddressProtection: FormControl<boolean>;
-}
+};
 
 export type AddressData = {
   streetName: string;

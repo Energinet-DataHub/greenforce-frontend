@@ -50,5 +50,7 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-030';
     case DocumentType.ConfirmRequestChangeBillingMasterData:
       return 'RSM-030';
+    case DocumentType.RejectRequestChangeBillingMasterData:
+      return 'RSM-030';
   }
 };

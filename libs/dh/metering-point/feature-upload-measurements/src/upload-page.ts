@@ -42,7 +42,6 @@ import {
   GetMeteringPointUploadMetadataByIdDocument,
   MeteringPointSubType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   DhEmDashFallbackPipe,
   dhMakeFormControl,
@@ -176,12 +175,10 @@ export class DhUploadMeasurementsPage {
 
   private navigate = injectRelativeNavigate();
   private measurements = inject(DhUploadMeasurementsService);
-  private featureFlagsService = inject(DhFeatureFlagsService);
   private meteringPointQuery = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
     fetchPolicy: 'cache-only',
     variables: {
       meteringPointId: this.meteringPointId(),
-      enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
     },
   }));
 
