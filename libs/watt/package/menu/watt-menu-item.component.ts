@@ -81,7 +81,6 @@ import { MatMenuItem } from '@angular/material/menu';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.disabled]': 'disabled() || null',
-    '[class.watt-menu-item--disabled]': 'disabled()',
   },
 })
 export class WattMenuItemComponent {
