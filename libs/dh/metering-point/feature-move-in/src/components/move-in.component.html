@@ -33,9 +33,24 @@ limitations under the License.
       [stepControl]="contactDetailsForm"
       [label]="t('steps.contactDetails.label')"
       [previousButtonLabel]="t('steps.customerDetails.label')"
-      [nextButtonLabel]="t('save')"
+      [nextButtonLabel]="t('steps.addressDetails.label')"
     >
       <dh-contact-details-form [contactDetailsForm]="contactDetailsForm" />
+    </watt-stepper-step>
+
+    <watt-stepper-step
+      [stepControl]="addressDetailsForm"
+      [label]="t('steps.addressDetails.label')"
+      [previousButtonLabel]="t('steps.contactDetails.label')"
+      [nextButtonLabel]="t('save')"
+    >
+      <dh-address-details-form
+        [addressDetailsForm]="addressDetailsForm"
+        (resetLegalForm)="emptyLegalAddressFormGroup()"
+        (resetTechnicalForm)="emptyTechnicalAddressFormGroup()"
+        (pasteLegalFormDataIntoTechnicalForm)="pasteLegalFormDataIntoTechnicalForm()"
+        (pasteTechnicalFormDataIntoLegalForm)="pasteTechnicalFormDataIntoLegalForm()"
+      />
     </watt-stepper-step>
   </watt-stepper>
 </watt-modal>

@@ -42,7 +42,6 @@ import {
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
@@ -211,7 +210,6 @@ export class DhMeteringPointComponent {
   private readonly router = inject(Router);
   private readonly breadcrumbService = inject(DhBreadcrumbService);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
-  private readonly featureFlagsService = inject(DhFeatureFlagsService);
 
   meteringPointId = input.required<string>();
 
@@ -219,7 +217,6 @@ export class DhMeteringPointComponent {
     variables: {
       meteringPointId: this.meteringPointId(),
       actorGln: this.actor.gln,
-      enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
     },
   }));
   meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);

@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { WattButtonComponent } from '../../button';
-import { WATT_MODAL } from '..';
+import { WATT_MODAL, WattModalService } from '..';
 import { WattModalComponent } from '../watt-modal.component';
 import { WattTextFieldComponent } from '../../text-field';
 import { WattTooltipDirective } from '../../tooltip';
@@ -30,6 +30,9 @@ const meta: Meta<WattModalComponent> = {
   title: 'Components/Modal',
   component: WattModalComponent,
   decorators: [
+    applicationConfig({
+      providers: [WattModalService],
+    }),
     moduleMetadata({
       imports: [
         ReactiveFormsModule,

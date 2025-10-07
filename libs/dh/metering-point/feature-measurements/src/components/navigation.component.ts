@@ -120,9 +120,10 @@ export class DhMeasurementsNavigationComponent {
       if (!next) return;
 
       const params = new URLSearchParams(this.route.snapshot.queryParams['filters']);
-      const filter = current
-        ? { [next.filter]: dayjs(params.get(current.filter)).format(next.format) }
-        : null;
+      const filter =
+        current && params.get(current.filter)
+          ? { [next.filter]: dayjs(params.get(current.filter)).format(next.format) }
+          : null;
 
       this.router.navigate([this.navigateTo()], {
         relativeTo: this.route,

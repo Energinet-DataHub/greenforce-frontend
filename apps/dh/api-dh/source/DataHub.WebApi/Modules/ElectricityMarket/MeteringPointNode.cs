@@ -102,15 +102,8 @@ public static partial class MeteringPointNode
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        [Service] IElectricityMarketClient_V1 client,
-        bool enableNewSecurityModel = false)
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
     {
-        if (!enableNewSecurityModel)
-        {
-            return await client.MeteringPointAsync(meteringPointId, ct).ConfigureAwait(false);
-        }
-
         if (httpContextAccessor.HttpContext == null)
         {
             throw new InvalidOperationException("Http context is not available.");

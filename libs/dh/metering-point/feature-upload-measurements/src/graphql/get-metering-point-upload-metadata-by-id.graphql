@@ -1,11 +1,5 @@
-query GetMeteringPointUploadMetadataById(
-  $meteringPointId: String!
-  $enableNewSecurityModel: Boolean
-) {
-  meteringPoint(
-    meteringPointId: $meteringPointId
-    enableNewSecurityModel: $enableNewSecurityModel
-  ) {
+query GetMeteringPointUploadMetadataById($meteringPointId: String!) {
+  meteringPoint(meteringPointId: $meteringPointId) {
     id
     metadata {
       id
