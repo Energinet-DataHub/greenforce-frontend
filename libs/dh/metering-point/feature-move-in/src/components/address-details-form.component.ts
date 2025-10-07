@@ -50,9 +50,9 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       [formGroup]="form"
       *transloco="let t; prefix: 'meteringPoint.moveIn.steps.addressDetails'"
     >
-      <vater-flex gap="xl" direction="row">
+      <vater-flex direction="row" align="center" justify="space-around">
         <!-- Legal -->
-        <vater-flex align="stretch">
+        <vater-flex align="stretch" class="flex-grow-5">
           <vater-stack direction="row" justify="space-between">
             <watt-checkbox [formControl]="form.controls.legalAddressSameAsMeteringPoint">
               {{ t('addressSameAsMeteringPoint') }}
@@ -116,18 +116,21 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
           </watt-checkbox>
         </vater-flex>
 
+        <vater-stack>
+          <watt-button [disabled]="technicalGroupControls.streetName.disabled"
+                       (click)="pasteLegalFormDataIntoTechnicalForm.emit()" variant="icon" icon="right" />
+          <watt-button [disabled]="legalGroupControls.streetName.disabled"
+                       (click)="pasteTechnicalFormDataIntoLegalForm.emit()" variant="icon" icon="left" />
+        </vater-stack>
+
         <!-- Technical -->
-        <vater-flex align="stretch">
+        <vater-flex align="stretch" class="flex-grow-5">
           <vater-stack direction="row" justify="space-between">
             <watt-checkbox [formControl]="form.controls.technicalAddressSameAsMeteringPoint">
               {{ t('addressSameAsMeteringPoint') }}
             </watt-checkbox>
-            <watt-button
-              [disabled]="technicalGroupControls.streetName.disabled"
-              (click)="resetTechnicalForm.emit()"
-              variant="icon"
-              icon="refresh"
-            />
+            <watt-button [disabled]="technicalGroupControls.streetName.disabled" (click)="resetTechnicalForm.emit()"
+                         variant="icon" icon="refresh" />
           </vater-stack>
 
           <watt-text-field
@@ -184,11 +187,18 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       </vater-flex>
     </form>
   `,
+  styles: `
+    .flex-grow-5 {
+      flex-grow: 5;
+    }
+  `,
 })
 export class DhAddressDetailsFormComponent {
   addressDetailsForm = input.required<FormGroup<MoveInAddressDetailsFormType>>();
   resetLegalForm = output();
   resetTechnicalForm = output();
+  pasteLegalFormDataIntoTechnicalForm = output();
+  pasteTechnicalFormDataIntoLegalForm = output();
   countryOptions: WattDropdownOptions = [
     { value: 'DK', displayValue: 'DK' },
     { value: 'SE', displayValue: 'SE' },
