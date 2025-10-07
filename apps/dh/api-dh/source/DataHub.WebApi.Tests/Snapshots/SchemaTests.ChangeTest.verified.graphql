@@ -1977,8 +1977,53 @@ input SendMeasurementsRequestV2Input {
 }
 
 input StartMoveInInput {
-  name1: String!
-  name2: String!
+  cutOffDate: String!
+  moveInType: String!
+  customerType: String!
+  privateCustomerName1: String!
+  privateCustomerCpr1: String!
+  privateCustomerName2: String!
+  privateCustomerCpr2: String!
+  businessCustomerCompanyName: String!
+  businessCustomerCvr: String!
+  customerIsProtectedAddress: Boolean!
+  legalContactName: String!
+  legalContactTitle: String!
+  legalContactPhone: String!
+  legalContactMobile: String!
+  legalContactEmail: String!
+  legalStreetName: String!
+  legalBuildingNumber: String!
+  legalFloor: String!
+  legalRoom: String!
+  legalPostCode: String!
+  legalCityName: String!
+  legalCountryCode: String!
+  legalStreetCode: String!
+  legalCitySubdivisionName: String!
+  legalPostBox: String!
+  legalMunicipalityCode: String!
+  legalDarReference: String!
+  legalNameAddressProtection: Boolean!
+  technicalContactName: String!
+  technicalContactTitle: String!
+  technicalContactPhone: String!
+  technicalContactMobile: String!
+  technicalContactEmail: String!
+  technicalAddressGroup: String!
+  technicalStreetName: String!
+  technicalBuildingNumber: String!
+  technicalFloor: String!
+  technicalRoom: String!
+  technicalPostCode: String!
+  technicalCityName: String!
+  technicalCountryCode: String!
+  technicalStreetCode: String!
+  technicalCitySubdivisionName: String!
+  technicalPostBox: String!
+  technicalMunicipalityCode: String!
+  technicalDarReference: String!
+  technicalNameAddressProtection: Boolean!
 }
 
 input StopDelegationInput {

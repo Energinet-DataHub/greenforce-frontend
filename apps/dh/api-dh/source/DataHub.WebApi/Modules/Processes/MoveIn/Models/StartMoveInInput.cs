@@ -61,5 +61,4 @@ public record StartMoveInInput(
     string TechnicalPostBox,
     string TechnicalMunicipalityCode,
     string TechnicalDarReference,
-    bool TechnicalNameAddressProtection,
-    );
+    bool TechnicalNameAddressProtection);
