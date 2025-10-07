@@ -1165,6 +1165,8 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
 
         ConfirmRequestChangeBillingMasterData = 5,
 
+        RejectRequestChangeBillingMasterData = 6,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
