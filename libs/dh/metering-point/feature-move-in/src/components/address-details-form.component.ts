@@ -52,7 +52,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
     >
       <vater-flex direction="row" align="center" justify="space-around">
         <!-- Legal -->
-        <vater-flex align="stretch" style="flex-grow: 5;">
+        <vater-flex align="stretch" class="flex-grow-5">
           <vater-stack direction="row" justify="space-between">
             <watt-checkbox [formControl]="form.controls.legalAddressSameAsMeteringPoint">
               {{ t('addressSameAsMeteringPoint') }}
@@ -124,7 +124,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         </vater-stack>
 
         <!-- Technical -->
-        <vater-flex align="stretch" style="flex-grow: 5;">
+        <vater-flex align="stretch" class="flex-grow-5">
           <vater-stack direction="row" justify="space-between">
             <watt-checkbox [formControl]="form.controls.technicalAddressSameAsMeteringPoint">
               {{ t('addressSameAsMeteringPoint') }}
@@ -186,6 +186,11 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         </vater-flex>
       </vater-flex>
     </form>
+  `,
+  styles: `
+    .flex-grow-5 {
+      flex-grow: 5;
+    }
   `,
 })
 export class DhAddressDetailsFormComponent {
