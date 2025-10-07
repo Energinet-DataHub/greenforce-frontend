@@ -74,12 +74,12 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
 
   addVariables(variables: TVariables) {
     if (this.query === null) throw new Error('No query defined');
-    this.variables = { ...this.variables, ...variables };
+    this.variables = variables;
     return this;
   }
 
   addHeaders(headers: string[]) {
-    this.headers = [...this.headers, ...headers];
+    this.headers = headers;
     return this;
   }
 
@@ -145,7 +145,7 @@ class GenrateFromQueryWithRawResult<TResult, TQueryResult, TVariables extends Op
 
   addVariables(variables: TVariables) {
     if (this.query === null) throw new Error('No query defined');
-    this.variables = { ...this.variables, ...variables };
+    this.variables = variables;
     return this;
   }
 
