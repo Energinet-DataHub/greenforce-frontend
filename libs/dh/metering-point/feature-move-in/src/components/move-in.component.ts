@@ -40,6 +40,7 @@ import { DhContactDetailsFormComponent } from './contact-details-form.component'
 import { DhAddressDetailsFormComponent } from './address-details-form.component';
 
 @Component({
+  selector: 'dh-move-in',
   imports: [
     TranslocoDirective,
     WATT_MODAL,
