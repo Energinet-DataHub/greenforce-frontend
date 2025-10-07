@@ -47,7 +47,6 @@ import { WattMenuComponent } from './watt-menu.component';
       outputs: ['menuOpened', 'menuClosed'],
     },
   ],
-  standalone: true,
 })
 export class WattMenuTriggerDirective {
   private readonly matMenuTrigger = inject(MatMenuTrigger);

@@ -27,7 +27,6 @@ import { WattMenuGroupComponent } from './watt-menu-group.component';
 import { WattMenuTriggerDirective } from './watt-menu-trigger.directive';
 
 @Component({
-  standalone: true,
   imports: [WattMenuComponent, WattMenuItemComponent, WattMenuTriggerDirective],
   template: `
     <button [wattMenuTriggerFor]="menu">Open Menu</button>
@@ -41,7 +40,6 @@ import { WattMenuTriggerDirective } from './watt-menu-trigger.directive';
 class TestComponent {}
 
 @Component({
-  standalone: true,
   imports: [
     WattMenuComponent,
     WattMenuItemComponent,

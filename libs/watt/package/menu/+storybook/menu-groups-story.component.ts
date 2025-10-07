@@ -26,7 +26,6 @@ import { WattMenuTriggerDirective } from '../watt-menu-trigger.directive';
 
 @Component({
   selector: 'watt-menu-groups-story',
-  standalone: true,
   template: `
     <div style="display: flex; gap: 20px; flex-wrap: wrap;">
       <div>

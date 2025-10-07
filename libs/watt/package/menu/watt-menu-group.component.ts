@@ -21,23 +21,13 @@ import { Component, ViewEncapsulation, ChangeDetectionStrategy, input } from '@a
 @Component({
   selector: 'watt-menu-group',
   template: `
-    <div class="watt-menu-group">
-      @if (label()) {
-        <div class="watt-menu-group-heading watt-text-s-highlighted">{{ label() }}</div>
-      }
-      <ng-content />
-    </div>
+    @if (label()) {
+      <div class="watt-menu-group-heading watt-text-s-highlighted">{{ label() }}</div>
+    }
+    <ng-content />
   `,
   styles: [
     `
-      /* Menu group container */
-      .watt-menu-group:not(:last-child) {
-        border-bottom: 1px solid var(--watt-menu-divider-color);
-        padding-bottom: var(--watt-menu-padding-block);
-        margin-bottom: var(--watt-menu-padding-block);
-      }
-
-      /* Group heading */
       .watt-menu-group-heading {
         padding-block: var(--watt-menu-padding-block);
         padding-inline: var(--watt-menu-padding-inline);
