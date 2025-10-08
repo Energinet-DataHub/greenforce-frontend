@@ -1835,6 +1835,14 @@ input MeteringPointProcessSortInput {
   actorRole: SortEnumType
 }
 
+input MoveInContactDetailsInput {
+  name: String!
+  attention: String!
+  phone: String!
+  mobile: String!
+  email: String!
+}
+
 input MoveInInstallationAddressInput {
   streetName: String!
   streetCode: String!
@@ -2003,17 +2011,9 @@ input StartMoveInInput {
   businessCustomerCompanyName: String!
   businessCustomerCvr: String!
   customerIsProtectedAddress: Boolean!
-  legalContactName: String!
-  legalContactTitle: String!
-  legalContactPhone: String!
-  legalContactMobile: String!
-  legalContactEmail: String!
+  legalContactDetails: MoveInContactDetailsInput!
   legalAddress: MoveInInstallationAddressInput!
-  technicalContactName: String!
-  technicalContactTitle: String!
-  technicalContactPhone: String!
-  technicalContactMobile: String!
-  technicalContactEmail: String!
+  technicalContactDetails: MoveInContactDetailsInput!
   technicalAddress: MoveInInstallationAddressInput!
 }
 
