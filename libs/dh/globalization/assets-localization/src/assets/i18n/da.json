@@ -692,7 +692,7 @@
           "city": "Bynavn",
           "country": "Land",
           "roadCode": "Vejkode",
-          "postalDistrict": "Postdistrikt",
+          "supplementaryCityName": "Supplerende bynavn",
           "postBox": "Postboks",
           "municipalityCode": "Kommunekode",
           "municipalityCodeError": {

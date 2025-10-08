@@ -691,7 +691,7 @@
           "city": "City",
           "country": "Country",
           "roadCode": "Road code",
-          "postalDistrict": "Postal district",
+          "supplementaryCityName": "Supplementary city name",
           "postBox": "Post box",
           "municipalityCode": "Municipality code",
           "municipalityCodeError": {
