@@ -108,8 +108,10 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
                 @if (legalGroupControls.municipalityCode.hasError('containsLetters')) {
                   {{ t('municipalityCodeError.containsLetters') }}
                 } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
-                 {{ t('municipalityCodeError.startsWithZero') }}
-                } @else if (legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
+                  {{ t('municipalityCodeError.startsWithZero') }}
+                } @else if (
+                  legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
+                ) {
                   {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
                 }
               </watt-field-error>
@@ -212,7 +214,9 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
                   {{ t('municipalityCodeError.containsLetters') }}
                 } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
                   {{ t('municipalityCodeError.startsWithZero') }}
-                } @else if (legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
+                } @else if (
+                  legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
+                ) {
                   {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
                 }
               </watt-field-error>

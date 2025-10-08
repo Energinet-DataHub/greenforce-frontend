@@ -138,7 +138,10 @@ export class DhMoveInComponent extends WattTypedModal<{
         this.addressDataInitialValue.citySubdivisionName
       ),
       postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode, dhMunicipalityCodeValidator()),
+      municipalityCode: this.fb.control<string>(
+        this.addressDataInitialValue.municipalityCode,
+        dhMunicipalityCodeValidator()
+      ),
       darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
     }),
     legalNameAddressProtection: this.fb.control<boolean>(false),
@@ -159,7 +162,10 @@ export class DhMoveInComponent extends WattTypedModal<{
         this.addressDataInitialValue.citySubdivisionName
       ),
       postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode, dhMunicipalityCodeValidator()),
+      municipalityCode: this.fb.control<string>(
+        this.addressDataInitialValue.municipalityCode,
+        dhMunicipalityCodeValidator()
+      ),
       darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
     }),
     technicalNameAddressProtection: this.fb.control<boolean>(false),
