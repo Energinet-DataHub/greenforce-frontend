@@ -90,8 +90,8 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <h3>
             {{ t('technicalContactSection') }}
           </h3>
-          <watt-checkbox [formControl]="form.controls.technicalContactSameAsCustomer">
-            {{ t('contactSameAsCustomer') }}
+          <watt-checkbox [formControl]="form.controls.technicalContactSameAsLegal">
+            {{ t('technicalSameAsLegal') }}
           </watt-checkbox>
 
           <watt-text-field
