@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, signal, effect, OnDestroy } from '@angular/core';
+import { Component, input, signal, effect } from '@angular/core';
 import { WattButtonComponent } from '../../button';
 import { WattIconComponent } from '../../icon';
 import { WattMenuComponent } from '../watt-menu.component';
@@ -78,42 +78,31 @@ import { WattMenuTriggerDirective } from '../watt-menu-trigger.directive';
     <p>Items loaded: {{ itemsLoaded() ? 'Yes' : 'No (loading...)' }}</p>
   `,
 })
-export class MenuAsyncStoryComponent implements OnDestroy {
+export class MenuAsyncStoryComponent {
   showIcons = input(true);
   loadDelay = input(1000);
-
-  private loadingTimeout?: ReturnType<typeof setTimeout>;
 
   itemsLoaded = signal(false);
   lastAction = signal<string | null>(null);
 
   constructor() {
     // Watch for loadDelay changes and restart loading
-    effect(() => {
-      this.loadDelay();
-      this.startLoading();
+    effect((onCleanup) => {
+      const delay = this.loadDelay();
+      
+      // Reset loaded state
+      this.itemsLoaded.set(false);
+      
+      // Start new loading timeout
+      const timeout = setTimeout(() => {
+        this.itemsLoaded.set(true);
+      }, delay);
+      
+      // Cleanup function will be called when effect reruns or component is destroyed
+      onCleanup(() => {
+        clearTimeout(timeout);
+      });
     });
-  }
-
-  ngOnDestroy() {
-    if (this.loadingTimeout) {
-      clearTimeout(this.loadingTimeout);
-    }
-  }
-
-  private startLoading() {
-    // Clear any existing timeout
-    if (this.loadingTimeout) {
-      clearTimeout(this.loadingTimeout);
-    }
-
-    // Reset loaded state
-    this.itemsLoaded.set(false);
-
-    // Start new loading timeout
-    this.loadingTimeout = setTimeout(() => {
-      this.itemsLoaded.set(true);
-    }, this.loadDelay());
   }
 
   onAction(action: string) {
