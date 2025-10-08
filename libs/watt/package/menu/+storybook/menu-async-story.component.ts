@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, Input, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, input, signal, effect, OnDestroy } from '@angular/core';
 import { WattButtonComponent } from '../../button';
 import { WattIconComponent } from '../../icon';
 import { WattMenuComponent } from '../watt-menu.component';
@@ -48,7 +48,7 @@ import { WattMenuTriggerDirective } from '../watt-menu-trigger.directive';
         <watt-menu #asyncMenu>
           @if (itemsLoaded()) {
             <watt-menu-item (click)="onAction('Profile')">
-              @if (showIcons) {
+              @if (showIcons()) {
                 <watt-icon name="user" />
               }
               Profile
@@ -57,14 +57,14 @@ import { WattMenuTriggerDirective } from '../watt-menu-trigger.directive';
               Settings (always no icon)
             </watt-menu-item>
             <watt-menu-item (click)="onAction('Preferences')">
-              @if (showIcons) {
+              @if (showIcons()) {
                 <watt-icon name="settings" />
               }
               Preferences
             </watt-menu-item>
             <watt-menu-item (click)="onAction('Help')"> Help (always no icon) </watt-menu-item>
             <watt-menu-item (click)="onAction('Logout')">
-              @if (showIcons) {
+              @if (showIcons()) {
                 <watt-icon name="logout" />
               }
               Logout
@@ -78,24 +78,21 @@ import { WattMenuTriggerDirective } from '../watt-menu-trigger.directive';
     <p>Items loaded: {{ itemsLoaded() ? 'Yes' : 'No (loading...)' }}</p>
   `,
 })
-export class MenuAsyncStoryComponent implements OnInit, OnDestroy {
-  @Input() showIcons = true;
-  @Input() set loadDelay(value: number) {
-    this._loadDelay = value;
-    this.resetLoading();
-  }
-  get loadDelay(): number {
-    return this._loadDelay;
-  }
+export class MenuAsyncStoryComponent implements OnDestroy {
+  showIcons = input(true);
+  loadDelay = input(1000);
 
-  private _loadDelay = 1000;
   private loadingTimeout?: ReturnType<typeof setTimeout>;
 
   itemsLoaded = signal(false);
   lastAction = signal<string | null>(null);
 
-  ngOnInit() {
-    this.resetLoading();
+  constructor() {
+    // Watch for loadDelay changes and restart loading
+    effect(() => {
+      this.loadDelay();
+      this.startLoading();
+    });
   }
 
   ngOnDestroy() {
@@ -104,7 +101,7 @@ export class MenuAsyncStoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  private resetLoading() {
+  private startLoading() {
     // Clear any existing timeout
     if (this.loadingTimeout) {
       clearTimeout(this.loadingTimeout);
@@ -116,7 +113,7 @@ export class MenuAsyncStoryComponent implements OnInit, OnDestroy {
     // Start new loading timeout
     this.loadingTimeout = setTimeout(() => {
       this.itemsLoaded.set(true);
-    }, this._loadDelay);
+    }, this.loadDelay());
   }
 
   onAction(action: string) {
