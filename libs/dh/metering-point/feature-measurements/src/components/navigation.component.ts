@@ -114,6 +114,7 @@ export class DhMeasurementsNavigationComponent {
       this.selectedView.setValue(this.currentView());
     });
 
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     effect(() => {
       const current = this.mapViewToFilter(this.currentView());
       const next = this.mapViewToFilter(this.navigateTo());
