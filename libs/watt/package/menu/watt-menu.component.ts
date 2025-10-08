@@ -121,9 +121,7 @@ export class WattMenuComponent {
    * @ignore
    */
   panelClasses = computed(() => {
-    return this.hasIcons() 
-      ? 'watt-menu-panel watt-menu-panel--has-icons'
-      : 'watt-menu-panel';
+    return this.hasIcons() ? 'watt-menu-panel watt-menu-panel--has-icons' : 'watt-menu-panel';
   });
 
   constructor() {
