@@ -16,17 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  viewChild,
-  contentChildren,
-  computed,
-  effect,
-} from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, viewChild } from '@angular/core';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
-import { WattMenuItemComponent } from './watt-menu-item.component';
 
 /**
  * Watt Menu Component
@@ -64,11 +55,8 @@ import { WattMenuItemComponent } from './watt-menu-item.component';
 @Component({
   selector: 'watt-menu',
   template: `
-    <mat-menu
-      #menu="matMenu"
-      [class]="'watt-menu-panel' + (hasIcons() ? ' watt-menu-panel--has-icons' : '')"
-    >
-      <ng-content select="watt-menu-group, watt-menu-item" />
+    <mat-menu #menu="matMenu" class="watt-menu-panel">
+      <ng-content />
     </mat-menu>
   `,
   styles: [
@@ -88,8 +76,8 @@ import { WattMenuItemComponent } from './watt-menu-item.component';
           padding-block: var(--watt-menu-padding-block);
         }
 
-        /* When menu has no icons, hide the icon space entirely */
-        &:not(.watt-menu-panel--has-icons) .watt-menu-item-icon {
+        /* Hide icon space when no menu items have icons */
+        &:not(:has(watt-icon)) .watt-menu-item-icon {
           display: none;
         }
       }
@@ -106,25 +94,4 @@ export class WattMenuComponent {
    * @ignore
    */
   menu = viewChild.required<MatMenu>('menu');
-
-  /**
-   * All menu items in this menu.
-   * @ignore
-   */
-  menuItems = contentChildren(WattMenuItemComponent, { descendants: true });
-
-  /**
-   * Whether any menu item has an icon.
-   * @ignore
-   */
-  hasIcons = computed(() => this.menuItems().some((item) => item.hasIcon()));
-
-  constructor() {
-    effect(() => {
-      const hasIcons = this.hasIcons();
-      this.menuItems().forEach((item) => {
-        item.menuHasIcons.set(hasIcons);
-      });
-    });
-  }
 }
