@@ -92,19 +92,21 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
             [label]="t('country')"
           />
 
-          <watt-text-field [formControl]="legalGroupControls.streetCode" [label]="t('roadCode')" />
+          <vater-flex direction="row" gap="m" justify="space-between">
+            <watt-text-field
+              [formControl]="legalGroupControls.municipalityCode"
+              [label]="t('municipalityCode')"
+            />
+            <watt-text-field [formControl]="legalGroupControls.streetCode" [label]="t('roadCode')" />
+          </vater-flex>
 
-          <watt-text-field
-            [formControl]="legalGroupControls.citySubdivisionName"
-            [label]="t('postalDistrict')"
-          />
-
-          <watt-text-field [formControl]="legalGroupControls.postBox" [label]="t('postBox')" />
-
-          <watt-text-field
-            [formControl]="legalGroupControls.municipalityCode"
-            [label]="t('municipalityCode')"
-          />
+          <vater-flex direction="row" gap="m" justify="space-between">
+            <watt-text-field
+              [formControl]="legalGroupControls.citySubdivisionName"
+              [label]="t('postalDistrict')"
+            />
+            <watt-text-field [formControl]="legalGroupControls.postBox" [label]="t('postBox')" />
+          </vater-flex>
 
           <watt-text-field
             [formControl]="legalGroupControls.darReference"
@@ -174,23 +176,29 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
             [options]="countryOptions"
             [label]="t('country')"
           />
-          <watt-text-field
-            [formControl]="technicalGroupControls.streetCode"
-            [label]="t('roadCode')"
-          />
-          <watt-text-field
-            [formControl]="technicalGroupControls.citySubdivisionName"
-            [label]="t('postalDistrict')"
-          />
-          <watt-text-field [formControl]="technicalGroupControls.postBox" [label]="t('postBox')" />
-          <watt-text-field
-            [formControl]="technicalGroupControls.municipalityCode"
-            [label]="t('municipalityCode')"
-          />
+
+          <vater-flex direction="row" gap="m" justify="space-between">
+            <watt-text-field
+              [formControl]="technicalGroupControls.citySubdivisionName"
+              [label]="t('postalDistrict')"
+            />
+            <watt-text-field
+              [formControl]="technicalGroupControls.streetCode"
+              [label]="t('roadCode')"
+            />
+          </vater-flex>
+
+          <vater-flex direction="row" gap="m" justify="space-between">
+            <watt-text-field
+              [formControl]="technicalGroupControls.municipalityCode"
+              [label]="t('municipalityCode')"
+            />
+            <watt-text-field [formControl]="technicalGroupControls.postBox" [label]="t('postBox')" />
+          </vater-flex>
           <watt-text-field
             [formControl]="technicalGroupControls.darReference"
             [label]="t('darReference')"
-          />
+            />
 
           <watt-checkbox [formControl]="form.controls.technicalNameAddressProtection">
             {{ t('nameAddressProtection') }}
