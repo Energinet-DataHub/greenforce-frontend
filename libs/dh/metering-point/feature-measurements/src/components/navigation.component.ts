@@ -117,12 +117,11 @@ export class DhMeasurementsNavigationComponent {
     effect(() => {
       const current = this.mapViewToFilter(this.currentView());
       const next = this.mapViewToFilter(this.navigateTo());
-      if (!next) return;
 
       const params = new URLSearchParams(this.route.snapshot.queryParams['filters']);
       const filter =
-        current && params.get(current.filter)
-          ? { [next.filter]: dayjs(params.get(current.filter)).format(next.format) }
+        current && params.get(current.filter) && next?.filter
+          ? { [next.filter]: dayjs(params.get(current.filter)).format(next?.format) }
           : null;
 
       this.router.navigate([this.navigateTo()], {
