@@ -681,8 +681,8 @@
         },
         "addressDetails": {
           "label": "Adresseoplysninger",
-          "legalAddressSection": "Juridisk address",
-          "technicalAddressSection": "Teknisk address",
+          "legalAddressSection": "Juridisk adresse",
+          "technicalAddressSection": "Teknisk adresse",
           "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
           "street": "Vejnavn",
           "houseNumber": "Husnummer",
