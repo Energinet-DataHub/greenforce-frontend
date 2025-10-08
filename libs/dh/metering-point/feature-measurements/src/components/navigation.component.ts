@@ -119,10 +119,25 @@ export class DhMeasurementsNavigationComponent {
       const next = this.mapViewToFilter(this.navigateTo());
 
       const params = new URLSearchParams(this.route.snapshot.queryParams['filters']);
+      let param = params.get(current?.filter ?? '');
+
+      console.log(current?.filter, next?.filter);
+
+      if (current?.filter == 'year' && next?.filter == 'date') {
+        param = dayjs().year(Number(param)).format(next.format);
+      }
+
+      if (current?.filter == 'year' && next?.filter == 'yearMonth') {
+        param = dayjs().year(Number(param)).format(next.format);
+      }
+
+      if (current?.filter == 'yearMonth' && next?.filter == 'date') {
+        const [year, month] = param?.split('-') ?? '';
+        param = dayjs().year(Number(year)).month(Number(month)).format(next.format);
+      }
+
       const filter =
-        current && params.get(current.filter) && next?.filter
-          ? { [next.filter]: dayjs(params.get(current.filter)).format(next?.format) }
-          : null;
+        param && next?.filter ? { [next.filter]: dayjs(param).format(next?.format) } : null;
 
       this.router.navigate([this.navigateTo()], {
         relativeTo: this.route,
