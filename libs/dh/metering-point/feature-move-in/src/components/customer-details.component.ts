@@ -75,7 +75,8 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
       <watt-datepicker
         class="cutOffDate"
         [label]="t('cutOffDate')"
-        [min]="yesterday"
+        [min]="sevenDaysAgo"
+        [max]="sixtyDaysFromNow"
         [formControl]="form.controls.cutOffDate"
       />
 
@@ -97,14 +98,14 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
             group="customer-type"
             [formControl]="form.controls.customerType"
             value="private"
-            >{{ t('private') }}</watt-radio
-          >
+            >{{ t('private') }}
+          </watt-radio>
           <watt-radio
             group="customer-type"
             [formControl]="form.controls.customerType"
             value="business"
-            >{{ t('business') }}</watt-radio
-          >
+            >{{ t('business') }}
+          </watt-radio>
         </vater-stack>
       </vater-stack>
 
@@ -168,17 +169,22 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
             [formControl]="businessCustomer.controls.companyName"
           />
 
-          <watt-text-field
-            [label]="t('cvr')"
-            class="cvr"
-            [formControl]="businessCustomer.controls.cvr"
-          >
-            <watt-field-error>
-              @if (businessCustomer.controls.cvr.hasError('invalidCvrNumber')) {
-                {{ t('cvrInvalid') }}
-              }
-            </watt-field-error>
-          </watt-text-field>
+          <vater-stack direction="row" gap="m">
+            <watt-text-field
+              [label]="t('cvr')"
+              class="cvr"
+              [formControl]="businessCustomer.controls.cvr"
+            >
+              <watt-field-error>
+                @if (businessCustomer.controls.cvr.hasError('invalidCvrNumber')) {
+                  {{ t('cvrInvalid') }}
+                }
+              </watt-field-error>
+            </watt-text-field>
+            <watt-checkbox [formControl]="businessCustomer.controls.isForeignCompany">
+              {{ t('foreignCompany') }}
+            </watt-checkbox>
+          </vater-stack>
         }
       }
 
@@ -191,7 +197,8 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
 export class DhCustomerDetailsComponent {
   customerDetailsForm = input.required<FormGroup<MoveInCustomerDetailsFormType>>();
 
-  yesterday = dayjs().subtract(1, 'day').toDate();
+  sevenDaysAgo = dayjs().subtract(7, 'day').toDate();
+  sixtyDaysFromNow = dayjs().add(60, 'day').toDate();
 
   moveInTypeDropdownOptions = dhEnumToWattDropdownOptions(MoveInType);
 }

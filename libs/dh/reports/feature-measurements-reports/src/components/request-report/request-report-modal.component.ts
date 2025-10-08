@@ -52,7 +52,7 @@ import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 
 import {
-  getActorOptionsSignal,
+  getActorOptions,
   getGridAreaOptionsForPeriod,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
@@ -149,7 +149,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
 
   private readonly requestReportMutation = mutation(RequestMeasurementsReportDocument);
 
-  private energySupplierOptionsSignal = getActorOptionsSignal([EicFunction.EnergySupplier]);
+  private energySupplierOptionsSignal = getActorOptions([EicFunction.EnergySupplier]);
 
   private modal = viewChild.required(WattModalComponent);
 

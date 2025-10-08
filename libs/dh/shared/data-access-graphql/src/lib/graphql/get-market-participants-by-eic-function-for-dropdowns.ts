@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, inject, Signal } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { Observable, map } from 'rxjs';
+import { computed, Signal } from '@angular/core';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -31,28 +29,10 @@ import {
   EicFunction,
   GetMarketParticipantsForEicFunctionDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
+
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 export function getActorOptions(
-  eicFunctions: EicFunction[],
-  valueType: 'glnOrEicNumber' | 'actorId' = 'glnOrEicNumber'
-): Observable<WattDropdownOptions> {
-  return inject(Apollo)
-    .query({
-      query: GetMarketParticipantsForEicFunctionDocument,
-      variables: {
-        eicFunctions,
-      },
-    })
-    .pipe(
-      map((result) => result.data?.marketParticipantsForEicFunction),
-      exists(),
-      map((actors) => toDropdownOptions(actors, valueType))
-    );
-}
-
-export function getActorOptionsSignal(
   eicFunctions: EicFunction[],
   valueType: 'glnOrEicNumber' | 'actorId' = 'glnOrEicNumber'
 ): Signal<WattDropdownOptions> {

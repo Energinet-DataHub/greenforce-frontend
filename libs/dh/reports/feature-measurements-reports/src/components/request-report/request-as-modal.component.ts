@@ -32,7 +32,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_MODAL, WattModalService, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { getActorOptionsSignal } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   EicFunction,
   GetMarketParticipantByIdDocument,
@@ -78,7 +78,7 @@ export class DhRequestAsModal extends WattTypedModal {
     }),
   });
 
-  actorOptions = getActorOptionsSignal(
+  actorOptions = getActorOptions(
     [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
     'actorId'
   );

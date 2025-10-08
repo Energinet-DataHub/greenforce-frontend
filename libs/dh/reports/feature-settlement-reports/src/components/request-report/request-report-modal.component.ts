@@ -18,6 +18,7 @@
 //#endregion
 import {
   Component,
+  computed,
   DestroyRef,
   EnvironmentInjector,
   inject,
@@ -151,6 +152,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
 
   private readonly toastService = inject(WattToastService);
   private readonly modalService = inject(WattModalService);
+  private readonly actorOptions = getActorOptions([EicFunction.EnergySupplier]);
 
   private modal = viewChild.required(WattModalComponent);
 
@@ -186,15 +188,14 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
 
   calculationTypeOptions = this.getCalculationTypeOptions();
   gridAreaOptions$ = this.getGridAreaOptions();
-  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
-    map((options) => [
-      {
-        displayValue: translate('shared.all'),
-        value: ALL_ENERGY_SUPPLIERS,
-      },
-      ...options,
-    ])
-  );
+
+  energySupplierOptions = computed(() => [
+    {
+      displayValue: translate('shared.all'),
+      value: ALL_ENERGY_SUPPLIERS,
+    },
+    ...this.actorOptions(),
+  ]);
 
   showMonthlySumCheckbox$ = this.shouldShowMonthlySumCheckbox();
 
