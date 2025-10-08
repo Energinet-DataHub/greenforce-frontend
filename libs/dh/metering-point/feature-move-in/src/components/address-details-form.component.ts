@@ -101,7 +101,8 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
             <watt-text-field
               [formControl]="legalGroupControls.municipalityCode"
               [label]="t('municipalityCode')"
-              type="number"
+              type="text"
+              maxLength="3"
             >
               <watt-field-error>
                 @if (legalGroupControls.municipalityCode.hasError('containsLetters')) {
@@ -203,7 +204,8 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
             <watt-text-field
               [formControl]="technicalGroupControls.municipalityCode"
               [label]="t('municipalityCode')"
-              type="number"
+              type="text"
+              maxLength="3"
             >
               <watt-field-error>
                 @if (legalGroupControls.municipalityCode.hasError('containsLetters')) {
