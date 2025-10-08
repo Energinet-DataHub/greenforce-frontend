@@ -685,6 +685,7 @@
           "legalAddressSection": "Juridisk adresse",
           "technicalAddressSection": "Teknisk adresse",
           "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+          "addressSameAsLegalAddress": "Samme som juridisk adresse",
           "street": "Vejnavn",
           "houseNumber": "Husnummer",
           "floor": "Etage",

@@ -684,6 +684,7 @@
           "legalAddressSection": "Legal address",
           "technicalAddressSection": "Technical address",
           "addressSameAsMeteringPoint": "Same as metering point address",
+          "addressSameAsLegalAddress": "Same as legal address",
           "street": "Street",
           "houseNumber": "House number",
           "floor": "Floor",
