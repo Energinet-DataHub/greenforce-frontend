@@ -690,7 +690,7 @@
           "postalCode": "Postal code",
           "city": "City",
           "country": "Country",
-          "roadCode": "Road code",
+          "streetCode": "Street code",
           "supplementaryCityName": "Supplementary city name",
           "postBox": "Post box",
           "municipalityCode": "Municipality code",

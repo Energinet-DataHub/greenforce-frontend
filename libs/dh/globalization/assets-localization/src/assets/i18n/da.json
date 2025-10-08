@@ -691,7 +691,7 @@
           "postalCode": "Postnummer",
           "city": "Bynavn",
           "country": "Land",
-          "roadCode": "Vejkode",
+          "streetCode": "Vejkode",
           "supplementaryCityName": "Supplerende bynavn",
           "postBox": "Postboks",
           "municipalityCode": "Kommunekode",

@@ -116,7 +116,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
             </watt-text-field>
             <watt-text-field
               [formControl]="legalGroupControls.streetCode"
-              [label]="t('roadCode')"
+              [label]="t('streetCode')"
             />
           </vater-flex>
 
@@ -219,7 +219,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
             </watt-text-field>
             <watt-text-field
               [formControl]="technicalGroupControls.streetCode"
-              [label]="t('roadCode')"
+              [label]="t('streetCode')"
             />
           </vater-flex>
 
