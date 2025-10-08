@@ -64,7 +64,7 @@ import { WattMenuItemComponent } from './watt-menu-item.component';
 @Component({
   selector: 'watt-menu',
   template: `
-    <mat-menu #menu="matMenu" [class]="panelClasses().join(' ')">
+    <mat-menu #menu="matMenu" [class]="panelClasses()">
       <ng-content />
     </mat-menu>
   `,
@@ -121,11 +121,9 @@ export class WattMenuComponent {
    * @ignore
    */
   panelClasses = computed(() => {
-    const classes = ['watt-menu-panel'];
-    if (this.hasIcons()) {
-      classes.push('watt-menu-panel--has-icons');
-    }
-    return classes;
+    return this.hasIcons() 
+      ? 'watt-menu-panel watt-menu-panel--has-icons'
+      : 'watt-menu-panel';
   });
 
   constructor() {
