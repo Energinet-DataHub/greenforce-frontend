@@ -89,7 +89,7 @@ limitations under the License.
             [label]="t('energySupplier')"
             [showResetOption]="false"
             [formControl]="form.controls.energySupplier"
-            [options]="energySupplierOptions$ | push"
+            [options]="energySupplierOptions()"
             data-testid="settlementreport.energySupplier"
           />
         </div>
