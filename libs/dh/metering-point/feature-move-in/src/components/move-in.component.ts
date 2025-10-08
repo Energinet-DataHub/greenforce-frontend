@@ -308,15 +308,23 @@ export class DhMoveInComponent extends WattTypedModal<{
   }
 
   async startMoveIn() {
-    if (this.customerDetailsForm.invalid || this.contactDetailsForm.invalid) return;
+    if (
+      this.customerDetailsForm.invalid ||
+      this.contactDetailsForm.invalid ||
+      this.addressDetailsForm.invalid
+    ) {
+      return;
+    }
 
-    const name1 = this.privateCustomerForm.value.name1 ?? '';
+    const { cutOffDate, moveInType } = this.customerDetailsForm.getRawValue();
+
+    if (!moveInType) return;
 
     const result = await this.startMoveInMutation.mutate({
       variables: {
         input: {
-          cutOffDate: '',
-          moveInType: MoveInType.D29,
+          cutOffDate: cutOffDate.toISOString(),
+          moveInType,
           customerType: '',
           privateCustomerName1: '',
           privateCustomerCpr1: '',
