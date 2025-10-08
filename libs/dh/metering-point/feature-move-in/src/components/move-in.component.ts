@@ -103,7 +103,7 @@ export class DhMoveInComponent extends WattTypedModal<{
     legalContactTitle: this.fb.control<string>(''),
     legalContactPhone: this.fb.control<string>(''),
     legalContactMobile: this.fb.control<string>(''),
-    legalContactEmail: this.fb.control<string>(''),
+    legalContactEmail: this.fb.control<string>('', Validators.email),
     technicalContactSameAsCustomer: this.fb.control<boolean>(true),
     technicalContactName: this.fb.control<string>({ value: '', disabled: true }, [
       Validators.required,
@@ -111,7 +111,7 @@ export class DhMoveInComponent extends WattTypedModal<{
     technicalContactTitle: this.fb.control<string>(''),
     technicalContactPhone: this.fb.control<string>(''),
     technicalContactMobile: this.fb.control<string>(''),
-    technicalContactEmail: this.fb.control<string>(''),
+    technicalContactEmail: this.fb.control<string>('', Validators.email),
   });
 
   readonly isForeignCompanyFormControl = this.fb.control<boolean>(false);

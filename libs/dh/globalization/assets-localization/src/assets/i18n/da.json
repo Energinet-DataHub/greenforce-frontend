@@ -676,7 +676,8 @@
           "attention": "Att.",
           "phoneNumber": "Telefonnr.",
           "mobile": "Mobil",
-          "email": "E-mail adresse"
+          "email": "E-mail adresse",
+          "invalidEmail": "Ugyldig e-mail"
         },
         "addressDetails": {
           "label": "Adresseoplysninger",

@@ -675,7 +675,8 @@
           "attention": "Attn.",
           "phoneNumber": "Phone number",
           "mobile": "Mobile",
-          "email": "Email address"
+          "email": "Email address",
+          "invalidEmail": "Invalid e-mail"
         },
         "addressDetails": {
           "label": "Address details",
