@@ -256,6 +256,7 @@
         "libs/watt/package/utils/intersection-observer/index.ts"
       ],
       "@energinet-datahub/watt/modal": ["libs/watt/package/modal/index.ts"],
+      "@energinet-datahub/watt/menu": ["libs/watt/package/menu/index.ts"],
       "@energinet-datahub/watt/paginator": ["libs/watt/package/paginator/index.ts"],
       "@energinet-datahub/watt/phone-field": ["libs/watt/package/phone-field/index.ts"],
       "@energinet-datahub/watt/progress-tracker": ["libs/watt/package/progress-tracker/index.ts"],

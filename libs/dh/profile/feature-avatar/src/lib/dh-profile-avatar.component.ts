@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { MatMenuModule } from '@angular/material/menu';
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { MsalService } from '@azure/msal-angular';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WATT_MENU } from '@energinet-datahub/watt/menu';
 import { DhProfileModalComponent } from '@energinet-datahub/dh/profile/feature-profile-modal';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
@@ -29,34 +29,34 @@ import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-l
 
 @Component({
   selector: 'dh-profile-avatar',
-  imports: [MatMenuModule, TranslocoDirective, TranslocoPipe, WattIconComponent],
+  imports: [WATT_MENU, TranslocoDirective, TranslocoPipe, WattIconComponent],
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./dh-profile-avatar.component.scss'],
-  template: `<button data-testid="profileMenu" [matMenuTriggerFor]="menu" class="watt-text-m">
+  template: `<button data-testid="profileMenu" [wattMenuTriggerFor]="menu" class="watt-text-m">
       {{ name() }}
     </button>
-    <mat-menu #menu="matMenu" xPosition="before" class="dh-profile__menu">
+    <watt-menu #menu class="dh-profile__menu">
       <ng-container *transloco="let transloco; read: 'shell'">
-        <button (click)="openProfileModal()" mat-menu-item>
+        <watt-menu-item (click)="openProfileModal()">
           <watt-icon name="user" class="watt-icon--small" />
           <span>{{ transloco('profile') }}</span>
-        </button>
+        </watt-menu-item>
 
-        <button (click)="changeLaguage()" mat-menu-item>
+        <watt-menu-item (click)="changeLaguage()">
           <watt-icon name="language" class="watt-icon--small" />
           @if (selectedLaguage() === displayLanguage.Danish) {
             <span>{{ 'shell.english' | transloco }}</span>
           } @else {
             <span>{{ 'shell.danish' | transloco }}</span>
           }
-        </button>
+        </watt-menu-item>
 
-        <button mat-menu-item (click)="logout()">
+        <watt-menu-item (click)="logout()">
           <watt-icon name="logout" class="watt-icon--small" />
           <span>{{ transloco('logout') }}</span>
-        </button>
+        </watt-menu-item>
       </ng-container>
-    </mat-menu>`,
+    </watt-menu>`,
 })
 export class DhProfileAvatarComponent {
   private readonly authService = inject(MsalService);

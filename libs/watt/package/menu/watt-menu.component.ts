@@ -64,11 +64,8 @@ import { WattMenuItemComponent } from './watt-menu-item.component';
 @Component({
   selector: 'watt-menu',
   template: `
-    <mat-menu
-      #menu="matMenu"
-      [class]="'watt-menu-panel' + (hasIcons() ? ' watt-menu-panel--has-icons' : '')"
-    >
-      <ng-content select="watt-menu-group, watt-menu-item" />
+    <mat-menu #menu="matMenu" [class]="panelClasses().join(' ')">
+      <ng-content />
     </mat-menu>
   `,
   styles: [
@@ -119,7 +116,20 @@ export class WattMenuComponent {
    */
   hasIcons = computed(() => this.menuItems().some((item) => item.hasIcon()));
 
+  /**
+   * CSS classes to apply to the menu panel.
+   * @ignore
+   */
+  panelClasses = computed(() => {
+    const classes = ['watt-menu-panel'];
+    if (this.hasIcons()) {
+      classes.push('watt-menu-panel--has-icons');
+    }
+    return classes;
+  });
+
   constructor() {
+    // Update menu items when the content changes
     effect(() => {
       const hasIcons = this.hasIcons();
       this.menuItems().forEach((item) => {

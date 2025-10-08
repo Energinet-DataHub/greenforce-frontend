@@ -21,12 +21,12 @@ import {
   ViewEncapsulation,
   ChangeDetectionStrategy,
   input,
-  ElementRef,
-  inject,
   signal,
-  afterNextRender,
+  contentChild,
+  computed,
 } from '@angular/core';
 import { MatMenuItem } from '@angular/material/menu';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
   selector: 'watt-menu-item',
@@ -84,31 +84,26 @@ import { MatMenuItem } from '@angular/material/menu';
   },
 })
 export class WattMenuItemComponent {
-  private readonly elementRef = inject(ElementRef);
-
   /**
    * Whether the menu item is disabled.
    */
   disabled = input(false);
 
   /**
+   * Icon child element.
+   * @ignore
+   */
+  private readonly iconChild = contentChild(WattIconComponent);
+
+  /**
    * Whether this menu item has an icon.
    * @ignore
    */
-  private readonly _hasIcon = signal(false);
-  hasIcon = this._hasIcon.asReadonly();
+  hasIcon = computed(() => !!this.iconChild());
 
   /**
    * Whether the parent menu has any items with icons.
    * @ignore
    */
   menuHasIcons = signal(false);
-
-  constructor() {
-    // Check if this menu item has an icon
-    afterNextRender(() => {
-      const iconElement = this.elementRef.nativeElement.querySelector('watt-icon');
-      this._hasIcon.set(!!iconElement);
-    });
-  }
 }

@@ -16,7 +16,22 @@
  * limitations under the License.
  */
 //#endregion
+// Individual exports (kept for backward compatibility)
 export { WattMenuComponent } from './watt-menu.component';
 export { WattMenuItemComponent } from './watt-menu-item.component';
 export { WattMenuGroupComponent } from './watt-menu-group.component';
 export { WattMenuTriggerDirective } from './watt-menu-trigger.directive';
+
+// Import the components for the combined export
+import { WattMenuComponent } from './watt-menu.component';
+import { WattMenuItemComponent } from './watt-menu-item.component';
+import { WattMenuGroupComponent } from './watt-menu-group.component';
+import { WattMenuTriggerDirective } from './watt-menu-trigger.directive';
+
+// Combined export for convenience - all menu-related components
+export const WATT_MENU = [
+  WattMenuComponent,
+  WattMenuItemComponent,
+  WattMenuGroupComponent,
+  WattMenuTriggerDirective,
+] as const;
