@@ -89,15 +89,15 @@ export class MenuAsyncStoryComponent {
     // Watch for loadDelay changes and restart loading
     effect((onCleanup) => {
       const delay = this.loadDelay();
-      
+
       // Reset loaded state
       this.itemsLoaded.set(false);
-      
+
       // Start new loading timeout
       const timeout = setTimeout(() => {
         this.itemsLoaded.set(true);
       }, delay);
-      
+
       // Cleanup function will be called when effect reruns or component is destroyed
       onCleanup(() => {
         clearTimeout(timeout);
