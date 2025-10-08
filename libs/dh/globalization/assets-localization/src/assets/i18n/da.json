@@ -695,6 +695,11 @@
           "postalDistrict": "Postdistrikt",
           "postBox": "Postboks",
           "municipalityCode": "Kommunekode",
+          "municipalityCodeError": {
+            "containsLetters": "Må ikke indeholde bogstaver",
+            "startsWithZero": "Må ikke starte med 0",
+            "invalidMunicipalityCodeLength": "Skal bestå af 3 cifre"
+          },
           "darReference": "Dar reference",
           "nameAddressProtection": "Navne- og adressebeskyttelse"
         },

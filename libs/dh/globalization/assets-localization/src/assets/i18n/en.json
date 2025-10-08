@@ -694,6 +694,11 @@
           "postalDistrict": "Postal district",
           "postBox": "Post box",
           "municipalityCode": "Municipality code",
+          "municipalityCodeError": {
+            "containsLetters": "Can only contain numbers",
+            "startsWithZero": "Can not start with 0",
+            "invalidMunicipalityCodeLength": "Must be 3 digits long"
+          },
           "darReference": "Dar reference",
           "nameAddressProtection": "Name and address protection"
         },

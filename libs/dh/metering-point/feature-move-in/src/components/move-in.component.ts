@@ -23,7 +23,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import {
+  dhCprValidator,
+  dhCvrValidator,
+  dhMunicipalityCodeValidator,
+} from '@energinet-datahub/dh/shared/ui-validators';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { StartMoveInDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -134,7 +138,7 @@ export class DhMoveInComponent extends WattTypedModal<{
         this.addressDataInitialValue.citySubdivisionName
       ),
       postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode),
+      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode, dhMunicipalityCodeValidator()),
       darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
     }),
     legalNameAddressProtection: this.fb.control<boolean>(false),
@@ -155,7 +159,7 @@ export class DhMoveInComponent extends WattTypedModal<{
         this.addressDataInitialValue.citySubdivisionName
       ),
       postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode),
+      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode, dhMunicipalityCodeValidator()),
       darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
     }),
     technicalNameAddressProtection: this.fb.control<boolean>(false),

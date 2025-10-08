@@ -27,6 +27,7 @@ import { MoveInAddressDetailsFormType } from '../types';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 
 @Component({
   selector: 'dh-address-details-form',
@@ -40,6 +41,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
     VaterFlexComponent,
     WattButtonComponent,
     VaterStackComponent,
+    WattFieldErrorComponent,
   ],
   template: `
     @let form = addressDetailsForm();
@@ -99,8 +101,23 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
             <watt-text-field
               [formControl]="legalGroupControls.municipalityCode"
               [label]="t('municipalityCode')"
+              type="number"
+              maxLength="3"
+            >
+              <watt-field-error>
+                @if (legalGroupControls.municipalityCode.hasError('containsLetters')) {
+                  {{ t('municipalityCodeError.containsLetters') }}
+                } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
+                 {{ t('municipalityCodeError.startsWithZero') }}
+                } @else if (legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
+                  {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
+                }
+              </watt-field-error>
+            </watt-text-field>
+            <watt-text-field
+              [formControl]="legalGroupControls.streetCode"
+              [label]="t('roadCode')"
             />
-            <watt-text-field [formControl]="legalGroupControls.streetCode" [label]="t('roadCode')" />
           </vater-flex>
 
           <vater-flex direction="row" gap="m" justify="space-between">
@@ -185,6 +202,29 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
+              [formControl]="technicalGroupControls.municipalityCode"
+              [label]="t('municipalityCode')"
+              type="number"
+              maxLength="3"
+            >
+              <watt-field-error>
+                @if (legalGroupControls.municipalityCode.hasError('containsLetters')) {
+                  {{ t('municipalityCodeError.containsLetters') }}
+                } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
+                  {{ t('municipalityCodeError.startsWithZero') }}
+                } @else if (legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
+                  {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
+                }
+              </watt-field-error>
+            </watt-text-field>
+            <watt-text-field
+              [formControl]="technicalGroupControls.postBox"
+              [label]="t('postBox')"
+            />
+          </vater-flex>
+
+          <vater-flex direction="row" gap="m" justify="space-between">
+            <watt-text-field
               [formControl]="technicalGroupControls.citySubdivisionName"
               [label]="t('postalDistrict')"
             />
@@ -194,17 +234,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
             />
           </vater-flex>
 
-          <vater-flex direction="row" gap="m" justify="space-between">
-            <watt-text-field
-              [formControl]="technicalGroupControls.municipalityCode"
-              [label]="t('municipalityCode')"
-            />
-            <watt-text-field [formControl]="technicalGroupControls.postBox" [label]="t('postBox')" />
-          </vater-flex>
           <watt-text-field
             [formControl]="technicalGroupControls.darReference"
             [label]="t('darReference')"
-            />
+          />
 
           <watt-checkbox [formControl]="form.controls.technicalNameAddressProtection">
             {{ t('nameAddressProtection') }}
