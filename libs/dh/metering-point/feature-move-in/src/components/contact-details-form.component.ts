@@ -35,7 +35,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
     WattTextFieldComponent,
     WattPhoneFieldComponent,
     VaterFlexComponent,
-    WattFieldErrorComponent
+    WattFieldErrorComponent,
   ],
   template: `
     @let form = contactDetailsForm();
