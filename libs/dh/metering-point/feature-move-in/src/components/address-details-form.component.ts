@@ -53,6 +53,9 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       <vater-flex direction="row" align="center" justify="space-around">
         <!-- Legal -->
         <vater-flex align="stretch" class="flex-grow-5">
+          <h3>
+            {{ t('legalAddressSection') }}
+          </h3>
           <vater-stack direction="row" justify="space-between">
             <watt-checkbox [formControl]="form.controls.legalAddressSameAsMeteringPoint">
               {{ t('addressSameAsMeteringPoint') }}
@@ -135,6 +138,9 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
         <!-- Technical -->
         <vater-flex align="stretch" class="flex-grow-5">
+          <h3>
+            {{ t('technicalAddressSection') }}
+          </h3>
           <vater-stack direction="row" justify="space-between">
             <watt-checkbox [formControl]="form.controls.technicalAddressSameAsMeteringPoint">
               {{ t('addressSameAsMeteringPoint') }}
