@@ -2476,6 +2476,8 @@ enum MarketParticipantStatus {
 enum MeasurementsReportMarketRole {
   GRID_ACCESS_PROVIDER
   ENERGY_SUPPLIER
+  SYSTEM_OPERATOR
+  DANISH_ENERGY_AGENCY
   DATA_HUB_ADMINISTRATOR
 }
 
