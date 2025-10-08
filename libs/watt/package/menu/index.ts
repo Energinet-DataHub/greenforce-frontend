@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-// Individual exports (kept for backward compatibility)
+// Individual exports
 export { WattMenuComponent } from './watt-menu.component';
 export { WattMenuItemComponent } from './watt-menu-item.component';
 export { WattMenuGroupComponent } from './watt-menu-group.component';
