@@ -25,7 +25,11 @@ import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datah
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { StartMoveInDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  MoveInType,
+  StartMoveInDocument,
+  WashInstructions,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import {
@@ -92,7 +96,7 @@ export class DhMoveInComponent extends WattTypedModal<{
 
   customerDetailsForm = this.fb.group<MoveInCustomerDetailsFormType>({
     cutOffDate: this.fb.control(new Date(), Validators.required),
-    moveInType: this.fb.control<string>('', Validators.required),
+    moveInType: this.fb.control<MoveInType | null>(null, Validators.required),
     customerType: this.fb.control(this.customerTypeInitialValue),
     isProtectedAddress: this.fb.control<boolean>(false),
   });
@@ -309,7 +313,60 @@ export class DhMoveInComponent extends WattTypedModal<{
     const name1 = this.privateCustomerForm.value.name1 ?? '';
 
     const result = await this.startMoveInMutation.mutate({
-      variables: { input: { name1, name2: '' } },
+      variables: {
+        input: {
+          cutOffDate: '',
+          moveInType: MoveInType.D29,
+          customerType: '',
+          privateCustomerName1: '',
+          privateCustomerCpr1: '',
+          privateCustomerName2: '',
+          privateCustomerCpr2: '',
+          businessCustomerCompanyName: '',
+          businessCustomerCvr: '',
+          customerIsProtectedAddress: false,
+          legalContactName: '',
+          legalContactTitle: '',
+          legalContactPhone: '',
+          legalContactMobile: '',
+          legalContactEmail: '',
+          legalAddress: {
+            streetName: '',
+            buildingNumber: '',
+            floor: '',
+            room: '',
+            postCode: '',
+            cityName: '',
+            countryCode: '',
+            streetCode: '',
+            postBox: '',
+            municipalityCode: '',
+            darReference: '',
+            citySubDivisionName: '',
+            washInstructions: WashInstructions.Washable,
+          },
+          technicalContactName: '',
+          technicalContactTitle: '',
+          technicalContactPhone: '',
+          technicalContactMobile: '',
+          technicalContactEmail: '',
+          technicalAddress: {
+            streetName: '',
+            buildingNumber: '',
+            floor: '',
+            room: '',
+            postCode: '',
+            cityName: '',
+            countryCode: '',
+            streetCode: '',
+            postBox: '',
+            municipalityCode: '',
+            darReference: '',
+            citySubDivisionName: '',
+            washInstructions: WashInstructions.Washable,
+          },
+        },
+      },
     });
 
     if (result.data?.startMoveIn.success) {

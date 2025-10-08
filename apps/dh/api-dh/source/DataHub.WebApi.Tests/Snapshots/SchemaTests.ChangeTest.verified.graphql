@@ -1835,6 +1835,22 @@ input MeteringPointProcessSortInput {
   actorRole: SortEnumType
 }
 
+input MoveInInstallationAddressInput {
+  streetName: String!
+  streetCode: String!
+  buildingNumber: String!
+  floor: String!
+  room: String!
+  postCode: String!
+  postBox: String!
+  cityName: String!
+  citySubDivisionName: String!
+  municipalityCode: String!
+  countryCode: String!
+  darReference: String!
+  washInstructions: WashInstructions!
+}
+
 input OrganizationSortInput {
   name: SortEnumType
   businessRegisterIdentifier: SortEnumType
@@ -1978,7 +1994,7 @@ input SendMeasurementsRequestV2Input {
 
 input StartMoveInInput {
   cutOffDate: String!
-  moveInType: String!
+  moveInType: MoveInType!
   customerType: String!
   privateCustomerName1: String!
   privateCustomerCpr1: String!
@@ -1992,38 +2008,13 @@ input StartMoveInInput {
   legalContactPhone: String!
   legalContactMobile: String!
   legalContactEmail: String!
-  legalStreetName: String!
-  legalBuildingNumber: String!
-  legalFloor: String!
-  legalRoom: String!
-  legalPostCode: String!
-  legalCityName: String!
-  legalCountryCode: String!
-  legalStreetCode: String!
-  legalCitySubdivisionName: String!
-  legalPostBox: String!
-  legalMunicipalityCode: String!
-  legalDarReference: String!
-  legalNameAddressProtection: Boolean!
+  legalAddress: MoveInInstallationAddressInput!
   technicalContactName: String!
   technicalContactTitle: String!
   technicalContactPhone: String!
   technicalContactMobile: String!
   technicalContactEmail: String!
-  technicalAddressGroup: String!
-  technicalStreetName: String!
-  technicalBuildingNumber: String!
-  technicalFloor: String!
-  technicalRoom: String!
-  technicalPostCode: String!
-  technicalCityName: String!
-  technicalCountryCode: String!
-  technicalStreetCode: String!
-  technicalCitySubdivisionName: String!
-  technicalPostBox: String!
-  technicalMunicipalityCode: String!
-  technicalDarReference: String!
-  technicalNameAddressProtection: Boolean!
+  technicalAddress: MoveInInstallationAddressInput!
 }
 
 input StopDelegationInput {
@@ -2598,6 +2589,11 @@ enum MeteringPointType {
   TOTAL_CONSUMPTION
   NON_PROFILED_CONSUMPTION
   EXCHANGE
+}
+
+enum MoveInType {
+  E65
+  D29
 }
 
 enum NotificationType {

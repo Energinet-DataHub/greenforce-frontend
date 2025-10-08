@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Enums;
+
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Models;
 
 public record StartMoveInInput(
     string CutOffDate,
-    string MoveInType,
+    MoveInType MoveInType,
     string CustomerType,
     string PrivateCustomerName1,
     string PrivateCustomerCpr1,
@@ -30,35 +32,10 @@ public record StartMoveInInput(
     string LegalContactPhone,
     string LegalContactMobile,
     string LegalContactEmail,
-    string LegalStreetName,
-    string LegalBuildingNumber,
-    string LegalFloor,
-    string LegalRoom,
-    string LegalPostCode,
-    string LegalCityName,
-    string LegalCountryCode,
-    string LegalStreetCode,
-    string LegalCitySubdivisionName,
-    string LegalPostBox,
-    string LegalMunicipalityCode,
-    string LegalDarReference,
-    bool LegalNameAddressProtection,
+    MoveInInstallationAddress LegalAddress,
     string TechnicalContactName,
     string TechnicalContactTitle,
     string TechnicalContactPhone,
     string TechnicalContactMobile,
     string TechnicalContactEmail,
-    string TechnicalAddressGroup,
-    string TechnicalStreetName,
-    string TechnicalBuildingNumber,
-    string TechnicalFloor,
-    string TechnicalRoom,
-    string TechnicalPostCode,
-    string TechnicalCityName,
-    string TechnicalCountryCode,
-    string TechnicalStreetCode,
-    string TechnicalCitySubdivisionName,
-    string TechnicalPostBox,
-    string TechnicalMunicipalityCode,
-    string TechnicalDarReference,
-    bool TechnicalNameAddressProtection);
+    MoveInInstallationAddress TechnicalAddress);
