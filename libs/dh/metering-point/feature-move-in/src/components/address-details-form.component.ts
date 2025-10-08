@@ -218,8 +218,8 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
               </watt-field-error>
             </watt-text-field>
             <watt-text-field
-              [formControl]="technicalGroupControls.postBox"
-              [label]="t('postBox')"
+              [formControl]="technicalGroupControls.streetCode"
+              [label]="t('roadCode')"
             />
           </vater-flex>
 
@@ -229,8 +229,8 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
               [label]="t('supplementaryCityName')"
             />
             <watt-text-field
-              [formControl]="technicalGroupControls.streetCode"
-              [label]="t('roadCode')"
+              [formControl]="technicalGroupControls.postBox"
+              [label]="t('postBox')"
             />
           </vater-flex>
 
