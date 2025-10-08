@@ -675,10 +675,13 @@
           "attention": "Attn.",
           "phoneNumber": "Phone number",
           "mobile": "Mobile",
-          "email": "Email address"
+          "email": "Email address",
+          "invalidEmail": "Invalid e-mail"
         },
         "addressDetails": {
           "label": "Address details",
+          "legalAddressSection": "Legal address",
+          "technicalAddressSection": "Technical address",
           "addressSameAsMeteringPoint": "Same as metering point address",
           "street": "Street",
           "houseNumber": "House number",
@@ -687,10 +690,15 @@
           "postalCode": "Postal code",
           "city": "City",
           "country": "Country",
-          "roadCode": "Road code",
-          "postalDistrict": "Postal district",
+          "streetCode": "Street code",
+          "supplementaryCityName": "Supplementary city name",
           "postBox": "Post box",
           "municipalityCode": "Municipality code",
+          "municipalityCodeError": {
+            "containsLetters": "Can only contain numbers",
+            "startsWithZero": "Can not start with 0",
+            "invalidMunicipalityCodeLength": "Must be 3 digits long"
+          },
           "darReference": "Dar reference",
           "nameAddressProtection": "Name and address protection"
         },
