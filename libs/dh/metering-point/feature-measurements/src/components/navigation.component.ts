@@ -121,8 +121,6 @@ export class DhMeasurementsNavigationComponent {
       const params = new URLSearchParams(this.route.snapshot.queryParams['filters']);
       let param = params.get(current?.filter ?? '');
 
-      console.log(current?.filter, next?.filter);
-
       if (current?.filter == 'year' && next?.filter == 'date') {
         param = dayjs().year(Number(param)).format(next.format);
       }
