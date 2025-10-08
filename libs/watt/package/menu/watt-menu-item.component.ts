@@ -21,19 +21,15 @@ import {
   ViewEncapsulation,
   ChangeDetectionStrategy,
   input,
-  signal,
-  contentChild,
-  computed,
 } from '@angular/core';
 import { MatMenuItem } from '@angular/material/menu';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
   selector: 'watt-menu-item',
   imports: [MatMenuItem],
   template: `<button mat-menu-item [disabled]="disabled()">
     <span class="watt-menu-item-content">
-      <span class="watt-menu-item-icon" [class.watt-menu-item-icon--show]="menuHasIcons()">
+      <span class="watt-menu-item-icon">
         <ng-content select="watt-icon" />
       </span>
       <ng-content />
@@ -61,10 +57,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
           height: var(--watt-menu-icon-size);
           flex-shrink: 0;
 
-          /* Hide when menu has no icons */
-          &:not(.watt-menu-item-icon--show) {
-            display: none;
-          }
+          /* Icon space visibility is controlled by parent menu CSS */
 
           watt-icon {
             display: flex;
@@ -88,22 +81,4 @@ export class WattMenuItemComponent {
    * Whether the menu item is disabled.
    */
   disabled = input(false);
-
-  /**
-   * Icon child element.
-   * @ignore
-   */
-  private readonly iconChild = contentChild(WattIconComponent);
-
-  /**
-   * Whether this menu item has an icon.
-   * @ignore
-   */
-  hasIcon = computed(() => !!this.iconChild());
-
-  /**
-   * Whether the parent menu has any items with icons.
-   * @ignore
-   */
-  menuHasIcons = signal(false);
 }
