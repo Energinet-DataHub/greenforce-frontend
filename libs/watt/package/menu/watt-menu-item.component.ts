@@ -16,12 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  input,
-} from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, input } from '@angular/core';
 import { MatMenuItem } from '@angular/material/menu';
 
 @Component({
