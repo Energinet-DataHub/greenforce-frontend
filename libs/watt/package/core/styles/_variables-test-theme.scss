@@ -1,0 +1,99 @@
+// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/**
+ * Pink and Wingdings Test Theme
+ * 
+ * This file overrides all color variables with highly visible test colors
+ * to help identify components that have hardcoded colors instead of using
+ * CSS variables. Any component that doesn't turn pink/purple/orange etc. 
+ * is using hardcoded colors and needs to be fixed.
+ * 
+ * To use: Import this file AFTER the main variables file in your test environment
+ */
+
+:root {
+  // Primary - Hot Pink
+  --watt-color-primary: #ff1493; // DeepPink
+  --watt-color-primary-contrast: #00ff00; // Lime
+  --watt-color-primary-light: #ffb6c1; // LightPink
+  --watt-color-primary-light-contrast: #0000ff; // Blue
+  --watt-color-primary-dark: #c71585; // MediumVioletRed
+  --watt-color-primary-dark-contrast: #ffff00; // Yellow
+  --watt-color-primary-darker: #8b008b; // DarkMagenta
+  --watt-color-primary-darker-contrast: #00ffff; // Cyan
+  --watt-color-primary-ultralight: #ffe0f0; // Light Pink wash
+  --watt-color-primary-ultralight-contrast: #ff00ff; // Magenta
+  
+  // Secondary - Bright Orange
+  --watt-color-secondary: #ff4500; // OrangeRed
+  --watt-color-secondary-dark: #ff8c00; // DarkOrange
+  --watt-color-secondary-light: #ffa500; // Orange
+  --watt-color-secondary-ultralight: #ffd700; // Gold
+  --watt-color-secondary-ultralight-contrast: #8b0000; // DarkRed
+  
+  // Data Visualization - Neon Colors
+  --watt-color-data-1: #00ff00; // Lime
+  --watt-color-data-2: #ff00ff; // Magenta
+  --watt-color-data-3: #00ffff; // Cyan
+  
+  // Neutrals - High Contrast Test Colors
+  --watt-color-neutral-black: #ff1493; // DeepPink (not black!)
+  --watt-color-neutral-black-contrast: #00ff00; // Lime
+  --watt-color-neutral-white: #7fff00; // Chartreuse (not white!)
+  --watt-color-neutral-white-contrast: #ff00ff; // Magenta
+  
+  // Greys - Rainbow progression
+  --watt-color-neutral-grey-50: #ff0000; // Red
+  --watt-color-neutral-grey-50-contrast: #00ffff; // Cyan
+  --watt-color-neutral-grey-100: #ff4500; // OrangeRed
+  --watt-color-neutral-grey-100-contrast: #0000ff; // Blue
+  --watt-color-neutral-grey-200: #ffa500; // Orange
+  --watt-color-neutral-grey-200-contrast: #8b00ff; // BlueViolet
+  --watt-color-neutral-grey-300: #ffff00; // Yellow
+  --watt-color-neutral-grey-300-contrast: #ff1493; // DeepPink
+  --watt-color-neutral-grey-400: #00ff00; // Lime
+  --watt-color-neutral-grey-400-contrast: #ff00ff; // Magenta
+  --watt-color-neutral-grey-500: #00ffff; // Cyan
+  --watt-color-neutral-grey-500-contrast: #ff4500; // OrangeRed
+  --watt-color-neutral-grey-600: #0000ff; // Blue
+  --watt-color-neutral-grey-600-contrast: #ffff00; // Yellow
+  --watt-color-neutral-grey-700: #4b0082; // Indigo
+  --watt-color-neutral-grey-700-contrast: #7fff00; // Chartreuse
+  --watt-color-neutral-grey-800: #8b008b; // DarkMagenta
+  --watt-color-neutral-grey-800-contrast: #00ff7f; // SpringGreen
+  --watt-color-neutral-grey-900: #ff1493; // DeepPink
+  --watt-color-neutral-grey-900-contrast: #00ced1; // DarkTurquoise
+  
+  // States - Extreme colors
+  --watt-color-state-success: #ff00ff; // Magenta (not green!)
+  --watt-color-state-success-dark: #8b008b; // DarkMagenta
+  --watt-color-state-success-light: #ff69b4; // HotPink
+  --watt-color-state-success-ultralight: #ffc0cb; // Pink
+  
+  --watt-color-state-warning: #00ff00; // Lime (not yellow!)
+  --watt-color-state-warning-dark: #008000; // Green
+  --watt-color-state-warning-light: #7fff00; // Chartreuse
+  --watt-color-state-warning-ultralight: #90ee90; // LightGreen
+  
+  --watt-color-state-danger: #00ffff; // Cyan (not red!)
+  --watt-color-state-danger-dark: #008b8b; // DarkCyan
+  --watt-color-state-danger-light: #00ced1; // DarkTurquoise
+  --watt-color-state-danger-ultralight: #e0ffff; // LightCyan
+  
+  --watt-color-state-info: #ff1493; // DeepPink (not blue!)
+  --watt-color-state-info-dark: #c71585; // MediumVioletRed
+  --watt-color-state-info-light: #ff69b4; // HotPink
+  --watt-color-state-info-ultralight: #ffb6c1; // LightPink
+}
