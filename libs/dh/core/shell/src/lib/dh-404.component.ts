@@ -37,7 +37,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
   styles: `
     watt-empty-state-not-found {
       color: var(--watt-color-primary);
-      width: 75%;
+      width: 50%;
     }
   `,
   template: `
