@@ -32,11 +32,11 @@ limitations under the License.
           [max]="maxDate"
           [formControl]="form.controls.period"
         >
-          @if (form.controls.period.hasError("startDateAndEndDateHaveDifferentMonth")) {
-            <watt-field-error>
+          <watt-field-error>
+            @if (form.controls.period.hasError("startDateAndEndDateHaveDifferentMonth")) {
               {{ t("startDateAndEndDateHaveDifferentMonth") }}
-            </watt-field-error>
-          }
+            }
+          </watt-field-error>
         </watt-datepicker>
 
         @if (showMonthlySumCheckbox$ | push) {
@@ -54,11 +54,11 @@ limitations under the License.
           [formControl]="form.controls.gridAreas"
           [options]="gridAreaOptions$ | push"
         >
-          @if (multipleGridAreasSelected$ | push) {
-            <watt-field-hint>
+          <watt-field-hint>
+            @if (multipleGridAreasSelected$ | push) {
               {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
-            </watt-field-hint>
-          }
+            }
+          </watt-field-hint>
         </watt-dropdown>
 
         @if (multipleGridAreasSelected$ | push) {
