@@ -21,10 +21,16 @@ watt-nav-list {
 
     a {
       @include watt.space-inset-squish-m;
+      padding: var(--watt-space-s);
       display: block;
       border-left: var(--watt-space-xs) solid transparent;
+      border-radius: var(--watt-space-s);
       color: var(--watt-color-neutral-white);
       text-decoration: none;
+    }
+
+    a:hover {
+      background-color: var(--watt-nav-list-hover-background-color);
     }
 
     a:hover,
@@ -33,7 +39,7 @@ watt-nav-list {
     }
 
     a.active {
-      border-left-color: var(--watt-color-secondary);
+      background-color: var(--watt-nav-list-active-background-color);
     }
   }
 
@@ -50,7 +56,8 @@ watt-nav-list {
     }
 
     .mat-expansion-panel-header {
-      padding-left: calc(var(--watt-space-xs) + var(--watt-space-m));
+      border-radius: var(--watt-space-s);
+      padding-left: calc(var(--watt-space-xs) + var(--watt-space-s));
       height: 40px;
     }
 
@@ -69,7 +76,7 @@ watt-nav-list {
     }
 
     watt-nav-list-item a {
-      padding-left: var(--watt-space-l);
+      padding-left: var(--watt-space-m);
     }
   }
 }
