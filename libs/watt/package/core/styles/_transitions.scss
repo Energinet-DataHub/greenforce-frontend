@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 :root {
-
   // Time
   --watt-time-extra-short: 100ms;
   --watt-time-short: 200ms;
@@ -23,7 +22,7 @@
   // Easing
 
   // Use for color and opacity transitions
-  --watt-ease-linear: cubic-bezier(0.0, 0.0, 1.0, 1.0);
+  --watt-ease-linear: cubic-bezier(0, 0, 1, 1);
 
   --watt-move-into-screen: cubic-bezier(0.4, 0, 1, 1);
   --watt-move-out-of-screen: cubic-bezier(0, 0, 0.2, 1);
