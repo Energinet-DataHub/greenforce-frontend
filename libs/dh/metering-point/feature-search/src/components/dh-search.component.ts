@@ -68,6 +68,7 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
           maxLength="18"
           [formControl]="searchControl"
           [placeholder]="t('placeholder')"
+          [autoFocus]="true"
           (keydown.enter)="onSubmit()"
         >
           @if (loading()) {
