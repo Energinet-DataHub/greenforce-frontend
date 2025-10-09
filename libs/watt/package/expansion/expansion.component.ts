@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, input, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
-import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 /**
@@ -36,12 +36,4 @@ export class WattExpansionComponent {
   openLabel = input('');
   closeLabel = input('');
   expanded = input(false);
-
-  /**
-   * @ignore
-   * @param matExpansionPanel
-   */
-  onClose(matExpansionPanel: MatExpansionPanel) {
-    matExpansionPanel.close();
-  }
 }

@@ -22,6 +22,6 @@ limitations under the License.
   <ng-content />
 
   <mat-action-row>
-    <watt-button icon="minus" (click)="onClose(expansion)">{{ closeLabel() }}</watt-button>
+    <watt-button icon="minus" (click)="expansion.close()">{{ closeLabel() }}</watt-button>
   </mat-action-row>
 </mat-expansion-panel>
