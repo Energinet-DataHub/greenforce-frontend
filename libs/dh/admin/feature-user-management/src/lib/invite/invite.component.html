@@ -104,11 +104,11 @@ limitations under the License.
       }
 
       <form [formGroup]="userRoles">
-        <!-- eslint-disable-next-line -->
         @if (
           userRoles.controls.selectedUserRoles.hasError("required") &&
           userRoles.controls.selectedUserRoles.touched
         ) {
+          <!-- eslint-disable-next-line -->
           <watt-field-error class="user-role-error">
             {{ t("noUserRolesError") }}
           </watt-field-error>
