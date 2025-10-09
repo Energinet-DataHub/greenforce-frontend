@@ -90,8 +90,7 @@ import {
   `,
   template: `
     <watt-data-table
-      [enableSearch]="false"
-      [enableCount]="false"
+      [header]="false"
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
