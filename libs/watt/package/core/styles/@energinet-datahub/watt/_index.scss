@@ -20,6 +20,7 @@
 @use "../../chips";
 @use "../../elevation";
 @use "../../hr";
+@use "../../radius";
 @use "../../table";
 @use "../../tokens";
 @use "../../tooltip";
@@ -50,4 +51,8 @@ textarea {
   */
 .cdk-overlay-pane[class="cdk-overlay-pane"] {
   transform: none !important;
+}
+
+.mat-mdc-dialog-surface.mdc-dialog__surface {
+  --mat-dialog-container-shape: var(--watt-radius-l);
 }
