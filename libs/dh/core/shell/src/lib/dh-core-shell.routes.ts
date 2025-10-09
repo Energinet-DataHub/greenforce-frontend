@@ -19,9 +19,6 @@
 import { MsalGuard } from '@azure/msal-angular';
 import { Routes } from '@angular/router';
 
-import { DhCoreShellComponent } from './dh-core-shell.component';
-import { DhCoreLoginComponent } from './dh-core-login.component';
-
 import {
   BasePaths,
   ReportsSubPaths,
@@ -29,6 +26,10 @@ import {
   getPath,
 } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+
+import { DhCoreShellComponent } from './dh-core-shell.component';
+import { DhCoreLoginComponent } from './dh-core-login.component';
+import { Dh404Component } from './dh-404.component';
 
 export const dhCoreShellRoutes: Routes = [
   {
@@ -100,6 +101,7 @@ export const dhCoreShellRoutes: Routes = [
         loadChildren: () => import('@energinet-datahub/dh/charges/feature-charges'),
         canActivate: [MsalGuard],
       },
+      { path: '**', component: Dh404Component },
     ],
   },
   {
@@ -107,5 +109,4 @@ export const dhCoreShellRoutes: Routes = [
     pathMatch: 'full',
     component: DhCoreLoginComponent,
   },
-  { path: '**', redirectTo: '/' },
 ];
