@@ -50,7 +50,7 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
       [dataSource]="dataSource"
       [columns]="columns"
       [selectable]="true"
-      [initialSelection]="initialSelection()"
+      [selection]="initialSelection()"
       sortBy="name"
       sortDirection="asc"
       (selectionChange)="selectionChanged.emit($event)"

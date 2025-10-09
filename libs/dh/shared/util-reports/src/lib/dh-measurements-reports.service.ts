@@ -21,13 +21,22 @@ import { inject, Injectable, Injector } from '@angular/core';
 import { DhMeasurementsReportPartial } from './dh-measurements-report-partial';
 import { dhMeasurementsReportName } from './dh-measurements-report-name';
 import { dhDownloadReport } from './dh-download-report';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { wattFormatDate } from '@energinet-datahub/watt/date';
+import { translate } from '@jsverse/transloco';
 
 @Injectable()
 export class DhMeasurementsReportsService {
+  private env = inject(dhAppEnvironmentToken);
   private injector = inject(Injector);
 
   downloadReport(measurementsReport: DhMeasurementsReportPartial) {
-    const fileName = `${dhMeasurementsReportName(measurementsReport)}.zip`;
+    const envDate = translate('shared.downloadNameParams', {
+      datetime: wattFormatDate(new Date(), 'long'),
+      env: translate(`environmentName.${this.env.current}`),
+    });
+
+    const fileName = `${dhMeasurementsReportName(measurementsReport)} - ${envDate}.zip`;
 
     dhDownloadReport({
       injector: this.injector,

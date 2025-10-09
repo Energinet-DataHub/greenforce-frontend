@@ -20,17 +20,20 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { concatAll, from, map, Observable, reduce } from 'rxjs';
 
+import { BasePaths } from '@energinet-datahub/dh/core/routing';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 
 import { PermissionService } from './permission.service';
 
-export function PermissionGuard(permissions: Permission[]): CanActivateFn {
+export function PermissionGuard(permissions: Permission[], redirectUrl?: BasePaths): CanActivateFn {
   return (): Observable<boolean | UrlTree> => {
     const permissionService = inject(PermissionService);
     const router = inject(Router);
 
     return permissionGuardCore(permissions, permissionService).pipe(
-      map((hasPermission) => hasPermission || router.parseUrl('/'))
+      map(
+        (hasPermission) => hasPermission || router.parseUrl(redirectUrl ? `/${redirectUrl}` : '/')
+      )
     );
   };
 }

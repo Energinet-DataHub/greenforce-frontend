@@ -33,6 +33,7 @@ import {
   GetMarketParticipantsForEicFunctionDocument,
   GetGridAreasDocument,
   MergeMarketParticipantsDocument,
+  GetPaginatedMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -164,7 +165,11 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
           mergeDate,
         },
       },
-      refetchQueries: [GetMarketParticipantsDocument, GetGridAreasDocument],
+      refetchQueries: [
+        GetMarketParticipantsDocument,
+        GetPaginatedMarketParticipantsDocument,
+        GetGridAreasDocument,
+      ],
     });
 
     if (result.data?.mergeMarketParticipants.success) {

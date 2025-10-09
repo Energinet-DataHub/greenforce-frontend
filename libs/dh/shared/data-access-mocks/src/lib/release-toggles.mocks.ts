@@ -36,6 +36,8 @@ function getReleaseTogglesQuery() {
           'PG29-Additional-recipients',
           'PM31-REPORTS',
           'PM96-SHAREMEASUREDATA',
+          'MoveInBrs009',
+          'PM58-PRICES-UI',
         ],
       },
     });

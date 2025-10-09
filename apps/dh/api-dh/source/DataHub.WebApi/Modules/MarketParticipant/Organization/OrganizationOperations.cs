@@ -32,7 +32,7 @@ public static partial class OrganizationOperations
         await client.OrganizationGetAsync();
 
     [Query]
-    [UsePaging]
+    [UsePaging(MaxPageSize = 10_000)]
     [UseSorting]
     public static async Task<IEnumerable<OrganizationDto>> GetPaginatedOrganizationsAsync(
         string? filter,
@@ -98,8 +98,9 @@ public static partial class OrganizationOperations
     #region Computed fields on OrganizationDto
     public static async Task<IEnumerable<OrganizationAuditedChangeAuditLogDto>> GetAuditLogsAsync(
         [Parent] OrganizationDto organization,
+        CancellationToken ct,
         [Service] IMarketParticipantClient_V1 client) =>
-        await client.OrganizationAuditAsync(organization.OrganizationId);
+        (await client.OrganizationAuditAsync(organization.OrganizationId, ct)).OrderByDescending(x => x.Timestamp);
 
     public static async Task<IEnumerable<ActorDto>?> GetMarketParticipantsAsync(
         [Parent] OrganizationDto organization,

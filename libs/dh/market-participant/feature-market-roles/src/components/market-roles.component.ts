@@ -24,7 +24,7 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
@@ -63,6 +63,7 @@ export class DhMarketRolesComponent implements AfterViewInit {
   private transloco = inject(TranslocoService);
 
   dataSource = new WattTableDataSource(Object.keys(EicFunction));
+  private generateCSV = GenerateCSV.fromWattTableDataSource(this.dataSource);
 
   columns: WattTableColumnDef<string> = {
     name: { accessor: (value) => value },
@@ -87,24 +88,18 @@ export class DhMarketRolesComponent implements AfterViewInit {
       .subscribe((translations) => {
         const basePath = 'marketParticipant.marketRolesOverview.columns';
 
-        const headers = [
-          `"${translate(basePath + '.name')}"`,
-          `"${translate(basePath + '.description')}"`,
-        ];
-
-        if (this.dataSource.sort) {
-          const marketRoles = this.dataSource.sortData(
-            this.dataSource.filteredData,
-            this.dataSource.sort
-          );
-
-          const lines = marketRoles.map((x) => [
-            `"${translations['marketRoles'][x]}"`,
-            `"${translations['marketRoleDescriptions'][x]}"`,
-          ]);
-
-          exportToCSV({ headers, lines, fileName: 'DataHub-Market-Roles' });
-        }
+        this.generateCSV
+          .addHeaders([
+            `"${translate(basePath + '.name')}"`,
+            `"${translate(basePath + '.description')}"`,
+          ])
+          .mapLines((x) =>
+            x.map((x) => [
+              `"${translations['marketRoles'][x]}"`,
+              `"${translations['marketRoleDescriptions'][x]}"`,
+            ])
+          )
+          .generate('marketParticipant.marketRolesOverview.fileName');
       });
   }
 }

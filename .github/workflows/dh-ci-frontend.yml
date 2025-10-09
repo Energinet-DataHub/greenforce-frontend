@@ -22,6 +22,10 @@ env:
   APP_NAME: app-dh
   IS_MAIN_BRANCH: ${{ github.ref == 'refs/heads/main' }}
   IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_CI_EXECUTION_ID: ${{ github.run_id }}
 
 jobs:
   #
@@ -41,7 +45,7 @@ jobs:
           bun-version-file: package.json
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun install --frozen-lockfile --yarn
 
       - name: Production build
         run: bun run nx build ${{ env.APP_NAME }}
@@ -51,7 +55,7 @@ jobs:
 
       - name: Get releaseversion strings
         id: get_releaseversion_strings
-        uses: Energinet-Datahub/.github/.github/actions/github-get-releaseversion-strings@v14
+        uses: Energinet-Datahub/.github/.github/actions/github-get-releaseversion-strings@v15
         with:
           release_name_prefix: ui_frontend
 
@@ -63,6 +67,13 @@ jobs:
           cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/browser/* ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
           cp -R ${{ github.workspace }}/apps/dh/e2e-dh ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
 
+      - name: Generate SBOM for node_modules
+        uses: anchore/sbom-action@v0
+        with:
+          file: ./yarn.lock
+          format: spdx-json
+          output-file: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/sbom.spdx.json
+
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
         with:
@@ -70,8 +81,8 @@ jobs:
           filename: ${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
           directory: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
 
-      - name: Create prerelease
-        uses: Energinet-Datahub/.github/.github/actions/github-create-release@v14
+      - name: Create pre-release
+        uses: Energinet-Datahub/.github/.github/actions/github-create-release@v15
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: ${{ steps.get_releaseversion_strings.outputs.release_version }}

@@ -47,7 +47,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build market participant",
-      "program": "${workspaceFolder}/backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/bin/Debug/net8.0/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.dll",
+      "program": "${workspaceFolder}/backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/bin/Debug/net9.0/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi",
       "stopAtEntry": false,

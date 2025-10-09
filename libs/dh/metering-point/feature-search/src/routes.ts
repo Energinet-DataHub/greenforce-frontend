@@ -49,7 +49,9 @@ const marketRolesWithDataAccess = [
 export const dhMeteringPointRoutes: Routes = [
   {
     path: '',
-    canActivate: [PermissionGuard(['metering-point:search'])],
+    canActivate: [
+      PermissionGuard(['metering-point:search'], getPath<BasePaths>('message-archive')),
+    ],
     children: [
       {
         path: '',
@@ -76,6 +78,17 @@ export const dhMeteringPointRoutes: Routes = [
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
                 (m) => m.DhMeteringPointMasterDataComponent
+              ),
+          },
+          {
+            path: getPath<MeteringPointSubPaths>('processes'),
+            canActivate: [
+              PermissionGuard(['metering-point:process-overview']),
+              dhReleaseToggleGuard('PM116-PROCESSOVERVIEW'),
+            ],
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                (m) => m.DhMeteringPointProcessesComponent
               ),
           },
           {

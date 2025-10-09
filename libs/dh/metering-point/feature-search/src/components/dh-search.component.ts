@@ -35,7 +35,6 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
 import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-search',
@@ -105,7 +104,6 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 export class DhSearchComponent {
   private readonly router = inject(Router);
   private readonly doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
-  private readonly featureFlagService = inject(DhFeatureFlagsService);
 
   searchControl = new FormControl('', {
     validators: [Validators.required, dhMeteringPointIdValidator()],
@@ -146,7 +144,6 @@ export class DhSearchComponent {
     const result = await this.doesMeteringPointExist.query({
       variables: {
         meteringPointId,
-        enableNewSecurityModel: this.featureFlagService.isEnabled('new-security-model'),
       },
     });
 

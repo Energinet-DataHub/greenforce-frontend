@@ -35,24 +35,24 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattDropZone } from '@energinet-datahub/watt/dropzone';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { WattFileField } from '@energinet-datahub/watt/file-field';
 
 import {
   GetMeteringPointUploadMetadataByIdDocument,
   MeteringPointSubType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   DhEmDashFallbackPipe,
   dhMakeFormControl,
   injectRelativeNavigate,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-
-import { DhUploadMeasurementsService } from './upload-service';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+
 import { MeasureDataResult } from './models/measure-data-result';
 import { DhUploadMeasurementsSummaryTable } from './summary-table';
+import { DhUploadMeasurementsService } from './upload-service';
 
 @Component({
   selector: 'dh-upload-measurements-page',
@@ -60,6 +60,7 @@ import { DhUploadMeasurementsSummaryTable } from './summary-table';
     ReactiveFormsModule,
     RouterLink,
     TranslocoDirective,
+
     VaterFlexComponent,
     VaterUtilityDirective,
     VaterSpacerComponent,
@@ -70,9 +71,11 @@ import { DhUploadMeasurementsSummaryTable } from './summary-table';
     WattDescriptionListItemComponent,
     WattDropZone,
     WattFieldErrorComponent,
+    WattFileField,
     WATT_CARD,
     DhEmDashFallbackPipe,
     DhUploadMeasurementsSummaryTable,
+    WattFieldHintComponent,
   ],
   styles: `
     watt-card-title {
@@ -141,8 +144,17 @@ import { DhUploadMeasurementsSummaryTable } from './summary-table';
             </watt-field-error>
           </watt-dropzone>
         } @else {
-          <vater-stack align="start" gap="m">
-            <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date" />
+          <vater-stack align="stretch" gap="m">
+            <watt-file-field
+              [label]="t('upload.file')"
+              [file]="file.value?.[0]"
+              (clear)="reset()"
+            />
+            <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date">
+              <watt-field-hint>
+                {{ t('upload.datepickerHint') }}
+              </watt-field-hint>
+            </watt-datepicker>
             <dh-upload-measurements-summary-table
               [positions]="totalPositions()"
               [sum]="totalSum()"
@@ -159,12 +171,10 @@ export class DhUploadMeasurementsPage {
 
   private navigate = injectRelativeNavigate();
   private measurements = inject(DhUploadMeasurementsService);
-  private featureFlagsService = inject(DhFeatureFlagsService);
   private meteringPointQuery = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
     fetchPolicy: 'cache-only',
     variables: {
       meteringPointId: this.meteringPointId(),
-      enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
     },
   }));
 
@@ -213,6 +223,12 @@ export class DhUploadMeasurementsPage {
     const metadata = this.metadata();
     assertIsDefined(csv);
     assertIsDefined(metadata);
-    this.measurements.send(this.meteringPointId(), metadata.type, csv);
+    this.measurements.send(this.meteringPointId(), metadata.type, metadata.measureUnit, csv);
+  };
+
+  reset = () => {
+    this.file.reset();
+    this.date.reset();
+    this.csv.set(null);
   };
 }

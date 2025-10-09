@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 
 import qs from 'qs';
-import { map, startWith } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import {
@@ -90,8 +90,7 @@ import {
   `,
   template: `
     <watt-data-table
-      [enableSearch]="false"
-      [enableCount]="false"
+      [header]="false"
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
@@ -133,14 +132,21 @@ export class DhMeasurementsYearComponent {
   private fb = inject(NonNullableFormBuilder);
   private transloco = inject(TranslocoService);
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
-  private sum = computed(() =>
-    this.formatNumber(
-      this.measurements()
-        .map((x) => x.quantity)
-        .filter((quantity) => quantity !== null && quantity !== undefined)
-        .reduce((acc, quantity) => acc + Number(quantity), 0)
-    )
+  private sum = computed(
+    () =>
+      `${this.formatNumber(
+        this.measurements()
+          .map((x) => x.quantity)
+          .filter((quantity) => quantity !== null && quantity !== undefined)
+          .reduce((acc, quantity) => acc + Number(quantity), 0)
+      )} ${this.unit()}`
   );
+  private unit = computed(() => {
+    const [firstItem] = this.measurements();
+    if (!firstItem) return '';
+
+    return this.transloco.translate('meteringPoint.measurements.units.' + firstItem.unit);
+  });
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
   form = this.fb.group({
     year: this.fb.control<string>(dayjs().format(YEAR_FORMAT)),
@@ -187,6 +193,7 @@ export class DhMeasurementsYearComponent {
 
   values = toSignal<AggregatedMeasurementsByYearQueryVariables>(
     this.form.valueChanges.pipe(
+      debounceTime(500),
       startWith(null),
       map(() => this.form.getRawValue()),
       exists(),

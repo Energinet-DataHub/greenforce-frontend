@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
@@ -23,6 +23,7 @@ using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
+using NodaTime.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -90,11 +91,21 @@ public static partial class MeasurementOperations
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<MeasurementDto> GetMeasurementsAsync(
         bool showOnlyChangedValues,
+        bool showHistoricalValues,
         GetByDayQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var maybeMeasurements = await client.GetByDayAsync(query, ct);
+        var maybeMeasurements = showOnlyChangedValues || showHistoricalValues ?
+            await client.GetByDayAsync(query, ct).ConfigureAwait(false) :
+            await client.GetCurrentByPeriodAsync(
+                new GetByPeriodQuery(
+                    query.MeteringPointId,
+                    query.Date.ToUtcDateTimeOffset().ToInstant(),
+                    query.Date.PlusDays(1).ToUtcDateTimeOffset().ToInstant(),
+                    query.ActorNumber,
+                    query.MarketRole),
+                ct).ConfigureAwait(false);
 
         if (maybeMeasurements.IsFailure)
         {
@@ -146,11 +157,11 @@ public static partial class MeasurementOperations
     [UseRevisionLog]
     [Authorize(Roles = new[] { "measurements:manage" })]
     public static async Task<bool> SendMeasurementsAsync(
-        SendMeasurementsRequestV1 input,
+        SendMeasurementsRequestV2 input,
         CancellationToken ct,
-        [Service] IEdiB2CWebAppClient_V1 client)
+        [Service] IEdiB2CWebAppClient_V3 client)
     {
-        await client.SendMeasurementsAsync("1", input, ct);
+        await client.SendMeasurementsAsync("3", input, ct);
         return true;
     }
 

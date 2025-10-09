@@ -70,8 +70,13 @@ watt-table .mat-mdc-table {
   td.mat-mdc-cell {
     display: flex;
     align-items: center;
-    min-height: 56px; /* Magic UX number */
-    padding: var(--watt-space-s) var(--watt-space-m);
+    min-height: 48px; /* Magic UX number */
+    padding: var(--watt-space-xs) var(--watt-space-m);
+    line-height: 18px;
+  }
+
+  td.mat-mdc-cell.watt-table-cell--expandable {
+    padding: 0;
   }
 
   td.mat-mdc-footer-cell:not(.watt-table-footer-spacer),
@@ -89,17 +94,32 @@ watt-table .mat-mdc-table {
     border-bottom: 0px solid var(--watt-color-neutral-grey-300) !important;
   }
 
-  .watt-table-clickable-row td {
-    cursor: pointer;
-    user-select: text;
+  .watt-table-clickable-row,
+  tr:has(> .watt-table-cell--expandable) {
+    & > td:not(.watt-table-cell--expandable) {
+      cursor: pointer;
+      user-select: text;
+    }
   }
 
-  .watt-table-highlight-row:hover:not(.watt-table-active-row) td {
+  .watt-table-highlight-row:hover:not(
+      .watt-table-active-row,
+      :has(> .watt-table-cell--expandable:hover)
+    )
+    > td {
     background: var(--watt-color-neutral-grey-100);
   }
 
-  .watt-table-active-row td {
+  .watt-table-active-row > td {
     background: var(--watt-color-secondary-ultralight);
+  }
+
+  .mat-column-__expandableColumn__ > watt-icon {
+    transition: transform 200ms;
+  }
+
+  .mat-column-__expandableColumn__.watt-table-cell--expanded > watt-icon {
+    transform: rotate(90deg);
   }
 
   .mat-sort-header-arrow {
@@ -138,6 +158,50 @@ watt-table .mat-mdc-table {
   .watt-table-align-right,
   .watt-table-align-right .mat-sort-header-container {
     justify-content: right;
+  }
+}
+
+.watt-table-variant-zebra > table > tbody > tr:nth-child(even) > td {
+  background-color: var(--watt-color-neutral-grey-50);
+}
+
+watt-table .mat-mdc-table th.watt-table-cell--expandable {
+  display: none;
+}
+
+watt-table .mat-mdc-table tr.mat-mdc-row td.mat-mdc-cell.watt-table-cell--expandable {
+  position: relative;
+  min-height: 0;
+  max-height: 0; /* Trick for showing the content while it collapses */
+  border-bottom-width: 0;
+  overflow: hidden;
+  pointer-events: none;
+  grid-column: 1 / -1;
+  background: transparent;
+  flex: 1 1 auto;
+  opacity: 0;
+  will-change: opacity;
+  transition:
+    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    overflow 0s 0.3s allow-discrete;
+
+  & > .watt-table-cell-wrapper {
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}
+
+watt-table .mat-mdc-table tr.mat-mdc-row td.watt-table-cell--expandable.watt-table-cell--expanded {
+  height: auto;
+  max-height: initial;
+  opacity: 1;
+  border-bottom-width: 1px;
+  pointer-events: all;
+  overflow: visible;
+
+  & > .watt-table-cell-wrapper {
+    position: relative;
   }
 }
 

@@ -25,7 +25,7 @@ export type DhFeatureFlag = {
 
 export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 
-const latestBump = '01-07-2025';
+const latestBump = '03-09-2025';
 
 /**
  * Feature flag example:
@@ -46,10 +46,6 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.test_002],
   },
-  'metering-points-debug': {
-    created: latestBump,
-    disabledEnvironments: [],
-  },
   'dev-examples': {
     created: latestBump,
     disabledEnvironments: [
@@ -64,17 +60,13 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.prod],
   },
-  'acknowledgement-archived-messages': {
+  'update-charge-links': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.prod, DhAppEnvironment.preprod],
   },
-  'missing-measurements-log': {
+  charges: {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod],
-  },
-  'new-security-model': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod, DhAppEnvironment.local],
+    disabledEnvironments: [DhAppEnvironment.prod, DhAppEnvironment.preprod],
   },
 } satisfies FeatureFlagConfig;
 

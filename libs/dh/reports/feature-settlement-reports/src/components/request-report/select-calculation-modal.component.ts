@@ -66,6 +66,9 @@ import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation } fr
                   [group]="group.key"
                   [formControlName]="group.key"
                   [value]="calculation.calculationId"
+                  [attr.data-testid]="
+                    'settlementreport.calculation.' + group.key + '.' + calculation.calculationId
+                  "
                 >
                   {{ calculation.calculationDate | wattDate: 'long' }}
 
@@ -80,11 +83,19 @@ import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation } fr
       </form>
 
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(false)">
+        <watt-button
+          variant="secondary"
+          (click)="modal.close(false)"
+          data-testid="selectCalculation.cancelButton"
+        >
           {{ t('cancel') }}
         </watt-button>
 
-        <watt-button type="submit" formId="select-calculation-form">
+        <watt-button
+          type="submit"
+          formId="select-calculation-form"
+          data-testid="selectCalculation.confirmButton"
+        >
           {{ t('confirm') }}
         </watt-button>
       </watt-modal-actions>

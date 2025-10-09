@@ -16,7 +16,7 @@ limitations under the License.
 -->
 @let message = balanceResponsibleMessage();
 <watt-drawer
-  *transloco="let t; read: 'eSett.balanceResponsible.shared'"
+  *transloco="let t; prefix: 'eSett.balanceResponsible.shared'"
   #drawer
   [autoOpen]="true"
   [key]="message?.id"
@@ -74,9 +74,13 @@ limitations under the License.
 
   @if (drawer.isOpen()) {
     <watt-drawer-content>
-      <div class="xml-message-container">
-        <watt-code [code]="xmlMessage()" />
-      </div>
+      <vater-flex fill="vertical">
+        @defer (on viewport) {
+          <watt-code [code]="xmlMessage.value()" language="xml" />
+        } @placeholder {
+          <watt-spinner />
+        }
+      </vater-flex>
     </watt-drawer-content>
   }
 </watt-drawer>

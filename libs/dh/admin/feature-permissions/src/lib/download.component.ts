@@ -32,18 +32,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient } from '@angular/common/http';
-import { Component, inject, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
-import { switchMap } from 'rxjs';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
-import { exportToCSV, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
@@ -59,7 +56,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         *dhPermissionRequired="['user-roles:manage']"
         icon="download"
         variant="text"
-        (click)="downloadRelationCSV(url())"
+        (click)="downloadRelationCSV()"
       >
         {{ 'shared.downloadreport' | transloco }}
       </watt-button>
@@ -67,46 +64,27 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   `,
 })
 export class DhPermissionsDownloadComponent {
-  private httpClient = inject(HttpClient);
-  private toastService = inject(WattToastService);
-
   url = input.required<string>();
   permissions = input.required<Permission[]>();
 
+  private generateCSVFromStream = GenerateCSV.fromStream(() => this.url());
+  private generateCSVSignalArray = GenerateCSV.fromSignalArray(this.permissions);
+
   exportAsCsv(): void {
     const basePath = 'admin.userManagement.permissionsTab.';
-    const headers = [
-      `"${translate(basePath + 'permissionName')}"`,
-      `"${translate(basePath + 'permissionDescription')}"`,
-    ];
 
-    const lines = this.permissions().map((x) => [`"${x.name}"`, `"${x.description}"`]);
-
-    exportToCSV({ headers, lines, fileName: 'DataHub-Permissions' });
+    this.generateCSVSignalArray
+      .addHeaders([
+        `"${translate(basePath + 'permissionName')}"`,
+        `"${translate(basePath + 'permissionDescription')}"`,
+      ])
+      .mapLines((data) => data.map((x) => [`"${x.name}"`, `"${x.description}"`]))
+      .generate(`${basePath}fileName`);
   }
 
-  downloadRelationCSV(url: string) {
-    this.toastService.open({
-      type: 'loading',
-      message: translate('shared.downloadStart'),
-    });
-
-    const fileOptions = {
-      name: 'DataHub-Permissions-relation-report',
-      type: 'text/csv',
-    };
-
-    this.httpClient
-      .get(url, { responseType: 'text' })
-      .pipe(switchMap(streamToFile(fileOptions)))
-      .subscribe({
-        complete: () => this.toastService.dismiss(),
-        error: () => {
-          this.toastService.open({
-            type: 'danger',
-            message: translate('shared.downloadFailed'),
-          });
-        },
-      });
+  downloadRelationCSV() {
+    this.generateCSVFromStream.generate(
+      'admin.userManagement.permissionsTab.relationReportFilename'
+    );
   }
 }

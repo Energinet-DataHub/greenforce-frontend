@@ -23,6 +23,5 @@ export {
   WattTableComponent,
   WattTableCellDirective,
   WattTableToolbarDirective,
-  WattTableToolbarSpacerComponent,
   WATT_TABLE,
 } from './watt-table.component';

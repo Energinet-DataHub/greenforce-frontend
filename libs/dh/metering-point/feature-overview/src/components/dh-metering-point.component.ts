@@ -22,13 +22,18 @@ import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/tra
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import {
+  VaterStackComponent,
+  VaterUtilityDirective,
+  VaterSpacerComponent,
+} from '@energinet-datahub/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
 import {
   DhActorStorage,
   DhMarketRoleRequiredDirective,
+  DhPermissionRequiredDirective,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,
@@ -36,11 +41,12 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
-import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.component';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
 @Component({
   selector: 'dh-metering-point',
@@ -51,14 +57,17 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
     WATT_CARD,
     WATT_LINK_TABS,
     VaterStackComponent,
+    VaterSpacerComponent,
     VaterUtilityDirective,
-
     DhResultComponent,
     DhCanSeeDirective,
     DhEmDashFallbackPipe,
     DhAddressInlineComponent,
     DhMeteringPointStatusComponent,
     DhMarketRoleRequiredDirective,
+    DhMeteringPointActionsComponent,
+    DhPermissionRequiredDirective,
+    DhReleaseToggleDirective,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -86,7 +95,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
     }
   `,
   template: `
-    @let access =
+    @let rolesWithAccess =
       [
         EicFunction.EnergySupplier,
         EicFunction.DanishEnergyAgency,
@@ -94,72 +103,95 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
         EicFunction.DataHubAdministrator,
         EicFunction.SystemOperator,
       ];
+
     <dh-result [hasError]="hasError()" [loading]="loading()">
       <div class="page-grid">
-        <div class="page-header" *transloco="let t; read: 'meteringPoint.overview'">
-          <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
-            <span>
-              {{ meteringPointId() }}
-              <ng-content *dhMarketRoleRequired="access">
-                • <dh-address-inline [address]="this.metadata()?.installationAddress" />
-              </ng-content>
-            </span>
-            <dh-metering-point-status [status]="metadata()?.connectionState" />
-          </h2>
+        <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
+          <div *transloco="let t; prefix: 'meteringPoint.overview'">
+            <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
+              <span>
+                {{ meteringPointId() }}
+                <ng-content *dhMarketRoleRequired="rolesWithAccess">
+                  • <dh-address-inline [address]="this.metadata()?.installationAddress" />
+                </ng-content>
+              </span>
+              <dh-metering-point-status [status]="metadata()?.connectionState" />
+            </h2>
 
-          <vater-stack direction="row" gap="ml">
-            <span>
-              <span class="watt-label watt-space-inline-s">{{
-                t('shared.meteringPointType')
-              }}</span>
-              @if (metadata()?.type) {
-                {{ 'meteringPointType.' + metadata()?.type | transloco }}
-              } @else {
-                {{ null | dhEmDashFallback }}
-              }
-            </span>
+            <vater-stack direction="row" gap="ml">
+              <span>
+                <span class="watt-label watt-space-inline-s">{{
+                  t('shared.meteringPointType')
+                }}</span>
 
-            <span
-              direction="row"
-              gap="s"
-              *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()"
-            >
-              <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
-              >{{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
-            </span>
+                @if (metadata()?.type) {
+                  {{ 'meteringPointType.' + metadata()?.type | transloco }}
+                } @else {
+                  {{ null | dhEmDashFallback }}
+                }
+              </span>
 
-            <span direction="row" gap="s">
-              <span class="watt-label watt-space-inline-s">{{
-                t('details.meteringPointSubType')
-              }}</span>
-              @if (metadata()?.subType) {
-                {{ 'meteringPointSubType.' + metadata()?.subType | transloco }}
-              } @else {
-                {{ null | dhEmDashFallback }}
-              }
-            </span>
+              <span
+                gap="s"
+                direction="row"
+                *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()"
+              >
+                <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span>
 
-            <span direction="row" gap="s">
-              <span class="watt-label watt-space-inline-s">{{ t('details.resolutionLabel') }}</span>
-              @if (metadata()?.resolution) {
-                {{ 'resolution.' + metadata()?.resolution | transloco }}
-              } @else {
-                {{ null | dhEmDashFallback }}
-              }
-            </span>
-          </vater-stack>
+                {{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
+              </span>
+
+              <span direction="row" gap="s">
+                <span class="watt-label watt-space-inline-s">{{
+                  t('details.meteringPointSubType')
+                }}</span>
+
+                @if (metadata()?.subType) {
+                  {{ 'meteringPointSubType.' + metadata()?.subType | transloco }}
+                } @else {
+                  {{ null | dhEmDashFallback }}
+                }
+              </span>
+
+              <span direction="row" gap="s">
+                <span class="watt-label watt-space-inline-s">{{
+                  t('details.resolutionLabel')
+                }}</span>
+
+                @if (metadata()?.resolution) {
+                  {{ 'resolution.' + metadata()?.resolution | transloco }}
+                } @else {
+                  {{ null | dhEmDashFallback }}
+                }
+              </span>
+            </vater-stack>
+          </div>
+
+          <vater-spacer />
+
+          <dh-metering-point-actions
+            [subType]="meteringPoint()?.metadata?.subType"
+            [installationAddress]="meteringPoint()?.metadata?.installationAddress"
+          />
         </div>
 
-        <div class="page-tabs" *transloco="let t; read: 'meteringPoint.tabs'">
+        <div class="page-tabs" *transloco="let t; prefix: 'meteringPoint.tabs'">
           <watt-link-tabs vater inset="0">
             <watt-link-tab
-              *dhMarketRoleRequired="access"
+              *dhMarketRoleRequired="rolesWithAccess"
               [label]="t('masterData.tabLabel')"
               [link]="getLink('master-data')"
             />
+            <ng-container *dhReleaseToggle="'PM116-PROCESSOVERVIEW'">
+              <watt-link-tab
+                *dhPermissionRequired="['metering-point:process-overview']"
+                [label]="t('processes.tabLabel')"
+                [link]="getLink('processes')"
+              />
+            </ng-container>
             <watt-link-tab [label]="t('messages.tabLabel')" [link]="getLink('messages')" />
             <watt-link-tab
-              *dhMarketRoleRequired="access"
+              *dhMarketRoleRequired="rolesWithAccess"
               [label]="t('measurements.tabLabel')"
               [link]="getLink('measurements')"
             />
@@ -178,7 +210,6 @@ export class DhMeteringPointComponent {
   private readonly router = inject(Router);
   private readonly breadcrumbService = inject(DhBreadcrumbService);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
-  private readonly featureFlagsService = inject(DhFeatureFlagsService);
 
   meteringPointId = input.required<string>();
 
@@ -186,7 +217,6 @@ export class DhMeteringPointComponent {
     variables: {
       meteringPointId: this.meteringPointId(),
       actorGln: this.actor.gln,
-      enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
     },
   }));
   meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);

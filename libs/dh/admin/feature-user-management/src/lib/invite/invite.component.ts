@@ -44,14 +44,14 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import {
   GetUsersDocument,
   InviteUserDocument,
-  GetKnownEmailsDocument,
   GetFilteredMarketParticipantsDocument,
+  CheckEmailExistsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -63,14 +63,15 @@ import { DhAssignableUserRolesComponent } from './assignable-user-roles.componen
 import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './invite.validators';
 
 @Component({
+  selector: 'dh-invite-user',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  selector: 'dh-invite-user',
   templateUrl: './invite.component.html',
   styleUrls: ['./invite.component.scss'],
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
+
     WATT_MODAL,
     WATT_STEPPER,
     WattIconComponent,
@@ -83,27 +84,32 @@ import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './in
   ],
 })
 export class DhInviteUserComponent extends WattTypedModal {
-  private toastService = inject(WattToastService);
-  private changeDectorRef = inject(ChangeDetectorRef);
-  private translocoService = inject(TranslocoService);
-  private nonNullableFormBuilder = inject(NonNullableFormBuilder);
+  private readonly toastService = inject(WattToastService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly nonNullableFormBuilder = inject(NonNullableFormBuilder);
 
   private modal = viewChild.required(WattModalComponent);
 
-  inviteUserMutation = mutation(InviteUserDocument, {
+  private inviteUserMutation = mutation(InviteUserDocument, {
     refetchQueries: [GetUsersDocument],
   });
 
-  loading = computed(
-    () =>
-      this.inviteUserMutation.loading() ||
-      this.knownEmailsQuery.loading() ||
-      this.marketParticipantQuery.loading()
+  private marketParticipantQuery = query(GetFilteredMarketParticipantsDocument);
+
+  private doesEmailExist = lazyQuery(CheckEmailExistsDocument);
+
+  private actors = computed(
+    () => this.marketParticipantQuery.data()?.filteredMarketParticipants ?? []
   );
 
-  marketParticipantQuery = query(GetFilteredMarketParticipantsDocument);
+  private domains = computed(
+    () => this.actors().find((x) => x.id === this.selectedActorId())?.organization.domains
+  );
 
-  actors = computed(() => this.marketParticipantQuery.data()?.filteredMarketParticipants ?? []);
+  loading = computed(
+    () => this.inviteUserMutation.loading() || this.marketParticipantQuery.loading()
+  );
 
   actorOptions = computed<WattDropdownOptions>(() =>
     this.actors().map((actor) => ({
@@ -111,10 +117,6 @@ export class DhInviteUserComponent extends WattTypedModal {
         actor.name + ' (' + translate(`marketParticipant.marketRoles.${actor.marketRole}`) + ')',
       value: actor.id,
     }))
-  );
-
-  domains = computed(
-    () => this.actors().find((x) => x.id === this.selectedActorId())?.organization.domains
   );
 
   inOrganizationMailDomain = computed(() => {
@@ -128,17 +130,6 @@ export class DhInviteUserComponent extends WattTypedModal {
     );
   });
 
-  emailExists = computed(() => {
-    const email = this.emailChanged();
-    return !!email && this.knownEmails().includes(email.toUpperCase());
-  });
-
-  knownEmailsQuery = query(GetKnownEmailsDocument);
-
-  knownEmails = computed(
-    () => this.knownEmailsQuery.data()?.knownEmails.map((x) => x.toUpperCase()) ?? []
-  );
-
   baseInfo = this.nonNullableFormBuilder.group({
     actorId: ['', Validators.required],
     email: [
@@ -147,12 +138,6 @@ export class DhInviteUserComponent extends WattTypedModal {
       [validateIfAlreadyAssociatedToActor(() => this.selectedActorId()), validateIfDomainExists()],
     ],
   });
-
-  emailChanged = toSignal(this.baseInfo.controls.email.valueChanges);
-
-  actorIdChanged = toSignal(this.baseInfo.controls.actorId.valueChanges);
-
-  selectedActorId = signal<string | null>(null);
 
   userInfo = this.nonNullableFormBuilder.group({
     firstName: ['', Validators.required],
@@ -163,6 +148,14 @@ export class DhInviteUserComponent extends WattTypedModal {
   userRoles = this.nonNullableFormBuilder.group({
     selectedUserRoles: [[] as string[], Validators.required],
   });
+
+  private emailChanged = toSignal(this.baseInfo.controls.email.valueChanges);
+  private actorIdChanged = toSignal(this.baseInfo.controls.actorId.valueChanges);
+
+  selectedActorId = signal<string | null>(null);
+
+  doesUserExist = computed(() => !!this.doesEmailExist.data()?.emailExists);
+  doesUserExistLoading = this.doesEmailExist.loading;
 
   constructor() {
     super();
@@ -187,14 +180,23 @@ export class DhInviteUserComponent extends WattTypedModal {
 
       this.selectedActorId.set(actorId);
       this.baseInfo.updateValueAndValidity();
-      this.changeDectorRef.detectChanges();
+      this.changeDetectorRef.detectChanges();
+    });
+
+    effect(() => {
+      const emailChanged = this.emailChanged();
+
+      if (this.baseInfo.controls.email.invalid) return;
+
+      this.doesEmailExist.query({ variables: { email: emailChanged } });
     });
   }
 
   async inviteUser() {
-    if (!this.isBaseInfoValid() || !this.isNewUserInfoValid() || !this.isRolesInfoValid()) {
+    if (this.baseInfo.invalid || !this.isNewUserInfoValid() || this.userRoles.invalid) {
       return;
     }
+
     const { email, actorId } = this.baseInfo.getRawValue();
 
     const result = await this.inviteUserMutation.mutate({
@@ -275,15 +277,7 @@ export class DhInviteUserComponent extends WattTypedModal {
     this.toastService.open({ type: 'danger', message, duration: 60_000 });
   }
 
-  private isBaseInfoValid() {
-    return this.baseInfo.valid;
-  }
-
   private isNewUserInfoValid() {
-    return this.userInfo.valid || this.emailExists() || !this.inOrganizationMailDomain();
-  }
-
-  private isRolesInfoValid() {
-    return this.userRoles.valid;
+    return this.userInfo.valid || this.doesUserExist() || !this.inOrganizationMailDomain();
   }
 }

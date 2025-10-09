@@ -1,0 +1,101 @@
+// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using System.Text.Json;
+using System.Xml.Linq;
+
+namespace Energinet.DataHub.WebApi.Utilities;
+
+public static class DocumentFormatter
+{
+    private static readonly JsonSerializerOptions _jsonOptions = new()
+    {
+        WriteIndented = true,
+        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never,
+        PropertyNamingPolicy = null,
+    };
+
+    public static string FormatDocumentIfNeeded(string document)
+    {
+        if (string.IsNullOrWhiteSpace(document))
+        {
+            return document;
+        }
+
+        if (TryFormatJson(document, out var formattedJson))
+        {
+            return formattedJson;
+        }
+
+        if (TryFormatXml(document, out var formattedXml))
+        {
+            return formattedXml;
+        }
+
+        return document;
+    }
+
+    private static bool TryFormatJson(string input, out string formattedJson)
+    {
+        formattedJson = input;
+        try
+        {
+            var trimmed = input.TrimStart();
+            if (!trimmed.StartsWith('{') && !trimmed.StartsWith('['))
+            {
+                return false;
+            }
+
+            using var doc = JsonDocument.Parse(input);
+            formattedJson = JsonSerializer.Serialize(doc.RootElement, _jsonOptions);
+            return true;
+        }
+        catch (JsonException)
+        {
+            return false;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    private static bool TryFormatXml(string input, out string formattedXml)
+    {
+        formattedXml = input;
+        try
+        {
+            var trimmed = input.TrimStart();
+            if (!trimmed.StartsWith('<'))
+            {
+                return false;
+            }
+
+            var doc = XDocument.Parse(input);
+            formattedXml = doc.Declaration != null
+                ? doc.Declaration.ToString() + Environment.NewLine + doc.ToString()
+                : doc.ToString();
+            return true;
+        }
+        catch (System.Xml.XmlException)
+        {
+            return false;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+}

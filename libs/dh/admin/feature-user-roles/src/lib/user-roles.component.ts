@@ -31,7 +31,7 @@ import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expanda
 
 import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { FilterUserRolesPipe, UserRolesIntoTablePipe } from './filter-user-roles-into-table.pipe';
@@ -74,7 +74,10 @@ import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-
   ],
 })
 export class DhUserRolesComponent {
-  private actorsAndRolesQuery = lazyQuery(GetActorsAndUserRolesDocument);
+  private actorsAndRolesQuery = query(GetActorsAndUserRolesDocument, () => ({
+    variables: { id: this.id() },
+  }));
+
   private _updateUserRoles: UpdateUserRoles = {
     actors: [],
   };
@@ -99,7 +102,12 @@ export class DhUserRolesComponent {
 
   constructor() {
     effect(() => {
-      this.actorsAndRolesQuery.query({ variables: { id: this.id() } });
+      // The component relied on watt-table to initially emit `selectionChange` during render,
+      // but this behavior was removed when watt-table was updated to use `model` for selection.
+      // This fix calls `selectionChanged` manually, but better solutions probably exist.
+      this.actorsAndRolesQuery.data()?.userById.actors.forEach((actor) => {
+        this.selectionChanged(actor.id, actor.userRoles, actor.userRoles);
+      });
     });
   }
 

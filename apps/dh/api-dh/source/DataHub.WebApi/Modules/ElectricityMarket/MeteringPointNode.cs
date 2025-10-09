@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
@@ -101,15 +102,8 @@ public static partial class MeteringPointNode
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        [Service] IElectricityMarketClient_V1 client,
-        bool enableNewSecurityModel = false)
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
     {
-        if (!enableNewSecurityModel)
-        {
-            return await client.MeteringPointAsync(meteringPointId, ct).ConfigureAwait(false);
-        }
-
         if (httpContextAccessor.HttpContext == null)
         {
             throw new InvalidOperationException("Http context is not available.");
@@ -126,9 +120,13 @@ public static partial class MeteringPointNode
             MarketRole = marketRole,
         };
         var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-        var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature);
+        if ((signature.Result == SignatureResult.Valid || signature.Result == SignatureResult.NoContent) && signature.Signature != null)
+        {
+            var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature.Signature);
+            return await authClient.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+        }
 
-        return await authClient.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+        throw new InvalidOperationException("User is not authorized to access the requested metering point.");
     }
 
     private static ElectricalHeatingDto? FindLastElectricalHeatingDto(MeteringPointDto meteringPoint)
@@ -162,7 +160,7 @@ public static partial class MeteringPointNode
     {
         var closedDownDate = meteringPointPeriods
             .Where(mp => mp.ConnectionState == ConnectionState.ClosedDown)
-            .OrderByDescending(mp => mp.ValidFrom)
+            .OrderBy(mp => mp.ValidFrom)
             .FirstOrDefault();
 
         return closedDownDate?.ValidFrom;

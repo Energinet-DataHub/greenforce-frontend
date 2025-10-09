@@ -23,10 +23,10 @@ import {
   DestroyRef,
   ElementRef,
   HostBinding,
-  Input,
-  ViewChild,
   ViewEncapsulation,
   inject,
+  input,
+  viewChild,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -95,34 +95,16 @@ export class WattTimepickerComponent extends WattPickerBase {
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
-  @Input() label = '';
+  label = input('');
   /**
    * Text to display on label for time range slider.
    */
-  @Input()
-  sliderLabel = '';
+  sliderLabel = input('');
 
-  /**
-   * @ignore
-   */
-  @ViewChild('timeInput')
-  input!: ElementRef;
+  override input = viewChild<ElementRef<HTMLInputElement>>('timeInput');
+  override startInput = viewChild<ElementRef<HTMLInputElement>>('startTimeInput');
+  override endInput = viewChild<ElementRef<HTMLInputElement>>('endTimeInput');
 
-  /**
-   * @ignore
-   */
-  @ViewChild('startTimeInput')
-  startInput!: ElementRef;
-
-  /**
-   * @ignore
-   */
-  @ViewChild('endTimeInput')
-  endInput!: ElementRef;
-
-  /**
-   * @ignore
-   */
   sliderId = `${this.id}-slider`;
 
   /**
@@ -135,22 +117,10 @@ export class WattTimepickerComponent extends WattPickerBase {
     // Only range input has slider
     return this.range && this.sliderOpen ? this.sliderId : undefined;
   }
-  /**
-   * @ignore
-   */
   hoursMinutesPlaceholder = 'HH:MM';
-  /**
-   * @ignore
-   */
   rangeSeparator = ' - ';
-  /**
-   * @ignore
-   */
   rangePlaceholder =
     this.hoursMinutesPlaceholder + this.rangeSeparator + this.hoursMinutesPlaceholder;
-  /**
-   * @ignore
-   */
   protected _placeholder = this.hoursMinutesPlaceholder;
 
   /**
@@ -159,19 +129,10 @@ export class WattTimepickerComponent extends WattPickerBase {
    */
   sliderOpen = false;
 
-  /**
-   * @ignore
-   */
   sliderSteps = [...Array(quartersInADay).keys()].map((x) => x * 15).concat(minutesInADay - 1);
 
-  /**
-   * @ignore
-   */
   sliderChange$ = new Subject<WattSliderValue>();
 
-  /**
-   * @ignore
-   */
   get sliderValue(): WattSliderValue {
     if (this.value?.start && this.value?.end) {
       return {
@@ -201,36 +162,22 @@ export class WattTimepickerComponent extends WattPickerBase {
     if (!this.focused) this.sliderOpen = false;
   }
 
-  /**
-   * @ignore
-   */
   inputMask = maskitoTimeOptionsGenerator({ mode: 'HH:MM' });
-  /**
-   * @ignore
-   */
   rangeInputMask = maskitoTimeRangeOptionsGenerator();
-  /**
-   * @ignore
-   */
-  destroyRef = inject(DestroyRef);
+  override destroyRef = inject(DestroyRef);
 
   constructor() {
     super(`watt-timepicker-${WattTimepickerComponent.nextId++}`);
   }
 
-  /**
-   * @ignore
-   */
   protected initSingleInput() {
-    if (this.initialValue) {
-      (this.input.nativeElement as HTMLInputElement).value = this.initialValue as string;
-      this.input.nativeElement.dispatchEvent(new InputEvent('input'));
+    const input = this.input();
+    if (this.initialValue && input) {
+      (input.nativeElement as HTMLInputElement).value = this.initialValue as string;
+      input.nativeElement.dispatchEvent(new InputEvent('input'));
     }
   }
 
-  /**
-   * @ignore
-   */
   inputChanged(value: string) {
     const time = value.slice(0, this.hoursMinutesPlaceholder.length);
     if (time.length === 0) {
@@ -243,9 +190,6 @@ export class WattTimepickerComponent extends WattPickerBase {
     this.control?.setValue(time);
   }
 
-  /**
-   * @ignore
-   */
   rangeInputChanged(value: string) {
     const start = value.slice(0, this.hoursMinutesPlaceholder.length);
     if (start.length !== this.hoursMinutesPlaceholder.length) {
@@ -265,9 +209,6 @@ export class WattTimepickerComponent extends WattPickerBase {
     }
   }
 
-  /**
-   * @ignore
-   */
   protected initRangeInput() {
     if (this.initialValue) {
       const { start, end } = this.initialValue as WattDateRange;
@@ -284,18 +225,14 @@ export class WattTimepickerComponent extends WattPickerBase {
     });
   }
 
-  /**
-   * @ignore
-   */
   setRangeValueAndNotify(start: string, end: string | null) {
     this.control?.setValue({ start, end });
-    (this.input.nativeElement as HTMLInputElement).value = start + this.rangeSeparator + end;
-    this.input.nativeElement.dispatchEvent(new InputEvent('input'));
+    const input = this.input();
+    if (!input) return;
+    (input.nativeElement as HTMLInputElement).value = start + this.rangeSeparator + end;
+    input.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
-  /**
-   * @ignore
-   */
   protected setSingleValue(
     value: Exclude<WattPickerValue, WattDateRange>,
     input: HTMLInputElement
@@ -303,9 +240,6 @@ export class WattTimepickerComponent extends WattPickerBase {
     input.value = value ?? '';
   }
 
-  /**
-   * @ignore
-   */
   protected setRangeValue(
     value: WattDateRange,
     startInput: HTMLInputElement,

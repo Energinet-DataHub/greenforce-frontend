@@ -17,7 +17,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
 using HotChocolate.Resolvers;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Types;
 
 public class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAuditedChangeAuditLogDto>
 {

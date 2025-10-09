@@ -18,17 +18,17 @@
 //#endregion
 export * from './lib/dh-em-dash-fallback.pipe';
 export * from './lib/em-dash';
-export * from './lib/export-to-csv';
 export * from './lib/dh-form-control-error-to-signal';
 export * from './lib/dh-form-control-to-signal';
 export * from './lib/dh-form-errors-warnings-only';
 export * from './lib/dh-make-form-control';
 export * from './lib/set-control-required';
-export { DhDropdownTranslatorDirective } from './lib/dh-dropdown-translator.directive';
+export * from './lib/dh-dropdown-translator.directive';
 export * from './lib/dh-enum-to-dropdown-options';
 export * from './lib/stream-to-file';
-export { DhResultComponent } from './lib/dh-result.component';
+export * from './lib/dh-result.component';
 export * from './lib/dh-metering-point-utils';
 export * from './lib/inject-toast';
 export * from './lib/inject-relative-navigate';
 export * from './lib/dh-metering-point-ids.validator';
+export * from './lib/generate-csv-file';

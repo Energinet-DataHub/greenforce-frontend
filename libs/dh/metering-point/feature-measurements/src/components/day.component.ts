@@ -50,8 +50,7 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
   ],
   template: `
     <watt-data-table
-      [enableSearch]="false"
-      [enableCount]="false"
+      [header]="false"
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
@@ -160,6 +159,7 @@ export class DhMeasurementsDayComponent {
         accessor: (row) => row.current?.quantity ?? '',
         align: 'right',
         footer: { value: this.sum },
+        tooltip: this.transloco.translate('meteringPoint.measurements.tooltip'),
       },
       hasQuantityOrQualityChanged: {
         header: '',

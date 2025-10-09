@@ -22,7 +22,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
 
 import qs from 'qs';
-import { map, startWith } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import {
@@ -37,7 +37,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
-import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
+// import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet-datahub/watt/yearmonth-field';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
@@ -62,7 +62,7 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
     WattYearMonthField,
     WattDataTableComponent,
     WattDataFiltersComponent,
-    WattSlideToggleComponent,
+    // WattSlideToggleComponent,
     WattQueryParamsDirective,
 
     VaterStackComponent,
@@ -85,20 +85,23 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
   `,
   template: `
     <watt-data-table
-      [enableSearch]="false"
-      [enableCount]="false"
+      [header]="false"
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
       *transloco="let t; read: 'meteringPoint.measurements'"
     >
-      <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
+      <watt-data-filters *transloco="let t; prefix: 'meteringPoint.measurements.filters'">
         <form wattQueryParams [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
-            <watt-yearmonth-field [formControl]="form.controls.yearMonth" canStepThroughMonths />
-            <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
+            <watt-yearmonth-field
+              [formControl]="form.controls.yearMonth"
+              startView="year"
+              canStepThroughMonths
+            />
+            <!-- <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
               {{ t('showOnlyChangedValues') }}
-            </watt-slide-toggle>
+            </watt-slide-toggle> -->
           </vater-stack>
         </form>
       </watt-data-filters>
@@ -145,14 +148,21 @@ export class DhMeasurementsMonthComponent {
   private route = inject(ActivatedRoute);
   private fb = inject(NonNullableFormBuilder);
   private transloco = inject(TranslocoService);
-  private sum = computed(() =>
-    this.formatNumber(
-      this.measurements()
-        .map((x) => x.quantity)
-        .filter((quantity) => quantity !== null && quantity !== undefined)
-        .reduce((acc, quantity) => acc + Number(quantity), 0)
-    )
+  private sum = computed(
+    () =>
+      `${this.formatNumber(
+        this.measurements()
+          .map((x) => x.quantity)
+          .filter((quantity) => quantity !== null && quantity !== undefined)
+          .reduce((acc, quantity) => acc + Number(quantity), 0)
+      )} ${this.unit()}`
   );
+  private unit = computed(() => {
+    const [firstItem] = this.measurements();
+    if (!firstItem) return '';
+
+    return this.transloco.translate('meteringPoint.measurements.units.' + firstItem.unit);
+  });
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
   form = this.fb.group({
@@ -174,6 +184,7 @@ export class DhMeasurementsMonthComponent {
       accessor: 'quantity',
       align: 'right',
       footer: { value: this.sum },
+      tooltip: this.transloco.translate('meteringPoint.measurements.tooltip'),
     },
     columnSpacer: {
       accessor: null,
@@ -210,6 +221,7 @@ export class DhMeasurementsMonthComponent {
 
   values = toSignal<AggregatedMeasurementsByMonthQueryVariables>(
     this.form.valueChanges.pipe(
+      debounceTime(500),
       startWith(null),
       map(() => this.form.getRawValue()),
       exists(),

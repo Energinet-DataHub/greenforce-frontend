@@ -46,5 +46,11 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-019';
     case DocumentType.ReminderOfMissingMeasurements:
       return 'RSM-018';
+    case DocumentType.UpdateChargeLinks:
+      return 'RSM-030';
+    case DocumentType.ConfirmRequestChangeBillingMasterData:
+      return 'RSM-030';
+    case DocumentType.RejectRequestChangeBillingMasterData:
+      return 'RSM-030';
   }
 };

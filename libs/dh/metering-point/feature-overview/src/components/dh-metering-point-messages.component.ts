@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input, signal } from '@angular/core';
+import { Component, computed, effect, input, signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -43,7 +43,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMessageArchiveSearchDetailsComponent } from '@energinet-datahub/dh/message-archive/feature-search';
-
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSource>;
 
 @Component({
@@ -71,8 +71,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
       vater
       inset="ml"
       [error]="dataSource.error"
-      [enableCount]="false"
-      [enableSearch]="false"
+      [header]="false"
     >
       <watt-data-filters>
         <form
@@ -155,12 +154,14 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
   `,
 })
 export class DhMeteringPointMessagesComponent {
+  private featureFlagsService = inject(DhFeatureFlagsService);
+
   meteringPointId = input.required<string>();
   selection = signal<ArchivedMessage | undefined>(undefined);
 
   columns: WattTableColumnDef<ArchivedMessage> = {
     createdAt: { accessor: 'createdAt' },
-    documentType: { accessor: 'documentType' },
+    documentType: { accessor: 'documentType', sort: false },
     sender: { accessor: (m) => m.sender?.displayName },
     receiver: { accessor: (m) => m.receiver?.displayName },
   };
@@ -173,7 +174,19 @@ export class DhMeteringPointMessagesComponent {
     receiverId: new FormControl<string | null>(null),
   });
 
-  documentTypeOptions = dhEnumToWattDropdownOptions(MeteringPointDocumentType);
+  updateChargeLinksDocumentTypes = [
+    MeteringPointDocumentType.UpdateChargeLinks,
+    MeteringPointDocumentType.ConfirmRequestChangeBillingMasterData,
+    MeteringPointDocumentType.RejectRequestChangeBillingMasterData,
+  ];
+
+  documentTypeOptions = dhEnumToWattDropdownOptions(
+    MeteringPointDocumentType,
+    !this.featureFlagsService.isEnabled('update-charge-links')
+      ? this.updateChargeLinksDocumentTypes
+      : []
+  );
+
   actorOptionsQuery = query(GetMarketParticipantOptionsDocument);
   actorOptions = computed(() => this.actorOptionsQuery.data()?.marketParticipants ?? []);
 

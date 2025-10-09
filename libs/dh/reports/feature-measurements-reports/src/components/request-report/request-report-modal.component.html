@@ -22,7 +22,12 @@ limitations under the License.
   <form id="request-measurements-report-form" [formGroup]="form" (ngSubmit)="submit()">
     <vater-flex direction="column" gap="l">
       <div class="items-group">
-        <watt-datepicker [range]="true" [label]="t('period')" [formControl]="form.controls.period">
+        <watt-datepicker
+          [range]="true"
+          [label]="t('period')"
+          [formControl]="form.controls.period"
+          data-testid="measurementreport.period"
+        >
           <watt-field-error>
             @if (form.controls.period.hasError("maxDays")) {
               {{ t("maxDays") }}
@@ -34,7 +39,10 @@ limitations under the License.
           </watt-field-error>
         </watt-datepicker>
 
-        <watt-checkbox [formControl]="form.controls.switchToMeteringPointIDs">
+        <watt-checkbox
+          [formControl]="form.controls.switchToMeteringPointIDs"
+          data-testid="measurementreport.switchToMeteringPointIds"
+        >
           {{ t("switchToMeteringPointIDs") }}
         </watt-checkbox>
       </div>
@@ -44,6 +52,7 @@ limitations under the License.
           <watt-textarea-field
             [formControl]="form.controls.meteringPointIDs"
             [label]="t('meteringPointIDsLabel')"
+            data-testid="measurementreport.meteringPointIds"
           >
             <watt-field-hint>{{ t("meteringPointIDsHintOne") }}</watt-field-hint>
             <watt-field-hint>
@@ -74,6 +83,7 @@ limitations under the License.
           [label]="t('gridArea')"
           [formControl]="form.controls.gridAreas"
           [options]="gridAreaOptions()"
+          data-testid="measurementreport.gridAreas"
         >
           @if (multipleGridAreasSelected()) {
             <watt-field-hint>
@@ -82,7 +92,10 @@ limitations under the License.
           }
         </watt-dropdown>
 
-        <watt-checkbox [formControl]="form.controls.allowLargeTextFiles">
+        <watt-checkbox
+          [formControl]="form.controls.allowLargeTextFiles"
+          data-testid="measurementreport.allowLargeTextFiles"
+        >
           {{ t("allowLargeTextFiles") }}
         </watt-checkbox>
       </div>
@@ -95,6 +108,7 @@ limitations under the License.
           [multiple]="true"
           [formControl]="form.controls.meteringPointTypes"
           [options]="meteringPointTypesOptions"
+          data-testid="measurementreport.meteringPointTypes"
         />
       </div>
 
@@ -105,6 +119,7 @@ limitations under the License.
             [showResetOption]="false"
             [formControl]="form.controls.energySupplier"
             [options]="energySupplierOptions()"
+            data-testid="measurementreport.energySupplier"
           />
         </div>
       }
@@ -117,18 +132,22 @@ limitations under the License.
           [showResetOption]="false"
           [formControl]="form.controls.resolution"
           [options]="resolutionOptions()"
+          data-testid="measurementreport.resolution"
         />
       </div>
     </vater-flex>
   </form>
 
   <watt-modal-actions>
-    <watt-button variant="secondary" (click)="modal.close(false)">{{ t("cancel") }}</watt-button>
+    <watt-button variant="secondary" (click)="modal.close(false)" data-testid="cancelButton">
+      {{ t("cancel") }}
+    </watt-button>
 
     <watt-button
       type="submit"
       formId="request-measurements-report-form"
       [loading]="submitInProgress()"
+      data-testid="submitButton"
     >
       {{ t("confirm") }}
     </watt-button>

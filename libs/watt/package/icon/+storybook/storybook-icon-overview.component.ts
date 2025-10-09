@@ -166,6 +166,9 @@ export class StorybookIconOverviewComponent {
         { name: 'View List', icon: 'view_list' },
         { name: 'View Stream', icon: 'view_stream' },
         { name: 'Construction', icon: 'construction' },
+        { name: 'Factory', icon: 'factory' },
+        { name: 'Nest Eco Leaf', icon: 'nest_eco_leaf' },
+        { name: 'Flash On', icon: 'flash_on' },
       ],
     },
   ];

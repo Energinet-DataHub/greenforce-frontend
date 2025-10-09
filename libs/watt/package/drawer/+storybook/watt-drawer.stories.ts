@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 
 import { WattButtonComponent } from '../../button';
-import { WATT_MODAL } from '../../modal';
+import { WATT_MODAL, WattModalService } from '../../modal';
 import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '../watt-drawer.component';
 import { WattStorybookDrawerContentComponent } from './storybook-drawer-content.component';
 import { WattStorybookDrawerLoadingComponent } from './storybook-drawer-loading.component';
@@ -47,6 +47,9 @@ export default {
     },
   },
   decorators: [
+    applicationConfig({
+      providers: [WattModalService],
+    }),
     moduleMetadata({
       imports: [
         WATT_DRAWER,

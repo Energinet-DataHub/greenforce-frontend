@@ -14,5 +14,6 @@ query GetAggregatedMeasurementsForYear(
   ) {
     yearMonth
     quantity
+    unit
   }
 }

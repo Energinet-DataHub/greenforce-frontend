@@ -16,13 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, computed, effect } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
+import {
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+  WattTableCellDirective,
+} from '@energinet-datahub/watt/table';
+
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 
 import {
   GetPermissionAuditLogsDocument,
@@ -31,75 +38,74 @@ import {
 
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-admin-permission-audit-logs',
-  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],
   template: `
-    <watt-card variant="solid" *transloco="let t; read: 'admin.userManagement.tabs.history'">
-      <watt-card-title>
-        <h4>
-          @let count = dataSource.totalCount;
-          @if (count === 1) {
-            {{ t('changesSingular', { auditLogCount: count }) }}
-          } @else {
-            {{ t('changesPlural', { auditLogCount: count }) }}
-          }
-        </h4>
-      </watt-card-title>
-      <dh-result
-        [loading]="loading()"
-        [hasError]="hasError()"
-        [empty]="dataSource.totalCount === 0"
+    <watt-data-table
+      vater
+      inset="0"
+      variant="solid"
+      *transloco="let t; prefix: 'admin.userManagement.tabs.history'"
+      [enableSearch]="false"
+      [enablePaginator]="false"
+      [count]="
+        dataSource().totalCount === 1
+          ? t('changesSingular', { auditLogCount: dataSource().totalCount })
+          : t('changesPlural', { auditLogCount: dataSource().totalCount })
+      "
+      [error]="hasError()"
+      [ready]="ready()"
+    >
+      <watt-table
+        [columns]="columns"
+        [dataSource]="dataSource()"
+        sortBy="timestamp"
+        [loading]="isLoading()"
+        sortDirection="desc"
+        [sortClear]="false"
       >
-        <watt-table
-          [columns]="columns"
-          [dataSource]="dataSource"
-          sortBy="timestamp"
-          sortDirection="desc"
-          [sortClear]="false"
+        <ng-container
+          *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
         >
-          <ng-container
-            *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
-          >
-            {{ element.timestamp | wattDate: 'long' }}
-          </ng-container>
+          {{ element.timestamp | wattDate: 'long' }}
+        </ng-container>
 
-          <ng-container
-            *wattTableCell="columns.entry; header: t('table.columns.entry'); let element"
-          >
-            <span
-              [innerHTML]="t('logs.permissionsDetails.auditLogType.' + element.change, element)"
-            >
-            </span>
-          </ng-container>
-        </watt-table>
-      </dh-result>
-    </watt-card>
+        <ng-container *wattTableCell="columns.entry; header: t('table.columns.entry'); let element">
+          <span [innerHTML]="t('logs.permissionsDetails.auditLogType.' + element.change, element)">
+          </span>
+        </ng-container>
+      </watt-table>
+    </watt-data-table>
   `,
+  imports: [
+    TranslocoDirective,
+    WattDatePipe,
+    WattTableComponent,
+    WattTableCellDirective,
+    WattDataTableComponent,
+    VaterUtilityDirective,
+  ],
 })
 export class DhPermissionAuditLogsComponent {
-  private query = query(GetPermissionAuditLogsDocument, () => ({
+  private getPermissionAuditLogsQuery = query(GetPermissionAuditLogsDocument, () => ({
     variables: { id: this.selectedPermission().id },
   }));
-  private auditLogs = computed(() => this.query.data()?.permissionById.auditLogs ?? []);
 
-  loading = this.query.loading;
-  hasError = this.query.hasError;
+  selectedPermission = input.required<PermissionDto>();
 
-  dataSource = new WattTableDataSource<PermissionAuditedChangeAuditLogDto>();
+  dataSource = computed(
+    () =>
+      new WattTableDataSource<PermissionAuditedChangeAuditLogDto>(
+        this.getPermissionAuditLogsQuery.data()?.permissionById.auditLogs || []
+      )
+  );
+  hasError = this.getPermissionAuditLogsQuery.hasError;
+  isLoading = this.getPermissionAuditLogsQuery.loading;
+  ready = this.getPermissionAuditLogsQuery.called;
 
   columns: WattTableColumnDef<PermissionAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
     entry: { accessor: null },
   };
-
-  selectedPermission = input.required<PermissionDto>();
-
-  constructor() {
-    effect(() => {
-      this.dataSource.data = [...this.auditLogs()].reverse();
-    });
-  }
 }

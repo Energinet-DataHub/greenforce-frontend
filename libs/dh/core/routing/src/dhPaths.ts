@@ -45,6 +45,7 @@ const meteringPointSubPaths = {
   measurements: 'measurements',
   messages: 'messages',
   failedMeasurements: 'failed-measurements',
+  processes: 'processes',
 } as const;
 
 const measurementsSubPaths = {
@@ -65,6 +66,10 @@ const devExamplesSubPaths = {
   processes: 'processes',
 } as const;
 
+const gridAreaSubPaths = {
+  gridarea: 'gridarea',
+} as const;
+
 const reportsSubPaths = {
   overview: 'overview',
   settlements: 'settlements',
@@ -76,6 +81,10 @@ const reportsSubPaths = {
 
 const missingMeasurementsLogSubPaths = {
   request: 'request',
+} as const;
+
+const chargesSubPaths = {
+  prices: 'prices',
 } as const;
 
 const basePaths = {
@@ -91,6 +100,7 @@ const basePaths = {
   login: 'login',
   meteringPointDebug: 'metering-point-debug',
   reports: 'reports',
+  charges: 'charges',
 } as const;
 
 export type MarketParticipantSubPaths =
@@ -119,6 +129,10 @@ export type MeasurementsSubPaths = (typeof measurementsSubPaths)[keyof typeof me
 export type MissingMeasurementsLogSubPaths =
   (typeof missingMeasurementsLogSubPaths)[keyof typeof missingMeasurementsLogSubPaths];
 
+export type GridAreaSubPaths = (typeof gridAreaSubPaths)[keyof typeof gridAreaSubPaths];
+
+export type ChargesSubPaths = (typeof chargesSubPaths)[keyof typeof chargesSubPaths];
+
 type SubPaths =
   | MarketParticipantSubPaths
   | ESettSubPaths
@@ -129,7 +143,9 @@ type SubPaths =
   | DevExamplesSubPaths
   | MeasurementsSubPaths
   | ReportsSubPaths
-  | MissingMeasurementsLogSubPaths;
+  | MissingMeasurementsLogSubPaths
+  | GridAreaSubPaths
+  | ChargesSubPaths;
 
 export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;
 

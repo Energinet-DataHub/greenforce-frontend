@@ -31,6 +31,7 @@ limitations under the License.
           [label]="t('period')"
           [max]="maxDate"
           [formControl]="form.controls.period"
+          data-testid="settlementreport.period"
         >
           <watt-field-error>
             @if (form.controls.period.hasError("startDateAndEndDateHaveDifferentMonth")) {
@@ -40,7 +41,10 @@ limitations under the License.
         </watt-datepicker>
 
         @if (showMonthlySumCheckbox$ | push) {
-          <watt-checkbox [formControl]="form.controls.includeMonthlySum">
+          <watt-checkbox
+            [formControl]="form.controls.includeMonthlySum"
+            data-testid="settlementreport.includeMonthlySum"
+          >
             {{ t("includeMonthlySum") }}
           </watt-checkbox>
         }
@@ -53,6 +57,7 @@ limitations under the License.
           [label]="t('gridArea')"
           [formControl]="form.controls.gridAreas"
           [options]="gridAreaOptions$ | push"
+          data-testid="settlementreport.gridAreas"
         >
           <watt-field-hint>
             @if (multipleGridAreasSelected$ | push) {
@@ -62,12 +67,18 @@ limitations under the License.
         </watt-dropdown>
 
         @if (multipleGridAreasSelected$ | push) {
-          <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
+          <watt-checkbox
+            [formControl]="form.controls.combineResultsInOneFile"
+            data-testid="settlementreport.combineResultsInOneFile"
+          >
             {{ t("combineResultsInOneFile") }}
           </watt-checkbox>
         }
 
-        <watt-checkbox [formControl]="form.controls.allowLargeTextFiles">
+        <watt-checkbox
+          [formControl]="form.controls.allowLargeTextFiles"
+          data-testid="settlementreport.allowLargeTextFiles"
+        >
           {{ t("allowLargeTextFiles") }}
         </watt-checkbox>
       </div>
@@ -78,7 +89,8 @@ limitations under the License.
             [label]="t('energySupplier')"
             [showResetOption]="false"
             [formControl]="form.controls.energySupplier"
-            [options]="energySupplierOptions$ | push"
+            [options]="energySupplierOptions()"
+            data-testid="settlementreport.energySupplier"
           />
         </div>
       }
@@ -91,9 +103,13 @@ limitations under the License.
           [options]="calculationTypeOptions"
           translateKey="reports.settlementReports.calculationTypes"
           dhDropdownTranslator
+          data-testid="settlementreport.calculationType"
         />
 
-        <watt-checkbox [formControl]="form.controls.includeBasisData">
+        <watt-checkbox
+          [formControl]="form.controls.includeBasisData"
+          data-testid="settlementreport.includeBasisData"
+        >
           {{ t("includeBasisData") }}
         </watt-checkbox>
       </div>
@@ -101,12 +117,15 @@ limitations under the License.
   </form>
 
   <watt-modal-actions>
-    <watt-button variant="secondary" (click)="modal.close(false)">{{ t("cancel") }}</watt-button>
+    <watt-button variant="secondary" (click)="modal.close(false)" data-testid="cancelButton">
+      {{ t("cancel") }}
+    </watt-button>
 
     <watt-button
       type="submit"
       formId="request-settlement-report-form"
       [loading]="submitInProgress()"
+      data-testid="submitButton"
     >
       {{ t("confirm") }}
     </watt-button>

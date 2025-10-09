@@ -31,8 +31,9 @@ public static partial class UserNode
 
     public static async Task<IEnumerable<UserAuditedChangeAuditLogDto>> GetAuditLogsAsync(
         [Parent] GetUserResponse user,
+        CancellationToken ct,
         [Service] IMarketParticipantClient_V1 client)
-        => await client.UserAuditAsync(user.Id);
+        => (await client.UserAuditAsync(user.Id, ct).ConfigureAwait(false)).OrderByDescending(x => x.Timestamp);
     #endregion
 
     static partial void Configure(

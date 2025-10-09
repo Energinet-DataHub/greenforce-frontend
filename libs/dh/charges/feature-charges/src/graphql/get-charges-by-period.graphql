@@ -1,0 +1,32 @@
+query GetChargesByPeriod(
+  $query: GetChargesByPeriodQueryInput!
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $order: [ChargesSortInput!]
+) {
+  chargesByPeriod(
+    query: $query
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    order: $order
+  ) {
+    totalCount
+    nodes {
+      id
+      chargeName
+      validFromDateTime
+      validToDateTime
+      chargeType
+      chargeOwner
+      status
+    }
+    pageInfo {
+      startCursor
+      endCursor
+    }
+  }
+}

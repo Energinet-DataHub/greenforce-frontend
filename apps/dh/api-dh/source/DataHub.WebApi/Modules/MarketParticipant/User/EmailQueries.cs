@@ -25,18 +25,8 @@ public static partial class EmailQueries
             await client.UserCheckDomainAsync(email);
 
     [Query]
-    public static async Task<IEnumerable<string>> GetKnownEmailsAsync(
+    public static async Task<bool> EmailExistsAsync(
+        string email,
         IMarketParticipantClient_V1 client) =>
-            (await client.UserOverviewUsersSearchAsync(
-                1,
-                int.MaxValue,
-                UserOverviewSortProperty.Email,
-                SortDirection.Asc,
-                new UserOverviewFilterDto
-                {
-                    UserStatus = [],
-                    UserRoleIds = [],
-                })).Users
-                .Select(x => x.Email)
-                .ToList();
+            await client.UserCheckEmailAsync(email);
 }

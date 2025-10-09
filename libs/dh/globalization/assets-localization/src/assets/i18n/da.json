@@ -68,7 +68,7 @@
       }
     }
   },
-  "envinronementName": {
+  "environmentName": {
     "localhost": "lokalt",
     "d-001": "dev-001",
     "d-002": "dev-002",
@@ -189,11 +189,15 @@
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
     "calculationType": "Beregningstype",
-    "all": "Alle"
+    "all": "Alle",
+    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}"
   },
   "clipboard": {
     "success": "Kopieret",
     "error": "Kopiering mislykkedes"
+  },
+  "code": {
+    "searchPlaceholder": "Søg i teksten"
   },
   "datepicker": {
     "clear": "Ryd",
@@ -219,6 +223,7 @@
         "requestCalculation": "Anmod om beregnede data"
       },
       "meteringPoints": "Målepunkter",
+      "prices": "Priser",
       "marketParticipant": {
         "menuGroupLabel": "Aktører",
         "userManagement": "Brugeradministration",
@@ -354,6 +359,27 @@
     "3": "Øjebliksafregning (3)",
     "6": "Årsbaseret afregning (6)"
   },
+  "charges": {
+    "charges": {
+      "topBarTitle": "Priser",
+      "table": {
+        "columns": {
+          "id": "ID",
+          "type": "Type",
+          "name": "Navn",
+          "owner": "Ejer",
+          "status": "Status"
+        },
+        "chargeStatus": {
+          "AWAITING": "Afventer",
+          "CLOSED": "Lukket",
+          "CANCELLED": "Annulleret",
+          "CURRENT": "Aktuel",
+          "MISSING_PRICE_SERIES": "Mangler prisserie"
+        }
+      }
+    }
+  },
   "meteringPoint": {
     "breadcrumb": "Søg målepunkt",
     "search": {
@@ -367,6 +393,9 @@
     "tabs": {
       "masterData": {
         "tabLabel": "Stamdata"
+      },
+      "processes": {
+        "tabLabel": "Procesoverblik"
       },
       "messages": {
         "tabLabel": "Beskeder"
@@ -433,6 +462,11 @@
         "NEW": "Ny",
         "CONNECTED": "Tilsluttet",
         "DISCONNECTED": "Afbrudt"
+      },
+      "actions": {
+        "actionsButton": "Handlinger",
+        "upload": "Upload måledata",
+        "moveIn": "Tilflyt kunde"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -504,13 +538,23 @@
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
+    "processes": {
+      "columns": {
+        "createdAt": "Beskedtidspunt",
+        "documentType": "Type"
+      },
+      "filters": {
+        "created": "Tidspunkt",
+        "includeViews": "Inkluder visninger",
+        "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
+      }
+    },
     "measurements": {
       "navigation": {
         "day": "Dag",
         "month": "Måned",
         "year": "År",
-        "allYears": "Alle år",
-        "upload": "Upload måledata"
+        "allYears": "Alle år"
       },
       "dateLabel": "Dato",
       "columns": {
@@ -524,6 +568,7 @@
         "year": "År"
       },
       "qualityNotAvailableInThisResolution": "Måledatakvalitet er ikke tilgængelig i denne opløsning",
+      "tooltip": "≈ Angiver om der er estimerede værdier \n● Angiver om måledata har ændret sig",
       "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",
@@ -555,6 +600,7 @@
         "M_WH": "MWh",
         "TONNE": "Tonne",
         "K_V_ARH": "kVArh",
+        "KV_ARH": "kVArh",
         "MV_AR": "MVAr"
       },
       "sum": "Sum",
@@ -582,7 +628,9 @@
         "resolution": "Tidsopløsning",
         "measureUnit": "Måleenhed",
         "dropzone": "Indlæs CSV-fil",
+        "file": "Filnavn",
         "datepicker": "Start driftsdøgn",
+        "datepickerHint": "Tidspunktet vil automatisk blive overført til UTC-tid.",
         "table": {
           "positionCount": "Antal af positioner",
           "sum": "Sum"
@@ -593,6 +641,67 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "moveIn": {
+      "title": "Tilflyt kunde (meldt af el-leverandør)",
+      "steps": {
+        "customerDetails": {
+          "label": "Kundedetaljer",
+          "cutOffDate": "Skæringsdato",
+          "moveInType": "Tilflytningstype",
+          "customerInformation": "Kundeoplysninger",
+          "private": "Privat",
+          "business": "Erhverv",
+          "name1": "Kundenavn",
+          "cpr1": "CPR 1",
+          "name2": "Kundenavn 2",
+          "cpr2": "CPR 2",
+          "companyName": "Kundenavn",
+          "cvr": "CVR",
+          "foreignCompany": "Udenlandsk virksomhed",
+          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+          "cprError": {
+            "containsLetters": "Må ikke indeholde bogstaver",
+            "containsDash": "Må ikke indeholde bindestreg",
+            "invalidCprLength": "Skal bestå af 10 cifre"
+          },
+          "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
+        },
+        "contactDetails": {
+          "label": "Kontakdetaljer",
+          "legalContactSection": "Juridisk kontakt",
+          "technicalContactSection": "Teknisk kontakt",
+          "contactSameAsCustomer": "Samme som kundenavn",
+          "contactName": "Kontaktnavn",
+          "attention": "Att.",
+          "phoneNumber": "Telefonnr.",
+          "mobile": "Mobil",
+          "email": "E-mail adresse"
+        },
+        "addressDetails": {
+          "label": "Adresseoplysninger",
+          "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+          "street": "Vejnavn",
+          "houseNumber": "Husnummer",
+          "floor": "Etage",
+          "door": "Dørbetegnelse",
+          "postalCode": "Postnummer",
+          "city": "Bynavn",
+          "country": "Land",
+          "roadCode": "Vejkode",
+          "postalDistrict": "Postdistrikt",
+          "postBox": "Postboks",
+          "municipalityCode": "Kommunekode",
+          "darReference": "Dar reference",
+          "nameAddressProtection": "Navne- og adressebeskyttelse"
+        },
+        "moveInType": {
+          "E65": "Almindelig (E65)",
+          "D29": "Sekundær (D29)"
+        }
+      },
+      "success": "Tilflytning er nu registreret",
+      "save": "Tilflyt kunde"
     }
   },
   "messageArchive": {
@@ -655,12 +764,15 @@
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
-      "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "B2C: Anmod om aggregerede måledata (RSM-016)",
+      "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "UI: Anmod om aggregerede måledata (RSM-016)",
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Afvis anmod om engrosydelser (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
-      "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Anmod om engrosydelser (RSM-017)",
+      "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Anmod om engrosydelser (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
-      "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)"
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
+      "UPDATE_CHARGE_LINKS": "Opdatering af pristilknytninger (RSM-030)",
+      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Bekræftelse af anmodning om opdatering af pristilknytninger (RSM-030)",
+      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af anmodning om opdatering af pristilknytninger (RSM-030)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -748,9 +860,9 @@
         "REQUEST_ENERGY_RESULTS": "RSM-016: Anmodning om beregnede energitidsserier til DataHub",
         "REQUEST_WHOLESALE_RESULTS": "RSM-017: Anmodning om beregnede engrosydelser til DataHub",
         "RECEIVE_WHOLESALE_RESULTS": "RSM-019: Fremsendelse af beregnede engrosydelser fra DataHub",
-        "RECEIVE_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata fra DataHub",
+        "RECEIVE_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata til DataHub",
         "REQUEST_METERING_POINT_DATA": "RSM-015: Anmod om måledata på et målepunkt til DataHub",
-        "SEND_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata til DataHub",
+        "SEND_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata fra DataHub",
         "RECEIVE_GAP_LOG": "RSM-018: Fremsend hullerlog fra DataHub"
       },
       "statusPlaceholder": "Status",
@@ -762,6 +874,7 @@
       }
     },
     "accessToMeasurements": {
+      "fileName": "DataHub ekstra modtagere af måledata - {{ shared.downloadNameParams }}",
       "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
       "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
       "emptyButton": "Administrer adgang",
@@ -984,6 +1097,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "fileName": "DataHub aktører - {{ shared.downloadNameParams }}",
       "create": "Ny aktør",
       "actors": "Aktører",
       "columns": {
@@ -1040,6 +1154,7 @@
               "CONSUMPTION": "Forbrug",
               "PRODUCTION": "Produktion"
             },
+            "fileName": "DataHub balanceansvarsrelationer - {{ shared.downloadNameParams }}",
             "meteringPointTypes": {
               "E20Exchange": "Udveksling",
               "E18Production": "Produktion",
@@ -1232,6 +1347,7 @@
         "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
         "name": "{{ marketParticipant.organizationsOverview.shared.name }}"
       },
+      "fileName": "DataHub organisationer - {{ shared.downloadNameParams }}",
       "emptyTitle": "Ingen organisationer fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
@@ -1279,6 +1395,7 @@
     "marketRolesOverview": {
       "marketRoles": "Markedsroller",
       "download": "Download",
+      "fileName": "DataHub markedsroller - {{ shared.downloadNameParams }}",
       "columns": {
         "name": "Navn",
         "description": "Beskrivelse"
@@ -1324,6 +1441,8 @@
       "topBarTitle": "Netområder",
       "noGridAreas": "Ingen netområder fundet",
       "error": "En fejl opstod",
+      "searchLabel": "Søg",
+      "fileName": "DataHub netområder - {{ shared.downloadNameParams }}",
       "columns": {
         "code": "Netområde",
         "actor": "Netvirksomhed",
@@ -1394,6 +1513,7 @@
         "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til BizTalk, fordi der enten ikke er forbindelse, BizTalk ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
         "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra BizTalk, fordi der enten ikke er forbindelse, BizTalk/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
       },
+      "fileName": "DataHub eSett udgående beskeder - {{ shared.downloadNameParams }}",
       "shared": {
         "calculationType": {
           "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
@@ -1481,6 +1601,8 @@
           "BOTH": "Alle"
         }
       },
+      "fileName": "DataHub eSett MGA ubalancer - {{ shared.downloadNameParams }}",
+      "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Oprettet",
@@ -1553,7 +1675,8 @@
       "emptyTitle": "Ingen meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "fileName": "DataHub eSett balanceansvarsrelationer - {{ shared.downloadNameParams }}"
     }
   },
   "imbalancePrices": {
@@ -1583,7 +1706,8 @@
       "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
       "pricesNote": "Prisen er angivet i DKK for kWh"
-    }
+    },
+    "fileName": "DataHub Ubalancepriser"
   },
   "reports": {
     "topBarTitle": "Rapporter",
@@ -1602,7 +1726,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Anmod om afregningsrapport",
       "downloadReport": {
-        "baseName": "Afregningsrapport",
+        "baseName": "DataHub afregningsrapport",
         "multipleGridAreas": "flere net"
       },
       "cancelReport": {
@@ -1681,7 +1805,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestMeasurementsReport": "Anmod om måledata rapport",
       "downloadReport": {
-        "baseName": "Måledata rapport",
+        "baseName": "DataHub måledata rapport",
         "multipleGridAreas": "flere net"
       },
       "columns": {
@@ -2080,7 +2204,7 @@
         "marketParticipantName": "Aktørnavn",
         "latestLogin": "Seneste login",
         "organisationName": "Organisationsnavn",
-        "fileName": "DataHub brugere - '{{ env }}' miljø - {{ datetime }}"
+        "fileName": "DataHub brugere - {{ shared.downloadNameParams }}"
       },
       "drawer": {
         "edit": "Rediger bruger",
@@ -2115,9 +2239,9 @@
         "disablingUserRole": "Deaktiverer brugerrollen",
         "userroleDisabled": "Brugerrolle deaktiveret",
         "deactivateWarningTitle": "Deaktiver brugerrolle?",
+        "deactivateWarning": "Du er ved at deaktivere brugerrollen. Dette vil fjerne brugerrollen fra alle tilknyttede brugere.",
         "continue": "Deaktiver brugerrolle",
         "cancel": "Fortryd",
-        "deactivateWarning": "Du er ved at deaktivere brugerrollen. Dette vil fjerne brugerrollen fra alle tilknyttede brugere.",
         "roles": {
           "tabs": {
             "masterData": {
@@ -2246,6 +2370,9 @@
             "marketRole": "Markedsrolle",
             "search": "Søg brugerroller"
           },
+          "download": {
+            "fileName": "DataHub brugerroller - {{ shared.downloadNameParams }}"
+          },
           "table": {
             "columns": {
               "name": "Navn",
@@ -2352,7 +2479,9 @@
       "permissionsTab": {
         "headline": "Rettigheder",
         "permissionName": "Navn",
-        "permissionDescription": "Beskrivelse"
+        "permissionDescription": "Beskrivelse",
+        "fileName": "DataHub rettigheder - {{ shared.downloadNameParams }}",
+        "relationReportFilename": "DataHub rettighedsrelationer - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",

@@ -12,9 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 name: DH UI Frontend Healthchecks
+
+permissions:
+  contents: read
+
 env:
   # See https://github.com/cypress-io/cypress/issues/25357
   ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_CI_EXECUTION_ID: ${{ github.run_id }}
 on:
   schedule:
     - cron: 0 * * * *
@@ -58,7 +66,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v14
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v15
     with:
       team_name: TeamFrontend
       subject: DH UI Frontend Healthchecks - Failed

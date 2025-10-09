@@ -47,7 +47,7 @@ type WattTableOptions<T> = Partial<{
   sortDirection: 'asc' | 'desc';
   activeRow: T;
   selectable: boolean;
-  initialSelection: T[];
+  selection: T[];
   resolveHeader: (key: string) => string;
   selectionChange?: (selection: T[]) => void;
   rowClick?: (row: T) => void;
@@ -67,7 +67,7 @@ function setup<T>(properties: WattTableOptions<T>, template = '') {
       [activeRow]="activeRow"
       [resolveHeader]="resolveHeader"
       (selectionChange)="selectionChange($event)"
-      [initialSelection]="initialSelection"
+      [selection]="selection ?? []"
       (rowClick)="rowClick($event)"
       (sortChange)="sortChange($event)"
       >${template}</watt-table>`,
@@ -242,7 +242,8 @@ describe(WattTableComponent, () => {
     const result = await setup({ dataSource, columns, rowClick });
 
     const [, secondRow] = result.getAllByRole('row');
-    userEvent.click(secondRow);
+    const [firstCell] = result.getAllByRole('gridcell');
+    userEvent.click(firstCell);
 
     const [row] = rowClick.mock.lastCall;
     result.rerender({ componentProperties: { dataSource, columns, rowClick, activeRow: row } });
@@ -261,7 +262,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      selection: [],
     });
 
     expect(screen.queryAllByRole('checkbox')).toHaveLength(7);
@@ -279,17 +280,18 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      selection: [],
       selectionChange,
     });
 
     await fixture.whenStable();
 
     // Get the component instance and directly interact with it
-    const tableComponent = fixture.debugElement.children[0].componentInstance as WattTableComponent<PeriodicElement>;
+    const tableComponent = fixture.debugElement.children[0]
+      .componentInstance as WattTableComponent<PeriodicElement>;
 
     // Directly select all items
-    tableComponent._columnSelection = true;
+    tableComponent.selection.set(data);
 
     // Force change detection
     fixture.detectChanges();
@@ -310,21 +312,22 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      selection: [],
       selectionChange,
     });
 
     await fixture.whenStable();
 
-    const tableComponent = fixture.debugElement.children[0].componentInstance as WattTableComponent<PeriodicElement>;
+    const tableComponent = fixture.debugElement.children[0]
+      .componentInstance as WattTableComponent<PeriodicElement>;
 
     // Select all
-    tableComponent._columnSelection = true;
+    tableComponent.selection.set(data);
     fixture.detectChanges();
     await fixture.whenStable();
 
     // Deselect all
-    tableComponent._columnSelection = false;
+    tableComponent.clearSelection();
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -343,23 +346,24 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      selection: [],
       selectionChange,
     });
 
     await fixture.whenStable();
 
-    const tableComponent = fixture.debugElement.children[0].componentInstance as WattTableComponent<PeriodicElement>;
+    const tableComponent = fixture.debugElement.children[0]
+      .componentInstance as WattTableComponent<PeriodicElement>;
 
     // Select first row
-    tableComponent._selectionModel.select(data[0]);
+    tableComponent.toggleSelection(data[0]);
     fixture.detectChanges();
     await fixture.whenStable();
 
     expect(selectionChange).toHaveBeenNthCalledWith(1, [data[0]]);
 
     // Select second row
-    tableComponent._selectionModel.select(data[1]);
+    tableComponent.toggleSelection(data[1]);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -378,17 +382,18 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      selection: [],
       selectionChange,
     });
 
     await fixture.whenStable();
 
-    const tableComponent = fixture.debugElement.children[0].componentInstance as WattTableComponent<PeriodicElement>;
+    const tableComponent = fixture.debugElement.children[0]
+      .componentInstance as WattTableComponent<PeriodicElement>;
 
     // Select all rows individually
     for (const row of data) {
-      tableComponent._selectionModel.select(row);
+      tableComponent.toggleSelection(row);
     }
 
     fixture.detectChanges();
@@ -410,7 +415,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      selection: [],
       selectionChange,
     });
 
@@ -435,7 +440,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [firstRow, secondRow],
+      selection: [firstRow, secondRow],
       selectionChange,
     });
 
@@ -459,13 +464,13 @@ describe(WattTableComponent, () => {
 
     const [firstRow, secondRow] = data;
 
-    const initialSelection = [firstRow, secondRow];
+    const selection = [firstRow, secondRow];
 
     const result = await setup({
       dataSource,
       columns,
       selectable: true,
-      initialSelection,
+      selection,
       selectionChange,
     });
 
@@ -478,16 +483,17 @@ describe(WattTableComponent, () => {
       componentProperties: {
         dataSource,
         columns,
-        initialSelection,
+        selection,
         selectionChange,
         selectable: false,
       },
     });
+
     result.rerender({
       componentProperties: {
         dataSource,
         columns,
-        initialSelection,
+        selection,
         selectionChange,
         selectable: true,
       },
@@ -528,18 +534,19 @@ describe(WattTableComponent, () => {
         dataSource,
         columns,
         selectable: true,
+        selection: [],
         selectionChange,
-        initialSelection: [],
       },
       `<ng-container *wattTableToolbar="let selection">{{ selection.length }}</ng-container>`
     );
 
     await fixture.whenStable();
 
-    const tableComponent = fixture.debugElement.children[0].componentInstance as WattTableComponent<PeriodicElement>;
+    const tableComponent = fixture.debugElement.children[0]
+      .componentInstance as WattTableComponent<PeriodicElement>;
 
-    // Select all rows directly via selection model
-    tableComponent._selectionModel.select(...data);
+    // Select all rows
+    tableComponent.selection.set(data);
     fixture.detectChanges();
     await fixture.whenStable();
 

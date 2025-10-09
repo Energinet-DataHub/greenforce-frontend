@@ -49,6 +49,7 @@ import { DhDateTimeRangeField } from './datetime-range-field';
       *transloco="let t; read: 'messageArchive.start'"
       size="small"
       [title]="t('title')"
+      autoOpen
     >
       <form
         vater-flex

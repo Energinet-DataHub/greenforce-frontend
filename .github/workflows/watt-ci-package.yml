@@ -13,13 +13,18 @@
 # limitations under the License.
 name: Watt CI - Package
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
+  # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
-  NX_RUN_GROUP: ${{ github.run_id }}
+  NX_CI_EXECUTION_ID: ${{ github.run_id }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 on:
   pull_request:
@@ -37,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate Github token
-        uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+        uses: Energinet-DataHub/.github/.github/actions/github-create-token@v15
         id: generate_token
         with:
           app_id: ${{ vars.dh3serviceaccount_appid }}

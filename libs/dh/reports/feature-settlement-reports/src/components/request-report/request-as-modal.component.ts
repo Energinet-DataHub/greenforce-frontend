@@ -24,7 +24,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -52,7 +51,6 @@ type DhFormType = FormGroup<{
 @Component({
   selector: 'dh-request-as-modal',
   imports: [
-    RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
     WATT_MODAL,
@@ -79,7 +77,7 @@ export class DhRequestAsModal extends WattTypedModal {
     }),
   });
 
-  actorOptions$ = getActorOptions(
+  actorOptions = getActorOptions(
     [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
     'actorId'
   );

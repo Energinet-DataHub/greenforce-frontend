@@ -20,7 +20,6 @@ import {
   input,
   inject,
   signal,
-  output,
   effect,
   computed,
   Component,
@@ -135,7 +134,6 @@ export class DhMarketParticipantComponentDetails {
       this.marketParticipant()?.status !== MarketParticipantStatus.Passive &&
       this.marketParticipant()?.status !== MarketParticipantStatus.Discontinued
   );
-  closed = output();
 
   drawerSize = computed<WattDrawerSize>(() => {
     const largeSizeIfTabsCount = 6;
@@ -196,13 +194,17 @@ export class DhMarketParticipantComponentDetails {
     });
   }
 
-  editOrganization(id: string | undefined): void {
+  editOrganization(id: string | undefined) {
     const getLink = (path: MarketParticipantSubPaths) => combinePaths('market-participant', path);
 
     this.router.navigate([getLink('organizations'), 'details', id, 'edit']);
   }
 
-  editMarketParticipant(): void {
+  editMarketParticipant() {
     this.navigation.navigate('edit', this.id());
+  }
+
+  closed() {
+    this.navigation.navigate('list');
   }
 }
