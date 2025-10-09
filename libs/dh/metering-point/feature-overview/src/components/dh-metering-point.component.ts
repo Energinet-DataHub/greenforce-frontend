@@ -119,13 +119,13 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
             </h2>
 
             <vater-stack direction="row" gap="ml">
-              <span>
-                <span class="watt-label watt-space-inline-s">{{
+              <span class="watt-text-s">
+                <span class="watt-label watt-space-inline-xs">{{
                   t('shared.meteringPointType')
                 }}</span>
 
                 @if (metadata()?.type) {
-                  {{ 'meteringPointType.' + metadata()?.type | transloco }}
+                    {{ 'meteringPointType.' + metadata()?.type | transloco }}
                 } @else {
                   {{ null | dhEmDashFallback }}
                 }
@@ -134,15 +134,16 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
               <span
                 gap="s"
                 direction="row"
+                class="watt-text-s"
                 *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()"
               >
-                <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span>
+                <span class="watt-label watt-space-inline-xs">{{ t('shared.energySupplier') }}</span>
 
                 {{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
               </span>
 
-              <span direction="row" gap="s">
-                <span class="watt-label watt-space-inline-s">{{
+              <span direction="row" gap="s" class="watt-text-s">
+                <span class="watt-label watt-space-inline-xs">{{
                   t('details.meteringPointSubType')
                 }}</span>
 
@@ -153,8 +154,8 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
                 }
               </span>
 
-              <span direction="row" gap="s">
-                <span class="watt-label watt-space-inline-s">{{
+              <span direction="row" gap="s" class="watt-text-s">
+                <span class="watt-label watt-space-inline-xs">{{
                   t('details.resolutionLabel')
                 }}</span>
 
