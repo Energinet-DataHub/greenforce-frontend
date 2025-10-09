@@ -33,6 +33,11 @@ import { Dh404Component } from './dh-404.component';
 
 export const dhCoreShellRoutes: Routes = [
   {
+    path: getPath<BasePaths>('login'),
+    pathMatch: 'full',
+    component: DhCoreLoginComponent,
+  },
+  {
     path: '',
     component: DhCoreShellComponent,
     children: [
@@ -103,10 +108,5 @@ export const dhCoreShellRoutes: Routes = [
       },
       { path: '**', component: Dh404Component },
     ],
-  },
-  {
-    path: getPath<BasePaths>('login'),
-    pathMatch: 'full',
-    component: DhCoreLoginComponent,
   },
 ];
