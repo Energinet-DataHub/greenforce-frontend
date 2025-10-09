@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, input, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
 import { WattButtonComponent } from '@energinet/watt/button';
 
@@ -29,12 +29,13 @@ import { WattButtonComponent } from '@energinet/watt/button';
   styleUrls: ['./expansion.component.scss'],
   templateUrl: './expansion.component.html',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatExpansionModule, WattButtonComponent],
 })
 export class WattExpansionComponent {
-  @Input() openLabel = '';
-  @Input() closeLabel = '';
-  @Input() expanded = false;
+  openLabel = input('');
+  closeLabel = input('');
+  expanded = input(false);
 
   /**
    * @ignore
