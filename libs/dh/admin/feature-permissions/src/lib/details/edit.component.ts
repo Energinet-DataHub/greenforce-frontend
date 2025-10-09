@@ -70,13 +70,12 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
             [label]="t('descriptionInputLabel')"
             [formControl]="userPermissionsForm.controls.description"
           >
-            @let maxLengthError = userPermissionsForm.controls.description.errors?.['maxlength'];
-
-            @if (maxLengthError) {
-              <watt-field-error>{{
-                t('descriptionExceedsMaxLength', maxLengthError)
-              }}</watt-field-error>
-            }
+            <watt-field-error>
+              @let maxLengthError = userPermissionsForm.controls.description.errors?.['maxlength'];
+              @if (maxLengthError) {
+                {{ t('descriptionExceedsMaxLength', maxLengthError) }}
+              }
+            </watt-field-error>
           </watt-textarea-field>
         </form>
       </dh-result>
