@@ -94,11 +94,11 @@ watt-field {
   width: 100%;
   display: block;
 
-  &:not(.watt-field--chip) {
+  &:not(.watt-field--chip):has(watt-field-error, watt-field-hint) {
     min-height: 93px;
   }
 
-  &:not(.watt-field--chip).watt-field--unlabelled {
+  &:not(.watt-field--chip).watt-field--unlabelled:has(watt-field-error, watt-field-hint) {
     min-height: 66px;
   }
 
