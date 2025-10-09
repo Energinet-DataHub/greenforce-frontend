@@ -45,6 +45,7 @@ limitations under the License.
         </watt-expandable-card-title>
 
         @if (!checkIfAtLeastOneRoleIsAssigned(actor.id) && selectMode()) {
+          <!-- eslint-disable-next-line -->
           <watt-field-error>
             {{ t("atleastOneRole") }}
           </watt-field-error>
