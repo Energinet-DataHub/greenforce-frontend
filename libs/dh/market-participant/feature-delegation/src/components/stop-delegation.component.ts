@@ -96,13 +96,13 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
             {{ t('stopDate') }}
           </watt-radio>
           <watt-datepicker [min]="today" [formControl]="stopDelegationForm.controls.stopDate">
-            @if (
-              stopDelegationForm.controls.stopDate.errors?.['dateCannotBeOlderThanTodayValidator']
-            ) {
-              <watt-field-error>
+            <watt-field-error>
+              @if (
+                stopDelegationForm.controls.stopDate.errors?.['dateCannotBeOlderThanTodayValidator']
+              ) {
                 {{ t('stopDateError') }}
-              </watt-field-error>
-            }
+              }
+            </watt-field-error>
           </watt-datepicker>
         </vater-stack>
       </vater-stack>
