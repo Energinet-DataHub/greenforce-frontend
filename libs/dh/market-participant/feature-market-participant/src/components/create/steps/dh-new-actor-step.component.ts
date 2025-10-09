@@ -78,19 +78,19 @@ import { dhMarketParticipantNameMaxLength } from '../../../validators/dh-market-
         [label]="t('glnOrEicNumber')"
       >
         <watt-field-hint>{{ t('glnOrEicHint') }}</watt-field-hint>
-        @if (newActorForm().controls.glnOrEicNumber.hasError('invalidGlnOrEic')) {
-          <watt-field-error>
+        <watt-field-error>
+          @if (newActorForm().controls.glnOrEicNumber.hasError('invalidGlnOrEic')) {
             {{ t('glnOrEicInvalid') }}
-          </watt-field-error>
-        }
+          }
+        </watt-field-error>
       </watt-text-field>
 
       <watt-text-field [formControl]="newActorForm().controls.name" [label]="t('name')">
-        @if (newActorForm().controls.name.hasError('maxlength')) {
-          <watt-field-error>
+        <watt-field-error>
+          @if (newActorForm().controls.name.hasError('maxlength')) {
             {{ t('nameMaxLength', { maxLength: nameMaxLength }) }}
-          </watt-field-error>
-        }
+          }
+        </watt-field-error>
       </watt-text-field>
 
       <watt-dropdown

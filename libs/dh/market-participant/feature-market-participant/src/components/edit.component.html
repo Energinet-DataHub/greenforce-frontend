@@ -59,11 +59,11 @@ limitations under the License.
       [label]="t('departmentEmail')"
       [formControl]="form.controls.departmentEmail"
     >
-      @if (form.controls.departmentEmail.hasError("email")) {
         <watt-field-error>
-          {{ t("invalidEmail") }}
+          @if (form.controls.departmentEmail.hasError("email")) {
+            {{ t("invalidEmail") }}
+          }
         </watt-field-error>
-      }
     </watt-text-field>
 
     <watt-phone-field
