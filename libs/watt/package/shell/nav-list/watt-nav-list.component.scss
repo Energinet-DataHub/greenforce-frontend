@@ -30,6 +30,7 @@ watt-nav-list {
     }
 
     a:hover {
+      transition: background-color linear 0.05s;
       background-color: rgba(0, 137, 138, 0.65);
     }
 
@@ -52,6 +53,7 @@ watt-nav-list {
     .mat-expansion-panel-header.mat-expanded:hover,
     .mat-expansion-panel:not(.mat-expanded)
       .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
+      transition: background-color linear 0.05s;
       background-color: rgba(0, 137, 138, 0.65);
     }
 
