@@ -116,9 +116,11 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
       </div>
       <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
       <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
-      @if (formControl().hasError('invalidPhone')) {
-        <watt-field-error> {{ intl.invalidPhoneNumber }} </watt-field-error>
-      }
+      <watt-field-error>
+        @if (formControl().hasError('invalidPhone')) {
+          {{ intl.invalidPhoneNumber }}
+        }
+      </watt-field-error>
     </watt-field>
   `,
   styleUrl: './watt-phone-field.component.scss',
