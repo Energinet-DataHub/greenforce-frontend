@@ -30,12 +30,12 @@ watt-nav-list {
     }
 
     a:hover {
-      background-color: var(--watt-nav-list-hover-background-color);
+      background-color: rgba(0, 137, 138, 0.65);
     }
 
     a:hover,
     a.active {
-      background-color: var(--watt-nav-list-hover-background-color);
+      background-color: rgba(0, 137, 138, 0.65);
     }
 
     a.active {
@@ -52,7 +52,7 @@ watt-nav-list {
     .mat-expansion-panel-header.mat-expanded:hover,
     .mat-expansion-panel:not(.mat-expanded)
       .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
-      background-color: var(--watt-nav-list-hover-background-color);
+      background-color: rgba(0, 137, 138, 0.65);
     }
 
     .mat-expansion-panel-header {
