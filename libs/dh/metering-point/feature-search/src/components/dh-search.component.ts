@@ -77,17 +77,13 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
             <watt-button variant="icon" icon="search" (click)="onSubmit()" />
           }
 
-          @if (searchControl.hasError('containsLetters')) {
-            <watt-field-error>
+          <watt-field-error>
+            @if (searchControl.hasError('containsLetters')) {
               {{ t('error.containsLetters') }}
-            </watt-field-error>
-          }
-
-          @if (searchControl.hasError('meteringPointIdLength')) {
-            <watt-field-error>
+            } @else if (searchControl.hasError('meteringPointIdLength')) {
               {{ t('error.meteringPointIdLength') }}
-            </watt-field-error>
-          }
+            }
+          </watt-field-error>
         </watt-text-field>
       </div>
 
