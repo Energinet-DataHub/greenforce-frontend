@@ -44,11 +44,11 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
     <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
       <vater-stack direction="row" gap="m" fill="horizontal">
         <watt-text-field [prefix]="'alternateEmail'" [formControl]="domain" [label]="t('domain')">
-          @if (domain.hasError('pattern')) {
-            <watt-field-error>
+          <watt-field-error>
+            @if (domain.hasError('pattern')) {
               {{ t('domainInvalid') }}
-            </watt-field-error>
-          }
+            }
+          </watt-field-error>
         </watt-text-field>
         <watt-button variant="text" (click)="addDomain()">{{ t('add') }}</watt-button>
       </vater-stack>
@@ -61,6 +61,7 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
       </vater-stack>
 
       @if (domains().touched && domains().hasError('required')) {
+        <!-- eslint-disable-next-line -->
         <watt-field-error>
           {{ t('minimumOneDomain') }}
         </watt-field-error>

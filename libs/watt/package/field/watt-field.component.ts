@@ -95,9 +95,11 @@ import { NgTemplateOutlet } from '@angular/common';
       <ng-content select="[popover]" />
       <ng-content select="watt-field-hint" />
       <ng-content select="watt-field-error" />
-      @if (isEmpty()) {
-        <watt-field-error>{{ intl.required }}</watt-field-error>
-      }
+      <watt-field-error>
+        @if (isEmpty()) {
+          {{ intl.required }}
+        }
+      </watt-field-error>
     </ng-template>
   `,
   host: {

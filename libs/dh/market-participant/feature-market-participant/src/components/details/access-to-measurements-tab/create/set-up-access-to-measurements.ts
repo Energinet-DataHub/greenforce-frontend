@@ -82,10 +82,11 @@ import {
             [required]="true"
           >
             <watt-field-hint>{{ t('meteringPointIDsHint') }}</watt-field-hint>
-
-            @if (form.controls.meteringPointIDs.hasError('invalidMeteringPointIDs')) {
-              <watt-field-error>{{ t('invalidMeteringPointIDs') }}</watt-field-error>
-            }
+            <watt-field-error>
+              @if (form.controls.meteringPointIDs.hasError('invalidMeteringPointIDs')) {
+                {{ t('invalidMeteringPointIDs') }}
+              }
+            </watt-field-error>
           </watt-textarea-field>
         </vater-stack>
       </form>

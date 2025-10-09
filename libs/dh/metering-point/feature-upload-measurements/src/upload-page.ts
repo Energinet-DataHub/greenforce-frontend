@@ -133,19 +133,15 @@ import { DhUploadMeasurementsService } from './upload-service';
             [progress]="progress()"
             [showProgressBar]="showProgressBar()"
           >
-            @if (file.errors?.multiple) {
-              <watt-field-error>
+            <watt-field-error>
+              @if (file.errors?.multiple) {
                 {{ t('errors.multiple') }}
-              </watt-field-error>
-            } @else if (file.errors?.type) {
-              <watt-field-error>
+              } @else if (file.errors?.type) {
                 {{ t('errors.type') }}
-              </watt-field-error>
-            } @else if (file.errors) {
-              <watt-field-error>
+              } @else if (file.errors) {
                 {{ t('csvErrors.' + file.errors[0]?.key, { row: file.errors[0]?.index + 2 }) }}
-              </watt-field-error>
-            }
+              }
+            </watt-field-error>
           </watt-dropzone>
         } @else {
           <vater-stack align="stretch" gap="m">

@@ -123,11 +123,11 @@ const maxDaysValidator =
             [max]="maxDate"
             data-testid="requestcalculation.datePeriod"
           >
-            @if (form.controls.period.errors?.maxDays) {
-              <watt-field-error>
+            <watt-field-error>
+              @if (form.controls.period.errors?.maxDays) {
                 {{ t('maxDaysError', { days: form.controls.period.errors?.maxDays }) }}
-              </watt-field-error>
-            }
+              }
+            </watt-field-error>
           </dh-calculations-period-field>
         }
         <dh-calculations-grid-areas-dropdown

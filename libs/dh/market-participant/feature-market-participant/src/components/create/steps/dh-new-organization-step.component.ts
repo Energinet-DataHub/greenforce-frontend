@@ -94,11 +94,11 @@ import { dhCompanyNameMaxLength } from '../../../validators/dh-company-name-max-
         @if (this.lookingForCVR()) {
           <watt-spinner [diameter]="22" />
         }
-        @if (newOrganizationForm().controls.cvrNumber.hasError('invalidCvrNumber')) {
-          <watt-field-error>
+        <watt-field-error>
+          @if (newOrganizationForm().controls.cvrNumber.hasError('invalidCvrNumber')) {
             {{ t('cvrInvalid') }}
-          </watt-field-error>
-        }
+          }
+        </watt-field-error>
       </watt-text-field>
     </vater-stack>
 
@@ -107,11 +107,11 @@ import { dhCompanyNameMaxLength } from '../../../validators/dh-company-name-max-
         [formControl]="newOrganizationForm().controls.companyName"
         [label]="t('companyName')"
       >
-        @if (newOrganizationForm().controls.companyName.hasError('maxlength')) {
-          <watt-field-error>{{
-            t('companyNameMaxLength', { maxLength: dhCompanyNameMaxLength })
-          }}</watt-field-error>
-        }
+        <watt-field-error>
+          @if (newOrganizationForm().controls.companyName.hasError('maxlength')) {
+            {{ t('companyNameMaxLength', { maxLength: dhCompanyNameMaxLength }) }}
+          }
+        </watt-field-error>
       </watt-text-field>
 
       <dh-organization-manage [domains]="newOrganizationForm().controls.domains" />

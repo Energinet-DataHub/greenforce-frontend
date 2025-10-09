@@ -43,23 +43,15 @@ limitations under the License.
         />
 
         <watt-text-field [label]="t('email')" class="email" [formControl]="baseInfo.controls.email">
-          @if (baseInfo.controls.email.hasError("email")) {
-            <watt-field-error>
+          <watt-field-error>
+            @if (baseInfo.controls.email.hasError("email")) {
               {{ t("wrongEmailPattern") }}
-            </watt-field-error>
-          }
-
-          @if (baseInfo.controls.email.hasError("domainDoesNotExist")) {
-            <watt-field-error>
+            } @else if (baseInfo.controls.email.hasError("domainDoesNotExist")) {
               {{ t("domainDoesNotExist") }}
-            </watt-field-error>
-          }
-
-          @if (baseInfo.controls.email.hasError("userAlreadyAssignedActor")) {
-            <watt-field-error>
+            } @else if (baseInfo.controls.email.hasError("userAlreadyAssignedActor")) {
               {{ t("userAlreadyAssignedActor") }}
-            </watt-field-error>
-          }
+            }
+          </watt-field-error>
         </watt-text-field>
 
         @if (baseInfo.controls.email.valid && !inOrganizationMailDomain()) {
@@ -116,6 +108,7 @@ limitations under the License.
           userRoles.controls.selectedUserRoles.hasError("required") &&
           userRoles.controls.selectedUserRoles.touched
         ) {
+          <!-- eslint-disable-next-line -->
           <watt-field-error class="user-role-error">
             {{ t("noUserRolesError") }}
           </watt-field-error>

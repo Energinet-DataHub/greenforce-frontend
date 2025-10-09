@@ -81,9 +81,11 @@ type MarketParticipant = ResultOf<
           align="start"
           (ngSubmit)="form.valid && save()"
         >
-          @if (form.hasError('notUniqueMarketParticipants')) {
-            <watt-field-error>{{ t('notUniqueMarketParticipants') }}</watt-field-error>
-          }
+          <watt-field-error>
+            @if (form.hasError('notUniqueMarketParticipants')) {
+              {{ t('notUniqueMarketParticipants') }}
+            }
+          </watt-field-error>
 
           <watt-dropdown
             [label]="t('discontinuedEntity')"

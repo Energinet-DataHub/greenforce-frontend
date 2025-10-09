@@ -108,11 +108,11 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         [min]="minDate"
         [max]="maxDate()"
       >
-        @if (form.controls.period.errors?.resolutionTransition) {
-          <watt-field-error>
+        <watt-field-error>
+          @if (form.controls.period.errors?.resolutionTransition) {
             {{ t('period.invalid') }}
-          </watt-field-error>
-        }
+          }
+        </watt-field-error>
       </dh-calculations-period-field>
       <dh-calculations-grid-areas-dropdown
         [hidden]="!hasGridAreas()"

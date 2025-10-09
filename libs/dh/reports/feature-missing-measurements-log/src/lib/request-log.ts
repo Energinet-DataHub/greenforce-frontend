@@ -78,9 +78,11 @@ import { DhRequestMissingMeasurementLogService } from './request-log-service';
           [formControl]="form.controls.period"
           data-testid="missingMeasurementsLog.requestLog.datePeriod"
         >
-          @if (form.controls.period.errors?.['maxDays']) {
-            <watt-field-error>{{ t('maxPeriodLength') }}</watt-field-error>
-          }
+          <watt-field-error>
+            @if (form.controls.period.errors?.['maxDays']) {
+              {{ t('maxPeriodLength') }}
+            }
+          </watt-field-error>
         </watt-datepicker>
         <dh-calculations-grid-areas-dropdown
           [period]="period() ?? null"
