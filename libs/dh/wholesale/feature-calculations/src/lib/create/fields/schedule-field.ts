@@ -72,11 +72,11 @@ import { TranslocoDirective } from '@jsverse/transloco';
             [formControl]="datetime()"
             data-testid="scheduleCalculation.date"
           >
-            @if (datetime().errors?.past) {
-              <watt-field-error>
+            <watt-field-error>
+              @if (datetime().errors?.past) {
                 {{ t('past') }}
-              </watt-field-error>
-            }
+              }
+            </watt-field-error>
           </watt-datetime-field>
         }
       </vater-stack>
