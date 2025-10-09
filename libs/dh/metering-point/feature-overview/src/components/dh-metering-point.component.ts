@@ -125,7 +125,7 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
                 }}</span>
 
                 @if (metadata()?.type) {
-                    {{ 'meteringPointType.' + metadata()?.type | transloco }}
+                  {{ 'meteringPointType.' + metadata()?.type | transloco }}
                 } @else {
                   {{ null | dhEmDashFallback }}
                 }
@@ -137,7 +137,9 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
                 class="watt-text-s"
                 *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()"
               >
-                <span class="watt-label watt-space-inline-xs">{{ t('shared.energySupplier') }}</span>
+                <span class="watt-label watt-space-inline-xs">{{
+                  t('shared.energySupplier')
+                }}</span>
 
                 {{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
               </span>
