@@ -105,9 +105,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
                   {{ t('municipalityCodeError.containsLetters') }}
                 } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
                   {{ t('municipalityCodeError.startsWithZero') }}
-                } @else if (
-                  legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
-                ) {
+                } @else if (legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
                   {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
                 }
               </watt-field-error>
@@ -137,8 +135,8 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             {{ t('technicalAddressSection') }}
           </h3>
           <vater-stack align="start" gap="xs" class="checkbox-margin-bottom">
-            <watt-checkbox [formControl]="form.controls.technicalAddressSameAsMeteringPoint">
-              {{ t('addressSameAsMeteringPoint') }}
+            <watt-checkbox [formControl]="form.controls.technicalAddressSameAsLegal">
+              {{ t('addressSameAsLegal') }}
             </watt-checkbox>
             <watt-checkbox [formControl]="form.controls.technicalNameAddressProtection">
               {{ t('nameAddressProtection') }}
@@ -187,9 +185,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
                   {{ t('municipalityCodeError.containsLetters') }}
                 } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
                   {{ t('municipalityCodeError.startsWithZero') }}
-                } @else if (
-                  legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
-                ) {
+                } @else if (legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
                   {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
                 }
               </watt-field-error>

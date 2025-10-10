@@ -57,7 +57,7 @@ export type MoveInAddressDetailsFormType = {
   legalAddressSameAsMeteringPoint: FormControl<boolean>;
   legalAddressGroup: FormGroup<AddressGroup>;
   legalNameAddressProtection: FormControl<boolean>;
-  technicalAddressSameAsMeteringPoint: FormControl<boolean>;
+  technicalAddressSameAsLegal: FormControl<boolean>;
   technicalAddressGroup: FormGroup<AddressGroup>;
   technicalNameAddressProtection: FormControl<boolean>;
 };
