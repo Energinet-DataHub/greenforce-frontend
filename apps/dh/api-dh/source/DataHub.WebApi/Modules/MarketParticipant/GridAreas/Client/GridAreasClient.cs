@@ -97,6 +97,6 @@ public class GridAreasClient(
 
     private static bool ShowAllGridareas(ActorDto actor)
     {
-        return actor.MarketRole.EicFunction is EicFunction.EnergySupplier or EicFunction.SystemOperator or EicFunction.DataHubAdministrator;
+        return actor.MarketRole.EicFunction is EicFunction.EnergySupplier or EicFunction.SystemOperator or EicFunction.DataHubAdministrator or EicFunction.DanishEnergyAgency;
     }
 }
