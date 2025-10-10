@@ -23,7 +23,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattFieldErrorComponent, WattFieldWarningComponent } from '@energinet-datahub/watt/field';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import {
@@ -63,6 +63,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     VaterFlexComponent,
     WattValidationMessageComponent,
     WattFieldErrorComponent,
+    WattFieldWarningComponent,
     WattDatePipe,
     DhScheduleField,
     DhExecutionTypeField,
@@ -112,6 +113,14 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
           <watt-field-error>
             {{ t('period.invalid') }}
           </watt-field-error>
+        } @else if (form.controls.period.errors?.required) {
+          <watt-field-error>
+            {{ t('period.empty') }}
+          </watt-field-error>
+        } @else if (form.controls.period.errors?.existingCalculation) {
+          <watt-field-warning>
+            {{ t('period.warning.' + existingCalculation()?.type) }}
+          </watt-field-warning>
         }
       </dh-calculations-period-field>
       <dh-calculations-grid-areas-dropdown
