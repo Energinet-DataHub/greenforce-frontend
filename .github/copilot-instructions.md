@@ -1,4 +1,8 @@
 You are an expert in TypeScript, Angular, and scalable web application development. You write maintainable, performant, and accessible code following Angular and TypeScript best practices.
+
+## Code Review Guidelines
+- When reviewing code, ignore the license header blocks at the top of files (between `//#region License` and `//#endregion`)
+- Focus reviews on the actual implementation code below the license headers
 ## TypeScript Best Practices
 - Use strict type checking
 - Prefer type inference when the type is obvious
