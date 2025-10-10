@@ -108,7 +108,7 @@ export class DhMoveInComponent extends WattTypedModal<{
     legalContactPhone: this.fb.control<string>(''),
     legalContactMobile: this.fb.control<string>(''),
     legalContactEmail: this.fb.control<string>('', Validators.email),
-    technicalContactSameAsLegal: this.fb.control<boolean>(true),
+    technicalContactSameAsCustomer: this.fb.control<boolean>(true),
     technicalContactName: this.fb.control<string>({ value: '', disabled: true }, [
       Validators.required,
     ]),
@@ -185,17 +185,9 @@ export class DhMoveInComponent extends WattTypedModal<{
   private legalContactSameAsCustomerChanged = toSignal(
     this.contactDetailsForm.controls.legalContactSameAsCustomer.valueChanges
   );
-  private technicalContactSameAsLegalChanged = toSignal(
-    this.contactDetailsForm.controls.technicalContactSameAsLegal.valueChanges
+  private technicalContactSameAsCustomerChanged = toSignal(
+    this.contactDetailsForm.controls.technicalContactSameAsCustomer.valueChanges
   );
-
-  // Add signals for legal contact fields to track their changes
-  private legalContactNameChanged = toSignal(this.contactDetailsForm.controls.legalContactName.valueChanges);
-  private legalContactTitleChanged = toSignal(this.contactDetailsForm.controls.legalContactTitle.valueChanges);
-  private legalContactPhoneChanged = toSignal(this.contactDetailsForm.controls.legalContactPhone.valueChanges);
-  private legalContactMobileChanged = toSignal(this.contactDetailsForm.controls.legalContactMobile.valueChanges);
-  private legalContactEmailChanged = toSignal(this.contactDetailsForm.controls.legalContactEmail.valueChanges);
-
   private legalAddressSameAsMeteringPointAddressChanged = toSignal(
     this.addressDetailsForm.controls.legalAddressSameAsMeteringPoint.valueChanges
   );
@@ -272,40 +264,16 @@ export class DhMoveInComponent extends WattTypedModal<{
     }
   });
 
-  private disableNameInputFromTechnicalContactSameAsLegalEffect = effect(() => {
-    const technicalContactSameAsLegal = this.technicalContactSameAsLegalChanged() ?? true;
+  private disableNameInputFromTechnicalContactSameAsCustomerEffect = effect(() => {
+    const technicalContactSameAsCustomer = this.technicalContactSameAsCustomerChanged() ?? true;
 
-    if (technicalContactSameAsLegal) {
-      // Disable and synchronize all technical contact fields
+    if (technicalContactSameAsCustomer) {
       this.contactDetailsForm.controls.technicalContactName.disable();
-      this.contactDetailsForm.controls.technicalContactTitle.disable();
-      this.contactDetailsForm.controls.technicalContactPhone.disable();
-      this.contactDetailsForm.controls.technicalContactMobile.disable();
-      this.contactDetailsForm.controls.technicalContactEmail.disable();
-
-      // Set initial values from legal contact fields
       this.contactDetailsForm.controls.technicalContactName.setValue(
-        this.contactDetailsForm.controls.legalContactName.value
-      );
-      this.contactDetailsForm.controls.technicalContactTitle.setValue(
-        this.contactDetailsForm.controls.legalContactTitle.value
-      );
-      this.contactDetailsForm.controls.technicalContactPhone.setValue(
-        this.contactDetailsForm.controls.legalContactPhone.value
-      );
-      this.contactDetailsForm.controls.technicalContactMobile.setValue(
-        this.contactDetailsForm.controls.legalContactMobile.value
-      );
-      this.contactDetailsForm.controls.technicalContactEmail.setValue(
-        this.contactDetailsForm.controls.legalContactEmail.value
+        this.privateCustomerForm.controls.name1.value
       );
     } else {
-      // Enable all technical contact fields
       this.contactDetailsForm.controls.technicalContactName.enable();
-      this.contactDetailsForm.controls.technicalContactTitle.enable();
-      this.contactDetailsForm.controls.technicalContactPhone.enable();
-      this.contactDetailsForm.controls.technicalContactMobile.enable();
-      this.contactDetailsForm.controls.technicalContactEmail.enable();
     }
   });
 
@@ -365,39 +333,4 @@ export class DhMoveInComponent extends WattTypedModal<{
     this.toastService.open({ type: 'success', message });
     this.modal().close(true);
   }
-
-  private syncContactFieldsEffect = effect(() => {
-    // Only proceed if technicalContactSameAsLegal is checked
-    if (this.contactDetailsForm.controls.technicalContactSameAsLegal.value) {
-      // Sync name field
-      const legalName = this.legalContactNameChanged();
-      if (legalName !== undefined) {
-        this.contactDetailsForm.controls.technicalContactName.setValue(legalName);
-      }
-
-      // Sync title field
-      const legalTitle = this.legalContactTitleChanged();
-      if (legalTitle !== undefined) {
-        this.contactDetailsForm.controls.technicalContactTitle.setValue(legalTitle);
-      }
-
-      // Sync phone field
-      const legalPhone = this.legalContactPhoneChanged();
-      if (legalPhone !== undefined) {
-        this.contactDetailsForm.controls.technicalContactPhone.setValue(legalPhone);
-      }
-
-      // Sync mobile field
-      const legalMobile = this.legalContactMobileChanged();
-      if (legalMobile !== undefined) {
-        this.contactDetailsForm.controls.technicalContactMobile.setValue(legalMobile);
-      }
-
-      // Sync email field
-      const legalEmail = this.legalContactEmailChanged();
-      if (legalEmail !== undefined) {
-        this.contactDetailsForm.controls.technicalContactEmail.setValue(legalEmail);
-      }
-    }
-  });
 }

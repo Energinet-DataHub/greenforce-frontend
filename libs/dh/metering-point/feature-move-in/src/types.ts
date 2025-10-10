@@ -45,7 +45,7 @@ export type MoveInContactDetailsFormType = {
   legalContactPhone: FormControl<string>;
   legalContactMobile: FormControl<string>;
   legalContactEmail: FormControl<string>;
-  technicalContactSameAsLegal: FormControl<boolean>;
+  technicalContactSameAsCustomer: FormControl<boolean>;
   technicalContactName: FormControl<string>;
   technicalContactTitle: FormControl<string>;
   technicalContactPhone: FormControl<string>;
