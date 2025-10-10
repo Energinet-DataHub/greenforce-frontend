@@ -16,13 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattEmptyStateNotFoundComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 @Component({
   selector: 'dh-404',
@@ -30,25 +31,35 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
     RouterLink,
     TranslocoDirective,
 
-    VaterFlexComponent,
     WattEmptyStateNotFoundComponent,
     WattButtonComponent,
+    VaterStackComponent,
   ],
   styles: `
+    @use '@energinet-datahub/watt/utils' as watt;
+
     watt-empty-state-not-found {
       color: var(--watt-color-primary);
-      width: 50%;
+      width: 80%;
+
+      @include watt.media('>Medium') {
+        width: 700px;
+      }
     }
   `,
   template: `
-    <vater-flex align="center" *transloco="let t; prefix: 'notFound'">
+    <vater-stack justify="center" fill="vertical" *transloco="let t; prefix: 'notFound'">
       <watt-empty-state-not-found />
       <h2>{{ t('title') }}</h2>
       <p class="watt-space-stack-l">{{ t('message') }}</p>
       <watt-button class="watt-space-stack-m" routerLink="/" variant="secondary">{{
         t('action')
       }}</watt-button>
-    </vater-flex>
+    </vater-stack>
   `,
 })
-export class Dh404Component {}
+export class Dh404Component {
+  constructor() {
+    inject(DhApplicationInsights).trackPageView('404 - Page Not Found');
+  }
+}
