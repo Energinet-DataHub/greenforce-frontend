@@ -22,7 +22,7 @@
     "linkingMitId": "Tilknytter MitID"
   },
   "notFound": {
-    "title": "Vi beklager. Siden findes ikke.",
+    "title": "Siden findes ikke.",
     "message": "Det kan skyldes et gammelt bogmærke, forkert URL eller siden ikke findes længere.",
     "action": "Gå til startsiden"
   },
