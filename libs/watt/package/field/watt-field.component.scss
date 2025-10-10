@@ -38,15 +38,15 @@ form.ng-submitted .ng-invalid,
     display: none;
   }
 
-  & watt-field watt-field-error {
+  & watt-field.watt-field--show-errors watt-field-error {
     display: block;
   }
 
-  & watt-field .watt-field-wrapper {
+  & watt-field.watt-field--show-errors .watt-field-wrapper {
     border-color: var(--watt-color-state-danger);
   }
 
-  & watt-field .label {
+  & watt-field.watt-field--show-errors .label {
     color: var(--watt-color-state-danger);
 
     &.required::after {

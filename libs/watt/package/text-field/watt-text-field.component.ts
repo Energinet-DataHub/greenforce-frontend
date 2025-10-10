@@ -64,6 +64,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       [label]="label()"
       [tooltip]="tooltip()"
       matAutocompleteOrigin
+      [showErrors]="showErrors()"
     >
       @if (prefix()) {
         <watt-icon [name]="prefix()" />
@@ -115,7 +116,8 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   formControl = input.required<FormControl>();
   autocompleteOptions = input<string[]>([]);
   autocompleteMatcherFn = input<(value: string, option: string) => boolean>();
-  
+  showErrors = input(true);
+
   /**
    * Whether the input should receive focus when the component is rendered.
    */
@@ -164,7 +166,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
       this.inputField().nativeElement.value = trimmedValue;
       this.formControl().setValue(trimmedValue);
     });
-    
+
     // Programmatically focus the input if autoFocus is true
     if (this.autoFocus()) {
       // Use setTimeout to ensure the element is ready in the DOM

@@ -104,6 +104,7 @@ import { NgTemplateOutlet } from '@angular/common';
     '[class.watt-field--chip]': 'chipMode()',
     '[class.watt-field--unlabelled]': 'unlabelled()',
     '[class.watt-field--disabled]': 'control()?.disabled',
+    '[class.watt-field--show-errors]': 'showErrors()',
   },
 })
 export class WattFieldComponent {
@@ -127,6 +128,7 @@ export class WattFieldComponent {
   errors = signal<ValidationErrors | null>(null);
   isRequired = signal(false);
   isEmpty = computed(() => this.errors()?.['required'] || this.errors()?.['rangeRequired']);
+  showErrors = input(true);
 
   // Used for text fields with autocomplete
   wrapper = viewChild<ElementRef>('wrapper');
