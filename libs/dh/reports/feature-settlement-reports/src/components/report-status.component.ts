@@ -35,8 +35,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       }
       @case ('COMPLETED') {
         <watt-button
-          type="button"
           variant="text"
+          size="small"
           icon="fileDownload"
           (click)="download.emit($event)"
           >{{ t('download') }}</watt-button
