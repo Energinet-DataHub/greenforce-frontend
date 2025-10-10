@@ -164,7 +164,7 @@ export class WattDataTableComponent {
   enablePaginator = input(true);
   count = input<number>();
   autoSize = input(false);
-  variant = input<WATT_CARD_VARIANT>('elevation');
+  variant = input<WATT_CARD_VARIANT>('solid');
   emptyStateIcon = input<WattIcon | 'custom-power' | 'custom-explore' | 'custom-no-results'>(
     'cancel'
   );

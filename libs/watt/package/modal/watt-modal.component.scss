@@ -18,6 +18,11 @@
   --watt-modal-min-height: auto;
   --watt-modal-height: calc(100vh - var(--watt-topbar-height, 0px));
   --watt-modal-content-padding: 0 var(--watt-space-ml);
+  border-radius: var(--watt-radius-l);
+}
+
+:host {
+  border-radius: 20px;
 }
 
 .watt-modal {
