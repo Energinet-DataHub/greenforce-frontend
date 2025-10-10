@@ -295,7 +295,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       meteringPointIDs,
     } = this.form.getRawValue();
 
-    let gridAreaCodes = this.isSpecialMarketRole ? [] : gridAreas;
+    const gridAreaCodes = this.isSpecialMarketRole ? [] : gridAreas;
 
     if (period == null || gridAreaCodes == null || resolution == null) {
       return;
