@@ -21,6 +21,11 @@
     "loginWithMitID": "Login with MitID",
     "linkingMitId": "Linking MitID"
   },
+  "notFound": {
+    "title": "Page not found",
+    "message": "This may be due to an old bookmark, incorrect URL, or the page no longer exists.",
+    "action": "Go to start page"
+  },
   "notificationsCenter": {
     "headline": "Notifications",
     "noNotifications": "No notifications",
