@@ -23,7 +23,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import {
+  dhCprValidator,
+  dhCvrValidator,
+  dhMunicipalityCodeValidator,
+} from '@energinet-datahub/dh/shared/ui-validators';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   MoveInType,
@@ -107,7 +111,7 @@ export class DhMoveInComponent extends WattTypedModal<{
     legalContactTitle: this.fb.control<string>(''),
     legalContactPhone: this.fb.control<string>(''),
     legalContactMobile: this.fb.control<string>(''),
-    legalContactEmail: this.fb.control<string>(''),
+    legalContactEmail: this.fb.control<string>('', Validators.email),
     technicalContactSameAsCustomer: this.fb.control<boolean>(true),
     technicalContactName: this.fb.control<string>({ value: '', disabled: true }, [
       Validators.required,
@@ -115,7 +119,7 @@ export class DhMoveInComponent extends WattTypedModal<{
     technicalContactTitle: this.fb.control<string>(''),
     technicalContactPhone: this.fb.control<string>(''),
     technicalContactMobile: this.fb.control<string>(''),
-    technicalContactEmail: this.fb.control<string>(''),
+    technicalContactEmail: this.fb.control<string>('', Validators.email),
   });
 
   readonly isForeignCompanyFormControl = this.fb.control<boolean>(false);
@@ -138,7 +142,10 @@ export class DhMoveInComponent extends WattTypedModal<{
         this.addressDataInitialValue.citySubdivisionName
       ),
       postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode),
+      municipalityCode: this.fb.control<string>(
+        this.addressDataInitialValue.municipalityCode,
+        dhMunicipalityCodeValidator()
+      ),
       darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
     }),
     legalNameAddressProtection: this.fb.control<boolean>(false),
@@ -159,7 +166,10 @@ export class DhMoveInComponent extends WattTypedModal<{
         this.addressDataInitialValue.citySubdivisionName
       ),
       postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>(this.addressDataInitialValue.municipalityCode),
+      municipalityCode: this.fb.control<string>(
+        this.addressDataInitialValue.municipalityCode,
+        dhMunicipalityCodeValidator()
+      ),
       darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
     }),
     technicalNameAddressProtection: this.fb.control<boolean>(false),
@@ -391,51 +401,5 @@ export class DhMoveInComponent extends WattTypedModal<{
 
     this.toastService.open({ type: 'success', message });
     this.modal().close(true);
-  }
-
-  emptyLegalAddressFormGroup() {
-    // Reset all form controls to empty strings
-    this.addressDetailsForm.controls.legalAddressGroup.reset({
-      streetName: '',
-      buildingNumber: '',
-      floor: '',
-      room: '',
-      postCode: '',
-      cityName: '',
-      countryCode: '',
-      streetCode: '',
-      citySubdivisionName: '',
-      postBox: '',
-      municipalityCode: '',
-      darReference: '',
-    });
-  }
-
-  emptyTechnicalAddressFormGroup() {
-    this.addressDetailsForm.controls.technicalAddressGroup.reset({
-      streetName: '',
-      buildingNumber: '',
-      floor: '',
-      room: '',
-      postCode: '',
-      cityName: '',
-      countryCode: '',
-      streetCode: '',
-      citySubdivisionName: '',
-      postBox: '',
-      municipalityCode: '',
-      darReference: '',
-    });
-  }
-
-  pasteLegalFormDataIntoTechnicalForm() {
-    const legalAddressValues = this.addressDetailsForm.controls.legalAddressGroup.getRawValue();
-    this.addressDetailsForm.controls.technicalAddressGroup.patchValue(legalAddressValues);
-  }
-
-  pasteTechnicalFormDataIntoLegalForm() {
-    const technicalAddressValues =
-      this.addressDetailsForm.controls.technicalAddressGroup.getRawValue();
-    this.addressDetailsForm.controls.legalAddressGroup.patchValue(technicalAddressValues);
   }
 }
