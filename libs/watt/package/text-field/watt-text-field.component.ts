@@ -74,7 +74,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         [attr.aria-label]="label()"
         [attr.type]="type()"
         [attr.placeholder]="placeholder()"
-        [attr.autofocus]="autoFocus() ? true : null"
+        [attr.autofocus]="autoFocus() || null"
         [value]="model()"
         [formControl]="formControl()"
         (blur)="onTouched()"
@@ -142,7 +142,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   autocompleteOptionDeselected = output<void>();
 
   /** @ignore */
-  private element = inject(ElementRef);
+  private readonly element = inject(ElementRef);
 
   /** @ignore */
   inputField = viewChild.required<ElementRef<HTMLInputElement>>('inputField');
@@ -169,8 +169,8 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
     // Programmatically focus the input if autoFocus is true
     if (this.autoFocus()) {
-      // Use setTimeout to ensure the element is ready in the DOM
-      setTimeout(() => {
+      // Use requestAnimationFrame to ensure the element is ready in the DOM
+      requestAnimationFrame(() => {
         this.inputField().nativeElement.focus();
       });
     }

@@ -117,7 +117,7 @@ export class DhSearchComponent {
     nonNullable: true,
   });
 
-  private seachControlChange = toSignal(this.searchControl.valueChanges);
+  private readonly seachControlChange = toSignal(this.searchControl.valueChanges);
 
   meteringPointId = input<string>();
 
