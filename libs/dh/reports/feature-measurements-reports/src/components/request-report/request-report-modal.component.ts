@@ -295,7 +295,9 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       meteringPointIDs,
     } = this.form.getRawValue();
 
-    if (period == null || gridAreas == null || resolution == null) {
+    let gridAreaCodes = this.isSpecialMarketRole ? [] : gridAreas;
+
+    if (period == null || gridAreaCodes == null || resolution == null) {
       return;
     }
 
@@ -306,7 +308,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
             start: period.start,
             end: period.end ? period.end : null,
           },
-          gridAreaCodes: gridAreas,
+          gridAreaCodes,
           preventLargeTextFiles: !allowLargeTextFiles,
           meteringPointTypes:
             meteringPointTypes ?? Object.values(MeasurementsReportMeteringPointType),
