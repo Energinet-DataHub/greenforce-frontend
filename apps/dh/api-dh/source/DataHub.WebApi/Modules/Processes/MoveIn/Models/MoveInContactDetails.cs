@@ -12,22 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Enums;
-
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Models;
 
-public record StartMoveInInput(
-    string CutOffDate,
-    MoveInType MoveInType,
-    string CustomerType,
-    string PrivateCustomerName1,
-    string PrivateCustomerCpr1,
-    string PrivateCustomerName2,
-    string PrivateCustomerCpr2,
-    string BusinessCustomerCompanyName,
-    string BusinessCustomerCvr,
-    bool CustomerIsProtectedAddress,
-    MoveInContactDetails LegalContactDetails,
-    MoveInInstallationAddress LegalAddress,
-    MoveInContactDetails TechnicalContactDetails,
-    MoveInInstallationAddress TechnicalAddress);
+public record MoveInContactDetails(
+    string Name,
+    string Attention,
+    string Phone,
+    string Mobile,
+    string Email);
