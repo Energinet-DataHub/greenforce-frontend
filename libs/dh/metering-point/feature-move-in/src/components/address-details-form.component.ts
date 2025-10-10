@@ -97,7 +97,6 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             <watt-text-field
               [formControl]="legalGroupControls.municipalityCode"
               [label]="t('municipalityCode')"
-              type="text"
               maxLength="3"
             >
               <watt-field-error>
@@ -179,7 +178,6 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             <watt-text-field
               [formControl]="technicalGroupControls.municipalityCode"
               [label]="t('municipalityCode')"
-              type="text"
               maxLength="3"
             >
               <watt-field-error>
