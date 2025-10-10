@@ -40,18 +40,18 @@ export type MoveInCustomerDetailsFormType = {
 
 export type MoveInContactDetailsFormType = {
   legalContactSameAsCustomer: FormControl<boolean>;
-  legalContactName: FormControl<string>;
-  legalContactTitle: FormControl<string>;
-  legalContactPhone: FormControl<string>;
-  legalContactMobile: FormControl<string>;
-  legalContactEmail: FormControl<string>;
-  technicalContactSameAsCustomer: FormControl<boolean>;
-  technicalContactName: FormControl<string>;
-  technicalContactTitle: FormControl<string>;
-  technicalContactPhone: FormControl<string>;
-  technicalContactMobile: FormControl<string>;
-  technicalContactEmail: FormControl<string>;
+  legalContactGroup: FormGroup<ContactDetailsFormGroup>;
+  technicalContactSameAsLegal: FormControl<boolean>;
+  technicalContactGroup: FormGroup<ContactDetailsFormGroup>;
 };
+
+export type ContactDetailsFormGroup = {
+  name: FormControl<string>;
+  title: FormControl<string>;
+  phone: FormControl<string>;
+  mobile: FormControl<string>;
+  email: FormControl<string>;
+}
 
 export type MoveInAddressDetailsFormType = {
   legalAddressSameAsMeteringPoint: FormControl<boolean>;

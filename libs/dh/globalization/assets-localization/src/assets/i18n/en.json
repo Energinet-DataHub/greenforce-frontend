@@ -671,6 +671,7 @@
           "legalContactSection": "Legal contact",
           "technicalContactSection": "Technical contact",
           "contactSameAsCustomer": "Same as customer name",
+          "technicalContactSameAsLegal": "Same as legal contact",
           "contactName": "Contact name",
           "attention": "Attn.",
           "phoneNumber": "Phone number",

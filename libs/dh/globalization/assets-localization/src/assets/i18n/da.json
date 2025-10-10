@@ -672,6 +672,7 @@
           "legalContactSection": "Juridisk kontakt",
           "technicalContactSection": "Teknisk kontakt",
           "contactSameAsCustomer": "Samme som kundenavn",
+          "technicalContactSameAsLegal": "Samme Juridisk kontakt",
           "contactName": "Kontaktnavn",
           "attention": "Att.",
           "phoneNumber": "Telefonnr.",
