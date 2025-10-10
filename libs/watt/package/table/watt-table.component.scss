@@ -70,8 +70,9 @@ watt-table .mat-mdc-table {
   td.mat-mdc-cell {
     display: flex;
     align-items: center;
-    min-height: 56px; /* Magic UX number */
-    padding: var(--watt-space-s) var(--watt-space-m);
+    min-height: 48px; /* Magic UX number */
+    padding: var(--watt-space-xs) var(--watt-space-m);
+    line-height: 18px;
   }
 
   td.mat-mdc-cell.watt-table-cell--expandable {

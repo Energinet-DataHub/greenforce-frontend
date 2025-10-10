@@ -38,11 +38,11 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       #modal
     >
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(false)">
+        <watt-button size="small" variant="secondary" (click)="modal.close(false)">
           {{ t('cancel') }}
         </watt-button>
 
-        <watt-button variant="primary" (click)="modal.close(true)">
+        <watt-button size="small" variant="primary" (click)="modal.close(true)">
           {{ t('confirm') }}
         </watt-button>
       </watt-modal-actions>
