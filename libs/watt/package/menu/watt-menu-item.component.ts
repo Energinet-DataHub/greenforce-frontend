@@ -16,16 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  input,
-  ElementRef,
-  inject,
-  signal,
-  afterNextRender,
-} from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, input } from '@angular/core';
 import { MatMenuItem } from '@angular/material/menu';
 
 @Component({
@@ -33,7 +24,7 @@ import { MatMenuItem } from '@angular/material/menu';
   imports: [MatMenuItem],
   template: `<button mat-menu-item [disabled]="disabled()">
     <span class="watt-menu-item-content">
-      <span class="watt-menu-item-icon" [class.watt-menu-item-icon--show]="menuHasIcons()">
+      <span class="watt-menu-item-icon">
         <ng-content select="watt-icon" />
       </span>
       <ng-content />
@@ -61,10 +52,7 @@ import { MatMenuItem } from '@angular/material/menu';
           height: var(--watt-menu-icon-size);
           flex-shrink: 0;
 
-          /* Hide when menu has no icons */
-          &:not(.watt-menu-item-icon--show) {
-            display: none;
-          }
+          /* Icon space visibility is controlled by parent menu CSS */
 
           watt-icon {
             display: flex;
@@ -84,31 +72,8 @@ import { MatMenuItem } from '@angular/material/menu';
   },
 })
 export class WattMenuItemComponent {
-  private readonly elementRef = inject(ElementRef);
-
   /**
    * Whether the menu item is disabled.
    */
   disabled = input(false);
-
-  /**
-   * Whether this menu item has an icon.
-   * @ignore
-   */
-  private readonly _hasIcon = signal(false);
-  hasIcon = this._hasIcon.asReadonly();
-
-  /**
-   * Whether the parent menu has any items with icons.
-   * @ignore
-   */
-  menuHasIcons = signal(false);
-
-  constructor() {
-    // Check if this menu item has an icon
-    afterNextRender(() => {
-      const iconElement = this.elementRef.nativeElement.querySelector('watt-icon');
-      this._hasIcon.set(!!iconElement);
-    });
-  }
 }
