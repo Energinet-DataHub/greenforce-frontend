@@ -145,7 +145,7 @@ export class DhMoveInComponent extends WattTypedModal<{
       darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
     }),
     legalNameAddressProtection: this.fb.control<boolean>(false),
-    technicalAddressSameAsLegal: this.fb.control<boolean>(true),
+    technicalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
     technicalAddressGroup: this.fb.group({
       streetName: this.fb.control<string>(
         this.addressDataInitialValue.streetName,
@@ -190,65 +190,17 @@ export class DhMoveInComponent extends WattTypedModal<{
   );
 
   // Add signals for legal contact fields to track their changes
-  private legalContactNameChanged = toSignal(
-    this.contactDetailsForm.controls.legalContactName.valueChanges
-  );
-  private legalContactTitleChanged = toSignal(
-    this.contactDetailsForm.controls.legalContactTitle.valueChanges
-  );
-  private legalContactPhoneChanged = toSignal(
-    this.contactDetailsForm.controls.legalContactPhone.valueChanges
-  );
-  private legalContactMobileChanged = toSignal(
-    this.contactDetailsForm.controls.legalContactMobile.valueChanges
-  );
-  private legalContactEmailChanged = toSignal(
-    this.contactDetailsForm.controls.legalContactEmail.valueChanges
-  );
+  private legalContactNameChanged = toSignal(this.contactDetailsForm.controls.legalContactName.valueChanges);
+  private legalContactTitleChanged = toSignal(this.contactDetailsForm.controls.legalContactTitle.valueChanges);
+  private legalContactPhoneChanged = toSignal(this.contactDetailsForm.controls.legalContactPhone.valueChanges);
+  private legalContactMobileChanged = toSignal(this.contactDetailsForm.controls.legalContactMobile.valueChanges);
+  private legalContactEmailChanged = toSignal(this.contactDetailsForm.controls.legalContactEmail.valueChanges);
 
   private legalAddressSameAsMeteringPointAddressChanged = toSignal(
     this.addressDetailsForm.controls.legalAddressSameAsMeteringPoint.valueChanges
   );
-  private technicalAddressSameAsLegalChanged = toSignal(
-    this.addressDetailsForm.controls.technicalAddressSameAsLegal.valueChanges
-  );
-
-  // Add signals for legal address fields
-  private legalAddressStreetNameChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.streetName.valueChanges
-  );
-  private legalAddressBuildingNumberChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.buildingNumber.valueChanges
-  );
-  private legalAddressFloorChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.floor.valueChanges
-  );
-  private legalAddressRoomChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.room.valueChanges
-  );
-  private legalAddressPostCodeChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.postCode.valueChanges
-  );
-  private legalAddressCityNameChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.cityName.valueChanges
-  );
-  private legalAddressCountryCodeChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.countryCode.valueChanges
-  );
-  private legalAddressStreetCodeChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.streetCode.valueChanges
-  );
-  private legalAddressCitySubdivisionNameChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.citySubdivisionName.valueChanges
-  );
-  private legalAddressPostBoxChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.postBox.valueChanges
-  );
-  private legalAddressMunicipalityCodeChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.municipalityCode.valueChanges
-  );
-  private legalAddressDarReferenceChanged = toSignal(
-    this.addressDetailsForm.controls.legalAddressGroup.controls.darReference.valueChanges
+  private technicalAddressSameAsMeteringPointAddressChanged = toSignal(
+    this.addressDetailsForm.controls.technicalAddressSameAsMeteringPoint.valueChanges
   );
 
   private customerTypeEffect = effect(() => {
@@ -371,38 +323,19 @@ export class DhMoveInComponent extends WattTypedModal<{
     }
   );
 
-  private disableAddressInputsFromTechnicalAddressSameAsLegalChangedEffect = effect(() => {
-    const technicalAddressSameAsLegal = this.technicalAddressSameAsLegalChanged() ?? true;
+  private disableAddressInputsFromTechnicalAddressSameAsMeteringPointAddressChangedEffect = effect(
+    () => {
+      const technicalAddressSameAsMeteringPointAddress =
+        this.technicalAddressSameAsMeteringPointAddressChanged() ?? true;
 
-    if (technicalAddressSameAsLegal) {
-      // Disable technical address fields and sync with legal address
-      this.addressDetailsForm.controls.technicalAddressGroup.disable();
-      this.syncTechnicalAddressWithLegal();
-    } else {
-      // Enable technical address fields for independent editing
-      this.addressDetailsForm.controls.technicalAddressGroup.enable();
+      if (technicalAddressSameAsMeteringPointAddress) {
+        this.resetTechnicalAddressFormGroup(this.addressDataInitialValue);
+        this.addressDetailsForm.controls.technicalAddressGroup.disable();
+      } else {
+        this.addressDetailsForm.controls.technicalAddressGroup.enable();
+      }
     }
-  });
-
-  private syncTechnicalAddressWithLegal(): void {
-    const legalAddressGroup = this.addressDetailsForm.controls.legalAddressGroup;
-    const technicalAddressGroup = this.addressDetailsForm.controls.technicalAddressGroup;
-
-    technicalAddressGroup.setValue({
-      streetName: legalAddressGroup.value.streetName ?? '',
-      buildingNumber: legalAddressGroup.value.buildingNumber ?? '',
-      floor: legalAddressGroup.value.floor ?? '',
-      room: legalAddressGroup.value.room ?? '',
-      postCode: legalAddressGroup.value.postCode ?? '',
-      cityName: legalAddressGroup.value.cityName ?? '',
-      countryCode: legalAddressGroup.value.countryCode ?? '',
-      streetCode: legalAddressGroup.value.streetCode ?? '',
-      citySubdivisionName: legalAddressGroup.value.citySubdivisionName ?? '',
-      postBox: legalAddressGroup.value.postBox ?? '',
-      municipalityCode: legalAddressGroup.value.municipalityCode ?? '',
-      darReference: legalAddressGroup.value.darReference ?? '',
-    });
-  }
+  );
 
   private resetLegalAddressFormGroup(data: AddressData) {
     this.addressDetailsForm.controls.legalAddressGroup.reset(data);
@@ -436,72 +369,35 @@ export class DhMoveInComponent extends WattTypedModal<{
   private syncContactFieldsEffect = effect(() => {
     // Only proceed if technicalContactSameAsLegal is checked
     if (this.contactDetailsForm.controls.technicalContactSameAsLegal.value) {
-      this.syncContactFieldValues();
+      // Sync name field
+      const legalName = this.legalContactNameChanged();
+      if (legalName !== undefined) {
+        this.contactDetailsForm.controls.technicalContactName.setValue(legalName);
+      }
+
+      // Sync title field
+      const legalTitle = this.legalContactTitleChanged();
+      if (legalTitle !== undefined) {
+        this.contactDetailsForm.controls.technicalContactTitle.setValue(legalTitle);
+      }
+
+      // Sync phone field
+      const legalPhone = this.legalContactPhoneChanged();
+      if (legalPhone !== undefined) {
+        this.contactDetailsForm.controls.technicalContactPhone.setValue(legalPhone);
+      }
+
+      // Sync mobile field
+      const legalMobile = this.legalContactMobileChanged();
+      if (legalMobile !== undefined) {
+        this.contactDetailsForm.controls.technicalContactMobile.setValue(legalMobile);
+      }
+
+      // Sync email field
+      const legalEmail = this.legalContactEmailChanged();
+      if (legalEmail !== undefined) {
+        this.contactDetailsForm.controls.technicalContactEmail.setValue(legalEmail);
+      }
     }
   });
-
-  private syncContactFieldValues(): void {
-    const technicalFields = {
-      name: this.contactDetailsForm.controls.technicalContactName,
-      title: this.contactDetailsForm.controls.technicalContactTitle,
-      phone: this.contactDetailsForm.controls.technicalContactPhone,
-      mobile: this.contactDetailsForm.controls.technicalContactMobile,
-      email: this.contactDetailsForm.controls.technicalContactEmail,
-    };
-
-    const legalFieldChanges = [
-      { signal: this.legalContactNameChanged(), control: technicalFields.name },
-      { signal: this.legalContactTitleChanged(), control: technicalFields.title },
-      { signal: this.legalContactPhoneChanged(), control: technicalFields.phone },
-      { signal: this.legalContactMobileChanged(), control: technicalFields.mobile },
-      { signal: this.legalContactEmailChanged(), control: technicalFields.email },
-    ];
-
-    // Apply each legal field change to its corresponding technical field
-    legalFieldChanges.forEach(({ signal, control }) => {
-      if (signal !== undefined) {
-        control.setValue(signal);
-      }
-    });
-  }
-
-  private syncAddressFieldsEffect = effect(() => {
-    // Only proceed if technicalAddressSameAsLegal is checked
-    if (this.addressDetailsForm.controls.technicalAddressSameAsLegal.value) {
-      this.syncAddressFieldValues();
-    }
-  });
-
-  private syncAddressFieldValues(): void {
-    const technicalGroup = this.addressDetailsForm.controls.technicalAddressGroup.controls;
-
-    // Define mapping between legal address signals and technical address controls
-    const fieldMappings = [
-      { signal: this.legalAddressStreetNameChanged(), control: technicalGroup.streetName },
-      { signal: this.legalAddressBuildingNumberChanged(), control: technicalGroup.buildingNumber },
-      { signal: this.legalAddressFloorChanged(), control: technicalGroup.floor },
-      { signal: this.legalAddressRoomChanged(), control: technicalGroup.room },
-      { signal: this.legalAddressPostCodeChanged(), control: technicalGroup.postCode },
-      { signal: this.legalAddressCityNameChanged(), control: technicalGroup.cityName },
-      { signal: this.legalAddressCountryCodeChanged(), control: technicalGroup.countryCode },
-      { signal: this.legalAddressStreetCodeChanged(), control: technicalGroup.streetCode },
-      {
-        signal: this.legalAddressCitySubdivisionNameChanged(),
-        control: technicalGroup.citySubdivisionName,
-      },
-      { signal: this.legalAddressPostBoxChanged(), control: technicalGroup.postBox },
-      {
-        signal: this.legalAddressMunicipalityCodeChanged(),
-        control: technicalGroup.municipalityCode,
-      },
-      { signal: this.legalAddressDarReferenceChanged(), control: technicalGroup.darReference },
-    ];
-
-    // Apply each legal field change to its corresponding technical field
-    fieldMappings.forEach(({ signal, control }) => {
-      if (signal !== undefined) {
-        control.setValue(signal);
-      }
-    });
-  }
 }

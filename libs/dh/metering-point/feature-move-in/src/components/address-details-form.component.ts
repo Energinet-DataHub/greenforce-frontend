@@ -137,8 +137,8 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             {{ t('technicalAddressSection') }}
           </h3>
           <vater-stack align="start" gap="xs" class="checkbox-margin-bottom">
-            <watt-checkbox [formControl]="form.controls.technicalAddressSameAsLegal">
-              {{ t('addressSameAsLegalAddress') }}
+            <watt-checkbox [formControl]="form.controls.technicalAddressSameAsMeteringPoint">
+              {{ t('addressSameAsMeteringPoint') }}
             </watt-checkbox>
             <watt-checkbox [formControl]="form.controls.technicalNameAddressProtection">
               {{ t('nameAddressProtection') }}
