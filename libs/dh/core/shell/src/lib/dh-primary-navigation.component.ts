@@ -46,6 +46,7 @@ import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
     `
       :host {
         display: block;
+        padding: var(--watt-space-s);
       }
     `,
   ],
