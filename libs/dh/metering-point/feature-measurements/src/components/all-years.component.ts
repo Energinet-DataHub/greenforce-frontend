@@ -19,10 +19,9 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, computed, effect, inject, input, LOCALE_ID } from '@angular/core';
 
-import qs from 'qs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WattSupportedLocales } from '@energinet-datahub/watt/date';
+import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
@@ -122,7 +121,7 @@ export class DhMeasurementsAllYearsComponent {
     if (!year) return;
 
     this.router.navigate(['../', this.getLink('year')], {
-      queryParams: { filters: qs.stringify({ year }) },
+      queryParams: { filter: dayjs(`${year}`, 'YYYY').format('YYYY-MM-DD') },
       relativeTo: this.route,
       queryParamsHandling: 'merge',
     });

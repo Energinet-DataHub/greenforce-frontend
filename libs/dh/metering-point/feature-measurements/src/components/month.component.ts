@@ -21,7 +21,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
 
-import qs from 'qs';
 import { debounceTime, map, startWith } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -34,11 +33,10 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-
+import { dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 // import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet-datahub/watt/yearmonth-field';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -51,6 +49,7 @@ import {
 // import { DhCircleComponent } from './circle.component';
 import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
+import { persistDateFilter } from '../utils/persist-date-filter';
 
 @Component({
   selector: 'dh-measurements-month',
@@ -63,7 +62,6 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
     WattDataTableComponent,
     WattDataFiltersComponent,
     // WattSlideToggleComponent,
-    WattQueryParamsDirective,
 
     VaterStackComponent,
 
@@ -92,7 +90,7 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
       *transloco="let t; read: 'meteringPoint.measurements'"
     >
       <watt-data-filters *transloco="let t; prefix: 'meteringPoint.measurements.filters'">
-        <form wattQueryParams [formGroup]="form">
+        <form [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
             <watt-yearmonth-field
               [formControl]="form.controls.yearMonth"
@@ -165,10 +163,15 @@ export class DhMeasurementsMonthComponent {
   });
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
+  private dateFilter = persistDateFilter();
   form = this.fb.group({
-    yearMonth: this.fb.control<string>(dayjs().format(YEARMONTH_FORMAT)),
+    yearMonth: this.fb.control<string>(this.dateFilter().format(YEARMONTH_FORMAT)),
     showOnlyChangedValues: this.fb.control(false),
   });
+
+  month = dhFormControlToSignal(this.form.controls.yearMonth);
+  filterEffect = effect(() => this.dateFilter.update((d) => d.month(dayjs(this.month()).month())));
+
   meteringPointId = input.required<string>();
   query = lazyQuery(GetAggregatedMeasurementsForMonthDocument);
   Resolution = Resolution;
@@ -243,7 +246,7 @@ export class DhMeasurementsMonthComponent {
     if (!date) return;
 
     this.router.navigate(['../', this.getLink('day')], {
-      queryParams: { filters: qs.stringify({ date: dayjs(date).format('YYYY-MM-DD') }) },
+      queryParams: { filter: dayjs(date).format('YYYY-MM-DD') },
       relativeTo: this.route,
       queryParamsHandling: 'merge',
     });
