@@ -1905,7 +1905,16 @@
         "period": {
           "label": "Calculation period",
           "invalid": "Invalid period",
-          "pending": "Validating period"
+          "pending": "Validating period",
+          "empty": "Period required",
+          "warning": {
+            "BALANCE_FIXING": "Balance fixing has been carried out for the period",
+            "WHOLESALE_FIXING": "Wholesale fixing has been carried out for the period",
+            "FIRST_CORRECTION_SETTLEMENT": "Correction settlement has been carried out for the period",
+            "SECOND_CORRECTION_SETTLEMENT": "Correction settlement has been carried out for the period",
+            "THIRD_CORRECTION_SETTLEMENT": "Correction settlement has been carried out for the period",
+            "CAPACITY_SETTLEMENT": "Capacity settlement has been carried out for the period"
+          }
         },
         "gridArea": {
           "label": "Grid areas",

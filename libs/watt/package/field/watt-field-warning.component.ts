@@ -16,8 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-export { WattFieldComponent } from './watt-field.component';
-export { WattFieldErrorComponent } from './watt-field-error.component';
-export { WattFieldHintComponent } from './watt-field-hint.component';
-export { WattFieldWarningComponent } from './watt-field-warning.component';
-export { WattFieldIntlService } from './watt-field-intl.service';
+import { Component, ViewEncapsulation } from '@angular/core';
+
+@Component({
+  selector: 'watt-field-warning',
+  template: `<ng-content />`,
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    `
+      watt-field-warning {
+        color: var(--watt-color-state-warning);
+      }
+    `,
+  ],
+})
+export class WattFieldWarningComponent {}

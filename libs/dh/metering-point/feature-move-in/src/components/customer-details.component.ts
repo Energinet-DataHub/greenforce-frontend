@@ -20,6 +20,8 @@ import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { MoveInType } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -33,7 +35,7 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
+import { MoveInCustomerDetailsFormType } from '../types';
 
 @Component({
   selector: 'dh-customer-details',
