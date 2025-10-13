@@ -18,11 +18,15 @@
 //#endregion
 import { type FormControl, type FormGroup } from '@angular/forms';
 import type { ResultOf } from '@graphql-typed-document-node/core';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import {
+  GetMeteringPointByIdDocument,
+  MoveInType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type MoveInCustomerDetailsFormType = {
   cutOffDate: FormControl<Date>;
-  moveInType: FormControl<string>;
+  moveInType: FormControl<MoveInType | null>;
   customerType: FormControl<'private' | 'business'>;
   privateCustomer?: FormGroup<{
     name1: FormControl<string>;
@@ -91,11 +95,6 @@ type AddressGroup = {
   municipalityCode: FormControl<string>;
   darReference: FormControl<string>;
 };
-
-export enum MoveInType {
-  Ordinary = 'E65',
-  Secondary = 'D29',
-}
 
 export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
 
