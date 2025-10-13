@@ -1456,8 +1456,8 @@
         "Dk1": "DK1",
         "Dk2": "DK2"
       },
-      "areaTypePlaceholder": "Vælg type",
-      "statusTypePlaceholder": "Vælg status",
+      "areaTypePlaceholder": "Type",
+      "statusTypePlaceholder": "Status",
       "status": {
         "Created": "Oprettet",
         "Active": "Aktiv",
