@@ -11,41 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-:host {
-  display: block;
-}
 
-.sidenav-container {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-}
+namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Enums;
 
-.sidenav {
-  display: flex;
-  justify-content: start;
-}
-
-.selected-actor-container {
-  margin-top: auto;
-  padding: var(--watt-space-m);
-}
-
-.logo--sidenav {
-  width: 60%;
-  margin: var(--watt-space-m) 0;
-}
-
-.toolbar {
-  &__heading {
-    margin-left: var(--watt-space-m);
-  }
-
-  &__actions {
-    align-items: center;
-    display: flex;
-    gap: 1rem;
-    margin-left: auto;
-    margin-right: var(--watt-space-s);
-  }
+public enum MoveInType
+{
+    E65,
+    D29,
 }

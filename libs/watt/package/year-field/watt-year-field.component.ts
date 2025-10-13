@@ -122,6 +122,7 @@ export const YEAR_FORMAT = 'YYYY';
       </div>
       <ng-content />
       <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
+      <ng-content select="watt-field-warning" ngProjectAs="watt-field-warning" />
       <ng-content select="watt-field-hint" ngProjectAs="watt-field-hint" />
     </watt-field>
 
