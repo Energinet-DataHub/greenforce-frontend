@@ -64,6 +64,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       [label]="label()"
       [tooltip]="tooltip()"
       matAutocompleteOrigin
+      [showErrors]="showErrors()"
     >
       @if (prefix()) {
         <watt-icon [name]="prefix()" />
@@ -73,6 +74,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         [attr.aria-label]="label()"
         [attr.type]="type()"
         [attr.placeholder]="placeholder()"
+        [attr.autofocus]="autoFocus() || null"
         [value]="model()"
         [formControl]="formControl()"
         (blur)="onTouched()"
@@ -114,6 +116,12 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   formControl = input.required<FormControl>();
   autocompleteOptions = input<string[]>([]);
   autocompleteMatcherFn = input<(value: string, option: string) => boolean>();
+  showErrors = input(true);
+
+  /**
+   * Whether the input should receive focus when the component is rendered.
+   */
+  autoFocus = input(false);
 
   /** @ignore */
   autocompleteRef = viewChild.required(MatAutocomplete);
@@ -134,7 +142,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   autocompleteOptionDeselected = output<void>();
 
   /** @ignore */
-  private element = inject(ElementRef);
+  private readonly element = inject(ElementRef);
 
   /** @ignore */
   inputField = viewChild.required<ElementRef<HTMLInputElement>>('inputField');
@@ -158,6 +166,14 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
       this.inputField().nativeElement.value = trimmedValue;
       this.formControl().setValue(trimmedValue);
     });
+
+    // Programmatically focus the input if autoFocus is true
+    if (this.autoFocus()) {
+      // Use requestAnimationFrame to ensure the element is ready in the DOM
+      requestAnimationFrame(() => {
+        this.inputField().nativeElement.focus();
+      });
+    }
   }
 
   /** @ignore */
