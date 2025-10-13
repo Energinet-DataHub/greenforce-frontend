@@ -1914,7 +1914,16 @@
         "period": {
           "label": "Beregningsperiode",
           "invalid": "Ugyldig periode",
-          "pending": "Validerer periode"
+          "pending": "Validerer periode",
+          "empty": "Periode påkrævet",
+          "warning": {
+            "BALANCE_FIXING": "Der er kørt balancefiksering for perioden",
+            "WHOLESALE_FIXING": "Der er kørt engrosfiksering for perioden",
+            "FIRST_CORRECTION_SETTLEMENT": "Der er kørt korrektionsafregning for perioden",
+            "SECOND_CORRECTION_SETTLEMENT": "Der er kørt korrektionsafregning for perioden",
+            "THIRD_CORRECTION_SETTLEMENT": "Der er kørt korrektionsafregning for perioden",
+            "CAPACITY_SETTLEMENT": "Der er kørt effektbetaling for perioden"
+          }
         },
         "gridArea": {
           "label": "Netområder",
