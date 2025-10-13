@@ -19,4 +19,5 @@
 export { WattFieldComponent } from './watt-field.component';
 export { WattFieldErrorComponent } from './watt-field-error.component';
 export { WattFieldHintComponent } from './watt-field-hint.component';
+export { WattFieldWarningComponent } from './watt-field-warning.component';
 export { WattFieldIntlService } from './watt-field-intl.service';

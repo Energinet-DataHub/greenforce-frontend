@@ -16,4 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-export { WattExpansionComponent } from './expansion.component';
+import { Component, ViewEncapsulation } from '@angular/core';
+
+@Component({
+  selector: 'watt-field-warning',
+  template: `<ng-content />`,
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    `
+      watt-field-warning {
+        color: var(--watt-color-state-warning);
+      }
+    `,
+  ],
+})
+export class WattFieldWarningComponent {}
