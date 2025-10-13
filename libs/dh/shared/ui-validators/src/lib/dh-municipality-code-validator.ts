@@ -16,9 +16,26 @@
  * limitations under the License.
  */
 //#endregion
-export { dhCvrValidator } from './lib/dh-cvr.validator';
-export { dhCprValidator } from './lib/dh-cpr.validator';
-export { dhDomainValidator } from './lib/dh-domain.validator';
-export { dhGlnOrEicValidator } from './lib/dh-gln-or-eic.validator';
-export { dhFirstPartEmailValidator } from './lib/dh-first-part-mail.validator';
-export { dhMunicipalityCodeValidator } from './lib/dh-municipality-code-validator';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
+export function dhMunicipalityCodeValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.value === '' || control.value === null) {
+      return null;
+    }
+
+    if (/[a-zA-Z]/.test(control.value)) {
+      return { containsLetters: true };
+    }
+
+    if (/^0/.test(control.value)) {
+      return { startsWithZero: true };
+    }
+
+    if (/^\d{3}$/.test(control.value)) {
+      return null;
+    }
+
+    return { invalidMunicipalityCodeLength: true };
+  };
+}
