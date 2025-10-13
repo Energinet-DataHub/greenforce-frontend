@@ -681,10 +681,13 @@
           "attention": "Att.",
           "phoneNumber": "Telefonnr.",
           "mobile": "Mobil",
-          "email": "E-mail adresse"
+          "email": "E-mail adresse",
+          "invalidEmail": "Ugyldig e-mail"
         },
         "addressDetails": {
           "label": "Adresseoplysninger",
+          "legalAddressSection": "Juridisk adresse",
+          "technicalAddressSection": "Teknisk adresse",
           "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
           "street": "Vejnavn",
           "houseNumber": "Husnummer",
@@ -693,10 +696,15 @@
           "postalCode": "Postnummer",
           "city": "Bynavn",
           "country": "Land",
-          "roadCode": "Vejkode",
-          "postalDistrict": "Postdistrikt",
+          "streetCode": "Vejkode",
+          "supplementaryCityName": "Supplerende bynavn",
           "postBox": "Postboks",
           "municipalityCode": "Kommunekode",
+          "municipalityCodeError": {
+            "containsLetters": "Må ikke indeholde bogstaver",
+            "startsWithZero": "Må ikke starte med 0",
+            "invalidMunicipalityCodeLength": "Skal bestå af 3 cifre"
+          },
           "darReference": "Dar reference",
           "nameAddressProtection": "Navne- og adressebeskyttelse"
         },
@@ -1461,8 +1469,8 @@
         "Dk1": "DK1",
         "Dk2": "DK2"
       },
-      "areaTypePlaceholder": "Vælg type",
-      "statusTypePlaceholder": "Vælg status",
+      "areaTypePlaceholder": "Type",
+      "statusTypePlaceholder": "Status",
       "status": {
         "Created": "Oprettet",
         "Active": "Aktiv",

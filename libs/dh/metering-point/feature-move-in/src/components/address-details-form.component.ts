@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, output } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -26,7 +26,7 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { MoveInAddressDetailsFormType } from '../types';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   selector: 'dh-address-details-form',
@@ -38,8 +38,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
     WattTextFieldComponent,
     DhDropdownTranslatorDirective,
     VaterFlexComponent,
-    WattButtonComponent,
     VaterStackComponent,
+    WattFieldErrorComponent,
   ],
   template: `
     @let form = addressDetailsForm();
@@ -50,19 +50,20 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       [formGroup]="form"
       *transloco="let t; prefix: 'meteringPoint.moveIn.steps.addressDetails'"
     >
-      <vater-flex direction="row" align="center" justify="space-around">
+      <vater-flex direction="row" align="center" justify="space-between" gap="xl">
         <!-- Legal -->
-        <vater-flex align="stretch" class="flex-grow-5">
-          <vater-stack direction="row" justify="space-between">
+        <vater-flex align="stretch">
+          <h3>
+            {{ t('legalAddressSection') }}
+          </h3>
+
+          <vater-stack align="start" gap="xs" class="checkbox-margin-bottom">
             <watt-checkbox [formControl]="form.controls.legalAddressSameAsMeteringPoint">
               {{ t('addressSameAsMeteringPoint') }}
             </watt-checkbox>
-            <watt-button
-              [disabled]="legalGroupControls.streetName.disabled"
-              (click)="resetLegalForm.emit()"
-              variant="icon"
-              icon="refresh"
-            />
+            <watt-checkbox [formControl]="form.controls.legalNameAddressProtection">
+              {{ t('nameAddressProtection') }}
+            </watt-checkbox>
           </vater-stack>
 
           <watt-text-field [formControl]="legalGroupControls.streetName" [label]="t('street')" />
@@ -92,57 +93,55 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
             [label]="t('country')"
           />
 
-          <watt-text-field [formControl]="legalGroupControls.streetCode" [label]="t('roadCode')" />
+          <vater-flex direction="row" gap="m" justify="space-between">
+            <watt-text-field
+              [formControl]="legalGroupControls.municipalityCode"
+              [label]="t('municipalityCode')"
+              maxLength="3"
+            >
+              <watt-field-error>
+                @if (legalGroupControls.municipalityCode.hasError('containsLetters')) {
+                  {{ t('municipalityCodeError.containsLetters') }}
+                } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
+                  {{ t('municipalityCodeError.startsWithZero') }}
+                } @else if (
+                  legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
+                ) {
+                  {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
+                }
+              </watt-field-error>
+            </watt-text-field>
+            <watt-text-field
+              [formControl]="legalGroupControls.streetCode"
+              [label]="t('streetCode')"
+            />
+          </vater-flex>
 
-          <watt-text-field
-            [formControl]="legalGroupControls.citySubdivisionName"
-            [label]="t('postalDistrict')"
-          />
-
-          <watt-text-field [formControl]="legalGroupControls.postBox" [label]="t('postBox')" />
-
-          <watt-text-field
-            [formControl]="legalGroupControls.municipalityCode"
-            [label]="t('municipalityCode')"
-          />
+          <vater-flex direction="row" gap="m" justify="space-between">
+            <watt-text-field
+              [formControl]="legalGroupControls.citySubdivisionName"
+              [label]="t('supplementaryCityName')"
+            />
+            <watt-text-field [formControl]="legalGroupControls.postBox" [label]="t('postBox')" />
+          </vater-flex>
 
           <watt-text-field
             [formControl]="legalGroupControls.darReference"
             [label]="t('darReference')"
           />
-
-          <watt-checkbox [formControl]="form.controls.legalNameAddressProtection">
-            {{ t('nameAddressProtection') }}
-          </watt-checkbox>
         </vater-flex>
-
-        <vater-stack>
-          <watt-button
-            [disabled]="technicalGroupControls.streetName.disabled"
-            (click)="pasteLegalFormDataIntoTechnicalForm.emit()"
-            variant="icon"
-            icon="right"
-          />
-          <watt-button
-            [disabled]="legalGroupControls.streetName.disabled"
-            (click)="pasteTechnicalFormDataIntoLegalForm.emit()"
-            variant="icon"
-            icon="left"
-          />
-        </vater-stack>
-
         <!-- Technical -->
-        <vater-flex align="stretch" class="flex-grow-5">
-          <vater-stack direction="row" justify="space-between">
+        <vater-flex align="stretch">
+          <h3>
+            {{ t('technicalAddressSection') }}
+          </h3>
+          <vater-stack align="start" gap="xs" class="checkbox-margin-bottom">
             <watt-checkbox [formControl]="form.controls.technicalAddressSameAsMeteringPoint">
               {{ t('addressSameAsMeteringPoint') }}
             </watt-checkbox>
-            <watt-button
-              [disabled]="technicalGroupControls.streetName.disabled"
-              (click)="resetTechnicalForm.emit()"
-              variant="icon"
-              icon="refresh"
-            />
+            <watt-checkbox [formControl]="form.controls.technicalNameAddressProtection">
+              {{ t('nameAddressProtection') }}
+            </watt-checkbox>
           </vater-stack>
 
           <watt-text-field
@@ -174,43 +173,58 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
             [options]="countryOptions"
             [label]="t('country')"
           />
-          <watt-text-field
-            [formControl]="technicalGroupControls.streetCode"
-            [label]="t('roadCode')"
-          />
-          <watt-text-field
-            [formControl]="technicalGroupControls.citySubdivisionName"
-            [label]="t('postalDistrict')"
-          />
-          <watt-text-field [formControl]="technicalGroupControls.postBox" [label]="t('postBox')" />
-          <watt-text-field
-            [formControl]="technicalGroupControls.municipalityCode"
-            [label]="t('municipalityCode')"
-          />
+
+          <vater-flex direction="row" gap="m" justify="space-between">
+            <watt-text-field
+              [formControl]="technicalGroupControls.municipalityCode"
+              [label]="t('municipalityCode')"
+              maxLength="3"
+            >
+              <watt-field-error>
+                @if (legalGroupControls.municipalityCode.hasError('containsLetters')) {
+                  {{ t('municipalityCodeError.containsLetters') }}
+                } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
+                  {{ t('municipalityCodeError.startsWithZero') }}
+                } @else if (
+                  legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
+                ) {
+                  {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
+                }
+              </watt-field-error>
+            </watt-text-field>
+            <watt-text-field
+              [formControl]="technicalGroupControls.streetCode"
+              [label]="t('streetCode')"
+            />
+          </vater-flex>
+
+          <vater-flex direction="row" gap="m" justify="space-between">
+            <watt-text-field
+              [formControl]="technicalGroupControls.citySubdivisionName"
+              [label]="t('supplementaryCityName')"
+            />
+            <watt-text-field
+              [formControl]="technicalGroupControls.postBox"
+              [label]="t('postBox')"
+            />
+          </vater-flex>
+
           <watt-text-field
             [formControl]="technicalGroupControls.darReference"
             [label]="t('darReference')"
           />
-
-          <watt-checkbox [formControl]="form.controls.technicalNameAddressProtection">
-            {{ t('nameAddressProtection') }}
-          </watt-checkbox>
         </vater-flex>
       </vater-flex>
     </form>
   `,
   styles: `
-    .flex-grow-5 {
-      flex-grow: 5;
+    .checkbox-margin-bottom {
+      margin-bottom: var(--watt-space-m);
     }
   `,
 })
 export class DhAddressDetailsFormComponent {
   addressDetailsForm = input.required<FormGroup<MoveInAddressDetailsFormType>>();
-  resetLegalForm = output();
-  resetTechnicalForm = output();
-  pasteLegalFormDataIntoTechnicalForm = output();
-  pasteTechnicalFormDataIntoLegalForm = output();
   countryOptions: WattDropdownOptions = [
     { value: 'DK', displayValue: 'DK' },
     { value: 'SE', displayValue: 'SE' },

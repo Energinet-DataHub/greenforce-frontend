@@ -24,6 +24,7 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { MoveInContactDetailsFormType } from '../types';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   selector: 'dh-contact-details-form',
@@ -34,6 +35,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
     WattTextFieldComponent,
     WattPhoneFieldComponent,
     VaterFlexComponent,
+    WattFieldErrorComponent,
   ],
   template: `
     @let form = contactDetailsForm();
@@ -75,7 +77,13 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
             [formControl]="form.controls.legalContactEmail"
             [label]="t('email')"
             type="email"
-          />
+          >
+            <watt-field-error>
+              @if (form.controls.legalContactEmail.hasError('email')) {
+                {{ t('invalidEmail') }}
+              }
+            </watt-field-error>
+          </watt-text-field>
         </vater-flex>
         <!-- Technical Contact Section -->
         <vater-flex align="stretch">
@@ -106,7 +114,14 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
           <watt-text-field
             [formControl]="form.controls.technicalContactEmail"
             [label]="t('email')"
-          />
+            type="email"
+          >
+            <watt-field-error>
+              @if (form.controls.technicalContactEmail.invalid) {
+                {{ t('invalidEmail') }}
+              }
+            </watt-field-error>
+          </watt-text-field>
         </vater-flex>
       </vater-flex>
     </form>
