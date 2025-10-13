@@ -1835,6 +1835,30 @@ input MeteringPointProcessSortInput {
   actorRole: SortEnumType
 }
 
+input MoveInContactDetailsInput {
+  name: String!
+  attention: String!
+  phone: String!
+  mobile: String!
+  email: String!
+}
+
+input MoveInInstallationAddressInput {
+  streetName: String!
+  streetCode: String!
+  buildingNumber: String!
+  floor: String!
+  room: String!
+  postCode: String!
+  postBox: String!
+  cityName: String!
+  citySubDivisionName: String!
+  municipalityCode: String!
+  countryCode: String!
+  darReference: String!
+  washInstructions: WashInstructions!
+}
+
 input OrganizationSortInput {
   name: SortEnumType
   businessRegisterIdentifier: SortEnumType
@@ -1977,7 +2001,20 @@ input SendMeasurementsRequestV2Input {
 }
 
 input StartMoveInInput {
-  name1: String!
+  cutOffDate: String!
+  moveInType: MoveInType!
+  customerType: String!
+  privateCustomerName1: String!
+  privateCustomerCpr1: String!
+  privateCustomerName2: String!
+  privateCustomerCpr2: String!
+  businessCustomerCompanyName: String!
+  businessCustomerCvr: String!
+  customerIsProtectedAddress: Boolean!
+  legalContactDetails: MoveInContactDetailsInput!
+  legalAddress: MoveInInstallationAddressInput!
+  technicalContactDetails: MoveInContactDetailsInput!
+  technicalAddress: MoveInInstallationAddressInput!
 }
 
 input StopDelegationInput {
@@ -2552,6 +2589,11 @@ enum MeteringPointType {
   TOTAL_CONSUMPTION
   NON_PROFILED_CONSUMPTION
   EXCHANGE
+}
+
+enum MoveInType {
+  E65
+  D29
 }
 
 enum NotificationType {

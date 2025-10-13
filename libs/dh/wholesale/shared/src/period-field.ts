@@ -63,6 +63,7 @@ import { NgTemplateOutlet } from '@angular/common';
   template: `
     <ng-container *transloco="let t; read: 'wholesale.calculations'">
       <ng-template #error><ng-content select="watt-field-error" /></ng-template>
+      <ng-template #warning><ng-content select="watt-field-warning" /></ng-template>
       <ng-template #hint>
         @if (pending()) {
           <watt-field-hint class="watt-dots">{{ t('create.period.pending') }}</watt-field-hint>
@@ -78,6 +79,7 @@ import { NgTemplateOutlet } from '@angular/common';
           data-testid="period.yearMonth"
         >
           <ng-container *ngTemplateOutlet="error" ngProjectAs="watt-field-error" />
+          <ng-container *ngTemplateOutlet="warning" ngProjectAs="watt-field-warning" />
           <ng-container *ngTemplateOutlet="hint" ngProjectAs="watt-field-hint" />
         </watt-yearmonth-field>
       } @else {
@@ -90,6 +92,7 @@ import { NgTemplateOutlet } from '@angular/common';
           data-testid="period.interval"
         >
           <ng-container *ngTemplateOutlet="error" ngProjectAs="watt-field-error" />
+          <ng-container *ngTemplateOutlet="warning" ngProjectAs="watt-field-warning" />
           <ng-container *ngTemplateOutlet="hint" ngProjectAs="watt-field-hint" />
         </watt-datepicker>
       }

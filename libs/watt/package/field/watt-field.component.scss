@@ -27,8 +27,8 @@ watt-field watt-field-hint {
   display: block;
 }
 
-watt-field watt-field-error,
-.ng-valid watt-field watt-field-error {
+watt-field :is(watt-field-error, watt-field-warning),
+.ng-valid watt-field :is(watt-field-error, watt-field-warning) {
   display: none;
 }
 
@@ -38,7 +38,7 @@ form.ng-submitted .ng-invalid,
     display: none;
   }
 
-  & watt-field watt-field-error {
+  & watt-field :is(watt-field-error, watt-field-warning) {
     display: block;
   }
 
@@ -51,6 +51,15 @@ form.ng-submitted .ng-invalid,
 
     &.required::after {
       color: var(--watt-color-state-danger);
+    }
+  }
+
+  & watt-field:has(watt-field-warning):not(:has(watt-field-error)) {
+    & .label {
+      color: var(--watt-text-color);
+    }
+    & .watt-field-wrapper {
+      border-color: var(--watt-color-state-warning);
     }
   }
 }
@@ -148,12 +157,12 @@ watt-field {
     }
 
     watt-field-hint,
-    watt-field-error {
+    watt-field-error,
+    watt-field-warning {
       @include watt.typography-watt-text-s;
     }
 
-    :not(.watt-field--chip) watt-field-hint,
-    :not(.watt-field--chip) watt-field-error {
+    :not(.watt-field--chip) :is(watt-field-hint, watt-field-error, watt-field-warning) {
       padding-left: var(--watt-space-s);
     }
   }
@@ -165,7 +174,8 @@ watt-field {
 
   &.watt-field--chip {
     watt-field-hint,
-    watt-field-error {
+    watt-field-error,
+    watt-field-warning {
       margin-top: var(--watt-space-xs);
     }
   }
