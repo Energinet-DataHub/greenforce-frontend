@@ -72,6 +72,7 @@ import {
   normalizeMeteringPointIDs,
 } from '@energinet-datahub/dh/shared/ui-util';
 
+import { specialMarketRoles } from '../util/special-market-roles';
 import { selectEntireMonthsValidator } from '../util/select-entire-months.validator';
 import { mapMarketRole } from '../util/map-market-role';
 
@@ -156,10 +157,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   maxIDs = 50;
   normalizeMeteringPointIDs = normalizeMeteringPointIDs;
 
-  isSpecialMarketRole = new Array<EicFunction>(
-    EicFunction.DanishEnergyAgency,
-    EicFunction.SystemOperator
-  ).includes(this.modalData.marketRole);
+  isSpecialMarketRole = specialMarketRoles.includes(this.modalData.marketRole);
 
   form: DhFormType = this.formBuilder.group({
     meteringPointTypes: new FormControl<MeasurementsReportMeteringPointType[] | null>(null),

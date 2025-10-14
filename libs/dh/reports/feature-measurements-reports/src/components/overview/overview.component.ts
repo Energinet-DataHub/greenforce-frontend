@@ -24,10 +24,14 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhMeasurementsReportsService } from '@energinet-datahub/dh/shared/util-reports';
 import { DhMeasurementsReport, DhMeasurementsReports } from '@energinet-datahub/dh/shared/domain';
 
+import { specialMarketRoles } from '../util/special-market-roles';
 import { DhReportStatus } from '../report-status.component';
 import { DhMeteringPointCellComponent } from './metering-point-cell.component';
 
@@ -56,6 +60,7 @@ import { DhMeteringPointCellComponent } from './metering-point-cell.component';
 export class DhOverview {
   private measurementsReportsService = inject(DhMeasurementsReportsService);
   private permissionService = inject(PermissionService);
+  private actorStorage = inject(DhActorStorage);
   private isFas = toSignal(this.permissionService.isFas());
 
   columns: WattTableColumnDef<DhMeasurementsReport> = {
@@ -70,10 +75,18 @@ export class DhOverview {
   dataSource = new WattTableDataSource<DhMeasurementsReport>([]);
 
   displayedColumns = computed(() => {
-    const tableColumns = Object.keys(this.columns);
+    const allColumns = Object.keys(this.columns);
     const isFas = this.isFas();
 
-    return isFas ? tableColumns : tableColumns.filter((column) => column !== 'actorName');
+    let columnsToDisplay = isFas
+      ? allColumns
+      : allColumns.filter((column) => column !== 'actorName');
+
+    columnsToDisplay = specialMarketRoles.includes(this.actorStorage.getSelectedActor().marketRole)
+      ? columnsToDisplay.filter((column) => column !== 'gridAreas')
+      : columnsToDisplay;
+
+    return columnsToDisplay;
   });
 
   measurementsReports = input.required<DhMeasurementsReports>();
