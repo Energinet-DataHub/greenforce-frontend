@@ -30,7 +30,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import qs from 'qs';
 import { debounceTime, map, startWith } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -43,11 +42,11 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattYearField, YEAR_FORMAT } from '@energinet-datahub/watt/year-field';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
@@ -57,6 +56,7 @@ import {
   AggregatedMeasurementsForYear,
   AggregatedMeasurementsByYearQueryVariables,
 } from '../types';
+import { persistDateFilter } from '../utils/persist-date-filter';
 
 @Component({
   selector: 'dh-measurements-year',
@@ -69,7 +69,6 @@ import {
     WattYearField,
     WattDataTableComponent,
     WattDataFiltersComponent,
-    WattQueryParamsDirective,
 
     VaterStackComponent,
 
@@ -97,7 +96,7 @@ import {
       *transloco="let t; read: 'meteringPoint.measurements'"
     >
       <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
-        <form wattQueryParams [formGroup]="form">
+        <form [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
             <watt-year-field [formControl]="form.controls.year" canStepThroughYears />
           </vater-stack>
@@ -148,9 +147,14 @@ export class DhMeasurementsYearComponent {
     return this.transloco.translate('meteringPoint.measurements.units.' + firstItem.unit);
   });
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
+  private dateFilter = persistDateFilter();
   form = this.fb.group({
-    year: this.fb.control<string>(dayjs().format(YEAR_FORMAT)),
+    year: this.fb.control<string>(this.dateFilter().format(YEAR_FORMAT)),
   });
+
+  year = dhFormControlToSignal(this.form.controls.year);
+  filterEffect = effect(() => this.dateFilter.update((d) => d.year(dayjs(this.year()).year())));
+
   meteringPointId = input.required<string>();
   query = lazyQuery(GetAggregatedMeasurementsForYearDocument);
   Resolution = Resolution;
@@ -216,7 +220,7 @@ export class DhMeasurementsYearComponent {
     if (!yearMonth) return;
 
     this.router.navigate(['../', this.getLink('month')], {
-      queryParams: { filters: qs.stringify({ yearMonth }) },
+      queryParams: { filter: dayjs(yearMonth, 'YYYY-MM').format('YYYY-MM-DD') },
       relativeTo: this.route,
       queryParamsHandling: 'merge',
     });
