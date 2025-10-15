@@ -1463,8 +1463,8 @@
         "Dk1": "DK1",
         "Dk2": "DK2"
       },
-      "areaTypePlaceholder": "Choose type",
-      "statusTypePlaceholder": "Choose status",
+      "areaTypePlaceholder": "Type",
+      "statusTypePlaceholder": "Status",
       "status": {
         "Created": "Created",
         "Active": "Active",
