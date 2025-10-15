@@ -22,12 +22,18 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { MeteringPointDetails } from '../types';
 
 @Component({
   selector: 'dh-metering-point-highlights',
-  imports: [TranslocoDirective, VaterStackComponent, WattIconComponent],
+  imports: [
+    TranslocoDirective,
+    VaterStackComponent,
+    WattIconComponent,
+    DhPermissionRequiredDirective,
+  ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
 
@@ -47,23 +53,25 @@ import { MeteringPointDetails } from '../types';
   `,
   template: `
     <div
-      *transloco="let t; read: 'meteringPoint.overview.highlights'"
+      *transloco="let t; prefix: 'meteringPoint.overview.highlights'"
       vater-stack
       wrap
       direction="row"
       gap="s"
     >
-      @if (manuallyHandled()) {
-        <div
-          vater-stack
-          direction="row"
-          gap="s"
-          class="watt-chip-label watt-chip-label__custom__warning"
-        >
-          <watt-icon size="m" name="warning" />
-          <span class="watt-text-s">{{ t('manuallyHandled') }}</span>
-        </div>
-      }
+      <ng-container *dhPermissionRequired="['fas']">
+        @if (manuallyHandled()) {
+          <div
+            vater-stack
+            direction="row"
+            gap="s"
+            class="watt-chip-label watt-chip-label__custom__warning"
+          >
+            <watt-icon size="m" name="warning" />
+            <span class="watt-text-s">{{ t('manuallyHandled') }}</span>
+          </div>
+        }
+      </ng-container>
 
       @if (hasElectricalHeating()) {
         <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
