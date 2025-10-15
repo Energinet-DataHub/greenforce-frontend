@@ -75,18 +75,15 @@ export class DhOverview {
   dataSource = new WattTableDataSource<DhMeasurementsReport>([]);
 
   displayedColumns = computed(() => {
-    const allColumns = Object.keys(this.columns);
     const isFas = this.isFas();
 
-    let columnsToDisplay = isFas
-      ? allColumns
-      : allColumns.filter((column) => column !== 'actorName');
+    const isSpecialMarketRole = specialMarketRoles.includes(
+      this.actorStorage.getSelectedActor().marketRole
+    );
 
-    columnsToDisplay = specialMarketRoles.includes(this.actorStorage.getSelectedActor().marketRole)
-      ? columnsToDisplay.filter((column) => column !== 'gridAreas')
-      : columnsToDisplay;
-
-    return columnsToDisplay;
+    return Object.keys(this.columns)
+      .filter((column) => isFas || column !== 'actorName')
+      .filter((column) => !isSpecialMarketRole || column !== 'gridAreas');
   });
 
   measurementsReports = input.required<DhMeasurementsReports>();
