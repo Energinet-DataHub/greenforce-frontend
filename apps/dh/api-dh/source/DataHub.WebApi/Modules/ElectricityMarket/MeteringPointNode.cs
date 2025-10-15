@@ -123,7 +123,7 @@ public static partial class MeteringPointNode
         if ((signature.Result == SignatureResult.Valid || signature.Result == SignatureResult.NoContent) && signature.Signature != null)
         {
             var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature.Signature);
-            return await authClient.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+            return await authClient.MeteringPointAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
         }
 
         throw new InvalidOperationException("User is not authorized to access the requested metering point.");
