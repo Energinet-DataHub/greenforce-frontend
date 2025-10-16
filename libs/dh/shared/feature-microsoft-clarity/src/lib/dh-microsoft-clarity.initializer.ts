@@ -49,7 +49,8 @@ export const microsoftClarityInitializer = provideAppInitializer(() => {
   clarityService.init(clarityConfig);
 
   // Check if we're on localhost
-  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const isLocalhost =
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
   if (isLocalhost) {
     // On localhost, automatically grant consent since cookie banner isn't shown

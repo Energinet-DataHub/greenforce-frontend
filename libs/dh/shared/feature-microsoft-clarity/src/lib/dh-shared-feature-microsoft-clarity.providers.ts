@@ -19,6 +19,4 @@
 import { makeEnvironmentProviders } from '@angular/core';
 import { microsoftClarityInitializer } from './dh-microsoft-clarity.initializer';
 
-export const microsoftClarityProviders = makeEnvironmentProviders([
-  microsoftClarityInitializer,
-]);
+export const microsoftClarityProviders = makeEnvironmentProviders([microsoftClarityInitializer]);

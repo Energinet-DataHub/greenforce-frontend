@@ -134,7 +134,7 @@ describe('DhMicrosoftClarityService', () => {
 
     it('should not track events before initialization', () => {
       const newService = new DhMicrosoftClarityService();
-      
+
       newService.event(BUTTON_CLICK_EVENT);
 
       expect(mockClarity.event).not.toHaveBeenCalled();
@@ -151,7 +151,12 @@ describe('DhMicrosoftClarityService', () => {
     it('should identify user with all parameters', () => {
       service.identify('user123', 'session456', 'page789', 'John Doe');
 
-      expect(mockClarity.identify).toHaveBeenCalledWith('user123', 'session456', 'page789', 'John Doe');
+      expect(mockClarity.identify).toHaveBeenCalledWith(
+        'user123',
+        'session456',
+        'page789',
+        'John Doe'
+      );
     });
   });
 
