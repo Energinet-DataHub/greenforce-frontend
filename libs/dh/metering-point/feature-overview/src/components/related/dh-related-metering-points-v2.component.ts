@@ -16,12 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { RouterLink } from '@angular/router';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -33,7 +32,6 @@ import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh
 import {
   ConnectionState,
   GetRelatedMeteringPointsByIdDocument,
-  RelatedMeteringPointDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -47,21 +45,12 @@ import {
     VaterStackComponent,
     VaterSpacerComponent,
     WATT_CARD,
-    WATT_TABLE,
     WattDatePipe,
     WattButtonComponent,
     WattIconComponent,
     DhResultComponent,
   ],
   styles: `
-    .grid-table-container {
-      margin: 0 calc(-1 * var(--watt-space-m));
-    }
-
-    .custom-extra-padding {
-      padding-block: var(--watt-space-s);
-    }
-
     .grid-container {
       display: grid;
       grid-template-columns: 1fr 1fr min-content;
@@ -176,50 +165,6 @@ import {
             </div>
           }
         </div>
-
-        <div class="grid-table-container">
-          <watt-table [columns]="columns" [dataSource]="dataSource" [hideColumnHeaders]="true">
-            <ng-container *wattTableCell="columns.name; let meteringPoint">
-              <div class="custom-extra-padding">
-                <span class="watt-text-m watt-on-light--high-emphasis">
-                  {{ 'meteringPointType.' + meteringPoint.type | transloco }}
-                </span>
-                <br />
-                <span class="watt-on-light--medium-emphasis">
-                  {{ meteringPoint.identification }}
-                </span>
-              </div>
-            </ng-container>
-
-            <ng-container *wattTableCell="columns.status; let meteringPoint">
-              <span
-                *transloco="let t; prefix: 'meteringPoint.overview.status'"
-                class="watt-text-m watt-on-light--high-emphasis"
-              >
-                {{ t(meteringPoint.connectionState) }}
-              </span>
-              <br />
-              <span class="watt-on-light--medium-emphasis">
-                @if (meteringPoint.connectionState === ConnectionState.ClosedDown) {
-                  {{ meteringPoint.connectionDate | wattDate }} ―
-                  {{ meteringPoint.closedDownDate | wattDate }}
-                } @else {
-                  {{ meteringPoint.connectionDate | wattDate }}
-                }
-              </span>
-            </ng-container>
-
-            <ng-container *wattTableCell="columns.indicator; let meteringPoint">
-              @if (meteringPointId() === meteringPoint.identification) {
-                <span class="dh-one-time-badge watt-label watt-space-inset-squish-xs">
-                  {{ 'meteringPoint.selectedRelatedMeteringPoint' | transloco }}
-                </span>
-              } @else {
-                <watt-icon name="right" />
-              }
-            </ng-container>
-          </watt-table>
-        </div>
       </dh-result>
     </watt-card>
   `,
@@ -265,18 +210,6 @@ export class DhRelatedMeteringPointsV2Component {
       relatedMeteringPoints.historicalMeteringPointsByGsrn?.length > 0
     );
   });
-
-  dataSource = new WattTableDataSource<RelatedMeteringPointDto>();
-
-  columns: WattTableColumnDef<RelatedMeteringPointDto> = {
-    name: { accessor: null },
-    status: { accessor: null },
-    indicator: { accessor: null, align: 'right', size: 'max-content' },
-  };
-
-  constructor() {
-    effect(() => (this.dataSource.data = this.relatedMeteringPointsList()));
-  }
 
   toggleHistorical() {
     this.showHistorical.update((value) => !value);
