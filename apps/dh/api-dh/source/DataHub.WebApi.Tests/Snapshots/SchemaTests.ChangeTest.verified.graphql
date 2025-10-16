@@ -946,7 +946,7 @@ type Mutation {
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
-  startMoveIn(input: StartMoveInInput!): StartMoveInPayload! @authorize(roles: [ "metering-point:search" ])
+  startMoveIn(input: StartMoveInInput!): StartMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
