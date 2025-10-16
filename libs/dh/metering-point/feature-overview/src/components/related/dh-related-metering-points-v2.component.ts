@@ -95,11 +95,14 @@ import {
         <vater-stack direction="row" align="center">
           <h3>{{ 'meteringPoint.relatedMeteringPointsTitle' | transloco }}</h3>
           <vater-spacer />
-          <watt-button size="small" variant="text" (click)="toggleHistorical()">{{
-            showHistorical()
-              ? ('meteringPoint.hideHistoricalButton' | transloco)
-              : ('meteringPoint.showHistoricalButton' | transloco)
-          }}</watt-button>
+
+          @if (hasHistorical()) {
+            <watt-button size="small" variant="text" (click)="toggleHistorical()">{{
+              showHistorical()
+                ? ('meteringPoint.hideHistoricalButton' | transloco)
+                : ('meteringPoint.showHistoricalButton' | transloco)
+            }}</watt-button>
+          }
         </vater-stack>
       </watt-card-title>
 
@@ -235,6 +238,17 @@ export class DhRelatedMeteringPointsV2Component {
         ? (relatedMeteringPoints.historicalMeteringPointsByGsrn ?? [])
         : []),
     ];
+  });
+
+  hasHistorical = computed(() => {
+    const relatedMeteringPoints = this.maybeRelatedMeteringPoints();
+
+    if (!relatedMeteringPoints) return false;
+
+    return (
+      relatedMeteringPoints.historicalMeteringPoints?.length > 0 ||
+      relatedMeteringPoints.historicalMeteringPointsByGsrn?.length > 0
+    );
   });
 
   dataSource = new WattTableDataSource<RelatedMeteringPointDto>();
