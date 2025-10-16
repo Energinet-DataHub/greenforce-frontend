@@ -21,7 +21,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
 
-import qs from 'qs';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { distinctUntilChanged, filter, map, mergeWith, of } from 'rxjs';
 
@@ -36,7 +35,6 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 
-import { dayjs } from '@energinet-datahub/watt/date';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
@@ -115,34 +113,10 @@ export class DhMeasurementsNavigationComponent {
     });
 
     effect(() => {
-      const current = this.mapViewToFilter(this.currentView());
-      const next = this.mapViewToFilter(this.navigateTo());
-      if (!next) return;
-
-      const params = new URLSearchParams(this.route.snapshot.queryParams['filters']);
-      const filter =
-        current && params.get(current.filter)
-          ? { [next.filter]: dayjs(params.get(current.filter)).format(next.format) }
-          : null;
-
       this.router.navigate([this.navigateTo()], {
         relativeTo: this.route,
-        queryParams: filter ? { filters: qs.stringify(filter) } : {},
         queryParamsHandling: 'merge',
       });
     });
   }
-
-  private mapViewToFilter = (view: MeasurementsSubPaths | undefined) => {
-    switch (view) {
-      case 'day':
-        return { filter: 'date', format: 'YYYY-MM-DD' };
-      case 'month':
-        return { filter: 'yearMonth', format: 'YYYY-MM' };
-      case 'year':
-        return { filter: 'year', format: 'YYYY' };
-      default:
-        return null;
-    }
-  };
 }

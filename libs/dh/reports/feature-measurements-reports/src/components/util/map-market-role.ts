@@ -29,6 +29,10 @@ export function mapMarketRole(marketRole: EicFunction): MeasurementsReportMarket
       return MeasurementsReportMarketRole.GridAccessProvider;
     case EicFunction.EnergySupplier:
       return MeasurementsReportMarketRole.EnergySupplier;
+    case EicFunction.SystemOperator:
+      return MeasurementsReportMarketRole.SystemOperator;
+    case EicFunction.DanishEnergyAgency:
+      return MeasurementsReportMarketRole.DanishEnergyAgency;
     default:
       return null;
   }

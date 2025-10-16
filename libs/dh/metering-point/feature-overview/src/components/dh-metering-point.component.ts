@@ -170,8 +170,10 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
           <vater-spacer />
 
           <dh-metering-point-actions
-            [subType]="meteringPoint()?.metadata?.subType"
-            [installationAddress]="meteringPoint()?.metadata?.installationAddress"
+            [type]="metadata()?.type"
+            [subType]="metadata()?.subType"
+            [connectionState]="metadata()?.connectionState"
+            [installationAddress]="metadata()?.installationAddress"
           />
         </div>
 

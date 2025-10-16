@@ -79,7 +79,13 @@ export class DhRequestAsModal extends WattTypedModal {
   });
 
   actorOptions = getActorOptions(
-    [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
+    [
+      EicFunction.DataHubAdministrator,
+      EicFunction.GridAccessProvider,
+      EicFunction.EnergySupplier,
+      EicFunction.SystemOperator,
+      EicFunction.DanishEnergyAgency,
+    ],
     'actorId'
   );
 

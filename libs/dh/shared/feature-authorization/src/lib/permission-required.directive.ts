@@ -27,7 +27,7 @@ import {
 } from '@angular/core';
 import { concatAll, from, map, reduce, take } from 'rxjs';
 
-import { Permission } from '@energinet-datahub/dh/shared/domain';
+import { type Permission } from '@energinet-datahub/dh/shared/domain';
 
 import { PermissionService } from './permission.service';
 
@@ -41,10 +41,12 @@ export class DhPermissionRequiredDirective {
   private changeDetectorRef = inject(ChangeDetectorRef);
 
   dhPermissionRequired = input<Permission[]>();
+  dhPermissionRequiredElse = input<TemplateRef<unknown> | null>(null);
 
   constructor() {
     effect(() => {
       this.viewContainerRef.clear();
+
       from(this.dhPermissionRequired() ?? [])
         .pipe(
           map((permission) => this.permissionService.hasPermission(permission)),
@@ -56,6 +58,13 @@ export class DhPermissionRequiredDirective {
           if (hasPermission) {
             this.viewContainerRef.createEmbeddedView(this.templateRef);
             this.changeDetectorRef.detectChanges();
+          } else {
+            const fallbackTemplate = this.dhPermissionRequiredElse();
+
+            if (fallbackTemplate) {
+              this.viewContainerRef.createEmbeddedView(fallbackTemplate);
+              this.changeDetectorRef.detectChanges();
+            }
           }
         });
     });

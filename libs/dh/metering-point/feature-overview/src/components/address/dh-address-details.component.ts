@@ -70,7 +70,7 @@ import { DhAddressComponent } from './dh-address.component';
           [value]="modalData.installationAddress?.streetCode | dhEmDashFallback"
         />
         <watt-description-list-item
-          [label]="t('postDistrict')"
+          [label]="t('citySubDivisionName')"
           [value]="modalData.installationAddress?.citySubDivisionName | dhEmDashFallback"
         />
         <watt-description-list-item [label]="t('postBox')" [value]="null | dhEmDashFallback" />
