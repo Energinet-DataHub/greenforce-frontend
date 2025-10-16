@@ -91,7 +91,7 @@ import {
       background-color: var(--watt-color-primary);
       border-radius: var(--watt-space-xs);
       color: var(--watt-color-neutral-white);
-      padding: var(--watt-space-xs);
+      display: inline-flex;
     }
   `,
   template: `
@@ -158,7 +158,7 @@ import {
 
               <div class="grid-cell">
                 @if (meteringPointId() === meteringPoint.identification) {
-                  <span class="dh-one-time-badge watt-label">
+                  <span class="dh-one-time-badge watt-label watt-space-inset-squish-xs">
                     {{ 'meteringPoint.selectedRelatedMeteringPoint' | transloco }}
                   </span>
                 } @else {
