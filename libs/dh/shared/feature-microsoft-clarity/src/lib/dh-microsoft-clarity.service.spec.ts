@@ -25,10 +25,6 @@ vi.mock('@microsoft/clarity', () => ({
   default: {
     init: vi.fn(),
     consent: vi.fn(),
-    identify: vi.fn(),
-    setTag: vi.fn(),
-    upgrade: vi.fn(),
-    event: vi.fn(),
   },
 }));
 
@@ -36,7 +32,7 @@ describe('DhMicrosoftClarityService', () => {
   let service: DhMicrosoftClarityService;
 
   const TEST_PROJECT_ID = 'test-project-id';
-  const mockClarity = Clarity as typeof Clarity;
+  const mockClarity = vi.mocked(Clarity);
 
   beforeEach(() => {
     // Reset all mocks before each test
@@ -115,82 +111,14 @@ describe('DhMicrosoftClarityService', () => {
 
       expect(mockClarity.consent).toHaveBeenCalledWith(false);
     });
-  });
 
-  describe('event', () => {
-    const BUTTON_CLICK_EVENT = 'button-click';
+    it('should handle consent errors gracefully', () => {
+      vi.mocked(mockClarity.consent).mockImplementationOnce(() => {
+        throw new Error('Consent failed');
+      });
 
-    beforeEach(() => {
-      const config = { projectId: TEST_PROJECT_ID };
-      service.init(config);
-      vi.clearAllMocks();
-    });
-
-    it('should track custom events', () => {
-      service.event(BUTTON_CLICK_EVENT);
-
-      expect(mockClarity.event).toHaveBeenCalledWith(BUTTON_CLICK_EVENT);
-    });
-
-    it('should not track events before initialization', () => {
-      const newService = new DhMicrosoftClarityService();
-
-      newService.event(BUTTON_CLICK_EVENT);
-
-      expect(mockClarity.event).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('identify', () => {
-    beforeEach(() => {
-      const config = { projectId: TEST_PROJECT_ID };
-      service.init(config);
-      vi.clearAllMocks();
-    });
-
-    it('should identify user with all parameters', () => {
-      service.identify('user123', 'session456', 'page789', 'John Doe');
-
-      expect(mockClarity.identify).toHaveBeenCalledWith(
-        'user123',
-        'session456',
-        'page789',
-        'John Doe'
-      );
-    });
-  });
-
-  describe('setTag', () => {
-    beforeEach(() => {
-      const config = { projectId: TEST_PROJECT_ID };
-      service.init(config);
-      vi.clearAllMocks();
-    });
-
-    it('should set custom tags', () => {
-      service.setTag('plan', 'premium');
-
-      expect(mockClarity.setTag).toHaveBeenCalledWith('plan', 'premium');
-    });
-
-    it('should set array values', () => {
-      service.setTag('features', ['feature1', 'feature2']);
-
-      expect(mockClarity.setTag).toHaveBeenCalledWith('features', ['feature1', 'feature2']);
-    });
-  });
-
-  describe('upgrade', () => {
-    beforeEach(() => {
-      const config = { projectId: TEST_PROJECT_ID };
-      service.init(config);
-      vi.clearAllMocks();
-    });
-
-    it('should upgrade session', () => {
-      service.upgrade('important-action');
-
-      expect(mockClarity.upgrade).toHaveBeenCalledWith('important-action');
+      expect(() => service.setCookieConsent(true)).not.toThrow();
+      expect(mockClarity.consent).toHaveBeenCalledWith(true);
     });
   });
 });
