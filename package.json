@@ -178,7 +178,7 @@
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-sonarjs": "0.19.0",
     "eslint-plugin-storybook": "9.0.10",
-    "happy-dom": "20.0.1",
+    "happy-dom": "20.0.2",
     "html-webpack-plugin": "5.6.0",
     "husky": "8.0.3",
     "inquirer": "9.2.19",
