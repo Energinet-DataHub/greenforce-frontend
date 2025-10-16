@@ -18,6 +18,9 @@ name: DH CI dotnet
 on:
   workflow_call: {}
 
+permissions:
+  contents: read
+
 jobs:
   # Build all projects within solution
   dotnet_ci_build:
