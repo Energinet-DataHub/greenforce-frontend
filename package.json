@@ -80,6 +80,7 @@
     "@maskito/phone": "2.5.0",
     "@microsoft/applicationinsights-angularplugin-js": "15.3.6",
     "@microsoft/applicationinsights-web": "3.3.9",
+    "@microsoft/clarity": "1.0.0",
     "@ngneat/overview": "6.1.2",
     "@ngrx/operators": "19.0.1",
     "@ngxpert/hot-toast": "5.1.1",

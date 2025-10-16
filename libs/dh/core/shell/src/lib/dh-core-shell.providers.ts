@@ -50,6 +50,7 @@ import { highlightWorkerProvider } from '@energinet-datahub/dh/shared/feature-hi
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
+import { microsoftClarityProviders } from '@energinet-datahub/dh/shared/feature-microsoft-clarity';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { dhNewVersionManagerInitializer } from '@energinet-datahub/dh/shared/util-new-version-manager';
 
@@ -107,6 +108,7 @@ const msalProviders = [
 export const dhCoreShellProviders = [
   FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
+  microsoftClarityProviders,
   dhWattTranslationsProviders,
   danishLocalProviders,
   translocoProviders,
