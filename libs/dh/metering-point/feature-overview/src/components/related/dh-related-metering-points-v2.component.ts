@@ -54,6 +54,14 @@ import {
     DhResultComponent,
   ],
   styles: `
+    .grid-table-container {
+      margin: 0 calc(-1 * var(--watt-space-m));
+    }
+
+    .custom-extra-padding {
+      padding-block: var(--watt-space-s);
+    }
+
     .grid-container {
       display: grid;
       grid-template-columns: 1fr 1fr min-content;
@@ -169,47 +177,49 @@ import {
           }
         </div>
 
-        <!-- <watt-table [columns]="columns" [dataSource]="dataSource" [hideColumnHeaders]="true">
-          <ng-container *wattTableCell="columns.name; let meteringPoint">
-            <div class="watt-space-inset-s">
-              <span class="watt-text-m watt-on-light--high-emphasis">
-                {{ 'meteringPointType.' + meteringPoint.type | transloco }}
+        <div class="grid-table-container">
+          <watt-table [columns]="columns" [dataSource]="dataSource" [hideColumnHeaders]="true">
+            <ng-container *wattTableCell="columns.name; let meteringPoint">
+              <div class="custom-extra-padding">
+                <span class="watt-text-m watt-on-light--high-emphasis">
+                  {{ 'meteringPointType.' + meteringPoint.type | transloco }}
+                </span>
+                <br />
+                <span class="watt-on-light--medium-emphasis">
+                  {{ meteringPoint.identification }}
+                </span>
+              </div>
+            </ng-container>
+
+            <ng-container *wattTableCell="columns.status; let meteringPoint">
+              <span
+                *transloco="let t; prefix: 'meteringPoint.overview.status'"
+                class="watt-text-m watt-on-light--high-emphasis"
+              >
+                {{ t(meteringPoint.connectionState) }}
               </span>
               <br />
               <span class="watt-on-light--medium-emphasis">
-                {{ meteringPoint.identification }}
+                @if (meteringPoint.connectionState === ConnectionState.ClosedDown) {
+                  {{ meteringPoint.connectionDate | wattDate }} ―
+                  {{ meteringPoint.closedDownDate | wattDate }}
+                } @else {
+                  {{ meteringPoint.connectionDate | wattDate }}
+                }
               </span>
-            </div>
-          </ng-container>
+            </ng-container>
 
-          <ng-container *wattTableCell="columns.status; let meteringPoint">
-            <span
-              *transloco="let t; prefix: 'meteringPoint.overview.status'"
-              class="watt-text-m watt-on-light--high-emphasis"
-            >
-              {{ t(meteringPoint.connectionState) }}
-            </span>
-            <br />
-            <span class="watt-on-light--medium-emphasis">
-              @if (meteringPoint.connectionState === ConnectionState.ClosedDown) {
-                {{ meteringPoint.connectionDate | wattDate }} ―
-                {{ meteringPoint.closedDownDate | wattDate }}
+            <ng-container *wattTableCell="columns.indicator; let meteringPoint">
+              @if (meteringPointId() === meteringPoint.identification) {
+                <span class="dh-one-time-badge watt-label watt-space-inset-squish-xs">
+                  {{ 'meteringPoint.selectedRelatedMeteringPoint' | transloco }}
+                </span>
               } @else {
-                {{ meteringPoint.connectionDate | wattDate }}
+                <watt-icon name="right" />
               }
-            </span>
-          </ng-container>
-
-          <ng-container *wattTableCell="columns.indicator; let meteringPoint">
-            @if (meteringPointId() === meteringPoint.identification) {
-              <watt-badge type="success">{{
-                'meteringPoint.selectedRelatedMeteringPoint' | transloco
-              }}</watt-badge>
-            } @else {
-              <watt-icon name="right" />
-            }
-          </ng-container>
-        </watt-table> -->
+            </ng-container>
+          </watt-table>
+        </div>
       </dh-result>
     </watt-card>
   `,
@@ -261,7 +271,7 @@ export class DhRelatedMeteringPointsV2Component {
   columns: WattTableColumnDef<RelatedMeteringPointDto> = {
     name: { accessor: null },
     status: { accessor: null },
-    indicator: { accessor: null, align: 'right' },
+    indicator: { accessor: null, align: 'right', size: 'max-content' },
   };
 
   constructor() {
