@@ -23,7 +23,7 @@ import { DocumentType, ProcessState } from '@energinet-datahub/dh/shared/domain/
 import {
   mockGetArchivedMessagesQuery,
   mockGetArchivedMessagesForMeteringPointQuery,
-  mockGetProcessesForMeteringPointQuery,
+  mockGetMeteringPointProcessOverviewQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
@@ -132,13 +132,13 @@ function getArchivedMessagesForMeteringPoint(apiBase: string) {
 }
 
 function getProcessesForMeteringPoint() {
-  return mockGetProcessesForMeteringPointQuery(async () => {
+  return mockGetMeteringPointProcessOverviewQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        processesForMeteringPoint: {
-          __typename: 'ProcessesForMeteringPointConnection',
+        meteringPointProcessOverview: {
+          __typename: 'MeteringPointProcessOverviewConnection',
           pageInfo: {
             __typename: 'PageInfo',
             startCursor: 'startCursor',

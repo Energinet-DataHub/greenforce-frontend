@@ -29,14 +29,14 @@ import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
 
-import { GetProcessesForMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { GetMeteringPointProcessOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 
-type MeteringPointProcess = ExtractNodeType<GetProcessesForMeteringPointDataSource>;
+type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataSource>;
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
@@ -133,7 +133,7 @@ export class DhMeteringPointProcessOverviewTable {
     end: dayjs().endOf('day').toDate(),
   };
 
-  dataSource = new GetProcessesForMeteringPointDataSource({
+  dataSource = new GetMeteringPointProcessOverviewDataSource({
     skip: true,
     variables: {
       created: this.initialDateRange,

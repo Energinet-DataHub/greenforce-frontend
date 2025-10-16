@@ -27,7 +27,7 @@ public static partial class MeteringPointProcessNode
     [Query]
     [UsePaging]
     [UseSorting]
-    public static async Task<IEnumerable<MeteringPointProcess>> GetProcessesForMeteringPointAsync(
+    public static async Task<IEnumerable<MeteringPointProcess>> GetMeteringPointProcessOverviewAsync(
         string meteringPointId,
         Interval created) =>
         await Task.FromResult<IEnumerable<MeteringPointProcess>>([
@@ -42,7 +42,7 @@ public static partial class MeteringPointProcessNode
         ]);
 
     [Query]
-    public static async Task<MeteringPointProcess> GetProcessForMeteringPointAsync(string id) =>
+    public static async Task<MeteringPointProcess> GetMeteringPointProcessByIdAsync(string id) =>
         await Task.FromResult<MeteringPointProcess>(
             new MeteringPointProcess(
                 Id: "01992fc0-702d-7482-b524-523ab2ad545c",

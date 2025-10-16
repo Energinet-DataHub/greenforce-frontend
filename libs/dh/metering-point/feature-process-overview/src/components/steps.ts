@@ -21,10 +21,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { GetProcessesForMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { GetMeteringPointProcessOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 
-type MeteringPointProcess = ExtractNodeType<GetProcessesForMeteringPointDataSource>;
+type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataSource>;
 
 @Component({
   selector: 'dh-metering-point-process-overview-steps',

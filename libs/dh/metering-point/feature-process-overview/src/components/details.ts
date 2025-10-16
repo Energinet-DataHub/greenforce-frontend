@@ -22,7 +22,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list'
 import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared'; // TODO: Move to shared
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetProcessForMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhMeteringPointProcessOverviewSteps } from './steps';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
@@ -62,7 +62,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 export class DhMeteringPointProcessOverviewDetails {
   readonly id = input.required<string>();
   protected navigation = inject(DhNavigationService);
-  process = query(GetProcessForMeteringPointDocument, () => ({
+  process = query(GetMeteringPointProcessByIdDocument, () => ({
     variables: {
       id: this.id(),
     },
@@ -76,5 +76,5 @@ export class DhMeteringPointProcessOverviewDetails {
     console.log(this.id());
   });
 
-  state = computed(() => this.process.data()?.processForMeteringPoint.state);
+  state = computed(() => this.process.data()?.meteringPointProcessById.state);
 }
