@@ -29,9 +29,9 @@ import { EnergySupplier } from './../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhCustomerOverviewComponent } from './customer/dh-customer-overview.component';
-// import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-points.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
+// import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-points.component';
 import { DhRelatedMeteringPointsV2Component } from './related/dh-related-metering-points-v2.component';
 
 @Component({
@@ -98,7 +98,6 @@ import { DhRelatedMeteringPointsV2Component } from './related/dh-related-meterin
           grid-row: 2 / span 3;
         }
 
-        dh-related-metering-points,
         dh-related-metering-points-v2 {
           grid-column: 2;
           grid-row: 4;
@@ -112,7 +111,6 @@ import { DhRelatedMeteringPointsV2Component } from './related/dh-related-meterin
           grid-row: 2 / span 2;
         }
 
-        dh-related-metering-points,
         dh-related-metering-points-v2 {
           grid-column: 3;
           grid-row: 2 / span 2;
@@ -127,7 +125,6 @@ import { DhRelatedMeteringPointsV2Component } from './related/dh-related-meterin
             grid-row: 2;
           }
 
-          dh-related-metering-points,
           dh-related-metering-points-v2 {
             grid-row: 2;
           }
@@ -136,7 +133,6 @@ import { DhRelatedMeteringPointsV2Component } from './related/dh-related-meterin
         @include watt.media('>=XLarge') {
           grid-template-columns: 800px 600px;
 
-          dh-related-metering-points,
           dh-related-metering-points-v2 {
             grid-column: 2;
           }
@@ -160,7 +156,6 @@ import { DhRelatedMeteringPointsV2Component } from './related/dh-related-meterin
         />
 
         @defer (on idle) {
-          <!-- <dh-related-metering-points [meteringPointId]="meteringPointId()" /> -->
           <dh-related-metering-points-v2 [meteringPointId]="meteringPointId()" />
         }
       </div>
