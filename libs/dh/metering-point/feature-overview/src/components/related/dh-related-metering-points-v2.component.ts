@@ -23,7 +23,6 @@ import { RouterLink } from '@angular/router';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -49,7 +48,6 @@ import {
     VaterSpacerComponent,
     WATT_CARD,
     WATT_TABLE,
-    WattBadgeComponent,
     WattDatePipe,
     WattButtonComponent,
     WattIconComponent,
@@ -87,6 +85,13 @@ import {
 
     .closed-down-state {
       color: var(--watt-color-state-danger);
+    }
+
+    .dh-one-time-badge {
+      background-color: var(--watt-color-primary);
+      border-radius: var(--watt-space-xs);
+      color: var(--watt-color-neutral-white);
+      padding: var(--watt-space-xs);
     }
   `,
   template: `
@@ -153,9 +158,9 @@ import {
 
               <div class="grid-cell">
                 @if (meteringPointId() === meteringPoint.identification) {
-                  <watt-badge type="success">{{
-                    'meteringPoint.selectedRelatedMeteringPoint' | transloco
-                  }}</watt-badge>
+                  <span class="dh-one-time-badge watt-label">
+                    {{ 'meteringPoint.selectedRelatedMeteringPoint' | transloco }}
+                  </span>
                 } @else {
                   <watt-icon name="right" />
                 }
