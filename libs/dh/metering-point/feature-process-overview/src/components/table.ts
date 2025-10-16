@@ -54,7 +54,7 @@ type MeteringPointProcess = ExtractNodeType<GetProcessesForMeteringPointDataSour
     WattDatePipe,
     WattFormChipDirective,
     DhEmDashFallbackPipe,
-    DhProcessStateBadge
+    DhProcessStateBadge,
   ],
   providers: [DhNavigationService],
   template: `
@@ -108,7 +108,10 @@ type MeteringPointProcess = ExtractNodeType<GetProcessesForMeteringPointDataSour
           {{ t('documentType.' + process.documentType) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
-          <dh-process-state-badge [status]="process.state" *transloco="let t; prefix: 'shared.states'">
+          <dh-process-state-badge
+            [status]="process.state"
+            *transloco="let t; prefix: 'shared.states'"
+          >
             {{ t(process.state) }}
           </dh-process-state-badge>
         </ng-container>
