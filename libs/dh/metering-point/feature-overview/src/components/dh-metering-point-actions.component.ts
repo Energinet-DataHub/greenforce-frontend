@@ -29,7 +29,11 @@ import {
   MeasurementsSubPaths,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/routing';
-import { MeteringPointSubType } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ConnectionState,
+  ElectricityMarketMeteringPointType,
+  MeteringPointSubType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
@@ -118,7 +122,9 @@ export class DhMeteringPointActionsComponent {
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
 
+  type = input<ElectricityMarketMeteringPointType | null>();
   subType = input<MeteringPointSubType | null>();
+  connectionState = input<ConnectionState | null>();
   installationAddress = input<InstallationAddress | null>();
 
   showMeasurementsUploadButton = computed(() => {
@@ -129,7 +135,12 @@ export class DhMeteringPointActionsComponent {
   });
 
   showMoveInButton = computed(() => {
-    return this.releaseToggleService.isEnabled('MoveInBrs009');
+    return (
+      this.releaseToggleService.isEnabled('MoveInBrs009') &&
+      this.connectionState() === ConnectionState.Connected &&
+      (this.type() === ElectricityMarketMeteringPointType.Consumption ||
+        this.type() === ElectricityMarketMeteringPointType.Production)
+    );
   });
 
   showActionsButton = computed(() => {
