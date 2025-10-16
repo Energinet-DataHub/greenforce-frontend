@@ -542,6 +542,9 @@
     "relatedMeteringPointsLoading": "Loading related metering points",
     "relatedMeteringPointsEmpty": "There are no related metering points",
     "historicalMeteringPoints": "Historical metering points",
+    "selectedRelatedMeteringPoint": "Selected",
+    "showHistoricalButton": "Show historical",
+    "hideHistoricalButton": "Hide historical",
     "processes": {
       "columns": {
         "createdAt": "Time of message",

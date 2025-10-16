@@ -543,6 +543,9 @@
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
+    "selectedRelatedMeteringPoint": "Valgt",
+    "showHistoricalButton": "Vis historiske",
+    "hideHistoricalButton": "Skjul historiske",
     "processes": {
       "columns": {
         "createdAt": "Beskedtidspunt",

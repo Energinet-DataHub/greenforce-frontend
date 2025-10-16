@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -149,7 +149,6 @@ export class DhRelatedMeteringPointsComponent {
     variables: { meteringPointId: this.meteringPointId() },
   }));
   meteringPointId = input.required<string>();
-  maybeRelatedMeteringPoints = output<boolean>();
 
   gotRelatedMeteringPoints = computed(() => {
     const relatedMeteringPoints = this.relatedMeteringPoints();
@@ -164,12 +163,6 @@ export class DhRelatedMeteringPointsComponent {
   });
 
   relatedMeteringPoints = computed(() => this.query.data()?.relatedMeteringPoints);
-
-  constructor() {
-    effect(() => {
-      this.maybeRelatedMeteringPoints.emit(this.gotRelatedMeteringPoints());
-    });
-  }
 
   getLink = (path: MeteringPointSubPaths, id: string) =>
     combineWithIdPaths('metering-point', id, path);
