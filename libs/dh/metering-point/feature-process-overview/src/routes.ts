@@ -34,7 +34,8 @@ export const meteringPointProcessOverviewRoutes: Routes = [
       dhReleaseToggleGuard('PM116-PROCESSOVERVIEW'),
     ],
     path: getPath<MeteringPointSubPaths>('process-overview'),
-    loadComponent: () => import('./components/table').then((m) => m.DhMeteringPointProcessOverviewTable),
+    loadComponent: () =>
+      import('./components/table').then((m) => m.DhMeteringPointProcessOverviewTable),
     children: [
       {
         path: 'details/:id',

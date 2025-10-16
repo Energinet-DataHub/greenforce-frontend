@@ -118,7 +118,7 @@ export class WattDrawerComponent implements OnDestroy {
           this.heading()?.nativeElement.animate(APPEAR_ANIMATION_FRAMES, APPEAR_ANIMATION_DELAY);
           this.topBar()?.nativeElement.animate(APPEAR_ANIMATION_FRAMES, APPEAR_ANIMATION_DELAY);
         });
-      }
+      },
     });
 
     // Who doesn't love a good workaround, right?

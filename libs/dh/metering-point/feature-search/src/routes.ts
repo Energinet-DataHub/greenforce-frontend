@@ -82,7 +82,8 @@ export const dhMeteringPointRoutes: Routes = [
           },
           {
             path: getPath<MeteringPointSubPaths>('process-overview'),
-            loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-process-overview'),
+            loadChildren: () =>
+              import('@energinet-datahub/dh/metering-point/feature-process-overview'),
           },
           {
             path: getPath<MeteringPointSubPaths>('messages'),

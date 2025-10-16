@@ -37,7 +37,7 @@ import { ConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
 
       @switch (statusView) {
         @case (null) {
-          <watt-badge type="skeleton">{{ t("UNKNOWN") }}</watt-badge>
+          <watt-badge type="skeleton">{{ t('UNKNOWN') }}</watt-badge>
         }
         @case ('CLOSED_DOWN') {
           <watt-badge type="neutral">{{ t(statusView) }}</watt-badge>

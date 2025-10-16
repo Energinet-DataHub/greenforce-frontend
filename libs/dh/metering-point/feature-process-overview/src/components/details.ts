@@ -69,12 +69,12 @@ export class DhMeteringPointProcessOverviewDetails {
   }));
 
   constructor() {
-    console.log("rendering now");
+    console.log('rendering now');
   }
 
   x = effect(() => {
     console.log(this.id());
-  })
+  });
 
   state = computed(() => this.process.data()?.processForMeteringPoint.state);
 }

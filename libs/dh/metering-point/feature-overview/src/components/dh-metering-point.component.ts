@@ -152,9 +152,7 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
             </span>
 
             <span direction="row" gap="s">
-              <span class="watt-label watt-space-inline-s">{{
-                t('details.resolutionLabel')
-              }}</span>
+              <span class="watt-label watt-space-inline-s">{{ t('details.resolutionLabel') }}</span>
 
               @if (metadata()?.resolution) {
                 {{ 'resolution.' + metadata()?.resolution | transloco }}
