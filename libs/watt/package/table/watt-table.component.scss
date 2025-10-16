@@ -161,7 +161,7 @@ watt-table .mat-mdc-table {
   }
 }
 
-.watt-table-variant-zebra > table > tbody > tr:nth-child(even) > td {
+.watt-table-variant-zebra > table > tbody > tr:nth-child(even):not(.watt-table-active-row) > td {
   background-color: var(--watt-color-neutral-grey-50);
 }
 
