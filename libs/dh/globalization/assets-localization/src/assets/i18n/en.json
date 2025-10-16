@@ -460,7 +460,8 @@
         "CLOSED_DOWN": "Closed down",
         "NEW": "New",
         "CONNECTED": "Connected",
-        "DISCONNECTED": "Disconnected"
+        "DISCONNECTED": "Disconnected",
+        "UNKNOWN": "Unknown"
       },
       "actions": {
         "actionsButton": "Actions",

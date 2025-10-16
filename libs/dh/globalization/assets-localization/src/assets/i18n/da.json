@@ -461,7 +461,8 @@
         "CLOSED_DOWN": "Nedlagt",
         "NEW": "Ny",
         "CONNECTED": "Tilsluttet",
-        "DISCONNECTED": "Afbrudt"
+        "DISCONNECTED": "Afbrudt",
+        "UNKNOWN": "Ukendt"
       },
       "actions": {
         "actionsButton": "Handlinger",
