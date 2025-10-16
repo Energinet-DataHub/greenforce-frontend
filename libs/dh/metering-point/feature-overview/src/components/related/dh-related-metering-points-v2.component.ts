@@ -130,7 +130,7 @@ import {
                   {{ 'meteringPointType.' + meteringPoint.type | transloco }}
                 </span>
                 <br />
-                <span class="watt-on-light--medium-emphasis">
+                <span class="watt-text-s watt-on-light--medium-emphasis">
                   {{ meteringPoint.identification }}
                 </span>
               </div>
@@ -146,7 +146,7 @@ import {
                   {{ t(meteringPoint.connectionState) }}
                 </span>
                 <br />
-                <span class="watt-on-light--medium-emphasis">
+                <span class="watt-text-s watt-on-light--medium-emphasis">
                   @if (meteringPoint.connectionState === ConnectionState.ClosedDown) {
                     {{ meteringPoint.connectionDate | wattDate }} ―
                     {{ meteringPoint.closedDownDate | wattDate }}
