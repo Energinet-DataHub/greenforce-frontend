@@ -81,7 +81,7 @@ import { DhAddressComponent } from '../address/dh-address.component';
         [value]="contact().streetCode | dhEmDashFallback"
       />
       <watt-description-list-item
-        [label]="t('postDistrict')"
+        [label]="t('citySubDivisionName')"
         [value]="contact().citySubDivisionName | dhEmDashFallback"
       />
       <watt-description-list-item

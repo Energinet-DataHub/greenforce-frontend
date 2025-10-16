@@ -153,7 +153,7 @@ const metadata: MeteringPointMetadataDto = {
   validTo: new Date('2023-12-31'),
   type: ElectricityMarketMeteringPointType.Consumption,
   subType: MeteringPointSubType.Physical,
-  connectionState: ConnectionState.Disconnected,
+  connectionState: ConnectionState.Connected,
   netSettlementGroup: 6,
   assetType: AssetType.CombustionEngineDiesel,
   connectionType: ConnectionType.Installation,
