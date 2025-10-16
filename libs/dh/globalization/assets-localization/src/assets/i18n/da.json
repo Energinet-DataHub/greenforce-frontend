@@ -539,10 +539,14 @@
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
-    "processes": {
+    "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunt",
-        "documentType": "Type"
+        "documentType": "Type",
+        "state": "Status",
+        "cutoffDate": "Skæringsdato",
+        "initiator": "Initierende aktør",
+        "actions": "Mulige handlinger"
       },
       "filters": {
         "created": "Tidspunkt",

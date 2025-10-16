@@ -19,7 +19,7 @@
 import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { DocumentType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DocumentType, ProcessState } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   mockGetArchivedMessagesQuery,
   mockGetArchivedMessagesForMeteringPointQuery,
@@ -150,6 +150,13 @@ function getProcessesForMeteringPoint() {
             id: m.id,
             documentType: DocumentType.SendMeasurements,
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
+            cutoffDate: m.createdDate ? new Date(m.createdDate) : new Date(),
+            state: ProcessState.Succeeded,
+            initiator: {
+              __typename: 'MarketParticipant',
+              id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
+              displayName: '905495045940594 • Radius',
+            },
           })),
         },
       },

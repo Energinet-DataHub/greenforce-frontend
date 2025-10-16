@@ -24,7 +24,13 @@ query GetProcessesForMeteringPoint(
     nodes {
       id
       createdAt
+      cutoffDate
       documentType
+      state
+      initiator {
+        id
+        displayName
+      }
     }
   }
 }

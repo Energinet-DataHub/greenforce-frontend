@@ -28,7 +28,6 @@ export const meteringPointProcessOverviewRoutes: Routes = [
     redirectTo: getPath<MeteringPointSubPaths>('process-overview'),
   },
   {
-    data: { titleTranslationKey: 'meteringPointProcessOverview.topBarTitle' },
     canActivate: [
       PermissionGuard(['metering-point:process-overview']),
       dhReleaseToggleGuard('PM116-PROCESSOVERVIEW'),

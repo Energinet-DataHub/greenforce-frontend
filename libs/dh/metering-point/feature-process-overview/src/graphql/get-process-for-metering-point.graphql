@@ -2,7 +2,12 @@ query GetProcessForMeteringPoint($id: String!) {
   processForMeteringPoint(id: $id) {
     id
     createdAt
+    cutoffDate
     documentType
     state
+    initiator {
+      id
+      displayName
+    }
   }
 }

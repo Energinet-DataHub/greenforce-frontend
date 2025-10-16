@@ -32,8 +32,9 @@ import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
 import { GetProcessesForMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 
 type MeteringPointProcess = ExtractNodeType<GetProcessesForMeteringPointDataSource>;
 
@@ -52,11 +53,13 @@ type MeteringPointProcess = ExtractNodeType<GetProcessesForMeteringPointDataSour
     WattDateRangeChipComponent,
     WattDatePipe,
     WattFormChipDirective,
+    DhEmDashFallbackPipe,
+    DhProcessStateBadge
   ],
   providers: [DhNavigationService],
   template: `
     <watt-data-table
-      *transloco="let tMessageArchive; read: 'messageArchive'"
+      *transloco="let t; read: 'messageArchive'"
       vater
       inset="ml"
       [error]="dataSource.error"
@@ -70,7 +73,7 @@ type MeteringPointProcess = ExtractNodeType<GetProcessesForMeteringPointDataSour
           gap="s"
           tabindex="-1"
           [formGroup]="form"
-          *transloco="let t; read: 'meteringPoint.processes.filters'"
+          *transloco="let t; read: 'meteringPoint.processOverview.filters'"
         >
           <watt-date-range-chip [formControl]="form.controls.created">
             {{ t('created') }}
@@ -86,7 +89,8 @@ type MeteringPointProcess = ExtractNodeType<GetProcessesForMeteringPointDataSour
         </form>
       </watt-data-filters>
       <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.processes.columns'"
+        variant="zebra"
+        *transloco="let resolveHeader; read: 'meteringPoint.processOverview.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [loading]="dataSource.loading"
@@ -97,8 +101,19 @@ type MeteringPointProcess = ExtractNodeType<GetProcessesForMeteringPointDataSour
         <ng-container *wattTableCell="columns.createdAt; let process">
           {{ process.createdAt | wattDate: 'long' }}
         </ng-container>
+        <ng-container *wattTableCell="columns.cutoffDate; let process">
+          {{ process.cutoffDate | wattDate: 'long' }}
+        </ng-container>
         <ng-container *wattTableCell="columns.documentType; let process">
-          {{ tMessageArchive('documentType.' + process.documentType) }}
+          {{ t('documentType.' + process.documentType) }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.state; let process">
+          <dh-process-state-badge [status]="process.state" *transloco="let t; prefix: 'shared.states'">
+            {{ t(process.state) }}
+          </dh-process-state-badge>
+        </ng-container>
+        <ng-container *wattTableCell="columns.initiator; let process">
+          {{ process.initiator?.displayName | dhEmDashFallback }}
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -124,7 +139,11 @@ export class DhMeteringPointProcessOverviewTable {
 
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
+    cutoffDate: { accessor: 'cutoffDate' },
     documentType: { accessor: 'documentType' },
+    state: { accessor: 'state' },
+    initiator: { accessor: 'initiator' },
+    actions: { accessor: null },
   };
 
   form = new FormGroup({

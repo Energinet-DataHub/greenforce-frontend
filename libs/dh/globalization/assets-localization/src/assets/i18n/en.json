@@ -538,10 +538,14 @@
     "relatedMeteringPointsLoading": "Loading related metering points",
     "relatedMeteringPointsEmpty": "There are no related metering points",
     "historicalMeteringPoints": "Historical metering points",
-    "processes": {
+    "processOverview": {
       "columns": {
         "createdAt": "Time of message",
-        "documentType": "Type"
+        "documentType": "Type",
+        "state": "State",
+        "cutoffDate": "Cut-off date",
+        "initiator": "Initiating participant",
+        "actions": "Possible actions"
       },
       "filters": {
         "created": "Time",

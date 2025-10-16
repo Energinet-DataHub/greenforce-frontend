@@ -12,8 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
+using Energinet.DataHub.WebApi.Modules.Processes.Types;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
@@ -31,10 +34,31 @@ public static partial class MeteringPointProcessNode
             new MeteringPointProcess(
                 Id: "01992fc0-702d-7482-b524-523ab2ad545c",
                 CreatedAt: new DateTimeOffset(2023, 1, 1, 0, 0, 0, 0, TimeSpan.Zero),
+                CutoffDate: new DateTimeOffset(2023, 2, 1, 0, 0, 0, 0, TimeSpan.Zero),
                 DocumentType: DocumentType.RequestWholesaleSettlement,
-                ActorNumber: null,
-                ActorRole: null),
+                ActorNumber: "905495045940594",
+                ActorRole: "GridAccessProvider",
+                State: ProcessState.Succeeded),
         ]);
+
+    [Query]
+    public static async Task<MeteringPointProcess> GetProcessForMeteringPointAsync(string id) =>
+        await Task.FromResult<MeteringPointProcess>(
+            new MeteringPointProcess(
+                Id: "01992fc0-702d-7482-b524-523ab2ad545c",
+                CreatedAt: new DateTimeOffset(2023, 1, 1, 0, 0, 0, 0, TimeSpan.Zero),
+                CutoffDate: new DateTimeOffset(2023, 2, 1, 0, 0, 0, 0, TimeSpan.Zero),
+                DocumentType: DocumentType.RequestWholesaleSettlement,
+                ActorNumber: "905495045940594",
+                ActorRole: "GridAccessProvider",
+                State: ProcessState.Succeeded));
+
+    public static async Task<ActorDto?> GetInitiatorAsync(
+        [Parent] MeteringPointProcess process,
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader) =>
+        Enum.TryParse<EicFunction>(process.ActorRole, out var role)
+            ? await dataLoader.LoadAsync((process.ActorNumber, role))
+            : null;
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
     {
@@ -43,5 +67,7 @@ public static partial class MeteringPointProcessNode
         descriptor.Field(f => f.Id);
         descriptor.Field(f => f.DocumentType);
         descriptor.Field(f => f.CreatedAt);
+        descriptor.Field(f => f.CutoffDate);
+        descriptor.Field(f => f.State);
     }
 }
