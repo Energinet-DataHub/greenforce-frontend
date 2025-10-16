@@ -1,0 +1,8 @@
+query GetProcessForMeteringPoint($id: String!) {
+  processForMeteringPoint(id: $id) {
+    id
+    createdAt
+    documentType
+    state
+  }
+}

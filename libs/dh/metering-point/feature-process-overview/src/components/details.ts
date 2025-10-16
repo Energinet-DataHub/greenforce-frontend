@@ -1,0 +1,80 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import { Component, computed, effect, inject, input } from '@angular/core';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
+import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared'; // TODO: Move to shared
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetProcessForMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhMeteringPointProcessOverviewSteps } from './steps';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+
+@Component({
+  selector: 'dh-metering-point-process-overview-details',
+  imports: [
+    TranslocoDirective,
+    WATT_DESCRIPTION_LIST,
+    WATT_DRAWER,
+    DhProcessStateBadge,
+    DhMeteringPointProcessOverviewSteps,
+  ],
+  template: `
+    <watt-drawer
+      autoOpen
+      [key]="id()"
+      *transloco="let t; prefix: 'wholesale.calculations'"
+      (closed)="navigation.navigate('list')"
+    >
+      <watt-drawer-topbar>
+        <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
+          {{ t(state() ?? 'indeterminate') }}
+        </dh-process-state-badge>
+      </watt-drawer-topbar>
+      <watt-drawer-heading>
+        <h3></h3>
+        <watt-description-list [groupsPerRow]="3">
+          <watt-description-list-item [label]="''" [value]="''" />
+        </watt-description-list>
+      </watt-drawer-heading>
+      <watt-drawer-content>
+        <dh-metering-point-process-overview-steps [meteringPointProcessId]="id()" />
+      </watt-drawer-content>
+    </watt-drawer>
+  `,
+})
+export class DhMeteringPointProcessOverviewDetails {
+  readonly id = input.required<string>();
+  protected navigation = inject(DhNavigationService);
+  process = query(GetProcessForMeteringPointDocument, () => ({
+    variables: {
+      id: this.id(),
+    },
+  }));
+
+  constructor() {
+    console.log("rendering now");
+  }
+
+  x = effect(() => {
+    console.log(this.id());
+  })
+
+  state = computed(() => this.process.data()?.processForMeteringPoint.state);
+}

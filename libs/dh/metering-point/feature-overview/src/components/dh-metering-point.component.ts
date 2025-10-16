@@ -188,7 +188,7 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
               <watt-link-tab
                 *dhPermissionRequired="['metering-point:process-overview']"
                 [label]="t('processes.tabLabel')"
-                [link]="getLink('processes')"
+                [link]="getLink('process-overview')"
               />
             </ng-container>
             <watt-link-tab [label]="t('messages.tabLabel')" [link]="getLink('messages')" />

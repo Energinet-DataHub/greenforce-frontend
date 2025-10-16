@@ -81,15 +81,8 @@ export const dhMeteringPointRoutes: Routes = [
               ),
           },
           {
-            path: getPath<MeteringPointSubPaths>('processes'),
-            canActivate: [
-              PermissionGuard(['metering-point:process-overview']),
-              dhReleaseToggleGuard('PM116-PROCESSOVERVIEW'),
-            ],
-            loadComponent: () =>
-              import('@energinet-datahub/dh/metering-point/feature-overview').then(
-                (m) => m.DhMeteringPointProcessesComponent
-              ),
+            path: getPath<MeteringPointSubPaths>('process-overview'),
+            loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-process-overview'),
           },
           {
             path: getPath<MeteringPointSubPaths>('messages'),
