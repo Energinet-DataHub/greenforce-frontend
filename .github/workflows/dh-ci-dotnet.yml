@@ -19,7 +19,10 @@ on:
   workflow_call: {}
 
 permissions:
-  contents: read
+  checks: write
+  issues: read
+  pull-requests: write
+  id-token: write
 
 jobs:
   # Build all projects within solution
