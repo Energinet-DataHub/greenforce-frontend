@@ -28,7 +28,7 @@ env:
   NX_CI_EXECUTION_ID: ${{ github.run_id }}
 
 permissions:
-  contents: read
+  contents: write
   checks: write
   issues: read
   pull-requests: write
