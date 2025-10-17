@@ -17,6 +17,7 @@ query GetMeteringPointProcessById($id: String!) {
         name
       }
       state
+      messageId
     }
     initiator {
       id
