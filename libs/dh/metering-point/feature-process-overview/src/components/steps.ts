@@ -21,6 +21,9 @@ import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { GetMeteringPointProcessByIdQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 import { emDash } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 type MeteringPointProcessStep = NonNullable<
   GetMeteringPointProcessByIdQuery['meteringPointProcessById']
@@ -28,7 +31,15 @@ type MeteringPointProcessStep = NonNullable<
 
 @Component({
   selector: 'dh-metering-point-process-overview-steps',
-  imports: [TranslocoDirective, TranslocoPipe, WATT_TABLE],
+  imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+    VaterFlexComponent,
+    VaterUtilityDirective,
+    WATT_TABLE,
+    WattDatePipe,
+    WattIconComponent,
+  ],
   template: `
     <watt-table
       *transloco="let resolveHeader; read: 'meteringPoint.processOverview.details.columns'"
@@ -37,10 +48,23 @@ type MeteringPointProcessStep = NonNullable<
       [resolveHeader]="resolveHeader"
     >
       <ng-container *wattTableCell="columns.step; let process">
-        {{ 'meteringPoint.processOverview.steps.' + process.step | transloco }}
-        @if (process.comment) {
-          <div class="watt-text-s-highlighted">{{ process.comment }}</div>
-        }
+        <vater-flex fill="horizontal" direction="row" gap="s" justify="space-between">
+          <div vater fill="horizontal">
+            {{ 'meteringPoint.processOverview.steps.' + process.step | transloco }}
+            @if (process.comment) {
+              <div class="watt-text-s-highlighted">{{ process.comment }}</div>
+            }
+          </div>
+          @if (process.messageId) {
+            <watt-icon size="xs" name="forwardMessage" />
+          }
+        </vater-flex>
+      </ng-container>
+      <ng-container *wattTableCell="columns.createdAt; let process">
+        {{ process.createdAt | wattDate: 'long' }}
+      </ng-container>
+      <ng-container *wattTableCell="columns.dueDate; let process">
+        {{ process.dueDate | wattDate: 'long' }}
       </ng-container>
       <ng-container *wattTableCell="columns.state; let process">
         {{ 'shared.states.' + process.state | transloco }}
@@ -52,7 +76,7 @@ export class DhMeteringPointProcessOverviewSteps {
   readonly steps = input.required<MeteringPointProcessStep[]>();
   dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
   columns: WattTableColumnDef<MeteringPointProcessStep> = {
-    step: { accessor: 'step' },
+    step: { accessor: 'step', size: '1fr' },
     createdAt: { accessor: 'createdAt' },
     dueDate: { accessor: 'dueDate' },
     actor: { accessor: 'actor', cell: (r) => r.actor?.name ?? emDash },

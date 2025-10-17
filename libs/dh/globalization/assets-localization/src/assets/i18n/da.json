@@ -565,7 +565,7 @@
         },
         "columns": {
           "step": "Trin",
-          "createdAt": "Beskedtidspunkt",
+          "createdAt": "Beskedtidspkt.",
           "dueDate": "Forfaldsdato",
           "actor": "Aktør",
           "state": "Status"

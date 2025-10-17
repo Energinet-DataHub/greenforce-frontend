@@ -54,8 +54,14 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
           [groupsPerRow]="4"
           *transloco="let t; prefix: 'meteringPoint.processOverview.details.list'"
         >
-          <watt-description-list-item [label]="t('createdAt')" [value]="createdAt() | wattDate" />
-          <watt-description-list-item [label]="t('cutoff')" [value]="cutoffDate() | wattDate" />
+          <watt-description-list-item
+            [label]="t('createdAt')"
+            [value]="createdAt() | wattDate: 'long'"
+          />
+          <watt-description-list-item
+            [label]="t('cutoff')"
+            [value]="cutoffDate() | wattDate: 'long'"
+          />
           <watt-description-list-item [label]="t('reasonCode')" [value]="reasonCode()" />
           <watt-description-list-item [label]="t('initiator')" [value]="initiator()" />
         </watt-description-list>
