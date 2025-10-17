@@ -18,6 +18,13 @@ name: DH CI dotnet
 on:
   workflow_call: {}
 
+permissions:
+  contents: write
+  checks: write
+  issues: read
+  pull-requests: write
+  id-token: write
+
 jobs:
   # Build all projects within solution
   dotnet_ci_build:
