@@ -81,5 +81,5 @@ export class DhMeteringPointProcessOverviewDetails {
   });
 
   state = computed(() => this.process.data()?.meteringPointProcessById?.state);
-  documentType = computed(() => this.process.data()?.meteringPointProcessById?.documentType)
+  documentType = computed(() => this.process.data()?.meteringPointProcessById?.documentType);
 }

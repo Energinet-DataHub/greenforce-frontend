@@ -24,7 +24,7 @@ import {
   mockGetArchivedMessagesQuery,
   mockGetArchivedMessagesForMeteringPointQuery,
   mockGetMeteringPointProcessOverviewQuery,
-  mockGetMeteringPointProcessByIdQuery
+  mockGetMeteringPointProcessByIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
@@ -172,7 +172,8 @@ function getMeteringPointProcessById() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPointProcessById: messageArchiveSearchResponseLogs.messages.map((m) => ({
+        meteringPointProcessById: messageArchiveSearchResponseLogs.messages
+          .map((m) => ({
             __typename: 'MeteringPointProcess' as const,
             id: m.id,
             documentType: DocumentType.SendMeasurements,
@@ -184,8 +185,9 @@ function getMeteringPointProcessById() {
               id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
               displayName: '905495045940594 • Radius',
             },
-          })).find(p => p.id === args.variables.id),
-        },
-      });
+          }))
+          .find((p) => p.id === args.variables.id),
+      },
+    });
   });
 }
