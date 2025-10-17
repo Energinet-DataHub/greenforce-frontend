@@ -30,12 +30,11 @@ watt-nav-list {
     }
 
     a:hover {
-      transition: background-color linear 0.05s;
+      transition: background-color linear var(--watt-faster-than-a-blink-of-an-eye);
     }
 
-    a:hover,
-    a.active {
-      background-color: rgba(0, 137, 138, 0.65);
+    a:hover {
+      background-color: var(--watt-nav-list-hover-background-color);
     }
 
     a.active {
@@ -52,8 +51,8 @@ watt-nav-list {
     .mat-expansion-panel-header.mat-expanded:hover,
     .mat-expansion-panel:not(.mat-expanded)
       .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
-      transition: background-color linear 0.05s;
-      background-color: rgba(0, 137, 138, 0.65);
+      transition: background-color linear var(--watt-faster-than-a-blink-of-an-eye);
+      background-color: var(--watt-nav-list-hover-background-color);
     }
 
     .mat-expansion-panel-header {
