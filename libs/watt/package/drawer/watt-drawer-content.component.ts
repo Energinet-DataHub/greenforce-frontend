@@ -25,6 +25,7 @@ import { Component } from '@angular/core';
     `
       :host {
         overflow: auto;
+        padding: var(--watt-space-ml);
       }
     `,
   ],
