@@ -26,6 +26,7 @@ query GetMeteringPointProcessOverview(
       createdAt
       cutoffDate
       documentType
+      reasonCode
       state
       initiator {
         id

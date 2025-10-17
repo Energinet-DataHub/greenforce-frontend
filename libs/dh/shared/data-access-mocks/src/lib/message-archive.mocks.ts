@@ -151,6 +151,7 @@ function getMeteringPointProcessOverview() {
             __typename: 'MeteringPointProcess',
             id: m.id,
             documentType: DocumentType.SendMeasurements,
+            reasonCode: "E20",
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
             cutoffDate: m.createdDate ? new Date(m.createdDate) : new Date(),
             state: ProcessState.Succeeded,
@@ -180,14 +181,30 @@ function getMeteringPointProcessById() {
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
             cutoffDate: m.createdDate ? new Date(m.createdDate) : new Date(),
             state: ProcessState.Succeeded,
+            reasonCode: "E20",
             initiator: {
               __typename: 'MarketParticipant' as const,
               id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
               displayName: '905495045940594 • Radius',
             },
-          }))
-          .find((p) => p.id === args.variables.id),
-      },
-    });
+            steps: [
+              {
+                __typename: 'MeteringPointProcessStep' as const,
+                id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
+                step: "REQUEST_END_OF_SUPPLY",
+                comment: null,
+                createdAt: new Date(m.createdDate),
+                dueDate: new Date(m.createdDate),
+                state: ProcessState.Succeeded,
+                actor: {
+                  __typename: 'MarketParticipant' as const,
+                  id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
+                  name: 'Radius',
+                }
+              }
+            ]
+          })).find(p => p.id === args.variables.id),
+        },
+      });
   });
 }

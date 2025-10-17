@@ -36,6 +36,7 @@ public static partial class MeteringPointProcessNode
                 CreatedAt: new DateTimeOffset(2023, 1, 1, 0, 0, 0, 0, TimeSpan.Zero),
                 CutoffDate: new DateTimeOffset(2023, 2, 1, 0, 0, 0, 0, TimeSpan.Zero),
                 DocumentType: DocumentType.RequestWholesaleSettlement,
+                ReasonCode: "E20",
                 ActorNumber: "905495045940594",
                 ActorRole: "GridAccessProvider",
                 State: ProcessState.Succeeded),
@@ -49,6 +50,7 @@ public static partial class MeteringPointProcessNode
                 CreatedAt: new DateTimeOffset(2023, 1, 1, 0, 0, 0, 0, TimeSpan.Zero),
                 CutoffDate: new DateTimeOffset(2023, 2, 1, 0, 0, 0, 0, TimeSpan.Zero),
                 DocumentType: DocumentType.RequestWholesaleSettlement,
+                ReasonCode: "E20",
                 ActorNumber: "905495045940594",
                 ActorRole: "GridAccessProvider",
                 State: ProcessState.Succeeded));
@@ -60,12 +62,27 @@ public static partial class MeteringPointProcessNode
             ? await dataLoader.LoadAsync((process.ActorNumber, role))
             : null;
 
+    public static IEnumerable<MeteringPointProcessStep> GetSteps(
+        [Parent] MeteringPointProcess process) =>
+        [
+            new MeteringPointProcessStep(
+                Id: "0199f10f-d7e4-7ad3-b250-f1e88cd2a510",
+                Step: "REQUEST_END_OF_SUPPLY",
+                Comment: null,
+                CreatedAt: new DateTimeOffset(2023, 1, 1, 0, 0, 0, 0, TimeSpan.Zero),
+                DueDate: new DateTimeOffset(2023, 2, 1, 0, 0, 0, 0, TimeSpan.Zero),
+                ActorNumber: "905495045940594",
+                ActorRole: "GridAccessProvider",
+                State: ProcessState.Pending),
+        ];
+
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
     {
         descriptor.Name("MeteringPointProcess");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Id);
         descriptor.Field(f => f.DocumentType);
+        descriptor.Field(f => f.ReasonCode);
         descriptor.Field(f => f.CreatedAt);
         descriptor.Field(f => f.CutoffDate);
         descriptor.Field(f => f.State);

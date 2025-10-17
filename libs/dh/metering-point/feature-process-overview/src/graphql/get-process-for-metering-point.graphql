@@ -4,7 +4,20 @@ query GetMeteringPointProcessById($id: String!) {
     createdAt
     cutoffDate
     documentType
+    reasonCode
     state
+    steps {
+      id
+      step
+      comment
+      createdAt
+      dueDate
+      actor {
+        id
+        name
+      }
+      state
+    }
     initiator {
       id
       displayName
