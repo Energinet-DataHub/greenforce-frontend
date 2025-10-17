@@ -461,7 +461,8 @@
         "CLOSED_DOWN": "Nedlagt",
         "NEW": "Ny",
         "CONNECTED": "Tilsluttet",
-        "DISCONNECTED": "Afbrudt"
+        "DISCONNECTED": "Afbrudt",
+        "UNKNOWN": "Ukendt"
       },
       "actions": {
         "actionsButton": "Handlinger",
@@ -538,15 +539,37 @@
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
-    "processes": {
+    "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunt",
-        "documentType": "Type"
+        "documentType": "Type",
+        "state": "Status",
+        "cutoffDate": "Skæringsdato",
+        "initiator": "Initierende aktør",
+        "actions": "Mulige handlinger"
       },
       "filters": {
         "created": "Tidspunkt",
         "includeViews": "Inkluder visninger",
         "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
+      },
+      "steps": {
+        "REQUEST_END_OF_SUPPLY": "Anmod om leveranceophør (BRS-005)"
+      },
+      "details": {
+        "list": {
+          "createdAt": "Beskedtidspunkt",
+          "cutoff": "Skæringsdato",
+          "reasonCode": "Årsagskode",
+          "initiator": "Initierende aktør"
+        },
+        "columns": {
+          "step": "Trin",
+          "createdAt": "Beskedtidspkt.",
+          "dueDate": "Forfaldsdato",
+          "actor": "Aktør",
+          "state": "Status"
+        }
       }
     },
     "measurements": {

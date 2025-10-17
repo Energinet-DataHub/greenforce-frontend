@@ -66,3 +66,7 @@ class WattDescriptionListComponent<T> {
 }
 
 export { WattDescriptionListItemComponent, WattDescriptionListComponent };
+export const WATT_DESCRIPTION_LIST = [
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+] as const;
