@@ -192,7 +192,7 @@ function getMeteringPointProcessById() {
                 __typename: 'MeteringPointProcessStep' as const,
                 id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
                 step: 'REQUEST_END_OF_SUPPLY',
-                comment: null,
+                comment: 'OBS: Sendt til foged',
                 createdAt: new Date(m.createdDate),
                 dueDate: new Date(m.createdDate),
                 state: ProcessState.Succeeded,

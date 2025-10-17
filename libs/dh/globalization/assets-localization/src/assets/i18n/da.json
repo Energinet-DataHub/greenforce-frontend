@@ -552,6 +552,24 @@
         "created": "Tidspunkt",
         "includeViews": "Inkluder visninger",
         "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
+      },
+      "steps": {
+        "REQUEST_END_OF_SUPPLY": "Anmod om leveranceophør (BRS-005)"
+      },
+      "details": {
+        "list": {
+          "createdAt": "Beskedtidspunkt",
+          "cutoff": "Skæringsdato",
+          "reasonCode": "Årsagskode",
+          "initiator": "Initierende aktør"
+        },
+        "columns": {
+          "step": "Trin",
+          "createdAt": "Beskedtidspunkt",
+          "dueDate": "Forfaldsdato",
+          "actor": "Aktør",
+          "state": "Status"
+        }
       }
     },
     "measurements": {

@@ -551,6 +551,24 @@
         "created": "Time",
         "includeViews": "Include views",
         "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
+      },
+      "steps": {
+        "REQUEST_END_OF_SUPPLY": "Request end of supply (BRS-005)"
+      },
+      "details": {
+        "list": {
+          "createdAt": "Time of message",
+          "cutoff": "Cut-off date",
+          "reasonCode": "Reason code",
+          "initiator": "Initiating participant"
+        },
+        "columns": {
+          "step": "Step",
+          "createdAt": "Time of message",
+          "dueDate": "Due date",
+          "actor": "Actor",
+          "state": "State"
+        }
       }
     },
     "measurements": {

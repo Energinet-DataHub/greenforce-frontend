@@ -16,35 +16,46 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
-
+import { Component, computed, input } from '@angular/core';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { GetMeteringPointProcessByIdQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import { emDash } from '@energinet-datahub/dh/shared/ui-util';
 
-import { GetMeteringPointProcessOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
-
-type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataSource>;
+type MeteringPointProcessStep = NonNullable<
+  GetMeteringPointProcessByIdQuery['meteringPointProcessById']
+>['steps'][number];
 
 @Component({
   selector: 'dh-metering-point-process-overview-steps',
-  imports: [TranslocoDirective, WATT_TABLE],
+  imports: [TranslocoDirective, TranslocoPipe, WATT_TABLE],
   template: `
     <watt-table
-      *transloco="let resolveHeader; read: 'meteringPoint.processes.columns'"
-      [dataSource]="dataSource"
+      *transloco="let resolveHeader; read: 'meteringPoint.processOverview.details.columns'"
+      [dataSource]="dataSource()"
       [columns]="columns"
       [resolveHeader]="resolveHeader"
-    />
+    >
+      <ng-container *wattTableCell="columns.step; let process">
+        {{ 'meteringPoint.processOverview.steps.' + process.step | transloco }}
+        @if (process.comment) {
+          <div class="watt-text-s-highlighted">{{ process.comment }}</div>
+        }
+      </ng-container>
+      <ng-container *wattTableCell="columns.state; let process">
+        {{ 'shared.states.' + process.state | transloco }}
+      </ng-container>
+    </watt-table>
   `,
 })
 export class DhMeteringPointProcessOverviewSteps {
-  readonly meteringPointProcessId = input.required<string>();
-
-  dataSource = new WattTableDataSource<MeteringPointProcess>();
-
-  columns: WattTableColumnDef<MeteringPointProcess> = {
+  readonly steps = input.required<MeteringPointProcessStep[]>();
+  dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
+  columns: WattTableColumnDef<MeteringPointProcessStep> = {
+    step: { accessor: 'step' },
     createdAt: { accessor: 'createdAt' },
-    documentType: { accessor: 'documentType' },
+    dueDate: { accessor: 'dueDate' },
+    actor: { accessor: 'actor', cell: (r) => r.actor?.name ?? emDash },
+    state: { accessor: 'state' },
   };
 }

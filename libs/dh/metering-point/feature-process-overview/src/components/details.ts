@@ -26,6 +26,7 @@ import { GetMeteringPointProcessByIdDocument } from '@energinet-datahub/dh/share
 import { DhMeteringPointProcessOverviewSteps } from './steps';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',
@@ -33,17 +34,13 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
     TranslocoDirective,
     WATT_DESCRIPTION_LIST,
     WATT_DRAWER,
+    WattDatePipe,
     DhEmDashFallbackPipe,
     DhProcessStateBadge,
     DhMeteringPointProcessOverviewSteps,
   ],
   template: `
-    <watt-drawer
-      autoOpen
-      [key]="id()"
-      *transloco="let t; prefix: 'wholesale.calculations'"
-      (closed)="navigation.navigate('list')"
-    >
+    <watt-drawer autoOpen [key]="id()" (closed)="navigation.navigate('list')">
       <watt-drawer-topbar>
         <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
           {{ t(state() ?? 'indeterminate') }}
@@ -53,12 +50,20 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
         <h3 *transloco="let t; read: 'messageArchive'">
           {{ documentType() && t('documentType.' + documentType()) | dhEmDashFallback }}
         </h3>
-        <watt-description-list [groupsPerRow]="3">
-          <watt-description-list-item [label]="''" [value]="''" />
+        <watt-description-list
+          [groupsPerRow]="4"
+          *transloco="let t; prefix: 'meteringPoint.processOverview.details.list'"
+        >
+          <watt-description-list-item [label]="t('createdAt')" [value]="createdAt() | wattDate" />
+          <watt-description-list-item [label]="t('cutoff')" [value]="cutoffDate() | wattDate" />
+          <watt-description-list-item [label]="t('reasonCode')" [value]="reasonCode()" />
+          <watt-description-list-item [label]="t('initiator')" [value]="initiator()" />
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-content>
-        <dh-metering-point-process-overview-steps [meteringPointProcessId]="id()" />
+        @if (steps(); as steps) {
+          <dh-metering-point-process-overview-steps [steps]="steps" />
+        }
       </watt-drawer-content>
     </watt-drawer>
   `,
@@ -81,5 +86,10 @@ export class DhMeteringPointProcessOverviewDetails {
   });
 
   state = computed(() => this.process.data()?.meteringPointProcessById?.state);
+  createdAt = computed(() => this.process.data()?.meteringPointProcessById?.createdAt);
+  cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
   documentType = computed(() => this.process.data()?.meteringPointProcessById?.documentType);
+  reasonCode = computed(() => this.process.data()?.meteringPointProcessById?.reasonCode);
+  initiator = computed(() => this.process.data()?.meteringPointProcessById?.initiator?.displayName);
+  steps = computed(() => this.process.data()?.meteringPointProcessById?.steps);
 }
