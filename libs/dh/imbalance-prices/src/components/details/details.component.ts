@@ -47,10 +47,6 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
         display: block;
       }
 
-      h2 {
-        margin-block: var(--watt-space-s);
-      }
-
       .entry-metadata {
         display: flex;
         gap: var(--watt-space-ml);
@@ -64,10 +60,6 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 
       .prices-note {
         color: var(--watt-color-neutral-grey-700);
-      }
-
-      watt-drawer-content {
-        padding: 0 var(--watt-space-ml) var(--watt-space-ml);
       }
 
       watt-expandable-card-title {

@@ -55,9 +55,7 @@ limitations under the License.
     </watt-drawer-actions>
   }
   <watt-drawer-heading>
-    <div class="headline-container">
-      <h3 class="headline watt-headline-2">{{ t("calculationTypes." + type()) }}</h3>
-    </div>
+    <h3 class="headline watt-headline-2">{{ t("calculationTypes." + type()) }}</h3>
     <watt-description-list [groupsPerRow]="3">
       <watt-description-list-item
         [label]="t('details.startedBy')"
@@ -84,7 +82,7 @@ limitations under the License.
     </watt-description-list>
   </watt-drawer-heading>
   <watt-drawer-content>
-    <vater-flex fill="vertical" gap="l" offset="l">
+    <vater-flex fill="vertical" gap="l">
       @if (calculation) {
         <watt-progress-tracker>
           @for (step of calculation.steps; track step; let i = $index) {

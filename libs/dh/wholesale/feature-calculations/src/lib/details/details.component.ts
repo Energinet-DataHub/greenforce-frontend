@@ -67,7 +67,6 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
   ],
   selector: 'dh-calculations-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss'],
 })
 export class DhCalculationsDetailsComponent {
   private toast = inject(WattToastService);

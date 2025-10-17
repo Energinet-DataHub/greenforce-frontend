@@ -36,6 +36,12 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { CdkTrapFocus, A11yModule } from '@angular/cdk/a11y';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
@@ -61,7 +67,16 @@ const APPEAR_ANIMATION_FRAMES = {
     '(document:click)': 'handleDocumentClick($event)',
     '(keydown.escape)': 'handleEscKeyPressed()',
   },
-  imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent],
+  imports: [
+    A11yModule,
+    MatSidenavModule,
+    VaterFlexComponent,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
+    WattButtonComponent,
+    WattSpinnerComponent,
+  ],
 })
 export class WattDrawerComponent implements OnDestroy {
   private elementRef = inject(ElementRef);

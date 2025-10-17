@@ -47,47 +47,45 @@ limitations under the License.
   </watt-drawer-heading>
 
   @if (drawer.isOpen()) {
-    <watt-drawer-content>
-      <watt-tabs>
-        <watt-tab [label]="t('tabs.imbalance')">
-          <vater-flex [fill]="'horizontal'" gap="m">
-            @if (deficitDataSource().data.length > 0) {
-              <watt-expandable-card variant="solid" [expanded]="true">
-                <watt-expandable-card-title>
-                  <h4>{{ t("card.titles.deficit") }}</h4>
-                </watt-expandable-card-title>
-                <dh-metering-gridarea-imbalance-table [data]="deficitDataSource()" />
-              </watt-expandable-card>
-            }
-            @if (surplusDataSource().data.length > 0) {
-              <watt-expandable-card variant="solid" [expanded]="true">
-                <watt-expandable-card-title>
-                  <h4>{{ t("card.titles.surplus") }}</h4>
-                </watt-expandable-card-title>
-                <dh-metering-gridarea-imbalance-table [data]="surplusDataSource()" />
-              </watt-expandable-card>
-            }
-          </vater-flex>
-        </watt-tab>
+    <watt-tabs>
+      <watt-tab [label]="t('tabs.imbalance')">
+        <vater-flex [fill]="'horizontal'" gap="m">
+          @if (deficitDataSource().data.length > 0) {
+            <watt-expandable-card variant="solid" [expanded]="true">
+              <watt-expandable-card-title>
+                <h4>{{ t("card.titles.deficit") }}</h4>
+              </watt-expandable-card-title>
+              <dh-metering-gridarea-imbalance-table [data]="deficitDataSource()" />
+            </watt-expandable-card>
+          }
+          @if (surplusDataSource().data.length > 0) {
+            <watt-expandable-card variant="solid" [expanded]="true">
+              <watt-expandable-card-title>
+                <h4>{{ t("card.titles.surplus") }}</h4>
+              </watt-expandable-card-title>
+              <dh-metering-gridarea-imbalance-table [data]="surplusDataSource()" />
+            </watt-expandable-card>
+          }
+        </vater-flex>
+      </watt-tab>
 
-        <watt-tab [label]="t('tabs.message')">
-          <vater-flex>
-            <watt-button
-              variant="text"
-              icon="download"
-              (click)="download(mgai?.mgaImbalanceDocumentUrl)"
-              >{{ "shared.download" | transloco }}
-            </watt-button>
-          </vater-flex>
-          <vater-flex fill="vertical">
-            @defer (on viewport) {
-              <watt-code [code]="xmlMessage.value()" language="xml" />
-            } @placeholder {
-              <watt-spinner />
-            }
-          </vater-flex>
-        </watt-tab>
-      </watt-tabs>
-    </watt-drawer-content>
+      <watt-tab [label]="t('tabs.message')">
+        <vater-flex>
+          <watt-button
+            variant="text"
+            icon="download"
+            (click)="download(mgai?.mgaImbalanceDocumentUrl)"
+            >{{ "shared.download" | transloco }}
+          </watt-button>
+        </vater-flex>
+        <vater-flex fill="vertical">
+          @defer (on viewport) {
+            <watt-code [code]="xmlMessage.value()" language="xml" />
+          } @placeholder {
+            <watt-spinner />
+          }
+        </vater-flex>
+      </watt-tab>
+    </watt-tabs>
   }
 </watt-drawer>
