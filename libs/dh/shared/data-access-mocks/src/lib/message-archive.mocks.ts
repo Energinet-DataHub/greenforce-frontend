@@ -24,6 +24,7 @@ import {
   mockGetArchivedMessagesQuery,
   mockGetArchivedMessagesForMeteringPointQuery,
   mockGetMeteringPointProcessOverviewQuery,
+  mockGetMeteringPointProcessByIdQuery
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
@@ -34,7 +35,8 @@ export function messageArchiveMocks(apiBase: string) {
     getDocumentById(apiBase),
     getArchivedMessages(apiBase),
     getArchivedMessagesForMeteringPoint(apiBase),
-    getProcessesForMeteringPoint(),
+    getMeteringPointProcessOverview(),
+    getMeteringPointProcessById(),
   ];
 }
 
@@ -131,7 +133,7 @@ function getArchivedMessagesForMeteringPoint(apiBase: string) {
   });
 }
 
-function getProcessesForMeteringPoint() {
+function getMeteringPointProcessOverview() {
   return mockGetMeteringPointProcessOverviewQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
@@ -161,5 +163,29 @@ function getProcessesForMeteringPoint() {
         },
       },
     });
+  });
+}
+
+function getMeteringPointProcessById() {
+  return mockGetMeteringPointProcessByIdQuery(async (args) => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPointProcessById: messageArchiveSearchResponseLogs.messages.map((m) => ({
+            __typename: 'MeteringPointProcess' as const,
+            id: m.id,
+            documentType: DocumentType.SendMeasurements,
+            createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
+            cutoffDate: m.createdDate ? new Date(m.createdDate) : new Date(),
+            state: ProcessState.Succeeded,
+            initiator: {
+              __typename: 'MarketParticipant' as const,
+              id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
+              displayName: '905495045940594 • Radius',
+            },
+          })).find(p => p.id === args.variables.id),
+        },
+      });
   });
 }
