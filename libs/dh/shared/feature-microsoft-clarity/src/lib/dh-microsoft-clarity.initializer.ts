@@ -36,7 +36,6 @@ export const microsoftClarityInitializer = provideAppInitializer(() => {
 
   // Check if Microsoft Clarity feature is enabled
   if (!featureFlags.isEnabled('microsoft-clarity')) {
-    console.log('Microsoft Clarity feature flag is disabled');
     return;
   }
 
@@ -55,7 +54,6 @@ export const microsoftClarityInitializer = provideAppInitializer(() => {
   if (isLocalhost) {
     // On localhost, automatically grant consent since cookie banner isn't shown
     // This prevents multiple sessions being created on each reload
-    console.log('Running on localhost - automatically granting Clarity consent');
     clarityService.setCookieConsent(true);
   } else {
     // For other environments, respect the cookie consent system
