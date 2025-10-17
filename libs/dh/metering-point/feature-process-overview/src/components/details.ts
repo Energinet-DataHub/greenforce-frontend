@@ -25,6 +25,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhMeteringPointProcessOverviewSteps } from './steps';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',
@@ -32,6 +33,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
     TranslocoDirective,
     WATT_DESCRIPTION_LIST,
     WATT_DRAWER,
+    DhEmDashFallbackPipe,
     DhProcessStateBadge,
     DhMeteringPointProcessOverviewSteps,
   ],
@@ -48,7 +50,9 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
         </dh-process-state-badge>
       </watt-drawer-topbar>
       <watt-drawer-heading>
-        <h3></h3>
+        <h3 *transloco="let t; read: 'messageArchive'">
+          {{ documentType() && t('documentType.' + documentType()) | dhEmDashFallback }}
+        </h3>
         <watt-description-list [groupsPerRow]="3">
           <watt-description-list-item [label]="''" [value]="''" />
         </watt-description-list>
@@ -76,5 +80,6 @@ export class DhMeteringPointProcessOverviewDetails {
     console.log(this.id());
   });
 
-  state = computed(() => this.process.data()?.meteringPointProcessById.state);
+  state = computed(() => this.process.data()?.meteringPointProcessById?.state);
+  documentType = computed(() => this.process.data()?.meteringPointProcessById?.documentType)
 }
