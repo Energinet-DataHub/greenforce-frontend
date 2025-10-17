@@ -42,7 +42,7 @@ public static partial class MeteringPointProcessNode
         ]);
 
     [Query]
-    public static async Task<MeteringPointProcess> GetMeteringPointProcessByIdAsync(string id) =>
+    public static async Task<MeteringPointProcess?> GetMeteringPointProcessByIdAsync(string id) =>
         await Task.FromResult<MeteringPointProcess>(
             new MeteringPointProcess(
                 Id: "01992fc0-702d-7482-b524-523ab2ad545c",
