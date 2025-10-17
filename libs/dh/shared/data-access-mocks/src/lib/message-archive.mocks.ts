@@ -196,6 +196,7 @@ function getMeteringPointProcessById() {
                 createdAt: new Date(m.createdDate),
                 dueDate: new Date(m.createdDate),
                 state: ProcessState.Succeeded,
+                messageId: '38374f50-f00c-4e2a-aec1-70d391cade06',
                 actor: {
                   __typename: 'MarketParticipant' as const,
                   id: '0199ed3d-f1b2-7180-9546-39b5836fb575',

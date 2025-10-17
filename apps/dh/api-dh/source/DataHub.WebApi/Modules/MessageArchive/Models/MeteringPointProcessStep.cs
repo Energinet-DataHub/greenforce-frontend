@@ -24,4 +24,5 @@ public record MeteringPointProcessStep(
     DateTimeOffset DueDate,
     string ActorNumber,
     string ActorRole,
-    ProcessState State);
+    ProcessState State,
+    string? MessageId);

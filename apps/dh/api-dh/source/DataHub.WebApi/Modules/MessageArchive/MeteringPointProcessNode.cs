@@ -73,7 +73,8 @@ public static partial class MeteringPointProcessNode
                 DueDate: new DateTimeOffset(2023, 2, 1, 0, 0, 0, 0, TimeSpan.Zero),
                 ActorNumber: "905495045940594",
                 ActorRole: "GridAccessProvider",
-                State: ProcessState.Pending),
+                State: ProcessState.Pending,
+                MessageId: "0199f200-c5a0-7313-a8bd-f6d5f66bb470"),
         ];
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
