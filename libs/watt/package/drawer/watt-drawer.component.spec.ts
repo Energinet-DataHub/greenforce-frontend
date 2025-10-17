@@ -71,7 +71,7 @@ describe(WattDrawerComponent.name, () => {
     })
     class TestComponent {
       loading = false;
-      size: 'small' | 'normal' | 'medium' | 'large' = 'normal';
+      size: 'small' | 'normal' | 'large' = 'normal';
       onClosed = closedOutput;
 
       constructor() {
