@@ -205,6 +205,10 @@ watt-table .mat-mdc-table tr.mat-mdc-row td.watt-table-cell--expandable.watt-tab
   }
 }
 
+.watt-table-cell-wrapper {
+  width: 100%;
+}
+
 .watt-table-footer-spacer {
   display: none;
   height: 76px; // Magic BJH number
