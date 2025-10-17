@@ -44,7 +44,7 @@ import { WattDrawerActionsComponent } from './watt-drawer-actions.component';
 import { WattDrawerContentComponent } from './watt-drawer-content.component';
 import { WattDrawerHeadingComponent } from './watt-drawer-heading.component';
 
-export type WattDrawerSize = 'small' | 'normal' | 'large';
+export type WattDrawerSize = 'small' | 'normal' | 'medium' | 'large';
 
 const APPEAR_ANIMATION_DELAY = 250;
 const APPEAR_ANIMATION_FRAMES = {

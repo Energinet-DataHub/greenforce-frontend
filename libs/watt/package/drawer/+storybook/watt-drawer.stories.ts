@@ -24,7 +24,7 @@ import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '../watt-drawer
 import { WattStorybookDrawerContentComponent } from './storybook-drawer-content.component';
 import { WattStorybookDrawerLoadingComponent } from './storybook-drawer-loading.component';
 
-const sizeOptions: WattDrawerSize[] = ['small', 'normal', 'large'];
+const sizeOptions: WattDrawerSize[] = ['small', 'normal', 'medium', 'large'];
 
 export default {
   title: 'Components/Drawer',
@@ -113,6 +113,9 @@ Small.args = { size: 'small' };
 
 export const Normal = Drawer.bind({});
 Normal.args = { size: 'normal' };
+
+export const Medium = Drawer.bind({});
+Medium.args = { size: 'medium' };
 
 export const Large = Drawer.bind({});
 Large.args = { size: 'large' };
