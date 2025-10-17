@@ -184,9 +184,7 @@ limitations under the License.
               @if (showAdditionalRecipientsTab()) {
                 <watt-tab [label]="t('tabs.accessToMeasurements.tabLabel')">
                   @defer (on viewport) {
-                    <dh-access-to-measurements-tab
-                      [marketParticipant]="loadedMarketParticipant"
-                    />
+                    <dh-access-to-measurements-tab [marketParticipant]="loadedMarketParticipant" />
                   } @placeholder {
                     <watt-spinner />
                   }
