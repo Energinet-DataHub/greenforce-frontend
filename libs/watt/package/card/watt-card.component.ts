@@ -31,9 +31,9 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
   styles: [
     `
       :host {
-        border-radius: 4px;
+        border-radius: var(--watt-radius-m);
         display: block;
-        padding: calc(1.5 * var(--watt-space-m)); /* 24px */
+        padding: var(--watt-space-m); /* 24px */
         background: var(--bg-card);
       }
 
@@ -78,7 +78,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
   },
 })
 export class WattCardComponent {
-  variant = input<WATT_CARD_VARIANT>('elevation');
+  variant = input<WATT_CARD_VARIANT>('solid');
   loading = input<boolean>(false);
   cardVariant = computed(() => `watt-card watt-${this.variant()}`);
 }

@@ -23,6 +23,7 @@ import {
   WattEmptyStateExploreComponent,
   WattEmptyStateNoResultsComponent,
   WattEmptyStatePowerComponent,
+  WattEmptyStateNotFoundComponent,
 } from '../../empty-state';
 import { WattFlagComponent } from '../flags';
 
@@ -45,6 +46,7 @@ interface IconGroup {
     WattEmptyStateExploreComponent,
     WattEmptyStateNoResultsComponent,
     WattEmptyStatePowerComponent,
+    WattEmptyStateNotFoundComponent,
     WattFlagComponent,
     WattIconComponent,
   ],
