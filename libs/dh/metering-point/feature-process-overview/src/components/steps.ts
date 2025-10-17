@@ -24,6 +24,7 @@ import { emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { RouterLink } from '@angular/router';
 
 type MeteringPointProcessStep = NonNullable<
   GetMeteringPointProcessByIdQuery['meteringPointProcessById']
@@ -32,6 +33,7 @@ type MeteringPointProcessStep = NonNullable<
 @Component({
   selector: 'dh-metering-point-process-overview-steps',
   imports: [
+    RouterLink,
     TranslocoDirective,
     TranslocoPipe,
     VaterFlexComponent,
@@ -48,7 +50,13 @@ type MeteringPointProcessStep = NonNullable<
       [resolveHeader]="resolveHeader"
     >
       <ng-container *wattTableCell="columns.step; let process">
-        <vater-flex fill="horizontal" direction="row" gap="s" justify="space-between">
+        <vater-flex
+          fill="horizontal"
+          direction="row"
+          gap="s"
+          align="center"
+          justify="space-between"
+        >
           <div vater fill="horizontal">
             {{ 'meteringPoint.processOverview.steps.' + process.step | transloco }}
             @if (process.comment) {
@@ -56,7 +64,9 @@ type MeteringPointProcessStep = NonNullable<
             }
           </div>
           @if (process.messageId) {
-            <watt-icon size="xs" name="forwardMessage" />
+            <a target="_blank" [routerLink]="['/message-archive/details', process.messageId]">
+              <watt-icon size="xs" name="forwardMessage" />
+            </a>
           }
         </vater-flex>
       </ng-container>
