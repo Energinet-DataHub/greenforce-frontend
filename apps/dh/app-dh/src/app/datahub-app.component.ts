@@ -50,15 +50,15 @@ const dhRedirectToParam = 'dhRedirectTo';
   imports: [RouterOutlet],
 })
 export class DataHubAppComponent implements OnInit {
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-  private destroyRef = inject(DestroyRef);
-  private location = inject(Location);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly location = inject(Location);
 
-  private cookieInformationService = inject(CookieInformationService);
-  private transloco = inject(TranslocoService);
-  private appInsights = inject(DhApplicationInsights);
-  private authService = inject(MsalService);
+  private readonly cookieInformationService = inject(CookieInformationService);
+  private readonly transloco = inject(TranslocoService);
+  private readonly appInsights = inject(DhApplicationInsights);
+  private readonly authService = inject(MsalService);
 
   ngOnInit(): void {
     // Initialize cookie information

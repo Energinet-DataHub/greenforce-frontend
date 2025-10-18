@@ -27,6 +27,9 @@ export interface DhAppEnvironmentConfig {
   applicationInsights: {
     connectionString: string;
   };
+  microsoftClarity?: {
+    projectId: string;
+  };
 }
 
 export enum DhAppEnvironment {

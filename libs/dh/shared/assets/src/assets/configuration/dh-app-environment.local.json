@@ -2,5 +2,8 @@
   "current": "localhost",
   "applicationInsights": {
     "connectionString": "<connection-string>"
+  },
+  "microsoftClarity": {
+    "projectId": "<project-id>"
   }
 }

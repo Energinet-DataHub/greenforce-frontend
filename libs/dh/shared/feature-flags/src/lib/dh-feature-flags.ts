@@ -68,6 +68,10 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod, DhAppEnvironment.preprod],
   },
+  'microsoft-clarity': {
+    created: latestBump,
+    disabledEnvironments: [DhAppEnvironment.local, DhAppEnvironment.prod],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
