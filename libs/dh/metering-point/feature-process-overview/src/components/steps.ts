@@ -48,6 +48,7 @@ type MeteringPointProcessStep = NonNullable<
       [dataSource]="dataSource()"
       [columns]="columns"
       [resolveHeader]="resolveHeader"
+      [loading]="loading()"
     >
       <ng-container *wattTableCell="columns.step; let process">
         <vater-flex
@@ -84,6 +85,7 @@ type MeteringPointProcessStep = NonNullable<
 })
 export class DhMeteringPointProcessOverviewSteps {
   readonly steps = input.required<MeteringPointProcessStep[]>();
+  readonly loading = input(false);
   dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
   columns: WattTableColumnDef<MeteringPointProcessStep> = {
     step: { accessor: 'step', size: '1fr' },

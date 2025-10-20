@@ -67,9 +67,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-content>
-        @if (steps(); as steps) {
-          <dh-metering-point-process-overview-steps [steps]="steps" />
-        }
+        <dh-metering-point-process-overview-steps [steps]="steps()" [loading]="process.loading()" />
       </watt-drawer-content>
     </watt-drawer>
   `,
@@ -78,6 +76,8 @@ export class DhMeteringPointProcessOverviewDetails {
   readonly id = input.required<string>();
   protected navigation = inject(DhNavigationService);
   process = query(GetMeteringPointProcessByIdDocument, () => ({
+    fetchPolicy: 'cache-and-network',
+    returnPartialData: true,
     variables: {
       id: this.id(),
     },
@@ -97,5 +97,5 @@ export class DhMeteringPointProcessOverviewDetails {
   documentType = computed(() => this.process.data()?.meteringPointProcessById?.documentType);
   reasonCode = computed(() => this.process.data()?.meteringPointProcessById?.reasonCode);
   initiator = computed(() => this.process.data()?.meteringPointProcessById?.initiator?.displayName);
-  steps = computed(() => this.process.data()?.meteringPointProcessById?.steps);
+  steps = computed(() => this.process.data()?.meteringPointProcessById?.steps ?? []);
 }
