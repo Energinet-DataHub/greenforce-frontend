@@ -83,14 +83,6 @@ export class DhMeteringPointProcessOverviewDetails {
     },
   }));
 
-  constructor() {
-    console.log('rendering now');
-  }
-
-  x = effect(() => {
-    console.log(this.id());
-  });
-
   state = computed(() => this.process.data()?.meteringPointProcessById?.state);
   createdAt = computed(() => this.process.data()?.meteringPointProcessById?.createdAt);
   cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
