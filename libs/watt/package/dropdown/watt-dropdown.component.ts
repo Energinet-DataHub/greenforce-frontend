@@ -404,7 +404,9 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
     if (this.hasGroups()) {
       const filteredGroups = this._groupedOptions
         .map((item) => {
-          item = item as WattDropdownOptionGroup;
+          if (!('options' in item)) {
+            return null;
+          }
           const filteredGroupOptions = item.options.filter(
             (option) => option.displayValue.toLowerCase().indexOf(search) > -1
           );
