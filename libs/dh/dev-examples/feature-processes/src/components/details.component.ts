@@ -34,7 +34,7 @@ import {
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
@@ -50,6 +50,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
     TranslocoPipe,
     TranslocoDirective,
 
+    VaterFlexComponent,
     WATT_DRAWER,
     WattDatePipe,
     WattButtonComponent,
@@ -57,9 +58,6 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattProgressTrackerStepComponent,
-
-    VaterFlexComponent,
-    VaterStackComponent,
 
     DhResultComponent,
     DhProcessStateBadge,
@@ -142,28 +140,26 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
       </watt-drawer-heading>
       <watt-drawer-content>
         <dh-result [hasError]="hasError()" [loading]="loading()">
-          <vater-stack direction="row" offset="l" fill="both">
-            <vater-flex fill="both" gap="l" offset="l">
-              @if (calculation) {
-                <watt-progress-tracker>
-                  @for (step of calculation.steps; track step; let i = $index) {
-                    <watt-progress-tracker-step
-                      [label]="'wholesale.calculations.steps.' + i + '.pending' | transloco"
-                      [status]="step.state"
-                      [current]="step.isCurrent"
-                    >
-                      {{ 'wholesale.calculations.steps.' + i + '.succeeded' | transloco }}
-                    </watt-progress-tracker-step>
-                  }
-                </watt-progress-tracker>
-                @if (calculation.gridAreas) {
-                  <vater-flex fill="vertical">
-                    <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
-                  </vater-flex>
+          <vater-flex fill="both" gap="l">
+            @if (calculation) {
+              <watt-progress-tracker>
+                @for (step of calculation.steps; track step; let i = $index) {
+                  <watt-progress-tracker-step
+                    [label]="'wholesale.calculations.steps.' + i + '.pending' | transloco"
+                    [status]="step.state"
+                    [current]="step.isCurrent"
+                  >
+                    {{ 'wholesale.calculations.steps.' + i + '.succeeded' | transloco }}
+                  </watt-progress-tracker-step>
                 }
+              </watt-progress-tracker>
+              @if (calculation.gridAreas) {
+                <vater-flex fill="vertical">
+                  <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
+                </vater-flex>
               }
-            </vater-flex>
-          </vater-stack>
+            }
+          </vater-flex>
         </dh-result>
       </watt-drawer-content>
     </watt-drawer>

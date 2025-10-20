@@ -21,6 +21,5 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'watt-drawer-topbar',
   template: `<ng-content />`,
-  styleUrls: ['./watt-drawer-topbar.component.scss'],
 })
 export class WattDrawerTopbarComponent {}

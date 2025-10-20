@@ -31,7 +31,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetBalanceResponsibleByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
@@ -63,6 +63,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
     WattCodeComponent,
     DhEmDashFallbackPipe,
     VaterFlexComponent,
+    VaterUtilityDirective,
   ],
 })
 export class DhBalanceResponsibleDrawerComponent {
