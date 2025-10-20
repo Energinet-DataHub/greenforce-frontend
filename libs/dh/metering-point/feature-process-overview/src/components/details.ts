@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
 import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
