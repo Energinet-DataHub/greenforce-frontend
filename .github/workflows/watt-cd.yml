@@ -16,7 +16,8 @@
 name: Watt CD
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: read
 
 env:
   # Nx Cloud

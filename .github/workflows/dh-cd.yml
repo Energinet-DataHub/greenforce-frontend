@@ -17,6 +17,7 @@ name: DH CD
 
 permissions:
   contents: write
+  pull-requests: read
 
 on:
   push:
