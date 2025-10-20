@@ -326,7 +326,7 @@ export class DhMoveInComponent extends WattTypedModal<{
       return;
     }
 
-    const { cutOffDate, moveInType } = this.customerDetailsForm.getRawValue();
+    const { moveInType } = this.customerDetailsForm.getRawValue();
 
     if (!moveInType) return;
 
