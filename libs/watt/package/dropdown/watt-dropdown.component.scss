@@ -158,7 +158,7 @@ watt-dropdown {
   }
 
   .mat-mdc-optgroup-label {
-    @include watt.typography-watt-text-m;
+    @include watt.typography-watt-headline-6;
     color: var(--watt-input-color);
   }
 
