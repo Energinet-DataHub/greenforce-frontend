@@ -126,8 +126,8 @@ export class WattFieldComponent implements AfterViewInit {
    */
   autoFocus = input(false);
 
-  /** Reference to the focusable element that will be focused */
-  focusableElement = signal<HTMLElement | null>(null);
+  /** @ignore */
+  labelElement = viewChild.required<ElementRef<HTMLInputElement>>('label');
 
   value = signal('');
   filler = computed(() => this.placeholder().slice(this.value().length));
@@ -176,42 +176,13 @@ export class WattFieldComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Find the first focusable element within the component
-    const inputElement = this.findFocusableElement();
-    if (inputElement) {
-      this.focusableElement.set(inputElement);
-
-      // Apply autofocus if enabled
-      if (this.autoFocus()) {
-        // Use requestAnimationFrame to ensure the element is ready in the DOM
-        requestAnimationFrame(() => {
-          this.setFocus();
-        });
-      }
+    // Programmatically focus the input if autoFocus is true
+    if (this.autoFocus()) {
+      // Use requestAnimationFrame to ensure the element is ready in the DOM
+      requestAnimationFrame(() => {
+        this.labelElement().nativeElement.focus();
+      });
     }
-  }
-
-  /**
-   * Sets focus to the focusable element within the component.
-   */
-  setFocus(): void {
-    const element = this.focusableElement();
-    if (element) {
-      element.focus();
-    }
-  }
-
-  /**
-   * Finds the first focusable element within the component.
-   * This is typically an input, select, textarea, or button.
-   */
-  private findFocusableElement(): HTMLElement | null {
-    const wrapper = this.wrapper?.()?.nativeElement;
-    if (!wrapper) return null;
-
-    // Find first input-like element
-    const focusableSelector = 'input, select, textarea, button, [tabindex]:not([tabindex="-1"])';
-    return wrapper.querySelector(focusableSelector);
   }
 
   isRequiredControl(control: FormControl) {
