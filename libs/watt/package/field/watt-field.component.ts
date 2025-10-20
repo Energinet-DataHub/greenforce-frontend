@@ -26,6 +26,7 @@ import {
   input,
   signal,
   viewChild,
+  AfterViewInit,
 } from '@angular/core';
 import { FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
@@ -108,7 +109,7 @@ import { NgTemplateOutlet } from '@angular/common';
     '[class.watt-field--show-errors]': 'showErrors()',
   },
 })
-export class WattFieldComponent {
+export class WattFieldComponent implements AfterViewInit {
   intl = inject(WattFieldIntlService);
   elementRef = inject<ElementRef>(ElementRef);
 
@@ -119,6 +120,14 @@ export class WattFieldComponent {
   tooltip = input<string>();
   placeholder = input('');
   anchorName = input<string>();
+
+  /**
+   * Whether the input should receive focus when the component is rendered.
+   */
+  autoFocus = input(false);
+
+  /** Reference to the focusable element that will be focused */
+  focusableElement = signal<HTMLElement | null>(null);
 
   value = signal('');
   filler = computed(() => this.placeholder().slice(this.value().length));
@@ -164,6 +173,45 @@ export class WattFieldComponent {
     // Subscribe for side effects
     value$.subscribe();
     status$.subscribe();
+  }
+
+  ngAfterViewInit() {
+    // Find the first focusable element within the component
+    const inputElement = this.findFocusableElement();
+    if (inputElement) {
+      this.focusableElement.set(inputElement);
+
+      // Apply autofocus if enabled
+      if (this.autoFocus()) {
+        // Use requestAnimationFrame to ensure the element is ready in the DOM
+        requestAnimationFrame(() => {
+          this.setFocus();
+        });
+      }
+    }
+  }
+
+  /**
+   * Sets focus to the focusable element within the component.
+   */
+  setFocus(): void {
+    const element = this.focusableElement();
+    if (element) {
+      element.focus();
+    }
+  }
+
+  /**
+   * Finds the first focusable element within the component.
+   * This is typically an input, select, textarea, or button.
+   */
+  private findFocusableElement(): HTMLElement | null {
+    const wrapper = this.wrapper?.()?.nativeElement;
+    if (!wrapper) return null;
+
+    // Find first input-like element
+    const focusableSelector = 'input, select, textarea, button, [tabindex]:not([tabindex="-1"])';
+    return wrapper.querySelector(focusableSelector);
   }
 
   isRequiredControl(control: FormControl) {

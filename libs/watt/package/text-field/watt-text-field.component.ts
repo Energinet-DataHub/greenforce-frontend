@@ -63,6 +63,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       [control]="formControl()"
       [label]="label()"
       [tooltip]="tooltip()"
+      [autoFocus]="autoFocus()"
       matAutocompleteOrigin
       [showErrors]="showErrors()"
     >
@@ -74,7 +75,6 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         [attr.aria-label]="label()"
         [attr.type]="type()"
         [attr.placeholder]="placeholder()"
-        [attr.autofocus]="autoFocus() || null"
         [value]="model()"
         [formControl]="formControl()"
         (blur)="onTouched()"
@@ -165,15 +165,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
       const trimmedValue = this.inputField().nativeElement.value.trim();
       this.inputField().nativeElement.value = trimmedValue;
       this.formControl().setValue(trimmedValue);
-    });
-
-    // Programmatically focus the input if autoFocus is true
-    if (this.autoFocus()) {
-      // Use requestAnimationFrame to ensure the element is ready in the DOM
-      requestAnimationFrame(() => {
-        this.inputField().nativeElement.focus();
-      });
-    }
+    })
   }
 
   /** @ignore */
@@ -228,13 +220,5 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   /** @ignore */
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled.set(isDisabled);
-  }
-
-  /** @ignore */
-  setFocus(): void {
-    const inputField = this.inputField();
-    if (inputField) {
-      inputField.nativeElement.focus();
-    }
   }
 }
