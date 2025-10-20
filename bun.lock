@@ -4,7 +4,7 @@
     "": {
       "name": "energinet-datahub",
       "dependencies": {
-        "@analogjs/vite-plugin-angular": "1.20.2",
+        "@analogjs/vite-plugin-angular": "1.20",
         "@angular/animations": "20.1.3",
         "@angular/cdk": "20.1.3",
         "@angular/common": "20.1.3",
