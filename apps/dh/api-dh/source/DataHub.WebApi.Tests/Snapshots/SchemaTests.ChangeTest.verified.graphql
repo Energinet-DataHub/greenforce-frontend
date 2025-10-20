@@ -891,9 +891,45 @@ type MeteringPointMetadataDto {
 }
 
 type MeteringPointProcess {
+  initiator: MarketParticipant
+  steps: [MeteringPointProcessStep!]!
   id: String!
   documentType: DocumentType!
+  reasonCode: String!
   createdAt: DateTime!
+  cutoffDate: DateTime!
+  state: ProcessState!
+}
+
+"A connection to a list of items."
+type MeteringPointProcessOverviewConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [MeteringPointProcessOverviewEdge!]
+  "A flattened list of the nodes."
+  nodes: [MeteringPointProcess!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type MeteringPointProcessOverviewEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: MeteringPointProcess!
+}
+
+type MeteringPointProcessStep {
+  actor: MarketParticipant
+  id: String!
+  step: String!
+  comment: String
+  createdAt: DateTime!
+  dueDate: DateTime!
+  state: ProcessState!
+  messageId: String
 }
 
 type MeteringPointsGroupByPackageNumber {
@@ -1107,26 +1143,6 @@ type ProcessesEdge {
   node: OrchestrationInstance!
 }
 
-"A connection to a list of items."
-type ProcessesForMeteringPointConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [ProcessesForMeteringPointEdge!]
-  "A flattened list of the nodes."
-  nodes: [MeteringPointProcess!]
-  "Identifies the total count of items in the connection."
-  totalCount: Int!
-}
-
-"An edge in a connection."
-type ProcessesForMeteringPointEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: MeteringPointProcess!
-}
-
 type Query {
   chargesByPeriod(query: GetChargesByPeriodQueryInput! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargesSortInput!]): ChargesByPeriodConnection @authorize(roles: [ "charges:view" ])
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
@@ -1185,7 +1201,8 @@ type Query {
   measurementsReports: [MeasurementsReport!]!
   archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentType "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [SearchDocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
-  processesForMeteringPoint(meteringPointId: String! created: DateRange! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [MeteringPointProcessSortInput!]): ProcessesForMeteringPointConnection
+  meteringPointProcessOverview(meteringPointId: String! created: DateRange! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [MeteringPointProcessSortInput!]): MeteringPointProcessOverviewConnection
+  meteringPointProcessById(id: String!): MeteringPointProcess
   notifications: [NotificationDto!]!
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
@@ -1830,9 +1847,12 @@ input MeteringGridAreaImbalanceSortInput {
 input MeteringPointProcessSortInput {
   id: SortEnumType
   createdAt: SortEnumType
+  cutoffDate: SortEnumType
   documentType: SortEnumType
+  reasonCode: SortEnumType
   actorNumber: SortEnumType
   actorRole: SortEnumType
+  state: SortEnumType
 }
 
 input MoveInContactDetailsInput {
