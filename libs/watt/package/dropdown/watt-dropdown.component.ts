@@ -395,7 +395,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
       return;
     }
 
-    let search = (this.filterControl.value as string).trim().toLowerCase();
+    const search = (this.filterControl.value as string).trim().toLowerCase();
 
     if (!search) {
       this.filteredOptions$.next(this._options.slice());
