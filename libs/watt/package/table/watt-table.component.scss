@@ -161,7 +161,7 @@ watt-table .mat-mdc-table {
   }
 }
 
-.watt-table-variant-zebra > table > tbody > tr:nth-child(even) > td {
+.watt-table-variant-zebra > table > tbody > tr:nth-child(even):not(.watt-table-active-row) > td {
   background-color: var(--watt-color-neutral-grey-50);
 }
 
@@ -203,6 +203,10 @@ watt-table .mat-mdc-table tr.mat-mdc-row td.watt-table-cell--expandable.watt-tab
   & > .watt-table-cell-wrapper {
     position: relative;
   }
+}
+
+.watt-table-cell-wrapper {
+  width: 100%;
 }
 
 .watt-table-footer-spacer {
