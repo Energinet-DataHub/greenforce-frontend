@@ -22,11 +22,11 @@ import {
   ElementRef,
   ViewEncapsulation,
   computed,
+  effect,
   inject,
   input,
   signal,
   viewChild,
-  AfterViewInit,
 } from '@angular/core';
 import { FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
@@ -109,7 +109,7 @@ import { NgTemplateOutlet } from '@angular/common';
     '[class.watt-field--show-errors]': 'showErrors()',
   },
 })
-export class WattFieldComponent implements AfterViewInit {
+export class WattFieldComponent {
   intl = inject(WattFieldIntlService);
   elementRef = inject<ElementRef>(ElementRef);
 
@@ -174,20 +174,16 @@ export class WattFieldComponent implements AfterViewInit {
     // Subscribe for side effects
     value$.subscribe();
     status$.subscribe();
-  }
 
-  ngAfterViewInit() {
-    // Programmatically focus the input if autoFocus is true
-    if (this.autoFocus()) {
-      // Use requestAnimationFrame to ensure the element is ready in the DOM
-      requestAnimationFrame(() => {
+    effect(() => {
+      if (this.autoFocus()) {
         if (this.chipMode()) {
           this.wattLabelElement().nativeElement.focus();
         } else {
           this.labelElement().nativeElement.focus();
         }
-      });
-    }
+      }
+    });
   }
 
   isRequiredControl(control: FormControl) {
