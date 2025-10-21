@@ -380,7 +380,8 @@
           "chargeType": "Type",
           "owners": "Ejer",
           "status": "Status",
-          "vat": "Moms"
+          "vat": "Moms",
+          "moreOptions": "Flere filtere"
         },
         "chargeStatus": {
           "AWAITING": "Afventer",
@@ -388,6 +389,17 @@
           "CANCELLED": "Annulleret",
           "CURRENT": "Aktuel",
           "MISSING_PRICE_SERIES": "Mangler prisserie"
+        },
+        "moreOptions": {
+          "vatGroupName": "Moms",
+          "withVat": "Med moms",
+          "withoutVat": "Uden moms",
+          "transparentInvoicingGroupName": "Viderefakturering",
+          "withTransparentInvoicing": "Skal viderefaktureres",
+          "withoutTransparentInvoicing": "Skal ikke viderefaktureres",
+          "predictablePriceGroupName": "Forudsigelig pris",
+          "withPredictablePrice": "Forudsigelig pris",
+          "withoutPredictablePrice": "Ikke forudsigelig pris"
         }
       }
     }

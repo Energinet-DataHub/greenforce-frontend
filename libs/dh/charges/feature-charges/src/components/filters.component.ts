@@ -1,4 +1,5 @@
-import { Component, computed, inject, model, untracked } from '@angular/core';
+import { Component, computed, effect, inject, model, untracked } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
@@ -16,7 +17,12 @@ import {
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@jsverse/transloco';
+import {
+  translate,
+  translateObjectSignal,
+  translateSignal,
+  TranslocoDirective,
+} from '@jsverse/transloco';
 import { WattDropdownOptionGroup } from 'libs/watt/package/dropdown/watt-dropdown-option';
 
 @Component({
@@ -74,8 +80,8 @@ import { WattDropdownOptionGroup } from 'libs/watt/package/dropdown/watt-dropdow
         [chipMode]="true"
         [multiple]="true"
         [hideSearch]="true"
-        [options]="moreOptions"
-        placeholder="Flere filtere"
+        [options]="moreOptions()"
+        [placeholder]="t('moreOptions')"
       />
     </form>
   `,
@@ -83,27 +89,13 @@ import { WattDropdownOptionGroup } from 'libs/watt/package/dropdown/watt-dropdow
 export class DhChargesFiltersComponent {
   private readonly actorStorage = inject(DhActorStorage);
   private readonly marketRole = this.actorStorage.getSelectedActor().marketRole;
+  private readonly moreOptionsTranslations = translateObjectSignal(
+    'charges.charges.table.moreOptions'
+  );
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
   statusOptions = dhEnumToWattDropdownOptions(ChargeStatus, [ChargeStatus.Invalid]);
   owners = getActorOptions(this.getActorsWithMarketRoles(), 'actorId');
-  moreOptions: WattDropdownOptionGroup[] = [
-    {
-      name: 'vat',
-      label: 'Moms',
-      options: [
-        { value: 'vat-true', displayValue: 'Med moms' },
-        { value: 'vat-false', displayValue: 'Uden moms' },
-      ],
-    },
-    {
-      name: 'transparentInvoicing',
-      label: 'Viderefaktureres',
-      options: [
-        { value: 'transparentInvoicing-true', displayValue: 'Skal viderefaktureres' },
-        { value: 'transparentInvoicing-false', displayValue: 'Skal ikke viderefaktureres' },
-      ],
-    },
-  ];
+  moreOptions = computed(() => this.getMoreOptions());
 
   filter = model<GetChargesQueryInput>({});
 
@@ -116,6 +108,14 @@ export class DhChargesFiltersComponent {
       moreOptions: dhMakeFormControl<string[] | null>(null),
     });
   });
+
+  valuesChanges = toSignal(this.form().valueChanges, { initialValue: this.form().value });
+
+  constructor() {
+    effect(() => {
+      this.filter.set(this.valuesChanges());
+    });
+  }
 
   private getActorsWithMarketRoles() {
     switch (this.marketRole) {
@@ -133,4 +133,34 @@ export class DhChargesFiltersComponent {
         return [];
     }
   }
+
+  private getMoreOptions(): WattDropdownOptionGroup[] {
+    return [
+      this.createGroupOption('vat'),
+      this.createGroupOption('transparentInvoicing'),
+      this.createGroupOption('predictablePrice'),
+    ];
+  }
+
+  private createGroupOption(name: string): WattDropdownOptionGroup {
+    return {
+      name,
+      label: this.moreOptionsTranslations()[`${name}GroupName`],
+      options: [
+        {
+          value: `${name}-true`,
+          displayValue: this.moreOptionsTranslations()[`with${capitalize(name)}`],
+        },
+        {
+          value: `${name}-false`,
+          displayValue: this.moreOptionsTranslations()[`without${capitalize(name)}`],
+        },
+      ],
+    };
+  }
+}
+
+function capitalize(name: string): string {
+  if (!name || name.length === 0) return name;
+  return name.charAt(0).toUpperCase() + name.slice(1);
 }

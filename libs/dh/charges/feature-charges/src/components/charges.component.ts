@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregione';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
@@ -64,7 +64,7 @@ import { DhChargesFiltersComponent } from './filters.component';
     >
       <h3>{{ t('headline') }}</h3>
       <watt-data-filters>
-        <dh-charges-filters [filter]="filter" />
+        <dh-charges-filters [filter]="filter" (filterChange)="fetch($event)" />
       </watt-data-filters>
 
       <watt-table
@@ -117,6 +117,8 @@ export class DhChargesComponent {
   filter: GetChargesQueryInput = {
     statuses: [ChargeStatus.Current, ChargeStatus.MissingPriceSeries],
   };
+
+  fetch = (query: GetChargesQueryInput) => this.dataSource.refetch({ query });
 
   selection = () => {
     return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
