@@ -368,7 +368,6 @@
         "D03": "Tarif"
       },
       "table": {
-        "headline": "Priser",
         "columns": {
           "id": "ID",
           "type": "Type",

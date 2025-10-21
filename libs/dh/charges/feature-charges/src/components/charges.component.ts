@@ -62,7 +62,6 @@ import { DhChargesFiltersComponent } from './filters.component';
       [ready]="dataSource.called"
       *transloco="let t; prefix: 'charges.charges.table'"
     >
-      <h3>{{ t('headline') }}</h3>
       <watt-data-filters>
         <dh-charges-filters [filter]="filter" (filterChange)="fetch($event)" />
       </watt-data-filters>
