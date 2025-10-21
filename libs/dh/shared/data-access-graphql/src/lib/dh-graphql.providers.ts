@@ -141,6 +141,12 @@ export const graphQLProvider = provideApollo(() => {
                 id: args?.id,
               });
             },
+            meteringPointProcessById(_, { args, toReference }) {
+              return toReference({
+                __typename: 'MeteringPointProcess',
+                id: args?.id,
+              });
+            },
             marketParticipantById(_, { args, toReference }) {
               return toReference({
                 __typename: 'MarketParticipant',

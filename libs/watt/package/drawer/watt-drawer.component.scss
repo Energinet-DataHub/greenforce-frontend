@@ -31,29 +31,9 @@
 }
 
 .watt-drawer {
-  padding: 0;
-
-  & header {
-    display: flex;
-    justify-content: flex-end;
-    .close-btn {
-      align-self: center;
-    }
-  }
-
-  &__grid-container {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    height: 100%;
-  }
-
   &--small {
     width: 460px;
     max-width: 100vw;
-
-    .watt-drawer__actions {
-      margin-bottom: var(--watt-space-m);
-    }
   }
 
   &--normal {
@@ -66,16 +46,9 @@
     max-width: 100vw;
   }
 
-  &__content {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    overflow-y: auto;
-  }
-
-  &__actions {
-    display: flex;
+  & header {
+    flex: 0;
     border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-    padding-bottom: var(--watt-space-m);
   }
 }
 
