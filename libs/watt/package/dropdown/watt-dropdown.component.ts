@@ -179,7 +179,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
     effect(() => {
       const options = this.options();
       if (Array.isArray(options)) {
-        let optionsCopy = [...options];
+        const optionsCopy = [...options];
 
         const hasGroups = options.some(
           (option) =>
@@ -395,11 +395,9 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
       return;
     }
 
-    // get the search keyword
-    let search = (this.filterControl.value as string).trim();
+    let search = (this.filterControl.value as string).trim().toLowerCase();
 
     if (!search) {
-      // No search term, return the original options
       this.filteredOptions$.next(this._options.slice());
 
       if (this.hasGroups()) {
@@ -408,31 +406,31 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
       return;
     }
 
-    search = search.toLowerCase();
-
     const filteredFlatOptions = this._options.filter(
       (option) => option.displayValue.toLowerCase().indexOf(search) > -1
     );
     this.filteredOptions$.next(filteredFlatOptions);
 
     if (this.hasGroups()) {
-      const filteredGroups = this._groupedOptions
-        .map((item) => {
-          if (!('options' in item)) {
-            return null;
-          }
-          const filteredGroupOptions = item.options.filter(
-            (option) => option.displayValue.toLowerCase().indexOf(search) > -1
-          );
-
-          return filteredGroupOptions.length > 0
-            ? { ...item, options: filteredGroupOptions }
-            : null;
-        })
-        .filter(Boolean) as WattDropdownGroupedOptions;
-
-      this.filteredGroupedOptions$.next(filteredGroups);
+      this.filterGroups(search);
     }
+  }
+
+  private filterGroups(search: string) {
+    const filteredGroups = this._groupedOptions
+      .map((item) => {
+        if (!('options' in item)) {
+          return null;
+        }
+        const filteredGroupOptions = item.options.filter(
+          (option) => option.displayValue.toLowerCase().indexOf(search) > -1
+        );
+
+        return filteredGroupOptions.length > 0 ? { ...item, options: filteredGroupOptions } : null;
+      })
+      .filter(Boolean) as WattDropdownGroupedOptions;
+
+    this.filteredGroupedOptions$.next(filteredGroups);
   }
 
   private determineToggleAllCheckboxState() {
