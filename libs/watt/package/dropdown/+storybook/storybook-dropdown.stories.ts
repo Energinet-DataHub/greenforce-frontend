@@ -25,7 +25,7 @@ import { WattDropdownComponent } from '../watt-dropdown.component';
 import { WattDropdownOption } from '../watt-dropdown-option';
 
 const meta: Meta<WattDropdownComponent> = {
-  title: 'Components/Dropdown/Reactive Forms',
+  title: 'Components/Dropdown',
   component: WattDropdownComponent,
   decorators: [
     moduleMetadata({

@@ -34,7 +34,7 @@ public class ChargesClient : IChargesClient
 
     private static readonly List<ChargeDto> _staticCharges = GenerateStaticCharges();
 
-    public IEnumerable<ChargeDto> GetChargesByPeriod(GetChargesByPeriodQuery query)
+    public IEnumerable<ChargeDto> GetCharges(GetChargesQuery? query)
     {
         return _staticCharges;
     }
