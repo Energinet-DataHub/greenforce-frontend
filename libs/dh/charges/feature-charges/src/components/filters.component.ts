@@ -1,30 +1,28 @@
 import { Component, computed, effect, inject, model, untracked } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+
+import { TranslocoDirective, translateObjectSignal } from '@jsverse/transloco';
+
 import {
-  ChargeStatus,
   ChargeType,
   EicFunction,
+  ChargeStatus,
   GetChargesQueryInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
-  dhMakeFormControl,
-} from '@energinet-datahub/dh/shared/ui-util';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import {
-  translate,
-  translateObjectSignal,
-  translateSignal,
-  TranslocoDirective,
-} from '@jsverse/transloco';
-import { WattDropdownOptionGroup } from 'libs/watt/package/dropdown/watt-dropdown-option';
 
+import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+
+import {
+  dhMakeFormControl,
+  dhEnumToWattDropdownOptions,
+  DhDropdownTranslatorDirective,
+} from '@energinet-datahub/dh/shared/ui-util';
+
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
+import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet-datahub/watt/dropdown';
 @Component({
   selector: 'dh-charges-filters',
   imports: [
@@ -144,7 +142,6 @@ export class DhChargesFiltersComponent {
 
   private createGroupOption(name: string): WattDropdownOptionGroup {
     return {
-      name,
       label: this.moreOptionsTranslations()[`${name}GroupName`],
       options: [
         {
