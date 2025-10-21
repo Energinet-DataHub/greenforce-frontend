@@ -189,27 +189,34 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
         this.hasGroups.set(hasGroups);
 
         if (hasGroups) {
-          this._groupedOptions = this.processGroupedOptions(optionsCopy);
-          this._options = this._groupedOptions.flatMap((group) => {
-            if ('options' in group) {
-              return group.options;
-            }
-            return [];
-          });
-          this.filteredGroupedOptions$.next(this._groupedOptions);
-          this.filteredOptions$.next(this._options);
+          this.handleGroup(optionsCopy);
         } else {
-          // Handle flat options list
-          if (this.sortDirection()) {
-            optionsCopy = this.sortOptions(optionsCopy as WattDropdownOptions);
-          }
-
-          this._options = optionsCopy as WattDropdownOptions;
-          this.filteredOptions$.next(this._options);
+          this.handleFlat(optionsCopy as WattDropdownOptions);
         }
       }
     });
     this.parentControlDirective.valueAccessor = this;
+  }
+
+  private handleFlat(optionsCopy: WattDropdownOptions) {
+    if (this.sortDirection()) {
+      optionsCopy = this.sortOptions(optionsCopy);
+    }
+
+    this._options = optionsCopy;
+    this.filteredOptions$.next(this._options);
+  }
+
+  private handleGroup(optionsCopy: WattDropdownGroupedOptions) {
+    this._groupedOptions = this.processGroupedOptions(optionsCopy);
+    this._options = this._groupedOptions.flatMap((group) => {
+      if ('options' in group) {
+        return group.options;
+      }
+      return [];
+    });
+    this.filteredGroupedOptions$.next(this._groupedOptions);
+    this.filteredOptions$.next(this._options);
   }
 
   private processGroupedOptions(options: WattDropdownGroupedOptions): WattDropdownGroupedOptions {
@@ -339,6 +346,28 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * Reflect parent validation errors in our form control.
    */
   private bindControlToParent() {
+    this.handleValueChange();
+    this.handleStatusChange();
+  }
+
+  private handleStatusChange() {
+    this.parentControl?.statusChanges
+      .pipe(
+        map(
+          () =>
+            ({
+              ...this.parentControl?.errors,
+            }) as ValidationErrors
+        ),
+        map((errors) => (Object.keys(errors).length > 0 ? errors : null)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((errors) => {
+        this.matSelectControl.setErrors(errors);
+      });
+  }
+
+  private handleValueChange() {
     this.matSelectControl.valueChanges
       .pipe(
         map((value) => (value === undefined ? null : value)),
@@ -358,21 +387,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
 
         this.markParentControlAsTouched();
         this.changeParentValue(value);
-      });
-
-    this.parentControl?.statusChanges
-      .pipe(
-        map(
-          () =>
-            ({
-              ...this.parentControl?.errors,
-            }) as ValidationErrors
-        ),
-        map((errors) => (Object.keys(errors).length > 0 ? errors : null)),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe((errors) => {
-        this.matSelectControl.setErrors(errors);
       });
   }
 
