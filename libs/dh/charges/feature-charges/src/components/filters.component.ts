@@ -1,6 +1,6 @@
-import { Component, computed, effect, inject, model, untracked } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, computed, effect, inject, model, untracked } from '@angular/core';
 
 import { TranslocoDirective, translateObjectSignal } from '@jsverse/transloco';
 
@@ -90,12 +90,13 @@ export class DhChargesFiltersComponent {
   private readonly moreOptionsTranslations = translateObjectSignal(
     'charges.charges.table.moreOptions'
   );
+
+  filter = model<GetChargesQueryInput>({});
+
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
   statusOptions = dhEnumToWattDropdownOptions(ChargeStatus, [ChargeStatus.Invalid]);
   owners = getActorOptions(this.getActorsWithMarketRoles(), 'actorId');
   moreOptions = computed(() => this.getMoreOptions());
-
-  filter = model<GetChargesQueryInput>({});
 
   form = computed(() => {
     const initial = untracked(() => this.filter());
