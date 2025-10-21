@@ -165,7 +165,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
       const trimmedValue = this.inputField().nativeElement.value.trim();
       this.inputField().nativeElement.value = trimmedValue;
       this.formControl().setValue(trimmedValue);
-    })
+    });
   }
 
   /** @ignore */
