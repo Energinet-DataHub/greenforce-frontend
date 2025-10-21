@@ -28,7 +28,7 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
 import { DhDuration } from './duration.component';
@@ -40,6 +40,8 @@ import { DhReportStatus } from '../report-status.component';
     TranslocoPipe,
     TranslocoDirective,
 
+    VaterStackComponent,
+    VaterFlexComponent,
     WATT_CARD,
     WATT_TABLE,
     WATT_DRAWER,
@@ -74,12 +76,7 @@ import { DhReportStatus } from '../report-status.component';
       }
 
       .card-metadata {
-        margin: var(--watt-space-ml);
         width: 60%;
-      }
-
-      .card-grid-areas {
-        margin: var(--watt-space-ml);
       }
     `,
   ],

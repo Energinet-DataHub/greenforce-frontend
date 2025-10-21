@@ -100,30 +100,28 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
         </watt-drawer-actions>
       }
 
-      <watt-drawer-content>
-        <dh-result [loading]="loading()" [hasError]="hasError()">
-          @if (userRole) {
-            <watt-tabs>
-              <watt-tab [label]="t('roles.tabs.masterData.tabLabel')">
-                <dh-role-master-data [role]="userRole" />
-              </watt-tab>
+      <dh-result [loading]="loading()" [hasError]="hasError()">
+        @if (userRole) {
+          <watt-tabs>
+            <watt-tab [label]="t('roles.tabs.masterData.tabLabel')">
+              <dh-role-master-data [role]="userRole" />
+            </watt-tab>
 
-              <watt-tab
-                *dhPermissionRequired="['fas']"
-                [label]="t('roles.tabs.permissions.tabLabel')"
-              >
-                <dh-role-permissions [role]="userRole" />
-              </watt-tab>
+            <watt-tab
+              *dhPermissionRequired="['fas']"
+              [label]="t('roles.tabs.permissions.tabLabel')"
+            >
+              <dh-role-permissions [role]="userRole" />
+            </watt-tab>
 
-              <watt-tab *dhPermissionRequired="['fas']" [label]="t('roles.tabs.history.tabLabel')">
-                @defer {
-                  <dh-role-audit-logs [id]="userRole.id" />
-                }
-              </watt-tab>
-            </watt-tabs>
-          }
-        </dh-result>
-      </watt-drawer-content>
+            <watt-tab *dhPermissionRequired="['fas']" [label]="t('roles.tabs.history.tabLabel')">
+              @defer {
+                <dh-role-audit-logs [id]="userRole.id" />
+              }
+            </watt-tab>
+          </watt-tabs>
+        }
+      </dh-result>
     </watt-drawer>
     <dh-deactivate-user-role [id]="userRole?.id" #deactivate />
     <router-outlet />

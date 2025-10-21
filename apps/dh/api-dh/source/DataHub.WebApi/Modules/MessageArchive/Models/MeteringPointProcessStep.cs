@@ -11,15 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-.headline {
-  display: inline-block;
-  padding-right: var(--watt-space-s);
-}
 
-dh-calculations-grid-areas-table {
-  margin: 0 var(--watt-space-ml);
-}
+using Energinet.DataHub.WebApi.Modules.Processes.Types;
 
-watt-progress-tracker {
-  margin: 0 var(--watt-space-ml);
-}
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
+
+public record MeteringPointProcessStep(
+    string Id,
+    string Step,
+    string? Comment,
+    DateTimeOffset CreatedAt,
+    DateTimeOffset DueDate,
+    string ActorNumber,
+    string ActorRole,
+    ProcessState State,
+    string? MessageId);
