@@ -43,6 +43,7 @@ public class MessageArchiveController(IB2CClient b2CClient) : ControllerBase
         {
             return NoContent();
         }
+
         // Read the full stream into a string
         string documentContent;
         using (var reader = new StreamReader(stream, leaveOpen: false))
