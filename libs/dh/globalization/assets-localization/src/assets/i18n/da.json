@@ -547,7 +547,6 @@
     "selectedRelatedMeteringPoint": "Valgt",
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
-    "processes": {
     "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunt",

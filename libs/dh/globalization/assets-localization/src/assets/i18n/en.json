@@ -546,7 +546,6 @@
     "selectedRelatedMeteringPoint": "Selected",
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
-    "processes": {
     "processOverview": {
       "columns": {
         "createdAt": "Time of message",
