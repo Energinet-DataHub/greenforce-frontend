@@ -4,7 +4,7 @@
     "": {
       "name": "energinet-datahub",
       "dependencies": {
-        "@analogjs/vite-plugin-angular": "1.20",
+        "@analogjs/vite-plugin-angular": "1.20.0",
         "@angular/animations": "20.1.3",
         "@angular/cdk": "20.1.3",
         "@angular/common": "20.1.3",
@@ -185,7 +185,7 @@
 
     "@ampproject/remapping": ["@ampproject/remapping@2.3.0", "", { "dependencies": { "@jridgewell/gen-mapping": "^0.3.5", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw=="],
 
-    "@analogjs/vite-plugin-angular": ["@analogjs/vite-plugin-angular@1.20.2", "", { "dependencies": { "ts-morph": "^21.0.0", "vfile": "^6.0.3" }, "peerDependencies": { "@angular-devkit/build-angular": "^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0", "@angular/build": "^18.0.0 || ^19.0.0 || ^20.0.0" }, "optionalPeers": ["@angular-devkit/build-angular", "@angular/build"] }, "sha512-2yL5Hz0WVQ0DQxOP9Dd3g8YXXYBZ1xzX7vzdp633MT4mrzEKagZQY981Yz6DoBOIXYfk30Zc8LF3XkKHJE+4kA=="],
+    "@analogjs/vite-plugin-angular": ["@analogjs/vite-plugin-angular@1.20.0", "", { "dependencies": { "ts-morph": "^21.0.0", "vfile": "^6.0.3" }, "peerDependencies": { "@angular-devkit/build-angular": "^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0", "@angular/build": "^18.0.0 || ^19.0.0 || ^20.0.0" }, "optionalPeers": ["@angular-devkit/build-angular", "@angular/build"] }, "sha512-yMaW6UDzqCrF+LSvsoipPpjKTDYd9r0am6UDyEunbUWvdFt27MU5rW2MwqDtV6wDvO+AP9aWdmmJMh/TY4FgKQ=="],
 
     "@analogjs/vitest-angular": ["@analogjs/vitest-angular@1.19.1", "", { "peerDependencies": { "@analogjs/vite-plugin-angular": "*", "@angular-devkit/architect": ">=0.1500.0 < 0.2100.0", "vitest": "^1.3.1 || ^2.0.0 || ^3.0.0" } }, "sha512-LLEa17wXqO6p2qDOjsS7ZX9+T/x0IJuURqLriecy+EFHwHNL9GJ/jdUNOHcLEfuWDg9z+/X5WKOKUKH4LYDJVQ=="],
 
