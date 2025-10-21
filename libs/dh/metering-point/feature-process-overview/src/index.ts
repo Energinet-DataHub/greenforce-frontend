@@ -16,8 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export {
-  WattDescriptionListComponent,
-  WattDescriptionListItemComponent,
-  WATT_DESCRIPTION_LIST,
-} from './watt-description-list.component';
+export { meteringPointProcessOverviewRoutes as default } from './routes';

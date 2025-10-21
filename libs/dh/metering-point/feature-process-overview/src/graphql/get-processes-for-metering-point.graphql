@@ -1,4 +1,4 @@
-query GetProcessesForMeteringPoint(
+query GetMeteringPointProcessOverview(
   $meteringPointId: String!
   $created: DateRange!
   $first: Int
@@ -7,7 +7,7 @@ query GetProcessesForMeteringPoint(
   $before: String
   $order: [MeteringPointProcessSortInput!]
 ) {
-  processesForMeteringPoint(
+  meteringPointProcessOverview(
     meteringPointId: $meteringPointId
     created: $created
     first: $first
@@ -24,7 +24,14 @@ query GetProcessesForMeteringPoint(
     nodes {
       id
       createdAt
+      cutoffDate
       documentType
+      reasonCode
+      state
+      initiator {
+        id
+        displayName
+      }
     }
   }
 }
