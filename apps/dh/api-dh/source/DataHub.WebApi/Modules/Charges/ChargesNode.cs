@@ -28,8 +28,5 @@ public static partial class ChargesNode
     [UsePaging]
     [UseSorting]
     [Authorize(Roles = new[] { "charges:view" })]
-    public static IEnumerable<ChargeDto> GetChargesByPeriod(GetChargesByPeriodQuery query, [Service] IChargesClient client)
-    {
-        return client.GetChargesByPeriod(query);
-    }
+    public static IEnumerable<ChargeDto> GetCharges([Service] IChargesClient client, GetChargesQuery? query) => client.GetCharges(query);
 }

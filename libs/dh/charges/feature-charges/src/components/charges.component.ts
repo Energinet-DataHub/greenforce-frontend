@@ -18,7 +18,7 @@
 //#endregione';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { GetChargesByPeriodDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
@@ -30,8 +30,13 @@ import {
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Charge } from '../types';
-import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhChargeStatusComponent } from './status.component';
+import {
+  ChargeStatus,
+  GetChargesQueryInput,
+  SortEnumType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhChargesFiltersComponent } from './filters.component';
 
 @Component({
   selector: 'dh-charges',
@@ -45,6 +50,7 @@ import { DhChargeStatusComponent } from './status.component';
     WattDataFiltersComponent,
     VaterUtilityDirective,
     DhChargeStatusComponent,
+    DhChargesFiltersComponent,
   ],
   providers: [DhNavigationService],
   template: `
@@ -56,7 +62,10 @@ import { DhChargeStatusComponent } from './status.component';
       [ready]="dataSource.called"
       *transloco="let t; prefix: 'charges.charges.table'"
     >
-      <watt-data-filters />
+      <h3>{{ t('headline') }}</h3>
+      <watt-data-filters>
+        <dh-charges-filters [filter]="filter" />
+      </watt-data-filters>
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'charges.charges.table.columns'"
@@ -89,12 +98,8 @@ import { DhChargeStatusComponent } from './status.component';
 export class DhChargesComponent {
   protected readonly navigation = inject(DhNavigationService);
 
-  dataSource = new GetChargesByPeriodDataSource({
+  dataSource = new GetChargesDataSource({
     variables: {
-      query: {
-        from: new Date(),
-        to: new Date(),
-      },
       order: {
         type: SortEnumType.Desc,
       },
@@ -107,6 +112,10 @@ export class DhChargesComponent {
     name: { accessor: 'chargeName' },
     owner: { accessor: 'chargeOwner' },
     status: { accessor: 'status' },
+  };
+
+  filter: GetChargesQueryInput = {
+    statuses: [ChargeStatus.Current, ChargeStatus.MissingPriceSeries],
   };
 
   selection = () => {

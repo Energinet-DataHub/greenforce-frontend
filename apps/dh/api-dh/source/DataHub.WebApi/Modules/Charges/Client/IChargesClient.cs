@@ -24,5 +24,5 @@ public interface IChargesClient
     /// <summary>
     /// Get charges by period.
     /// </summary>
-    IEnumerable<ChargeDto> GetChargesByPeriod(GetChargesByPeriodQuery query);
+    IEnumerable<ChargeDto> GetCharges(GetChargesQuery? query);
 }

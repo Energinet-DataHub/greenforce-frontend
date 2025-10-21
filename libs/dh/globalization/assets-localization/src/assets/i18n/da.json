@@ -362,13 +362,25 @@
   "charges": {
     "charges": {
       "topBarTitle": "Priser",
+      "chargeTypes": {
+        "D01": "Abonnement",
+        "D02": "Gebyr",
+        "D03": "Tarif"
+      },
       "table": {
+        "headline": "Priser",
         "columns": {
           "id": "ID",
           "type": "Type",
           "name": "Navn",
           "owner": "Ejer",
           "status": "Status"
+        },
+        "filters": {
+          "chargeType": "Type",
+          "owners": "Ejer",
+          "status": "Status",
+          "vat": "Moms"
         },
         "chargeStatus": {
           "AWAITING": "Afventer",
