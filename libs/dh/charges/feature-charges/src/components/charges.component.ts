@@ -16,26 +16,31 @@
  * limitations under the License.
  */
 //#endregione';
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+
+import { TranslocoDirective } from '@jsverse/transloco';
+
+import {
+  WattTableComponent,
+  WattTableColumnDef,
+  WattTableCellDirective,
+} from '@energinet-datahub/watt/table';
+
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 import {
-  WattTableColumnDef,
-  WattTableComponent,
-  WattTableCellDirective,
-} from '@energinet-datahub/watt/table';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@jsverse/transloco';
+  ChargeStatus,
+  SortEnumType,
+  GetChargesQueryInput,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
 import { Charge } from '../types';
 import { DhChargeStatusComponent } from './status.component';
-import {
-  ChargeStatus,
-  GetChargesQueryInput,
-  SortEnumType,
-} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhChargesFiltersComponent } from './filters.component';
 
 @Component({
