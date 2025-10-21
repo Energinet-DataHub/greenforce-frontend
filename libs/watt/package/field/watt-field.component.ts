@@ -56,11 +56,11 @@ import { NgTemplateOutlet } from '@angular/common';
   styleUrls: ['./watt-field.component.scss'],
   template: `
     @if (chipMode()) {
-      <span class="watt-label">
+      <span [attr.autofocus]="autoFocus() || null" class="watt-label" #wattLabel>
         <ng-container *ngTemplateOutlet="template" />
       </span>
     } @else {
-      <label [attr.for]="id()">
+      <label [attr.autofocus]="autoFocus() || null" [attr.for]="id()" #label>
         <ng-container *ngTemplateOutlet="template" />
       </label>
     }
@@ -127,7 +127,8 @@ export class WattFieldComponent implements AfterViewInit {
   autoFocus = input(false);
 
   /** @ignore */
-  labelElement = viewChild.required<ElementRef<HTMLInputElement>>('label');
+  labelElement = viewChild.required<ElementRef<HTMLLabelElement>>('label');
+  wattLabelElement = viewChild.required<ElementRef<HTMLSpanElement>>('wattLabel');
 
   value = signal('');
   filler = computed(() => this.placeholder().slice(this.value().length));
@@ -180,7 +181,11 @@ export class WattFieldComponent implements AfterViewInit {
     if (this.autoFocus()) {
       // Use requestAnimationFrame to ensure the element is ready in the DOM
       requestAnimationFrame(() => {
-        this.labelElement().nativeElement.focus();
+        if (this.chipMode()) {
+          this.wattLabelElement().nativeElement.focus();
+        } else {
+          this.labelElement().nativeElement.focus();
+        }
       });
     }
   }
