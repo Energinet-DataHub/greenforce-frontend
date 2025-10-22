@@ -39,6 +39,8 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
   ],
   template: `
     @let form = contactDetailsForm();
+    @let legalControls = form.controls.legalContactGroup.controls;
+    @let technicalControls = form.controls.technicalContactGroup.controls;
     <form
       [formGroup]="form"
       *transloco="let t; prefix: 'meteringPoint.moveIn.steps.contactDetails'"
@@ -53,33 +55,17 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             {{ t('contactSameAsCustomer') }}
           </watt-checkbox>
 
-          <watt-text-field
-            [formControl]="form.controls.legalContactName"
-            [label]="t('contactName')"
-          />
+          <watt-text-field [formControl]="legalControls.name" [label]="t('contactName')" />
 
-          <watt-text-field
-            [formControl]="form.controls.legalContactTitle"
-            [label]="t('attention')"
-          />
+          <watt-text-field [formControl]="legalControls.title" [label]="t('attention')" />
 
-          <watt-phone-field
-            [formControl]="form.controls.legalContactPhone"
-            [label]="t('phoneNumber')"
-          />
+          <watt-phone-field [formControl]="legalControls.phone" [label]="t('phoneNumber')" />
 
-          <watt-phone-field
-            [formControl]="form.controls.legalContactMobile"
-            [label]="t('mobile')"
-          />
+          <watt-phone-field [formControl]="legalControls.mobile" [label]="t('mobile')" />
 
-          <watt-text-field
-            [formControl]="form.controls.legalContactEmail"
-            [label]="t('email')"
-            type="email"
-          >
+          <watt-text-field [formControl]="legalControls.email" [label]="t('email')" type="email">
             <watt-field-error>
-              @if (form.controls.legalContactEmail.hasError('email')) {
+              @if (legalControls.email.hasError('email')) {
                 {{ t('invalidEmail') }}
               }
             </watt-field-error>
@@ -90,34 +76,22 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <h3>
             {{ t('technicalContactSection') }}
           </h3>
-          <watt-checkbox [formControl]="form.controls.technicalContactSameAsCustomer">
-            {{ t('contactSameAsCustomer') }}
+          <watt-checkbox [formControl]="form.controls.technicalContactSameAsLegal">
+            {{ t('technicalContactSameAsLegal') }}
           </watt-checkbox>
 
-          <watt-text-field
-            [formControl]="form.controls.technicalContactName"
-            [label]="t('contactName')"
-          />
-          <watt-text-field
-            [formControl]="form.controls.technicalContactTitle"
-            [label]="t('attention')"
-          />
-          <watt-phone-field
-            [formControl]="form.controls.technicalContactPhone"
-            [label]="t('phoneNumber')"
-          />
-          <watt-phone-field
-            [formControl]="form.controls.technicalContactMobile"
-            [label]="t('mobile')"
-          />
+          <watt-text-field [formControl]="technicalControls.name" [label]="t('contactName')" />
+          <watt-text-field [formControl]="technicalControls.title" [label]="t('attention')" />
+          <watt-phone-field [formControl]="technicalControls.phone" [label]="t('phoneNumber')" />
+          <watt-phone-field [formControl]="technicalControls.mobile" [label]="t('mobile')" />
 
           <watt-text-field
-            [formControl]="form.controls.technicalContactEmail"
+            [formControl]="technicalControls.email"
             [label]="t('email')"
             type="email"
           >
             <watt-field-error>
-              @if (form.controls.technicalContactEmail.invalid) {
+              @if (technicalControls.email.invalid) {
                 {{ t('invalidEmail') }}
               }
             </watt-field-error>

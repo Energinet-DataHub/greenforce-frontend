@@ -52,7 +52,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
     >
       <vater-flex direction="row" align="center" justify="space-between" gap="xl">
         <!-- Legal -->
-        <vater-flex align="stretch">
+        <vater-flex>
           <h3>
             {{ t('legalAddressSection') }}
           </h3>
@@ -131,13 +131,13 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           />
         </vater-flex>
         <!-- Technical -->
-        <vater-flex align="stretch">
+        <vater-flex>
           <h3>
             {{ t('technicalAddressSection') }}
           </h3>
           <vater-stack align="start" gap="xs" class="checkbox-margin-bottom">
-            <watt-checkbox [formControl]="form.controls.technicalAddressSameAsMeteringPoint">
-              {{ t('addressSameAsMeteringPoint') }}
+            <watt-checkbox [formControl]="form.controls.technicalAddressSameAsLegal">
+              {{ t('addressSameAsLegal') }}
             </watt-checkbox>
             <watt-checkbox [formControl]="form.controls.technicalNameAddressProtection">
               {{ t('nameAddressProtection') }}

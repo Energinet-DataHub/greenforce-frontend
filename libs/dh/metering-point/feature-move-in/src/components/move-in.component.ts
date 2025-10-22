@@ -38,6 +38,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import {
   AddressData,
+  ContactDetailsFormGroup,
   InstallationAddress,
   MoveInAddressDetailsFormType,
   MoveInContactDetailsFormType,
@@ -72,14 +73,14 @@ export class DhMoveInComponent extends WattTypedModal<{
   private readonly customerTypeInitialValue = 'private';
 
   private readonly addressDataInitialValue: AddressData = {
-    streetCode: this.modalData.installationAddress?.streetCode ?? '',
+    streetName: this.modalData.installationAddress?.streetName ?? '',
     buildingNumber: this.modalData.installationAddress?.buildingNumber ?? '',
     floor: this.modalData.installationAddress?.floor ?? '',
     room: this.modalData.installationAddress?.room ?? '',
     postCode: this.modalData.installationAddress?.postCode ?? '',
     cityName: this.modalData.installationAddress?.cityName ?? '',
     countryCode: this.modalData.installationAddress?.countryCode ?? '',
-    streetName: this.modalData.installationAddress?.streetName ?? '',
+    streetCode: this.modalData.installationAddress?.streetCode ?? '',
     citySubdivisionName: this.modalData.installationAddress?.citySubDivisionName ?? '',
     postBox: '',
     municipalityCode: this.modalData.installationAddress?.municipalityCode ?? '',
@@ -107,19 +108,21 @@ export class DhMoveInComponent extends WattTypedModal<{
 
   contactDetailsForm = this.fb.group<MoveInContactDetailsFormType>({
     legalContactSameAsCustomer: this.fb.control<boolean>(true),
-    legalContactName: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
-    legalContactTitle: this.fb.control<string>(''),
-    legalContactPhone: this.fb.control<string>(''),
-    legalContactMobile: this.fb.control<string>(''),
-    legalContactEmail: this.fb.control<string>('', Validators.email),
-    technicalContactSameAsCustomer: this.fb.control<boolean>(true),
-    technicalContactName: this.fb.control<string>({ value: '', disabled: true }, [
-      Validators.required,
-    ]),
-    technicalContactTitle: this.fb.control<string>(''),
-    technicalContactPhone: this.fb.control<string>(''),
-    technicalContactMobile: this.fb.control<string>(''),
-    technicalContactEmail: this.fb.control<string>('', Validators.email),
+    legalContactGroup: this.fb.group<ContactDetailsFormGroup>({
+      name: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
+      title: this.fb.control<string>(''),
+      phone: this.fb.control<string>(''),
+      mobile: this.fb.control<string>(''),
+      email: this.fb.control<string>('', Validators.email),
+    }),
+    technicalContactSameAsLegal: this.fb.control<boolean>(true),
+    technicalContactGroup: this.fb.group<ContactDetailsFormGroup>({
+      name: this.fb.control<string>({ value: '', disabled: true }, [Validators.required]),
+      title: this.fb.control<string>(''),
+      phone: this.fb.control<string>(''),
+      mobile: this.fb.control<string>(''),
+      email: this.fb.control<string>('', Validators.email),
+    }),
   });
 
   readonly isForeignCompanyFormControl = this.fb.control<boolean>(false);
@@ -149,7 +152,7 @@ export class DhMoveInComponent extends WattTypedModal<{
       darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
     }),
     legalNameAddressProtection: this.fb.control<boolean>(false),
-    technicalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
+    technicalAddressSameAsLegal: this.fb.control<boolean>(true),
     technicalAddressGroup: this.fb.group({
       streetName: this.fb.control<string>(
         this.addressDataInitialValue.streetName,
@@ -186,17 +189,24 @@ export class DhMoveInComponent extends WattTypedModal<{
 
   private name1Changed = toSignal(this.privateCustomerForm.controls.name1.valueChanges);
   private name2Changed = toSignal(this.privateCustomerForm.controls.name2.valueChanges);
+
   private legalContactSameAsCustomerChanged = toSignal(
     this.contactDetailsForm.controls.legalContactSameAsCustomer.valueChanges
   );
-  private technicalContactSameAsCustomerChanged = toSignal(
-    this.contactDetailsForm.controls.technicalContactSameAsCustomer.valueChanges
+  private technicalContactSameAsLegalChanged = toSignal(
+    this.contactDetailsForm.controls.technicalContactSameAsLegal.valueChanges
+  );
+  private legalContactDetailsFormChanged = toSignal(
+    this.contactDetailsForm.controls.legalContactGroup.valueChanges
   );
   private legalAddressSameAsMeteringPointAddressChanged = toSignal(
     this.addressDetailsForm.controls.legalAddressSameAsMeteringPoint.valueChanges
   );
-  private technicalAddressSameAsMeteringPointAddressChanged = toSignal(
-    this.addressDetailsForm.controls.technicalAddressSameAsMeteringPoint.valueChanges
+  private technicalAddressSameAsLegalChanged = toSignal(
+    this.addressDetailsForm.controls.technicalAddressSameAsLegal.valueChanges
+  );
+  private legalAddressGroupChanged = toSignal(
+    this.addressDetailsForm.controls.legalAddressGroup.valueChanges
   );
 
   private customerTypeEffect = effect(() => {
@@ -249,72 +259,94 @@ export class DhMoveInComponent extends WattTypedModal<{
       const name1 = this.name1Changed();
 
       if (name1 !== undefined) {
-        this.contactDetailsForm.controls.legalContactName.setValue(name1);
-        this.contactDetailsForm.controls.technicalContactName.setValue(name1);
+        this.contactDetailsForm.controls.legalContactGroup.controls.name.setValue(name1);
       }
     }
   });
 
-  private disableNameInputFromLegalContactSameAsCustomerEffect = effect(() => {
+  private legalContactSameAsCustomerEffect = effect(() => {
     const legalContactSameAsCustomer = this.legalContactSameAsCustomerChanged() ?? true;
-
     if (legalContactSameAsCustomer) {
-      this.contactDetailsForm.controls.legalContactName.disable();
-      this.contactDetailsForm.controls.legalContactName.setValue(
+      this.contactDetailsForm.controls.legalContactGroup.controls.name.disable();
+      this.contactDetailsForm.controls.legalContactGroup.controls.name.reset(
         this.privateCustomerForm.controls.name1.value
       );
     } else {
-      this.contactDetailsForm.controls.legalContactName.enable();
+      this.contactDetailsForm.controls.legalContactGroup.controls.name.enable();
     }
   });
 
-  private disableNameInputFromTechnicalContactSameAsCustomerEffect = effect(() => {
-    const technicalContactSameAsCustomer = this.technicalContactSameAsCustomerChanged() ?? true;
-
-    if (technicalContactSameAsCustomer) {
-      this.contactDetailsForm.controls.technicalContactName.disable();
-      this.contactDetailsForm.controls.technicalContactName.setValue(
-        this.privateCustomerForm.controls.name1.value
-      );
+  private technicalContactSameAsCustomerEffect = effect(() => {
+    const technicalContactSameAsLegal = this.technicalContactSameAsLegalChanged() ?? true;
+    if (technicalContactSameAsLegal) {
+      this.contactDetailsForm.controls.technicalContactGroup.disable();
+      this.contactDetailsForm.controls.technicalContactGroup.reset({
+        name: this.contactDetailsForm.controls.legalContactGroup.controls.name.value,
+        title: this.contactDetailsForm.controls.legalContactGroup.controls.title.value,
+        phone: this.contactDetailsForm.controls.legalContactGroup.controls.phone.value,
+        mobile: this.contactDetailsForm.controls.legalContactGroup.controls.mobile.value,
+        email: this.contactDetailsForm.controls.legalContactGroup.controls.email.value,
+      });
     } else {
-      this.contactDetailsForm.controls.technicalContactName.enable();
+      this.contactDetailsForm.controls.technicalContactGroup.enable();
     }
   });
 
-  private disableAddressInputsFromLegalAddressSameAsMeteringPointAddressChangedEffect = effect(
-    () => {
-      const legalAddressSameAsMeteringPointAddress =
-        this.legalAddressSameAsMeteringPointAddressChanged() ?? true;
-
-      if (legalAddressSameAsMeteringPointAddress) {
-        this.resetLegalAddressFormGroup(this.addressDataInitialValue);
-        this.addressDetailsForm.controls.legalAddressGroup.disable();
-      } else {
-        this.addressDetailsForm.controls.legalAddressGroup.enable();
-      }
+  private legalContactDetailsFormChangedEffect = effect(() => {
+    const legalContactDetailsFormValueChange = this.legalContactDetailsFormChanged();
+    if (
+      legalContactDetailsFormValueChange &&
+      this.contactDetailsForm.controls.technicalContactSameAsLegal.value
+    ) {
+      this.contactDetailsForm.controls.technicalContactGroup.reset({
+        name: this.contactDetailsForm.controls.legalContactGroup.controls.name.value,
+        title: this.contactDetailsForm.controls.legalContactGroup.controls.title.value,
+        phone: this.contactDetailsForm.controls.legalContactGroup.controls.phone.value,
+        mobile: this.contactDetailsForm.controls.legalContactGroup.controls.mobile.value,
+        email: this.contactDetailsForm.controls.legalContactGroup.controls.email.value,
+      });
     }
-  );
+  });
 
-  private disableAddressInputsFromTechnicalAddressSameAsMeteringPointAddressChangedEffect = effect(
-    () => {
-      const technicalAddressSameAsMeteringPointAddress =
-        this.technicalAddressSameAsMeteringPointAddressChanged() ?? true;
+  private legalAddressSameAsMeteringPointAddressChangedEffect = effect(() => {
+    const legalAddressSameAsMeteringPointAddress =
+      this.legalAddressSameAsMeteringPointAddressChanged() ?? true;
 
-      if (technicalAddressSameAsMeteringPointAddress) {
-        this.resetTechnicalAddressFormGroup(this.addressDataInitialValue);
-        this.addressDetailsForm.controls.technicalAddressGroup.disable();
-      } else {
-        this.addressDetailsForm.controls.technicalAddressGroup.enable();
-      }
+    if (legalAddressSameAsMeteringPointAddress) {
+      this.resetLegalAddressFormGroup(this.addressDataInitialValue);
+      this.addressDetailsForm.controls.legalAddressGroup.disable();
+    } else {
+      this.addressDetailsForm.controls.legalAddressGroup.enable();
     }
-  );
+  });
+
+  private technicalAddressSameAsLegalChangedEffect = effect(() => {
+    const technicalAddressSameAsLegal = this.technicalAddressSameAsLegalChanged() ?? true;
+
+    if (technicalAddressSameAsLegal) {
+      this.addressDetailsForm.controls.technicalAddressGroup.reset(
+        this.addressDetailsForm.controls.legalAddressGroup.value
+      );
+      this.addressDetailsForm.controls.technicalAddressGroup.disable();
+    } else {
+      this.addressDetailsForm.controls.technicalAddressGroup.enable();
+    }
+  });
+
+  private legalAddressGroupChangedEffect = effect(() => {
+    const legalAddressGroupValue = this.legalAddressGroupChanged();
+    if (
+      legalAddressGroupValue &&
+      this.addressDetailsForm.controls.technicalAddressSameAsLegal.value
+    ) {
+      this.addressDetailsForm.controls.technicalAddressGroup.reset(
+        this.addressDetailsForm.controls.legalAddressGroup.value
+      );
+    }
+  });
 
   private resetLegalAddressFormGroup(data: AddressData) {
     this.addressDetailsForm.controls.legalAddressGroup.reset(data);
-  }
-
-  private resetTechnicalAddressFormGroup(data: AddressData) {
-    this.addressDetailsForm.controls.technicalAddressGroup.reset(data);
   }
 
   async startMoveIn() {
