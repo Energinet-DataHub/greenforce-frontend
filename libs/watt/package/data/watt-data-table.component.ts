@@ -110,7 +110,20 @@ import { WattDataIntlService } from './watt-data-intl.service';
             <ng-content select="watt-button" />
           </vater-stack>
         }
-        <ng-content select="watt-data-filters" />
+
+        @if (!header() && enableSearch()) {
+          <vater-stack direction="row" gap="m">
+            <ng-content select="watt-data-filters" />
+            <vater-spacer />
+            <watt-search
+              [label]="searchLabel() ?? intl.search"
+              [trim]="trimSearch()"
+              (search)="onSearch($event)"
+            />
+          </vater-stack>
+        } @else {
+          <ng-content select="watt-data-filters" />
+        }
         <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
           @if (
