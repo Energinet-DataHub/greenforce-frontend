@@ -747,7 +747,7 @@
           "city": "City",
           "country": "Country",
           "streetCode": "Street code",
-          "citySubdivisionName": "Supplementary city name",
+          "citySubdivisionName": "Additional city name",
           "postBox": "Post box",
           "municipalityCode": "Municipality code",
           "municipalityCodeError": {
