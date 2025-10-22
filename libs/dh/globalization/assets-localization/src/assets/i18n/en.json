@@ -620,7 +620,6 @@
         "month": "Month",
         "year": "Year"
       },
-      "qualityNotAvailableInThisResolution": "Quality not available in this resolution",
       "tooltip": "≈ Indicates if there are estimated values",
       "missingValues": "Missing values",
       "filters": {

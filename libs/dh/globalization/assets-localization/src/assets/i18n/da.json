@@ -621,7 +621,6 @@
         "month": "Måned",
         "year": "År"
       },
-      "qualityNotAvailableInThisResolution": "Måledatakvalitet er ikke tilgængelig i denne opløsning",
       "tooltip": "≈ Angiver om der er estimerede værdier",
       "missingValues": "Mangler værdier",
       "filters": {

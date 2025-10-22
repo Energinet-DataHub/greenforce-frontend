@@ -45,7 +45,7 @@ public static class MeasurementAggregationByMonthDtoExtensions
             }
             else
             {
-                result.Add(new MeasurementAggregationByMonthDto(date, Quantity: null, Unit.kWh));
+                result.Add(new MeasurementAggregationByMonthDto(date, Quantity: null, Enumerable.Empty<Quality>(), Unit.kWh));
             }
 
             month++;
