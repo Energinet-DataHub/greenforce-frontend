@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 @use "./theme/light-theme.scss";
+@use "./theme/material-overwrites/expansion-panel";
 @use "./theme/material-overwrites/datepicker";
 @use "./theme/material-overwrites/snack-bar";
 
@@ -20,6 +21,8 @@
 @use "../../chips";
 @use "../../elevation";
 @use "../../hr";
+@use "../../radius";
+@use "../../transitions";
 @use "../../table";
 @use "../../tokens";
 @use "../../tooltip";
@@ -50,4 +53,8 @@ textarea {
   */
 .cdk-overlay-pane[class="cdk-overlay-pane"] {
   transform: none !important;
+}
+
+.mat-mdc-dialog-surface.mdc-dialog__surface {
+  --mat-dialog-container-shape: var(--watt-radius-m);
 }

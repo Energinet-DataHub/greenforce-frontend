@@ -21,6 +21,11 @@
     "loginWithMitID": "Login with MitID",
     "linkingMitId": "Linking MitID"
   },
+  "notFound": {
+    "title": "Page not found",
+    "message": "This may be due to an old bookmark, incorrect URL, or the page no longer exists.",
+    "action": "Go to start page"
+  },
   "notificationsCenter": {
     "headline": "Notifications",
     "noNotifications": "No notifications",
@@ -561,6 +566,9 @@
     "relatedMeteringPointsLoading": "Loading related metering points",
     "relatedMeteringPointsEmpty": "There are no related metering points",
     "historicalMeteringPoints": "Historical metering points",
+    "selectedRelatedMeteringPoint": "Selected",
+    "showHistoricalButton": "Show historical",
+    "hideHistoricalButton": "Hide historical",
     "processOverview": {
       "columns": {
         "createdAt": "Time of message",
@@ -613,7 +621,7 @@
         "year": "Year"
       },
       "qualityNotAvailableInThisResolution": "Quality not available in this resolution",
-      "tooltip": "≈ Indicates if there are estimated values \n● Indicates if measurement data has changed",
+      "tooltip": "≈ Indicates if there are estimated values",
       "missingValues": "Missing values",
       "filters": {
         "showHistoricValues": "History",
@@ -717,6 +725,7 @@
           "legalContactSection": "Legal contact",
           "technicalContactSection": "Technical contact",
           "contactSameAsCustomer": "Same as customer name",
+          "technicalContactSameAsLegal": "Same as legal contact",
           "contactName": "Contact name",
           "attention": "Attn.",
           "phoneNumber": "Phone number",
@@ -729,6 +738,7 @@
           "legalAddressSection": "Legal address",
           "technicalAddressSection": "Technical address",
           "addressSameAsMeteringPoint": "Same as metering point address",
+          "addressSameAsLegal": "Same as legal address",
           "street": "Street",
           "houseNumber": "House number",
           "floor": "Floor",

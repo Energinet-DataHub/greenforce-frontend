@@ -44,8 +44,7 @@ import { DhMeteringPointStatusComponent } from '../dh-metering-point-status.comp
   styles: `
     :host {
       display: block;
-      margin: 0 calc(var(--watt-space-ml) * -1);
-      padding: var(--watt-space-m) var(--watt-space-ml);
+      border-radius: var(--watt-radius-m);
 
       &:hover {
         cursor: pointer;
@@ -55,20 +54,16 @@ import { DhMeteringPointStatusComponent } from '../dh-metering-point-status.comp
 
     .metering-point {
       position: relative;
+      padding: var(--watt-space-m);
     }
 
     .metering-point__metadata {
       color: var(--watt-on-light-medium-emphasis);
     }
 
-    .metering-point--selected::before {
-      content: '';
-      background-color: var(--watt-color-primary-light);
-      position: absolute;
-      top: calc(var(--watt-space-m) * -1);
-      bottom: calc(var(--watt-space-m) * -1);
-      left: calc(var(--watt-space-ml) * -1);
-      width: 4px;
+    .metering-point--selected {
+      background-color: var(--watt-color-primary-ultralight);
+      border-radius: var(--watt-radius-m);
     }
   `,
   template: `
@@ -82,7 +77,9 @@ import { DhMeteringPointStatusComponent } from '../dh-metering-point-status.comp
       [routerLink]="getLink('master-data', meteringPoint().identification)"
     >
       <vater-stack align="start" class="watt-text-s">
-        {{ 'meteringPointType.' + meteringPoint().type | transloco }}
+        <span class="watt-text-s-highlighted">
+          {{ 'meteringPointType.' + meteringPoint().type | transloco }}
+        </span>
 
         <span class="metering-point__metadata">
           {{ meteringPoint().identification }}

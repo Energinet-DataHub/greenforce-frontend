@@ -21,6 +21,11 @@
     "loginWithMitID": "Login med MitID",
     "linkingMitId": "Tilknytter MitID"
   },
+  "notFound": {
+    "title": "Siden findes ikke.",
+    "message": "Det kan skyldes et gammelt bogmærke, forkert URL eller siden ikke findes længere.",
+    "action": "Gå til startsiden"
+  },
   "notificationsCenter": {
     "headline": "Notifikationer",
     "noNotifications": "Ingen notifikationer",
@@ -562,6 +567,9 @@
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
+    "selectedRelatedMeteringPoint": "Valgt",
+    "showHistoricalButton": "Vis historiske",
+    "hideHistoricalButton": "Skjul historiske",
     "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunt",
@@ -614,7 +622,7 @@
         "year": "År"
       },
       "qualityNotAvailableInThisResolution": "Måledatakvalitet er ikke tilgængelig i denne opløsning",
-      "tooltip": "≈ Angiver om der er estimerede værdier \n● Angiver om måledata har ændret sig",
+      "tooltip": "≈ Angiver om der er estimerede værdier",
       "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",
@@ -718,6 +726,7 @@
           "legalContactSection": "Juridisk kontakt",
           "technicalContactSection": "Teknisk kontakt",
           "contactSameAsCustomer": "Samme som kundenavn",
+          "technicalContactSameAsLegal": "Samme som juridisk kontakt",
           "contactName": "Kontaktnavn",
           "attention": "Att.",
           "phoneNumber": "Telefonnr.",
@@ -730,6 +739,7 @@
           "legalAddressSection": "Juridisk adresse",
           "technicalAddressSection": "Teknisk adresse",
           "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+          "addressSameAsLegal": "Samme som juridisk adresse",
           "street": "Vejnavn",
           "houseNumber": "Husnummer",
           "floor": "Etage",
