@@ -106,7 +106,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
                   {{ t('municipalityCodeError.startsWithZero') }}
                 } @else if (
                   legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
-                  ) {
+                ) {
                   {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
                 }
               </watt-field-error>

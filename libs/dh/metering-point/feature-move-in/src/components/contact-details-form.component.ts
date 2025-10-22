@@ -55,31 +55,15 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             {{ t('contactSameAsCustomer') }}
           </watt-checkbox>
 
-          <watt-text-field
-            [formControl]="legalControls.name"
-            [label]="t('contactName')"
-          />
+          <watt-text-field [formControl]="legalControls.name" [label]="t('contactName')" />
 
-          <watt-text-field
-            [formControl]="legalControls.title"
-            [label]="t('attention')"
-          />
+          <watt-text-field [formControl]="legalControls.title" [label]="t('attention')" />
 
-          <watt-phone-field
-            [formControl]="legalControls.phone"
-            [label]="t('phoneNumber')"
-          />
+          <watt-phone-field [formControl]="legalControls.phone" [label]="t('phoneNumber')" />
 
-          <watt-phone-field
-            [formControl]="legalControls.mobile"
-            [label]="t('mobile')"
-          />
+          <watt-phone-field [formControl]="legalControls.mobile" [label]="t('mobile')" />
 
-          <watt-text-field
-            [formControl]="legalControls.email"
-            [label]="t('email')"
-            type="email"
-          >
+          <watt-text-field [formControl]="legalControls.email" [label]="t('email')" type="email">
             <watt-field-error>
               @if (legalControls.email.hasError('email')) {
                 {{ t('invalidEmail') }}
@@ -96,22 +80,10 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             {{ t('technicalContactSameAsLegal') }}
           </watt-checkbox>
 
-          <watt-text-field
-            [formControl]="technicalControls.name"
-            [label]="t('contactName')"
-          />
-          <watt-text-field
-            [formControl]="technicalControls.title"
-            [label]="t('attention')"
-          />
-          <watt-phone-field
-            [formControl]="technicalControls.phone"
-            [label]="t('phoneNumber')"
-          />
-          <watt-phone-field
-            [formControl]="technicalControls.mobile"
-            [label]="t('mobile')"
-          />
+          <watt-text-field [formControl]="technicalControls.name" [label]="t('contactName')" />
+          <watt-text-field [formControl]="technicalControls.title" [label]="t('attention')" />
+          <watt-phone-field [formControl]="technicalControls.phone" [label]="t('phoneNumber')" />
+          <watt-phone-field [formControl]="technicalControls.mobile" [label]="t('mobile')" />
 
           <watt-text-field
             [formControl]="technicalControls.email"

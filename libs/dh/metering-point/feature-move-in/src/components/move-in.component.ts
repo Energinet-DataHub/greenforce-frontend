@@ -280,15 +280,13 @@ export class DhMoveInComponent extends WattTypedModal<{
     const technicalContactSameAsLegal = this.technicalContactSameAsLegalChanged() ?? true;
     if (technicalContactSameAsLegal) {
       this.contactDetailsForm.controls.technicalContactGroup.disable();
-      this.contactDetailsForm.controls.technicalContactGroup.reset(
-        {
-          name: this.contactDetailsForm.controls.legalContactGroup.controls.name.value,
-          title: this.contactDetailsForm.controls.legalContactGroup.controls.title.value,
-          phone: this.contactDetailsForm.controls.legalContactGroup.controls.phone.value,
-          mobile: this.contactDetailsForm.controls.legalContactGroup.controls.mobile.value,
-          email: this.contactDetailsForm.controls.legalContactGroup.controls.email.value,
-        }
-      );
+      this.contactDetailsForm.controls.technicalContactGroup.reset({
+        name: this.contactDetailsForm.controls.legalContactGroup.controls.name.value,
+        title: this.contactDetailsForm.controls.legalContactGroup.controls.title.value,
+        phone: this.contactDetailsForm.controls.legalContactGroup.controls.phone.value,
+        mobile: this.contactDetailsForm.controls.legalContactGroup.controls.mobile.value,
+        email: this.contactDetailsForm.controls.legalContactGroup.controls.email.value,
+      });
     } else {
       this.contactDetailsForm.controls.technicalContactGroup.enable();
     }
@@ -300,15 +298,13 @@ export class DhMoveInComponent extends WattTypedModal<{
       legalContactDetailsFormValueChange &&
       this.contactDetailsForm.controls.technicalContactSameAsLegal.value
     ) {
-      this.contactDetailsForm.controls.technicalContactGroup.reset(
-        {
-          name: this.contactDetailsForm.controls.legalContactGroup.controls.name.value,
-          title: this.contactDetailsForm.controls.legalContactGroup.controls.title.value,
-          phone: this.contactDetailsForm.controls.legalContactGroup.controls.phone.value,
-          mobile: this.contactDetailsForm.controls.legalContactGroup.controls.mobile.value,
-          email: this.contactDetailsForm.controls.legalContactGroup.controls.email.value,
-        }
-      );
+      this.contactDetailsForm.controls.technicalContactGroup.reset({
+        name: this.contactDetailsForm.controls.legalContactGroup.controls.name.value,
+        title: this.contactDetailsForm.controls.legalContactGroup.controls.title.value,
+        phone: this.contactDetailsForm.controls.legalContactGroup.controls.phone.value,
+        mobile: this.contactDetailsForm.controls.legalContactGroup.controls.mobile.value,
+        email: this.contactDetailsForm.controls.legalContactGroup.controls.email.value,
+      });
     }
   });
 

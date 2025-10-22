@@ -55,7 +55,7 @@ export type ContactDetailsFormGroup = {
   phone: FormControl<string>;
   mobile: FormControl<string>;
   email: FormControl<string>;
-}
+};
 
 export type MoveInAddressDetailsFormType = {
   legalAddressSameAsMeteringPoint: FormControl<boolean>;
