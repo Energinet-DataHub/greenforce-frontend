@@ -127,8 +127,8 @@ export class WattFieldComponent {
   autoFocus = input(false);
 
   /** @ignore */
-  labelElement = viewChild.required<ElementRef<HTMLLabelElement>>('label');
-  wattLabelElement = viewChild.required<ElementRef<HTMLSpanElement>>('wattLabel');
+  labelElement = viewChild<ElementRef<HTMLLabelElement>>('label');
+  wattLabelElement = viewChild<ElementRef<HTMLSpanElement>>('wattLabel');
 
   value = signal('');
   filler = computed(() => this.placeholder().slice(this.value().length));
@@ -178,9 +178,9 @@ export class WattFieldComponent {
     effect(() => {
       if (this.autoFocus()) {
         if (this.chipMode()) {
-          this.wattLabelElement().nativeElement.focus();
+          this.wattLabelElement()?.nativeElement.focus();
         } else {
-          this.labelElement().nativeElement.focus();
+          this.labelElement()?.nativeElement.focus();
         }
       }
     });
