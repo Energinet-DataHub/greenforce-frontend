@@ -21,6 +21,11 @@
     "loginWithMitID": "Login med MitID",
     "linkingMitId": "Tilknytter MitID"
   },
+  "notFound": {
+    "title": "Siden findes ikke.",
+    "message": "Det kan skyldes et gammelt bogmærke, forkert URL eller siden ikke findes længere.",
+    "action": "Gå til startsiden"
+  },
   "notificationsCenter": {
     "headline": "Notifikationer",
     "noNotifications": "Ingen notifikationer",
@@ -562,6 +567,9 @@
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
+    "selectedRelatedMeteringPoint": "Valgt",
+    "showHistoricalButton": "Vis historiske",
+    "hideHistoricalButton": "Skjul historiske",
     "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunt",

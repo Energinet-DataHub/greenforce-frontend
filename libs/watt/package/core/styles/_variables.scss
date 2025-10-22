@@ -102,5 +102,6 @@
 
   // Components
   --watt-sidenav-background-color: #09505d;
-  --watt-nav-list-hover-background-color: #07404a;
+  --watt-nav-list-active-background-color: var(--watt-color-primary);
+  --watt-nav-list-hover-background-color: rgb(from var(--watt-color-primary) r g b / 65%);
 }
