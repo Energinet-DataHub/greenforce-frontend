@@ -14,4 +14,4 @@
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record GetChargesByPeriodQuery(DateTimeOffset From, DateTimeOffset To);
+public record GetChargesQuery(ChargeType[]? ChargeTypes, Guid[]? ActorNumbers, ChargeStatus[]? Statuses, string[]? MoreOptions);

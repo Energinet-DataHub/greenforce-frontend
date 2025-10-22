@@ -302,11 +302,11 @@ type ChargeDto {
 }
 
 "A connection to a list of items."
-type ChargesByPeriodConnection {
+type ChargesConnection {
   "Information to aid in pagination."
   pageInfo: PageInfo!
   "A list of edges."
-  edges: [ChargesByPeriodEdge!]
+  edges: [ChargesEdge!]
   "A flattened list of the nodes."
   nodes: [ChargeDto!]
   "Identifies the total count of items in the connection."
@@ -314,7 +314,7 @@ type ChargesByPeriodConnection {
 }
 
 "An edge in a connection."
-type ChargesByPeriodEdge {
+type ChargesEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
@@ -1144,7 +1144,7 @@ type ProcessesEdge {
 }
 
 type Query {
-  chargesByPeriod(query: GetChargesByPeriodQueryInput! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargesSortInput!]): ChargesByPeriodConnection @authorize(roles: [ "charges:view" ])
+  charges(query: GetChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargesSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1775,9 +1775,11 @@ input GetByDayQueryInput {
   marketRole: AuthEicFunctionType!
 }
 
-input GetChargesByPeriodQueryInput {
-  from: DateTime!
-  to: DateTime!
+input GetChargesQueryInput {
+  chargeTypes: [ChargeType!]
+  actorNumbers: [UUID!]
+  statuses: [ChargeStatus!]
+  moreOptions: [String!]
 }
 
 input GetMonthlyAggregateByDateQueryInput {

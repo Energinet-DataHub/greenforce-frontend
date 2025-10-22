@@ -1,12 +1,12 @@
-query GetChargesByPeriod(
-  $query: GetChargesByPeriodQueryInput!
+query GetCharges(
+  $query: GetChargesQueryInput
   $after: String
   $before: String
   $first: Int
   $last: Int
   $order: [ChargesSortInput!]
 ) {
-  chargesByPeriod(
+  charges(
     query: $query
     after: $after
     before: $before

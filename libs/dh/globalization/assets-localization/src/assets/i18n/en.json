@@ -366,6 +366,11 @@
   "charges": {
     "charges": {
       "topBarTitle": "Prices",
+      "chargeTypes": {
+        "D01": "Subscription",
+        "D02": "Fee",
+        "D03": "Tariff"
+      },
       "table": {
         "columns": {
           "id": "ID",
@@ -374,12 +379,30 @@
           "owner": "Owner",
           "status": "Status"
         },
+        "filters": {
+          "chargeType": "Type",
+          "owners": "Owners",
+          "status": "Status",
+          "vat": "VAT",
+          "moreOptions": "More filters"
+        },
         "chargeStatus": {
           "AWAITING": "Pending",
           "CLOSED": "Closed",
           "CANCELLED": "Cancelled",
           "CURRENT": "Current",
           "MISSING_PRICE_SERIES": "Missing price series"
+        },
+        "moreOptions": {
+          "vatGroupName": "VAT",
+          "withVat": "With VAT",
+          "withoutVat": "Without VAT",
+          "transparentInvoicingGroupName": "Transparent Invoicing",
+          "withTransparentInvoicing": "Subject to transparent invoicing",
+          "withoutTransparentInvoicing": "Not subject to transparent invoicing",
+          "predictablePriceGroupName": "Predictable Price",
+          "withPredictablePrice": "Predictable price",
+          "withoutPredictablePrice": "Non-predictable price"
         }
       }
     }
