@@ -622,7 +622,7 @@
         "year": "År"
       },
       "qualityNotAvailableInThisResolution": "Måledatakvalitet er ikke tilgængelig i denne opløsning",
-      "tooltip": "≈ Angiver om der er estimerede værdier \n● Angiver om måledata har ændret sig",
+      "tooltip": "≈ Angiver om der er estimerede værdier",
       "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",
