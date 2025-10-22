@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "@nx/cypress": "21.3.9",
+    "@nx/cypress": "21.6.5",
     "@testing-library/cypress": "10.0.3",
     "cypress": "14.5.4",
-    "typescript": "5.8.2",
-    "vite": "6.3.6"
+    "typescript": "5.9.3",
+    "vite": "7.1.9"
   }
 }
