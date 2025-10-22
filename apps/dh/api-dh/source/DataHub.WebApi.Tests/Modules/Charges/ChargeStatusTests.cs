@@ -30,8 +30,8 @@ public class ChargeStatusTests
     private static readonly string _query =
     $$"""
     {
-        chargesByPeriod(
-            query: { from: "2020-01-01T00:00:00Z", to: "2020-12-31T23:59:59Z" }
+        charges(
+            query: null
             after: null
             before: null
             first: 10
@@ -74,7 +74,7 @@ public class ChargeStatusTests
         var server = new GraphQLTestService();
 
         server.ChargesClientMock
-            .Setup(x => x.GetChargesByPeriod(It.IsAny<GetChargesByPeriodQuery>()))
+            .Setup(x => x.GetCharges(It.IsAny<GetChargesQuery>()))
             .Returns(
             [
                 new ChargeDto(

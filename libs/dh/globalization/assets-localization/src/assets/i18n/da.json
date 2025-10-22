@@ -21,6 +21,11 @@
     "loginWithMitID": "Login med MitID",
     "linkingMitId": "Tilknytter MitID"
   },
+  "notFound": {
+    "title": "Siden findes ikke.",
+    "message": "Det kan skyldes et gammelt bogmærke, forkert URL eller siden ikke findes længere.",
+    "action": "Gå til startsiden"
+  },
   "notificationsCenter": {
     "headline": "Notifikationer",
     "noNotifications": "Ingen notifikationer",
@@ -362,6 +367,11 @@
   "charges": {
     "charges": {
       "topBarTitle": "Priser",
+      "chargeTypes": {
+        "D01": "Abonnement",
+        "D02": "Gebyr",
+        "D03": "Tarif"
+      },
       "table": {
         "columns": {
           "id": "ID",
@@ -370,12 +380,30 @@
           "owner": "Ejer",
           "status": "Status"
         },
+        "filters": {
+          "chargeType": "Type",
+          "owners": "Ejer",
+          "status": "Status",
+          "vat": "Moms",
+          "moreOptions": "Flere filtere"
+        },
         "chargeStatus": {
           "AWAITING": "Afventer",
           "CLOSED": "Lukket",
           "CANCELLED": "Annulleret",
           "CURRENT": "Aktuel",
           "MISSING_PRICE_SERIES": "Mangler prisserie"
+        },
+        "moreOptions": {
+          "vatGroupName": "Moms",
+          "withVat": "Med moms",
+          "withoutVat": "Uden moms",
+          "transparentInvoicingGroupName": "Viderefakturering",
+          "withTransparentInvoicing": "Skal viderefaktureres",
+          "withoutTransparentInvoicing": "Skal ikke viderefaktureres",
+          "predictablePriceGroupName": "Forudsigelig pris",
+          "withPredictablePrice": "Forudsigelig pris",
+          "withoutPredictablePrice": "Ikke forudsigelig pris"
         }
       }
     }
@@ -539,6 +567,9 @@
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
+    "selectedRelatedMeteringPoint": "Valgt",
+    "showHistoricalButton": "Vis historiske",
+    "hideHistoricalButton": "Skjul historiske",
     "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunt",

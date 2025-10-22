@@ -21,6 +21,11 @@
     "loginWithMitID": "Login with MitID",
     "linkingMitId": "Linking MitID"
   },
+  "notFound": {
+    "title": "Page not found",
+    "message": "This may be due to an old bookmark, incorrect URL, or the page no longer exists.",
+    "action": "Go to start page"
+  },
   "notificationsCenter": {
     "headline": "Notifications",
     "noNotifications": "No notifications",
@@ -361,6 +366,11 @@
   "charges": {
     "charges": {
       "topBarTitle": "Prices",
+      "chargeTypes": {
+        "D01": "Subscription",
+        "D02": "Fee",
+        "D03": "Tariff"
+      },
       "table": {
         "columns": {
           "id": "ID",
@@ -369,12 +379,30 @@
           "owner": "Owner",
           "status": "Status"
         },
+        "filters": {
+          "chargeType": "Type",
+          "owners": "Owners",
+          "status": "Status",
+          "vat": "VAT",
+          "moreOptions": "More filters"
+        },
         "chargeStatus": {
           "AWAITING": "Pending",
           "CLOSED": "Closed",
           "CANCELLED": "Cancelled",
           "CURRENT": "Current",
           "MISSING_PRICE_SERIES": "Missing price series"
+        },
+        "moreOptions": {
+          "vatGroupName": "VAT",
+          "withVat": "With VAT",
+          "withoutVat": "Without VAT",
+          "transparentInvoicingGroupName": "Transparent Invoicing",
+          "withTransparentInvoicing": "Subject to transparent invoicing",
+          "withoutTransparentInvoicing": "Not subject to transparent invoicing",
+          "predictablePriceGroupName": "Predictable Price",
+          "withPredictablePrice": "Predictable price",
+          "withoutPredictablePrice": "Non-predictable price"
         }
       }
     }
@@ -538,6 +566,9 @@
     "relatedMeteringPointsLoading": "Loading related metering points",
     "relatedMeteringPointsEmpty": "There are no related metering points",
     "historicalMeteringPoints": "Historical metering points",
+    "selectedRelatedMeteringPoint": "Selected",
+    "showHistoricalButton": "Show historical",
+    "hideHistoricalButton": "Hide historical",
     "processOverview": {
       "columns": {
         "createdAt": "Time of message",

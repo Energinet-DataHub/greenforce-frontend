@@ -1,6 +1,6 @@
 ﻿{
   "data": {
-    "chargesByPeriod": {
+    "charges": {
       "totalCount": 2,
       "nodes": [
         {
