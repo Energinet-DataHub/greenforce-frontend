@@ -367,9 +367,9 @@
     "charges": {
       "topBarTitle": "Prices",
       "chargeTypes": {
-        "D01": "Subscription",
-        "D02": "Fee",
-        "D03": "Tariff"
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee",
+        "TARIFF": "Tariff"
       },
       "table": {
         "columns": {

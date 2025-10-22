@@ -30,9 +30,17 @@ public static partial class ChargesNode
     [UsePaging]
     [UseSorting]
     [Authorize(Roles = new[] { "charges:view" })]
-    public static async Task<IEnumerable<ChargeInformationDto>> GetChargesAsync([Service] IChargesClient client, ChargeInformationSearchCriteriaDto query)
+    public static async Task<IEnumerable<ChargeInformationDto>> GetChargesAsync(
+        [Service] IChargesClient client,
+        GetChargesQuery? query)
     {
-        var result = await client.GetChargeInformationAsync(query);
+        if (query == null)
+        {
+            return Enumerable.Empty<ChargeInformationDto>();
+        }
+
+        var result = await client.GetChargeInformationAsync(
+            new ChargeInformationSearchCriteriaDto(string.Empty, query.ActorNumbers?.ToList() ?? new List<Guid>(), query.ChargeTypes?.ToList() ?? new List<ChargeType>()));
         return result.IsSuccess ? [result.Value!] : Enumerable.Empty<ChargeInformationDto>();
     }
 }
