@@ -726,7 +726,7 @@
           "legalContactSection": "Juridisk kontakt",
           "technicalContactSection": "Teknisk kontakt",
           "contactSameAsCustomer": "Samme som kundenavn",
-          "technicalContactSameAsLegal": "Samme Juridisk kontakt",
+          "technicalContactSameAsLegal": "Samme som juridisk kontakt",
           "contactName": "Kontaktnavn",
           "attention": "Att.",
           "phoneNumber": "Telefonnr.",
@@ -748,7 +748,7 @@
           "city": "Bynavn",
           "country": "Land",
           "streetCode": "Vejkode",
-          "supplementaryCityName": "Supplerende bynavn",
+          "citySubdivisionName": "Supplerende bynavn",
           "postBox": "Postboks",
           "municipalityCode": "Kommunekode",
           "municipalityCodeError": {

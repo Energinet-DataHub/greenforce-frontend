@@ -120,7 +120,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="legalGroupControls.citySubdivisionName"
-              [label]="t('supplementaryCityName')"
+              [label]="t('citySubdivisionName')"
             />
             <watt-text-field [formControl]="legalGroupControls.postBox" [label]="t('postBox')" />
           </vater-flex>
@@ -201,7 +201,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="technicalGroupControls.citySubdivisionName"
-              [label]="t('supplementaryCityName')"
+              [label]="t('citySubdivisionName')"
             />
             <watt-text-field
               [formControl]="technicalGroupControls.postBox"
