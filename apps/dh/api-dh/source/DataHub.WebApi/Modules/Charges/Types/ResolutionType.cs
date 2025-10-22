@@ -12,12 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-public enum ChargeResolution
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
+
+public class ResolutionType : EnumType<Resolution>
 {
-    PT15M = 1,  // 15 minuted
-    PT1H = 2,   // 1 hour
-    P1D = 3,    // 1 day
-    P1M = 4,    // 1 month
+    protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
+    {
+        descriptor.Name("ChargeResolution");
+        descriptor.AsIsCase();
+    }
 }

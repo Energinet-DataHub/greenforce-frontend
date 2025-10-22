@@ -15,6 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Energinet.DataHub.Charges.Abstractions.Api.Models;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.Mocks;
@@ -31,7 +33,7 @@ public class ChargeStatusTests
     $$"""
     {
         charges(
-            query: null
+            query: { chargeTypes: [FEE] }
             after: null
             before: null
             first: 10
@@ -74,40 +76,41 @@ public class ChargeStatusTests
         var server = new GraphQLTestService();
 
         server.ChargesClientMock
-            .Setup(x => x.GetCharges(It.IsAny<GetChargesQuery>()))
+            .Setup(x => x.GetChargeInformationAsync(It.IsAny<ChargeInformationSearchCriteriaDto>(), It.IsAny<System.Threading.CancellationToken>()))
             .Returns(
-            [
-                new ChargeDto(
+               Task.FromResult(Result<IEnumerable<ChargeInformationDto>>.Success(new List<ChargeInformationDto>
+               {
+                new ChargeInformationDto(
                     Id: Guid.NewGuid(),
                     ChargeId: "SUB-123",
-                    ChargeType: ChargeType.D01,
+                    ChargeType: ChargeType.Subscription,
                     ChargeName: "Subscription 123",
                     ChargeOwner: "ABC123",
                     ChargeOwnerName: "Energy Provider A",
                     ChargeDescription: "Standard grid payment",
-                    Resolution: ChargeResolution.P1D,
+                    Resolution: Resolution.Daily,
                     TaxIndicator: false,
                     TransparentInvoicing: false,
                     VatClassification: VatClassification.Vat25,
                     HasAnyPrices: hasAnyPrices,
                     ValidFromDateTime: validFrom,
                     ValidToDateTime: validTo),
-                new ChargeDto(
+                new ChargeInformationDto(
                     Id: Guid.NewGuid(),
                     ChargeId: "FEE-456",
-                    ChargeType: ChargeType.D02,
+                    ChargeType: ChargeType.Fee,
                     ChargeName: "Fee 456",
                     ChargeOwner: "XYZ456",
                     ChargeOwnerName: "Grid Company B",
                     ChargeDescription: "System utilization fee",
-                    Resolution: ChargeResolution.P1D,
+                    Resolution: Resolution.Daily,
                     TaxIndicator: false,
                     TransparentInvoicing: false,
                     VatClassification: VatClassification.Vat25,
                     HasAnyPrices: hasAnyPrices,
                     ValidFromDateTime: validFrom,
                     ValidToDateTime: validTo),
-            ]);
+               })));
 
         var result = await server.ExecuteRequestAsync(b => b
             .SetDocument(_query)

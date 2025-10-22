@@ -368,9 +368,9 @@
     "charges": {
       "topBarTitle": "Priser",
       "chargeTypes": {
-        "D01": "Abonnement",
-        "D02": "Gebyr",
-        "D03": "Tarif"
+        "SUBSCRIPTION": "Abonnement",
+        "FEE": "Gebyr",
+        "TARIFF": "Tarif"
       },
       "table": {
         "columns": {

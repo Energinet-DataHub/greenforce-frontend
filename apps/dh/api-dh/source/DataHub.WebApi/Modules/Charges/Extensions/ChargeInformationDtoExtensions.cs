@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 
-public static class ChargeDtoExtensions
+public static class ChargeInformationDtoExtensions
 {
-    public static ChargeStatus GetStatus(this ChargeDto charge) => charge switch
+    public static ChargeStatus GetStatus(this ChargeInformationDto charge) => charge switch
     {
         { ValidToDateTime: not null } c when c.ValidFromDateTime == c.ValidToDateTime => ChargeStatus.Cancelled,
         { ValidToDateTime: not null } c when c.ValidToDateTime < DateTimeOffset.Now => ChargeStatus.Closed,
