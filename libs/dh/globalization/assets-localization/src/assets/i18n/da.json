@@ -21,6 +21,11 @@
     "loginWithMitID": "Login med MitID",
     "linkingMitId": "Tilknytter MitID"
   },
+  "notFound": {
+    "title": "Siden findes ikke.",
+    "message": "Det kan skyldes et gammelt bogmærke, forkert URL eller siden ikke findes længere.",
+    "action": "Gå til startsiden"
+  },
   "notificationsCenter": {
     "headline": "Notifikationer",
     "noNotifications": "Ingen notifikationer",
@@ -362,6 +367,11 @@
   "charges": {
     "charges": {
       "topBarTitle": "Priser",
+      "chargeTypes": {
+        "D01": "Abonnement",
+        "D02": "Gebyr",
+        "D03": "Tarif"
+      },
       "table": {
         "columns": {
           "id": "ID",
@@ -370,12 +380,30 @@
           "owner": "Ejer",
           "status": "Status"
         },
+        "filters": {
+          "chargeType": "Type",
+          "owners": "Ejer",
+          "status": "Status",
+          "vat": "Moms",
+          "moreOptions": "Flere filtere"
+        },
         "chargeStatus": {
           "AWAITING": "Afventer",
           "CLOSED": "Lukket",
           "CANCELLED": "Annulleret",
           "CURRENT": "Aktuel",
           "MISSING_PRICE_SERIES": "Mangler prisserie"
+        },
+        "moreOptions": {
+          "vatGroupName": "Moms",
+          "withVat": "Med moms",
+          "withoutVat": "Uden moms",
+          "transparentInvoicingGroupName": "Viderefakturering",
+          "withTransparentInvoicing": "Skal viderefaktureres",
+          "withoutTransparentInvoicing": "Skal ikke viderefaktureres",
+          "predictablePriceGroupName": "Forudsigelig pris",
+          "withPredictablePrice": "Forudsigelig pris",
+          "withoutPredictablePrice": "Ikke forudsigelig pris"
         }
       }
     }
@@ -431,7 +459,7 @@
         "address": "Adresse",
         "country": "Land",
         "streetCode": "Vejkode",
-        "postDistrict": "Postdistrikt",
+        "citySubDivisionName": "Supplerende bynavn",
         "postBox": "Postboks",
         "municipalityCode": "Kommunekode",
         "darID": "DAR-ID",
@@ -461,7 +489,8 @@
         "CLOSED_DOWN": "Nedlagt",
         "NEW": "Ny",
         "CONNECTED": "Tilsluttet",
-        "DISCONNECTED": "Afbrudt"
+        "DISCONNECTED": "Afbrudt",
+        "UNKNOWN": "Ukendt"
       },
       "actions": {
         "actionsButton": "Handlinger",
@@ -513,7 +542,7 @@
         "address": "{{ meteringPoint.overview.shared.address }}",
         "country": "{{ meteringPoint.overview.shared.country }}",
         "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
-        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "citySubDivisionName": "{{ meteringPoint.overview.shared.citySubDivisionName }}",
         "postBox": "{{ meteringPoint.overview.shared.postBox }}",
         "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
         "darID": "{{ meteringPoint.overview.shared.darID }}",
@@ -525,7 +554,7 @@
         "postCodeAndCity": "Postnr. og by",
         "country": "{{ meteringPoint.overview.shared.country }}",
         "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
-        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "citySubDivisionName": "{{ meteringPoint.overview.shared.citySubDivisionName }}",
         "postBox": "{{ meteringPoint.overview.shared.postBox }}",
         "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
         "darID": "{{ meteringPoint.overview.shared.darID }}",
@@ -538,15 +567,40 @@
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
-    "processes": {
+    "selectedRelatedMeteringPoint": "Valgt",
+    "showHistoricalButton": "Vis historiske",
+    "hideHistoricalButton": "Skjul historiske",
+    "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunt",
-        "documentType": "Type"
+        "documentType": "Type",
+        "state": "Status",
+        "cutoffDate": "Skæringsdato",
+        "initiator": "Initierende aktør",
+        "actions": "Mulige handlinger"
       },
       "filters": {
         "created": "Tidspunkt",
         "includeViews": "Inkluder visninger",
         "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
+      },
+      "steps": {
+        "REQUEST_END_OF_SUPPLY": "Anmod om leveranceophør (BRS-005)"
+      },
+      "details": {
+        "list": {
+          "createdAt": "Beskedtidspunkt",
+          "cutoff": "Skæringsdato",
+          "reasonCode": "Årsagskode",
+          "initiator": "Initierende aktør"
+        },
+        "columns": {
+          "step": "Trin",
+          "createdAt": "Beskedtidspkt.",
+          "dueDate": "Forfaldsdato",
+          "actor": "Aktør",
+          "state": "Status"
+        }
       }
     },
     "measurements": {
@@ -1466,8 +1520,8 @@
         "Dk1": "DK1",
         "Dk2": "DK2"
       },
-      "areaTypePlaceholder": "Vælg type",
-      "statusTypePlaceholder": "Vælg status",
+      "areaTypePlaceholder": "Type",
+      "statusTypePlaceholder": "Status",
       "status": {
         "Created": "Oprettet",
         "Active": "Aktiv",
@@ -1916,7 +1970,16 @@
         "period": {
           "label": "Beregningsperiode",
           "invalid": "Ugyldig periode",
-          "pending": "Validerer periode"
+          "pending": "Validerer periode",
+          "empty": "Periode påkrævet",
+          "warning": {
+            "BALANCE_FIXING": "Der er kørt balancefiksering for perioden",
+            "WHOLESALE_FIXING": "Der er kørt engrosfiksering for perioden",
+            "FIRST_CORRECTION_SETTLEMENT": "Der er kørt korrektionsafregning for perioden",
+            "SECOND_CORRECTION_SETTLEMENT": "Der er kørt korrektionsafregning for perioden",
+            "THIRD_CORRECTION_SETTLEMENT": "Der er kørt korrektionsafregning for perioden",
+            "CAPACITY_SETTLEMENT": "Der er kørt effektbetaling for perioden"
+          }
         },
         "gridArea": {
           "label": "Netområder",

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, output } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -97,7 +97,6 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             <watt-text-field
               [formControl]="legalGroupControls.municipalityCode"
               [label]="t('municipalityCode')"
-              type="text"
               maxLength="3"
             >
               <watt-field-error>
@@ -105,7 +104,9 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
                   {{ t('municipalityCodeError.containsLetters') }}
                 } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
                   {{ t('municipalityCodeError.startsWithZero') }}
-                } @else if (legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
+                } @else if (
+                  legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
+                  ) {
                   {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
                 }
               </watt-field-error>
@@ -119,7 +120,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="legalGroupControls.citySubdivisionName"
-              [label]="t('supplementaryCityName')"
+              [label]="t('citySubdivisionName')"
             />
             <watt-text-field [formControl]="legalGroupControls.postBox" [label]="t('postBox')" />
           </vater-flex>
@@ -177,7 +178,6 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             <watt-text-field
               [formControl]="technicalGroupControls.municipalityCode"
               [label]="t('municipalityCode')"
-              type="text"
               maxLength="3"
             >
               <watt-field-error>
@@ -185,7 +185,9 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
                   {{ t('municipalityCodeError.containsLetters') }}
                 } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
                   {{ t('municipalityCodeError.startsWithZero') }}
-                } @else if (legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
+                } @else if (
+                  legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
+                ) {
                   {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
                 }
               </watt-field-error>

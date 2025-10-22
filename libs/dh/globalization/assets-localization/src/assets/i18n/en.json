@@ -21,6 +21,11 @@
     "loginWithMitID": "Login with MitID",
     "linkingMitId": "Linking MitID"
   },
+  "notFound": {
+    "title": "Page not found",
+    "message": "This may be due to an old bookmark, incorrect URL, or the page no longer exists.",
+    "action": "Go to start page"
+  },
   "notificationsCenter": {
     "headline": "Notifications",
     "noNotifications": "No notifications",
@@ -361,6 +366,11 @@
   "charges": {
     "charges": {
       "topBarTitle": "Prices",
+      "chargeTypes": {
+        "D01": "Subscription",
+        "D02": "Fee",
+        "D03": "Tariff"
+      },
       "table": {
         "columns": {
           "id": "ID",
@@ -369,12 +379,30 @@
           "owner": "Owner",
           "status": "Status"
         },
+        "filters": {
+          "chargeType": "Type",
+          "owners": "Owners",
+          "status": "Status",
+          "vat": "VAT",
+          "moreOptions": "More filters"
+        },
         "chargeStatus": {
           "AWAITING": "Pending",
           "CLOSED": "Closed",
           "CANCELLED": "Cancelled",
           "CURRENT": "Current",
           "MISSING_PRICE_SERIES": "Missing price series"
+        },
+        "moreOptions": {
+          "vatGroupName": "VAT",
+          "withVat": "With VAT",
+          "withoutVat": "Without VAT",
+          "transparentInvoicingGroupName": "Transparent Invoicing",
+          "withTransparentInvoicing": "Subject to transparent invoicing",
+          "withoutTransparentInvoicing": "Not subject to transparent invoicing",
+          "predictablePriceGroupName": "Predictable Price",
+          "withPredictablePrice": "Predictable price",
+          "withoutPredictablePrice": "Non-predictable price"
         }
       }
     }
@@ -430,7 +458,7 @@
         "address": "Address",
         "country": "Country",
         "streetCode": "Street code",
-        "postDistrict": "Post district",
+        "citySubDivisionName": "Additional city name",
         "postBox": "POBox",
         "municipalityCode": "Municipality code",
         "darID": "DAR-ID",
@@ -460,7 +488,8 @@
         "CLOSED_DOWN": "Closed down",
         "NEW": "New",
         "CONNECTED": "Connected",
-        "DISCONNECTED": "Disconnected"
+        "DISCONNECTED": "Disconnected",
+        "UNKNOWN": "Unknown"
       },
       "actions": {
         "actionsButton": "Actions",
@@ -512,7 +541,7 @@
         "address": "{{ meteringPoint.overview.shared.address }}",
         "country": "{{ meteringPoint.overview.shared.country }}",
         "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
-        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "citySubDivisionName": "{{ meteringPoint.overview.shared.citySubDivisionName }}",
         "postBox": "{{ meteringPoint.overview.shared.postBox }}",
         "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
         "darID": "{{ meteringPoint.overview.shared.darID }}",
@@ -524,7 +553,7 @@
         "postCodeAndCity": "Post code and city",
         "country": "{{ meteringPoint.overview.shared.country }}",
         "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
-        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "citySubDivisionName": "{{ meteringPoint.overview.shared.citySubDivisionName }}",
         "postBox": "{{ meteringPoint.overview.shared.postBox }}",
         "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
         "darID": "{{ meteringPoint.overview.shared.darID }}",
@@ -537,15 +566,40 @@
     "relatedMeteringPointsLoading": "Loading related metering points",
     "relatedMeteringPointsEmpty": "There are no related metering points",
     "historicalMeteringPoints": "Historical metering points",
-    "processes": {
+    "selectedRelatedMeteringPoint": "Selected",
+    "showHistoricalButton": "Show historical",
+    "hideHistoricalButton": "Hide historical",
+    "processOverview": {
       "columns": {
         "createdAt": "Time of message",
-        "documentType": "Type"
+        "documentType": "Type",
+        "state": "State",
+        "cutoffDate": "Cut-off date",
+        "initiator": "Initiating participant",
+        "actions": "Possible actions"
       },
       "filters": {
         "created": "Time",
         "includeViews": "Include views",
         "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
+      },
+      "steps": {
+        "REQUEST_END_OF_SUPPLY": "Request end of supply (BRS-005)"
+      },
+      "details": {
+        "list": {
+          "createdAt": "Time of message",
+          "cutoff": "Cut-off date",
+          "reasonCode": "Reason code",
+          "initiator": "Initiating participant"
+        },
+        "columns": {
+          "step": "Step",
+          "createdAt": "Time of message",
+          "dueDate": "Due date",
+          "actor": "Actor",
+          "state": "State"
+        }
       }
     },
     "measurements": {
@@ -1465,8 +1519,8 @@
         "Dk1": "DK1",
         "Dk2": "DK2"
       },
-      "areaTypePlaceholder": "Choose type",
-      "statusTypePlaceholder": "Choose status",
+      "areaTypePlaceholder": "Type",
+      "statusTypePlaceholder": "Status",
       "status": {
         "Created": "Created",
         "Active": "Active",
@@ -1915,7 +1969,16 @@
         "period": {
           "label": "Calculation period",
           "invalid": "Invalid period",
-          "pending": "Validating period"
+          "pending": "Validating period",
+          "empty": "Period required",
+          "warning": {
+            "BALANCE_FIXING": "Balance fixing has been carried out for the period",
+            "WHOLESALE_FIXING": "Wholesale fixing has been carried out for the period",
+            "FIRST_CORRECTION_SETTLEMENT": "Correction settlement has been carried out for the period",
+            "SECOND_CORRECTION_SETTLEMENT": "Correction settlement has been carried out for the period",
+            "THIRD_CORRECTION_SETTLEMENT": "Correction settlement has been carried out for the period",
+            "CAPACITY_SETTLEMENT": "Capacity settlement has been carried out for the period"
+          }
         },
         "gridArea": {
           "label": "Grid areas",

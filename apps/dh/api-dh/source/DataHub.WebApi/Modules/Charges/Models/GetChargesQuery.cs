@@ -11,13 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-:host {
-  align-items: center;
-  background-color: var(--watt-color-neutral-white);
-  display: flex;
-  gap: var(--watt-space-s);
-  margin: var(--watt-space-ml);
-  position: sticky;
-  top: 0;
-  flex-grow: 1;
-}
+
+namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
+
+public record GetChargesQuery(ChargeType[]? ChargeTypes, Guid[]? ActorNumbers, ChargeStatus[]? Statuses, string[]? MoreOptions);

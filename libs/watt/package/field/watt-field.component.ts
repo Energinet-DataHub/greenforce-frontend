@@ -22,6 +22,7 @@ import {
   ElementRef,
   ViewEncapsulation,
   computed,
+  effect,
   inject,
   input,
   signal,
@@ -55,11 +56,11 @@ import { NgTemplateOutlet } from '@angular/common';
   styleUrls: ['./watt-field.component.scss'],
   template: `
     @if (chipMode()) {
-      <span class="watt-label">
+      <span [attr.autofocus]="autoFocus() || null" class="watt-label" #wattLabel>
         <ng-container *ngTemplateOutlet="template" />
       </span>
     } @else {
-      <label [attr.for]="id()">
+      <label [attr.autofocus]="autoFocus() || null" [attr.for]="id()" #label>
         <ng-container *ngTemplateOutlet="template" />
       </label>
     }
@@ -95,6 +96,7 @@ import { NgTemplateOutlet } from '@angular/common';
       <ng-content select="[popover]" />
       <ng-content select="watt-field-hint" />
       <ng-content select="watt-field-error" />
+      <ng-content select="watt-field-warning" />
       @if (isEmpty()) {
         <watt-field-error>{{ intl.required }}</watt-field-error>
       }
@@ -104,6 +106,7 @@ import { NgTemplateOutlet } from '@angular/common';
     '[class.watt-field--chip]': 'chipMode()',
     '[class.watt-field--unlabelled]': 'unlabelled()',
     '[class.watt-field--disabled]': 'control()?.disabled',
+    '[class.watt-field--show-errors]': 'showErrors()',
   },
 })
 export class WattFieldComponent {
@@ -118,6 +121,15 @@ export class WattFieldComponent {
   placeholder = input('');
   anchorName = input<string>();
 
+  /**
+   * Whether the input should receive focus when the component is rendered.
+   */
+  autoFocus = input(false);
+
+  /** @ignore */
+  labelElement = viewChild.required<ElementRef<HTMLLabelElement>>('label');
+  wattLabelElement = viewChild.required<ElementRef<HTMLSpanElement>>('wattLabel');
+
   value = signal('');
   filler = computed(() => this.placeholder().slice(this.value().length));
   ghost = computed(() => this.value().slice(0, this.placeholder().length));
@@ -127,6 +139,7 @@ export class WattFieldComponent {
   errors = signal<ValidationErrors | null>(null);
   isRequired = signal(false);
   isEmpty = computed(() => this.errors()?.['required'] || this.errors()?.['rangeRequired']);
+  showErrors = input(true);
 
   // Used for text fields with autocomplete
   wrapper = viewChild<ElementRef>('wrapper');
@@ -161,6 +174,16 @@ export class WattFieldComponent {
     // Subscribe for side effects
     value$.subscribe();
     status$.subscribe();
+
+    effect(() => {
+      if (this.autoFocus()) {
+        if (this.chipMode()) {
+          this.wattLabelElement().nativeElement.focus();
+        } else {
+          this.labelElement().nativeElement.focus();
+        }
+      }
+    });
   }
 
   isRequiredControl(control: FormControl) {

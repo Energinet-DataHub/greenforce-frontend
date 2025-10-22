@@ -302,11 +302,11 @@ type ChargeDto {
 }
 
 "A connection to a list of items."
-type ChargesByPeriodConnection {
+type ChargesConnection {
   "Information to aid in pagination."
   pageInfo: PageInfo!
   "A list of edges."
-  edges: [ChargesByPeriodEdge!]
+  edges: [ChargesEdge!]
   "A flattened list of the nodes."
   nodes: [ChargeDto!]
   "Identifies the total count of items in the connection."
@@ -314,7 +314,7 @@ type ChargesByPeriodConnection {
 }
 
 "An edge in a connection."
-type ChargesByPeriodEdge {
+type ChargesEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
@@ -891,9 +891,45 @@ type MeteringPointMetadataDto {
 }
 
 type MeteringPointProcess {
+  initiator: MarketParticipant
+  steps: [MeteringPointProcessStep!]!
   id: String!
   documentType: DocumentType!
+  reasonCode: String!
   createdAt: DateTime!
+  cutoffDate: DateTime!
+  state: ProcessState!
+}
+
+"A connection to a list of items."
+type MeteringPointProcessOverviewConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [MeteringPointProcessOverviewEdge!]
+  "A flattened list of the nodes."
+  nodes: [MeteringPointProcess!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type MeteringPointProcessOverviewEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: MeteringPointProcess!
+}
+
+type MeteringPointProcessStep {
+  actor: MarketParticipant
+  id: String!
+  step: String!
+  comment: String
+  createdAt: DateTime!
+  dueDate: DateTime!
+  state: ProcessState!
+  messageId: String
 }
 
 type MeteringPointsGroupByPackageNumber {
@@ -946,7 +982,7 @@ type Mutation {
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
-  startMoveIn(input: StartMoveInInput!): StartMoveInPayload! @authorize(roles: [ "metering-point:search" ])
+  startMoveIn(input: StartMoveInInput!): StartMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
@@ -1107,28 +1143,8 @@ type ProcessesEdge {
   node: OrchestrationInstance!
 }
 
-"A connection to a list of items."
-type ProcessesForMeteringPointConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [ProcessesForMeteringPointEdge!]
-  "A flattened list of the nodes."
-  nodes: [MeteringPointProcess!]
-  "Identifies the total count of items in the connection."
-  totalCount: Int!
-}
-
-"An edge in a connection."
-type ProcessesForMeteringPointEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: MeteringPointProcess!
-}
-
 type Query {
-  chargesByPeriod(query: GetChargesByPeriodQueryInput! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargesSortInput!]): ChargesByPeriodConnection @authorize(roles: [ "charges:view" ])
+  charges(query: GetChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargesSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1185,7 +1201,8 @@ type Query {
   measurementsReports: [MeasurementsReport!]!
   archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentType "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [SearchDocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
-  processesForMeteringPoint(meteringPointId: String! created: DateRange! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [MeteringPointProcessSortInput!]): ProcessesForMeteringPointConnection
+  meteringPointProcessOverview(meteringPointId: String! created: DateRange! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [MeteringPointProcessSortInput!]): MeteringPointProcessOverviewConnection
+  meteringPointProcessById(id: String!): MeteringPointProcess
   notifications: [NotificationDto!]!
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
@@ -1758,9 +1775,11 @@ input GetByDayQueryInput {
   marketRole: AuthEicFunctionType!
 }
 
-input GetChargesByPeriodQueryInput {
-  from: DateTime!
-  to: DateTime!
+input GetChargesQueryInput {
+  chargeTypes: [ChargeType!]
+  actorNumbers: [UUID!]
+  statuses: [ChargeStatus!]
+  moreOptions: [String!]
 }
 
 input GetMonthlyAggregateByDateQueryInput {
@@ -1830,9 +1849,12 @@ input MeteringGridAreaImbalanceSortInput {
 input MeteringPointProcessSortInput {
   id: SortEnumType
   createdAt: SortEnumType
+  cutoffDate: SortEnumType
   documentType: SortEnumType
+  reasonCode: SortEnumType
   actorNumber: SortEnumType
   actorRole: SortEnumType
+  state: SortEnumType
 }
 
 input MoveInContactDetailsInput {
@@ -2513,6 +2535,8 @@ enum MarketParticipantStatus {
 enum MeasurementsReportMarketRole {
   GRID_ACCESS_PROVIDER
   ENERGY_SUPPLIER
+  SYSTEM_OPERATOR
+  DANISH_ENERGY_AGENCY
   DATA_HUB_ADMINISTRATOR
 }
 

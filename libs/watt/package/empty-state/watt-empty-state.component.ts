@@ -41,13 +41,16 @@ import { WattEmptyStatePowerComponent } from './icons/power';
     watt-empty-state {
       display: block;
       text-align: center;
-      color: var(--watt-color-primary-dark);
 
       h3,
       h5,
       p {
         margin: 0;
         white-space: pre-wrap;
+      }
+
+      watt-icon {
+        color: var(--watt-color-primary-dark);
       }
 
       watt-button {

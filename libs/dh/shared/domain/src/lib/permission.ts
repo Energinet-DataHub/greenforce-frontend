@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+// Note: Sorted alphabetically
 export const permissions = [
   'actor-credentials:manage',
   'actor-master-data:manage',
@@ -37,6 +38,7 @@ export const permissions = [
   'imbalance-prices:view',
   'measurements-reports:manage',
   'measurements:manage',
+  'metering-point:move-in',
   'metering-point:search',
   'metering-point:process-overview',
   'missing-measurements-log:view',

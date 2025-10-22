@@ -68,25 +68,23 @@ limitations under the License.
     </watt-drawer-actions>
 
     @if (drawer.isOpen() && user) {
-      <watt-drawer-content>
-        <watt-tabs *transloco="let t; read: 'admin.userManagement.tabs'">
-          <watt-tab [label]="t('masterData.tabLabel')">
-            <dh-user-master-data [user]="user" />
-          </watt-tab>
+      <watt-tabs *transloco="let t; read: 'admin.userManagement.tabs'">
+        <watt-tab [label]="t('masterData.tabLabel')">
+          <dh-user-master-data [user]="user" />
+        </watt-tab>
 
-          <watt-tab [label]="t('roles.tabLabel')">
-            @defer {
-              <dh-user-roles [id]="user.id" [expanded]="false" />
-            }
-          </watt-tab>
+        <watt-tab [label]="t('roles.tabLabel')">
+          @defer {
+            <dh-user-roles [id]="user.id" [expanded]="false" />
+          }
+        </watt-tab>
 
-          <watt-tab *dhPermissionRequired="['fas']" [label]="t('history.tabLabel')">
-            @defer {
-              <dh-user-audit-logs [id]="user.id" />
-            }
-          </watt-tab>
-        </watt-tabs>
-      </watt-drawer-content>
+        <watt-tab *dhPermissionRequired="['fas']" [label]="t('history.tabLabel')">
+          @defer {
+            <dh-user-audit-logs [id]="user.id" />
+          }
+        </watt-tab>
+      </watt-tabs>
     }
   </watt-drawer>
 </ng-container>

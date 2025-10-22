@@ -19,4 +19,5 @@
 export {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
+  WATT_DESCRIPTION_LIST,
 } from './watt-description-list.component';

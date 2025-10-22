@@ -22,4 +22,11 @@ export interface WattDropdownOption {
   disabled?: boolean;
 }
 
+export interface WattDropdownOptionGroup {
+  label: string;
+  options: WattDropdownOption[];
+  disabled?: boolean;
+}
+
 export type WattDropdownOptions = WattDropdownOption[];
+export type WattDropdownGroupedOptions = WattDropdownOptionGroup[];

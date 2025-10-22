@@ -27,11 +27,12 @@ import { dayjs } from '@energinet-datahub/watt/date';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
+import { dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { MeasurementsQueryVariables } from '../types';
+import { persistDateFilter } from '../utils/persist-date-filter';
 
 @Component({
   selector: 'dh-measurements-day-filter',
@@ -39,7 +40,6 @@ import { MeasurementsQueryVariables } from '../types';
     TranslocoDirective,
     ReactiveFormsModule,
 
-    WattQueryParamsDirective,
     WattDatepickerComponent,
     WattSlideToggleComponent,
     VaterStackComponent,
@@ -50,7 +50,7 @@ import { MeasurementsQueryVariables } from '../types';
     }
   `,
   template: `
-    <form wattQueryParams [formGroup]="form">
+    <form [formGroup]="form">
       <vater-stack
         direction="row"
         gap="ml"
@@ -70,11 +70,15 @@ import { MeasurementsQueryVariables } from '../types';
 })
 export class DhMeasurementsDayFilterComponent {
   private fb = inject(NonNullableFormBuilder);
+  private dateFilter = persistDateFilter();
   form = this.fb.group({
-    date: this.fb.control<Date>(new Date()),
+    date: this.fb.control<Date>(this.dateFilter().toDate()),
     showHistoricValues: this.fb.control(false),
     showOnlyChangedValues: this.fb.control(false),
   });
+
+  date = dhFormControlToSignal(this.form.controls.date);
+  filterEffect = effect(() => this.dateFilter.set(dayjs(this.date())));
 
   filter = output<MeasurementsQueryVariables>();
 
