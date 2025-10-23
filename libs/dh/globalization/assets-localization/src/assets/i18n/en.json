@@ -405,6 +405,11 @@
           "withoutPredictablePrice": "Non-predictable price"
         }
       }
+    },
+    "charge": {
+      "tabs": {
+        "pricesLabel": "Prices"
+      }
     }
   },
   "meteringPoint": {

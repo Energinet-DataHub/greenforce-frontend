@@ -406,6 +406,11 @@
           "withoutPredictablePrice": "Ikke forudsigelig pris"
         }
       }
+    },
+    "charge": {
+      "tabs": {
+        "pricesLabel": "Priser"
+      }
     }
   },
   "meteringPoint": {
