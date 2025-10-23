@@ -124,7 +124,9 @@ services.SetupHealthEndpoints(configuration);
 
 var app = builder.Build();
 
+#if DEBUG
 HotReloadService.Services = app.Services;
+#endif
 
 app.UseForwardedHeaders();
 
