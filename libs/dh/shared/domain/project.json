@@ -54,12 +54,6 @@
         "{workspaceRoot}/libs/**/*.graphql",
         "!{projectRoot}/src/lib/generated/graphql/**/*"
       ],
-      "dependsOn": [
-        {
-          "projects": ["api-dh"],
-          "target": "watch-update-graphql-schema"
-        }
-      ],
       "outputs": [
         "{projectRoot}/src/lib/generated/graphql/types.ts",
         "{projectRoot}/src/lib/generated/graphql/data-source.ts",
