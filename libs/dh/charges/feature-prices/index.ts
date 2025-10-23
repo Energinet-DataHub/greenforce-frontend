@@ -16,4 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { chargeRoutes as default } from './src/routes';
+export { DhPricesComponent } from './src/components/prices.component';
+export { DhChargeComponent as default } from './src/components/charge.component';

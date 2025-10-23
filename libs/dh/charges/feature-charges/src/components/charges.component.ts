@@ -78,7 +78,7 @@ import { DhChargesFiltersComponent } from './filters.component';
         [columns]="columns"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
-        (rowClick)="navigation.navigate('details', $event.id)"
+        (rowClick)="navigation.navigate('id', $event.id)"
       >
         <ng-container *wattTableCell="columns.type; let element">
           {{ 'charges.charges.chargeTypes.' + element.chargeType | transloco }}
