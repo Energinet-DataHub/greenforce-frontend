@@ -2,11 +2,15 @@
   "name": "api-dh",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
+  "tags": ["product:dh", "type:api"],
   "sourceRoot": "apps/dh/api-dh/source",
   "prefix": "dh",
   "targets": {
     "build": {
-      "outputs": ["{projectRoot}/bin/Release/net9.0"],
+      "outputs": [
+        "{projectRoot}/bin/Release/net9.0",
+        "{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"
+      ],
       "executor": "nx:run-commands",
       "options": {
         "command": "dotnet build apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Release"
@@ -14,23 +18,14 @@
     },
     "serve": {
       "continuous": true,
-      "outputs": ["{projectRoot}/bin/Debug/net9.0"],
+      "outputs": [
+        "{projectRoot}/bin/Debug/net9.0",
+        "{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"
+      ],
       "executor": "nx:run-commands",
       "options": {
         "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
       }
-    },
-    "update-graphql-schema": {
-      "inputs": [
-        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql"
-      ],
-      "executor": "@energinet-datahub/tools/package:update-graphql-schema",
-      "options": {
-        "watch": false,
-        "output": "libs/dh/shared/data-access-graphql/schema.graphql"
-      },
-      "dependsOn": ["build"]
     }
-  },
-  "tags": ["product:dh", "type:api"]
+  }
 }
