@@ -24,7 +24,7 @@ import { getExecutedProjectConfiguration, getProjectFileForNxProject } from '@nx
 
 import { UpdateGraphqlSchemaExecutorSchema } from './schema';
 import { existsSync, mkdirSync, readFileSync } from 'fs';
-import { watch } from 'node:fs/promises';
+import chokidar from 'chokidar';
 import { spawn } from 'child_process';
 import xml2js from 'xml2js';
 import { buildStartupAssemblyPath } from './get-path-to-startup-assembly';
@@ -68,22 +68,17 @@ const runExecutor: PromiseExecutor<UpdateGraphqlSchemaExecutorSchema> = async (
   return updateGraphqlSchema(startupAssembly, output);
 };
 
-async function watchForChanges(startupAssembly: string, output: string) {
-  console.log(`Watching for changes in ${startupAssembly}...`);
-  const watcher = watch(startupAssembly);
-
-  for await (const event of watcher) {
-    if (event.eventType === 'rename') {
-      console.log(`File renamed or deleted: ${startupAssembly}. Re-initializing watcher...`);
-      await watchForChanges(startupAssembly, output);
-    }
-
-    if (event.eventType === 'change') {
+const watchForChanges = (startupAssembly: string, output: string) =>
+  new Promise<void>((resolve, reject) => {
+    console.log(`Watching for changes in ${startupAssembly}...`);
+    const watcher = chokidar.watch(startupAssembly);
+    process.on('SIGINT', () => watcher.close().then(() => resolve()));
+    watcher.on('error', reject);
+    watcher.on('change', () => {
       console.log(`Change detected in ${startupAssembly}. Updating GraphQL schema...`);
-      await updateGraphqlSchema(startupAssembly, output);
-    }
-  }
-}
+      updateGraphqlSchema(startupAssembly, output);
+    });
+  });
 
 function updateGraphqlSchema(
   startupAssembly: string,
