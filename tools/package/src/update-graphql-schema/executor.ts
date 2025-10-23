@@ -24,7 +24,7 @@ import { getExecutedProjectConfiguration, getProjectFileForNxProject } from '@nx
 
 import { UpdateGraphqlSchemaExecutorSchema } from './schema';
 import { existsSync, mkdirSync, readFileSync } from 'fs';
-import { watch } from 'node:fs/promises';
+import chokidar from 'chokidar';
 import { spawn } from 'child_process';
 import xml2js from 'xml2js';
 import { buildStartupAssemblyPath } from './get-path-to-startup-assembly';
@@ -68,28 +68,20 @@ const runExecutor: PromiseExecutor<UpdateGraphqlSchemaExecutorSchema> = async (
   return updateGraphqlSchema(startupAssembly, output);
 };
 
-async function watchForChanges(startupAssembly: string, output: string) {
-  console.log(`Watching for changes in ${startupAssembly}...`);
-  const watcher = watch(startupAssembly);
-
-  for await (const event of watcher) {
-    if (event.eventType === 'rename') {
-      console.log(`File renamed or deleted: ${startupAssembly}. Re-initializing watcher...`);
-      await watchForChanges(startupAssembly, output);
-    }
-
-    if (event.eventType === 'change') {
+const watchForChanges = (startupAssembly: string, output: string) =>
+  new Promise<{ success: boolean }>((resolve, reject) => {
+    console.log(`Watching for changes in ${startupAssembly}...`);
+    const watcher = chokidar.watch(startupAssembly);
+    process.on('SIGINT', () => watcher.close().then(() => resolve({ success: true })));
+    watcher.on('error', (error) => reject({ success: false, error }));
+    watcher.on('change', () => {
       console.log(`Change detected in ${startupAssembly}. Updating GraphQL schema...`);
-      await updateGraphqlSchema(startupAssembly, output);
-    }
-  }
-}
+      updateGraphqlSchema(startupAssembly, output).catch(reject);
+    });
+  });
 
-function updateGraphqlSchema(
-  startupAssembly: string,
-  output: string
-): { success: boolean } | PromiseLike<{ success: boolean }> {
-  return new Promise((resolve, reject) => {
+function updateGraphqlSchema(startupAssembly: string, output: string) {
+  return new Promise<{ success: boolean }>((resolve, reject) => {
     const childProcess = spawn(
       'dotnet',
       ['exec', `${startupAssembly}`, `schema`, `export`, `--output=${output}`],
