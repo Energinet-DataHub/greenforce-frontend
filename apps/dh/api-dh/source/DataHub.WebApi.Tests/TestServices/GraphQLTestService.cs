@@ -15,6 +15,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.Charges.Client;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.Measurements.Client;
@@ -22,7 +23,6 @@ using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Mappers;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;

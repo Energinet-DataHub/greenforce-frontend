@@ -64,6 +64,9 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
         </ng-container>
 
         <ng-container *wattTableCell="columns.currentQuantity; let element">
+          @if (element.qualities.includes(Quality.Estimated)) {
+            ≈
+          }
           {{ formatNumber(element.quantity) }}
         </ng-container>
       </watt-table>
@@ -96,7 +99,7 @@ export class DhMeasurementsAllYearsComponent {
     currentQuantity: {
       accessor: 'quantity',
       align: 'right',
-      tooltip: `${this.transloco.translate('meteringPoint.measurements.qualityNotAvailableInThisResolution')}`,
+      tooltip: `${this.transloco.translate('meteringPoint.measurements.tooltip')}`,
     },
     filler: {
       accessor: null,

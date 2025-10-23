@@ -7,6 +7,7 @@ query GetAggregatedMeasurementsForAllYears(
     query: { meteringPointId: $meteringPointId, actorNumber: $actorNumber, marketRole: $marketRole }
   ) {
     quantity
+    qualities
     year
   }
 }

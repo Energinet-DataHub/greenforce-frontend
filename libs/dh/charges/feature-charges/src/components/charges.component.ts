@@ -19,7 +19,7 @@
 import { RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
   WattTableComponent,
@@ -48,6 +48,7 @@ import { DhChargesFiltersComponent } from './filters.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterOutlet,
+    TranslocoPipe,
     TranslocoDirective,
     WattTableComponent,
     WattTableCellDirective,
@@ -80,7 +81,7 @@ import { DhChargesFiltersComponent } from './filters.component';
         (rowClick)="navigation.navigate('details', $event.id)"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ element.chargeType }}
+          {{ 'charges.charges.chargeTypes.' + element.chargeType | transloco }}
         </ng-container>
         <ng-container *wattTableCell="columns.id; let element">
           {{ element.id }}

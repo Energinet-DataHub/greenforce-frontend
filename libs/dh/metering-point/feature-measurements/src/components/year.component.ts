@@ -118,6 +118,9 @@ import { persistDateFilter } from '../utils/persist-date-filter';
         </ng-container>
 
         <ng-container *wattTableCell="columns.currentQuantity; let element">
+          @if (element.qualities.includes(Quality.Estimated)) {
+            ≈
+          }
           {{ formatNumber(element.quantity) }}
         </ng-container>
       </watt-table>
@@ -170,7 +173,7 @@ export class DhMeasurementsYearComponent {
     currentQuantity: {
       accessor: 'quantity',
       align: 'right',
-      tooltip: `${this.transloco.translate('meteringPoint.measurements.qualityNotAvailableInThisResolution')}`,
+      tooltip: `${this.transloco.translate('meteringPoint.measurements.tooltip')}`,
       footer: { value: this.sum },
     },
     filler: {
