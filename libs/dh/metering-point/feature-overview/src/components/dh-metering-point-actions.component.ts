@@ -35,7 +35,10 @@ import {
   MeteringPointSubType,
   EicFunction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhPermissionRequiredDirective, PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhPermissionRequiredDirective,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
 import { WattModalService } from '@energinet-datahub/watt/modal';
@@ -137,8 +140,9 @@ export class DhMeteringPointActionsComponent {
       this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
       this.permissionService.hasMarketRole(EicFunction.Delegated),
     ]).pipe(
-      map(([hasMeteredDataResponsible, hasGridAccessProvider, hasDelegated]) =>
-        hasMeteredDataResponsible || hasGridAccessProvider || hasDelegated
+      map(
+        ([hasMeteredDataResponsible, hasGridAccessProvider, hasDelegated]) =>
+          hasMeteredDataResponsible || hasGridAccessProvider || hasDelegated
       )
     ),
     { initialValue: false }
