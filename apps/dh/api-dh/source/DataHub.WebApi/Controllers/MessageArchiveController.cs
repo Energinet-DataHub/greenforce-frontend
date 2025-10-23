@@ -13,7 +13,8 @@
 // limitations under the License.
 
 using System.Net.Mime;
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.ArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,31 +22,36 @@ namespace Energinet.DataHub.WebApi.Controllers;
 
 [ApiController]
 [Route("v1/[controller]")]
-public class MessageArchiveController : ControllerBase
+public class MessageArchiveController(IB2CClient b2CClient) : ControllerBase
 {
-    private readonly IEdiB2CWebAppClient_V1 _client;
-
-    public MessageArchiveController(IEdiB2CWebAppClient_V1 client)
-    {
-        _client = client;
-    }
+    private readonly IB2CClient _b2CClient = b2CClient;
 
     [HttpGet]
     [Route("Document")]
     [Produces(MediaTypeNames.Text.Plain)]
     public async Task<ActionResult<string>> GetDocumentByIdAsync(string id, CancellationToken cancellationToken)
     {
-        if (!Guid.TryParse(id, out var documentId))
+        if (!Guid.TryParse(id, out var archivedMessageId))
         {
             return BadRequest("Invalid document ID format");
         }
 
-        var document = await _client.ArchivedMessageGetDocumentAsync(
-            documentId,
-            "1.0",
-            cancellationToken);
+        var archivedMessageIdDto = new ArchivedMessageStreamQueryV1(archivedMessageId);
+        var stream = await _b2CClient.SendAsync(archivedMessageIdDto, cancellationToken);
 
-        var formattedDocument = DocumentFormatter.FormatDocumentIfNeeded(document);
+        if (stream == null)
+        {
+            return NoContent();
+        }
+
+        // Read the full stream into a string
+        string documentContent;
+        using (var reader = new StreamReader(stream, leaveOpen: false))
+        {
+            documentContent = await reader.ReadToEndAsync(cancellationToken);
+        }
+
+        var formattedDocument = DocumentFormatter.FormatDocumentIfNeeded(documentContent);
 
         return Ok(formattedDocument);
     }
