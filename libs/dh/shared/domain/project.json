@@ -30,7 +30,7 @@
       "dependsOn": [
         {
           "projects": ["api-dh"],
-          "target": "update-graphql-schema"
+          "target": "build"
         }
       ],
       "outputs": [
@@ -53,6 +53,12 @@
         "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
         "{workspaceRoot}/libs/**/*.graphql",
         "!{projectRoot}/src/lib/generated/graphql/**/*"
+      ],
+      "dependsOn": [
+        {
+          "projects": ["api-dh"],
+          "target": "serve"
+        }
       ],
       "outputs": [
         "{projectRoot}/src/lib/generated/graphql/types.ts",
