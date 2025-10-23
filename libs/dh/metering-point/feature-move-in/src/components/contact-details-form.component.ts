@@ -51,19 +51,43 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <h3>
             {{ t('legalContactSection') }}
           </h3>
-          <watt-checkbox [formControl]="form.controls.legalContactSameAsCustomer" data-testid="legal-contact-same-as-customer">
+          <watt-checkbox
+            [formControl]="form.controls.legalContactSameAsCustomer"
+            data-testid="legal-contact-same-as-customer"
+          >
             {{ t('contactSameAsCustomer') }}
           </watt-checkbox>
 
-          <watt-text-field [formControl]="legalControls.name" [label]="t('contactName')" data-testid="legal-contact-name" />
+          <watt-text-field
+            [formControl]="legalControls.name"
+            [label]="t('contactName')"
+            data-testid="legal-contact-name"
+          />
 
-          <watt-text-field [formControl]="legalControls.title" [label]="t('attention')" data-testid="legal-contact-title" />
+          <watt-text-field
+            [formControl]="legalControls.title"
+            [label]="t('attention')"
+            data-testid="legal-contact-title"
+          />
 
-          <watt-phone-field [formControl]="legalControls.phone" [label]="t('phoneNumber')" data-testid="legal-contact-phone" />
+          <watt-phone-field
+            [formControl]="legalControls.phone"
+            [label]="t('phoneNumber')"
+            data-testid="legal-contact-phone"
+          />
 
-          <watt-phone-field [formControl]="legalControls.mobile" [label]="t('mobile')" data-testid="legal-contact-mobile" />
+          <watt-phone-field
+            [formControl]="legalControls.mobile"
+            [label]="t('mobile')"
+            data-testid="legal-contact-mobile"
+          />
 
-          <watt-text-field [formControl]="legalControls.email" [label]="t('email')" type="email" data-testid="legal-contact-email">
+          <watt-text-field
+            [formControl]="legalControls.email"
+            [label]="t('email')"
+            type="email"
+            data-testid="legal-contact-email"
+          >
             <watt-field-error>
               @if (legalControls.email.hasError('email')) {
                 {{ t('invalidEmail') }}
@@ -76,14 +100,33 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <h3>
             {{ t('technicalContactSection') }}
           </h3>
-          <watt-checkbox [formControl]="form.controls.technicalContactSameAsLegal" data-testid="technical-contact-same-as-legal">
+          <watt-checkbox
+            [formControl]="form.controls.technicalContactSameAsLegal"
+            data-testid="technical-contact-same-as-legal"
+          >
             {{ t('technicalContactSameAsLegal') }}
           </watt-checkbox>
 
-          <watt-text-field [formControl]="technicalControls.name" [label]="t('contactName')" data-testid="technical-contact-name" />
-          <watt-text-field [formControl]="technicalControls.title" [label]="t('attention')" data-testid="technical-contact-title" />
-          <watt-phone-field [formControl]="technicalControls.phone" [label]="t('phoneNumber')" data-testid="technical-contact-phone" />
-          <watt-phone-field [formControl]="technicalControls.mobile" [label]="t('mobile')" data-testid="technical-contact-mobile" />
+          <watt-text-field
+            [formControl]="technicalControls.name"
+            [label]="t('contactName')"
+            data-testid="technical-contact-name"
+          />
+          <watt-text-field
+            [formControl]="technicalControls.title"
+            [label]="t('attention')"
+            data-testid="technical-contact-title"
+          />
+          <watt-phone-field
+            [formControl]="technicalControls.phone"
+            [label]="t('phoneNumber')"
+            data-testid="technical-contact-phone"
+          />
+          <watt-phone-field
+            [formControl]="technicalControls.mobile"
+            [label]="t('mobile')"
+            data-testid="technical-contact-mobile"
+          />
 
           <watt-text-field
             [formControl]="technicalControls.email"

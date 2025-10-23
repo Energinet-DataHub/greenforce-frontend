@@ -60,12 +60,14 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <vater-stack align="start" gap="xs" class="checkbox-margin-bottom">
             <watt-checkbox
               [formControl]="form.controls.legalAddressSameAsMeteringPoint"
-              data-testid="legal-address-same-as-metering-point">
+              data-testid="legal-address-same-as-metering-point"
+            >
               {{ t('addressSameAsMeteringPoint') }}
             </watt-checkbox>
             <watt-checkbox
               [formControl]="form.controls.legalNameAddressProtection"
-              data-testid="legal-name-address-protection">
+              data-testid="legal-name-address-protection"
+            >
               {{ t('nameAddressProtection') }}
             </watt-checkbox>
           </vater-stack>
@@ -73,7 +75,8 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <watt-text-field
             [formControl]="legalGroupControls.streetName"
             [label]="t('street')"
-            data-testid="legal-street-name" />
+            data-testid="legal-street-name"
+          />
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
@@ -168,12 +171,14 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <vater-stack align="start" gap="xs" class="checkbox-margin-bottom">
             <watt-checkbox
               [formControl]="form.controls.technicalAddressSameAsLegal"
-              data-testid="technical-address-same-as-legal">
+              data-testid="technical-address-same-as-legal"
+            >
               {{ t('addressSameAsLegal') }}
             </watt-checkbox>
             <watt-checkbox
               [formControl]="form.controls.technicalNameAddressProtection"
-              data-testid="technical-name-address-protection">
+              data-testid="technical-name-address-protection"
+            >
               {{ t('nameAddressProtection') }}
             </watt-checkbox>
           </vater-stack>
