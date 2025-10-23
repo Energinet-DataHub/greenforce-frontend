@@ -33,13 +33,16 @@ import {
   ConnectionState,
   ElectricityMarketMeteringPointType,
   MeteringPointSubType,
+  EicFunction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhPermissionRequiredDirective, PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { InstallationAddress } from '../types';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { combineLatest, map } from 'rxjs';
 
 @Component({
   selector: 'dh-metering-point-actions',
@@ -118,6 +121,7 @@ import { InstallationAddress } from '../types';
 export class DhMeteringPointActionsComponent {
   private readonly releaseToggleService = inject(DhReleaseToggleService);
   private readonly modalService = inject(WattModalService);
+  private readonly permissionService = inject(PermissionService);
 
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
@@ -127,10 +131,24 @@ export class DhMeteringPointActionsComponent {
   connectionState = input<ConnectionState | null>();
   installationAddress = input<InstallationAddress | null>();
 
+  protected readonly hasAllowedMarketRolesForSendMeasurementsRequest = toSignal(
+    combineLatest([
+      this.permissionService.hasMarketRole(EicFunction.MeteredDataResponsible),
+      this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
+      this.permissionService.hasMarketRole(EicFunction.Delegated),
+    ]).pipe(
+      map(([hasMeteredDataResponsible, hasGridAccessProvider, hasDelegated]) =>
+        hasMeteredDataResponsible || hasGridAccessProvider || hasDelegated
+      )
+    ),
+    { initialValue: false }
+  );
+
   showMeasurementsUploadButton = computed(() => {
     return (
       this.releaseToggleService.isEnabled('PM96-SHAREMEASUREDATA') &&
-      !this.isCalculatedMeteringPoint()
+      !this.isCalculatedMeteringPoint() &&
+      this.hasAllowedMarketRolesForSendMeasurementsRequest()
     );
   });
 
