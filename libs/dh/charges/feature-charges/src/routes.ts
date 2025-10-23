@@ -34,7 +34,7 @@ export const chargeRoutes: Routes = [
   },
   {
     path: ':id',
-    loadComponent: () => import('@energinet-datahub/dh/charges/feature-prices'),
+    loadComponent: () => import('./components/charge.component').then((m) => m.DhChargeComponent),
     children: [
       {
         path: '',

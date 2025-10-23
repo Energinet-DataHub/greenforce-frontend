@@ -17,4 +17,3 @@
  */
 //#endregion
 export { DhPricesComponent } from './src/components/prices.component';
-export { DhChargeComponent as default } from './src/components/charge.component';
