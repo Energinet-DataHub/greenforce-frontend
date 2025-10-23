@@ -13,23 +13,12 @@
       }
     },
     "serve": {
+      "continuous": true,
       "outputs": ["{projectRoot}/bin/Debug/net9.0"],
       "executor": "nx:run-commands",
       "options": {
-        "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug --no-hot-reload"
-      },
-       "continuous": true
-    },
-   "watch-update-graphql-schema": {
-    "inputs": [
-        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql"
-      ],
-      "executor": "@energinet-datahub/tools/package:update-graphql-schema",
-      "options": {
-        "watch": true,
-        "output": "libs/dh/shared/data-access-graphql/schema.graphql"
-      },
-      "continuous": true
+        "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
+      }
     },
     "update-graphql-schema": {
       "inputs": [
