@@ -69,22 +69,19 @@ const runExecutor: PromiseExecutor<UpdateGraphqlSchemaExecutorSchema> = async (
 };
 
 const watchForChanges = (startupAssembly: string, output: string) =>
-  new Promise<void>((resolve, reject) => {
+  new Promise<{ success: boolean }>((resolve, reject) => {
     console.log(`Watching for changes in ${startupAssembly}...`);
     const watcher = chokidar.watch(startupAssembly);
-    process.on('SIGINT', () => watcher.close().then(() => resolve()));
-    watcher.on('error', reject);
+    process.on('SIGINT', () => watcher.close().then(() => resolve({ success: true })));
+    watcher.on('error', (error) => reject({ success: false, error }));
     watcher.on('change', () => {
       console.log(`Change detected in ${startupAssembly}. Updating GraphQL schema...`);
-      updateGraphqlSchema(startupAssembly, output);
+      updateGraphqlSchema(startupAssembly, output).catch(reject);
     });
   });
 
-function updateGraphqlSchema(
-  startupAssembly: string,
-  output: string
-): { success: boolean } | PromiseLike<{ success: boolean }> {
-  return new Promise((resolve, reject) => {
+function updateGraphqlSchema(startupAssembly: string, output: string) {
+  return new Promise<{ success: boolean }>((resolve, reject) => {
     const childProcess = spawn(
       'dotnet',
       ['exec', `${startupAssembly}`, `schema`, `export`, `--output=${output}`],
