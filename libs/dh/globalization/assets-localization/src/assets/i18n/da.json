@@ -577,7 +577,7 @@
     "hideHistoricalButton": "Skjul historiske",
     "processOverview": {
       "columns": {
-        "createdAt": "Beskedtidspunt",
+        "createdAt": "Beskedtidspunkt",
         "documentType": "Type",
         "state": "Status",
         "cutoffDate": "Skæringsdato",
