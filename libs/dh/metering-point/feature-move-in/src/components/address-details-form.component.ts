@@ -58,31 +58,52 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           </h3>
 
           <vater-stack align="start" gap="xs" class="checkbox-margin-bottom">
-            <watt-checkbox [formControl]="form.controls.legalAddressSameAsMeteringPoint">
+            <watt-checkbox
+              [formControl]="form.controls.legalAddressSameAsMeteringPoint"
+              data-testid="legal-address-same-as-metering-point">
               {{ t('addressSameAsMeteringPoint') }}
             </watt-checkbox>
-            <watt-checkbox [formControl]="form.controls.legalNameAddressProtection">
+            <watt-checkbox
+              [formControl]="form.controls.legalNameAddressProtection"
+              data-testid="legal-name-address-protection">
               {{ t('nameAddressProtection') }}
             </watt-checkbox>
           </vater-stack>
 
-          <watt-text-field [formControl]="legalGroupControls.streetName" [label]="t('street')" />
+          <watt-text-field
+            [formControl]="legalGroupControls.streetName"
+            [label]="t('street')"
+            data-testid="legal-street-name" />
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="legalGroupControls.buildingNumber"
               [label]="t('houseNumber')"
+              data-testid="legal-building-number"
             />
-            <watt-text-field [formControl]="legalGroupControls.floor" [label]="t('floor')" />
-            <watt-text-field [formControl]="legalGroupControls.room" [label]="t('door')" />
+            <watt-text-field
+              [formControl]="legalGroupControls.floor"
+              [label]="t('floor')"
+              data-testid="legal-floor"
+            />
+            <watt-text-field
+              [formControl]="legalGroupControls.room"
+              [label]="t('door')"
+              data-testid="legal-room"
+            />
           </vater-flex>
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="legalGroupControls.postCode"
               [label]="t('postalCode')"
+              data-testid="legal-post-code"
             />
-            <watt-text-field [formControl]="legalGroupControls.cityName" [label]="t('city')" />
+            <watt-text-field
+              [formControl]="legalGroupControls.cityName"
+              [label]="t('city')"
+              data-testid="legal-city-name"
+            />
           </vater-flex>
 
           <watt-dropdown
@@ -91,6 +112,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             [formControl]="legalGroupControls.countryCode"
             [options]="countryOptions"
             [label]="t('country')"
+            data-testid="legal-country-code"
           />
 
           <vater-flex direction="row" gap="m" justify="space-between">
@@ -98,6 +120,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
               [formControl]="legalGroupControls.municipalityCode"
               [label]="t('municipalityCode')"
               maxLength="3"
+              data-testid="legal-municipality-code"
             >
               <watt-field-error>
                 @if (legalGroupControls.municipalityCode.hasError('containsLetters')) {
@@ -114,6 +137,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             <watt-text-field
               [formControl]="legalGroupControls.streetCode"
               [label]="t('streetCode')"
+              data-testid="legal-street-code"
             />
           </vater-flex>
 
@@ -121,13 +145,19 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             <watt-text-field
               [formControl]="legalGroupControls.citySubdivisionName"
               [label]="t('citySubdivisionName')"
+              data-testid="legal-city-subdivision-name"
             />
-            <watt-text-field [formControl]="legalGroupControls.postBox" [label]="t('postBox')" />
+            <watt-text-field
+              [formControl]="legalGroupControls.postBox"
+              [label]="t('postBox')"
+              data-testid="legal-post-box"
+            />
           </vater-flex>
 
           <watt-text-field
             [formControl]="legalGroupControls.darReference"
             [label]="t('darReference')"
+            data-testid="legal-dar-reference"
           />
         </vater-flex>
         <!-- Technical -->
@@ -136,10 +166,14 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             {{ t('technicalAddressSection') }}
           </h3>
           <vater-stack align="start" gap="xs" class="checkbox-margin-bottom">
-            <watt-checkbox [formControl]="form.controls.technicalAddressSameAsLegal">
+            <watt-checkbox
+              [formControl]="form.controls.technicalAddressSameAsLegal"
+              data-testid="technical-address-same-as-legal">
               {{ t('addressSameAsLegal') }}
             </watt-checkbox>
-            <watt-checkbox [formControl]="form.controls.technicalNameAddressProtection">
+            <watt-checkbox
+              [formControl]="form.controls.technicalNameAddressProtection"
+              data-testid="technical-name-address-protection">
               {{ t('nameAddressProtection') }}
             </watt-checkbox>
           </vater-stack>
@@ -147,23 +181,38 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <watt-text-field
             [formControl]="technicalGroupControls.streetName"
             [label]="t('street')"
+            data-testid="technical-street-name"
           />
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="technicalGroupControls.buildingNumber"
               [label]="t('houseNumber')"
+              data-testid="technical-building-number"
             />
-            <watt-text-field [formControl]="technicalGroupControls.floor" [label]="t('floor')" />
-            <watt-text-field [formControl]="technicalGroupControls.room" [label]="t('door')" />
+            <watt-text-field
+              [formControl]="technicalGroupControls.floor"
+              [label]="t('floor')"
+              data-testid="technical-floor"
+            />
+            <watt-text-field
+              [formControl]="technicalGroupControls.room"
+              [label]="t('door')"
+              data-testid="technical-room"
+            />
           </vater-flex>
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="technicalGroupControls.postCode"
               [label]="t('postalCode')"
+              data-testid="technical-post-code"
             />
-            <watt-text-field [formControl]="technicalGroupControls.cityName" [label]="t('city')" />
+            <watt-text-field
+              [formControl]="technicalGroupControls.cityName"
+              [label]="t('city')"
+              data-testid="technical-city-name"
+            />
           </vater-flex>
 
           <watt-dropdown
@@ -172,6 +221,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             [formControl]="technicalGroupControls.countryCode"
             [options]="countryOptions"
             [label]="t('country')"
+            data-testid="technical-country-code"
           />
 
           <vater-flex direction="row" gap="m" justify="space-between">
@@ -179,6 +229,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
               [formControl]="technicalGroupControls.municipalityCode"
               [label]="t('municipalityCode')"
               maxLength="3"
+              data-testid="technical-municipality-code"
             >
               <watt-field-error>
                 @if (legalGroupControls.municipalityCode.hasError('containsLetters')) {
@@ -195,6 +246,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             <watt-text-field
               [formControl]="technicalGroupControls.streetCode"
               [label]="t('streetCode')"
+              data-testid="technical-street-code"
             />
           </vater-flex>
 
@@ -202,16 +254,19 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             <watt-text-field
               [formControl]="technicalGroupControls.citySubdivisionName"
               [label]="t('citySubdivisionName')"
+              data-testid="technical-city-subdivision-name"
             />
             <watt-text-field
               [formControl]="technicalGroupControls.postBox"
               [label]="t('postBox')"
+              data-testid="technical-post-box"
             />
           </vater-flex>
 
           <watt-text-field
             [formControl]="technicalGroupControls.darReference"
             [label]="t('darReference')"
+            data-testid="technical-dar-reference"
           />
         </vater-flex>
       </vater-flex>
