@@ -16,15 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { firstValueFrom } from 'rxjs';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { GetMeteringPointProcessByIdQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 import { emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { RouterLink } from '@angular/router';
 
 type MeteringPointProcessStep = NonNullable<
   GetMeteringPointProcessByIdQuery['meteringPointProcessById']
@@ -33,7 +34,6 @@ type MeteringPointProcessStep = NonNullable<
 @Component({
   selector: 'dh-metering-point-process-overview-steps',
   imports: [
-    RouterLink,
     TranslocoDirective,
     TranslocoPipe,
     VaterFlexComponent,
@@ -64,8 +64,8 @@ type MeteringPointProcessStep = NonNullable<
               <div class="watt-text-s-highlighted">{{ process.comment }}</div>
             }
           </div>
-          @if (process.messageId) {
-            <a target="_blank" [routerLink]="['/message-archive/details', process.messageId]">
+          @if (process.message?.documentUrl; as documentUrl) {
+            <a href="#" (click)="openRawMessage(documentUrl, $event)">
               <watt-icon size="xs" name="forwardMessage" />
             </a>
           }
@@ -84,8 +84,11 @@ type MeteringPointProcessStep = NonNullable<
   `,
 })
 export class DhMeteringPointProcessOverviewSteps {
+  private readonly http = inject(HttpClient);
+
   readonly steps = input.required<MeteringPointProcessStep[]>();
   readonly loading = input(false);
+
   dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
   columns: WattTableColumnDef<MeteringPointProcessStep> = {
     step: { accessor: 'step', size: '1fr' },
@@ -94,4 +97,39 @@ export class DhMeteringPointProcessOverviewSteps {
     actor: { accessor: 'actor', cell: (r) => r.actor?.name ?? emDash },
     state: { accessor: 'state' },
   };
+
+  async openRawMessage(documentUrl: string, event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    try {
+      const content = await firstValueFrom(this.http.get(documentUrl, { responseType: 'text' }));
+
+      if (!content) {
+        console.error('No content received from:', documentUrl);
+        return;
+      }
+
+      const type = this.detectContentType(content);
+      const blob = new Blob([content], { type });
+      const blobUrl = URL.createObjectURL(blob);
+
+      window.open(blobUrl, '_blank');
+
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+    } catch (error) {
+      console.error('Failed to fetch message:', error);
+    }
+  }
+
+  private detectContentType(content: string): string {
+    const trimmed = content.trim();
+    if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+      return 'application/json';
+    }
+    if (trimmed.startsWith('<')) {
+      return 'application/xml';
+    }
+    return 'text/plain';
+  }
 }
