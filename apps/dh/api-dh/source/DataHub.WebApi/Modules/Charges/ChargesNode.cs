@@ -46,4 +46,18 @@ public static partial class ChargesNode
 
         return result.IsSuccess ? result.Value! : Enumerable.Empty<ChargeInformationDto>();
     }
+
+    [Query]
+    [Authorize(Roles = new[] { "charges:view" })]
+    public static async Task<ChargeInformationDto?> GetChargeAsync(
+        [Service] IChargesClient client,
+        CancellationToken cancellationToken,
+        Guid id)
+    {
+        var result = await client.GetChargeInformationAsync(
+            new ChargeInformationSearchCriteriaDto(id.ToString(), new List<Guid>(), new List<ChargeType>()),
+            cancellationToken);
+
+        return result.Value?.FirstOrDefault();
+    }
 }
