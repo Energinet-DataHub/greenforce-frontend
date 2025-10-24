@@ -21,6 +21,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { NgTemplateOutlet } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -44,8 +45,6 @@ import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-tog
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { InstallationAddress } from '../types';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { combineLatest, map } from 'rxjs';
 
 @Component({
   selector: 'dh-metering-point-actions',
@@ -134,17 +133,8 @@ export class DhMeteringPointActionsComponent {
   connectionState = input<ConnectionState | null>();
   installationAddress = input<InstallationAddress | null>();
 
-  protected readonly hasAllowedMarketRolesForSendMeasurementsRequest = toSignal(
-    combineLatest([
-      this.permissionService.hasMarketRole(EicFunction.MeteredDataResponsible),
-      this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
-      this.permissionService.hasMarketRole(EicFunction.Delegated),
-    ]).pipe(
-      map(
-        ([hasMeteredDataResponsible, hasGridAccessProvider, hasDelegated]) =>
-          hasMeteredDataResponsible || hasGridAccessProvider || hasDelegated
-      )
-    ),
+  private readonly hasGridAccessProviderRole = toSignal(
+    this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
     { initialValue: false }
   );
 
@@ -152,7 +142,7 @@ export class DhMeteringPointActionsComponent {
     return (
       this.releaseToggleService.isEnabled('PM96-SHAREMEASUREDATA') &&
       !this.isCalculatedMeteringPoint() &&
-      this.hasAllowedMarketRolesForSendMeasurementsRequest()
+      this.hasGridAccessProviderRole()
     );
   });
 
