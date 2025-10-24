@@ -33,7 +33,7 @@ import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/doma
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-access-api';
 
-import { DhUserRolesTableComponent } from './user-roles-table.component';
+import { DhBasicUserRolesTableComponent } from './user-basic-roles-table.component';
 import { DhUserByIdMarketParticipant } from './types';
 
 @Component({
@@ -67,7 +67,7 @@ import { DhUserByIdMarketParticipant } from './types';
     WattFieldErrorComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
     DhResultComponent,
-    DhUserRolesTableComponent,
+    DhBasicUserRolesTableComponent,
   ],
 })
 export class DhUserRolesComponent {
