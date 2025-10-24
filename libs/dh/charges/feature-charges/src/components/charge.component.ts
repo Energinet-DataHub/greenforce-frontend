@@ -16,15 +16,21 @@
  * limitations under the License.
  */
 //#endregione';
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
-import { GetChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
+
+import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
-import { DhChargeStatusComponent } from './status.component';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
+import { GetChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+
+import { DhChargeStatusComponent } from './status.component';
 import { DhChargeActionsComponent } from './charge-actions.component';
 
 @Component({
@@ -68,7 +74,7 @@ import { DhChargeActionsComponent } from './charge-actions.component';
     <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
       <div *transloco="let t; prefix: 'charges.charge'">
         <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
-          {{ charge()?.chargeId | dhEmDashFallback }} {{ charge()?.chargeName | dhEmDashFallback }}
+          {{ chargeIdName() }}
           @let status = charge()?.status;
 
           @if (status) {
@@ -122,8 +128,38 @@ import { DhChargeActionsComponent } from './charge-actions.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhChargeComponent {
+  private readonly breadcrumbService = inject(DhBreadcrumbService);
+  private readonly router = inject(Router);
   query = query(GetChargeDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.charge);
+  chargeIdName = computed(() => `${this.charge()?.chargeId} • ${this.charge()?.chargeName}`);
   id = input.required<string>();
   getLink = (path: ChargesSubPaths) => getPath(path);
+
+  breadcrumbLabel = translateSignal('charges.charge.breadcrumb');
+
+  constructor() {
+    effect(() => {
+      const label = this.breadcrumbLabel();
+      if (!label) return;
+
+      this.breadcrumbService.clearBreadcrumbs();
+
+      this.breadcrumbService.addBreadcrumb({
+        label,
+        url: getPath('charges'),
+      });
+
+      this.breadcrumbService.addBreadcrumb({
+        label: this.chargeIdName(),
+        url: this.router
+          .createUrlTree([
+            getPath<BasePaths>('charges'),
+            this.id(),
+            getPath<ChargesSubPaths>('prices'),
+          ])
+          .toString(),
+      });
+    });
+  }
 }
