@@ -125,7 +125,7 @@ export class DhUserRolesComponent {
   selectionChanged(actorId: string, userRoles: ActorUserRoles, allAssignable: ActorUserRoles) {
     const actor = this.getOrAddActor(actorId);
 
-    actor.atLeastOneRoleIsAssigned = true;
+    actor.atLeastOneRoleIsAssigned = userRoles.length > 0;
 
     actor.userRolesToUpdate.added = userRoles
       .filter((userRole) => !userRole.assigned)
@@ -141,6 +141,7 @@ export class DhUserRolesComponent {
 
   private getOrAddActor(actorId: string) {
     const actor = this._updateUserRoles.actors.find((actor) => actor.id === actorId);
+
     if (!actor) {
       const actorChanges = {
         id: actorId,
