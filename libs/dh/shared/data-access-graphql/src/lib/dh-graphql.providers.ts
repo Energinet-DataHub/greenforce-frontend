@@ -127,7 +127,7 @@ export const graphQLProvider = provideApollo(() => {
         MessageDelegationType: {
           keyFields: ['id', 'periodId'],
         },
-        ActorUserRole: {
+        MarketParticipantUserRole: {
           keyFields: false,
         },
         Calculation: {
