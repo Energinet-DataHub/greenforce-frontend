@@ -30,7 +30,7 @@
       "dependsOn": [
         {
           "projects": ["api-dh"],
-          "target": "update-graphql-schema"
+          "target": "build"
         }
       ],
       "outputs": [
@@ -57,7 +57,7 @@
       "dependsOn": [
         {
           "projects": ["api-dh"],
-          "target": "watch-update-graphql-schema"
+          "target": "serve"
         }
       ],
       "outputs": [
