@@ -17,10 +17,8 @@
  */
 //#endregion
 import { effect, input, output, computed, Component, ChangeDetectionStrategy } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
-
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -30,13 +28,13 @@ import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
 import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
-
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { FilterUserRolesPipe, UserRolesIntoTablePipe } from './filter-user-roles-into-table.pipe';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-access-api';
+
+import { DhUserRolesTableComponent } from './user-roles-table.component';
+import { DhUserByIdMarketParticipant } from './types';
 
 @Component({
   selector: 'dh-user-roles',
@@ -69,8 +67,7 @@ import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-
     WattFieldErrorComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
     DhResultComponent,
-    FilterUserRolesPipe,
-    UserRolesIntoTablePipe,
+    DhUserRolesTableComponent,
   ],
 })
 export class DhUserRolesComponent {
@@ -78,7 +75,7 @@ export class DhUserRolesComponent {
     variables: { id: this.id() },
   }));
 
-  private _updateUserRoles: UpdateUserRoles = {
+  _updateUserRoles: UpdateUserRoles = {
     actors: [],
   };
 
@@ -93,7 +90,7 @@ export class DhUserRolesComponent {
   loading = this.actorsAndRolesQuery.loading;
   hasError = this.actorsAndRolesQuery.hasError;
 
-  userRolesPerActor = computed(() => this.user()?.actors ?? []);
+  userRolesPerActor = computed<DhUserByIdMarketParticipant[]>(() => this.user()?.actors ?? []);
 
   columns: WattTableColumnDef<ActorUserRole> = {
     name: { accessor: 'name' },
@@ -102,12 +99,9 @@ export class DhUserRolesComponent {
 
   constructor() {
     effect(() => {
-      // The component relied on watt-table to initially emit `selectionChange` during render,
-      // but this behavior was removed when watt-table was updated to use `model` for selection.
-      // This fix calls `selectionChanged` manually, but better solutions probably exist.
-      this.actorsAndRolesQuery.data()?.userById.actors.forEach((actor) => {
-        this.selectionChanged(actor.id, actor.userRoles, actor.userRoles);
-      });
+      if (this.selectMode()) {
+        this.initiallySelectedUserRoles(this.userRolesPerActor());
+      }
     });
   }
 
@@ -154,5 +148,15 @@ export class DhUserRolesComponent {
     }
 
     return actor;
+  }
+
+  private initiallySelectedUserRoles(marketParticipants: DhUserByIdMarketParticipant[]) {
+    marketParticipants.forEach(({ id, userRoles }) => {
+      const marketParticipant = this.getOrAddActor(id);
+
+      marketParticipant.userRolesToUpdate.added = userRoles
+        .filter((userRole) => userRole.assigned)
+        .map((userRole) => userRole.id);
+    });
   }
 }
