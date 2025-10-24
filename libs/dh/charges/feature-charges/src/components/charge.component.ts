@@ -16,11 +16,16 @@
  * limitations under the License.
  */
 //#endregione';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { GetChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { DhChargeStatusComponent } from './status.component';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhChargeActionsComponent } from './charge-actions.component';
 
 @Component({
   selector: 'dh-charge',
@@ -49,26 +54,61 @@ import { TranslocoDirective } from '@jsverse/transloco';
       overflow: auto;
     }
   `,
-  imports: [TranslocoDirective, VaterStackComponent, VaterSpacerComponent, WATT_LINK_TABS],
+  imports: [
+    TranslocoPipe,
+    TranslocoDirective,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    WATT_LINK_TABS,
+    DhEmDashFallbackPipe,
+    DhChargeStatusComponent,
+    DhChargeActionsComponent,
+  ],
   template: `<div class="page-grid">
     <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
       <div *transloco="let t; prefix: 'charges.charge'">
-        <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">headline</h2>
+        <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
+          {{ charge()?.chargeId | dhEmDashFallback }} {{ charge()?.chargeName | dhEmDashFallback }}
+          @let status = charge()?.status;
+
+          @if (status) {
+            <dh-charge-status [status]="status" />
+          }
+        </h2>
 
         <vater-stack direction="row" gap="ml">
-          <span class="watt-text-s"> info </span>
+          <span class="watt-text-s">
+            <span class="watt-label watt-space-inline-xs">{{ t('type') }}</span>
 
-          <span direction="row" gap="s" class="watt-text-s"> info </span>
+            {{ 'charges.chargeTypes.' + charge()?.chargeType | transloco }}
+          </span>
 
-          <span direction="row" gap="s" class="watt-text-s"> info </span>
+          <span direction="row" gap="s" class="watt-text-s">
+            <span class="watt-label watt-space-inline-xs">{{ t('owner') }}</span>
 
-          <span direction="row" gap="s" class="watt-text-s"> info </span>
+            {{ charge()?.chargeOwnerName | dhEmDashFallback }}
+          </span>
+
+          <span direction="row" gap="s" class="watt-text-s">
+            <span class="watt-label watt-space-inline-xs">{{ t('resolution') }}</span>
+            {{ 'charges.resolutions.' + charge()?.resolution | transloco }}
+          </span>
+
+          <span direction="row" gap="s" class="watt-text-s">
+            <span class="watt-label watt-space-inline-xs">{{ t('vat') }}</span>
+            {{ 'charges.vatClassifications.' + charge()?.vatClassification | transloco }}
+          </span>
+
+          <span direction="row" gap="s" class="watt-text-s">
+            <span class="watt-label watt-space-inline-xs">{{ t('transparentInvoicing') }}</span>
+            {{ charge()?.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
+          </span>
         </vater-stack>
       </div>
 
       <vater-spacer />
 
-      <div>actions</div>
+      <dh-charge-actions />
     </div>
 
     <div class="page-tabs" *transloco="let t; prefix: 'charges.charge.tabs'">
@@ -80,5 +120,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhChargeComponent {
+  query = query(GetChargeDocument, () => ({ variables: { id: this.id() } }));
+  charge = computed(() => this.query.data()?.charge);
+  id = input.required<string>();
   getLink = (path: ChargesSubPaths) => getPath(path);
 }

@@ -365,13 +365,24 @@
     "6": "Årsbaseret afregning (6)"
   },
   "charges": {
+    "chargeTypes": {
+      "SUBSCRIPTION": "Abonnement",
+      "FEE": "Gebyr",
+      "TARIFF": "Tarif"
+    },
+    "resolutions": {
+      "Daily": "Daglig",
+      "QuarterHourly": "Kvartalsvis",
+      "Hourly": "Timevis",
+      "Monthly": "Månedlig",
+      "Unknown": "Ukendt"
+    },
+    "vatClassifications": {
+      "NO_VAT": "Uden moms",
+      "VAT25": "Med moms"
+    },
     "charges": {
       "topBarTitle": "Priser",
-      "chargeTypes": {
-        "SUBSCRIPTION": "Abonnement",
-        "FEE": "Gebyr",
-        "TARIFF": "Tarif"
-      },
       "table": {
         "columns": {
           "id": "ID",
@@ -408,8 +419,16 @@
       }
     },
     "charge": {
+      "type": "Type",
+      "owner": "Ejer",
+      "resolution": "Tidsopløsning",
+      "transparentInvoicing": "Viderefakturering",
+      "vat": "Moms",
       "tabs": {
         "pricesLabel": "Priser"
+      },
+      "actions": {
+        "actionsButton": "Handlinger"
       }
     }
   },
