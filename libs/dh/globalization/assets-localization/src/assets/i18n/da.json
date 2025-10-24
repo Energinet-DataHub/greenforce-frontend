@@ -429,7 +429,8 @@
       },
       "actions": {
         "actionsButton": "Handlinger"
-      }
+      },
+      "breadcrumb": "Priser"
     }
   },
   "meteringPoint": {

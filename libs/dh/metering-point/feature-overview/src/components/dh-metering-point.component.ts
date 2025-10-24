@@ -233,8 +233,6 @@ export class DhMeteringPointComponent {
 
   constructor() {
     effect(() => {
-      this.breadcrumbService.navigationEnded();
-
       const label = this.breadcrumbLabel();
 
       if (!label) return;

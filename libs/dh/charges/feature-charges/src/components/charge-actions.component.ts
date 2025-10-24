@@ -18,9 +18,11 @@
 //#endregion
 import { Component } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
+
 import { TranslocoDirective } from '@jsverse/transloco';
+
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   selector: 'dh-charge-actions',

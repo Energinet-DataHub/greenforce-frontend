@@ -428,7 +428,8 @@
       },
       "actions": {
         "actionsButton": "Actions"
-      }
+      },
+      "breadcrumb": "Prices"
     }
   },
   "meteringPoint": {
