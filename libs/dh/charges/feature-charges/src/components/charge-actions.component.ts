@@ -31,7 +31,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
         {{ t('actionsButton') }}
         <watt-icon name="plus" />
       </watt-button>
-      <mat-menu #menu="matMenu"> </mat-menu>
+      <mat-menu #menu="matMenu" />
     </ng-container>
   `,
 })
