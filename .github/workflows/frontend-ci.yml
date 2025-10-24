@@ -143,12 +143,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v15
+      - uses: actions/create-github-app-token@v2
         name: Generate Github token
         id: generate_token
         with:
-          app_id: ${{ vars.dh3serviceaccount_appid }}
-          private_key: ${{ secrets.dh3serviceaccount_privatekey }}
+          app-id: ${{ vars.dh3serviceaccount_appid }}
+          private-key: ${{ secrets.dh3serviceaccount_privatekey }}
+          owner: Energinet-DataHub
       # needed for Nx affected command
       - name: Check out source code with current branch Git history
         uses: actions/checkout@v5
@@ -191,12 +192,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v15
+      - uses: actions/create-github-app-token@v2
         name: Generate Github token
         id: generate_token
         with:
-          app_id: ${{ vars.dh3serviceaccount_appid }}
-          private_key: ${{ secrets.dh3serviceaccount_privatekey }}
+          app-id: ${{ vars.dh3serviceaccount_appid }}
+          private-key: ${{ secrets.dh3serviceaccount_privatekey }}
+          owner: Energinet-DataHub
 
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"

@@ -283,7 +283,7 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
   steps: [OrchestrationInstanceStep!]!
 }
 
-type ChargeDto {
+type ChargeInformationDto {
   status: ChargeStatus!
   id: UUID!
   chargeType: ChargeType!
@@ -308,7 +308,7 @@ type ChargesConnection {
   "A list of edges."
   edges: [ChargesEdge!]
   "A flattened list of the nodes."
-  nodes: [ChargeDto!]
+  nodes: [ChargeInformationDto!]
   "Identifies the total count of items in the connection."
   totalCount: Int!
 }
@@ -318,7 +318,7 @@ type ChargesEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: ChargeDto!
+  node: ChargeInformationDto!
 }
 
 "Information about the offset pagination."
@@ -742,12 +742,14 @@ type MeasurementAggregationByDateDto {
 type MeasurementAggregationByMonthDto {
   yearMonth: YearMonth!
   quantity: Decimal
+  qualities: [Quality!]!
   unit: Unit!
 }
 
 type MeasurementAggregationByYearDto {
   year: Int!
   quantity: Decimal
+  qualities: [Quality!]!
   unit: Unit!
 }
 
@@ -2268,10 +2270,11 @@ enum CalculationTypeQueryParameterV1 {
 }
 
 enum ChargeResolution {
-  PT15M
-  PT1H
-  P1D
-  P1M
+  Unknown
+  QuarterHourly
+  Hourly
+  Daily
+  Monthly
 }
 
 enum ChargeStatus {
@@ -2284,9 +2287,9 @@ enum ChargeStatus {
 }
 
 enum ChargeType {
-  D01
-  D02
-  D03
+  SUBSCRIPTION
+  FEE
+  TARIFF
 }
 
 enum ConnectionState {
