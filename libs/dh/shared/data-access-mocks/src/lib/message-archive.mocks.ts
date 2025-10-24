@@ -36,7 +36,7 @@ export function messageArchiveMocks(apiBase: string) {
     getArchivedMessages(apiBase),
     getArchivedMessagesForMeteringPoint(apiBase),
     getMeteringPointProcessOverview(),
-    getMeteringPointProcessById(),
+    getMeteringPointProcessById(apiBase),
   ];
 }
 
@@ -167,7 +167,7 @@ function getMeteringPointProcessOverview() {
   });
 }
 
-function getMeteringPointProcessById() {
+function getMeteringPointProcessById(apiBase: string) {
   return mockGetMeteringPointProcessByIdQuery(async (args) => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
@@ -197,6 +197,11 @@ function getMeteringPointProcessById() {
                 dueDate: new Date(m.createdDate),
                 state: ProcessState.Succeeded,
                 messageId: '38374f50-f00c-4e2a-aec1-70d391cade06',
+                message: {
+                  __typename: 'ArchivedMessage' as const,
+                  id: '38374f50-f00c-4e2a-aec1-70d391cade06',
+                  documentUrl: `${apiBase}/v1/MessageArchive/Document?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
+                },
                 actor: {
                   __typename: 'MarketParticipant' as const,
                   id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
