@@ -17,8 +17,8 @@
  */
 //#endregion
 import { Pipe, PipeTransform } from '@angular/core';
-import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-access-api';
 
+import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 
 @Pipe({ name: 'filterUserRoles' })
