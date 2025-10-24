@@ -79,8 +79,10 @@ import { DhChargeActionsComponent } from './charge-actions.component';
         <vater-stack direction="row" gap="ml">
           <span class="watt-text-s">
             <span class="watt-label watt-space-inline-xs">{{ t('type') }}</span>
-
-            {{ 'charges.chargeTypes.' + charge()?.chargeType | transloco }}
+            @let chargeType = charge()?.chargeType;
+            @if (chargeType) {
+              {{ 'charges.chargeTypes.' + chargeType | transloco }}
+            }
           </span>
 
           <span direction="row" gap="s" class="watt-text-s">
