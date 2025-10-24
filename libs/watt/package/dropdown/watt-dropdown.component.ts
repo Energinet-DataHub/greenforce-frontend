@@ -190,7 +190,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
   noOptionsFoundLabel = input('');
 
   hasGroups = computed(() => {
-    const options = this.options();
+    const options = this.options() ?? [];
     return options.some(
       (option) => 'options' in option && Array.isArray((option as WattDropdownOptionGroup).options)
     );

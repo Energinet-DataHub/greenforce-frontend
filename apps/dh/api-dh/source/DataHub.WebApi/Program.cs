@@ -20,6 +20,7 @@ using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
 using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
 using Energinet.DataHub.EDI.B2CClient.Extensions.DependencyInjection;
 using Energinet.DataHub.MarketParticipant.Authorization.Extensions;
+using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Options;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -122,6 +123,10 @@ services
 services.SetupHealthEndpoints(configuration);
 
 var app = builder.Build();
+
+#if DEBUG
+HotReloadService.Services = app.Services;
+#endif
 
 app.UseForwardedHeaders();
 

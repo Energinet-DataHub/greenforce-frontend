@@ -141,6 +141,7 @@ export class DhUserRolesComponent {
 
   private getOrAddActor(actorId: string) {
     const actor = this._updateUserRoles.actors.find((actor) => actor.id === actorId);
+
     if (!actor) {
       const actorChanges = {
         id: actorId,
