@@ -18,7 +18,7 @@
 //#endregion
 import { HttpClient } from '@angular/common/http';
 import { Component, computed, inject, input } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { firstValueFrom } from 'rxjs';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { GetMeteringPointProcessByIdQuery } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -26,6 +26,7 @@ import { emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 type MeteringPointProcessStep = NonNullable<
   GetMeteringPointProcessByIdQuery['meteringPointProcessById']
@@ -85,6 +86,8 @@ type MeteringPointProcessStep = NonNullable<
 })
 export class DhMeteringPointProcessOverviewSteps {
   private readonly http = inject(HttpClient);
+  private readonly toastService = inject(WattToastService);
+  private readonly transloco = inject(TranslocoService);
 
   readonly steps = input.required<MeteringPointProcessStep[]>();
   readonly loading = input(false);
@@ -106,7 +109,10 @@ export class DhMeteringPointProcessOverviewSteps {
       const content = await firstValueFrom(this.http.get(documentUrl, { responseType: 'text' }));
 
       if (!content) {
-        console.error('No content received from:', documentUrl);
+        this.toastService.open({
+          type: 'danger',
+          message: this.transloco.translate('messageArchive.document.loadFailed'),
+        });
         return;
       }
 
@@ -116,9 +122,13 @@ export class DhMeteringPointProcessOverviewSteps {
 
       window.open(blobUrl, '_blank');
 
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
-    } catch (error) {
-      console.error('Failed to fetch message:', error);
+      // Note: We don't revoke the blob URL immediately as the new tab needs time to load it.
+      // The browser will automatically clean it up when the tab is closed.
+    } catch {
+      this.toastService.open({
+        type: 'danger',
+        message: this.transloco.translate('messageArchive.document.loadFailed'),
+      });
     }
   }
 
