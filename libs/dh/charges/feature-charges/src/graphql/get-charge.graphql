@@ -1,0 +1,13 @@
+query GetCharge($id: UUID!) {
+  charge(id: $id) {
+    id
+    status
+    chargeId
+    chargeName
+    chargeType
+    chargeOwnerName
+    resolution
+    vatClassification
+    transparentInvoicing
+  }
+}

@@ -364,13 +364,24 @@
     "6": "Yearly settlement (6)"
   },
   "charges": {
+    "chargeTypes": {
+      "SUBSCRIPTION": "Subscription",
+      "FEE": "Fee",
+      "TARIFF": "Tariff"
+    },
+    "resolutions": {
+      "Daily": "Daily",
+      "QuarterHourly": "Quarterly",
+      "Hourly": "Hourly",
+      "Monthly": "Monthly",
+      "Unknown": "Unknown"
+    },
+    "vatClassifications": {
+      "NO_VAT": "Without VAT",
+      "VAT25": "With VAT"
+    },
     "charges": {
       "topBarTitle": "Prices",
-      "chargeTypes": {
-        "SUBSCRIPTION": "Subscription",
-        "FEE": "Fee",
-        "TARIFF": "Tariff"
-      },
       "table": {
         "columns": {
           "id": "ID",
@@ -407,8 +418,16 @@
       }
     },
     "charge": {
+      "type": "Type",
+      "owner": "Owner",
+      "resolution": "Resolution",
+      "transparentInvoicing": "Transparent Invoicing",
+      "vat": "VAT",
       "tabs": {
         "pricesLabel": "Prices"
+      },
+      "actions": {
+        "actionsButton": "Actions"
       }
     }
   },

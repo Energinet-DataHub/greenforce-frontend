@@ -40,5 +40,13 @@ export const marketParticipantQuerySelection: GetSelectionMarketParticipantsQuer
       organizationName: 'Test organization 22',
       marketRole: EicFunction.BalanceResponsibleParty,
     },
+    {
+      __typename: 'SelectionActorDto',
+      id: 'fc0536f0-781e-4551-1806-08dc01513854',
+      gln: '5790000610976',
+      actorName: 'EDI - Netvirksomhed',
+      organizationName: 'Mosaic Energy',
+      marketRole: EicFunction.GridAccessProvider,
+    },
   ],
 };
