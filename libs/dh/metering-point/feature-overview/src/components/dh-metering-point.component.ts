@@ -42,7 +42,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhToolbarComponent } from '@energinet-datahub/dh/core/ui-toolbar';
+import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
@@ -66,7 +66,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     VaterSpacerComponent,
     VaterUtilityDirective,
     DhCanSeeDirective,
-    DhToolbarComponent,
+    DhToolbarPortalComponent,
     DhEmDashFallbackPipe,
     DhAddressInlineComponent,
     DhReleaseToggleDirective,
@@ -101,7 +101,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     }
   `,
   template: `
-    <dh-toolbar>
+    <dh-toolbar-portal>
       <watt-breadcrumbs>
         @for (breadcrumb of breadcrumbs(); track $index) {
           <watt-breadcrumb [routerLink]="breadcrumb.url">
@@ -109,7 +109,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
           </watt-breadcrumb>
         }
       </watt-breadcrumbs>
-    </dh-toolbar>
+    </dh-toolbar-portal>
     @let rolesWithAccess =
       [
         EicFunction.EnergySupplier,

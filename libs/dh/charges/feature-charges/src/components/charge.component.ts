@@ -26,9 +26,9 @@ import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhToolbarComponent } from '@energinet-datahub/dh/core/ui-toolbar';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 import { DhChargeStatusComponent } from './status.component';
@@ -72,10 +72,10 @@ import { DhChargeActionsComponent } from './charge-actions.component';
     DhEmDashFallbackPipe,
     DhChargeStatusComponent,
     DhChargeActionsComponent,
-    DhToolbarComponent,
+    DhToolbarPortalComponent,
   ],
   template: `
-    <dh-toolbar>
+    <dh-toolbar-portal>
       <watt-breadcrumbs>
         @for (breadcrumb of breadcrumbs(); track $index) {
           <watt-breadcrumb [routerLink]="breadcrumb.url">
@@ -83,7 +83,7 @@ import { DhChargeActionsComponent } from './charge-actions.component';
           </watt-breadcrumb>
         }
       </watt-breadcrumbs>
-    </dh-toolbar>
+    </dh-toolbar-portal>
     <div class="page-grid">
       <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
         <div *transloco="let t; prefix: 'charges.charge'">

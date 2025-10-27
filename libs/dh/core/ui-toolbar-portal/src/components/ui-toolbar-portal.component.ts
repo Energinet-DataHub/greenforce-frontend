@@ -20,7 +20,7 @@ import { Component } from '@angular/core';
 import { WattPortal } from '@energinet-datahub/watt/portal';
 
 @Component({
-  selector: 'dh-toolbar',
+  selector: 'dh-toolbar-portal',
   imports: [WattPortal],
   template: `
     <watt-portal to="toolbar">
@@ -28,4 +28,4 @@ import { WattPortal } from '@energinet-datahub/watt/portal';
     </watt-portal>
   `,
 })
-export class DhToolbarComponent {}
+export class DhToolbarPortalComponent {}
