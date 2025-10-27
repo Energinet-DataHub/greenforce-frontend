@@ -31,7 +31,7 @@ public static partial class MeteringPointProcessStepNode
 
     public static async Task<ArchivedMessage?> GetMessageAsync(
         [Parent] MeteringPointProcessStep step,
-        [Service] IMessageArchiveClient client)
+        [Service] IArchivedMessageClient client)
     {
         if (step.MessageId == null)
         {
