@@ -16,15 +16,22 @@
  * limitations under the License.
  */
 //#endregione';
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
-import { GetChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { Router, RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+
+import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
-import { DhChargeStatusComponent } from './status.component';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { GetChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
+import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+
+import { DhChargeStatusComponent } from './status.component';
 import { DhChargeActionsComponent } from './charge-actions.component';
 
 @Component({
@@ -55,75 +62,110 @@ import { DhChargeActionsComponent } from './charge-actions.component';
     }
   `,
   imports: [
+    RouterLink,
     TranslocoPipe,
     TranslocoDirective,
     VaterStackComponent,
     VaterSpacerComponent,
     WATT_LINK_TABS,
+    WATT_BREADCRUMBS,
     DhEmDashFallbackPipe,
     DhChargeStatusComponent,
     DhChargeActionsComponent,
+    DhToolbarPortalComponent,
   ],
-  template: `<div class="page-grid">
-    <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
-      <div *transloco="let t; prefix: 'charges.charge'">
-        <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
-          {{ charge()?.chargeId | dhEmDashFallback }} {{ charge()?.chargeName | dhEmDashFallback }}
-          @let status = charge()?.status;
+  template: `
+    <dh-toolbar-portal>
+      <watt-breadcrumbs>
+        @for (breadcrumb of breadcrumbs(); track $index) {
+          <watt-breadcrumb [routerLink]="breadcrumb.url">
+            {{ breadcrumb.label }}
+          </watt-breadcrumb>
+        }
+      </watt-breadcrumbs>
+    </dh-toolbar-portal>
+    <div class="page-grid">
+      <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
+        <div *transloco="let t; prefix: 'charges.charge'">
+          <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
+            {{ chargeIdName() }}
+            @let status = charge()?.status;
 
-          @if (status) {
-            <dh-charge-status [status]="status" />
-          }
-        </h2>
-
-        <vater-stack direction="row" gap="ml">
-          <span class="watt-text-s">
-            <span class="watt-label watt-space-inline-xs">{{ t('type') }}</span>
-            @let chargeType = charge()?.chargeType;
-            @if (chargeType) {
-              {{ 'charges.chargeTypes.' + chargeType | transloco }}
+            @if (status) {
+              <dh-charge-status [status]="status" />
             }
-          </span>
+          </h2>
 
-          <span direction="row" gap="s" class="watt-text-s">
-            <span class="watt-label watt-space-inline-xs">{{ t('owner') }}</span>
+          <vater-stack direction="row" gap="ml">
+            <span class="watt-text-s">
+              <span class="watt-label watt-space-inline-xs">{{ t('type') }}</span>
+              @let chargeType = charge()?.chargeType;
+              @if (chargeType) {
+                {{ 'charges.chargeTypes.' + chargeType | transloco }}
+              }
+            </span>
 
-            {{ charge()?.chargeOwnerName | dhEmDashFallback }}
-          </span>
+            <span direction="row" gap="s" class="watt-text-s">
+              <span class="watt-label watt-space-inline-xs">{{ t('owner') }}</span>
 
-          <span direction="row" gap="s" class="watt-text-s">
-            <span class="watt-label watt-space-inline-xs">{{ t('resolution') }}</span>
-            {{ 'charges.resolutions.' + charge()?.resolution | transloco }}
-          </span>
+              {{ charge()?.chargeOwnerName | dhEmDashFallback }}
+            </span>
 
-          <span direction="row" gap="s" class="watt-text-s">
-            <span class="watt-label watt-space-inline-xs">{{ t('vat') }}</span>
-            {{ 'charges.vatClassifications.' + charge()?.vatClassification | transloco }}
-          </span>
+            <span direction="row" gap="s" class="watt-text-s">
+              <span class="watt-label watt-space-inline-xs">{{ t('resolution') }}</span>
+              {{ 'charges.resolutions.' + charge()?.resolution | transloco }}
+            </span>
 
-          <span direction="row" gap="s" class="watt-text-s">
-            <span class="watt-label watt-space-inline-xs">{{ t('transparentInvoicing') }}</span>
-            {{ charge()?.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
-          </span>
-        </vater-stack>
+            <span direction="row" gap="s" class="watt-text-s">
+              <span class="watt-label watt-space-inline-xs">{{ t('vat') }}</span>
+              {{ 'charges.vatClassifications.' + charge()?.vatClassification | transloco }}
+            </span>
+
+            <span direction="row" gap="s" class="watt-text-s">
+              <span class="watt-label watt-space-inline-xs">{{ t('transparentInvoicing') }}</span>
+              {{ charge()?.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
+            </span>
+          </vater-stack>
+        </div>
+
+        <vater-spacer />
+
+        <dh-charge-actions />
       </div>
 
-      <vater-spacer />
-
-      <dh-charge-actions />
+      <div class="page-tabs" *transloco="let t; prefix: 'charges.charge.tabs'">
+        <watt-link-tabs vater inset="0">
+          <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices')" />
+        </watt-link-tabs>
+      </div>
     </div>
-
-    <div class="page-tabs" *transloco="let t; prefix: 'charges.charge.tabs'">
-      <watt-link-tabs vater inset="0">
-        <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices')" />
-      </watt-link-tabs>
-    </div>
-  </div>`,
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhChargeComponent {
+  private readonly router = inject(Router);
   query = query(GetChargeDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.charge);
+  chargeIdName = computed(() => `${this.charge()?.chargeId} • ${this.charge()?.chargeName}`);
   id = input.required<string>();
   getLink = (path: ChargesSubPaths) => getPath(path);
+
+  breadcrumbLabel = translateSignal('charges.charge.breadcrumb');
+
+  breadcrumbs = computed(() => [
+    {
+      label: this.breadcrumbLabel(),
+      url: this.router.createUrlTree([getPath<BasePaths>('charges')]).toString(),
+    },
+    {
+      label: this.chargeIdName(),
+      url: this.router
+        .createUrlTree([
+          getPath<BasePaths>('charges'),
+          this.id(),
+          getPath<ChargesSubPaths>('prices'),
+        ])
+        .toString(),
+    },
+  ]);
 }

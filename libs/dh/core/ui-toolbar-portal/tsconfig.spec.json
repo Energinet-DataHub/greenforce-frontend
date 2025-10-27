@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../../dist/out-tsc",
+    "types": ["vitest/globals", "node"],
+    "target": "ES2022"
+  },
+  "files": ["tests/test-setup.ts"],
+  "include": ["**/*.spec.ts", "**/*.d.ts", "vite.config.mts"]
+}
