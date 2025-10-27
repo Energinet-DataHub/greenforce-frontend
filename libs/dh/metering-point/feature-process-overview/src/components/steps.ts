@@ -27,6 +27,7 @@ import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/wa
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 type MeteringPointProcessStep = NonNullable<
   GetMeteringPointProcessByIdQuery['meteringPointProcessById']
@@ -107,14 +108,7 @@ export class DhMeteringPointProcessOverviewSteps {
 
     try {
       const content = await firstValueFrom(this.http.get(documentUrl, { responseType: 'text' }));
-
-      if (!content) {
-        this.toastService.open({
-          type: 'danger',
-          message: this.transloco.translate('messageArchive.document.loadFailed'),
-        });
-        return;
-      }
+      assertIsDefined(content);
 
       const type = this.detectContentType(content);
       const blob = new Blob([content], { type });
