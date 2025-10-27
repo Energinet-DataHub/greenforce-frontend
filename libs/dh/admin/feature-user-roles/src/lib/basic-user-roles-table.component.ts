@@ -25,10 +25,9 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { DhUserByIdMarketParticipant } from './types';
 
 @Component({
-  selector: 'dh-user-roles-table',
+  selector: 'dh-basic-user-roles-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoDirective, WATT_TABLE],
-  styles: ``,
   template: `
     <watt-table
       *transloco="let t; prefix: 'admin.userManagement.tabs.roles'"
@@ -57,7 +56,7 @@ import { DhUserByIdMarketParticipant } from './types';
     </watt-table>
   `,
 })
-export class DhUserRolesTableComponent {
+export class DhBasicUserRolesTableComponent {
   readonly dataSource = new WattTableDataSource<ActorUserRole>([]);
   initialSelection: DhUserByIdMarketParticipant['userRoles'] = [];
 

@@ -33,7 +33,7 @@ import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/doma
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-access-api';
 
-import { DhBasicUserRolesTableComponent } from './user-basic-roles-table.component';
+import { DhBasicUserRolesTableComponent } from './basic-user-roles-table.component';
 import { DhUserByIdMarketParticipant } from './types';
 
 @Component({
