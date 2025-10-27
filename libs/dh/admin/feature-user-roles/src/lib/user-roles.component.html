@@ -50,30 +50,11 @@ limitations under the License.
           </watt-field-error>
         }
 
-        <watt-table
-          [dataSource]="actor.userRoles | filterUserRoles: selectMode() | userRolesIntoTable"
-          [selection]="actor.userRoles | filterUserRoles: false"
-          [columns]="columns"
-          sortBy="name"
-          sortDirection="asc"
-          [selectable]="selectMode()"
-          (selectionChange)="selectionChanged(actor.id, $event, actor.userRoles)"
-        >
-          <ng-container
-            *wattTableCell="columns['name']; header: t('assigned.columns.name'); let element"
-          >
-            {{ element.name }}
-          </ng-container>
-          <ng-container
-            *wattTableCell="
-              columns['description'];
-              header: t('assigned.columns.description');
-              let element
-            "
-          >
-            {{ element.description }}
-          </ng-container>
-        </watt-table>
+        <dh-basic-user-roles-table
+          [userRoles]="actor.userRoles"
+          [selectMode]="selectMode()"
+          (selectionChanged)="selectionChanged(actor.id, $event, actor.userRoles)"
+        />
       </watt-expandable-card>
     }
   </mat-accordion>
