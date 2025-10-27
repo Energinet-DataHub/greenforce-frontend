@@ -47,6 +47,22 @@ export const chargeRoutes: Routes = [
         loadComponent: () =>
           import('@energinet-datahub/dh/charges/feature-prices').then((m) => m.DhPricesComponent),
       },
+      {
+        path: getPath<ChargesSubPaths>('information'),
+        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
+        loadComponent: () =>
+          import('@energinet-datahub/dh/charges/feature-prices').then(
+            (m) => m.DhPriceInformationComponent
+          ),
+      },
+      {
+        path: getPath<ChargesSubPaths>('history'),
+        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
+        loadComponent: () =>
+          import('@energinet-datahub/dh/charges/feature-prices').then(
+            (m) => m.DhPriceInformationHistoryComponent
+          ),
+      },
     ],
   },
 ];

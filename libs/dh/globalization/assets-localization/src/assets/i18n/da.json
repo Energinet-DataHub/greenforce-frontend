@@ -425,7 +425,9 @@
       "transparentInvoicing": "Viderefakturering",
       "vat": "Moms",
       "tabs": {
-        "pricesLabel": "Priser"
+        "pricesLabel": "Priser",
+        "informationLabel": "Information",
+        "historyLabel": "Historik"
       },
       "actions": {
         "actionsButton": "Handlinger"

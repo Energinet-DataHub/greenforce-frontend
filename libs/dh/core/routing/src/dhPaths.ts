@@ -85,6 +85,8 @@ const missingMeasurementsLogSubPaths = {
 
 const chargesSubPaths = {
   prices: 'prices',
+  information: 'information',
+  history: 'history',
 } as const;
 
 const basePaths = {
