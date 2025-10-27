@@ -55,7 +55,7 @@ public static partial class MeteringPointProcessStepNode
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcessStep> descriptor)
     {
         descriptor.Name("MeteringPointProcessStep");
-        descriptor.BindFieldsImplicitly();
+        descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Id);
         descriptor.Field(f => f.Step);
         descriptor.Field(f => f.Comment);

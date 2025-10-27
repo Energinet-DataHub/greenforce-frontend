@@ -933,8 +933,6 @@ type MeteringPointProcessStep {
   dueDate: DateTime!
   state: ProcessState!
   messageId: String
-  actorNumber: String!
-  actorRole: String!
 }
 
 type MeteringPointsGroupByPackageNumber {
