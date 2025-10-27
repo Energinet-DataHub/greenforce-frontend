@@ -67,11 +67,13 @@ export class DhCustomerCprComponent {
   loading = this.query.loading;
   cpr = computed<string | null>(() => this.query.data()?.meteringPointContactCpr.result ?? null);
 
+  meteringPointId = input.required<string>();
   contactId = input.required<string>();
 
   showCPR(): void {
     this.query.query({
       variables: {
+        meteringPointId: this.meteringPointId(),
         contactId: this.contactId(),
       },
     });

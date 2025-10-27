@@ -30,15 +30,7 @@ limitations under the License.
   </ng-container>
 
   <ng-container watt-shell-toolbar>
-    @if (breadcrumbService.breadcrumbs().length > 0) {
-      <watt-breadcrumbs>
-        @for (breadcrumb of breadcrumbService.breadcrumbs(); track $index) {
-          <watt-breadcrumb [routerLink]="breadcrumb.url">
-            {{ breadcrumb.label }}
-          </watt-breadcrumb>
-        }
-      </watt-breadcrumbs>
-    }
+    <watt-portal-outlet name="toolbar" />
 
     <h2 class="toolbar__heading">
       {{ titleTranslationKey() | transloco }}

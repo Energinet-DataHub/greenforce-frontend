@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhNavigationService } from './navigation.service';
+export { DhToolbarPortalComponent } from './src/components/ui-toolbar-portal.component';

@@ -16,4 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-export { DhNavigationService } from './navigation.service';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
+import '@angular/compiler';
+import { getTestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+
+// Add structuredClone polyfill if not available
+if (typeof structuredClone === 'undefined') {
+  global.structuredClone = <T>(obj: T): T => JSON.parse(JSON.stringify(obj));
+}
+
+// Initialize Angular testing environment
+getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
