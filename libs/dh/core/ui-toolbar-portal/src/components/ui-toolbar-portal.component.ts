@@ -16,4 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-export { DhNavigationService } from './navigation.service';
+import { Component } from '@angular/core';
+import { WattPortal } from '@energinet-datahub/watt/portal';
+
+@Component({
+  selector: 'dh-toolbar-portal',
+  imports: [WattPortal],
+  template: `
+    <watt-portal to="toolbar">
+      <ng-content />
+    </watt-portal>
+  `,
+})
+export class DhToolbarPortalComponent {}

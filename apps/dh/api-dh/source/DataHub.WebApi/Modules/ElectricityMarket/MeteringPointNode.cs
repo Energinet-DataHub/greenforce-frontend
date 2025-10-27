@@ -62,8 +62,9 @@ public static partial class MeteringPointNode
     #endregion
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = new[] { "cpr:view" })]
     public static async Task<CPRResponse> GetMeteringPointContactCprAsync(
+        long meteringPointId,
         long contactId,
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,

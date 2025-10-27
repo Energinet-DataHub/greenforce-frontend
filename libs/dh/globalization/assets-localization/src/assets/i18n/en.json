@@ -424,11 +424,14 @@
       "transparentInvoicing": "Transparent Invoicing",
       "vat": "VAT",
       "tabs": {
-        "pricesLabel": "Prices"
+        "pricesLabel": "Prices",
+        "informationLabel": "Information",
+        "historyLabel": "History"
       },
       "actions": {
         "actionsButton": "Actions"
-      }
+      },
+      "breadcrumb": "Prices"
     }
   },
   "meteringPoint": {

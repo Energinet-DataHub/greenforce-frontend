@@ -87,10 +87,14 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
                 <h5>{{ contact.name }}</h5>
 
                 <ng-container *dhPermissionRequired="['cpr:view']">
-                  <dh-customer-cpr
-                    *dhCanSee="'cpr'; meteringPoint: meteringPoint()"
-                    [contactId]="contact.id"
-                  />
+                  @let localMeteringPoint = meteringPoint();
+                  @if (localMeteringPoint) {
+                    <dh-customer-cpr
+                      *dhCanSee="'cpr'; meteringPoint: meteringPoint()"
+                      [meteringPointId]="localMeteringPoint.meteringPointId"
+                      [contactId]="contact.id"
+                    />
+                  }
                 </ng-container>
               </div>
             </ng-container>

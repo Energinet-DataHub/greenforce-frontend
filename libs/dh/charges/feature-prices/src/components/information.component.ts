@@ -16,4 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-export { DhNavigationService } from './navigation.service';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'dh-price-information',
+  template: `price information`,
+})
+export class DhPriceInformationComponent {}

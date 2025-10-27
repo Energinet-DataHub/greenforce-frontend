@@ -188,9 +188,21 @@
     },
     {
       "files": ["*.js", "*.ts"],
-      "extends": ["plugin:sonarjs/recommended"],
+      "extends": ["plugin:sonarjs/recommended-legacy"],
       "rules": {
-        "sonarjs/cognitive-complexity": ["error", 10]
+        "sonarjs/cognitive-complexity": ["error", 10],
+        "sonarjs/no-nested-conditional": "off",
+        "sonarjs/public-static-readonly": "off",
+        "sonarjs/no-clear-text-protocols": "off",
+        "sonarjs/todo-tag": "off",
+        "sonarjs/regex-complexity": "off",
+        "sonarjs/os-command": "off",
+        "sonarjs/no-os-command-from-path": "off",
+        "sonarjs/assertions-in-tests": "off",
+        "sonarjs/slow-regex": "off",
+        "sonarjs/no-nested-functions": "off",
+        "sonarjs/pseudo-random": "off",
+        "sonarjs/no-ignored-exceptions": "off"
       }
     },
     {

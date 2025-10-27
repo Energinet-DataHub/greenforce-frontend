@@ -16,57 +16,64 @@
  * limitations under the License.
  */
 //#endregion
-import { Router } from '@angular/router';
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { Component, computed, inject, input } from '@angular/core';
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+
+import {
+  VaterStackComponent,
+  VaterSpacerComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import {
-  VaterStackComponent,
-  VaterUtilityDirective,
-  VaterSpacerComponent,
-} from '@energinet-datahub/watt/vater';
+import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
 import {
   DhActorStorage,
   DhMarketRoleRequiredDirective,
   DhPermissionRequiredDirective,
 } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import {
   EicFunction,
   GetMeteringPointByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
+import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.component';
-import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
 @Component({
   selector: 'dh-metering-point',
   imports: [
+    RouterLink,
     TranslocoPipe,
     TranslocoDirective,
 
     WATT_CARD,
     WATT_LINK_TABS,
+    WATT_BREADCRUMBS,
     VaterStackComponent,
     VaterSpacerComponent,
     VaterUtilityDirective,
     DhCanSeeDirective,
+    DhToolbarPortalComponent,
     DhEmDashFallbackPipe,
     DhAddressInlineComponent,
-    DhMeteringPointStatusComponent,
-    DhMarketRoleRequiredDirective,
-    DhMeteringPointActionsComponent,
-    DhPermissionRequiredDirective,
     DhReleaseToggleDirective,
+    DhPermissionRequiredDirective,
+    DhMarketRoleRequiredDirective,
+    DhMeteringPointStatusComponent,
+    DhMeteringPointActionsComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -94,6 +101,15 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
     }
   `,
   template: `
+    <dh-toolbar-portal>
+      <watt-breadcrumbs>
+        @for (breadcrumb of breadcrumbs(); track $index) {
+          <watt-breadcrumb [routerLink]="breadcrumb.url">
+            {{ breadcrumb.label }}
+          </watt-breadcrumb>
+        }
+      </watt-breadcrumbs>
+    </dh-toolbar-portal>
     @let rolesWithAccess =
       [
         EicFunction.EnergySupplier,
@@ -208,7 +224,6 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
 })
 export class DhMeteringPointComponent {
   private readonly router = inject(Router);
-  private readonly breadcrumbService = inject(DhBreadcrumbService);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   meteringPointId = input.required<string>();
@@ -231,47 +246,36 @@ export class DhMeteringPointComponent {
 
   breadcrumbLabel = translateSignal('meteringPoint.breadcrumb');
 
-  constructor() {
-    effect(() => {
-      this.breadcrumbService.navigationEnded();
-
-      const label = this.breadcrumbLabel();
-
-      if (!label) return;
-
-      this.breadcrumbService.clearBreadcrumbs();
-
-      this.breadcrumbService.addBreadcrumb({
-        label,
-        // eslint-disable-next-line sonarjs/no-duplicate-string
-        url: getPath('metering-point'),
-      });
-
-      if (this.meteringPoint()?.isChild) {
-        this.breadcrumbService.addBreadcrumb({
-          label: this.meteringPoint()?.metadata.parentMeteringPoint ?? '',
-          url: this.router
-            .createUrlTree([
-              getPath<BasePaths>('metering-point'),
-              this.meteringPoint()?.metadata.parentMeteringPoint,
-              getPath<MeteringPointSubPaths>('master-data'),
-            ])
-            .toString(),
-        });
-      }
-
-      this.breadcrumbService.addBreadcrumb({
-        label: this.meteringPointId(),
-        url: this.router
-          .createUrlTree([
-            getPath<BasePaths>('metering-point'),
-            this.meteringPointId(),
-            getPath<MeteringPointSubPaths>('master-data'),
-          ])
-          .toString(),
-      });
-    });
-  }
+  breadcrumbs = computed(() => [
+    {
+      label: this.breadcrumbLabel(),
+      url: this.router.createUrlTree([getPath<BasePaths>('metering-point')]).toString(),
+    },
+    ...(this.meteringPoint()?.isChild
+      ? [
+          {
+            label: this.meteringPoint()?.metadata.parentMeteringPoint ?? '',
+            url: this.router
+              .createUrlTree([
+                getPath<BasePaths>('metering-point'),
+                this.meteringPoint()?.metadata.parentMeteringPoint,
+                getPath<MeteringPointSubPaths>('master-data'),
+              ])
+              .toString(),
+          },
+        ]
+      : []),
+    {
+      label: this.meteringPointId(),
+      url: this.router
+        .createUrlTree([
+          getPath<BasePaths>('metering-point'),
+          this.meteringPointId(),
+          getPath<MeteringPointSubPaths>('master-data'),
+        ])
+        .toString(),
+    },
+  ]);
 
   getLink = (path: MeteringPointSubPaths) => getPath(path);
 }
