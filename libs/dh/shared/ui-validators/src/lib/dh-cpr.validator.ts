@@ -17,6 +17,7 @@
  */
 //#endregion
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 export function dhCprValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -32,10 +33,14 @@ export function dhCprValidator(): ValidatorFn {
       return { containsDash: true };
     }
 
-    if (/^\d{10}$/.test(control.value)) {
-      return null;
+    if (!(/^\d{10}$/.test(control.value))) {
+      return { invalidCprLength: true };
     }
 
-    return { invalidCprLength: true };
+    if (!(dayjs(control.value.slice(0, 6), 'DDMMYY', true).isValid())) {
+      return { invalidDate: true }
+    }
+
+    return null;
   };
 }
