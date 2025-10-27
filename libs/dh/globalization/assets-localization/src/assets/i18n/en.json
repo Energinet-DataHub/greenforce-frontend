@@ -739,7 +739,9 @@
           "cprError": {
             "containsLetters": "Can only contain letters",
             "containsDash": "Can not contain dashes",
-            "invalidCprLength": "Must be 10 digits long"
+            "invalidCprLength": "Must be 10 digits long",
+            "invalidDate": "Invalid date",
+            "allOnes": "Can not be used"
           },
           "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
         },

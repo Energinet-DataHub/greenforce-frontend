@@ -59,6 +59,11 @@ describe('dhCprValidator', () => {
     expect(dhCprValidator()(control)).toEqual({ invalidCprLength: true });
   });
 
+  it('should return allOnes error if control value is all ones', () => {
+    control.setValue('1111111111');
+    expect(dhCprValidator()(control)).toEqual({ allOnes: true });
+  });
+
   describe('date validation', () => {
     it('should return invalidDate error if day is invalid', () => {
       control.setValue('3212121234'); // 32nd day
