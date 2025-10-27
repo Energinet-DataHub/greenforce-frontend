@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
@@ -27,6 +28,29 @@ public static partial class MeteringPointProcessStepNode
         Enum.TryParse<EicFunction>(process.ActorRole, out var role)
             ? await dataLoader.LoadAsync((process.ActorNumber, role))
             : null;
+
+    public static async Task<ArchivedMessage?> GetMessageAsync(
+        [Parent] MeteringPointProcessStep step,
+        [Service] IMessageArchiveClient client)
+    {
+        if (step.MessageId == null)
+        {
+            return null;
+        }
+
+        var result = await client.GetArchivedMessagesByIdAsync(
+            step.MessageId,
+            includeRelated: false,
+            first: 1,
+            after: null,
+            last: null,
+            before: null,
+            order: null);
+
+        return result.Edges != null && result.Edges.Count > 0
+            ? result.Edges[0].Node
+            : null;
+    }
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcessStep> descriptor)
     {

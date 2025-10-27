@@ -925,6 +925,7 @@ type MeteringPointProcessOverviewEdge {
 
 type MeteringPointProcessStep {
   actor: MarketParticipant
+  message: ArchivedMessage
   id: String!
   step: String!
   comment: String
