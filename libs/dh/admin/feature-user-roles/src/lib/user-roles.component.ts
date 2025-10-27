@@ -75,7 +75,7 @@ export class DhUserRolesComponent {
     variables: { id: this.id() },
   }));
 
-  _updateUserRoles: UpdateUserRoles = {
+  private _updateUserRoles: UpdateUserRoles = {
     actors: [],
   };
 
