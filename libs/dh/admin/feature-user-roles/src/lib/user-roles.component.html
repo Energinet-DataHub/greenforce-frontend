@@ -51,7 +51,7 @@ limitations under the License.
         }
 
         <dh-basic-user-roles-table
-          [actor]="actor"
+          [userRoles]="actor.userRoles"
           [selectMode]="selectMode()"
           (selectionChanged)="selectionChanged(actor.id, $event, actor.userRoles)"
         />

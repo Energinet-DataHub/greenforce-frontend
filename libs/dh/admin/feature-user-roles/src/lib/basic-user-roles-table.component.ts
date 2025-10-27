@@ -22,8 +22,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { ActorUserRole } from '@energinet-datahub/dh/admin/data-access-api';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { DhUserByIdMarketParticipant } from './types';
-
 @Component({
   selector: 'dh-basic-user-roles-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,26 +56,27 @@ import { DhUserByIdMarketParticipant } from './types';
 })
 export class DhBasicUserRolesTableComponent {
   readonly dataSource = new WattTableDataSource<ActorUserRole>([]);
-  initialSelection: DhUserByIdMarketParticipant['userRoles'] = [];
+
+  initialSelection: ActorUserRole[] = [];
 
   columns: WattTableColumnDef<ActorUserRole> = {
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };
 
-  actor = input.required<DhUserByIdMarketParticipant>();
+  userRoles = input.required<ActorUserRole[]>();
   selectMode = input.required<boolean>();
 
   selectionChanged = output<ActorUserRole[]>();
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.actor().userRoles.filter(
+      this.dataSource.data = this.userRoles().filter(
         (userRole) => userRole.assigned || this.selectMode()
       );
 
       if (this.selectMode()) {
-        this.initialSelection = this.actor().userRoles.filter((userRole) => userRole.assigned);
+        this.initialSelection = this.userRoles().filter((userRole) => userRole.assigned);
       }
     });
   }
