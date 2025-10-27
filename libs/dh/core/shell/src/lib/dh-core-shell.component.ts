@@ -22,6 +22,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
+import { WattPortalOutlet } from '@energinet-datahub/watt/portal';
 
 import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
 import { DhTopBarService } from '@energinet-datahub/dh-shared-data-access-top-bar';
@@ -44,6 +45,7 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
     WattShellComponent,
     RouterLink,
     WATT_BREADCRUMBS,
+    WattPortalOutlet,
     DhPrimaryNavigationComponent,
     DhProfileAvatarComponent,
     DhSelectedActorComponent,
