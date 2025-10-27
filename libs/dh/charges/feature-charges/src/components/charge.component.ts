@@ -17,7 +17,7 @@
  */
 //#endregione';
 import { Router, RouterLink } from '@angular/router';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
