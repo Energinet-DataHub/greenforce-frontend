@@ -31,8 +31,7 @@ import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhCustomerOverviewComponent } from './customer/dh-customer-overview.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
-// import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-points.component';
-import { DhRelatedMeteringPointsV2Component } from './related/dh-related-metering-points-v2.component';
+import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-points.component';
 
 @Component({
   selector: 'dh-metering-point-master-data',
@@ -43,10 +42,9 @@ import { DhRelatedMeteringPointsV2Component } from './related/dh-related-meterin
     DhCustomerOverviewComponent,
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
-    // DhRelatedMeteringPointsComponent,
     DhCanSeeDirective,
     DhResultComponent,
-    DhRelatedMeteringPointsV2Component,
+    DhRelatedMeteringPointsComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -98,7 +96,7 @@ import { DhRelatedMeteringPointsV2Component } from './related/dh-related-meterin
           grid-row: 2 / span 3;
         }
 
-        dh-related-metering-points-v2 {
+        dh-related-metering-points {
           grid-column: 2;
           grid-row: 4;
         }
@@ -111,7 +109,7 @@ import { DhRelatedMeteringPointsV2Component } from './related/dh-related-meterin
           grid-row: 2 / span 2;
         }
 
-        dh-related-metering-points-v2 {
+        dh-related-metering-points {
           grid-column: 3;
           grid-row: 2 / span 2;
         }
@@ -125,7 +123,7 @@ import { DhRelatedMeteringPointsV2Component } from './related/dh-related-meterin
             grid-row: 2;
           }
 
-          dh-related-metering-points-v2 {
+          dh-related-metering-points {
             grid-row: 2;
           }
         }
@@ -133,7 +131,7 @@ import { DhRelatedMeteringPointsV2Component } from './related/dh-related-meterin
         @include watt.media('>=XLarge') {
           grid-template-columns: 800px 600px;
 
-          dh-related-metering-points-v2 {
+          dh-related-metering-points {
             grid-column: 2;
           }
         }
@@ -156,7 +154,7 @@ import { DhRelatedMeteringPointsV2Component } from './related/dh-related-meterin
         />
 
         @defer (on idle) {
-          <dh-related-metering-points-v2 [meteringPointId]="meteringPointId()" />
+          <dh-related-metering-points [meteringPointId]="meteringPointId()" />
         }
       </div>
     </dh-result>
