@@ -35,6 +35,11 @@ Before you're able to run the BFF locally you need an
 Either create one from the [sample file] or if you are an internal
 DataHub employee, take a look at the [dh3-dev-secrets] repository.
 
+Furthermore, in order to connect the BFF to the backend services you need to:
+
+- connect to VPN with your "*\*\*\*-aadadmin*" account
+- sign in Azure CLI with your "*\*\*\*-aadadmin*" account
+
 ## GraphQL
 
 This section serves as a brief introduction on how to use GraphQL
