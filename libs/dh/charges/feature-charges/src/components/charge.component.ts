@@ -116,6 +116,8 @@ import { DhChargeActionsComponent } from './charge-actions.component';
     <div class="page-tabs" *transloco="let t; prefix: 'charges.charge.tabs'">
       <watt-link-tabs vater inset="0">
         <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices')" />
+        <watt-link-tab [label]="t('informationLabel')" [link]="getLink('information')" />
+        <watt-link-tab [label]="t('historyLabel')" [link]="getLink('history')" />
       </watt-link-tabs>
     </div>
   </div>`,

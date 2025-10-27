@@ -17,3 +17,5 @@
  */
 //#endregion
 export { DhPricesComponent } from './src/components/prices.component';
+export { DhPriceInformationComponent } from './src/components/information.component';
+export { DhPriceInformationHistoryComponent } from './src/components/information-history.component';
