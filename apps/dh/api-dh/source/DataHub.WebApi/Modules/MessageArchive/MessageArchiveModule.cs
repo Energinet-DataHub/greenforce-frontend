@@ -27,7 +27,6 @@ public class MessageArchiveModule : IModule
         services
             .AddScoped<IArchivedMessageClient, ArchivedMessageClient>()
             .AddScoped<IMeteringPointArchivedMessageClient, MeteringPointArchivedMessageClient>()
-            .AddEDIB2CClient()
             .AddClient<IEdiB2CWebAppClient_V1>(
                 baseUrls => baseUrls.EdiB2CWebApiBaseUrl,
                 (baseUrl, client) => new EdiB2CWebAppClient_V1(baseUrl, client))

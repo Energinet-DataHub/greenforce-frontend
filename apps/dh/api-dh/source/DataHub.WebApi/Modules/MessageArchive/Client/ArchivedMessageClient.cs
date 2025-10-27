@@ -28,11 +28,11 @@ using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v3.DocumentTy
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 
 public class ArchivedMessageClient(
-    B2CClient ediB2CClient,
+    IB2CClient ediB2CClient,
     IMarketParticipantClient_V1 marketParticipantClient)
     : IArchivedMessageClient
 {
-    private readonly B2CClient _ediB2CClient = ediB2CClient;
+    private readonly IB2CClient _ediB2CClient = ediB2CClient;
     private readonly IMarketParticipantClient_V1 _marketParticipantClient = marketParticipantClient;
 
     public async Task<Connection<ArchivedMessage>> GetArchivedMessagesAsync(

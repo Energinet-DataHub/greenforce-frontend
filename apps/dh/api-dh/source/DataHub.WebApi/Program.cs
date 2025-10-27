@@ -107,6 +107,7 @@ if (environment.IsDevelopment())
 }
 
 services.AddDomainClients();
+services.AddEDIB2CClient();
 services.RegisterModules(configuration);
 services.AddAuthorizationRequestModule();
 

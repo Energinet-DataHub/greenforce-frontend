@@ -24,10 +24,10 @@ using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPo
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 
 public class MeteringPointArchivedMessageClient(
-    B2CClient ediB2CClient,
+    IB2CClient ediB2CClient,
     IMarketParticipantClient_V1 marketParticipantClient) : IMeteringPointArchivedMessageClient
 {
-    private readonly B2CClient _ediB2CClient = ediB2CClient;
+    private readonly IB2CClient _ediB2CClient = ediB2CClient;
     private readonly IMarketParticipantClient_V1 _marketParticipantClient = marketParticipantClient;
 
     public async Task<Connection<ArchivedMessage>> GetMeteringPointArchivedMessagesAsync(
