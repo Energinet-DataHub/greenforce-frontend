@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
+import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import {
@@ -28,6 +29,7 @@ import {
   VaterSpacerComponent,
 } from '@energinet-datahub/watt/vater';
 
+import { DhToolbar } from '@energinet-datahub/dh/core/ui-toolbar';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
 import {
@@ -51,9 +53,11 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
 @Component({
   selector: 'dh-metering-point',
   imports: [
+    RouterLink,
     TranslocoPipe,
     TranslocoDirective,
 
+    WATT_BREADCRUMBS,
     WATT_CARD,
     WATT_LINK_TABS,
     VaterStackComponent,
@@ -67,6 +71,7 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
     DhMeteringPointActionsComponent,
     DhPermissionRequiredDirective,
     DhReleaseToggleDirective,
+    DhToolbar,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -102,6 +107,24 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
         EicFunction.DataHubAdministrator,
         EicFunction.SystemOperator,
       ];
+
+    <dh-toolbar>
+      <watt-breadcrumbs>
+        <watt-breadcrumb routerLink="/metering-point">Søg målepunkt</watt-breadcrumb>
+        @if (meteringPoint()?.isChild) {
+          <watt-breadcrumb
+            routerLink="/metering-point/{{
+              meteringPoint()?.metadata?.parentMeteringPoint
+            }}/master-data"
+          >
+            {{ meteringPoint()?.metadata?.parentMeteringPoint }}
+          </watt-breadcrumb>
+        }
+        <watt-breadcrumb routerLink="/metering-point/{{ meteringPointId() }}/master-data">
+          {{ meteringPointId() }}
+        </watt-breadcrumb>
+      </watt-breadcrumbs>
+    </dh-toolbar>
 
     <div class="page-grid">
       <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
