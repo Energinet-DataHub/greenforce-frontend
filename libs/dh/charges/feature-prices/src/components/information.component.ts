@@ -129,7 +129,7 @@ export class DhPriceInformationComponent {
     },
   ];
 
-  isCurrent(from?: Date, to?: Maybe<Date>) {
+  isCurrent(from: Date | undefined, to: Date | undefined) {
     const now = new Date();
     if (!from || !to) return false;
     return from <= now && to >= now;
