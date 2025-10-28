@@ -30,7 +30,7 @@ import {
 @Component({
   selector: 'dh-role-permissions',
   template: `<watt-card
-    *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.permissions'"
+    *transloco="let t; prefix: 'admin.userManagement.drawer.roles.tabs.permissions'"
     variant="solid"
   >
     <watt-card-title>

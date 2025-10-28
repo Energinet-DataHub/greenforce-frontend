@@ -81,7 +81,7 @@ import {
       size="large"
       [title]="t('headline')"
       (closed)="closeModal($event)"
-      *transloco="let t; read: 'admin.userManagement.createrole'"
+      *transloco="let t; prefix: 'admin.userManagement.createrole'"
     >
       <watt-stepper
         class="watt-modal-content--full-width"

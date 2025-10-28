@@ -58,7 +58,7 @@ type Variables = Partial<GetProcessesQueryVariables>;
     <watt-data-table
       vater
       inset="ml"
-      *transloco="let t; read: 'devExamples.processes.table'"
+      *transloco="let t; prefix: 'devExamples.processes.table'"
       [searchLabel]="t('searchLabel')"
       [error]="dataSource.error"
       [ready]="dataSource.called"
@@ -70,7 +70,7 @@ type Variables = Partial<GetProcessesQueryVariables>;
       </watt-data-filters>
 
       <watt-table
-        *transloco="let resolveHeader; read: 'devExamples.processes.table.columns'"
+        *transloco="let resolveHeader; prefix: 'devExamples.processes.table.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [loading]="dataSource.loading"

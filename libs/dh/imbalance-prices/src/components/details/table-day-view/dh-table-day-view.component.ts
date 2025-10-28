@@ -43,7 +43,7 @@ import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../..
   ],
   template: `
     <watt-table
-      *transloco="let t; read: 'imbalancePrices.status'"
+      *transloco="let t; prefix: 'imbalancePrices.status'"
       [dataSource]="tableDataSource"
       [columns]="columns"
       [sortClear]="false"

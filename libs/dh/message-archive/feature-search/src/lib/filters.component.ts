@@ -53,7 +53,7 @@ import { getDocumentTypeIdentifier } from '@energinet-datahub/dh/message-archive
       gap="s"
       tabindex="-1"
       [formGroup]="form.root"
-      *transloco="let t; read: 'messageArchive.filters'"
+      *transloco="let t; prefix: 'messageArchive.filters'"
     >
       @if (isSearchingById()) {
         <watt-filter-chip [formControl]="this.form.controls.includeRelated">

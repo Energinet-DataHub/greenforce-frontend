@@ -122,7 +122,7 @@ import { DhSettlementReportNotificationComponent } from './dh-settlement-report-
       cdkConnectedOverlayBackdropClass="noop"
     >
       <div
-        *transloco="let t; read: 'notificationsCenter'"
+        *transloco="let t; prefix: 'notificationsCenter'"
         class="notifications-panel watt-elevation"
       >
         <h3>{{ t('headline') }}</h3>

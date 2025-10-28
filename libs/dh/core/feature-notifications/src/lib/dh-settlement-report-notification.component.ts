@@ -39,7 +39,7 @@ import { DhNotification } from './dh-notification';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
+    <ng-container *transloco="let t; prefix: 'notificationsCenter.notification'">
       <div class="notification notification--unread">
         <watt-icon
           name="close"

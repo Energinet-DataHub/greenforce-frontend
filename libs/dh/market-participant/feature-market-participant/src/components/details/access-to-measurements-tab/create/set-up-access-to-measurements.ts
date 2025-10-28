@@ -72,7 +72,7 @@ import {
   template: `
     <watt-modal
       [title]="t('modalTitle')"
-      *transloco="let t; read: 'marketParticipant.accessToMeasurements'"
+      *transloco="let t; prefix: 'marketParticipant.accessToMeasurements'"
     >
       <form id="set-up-access-to-measurements-form" [formGroup]="form" (ngSubmit)="save()">
         <vater-stack fill="horizontal" justify="start">

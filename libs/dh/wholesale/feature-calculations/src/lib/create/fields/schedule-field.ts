@@ -46,7 +46,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     }
   `,
   template: `
-    <vater-flex gap="s" *transloco="let t; read: 'wholesale.calculations.create.scheduledAt'">
+    <vater-flex gap="s" *transloco="let t; prefix: 'wholesale.calculations.create.scheduledAt'">
       <label>{{ t('label') }}</label>
       <watt-radio
         group="scheduled"

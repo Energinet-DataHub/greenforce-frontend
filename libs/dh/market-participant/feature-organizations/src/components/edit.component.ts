@@ -57,7 +57,7 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
       [title]="organization()?.name ?? ''"
       [loading]="loading()"
       (closed)="handleClosed()"
-      *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
+      *transloco="let t; prefix: 'marketParticipant.organizationsOverview.edit'"
     >
       <form id="editForm" (ngSubmit)="save()">
         <dh-organization-manage [domains]="domains" />

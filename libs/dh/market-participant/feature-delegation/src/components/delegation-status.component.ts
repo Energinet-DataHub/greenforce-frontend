@@ -32,7 +32,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.delegation.status'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.delegation.status'">
       @switch (status()) {
         @case ('ACTIVE') {
           <watt-badge type="success">{{ t(status()) }}</watt-badge>

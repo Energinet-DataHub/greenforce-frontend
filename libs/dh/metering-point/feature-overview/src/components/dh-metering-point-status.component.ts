@@ -32,7 +32,7 @@ import { ConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'meteringPoint.overview.status'">
+    <ng-container *transloco="let t; prefix: 'meteringPoint.overview.status'">
       @let statusView = status();
 
       @switch (statusView) {

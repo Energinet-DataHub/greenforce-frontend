@@ -62,7 +62,7 @@ import { DhPermissionsDownloadComponent } from './download.component';
     <watt-data-table
       vater
       inset="ml"
-      *transloco="let t; read: 'admin.userManagement.permissionsTab'"
+      *transloco="let t; prefix: 'admin.userManagement.permissionsTab'"
       [searchLabel]="'shared.search' | transloco"
       [error]="dataSource.error"
       [ready]="dataSource.called"

@@ -43,7 +43,7 @@ export type Group = ResultOf<
   template: `
     <watt-expandable-card
       variant="solid"
-      *transloco="let t; read: 'meteringPointDebug.meteringPoints'"
+      *transloco="let t; prefix: 'meteringPointDebug.meteringPoints'"
     >
       <watt-badge>{{ group().meteringPoints.length }}</watt-badge>
       <watt-expandable-card-title

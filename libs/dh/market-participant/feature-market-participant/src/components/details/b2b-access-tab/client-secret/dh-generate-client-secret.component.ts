@@ -35,7 +35,7 @@ import { DhMarketParticipantAuditLogService } from '../../audit-log.service';
     `,
   ],
   template: `<watt-button
-    *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
+    *transloco="let t; prefix: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
     (click)="generateSecret()"
     [loading]="generateSecretInProgress()"
     variant="secondary"

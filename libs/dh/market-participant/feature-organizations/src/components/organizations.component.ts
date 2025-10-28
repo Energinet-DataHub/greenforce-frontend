@@ -66,7 +66,7 @@ import { Organization } from './types';
     <watt-data-table
       vater
       inset="ml"
-      *transloco="let t; read: 'marketParticipant.organizationsOverview'"
+      *transloco="let t; prefix: 'marketParticipant.organizationsOverview'"
       [searchLabel]="'shared.search' | transloco"
       [error]="dataSource.error"
       [ready]="dataSource.called"
@@ -80,7 +80,7 @@ import { Organization } from './types';
       </watt-data-actions>
 
       <watt-table
-        *transloco="let resolveHeader; read: 'marketParticipant.organizationsOverview.columns'"
+        *transloco="let resolveHeader; prefix: 'marketParticipant.organizationsOverview.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [loading]="dataSource.loading"

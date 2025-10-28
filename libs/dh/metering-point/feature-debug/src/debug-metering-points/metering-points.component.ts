@@ -55,7 +55,7 @@ import { MeteringPointsGroupComponent } from './metering-points-group.component'
     MeteringPointsGroupComponent,
   ],
   template: `
-    <div vater inset="ml" *transloco="let t; read: 'meteringPointDebug.meteringPoints'">
+    <div vater inset="ml" *transloco="let t; prefix: 'meteringPointDebug.meteringPoints'">
       <watt-card vater fill="vertical">
         <vater-flex autoSize fill="vertical" gap="m">
           <watt-dropdown
