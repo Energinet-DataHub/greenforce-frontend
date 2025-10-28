@@ -743,7 +743,9 @@
           "cprError": {
             "containsLetters": "Må ikke indeholde bogstaver",
             "containsDash": "Må ikke indeholde bindestreg",
-            "invalidCprLength": "Skal bestå af 10 cifre"
+            "invalidCprLength": "Skal bestå af 10 cifre",
+            "invalidDate": "Ugyldig dato",
+            "allOnes": "Må ikke bruges"
           },
           "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
         },
