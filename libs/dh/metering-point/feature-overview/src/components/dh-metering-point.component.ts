@@ -146,8 +146,6 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
             </span>
 
             <span
-              gap="s"
-              direction="row"
               class="watt-text-s"
               *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()"
             >
@@ -156,7 +154,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               {{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
             </span>
 
-            <span direction="row" gap="s" class="watt-text-s">
+            <span class="watt-text-s">
               <span class="watt-label watt-space-inline-xs">{{
                 t('details.meteringPointSubType')
               }}</span>
@@ -168,7 +166,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               }
             </span>
 
-            <span direction="row" gap="s" class="watt-text-s">
+            <span class="watt-text-s">
               <span class="watt-label watt-space-inline-xs">{{
                 t('details.resolutionLabel')
               }}</span>
