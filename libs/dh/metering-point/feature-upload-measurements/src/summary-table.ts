@@ -57,7 +57,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     }
   `,
   template: `
-    <table *transloco="let t; read: 'meteringPoint.measurements'">
+    <table *transloco="let t; prefix: 'meteringPoint.measurements'">
       <tbody>
         <tr>
           <th>{{ t('upload.table.positionCount') }}</th>

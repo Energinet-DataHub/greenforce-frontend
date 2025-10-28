@@ -31,7 +31,7 @@ import { DhProcessCalculationGridArea } from '../types';
   selector: 'dh-calculation-details-grid-areas',
   template: `
     <watt-data-table
-      *transloco="let t; read: 'devExamples.processes.details'"
+      *transloco="let t; prefix: 'devExamples.processes.details'"
       variant="solid"
       [enableSearch]="false"
       [enablePaginator]="false"

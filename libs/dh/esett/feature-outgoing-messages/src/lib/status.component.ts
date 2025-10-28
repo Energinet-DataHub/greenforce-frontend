@@ -29,7 +29,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   template: `
     @let _status = status();
 
-    <ng-container *transloco="let t; read: 'eSett.outgoingMessages.shared.documentStatus'">
+    <ng-container *transloco="let t; prefix: 'eSett.outgoingMessages.shared.documentStatus'">
       @switch (_status) {
         @case ('RECEIVED') {
           <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">

@@ -47,7 +47,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
         </dh-process-state-badge>
       </watt-drawer-topbar>
       <watt-drawer-heading>
-        <h3 *transloco="let t; read: 'messageArchive'">
+        <h3 *transloco="let t; prefix: 'messageArchive'">
           {{ documentType() && t('documentType.' + documentType()) | dhEmDashFallback }}
         </h3>
         <watt-description-list

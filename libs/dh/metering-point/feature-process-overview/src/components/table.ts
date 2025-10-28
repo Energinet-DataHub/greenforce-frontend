@@ -59,7 +59,7 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
   providers: [DhNavigationService],
   template: `
     <watt-data-table
-      *transloco="let t; read: 'messageArchive'"
+      *transloco="let t; prefix: 'messageArchive'"
       vater
       inset="ml"
       [error]="dataSource.error"
@@ -73,7 +73,7 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
           gap="s"
           tabindex="-1"
           [formGroup]="form"
-          *transloco="let t; read: 'meteringPoint.processOverview.filters'"
+          *transloco="let t; prefix: 'meteringPoint.processOverview.filters'"
         >
           <watt-date-range-chip [formControl]="form.controls.created">
             {{ t('created') }}
@@ -90,7 +90,7 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
       </watt-data-filters>
       <watt-table
         variant="zebra"
-        *transloco="let resolveHeader; read: 'meteringPoint.processOverview.columns'"
+        *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [loading]="dataSource.loading"

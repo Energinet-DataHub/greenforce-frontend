@@ -32,7 +32,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   selector: 'dh-cancel-report-request',
-  template: `<ng-container *transloco="let t; read: 'reports.settlementReports.cancelReport'">
+  template: `<ng-container *transloco="let t; prefix: 'reports.settlementReports.cancelReport'">
     <watt-button size="small" variant="text" icon="close" (click)="openCancelModal($event)">
       {{ t('baseName') }}
     </watt-button>

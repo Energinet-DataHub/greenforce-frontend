@@ -54,7 +54,7 @@ import { DhRequestMissingMeasurementLogService } from './request-log-service';
   ],
   template: `
     <watt-modal
-      *transloco="let t; read: 'reports.missingMeasurementsLog.requestLog'"
+      *transloco="let t; prefix: 'reports.missingMeasurementsLog.requestLog'"
       #modal
       size="small"
       [title]="t('title')"

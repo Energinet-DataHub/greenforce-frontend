@@ -30,7 +30,7 @@ import { DhNotification } from './dh-notification';
   imports: [TranslocoDirective, WattDatePipe, WattIconComponent],
   styleUrl: './dh-notification.component.scss',
   template: `
-    <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
+    <ng-container *transloco="let t; prefix: 'notificationsCenter.notification'">
       <div class="notification notification--unread">
         <watt-icon
           name="close"

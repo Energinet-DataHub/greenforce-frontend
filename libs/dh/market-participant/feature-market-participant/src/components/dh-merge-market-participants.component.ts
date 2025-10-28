@@ -71,7 +71,7 @@ type MarketParticipant = ResultOf<
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.mergeMarketParticipants'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.mergeMarketParticipants'">
       <watt-modal size="small" [title]="t('title')">
         <form
           id="form-id"

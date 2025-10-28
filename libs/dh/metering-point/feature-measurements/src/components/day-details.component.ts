@@ -81,7 +81,7 @@ type MeasurementColumns = {
       [animateOnKeyChange]="true"
       (closed)="closed.emit()"
       [loading]="query.loading()"
-      *transloco="let t; read: 'meteringPoint.measurements.drawer'"
+      *transloco="let t; prefix: 'meteringPoint.measurements.drawer'"
     >
       <watt-drawer-heading>
         @if (measurementPositionView) {
@@ -112,7 +112,7 @@ type MeasurementColumns = {
           <watt-data-table
             vater
             inset="ml"
-            *transloco="let resolveHeader; read: 'meteringPoint.measurements.drawer.columns'"
+            *transloco="let resolveHeader; prefix: 'meteringPoint.measurements.drawer.columns'"
             variant="solid"
             [enableCount]="false"
             [enableSearch]="false"

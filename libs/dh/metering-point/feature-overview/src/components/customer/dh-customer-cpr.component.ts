@@ -46,7 +46,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'meteringPoint.overview.customer'">
+    <ng-container *transloco="let t; prefix: 'meteringPoint.overview.customer'">
       @if (loading()) {
         <watt-spinner [diameter]="26" />
       } @else {

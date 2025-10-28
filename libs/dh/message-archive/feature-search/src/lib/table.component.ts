@@ -60,7 +60,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
   ],
   template: `
     <watt-data-table
-      *transloco="let t; read: 'messageArchive'"
+      *transloco="let t; prefix: 'messageArchive'"
       vater
       inset="ml"
       [searchLabel]="t('searchById')"
@@ -83,7 +83,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
       }
 
       <watt-table
-        *transloco="let resolveHeader; read: 'messageArchive.columns'"
+        *transloco="let resolveHeader; prefix: 'messageArchive.columns'"
         #table
         description="Search result"
         [dataSource]="dataSource"

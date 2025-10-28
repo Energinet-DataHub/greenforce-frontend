@@ -46,7 +46,7 @@ type MeteringPointProcessStep = NonNullable<
   ],
   template: `
     <watt-table
-      *transloco="let resolveHeader; read: 'meteringPoint.processOverview.details.columns'"
+      *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.details.columns'"
       [dataSource]="dataSource()"
       [columns]="columns"
       [resolveHeader]="resolveHeader"

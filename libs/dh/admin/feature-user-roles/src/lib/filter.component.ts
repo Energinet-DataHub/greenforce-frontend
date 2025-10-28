@@ -62,7 +62,7 @@ import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
     tabindex="-1"
     [formGroup]="form"
     wattQueryParams
-    *transloco="let t; read: 'admin.userManagement.tabs.roles.filter'"
+    *transloco="let t; prefix: 'admin.userManagement.tabs.roles.filter'"
   >
     <watt-dropdown
       dhDropdownTranslator

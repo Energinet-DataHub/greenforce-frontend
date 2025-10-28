@@ -27,7 +27,7 @@ import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
   selector: 'dh-metering-point-debug',
   imports: [TranslocoDirective, WATT_LINK_TABS, VaterUtilityDirective],
   template: `
-    <watt-link-tabs vater inset="0" *transloco="let t; read: 'meteringPointDebug'">
+    <watt-link-tabs vater inset="0" *transloco="let t; prefix: 'meteringPointDebug'">
       <watt-link-tab [label]="t('meteringPoint.tabLabel')" [link]="getLink('metering-point')" />
       <watt-link-tab [label]="t('meteringPoints.tabLabel')" [link]="getLink('metering-points')" />
       <watt-link-tab

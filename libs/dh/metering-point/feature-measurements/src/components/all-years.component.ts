@@ -46,10 +46,9 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
-      *transloco="let t; read: 'meteringPoint.measurements'"
     >
       <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
+        *transloco="let resolveHeader; prefix: 'meteringPoint.measurements.columns'"
         [resolveHeader]="resolveHeader"
         [columns]="columns"
         [stickyFooter]="true"
