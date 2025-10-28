@@ -1,4 +1,4 @@
-// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
-using MeteringPointDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointDocumentType;
 using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v3.DocumentType;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
@@ -24,7 +23,7 @@ namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 /// <summary>
 /// Client for getting archived messages.
 /// </summary>
-public interface IMessageArchiveClient
+public interface IArchivedMessageClient
 {
     /// <summary>
     /// Gets archived messages.
@@ -39,7 +38,8 @@ public interface IMessageArchiveClient
         string? after,
         int? last,
         string? before,
-        ArchivedMessageSortInput? order);
+        ArchivedMessageSortInput? order,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets archived messages (and optionally related messages) by id.
@@ -51,20 +51,6 @@ public interface IMessageArchiveClient
         string? after,
         int? last,
         string? before,
-        ArchivedMessageSortInput? order);
-
-    /// <summary>
-    /// Gets archived messages for a metering point.
-    /// </summary>
-    Task<Connection<ArchivedMessage>> GetMeteringPointArchivedMessagesAsync(
-        Interval created,
-        string meteringPointId,
-        Guid? senderId,
-        Guid? receiverId,
-        MeteringPointDocumentType? documentType,
-        int? first,
-        string? after,
-        int? last,
-        string? before,
-        ArchivedMessageSortInput? order);
+        ArchivedMessageSortInput? order,
+        CancellationToken cancellationToken = default);
 }
