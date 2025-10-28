@@ -17,28 +17,31 @@
  */
 //#endregion
 import { Component } from '@angular/core';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+
 import {
-  ChargeInformationDto,
   Maybe,
   VatClassification,
+  ChargeInformationDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dayjs, WattDatePipe, WattRange } from '@energinet-datahub/watt/date';
 import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'dh-price-information',
   imports: [
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
     VaterStackComponent,
+
     WATT_CARD,
     WattDatePipe,
-    WATT_DESCRIPTION_LIST,
     WattBadgeComponent,
+    WATT_DESCRIPTION_LIST,
   ],
   styles: `
     :host {
