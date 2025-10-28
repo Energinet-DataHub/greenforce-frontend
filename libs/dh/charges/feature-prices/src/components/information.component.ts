@@ -60,20 +60,20 @@ import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list'
       @for (charge of chargeInformations; track charge.id) {
         <watt-card>
           <watt-card-title>
-            <vater-stack gap="m" align="start" direction="row">
+            <vater-stack gap="m" align="center" direction="row">
               <h3>
                 @if (charge.validToDateTime && charge.validFromDateTime) {
                   {{ dateRange(charge.validFromDateTime, charge.validToDateTime) | wattDate }}
                 } @else {
                   {{ charge.validFromDateTime | wattDate }}
                 }
-                @if (
-                  charge.validToDateTime &&
-                  isCurrent(charge.validFromDateTime, charge.validToDateTime)
-                ) {
-                  <watt-badge type="success">{{ t('current') }}</watt-badge>
-                }
               </h3>
+              @if (
+                charge.validToDateTime &&
+                isCurrent(charge.validFromDateTime, charge.validToDateTime)
+              ) {
+                <watt-badge type="success">{{ t('current') }}</watt-badge>
+              }
             </vater-stack>
           </watt-card-title>
           <watt-description-list variant="stack" [itemSeparators]="false">
