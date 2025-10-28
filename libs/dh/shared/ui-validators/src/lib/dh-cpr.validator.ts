@@ -26,27 +26,22 @@ export function dhCprValidator(): ValidatorFn {
     }
 
     if (/[a-zA-Z]/.test(control.value)) {
-      console.log('containsLetters');
       return { containsLetters: true };
     }
 
     if (/-/.test(control.value)) {
-      console.log('containsDash');
       return { containsDash: true };
     }
 
     if (!(/^\d{10}$/.test(control.value))) {
-      console.log('invalidCprLength');
       return { invalidCprLength: true };
     }
 
     if (!(dayjs(control.value.slice(0, 6), 'DDMMYY', true).isValid())) {
-      console.log('invalidDate');
       return { invalidDate: true }
     }
 
     if (control.value === '1111111111') {
-      console.log('allOnes');
       return { allOnes: true };
     }
 
