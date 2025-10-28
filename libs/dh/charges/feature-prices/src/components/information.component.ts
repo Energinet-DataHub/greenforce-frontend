@@ -20,7 +20,6 @@ import { Component } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
-  Maybe,
   VatClassification,
   ChargeInformationDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
