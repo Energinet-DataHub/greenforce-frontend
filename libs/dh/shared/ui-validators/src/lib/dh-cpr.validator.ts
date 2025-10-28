@@ -33,11 +33,11 @@ export function dhCprValidator(): ValidatorFn {
       return { containsDash: true };
     }
 
-    if (!(/^\d{10}$/.test(control.value))) {
+    if (!/^\d{10}$/.test(control.value)) {
       return { invalidCprLength: true };
     }
 
-    if (!(dayjs(control.value.slice(0, 6), 'DDMMYY', true).isValid())) {
+    if (!dayjs(control.value.slice(0, 6), 'DDMMYY', true).isValid()) {
       return { invalidDate: true }
     }
 
