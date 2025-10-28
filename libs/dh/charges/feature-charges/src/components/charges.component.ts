@@ -83,15 +83,6 @@ import { DhChargesFiltersComponent } from './filters.component';
         <ng-container *wattTableCell="columns.type; let element">
           {{ 'charges.chargeTypes.' + element.chargeType | transloco }}
         </ng-container>
-        <ng-container *wattTableCell="columns.id; let element">
-          {{ element.id }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.name; let element">
-          {{ element.chargeName }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.owner; let element">
-          {{ element.chargeOwner }}
-        </ng-container>
         <ng-container *wattTableCell="columns.status; let element">
           <dh-charge-status [status]="element.status" />
         </ng-container>
@@ -113,7 +104,7 @@ export class DhChargesComponent {
 
   columns: WattTableColumnDef<Charge> = {
     type: { accessor: 'chargeType' },
-    id: { accessor: 'id' },
+    id: { accessor: 'chargeId' },
     name: { accessor: 'chargeName' },
     owner: { accessor: 'chargeOwner' },
     status: { accessor: 'status' },
