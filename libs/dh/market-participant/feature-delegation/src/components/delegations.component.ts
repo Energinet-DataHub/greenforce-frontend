@@ -43,7 +43,7 @@ import { DhDelegationStopModalComponent } from './stop-delegation.component';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.delegation.table'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.delegation.table'">
       <watt-table
         [dataSource]="tableDataSource"
         [columns]="columns"
@@ -83,7 +83,7 @@ import { DhDelegationStopModalComponent } from './stop-delegation.component';
           <vater-stack direction="row" gap="xl">
             <span>{{ selection.length }} {{ t('selectedRows') }}</span>
             <watt-button
-              *transloco="let shared; read: 'marketParticipant.delegation.shared'"
+              *transloco="let shared; prefix: 'marketParticipant.delegation.shared'"
               (click)="stopSelectedDelegations(selection)"
               icon="close"
             >

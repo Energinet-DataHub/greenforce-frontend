@@ -16,7 +16,7 @@ limitations under the License.
 -->
 @let user = selectedUser();
 
-<ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
+<ng-container *transloco="let t; prefix: 'admin.userManagement.drawer'">
   <watt-drawer [loading]="isLoading()" #drawer size="large" (closed)="onClose()">
     <watt-drawer-topbar>
       @if (user) {
@@ -68,7 +68,7 @@ limitations under the License.
     </watt-drawer-actions>
 
     @if (drawer.isOpen() && user) {
-      <watt-tabs *transloco="let t; read: 'admin.userManagement.tabs'">
+      <watt-tabs *transloco="let t; prefix: 'admin.userManagement.tabs'">
         <watt-tab [label]="t('masterData.tabLabel')">
           <dh-user-master-data [user]="user" />
         </watt-tab>

@@ -38,7 +38,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     <watt-modal
       size="small"
       #modal
-      *transloco="let t; read: 'eSett.outgoingMessages.drawer.resolveModal'"
+      *transloco="let t; prefix: 'eSett.outgoingMessages.drawer.resolveModal'"
       [title]="t('markAsResolved')"
     >
       <form id="resolve-form" [formGroup]="resolveForm" (ngSubmit)="resolve()">

@@ -31,7 +31,7 @@ import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
   selector: 'dh-calculations-grid-areas-table',
   template: `
     <watt-data-table
-      *transloco="let t; read: 'wholesale.calculations.details'"
+      *transloco="let t; prefix: 'wholesale.calculations.details'"
       variant="solid"
       [enableSearch]="false"
       [enablePaginator]="false"

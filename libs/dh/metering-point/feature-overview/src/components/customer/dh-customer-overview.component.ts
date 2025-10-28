@@ -64,7 +64,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
     }
   `,
   template: `
-    <watt-card *transloco="let t; read: 'meteringPoint.overview.customer'">
+    <watt-card *transloco="let t; prefix: 'meteringPoint.overview.customer'">
       <watt-card-title>
         <h3>{{ t('title') }}</h3>
       </watt-card-title>

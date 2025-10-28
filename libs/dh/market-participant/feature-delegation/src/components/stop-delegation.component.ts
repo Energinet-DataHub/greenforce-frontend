@@ -73,7 +73,7 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
   ],
   template: `<watt-modal
     [title]="t('stopModalTitle')"
-    *transloco="let t; read: 'marketParticipant.delegation'"
+    *transloco="let t; prefix: 'marketParticipant.delegation'"
   >
     <form
       id="stop-delegation-form"

@@ -46,7 +46,7 @@ import { DhAddressComponent } from '../address/dh-address.component';
       <dh-customer-protected />
     }
     <watt-description-list
-      *transloco="let t; read: 'meteringPoint.overview.customerContactDetails'"
+      *transloco="let t; prefix: 'meteringPoint.overview.customerContactDetails'"
       variant="stack"
       [itemSeparators]="false"
     >

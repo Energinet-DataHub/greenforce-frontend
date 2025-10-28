@@ -61,7 +61,7 @@ import { NgTemplateOutlet } from '@angular/common';
     },
   ],
   template: `
-    <ng-container *transloco="let t; read: 'wholesale.calculations'">
+    <ng-container *transloco="let t; prefix: 'wholesale.calculations'">
       <ng-template #error><ng-content select="watt-field-error" /></ng-template>
       <ng-template #warning><ng-content select="watt-field-warning" /></ng-template>
       <ng-template #hint>

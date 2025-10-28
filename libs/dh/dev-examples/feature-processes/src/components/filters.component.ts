@@ -72,7 +72,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
       tabindex="-1"
       [formGroup]="form"
       wattQueryParams
-      *transloco="let t; read: 'devExamples.processes.filters'"
+      *transloco="let t; prefix: 'devExamples.processes.filters'"
     >
       <watt-dropdown
         [formControl]="form.controls.calculationTypes"
