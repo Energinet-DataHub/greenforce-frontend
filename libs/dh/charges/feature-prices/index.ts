@@ -16,6 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export { DhPricesComponent } from './src/components/prices.component';
+export { DhChargeSeriesDay } from './src/components/day';
 export { DhPriceInformationComponent } from './src/components/information.component';
 export { DhPriceInformationHistoryComponent } from './src/components/information-history.component';
