@@ -431,7 +431,14 @@
       "actions": {
         "actionsButton": "Actions"
       },
-      "breadcrumb": "Prices"
+      "breadcrumb": "Prices",
+      "priceInformation": {
+        "name": "Name",
+        "description": "Description",
+        "vatClassification": "VAT",
+        "transparentInvoicing": "Transparent Invoicing",
+        "current": "Current"
+      }
     }
   },
   "meteringPoint": {

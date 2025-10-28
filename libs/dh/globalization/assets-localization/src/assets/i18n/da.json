@@ -432,7 +432,14 @@
       "actions": {
         "actionsButton": "Handlinger"
       },
-      "breadcrumb": "Priser"
+      "breadcrumb": "Priser",
+      "priceInformation": {
+        "name": "Navn",
+        "description": "Beskrivelse",
+        "vatClassification": "Moms",
+        "transparentInvoicing": "Viderefakturering",
+        "current": "Aktuel"
+      }
     }
   },
   "meteringPoint": {
