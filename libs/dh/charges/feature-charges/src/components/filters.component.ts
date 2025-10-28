@@ -69,7 +69,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet-datah
         [options]="chargeTypeOptions"
         [placeholder]="t('chargeType')"
         dhDropdownTranslator
-        translateKey="charges.charges.chargeTypes"
+        translateKey="charges.chargeTypes"
       />
 
       <watt-dropdown
