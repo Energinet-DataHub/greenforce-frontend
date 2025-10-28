@@ -38,7 +38,7 @@ DataHub employee, take a look at the [dh3-dev-secrets] repository.
 Furthermore, in order to connect the BFF to the backend services you need to:
 
 - connect to VPN with your "*\*\*\*-aadadmin*" account
-- sign in Azure CLI with your "*\*\*\*-aadadmin*" account
+- sign in using Azure CLI with your "*\*\*\*-aadadmin*" account
 
 ## GraphQL
 
