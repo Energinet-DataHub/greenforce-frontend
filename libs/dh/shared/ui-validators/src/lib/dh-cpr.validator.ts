@@ -38,7 +38,7 @@ export function dhCprValidator(): ValidatorFn {
     }
 
     if (!dayjs(control.value.slice(0, 6), 'DDMMYY', true).isValid()) {
-      return { invalidDate: true }
+      return { invalidDate: true };
     }
 
     if (control.value === '1111111111') {
