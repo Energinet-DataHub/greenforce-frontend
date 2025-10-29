@@ -64,7 +64,7 @@ public static partial class MeteringPointNode
     [Query]
     [Authorize(Roles = new[] { "cpr:view" })]
     public static async Task<CPRResponse> GetMeteringPointContactCprAsync(
-        long meteringPointId,
+        string meteringPointId,
         long contactId,
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
@@ -83,9 +83,7 @@ public static partial class MeteringPointNode
             MarketRole = Enum.Parse<EicFunction>(user.GetMarketParticipantMarketRole()),
         };
 
-        // For now we return a dummy value, not to expose the CPR number.
-        return await Task.FromResult<CPRResponse>(new CPRResponse() { Result = "1212121212" });
-        // return await client.MeteringPointContactCprAsync(contactId, request, ct).ConfigureAwait(false);
+        return await client.MeteringPointContactCprAsync(meteringPointId, contactId, request, ct).ConfigureAwait(false);
     }
 
     [Query]
