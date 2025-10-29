@@ -68,7 +68,8 @@ public static partial class MeteringPointNode
         long contactId,
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IElectricityMarketClient_V1 client)
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
     {
         if (httpContextAccessor.HttpContext == null)
         {
@@ -77,13 +78,29 @@ public static partial class MeteringPointNode
 
         var user = httpContextAccessor.HttpContext.User;
 
-        var request = new ContactCprRequestDto
+        var actorNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
+        var accessValidationRequest = new MeteringPointMasterDataAccessValidationRequest
         {
-            ActorGln = user.GetMarketParticipantNumber(),
-            MarketRole = Enum.Parse<EicFunction>(user.GetMarketParticipantMarketRole()),
+            MeteringPointId = meteringPointId,
+            ActorNumber = actorNumber,
+            MarketRole = marketRole,
         };
 
-        return await client.MeteringPointContactCprAsync(meteringPointId, contactId, request, ct).ConfigureAwait(false);
+        var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
+
+        if ((signature.Result == SignatureResult.Valid || signature.Result == SignatureResult.NoContent) && signature.Signature != null)
+        {
+            var request = new ContactCprRequestDto
+            {
+                ActorGln = actorNumber,
+                MarketRole = Enum.Parse<EicFunction>(user.GetMarketParticipantMarketRole()),
+            };
+            var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature.Signature);
+            return await authClient.MeteringPointContactCprAsync(meteringPointId, contactId, request, ct).ConfigureAwait(false);
+        }
+
+        throw new InvalidOperationException("User is not authorized to access the requested metering point.");
     }
 
     [Query]
