@@ -16,76 +16,57 @@
  * limitations under the License.
  */
 //#endregione';
-import { ChangeDetectionStrategy, Component, effect, input } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { ChargeSeries, GetChargeSeriesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { GetChargeResolutionDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WATT_SEGMENTED_BUTTONS } from '@energinet-datahub/watt/segmented-buttons';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
-  selector: 'dh-prices',
+  selector: 'dh-charge-series-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
     VaterFlexComponent,
-    WattDatepickerComponent,
-    WattDataFiltersComponent,
-    WattDataTableComponent,
-    WATT_TABLE,
+    VaterStackComponent,
+    WATT_SEGMENTED_BUTTONS,
+    RouterOutlet,
   ],
   template: `
-    <vater-flex
-      inset="ml"
-      gap="ml"
-      *transloco="let t; prefix: 'meteringPoint.measurements.navigation'"
-    >
-      <watt-data-table
-        [header]="false"
-        [error]="series.error()"
-        [ready]="series.called()"
-        [enablePaginator]="false"
-        *transloco="let t; prefix: 'charges.series'"
-      >
-        <watt-data-filters>
-          <watt-datepicker />
-        </watt-data-filters>
-        <watt-table
-          *transloco="let resolveHeader; read: 'charge.series.columns'"
-          [resolveHeader]="resolveHeader"
-          [columns]="columns"
-          [dataSource]="dataSource"
-          [loading]="series.loading()"
-          [stickyFooter]="true"
-        >
-          <ng-container *wattTableCell="columns.hour; let series">
-            {{ series.totalAmount }}
-          </ng-container>
-        </watt-table>
-      </watt-data-table>
+    <vater-flex inset="ml" gap="ml" *transloco="let t; prefix: 'charges.series'">
+      @if (hasMultipleViews()) {
+        <vater-stack>
+          <watt-segmented-buttons (selectedChange)="navigate($event)">
+            <watt-segmented-button value="day">
+              {{ t('day') }}
+            </watt-segmented-button>
+            <watt-segmented-button value="week">
+              {{ t('week') }}
+            </watt-segmented-button>
+          </watt-segmented-buttons>
+        </vater-stack>
+      }
+
+      <vater-flex fill="vertical">
+        <router-outlet />
+      </vater-flex>
     </vater-flex>
   `,
 })
 export class DhChargeSeriesPage {
   id = input.required<string>();
-  series = query(GetChargeSeriesDocument, () => ({
-    variables: {
-      interval: { start: new Date(), end: new Date() },
-      chargeId: this.id(),
-    },
-  }));
-
-  dataSource = new WattTableDataSource<ChargeSeries>();
-  columns = {
-    hour: { accessor: (row) => row.totalAmount },
-  } satisfies WattTableColumnDef<ChargeSeries>;
-
-  constructor() {
-    effect(() => {
-      this.dataSource.data = this.series.data()?.chargeSeries ?? [];
-      console.log(this.dataSource.data);
-    });
-  }
+  navigate = injectRelativeNavigate();
+  resolution = query(GetChargeResolutionDocument, () => ({ variables: { id: this.id() } }));
+  hasMultipleViews = computed(() => {
+    switch (this.resolution.data()?.chargeById?.resolution) {
+      case 'Hourly':
+      case 'QuarterHourly':
+        return true;
+      default:
+        return false;
+    }
+  });
 }

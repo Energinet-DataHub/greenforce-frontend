@@ -16,5 +16,12 @@
  * limitations under the License.
  */
 //#endregion
+import { WattSegmentedButtonsComponent } from './watt-segmented-buttons.component';
+import { WattSegmentedButtonComponent } from './watt-segmented-button.component';
+
 export { WattSegmentedButtonsComponent } from './watt-segmented-buttons.component';
 export { WattSegmentedButtonComponent } from './watt-segmented-button.component';
+export const WATT_SEGMENTED_BUTTONS = [
+  WattSegmentedButtonsComponent,
+  WattSegmentedButtonComponent,
+] as const;

@@ -23,49 +23,41 @@ import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-dat
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { ChargeSeries, GetChargeSeriesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
   selector: 'dh-prices',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
-    VaterFlexComponent,
     WattDatepickerComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
     WATT_TABLE,
   ],
   template: `
-    <vater-flex
-      inset="ml"
-      gap="ml"
-      *transloco="let t; prefix: 'meteringPoint.measurements.navigation'"
+    <watt-data-table
+      [header]="false"
+      [error]="series.error()"
+      [ready]="series.called()"
+      [enablePaginator]="false"
+      *transloco="let t; prefix: 'charges.series'"
     >
-      <watt-data-table
-        [header]="false"
-        [error]="series.error()"
-        [ready]="series.called()"
-        [enablePaginator]="false"
-        *transloco="let t; prefix: 'charges.series'"
+      <watt-data-filters>
+        <watt-datepicker />
+      </watt-data-filters>
+      <watt-table
+        *transloco="let resolveHeader; read: 'charge.series.columns'"
+        [resolveHeader]="resolveHeader"
+        [columns]="columns"
+        [dataSource]="dataSource"
+        [loading]="series.loading()"
+        [stickyFooter]="true"
       >
-        <watt-data-filters>
-          <watt-datepicker />
-        </watt-data-filters>
-        <watt-table
-          *transloco="let resolveHeader; read: 'charge.series.columns'"
-          [resolveHeader]="resolveHeader"
-          [columns]="columns"
-          [dataSource]="dataSource"
-          [loading]="series.loading()"
-          [stickyFooter]="true"
-        >
-          <ng-container *wattTableCell="columns.hour; let series">
-            {{ series.totalAmount }}
-          </ng-container>
-        </watt-table>
-      </watt-data-table>
-    </vater-flex>
+        <ng-container *wattTableCell="columns.hour; let series">
+          {{ series.totalAmount }}
+        </ng-container>
+      </watt-table>
+    </watt-data-table>
   `,
 })
 export class DhChargeSeriesMonth {
@@ -85,7 +77,6 @@ export class DhChargeSeriesMonth {
   constructor() {
     effect(() => {
       this.dataSource.data = this.series.data()?.chargeSeries ?? [];
-      console.log(this.dataSource.data);
     });
   }
 }

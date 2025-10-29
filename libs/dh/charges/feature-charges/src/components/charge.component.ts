@@ -27,7 +27,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { GetChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
@@ -146,8 +146,8 @@ import { DhChargeActionsComponent } from './charge-actions.component';
 })
 export class DhChargeComponent {
   private readonly router = inject(Router);
-  query = query(GetChargeDocument, () => ({ variables: { id: this.id() } }));
-  charge = computed(() => this.query.data()?.charge);
+  query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
+  charge = computed(() => this.query.data()?.chargeById);
   chargeIdName = computed(() => `${this.charge()?.chargeId} • ${this.charge()?.chargeName}`);
   id = input.required<string>();
   getLink = (path: ChargesSubPaths) => getPath(path);

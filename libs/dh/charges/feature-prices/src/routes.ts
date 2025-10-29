@@ -20,8 +20,14 @@ import { Routes } from '@angular/router';
 import { ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { seriesRedirect } from './series-redirect';
 
 export const chargeSeriesRoutes: Routes = [
+  {
+    path: getPath<ChargesSubPaths>('prices'),
+    pathMatch: 'full',
+    redirectTo: seriesRedirect,
+  },
   {
     path: getPath<ChargesSubPaths>('prices'),
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
