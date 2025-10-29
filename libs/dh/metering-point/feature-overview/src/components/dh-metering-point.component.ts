@@ -51,6 +51,7 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.component';
+import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
 
 @Component({
   selector: 'dh-metering-point',
@@ -62,6 +63,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     WATT_CARD,
     WATT_LINK_TABS,
     WATT_BREADCRUMBS,
+    WATT_DESCRIPTION_LIST,
     VaterStackComponent,
     VaterSpacerComponent,
     VaterUtilityDirective,
@@ -131,53 +133,35 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
             </span>
             <dh-metering-point-status [status]="metadata()?.connectionState" />
           </h2>
-
-          <vater-stack direction="row" gap="ml">
-            <span class="watt-text-s">
-              <span class="watt-label watt-space-inline-xs">{{
-                t('shared.meteringPointType')
-              }}</span>
-
-              @if (metadata()?.type) {
+          <watt-description-list variant="inline-flow">
+            <watt-description-list-item [label]=" t('shared.meteringPointType')">
+              @@if (metadata()?.type) {
                 {{ 'meteringPointType.' + metadata()?.type | transloco }}
               } @else {
                 {{ null | dhEmDashFallback }}
               }
-            </span>
-
-            <span
-              class="watt-text-s"
-              *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()"
-            >
-              <span class="watt-label watt-space-inline-xs">{{ t('shared.energySupplier') }}</span>
-
+            </watt-description-list-item>
+            <watt-description-list-item 
+                *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()" 
+                [label]="t('shared.energySupplier')">
               {{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
-            </span>
-
-            <span class="watt-text-s">
-              <span class="watt-label watt-space-inline-xs">{{
-                t('details.meteringPointSubType')
-              }}</span>
-
+            </watt-description-list-item>
+          
+            <watt-description-list-item [label]="t('details.meteringPointSubType')">
               @if (metadata()?.subType) {
-                {{ 'meteringPointSubType.' + metadata()?.subType | transloco }}
-              } @else {
-                {{ null | dhEmDashFallback }}
-              }
-            </span>
-
-            <span class="watt-text-s">
-              <span class="watt-label watt-space-inline-xs">{{
-                t('details.resolutionLabel')
-              }}</span>
-
-              @if (metadata()?.resolution) {
+                  {{ 'meteringPointSubType.' + metadata()?.subType | transloco }}
+                } @else {
+                  {{ null | dhEmDashFallback }}
+                }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('details.resolutionLabel')">
+               @if (metadata()?.resolution) {
                 {{ 'resolution.' + metadata()?.resolution | transloco }}
               } @else {
                 {{ null | dhEmDashFallback }}
               }
-            </span>
-          </vater-stack>
+            </watt-description-list-item>
+          </watt-description-list>
         </div>
 
         <vater-spacer />
