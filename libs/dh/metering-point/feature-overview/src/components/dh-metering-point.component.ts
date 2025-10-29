@@ -51,7 +51,7 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.component';
-import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
 @Component({
   selector: 'dh-metering-point',

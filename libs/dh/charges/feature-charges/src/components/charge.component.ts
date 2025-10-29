@@ -33,7 +33,7 @@ import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/
 
 import { DhChargeStatusComponent } from './status.component';
 import { DhChargeActionsComponent } from './charge-actions.component';
-import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
 @Component({
   selector: 'dh-charge',
