@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//#endregione';
+//#endregion
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { GetChargeResolutionDocument } from '@energinet-datahub/dh/shared/domain/graphql';
