@@ -78,6 +78,7 @@ import { DhChargesFiltersComponent } from './filters.component';
         [columns]="columns"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
+        [loading]="dataSource.loading"
         (rowClick)="navigation.navigate('id', $event.id)"
       >
         <ng-container *wattTableCell="columns.type; let element">
