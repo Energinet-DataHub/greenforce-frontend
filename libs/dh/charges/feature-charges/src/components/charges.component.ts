@@ -34,6 +34,7 @@ import {
   ChargeStatus,
   SortEnumType,
   GetChargesQueryInput,
+  ChargeResolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
@@ -78,7 +79,7 @@ import { DhChargesFiltersComponent } from './filters.component';
         [columns]="columns"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
-        (rowClick)="navigation.navigate('id', $event.id)"
+        (rowClick)="navigation.navigate('id', $event.id, getDefaultRoute($event.resolution))"
       >
         <ng-container *wattTableCell="columns.type; let element">
           {{ 'charges.chargeTypes.' + element.chargeType | transloco }}
@@ -127,5 +128,18 @@ export class DhChargesComponent {
 
   selection = () => {
     return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
+  };
+
+  getDefaultRoute = (resolution: ChargeResolution) => {
+    switch (resolution) {
+      case 'Unknown':
+      case 'QuarterHourly':
+      case 'Hourly':
+        return 'day';
+      case 'Daily':
+        return 'month';
+      case 'Monthly':
+        return 'year';
+    }
   };
 }

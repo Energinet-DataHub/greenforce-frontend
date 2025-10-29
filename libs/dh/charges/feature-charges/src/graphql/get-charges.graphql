@@ -22,6 +22,7 @@ query GetCharges(
       validToDateTime
       chargeType
       chargeOwner
+      resolution # todo: sync fields via fragment with get-charge to fetch byId from cache only
       status
     }
     pageInfo {
