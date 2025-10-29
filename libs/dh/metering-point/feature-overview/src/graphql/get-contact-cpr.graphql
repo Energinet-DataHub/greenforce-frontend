@@ -1,4 +1,4 @@
-query GetContactCPR($meteringPointId: Long!, $contactId: Long!) {
+query GetContactCPR($meteringPointId: String!, $contactId: Long!) {
   meteringPointContactCpr(meteringPointId: $meteringPointId, contactId: $contactId) {
     result
   }
