@@ -51,12 +51,7 @@ export default defineConfig(() => ({
     },
     server: {
       deps: {
-        inline: [
-          '@angular/material',
-          '@angular/cdk',
-          'ngx-mat-select-search',
-          '@energinet/watt',
-        ],
+        inline: ['@angular/material', '@angular/cdk', 'ngx-mat-select-search', '@energinet/watt'],
       },
     },
   },

@@ -20,7 +20,10 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { render, screen } from '@testing-library/angular';
 
 import { graphQLProvider } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { getTranslocoTestingModule, provideMsalTesting } from '@energinet-datahub/dh/shared/test-util';
+import {
+  getTranslocoTestingModule,
+  provideMsalTesting,
+} from '@energinet-datahub/dh/shared/test-util';
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 
 import { DhCalculationsComponent } from './calculations.component';

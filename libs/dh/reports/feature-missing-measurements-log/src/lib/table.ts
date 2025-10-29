@@ -21,11 +21,7 @@ import { Component, effect, inject, Injectable, input, output } from '@angular/c
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterUtilityDirective } from '@energinet/watt/vater';
-import {
-  WattTableColumnDef,
-  WattTableComponent,
-  WattTableDataSource,
-} from '@energinet/watt/table';
+import { WattTableColumnDef, WattTableComponent, WattTableDataSource } from '@energinet/watt/table';
 import { WattDataIntlService, WattDataTableComponent } from '@energinet/watt/data';
 
 @Injectable()

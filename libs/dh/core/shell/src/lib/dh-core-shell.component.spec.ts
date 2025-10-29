@@ -26,7 +26,10 @@ import { graphQLProvider } from '@energinet-datahub/dh/shared/data-access-graphq
 
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattShellComponent } from '@energinet/watt/shell';
-import { getTranslocoTestingModule, provideMsalTesting } from '@energinet-datahub/dh/shared/test-util';
+import {
+  getTranslocoTestingModule,
+  provideMsalTesting,
+} from '@energinet-datahub/dh/shared/test-util';
 import { WattModalService } from '@energinet/watt/modal';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
