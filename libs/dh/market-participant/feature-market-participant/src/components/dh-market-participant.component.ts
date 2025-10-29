@@ -25,7 +25,7 @@ import { MarketParticipantSubPaths, combinePaths } from '@energinet-datahub/dh/c
 @Component({
   selector: 'dh-market-participant',
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.actors.tabs'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.actors.tabs'">
       <watt-link-tabs>
         <watt-link-tab [label]="t('actors.tabLabel')" [link]="getLink('actors')" />
         <watt-link-tab [label]="t('organizations.tabLabel')" [link]="getLink('organizations')" />

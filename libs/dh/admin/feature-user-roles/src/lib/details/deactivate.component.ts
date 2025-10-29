@@ -43,7 +43,7 @@ import { GraphQLFormattedError } from 'graphql';
   selector: 'dh-deactivate-user-role',
   imports: [WATT_MODAL, WattButtonComponent, TranslocoDirective],
   template: `<watt-modal
-    *transloco="let t; read: 'admin.userManagement.drawer'"
+    *transloco="let t; prefix: 'admin.userManagement.drawer'"
     #confirmationModal
     [size]="'small'"
     [title]="t('deactivateWarningTitle')"

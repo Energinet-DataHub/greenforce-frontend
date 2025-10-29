@@ -60,7 +60,7 @@ import { DhOverview } from './overview/overview.component';
     }
   `,
   template: `
-    <watt-card vater inset="ml" *transloco="let t; read: 'reports.measurementsReports'">
+    <watt-card vater inset="ml" *transloco="let t; prefix: 'reports.measurementsReports'">
       @if (isLoading()) {
         <vater-stack fill="vertical" justify="center">
           <watt-spinner />

@@ -36,7 +36,7 @@ import { DhDelegationsComponent } from './delegations.component';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.delegation'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.delegation'">
       @for (entry of delegationsByType(); track entry.type) {
         <watt-expandable-card togglePosition="before" variant="solid">
           <watt-expandable-card-title>

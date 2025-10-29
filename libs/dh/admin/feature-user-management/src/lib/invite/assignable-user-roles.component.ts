@@ -54,7 +54,10 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
       padding: var(--watt-space-xl);
     }
   `,
-  template: `<watt-card *transloco="let t; read: 'admin.userManagement.inviteUser'" variant="solid">
+  template: `<watt-card
+    *transloco="let t; prefix: 'admin.userManagement.inviteUser'"
+    variant="solid"
+  >
     <watt-card-title>
       <h4>
         @if (dataSource.totalCount === 1) {

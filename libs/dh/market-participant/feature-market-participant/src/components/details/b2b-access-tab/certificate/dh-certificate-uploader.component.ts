@@ -55,7 +55,7 @@ const certificateMimeType = 'application/x-x509-ca-cert';
     />
 
     <watt-button
-      *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
+      *transloco="let t; prefix: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
       variant="secondary"
       [loading]="uploadInProgress()"
       (click)="fileUpload.click()"

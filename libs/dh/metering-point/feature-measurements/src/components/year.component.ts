@@ -93,9 +93,8 @@ import { persistDateFilter } from '../utils/persist-date-filter';
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
-      *transloco="let t; read: 'meteringPoint.measurements'"
     >
-      <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
+      <watt-data-filters>
         <form [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
             <watt-year-field [formControl]="form.controls.year" canStepThroughYears />
@@ -103,7 +102,7 @@ import { persistDateFilter } from '../utils/persist-date-filter';
         </form>
       </watt-data-filters>
       <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
+        *transloco="let resolveHeader; prefix: 'meteringPoint.measurements.columns'"
         [resolveHeader]="resolveHeader"
         [columns]="columns"
         [stickyFooter]="true"

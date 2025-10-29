@@ -18,6 +18,7 @@ query GetCharges(
     nodes {
       id
       chargeName
+      chargeId
       validFromDateTime
       validToDateTime
       chargeType

@@ -26,7 +26,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 @Component({
   selector: 'dh-admin-shell',
   template: `
-    <watt-link-tabs *transloco="let t; read: 'admin.userManagement.tabs'">
+    <watt-link-tabs *transloco="let t; prefix: 'admin.userManagement.tabs'">
       <watt-link-tab [label]="t('users.tabLabel')" [link]="getLink('users')" />
       <watt-link-tab [label]="t('roles.tabLabel')" [link]="getLink('roles')" />
       <watt-link-tab

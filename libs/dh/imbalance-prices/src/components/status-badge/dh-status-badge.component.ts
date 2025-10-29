@@ -26,7 +26,7 @@ import { ImbalancePriceStatus } from '@energinet-datahub/dh/shared/domain/graphq
   selector: 'dh-status-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ng-container *transloco="let t; read: 'imbalancePrices.status'">
+    <ng-container *transloco="let t; prefix: 'imbalancePrices.status'">
       @switch (status()) {
         @case ('IN_COMPLETE') {
           <watt-badge type="danger">{{ t(status()) }}</watt-badge>

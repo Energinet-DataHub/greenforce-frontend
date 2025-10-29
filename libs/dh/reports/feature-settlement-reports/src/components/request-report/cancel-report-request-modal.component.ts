@@ -33,7 +33,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
   `,
   template: `
     <watt-modal
-      *transloco="let t; read: 'reports.settlementReports.cancelReport'"
+      *transloco="let t; prefix: 'reports.settlementReports.cancelReport'"
       [title]="t('title')"
       #modal
     >

@@ -68,7 +68,7 @@ import { dhMarketParticipantNameMaxLength } from '../../../validators/dh-market-
     align="start"
     direction="row"
     class="container"
-    *transloco="let t; read: 'marketParticipant.actor.create'"
+    *transloco="let t; prefix: 'marketParticipant.actor.create'"
   >
     <vater-stack class="container__item" fill="horizontal" align="start" direction="column">
       <h4>{{ t('marketParty') }}</h4>

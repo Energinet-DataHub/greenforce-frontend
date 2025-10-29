@@ -62,7 +62,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
     }
   `,
   template: `
-    <watt-card *transloco="let t; read: 'meteringPoint.overview.details'">
+    <watt-card *transloco="let t; prefix: 'meteringPoint.overview.details'">
       <div class="grid-wrapper" [class.grid-wrapper__child-view]="meteringPoint()?.isChild">
         <div class="grid-column">
           <watt-description-list

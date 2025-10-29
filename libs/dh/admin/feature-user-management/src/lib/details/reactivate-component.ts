@@ -39,7 +39,7 @@ import { DhUserDetails } from '@energinet-datahub/dh/admin/data-access-api';
   imports: [WATT_MODAL, WattButtonComponent, TranslocoDirective],
   template: ` <watt-modal
     #modal
-    *transloco="let t; read: 'admin.userManagement.drawer'"
+    *transloco="let t; prefix: 'admin.userManagement.drawer'"
     [size]="'small'"
     [title]="t('reactivateConfirmation.title')"
     [disableClose]="true"

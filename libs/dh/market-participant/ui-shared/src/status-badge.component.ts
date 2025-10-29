@@ -26,7 +26,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 @Component({
   selector: 'dh-market-participant-status-badge',
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.status'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.status'">
       @switch (status()) {
         @case ('Active') {
           <watt-badge type="success">{{ t('Active') }}</watt-badge>

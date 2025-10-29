@@ -49,7 +49,7 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
   ],
   template: `
     <watt-data-table
-      *transloco="let t; read: 'meteringPoint.failedMeasurements'"
+      *transloco="let t; prefix: 'meteringPoint.failedMeasurements'"
       vater
       inset="ml"
       [error]="dataSource.error"
@@ -65,7 +65,7 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
           gap="s"
           tabindex="-1"
           [formGroup]="form"
-          *transloco="let t; read: 'meteringPoint.failedMeasurements.filters'"
+          *transloco="let t; prefix: 'meteringPoint.failedMeasurements.filters'"
         >
           <watt-date-range-chip [formControl]="form.controls.created">
             {{ t('created') }}
@@ -73,7 +73,7 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
         </form>
       </watt-data-filters>
       <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.failedMeasurements.columns'"
+        *transloco="let resolveHeader; prefix: 'meteringPoint.failedMeasurements.columns'"
         #table
         description="Search result"
         [dataSource]="dataSource"

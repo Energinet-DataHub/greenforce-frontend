@@ -93,7 +93,7 @@ import { DhUploadMeasurementsService } from './upload-service';
     }
   `,
   template: `
-    <watt-card vater fill="vertical" *transloco="let t; read: 'meteringPoint.measurements'">
+    <watt-card vater fill="vertical" *transloco="let t; prefix: 'meteringPoint.measurements'">
       <watt-card-title>
         <vater-stack direction="row" gap="m">
           <h3>{{ t('upload.title') }}</h3>

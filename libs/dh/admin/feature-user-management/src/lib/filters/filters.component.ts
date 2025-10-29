@@ -76,7 +76,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
       [formGroup]="form"
       tabindex="-1"
       wattQueryParams
-      *transloco="let t; read: 'admin.userManagement.tabs.users.filter'"
+      *transloco="let t; prefix: 'admin.userManagement.tabs.users.filter'"
     >
       <watt-dropdown
         dhDropdownTranslator

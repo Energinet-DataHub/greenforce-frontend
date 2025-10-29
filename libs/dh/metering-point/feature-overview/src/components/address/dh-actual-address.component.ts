@@ -38,7 +38,7 @@ import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
   `,
   template: `
     <div
-      *transloco="let t; read: 'meteringPoint.overview.addressDetails'"
+      *transloco="let t; prefix: 'meteringPoint.overview.addressDetails'"
       class="watt-text-s actual-address-wrapper"
       vater-stack
       direction="row"
