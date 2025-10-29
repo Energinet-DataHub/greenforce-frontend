@@ -16,6 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhChargeSeriesDay } from './src/components/day';
-export { DhPriceInformationComponent } from './src/components/information.component';
-export { DhPriceInformationHistoryComponent } from './src/components/information-history.component';
+export { chargeSeriesRoutes as default } from './src/routes';
