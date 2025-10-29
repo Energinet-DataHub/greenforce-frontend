@@ -18,7 +18,7 @@
 //#endregion
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
-import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+import { WattRange, dayjs } from '@energinet/watt/date';
 
 export function selectEntireMonthsValidator(
   control: AbstractControl<WattRange<string> | null>

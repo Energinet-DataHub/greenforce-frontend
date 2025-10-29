@@ -38,10 +38,10 @@ import { MutationResult } from 'apollo-angular';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WATT_STEPPER } from '@energinet/watt/stepper';
+import { WattToastService } from '@energinet/watt/toast';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
 import {
   EicFunction,

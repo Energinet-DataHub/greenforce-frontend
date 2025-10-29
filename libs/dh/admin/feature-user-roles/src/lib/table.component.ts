@@ -35,15 +35,15 @@ import {
   WattDataTableComponent,
   WattDataFiltersComponent,
   WattDataActionsComponent,
-} from '@energinet-datahub/watt/data';
+} from '@energinet/watt/data';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import { DhUserRolesFilterComponent } from './filter.component';
 import { DhUserRolesDownloadComponent } from './download.component';
-import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattModalService } from '@energinet/watt/modal';
 import { DhCreateUserRoleComponent } from './create.component';
 
 type Variables = Partial<GetFilteredUserRolesQueryVariables>;

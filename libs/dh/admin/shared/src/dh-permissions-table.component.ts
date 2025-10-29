@@ -32,7 +32,7 @@ import {
   WattTableComponent,
   WattTableColumnDef,
   WattTableDataSource,
-} from '@energinet-datahub/watt/table';
+} from '@energinet/watt/table';
 
 import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';

@@ -24,11 +24,11 @@ import {
   ChargeInformationDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { dayjs, WattDatePipe, WattRange } from '@energinet-datahub/watt/date';
-import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattBadgeComponent } from '@energinet/watt/badge';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { dayjs, WattDatePipe, WattRange } from '@energinet/watt/date';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
 @Component({
   selector: 'dh-price-information',

@@ -33,12 +33,12 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
+} from '@energinet/watt/description-list';
 
-import { WattCardComponent } from '@energinet-datahub/watt/card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
+import { WattCardComponent } from '@energinet/watt/card';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet/watt/drawer';
+import { WattTabsComponent, WattTabComponent } from '@energinet/watt/tabs';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';

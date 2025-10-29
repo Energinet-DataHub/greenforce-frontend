@@ -25,18 +25,18 @@ import { tap } from 'rxjs';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
+} from '@energinet/watt/description-list';
 
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattCodeComponent } from '@energinet-datahub/watt/code';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+import { WATT_TABS } from '@energinet/watt/tabs';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattCodeComponent } from '@energinet/watt/code';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WattTableDataSource } from '@energinet/watt/table';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';

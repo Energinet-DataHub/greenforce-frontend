@@ -20,10 +20,10 @@ import { Component, inject, output, viewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattModalActionsComponent, WattModalComponent } from '@energinet/watt/modal';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { GetArchivedMessagesQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';

@@ -20,14 +20,14 @@ import { Component, computed, inject, output } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattTableColumnDef, WATT_TABLE } from '@energinet/watt/table';
 import {
   WattDataActionsComponent,
   WattDataFiltersComponent,
   WattDataTableComponent,
-} from '@energinet-datahub/watt/data';
+} from '@energinet/watt/data';
 
 import { GetUsersQueryVariables, SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 

@@ -39,7 +39,7 @@ How to use
 
 1. Import ${WattCheckboxComponent.name} in a module
 
-import { ${WattCheckboxComponent.name} } from '@energinet-datahub/watt/checkbox';
+import { ${WattCheckboxComponent.name} } from '@energinet/watt/checkbox';
 
 2. Create FormControl in a component
 
@@ -68,7 +68,7 @@ How to use
 
 1. Import ${WattCheckboxComponent.name} in a module
 
-import { ${WattCheckboxComponent.name} } from '@energinet-datahub/watt/checkbox';
+import { ${WattCheckboxComponent.name} } from '@energinet/watt/checkbox';
 
 2. Create FormControl in a component
 

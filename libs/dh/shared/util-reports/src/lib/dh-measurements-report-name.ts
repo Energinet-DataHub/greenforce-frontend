@@ -18,7 +18,7 @@
 //#endregion
 import { translate } from '@jsverse/transloco';
 
-import { wattFormatDate } from '@energinet-datahub/watt/date';
+import { wattFormatDate } from '@energinet/watt/date';
 
 import { DhMeasurementsReportPartial } from './dh-measurements-report-partial';
 

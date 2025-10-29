@@ -20,8 +20,8 @@ import { Component, input } from '@angular/core';
 
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
-import { wattFormatDate } from '@energinet-datahub/watt/date';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { wattFormatDate } from '@energinet/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 import {
   GetUsersForCsvDocument,

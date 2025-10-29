@@ -55,7 +55,7 @@ export default defineConfig(() => ({
           '@angular/material',
           '@angular/cdk',
           'ngx-mat-select-search',
-          '@energinet-datahub/watt',
+          '@energinet/watt',
         ],
       },
     },

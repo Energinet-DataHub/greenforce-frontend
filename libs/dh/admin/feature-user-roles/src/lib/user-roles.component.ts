@@ -21,11 +21,11 @@ import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattTableColumnDef, WATT_TABLE } from '@energinet/watt/table';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 
 import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';

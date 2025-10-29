@@ -24,14 +24,14 @@ import { translate, TranslocoDirective } from '@jsverse/transloco';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
+} from '@energinet/watt/description-list';
 
-import { WattCodeComponent } from '@energinet-datahub/watt/code';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattCodeComponent } from '@energinet/watt/code';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { WattDatePipe, wattFormatDate } from '@energinet/watt/date';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet/watt/drawer';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 import { DhEmDashFallbackPipe, toFile } from '@energinet-datahub/dh/shared/ui-util';

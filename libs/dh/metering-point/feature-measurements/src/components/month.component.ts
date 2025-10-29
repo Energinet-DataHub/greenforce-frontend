@@ -34,12 +34,12 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
-// import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
-import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet-datahub/watt/yearmonth-field';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { dayjs, WattSupportedLocales } from '@energinet/watt/date';
+// import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
+import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet/watt/yearmonth-field';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import {
   AggregatedMeasurementsForMonth,
@@ -69,7 +69,7 @@ import { persistDateFilter } from '../utils/persist-date-filter';
     DhFormatObservationTimePipe,
   ],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
     :host {
       watt-yearmonth-field {
         width: 280px;

@@ -37,14 +37,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
-import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WATT_STEPPER } from '@energinet/watt/stepper';
+import { WattToastService } from '@energinet/watt/toast';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 
 import {
   EicFunction,

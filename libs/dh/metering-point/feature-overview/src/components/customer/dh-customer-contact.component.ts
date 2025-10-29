@@ -26,7 +26,7 @@ import { CustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql'
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
+} from '@energinet/watt/description-list';
 
 import { DhCustomerProtectedComponent } from './dh-customer-protected.component';
 import { DhAddressComponent } from '../address/dh-address.component';

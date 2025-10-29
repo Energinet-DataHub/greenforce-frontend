@@ -19,8 +19,8 @@
 import { Component, ElementRef, inject, input, output, signal, viewChild } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattToastService } from '@energinet/watt/toast';
 import {
   ApiErrorCollection,
   readApiErrorResponse,

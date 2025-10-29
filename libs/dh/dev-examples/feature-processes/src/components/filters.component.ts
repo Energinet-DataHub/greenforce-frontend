@@ -38,12 +38,12 @@ import {
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
-import { WattRange } from '@energinet-datahub/watt/date';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattRange } from '@energinet/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattQueryParamsDirective } from '@energinet/watt/query-params';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({

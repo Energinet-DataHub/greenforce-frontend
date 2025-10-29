@@ -18,7 +18,7 @@
 //#endregion
 import { Component, computed, inject, input } from '@angular/core';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet/watt/card';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
@@ -47,7 +47,7 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
     DhRelatedMeteringPointsComponent,
   ],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     :host {
       display: block;

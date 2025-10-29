@@ -19,7 +19,7 @@
 import { Component, Input, ChangeDetectionStrategy, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet/watt/badge';
 import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({

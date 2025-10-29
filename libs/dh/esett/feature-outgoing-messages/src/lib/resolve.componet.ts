@@ -19,9 +19,9 @@
 import { Component, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
-import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
+import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   EsettOutgoingMessage,
@@ -30,7 +30,7 @@ import {
   ManuallyHandleOutgoingMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService } from '@energinet/watt/toast';
 
 @Component({
   selector: 'dh-resolve-modal',

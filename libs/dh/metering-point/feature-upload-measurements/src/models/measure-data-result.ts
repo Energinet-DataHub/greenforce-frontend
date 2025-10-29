@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/date';
 import {
   SendMeasurementsQuality,
   SendMeasurementsResolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
+import { danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
 
 export type Measurement = {
   position: number;

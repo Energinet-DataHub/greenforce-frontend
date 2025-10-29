@@ -5,10 +5,10 @@
   "license": "Apache-2.0",
   "exports": {
     ".": {
-      "sass": "./core/styles/@energinet-datahub/watt/_index.scss"
+      "sass": "./core/styles/@energinet/watt/_index.scss"
     },
     "./utils": {
-      "sass": "./core/styles/@energinet-datahub/watt/_utils.scss"
+      "sass": "./core/styles/@energinet/watt/_utils.scss"
     }
   },
   "peerDependencies": {

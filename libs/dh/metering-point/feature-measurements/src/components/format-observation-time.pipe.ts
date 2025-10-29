@@ -18,7 +18,7 @@
 //#endregion
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/date';
 import { Resolution } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Pipe({

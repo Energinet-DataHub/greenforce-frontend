@@ -29,10 +29,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
 
 import {
   DhDropdownTranslatorDirective,
@@ -49,10 +49,10 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
+import { WattQueryParamsDirective } from '@energinet/watt/query-params';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { dayjs, WattRange } from '@energinet-datahub/watt/date';
+import { dayjs, WattRange } from '@energinet/watt/date';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({

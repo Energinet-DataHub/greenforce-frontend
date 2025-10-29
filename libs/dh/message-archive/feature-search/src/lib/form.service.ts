@@ -18,7 +18,7 @@
 //#endregion
 import { computed, Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { dayjs, WattRange } from '@energinet-datahub/watt/date';
+import { dayjs, WattRange } from '@energinet/watt/date';
 import {
   BusinessReason,
   GetArchivedMessagesQueryVariables,

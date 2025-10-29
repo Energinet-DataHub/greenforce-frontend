@@ -21,14 +21,14 @@ import { Component, input, effect, signal, inject, computed, output } from '@ang
 import { Apollo } from 'apollo-angular';
 import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { dayjs, wattFormatDate } from '@energinet-datahub/watt/date';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
-import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+import { dayjs, wattFormatDate } from '@energinet/watt/date';
+import { WattDatePipe } from '@energinet/watt/date';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 
 import { GenerateCSV, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';

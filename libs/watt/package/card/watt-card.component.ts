@@ -23,7 +23,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 /**
  * Usage:
- * `import { WattCardComponent } from '@energinet-datahub/watt/card';`
+ * `import { WattCardComponent } from '@energinet/watt/card';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

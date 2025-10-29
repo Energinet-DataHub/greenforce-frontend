@@ -21,9 +21,9 @@ import { Component, effect, inject, input, signal } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattDatePipe } from '@energinet/watt/date';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhSettlementReport, DhSettlementReports } from '@energinet-datahub/dh/shared/domain';

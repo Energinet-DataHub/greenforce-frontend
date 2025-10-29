@@ -18,7 +18,7 @@
 //#endregion
 import { effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/date';
 
 export function persistDateFilter() {
   const router = inject(Router);

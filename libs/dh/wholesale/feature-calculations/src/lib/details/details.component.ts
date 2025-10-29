@@ -19,14 +19,14 @@
 import { Component, inject, viewChild, output, computed, effect, input } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet/watt/date';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
-import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WATT_PROGRESS_TRACKER } from '@energinet-datahub/watt/progress-tracker';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+} from '@energinet/watt/description-list';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet/watt/drawer';
+import { WATT_PROGRESS_TRACKER } from '@energinet/watt/progress-tracker';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   CancelScheduledCalculationDocument,
@@ -40,10 +40,10 @@ import {
   VaterFlexComponent,
   VaterStackComponent,
   VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
+} from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattModalActionsComponent, WattModalComponent } from '@energinet/watt/modal';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 
 @Component({

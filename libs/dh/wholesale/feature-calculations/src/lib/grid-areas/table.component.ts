@@ -20,9 +20,9 @@ import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/c
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattDataTableComponent } from '@energinet/watt/data';
+import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet/watt/table';
 
 import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
 

@@ -21,12 +21,12 @@ import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/date';
 import {
   EicFunction,
   GetMarketParticipantsDocument,
@@ -35,9 +35,9 @@ import {
   MergeMarketParticipantsDocument,
   GetPaginatedMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattToastService } from '@energinet/watt/toast';
 
 import { dhUniqueMarketParticipantsValidator } from '../validators/dh-unique-market-participants.validator';
 

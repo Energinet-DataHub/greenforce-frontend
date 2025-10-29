@@ -21,9 +21,9 @@ import { HttpClient } from '@angular/common/http';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { tapResponse } from '@ngrx/operators';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService } from '@energinet/watt/toast';
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 const csvExt = '.csv';
 const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];

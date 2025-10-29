@@ -24,7 +24,7 @@ import { WattEmptyStatePowerComponent } from './icons/power';
 
 /**
  * Usage:
- * `import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';`
+ * `import { WattEmptyStateComponent } from '@energinet/watt/empty-state';`
  */
 @Component({
   selector: 'watt-empty-state',
@@ -36,7 +36,7 @@ import { WattEmptyStatePowerComponent } from './icons/power';
     WattIconComponent,
   ],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     watt-empty-state {
       display: block;

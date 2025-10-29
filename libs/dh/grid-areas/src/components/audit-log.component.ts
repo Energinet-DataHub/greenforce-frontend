@@ -25,11 +25,11 @@ import {
   WattTableComponent,
   WattTableDataSource,
   WattTableCellDirective,
-} from '@energinet-datahub/watt/table';
+} from '@energinet/watt/table';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDatePipe } from '@energinet/watt/date';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattDataTableComponent } from '@energinet/watt/data';
 
 import { GridAreaAuditedChange } from '@energinet-datahub/dh/shared/domain/graphql';
 

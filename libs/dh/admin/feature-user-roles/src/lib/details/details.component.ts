@@ -21,10 +21,10 @@ import { input, inject, computed, Component, viewChild, afterRenderEffect } from
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WATT_TABS } from '@energinet/watt/tabs';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattModalComponent, WATT_MODAL } from '@energinet/watt/modal';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet/watt/drawer';
 
 import {
   UserRoleStatus,

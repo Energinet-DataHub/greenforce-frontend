@@ -31,7 +31,7 @@ const meta: Meta<StorybookToastComponent> = {
   parameters: {
     docs: {
       description: {
-        component: "Usage: `import { WattToastService } from '@energinet-datahub/watt/toast';`",
+        component: "Usage: `import { WattToastService } from '@energinet/watt/toast';`",
       },
     },
   },
@@ -92,7 +92,7 @@ Overview.parameters = {
   docs: {
     source: {
       code: `
-      import { WattToastService, WattToastRef } from "@energinet-datahub/watt";
+      import { WattToastService, WattToastRef } from "@energinet/watt";
 
 @Component({
   selector: 'my-awesome-component',

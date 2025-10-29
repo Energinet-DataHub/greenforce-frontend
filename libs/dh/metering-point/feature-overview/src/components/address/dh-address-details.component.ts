@@ -22,10 +22,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
+} from '@energinet/watt/description-list';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 

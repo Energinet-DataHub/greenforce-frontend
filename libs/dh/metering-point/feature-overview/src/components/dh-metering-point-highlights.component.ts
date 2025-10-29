@@ -19,8 +19,8 @@
 import { Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -35,7 +35,7 @@ import { MeteringPointDetails } from '../types';
     DhPermissionRequiredDirective,
   ],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     :host {
       display: block;

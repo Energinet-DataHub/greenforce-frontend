@@ -20,10 +20,10 @@ import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { MsalService } from '@azure/msal-angular';
 
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WATT_MENU } from '@energinet-datahub/watt/menu';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WATT_MENU } from '@energinet/watt/menu';
 import { DhProfileModalComponent } from '@energinet-datahub/dh/profile/feature-profile-modal';
-import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattModalService } from '@energinet/watt/modal';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
 

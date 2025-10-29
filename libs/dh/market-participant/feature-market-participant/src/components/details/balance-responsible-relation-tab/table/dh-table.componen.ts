@@ -18,8 +18,8 @@
 //#endregion
 import { Component, effect, input } from '@angular/core';
 
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { WattDatePipe } from '@energinet/watt/date';
 
 import {
   DhBalanceResponsibleRelation,

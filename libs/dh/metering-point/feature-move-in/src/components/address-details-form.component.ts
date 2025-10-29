@@ -20,13 +20,13 @@ import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { MoveInAddressDetailsFormType } from '../types';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 
 @Component({
   selector: 'dh-address-details-form',

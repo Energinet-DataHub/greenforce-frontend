@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { WattPortal } from '@energinet-datahub/watt/portal';
+import { WattPortal } from '@energinet/watt/portal';
 
 @Component({
   selector: 'dh-toolbar-portal',

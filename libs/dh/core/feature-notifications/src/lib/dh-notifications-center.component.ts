@@ -29,9 +29,9 @@ import {
   OnNotificationAddedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattIcon } from '@energinet-datahub/watt/icon';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattIcon } from '@energinet/watt/icon';
+import { dayjs } from '@energinet/watt/date';
 
 import { dhGetRouteByType } from './dh-get-route-by-type';
 import { DhNotification } from './dh-notification';

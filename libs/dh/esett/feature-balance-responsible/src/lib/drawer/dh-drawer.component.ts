@@ -20,19 +20,19 @@ import { httpResource } from '@angular/common/http';
 import { Component, inject, input, computed } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattCodeComponent } from '@energinet-datahub/watt/code';
+} from '@energinet/watt/description-list';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattCodeComponent } from '@energinet/watt/code';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetBalanceResponsibleByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 @Component({
   selector: 'dh-balance-responsible-drawer',

@@ -19,7 +19,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 
-import { WattColorHelperService } from '@energinet-datahub/watt/color';
+import { WattColorHelperService } from '@energinet/watt/color';
 
 import { DhNotification } from './dh-notification';
 import { DhNotificationBannerComponent } from './dh-notification-banner.component';

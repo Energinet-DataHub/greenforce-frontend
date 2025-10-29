@@ -19,9 +19,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CalculationExecutionType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
-import { WattFieldComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattFilterChipComponent } from '@energinet/watt/chip';
+import { WattFieldComponent, WattFieldHintComponent } from '@energinet/watt/field';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 /* eslint-disable @angular-eslint/component-class-suffix */

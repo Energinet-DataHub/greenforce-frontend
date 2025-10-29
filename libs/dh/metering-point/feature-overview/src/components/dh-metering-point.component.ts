@@ -24,11 +24,11 @@ import {
   VaterStackComponent,
   VaterSpacerComponent,
   VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
+} from '@energinet/watt/vater';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WATT_LINK_TABS } from '@energinet/watt/tabs';
+import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
 
 import {
   DhActorStorage,
@@ -76,7 +76,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     DhMeteringPointActionsComponent,
   ],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     :host {
       display: block;

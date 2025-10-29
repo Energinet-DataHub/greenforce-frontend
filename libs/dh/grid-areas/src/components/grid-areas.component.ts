@@ -23,7 +23,7 @@ import { effect, inject, signal, Component, ChangeDetectionStrategy } from '@ang
 
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import {
   GenerateCSV,
@@ -31,10 +31,10 @@ import {
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
   GridAreaType,
@@ -46,7 +46,7 @@ import {
   WattDataTableComponent,
   WattDataFiltersComponent,
   WattDataActionsComponent,
-} from '@energinet-datahub/watt/data';
+} from '@energinet/watt/data';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';

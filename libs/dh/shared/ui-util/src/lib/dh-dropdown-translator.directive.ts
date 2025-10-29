@@ -20,7 +20,7 @@ import { DestroyRef, Directive, OnInit, effect, inject, input, signal } from '@a
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoService } from '@jsverse/transloco';
 
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
 @Directive({
   selector: '[dhDropdownTranslator]',

@@ -24,10 +24,10 @@ import {
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+} from '@energinet/watt/vater';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeasurementsReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';

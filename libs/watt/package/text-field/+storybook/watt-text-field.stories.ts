@@ -57,7 +57,7 @@ How to use
 
 1. Import ${WattTextFieldComponent.name} in a component
 
-import { ${WattTextFieldComponent.name} } from '@energinet-datahub/watt/text-field';
+import { ${WattTextFieldComponent.name} } from '@energinet/watt/text-field';
 
 2. Create FormControl in a component
 

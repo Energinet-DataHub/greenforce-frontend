@@ -39,9 +39,9 @@ import {
 
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WattSearchComponent } from '@energinet/watt/search';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
 import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 import { DhBalanceResponsibleRelationFilters } from './dh-balance-responsible-relation';

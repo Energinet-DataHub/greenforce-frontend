@@ -21,15 +21,15 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WATT_TABLE } from '@energinet/watt/table';
 import {
   VaterFlexComponent,
   VaterStackComponent,
   VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+} from '@energinet/watt/vater';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {

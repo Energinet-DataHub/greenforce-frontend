@@ -37,7 +37,7 @@ How to use
 
 1. Import ${WattValidationMessageComponent.name} in a module
 
-import { ${WattValidationMessageComponent.name} } from '@energinet-datahub/watt/validation-message';
+import { ${WattValidationMessageComponent.name} } from '@energinet/watt/validation-message';
 
 2. Use the component
 

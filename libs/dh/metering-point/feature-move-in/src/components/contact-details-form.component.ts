@@ -19,12 +19,12 @@
 import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattPhoneFieldComponent } from '@energinet/watt/phone-field';
 import { MoveInContactDetailsFormType } from '../types';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 
 @Component({
   selector: 'dh-contact-details-form',

@@ -19,10 +19,10 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WATT_CARD } from '@energinet/watt/card';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 
 import { Contact } from '../../types';
 import { DhCustomerContactComponent } from './dh-customer-contact.component';
