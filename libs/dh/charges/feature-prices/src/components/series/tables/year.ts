@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//#endregione';
+//#endregion
 import { ChangeDetectionStrategy, Component, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
