@@ -134,28 +134,29 @@ import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list'
             <dh-metering-point-status [status]="metadata()?.connectionState" />
           </h2>
           <watt-description-list variant="inline-flow">
-            <watt-description-list-item [label]=" t('shared.meteringPointType')">
-              @@if (metadata()?.type) {
+            <watt-description-list-item [label]="t('shared.meteringPointType')">
+              @if (metadata()?.type) {
                 {{ 'meteringPointType.' + metadata()?.type | transloco }}
               } @else {
                 {{ null | dhEmDashFallback }}
               }
             </watt-description-list-item>
-            <watt-description-list-item 
-                *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()" 
-                [label]="t('shared.energySupplier')">
+            <watt-description-list-item
+              *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()"
+              [label]="t('shared.energySupplier')"
+            >
               {{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
             </watt-description-list-item>
-          
+
             <watt-description-list-item [label]="t('details.meteringPointSubType')">
               @if (metadata()?.subType) {
-                  {{ 'meteringPointSubType.' + metadata()?.subType | transloco }}
-                } @else {
-                  {{ null | dhEmDashFallback }}
-                }
+                {{ 'meteringPointSubType.' + metadata()?.subType | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
             </watt-description-list-item>
             <watt-description-list-item [label]="t('details.resolutionLabel')">
-               @if (metadata()?.resolution) {
+              @if (metadata()?.resolution) {
                 {{ 'resolution.' + metadata()?.resolution | transloco }}
               } @else {
                 {{ null | dhEmDashFallback }}
