@@ -437,7 +437,18 @@
         "description": "Description",
         "vatClassification": "VAT",
         "transparentInvoicing": "Transparent Invoicing",
-        "current": "Current"
+        "current": "Current",
+        "history": {
+          "table": {
+            "columns": {
+              "timestamp": "Timestamp",
+              "entry": "Change"
+            }
+          },
+          "auditLogs": {
+            "Sample entry": "This is a sample {{ entry }}"
+          }
+        }
       }
     }
   },
