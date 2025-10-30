@@ -21,8 +21,8 @@ import { RouterOutlet } from '@angular/router';
 import { GetChargeResolutionDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WATT_SEGMENTED_BUTTONS } from '@energinet-datahub/watt/segmented-buttons';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WATT_SEGMENTED_BUTTONS } from '@energinet/watt/segmented-buttons';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
