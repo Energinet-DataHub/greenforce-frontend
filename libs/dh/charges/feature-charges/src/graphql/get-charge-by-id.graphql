@@ -1,5 +1,5 @@
-query GetCharge($id: UUID!) {
-  charge(id: $id) {
+query GetChargeById($id: UUID!) {
+  chargeById(id: $id) {
     id
     status
     chargeId

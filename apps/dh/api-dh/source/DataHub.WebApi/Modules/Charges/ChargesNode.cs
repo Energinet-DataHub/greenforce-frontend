@@ -49,7 +49,7 @@ public static partial class ChargesNode
 
     [Query]
     [Authorize(Roles = new[] { "charges:view" })]
-    public static async Task<ChargeInformationDto?> GetChargeAsync(
+    public static async Task<ChargeInformationDto?> GetChargeByIdAsync(
         [Service] IChargesClient client,
         CancellationToken cancellationToken,
         Guid id)
