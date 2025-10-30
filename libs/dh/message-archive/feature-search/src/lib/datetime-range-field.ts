@@ -24,8 +24,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { map, skip } from 'rxjs';
-import { dayjs, WattRange } from '@energinet-datahub/watt/date';
-import { WattDateTimeField } from '@energinet-datahub/watt/datetime-field';
+import { dayjs, WattRange } from '@energinet/watt/date';
+import { WattDateTimeField } from '@energinet/watt/datetime-field';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({

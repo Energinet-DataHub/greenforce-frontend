@@ -19,15 +19,15 @@
 import { Component, Injector, input, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattModalService } from '@energinet/watt/modal';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
 
 import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
 import { DhMarketParticipantAuditLogService } from '../../audit-log.service';

@@ -27,13 +27,13 @@ import { distinctUntilChanged, filter, map, mergeWith, of } from 'rxjs';
 import {
   WattSegmentedButtonComponent,
   WattSegmentedButtonsComponent,
-} from '@energinet-datahub/watt/segmented-buttons';
+} from '@energinet/watt/segmented-buttons';
 
 import {
   VaterFlexComponent,
   VaterStackComponent,
   VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
+} from '@energinet/watt/vater';
 
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 

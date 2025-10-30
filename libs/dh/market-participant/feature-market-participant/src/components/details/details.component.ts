@@ -48,15 +48,15 @@ import {
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
+} from '@energinet/watt/description-list';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattChipComponent } from '@energinet-datahub/watt/chip';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WATT_TABS, WattTabComponent } from '@energinet-datahub/watt/tabs';
-import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '@energinet-datahub/watt/drawer';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattChipComponent } from '@energinet/watt/chip';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { WATT_TABS, WattTabComponent } from '@energinet/watt/tabs';
+import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '@energinet/watt/drawer';
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/feature-delegation';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';

@@ -164,7 +164,7 @@ in the same folder and set the remote address in the relevant property.
 This is a shared UI library meant to be used by all frontend apps and it
 contains basic components and functionality for speeding up app development.
 It is located in `libs/watt` and can be imported from
-`@energinet-datahub/watt` in other libraries.
+`@energinet/watt` in other libraries.
 
 The design system is showcased using [Storybook](https://storybook.js.org),
 and can be found here: [Latest version (main)](https://main--61765fc47451ff003afe62ff.chromatic.com/)
@@ -173,7 +173,7 @@ To use components or other functionality from Watt, import as in the following
 example:
 
 ```ts
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet/watt/button';
 ```
 
 ## Workspace

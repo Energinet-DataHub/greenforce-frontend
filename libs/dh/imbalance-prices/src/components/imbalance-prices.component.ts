@@ -20,13 +20,13 @@ import { Component, computed, effect, signal, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
+import { WattDatePipe, wattFormatDate } from '@energinet/watt/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -37,7 +37,7 @@ import {
   WattDataActionsComponent,
   WattDataFiltersComponent,
   WattDataTableComponent,
-} from '@energinet-datahub/watt/data';
+} from '@energinet/watt/data';
 import { DhStatusBadgeComponent } from './status-badge/dh-status-badge.component';
 import { DhImbalancePricesDetailsComponent } from './details/details.component';
 

@@ -20,11 +20,11 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattRadioComponent } from '@energinet/watt/radio';
+import { WattDatePipe } from '@energinet/watt/date';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({

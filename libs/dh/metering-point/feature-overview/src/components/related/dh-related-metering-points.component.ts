@@ -20,11 +20,11 @@ import { ChangeDetectionStrategy, Component, computed, input, signal } from '@an
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { RouterLink } from '@angular/router';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WattDatePipe } from '@energinet/watt/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';

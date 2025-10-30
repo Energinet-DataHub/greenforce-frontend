@@ -20,8 +20,8 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 
-import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
+import { WattShellComponent } from '@energinet/watt/shell';
+import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
 
 import { DhTopBarService } from '@energinet-datahub/dh-shared-data-access-top-bar';
 import { DhProfileAvatarComponent } from '@energinet-datahub/dh/profile/feature-avatar';
@@ -32,7 +32,7 @@ import {
 import { DhNotificationsCenterComponent } from '@energinet-datahub/dh/core/feature-notifications';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
-import { WattPortalOutlet } from '@energinet-datahub/watt/portal';
+import { WattPortalOutlet } from '@energinet/watt/portal';
 
 @Component({
   selector: 'dh-shell',

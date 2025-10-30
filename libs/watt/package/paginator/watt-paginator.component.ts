@@ -42,7 +42,7 @@ import { map, startWith } from 'rxjs';
 
 /**
  * Usage:
- * `import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';`
+ * `import { WattPaginatorComponent } from '@energinet/watt/paginator';`
  */
 @Component({
   imports: [MatPaginatorModule],

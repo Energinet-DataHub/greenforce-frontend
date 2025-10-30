@@ -25,10 +25,10 @@ import {
   WattTableComponent,
   WattTableColumnDef,
   WattTableCellDirective,
-} from '@energinet-datahub/watt/table';
+} from '@energinet/watt/table';
 
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import {
   ChargeStatus,

@@ -31,7 +31,7 @@ import {
 } from 'rxjs';
 import { MsalService } from '@azure/msal-angular';
 
-import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattModalService } from '@energinet/watt/modal';
 
 import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
 

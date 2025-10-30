@@ -23,13 +23,13 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';

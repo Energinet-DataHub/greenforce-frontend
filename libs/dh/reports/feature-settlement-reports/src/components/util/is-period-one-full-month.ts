@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+import { WattRange, dayjs } from '@energinet/watt/date';
 
 export function isPeriodOneFullMonth(period: WattRange<Date>): boolean {
   const isStartOfMonth = dayjs(period.start).isSame(dayjs(period.start).startOf('month'));

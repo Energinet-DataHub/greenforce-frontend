@@ -37,7 +37,7 @@ export class WattExpandableCardContentDirective {
 
 /**
  * Usage:
- * `import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';`
+ * `import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';`
  */
 @Component({
   imports: [NgTemplateOutlet, MatExpansionModule],

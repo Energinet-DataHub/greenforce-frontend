@@ -19,7 +19,7 @@
 import { Component, computed, input } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 
-import { dayjs, WattRange } from '@energinet-datahub/watt/date';
+import { dayjs, WattRange } from '@energinet/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({

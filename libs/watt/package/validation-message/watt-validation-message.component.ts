@@ -33,7 +33,7 @@ export type WattValidationMessageSize = 'compact' | 'normal';
 
 /**
  * Usage:
- * `import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';`
+ * `import { WattValidationMessageComponent } from '@energinet/watt/validation-message';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

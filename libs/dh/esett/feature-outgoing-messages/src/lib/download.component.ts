@@ -20,7 +20,7 @@ import { Component, input } from '@angular/core';
 
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';

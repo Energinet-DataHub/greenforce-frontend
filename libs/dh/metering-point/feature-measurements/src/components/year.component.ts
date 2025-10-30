@@ -44,11 +44,11 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
-import { WattYearField, YEAR_FORMAT } from '@energinet-datahub/watt/year-field';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { dayjs, WattSupportedLocales } from '@energinet/watt/date';
+import { WattYearField, YEAR_FORMAT } from '@energinet/watt/year-field';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
@@ -75,7 +75,7 @@ import { persistDateFilter } from '../utils/persist-date-filter';
     DhFormatObservationTimePipe,
   ],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     dh-measurements-year {
       watt-year-field {

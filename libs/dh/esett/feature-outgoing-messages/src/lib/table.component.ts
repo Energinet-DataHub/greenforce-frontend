@@ -29,18 +29,18 @@ import {
   DownloadEsettExchangeEventsQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import {
   WattDataTableComponent,
   WattDataActionsComponent,
   WattDataFiltersComponent,
-} from '@energinet-datahub/watt/data';
+} from '@energinet/watt/data';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';

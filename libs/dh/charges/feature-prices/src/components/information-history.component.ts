@@ -19,16 +19,16 @@
 import { Component, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDatePipe } from '@energinet/watt/date';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattDataTableComponent } from '@energinet/watt/data';
 
 import {
   WattTableColumnDef,
   WattTableComponent,
   WattTableDataSource,
   WattTableCellDirective,
-} from '@energinet-datahub/watt/table';
+} from '@energinet/watt/table';
 
 @Component({
   selector: 'dh-price-information-history',

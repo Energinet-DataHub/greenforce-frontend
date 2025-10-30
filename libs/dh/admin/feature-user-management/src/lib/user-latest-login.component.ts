@@ -19,7 +19,7 @@
 import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/date';
 
 @Component({
   selector: 'dh-user-latest-login',

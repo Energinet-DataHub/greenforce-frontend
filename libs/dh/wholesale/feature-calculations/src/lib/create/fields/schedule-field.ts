@@ -19,10 +19,10 @@
 import { ChangeDetectionStrategy, Component, effect, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { WattDateTimeField } from '@energinet-datahub/watt/datetime-field';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattDateTimeField } from '@energinet/watt/datetime-field';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattRadioComponent } from '@energinet/watt/radio';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 /* eslint-disable @angular-eslint/component-class-suffix */

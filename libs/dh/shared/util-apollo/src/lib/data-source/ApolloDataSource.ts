@@ -38,7 +38,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { DataSource } from '@angular/cdk/collections';
 import { MatSort, SortDirection } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { IWattTableDataSource } from '@energinet-datahub/watt/table';
+import { IWattTableDataSource } from '@energinet/watt/table';
 import { query, QueryOptions, QueryResult } from '../query';
 import { signal } from '@angular/core';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';

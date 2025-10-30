@@ -17,7 +17,7 @@
  */
 //#endregion
 function mixinSnippet(name: string) {
-  return `@use '@energinet-datahub/watt/utils' as watt
+  return `@use '@energinet/watt/utils' as watt
 @include watt.typography-watt-${name}
   `;
 }

@@ -21,7 +21,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { GetContactCprDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 @Component({
   selector: 'dh-customer-cpr',

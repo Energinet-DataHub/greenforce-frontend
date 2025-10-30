@@ -20,7 +20,7 @@ import { ChangeDetectionStrategy, Component, effect, input, output } from '@angu
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { ActorUserRole } from '@energinet-datahub/dh/admin/data-access-api';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 @Component({
   selector: 'dh-basic-user-roles-table',

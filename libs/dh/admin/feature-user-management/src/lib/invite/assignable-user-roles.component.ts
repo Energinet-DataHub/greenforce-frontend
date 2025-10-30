@@ -24,15 +24,15 @@ import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 
 import {
   WATT_TABLE,
   WattTableComponent,
   WattTableColumnDef,
   WattTableDataSource,
-} from '@energinet-datahub/watt/table';
+} from '@energinet/watt/table';
 
 import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
 import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';

@@ -23,8 +23,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattIconComponent } from '@energinet/watt/icon';
 import {
   getPath,
   MeasurementsSubPaths,
@@ -42,7 +42,7 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
-import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattModalService } from '@energinet/watt/modal';
 
 import { InstallationAddress } from '../types';
 

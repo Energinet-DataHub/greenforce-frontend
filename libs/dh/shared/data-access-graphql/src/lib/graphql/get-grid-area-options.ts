@@ -18,7 +18,7 @@
 //#endregion
 import { computed, Signal } from '@angular/core';
 
-import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownOptions } from '@energinet/watt/dropdown';
 import { GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 

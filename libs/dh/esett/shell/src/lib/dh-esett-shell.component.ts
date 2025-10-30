@@ -19,7 +19,7 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({

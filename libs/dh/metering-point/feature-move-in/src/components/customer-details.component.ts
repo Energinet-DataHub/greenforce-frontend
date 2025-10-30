@@ -22,14 +22,14 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { MoveInType } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattRadioComponent } from '@energinet/watt/radio';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { dayjs } from '@energinet/watt/date';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,

@@ -20,9 +20,9 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { Component, input } from '@angular/core';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattDatePipe } from '@energinet/watt/date';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import { DecimalPipe } from '@angular/common';
 import { MeteringGridAreaImbalancePerDay } from '../../types';

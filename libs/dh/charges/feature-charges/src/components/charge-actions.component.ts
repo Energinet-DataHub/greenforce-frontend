@@ -21,8 +21,8 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
   selector: 'dh-charge-actions',

@@ -34,9 +34,9 @@ import {
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { GraphQLFormattedError } from 'graphql';
 
 @Component({

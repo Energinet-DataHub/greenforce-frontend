@@ -21,7 +21,7 @@ import { Component, inject, input } from '@angular/core';
 import { take } from 'rxjs';
 import { translate, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';

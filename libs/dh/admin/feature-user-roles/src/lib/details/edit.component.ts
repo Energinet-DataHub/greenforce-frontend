@@ -22,14 +22,14 @@ import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angula
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattModalComponent, WATT_MODAL } from '@energinet/watt/modal';
+import { WattTabComponent, WattTabsComponent } from '@energinet/watt/tabs';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';

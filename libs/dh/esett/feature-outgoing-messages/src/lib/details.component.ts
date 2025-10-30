@@ -23,21 +23,21 @@ import { input, inject, computed, Component, viewChild, afterRenderEffect } from
 import { of } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattCodeComponent } from '@energinet-datahub/watt/code';
-import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WATT_TABS } from '@energinet/watt/tabs';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattModalService } from '@energinet/watt/modal';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattCodeComponent } from '@energinet/watt/code';
+import { dayjs, WattDatePipe } from '@energinet/watt/date';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet/watt/drawer';
+import { WattValidationMessageComponent } from '@energinet/watt/validation-message';
 
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
+} from '@energinet/watt/description-list';
 
 import {
   DocumentStatus,

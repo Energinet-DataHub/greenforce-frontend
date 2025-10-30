@@ -20,9 +20,9 @@ import { AfterViewInit, Component, inject } from '@angular/core';
 import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { take } from 'rxjs';
 
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet/watt/table';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattButtonComponent } from '@energinet/watt/button';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import {
@@ -30,7 +30,7 @@ import {
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
+} from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-market-roles',

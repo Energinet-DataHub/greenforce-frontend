@@ -19,8 +19,8 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 import { DhNotification } from './dh-notification';
 

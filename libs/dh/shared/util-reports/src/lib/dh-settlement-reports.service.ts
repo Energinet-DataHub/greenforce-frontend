@@ -25,7 +25,7 @@ import { DhSettlementReportPartial } from './dh-settlement-report-partial';
 import { dhSettlementReportName } from './dh-settlement-report-name';
 import { dhDownloadReport } from './dh-download-report';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
-import { wattFormatDate } from '@energinet-datahub/watt/date';
+import { wattFormatDate } from '@energinet/watt/date';
 import { translate } from '@jsverse/transloco';
 
 @Injectable()

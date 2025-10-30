@@ -28,7 +28,7 @@ import { WattLinkTabComponent } from './watt-link-tab.component';
   encapsulation: ViewEncapsulation.None,
   imports: [MatTabsModule, RouterOutlet, RouterLink, RouterLinkActive, VaterFlexComponent],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     watt-link-tabs {
       .mat-mdc-tab-header {

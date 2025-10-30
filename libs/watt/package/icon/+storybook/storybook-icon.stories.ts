@@ -35,7 +35,7 @@ export const Icons: StoryObj<WattIconComponent> = {
     docs: {
       source: {
         code: `1. Import WattIconComponent in a component
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 2. Use <watt-icon name="<name>" label="<description>" size="<size>"><watt-icon> in the component's HTML template`,
       },

@@ -19,14 +19,10 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, effect, inject, Injectable, input, output } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import {
-  WattTableColumnDef,
-  WattTableComponent,
-  WattTableDataSource,
-} from '@energinet-datahub/watt/table';
-import { WattDataIntlService, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattTableColumnDef, WattTableComponent, WattTableDataSource } from '@energinet/watt/table';
+import { WattDataIntlService, WattDataTableComponent } from '@energinet/watt/data';
 
 @Injectable()
 export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {

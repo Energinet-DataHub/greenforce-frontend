@@ -23,9 +23,9 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { MutationResult } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
 import {
   GetOrganizationsDocument,

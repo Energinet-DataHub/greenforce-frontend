@@ -29,7 +29,7 @@ export default meta;
 
 const howToUseGuide = `
 1. Import ${WattButtonComponent.name} in a module
-import { ${WattButtonComponent.name} } from '@energinet-datahub/watt/button';
+import { ${WattButtonComponent.name} } from '@energinet/watt/button';
 
 2. Use <watt-button>Button</watt-button>
 `;

@@ -27,12 +27,12 @@ import { ChangeDetectionStrategy, Component, viewChild, inject } from '@angular/
 import { MutationResult } from 'apollo-angular';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
-import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { WattToastService } from '@energinet/watt/toast';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {

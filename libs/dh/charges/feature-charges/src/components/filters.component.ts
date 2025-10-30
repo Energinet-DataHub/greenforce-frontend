@@ -38,9 +38,9 @@ import {
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
-import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet-datahub/watt/dropdown';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattQueryParamsDirective } from '@energinet/watt/query-params';
+import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/dropdown';
 @Component({
   selector: 'dh-charges-filters',
   imports: [

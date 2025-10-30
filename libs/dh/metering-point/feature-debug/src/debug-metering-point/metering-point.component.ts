@@ -22,8 +22,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointDebugViewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';

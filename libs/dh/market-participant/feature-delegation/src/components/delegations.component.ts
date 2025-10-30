@@ -19,16 +19,16 @@
 import { Component, effect, inject, input, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import {
   WATT_TABLE,
   WattTableColumnDef,
   WattTableComponent,
   WattTableDataSource,
-} from '@energinet-datahub/watt/table';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattModalService } from '@energinet-datahub/watt/modal';
+} from '@energinet/watt/table';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattModalService } from '@energinet/watt/modal';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhDelegation, DhDelegations } from '../types';

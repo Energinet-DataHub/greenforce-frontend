@@ -28,10 +28,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WATT_MODAL, WattModalService, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WATT_MODAL, WattModalService, WattTypedModal } from '@energinet/watt/modal';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   EicFunction,

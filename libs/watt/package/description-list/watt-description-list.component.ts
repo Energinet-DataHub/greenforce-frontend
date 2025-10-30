@@ -30,7 +30,7 @@ import {
 import { WattDescriptionListItemComponent } from './watt-description-list-item.component';
 /**
  * Usage:
- * `import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';`
+ * `import { WattDescriptionListComponent } from '@energinet/watt/description-list';`
  */
 @Component({
   encapsulation: ViewEncapsulation.None,

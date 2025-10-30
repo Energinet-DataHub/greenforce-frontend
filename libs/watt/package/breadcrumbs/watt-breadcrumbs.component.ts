@@ -42,7 +42,7 @@ export class WattBreadcrumbComponent {
 
 /**
  * Usage:
- * `import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';`
+ * `import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';`
  */
 @Component({
   encapsulation: ViewEncapsulation.None,

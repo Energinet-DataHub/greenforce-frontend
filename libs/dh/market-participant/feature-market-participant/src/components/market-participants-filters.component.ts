@@ -22,8 +22,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import {
   MarketParticipantStatus,
   EicFunction,
@@ -34,8 +34,8 @@ import {
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WattQueryParamsDirective } from '@energinet/watt/query-params';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 

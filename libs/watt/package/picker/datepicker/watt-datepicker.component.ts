@@ -70,7 +70,7 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 /**
  * Usage:
- * `import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';`
+ * `import { WattDatepickerComponent } from '@energinet/watt/datepicker';`
  *
  * IMPORTANT:
  * The styling is calculated based on our monospaced font.

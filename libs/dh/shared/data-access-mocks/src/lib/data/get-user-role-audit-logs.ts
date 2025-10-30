@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/date';
 
 import {
   GetUserRoleAuditLogsQuery,

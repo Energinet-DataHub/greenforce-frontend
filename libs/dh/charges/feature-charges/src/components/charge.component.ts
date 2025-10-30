@@ -21,9 +21,9 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WATT_LINK_TABS } from '@energinet/watt/tabs';
+import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -33,12 +33,12 @@ import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/
 
 import { DhChargeStatusComponent } from './status.component';
 import { DhChargeActionsComponent } from './charge-actions.component';
-import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
 @Component({
   selector: 'dh-charge',
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     :host {
       display: block;
