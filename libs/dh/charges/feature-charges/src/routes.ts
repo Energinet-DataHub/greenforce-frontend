@@ -20,7 +20,6 @@ import { Routes } from '@angular/router';
 
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 export const chargeRoutes: Routes = [
   {
@@ -35,34 +34,6 @@ export const chargeRoutes: Routes = [
   {
     path: ':id',
     loadComponent: () => import('./components/charge.component').then((m) => m.DhChargeComponent),
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: getPath<ChargesSubPaths>('prices'),
-      },
-      {
-        path: getPath<ChargesSubPaths>('prices'),
-        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
-        loadComponent: () =>
-          import('@energinet-datahub/dh/charges/feature-prices').then((m) => m.DhPricesComponent),
-      },
-      {
-        path: getPath<ChargesSubPaths>('information'),
-        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
-        loadComponent: () =>
-          import('@energinet-datahub/dh/charges/feature-prices').then(
-            (m) => m.DhPriceInformationComponent
-          ),
-      },
-      {
-        path: getPath<ChargesSubPaths>('history'),
-        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
-        loadComponent: () =>
-          import('@energinet-datahub/dh/charges/feature-prices').then(
-            (m) => m.DhPriceInformationHistoryComponent
-          ),
-      },
-    ],
+    loadChildren: () => import('@energinet-datahub/dh/charges/feature-prices'),
   },
 ];

@@ -65,7 +65,7 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
     @let userRole = userRoleWithPermissions();
 
     <watt-drawer
-      *transloco="let t; read: 'admin.userManagement.drawer'"
+      *transloco="let t; prefix: 'admin.userManagement.drawer'"
       size="large"
       (closed)="onClose()"
     >

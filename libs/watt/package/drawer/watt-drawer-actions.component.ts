@@ -20,6 +20,12 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'watt-drawer-actions',
+  styles: `
+    :host {
+      display: flex;
+      gap: var(--watt-space-s);
+    }
+  `,
   template: `<ng-content select="watt-button" />`,
 })
 export class WattDrawerActionsComponent {}

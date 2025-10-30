@@ -78,19 +78,11 @@ import { DhChargesFiltersComponent } from './filters.component';
         [columns]="columns"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
-        (rowClick)="navigation.navigate('id', $event.id)"
+        [loading]="dataSource.loading"
+        (rowClick)="navigation.navigate('id', $event.id, 'prices')"
       >
         <ng-container *wattTableCell="columns.type; let element">
           {{ 'charges.chargeTypes.' + element.chargeType | transloco }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.id; let element">
-          {{ element.id }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.name; let element">
-          {{ element.chargeName }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.owner; let element">
-          {{ element.chargeOwner }}
         </ng-container>
         <ng-container *wattTableCell="columns.status; let element">
           <dh-charge-status [status]="element.status" />
@@ -113,7 +105,7 @@ export class DhChargesComponent {
 
   columns: WattTableColumnDef<Charge> = {
     type: { accessor: 'chargeType' },
-    id: { accessor: 'id' },
+    id: { accessor: 'chargeId' },
     name: { accessor: 'chargeName' },
     owner: { accessor: 'chargeOwner' },
     status: { accessor: 'status' },

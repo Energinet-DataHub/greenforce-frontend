@@ -58,7 +58,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
   ],
   template: `
     <watt-data-table
-      *transloco="let t; read: 'wholesale.requests'"
+      *transloco="let t; prefix: 'wholesale.requests'"
       vater
       inset="ml"
       [enableSearch]="false"
@@ -81,7 +81,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
       </watt-button>
 
       <watt-table
-        *transloco="let resolveHeader; read: 'wholesale.requests.columns'"
+        *transloco="let resolveHeader; prefix: 'wholesale.requests.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [displayedColumns]="displayedColumns()"

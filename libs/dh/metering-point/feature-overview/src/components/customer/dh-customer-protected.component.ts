@@ -37,7 +37,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
   `,
   template: `
     <div
-      *transloco="let t; read: 'meteringPoint.overview.customer'"
+      *transloco="let t; prefix: 'meteringPoint.overview.customer'"
       vater-stack
       direction="row"
       gap="s"

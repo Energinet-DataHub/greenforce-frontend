@@ -34,7 +34,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
   selector: 'dh-calculations-grid-areas-dropdown',
   template: `
     <watt-dropdown
-      *transloco="let t; read: 'wholesale.calculations'"
+      *transloco="let t; prefix: 'wholesale.calculations'"
       [label]="t('create.gridArea.label')"
       [formControl]="control()"
       [options]="gridAreaOptions()"

@@ -14,7 +14,7 @@
 
 using System.Net.Mime;
 using Energinet.DataHub.EDI.B2CClient;
-using Energinet.DataHub.EDI.B2CClient.ArchivedMessages.V1;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Utilities;
 using Microsoft.AspNetCore.Mvc;
 

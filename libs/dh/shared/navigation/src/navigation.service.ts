@@ -72,7 +72,7 @@ export class DhNavigationService {
     }
 
     if (path === 'id') {
-      this.router.navigate([id], {
+      this.router.navigate([id, ...args], {
         queryParamsHandling: 'preserve',
         relativeTo: this.route,
       });

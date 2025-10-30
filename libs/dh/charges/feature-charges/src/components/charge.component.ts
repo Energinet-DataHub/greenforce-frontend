@@ -27,12 +27,13 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { GetChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 import { DhChargeStatusComponent } from './status.component';
 import { DhChargeActionsComponent } from './charge-actions.component';
+import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
 
 @Component({
   selector: 'dh-charge',
@@ -69,6 +70,7 @@ import { DhChargeActionsComponent } from './charge-actions.component';
     VaterSpacerComponent,
     WATT_LINK_TABS,
     WATT_BREADCRUMBS,
+    WATT_DESCRIPTION_LIST,
     DhEmDashFallbackPipe,
     DhChargeStatusComponent,
     DhChargeActionsComponent,
@@ -96,36 +98,33 @@ import { DhChargeActionsComponent } from './charge-actions.component';
             }
           </h2>
 
-          <vater-stack direction="row" gap="ml">
-            <span class="watt-text-s">
-              <span class="watt-label watt-space-inline-xs">{{ t('type') }}</span>
+          <watt-description-list variant="inline-flow">
+            <watt-description-list-item [label]="t('type')">
               @let chargeType = charge()?.chargeType;
               @if (chargeType) {
                 {{ 'charges.chargeTypes.' + chargeType | transloco }}
               }
-            </span>
-
-            <span direction="row" gap="s" class="watt-text-s">
-              <span class="watt-label watt-space-inline-xs">{{ t('owner') }}</span>
-
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('owner')">
               {{ charge()?.chargeOwnerName | dhEmDashFallback }}
-            </span>
-
-            <span direction="row" gap="s" class="watt-text-s">
-              <span class="watt-label watt-space-inline-xs">{{ t('resolution') }}</span>
-              {{ 'charges.resolutions.' + charge()?.resolution | transloco }}
-            </span>
-
-            <span direction="row" gap="s" class="watt-text-s">
-              <span class="watt-label watt-space-inline-xs">{{ t('vat') }}</span>
-              {{ 'charges.vatClassifications.' + charge()?.vatClassification | transloco }}
-            </span>
-
-            <span direction="row" gap="s" class="watt-text-s">
-              <span class="watt-label watt-space-inline-xs">{{ t('transparentInvoicing') }}</span>
-              {{ charge()?.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
-            </span>
-          </vater-stack>
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('resolution')">
+              @let resolution = charge()?.resolution;
+              @if (resolution) {
+                {{ 'charges.resolutions.' + resolution | transloco }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('vat')">
+              @let vatClassification = charge()?.vatClassification;
+              @if (vatClassification) {
+                {{ 'charges.vatClassifications.' + vatClassification | transloco }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('transparentInvoicing')">
+              @let transparentInvoicing = charge()?.transparentInvoicing;
+              {{ transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
+            </watt-description-list-item>
+          </watt-description-list>
         </div>
 
         <vater-spacer />
@@ -146,8 +145,8 @@ import { DhChargeActionsComponent } from './charge-actions.component';
 })
 export class DhChargeComponent {
   private readonly router = inject(Router);
-  query = query(GetChargeDocument, () => ({ variables: { id: this.id() } }));
-  charge = computed(() => this.query.data()?.charge);
+  query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
+  charge = computed(() => this.query.data()?.chargeById);
   chargeIdName = computed(() => `${this.charge()?.chargeId} • ${this.charge()?.chargeName}`);
   id = input.required<string>();
   getLink = (path: ChargesSubPaths) => getPath(path);

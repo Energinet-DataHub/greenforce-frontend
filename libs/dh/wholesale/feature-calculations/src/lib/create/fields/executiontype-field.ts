@@ -43,7 +43,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
   `,
   template: `
     <watt-field
-      *transloco="let t; read: 'wholesale.calculations'"
+      *transloco="let t; prefix: 'wholesale.calculations'"
       [chipMode]="true"
       [control]="control()"
       [label]="t('create.executionType')"

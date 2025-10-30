@@ -72,7 +72,7 @@ export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
   providers: [{ provide: WattDataIntlService, useClass: DhReportsMissingMeasurementsLogIntl }],
   template: `
     <watt-data-table
-      *transloco="let t; read: 'reports.missingMeasurementsLog'"
+      *transloco="let t; prefix: 'reports.missingMeasurementsLog'"
       vater
       inset="ml"
       [enableSearch]="false"
@@ -86,7 +86,7 @@ export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
       </watt-button>
 
       <watt-table
-        *transloco="let resolveHeader; read: 'reports.missingMeasurementsLog.columns'"
+        *transloco="let resolveHeader; prefix: 'reports.missingMeasurementsLog.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [resolveHeader]="resolveHeader"

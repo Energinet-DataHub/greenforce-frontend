@@ -41,7 +41,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
   ],
   template: `
     <watt-modal
-      *transloco="let t; read: 'devExamples.processes.edit'"
+      *transloco="let t; prefix: 'devExamples.processes.edit'"
       [title]="t('title')"
       #modal
       (closed)="navigation.navigate('details', id())"

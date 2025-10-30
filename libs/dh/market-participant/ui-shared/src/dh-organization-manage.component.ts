@@ -41,7 +41,7 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
     VaterStackComponent,
   ],
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.actor.create'">
       <vater-stack direction="row" gap="m" fill="horizontal">
         <watt-text-field [prefix]="'alternateEmail'" [formControl]="domain" [label]="t('domain')">
           @if (domain.hasError('pattern')) {

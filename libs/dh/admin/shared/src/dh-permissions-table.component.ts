@@ -45,7 +45,7 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
     [empty]="permissions().length === 0"
   >
     <watt-table
-      *transloco="let t; read: 'admin.userManagement.permissionsTable'"
+      *transloco="let t; prefix: 'admin.userManagement.permissionsTable'"
       description="permissions"
       [dataSource]="dataSource"
       [columns]="columns"

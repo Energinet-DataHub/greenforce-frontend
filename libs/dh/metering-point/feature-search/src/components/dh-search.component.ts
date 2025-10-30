@@ -62,7 +62,7 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
     }
   `,
   template: `
-    <vater-stack fill="vertical" *transloco="let t; read: 'meteringPoint.search'">
+    <vater-stack fill="vertical" *transloco="let t; prefix: 'meteringPoint.search'">
       <div class="search-wrapper watt-space-stack-xl">
         <watt-text-field
           maxLength="18"

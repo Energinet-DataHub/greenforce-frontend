@@ -30,7 +30,7 @@ import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-acce
 @Component({
   selector: 'dh-role-master-data',
   template: ` <watt-card
-    *transloco="let t; read: 'admin.userManagement.tabs.masterData'"
+    *transloco="let t; prefix: 'admin.userManagement.tabs.masterData'"
     variant="solid"
   >
     <watt-description-list variant="stack">

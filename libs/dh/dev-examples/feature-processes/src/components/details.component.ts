@@ -74,7 +74,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
     <watt-drawer
       autoOpen
       [key]="id()"
-      *transloco="let t; read: 'devExamples.processes'"
+      *transloco="let t; prefix: 'devExamples.processes'"
       (closed)="navigation.navigate('list')"
     >
       <watt-drawer-topbar>

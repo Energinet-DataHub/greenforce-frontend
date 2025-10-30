@@ -35,7 +35,7 @@ import { DhNotification } from './dh-notification';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
+    <ng-container *transloco="let t; prefix: 'notificationsCenter.notification'">
       <h5 class="watt-space-stack-xxs">{{ t(toastRef.data.notificationType + '.headline') }}</h5>
       <p>
         {{

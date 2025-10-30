@@ -16,10 +16,83 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { TranslocoDirective } from '@jsverse/transloco';
+
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+
+import {
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+  WattTableCellDirective,
+} from '@energinet-datahub/watt/table';
 
 @Component({
   selector: 'dh-price-information-history',
-  template: `price information history`,
+  imports: [
+    TranslocoDirective,
+    VaterUtilityDirective,
+
+    WattDatePipe,
+    WattTableComponent,
+    WattDataTableComponent,
+    WattTableCellDirective,
+  ],
+  template: `
+    <watt-data-table
+      vater
+      inset="ml"
+      variant="solid"
+      *transloco="let t; prefix: 'charges.charge.priceInformation.history'"
+      [enableSearch]="false"
+      [enablePaginator]="false"
+      [enableCount]="false"
+      [header]="false"
+      [error]="hasError()"
+      [ready]="ready()"
+    >
+      <watt-table
+        [columns]="columns"
+        [dataSource]="dataSource"
+        sortBy="timestamp"
+        [loading]="isLoading()"
+        sortDirection="desc"
+        [hideColumnHeaders]="true"
+        [sortClear]="false"
+      >
+        <ng-container
+          *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
+        >
+          {{ element.timestamp | wattDate: 'long' }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns.entry; header: t('table.columns.entry'); let element">
+          <span [innerHTML]="t('auditLogs.' + element.entry, element)"> </span>
+        </ng-container>
+      </watt-table>
+    </watt-data-table>
+  `,
 })
-export class DhPriceInformationHistoryComponent {}
+export class DhPriceInformationHistoryComponent {
+  hasError = signal(false);
+  isLoading = signal(true);
+  ready = signal(false);
+  dataSource = new WattTableDataSource<{ timestamp: string; entry: string }>([
+    {
+      timestamp: '2024-01-01T12:00:00Z',
+      entry: 'Sample entry',
+    },
+    {
+      timestamp: '2024-01-01T12:00:00Z',
+      entry: 'Sample entry',
+    },
+  ]);
+
+  columns: WattTableColumnDef<{ timestamp: string; entry: string }> = {
+    timestamp: { accessor: 'timestamp' },
+    entry: { accessor: 'entry' },
+  };
+}

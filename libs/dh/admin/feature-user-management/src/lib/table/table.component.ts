@@ -62,7 +62,7 @@ type Variables = Partial<GetUsersQueryVariables>;
     DhDownloadUsersCsvComponent,
   ],
   template: ` <watt-data-table
-    *transloco="let t; read: 'admin.userManagement.tabs.users'"
+    *transloco="let t; prefix: 'admin.userManagement.tabs.users'"
     vater
     inset="ml"
     [searchLabel]="t('search')"
@@ -90,7 +90,7 @@ type Variables = Partial<GetUsersQueryVariables>;
     </watt-data-filters>
 
     <watt-table
-      *transloco="let resolveHeader; read: 'admin.userManagement.tabs.users.columns'"
+      *transloco="let resolveHeader; prefix: 'admin.userManagement.tabs.users.columns'"
       [dataSource]="dataSource"
       [columns]="columns"
       [loading]="dataSource.loading"

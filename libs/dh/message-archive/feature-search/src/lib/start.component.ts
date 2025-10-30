@@ -46,7 +46,7 @@ import { DhDateTimeRangeField } from './datetime-range-field';
   template: `
     <watt-modal
       #modal
-      *transloco="let t; read: 'messageArchive.start'"
+      *transloco="let t; prefix: 'messageArchive.start'"
       size="small"
       [title]="t('title')"
       autoOpen

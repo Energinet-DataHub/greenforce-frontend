@@ -92,7 +92,7 @@ const maxDaysValidator =
   ],
   template: `
     <watt-modal
-      *transloco="let t; read: 'wholesale.requests.new'"
+      *transloco="let t; prefix: 'wholesale.requests.new'"
       #modal
       size="small"
       [title]="t('title')"

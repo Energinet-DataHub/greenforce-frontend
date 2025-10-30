@@ -396,7 +396,7 @@
           "owners": "Ejer",
           "status": "Status",
           "vat": "Moms",
-          "moreOptions": "Flere filtere"
+          "moreOptions": "Flere filtre"
         },
         "chargeStatus": {
           "AWAITING": "Afventer",
@@ -432,7 +432,25 @@
       "actions": {
         "actionsButton": "Handlinger"
       },
-      "breadcrumb": "Priser"
+      "breadcrumb": "Priser",
+      "priceInformation": {
+        "name": "Navn",
+        "description": "Beskrivelse",
+        "vatClassification": "Moms",
+        "transparentInvoicing": "Viderefakturering",
+        "current": "Aktuel",
+        "history": {
+          "table": {
+            "columns": {
+              "timestamp": "Tidsstempel",
+              "entry": "Ændring"
+            }
+          },
+          "auditLogs": {
+            "Sample entry": "Dette er en sample {{ entry }}"
+          }
+        }
+      }
     }
   },
   "meteringPoint": {

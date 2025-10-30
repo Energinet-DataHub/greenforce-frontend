@@ -67,7 +67,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
   template: `
     <dh-message-archive-search-details #details (close)="selection.set(undefined)" />
     <watt-data-table
-      *transloco="let t; read: 'messageArchive'"
+      *transloco="let t; prefix: 'messageArchive'"
       vater
       inset="ml"
       [error]="dataSource.error"
@@ -81,7 +81,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
           gap="s"
           tabindex="-1"
           [formGroup]="form"
-          *transloco="let t; read: 'messageArchive.filters'"
+          *transloco="let t; prefix: 'messageArchive.filters'"
         >
           <!-- period -->
           <watt-date-range-chip [formControl]="form.controls.created">
@@ -118,7 +118,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
         </form>
       </watt-data-filters>
       <watt-table
-        *transloco="let resolveHeader; read: 'messageArchive.columns'"
+        *transloco="let resolveHeader; prefix: 'messageArchive.columns'"
         #table
         description="Search result"
         [dataSource]="dataSource"

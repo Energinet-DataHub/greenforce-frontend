@@ -59,7 +59,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
   ],
   template: `
     <watt-modal
-      *transloco="let t; read: 'admin.userManagement.editPermission'"
+      *transloco="let t; prefix: 'admin.userManagement.editPermission'"
       size="small"
       [title]="name()"
       (closed)="closeModal()"

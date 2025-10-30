@@ -70,7 +70,7 @@ import { dhCompanyNameMaxLength } from '../../../validators/dh-company-name-max-
       }
     `,
   ],
-  template: `<ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
+  template: `<ng-container *transloco="let t; prefix: 'marketParticipant.actor.create'">
     <vater-stack direction="row" justify="space-between" class="watt-space-stack-m">
       <h4>{{ t('newOrganization') }}</h4>
       <watt-button variant="text" (click)="toggleShowCreateNewOrganization.emit()">{{
