@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.EDI.B2CClient.Extensions.DependencyInjection;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.WebApi.Common;
@@ -24,7 +25,8 @@ public class MessageArchiveModule : IModule
 {
     public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration) =>
         services
-            .AddScoped<IMessageArchiveClient, MessageArchiveClient>()
+            .AddScoped<IArchivedMessageClient, ArchivedMessageClient>()
+            .AddScoped<IMeteringPointArchivedMessageClient, MeteringPointArchivedMessageClient>()
             .AddClient<IEdiB2CWebAppClient_V1>(
                 baseUrls => baseUrls.EdiB2CWebApiBaseUrl,
                 (baseUrl, client) => new EdiB2CWebAppClient_V1(baseUrl, client))

@@ -64,7 +64,7 @@ import {
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.accessToMeasurements'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.accessToMeasurements'">
       <watt-data-table [enableCount]="false" variant="solid" [autoSize]="true">
         <h3>{{ t('modalTitle') }}</h3>
 

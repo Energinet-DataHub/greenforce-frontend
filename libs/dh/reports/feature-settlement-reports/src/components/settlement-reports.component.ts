@@ -60,7 +60,7 @@ import { DhNewReportRequest } from './new-report-request.component';
     }
   `,
   template: `
-    <watt-card vater inset="ml" *transloco="let t; read: 'reports.settlementReports'">
+    <watt-card vater inset="ml" *transloco="let t; prefix: 'reports.settlementReports'">
       @if (isLoading()) {
         <vater-stack fill="vertical" justify="center">
           <watt-spinner />

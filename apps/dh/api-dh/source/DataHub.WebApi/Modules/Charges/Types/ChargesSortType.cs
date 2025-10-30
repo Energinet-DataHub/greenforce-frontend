@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
-using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Organization.Types;
 
-public sealed class ChargesSortType : SortInputType<ChargeDto>
+public sealed class ChargesSortType : SortInputType<ChargeInformationDto>
 {
-    protected override void Configure(ISortInputTypeDescriptor<ChargeDto> descriptor)
+    protected override void Configure(ISortInputTypeDescriptor<ChargeInformationDto> descriptor)
     {
         descriptor.Name("ChargesSortInput");
         descriptor.BindFieldsExplicitly();

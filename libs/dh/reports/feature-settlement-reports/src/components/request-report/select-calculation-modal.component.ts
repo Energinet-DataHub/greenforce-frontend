@@ -45,7 +45,7 @@ import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation } fr
   `,
   template: `
     <watt-modal
-      *transloco="let t; read: 'reports.settlementReports.selectCalculationModal'"
+      *transloco="let t; prefix: 'reports.settlementReports.selectCalculationModal'"
       [title]="t('title')"
       #modal
     >

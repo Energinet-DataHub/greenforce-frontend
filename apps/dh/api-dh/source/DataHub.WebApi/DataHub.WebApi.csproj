@@ -48,13 +48,19 @@ limitations under the License.
     <Exec EnvironmentVariables="GENERATOR_TOOL_BUILD=Yes" Command="dotnet swagger tofile --output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />
   </Target>
 
+  <Target Name="ExportSchema" AfterTargets="Build">
+    <Exec EnvironmentVariables="GENERATOR_TOOL_BUILD=Yes" Command="dotnet exec $(OutputPath)$(AssemblyName).dll schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql" />
+  </Target>
+
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
+    <PackageReference Include="Energinet.DataHub.Charges.Client" Version="1.2.0" />
+    <PackageReference Include="Energinet.DataHub.EDI.B2CClient" Version="0.3.0" />
     <PackageReference Include="Energinet.DataHub.MarketParticipant.Authorization" Version="3.0.0" />
-    <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="11.1.1" />
+    <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="11.3.0" />
     <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="7.6.0" />
     <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="2.15.0" />
-    <PackageReference Include="Energinet.DataHub.Reports.Abstractions" Version="5.1.0" /> 
+    <PackageReference Include="Energinet.DataHub.Reports.Abstractions" Version="5.1.0" />
     <PackageReference Include="Energinet.DataHub.Reports.Client" Version="5.1.0" />
     <PackageReference Include="Energinet.DataHub.RevisionLog.Integration" Version="1.2.0" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.3" />

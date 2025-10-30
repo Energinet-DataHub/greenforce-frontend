@@ -18,10 +18,12 @@ query GetCharges(
     nodes {
       id
       chargeName
+      chargeId
       validFromDateTime
       validToDateTime
       chargeType
       chargeOwner
+      resolution # todo: sync fields via fragment with get-charge to fetch byId from cache only
       status
     }
     pageInfo {

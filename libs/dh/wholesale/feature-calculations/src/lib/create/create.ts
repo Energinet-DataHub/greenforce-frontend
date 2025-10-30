@@ -51,7 +51,7 @@ import { DhCreateCalculationService } from './create-service';
       #modal
       autoOpen
       size="small"
-      *transloco="let t; read: 'wholesale.calculations.create'"
+      *transloco="let t; prefix: 'wholesale.calculations.create'"
       [title]="confirmCalculation() ? t('warning.title.' + form.calculationType()) : t('title')"
       (closed)="navigate('..')"
     >
@@ -63,7 +63,7 @@ import { DhCreateCalculationService } from './create-service';
       />
 
       @if (confirmCalculation()) {
-        <vater-flex offset="ml" *transloco="let t; read: 'wholesale.calculations.create.warning'">
+        <vater-flex offset="ml" *transloco="let t; prefix: 'wholesale.calculations.create.warning'">
           <watt-validation-message
             type="warning"
             icon="warning"

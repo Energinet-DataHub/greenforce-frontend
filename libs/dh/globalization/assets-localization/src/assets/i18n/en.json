@@ -364,13 +364,24 @@
     "6": "Yearly settlement (6)"
   },
   "charges": {
+    "chargeTypes": {
+      "SUBSCRIPTION": "Subscription",
+      "FEE": "Fee",
+      "TARIFF": "Tariff"
+    },
+    "resolutions": {
+      "Daily": "Daily",
+      "QuarterHourly": "Quarterly",
+      "Hourly": "Hourly",
+      "Monthly": "Monthly",
+      "Unknown": "Unknown"
+    },
+    "vatClassifications": {
+      "NO_VAT": "Without VAT",
+      "VAT25": "With VAT"
+    },
     "charges": {
       "topBarTitle": "Prices",
-      "chargeTypes": {
-        "D01": "Subscription",
-        "D02": "Fee",
-        "D03": "Tariff"
-      },
       "table": {
         "columns": {
           "id": "ID",
@@ -403,6 +414,40 @@
           "predictablePriceGroupName": "Predictable Price",
           "withPredictablePrice": "Predictable price",
           "withoutPredictablePrice": "Non-predictable price"
+        }
+      }
+    },
+    "charge": {
+      "type": "Type",
+      "owner": "Owner",
+      "resolution": "Resolution",
+      "transparentInvoicing": "Transparent Invoicing",
+      "vat": "VAT",
+      "tabs": {
+        "pricesLabel": "Prices",
+        "informationLabel": "Information",
+        "historyLabel": "History"
+      },
+      "actions": {
+        "actionsButton": "Actions"
+      },
+      "breadcrumb": "Prices",
+      "priceInformation": {
+        "name": "Name",
+        "description": "Description",
+        "vatClassification": "VAT",
+        "transparentInvoicing": "Transparent Invoicing",
+        "current": "Current",
+        "history": {
+          "table": {
+            "columns": {
+              "timestamp": "Timestamp",
+              "entry": "Change"
+            }
+          },
+          "auditLogs": {
+            "Sample entry": "This is a sample {{ entry }}"
+          }
         }
       }
     }
@@ -620,7 +665,6 @@
         "month": "Month",
         "year": "Year"
       },
-      "qualityNotAvailableInThisResolution": "Quality not available in this resolution",
       "tooltip": "≈ Indicates if there are estimated values",
       "missingValues": "Missing values",
       "filters": {
@@ -716,7 +760,9 @@
           "cprError": {
             "containsLetters": "Can only contain letters",
             "containsDash": "Can not contain dashes",
-            "invalidCprLength": "Must be 10 digits long"
+            "invalidCprLength": "Must be 10 digits long",
+            "invalidDate": "Invalid date",
+            "allOnes": "Can not be used"
           },
           "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
         },

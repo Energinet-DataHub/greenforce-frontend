@@ -27,7 +27,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   selector: 'dh-settlements',
   imports: [TranslocoDirective, WATT_LINK_TABS, DhPermissionRequiredDirective],
   template: `
-    <watt-link-tabs *transloco="let t; read: 'reports.tabs'">
+    <watt-link-tabs *transloco="let t; prefix: 'reports.tabs'">
       <watt-link-tab
         *dhPermissionRequired="['settlement-reports:manage']"
         [label]="t('settlementReports')"

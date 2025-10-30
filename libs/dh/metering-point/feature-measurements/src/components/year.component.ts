@@ -93,9 +93,8 @@ import { persistDateFilter } from '../utils/persist-date-filter';
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
-      *transloco="let t; read: 'meteringPoint.measurements'"
     >
-      <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
+      <watt-data-filters>
         <form [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
             <watt-year-field [formControl]="form.controls.year" canStepThroughYears />
@@ -103,7 +102,7 @@ import { persistDateFilter } from '../utils/persist-date-filter';
         </form>
       </watt-data-filters>
       <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
+        *transloco="let resolveHeader; prefix: 'meteringPoint.measurements.columns'"
         [resolveHeader]="resolveHeader"
         [columns]="columns"
         [stickyFooter]="true"
@@ -118,6 +117,9 @@ import { persistDateFilter } from '../utils/persist-date-filter';
         </ng-container>
 
         <ng-container *wattTableCell="columns.currentQuantity; let element">
+          @if (element.qualities.includes(Quality.Estimated)) {
+            ≈
+          }
           {{ formatNumber(element.quantity) }}
         </ng-container>
       </watt-table>
@@ -170,7 +172,7 @@ export class DhMeasurementsYearComponent {
     currentQuantity: {
       accessor: 'quantity',
       align: 'right',
-      tooltip: `${this.transloco.translate('meteringPoint.measurements.qualityNotAvailableInThisResolution')}`,
+      tooltip: `${this.transloco.translate('meteringPoint.measurements.tooltip')}`,
       footer: { value: this.sum },
     },
     filler: {

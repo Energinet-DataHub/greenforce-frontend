@@ -57,11 +57,22 @@ export class DhNavigationService {
       });
   }
 
-  navigate(path: 'details' | 'edit' | 'create' | 'list', id?: string | number, ...args: string[]) {
+  navigate(
+    path: 'details' | 'edit' | 'create' | 'list' | 'id',
+    id?: string | number,
+    ...args: string[]
+  ) {
     this._id.set(id?.toString());
 
     if (path === 'edit') {
       this.router.navigate(['details', id, 'edit'], {
+        queryParamsHandling: 'preserve',
+        relativeTo: this.route,
+      });
+    }
+
+    if (path === 'id') {
+      this.router.navigate([id, ...args], {
         queryParamsHandling: 'preserve',
         relativeTo: this.route,
       });

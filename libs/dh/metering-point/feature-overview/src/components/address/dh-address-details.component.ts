@@ -57,7 +57,7 @@ import { DhAddressComponent } from './dh-address.component';
   `,
   template: `
     <watt-modal
-      *transloco="let t; read: 'meteringPoint.overview.addressDetails'"
+      *transloco="let t; prefix: 'meteringPoint.overview.addressDetails'"
       [title]="t('title')"
       #modal
     >

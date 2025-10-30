@@ -44,7 +44,7 @@ import { DhCustomerContactComponent } from './dh-customer-contact.component';
   `,
   template: `
     <watt-modal
-      *transloco="let t; read: 'meteringPoint.overview.customerContactDetails'"
+      *transloco="let t; prefix: 'meteringPoint.overview.customerContactDetails'"
       [title]="t('title')"
       size="large"
       #modal

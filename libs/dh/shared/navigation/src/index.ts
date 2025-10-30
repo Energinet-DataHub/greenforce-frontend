@@ -17,4 +17,3 @@
  */
 //#endregion
 export { DhNavigationService } from './navigation.service';
-export { DhBreadcrumbService } from './breadcrumb.service';

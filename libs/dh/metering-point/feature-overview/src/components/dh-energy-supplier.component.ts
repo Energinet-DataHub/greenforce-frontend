@@ -46,7 +46,7 @@ import type { EnergySupplier } from '../types';
     }
   `,
   template: `
-    <watt-card *transloco="let t; read: 'meteringPoint.overview.energySupplier'">
+    <watt-card *transloco="let t; prefix: 'meteringPoint.overview.energySupplier'">
       <watt-card-title>
         <h3>{{ t('title') }}</h3>
       </watt-card-title>

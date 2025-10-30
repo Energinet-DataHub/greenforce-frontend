@@ -55,7 +55,7 @@ import { persistDateFilter } from '../utils/persist-date-filter';
         direction="row"
         gap="ml"
         align="baseline"
-        *transloco="let t; read: 'meteringPoint.measurements.filters'"
+        *transloco="let t; prefix: 'meteringPoint.measurements.filters'"
       >
         <watt-datepicker [formControl]="form.controls.date" canStepThroughDays />
         <watt-slide-toggle [formControl]="form.controls.showHistoricValues">

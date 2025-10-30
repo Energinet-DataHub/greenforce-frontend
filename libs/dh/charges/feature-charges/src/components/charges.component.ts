@@ -19,7 +19,7 @@
 import { RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
   WattTableComponent,
@@ -48,6 +48,7 @@ import { DhChargesFiltersComponent } from './filters.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterOutlet,
+    TranslocoPipe,
     TranslocoDirective,
     WattTableComponent,
     WattTableCellDirective,
@@ -77,19 +78,11 @@ import { DhChargesFiltersComponent } from './filters.component';
         [columns]="columns"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
-        (rowClick)="navigation.navigate('details', $event.id)"
+        [loading]="dataSource.loading"
+        (rowClick)="navigation.navigate('id', $event.id, 'prices')"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ element.chargeType }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.id; let element">
-          {{ element.id }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.name; let element">
-          {{ element.chargeName }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.owner; let element">
-          {{ element.chargeOwner }}
+          {{ 'charges.chargeTypes.' + element.chargeType | transloco }}
         </ng-container>
         <ng-container *wattTableCell="columns.status; let element">
           <dh-charge-status [status]="element.status" />
@@ -112,7 +105,7 @@ export class DhChargesComponent {
 
   columns: WattTableColumnDef<Charge> = {
     type: { accessor: 'chargeType' },
-    id: { accessor: 'id' },
+    id: { accessor: 'chargeId' },
     name: { accessor: 'chargeName' },
     owner: { accessor: 'chargeOwner' },
     status: { accessor: 'status' },

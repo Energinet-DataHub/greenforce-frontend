@@ -60,7 +60,7 @@ import { DhMeteringPointIdsOverview } from './overview/metering-point-ids-overvi
     DhMeteringPointIdsOverview,
   ],
   template: `
-    <vater-flex *transloco="let t; read: 'marketParticipant.accessToMeasurements'">
+    <vater-flex *transloco="let t; prefix: 'marketParticipant.accessToMeasurements'">
       @if (isLoading()) {
         <vater-stack direction="row" justify="center">
           <watt-spinner />

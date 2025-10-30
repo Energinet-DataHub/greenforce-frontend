@@ -53,7 +53,7 @@ import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
   template: `<vater-stack
     align="start"
     fill="horizontal"
-    *transloco="let t; read: 'marketParticipant.actor.create'"
+    *transloco="let t; prefix: 'marketParticipant.actor.create'"
   >
     <watt-dropdown
       [showResetOption]="false"

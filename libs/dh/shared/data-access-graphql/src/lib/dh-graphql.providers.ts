@@ -127,7 +127,7 @@ export const graphQLProvider = provideApollo(() => {
         MessageDelegationType: {
           keyFields: ['id', 'periodId'],
         },
-        ActorUserRole: {
+        MarketParticipantUserRole: {
           keyFields: false,
         },
         Calculation: {
@@ -138,6 +138,12 @@ export const graphQLProvider = provideApollo(() => {
             calculationById(_, { args, toReference }) {
               return toReference({
                 __typename: 'Calculation',
+                id: args?.id,
+              });
+            },
+            chargeById(_, { args, toReference }) {
+              return toReference({
+                __typename: 'ChargeInformationDto',
                 id: args?.id,
               });
             },

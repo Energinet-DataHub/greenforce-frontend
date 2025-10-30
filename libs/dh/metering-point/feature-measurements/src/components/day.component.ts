@@ -54,13 +54,13 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
-      *transloco="let t; read: 'meteringPoint.measurements'"
+      *transloco="let t; prefix: 'meteringPoint.measurements'"
     >
       <watt-data-filters>
         <dh-measurements-day-filter (filter)="fetch($event)" />
       </watt-data-filters>
       <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
+        *transloco="let resolveHeader; prefix: 'meteringPoint.measurements.columns'"
         [resolveHeader]="resolveHeader"
         [columns]="columns()"
         [dataSource]="dataSource"

@@ -134,6 +134,10 @@ import { MoveInCustomerDetailsFormType } from '../types';
                 {{ t('cprError.containsDash') }}
               } @else if (privateCustomer.controls.cpr1.hasError('invalidCprLength')) {
                 {{ t('cprError.invalidCprLength') }}
+              } @else if (privateCustomer.controls.cpr1.hasError('invalidDate')) {
+                {{ t('cprError.invalidDate') }}
+              } @else if (privateCustomer.controls.cpr1.hasError('allOnes')) {
+                {{ t('cprError.allOnes') }}
               }
             </watt-field-error>
           </watt-text-field>
@@ -157,6 +161,10 @@ import { MoveInCustomerDetailsFormType } from '../types';
                 {{ t('cprError.containsDash') }}
               } @else if (privateCustomer.controls.cpr2.hasError('invalidCprLength')) {
                 {{ t('cprError.invalidCprLength') }}
+              } @else if (privateCustomer.controls.cpr2.hasError('invalidDate')) {
+                {{ t('cprError.invalidDate') }}
+              } @else if (privateCustomer.controls.cpr2.hasError('allOnes')) {
+                {{ t('cprError.allOnes') }}
               }
             </watt-field-error>
           </watt-text-field>

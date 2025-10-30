@@ -31,4 +31,9 @@ export const chargeRoutes: Routes = [
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
     loadComponent: () => import('./components/charges.component').then((m) => m.DhChargesComponent),
   },
+  {
+    path: ':id',
+    loadComponent: () => import('./components/charge.component').then((m) => m.DhChargeComponent),
+    loadChildren: () => import('@energinet-datahub/dh/charges/feature-prices'),
+  },
 ];
