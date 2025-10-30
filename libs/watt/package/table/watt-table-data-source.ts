@@ -31,7 +31,7 @@ export interface IWattTableDataSource<T> extends DataSource<T> {
 }
 
 /**
- * @see https://material.angular.io/components/table/api#MatTableDataSource
+ * @see https://material.angular.dev/components/table/api#MatTableDataSource
  */
 export class WattTableDataSource<T>
   extends MatTableDataSource<T>
