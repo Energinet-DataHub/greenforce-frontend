@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Threading.Tasks;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using HotChocolate.Authorization;
+using HotChocolate.Types.Pagination;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -27,24 +28,45 @@ public static partial class ChargesNode
     public static ChargeStatus Status([Parent] ChargeInformationDto charge) => charge.GetStatus();
 
     [Query]
-    [UsePaging]
-    [UseSorting]
+    [UseOffsetPaging]
     [Authorize(Roles = new[] { "charges:view" })]
-    public static async Task<IEnumerable<ChargeInformationDto>> GetChargesAsync(
+    public static async Task<CollectionSegment<ChargeInformationDto>> GetChargesAsync(
+        int skip,
+        int take,
+        string? filter,
+        ChargeSortInput? order,
+        GetChargesQuery? query,
         [Service] IChargesClient client,
-        CancellationToken cancellationToken,
-        GetChargesQuery? query)
+        CancellationToken cancellationToken)
     {
-        if (query == null)
-        {
-            return Enumerable.Empty<ChargeInformationDto>();
-        }
+        var (sortColumnName, sortDirection) =
+            order switch
+            {
+                { FromDateTime: not null } => (ChargeSeriesSortColumnName.FromDateTime, order.FromDateTime.Value),
+                { Price: not null } => (ChargeSeriesSortColumnName.Price, order.Price.Value),
+                _ => (ChargeSeriesSortColumnName.FromDateTime, SortDirection.Desc),
+            };
 
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(string.Empty, query.ActorNumbers?.ToList() ?? new List<Guid>(), query.ChargeTypes?.ToList() ?? new List<ChargeType>()),
+            new ChargeInformationSearchCriteriaDto(
+                filter ?? string.Empty,
+                query?.ActorNumbers?.ToList() ?? [],
+                query?.ChargeTypes?.ToList() ?? [],
+                sortDirection == SortDirection.Desc,
+                sortColumnName,
+                skip,
+                take),
             cancellationToken);
 
-        return result.IsSuccess ? result.Value! : Enumerable.Empty<ChargeInformationDto>();
+        if (result.IsSuccess)
+        {
+            return new CollectionSegment<ChargeInformationDto>(
+                result.Value!.ToList(),
+                new(true, true),
+                9999);
+        }
+
+        return new CollectionSegment<ChargeInformationDto>([], new(false, false), 0);
     }
 
     [Query]
@@ -55,7 +77,7 @@ public static partial class ChargesNode
         Guid id)
     {
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(id.ToString(), new List<Guid>(), new List<ChargeType>()),
+            new ChargeInformationSearchCriteriaDto(id.ToString(), [], [], true, ChargeSeriesSortColumnName.FromDateTime, 0, 1),
             cancellationToken);
 
         return result.Value?.FirstOrDefault();

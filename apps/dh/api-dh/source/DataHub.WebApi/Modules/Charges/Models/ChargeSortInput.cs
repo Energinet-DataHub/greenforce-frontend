@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record GetChargesQuery(ChargeType[]? ChargeTypes, string[]? ActorNumbers, ChargeStatus[]? Statuses, string[]? MoreOptions);
+public record ChargeSortInput(
+    SortDirection? FromDateTime,
+    SortDirection? Price);
