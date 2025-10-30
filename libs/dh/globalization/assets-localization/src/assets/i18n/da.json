@@ -438,7 +438,18 @@
         "description": "Beskrivelse",
         "vatClassification": "Moms",
         "transparentInvoicing": "Viderefakturering",
-        "current": "Aktuel"
+        "current": "Aktuel",
+        "history": {
+          "table": {
+            "columns": {
+              "timestamp": "Tidsstempel",
+              "entry": "Ændring"
+            }
+          },
+          "auditLogs": {
+            "Sample entry": "Dette er en sample {{ entry }}"
+          }
+        }
       }
     }
   },

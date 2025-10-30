@@ -122,9 +122,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
             </watt-description-list-item>
             <watt-description-list-item [label]="t('transparentInvoicing')">
               @let transparentInvoicing = charge()?.transparentInvoicing;
-              @if (transparentInvoicing) {
-                {{ transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
-              }
+              {{ transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
             </watt-description-list-item>
           </watt-description-list>
         </div>
