@@ -16,4 +16,4 @@ using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record GetChargesQuery(ChargeType[]? ChargeTypes, Guid[]? ActorNumbers, ChargeStatus[]? Statuses, string[]? MoreOptions);
+public record GetChargesQuery(ChargeType[]? ChargeTypes, string[]? ActorNumbers, ChargeStatus[]? Statuses, string[]? MoreOptions);

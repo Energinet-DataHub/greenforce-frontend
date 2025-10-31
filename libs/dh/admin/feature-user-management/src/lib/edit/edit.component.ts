@@ -45,13 +45,13 @@ import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattPhoneFieldComponent } from '@energinet/watt/phone-field';
+import { WattModalComponent, WATT_MODAL } from '@energinet/watt/modal';
+import { WattTabComponent, WattTabsComponent } from '@energinet/watt/tabs';
+import { VaterFlexComponent } from '@energinet/watt/vater';
 import { GraphQLFormattedError } from 'graphql';
 
 @Component({

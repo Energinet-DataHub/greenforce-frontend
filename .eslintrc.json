@@ -11,14 +11,14 @@
           "error",
           {
             "name": "dayjs",
-            "message": "Please import 'dayjs' from '@energinet-datahub/watt/date' instead."
+            "message": "Please import 'dayjs' from '@energinet/watt/date' instead."
           }
         ],
         "@nx/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,
-            "allow": ["@energinet-datahub/watt"],
+            "allow": ["@energinet/watt"],
             "depConstraints": [
               {
                 "sourceTag": "type:app",

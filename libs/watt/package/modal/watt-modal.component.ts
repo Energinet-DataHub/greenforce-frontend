@@ -47,7 +47,7 @@ export type WattModalSize = 'small' | 'medium' | 'large';
  * a modal window that appears in front of the entire content.
  *
  * Usage:
- * `import { WATT_MODAL } from '@energinet-datahub/watt/modal';`
+ * `import { WATT_MODAL } from '@energinet/watt/modal';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

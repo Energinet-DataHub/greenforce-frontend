@@ -26,17 +26,17 @@ import {
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+} from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
-import { WattDropZone } from '@energinet-datahub/watt/dropzone';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { WattFileField } from '@energinet-datahub/watt/file-field';
+} from '@energinet/watt/description-list';
+import { WattDropZone } from '@energinet/watt/dropzone';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
+import { WattFileField } from '@energinet/watt/file-field';
 
 import {
   GetMeteringPointUploadMetadataByIdDocument,

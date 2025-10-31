@@ -29,7 +29,7 @@ import {
   DhMarketRoleRequiredDirective,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
+import { WattNavListComponent, WattNavListItemComponent } from '@energinet/watt/shell';
 import {
   WholesaleSubPaths,
   combinePaths,

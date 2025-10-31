@@ -21,8 +21,8 @@ import {
   VaterFlexComponent,
   VaterStackComponent,
   VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+} from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_TABLE, WattTableColumnDef } from '../watt-table.component';
 import { WattTableDataSource } from '../watt-table-data-source';
 import { StorybookPeriodicElements } from './storybook-periodic-elements';

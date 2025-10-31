@@ -19,8 +19,8 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { dayjs } from '@energinet-datahub/watt/date';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { dayjs } from '@energinet/watt/date';
+import { WattBadgeComponent } from '@energinet/watt/badge';
 import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 

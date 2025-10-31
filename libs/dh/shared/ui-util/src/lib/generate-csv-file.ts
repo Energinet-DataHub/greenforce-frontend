@@ -20,9 +20,9 @@ import { inject, Signal } from '@angular/core';
 
 import { translate } from '@jsverse/transloco';
 import { OperationVariables } from '@apollo/client/core';
-import { wattFormatDate } from '@energinet-datahub/watt/date';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { wattFormatDate } from '@energinet/watt/date';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattTableDataSource } from '@energinet/watt/table';
 
 import { LazyQueryResult } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';

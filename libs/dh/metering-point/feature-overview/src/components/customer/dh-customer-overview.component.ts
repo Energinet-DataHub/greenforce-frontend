@@ -19,9 +19,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattModalService } from '@energinet/watt/modal';
+import { VaterFlexComponent } from '@energinet/watt/vater';
 
 import { CustomerRelationType, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';

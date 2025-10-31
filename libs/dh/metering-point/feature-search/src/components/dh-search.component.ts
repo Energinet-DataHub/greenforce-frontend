@@ -22,12 +22,12 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';

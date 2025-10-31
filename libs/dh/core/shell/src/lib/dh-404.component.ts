@@ -20,9 +20,9 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattEmptyStateNotFoundComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattEmptyStateNotFoundComponent } from '@energinet/watt/empty-state';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 @Component({
@@ -36,7 +36,7 @@ import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-applica
     VaterStackComponent,
   ],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     watt-empty-state-not-found {
       color: var(--watt-color-primary);

@@ -19,7 +19,7 @@
 import { inject, type Injector, runInInjectionContext } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService } from '@energinet/watt/toast';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { AddTokenToDownloadUrlDocument } from '@energinet-datahub/dh/shared/domain/graphql';

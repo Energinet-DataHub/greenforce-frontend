@@ -18,15 +18,15 @@
 //#endregion
 import { Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
-import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared'; // TODO: Move to shared
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhMeteringPointProcessOverviewSteps } from './steps';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet/watt/date';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',

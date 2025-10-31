@@ -21,10 +21,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
-import { WattFieldErrorComponent, WattFieldWarningComponent } from '@energinet-datahub/watt/field';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WattDatePipe, dayjs } from '@energinet/watt/date';
+import { WattFieldErrorComponent, WattFieldWarningComponent } from '@energinet/watt/field';
+import { WattValidationMessageComponent } from '@energinet/watt/validation-message';
 
 import {
   StartCalculationType,

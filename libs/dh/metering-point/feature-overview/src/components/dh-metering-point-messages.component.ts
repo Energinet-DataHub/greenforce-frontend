@@ -22,12 +22,12 @@ import { filter } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import { dayjs, WattDatePipe } from '@energinet/watt/date';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { ExtractNodeType, query } from '@energinet-datahub/dh/shared/util-apollo';

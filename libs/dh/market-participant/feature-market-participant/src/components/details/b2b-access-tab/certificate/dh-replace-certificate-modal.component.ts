@@ -19,8 +19,8 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 import { DhGenerateClientSecretComponent } from '../client-secret/dh-generate-client-secret.component';
 

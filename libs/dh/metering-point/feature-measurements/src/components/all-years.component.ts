@@ -21,9 +21,9 @@ import { Component, computed, effect, inject, input, LOCALE_ID } from '@angular/
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { dayjs, WattSupportedLocales } from '@energinet/watt/date';
+import { WattDataTableComponent } from '@energinet/watt/data';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import {
   Quality,

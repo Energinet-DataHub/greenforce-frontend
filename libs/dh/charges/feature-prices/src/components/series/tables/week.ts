@@ -18,9 +18,9 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 import { ChargeSeries, GetChargeSeriesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 

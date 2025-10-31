@@ -21,7 +21,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { InitiateMitIdSignupDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 

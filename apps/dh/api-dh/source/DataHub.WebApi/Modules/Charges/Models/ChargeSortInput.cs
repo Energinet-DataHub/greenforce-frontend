@@ -11,36 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-@use "@energinet/watt/utils" as watt;
 
-watt-breadcrumbs {
-  display: block;
-  @include watt.typography-watt-text-s;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
 
-  nav,
-  .watt-breadcrumb {
-    align-items: center;
-    display: flex;
-  }
+namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-  .watt-breadcrumb {
-    cursor: default;
-
-    &.interactive {
-      cursor: pointer;
-    }
-
-    &:not(:last-child) {
-      color: var(--watt-color-primary);
-      text-decoration: none;
-    }
-  }
-
-  mat-icon {
-    &:hover {
-      color: var(--watt-color-primary-dark);
-    }
-
-    color: var(--watt-color-neutral-black);
-  }
-}
+public record ChargeSortInput(
+    SortDirection? FromDateTime,
+    SortDirection? Price);

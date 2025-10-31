@@ -17,7 +17,7 @@
  */
 //#endregion
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/date';
 
 export function dhCprValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {

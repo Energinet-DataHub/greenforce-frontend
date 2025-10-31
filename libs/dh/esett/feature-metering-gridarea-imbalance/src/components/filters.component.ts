@@ -32,12 +32,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { dayjs, WattRange } from '@energinet-datahub/watt/date';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { dayjs, WattRange } from '@energinet/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattQueryParamsDirective } from '@energinet/watt/query-params';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
 import {
   GetGridAreasDocument,

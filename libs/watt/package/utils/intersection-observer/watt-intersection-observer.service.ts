@@ -24,7 +24,7 @@ import { filter, finalize, Subject } from 'rxjs';
  * the viewport.
  *
  * Usage:
- * `import { WattIntersectionObserverService } from '@energinet-datahub/watt/intersection-observer';`
+ * `import { WattIntersectionObserverService } from '@energinet/watt/intersection-observer';`
  */
 @Injectable({ providedIn: 'root' })
 export class WattIntersectionObserverService {

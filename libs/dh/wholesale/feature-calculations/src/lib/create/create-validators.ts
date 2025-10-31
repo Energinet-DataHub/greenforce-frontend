@@ -25,7 +25,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/date';
 
 export type ResolutionTransitionError = { resolutionTransition: string };
 export type ExistingCalculationError = {

@@ -1,8 +1,8 @@
 ﻿{
   "data": {
     "charges": {
-      "totalCount": 2,
-      "nodes": [
+      "totalCount": 9999,
+      "items": [
         {
           "status": "CLOSED"
         },

@@ -25,11 +25,11 @@ import {
   WattTableComponent,
   WattTableDataSource,
   WattTableCellDirective,
-} from '@energinet-datahub/watt/table';
+} from '@energinet/watt/table';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattDataTableComponent } from '@energinet/watt/data';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
 
 import {
   GetUserRoleAuditLogsDocument,

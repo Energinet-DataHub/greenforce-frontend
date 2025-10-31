@@ -24,11 +24,11 @@ import {
   VaterStackComponent,
   VaterSpacerComponent,
   VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
+} from '@energinet/watt/vater';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WATT_LINK_TABS } from '@energinet/watt/tabs';
+import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
 
 import {
   DhActorStorage,
@@ -51,7 +51,7 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.component';
-import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
 @Component({
   selector: 'dh-metering-point',
@@ -78,7 +78,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list'
     DhMeteringPointActionsComponent,
   ],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     :host {
       display: block;

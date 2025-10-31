@@ -26,11 +26,11 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattPhoneFieldComponent } from '@energinet/watt/phone-field';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
 
 import { DhMarketParticipantForm } from '@energinet-datahub/dh/market-participant/domain';
 import { dhMarketParticipantNameMaxLength } from '../../../validators/dh-market-participant-name-max-length.validator';

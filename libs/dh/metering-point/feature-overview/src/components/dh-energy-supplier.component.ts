@@ -19,12 +19,12 @@
 import { Component, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet/watt/card';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+} from '@energinet/watt/description-list';
+import { WattDatePipe } from '@energinet/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import type { EnergySupplier } from '../types';

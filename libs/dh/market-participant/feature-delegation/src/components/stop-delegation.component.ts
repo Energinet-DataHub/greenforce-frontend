@@ -28,14 +28,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { distinctUntilKeyChanged } from 'rxjs';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
 
-import { dayjs } from '@energinet-datahub/watt/date';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { dayjs } from '@energinet/watt/date';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattRadioComponent } from '@energinet/watt/radio';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 
 import {
   StopDelegationsDocument,

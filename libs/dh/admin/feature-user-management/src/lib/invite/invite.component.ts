@@ -33,15 +33,15 @@ import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angula
 import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { GraphQLFormattedError } from 'graphql';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattPhoneFieldComponent } from '@energinet/watt/phone-field';
+import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
+import { WATT_STEPPER } from '@energinet/watt/stepper';
+import { WattValidationMessageComponent } from '@energinet/watt/validation-message';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
 import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
 import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';

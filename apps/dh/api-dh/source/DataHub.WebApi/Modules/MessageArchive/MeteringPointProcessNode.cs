@@ -74,7 +74,7 @@ public static partial class MeteringPointProcessNode
                 ActorNumber: "905495045940594",
                 ActorRole: "GridAccessProvider",
                 State: ProcessState.Pending,
-                MessageId: "0199f200-c5a0-7313-a8bd-f6d5f66bb470"),
+                MessageId: "a7d4c835d67c4d0d88345e27d33c538b"), // MessageId which exists on test001
         ];
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)

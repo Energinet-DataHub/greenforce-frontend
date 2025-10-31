@@ -19,11 +19,11 @@
 import { Component, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattCardComponent } from '@energinet/watt/card';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
+} from '@energinet/watt/description-list';
 
 import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
 

@@ -19,11 +19,11 @@
 import { Component, effect, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.componen';

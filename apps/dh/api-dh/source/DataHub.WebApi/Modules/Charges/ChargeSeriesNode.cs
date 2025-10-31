@@ -34,11 +34,7 @@ public static partial class ChargeSeriesNode
             new ChargeSeriesSearchCriteriaDto(
                 ChargeId: chargeId,
                 FromDateTimeUtc: interval.Start.ToDateTimeOffset(),
-                ToDateTimeUtc: interval.End.ToDateTimeOffset(),
-                SortColumnName: ChargeSeriesSortColumnName.FromDateTime,
-                IsDescending: true,
-                Skip: 0,
-                Take: 99999999));
+                ToDateTimeUtc: interval.End.ToDateTimeOffset()));
 
         return series.Value ?? [];
     }

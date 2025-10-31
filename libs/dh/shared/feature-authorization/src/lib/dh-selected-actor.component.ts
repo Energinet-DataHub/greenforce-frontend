@@ -22,8 +22,8 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetSelectionMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';

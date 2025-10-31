@@ -32,11 +32,11 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
-import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WATT_TABS } from '@energinet/watt/tabs';
+import { WATT_MODAL } from '@energinet/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattToastService, WattToastType } from '@energinet/watt/toast';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet/watt/drawer';
 
 import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';

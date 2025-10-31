@@ -21,8 +21,8 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
+import { WATT_STEPPER } from '@energinet/watt/stepper';
 import {
   dhCprValidator,
   dhCvrValidator,
@@ -34,7 +34,7 @@ import {
   StartMoveInDocument,
   WashInstructions,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService } from '@energinet/watt/toast';
 
 import {
   AddressData,

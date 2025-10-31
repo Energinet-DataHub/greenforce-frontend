@@ -48,21 +48,18 @@ import {
 import { Apollo, MutationResult } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet/watt/button';
 import {
   WATT_MODAL,
   WattModalComponent,
   WattModalService,
   WattTypedModal,
-} from '@energinet-datahub/watt/modal';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import {
-  WattDatepickerComponent,
-  danishTimeZoneIdentifier,
-} from '@energinet-datahub/watt/datepicker';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+} from '@energinet/watt/modal';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+import { WattDatepickerComponent, danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WattRange, dayjs } from '@energinet/watt/date';
 import {
   getActorOptions,
   getGridAreaOptionsForPeriod,
@@ -80,9 +77,9 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattValidationMessageComponent } from '@energinet/watt/validation-message';
 
 import { DhSelectCalculationModal } from './select-calculation-modal.component';
 import { startDateAndEndDateHaveSameMonthValidator } from '../util/start-date-and-end-date-have-same-month.validator';

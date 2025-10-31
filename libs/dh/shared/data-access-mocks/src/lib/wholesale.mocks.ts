@@ -17,7 +17,7 @@
  */
 //#endregion
 import { delay, http, HttpResponse } from 'msw';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/date';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {

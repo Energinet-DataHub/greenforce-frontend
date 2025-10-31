@@ -19,9 +19,9 @@
 import { input, inject, computed, Component, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattDatePipe } from '@energinet/watt/date';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
 
 import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
 import { DhGridAreaAuditLogComponent } from './audit-log.component';

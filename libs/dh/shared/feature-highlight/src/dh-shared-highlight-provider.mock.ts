@@ -17,7 +17,7 @@
  */
 //#endregion
 import { makeEnvironmentProviders } from '@angular/core';
-import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from '@energinet-datahub/watt/code';
+import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from '@energinet/watt/code';
 
 export const highlightWorkerProvider = makeEnvironmentProviders([
   {

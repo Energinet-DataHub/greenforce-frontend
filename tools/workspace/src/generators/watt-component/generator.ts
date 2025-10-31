@@ -29,7 +29,7 @@ export async function wattComponentGenerator(tree: Tree, options: WattComponentG
 
   // Add reference to base configuration
   updateJson(tree, './tsconfig.base.json', (json) => {
-    json.compilerOptions.paths[`@energinet-datahub/watt/${substitutions.fileName}`] = [
+    json.compilerOptions.paths[`@energinet/watt/${substitutions.fileName}`] = [
       `libs/watt/src/lib/components/${substitutions.fileName}/index.ts`,
     ];
     return json;

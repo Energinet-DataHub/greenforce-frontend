@@ -30,22 +30,22 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattModalService } from '@energinet/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
   VaterStackComponent,
-} from '@energinet-datahub/watt/vater';
+} from '@energinet/watt/vater';
 import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 import {
   MarketParticipantDelegationStatus,
   GetDelegationsForMarketParticipantDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,

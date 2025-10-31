@@ -22,7 +22,7 @@ import { of } from 'rxjs';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService } from '@energinet/watt/toast';
 
 import { DhNewVersionManager } from './dh-new-version-manager.service';
 

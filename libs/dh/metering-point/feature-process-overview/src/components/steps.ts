@@ -20,13 +20,13 @@ import { HttpClient } from '@angular/common/http';
 import { Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { firstValueFrom } from 'rxjs';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 import { GetMeteringPointProcessByIdQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 import { emDash } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattToastService } from '@energinet/watt/toast';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 type MeteringPointProcessStep = NonNullable<

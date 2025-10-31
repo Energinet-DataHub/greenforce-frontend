@@ -17,23 +17,26 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import {
+  TranslocoDirective,
+  // TranslocoPipe
+} from '@jsverse/transloco';
 
 import {
-  VatClassification,
+  // VatClassification,
   ChargeInformationDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { dayjs, WattDatePipe, WattRange } from '@energinet-datahub/watt/date';
-import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattBadgeComponent } from '@energinet/watt/badge';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { dayjs, WattDatePipe, WattRange } from '@energinet/watt/date';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
 @Component({
   selector: 'dh-price-information',
   imports: [
-    TranslocoPipe,
+    // TranslocoPipe,
     TranslocoDirective,
     VaterStackComponent,
 
@@ -61,33 +64,30 @@ import { WATT_DESCRIPTION_LIST } from '@energinet-datahub/watt/description-list'
           <watt-card-title>
             <vater-stack gap="m" align="center" direction="row">
               <h3>
-                @if (charge.validToDateTime && charge.validFromDateTime) {
-                  {{ dateRange(charge.validFromDateTime, charge.validToDateTime) | wattDate }}
+                @if (charge.validTo && charge.validFrom) {
+                  {{ dateRange(charge.validFrom, charge.validTo) | wattDate }}
                 } @else {
-                  {{ charge.validFromDateTime | wattDate }}
+                  {{ charge.validFrom | wattDate }}
                 }
               </h3>
-              @if (
-                charge.validToDateTime &&
-                isCurrent(charge.validFromDateTime, charge.validToDateTime)
-              ) {
+              @if (charge.validTo && isCurrent(charge.validFrom, charge.validTo)) {
                 <watt-badge type="success">{{ t('current') }}</watt-badge>
               }
             </vater-stack>
           </watt-card-title>
           <watt-description-list variant="stack" [itemSeparators]="false">
             <watt-description-list-item [label]="t('name')">
-              {{ charge.chargeName }}
+              {{ charge.name }}
             </watt-description-list-item>
             <watt-description-list-item [label]="t('description')">
-              {{ charge.chargeDescription }}
+              {{ charge.description }}
             </watt-description-list-item>
-            <watt-description-list-item [label]="t('vatClassification')">
+            <!-- <watt-description-list-item [label]="t('vatClassification')">
               {{ 'charges.vatClassifications.' + charge.vatClassification | transloco }}
             </watt-description-list-item>
             <watt-description-list-item [label]="t('transparentInvoicing')">
               {{ charge.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
-            </watt-description-list-item>
+            </watt-description-list-item> -->
           </watt-description-list>
         </watt-card>
       }
@@ -98,33 +98,33 @@ export class DhPriceInformationComponent {
   chargeInformations: Partial<ChargeInformationDto>[] = [
     {
       id: '2',
-      chargeName: 'Charge 2',
-      chargeDescription:
+      name: 'Charge 2',
+      description:
         'En længere beskrivelse, der også kan fylde to linjer, eller måske endda endnu mere end to linjer.',
-      vatClassification: VatClassification.Vat25,
-      transparentInvoicing: false,
-      validFromDateTime: dayjs().subtract(1, 'year').toDate(),
-      validToDateTime: undefined,
+      // vatClassification: VatClassification.Vat25,
+      // transparentInvoicing: false,
+      validFrom: dayjs().subtract(1, 'year').toDate(),
+      validTo: undefined,
     },
     {
       id: '1',
-      chargeName: 'Charge 1',
-      chargeDescription:
+      name: 'Charge 1',
+      description:
         'En længere beskrivelse, der også kan fylde to linjer, eller måske endda endnu mere end to linjer.',
-      vatClassification: VatClassification.NoVat,
-      transparentInvoicing: true,
-      validFromDateTime: dayjs().subtract(2, 'year').toDate(),
-      validToDateTime: dayjs().add(1, 'year').toDate(),
+      // vatClassification: VatClassification.NoVat,
+      // transparentInvoicing: true,
+      validFrom: dayjs().subtract(2, 'year').toDate(),
+      validTo: dayjs().add(1, 'year').toDate(),
     },
     {
       id: '3',
-      chargeName: 'Charge 3',
-      chargeDescription:
+      name: 'Charge 3',
+      description:
         'En længere beskrivelse, der også kan fylde to linjer, eller måske endda endnu mere end to linjer.',
-      vatClassification: VatClassification.Vat25,
-      transparentInvoicing: false,
-      validFromDateTime: dayjs().subtract(2, 'year').toDate(),
-      validToDateTime: dayjs().subtract(1, 'year').toDate(),
+      // vatClassification: VatClassification.Vat25,
+      // transparentInvoicing: false,
+      validFrom: dayjs().subtract(2, 'year').toDate(),
+      validTo: dayjs().subtract(1, 'year').toDate(),
     },
   ];
 

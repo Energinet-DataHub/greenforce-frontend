@@ -23,7 +23,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
   selector: 'dh-upload-measurements-summary-table',
   imports: [TranslocoDirective],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     table {
       width: 100%;

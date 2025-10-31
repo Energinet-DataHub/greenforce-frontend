@@ -20,12 +20,12 @@ import { Component, inject, computed, signal } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WATT_TABLE, WattTableColumnDef, WattTableComponent } from '@energinet-datahub/watt/table';
-import { WattDataActionsComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattBadgeComponent } from '@energinet/watt/badge';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WATT_TABLE, WattTableColumnDef, WattTableComponent } from '@energinet/watt/table';
+import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhEmDashFallbackPipe, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';

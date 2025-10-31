@@ -22,7 +22,7 @@ import {
   GetDelegationsForMarketParticipantQuery,
   MessageDelegationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/date';
 
 import { marketParticipantsById } from './get-actors-by-organizationId';
 import { gridAreas } from './get-grid-areas';
