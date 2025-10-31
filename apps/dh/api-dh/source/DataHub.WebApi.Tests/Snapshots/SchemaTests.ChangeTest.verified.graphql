@@ -1143,9 +1143,9 @@ type ProcessesEdge {
 }
 
 type Query {
-  chargeSeries(chargeId: UUID! interval: DateRange!): [ChargeSeries!]! @authorize(roles: [ "charges:view" ])
+  chargeSeries(chargeId: String! interval: DateRange!): [ChargeSeries!]! @authorize(roles: [ "charges:view" ])
   charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
-  chargeById(id: UUID!): ChargeInformationDto @authorize(roles: [ "charges:view" ])
+  chargeById(id: String!): ChargeInformationDto @authorize(roles: [ "charges:view" ])
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
