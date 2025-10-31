@@ -17,12 +17,13 @@
  */
 //#endregion
 import {
+  computed,
+  DestroyRef,
   Directive,
+  effect,
   ElementRef,
   inject,
-  Input,
-  OnChanges,
-  SimpleChanges,
+  input,
   ViewContainerRef,
 } from '@angular/core';
 
@@ -44,28 +45,47 @@ export type wattTooltipVariant = 'dark' | 'light';
   selector: '[wattTooltip]',
   exportAs: 'wattTooltip',
 })
-export class WattTooltipDirective implements OnChanges {
-  @Input('wattTooltip') text!: string;
-  @Input('wattTooltipPosition') position: wattTooltipPosition = 'top';
-  @Input('wattTooltipVariant') variant: wattTooltipVariant = 'dark';
+export class WattTooltipDirective {
+  readonly text = input<string>('wattTooltip', { alias: 'wattTooltip' });
+  readonly position = input<wattTooltipPosition>('top', { alias: 'wattTooltipPosition' });
+  readonly variant = input<wattTooltipVariant>('dark', { alias: 'wattTooltipVariant' });
 
-  private element: HTMLElement = inject(ElementRef).nativeElement;
-  private viewContainerRef = inject(ViewContainerRef);
+  private readonly element = inject(ElementRef).nativeElement;
+  private readonly viewContainerRef = inject(ViewContainerRef);
+  private readonly destroyRef = inject(DestroyRef);
+  private tooltip = computed(() => this.createTooltipComponent());
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['text']) {
-      this.createTooltipComponent();
-    }
+  constructor() {
+    // Setup effect to manage tooltip component lifecycle
+    effect(() => {
+      // Access the tooltip computed to create/update it when inputs change
+      const tooltipComponent = this.tooltip();
+
+      // Cleanup on destroy
+      this.destroyRef.onDestroy(() => {
+        tooltipComponent?.destroy();
+        this.element.removeAttribute('aria-describedby');
+      });
+    });
   }
 
   private createTooltipComponent() {
-    const tooltip =
-      this.viewContainerRef.createComponent<WattTooltipComponent>(WattTooltipComponent);
-    tooltip.instance.text = this.text;
-    tooltip.instance.target = this.element;
-    tooltip.instance.position = this.position;
-    tooltip.instance.variant = this.variant;
+    if (!this.text()) return null;
 
-    this.element.setAttribute('aria-describedby', tooltip.instance.id);
+    // Create the component
+    const tooltipComponent = this.viewContainerRef.createComponent(WattTooltipComponent);
+
+    // Get the component instance
+    const instance = tooltipComponent.instance;
+
+    // Set up bindings
+    tooltipComponent.setInput('text', this.text());
+    tooltipComponent.setInput('target', this.element);
+    tooltipComponent.setInput('position', this.position());
+    tooltipComponent.setInput('variant', this.variant());
+
+    this.element.setAttribute('aria-describedby', instance.id);
+
+    return tooltipComponent;
   }
 }
