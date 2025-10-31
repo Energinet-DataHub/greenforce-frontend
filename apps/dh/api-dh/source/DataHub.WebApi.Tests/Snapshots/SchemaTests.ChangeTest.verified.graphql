@@ -285,20 +285,16 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 
 type ChargeInformationDto {
   status: ChargeStatus!
-  id: UUID!
+  id: String!
+  validFrom: DateTime!
+  validTo: DateTime!
   chargeType: ChargeType!
   resolution: ChargeResolution!
-  chargeId: String!
-  chargeName: String!
-  chargeDescription: String!
-  chargeOwner: String!
-  chargeOwnerName: String!
-  vatClassification: VatClassification!
-  taxIndicator: Boolean!
-  transparentInvoicing: Boolean!
+  code: String!
+  name: String!
+  description: String!
+  owner: String!
   hasAnyPrices: Boolean!
-  validFromDateTime: DateTime!
-  validToDateTime: DateTime
 }
 
 type ChargeSeries {
@@ -306,24 +302,13 @@ type ChargeSeries {
   totalAmount: Decimal!
 }
 
-"A connection to a list of items."
-type ChargesConnection {
+"A segment of a collection."
+type ChargesCollectionSegment {
   "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [ChargesEdge!]
-  "A flattened list of the nodes."
-  nodes: [ChargeInformationDto!]
-  "Identifies the total count of items in the connection."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [ChargeInformationDto!]
   totalCount: Int!
-}
-
-"An edge in a connection."
-type ChargesEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: ChargeInformationDto!
 }
 
 "Information about the offset pagination."
@@ -1159,7 +1144,7 @@ type ProcessesEdge {
 
 type Query {
   chargeSeries(chargeId: UUID! interval: DateRange!): [ChargeSeries!]! @authorize(roles: [ "charges:view" ])
-  charges(query: GetChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargesSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
+  charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
   chargeById(id: UUID!): ChargeInformationDto @authorize(roles: [ "charges:view" ])
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
@@ -1677,12 +1662,9 @@ input CancelSettlementReportInput {
   id: String!
 }
 
-input ChargesSortInput {
-  id: SortEnumType
-  name: SortEnumType
-  type: SortEnumType
-  owner: SortEnumType
-  status: SortEnumType
+input ChargeSortInput {
+  fromDateTime: SortDirection
+  price: SortDirection
 }
 
 input CreateActorContactDtoInput {
@@ -1793,7 +1775,7 @@ input GetByDayQueryInput {
 
 input GetChargesQueryInput {
   chargeTypes: [ChargeType!]
-  actorNumbers: [UUID!]
+  actorNumbers: [String!]
   statuses: [ChargeStatus!]
   moreOptions: [String!]
 }
@@ -2938,11 +2920,6 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
-}
-
-enum VatClassification {
-  NO_VAT
-  VAT25
 }
 
 enum WashInstructions {

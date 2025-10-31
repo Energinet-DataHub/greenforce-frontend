@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.Charges.Abstractions.Api.Models;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
@@ -34,17 +33,12 @@ public class ChargeStatusTests
     {
         charges(
             query: { chargeTypes: [FEE] }
-            after: null
-            before: null
-            first: 10
-            last: null
-            order: {
-                id: ASC
-            }
+            skip: 0
+            take: 10
         ) {
             totalCount
-            nodes {
-                status
+            items {
+              status
             }
         }
     }
@@ -68,10 +62,10 @@ public class ChargeStatusTests
     [Fact]
     public async Task ChargeStatus_MissingPricesSeriesWithoutEndDate()
     {
-        await ExecuteTestAsync("MissingPricesSeriesWithoutEndDate", DateTimeOffset.Now.AddDays(-5), null, false);
+        await ExecuteTestAsync("MissingPricesSeriesWithoutEndDate", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.MaxValue, false);
     }
 
-    private static async Task ExecuteTestAsync(string testname, DateTimeOffset validFrom, DateTimeOffset? validTo, bool hasAnyPrices)
+    private static async Task ExecuteTestAsync(string testname, DateTimeOffset validFrom, DateTimeOffset validTo, bool hasAnyPrices)
     {
         var server = new GraphQLTestService();
 
@@ -81,35 +75,33 @@ public class ChargeStatusTests
                Task.FromResult(Result<IEnumerable<ChargeInformationDto>>.Success(new List<ChargeInformationDto>
                {
                 new ChargeInformationDto(
-                    Id: Guid.NewGuid(),
-                    ChargeId: "SUB-123",
+                    Id: "01234",
+                    Code: "SUB-123",
                     ChargeType: ChargeType.Subscription,
-                    ChargeName: "Subscription 123",
-                    ChargeOwner: "ABC123",
-                    ChargeOwnerName: "Energy Provider A",
-                    ChargeDescription: "Standard grid payment",
+                    Name: "Subscription 123",
+                    Owner: "Energy Provider A",
+                    Description: "Standard grid payment",
                     Resolution: Resolution.Daily,
-                    TaxIndicator: false,
-                    TransparentInvoicing: false,
-                    VatClassification: VatClassification.Vat25,
+                    // TaxIndicator: false,
+                    // TransparentInvoicing: false,
+                    // VatClassification: VatClassification.Vat25,
                     HasAnyPrices: hasAnyPrices,
-                    ValidFromDateTime: validFrom,
-                    ValidToDateTime: validTo),
+                    ValidFrom: validFrom,
+                    ValidTo: validTo),
                 new ChargeInformationDto(
-                    Id: Guid.NewGuid(),
-                    ChargeId: "FEE-456",
+                    Id: "56789",
+                    Code: "FEE-456",
                     ChargeType: ChargeType.Fee,
-                    ChargeName: "Fee 456",
-                    ChargeOwner: "XYZ456",
-                    ChargeOwnerName: "Grid Company B",
-                    ChargeDescription: "System utilization fee",
+                    Name: "Fee 456",
+                    Owner: "Grid Company B",
+                    Description: "System utilization fee",
                     Resolution: Resolution.Daily,
-                    TaxIndicator: false,
-                    TransparentInvoicing: false,
-                    VatClassification: VatClassification.Vat25,
+                    // TaxIndicator: false,
+                    // TransparentInvoicing: false,
+                    // VatClassification: VatClassification.Vat25,
                     HasAnyPrices: hasAnyPrices,
-                    ValidFromDateTime: validFrom,
-                    ValidToDateTime: validTo),
+                    ValidFrom: validFrom,
+                    ValidTo: validTo),
                })));
 
         var result = await server.ExecuteRequestAsync(b => b
