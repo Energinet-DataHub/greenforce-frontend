@@ -127,7 +127,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
         [disabled]="disabled()"
         [selected]="value()?.start && value()?.end ? true : false"
         [opened]="picker.opened"
-        (toggle)="picker.open()"
+        (toggleChange)="picker.open()"
       >
         <mat-date-range-input
           #input

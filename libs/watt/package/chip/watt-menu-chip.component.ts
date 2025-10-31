@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattChipComponent } from './watt-chip.component';
@@ -56,14 +56,14 @@ export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialo
     `,
   ],
   template: `
-    <watt-chip [disabled]="disabled" [selected]="selected">
+    <watt-chip [disabled]="disabled()" [selected]="selected()">
       <button
         class="cdk-visually-hidden"
-        [attr.aria-haspopup]="hasPopup"
-        [attr.aria-expanded]="opened"
-        [attr.aria-pressed]="selected"
-        (click)="toggle.emit()"
-        [disabled]="disabled"
+        [attr.aria-haspopup]="hasPopup()"
+        [attr.aria-expanded]="opened()"
+        [attr.aria-pressed]="selected()"
+        (click)="toggleChange.emit()"
+        [disabled]="disabled()"
       ></button>
       <ng-content />
       <watt-icon
@@ -71,20 +71,19 @@ export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialo
         name="arrowDropDown"
         class="menu-icon"
         [attr.aria-hidden]="true"
-        [class.opened]="opened"
-        [class.selected]="selected"
-        [class.disabled]="disabled"
+        [class.opened]="opened()"
+        [class.selected]="selected()"
+        [class.disabled]="disabled()"
       />
     </watt-chip>
   `,
 })
 export class WattMenuChipComponent {
-  @Input() opened = false;
-  @Input() disabled = false;
-  @Input() name?: string;
-  @Input() value?: string;
-  @Input() selected = false;
-  @Input() hasPopup: WattMenuChipHasPopup = 'menu';
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  @Output() toggle = new EventEmitter<void>();
+  opened = input(false);
+  disabled = input(false);
+  name = input<string | undefined>(undefined);
+  value = input<string | undefined>(undefined);
+  selected = input(false);
+  hasPopup = input<WattMenuChipHasPopup>('menu');
+  toggleChange = output<void>();
 }

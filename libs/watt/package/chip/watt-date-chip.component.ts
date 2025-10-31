@@ -53,7 +53,7 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
         [disabled]="disabled()"
         [selected]="!!value()"
         [opened]="picker.opened"
-        (toggle)="picker.open()"
+        (toggleChange)="picker.open()"
       >
         <input
           tabindex="-1"

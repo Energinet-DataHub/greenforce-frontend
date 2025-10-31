@@ -23,7 +23,7 @@ limitations under the License.
   @if (chipMode()) {
     <watt-menu-chip
       [opened]="matSelect.panelOpen"
-      (toggle)="matSelect.open()"
+      (toggleChange)="matSelect.open()"
       [selected]="!!matSelect?.triggerValue && !disableSelectedMode()"
       [disabled]="matSelectControl.disabled"
     >
