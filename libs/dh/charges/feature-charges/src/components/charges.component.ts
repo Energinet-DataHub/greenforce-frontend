@@ -30,11 +30,7 @@ import {
 import { VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
-import {
-  ChargeStatus,
-  SortEnumType,
-  GetChargesQueryInput,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
@@ -95,20 +91,14 @@ import { DhChargesFiltersComponent } from './filters.component';
 export class DhChargesComponent {
   protected readonly navigation = inject(DhNavigationService);
 
-  dataSource = new GetChargesDataSource({
-    variables: {
-      order: {
-        type: SortEnumType.Desc,
-      },
-    },
-  });
+  dataSource = new GetChargesDataSource();
 
   columns: WattTableColumnDef<Charge> = {
-    type: { accessor: 'chargeType' },
-    id: { accessor: 'chargeId' },
-    name: { accessor: 'chargeName' },
-    owner: { accessor: 'chargeOwner' },
-    status: { accessor: 'status' },
+    type: { accessor: 'chargeType', sort: false },
+    code: { accessor: 'code', sort: false },
+    name: { accessor: 'name', sort: false },
+    owner: { accessor: 'owner', sort: false },
+    status: { accessor: 'status', sort: false },
   };
 
   filter: GetChargesQueryInput = {

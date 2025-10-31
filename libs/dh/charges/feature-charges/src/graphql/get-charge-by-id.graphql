@@ -2,12 +2,10 @@ query GetChargeById($id: UUID!) {
   chargeById(id: $id) {
     id
     status
-    chargeId
-    chargeName
+    code
+    name
     chargeType
-    chargeOwnerName
+    owner
     resolution
-    vatClassification
-    transparentInvoicing
   }
 }

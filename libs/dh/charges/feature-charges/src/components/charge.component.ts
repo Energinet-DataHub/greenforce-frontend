@@ -106,7 +106,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
               }
             </watt-description-list-item>
             <watt-description-list-item [label]="t('owner')">
-              {{ charge()?.chargeOwnerName | dhEmDashFallback }}
+              {{ charge()?.owner | dhEmDashFallback }}
             </watt-description-list-item>
             <watt-description-list-item [label]="t('resolution')">
               @let resolution = charge()?.resolution;
@@ -114,7 +114,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
                 {{ 'charges.resolutions.' + resolution | transloco }}
               }
             </watt-description-list-item>
-            <watt-description-list-item [label]="t('vat')">
+            <!-- <watt-description-list-item [label]="t('vat')">
               @let vatClassification = charge()?.vatClassification;
               @if (vatClassification) {
                 {{ 'charges.vatClassifications.' + vatClassification | transloco }}
@@ -123,7 +123,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
             <watt-description-list-item [label]="t('transparentInvoicing')">
               @let transparentInvoicing = charge()?.transparentInvoicing;
               {{ transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
-            </watt-description-list-item>
+            </watt-description-list-item> -->
           </watt-description-list>
         </div>
 
@@ -147,7 +147,7 @@ export class DhChargeComponent {
   private readonly router = inject(Router);
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.chargeById);
-  chargeIdName = computed(() => `${this.charge()?.chargeId} • ${this.charge()?.chargeName}`);
+  chargeIdName = computed(() => `${this.charge()?.code} • ${this.charge()?.name}`);
   id = input.required<string>();
   getLink = (path: ChargesSubPaths) => getPath(path);
 

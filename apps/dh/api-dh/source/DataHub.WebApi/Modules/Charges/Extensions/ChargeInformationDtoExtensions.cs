@@ -21,11 +21,11 @@ public static class ChargeInformationDtoExtensions
 {
     public static ChargeStatus GetStatus(this ChargeInformationDto charge) => charge switch
     {
-        { ValidToDateTime: not null } c when c.ValidFromDateTime == c.ValidToDateTime => ChargeStatus.Cancelled,
-        { ValidToDateTime: not null } c when c.ValidToDateTime < DateTimeOffset.Now => ChargeStatus.Closed,
-        { HasAnyPrices: false } c when c.ValidFromDateTime > DateTimeOffset.Now => ChargeStatus.Awaiting,
-        { HasAnyPrices: false } c when c.ValidFromDateTime < DateTimeOffset.Now => ChargeStatus.MissingPriceSeries,
-        { HasAnyPrices: true } c when c.ValidFromDateTime < DateTimeOffset.Now => ChargeStatus.Current,
+        _ when charge.ValidFrom == charge.ValidTo => ChargeStatus.Cancelled,
+        _ when charge.ValidTo < DateTimeOffset.Now => ChargeStatus.Closed,
+        { HasAnyPrices: false } c when c.ValidFrom > DateTimeOffset.Now => ChargeStatus.Awaiting,
+        { HasAnyPrices: false } c when c.ValidFrom < DateTimeOffset.Now => ChargeStatus.MissingPriceSeries,
+        { HasAnyPrices: true } c when c.ValidFrom < DateTimeOffset.Now => ChargeStatus.Current,
         _ => ChargeStatus.Invalid,
     };
 }
