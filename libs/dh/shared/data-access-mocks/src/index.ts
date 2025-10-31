@@ -33,6 +33,7 @@ import { meteringPointMocks } from './lib/metering-point.mocks';
 import { organizationMocks } from './lib/organization.mocks';
 import { requestMocks } from './lib/request.mocks';
 import { processMocks } from './lib/process';
+import { chargesMocks } from './lib/charges';
 import { measurementsReportsMocks } from './lib/measurements-reports.mocks';
 import { releaseTogglesMocks } from './lib/release-toggles.mocks';
 import { moveInMocks } from './lib/move-in.mocks';
@@ -54,6 +55,7 @@ export const mocks = [
   requestMocks,
   meteringPointMocks,
   processMocks,
+  chargesMocks,
   measurementsReportsMocks,
   releaseTogglesMocks,
   moveInMocks,

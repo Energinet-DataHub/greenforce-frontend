@@ -25,16 +25,17 @@ public static partial class ChargeSeriesNode
     [Query]
     [Authorize(Roles = new[] { "charges:view" })]
     public static async Task<IEnumerable<ChargeSeriesDto>> GetChargeSeriesAsync(
-        Guid chargeId,
+        string chargeId,
         Interval interval,
         [Service] IChargesClient client,
         CancellationToken cancellationToken)
     {
         var series = await client.GetChargeSeriesAsync(
             new ChargeSeriesSearchCriteriaDto(
-                ChargeId: chargeId,
+                ChargeId: new Guid(chargeId),
                 FromDateTimeUtc: interval.Start.ToDateTimeOffset(),
-                ToDateTimeUtc: interval.End.ToDateTimeOffset()));
+                ToDateTimeUtc: interval.End.ToDateTimeOffset()),
+            cancellationToken);
 
         return series.Value ?? [];
     }

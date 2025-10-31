@@ -1,4 +1,4 @@
-query GetChargeSeries($chargeId: UUID!, $interval: DateRange!) {
+query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
   chargeSeries(chargeId: $chargeId, interval: $interval) {
     totalAmount
     points {

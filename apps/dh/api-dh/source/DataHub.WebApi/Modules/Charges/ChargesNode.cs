@@ -74,10 +74,10 @@ public static partial class ChargesNode
     public static async Task<ChargeInformationDto?> GetChargeByIdAsync(
         [Service] IChargesClient client,
         CancellationToken cancellationToken,
-        Guid id)
+        string id)
     {
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(id.ToString(), [], [], true, ChargeSeriesSortColumnName.FromDateTime, 0, 1),
+            new ChargeInformationSearchCriteriaDto(id, [], [], true, ChargeSeriesSortColumnName.FromDateTime, 0, 1),
             cancellationToken);
 
         return result.Value?.FirstOrDefault();
