@@ -384,7 +384,7 @@
       "topBarTitle": "Prices",
       "table": {
         "columns": {
-          "id": "ID",
+          "code": "ID",
           "type": "Type",
           "name": "Name",
           "owner": "Owner",

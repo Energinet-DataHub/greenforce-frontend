@@ -385,7 +385,7 @@
       "topBarTitle": "Priser",
       "table": {
         "columns": {
-          "id": "ID",
+          "code": "ID",
           "type": "Type",
           "name": "Navn",
           "owner": "Ejer",
