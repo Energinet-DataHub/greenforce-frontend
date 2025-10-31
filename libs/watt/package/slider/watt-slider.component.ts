@@ -49,7 +49,7 @@ export interface WattSliderValue {
   templateUrl: './watt-slider.component.html',
 })
 export class WattSliderComponent {
-  private readonly _colorService = inject(WattColorHelperService);
+  private readonly colorService = inject(WattColorHelperService);
   private readonly destroyRef = inject(DestroyRef);
 
   /** The lowest permitted value. */
@@ -67,39 +67,44 @@ export class WattSliderComponent {
   readonly maxRange = viewChild<ElementRef<HTMLInputElement>>('maxRange');
   readonly minRange = viewChild<ElementRef<HTMLInputElement>>('minRange');
 
-  /** Emits value whenever it changes. */
   readonly valueChange = output<WattSliderValue>();
 
   constructor() {
-    // Setup range effect
     effect(() => {
-      if (!this.maxRange() || !this.minRange()) return;
+      const currentValue = this.value();
+      const maxRange = this.maxRange();
+      const minRange = this.minRange();
 
-      const maxElement = this.maxRange();
-      const minElement = this.minRange();
-      if (!maxElement || !minElement) return;
+      if (!maxRange || !minRange) return;
 
-      const maxRangeElement = maxElement.nativeElement;
-      const minRangeElement = minElement.nativeElement;
+      this.updateRange(currentValue.min, currentValue.max);
+    });
 
-      // Update initial values
-      this.updateRange(this.value().min, this.value().max);
+    effect(() => {
+      const maxRange = this.maxRange();
+      const minRange = this.minRange();
+
+      if (!maxRange || !minRange) return;
+
+      const maxRangeElement = maxRange.nativeElement;
+      const minRangeElement = minRange.nativeElement;
 
       // Setup max range input events
       fromEvent(maxRangeElement, 'input')
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((event) => {
           const maxValue = (event.target as HTMLInputElement).valueAsNumber;
-          const minValue = minRangeElement.valueAsNumber || this.min();
-          this.updateRange(minValue, maxValue);
+          const minValue = minRangeElement.valueAsNumber;
 
-          if (minValue <= maxValue) {
-            maxRangeElement.valueAsNumber = maxValue;
-          } else {
-            maxRangeElement.valueAsNumber = minValue;
+          let newMaxValue = maxValue;
+          if (minValue > maxValue) {
+            newMaxValue = minValue;
+            maxRangeElement.valueAsNumber = newMaxValue;
           }
 
-          this.onChange({ min: minValue, max: maxValue });
+          const newValue = { min: minValue, max: newMaxValue };
+          this.updateRange(newValue.min, newValue.max);
+          this.valueChange.emit(newValue);
         });
 
       // Setup min range input events
@@ -107,37 +112,39 @@ export class WattSliderComponent {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((event) => {
           const minValue = (event.target as HTMLInputElement).valueAsNumber;
-          const maxValue = maxRangeElement.valueAsNumber || this.max();
-          this.updateRange(minValue, maxValue);
+          const maxValue = maxRangeElement.valueAsNumber;
 
+          let newMinValue = minValue;
           if (minValue > maxValue) {
-            minRangeElement.valueAsNumber = maxValue;
+            newMinValue = maxValue;
+            minRangeElement.valueAsNumber = newMinValue;
           }
 
-          this.onChange({ min: minValue, max: maxValue });
+          const newValue = { min: newMinValue, max: maxValue };
+          this.updateRange(newValue.min, newValue.max);
+          this.valueChange.emit(newValue);
         });
     });
   }
 
   private updateRange(minValue: number, maxValue: number) {
-    if (!this.maxRange() || !this.minRange()) return;
+    const maxRange = this.maxRange();
+    const minRange = this.minRange();
+    if (!maxRange || !minRange) return;
+
+    const maxRangeElement = maxRange.nativeElement;
+    const minRangeElement = minRange.nativeElement;
+
+    maxRangeElement.valueAsNumber = maxValue;
+    minRangeElement.valueAsNumber = minValue;
 
     const rangeDistance = this.max() - this.min();
     const fromPosition = minValue - this.min();
     const toPosition = maxValue - this.min();
 
-    const sliderColor = this._colorService.getColor('secondaryLight');
-    const rangeColor = this._colorService.getColor('primary');
+    const sliderColor = this.colorService.getColor('secondaryLight');
+    const rangeColor = this.colorService.getColor('primary');
 
-    const maxElement = this.maxRange();
-    const minElement = this.minRange();
-    if (!maxElement || !minElement) return;
-
-    const maxRangeElement = maxElement.nativeElement;
-    const minRangeElement = minElement.nativeElement;
-
-    maxRangeElement.valueAsNumber = this.value().max;
-    minRangeElement.valueAsNumber = this.value().min;
     maxRangeElement.style.background = `linear-gradient(
       to right,
       ${sliderColor} 0%,
@@ -146,10 +153,5 @@ export class WattSliderComponent {
       ${rangeColor} ${(toPosition / rangeDistance) * 100}%,
       ${sliderColor} ${(toPosition / rangeDistance) * 100}%,
       ${sliderColor} 100%)`;
-  }
-
-  private onChange(value: WattSliderValue) {
-    // Use valueChange.emit() directly since we're not storing the value locally anymore
-    this.valueChange.emit(value);
   }
 }
