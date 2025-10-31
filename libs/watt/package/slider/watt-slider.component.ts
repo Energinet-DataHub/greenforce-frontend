@@ -17,20 +17,19 @@
  */
 //#endregion
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  effect,
   ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
   inject,
+  input,
+  output,
+  viewChild,
+  ViewEncapsulation,
 } from '@angular/core';
-import { Subscription, fromEvent } from 'rxjs';
+import { fromEvent } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattColorHelperService } from '@energinet/watt/core/color';
 
@@ -49,93 +48,104 @@ export interface WattSliderValue {
   styleUrls: ['./watt-slider.component.scss'],
   templateUrl: './watt-slider.component.html',
 })
-export class WattSliderComponent implements AfterViewInit, OnDestroy, OnChanges {
-  private _colorService = inject(WattColorHelperService);
+export class WattSliderComponent {
+  private readonly colorService = inject(WattColorHelperService);
+  private readonly destroyRef = inject(DestroyRef);
+
   /** The lowest permitted value. */
-  @Input() min = 0;
+  readonly min = input(0);
 
   /** The highest permitted value. */
-  @Input() max = 100;
+  readonly max = input(100);
 
   /** Step between each value. */
-  @Input() step = 1;
+  readonly step = input(1);
 
   /** The currently selected range value. */
-  @Input() value: WattSliderValue = { min: this.min, max: this.max };
+  readonly value = input<WattSliderValue>({ min: 0, max: 100 });
 
-  @ViewChild('maxRange') maxRange!: ElementRef<HTMLInputElement>;
+  readonly maxRange = viewChild<ElementRef<HTMLInputElement>>('maxRange');
+  readonly minRange = viewChild<ElementRef<HTMLInputElement>>('minRange');
 
-  @ViewChild('minRange') minRange!: ElementRef<HTMLInputElement>;
+  readonly valueChange = output<WattSliderValue>();
 
-  private _maxChangeSubscription!: Subscription;
-  private _minChangeSubscription!: Subscription;
-  /**
-   * Emits value whenever it changes.
-   * @ignore
-   */
-  @Output() valueChange = new EventEmitter<WattSliderValue>();
+  constructor() {
+    effect(() => {
+      const currentValue = this.value();
+      const maxRange = this.maxRange();
+      const minRange = this.minRange();
 
-  ngAfterViewInit(): void {
-    const maxRangeElement = this.maxRange.nativeElement;
-    const minRangeElement = this.minRange.nativeElement;
-    const maxChanged$ = fromEvent(maxRangeElement, 'input');
-    const minChanged$ = fromEvent(minRangeElement, 'input');
+      if (!maxRange || !minRange) return;
 
-    this.updateRange(this.value.min, this.value.max);
-
-    this._maxChangeSubscription = maxChanged$.subscribe((event) => {
-      const maxValue = (event.target as HTMLInputElement).valueAsNumber;
-      const minValue = minRangeElement.valueAsNumber || this.min;
-      this.updateRange(minValue, maxValue);
-
-      if (minValue <= maxValue) {
-        maxRangeElement.valueAsNumber = maxValue;
-      } else {
-        maxRangeElement.valueAsNumber = minValue;
-      }
-
-      this.onChange({ min: minValue, max: maxValue });
+      this.updateRange(currentValue.min, currentValue.max);
     });
 
-    this._minChangeSubscription = minChanged$.subscribe((event) => {
-      const minValue = (event.target as HTMLInputElement).valueAsNumber;
-      const maxValue = maxRangeElement.valueAsNumber || this.max;
-      this.updateRange(minValue, maxValue);
+    effect(() => {
+      const maxRange = this.maxRange();
+      const minRange = this.minRange();
 
-      if (minValue > maxValue) {
-        minRangeElement.valueAsNumber = maxValue;
-      }
+      if (!maxRange || !minRange) return;
 
-      this.onChange({ min: minValue, max: maxValue });
+      const maxRangeElement = maxRange.nativeElement;
+      const minRangeElement = minRange.nativeElement;
+
+      // Setup max range input events
+      fromEvent(maxRangeElement, 'input')
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((event) => {
+          const maxValue = (event.target as HTMLInputElement).valueAsNumber;
+          const minValue = minRangeElement.valueAsNumber;
+
+          let newMaxValue = maxValue;
+          if (minValue > maxValue) {
+            newMaxValue = minValue;
+            maxRangeElement.valueAsNumber = newMaxValue;
+          }
+
+          const newValue = { min: minValue, max: newMaxValue };
+          this.updateRange(newValue.min, newValue.max);
+          this.valueChange.emit(newValue);
+        });
+
+      // Setup min range input events
+      fromEvent(minRangeElement, 'input')
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((event) => {
+          const minValue = (event.target as HTMLInputElement).valueAsNumber;
+          const maxValue = maxRangeElement.valueAsNumber;
+
+          let newMinValue = minValue;
+          if (minValue > maxValue) {
+            newMinValue = maxValue;
+            minRangeElement.valueAsNumber = newMinValue;
+          }
+
+          const newValue = { min: newMinValue, max: maxValue };
+          this.updateRange(newValue.min, newValue.max);
+          this.valueChange.emit(newValue);
+        });
     });
-  }
-
-  isElementRefsPopulated(): boolean {
-    return !!this.maxRange && !!this.minRange;
-  }
-
-  ngOnChanges(): void {
-    if (this.isElementRefsPopulated()) {
-      this.updateRange(this.value.min, this.value.max);
-    }
-  }
-
-  ngOnDestroy(): void {
-    this._maxChangeSubscription.unsubscribe();
-    this._minChangeSubscription.unsubscribe();
   }
 
   private updateRange(minValue: number, maxValue: number) {
-    const rangeDistance = this.max - this.min;
-    const fromPosition = minValue - this.min;
-    const toPosition = maxValue - this.min;
+    const maxRange = this.maxRange();
+    const minRange = this.minRange();
+    if (!maxRange || !minRange) return;
 
-    const sliderColor = this._colorService.getColor('secondaryLight');
-    const rangeColor = this._colorService.getColor('primary');
+    const maxRangeElement = maxRange.nativeElement;
+    const minRangeElement = minRange.nativeElement;
 
-    this.maxRange.nativeElement.valueAsNumber = this.value.max;
-    this.minRange.nativeElement.valueAsNumber = this.value.min;
-    this.maxRange.nativeElement.style.background = `linear-gradient(
+    maxRangeElement.valueAsNumber = maxValue;
+    minRangeElement.valueAsNumber = minValue;
+
+    const rangeDistance = this.max() - this.min();
+    const fromPosition = minValue - this.min();
+    const toPosition = maxValue - this.min();
+
+    const sliderColor = this.colorService.getColor('secondaryLight');
+    const rangeColor = this.colorService.getColor('primary');
+
+    maxRangeElement.style.background = `linear-gradient(
       to right,
       ${sliderColor} 0%,
       ${sliderColor} ${(fromPosition / rangeDistance) * 100}%,
@@ -143,14 +153,5 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy, OnChanges 
       ${rangeColor} ${(toPosition / rangeDistance) * 100}%,
       ${sliderColor} ${(toPosition / rangeDistance) * 100}%,
       ${sliderColor} 100%)`;
-  }
-
-  /**
-   * Change handler for updating value.
-   * @ignore
-   */
-  onChange(value: WattSliderValue) {
-    this.value = value;
-    this.valueChange.emit(value);
   }
 }
