@@ -24,7 +24,6 @@ import {
   ElementRef,
   inject,
   input,
-
   Renderer2,
   viewChild,
 } from '@angular/core';
@@ -47,8 +46,8 @@ type unlistenerFunction = () => void;
   host: {
     '[id]': 'id',
     '[attr.role]': '"tooltip"',
-    '[class]': 'hostClass()'
-  }
+    '[class]': 'hostClass()',
+  },
 })
 export class WattTooltipComponent {
   static nextId = 0;
@@ -76,7 +75,7 @@ export class WattTooltipComponent {
   constructor() {
     this.destroyRef.onDestroy(() => {
       this.popper?.destroy();
-      this.listeners.forEach(listener => listener());
+      this.listeners.forEach((listener) => listener());
     });
 
     effect(() => {
@@ -94,7 +93,6 @@ export class WattTooltipComponent {
         });
     });
   }
-
 
   private setupEventListeners(): void {
     // The mouse events shouldn't be bound on mobile devices, because they can prevent the
