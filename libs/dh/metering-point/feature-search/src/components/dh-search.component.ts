@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, input, linkedSignal, signal } from '@angular/core';
+import { Component, effect, inject, input, linkedSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -70,7 +70,7 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
           [placeholder]="t('placeholder')"
           [autoFocus]="true"
           (keydown.enter)="onSubmit()"
-          [showErrors]="submitted()"
+          [showErrors]="searchControl.touched"
         >
           @if (loading()) {
             <watt-spinner [diameter]="22" />
@@ -110,11 +110,11 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 export class DhSearchComponent {
   private readonly router = inject(Router);
   private readonly doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
-  protected submitted = signal(false);
 
   searchControl = new FormControl('', {
     validators: [Validators.required, dhMeteringPointIdValidator()],
     nonNullable: true,
+    updateOn: 'submit',
   });
 
   private readonly seachControlChange = toSignal(this.searchControl.valueChanges);
@@ -143,8 +143,8 @@ export class DhSearchComponent {
   }
 
   async onSubmit() {
-    this.submitted.set(true);
     this.searchControl.markAsTouched();
+    this.searchControl.updateValueAndValidity();
 
     if (this.searchControl.invalid) return;
 
