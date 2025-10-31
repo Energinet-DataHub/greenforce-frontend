@@ -181,156 +181,47 @@ export const charges: ChargeInformationDto[] = [
   },
 ];
 
-export const chargeSeries: ChargeSeries = {
-  __typename: 'ChargeSeries',
-  points: [
-    // Early morning (00:00-06:00) - Lower rates
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T00:00:00Z'),
-      toDateTime: new Date('2023-01-01T01:00:00Z'),
-      price: 0.08,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T01:00:00Z'),
-      toDateTime: new Date('2023-01-01T02:00:00Z'),
-      price: 0.08,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T02:00:00Z'),
-      toDateTime: new Date('2023-01-01T03:00:00Z'),
-      price: 0.07,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T03:00:00Z'),
-      toDateTime: new Date('2023-01-01T04:00:00Z'),
-      price: 0.07,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T04:00:00Z'),
-      toDateTime: new Date('2023-01-01T05:00:00Z'),
-      price: 0.08,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T05:00:00Z'),
-      toDateTime: new Date('2023-01-01T06:00:00Z'),
-      price: 0.09,
-    },
-    // Day time (06:00-18:00) - Higher rates
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T06:00:00Z'),
-      toDateTime: new Date('2023-01-01T07:00:00Z'),
-      price: 0.15,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T07:00:00Z'),
-      toDateTime: new Date('2023-01-01T08:00:00Z'),
-      price: 0.18,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T08:00:00Z'),
-      toDateTime: new Date('2023-01-01T09:00:00Z'),
-      price: 0.2,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T09:00:00Z'),
-      toDateTime: new Date('2023-01-01T10:00:00Z'),
-      price: 0.22,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T10:00:00Z'),
-      toDateTime: new Date('2023-01-01T11:00:00Z'),
-      price: 0.25,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T11:00:00Z'),
-      toDateTime: new Date('2023-01-01T12:00:00Z'),
-      price: 0.25,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T12:00:00Z'),
-      toDateTime: new Date('2023-01-01T13:00:00Z'),
-      price: 0.24,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T13:00:00Z'),
-      toDateTime: new Date('2023-01-01T14:00:00Z'),
-      price: 0.23,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T14:00:00Z'),
-      toDateTime: new Date('2023-01-01T15:00:00Z'),
-      price: 0.22,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T15:00:00Z'),
-      toDateTime: new Date('2023-01-01T16:00:00Z'),
-      price: 0.21,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T16:00:00Z'),
-      toDateTime: new Date('2023-01-01T17:00:00Z'),
-      price: 0.2,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T17:00:00Z'),
-      toDateTime: new Date('2023-01-01T18:00:00Z'),
-      price: 0.19,
-    },
-    // Evening (18:00-00:00) - Medium rates
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T18:00:00Z'),
-      toDateTime: new Date('2023-01-01T19:00:00Z'),
-      price: 0.16,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T19:00:00Z'),
-      toDateTime: new Date('2023-01-01T20:00:00Z'),
-      price: 0.15,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T20:00:00Z'),
-      toDateTime: new Date('2023-01-01T21:00:00Z'),
-      price: 0.14,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T21:00:00Z'),
-      toDateTime: new Date('2023-01-01T22:00:00Z'),
-      price: 0.12,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T22:00:00Z'),
-      toDateTime: new Date('2023-01-01T23:00:00Z'),
-      price: 0.1,
-    },
-    {
-      __typename: 'Point',
-      fromDateTime: new Date('2023-01-01T23:00:00Z'),
-      toDateTime: new Date('2023-01-02T00:00:00Z'),
-      price: 0.09,
-    },
-  ],
-  totalAmount: 3.67, // Sum of all 24 hourly prices
-};
+export const chargeSeriesDayResolution: ChargeSeries[] = Array.from({ length: 30 }, (_, i) => {
+  const numPoints = Math.floor(Math.random() * 5) + 1; // 1 to 5 points
+  const points = Array.from({ length: numPoints }, (_, j) => ({
+    __typename: 'Point' as const,
+    fromDateTime: new Date(new Date('2025-10-31T00:00:00Z').setDate(31 - j)),
+    toDateTime: new Date(new Date('2025-10-31T23:59:59Z').setDate(31 - j)),
+    price: Number((Math.random() * 2).toFixed(2)), // Random price between 0 and 2
+  }));
+  return {
+    __typename: 'ChargeSeries' as const,
+    points,
+    totalAmount: Number(points.reduce((sum, point) => sum + point.price, 0).toFixed(2)),
+  };
+});
+
+export const chargeSeriesHourlyResolution: ChargeSeries[] = Array.from({ length: 30 }, (_, i) => {
+  const numPoints = 24; // 24 points for hourly resolution
+  const points = Array.from({ length: numPoints }, (_, j) => ({
+    __typename: 'Point' as const,
+    fromDateTime: new Date(new Date('2025-10-31T00:00:00Z').setHours(j)),
+    toDateTime: new Date(new Date('2025-10-31T00:59:59Z').setHours(j)),
+    price: Number((Math.random() * 2).toFixed(2)), // Random price between 0 and 2
+  }));
+  return {
+    __typename: 'ChargeSeries' as const,
+    points,
+    totalAmount: Number(points.reduce((sum, point) => sum + point.price, 0).toFixed(2)),
+  };
+});
+
+export const chargeSeriesMonthlyResolution: ChargeSeries[] = Array.from({ length: 12 }, (_, i) => {
+  const numPoints = 1; // 1 point for monthly resolution
+  const points = Array.from({ length: numPoints }, () => ({
+    __typename: 'Point' as const,
+    fromDateTime: new Date(new Date('2025-12-01T00:00:00Z').setMonth(i)),
+    toDateTime: new Date(new Date('2025-12-31T23:59:59Z').setMonth(i)),
+    price: Number((Math.random() * 50).toFixed(2)), // Random price between 0 and 50
+  }));
+  return {
+    __typename: 'ChargeSeries' as const,
+    points,
+    totalAmount: Number(points.reduce((sum, point) => sum + point.price, 0).toFixed(2)),
+  };
+});
