@@ -1,28 +1,23 @@
-/// <reference types='vitest' />
 import { defineConfig } from 'vite';
-
-import viteTsConfigPaths from 'vite-tsconfig-paths';
+import angular from '@analogjs/vite-plugin-angular';
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh/admin/feature-user-roles',
-
-  plugins: [
-    viteTsConfigPaths({
-      root: '../../../../',
-    }),
-  ],
-
+  plugins: [angular(), nxViteTsPaths()],
   test: {
     passWithNoTests: true,
     globals: true,
-    environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    setupFiles: ['src/test-setup.ts'],
+    environment: 'happy-dom',
+    include: ['src/**/*.spec.ts'],
+    setupFiles: ['./src/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/dh/admin/feature-user-roles',
-      provider: 'v8',
+      enabled: true,
+      provider: 'v8' as const,
+      reporter: ['html', 'json', 'text-summary'],
+      reportsDirectory: '../../../../coverage/feature-user-roles',
     },
+    pool: 'forks',
   },
 }));
