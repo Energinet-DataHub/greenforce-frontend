@@ -19,8 +19,8 @@
 import { Component, effect, input } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet/watt/table';
 
 import {
   DhUserRoleWithPermissions,
@@ -30,7 +30,7 @@ import {
 @Component({
   selector: 'dh-role-permissions',
   template: `<watt-card
-    *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.permissions'"
+    *transloco="let t; prefix: 'admin.userManagement.drawer.roles.tabs.permissions'"
     variant="solid"
   >
     <watt-card-title>

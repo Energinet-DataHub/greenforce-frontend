@@ -19,7 +19,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet/watt/badge';
 import { ConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -32,15 +32,18 @@ import { ConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'meteringPoint.overview.status'">
+    <ng-container *transloco="let t; prefix: 'meteringPoint.overview.status'">
       @let statusView = status();
 
       @switch (statusView) {
+        @case (null) {
+          <watt-badge type="skeleton">{{ t('UNKNOWN') }}</watt-badge>
+        }
         @case ('CLOSED_DOWN') {
-          <watt-badge type="neutral">{{ t(statusView!) }}</watt-badge>
+          <watt-badge type="neutral">{{ t(statusView) }}</watt-badge>
         }
         @case ('NEW') {
-          <watt-badge type="info">{{ t(statusView!) }}</watt-badge>
+          <watt-badge type="info">{{ t(statusView) }}</watt-badge>
         }
         @case ('CONNECTED') {
           <watt-badge type="success">{{ t(statusView) }}</watt-badge>

@@ -26,10 +26,10 @@ import {
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+} from '@energinet/watt/vater';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhOverview } from './overview/overview.component';
@@ -60,7 +60,7 @@ import { DhNewReportRequest } from './new-report-request.component';
     }
   `,
   template: `
-    <watt-card vater inset="ml" *transloco="let t; read: 'reports.settlementReports'">
+    <watt-card vater inset="ml" *transloco="let t; prefix: 'reports.settlementReports'">
       @if (isLoading()) {
         <vater-stack fill="vertical" justify="center">
           <watt-spinner />

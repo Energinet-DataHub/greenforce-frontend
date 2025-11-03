@@ -24,9 +24,9 @@ import {
   GetOrganizationByIdDocument,
   GetOrganizationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/domain';
 import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 
@@ -53,7 +53,7 @@ import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
   template: `<vater-stack
     align="start"
     fill="horizontal"
-    *transloco="let t; read: 'marketParticipant.actor.create'"
+    *transloco="let t; prefix: 'marketParticipant.actor.create'"
   >
     <watt-dropdown
       [showResetOption]="false"

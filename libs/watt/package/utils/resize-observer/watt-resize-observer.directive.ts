@@ -25,7 +25,7 @@ import { WattResizeObserverService } from './watt-resize-observer.service';
  * The `resize` event emits initially and then everytime the element is resized.
  *
  * Usage:
- * `import { WattResizeObserverDirective } from '@energinet-datahub/watt/resize-observer';`
+ * `import { WattResizeObserverDirective } from '@energinet/watt/resize-observer';`
  */
 @Directive({ selector: '[wattResizeObserver]' })
 export class WattResizeObserverDirective implements OnDestroy {

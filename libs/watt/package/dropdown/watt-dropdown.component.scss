@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-@use "@energinet-datahub/watt/utils" as watt;
+@use "@energinet/watt/utils" as watt;
 
 watt-dropdown:not(.watt-chip-mode) {
   width: 100%;
@@ -107,10 +107,6 @@ watt-dropdown {
   --watt-input-color: var(--watt-typography-text-color);
   padding: 0;
 
-  mat-option:nth-of-type(2) {
-    border-top: 1px solid var(--watt-color-neutral-grey-300);
-  }
-
   .mat-select-search-inner-row .mat-select-search-input,
   mat-option.contains-mat-select-search {
     height: 48px;
@@ -161,6 +157,11 @@ watt-dropdown {
     color: var(--watt-input-color);
   }
 
+  .mat-mdc-optgroup-label {
+    @include watt.typography-watt-headline-6;
+    color: var(--watt-input-color);
+  }
+
   .mat-mdc-option.mdc-list-item .mat-select-search-no-entries-found {
     padding: var(--watt-space-s);
   }
@@ -172,6 +173,10 @@ watt-dropdown {
 
   :not(.mat-mdc-option-multiple) .mat-pseudo-checkbox {
     display: none;
+  }
+
+  .mat-mdc-option-multiple .mat-pseudo-checkbox {
+    display: inline-block;
   }
 
   .mat-pseudo-checkbox,

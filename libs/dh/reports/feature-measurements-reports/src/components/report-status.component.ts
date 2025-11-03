@@ -20,12 +20,12 @@ import { Component, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { MeasurementsReportStatusType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattBadgeComponent } from '@energinet/watt/badge';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
   selector: 'dh-report-status',
-  template: `<ng-container *transloco="let t; read: 'reports.measurementsReports.reportStatus'">
+  template: `<ng-container *transloco="let t; prefix: 'reports.measurementsReports.reportStatus'">
     @switch (status()) {
       @case ('IN_PROGRESS') {
         <watt-badge type="info">{{ t(status()) }}</watt-badge>

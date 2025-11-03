@@ -36,8 +36,8 @@ import { Component, input } from '@angular/core';
 
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
 import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';

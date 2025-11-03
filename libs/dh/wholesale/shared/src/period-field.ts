@@ -34,10 +34,10 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
-import { dayjs, WattRange } from '@energinet-datahub/watt/date';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { WattYearMonthField } from '@energinet-datahub/watt/yearmonth-field';
+import { dayjs, WattRange } from '@energinet/watt/date';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattFieldHintComponent } from '@energinet/watt/field';
+import { WattYearMonthField } from '@energinet/watt/yearmonth-field';
 
 import { isMonthOnly } from '@energinet-datahub/dh/wholesale/domain';
 import { NgTemplateOutlet } from '@angular/common';
@@ -61,7 +61,7 @@ import { NgTemplateOutlet } from '@angular/common';
     },
   ],
   template: `
-    <ng-container *transloco="let t; read: 'wholesale.calculations'">
+    <ng-container *transloco="let t; prefix: 'wholesale.calculations'">
       <ng-template #error><ng-content select="watt-field-error" /></ng-template>
       <ng-template #warning><ng-content select="watt-field-warning" /></ng-template>
       <ng-template #hint>

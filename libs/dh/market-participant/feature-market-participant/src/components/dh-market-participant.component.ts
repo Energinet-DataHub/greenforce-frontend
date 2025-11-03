@@ -19,13 +19,13 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { MarketParticipantSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-market-participant',
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.actors.tabs'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.actors.tabs'">
       <watt-link-tabs>
         <watt-link-tab [label]="t('actors.tabLabel')" [link]="getLink('actors')" />
         <watt-link-tab [label]="t('organizations.tabLabel')" [link]="getLink('organizations')" />

@@ -24,8 +24,8 @@ import {
   readApiErrorResponse,
 } from '@energinet-datahub/dh/market-participant/domain';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
 import { DhMarketParticipantAuditLogService } from '../../audit-log.service';
@@ -55,7 +55,7 @@ const certificateMimeType = 'application/x-x509-ca-cert';
     />
 
     <watt-button
-      *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
+      *transloco="let t; prefix: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
       variant="secondary"
       [loading]="uploadInProgress()"
       (click)="fileUpload.click()"

@@ -19,8 +19,8 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-reports';
 
 import { DhNotification } from './dh-notification';
@@ -39,7 +39,7 @@ import { DhNotification } from './dh-notification';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
+    <ng-container *transloco="let t; prefix: 'notificationsCenter.notification'">
       <div class="notification notification--unread">
         <watt-icon
           name="close"

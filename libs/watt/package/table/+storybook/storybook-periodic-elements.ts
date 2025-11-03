@@ -17,9 +17,9 @@
  */
 //#endregion
 import { Component, computed, input, model } from '@angular/core';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WATT_TABLE, WattTableColumnDef } from '../watt-table.component';
 import { WattTableDataSource } from '../watt-table-data-source';
 import { PeriodicElement } from './storybook-periodic-elements-data';

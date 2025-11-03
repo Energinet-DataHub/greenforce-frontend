@@ -20,8 +20,8 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattModalService } from '@energinet/watt/modal';
 import {
   DhActorStorage,
   PermissionService,

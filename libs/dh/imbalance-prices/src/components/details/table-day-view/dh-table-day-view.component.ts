@@ -21,9 +21,9 @@ import { Component, input, effect, ChangeDetectionStrategy } from '@angular/core
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattBadgeComponent } from '@energinet/watt/badge';
+import { WattDatePipe, dayjs } from '@energinet/watt/date';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../../../types';
 
@@ -43,7 +43,7 @@ import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../..
   ],
   template: `
     <watt-table
-      *transloco="let t; read: 'imbalancePrices.status'"
+      *transloco="let t; prefix: 'imbalancePrices.status'"
       [dataSource]="tableDataSource"
       [columns]="columns"
       [sortClear]="false"

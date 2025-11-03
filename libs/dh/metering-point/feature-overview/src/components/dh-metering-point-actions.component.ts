@@ -21,9 +21,10 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { NgTemplateOutlet } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattIconComponent } from '@energinet/watt/icon';
 import {
   getPath,
   MeasurementsSubPaths,
@@ -33,11 +34,15 @@ import {
   ConnectionState,
   ElectricityMarketMeteringPointType,
   MeteringPointSubType,
+  EicFunction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhPermissionRequiredDirective,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
-import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattModalService } from '@energinet/watt/modal';
 
 import { InstallationAddress } from '../types';
 
@@ -118,6 +123,7 @@ import { InstallationAddress } from '../types';
 export class DhMeteringPointActionsComponent {
   private readonly releaseToggleService = inject(DhReleaseToggleService);
   private readonly modalService = inject(WattModalService);
+  private readonly permissionService = inject(PermissionService);
 
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
@@ -127,10 +133,16 @@ export class DhMeteringPointActionsComponent {
   connectionState = input<ConnectionState | null>();
   installationAddress = input<InstallationAddress | null>();
 
+  private readonly hasGridAccessProviderRole = toSignal(
+    this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
+    { initialValue: false }
+  );
+
   showMeasurementsUploadButton = computed(() => {
     return (
       this.releaseToggleService.isEnabled('PM96-SHAREMEASUREDATA') &&
-      !this.isCalculatedMeteringPoint()
+      !this.isCalculatedMeteringPoint() &&
+      this.hasGridAccessProviderRole()
     );
   });
 

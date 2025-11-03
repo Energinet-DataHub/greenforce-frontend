@@ -20,12 +20,12 @@ import { RouterOutlet } from '@angular/router';
 import { Component, computed, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { WattDataActionsComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
@@ -66,7 +66,7 @@ import { Organization } from './types';
     <watt-data-table
       vater
       inset="ml"
-      *transloco="let t; read: 'marketParticipant.organizationsOverview'"
+      *transloco="let t; prefix: 'marketParticipant.organizationsOverview'"
       [searchLabel]="'shared.search' | transloco"
       [error]="dataSource.error"
       [ready]="dataSource.called"
@@ -80,7 +80,7 @@ import { Organization } from './types';
       </watt-data-actions>
 
       <watt-table
-        *transloco="let resolveHeader; read: 'marketParticipant.organizationsOverview.columns'"
+        *transloco="let resolveHeader; prefix: 'marketParticipant.organizationsOverview.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [loading]="dataSource.loading"

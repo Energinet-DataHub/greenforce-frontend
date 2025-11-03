@@ -39,9 +39,9 @@ import {
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattQueryParamsDirective } from '@energinet/watt/query-params';
 
 @Component({
   selector: 'dh-user-roles-filter',
@@ -62,7 +62,7 @@ import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
     tabindex="-1"
     [formGroup]="form"
     wattQueryParams
-    *transloco="let t; read: 'admin.userManagement.tabs.roles.filter'"
+    *transloco="let t; prefix: 'admin.userManagement.tabs.roles.filter'"
   >
     <watt-dropdown
       dhDropdownTranslator

@@ -22,17 +22,17 @@ import { Component, computed, inject } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattModalService } from '@energinet/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
   WattDataTableComponent,
   WattDataFiltersComponent,
   WattDataActionsComponent,
-} from '@energinet-datahub/watt/data';
+} from '@energinet/watt/data';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';

@@ -1,14 +1,12 @@
 # GreenForce
 
 [nx]: https://nx.dev
-[angular]: https://angular.io
+[angular]: https://angular.dev
 
 [![GitHub Workflow Status (event)](https://img.shields.io/github/actions/workflow/status/Energinet-DataHub/greenforce-frontend/dh-cd.yml?branch=main)](https://github.com/Energinet-DataHub/greenforce-frontend/actions/workflows/dh-cd.yml)
 [![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/Energinet-DataHub/greenforce-frontend/@angular/core?label=angular)](https://github.com/angular/angular/blob/main/CHANGELOG.md)
 
-Monorepo for the [DataHub](https://en.energinet.dk/Energy-data/DataHub) and
-[Energy Origin](https://en.energinet.dk/Energy-data/DataHub/Energy-Origin)
-frontends backed by [Nx] and [Angular].
+Monorepo for the [DataHub](https://en.energinet.dk/Energy-data/DataHub) frontend backed by [Nx] and [Angular].
 
 ## Table of Contents
 
@@ -20,7 +18,6 @@ frontends backed by [Nx] and [Angular].
     - [Development](#development)
     - [Backend For Frontend (BFF)](#backend-for-frontend-bff)
     - [Configuration](#configuration)
-- [Energy Origin](#energy-origin)
 - [Watt Design System](#watt-design-system)
 - [Workspace](#workspace)
     - [Applications](#applications)
@@ -35,22 +32,21 @@ frontends backed by [Nx] and [Angular].
 
 > The documentation in this README assumes the reader has a general understanding
 > of [Nx] and [Angular]. For beginners in these technologies, the
-> [Core Nx Tutorial](https://nx.dev/getting-started) and
-> [Angular Tour of Heroes](https://angular.io/tutorial) serves as a good
+> [What is Nx?](https://nx.dev/docs/getting-started/intro) and the
+> [Interactive Angular tutorial](https://angular.dev/tutorials/learn-angular) serve as a good
 > introduction.
 
 This repository is a monorepo which hosts serveral applications that all share
 the same dependencies (for example, every application is running the same
 version of Angular).
 
-_Note: Since this is an [Nx](https://nx.dev) workspace, the Nx CLI should be used
-over the Angular CLI._
+_Note: Since this is an [Nx] workspace, the Nx CLI should be used over the Angular CLI._
 
 ## Prerequisites
 
-- [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js®, Yarn and Bun.
-- [Bun](https://bun.sh): Alternative to Node.js® and Yarn that this repository use. Can also be installed with Volta.
+- [Bun](https://bun.sh): Alternative to Node.js® and Yarn that this repository uses.
 - [.NET SDK](https://dotnet.microsoft.com/en-us/download): Required for running and developing DataHub.
+- [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js®.
 
 ## DataHub
 
@@ -168,7 +164,7 @@ in the same folder and set the remote address in the relevant property.
 This is a shared UI library meant to be used by all frontend apps and it
 contains basic components and functionality for speeding up app development.
 It is located in `libs/watt` and can be imported from
-`@energinet-datahub/watt` in other libraries.
+`@energinet/watt` in other libraries.
 
 The design system is showcased using [Storybook](https://storybook.js.org),
 and can be found here: [Latest version (main)](https://main--61765fc47451ff003afe62ff.chromatic.com/)
@@ -177,7 +173,7 @@ To use components or other functionality from Watt, import as in the following
 example:
 
 ```ts
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattButtonComponent } from '@energinet/watt/button';
 ```
 
 ## Workspace

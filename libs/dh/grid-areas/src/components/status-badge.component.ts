@@ -19,14 +19,14 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet/watt/badge';
 import { GridAreaStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-gridarea-status-badge',
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.gridAreas.status'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.gridAreas.status'">
       @switch (status()) {
         @case ('Created') {
           <watt-badge type="neutral">{{ t('Created') }}</watt-badge>

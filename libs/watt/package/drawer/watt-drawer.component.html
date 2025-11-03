@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <mat-drawer-container class="watt-drawer-container" [hasBackdrop]="false">
   <mat-drawer
-    class="watt-drawer watt-space-inset-s watt-drawer--{{ size() }}"
+    class="watt-drawer watt-drawer--{{ size() }}"
     mode="side"
     position="end"
     [opened]="isOpen()"
@@ -25,20 +25,28 @@ limitations under the License.
     [autoFocus]="true"
     [cdkTrapFocus]="true"
   >
-    <div class="watt-drawer__grid-container">
-      <header>
-        <ng-content select="watt-drawer-topbar" />
-        <watt-button class="close-btn" variant="icon" icon="close" (click)="close()" />
-      </header>
-
-      <article class="watt-drawer__content">
-        <div class="watt-drawer__actions">
+    <article vater-flex fill="vertical">
+      <header vater-stack align="stretch" offset="m" gap="s">
+        <vater-stack direction="row" offset="ml" gap="s" align="center">
+          <ng-content select="watt-drawer-topbar" />
+          <vater-spacer />
+          <watt-button variant="icon" icon="close" (click)="close()" />
+        </vater-stack>
+        <vater-flex
+          autoSize
+          direction="row"
+          offset="ml"
+          justify="space-between"
+          gap="s"
+          align="center"
+        >
           <ng-content select="watt-drawer-heading" />
           <ng-content select="watt-drawer-actions" />
-        </div>
-        <ng-content select="watt-drawer-content" />
-      </article>
-    </div>
+        </vater-flex>
+      </header>
+      <ng-content />
+      <ng-content select="watt-drawer-content" />
+    </article>
 
     @if (loading()) {
       <div class="watt-drawer__spinner">

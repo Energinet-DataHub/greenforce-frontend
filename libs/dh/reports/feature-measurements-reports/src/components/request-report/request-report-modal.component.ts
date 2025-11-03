@@ -39,17 +39,17 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MutationResult } from 'apollo-angular';
 import { debounceTime, distinctUntilChanged, Observable, switchMap, tap } from 'rxjs';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattRange } from '@energinet-datahub/watt/date';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WattRange } from '@energinet/watt/date';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattRangeValidators } from '@energinet/watt/validators';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 
 import {
   getActorOptions,

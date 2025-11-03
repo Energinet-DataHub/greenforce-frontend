@@ -21,11 +21,11 @@ import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angula
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { GraphQLFormattedError } from 'graphql';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattModalComponent, WATT_MODAL } from '@energinet/watt/modal';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -59,7 +59,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
   ],
   template: `
     <watt-modal
-      *transloco="let t; read: 'admin.userManagement.editPermission'"
+      *transloco="let t; prefix: 'admin.userManagement.editPermission'"
       size="small"
       [title]="name()"
       (closed)="closeModal()"

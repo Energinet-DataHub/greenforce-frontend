@@ -20,7 +20,7 @@ import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core
 import { TranslocoDirective } from '@jsverse/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDelegationsByType } from '../types';
@@ -36,7 +36,7 @@ import { DhDelegationsComponent } from './delegations.component';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.delegation'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.delegation'">
       @for (entry of delegationsByType(); track entry.type) {
         <watt-expandable-card togglePosition="before" variant="solid">
           <watt-expandable-card-title>

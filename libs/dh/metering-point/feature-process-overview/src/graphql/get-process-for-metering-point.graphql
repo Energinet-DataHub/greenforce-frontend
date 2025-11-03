@@ -1,0 +1,30 @@
+query GetMeteringPointProcessById($id: String!) {
+  meteringPointProcessById(id: $id) {
+    id
+    createdAt
+    cutoffDate
+    documentType
+    reasonCode
+    state
+    steps {
+      id
+      step
+      comment
+      createdAt
+      dueDate
+      actor {
+        id
+        name
+      }
+      state
+      message {
+        id
+        documentUrl
+      }
+    }
+    initiator {
+      id
+      displayName
+    }
+  }
+}

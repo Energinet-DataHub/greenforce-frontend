@@ -25,7 +25,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styles: [
     `
       watt-drawer-heading {
-        margin-left: var(--watt-space-ml);
+        width: 100%;
+        display: block;
       }
 
       watt-drawer-heading h1,

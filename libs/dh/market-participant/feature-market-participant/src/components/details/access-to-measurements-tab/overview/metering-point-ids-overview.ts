@@ -25,12 +25,12 @@ import {
   WattTableColumnDef,
   WattTableComponent,
   WattTableDataSource,
-} from '@energinet-datahub/watt/table';
+} from '@energinet/watt/table';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDataTableComponent, WattDataActionsComponent } from '@energinet-datahub/watt/data';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDataTableComponent, WattDataActionsComponent } from '@energinet/watt/data';
 
 import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -64,7 +64,7 @@ import {
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.accessToMeasurements'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.accessToMeasurements'">
       <watt-data-table [enableCount]="false" variant="solid" [autoSize]="true">
         <h3>{{ t('modalTitle') }}</h3>
 

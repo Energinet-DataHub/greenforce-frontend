@@ -15,7 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.Charges.Abstractions.Api.Models;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
@@ -30,19 +31,14 @@ public class ChargeStatusTests
     private static readonly string _query =
     $$"""
     {
-        chargesByPeriod(
-            query: { from: "2020-01-01T00:00:00Z", to: "2020-12-31T23:59:59Z" }
-            after: null
-            before: null
-            first: 10
-            last: null
-            order: {
-                id: ASC
-            }
+        charges(
+            query: { chargeTypes: [FEE] }
+            skip: 0
+            take: 10
         ) {
             totalCount
-            nodes {
-                status
+            items {
+              status
             }
         }
     }
@@ -66,48 +62,47 @@ public class ChargeStatusTests
     [Fact]
     public async Task ChargeStatus_MissingPricesSeriesWithoutEndDate()
     {
-        await ExecuteTestAsync("MissingPricesSeriesWithoutEndDate", DateTimeOffset.Now.AddDays(-5), null, false);
+        await ExecuteTestAsync("MissingPricesSeriesWithoutEndDate", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.MaxValue, false);
     }
 
-    private static async Task ExecuteTestAsync(string testname, DateTimeOffset validFrom, DateTimeOffset? validTo, bool hasAnyPrices)
+    private static async Task ExecuteTestAsync(string testname, DateTimeOffset validFrom, DateTimeOffset validTo, bool hasAnyPrices)
     {
         var server = new GraphQLTestService();
 
         server.ChargesClientMock
-            .Setup(x => x.GetChargesByPeriod(It.IsAny<GetChargesByPeriodQuery>()))
+            .Setup(x => x.GetChargeInformationAsync(It.IsAny<ChargeInformationSearchCriteriaDto>(), It.IsAny<System.Threading.CancellationToken>()))
             .Returns(
-            [
-                new ChargeDto(
-                    Id: Guid.NewGuid(),
-                    ChargeId: "SUB-123",
-                    ChargeType: ChargeType.D01,
-                    ChargeName: "Subscription 123",
-                    ChargeOwner: "ABC123",
-                    ChargeOwnerName: "Energy Provider A",
-                    ChargeDescription: "Standard grid payment",
-                    Resolution: ChargeResolution.P1D,
-                    TaxIndicator: false,
-                    TransparentInvoicing: false,
-                    VatClassification: VatClassification.Vat25,
+               Task.FromResult(Result<IEnumerable<ChargeInformationDto>>.Success(new List<ChargeInformationDto>
+               {
+                new ChargeInformationDto(
+                    Id: "01234",
+                    Code: "SUB-123",
+                    ChargeType: ChargeType.Subscription,
+                    Name: "Subscription 123",
+                    Owner: "Energy Provider A",
+                    Description: "Standard grid payment",
+                    Resolution: Resolution.Daily,
+                    // TaxIndicator: false,
+                    // TransparentInvoicing: false,
+                    // VatClassification: VatClassification.Vat25,
                     HasAnyPrices: hasAnyPrices,
-                    ValidFromDateTime: validFrom,
-                    ValidToDateTime: validTo),
-                new ChargeDto(
-                    Id: Guid.NewGuid(),
-                    ChargeId: "FEE-456",
-                    ChargeType: ChargeType.D02,
-                    ChargeName: "Fee 456",
-                    ChargeOwner: "XYZ456",
-                    ChargeOwnerName: "Grid Company B",
-                    ChargeDescription: "System utilization fee",
-                    Resolution: ChargeResolution.P1D,
-                    TaxIndicator: false,
-                    TransparentInvoicing: false,
-                    VatClassification: VatClassification.Vat25,
+                    ValidFrom: validFrom,
+                    ValidTo: validTo),
+                new ChargeInformationDto(
+                    Id: "56789",
+                    Code: "FEE-456",
+                    ChargeType: ChargeType.Fee,
+                    Name: "Fee 456",
+                    Owner: "Grid Company B",
+                    Description: "System utilization fee",
+                    Resolution: Resolution.Daily,
+                    // TaxIndicator: false,
+                    // TransparentInvoicing: false,
+                    // VatClassification: VatClassification.Vat25,
                     HasAnyPrices: hasAnyPrices,
-                    ValidFromDateTime: validFrom,
-                    ValidToDateTime: validTo),
-            ]);
+                    ValidFrom: validFrom,
+                    ValidTo: validTo),
+               })));
 
         var result = await server.ExecuteRequestAsync(b => b
             .SetDocument(_query)

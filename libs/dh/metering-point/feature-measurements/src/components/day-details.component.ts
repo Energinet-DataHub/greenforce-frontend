@@ -19,11 +19,11 @@
 import { Component, computed, effect, inject, input, LOCALE_ID, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WattDatePipe, WattSupportedLocales } from '@energinet-datahub/watt/date';
-import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattDatePipe, WattSupportedLocales } from '@energinet/watt/date';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
+import { WattBadgeComponent } from '@energinet/watt/badge';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -31,7 +31,7 @@ import {
   MeteringPointSubType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Quality } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDataTableComponent } from '@energinet/watt/data';
 
 import { MeasurementPosition } from '../types';
 import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
@@ -81,7 +81,7 @@ type MeasurementColumns = {
       [animateOnKeyChange]="true"
       (closed)="closed.emit()"
       [loading]="query.loading()"
-      *transloco="let t; read: 'meteringPoint.measurements.drawer'"
+      *transloco="let t; prefix: 'meteringPoint.measurements.drawer'"
     >
       <watt-drawer-heading>
         @if (measurementPositionView) {
@@ -112,7 +112,7 @@ type MeasurementColumns = {
           <watt-data-table
             vater
             inset="ml"
-            *transloco="let resolveHeader; read: 'meteringPoint.measurements.drawer.columns'"
+            *transloco="let resolveHeader; prefix: 'meteringPoint.measurements.drawer.columns'"
             variant="solid"
             [enableCount]="false"
             [enableSearch]="false"

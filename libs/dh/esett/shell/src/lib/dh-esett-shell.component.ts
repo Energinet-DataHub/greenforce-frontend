@@ -19,13 +19,13 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-esett-shell',
   template: `
-    <watt-link-tabs *transloco="let t; read: 'eSett.tabs'">
+    <watt-link-tabs *transloco="let t; prefix: 'eSett.tabs'">
       <watt-link-tab
         [label]="t('outgoingMessages.tabLabel')"
         [link]="getLink('outgoing-messages')"

@@ -30,7 +30,7 @@ import {
 import { WattDescriptionListItemComponent } from './watt-description-list-item.component';
 /**
  * Usage:
- * `import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';`
+ * `import { WattDescriptionListComponent } from '@energinet/watt/description-list';`
  */
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -51,7 +51,7 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
 class WattDescriptionListComponent<T> {
   private ngClass = inject(NgClass);
   descriptionItems = contentChildren(WattDescriptionListItemComponent<T>);
-  variant = input<'flow' | 'stack' | 'compact'>('flow');
+  variant = input<'flow' | 'inline-flow' | 'stack' | 'compact'>('flow');
   descriptionVariant = computed(() => `watt-description-list-${this.variant()}`);
   groupsPerRow = input<number>(3);
   itemSeparators = input(true);
@@ -66,3 +66,7 @@ class WattDescriptionListComponent<T> {
 }
 
 export { WattDescriptionListItemComponent, WattDescriptionListComponent };
+export const WATT_DESCRIPTION_LIST = [
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+] as const;

@@ -18,15 +18,15 @@
 //#endregion
 import { Component, effect, inject, input } from '@angular/core';
 
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 import { DhCertificateUploaderComponent } from './certificate/dh-certificate-uploader.component';
 import { DhCertificateViewComponent } from './certificate/dh-certificate-view.component';
 import { DhGenerateClientSecretComponent } from './client-secret/dh-generate-client-secret.component';
 import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-view.component';
-import { WattEmptyStateNoResultsComponent } from '@energinet-datahub/watt/empty-state';
+import { WattEmptyStateNoResultsComponent } from '@energinet/watt/empty-state';
 
 import { DhMarketPartyB2BAccessStore } from './dh-b2b-access.store';
 @Component({

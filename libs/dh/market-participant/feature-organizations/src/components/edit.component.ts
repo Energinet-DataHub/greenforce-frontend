@@ -23,9 +23,9 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { MutationResult } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
 import {
   GetOrganizationsDocument,
@@ -57,7 +57,7 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
       [title]="organization()?.name ?? ''"
       [loading]="loading()"
       (closed)="handleClosed()"
-      *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
+      *transloco="let t; prefix: 'marketParticipant.organizationsOverview.edit'"
     >
       <form id="editForm" (ngSubmit)="save()">
         <dh-organization-manage [domains]="domains" />

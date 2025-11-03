@@ -18,7 +18,7 @@
 //#endregion
 import { Component, computed, inject, input } from '@angular/core';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WATT_CARD } from '@energinet/watt/card';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
@@ -29,9 +29,9 @@ import { EnergySupplier } from './../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhCustomerOverviewComponent } from './customer/dh-customer-overview.component';
-import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-points.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
+import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-points.component';
 
 @Component({
   selector: 'dh-metering-point-master-data',
@@ -42,12 +42,12 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
     DhCustomerOverviewComponent,
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
-    DhRelatedMeteringPointsComponent,
     DhCanSeeDirective,
     DhResultComponent,
+    DhRelatedMeteringPointsComponent,
   ],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     :host {
       display: block;

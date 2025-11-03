@@ -94,6 +94,7 @@
           }
         },
         "development": {
+          "aot": false,
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true,
@@ -101,6 +102,7 @@
           "allowedCommonJsDependencies": ["flat", "msw", "dayjs"]
         },
         "mocked": {
+          "aot": false,
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true,
@@ -143,7 +145,6 @@
           "ssl": true,
           "sslKey": "localhost.key",
           "sslCert": "localhost.crt",
-          "host": "0.0.0.0",
           "buildTarget": "app-dh:build:development"
         },
         "mocked": {
@@ -152,7 +153,6 @@
           "ssl": true,
           "sslKey": "localhost.key",
           "sslCert": "localhost.crt",
-          "host": "0.0.0.0",
           "buildTarget": "app-dh:build:mocked"
         }
       },

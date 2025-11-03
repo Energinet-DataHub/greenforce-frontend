@@ -16,7 +16,7 @@ limitations under the License.
 -->
 @let selectedPermission = permission();
 <watt-drawer
-  *transloco="let t; read: 'admin.userManagement.permissionDetail'"
+  *transloco="let t; prefix: 'admin.userManagement.permissionDetail'"
   #drawer
   size="large"
   (closed)="onClose()"
@@ -33,59 +33,56 @@ limitations under the License.
       >{{ t("edit") }}</watt-button
     >
   </watt-drawer-actions>
-
-  <watt-drawer-content>
-    <dh-result [loading]="loading()" [hasError]="hasError()">
-      @if (drawer.isOpen() && selectedPermission) {
-        <watt-tabs>
-          <watt-tab [label]="t('information')">
-            <watt-card variant="solid">
-              <watt-description-list variant="stack">
-                <watt-description-list-item
-                  [label]="t('permissionName')"
-                  [value]="selectedPermission.name"
-                />
-
-                <watt-description-list-item
-                  [label]="t('permissionDescription')"
-                  [value]="selectedPermission.description"
-                />
-              </watt-description-list>
-            </watt-card>
-          </watt-tab>
-
-          <watt-tab [label]="t('tabs.userRoles.tabLabel')">
-            @defer {
-              <dh-admin-permission-roles
-                [selectedPermission]="selectedPermission"
-                [loading]="loading()"
-                [hasError]="hasError()"
+  <dh-result [loading]="loading()" [hasError]="hasError()">
+    @if (drawer.isOpen() && selectedPermission) {
+      <watt-tabs>
+        <watt-tab [label]="t('information')">
+          <watt-card variant="solid">
+            <watt-description-list variant="stack">
+              <watt-description-list-item
+                [label]="t('permissionName')"
+                [value]="selectedPermission.name"
               />
-            }
-          </watt-tab>
 
-          <watt-tab [label]="t('tabs.marketRoles.tabLabel')">
-            @defer {
-              <dh-admin-permission-market-roles
-                [loading]="loading()"
-                [hasError]="hasError()"
-                [selectedPermission]="selectedPermission"
+              <watt-description-list-item
+                [label]="t('permissionDescription')"
+                [value]="selectedPermission.description"
               />
-            }
-          </watt-tab>
+            </watt-description-list>
+          </watt-card>
+        </watt-tab>
 
-          <watt-tab
-            *dhPermissionRequired="['user-roles:manage']"
-            [label]="t('tabs.history.tabLabel')"
-          >
-            @defer {
-              <dh-admin-permission-audit-logs [selectedPermission]="selectedPermission" />
-            }
-          </watt-tab>
-        </watt-tabs>
-      }
-    </dh-result>
-  </watt-drawer-content>
+        <watt-tab [label]="t('tabs.userRoles.tabLabel')">
+          @defer {
+            <dh-admin-permission-roles
+              [selectedPermission]="selectedPermission"
+              [loading]="loading()"
+              [hasError]="hasError()"
+            />
+          }
+        </watt-tab>
+
+        <watt-tab [label]="t('tabs.marketRoles.tabLabel')">
+          @defer {
+            <dh-admin-permission-market-roles
+              [loading]="loading()"
+              [hasError]="hasError()"
+              [selectedPermission]="selectedPermission"
+            />
+          }
+        </watt-tab>
+
+        <watt-tab
+          *dhPermissionRequired="['user-roles:manage']"
+          [label]="t('tabs.history.tabLabel')"
+        >
+          @defer {
+            <dh-admin-permission-audit-logs [selectedPermission]="selectedPermission" />
+          }
+        </watt-tab>
+      </watt-tabs>
+    }
+  </dh-result>
 </watt-drawer>
 
 <router-outlet />

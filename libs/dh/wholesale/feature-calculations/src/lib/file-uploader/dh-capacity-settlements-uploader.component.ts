@@ -21,7 +21,7 @@ import { HttpClient } from '@angular/common/http';
 import { translate } from '@jsverse/transloco';
 import { tapResponse } from '@ngrx/operators';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService } from '@energinet/watt/toast';
 
 const jsonExt = '.json';
 const jsonMimeType = 'application/json';

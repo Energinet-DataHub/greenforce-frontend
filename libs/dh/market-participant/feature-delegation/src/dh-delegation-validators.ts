@@ -18,7 +18,7 @@
 //#endregion
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/date';
 
 export const dhDateCannotBeOlderThanTodayValidator =
   () =>

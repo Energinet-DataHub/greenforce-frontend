@@ -20,10 +20,10 @@ import { RouterOutlet } from '@angular/router';
 import { Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { WattDatePipe } from '@energinet/watt/date';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import { GetProcessesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
@@ -58,7 +58,7 @@ type Variables = Partial<GetProcessesQueryVariables>;
     <watt-data-table
       vater
       inset="ml"
-      *transloco="let t; read: 'devExamples.processes.table'"
+      *transloco="let t; prefix: 'devExamples.processes.table'"
       [searchLabel]="t('searchLabel')"
       [error]="dataSource.error"
       [ready]="dataSource.called"
@@ -70,7 +70,7 @@ type Variables = Partial<GetProcessesQueryVariables>;
       </watt-data-filters>
 
       <watt-table
-        *transloco="let resolveHeader; read: 'devExamples.processes.table.columns'"
+        *transloco="let resolveHeader; prefix: 'devExamples.processes.table.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [loading]="dataSource.loading"

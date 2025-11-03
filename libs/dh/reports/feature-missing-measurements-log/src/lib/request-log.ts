@@ -28,13 +28,13 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattRange, dayjs } from '@energinet-datahub/watt/date';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattRange, dayjs } from '@energinet/watt/date';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
+import { WattRangeValidators } from '@energinet/watt/validators';
+import { VaterFlexComponent } from '@energinet/watt/vater';
 
 import { DhRequestMissingMeasurementLogService } from './request-log-service';
 
@@ -54,7 +54,7 @@ import { DhRequestMissingMeasurementLogService } from './request-log-service';
   ],
   template: `
     <watt-modal
-      *transloco="let t; read: 'reports.missingMeasurementsLog.requestLog'"
+      *transloco="let t; prefix: 'reports.missingMeasurementsLog.requestLog'"
       #modal
       size="small"
       [title]="t('title')"

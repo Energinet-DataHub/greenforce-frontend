@@ -20,9 +20,9 @@ import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WattSupportedLocales } from '@energinet-datahub/watt/date';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattSupportedLocales } from '@energinet/watt/date';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { Quality, GetMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -54,13 +54,13 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
-      *transloco="let t; read: 'meteringPoint.measurements'"
+      *transloco="let t; prefix: 'meteringPoint.measurements'"
     >
       <watt-data-filters>
         <dh-measurements-day-filter (filter)="fetch($event)" />
       </watt-data-filters>
       <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
+        *transloco="let resolveHeader; prefix: 'meteringPoint.measurements.columns'"
         [resolveHeader]="resolveHeader"
         [columns]="columns()"
         [dataSource]="dataSource"

@@ -45,7 +45,7 @@ const meteringPointSubPaths = {
   measurements: 'measurements',
   messages: 'messages',
   failedMeasurements: 'failed-measurements',
-  processes: 'processes',
+  processOverview: 'process-overview',
 } as const;
 
 const measurementsSubPaths = {
@@ -85,6 +85,8 @@ const missingMeasurementsLogSubPaths = {
 
 const chargesSubPaths = {
   prices: 'prices',
+  information: 'information',
+  history: 'history',
 } as const;
 
 const basePaths = {

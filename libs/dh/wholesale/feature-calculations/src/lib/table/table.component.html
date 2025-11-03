@@ -17,7 +17,7 @@ limitations under the License.
 <watt-data-table
   vater
   inset="ml"
-  *transloco="let t; read: 'wholesale.calculations'"
+  *transloco="let t; prefix: 'wholesale.calculations'"
   [searchLabel]="t('search')"
   [error]="dataSource.error"
 >
@@ -55,7 +55,7 @@ limitations under the License.
   </watt-data-filters>
 
   <watt-table
-    *transloco="let translateHeader; read: 'wholesale.calculations.columns'"
+    *transloco="let translateHeader; prefix: 'wholesale.calculations.columns'"
     [dataSource]="dataSource"
     [columns]="columns"
     [resolveHeader]="translateHeader"

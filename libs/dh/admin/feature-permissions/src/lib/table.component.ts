@@ -21,10 +21,10 @@ import { Component, computed, inject } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WattDataActionsComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WATT_CARD } from '@energinet/watt/card';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattTableColumnDef, WATT_TABLE } from '@energinet/watt/table';
+import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -62,7 +62,7 @@ import { DhPermissionsDownloadComponent } from './download.component';
     <watt-data-table
       vater
       inset="ml"
-      *transloco="let t; read: 'admin.userManagement.permissionsTab'"
+      *transloco="let t; prefix: 'admin.userManagement.permissionsTab'"
       [searchLabel]="'shared.search' | transloco"
       [error]="dataSource.error"
       [ready]="dataSource.called"

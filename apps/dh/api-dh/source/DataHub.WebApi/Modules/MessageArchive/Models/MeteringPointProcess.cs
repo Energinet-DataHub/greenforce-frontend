@@ -13,12 +13,16 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
+using Energinet.DataHub.WebApi.Modules.Processes.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
 public record MeteringPointProcess(
     string Id,
     DateTimeOffset CreatedAt,
+    DateTimeOffset CutoffDate,
     DocumentType DocumentType,
-    string? ActorNumber,
-    string? ActorRole);
+    string ReasonCode,
+    string ActorNumber,
+    string ActorRole,
+    ProcessState State);

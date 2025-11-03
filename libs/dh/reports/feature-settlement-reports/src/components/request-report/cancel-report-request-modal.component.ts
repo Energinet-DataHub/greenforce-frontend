@@ -20,8 +20,8 @@ import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
   selector: 'dh-cancel-report-request-modal',
@@ -33,7 +33,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
   `,
   template: `
     <watt-modal
-      *transloco="let t; read: 'reports.settlementReports.cancelReport'"
+      *transloco="let t; prefix: 'reports.settlementReports.cancelReport'"
       [title]="t('title')"
       #modal
     >

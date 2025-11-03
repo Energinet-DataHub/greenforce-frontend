@@ -19,7 +19,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattModalService } from '@energinet/watt/modal';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 import { DhUsersComponent } from './table/table.component';

@@ -174,13 +174,21 @@
         }
       }
     },
-    "/metering-point/contact/{contactId}/cpr": {
+    "/metering-point/{identification}/contact/{contactId}/cpr": {
       "get": {
         "tags": [
           "MeteringPoint"
         ],
         "operationId": "cpr",
         "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "contactId",
             "in": "path",

@@ -22,13 +22,8 @@ import { Component } from '@angular/core';
   selector: 'watt-drawer-actions',
   styles: `
     :host {
-      flex-shrink: 0;
       display: flex;
-      justify-content: flex-end;
-      align-items: flex-start;
-      gap: var(--watt-space-m);
-      margin-left: auto;
-      margin-right: var(--watt-space-ml);
+      gap: var(--watt-space-s);
     }
   `,
   template: `<ng-content select="watt-button" />`,

@@ -20,9 +20,9 @@ import { ChangeDetectionStrategy, Component, effect, input } from '@angular/core
 import { MatSortModule } from '@angular/material/sort';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattDataTableComponent } from '@energinet/watt/data';
+import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet/watt/table';
 
 import { DhProcessCalculationGridArea } from '../types';
 
@@ -31,7 +31,7 @@ import { DhProcessCalculationGridArea } from '../types';
   selector: 'dh-calculation-details-grid-areas',
   template: `
     <watt-data-table
-      *transloco="let t; read: 'devExamples.processes.details'"
+      *transloco="let t; prefix: 'devExamples.processes.details'"
       variant="solid"
       [enableSearch]="false"
       [enablePaginator]="false"

@@ -24,8 +24,8 @@ import {
   PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery, QueryStatus } from '@energinet-datahub/dh/shared/util-apollo';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattFieldHintComponent } from '@energinet/watt/field';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
@@ -34,7 +34,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
   selector: 'dh-calculations-grid-areas-dropdown',
   template: `
     <watt-dropdown
-      *transloco="let t; read: 'wholesale.calculations'"
+      *transloco="let t; prefix: 'wholesale.calculations'"
       [label]="t('create.gridArea.label')"
       [formControl]="control()"
       [options]="gridAreaOptions()"

@@ -24,15 +24,15 @@ import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 
 import {
   WATT_TABLE,
   WattTableComponent,
   WattTableColumnDef,
   WattTableDataSource,
-} from '@energinet-datahub/watt/table';
+} from '@energinet/watt/table';
 
 import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
 import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -54,7 +54,10 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
       padding: var(--watt-space-xl);
     }
   `,
-  template: `<watt-card *transloco="let t; read: 'admin.userManagement.inviteUser'" variant="solid">
+  template: `<watt-card
+    *transloco="let t; prefix: 'admin.userManagement.inviteUser'"
+    variant="solid"
+  >
     <watt-card-title>
       <h4>
         @if (dataSource.totalCount === 1) {

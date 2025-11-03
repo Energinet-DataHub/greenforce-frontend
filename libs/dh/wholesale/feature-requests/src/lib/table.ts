@@ -19,15 +19,15 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, inject, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
 import {
   WattTableCellDirective,
   WattTableColumnDef,
   WattTableComponent,
-} from '@energinet-datahub/watt/table';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+} from '@energinet/watt/table';
+import { WattDataTableComponent } from '@energinet/watt/data';
 import {
   DhPermissionRequiredDirective,
   PermissionService,
@@ -58,7 +58,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
   ],
   template: `
     <watt-data-table
-      *transloco="let t; read: 'wholesale.requests'"
+      *transloco="let t; prefix: 'wholesale.requests'"
       vater
       inset="ml"
       [enableSearch]="false"
@@ -81,7 +81,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
       </watt-button>
 
       <watt-table
-        *transloco="let resolveHeader; read: 'wholesale.requests.columns'"
+        *transloco="let resolveHeader; prefix: 'wholesale.requests.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [displayedColumns]="displayedColumns()"

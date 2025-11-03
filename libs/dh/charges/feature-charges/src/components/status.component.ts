@@ -17,11 +17,13 @@
  */
 //#endregion
 import { Component, input } from '@angular/core';
-import { ChargeStatus } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { WattBadgeComponent } from '@energinet/watt/badge';
+
+import { ChargeStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 @Component({
   selector: 'dh-charge-status',
   imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],

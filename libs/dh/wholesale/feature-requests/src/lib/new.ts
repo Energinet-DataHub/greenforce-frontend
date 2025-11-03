@@ -27,12 +27,12 @@ import {
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { dayjs } from '@energinet-datahub/watt/date';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { VaterFlexComponent } from '@energinet/watt/vater';
+import { dayjs } from '@energinet/watt/date';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 
 import {
   GetRequestOptionsDocument,
@@ -92,7 +92,7 @@ const maxDaysValidator =
   ],
   template: `
     <watt-modal
-      *transloco="let t; read: 'wholesale.requests.new'"
+      *transloco="let t; prefix: 'wholesale.requests.new'"
       #modal
       size="small"
       [title]="t('title')"

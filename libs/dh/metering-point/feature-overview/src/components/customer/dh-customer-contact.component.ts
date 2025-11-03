@@ -26,7 +26,7 @@ import { CustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql'
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
+} from '@energinet/watt/description-list';
 
 import { DhCustomerProtectedComponent } from './dh-customer-protected.component';
 import { DhAddressComponent } from '../address/dh-address.component';
@@ -46,7 +46,7 @@ import { DhAddressComponent } from '../address/dh-address.component';
       <dh-customer-protected />
     }
     <watt-description-list
-      *transloco="let t; read: 'meteringPoint.overview.customerContactDetails'"
+      *transloco="let t; prefix: 'meteringPoint.overview.customerContactDetails'"
       variant="stack"
       [itemSeparators]="false"
     >

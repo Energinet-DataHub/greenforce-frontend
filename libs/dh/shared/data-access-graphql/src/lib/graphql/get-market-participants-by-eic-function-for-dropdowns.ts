@@ -19,7 +19,7 @@
 import { computed, Signal } from '@angular/core';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownOptions } from '@energinet/watt/dropdown';
 
 type MarketParticipant = ResultOf<
   typeof GetMarketParticipantsForEicFunctionDocument

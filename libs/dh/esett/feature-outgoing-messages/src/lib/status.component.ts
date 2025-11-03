@@ -19,8 +19,8 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { dayjs } from '@energinet-datahub/watt/date';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { dayjs } from '@energinet/watt/date';
+import { WattBadgeComponent } from '@energinet/watt/badge';
 import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -29,7 +29,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   template: `
     @let _status = status();
 
-    <ng-container *transloco="let t; read: 'eSett.outgoingMessages.shared.documentStatus'">
+    <ng-container *transloco="let t; prefix: 'eSett.outgoingMessages.shared.documentStatus'">
       @switch (_status) {
         @case ('RECEIVED') {
           <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">

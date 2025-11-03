@@ -20,11 +20,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet/watt/badge';
 import {
   WattExpandableCardComponent,
   WattExpandableCardTitleComponent,
-} from '@energinet-datahub/watt/expandable-card';
+} from '@energinet/watt/expandable-card';
 import { GetMeteringPointsByGridAreaDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type Group = ResultOf<
@@ -43,7 +43,7 @@ export type Group = ResultOf<
   template: `
     <watt-expandable-card
       variant="solid"
-      *transloco="let t; read: 'meteringPointDebug.meteringPoints'"
+      *transloco="let t; prefix: 'meteringPointDebug.meteringPoints'"
     >
       <watt-badge>{{ group().meteringPoints.length }}</watt-badge>
       <watt-expandable-card-title

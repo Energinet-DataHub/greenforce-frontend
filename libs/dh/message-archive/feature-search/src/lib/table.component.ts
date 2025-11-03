@@ -21,15 +21,15 @@ import { Component, computed, effect, inject, output, signal, viewChild } from '
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
 import {
   WattTableCellDirective,
   WattTableColumnDef,
   WattTableComponent,
-} from '@energinet-datahub/watt/table';
-import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet-datahub/watt/data';
+} from '@energinet/watt/table';
+import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
 
 import {
   GetArchivedMessagesQueryVariables,
@@ -40,7 +40,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService } from '@energinet/watt/toast';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
@@ -60,7 +60,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
   ],
   template: `
     <watt-data-table
-      *transloco="let t; read: 'messageArchive'"
+      *transloco="let t; prefix: 'messageArchive'"
       vater
       inset="ml"
       [searchLabel]="t('searchById')"
@@ -83,7 +83,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
       }
 
       <watt-table
-        *transloco="let resolveHeader; read: 'messageArchive.columns'"
+        *transloco="let resolveHeader; prefix: 'messageArchive.columns'"
         #table
         description="Search result"
         [dataSource]="dataSource"

@@ -1,0 +1,10 @@
+query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
+  chargeSeries(chargeId: $chargeId, interval: $interval) {
+    totalAmount
+    points {
+      price
+      fromDateTime
+      toDateTime
+    }
+  }
+}

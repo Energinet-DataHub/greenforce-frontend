@@ -23,10 +23,10 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, map } from 'rxjs';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { dayjs } from '@energinet-datahub/watt/date';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
+import { dayjs } from '@energinet/watt/date';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
 import { dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -55,7 +55,7 @@ import { persistDateFilter } from '../utils/persist-date-filter';
         direction="row"
         gap="ml"
         align="baseline"
-        *transloco="let t; read: 'meteringPoint.measurements.filters'"
+        *transloco="let t; prefix: 'meteringPoint.measurements.filters'"
       >
         <watt-datepicker [formControl]="form.controls.date" canStepThroughDays />
         <watt-slide-toggle [formControl]="form.controls.showHistoricValues">

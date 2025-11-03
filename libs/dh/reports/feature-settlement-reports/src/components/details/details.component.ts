@@ -19,16 +19,16 @@
 import { Component, output, viewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet/watt/drawer';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+} from '@energinet/watt/description-list';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
 import { DhDuration } from './duration.component';
@@ -40,6 +40,8 @@ import { DhReportStatus } from '../report-status.component';
     TranslocoPipe,
     TranslocoDirective,
 
+    VaterStackComponent,
+    VaterFlexComponent,
     WATT_CARD,
     WATT_TABLE,
     WATT_DRAWER,
@@ -74,12 +76,7 @@ import { DhReportStatus } from '../report-status.component';
       }
 
       .card-metadata {
-        margin: var(--watt-space-ml);
         width: 60%;
-      }
-
-      .card-grid-areas {
-        margin: var(--watt-space-ml);
       }
     `,
   ],

@@ -19,14 +19,10 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, effect, inject, Injectable, input, output } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import {
-  WattTableColumnDef,
-  WattTableComponent,
-  WattTableDataSource,
-} from '@energinet-datahub/watt/table';
-import { WattDataIntlService, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattTableColumnDef, WattTableComponent, WattTableDataSource } from '@energinet/watt/table';
+import { WattDataIntlService, WattDataTableComponent } from '@energinet/watt/data';
 
 @Injectable()
 export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
@@ -72,7 +68,7 @@ export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
   providers: [{ provide: WattDataIntlService, useClass: DhReportsMissingMeasurementsLogIntl }],
   template: `
     <watt-data-table
-      *transloco="let t; read: 'reports.missingMeasurementsLog'"
+      *transloco="let t; prefix: 'reports.missingMeasurementsLog'"
       vater
       inset="ml"
       [enableSearch]="false"
@@ -86,7 +82,7 @@ export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
       </watt-button>
 
       <watt-table
-        *transloco="let resolveHeader; read: 'reports.missingMeasurementsLog.columns'"
+        *transloco="let resolveHeader; prefix: 'reports.missingMeasurementsLog.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [resolveHeader]="resolveHeader"

@@ -58,4 +58,46 @@ describe('dhCprValidator', () => {
     control.setValue(_11Digits);
     expect(dhCprValidator()(control)).toEqual({ invalidCprLength: true });
   });
+
+  it('should return allOnes error if control value is all ones', () => {
+    control.setValue('1111111111');
+    expect(dhCprValidator()(control)).toEqual({ allOnes: true });
+  });
+
+  describe('date validation', () => {
+    it('should return invalidDate error if day is invalid', () => {
+      control.setValue('3212121234'); // 32nd day
+      expect(dhCprValidator()(control)).toEqual({ invalidDate: true });
+
+      control.setValue('0012121234'); // 00 day
+      expect(dhCprValidator()(control)).toEqual({ invalidDate: true });
+    });
+
+    it('should return invalidDate error if month is invalid', () => {
+      control.setValue('2513131234'); // 13th month
+      expect(dhCprValidator()(control)).toEqual({ invalidDate: true });
+
+      control.setValue('2500131234'); // 00 month
+      expect(dhCprValidator()(control)).toEqual({ invalidDate: true });
+    });
+
+    it('should return invalidDate error for invalid day in specific months', () => {
+      control.setValue('3104121234'); // 31st of April
+      expect(dhCprValidator()(control)).toEqual({ invalidDate: true });
+
+      control.setValue('2902131234'); // 29th of February in non-leap year
+      expect(dhCprValidator()(control)).toEqual({ invalidDate: true });
+    });
+
+    it('should accept valid dates', () => {
+      control.setValue('2512121234'); // 25th December
+      expect(dhCprValidator()(control)).toBeNull();
+
+      control.setValue('3110121234'); // 31st October
+      expect(dhCprValidator()(control)).toBeNull();
+
+      control.setValue('2902001234'); // 29th February in leap year 2000
+      expect(dhCprValidator()(control)).toBeNull();
+    });
+  });
 });

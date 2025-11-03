@@ -21,13 +21,13 @@ import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/tr
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattModalService } from '@energinet/watt/modal';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
 import { DhMarketParticipantAuditLogService } from '../../audit-log.service';

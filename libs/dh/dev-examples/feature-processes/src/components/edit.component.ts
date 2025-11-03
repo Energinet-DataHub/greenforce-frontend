@@ -21,10 +21,10 @@ import { afterRenderEffect, Component, inject, viewChild } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
@@ -41,7 +41,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
   ],
   template: `
     <watt-modal
-      *transloco="let t; read: 'devExamples.processes.edit'"
+      *transloco="let t; prefix: 'devExamples.processes.edit'"
       [title]="t('title')"
       #modal
       (closed)="navigation.navigate('details', id())"

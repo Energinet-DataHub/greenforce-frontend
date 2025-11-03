@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { WattDropdownOption, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownOption, WattDropdownOptions } from '@energinet/watt/dropdown';
 
 export function dhEnumToWattDropdownOptions<T extends object>(
   enumObj: T,

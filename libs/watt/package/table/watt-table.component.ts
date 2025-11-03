@@ -203,7 +203,7 @@ export class WattTableToolbarDirective<T> {
 
 /**
  * Usage:
- * `import { WATT_TABLE } from '@energinet-datahub/watt/table';`
+ * `import { WATT_TABLE } from '@energinet/watt/table';`
  */
 @Component({
   imports: [

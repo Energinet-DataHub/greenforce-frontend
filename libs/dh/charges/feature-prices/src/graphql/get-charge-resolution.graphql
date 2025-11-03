@@ -1,0 +1,6 @@
+query GetChargeResolution($id: String!) {
+  chargeById(id: $id) {
+    id
+    resolution
+  }
+}

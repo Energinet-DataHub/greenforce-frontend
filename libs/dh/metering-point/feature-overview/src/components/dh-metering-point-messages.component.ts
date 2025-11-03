@@ -22,12 +22,12 @@ import { filter } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import { dayjs, WattDatePipe } from '@energinet/watt/date';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { ExtractNodeType, query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -67,7 +67,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
   template: `
     <dh-message-archive-search-details #details (close)="selection.set(undefined)" />
     <watt-data-table
-      *transloco="let t; read: 'messageArchive'"
+      *transloco="let t; prefix: 'messageArchive'"
       vater
       inset="ml"
       [error]="dataSource.error"
@@ -81,7 +81,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
           gap="s"
           tabindex="-1"
           [formGroup]="form"
-          *transloco="let t; read: 'messageArchive.filters'"
+          *transloco="let t; prefix: 'messageArchive.filters'"
         >
           <!-- period -->
           <watt-date-range-chip [formControl]="form.controls.created">
@@ -118,7 +118,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
         </form>
       </watt-data-filters>
       <watt-table
-        *transloco="let resolveHeader; read: 'messageArchive.columns'"
+        *transloco="let resolveHeader; prefix: 'messageArchive.columns'"
         #table
         description="Search result"
         [dataSource]="dataSource"

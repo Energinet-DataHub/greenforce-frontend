@@ -27,12 +27,12 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattToastService } from '@energinet/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattPhoneFieldComponent } from '@energinet/watt/phone-field';
+import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 import {

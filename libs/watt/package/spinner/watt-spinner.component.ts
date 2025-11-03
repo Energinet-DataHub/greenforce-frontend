@@ -20,7 +20,7 @@ import { Component, computed, input } from '@angular/core';
 
 /**
  * Usage:
- * `import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';`
+ * `import { WattSpinnerComponent } from '@energinet/watt/spinner';`
  */
 @Component({
   selector: 'watt-spinner',

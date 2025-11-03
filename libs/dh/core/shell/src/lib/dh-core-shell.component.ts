@@ -17,13 +17,12 @@
  */
 //#endregion
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 
-import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
+import { WattShellComponent } from '@energinet/watt/shell';
+import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
 
-import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
 import { DhTopBarService } from '@energinet-datahub/dh-shared-data-access-top-bar';
 import { DhProfileAvatarComponent } from '@energinet-datahub/dh/profile/feature-avatar';
 import {
@@ -33,6 +32,7 @@ import {
 import { DhNotificationsCenterComponent } from '@energinet-datahub/dh/core/feature-notifications';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
+import { WattPortalOutlet } from '@energinet/watt/portal';
 
 @Component({
   selector: 'dh-shell',
@@ -42,8 +42,8 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
     TranslocoPipe,
     RouterOutlet,
     WattShellComponent,
-    RouterLink,
     WATT_BREADCRUMBS,
+    WattPortalOutlet,
     DhPrimaryNavigationComponent,
     DhProfileAvatarComponent,
     DhSelectedActorComponent,
@@ -53,7 +53,6 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
 export class DhCoreShellComponent {
   private readonly dhTopBarService = inject(DhTopBarService);
   private readonly inactivityDetection = inject(DhInactivityDetectionService);
-  breadcrumbService = inject(DhBreadcrumbService);
 
   titleTranslationKey = this.dhTopBarService.titleTranslationKey;
 

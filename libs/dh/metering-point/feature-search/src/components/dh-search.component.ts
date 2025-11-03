@@ -16,18 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, input, linkedSignal } from '@angular/core';
+import { Component, effect, inject, input, linkedSignal, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
@@ -62,13 +62,15 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
     }
   `,
   template: `
-    <vater-stack fill="vertical" *transloco="let t; read: 'meteringPoint.search'">
+    <vater-stack fill="vertical" *transloco="let t; prefix: 'meteringPoint.search'">
       <div class="search-wrapper watt-space-stack-xl">
         <watt-text-field
           maxLength="18"
           [formControl]="searchControl"
           [placeholder]="t('placeholder')"
+          [autoFocus]="true"
           (keydown.enter)="onSubmit()"
+          [showErrors]="submitted()"
         >
           @if (loading()) {
             <watt-spinner [diameter]="22" />
@@ -108,13 +110,14 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 export class DhSearchComponent {
   private readonly router = inject(Router);
   private readonly doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
+  protected submitted = signal(false);
 
   searchControl = new FormControl('', {
     validators: [Validators.required, dhMeteringPointIdValidator()],
     nonNullable: true,
   });
 
-  private seachControlChange = toSignal(this.searchControl.valueChanges);
+  private readonly seachControlChange = toSignal(this.searchControl.valueChanges);
 
   meteringPointId = input<string>();
 
@@ -140,6 +143,7 @@ export class DhSearchComponent {
   }
 
   async onSubmit() {
+    this.submitted.set(true);
     this.searchControl.markAsTouched();
 
     if (this.searchControl.invalid) return;

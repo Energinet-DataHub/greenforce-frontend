@@ -16,28 +16,35 @@
  * limitations under the License.
  */
 //#endregione';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { GetChargesByPeriodDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
-  WattTableColumnDef,
   WattTableComponent,
+  WattTableColumnDef,
   WattTableCellDirective,
-} from '@energinet-datahub/watt/table';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@jsverse/transloco';
+} from '@energinet/watt/table';
+
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+
+import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
 import { Charge } from '../types';
-import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhChargeStatusComponent } from './status.component';
+import { DhChargesFiltersComponent } from './filters.component';
 
 @Component({
   selector: 'dh-charges',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterOutlet,
+    TranslocoPipe,
     TranslocoDirective,
     WattTableComponent,
     WattTableCellDirective,
@@ -45,6 +52,7 @@ import { DhChargeStatusComponent } from './status.component';
     WattDataFiltersComponent,
     VaterUtilityDirective,
     DhChargeStatusComponent,
+    DhChargesFiltersComponent,
   ],
   providers: [DhNavigationService],
   template: `
@@ -56,7 +64,9 @@ import { DhChargeStatusComponent } from './status.component';
       [ready]="dataSource.called"
       *transloco="let t; prefix: 'charges.charges.table'"
     >
-      <watt-data-filters />
+      <watt-data-filters>
+        <dh-charges-filters [filter]="filter" (filterChange)="fetch($event)" />
+      </watt-data-filters>
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'charges.charges.table.columns'"
@@ -64,19 +74,11 @@ import { DhChargeStatusComponent } from './status.component';
         [columns]="columns"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
-        (rowClick)="navigation.navigate('details', $event.id)"
+        [loading]="dataSource.loading"
+        (rowClick)="navigation.navigate('id', $event.id, 'prices')"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ element.chargeType }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.id; let element">
-          {{ element.id }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.name; let element">
-          {{ element.chargeName }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.owner; let element">
-          {{ element.chargeOwner }}
+          {{ 'charges.chargeTypes.' + element.chargeType | transloco }}
         </ng-container>
         <ng-container *wattTableCell="columns.status; let element">
           <dh-charge-status [status]="element.status" />
@@ -89,25 +91,21 @@ import { DhChargeStatusComponent } from './status.component';
 export class DhChargesComponent {
   protected readonly navigation = inject(DhNavigationService);
 
-  dataSource = new GetChargesByPeriodDataSource({
-    variables: {
-      query: {
-        from: new Date(),
-        to: new Date(),
-      },
-      order: {
-        type: SortEnumType.Desc,
-      },
-    },
-  });
+  dataSource = new GetChargesDataSource();
 
   columns: WattTableColumnDef<Charge> = {
-    type: { accessor: 'chargeType' },
-    id: { accessor: 'id' },
-    name: { accessor: 'chargeName' },
-    owner: { accessor: 'chargeOwner' },
-    status: { accessor: 'status' },
+    type: { accessor: 'chargeType', sort: false },
+    code: { accessor: 'code', sort: false },
+    name: { accessor: 'name', sort: false },
+    owner: { accessor: 'owner', sort: false },
+    status: { accessor: 'status', sort: false },
   };
+
+  filter: GetChargesQueryInput = {
+    statuses: [ChargeStatus.Current, ChargeStatus.MissingPriceSeries],
+  };
+
+  fetch = (query: GetChargesQueryInput) => this.dataSource.refetch({ query });
 
   selection = () => {
     return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());

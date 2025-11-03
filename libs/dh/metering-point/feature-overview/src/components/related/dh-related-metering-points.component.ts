@@ -16,130 +16,155 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, input, output } from '@angular/core';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { RouterLink } from '@angular/router';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WattDatePipe } from '@energinet/watt/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { DhRelatedMeteringPointComponent } from './dh-related-metering-point.component';
+import {
+  ConnectionState,
+  GetRelatedMeteringPointsByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-related-metering-points',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    RouterLink,
+    TranslocoDirective,
     TranslocoPipe,
 
-    WATT_CARD,
     VaterStackComponent,
-
+    VaterSpacerComponent,
+    WATT_CARD,
+    WattDatePipe,
+    WattButtonComponent,
+    WattIconComponent,
     DhResultComponent,
-    DhRelatedMeteringPointComponent,
   ],
   styles: `
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr min-content;
+      margin: 0 calc(-1 * var(--watt-space-m));
     }
 
-    .related-by-gsrn {
-      border-top: 1px solid var(--watt-color-neutral-grey-300);
-      border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+    .grid-row {
+      display: contents;
+
+      &:hover > * {
+        background-color: var(--watt-color-neutral-grey-100);
+        cursor: pointer;
+      }
+
+      & > * {
+        border-top: 1px solid var(--watt-color-neutral-grey-300);
+        padding-block: var(--watt-space-s);
+        padding-inline-end: var(--watt-space-m);
+      }
+
+      & > :first-child {
+        padding-inline-start: var(--watt-space-m);
+      }
+
+      & > :last-child {
+        align-content: center;
+      }
     }
 
-    dh-related-metering-point + h4 {
-      margin: var(--watt-space-m) 0 var(--watt-space-s);
+    .closed-down-state {
+      color: var(--watt-color-state-danger);
+    }
+
+    .dh-one-time-badge {
+      background-color: var(--watt-color-primary);
+      border-radius: var(--watt-space-xs);
+      color: var(--watt-color-neutral-white);
+      display: inline-flex;
     }
   `,
   template: `
     <watt-card>
       <watt-card-title>
-        <h3>{{ 'meteringPoint.relatedMeteringPointsTitle' | transloco }}</h3>
+        <vater-stack direction="row" align="center">
+          <h3>{{ 'meteringPoint.relatedMeteringPointsTitle' | transloco }}</h3>
+          <vater-spacer />
+
+          @if (hasHistorical()) {
+            <watt-button size="small" variant="text" (click)="toggleHistorical()">{{
+              showHistorical()
+                ? ('meteringPoint.hideHistoricalButton' | transloco)
+                : ('meteringPoint.showHistoricalButton' | transloco)
+            }}</watt-button>
+          }
+        </vater-stack>
       </watt-card-title>
+
       <dh-result
         [loading]="query.loading()"
         [hasError]="query.hasError()"
-        [empty]="!gotRelatedMeteringPoints()"
+        [empty]="relatedMeteringPointsList().length === 0"
         variant="compact"
-        loadingText="{{ 'meteringPoint.relatedMeteringPointsLoading' | transloco }}"
-        emptyText="{{ 'meteringPoint.relatedMeteringPointsEmpty' | transloco }}"
+        [loadingText]="'meteringPoint.relatedMeteringPointsLoading' | transloco"
+        [emptyText]="'meteringPoint.relatedMeteringPointsEmpty' | transloco"
       >
-        <ul vater-stack align="stretch">
-          @let parent = relatedMeteringPoints()?.parent;
-          @let current = relatedMeteringPoints()?.current;
+        <div class="grid-container">
+          @for (meteringPoint of relatedMeteringPointsList(); track meteringPoint.identification) {
+            <div
+              class="grid-row"
+              [routerLink]="getLink('master-data', meteringPoint.identification)"
+            >
+              <div class="grid-cell">
+                <span class="watt-text-m watt-on-light--high-emphasis">
+                  {{ 'meteringPointType.' + meteringPoint.type | transloco }}
+                </span>
+                <br />
+                <span class="watt-text-s watt-on-light--medium-emphasis">
+                  {{ meteringPoint.identification }}
+                </span>
+              </div>
 
-          @if (parent) {
-            <dh-related-metering-point
-              [meteringPoint]="parent"
-              [isHighlighted]="meteringPointId() === parent.identification"
-            />
-          }
+              <div class="grid-cell">
+                <span
+                  *transloco="let t; prefix: 'meteringPoint.overview.status'"
+                  class="watt-text-m watt-on-light--high-emphasis"
+                  [class.closed-down-state]="
+                    meteringPoint.connectionState === ConnectionState.ClosedDown
+                  "
+                >
+                  {{ t(meteringPoint.connectionState) }}
+                </span>
+                <br />
+                <span class="watt-text-s watt-on-light--medium-emphasis">
+                  @if (meteringPoint.connectionState === ConnectionState.ClosedDown) {
+                    {{ meteringPoint.connectionDate | wattDate }} ―
+                    {{ meteringPoint.closedDownDate | wattDate }}
+                  } @else {
+                    {{ meteringPoint.connectionDate | wattDate }}
+                  }
+                </span>
+              </div>
 
-          @if (current) {
-            <dh-related-metering-point
-              [meteringPoint]="current"
-              [isHighlighted]="meteringPointId() === current.identification"
-            />
+              <div class="grid-cell">
+                @if (meteringPointId() === meteringPoint.identification) {
+                  <span class="dh-one-time-badge watt-label watt-space-inset-squish-xs">
+                    {{ 'meteringPoint.selectedRelatedMeteringPoint' | transloco }}
+                  </span>
+                } @else {
+                  <watt-icon name="right" />
+                }
+              </div>
+            </div>
           }
-
-          @for (
-            meteringPoint of relatedMeteringPoints()?.relatedMeteringPoints;
-            track meteringPoint.identification
-          ) {
-            <dh-related-metering-point
-              [meteringPoint]="meteringPoint"
-              [isHighlighted]="meteringPointId() === meteringPoint.identification"
-            />
-          }
-
-          @if (relatedMeteringPoints()?.relatedByGsrn?.length) {
-            @for (
-              meteringPoint of relatedMeteringPoints()?.relatedByGsrn;
-              track meteringPoint.identification
-            ) {
-              <dh-related-metering-point
-                class="related-by-gsrn"
-                [meteringPoint]="meteringPoint"
-                [isHighlighted]="meteringPointId() === meteringPoint.identification"
-              />
-            }
-          }
-
-          @if (
-            relatedMeteringPoints()?.historicalMeteringPoints?.length ||
-            relatedMeteringPoints()?.historicalMeteringPointsByGsrn?.length
-          ) {
-            <h4>{{ 'meteringPoint.historicalMeteringPoints' | transloco }}</h4>
-          }
-
-          @for (
-            meteringPoint of relatedMeteringPoints()?.historicalMeteringPoints;
-            track meteringPoint.identification
-          ) {
-            <dh-related-metering-point
-              [meteringPoint]="meteringPoint"
-              [isHighlighted]="meteringPointId() === meteringPoint.identification"
-              [isHistorical]="true"
-            />
-          }
-
-          @for (
-            meteringPoint of relatedMeteringPoints()?.historicalMeteringPointsByGsrn;
-            track meteringPoint.identification
-          ) {
-            <dh-related-metering-point
-              [meteringPoint]="meteringPoint"
-              [isHighlighted]="meteringPointId() === meteringPoint.identification"
-              [isHistorical]="true"
-            />
-          }
-        </ul>
+        </div>
       </dh-result>
     </watt-card>
   `,
@@ -148,27 +173,46 @@ export class DhRelatedMeteringPointsComponent {
   query = query(GetRelatedMeteringPointsByIdDocument, () => ({
     variables: { meteringPointId: this.meteringPointId() },
   }));
+
+  private maybeRelatedMeteringPoints = computed(() => this.query.data()?.relatedMeteringPoints);
+
   meteringPointId = input.required<string>();
-  maybeRelatedMeteringPoints = output<boolean>();
 
-  gotRelatedMeteringPoints = computed(() => {
-    const relatedMeteringPoints = this.relatedMeteringPoints();
+  ConnectionState = ConnectionState;
 
-    return !!(
-      relatedMeteringPoints?.parent ||
-      relatedMeteringPoints?.relatedMeteringPoints?.length ||
-      relatedMeteringPoints?.relatedByGsrn?.length ||
-      relatedMeteringPoints?.historicalMeteringPoints?.length ||
-      relatedMeteringPoints?.historicalMeteringPointsByGsrn?.length
+  showHistorical = signal(false);
+
+  relatedMeteringPointsList = computed(() => {
+    const relatedMeteringPoints = this.maybeRelatedMeteringPoints();
+
+    if (!relatedMeteringPoints) return [];
+
+    return [
+      ...(relatedMeteringPoints.parent ? [relatedMeteringPoints.parent] : []),
+      ...(relatedMeteringPoints.current ? [relatedMeteringPoints.current] : []),
+      ...(relatedMeteringPoints.relatedMeteringPoints ?? []),
+      ...(relatedMeteringPoints.relatedByGsrn ?? []),
+      // Historical
+      ...(this.showHistorical() ? (relatedMeteringPoints.historicalMeteringPoints ?? []) : []),
+      ...(this.showHistorical()
+        ? (relatedMeteringPoints.historicalMeteringPointsByGsrn ?? [])
+        : []),
+    ];
+  });
+
+  hasHistorical = computed(() => {
+    const relatedMeteringPoints = this.maybeRelatedMeteringPoints();
+
+    if (!relatedMeteringPoints) return false;
+
+    return (
+      relatedMeteringPoints.historicalMeteringPoints?.length > 0 ||
+      relatedMeteringPoints.historicalMeteringPointsByGsrn?.length > 0
     );
   });
 
-  relatedMeteringPoints = computed(() => this.query.data()?.relatedMeteringPoints);
-
-  constructor() {
-    effect(() => {
-      this.maybeRelatedMeteringPoints.emit(this.gotRelatedMeteringPoints());
-    });
+  toggleHistorical() {
+    this.showHistorical.update((value) => !value);
   }
 
   getLink = (path: MeteringPointSubPaths, id: string) =>

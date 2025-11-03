@@ -23,7 +23,7 @@ limitations under the License.
   @if (chipMode()) {
     <watt-menu-chip
       [opened]="matSelect.panelOpen"
-      (toggle)="matSelect.open()"
+      (toggleChange)="matSelect.open()"
       [selected]="!!matSelect?.triggerValue && !disableSelectedMode()"
       [disabled]="matSelectControl.disabled"
     >
@@ -49,10 +49,11 @@ limitations under the License.
     #matSelect
     [panelWidth]="panelWidth()"
     [multiple]="multiple()"
-    [ngClass]="{ chip: chipMode() }"
+    [ngClass]="{ chip: chipMode(), 'mat-mdc-select-multiple': multiple() }"
     [panelClass]="{
       'watt-dropdown-panel': true,
       'watt-dropdown-panel-chip-mode': chipMode(),
+      'mat-mdc-select-panel-multiple': multiple(),
     }"
   >
     <!-- We use this instead of ngIf, since it will trigger a NG0100: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. -->
@@ -75,10 +76,32 @@ limitations under the License.
       <mat-option>{{ emDash }}</mat-option>
     }
 
-    @for (option of filteredOptions$ | push; track option) {
-      <mat-option [value]="option.value" [disabled]="option.disabled">
-        {{ option.displayValue }}
-      </mat-option>
+    @if (hasGroups()) {
+      @for (item of filteredGroupedOptions$ | push; track item) {
+        @if ("options" in item) {
+          <mat-optgroup [label]="item.label" [disabled]="item.disabled">
+            @for (option of item.options; track option) {
+              <mat-option
+                [value]="option.value"
+                [disabled]="option.disabled"
+                [class.mat-mdc-option-multiple]="multiple()"
+              >
+                {{ option.displayValue }}
+              </mat-option>
+            }
+          </mat-optgroup>
+        }
+      }
+    } @else {
+      @for (option of filteredOptions$ | push; track option) {
+        <mat-option
+          [value]="option.value"
+          [disabled]="option.disabled"
+          [class.mat-mdc-option-multiple]="multiple()"
+        >
+          {{ option.displayValue }}
+        </mat-option>
+      }
     }
   </mat-select>
   <ng-content />

@@ -20,10 +20,10 @@ import { Component, effect, inject, input, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
-import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattFilterChipComponent } from '@energinet/watt/chip';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { VaterStackComponent } from '@energinet/watt/vater';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMessageArchiveSearchFormService } from './form.service';
@@ -53,7 +53,7 @@ import { getDocumentTypeIdentifier } from '@energinet-datahub/dh/message-archive
       gap="s"
       tabindex="-1"
       [formGroup]="form.root"
-      *transloco="let t; read: 'messageArchive.filters'"
+      *transloco="let t; prefix: 'messageArchive.filters'"
     >
       @if (isSearchingById()) {
         <watt-filter-chip [formControl]="this.form.controls.includeRelated">

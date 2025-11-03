@@ -15,12 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <dh-result [loading]="loading()" [hasError]="hasError()">
-  <mat-accordion *transloco="let t; read: 'admin.userManagement.tabs.roles'" multi>
+  <mat-accordion *transloco="let t; prefix: 'admin.userManagement.tabs.roles'" multi>
     @for (actor of userRolesPerActor(); track actor.id) {
       <watt-expandable-card
         variant="solid"
         [expanded]="expanded()"
-        *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+        *transloco="let translateMarketRole; prefix: 'marketParticipant.marketRoles'"
       >
         @let title =
           actor.glnOrEicNumber +
@@ -50,30 +50,11 @@ limitations under the License.
           </watt-field-error>
         }
 
-        <watt-table
-          [dataSource]="actor.userRoles | filterUserRoles: selectMode() | userRolesIntoTable"
-          [selection]="actor.userRoles | filterUserRoles: false"
-          [columns]="columns"
-          sortBy="marketRole"
-          sortDirection="asc"
-          [selectable]="selectMode()"
-          (selectionChange)="selectionChanged(actor.id, $event, actor.userRoles)"
-        >
-          <ng-container
-            *wattTableCell="columns['name']; header: t('assigned.columns.name'); let element"
-          >
-            {{ element.name }}
-          </ng-container>
-          <ng-container
-            *wattTableCell="
-              columns['description'];
-              header: t('assigned.columns.description');
-              let element
-            "
-          >
-            {{ element.description }}
-          </ng-container>
-        </watt-table>
+        <dh-basic-user-roles-table
+          [userRoles]="actor.userRoles"
+          [selectMode]="selectMode()"
+          (selectionChanged)="selectionChanged(actor.id, $event, actor.userRoles)"
+        />
       </watt-expandable-card>
     }
   </mat-accordion>

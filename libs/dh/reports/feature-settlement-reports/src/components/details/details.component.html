@@ -14,7 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-drawer #drawer (closed)="closed.emit()" *transloco="let t; read: 'reports.settlementReports'">
+<watt-drawer
+  #drawer
+  (closed)="closed.emit()"
+  *transloco="let t; prefix: 'reports.settlementReports'"
+>
   <watt-drawer-topbar>
     @if (report && report.statusType !== "COMPLETED") {
       <dh-report-status [status]="report.statusType" />
@@ -58,47 +62,49 @@ limitations under the License.
 
   @if (drawer.isOpen() && report) {
     <watt-drawer-content>
-      <watt-card variant="solid" class="card-metadata">
-        <watt-description-list variant="stack">
-          <watt-description-list-item
-            [label]="t('columns.period')"
-            [value]="report.period | wattDate: 'short'"
-          />
+      <vater-flex gap="ml">
+        <watt-card variant="solid" class="card-metadata">
+          <watt-description-list variant="stack">
+            <watt-description-list-item
+              [label]="t('columns.period')"
+              [value]="report.period | wattDate: 'short'"
+            />
 
-          <watt-description-list-item
-            [label]="t('columns.basisData')"
-            [value]="(report.includesBasisData ? 'yes' : 'no') | transloco"
-          />
+            <watt-description-list-item
+              [label]="t('columns.basisData')"
+              [value]="(report.includesBasisData ? 'yes' : 'no') | transloco"
+            />
 
-          <watt-description-list-item
-            [label]="t('drawer.monthlySum')"
-            [value]="(report.includeMonthlyAmount ? 'yes' : 'no') | transloco"
-          />
+            <watt-description-list-item
+              [label]="t('drawer.monthlySum')"
+              [value]="(report.includeMonthlyAmount ? 'yes' : 'no') | transloco"
+            />
 
-          <watt-description-list-item
-            [label]="t('drawer.combined')"
-            [value]="(report.combineResultInASingleFile ? 'yes' : 'no') | transloco"
-          />
-        </watt-description-list>
-      </watt-card>
+            <watt-description-list-item
+              [label]="t('drawer.combined')"
+              [value]="(report.combineResultInASingleFile ? 'yes' : 'no') | transloco"
+            />
+          </watt-description-list>
+        </watt-card>
 
-      <watt-card variant="solid" class="card-grid-areas">
-        <vater-stack direction="row" gap="s" align="center">
-          <h4>{{ t("drawer.gridAreas") }}</h4>
-          <span class="watt-chip-label">{{ tableSource.data.length }}</span>
-        </vater-stack>
+        <watt-card variant="solid">
+          <vater-stack direction="row" gap="s" align="center">
+            <h4>{{ t("drawer.gridAreas") }}</h4>
+            <span class="watt-chip-label">{{ tableSource.data.length }}</span>
+          </vater-stack>
 
-        @if (tableSource.data.length > 0) {
-          <watt-table
-            [dataSource]="tableSource"
-            [columns]="columns"
-            [hideColumnHeaders]="true"
-            [suppressRowHoverHighlight]="true"
-          />
-        } @else {
-          {{ t("noData") }}
-        }
-      </watt-card>
+          @if (tableSource.data.length > 0) {
+            <watt-table
+              [dataSource]="tableSource"
+              [columns]="columns"
+              [hideColumnHeaders]="true"
+              [suppressRowHoverHighlight]="true"
+            />
+          } @else {
+            {{ t("noData") }}
+          }
+        </watt-card>
+      </vater-flex>
     </watt-drawer-content>
   }
 </watt-drawer>

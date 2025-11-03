@@ -33,14 +33,14 @@ import {
 
 import { TranslocoDirective, translate } from '@jsverse/transloco';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattToastService } from '@energinet/watt/toast';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
-import { WattDropdownOptions, WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownOptions, WattDropdownComponent } from '@energinet/watt/dropdown';
 
 import {
   dhEnumToWattDropdownOptions,

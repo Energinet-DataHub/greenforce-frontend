@@ -21,7 +21,7 @@ import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { TranslocoService } from '@jsverse/transloco';
 import { filter } from 'rxjs';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService } from '@energinet/watt/toast';
 
 @Injectable({
   providedIn: 'root',

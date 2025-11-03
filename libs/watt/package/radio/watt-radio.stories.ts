@@ -45,7 +45,7 @@ How to use
 
 1. Import ${WattRadioComponent.name} in a module or component
 
-import { ${WattRadioComponent.name} } from '@energinet-datahub/watt/radio';
+import { ${WattRadioComponent.name} } from '@energinet/watt/radio';
 
 2. Create FormControl in a component
 

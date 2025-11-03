@@ -22,11 +22,11 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattQueryParamsDirective } from '@energinet/watt/query-params';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 import {
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,

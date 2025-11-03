@@ -17,7 +17,7 @@
  */
 //#endregion
 import { inject } from '@angular/core';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService } from '@energinet/watt/toast';
 import { MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoService } from '@jsverse/transloco';
 

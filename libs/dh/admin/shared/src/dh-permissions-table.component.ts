@@ -32,7 +32,7 @@ import {
   WattTableComponent,
   WattTableColumnDef,
   WattTableDataSource,
-} from '@energinet-datahub/watt/table';
+} from '@energinet/watt/table';
 
 import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
@@ -45,7 +45,7 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
     [empty]="permissions().length === 0"
   >
     <watt-table
-      *transloco="let t; read: 'admin.userManagement.permissionsTable'"
+      *transloco="let t; prefix: 'admin.userManagement.permissionsTable'"
       description="permissions"
       [dataSource]="dataSource"
       [columns]="columns"

@@ -23,17 +23,17 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
+} from '@energinet/watt/description-list';
 
 import { DhUserDetails } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattCardComponent } from '@energinet/watt/card';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-user-master-data',
   template: `<watt-card
-    *transloco="let t; read: 'admin.userManagement.tabs.masterData'"
+    *transloco="let t; prefix: 'admin.userManagement.tabs.masterData'"
     variant="solid"
   >
     <watt-description-list variant="stack">

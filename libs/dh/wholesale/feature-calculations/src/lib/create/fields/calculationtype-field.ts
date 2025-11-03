@@ -19,7 +19,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import {
   CalculationExecutionType,
   StartCalculationType,

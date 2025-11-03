@@ -21,9 +21,9 @@ import { Component, computed, effect, inject, input, LOCALE_ID } from '@angular/
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { dayjs, WattSupportedLocales } from '@energinet/watt/date';
+import { WattDataTableComponent } from '@energinet/watt/data';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import {
   Quality,
@@ -46,10 +46,9 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
-      *transloco="let t; read: 'meteringPoint.measurements'"
     >
       <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
+        *transloco="let resolveHeader; prefix: 'meteringPoint.measurements.columns'"
         [resolveHeader]="resolveHeader"
         [columns]="columns"
         [stickyFooter]="true"
@@ -64,6 +63,9 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
         </ng-container>
 
         <ng-container *wattTableCell="columns.currentQuantity; let element">
+          @if (element.qualities.includes(Quality.Estimated)) {
+            ≈
+          }
           {{ formatNumber(element.quantity) }}
         </ng-container>
       </watt-table>
@@ -96,7 +98,7 @@ export class DhMeasurementsAllYearsComponent {
     currentQuantity: {
       accessor: 'quantity',
       align: 'right',
-      tooltip: `${this.transloco.translate('meteringPoint.measurements.qualityNotAvailableInThisResolution')}`,
+      tooltip: `${this.transloco.translate('meteringPoint.measurements.tooltip')}`,
     },
     filler: {
       accessor: null,

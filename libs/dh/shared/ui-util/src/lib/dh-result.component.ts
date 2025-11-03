@@ -20,9 +20,9 @@ import { Component, computed, input } from '@angular/core';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 
 type Variant = 'normal' | 'compact';
 

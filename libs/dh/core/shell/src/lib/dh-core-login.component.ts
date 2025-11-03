@@ -31,8 +31,8 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterStackComponent } from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-core-login',

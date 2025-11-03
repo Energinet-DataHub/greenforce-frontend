@@ -283,42 +283,32 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
   steps: [OrchestrationInstanceStep!]!
 }
 
-type ChargeDto {
+type ChargeInformationDto {
   status: ChargeStatus!
-  id: UUID!
+  id: String!
+  validFrom: DateTime!
+  validTo: DateTime!
   chargeType: ChargeType!
   resolution: ChargeResolution!
-  chargeId: String!
-  chargeName: String!
-  chargeDescription: String!
-  chargeOwner: String!
-  chargeOwnerName: String!
-  vatClassification: VatClassification!
-  taxIndicator: Boolean!
-  transparentInvoicing: Boolean!
+  code: String!
+  name: String!
+  description: String!
+  owner: String!
   hasAnyPrices: Boolean!
-  validFromDateTime: DateTime!
-  validToDateTime: DateTime
 }
 
-"A connection to a list of items."
-type ChargesByPeriodConnection {
+type ChargeSeries {
+  points: [Point!]!
+  totalAmount: Decimal!
+}
+
+"A segment of a collection."
+type ChargesCollectionSegment {
   "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [ChargesByPeriodEdge!]
-  "A flattened list of the nodes."
-  nodes: [ChargeDto!]
-  "Identifies the total count of items in the connection."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [ChargeInformationDto!]
   totalCount: Int!
-}
-
-"An edge in a connection."
-type ChargesByPeriodEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: ChargeDto!
 }
 
 "Information about the offset pagination."
@@ -742,12 +732,14 @@ type MeasurementAggregationByDateDto {
 type MeasurementAggregationByMonthDto {
   yearMonth: YearMonth!
   quantity: Decimal
+  qualities: [Quality!]!
   unit: Unit!
 }
 
 type MeasurementAggregationByYearDto {
   year: Int!
   quantity: Decimal
+  qualities: [Quality!]!
   unit: Unit!
 }
 
@@ -891,9 +883,46 @@ type MeteringPointMetadataDto {
 }
 
 type MeteringPointProcess {
+  initiator: MarketParticipant
+  steps: [MeteringPointProcessStep!]!
   id: String!
   documentType: DocumentType!
+  reasonCode: String!
   createdAt: DateTime!
+  cutoffDate: DateTime!
+  state: ProcessState!
+}
+
+"A connection to a list of items."
+type MeteringPointProcessOverviewConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [MeteringPointProcessOverviewEdge!]
+  "A flattened list of the nodes."
+  nodes: [MeteringPointProcess!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type MeteringPointProcessOverviewEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: MeteringPointProcess!
+}
+
+type MeteringPointProcessStep {
+  actor: MarketParticipant
+  message: ArchivedMessage
+  id: String!
+  step: String!
+  comment: String
+  createdAt: DateTime!
+  dueDate: DateTime!
+  state: ProcessState!
+  messageId: String
 }
 
 type MeteringPointsGroupByPackageNumber {
@@ -1087,6 +1116,12 @@ type PermissionDetailsDto {
   created: DateTime!
 }
 
+type Point {
+  price: Decimal!
+  fromDateTime: DateTime!
+  toDateTime: DateTime!
+}
+
 "A connection to a list of items."
 type ProcessesConnection {
   "Information to aid in pagination."
@@ -1107,28 +1142,10 @@ type ProcessesEdge {
   node: OrchestrationInstance!
 }
 
-"A connection to a list of items."
-type ProcessesForMeteringPointConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [ProcessesForMeteringPointEdge!]
-  "A flattened list of the nodes."
-  nodes: [MeteringPointProcess!]
-  "Identifies the total count of items in the connection."
-  totalCount: Int!
-}
-
-"An edge in a connection."
-type ProcessesForMeteringPointEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: MeteringPointProcess!
-}
-
 type Query {
-  chargesByPeriod(query: GetChargesByPeriodQueryInput! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargesSortInput!]): ChargesByPeriodConnection @authorize(roles: [ "charges:view" ])
+  chargeSeries(chargeId: String! interval: DateRange!): [ChargeSeries!]! @authorize(roles: [ "charges:view" ])
+  charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
+  chargeById(id: String!): ChargeInformationDto @authorize(roles: [ "charges:view" ])
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1137,7 +1154,7 @@ type Query {
   measurements(showOnlyChangedValues: Boolean! showHistoricalValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
   measurementPoints(observationTime: DateTime! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
-  meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
+  meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -1185,7 +1202,8 @@ type Query {
   measurementsReports: [MeasurementsReport!]!
   archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentType "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [SearchDocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
-  processesForMeteringPoint(meteringPointId: String! created: DateRange! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [MeteringPointProcessSortInput!]): ProcessesForMeteringPointConnection
+  meteringPointProcessOverview(meteringPointId: String! created: DateRange! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [MeteringPointProcessSortInput!]): MeteringPointProcessOverviewConnection
+  meteringPointProcessById(id: String!): MeteringPointProcess
   notifications: [NotificationDto!]!
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
@@ -1644,12 +1662,9 @@ input CancelSettlementReportInput {
   id: String!
 }
 
-input ChargesSortInput {
-  id: SortEnumType
-  name: SortEnumType
-  type: SortEnumType
-  owner: SortEnumType
-  status: SortEnumType
+input ChargeSortInput {
+  fromDateTime: SortDirection
+  price: SortDirection
 }
 
 input CreateActorContactDtoInput {
@@ -1758,9 +1773,11 @@ input GetByDayQueryInput {
   marketRole: AuthEicFunctionType!
 }
 
-input GetChargesByPeriodQueryInput {
-  from: DateTime!
-  to: DateTime!
+input GetChargesQueryInput {
+  chargeTypes: [ChargeType!]
+  actorNumbers: [String!]
+  statuses: [ChargeStatus!]
+  moreOptions: [String!]
 }
 
 input GetMonthlyAggregateByDateQueryInput {
@@ -1830,9 +1847,12 @@ input MeteringGridAreaImbalanceSortInput {
 input MeteringPointProcessSortInput {
   id: SortEnumType
   createdAt: SortEnumType
+  cutoffDate: SortEnumType
   documentType: SortEnumType
+  reasonCode: SortEnumType
   actorNumber: SortEnumType
   actorRole: SortEnumType
+  state: SortEnumType
 }
 
 input MoveInContactDetailsInput {
@@ -2246,10 +2266,11 @@ enum CalculationTypeQueryParameterV1 {
 }
 
 enum ChargeResolution {
-  PT15M
-  PT1H
-  P1D
-  P1M
+  Unknown
+  QuarterHourly
+  Hourly
+  Daily
+  Monthly
 }
 
 enum ChargeStatus {
@@ -2262,9 +2283,9 @@ enum ChargeStatus {
 }
 
 enum ChargeType {
-  D01
-  D02
-  D03
+  SUBSCRIPTION
+  FEE
+  TARIFF
 }
 
 enum ConnectionState {
@@ -2899,11 +2920,6 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
-}
-
-enum VatClassification {
-  NO_VAT
-  VAT25
 }
 
 enum WashInstructions {

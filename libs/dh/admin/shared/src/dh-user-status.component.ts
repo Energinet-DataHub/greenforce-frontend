@@ -19,12 +19,12 @@
 import { Component, Input, ChangeDetectionStrategy, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet/watt/badge';
 import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-user-status',
-  template: `<ng-container *transloco="let t; read: 'admin.userManagement.userStatus'">
+  template: `<ng-container *transloco="let t; prefix: 'admin.userManagement.userStatus'">
     @if (status() === UserStatus.Active) {
       <watt-badge type="info">{{ t(UserStatus.Active) }}</watt-badge>
     } @else if (status() === UserStatus.Inactive) {

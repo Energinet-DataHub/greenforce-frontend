@@ -17,8 +17,8 @@
  */
 //#endregion
 import { GetRelevantGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattRange } from '@energinet-datahub/watt/date';
+import { WattDropdownOptions } from '@energinet/watt/dropdown';
+import { WattRange } from '@energinet/watt/date';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 export async function getGridAreaOptionsForPeriod(
@@ -32,9 +32,9 @@ export async function getGridAreaOptionsForPeriod(
     },
   }).result();
 
-  if (result.data === null) return [];
+  const relevantGridAreas = result.data?.relevantGridAreas ?? [];
 
-  return result.data.relevantGridAreas.map((gridArea) => ({
+  return relevantGridAreas.map((gridArea) => ({
     value: gridArea.code,
     displayValue: gridArea.displayName,
   }));

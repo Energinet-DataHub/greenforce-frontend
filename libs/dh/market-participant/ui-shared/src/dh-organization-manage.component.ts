@@ -21,11 +21,11 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattActionChipComponent } from '@energinet-datahub/watt/chip';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattActionChipComponent } from '@energinet/watt/chip';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { VaterStackComponent } from '@energinet/watt/vater';
 
 import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
@@ -41,7 +41,7 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
     VaterStackComponent,
   ],
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.actor.create'">
       <vater-stack direction="row" gap="m" fill="horizontal">
         <watt-text-field [prefix]="'alternateEmail'" [formControl]="domain" [label]="t('domain')">
           @if (domain.hasError('pattern')) {

@@ -20,13 +20,13 @@ import { DecimalPipe } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattModalService } from '@energinet/watt/modal';
+import { dayjs, WattDatePipe } from '@energinet/watt/date';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
+} from '@energinet/watt/description-list';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -55,14 +55,14 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
     DhActualAddressComponent,
   ],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     :host {
       display: block;
     }
   `,
   template: `
-    <watt-card *transloco="let t; read: 'meteringPoint.overview.details'">
+    <watt-card *transloco="let t; prefix: 'meteringPoint.overview.details'">
       <div class="grid-wrapper" [class.grid-wrapper__child-view]="meteringPoint()?.isChild">
         <div class="grid-column">
           <watt-description-list

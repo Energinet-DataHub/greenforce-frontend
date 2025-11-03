@@ -19,14 +19,14 @@
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent } from '@energinet/watt/badge';
 import { ImbalancePriceStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-status-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ng-container *transloco="let t; read: 'imbalancePrices.status'">
+    <ng-container *transloco="let t; prefix: 'imbalancePrices.status'">
       @switch (status()) {
         @case ('IN_COMPLETE') {
           <watt-badge type="danger">{{ t(status()) }}</watt-badge>

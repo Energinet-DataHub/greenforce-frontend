@@ -22,11 +22,11 @@ import { filter } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import { dayjs, WattDatePipe } from '@energinet/watt/date';
 
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetFailedSendMeasurementsInstancesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
@@ -49,7 +49,7 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
   ],
   template: `
     <watt-data-table
-      *transloco="let t; read: 'meteringPoint.failedMeasurements'"
+      *transloco="let t; prefix: 'meteringPoint.failedMeasurements'"
       vater
       inset="ml"
       [error]="dataSource.error"
@@ -65,7 +65,7 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
           gap="s"
           tabindex="-1"
           [formGroup]="form"
-          *transloco="let t; read: 'meteringPoint.failedMeasurements.filters'"
+          *transloco="let t; prefix: 'meteringPoint.failedMeasurements.filters'"
         >
           <watt-date-range-chip [formControl]="form.controls.created">
             {{ t('created') }}
@@ -73,7 +73,7 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
         </form>
       </watt-data-filters>
       <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.failedMeasurements.columns'"
+        *transloco="let resolveHeader; prefix: 'meteringPoint.failedMeasurements.columns'"
         #table
         description="Search result"
         [dataSource]="dataSource"

@@ -17,8 +17,8 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
@@ -37,7 +37,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
   `,
   template: `
     <div
-      *transloco="let t; read: 'meteringPoint.overview.customer'"
+      *transloco="let t; prefix: 'meteringPoint.overview.customer'"
       vater-stack
       direction="row"
       gap="s"

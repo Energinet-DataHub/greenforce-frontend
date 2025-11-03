@@ -1,8 +1,8 @@
 ﻿{
   "data": {
-    "chargesByPeriod": {
-      "totalCount": 2,
-      "nodes": [
+    "charges": {
+      "totalCount": 9999,
+      "items": [
         {
           "status": "MISSING_PRICE_SERIES"
         },

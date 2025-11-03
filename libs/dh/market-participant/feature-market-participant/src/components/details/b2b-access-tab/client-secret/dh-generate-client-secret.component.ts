@@ -19,8 +19,8 @@
 import { Component, input, inject, output } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattToastService } from '@energinet/watt/toast';
 
 import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
 import { DhMarketParticipantAuditLogService } from '../../audit-log.service';
@@ -35,7 +35,7 @@ import { DhMarketParticipantAuditLogService } from '../../audit-log.service';
     `,
   ],
   template: `<watt-button
-    *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
+    *transloco="let t; prefix: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
     (click)="generateSecret()"
     [loading]="generateSecretInProgress()"
     variant="secondary"

@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ProcessState } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattBadgeComponent, WattBadgeType } from '@energinet-datahub/watt/badge';
+import { WattBadgeComponent, WattBadgeType } from '@energinet/watt/badge';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({

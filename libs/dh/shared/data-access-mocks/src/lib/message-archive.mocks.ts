@@ -19,11 +19,12 @@
 import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { DocumentType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DocumentType, ProcessState } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   mockGetArchivedMessagesQuery,
   mockGetArchivedMessagesForMeteringPointQuery,
-  mockGetProcessesForMeteringPointQuery,
+  mockGetMeteringPointProcessOverviewQuery,
+  mockGetMeteringPointProcessByIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
@@ -34,7 +35,8 @@ export function messageArchiveMocks(apiBase: string) {
     getDocumentById(apiBase),
     getArchivedMessages(apiBase),
     getArchivedMessagesForMeteringPoint(apiBase),
-    getProcessesForMeteringPoint(),
+    getMeteringPointProcessOverview(),
+    getMeteringPointProcessById(apiBase),
   ];
 }
 
@@ -131,14 +133,14 @@ function getArchivedMessagesForMeteringPoint(apiBase: string) {
   });
 }
 
-function getProcessesForMeteringPoint() {
-  return mockGetProcessesForMeteringPointQuery(async () => {
+function getMeteringPointProcessOverview() {
+  return mockGetMeteringPointProcessOverviewQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        processesForMeteringPoint: {
-          __typename: 'ProcessesForMeteringPointConnection',
+        meteringPointProcessOverview: {
+          __typename: 'MeteringPointProcessOverviewConnection',
           pageInfo: {
             __typename: 'PageInfo',
             startCursor: 'startCursor',
@@ -149,9 +151,66 @@ function getProcessesForMeteringPoint() {
             __typename: 'MeteringPointProcess',
             id: m.id,
             documentType: DocumentType.SendMeasurements,
+            reasonCode: 'E20',
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
+            cutoffDate: m.createdDate ? new Date(m.createdDate) : new Date(),
+            state: ProcessState.Succeeded,
+            initiator: {
+              __typename: 'MarketParticipant',
+              id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
+              displayName: '905495045940594 • Radius',
+            },
           })),
         },
+      },
+    });
+  });
+}
+
+function getMeteringPointProcessById(apiBase: string) {
+  return mockGetMeteringPointProcessByIdQuery(async (args) => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPointProcessById: messageArchiveSearchResponseLogs.messages
+          .map((m) => ({
+            __typename: 'MeteringPointProcess' as const,
+            id: m.id,
+            documentType: DocumentType.SendMeasurements,
+            createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
+            cutoffDate: m.createdDate ? new Date(m.createdDate) : new Date(),
+            state: ProcessState.Succeeded,
+            reasonCode: 'E20',
+            initiator: {
+              __typename: 'MarketParticipant' as const,
+              id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
+              displayName: '905495045940594 • Radius',
+            },
+            steps: [
+              {
+                __typename: 'MeteringPointProcessStep' as const,
+                id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
+                step: 'REQUEST_END_OF_SUPPLY',
+                comment: 'OBS: Sendt til foged',
+                createdAt: new Date(m.createdDate),
+                dueDate: new Date(m.createdDate),
+                state: ProcessState.Succeeded,
+                messageId: '38374f50-f00c-4e2a-aec1-70d391cade06',
+                message: {
+                  __typename: 'ArchivedMessage' as const,
+                  id: '38374f50-f00c-4e2a-aec1-70d391cade06',
+                  documentUrl: `${apiBase}/v1/MessageArchive/Document?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
+                },
+                actor: {
+                  __typename: 'MarketParticipant' as const,
+                  id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
+                  name: 'Radius',
+                },
+              },
+            ],
+          }))
+          .find((p) => p.id === args.variables.id),
       },
     });
   });

@@ -23,7 +23,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
   selector: 'dh-upload-measurements-summary-table',
   imports: [TranslocoDirective],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
 
     table {
       width: 100%;
@@ -57,7 +57,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     }
   `,
   template: `
-    <table *transloco="let t; read: 'meteringPoint.measurements'">
+    <table *transloco="let t; prefix: 'meteringPoint.measurements'">
       <tbody>
         <tr>
           <th>{{ t('upload.table.positionCount') }}</th>

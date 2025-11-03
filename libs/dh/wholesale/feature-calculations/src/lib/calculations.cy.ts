@@ -21,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormGroupDirective } from '@angular/forms';
 
-import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { graphQLProvider } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';

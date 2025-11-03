@@ -18,7 +18,7 @@
 //#endregion
 import { formatNumber } from '@angular/common';
 
-import { WattSupportedLocales } from '@energinet-datahub/watt/date';
+import { WattSupportedLocales } from '@energinet/watt/date';
 
 export function dhFormatMeasurementNumber(
   value: number | null | undefined,

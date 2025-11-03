@@ -22,12 +22,12 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { map } from 'rxjs';
 
-import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattFieldHintComponent } from '@energinet/watt/field';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_MODAL } from '@energinet/watt/modal';
+import { WattValidationMessageComponent } from '@energinet/watt/validation-message';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { VaterFlexComponent } from '@energinet/watt/vater';
 import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { DhCalculationsCreateFormComponent } from './create-form';
 import { DhCreateCalculationService } from './create-service';
@@ -51,7 +51,7 @@ import { DhCreateCalculationService } from './create-service';
       #modal
       autoOpen
       size="small"
-      *transloco="let t; read: 'wholesale.calculations.create'"
+      *transloco="let t; prefix: 'wholesale.calculations.create'"
       [title]="confirmCalculation() ? t('warning.title.' + form.calculationType()) : t('title')"
       (closed)="navigate('..')"
     >
@@ -63,7 +63,7 @@ import { DhCreateCalculationService } from './create-service';
       />
 
       @if (confirmCalculation()) {
-        <vater-flex offset="ml" *transloco="let t; read: 'wholesale.calculations.create.warning'">
+        <vater-flex offset="ml" *transloco="let t; prefix: 'wholesale.calculations.create.warning'">
           <watt-validation-message
             type="warning"
             icon="warning"

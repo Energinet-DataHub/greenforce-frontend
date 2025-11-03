@@ -29,6 +29,22 @@ watt-description-list {
       }
     }
   }
+  &.watt-description-list-inline-flow {
+    dl {
+      display: flex;
+      gap: var(--watt-space-ml);
+
+      dd {
+        margin: 0;
+      }
+
+      div {
+        display: flex;
+        gap: var(--watt-space-xs);
+        width: max-content;
+      }
+    }
+  }
   &.watt-description-list-stack {
     dl {
       display: grid;

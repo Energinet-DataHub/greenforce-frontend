@@ -21,7 +21,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { GetContactCprDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 @Component({
   selector: 'dh-customer-cpr',
@@ -46,7 +46,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'meteringPoint.overview.customer'">
+    <ng-container *transloco="let t; prefix: 'meteringPoint.overview.customer'">
       @if (loading()) {
         <watt-spinner [diameter]="26" />
       } @else {
@@ -67,11 +67,13 @@ export class DhCustomerCprComponent {
   loading = this.query.loading;
   cpr = computed<string | null>(() => this.query.data()?.meteringPointContactCpr.result ?? null);
 
+  meteringPointId = input.required<string>();
   contactId = input.required<string>();
 
   showCPR(): void {
     this.query.query({
       variables: {
+        meteringPointId: this.meteringPointId(),
         contactId: this.contactId(),
       },
     });

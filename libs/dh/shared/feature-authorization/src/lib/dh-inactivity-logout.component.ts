@@ -22,7 +22,7 @@ import { RxPush } from '@rx-angular/template/push';
 import { map, take, tap, timer } from 'rxjs';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
 
 @Component({
   selector: 'dh-inactivity-logout',

@@ -19,9 +19,9 @@
 import { Component, inject, input, viewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
+import { WattToastService, WattToastType } from '@energinet/watt/toast';
 
 import {
   GetUsersDocument,
@@ -38,7 +38,7 @@ import { DhUserDetails } from '@energinet-datahub/dh/admin/data-access-api';
   imports: [WATT_MODAL, WattButtonComponent, TranslocoDirective],
   template: ` <watt-modal
     #modal
-    *transloco="let t; read: 'admin.userManagement.drawer'"
+    *transloco="let t; prefix: 'admin.userManagement.drawer'"
     [size]="'small'"
     [title]="t('deactivateConfirmation.title')"
     [disableClose]="true"

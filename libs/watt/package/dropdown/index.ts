@@ -17,5 +17,10 @@
  */
 //#endregion
 export { WattDropdownComponent } from './watt-dropdown.component';
-export { type WattDropdownOption, type WattDropdownOptions } from './watt-dropdown-option';
+export {
+  type WattDropdownOption,
+  type WattDropdownOptions,
+  type WattDropdownGroupedOptions,
+  type WattDropdownOptionGroup,
+} from './watt-dropdown-option';
 export { type WattDropdownValue } from './watt-dropdown-value';

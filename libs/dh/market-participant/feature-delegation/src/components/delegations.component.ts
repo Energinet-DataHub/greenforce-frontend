@@ -19,16 +19,16 @@
 import { Component, effect, inject, input, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import {
   WATT_TABLE,
   WattTableColumnDef,
   WattTableComponent,
   WattTableDataSource,
-} from '@energinet-datahub/watt/table';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattModalService } from '@energinet-datahub/watt/modal';
+} from '@energinet/watt/table';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattModalService } from '@energinet/watt/modal';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhDelegation, DhDelegations } from '../types';
@@ -43,7 +43,7 @@ import { DhDelegationStopModalComponent } from './stop-delegation.component';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'marketParticipant.delegation.table'">
+    <ng-container *transloco="let t; prefix: 'marketParticipant.delegation.table'">
       <watt-table
         [dataSource]="tableDataSource"
         [columns]="columns"
@@ -83,7 +83,7 @@ import { DhDelegationStopModalComponent } from './stop-delegation.component';
           <vater-stack direction="row" gap="xl">
             <span>{{ selection.length }} {{ t('selectedRows') }}</span>
             <watt-button
-              *transloco="let shared; read: 'marketParticipant.delegation.shared'"
+              *transloco="let shared; prefix: 'marketParticipant.delegation.shared'"
               (click)="stopSelectedDelegations(selection)"
               icon="close"
             >

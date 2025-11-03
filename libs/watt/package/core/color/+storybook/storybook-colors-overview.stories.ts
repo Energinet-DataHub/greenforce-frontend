@@ -43,7 +43,7 @@ Colors.parameters = {
 }
 
 // Usage from TypeScript:
-1. import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
+1. import { WattColor, WattColorHelperService } from '@energinet/watt/color';
 2. Inject the WattColorHelperService
 3. Use WattColorHelperService.getColor(WattColor.<color-name>);
 `,

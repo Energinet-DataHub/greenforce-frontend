@@ -19,9 +19,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattModalService } from '@energinet/watt/modal';
+import { VaterFlexComponent } from '@energinet/watt/vater';
 
 import { CustomerRelationType, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -64,7 +64,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
     }
   `,
   template: `
-    <watt-card *transloco="let t; read: 'meteringPoint.overview.customer'">
+    <watt-card *transloco="let t; prefix: 'meteringPoint.overview.customer'">
       <watt-card-title>
         <h3>{{ t('title') }}</h3>
       </watt-card-title>
@@ -87,10 +87,14 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
                 <h5>{{ contact.name }}</h5>
 
                 <ng-container *dhPermissionRequired="['cpr:view']">
-                  <dh-customer-cpr
-                    *dhCanSee="'cpr'; meteringPoint: meteringPoint()"
-                    [contactId]="contact.id"
-                  />
+                  @let localMeteringPoint = meteringPoint();
+                  @if (localMeteringPoint) {
+                    <dh-customer-cpr
+                      *dhCanSee="'cpr'; meteringPoint: meteringPoint()"
+                      [meteringPointId]="localMeteringPoint.meteringPointId"
+                      [contactId]="contact.id"
+                    />
+                  }
                 </ng-container>
               </div>
             </ng-container>

@@ -45,13 +45,13 @@ import {
   environment,
 } from '@energinet-datahub/dh/shared/environments';
 import { dhLanguageServiceInitializer } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { highlightWorkerProvider } from '@energinet-datahub/dh/shared/feature-highlight';
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 import { microsoftClarityProviders } from '@energinet-datahub/dh/shared/feature-microsoft-clarity';
-import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattModalService } from '@energinet/watt/modal';
 import { dhNewVersionManagerInitializer } from '@energinet-datahub/dh/shared/util-new-version-manager';
 
 if (environment.authDisabled) {

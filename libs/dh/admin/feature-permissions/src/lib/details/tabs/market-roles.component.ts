@@ -20,8 +20,8 @@ import { Component, computed, effect, input } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet/watt/table';
 
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionDetailDto } from '@energinet-datahub/dh/shared/domain';
@@ -33,7 +33,7 @@ import { DhPermissionDetailsMarketRole } from '@energinet-datahub/dh/admin/data-
   template: `
     <watt-card
       variant="solid"
-      *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.marketRoles'"
+      *transloco="let t; prefix: 'admin.userManagement.permissionDetail.tabs.marketRoles'"
     >
       @let count = marketRolesCount();
       <watt-card-title>
@@ -56,7 +56,7 @@ import { DhPermissionDetailsMarketRole } from '@energinet-datahub/dh/admin/data-
         >
           <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
             <ng-container
-              *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+              *transloco="let translateMarketRole; prefix: 'marketParticipant.marketRoles'"
             >
               {{ translateMarketRole(element) }}
             </ng-container>

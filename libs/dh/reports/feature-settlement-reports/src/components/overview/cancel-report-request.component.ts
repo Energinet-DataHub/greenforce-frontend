@@ -19,8 +19,8 @@
 import { Component, DestroyRef, inject, input } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattModalService } from '@energinet/watt/modal';
 import { DhCancelReportRequestModal } from '../request-report/cancel-report-request-modal.component';
 import { Apollo } from 'apollo-angular';
 import {
@@ -28,11 +28,11 @@ import {
   GetSettlementReportsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService } from '@energinet/watt/toast';
 
 @Component({
   selector: 'dh-cancel-report-request',
-  template: `<ng-container *transloco="let t; read: 'reports.settlementReports.cancelReport'">
+  template: `<ng-container *transloco="let t; prefix: 'reports.settlementReports.cancelReport'">
     <watt-button size="small" variant="text" icon="close" (click)="openCancelModal($event)">
       {{ t('baseName') }}
     </watt-button>

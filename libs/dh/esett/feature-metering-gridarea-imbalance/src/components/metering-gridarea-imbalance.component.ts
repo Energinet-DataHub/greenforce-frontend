@@ -24,12 +24,12 @@ import {
   WattDataTableComponent,
   WattDataActionsComponent,
   WattDataFiltersComponent,
-} from '@energinet-datahub/watt/data';
+} from '@energinet/watt/data';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
   SortDirection,

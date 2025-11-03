@@ -82,7 +82,7 @@ const withSidebarNavigationTemplate = `
       <watt-nav-list-item link="/menu-1">Menu 1</watt-nav-list-item>
       <watt-nav-list-item link="/menu-2">Menu 2</watt-nav-list-item>
       <watt-nav-list-item link="/menu-3">Menu 3</watt-nav-list-item>
-      <watt-nav-list-item link="https://angular.io/" target="_blank">External links (angular.io)</watt-nav-list-item>
+      <watt-nav-list-item link="https://angular.dev/" target="_blank">External link (angular.dev)</watt-nav-list-item>
     </watt-nav-list>
 
     <watt-nav-list [expandable]="true" [title]="'Nested menu'">

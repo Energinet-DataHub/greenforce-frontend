@@ -20,14 +20,14 @@ import { Component, computed, inject, output } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattTableColumnDef, WATT_TABLE } from '@energinet/watt/table';
 import {
   WattDataActionsComponent,
   WattDataFiltersComponent,
   WattDataTableComponent,
-} from '@energinet-datahub/watt/data';
+} from '@energinet/watt/data';
 
 import { GetUsersQueryVariables, SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -62,7 +62,7 @@ type Variables = Partial<GetUsersQueryVariables>;
     DhDownloadUsersCsvComponent,
   ],
   template: ` <watt-data-table
-    *transloco="let t; read: 'admin.userManagement.tabs.users'"
+    *transloco="let t; prefix: 'admin.userManagement.tabs.users'"
     vater
     inset="ml"
     [searchLabel]="t('search')"
@@ -90,7 +90,7 @@ type Variables = Partial<GetUsersQueryVariables>;
     </watt-data-filters>
 
     <watt-table
-      *transloco="let resolveHeader; read: 'admin.userManagement.tabs.users.columns'"
+      *transloco="let resolveHeader; prefix: 'admin.userManagement.tabs.users.columns'"
       [dataSource]="dataSource"
       [columns]="columns"
       [loading]="dataSource.loading"

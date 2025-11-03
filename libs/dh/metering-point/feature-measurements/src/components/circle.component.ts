@@ -22,7 +22,7 @@ import { Component } from '@angular/core';
   selector: 'dh-circle',
   template: `●`,
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
+    @use '@energinet/watt/utils' as watt;
     :host {
       @include watt.typography-watt-text-m;
       color: var(--watt-color-neutral-grey-500);
