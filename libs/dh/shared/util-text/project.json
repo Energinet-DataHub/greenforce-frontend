@@ -1,0 +1,20 @@
+{
+  "name": "dh-shared-util-text",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/shared/util-text/src",
+  "prefix": "dh",
+  "projectType": "library",
+  "tags": ["product:dh", "domain:shared", "type:util"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/util-text"],
+      "options": {
+        "config": "libs/dh/shared/util-text/vite.config.mts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

@@ -32,12 +32,17 @@ public static partial class ChargeSeriesNode
     {
         var series = await client.GetChargeSeriesAsync(
             new ChargeSeriesSearchCriteriaDto(
-                ChargeId: new Guid(chargeId),
+                ChargeId: Guid.Empty, // TODO: Fix
                 FromDateTimeUtc: interval.Start.ToDateTimeOffset(),
-                ToDateTimeUtc: interval.End.ToDateTimeOffset()),
-            cancellationToken);
+                ToDateTimeUtc: interval.End.ToDateTimeOffset()));
 
         return series.Value ?? [];
+    }
+
+    public static bool HasChanged([Parent] ChargeSeriesDto chargeSeries)
+    {
+        var currentPoint = chargeSeries.Points.First(ChargeSeriesPointNode.IsCurrent);
+        return chargeSeries.Points.Any(p => p.Price != currentPoint.Price);
     }
 
     static partial void Configure(IObjectTypeDescriptor<ChargeSeriesDto> descriptor)
