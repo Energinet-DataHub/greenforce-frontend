@@ -21,7 +21,7 @@
   [vater-stack] {
     align-items: center;
 
-    &.vater-row > * {
+    &.vater-row > *:not(watt-drawer-heading) {
       min-width: max-content;
     }
 
