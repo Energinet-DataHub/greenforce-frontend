@@ -31,29 +31,7 @@ export const chargeSeriesRoutes: Routes = [
   {
     path: getPath<ChargesSubPaths>('prices'),
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
-    loadComponent: () => import('./components/series/page').then((m) => m.DhChargeSeriesPage),
-    children: [
-      {
-        path: 'day',
-        loadComponent: () =>
-          import('./components/series/tables/day').then((m) => m.DhChargeSeriesDay),
-      },
-      {
-        path: 'week',
-        loadComponent: () =>
-          import('./components/series/tables/week').then((m) => m.DhChargeSeriesWeek),
-      },
-      {
-        path: 'month',
-        loadComponent: () =>
-          import('./components/series/tables/month').then((m) => m.DhChargeSeriesMonth),
-      },
-      {
-        path: 'year',
-        loadComponent: () =>
-          import('./components/series/tables/year').then((m) => m.DhChargeSeriesYear),
-      },
-    ],
+    loadComponent: () => import('./components/series').then((m) => m.DhChargeSeriesPage),
   },
   {
     path: getPath<ChargesSubPaths>('information'),

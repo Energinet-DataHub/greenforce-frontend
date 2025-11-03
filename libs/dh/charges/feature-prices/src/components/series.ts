@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { dayjs } from '@energinet/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
@@ -39,6 +39,7 @@ import { capitalize } from '@energinet-datahub/dh/shared/util-text';
   imports: [
     TranslocoDirective,
     VaterStackComponent,
+    VaterUtilityDirective,
     WattDatepickerComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
@@ -47,6 +48,9 @@ import { capitalize } from '@energinet-datahub/dh/shared/util-text';
   ],
   template: `
     <watt-data-table
+      vater
+      inset="ml"
+      gap="ml"
       [header]="false"
       [error]="series.error()"
       [ready]="series.called()"
@@ -83,7 +87,7 @@ import { capitalize } from '@energinet-datahub/dh/shared/util-text';
     </watt-data-table>
   `,
 })
-export class DhChargeSeriesDay {
+export class DhChargeSeriesPage {
   id = input.required<string>();
   charge = query(GetChargeResolutionDocument, () => ({ variables: { id: this.id() } }));
   resolution = computed(() => this.charge.data()?.chargeById?.resolution ?? 'Unknown');
