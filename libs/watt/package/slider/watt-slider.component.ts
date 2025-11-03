@@ -69,6 +69,9 @@ export class WattSliderComponent {
 
   readonly valueChange = output<WattSliderValue>();
 
+  readonly sliderColor = this.colorService.getColor('secondaryLight');
+  readonly rangeColor = this.colorService.getColor('primary');
+
   constructor() {
     effect(() => {
       const currentValue = this.value();
@@ -142,16 +145,13 @@ export class WattSliderComponent {
     const fromPosition = minValue - this.min();
     const toPosition = maxValue - this.min();
 
-    const sliderColor = this.colorService.getColor('secondaryLight');
-    const rangeColor = this.colorService.getColor('primary');
-
     maxRangeElement.style.background = `linear-gradient(
       to right,
-      ${sliderColor} 0%,
-      ${sliderColor} ${(fromPosition / rangeDistance) * 100}%,
-      ${rangeColor} ${(fromPosition / rangeDistance) * 100}%,
-      ${rangeColor} ${(toPosition / rangeDistance) * 100}%,
-      ${sliderColor} ${(toPosition / rangeDistance) * 100}%,
-      ${sliderColor} 100%)`;
+      ${this.sliderColor} 0%,
+      ${this.sliderColor} ${(fromPosition / rangeDistance) * 100}%,
+      ${this.rangeColor} ${(fromPosition / rangeDistance) * 100}%,
+      ${this.rangeColor} ${(toPosition / rangeDistance) * 100}%,
+      ${this.sliderColor} ${(toPosition / rangeDistance) * 100}%,
+      ${this.sliderColor} 100%)`;
   }
 }
