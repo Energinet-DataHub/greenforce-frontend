@@ -37,6 +37,7 @@ import {
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { capitalize } from '@energinet-datahub/dh/shared/util-text';
 
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
@@ -174,9 +175,4 @@ export class DhChargesFiltersComponent {
       ],
     };
   }
-}
-
-function capitalize(name: string): string {
-  if (!name || name.length === 0) return name;
-  return name.charAt(0).toUpperCase() + name.slice(1);
 }
