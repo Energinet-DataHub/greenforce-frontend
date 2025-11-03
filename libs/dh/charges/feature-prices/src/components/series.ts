@@ -77,9 +77,15 @@ import { capitalize } from '@energinet-datahub/dh/shared/util-text';
           }
         </ng-container>
         <ng-container *wattTableCell="columns.history; header: ''; let series">
-          <vater-stack direction="row" gap="xl">
+          <vater-stack scrollable direction="row" gap="ml">
             @for (point of series.points.filter(isHistoric); track $index) {
-              <span class="watt-on-light--medium-emphasis">{{ point.price }}</span>
+              <span
+                class="watt-on-light--medium-emphasis"
+                style="text-align: right;"
+                [style.flexBasis.px]="120"
+              >
+                {{ point.price }}
+              </span>
             }
           </vater-stack>
         </ng-container>
@@ -100,13 +106,20 @@ export class DhChargeSeriesPage {
 
   dataSource = new WattTableDataSource<ChargeSeries>();
   columns: WattTableColumnDef<ChargeSeries> = {
-    date: { accessor: null },
+    date: { accessor: null, sort: false },
     price: {
       accessor: (row) => row.points.find((r) => r.isCurrent)?.price,
       align: 'right',
+      sort: false,
     },
-    hasChanged: { accessor: (row) => row.hasChanged, tooltip: 'What' },
-    history: { accessor: null, size: '1fr' },
+    hasChanged: {
+      accessor: (row) => row.hasChanged,
+      tooltip: 'What',
+      size: 'min-content',
+      align: 'center',
+      sort: false,
+    },
+    history: { accessor: null, size: '1fr', sort: false },
   };
 
   isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
