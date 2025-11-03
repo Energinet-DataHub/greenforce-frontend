@@ -24,8 +24,8 @@ import { dayjs } from '@energinet/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 import {
-  ChargeResolution,
   ChargeSeries,
+  ChargeSeriesPoint,
   GetChargeResolutionDocument,
   GetChargeSeriesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -67,12 +67,14 @@ import { capitalize } from '@energinet-datahub/dh/shared/util-text';
         <ng-container *wattTableCell="columns.date; header: t(resolution()); let _; let i = index">
           {{ formatTime(i) }}
         </ng-container>
+        <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
+          @if (series.hasChanged) {
+            <dh-circle />
+          }
+        </ng-container>
         <ng-container *wattTableCell="columns.history; header: ''; let series">
           <vater-stack direction="row" gap="xl">
-            @if (series.points.length > 1) {
-              <dh-circle />
-            }
-            @for (point of series.points; track $index) {
+            @for (point of series.points.filter(isHistoric); track $index) {
               <span class="watt-on-light--medium-emphasis">{{ point.price }}</span>
             }
           </vater-stack>
@@ -96,11 +98,14 @@ export class DhChargeSeriesDay {
   columns: WattTableColumnDef<ChargeSeries> = {
     date: { accessor: null },
     price: {
-      accessor: (row) => row.points.find((r) => r.toDateTime > new Date())?.price,
+      accessor: (row) => row.points.find((r) => r.isCurrent)?.price,
       align: 'right',
     },
-    history: { accessor: null, tooltip: 'What', size: '1fr' },
+    hasChanged: { accessor: (row) => row.hasChanged, tooltip: 'What' },
+    history: { accessor: null, size: '1fr' },
   };
+
+  isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
 
   formatTime = (index: number) => {
     const today = dayjs();
