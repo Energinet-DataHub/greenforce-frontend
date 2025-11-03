@@ -380,6 +380,16 @@
       "NO_VAT": "Without VAT",
       "VAT25": "With VAT"
     },
+    "series": {
+      "columns": {
+        "QuarterHourly": "Time",
+        "Hourly": "Time",
+        "Daily": "Date",
+        "Monthly": "Month",
+        "Unknown": "Sequence",
+        "price": "Current price"
+      }
+    },
     "charges": {
       "topBarTitle": "Prices",
       "table": {
