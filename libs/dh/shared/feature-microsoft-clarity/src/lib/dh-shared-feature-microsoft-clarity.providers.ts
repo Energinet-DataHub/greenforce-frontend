@@ -16,7 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-import { makeEnvironmentProviders } from '@angular/core';
-import { microsoftClarityInitializer } from './dh-microsoft-clarity.initializer';
-
-export const microsoftClarityProviders = makeEnvironmentProviders([microsoftClarityInitializer]);
+export { microsoftClarityInitializer as microsoftClarityProviders } from './dh-microsoft-clarity.initializer';
