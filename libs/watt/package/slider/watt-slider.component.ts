@@ -18,13 +18,13 @@
 //#endregion
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, computed,
   DestroyRef,
   effect,
   ElementRef,
   inject,
   input,
-  output,
+  output, signal,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -62,7 +62,14 @@ export class WattSliderComponent {
   readonly step = input(1);
 
   /** The currently selected range value. */
-  readonly value = input<WattSliderValue>({ min: 0, max: 100 });
+  readonly value = input<WattSliderValue | undefined>();
+  readonly currentValue = computed(() => {
+    const inputValue = this.value();
+    if (!inputValue) {
+      return { min: this.min(), max: this.max() };
+    }
+    return inputValue;
+  });
 
   readonly maxRange = viewChild.required<ElementRef<HTMLInputElement>>('maxRange');
   readonly minRange = viewChild.required<ElementRef<HTMLInputElement>>('minRange');
@@ -74,13 +81,8 @@ export class WattSliderComponent {
 
   constructor() {
     effect(() => {
-      const currentValue = this.value();
-      const maxRange = this.maxRange();
-      const minRange = this.minRange();
-
-      if (!maxRange || !minRange) return;
-
-      this.updateRange(currentValue.min, currentValue.max);
+      const value = this.currentValue();
+      this.updateRange(value.min, value.max);
     });
 
     effect(() => {
