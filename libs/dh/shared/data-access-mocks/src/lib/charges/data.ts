@@ -181,7 +181,7 @@ export const charges: ChargeInformationDto[] = [
   },
 ];
 
-export const chargeSeriesDayResolution: ChargeSeries[] = Array.from({ length: 30 }, (_, i) => {
+export const chargeSeriesDayResolution: ChargeSeries[] = Array.from({ length: 30 }, () => {
   const numPoints = Math.floor(Math.random() * 5) + 1; // 1 to 5 points
   const points = Array.from({ length: numPoints }, (_, j) => ({
     __typename: 'Point' as const,
@@ -196,7 +196,7 @@ export const chargeSeriesDayResolution: ChargeSeries[] = Array.from({ length: 30
   };
 });
 
-export const chargeSeriesHourlyResolution: ChargeSeries[] = Array.from({ length: 30 }, (_, i) => {
+export const chargeSeriesHourlyResolution: ChargeSeries[] = Array.from({ length: 30 }, () => {
   const numPoints = 24; // 24 points for hourly resolution
   const points = Array.from({ length: numPoints }, (_, j) => ({
     __typename: 'Point' as const,
