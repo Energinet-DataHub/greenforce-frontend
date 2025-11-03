@@ -24,6 +24,11 @@ import { Component, ViewEncapsulation } from '@angular/core';
   template: `<ng-content />`,
   styles: [
     `
+      watt-drawer-heading {
+        width: 100%;
+        display: block;
+      }
+
       watt-drawer-heading h1,
       watt-drawer-heading h2,
       watt-drawer-heading h3,
