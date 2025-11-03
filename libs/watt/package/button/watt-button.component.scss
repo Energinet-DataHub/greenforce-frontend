@@ -184,6 +184,7 @@ watt-button {
       .content-wrapper {
         display: flex;
         gap: var(--watt-space-s);
+        white-space: nowrap;
       }
 
       .content-wrapper--loading {
