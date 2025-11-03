@@ -32,10 +32,10 @@ limitations under the License.
           <vater-spacer />
           <watt-button variant="icon" icon="close" (click)="close()" />
         </vater-stack>
-        <vater-stack direction="row" offset="ml" justify="space-between" gap="s" align="center">
+        <vater-flex autoSize direction="row" offset="ml" justify="space-between" gap="s" align="center">
           <ng-content select="watt-drawer-heading" />
           <ng-content select="watt-drawer-actions" />
-        </vater-stack>
+        </vater-flex>
       </header>
       <ng-content />
       <ng-content select="watt-drawer-content" />
