@@ -25,7 +25,6 @@ import {
   inject,
   input,
   Renderer2,
-  viewChild,
 } from '@angular/core';
 import { createPopper, Instance } from '@popperjs/core';
 import { Platform } from '@angular/cdk/platform';
@@ -56,8 +55,6 @@ export class WattTooltipComponent {
   target = input.required<HTMLElement>();
   position = input.required<wattTooltipPosition>();
   variant = input.required<wattTooltipVariant>();
-
-  arrow = viewChild<ElementRef<HTMLElement>>('arrow');
 
   readonly id = `watt-tooltip-${WattTooltipComponent.nextId++}`; // used by aria-describedby
   hostClass = computed(() => `tooltip-${this.variant()}`);
