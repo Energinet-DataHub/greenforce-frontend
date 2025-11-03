@@ -34,6 +34,9 @@ export default meta;
 
 export const Overview: StoryFn<WattSliderComponent> = (args) => ({
   props: args,
+  template: `
+    <watt-slider [min]="1" [max]="100"></watt-slider>
+  `,
 });
 
 Overview.args = {

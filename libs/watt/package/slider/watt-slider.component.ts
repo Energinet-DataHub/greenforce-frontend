@@ -53,10 +53,10 @@ export class WattSliderComponent {
   private readonly destroyRef = inject(DestroyRef);
 
   /** The lowest permitted value. */
-  readonly min = input(0);
+  readonly min = input.required<number>();
 
   /** The highest permitted value. */
-  readonly max = input(100);
+  readonly max = input.required<number>();
 
   /** Step between each value. */
   readonly step = input(1);
@@ -64,8 +64,8 @@ export class WattSliderComponent {
   /** The currently selected range value. */
   readonly value = input<WattSliderValue>({ min: 0, max: 100 });
 
-  readonly maxRange = viewChild<ElementRef<HTMLInputElement>>('maxRange');
-  readonly minRange = viewChild<ElementRef<HTMLInputElement>>('minRange');
+  readonly maxRange = viewChild.required<ElementRef<HTMLInputElement>>('maxRange');
+  readonly minRange = viewChild.required<ElementRef<HTMLInputElement>>('minRange');
 
   readonly valueChange = output<WattSliderValue>();
 
@@ -86,8 +86,6 @@ export class WattSliderComponent {
     effect(() => {
       const maxRange = this.maxRange();
       const minRange = this.minRange();
-
-      if (!maxRange || !minRange) return;
 
       const maxRangeElement = maxRange.nativeElement;
       const minRangeElement = minRange.nativeElement;
