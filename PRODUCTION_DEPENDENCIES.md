@@ -22,8 +22,8 @@
 | [@maskito/core](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
 | [@maskito/kit](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
 | [@maskito/phone](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
-| [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.3.6 | MIT |
-| [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.3.9 | MIT |
+| [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.3.8 | MIT |
+| [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.3.10 | MIT |
 | [@microsoft/clarity](undefined) | 1.0.0 | MIT |
 | [@ngneat/overview](https://github.com/ngneat/overview) | 6.1.2 | MIT |
 | [@ngrx/operators](https://github.com/ngrx/platform) | 19.0.1 | MIT |
