@@ -46,7 +46,7 @@ export type wattTooltipVariant = 'dark' | 'light';
   exportAs: 'wattTooltip',
 })
 export class WattTooltipDirective {
-  readonly text = input<string>('wattTooltip', { alias: 'wattTooltip' });
+  readonly text = input<string>('', { alias: 'wattTooltip' });
   readonly position = input<wattTooltipPosition>('top', { alias: 'wattTooltipPosition' });
   readonly variant = input<wattTooltipVariant>('dark', { alias: 'wattTooltipVariant' });
 
