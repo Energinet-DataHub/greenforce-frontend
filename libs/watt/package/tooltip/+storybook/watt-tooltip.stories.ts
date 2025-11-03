@@ -48,16 +48,16 @@ const template = `
       <div data-testid="positions" #positions style="padding: 3rem 10rem; border: 1px dotted var(--watt-color-neutral-grey-600);"></div>
       </section>
 
-      <watt-tooltip text="top-start" position="top-start" style="opacity: 1;" [target]="positions"></watt-tooltip>
-      <watt-tooltip text="top" position="top" style="opacity: 1;" [target]="positions"></watt-tooltip>
-      <watt-tooltip text="top-end" position="top-end" style="opacity: 1;" [target]="positions"></watt-tooltip>
+      <watt-tooltip text="top-start" position="top-start" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
+      <watt-tooltip text="top" position="top" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
+      <watt-tooltip text="top-end" position="top-end" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
 
-      <watt-tooltip text="bottom-start" position="bottom-start" style="opacity: 1;" [target]="positions"></watt-tooltip>
-      <watt-tooltip text="bottom" position="bottom" style="opacity: 1;" [target]="positions"></watt-tooltip>
-      <watt-tooltip text="bottom-end" position="bottom-end" style="opacity: 1;" [target]="positions"></watt-tooltip>
+      <watt-tooltip text="bottom-start" position="bottom-start" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
+      <watt-tooltip text="bottom" position="bottom" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
+      <watt-tooltip text="bottom-end" position="bottom-end" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
 
-      <watt-tooltip text="right" position="right" style="opacity: 1;" [target]="positions"></watt-tooltip>
-      <watt-tooltip text="left" position="left" style="opacity: 1;" [target]="positions"></watt-tooltip>
+      <watt-tooltip text="right" position="right" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
+      <watt-tooltip text="left" position="left" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
     </div>
  `;
 
