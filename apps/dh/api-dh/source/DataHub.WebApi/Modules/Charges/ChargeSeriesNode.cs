@@ -32,10 +32,9 @@ public static partial class ChargeSeriesNode
     {
         var series = await client.GetChargeSeriesAsync(
             new ChargeSeriesSearchCriteriaDto(
-                ChargeId: new Guid(chargeId),
+                ChargeId: Guid.Empty, // TODO: Fix
                 FromDateTimeUtc: interval.Start.ToDateTimeOffset(),
-                ToDateTimeUtc: interval.End.ToDateTimeOffset()),
-            cancellationToken);
+                ToDateTimeUtc: interval.End.ToDateTimeOffset()));
 
         return series.Value ?? [];
     }
