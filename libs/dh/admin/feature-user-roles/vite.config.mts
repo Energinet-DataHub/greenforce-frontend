@@ -1,23 +1,64 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+/// <reference types='vitest' />
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
+import { resolve } from 'path';
+
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
+
+// Use the shared MSW polyfill path
+const mswPolyfillPath = resolve(
+  process.cwd(),
+  'libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js'
+);
 
 export default defineConfig(() => ({
   root: __dirname,
-  plugins: [angular(), nxViteTsPaths()],
+  cacheDir: '../../../../node_modules/.vite/libs/dh/admin/feature-user-roles',
+  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  resolve: {
+    conditions: ['development', 'browser'],
+  },
   test: {
-    passWithNoTests: true,
+    watch: false,
     globals: true,
-    environment: 'happy-dom',
+    environment: 'jsdom',
     include: ['src/**/*.spec.ts'],
     setupFiles: ['./src/test-setup.ts'],
+    passWithNoTests: true,
     reporters: ['default'],
     coverage: {
-      enabled: true,
+      reportsDirectory: '../../../../coverage/libs/dh/admin/feature-user-roles',
       provider: 'v8' as const,
-      reporter: ['html', 'json', 'text-summary'],
-      reportsDirectory: '../../../../coverage/feature-user-roles',
     },
-    pool: 'forks',
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        execArgv: ['--require', mswPolyfillPath],
+      },
+    },
+    server: {
+      deps: {
+        inline: [/fesm2022/],
+      },
+    },
   },
 }));
