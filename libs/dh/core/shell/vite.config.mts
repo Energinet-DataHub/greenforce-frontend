@@ -39,6 +39,12 @@ export default defineConfig(() => ({
       reportsDirectory: '../../../../coverage/libs/dh/core/shell',
       provider: 'v8' as const,
     },
+    pool: 'forks',
+    poolOptions: {
+      forks: {
+        singleFork: true,
+      },
+    },
     server: {
       deps: {
         inline: [/fesm2022/],
