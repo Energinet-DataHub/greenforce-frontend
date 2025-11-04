@@ -23,7 +23,11 @@ import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/tra
 
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import {
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -68,6 +72,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     TranslocoDirective,
     VaterStackComponent,
     VaterSpacerComponent,
+    VaterUtilityDirective,
     WATT_LINK_TABS,
     WATT_BREADCRUMBS,
     WATT_DESCRIPTION_LIST,
