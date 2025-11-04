@@ -99,8 +99,8 @@ import formatTime from '../../format-time';
             <ng-container *wattTableCell="columns.menu">
               <watt-button variant="icon" [wattMenuTriggerFor]="menu" icon="moreVertical" />
               <watt-menu #menu>
-                <watt-menu-item> Kopier besked-ID </watt-menu-item>
-                <watt-menu-item> Gå til besked </watt-menu-item>
+                <watt-menu-item> {{ t('copyMessage') }} </watt-menu-item>
+                <watt-menu-item> {{ t('navigateToMessage') }} </watt-menu-item>
               </watt-menu>
             </ng-container>
           </watt-table>

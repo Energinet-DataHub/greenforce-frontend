@@ -468,7 +468,9 @@
         "columns": {
           "price": "Pris",
           "time": "Indsendt"
-        }
+        },
+        "copyMessage": "Kopier besked-ID",
+        "navigateToMessage": "Gå til besked"
       }
     }
   },

@@ -381,16 +381,6 @@
       "NO_VAT": "Without VAT",
       "VAT25": "With VAT"
     },
-    "series": {
-      "columns": {
-        "QuarterHourly": "Time",
-        "Hourly": "Time",
-        "Daily": "Date",
-        "Monthly": "Month",
-        "Unknown": "Sequence",
-        "price": "Current price"
-      }
-    },
     "charges": {
       "topBarTitle": "Prices",
       "table": {
@@ -460,6 +450,26 @@
             "Sample entry": "This is a sample {{ entry }}"
           }
         }
+      }
+    },
+    "series": {
+      "columns": {
+        "QuarterHourly": "Time",
+        "Hourly": "Time",
+        "Daily": "Date",
+        "Monthly": "Month",
+        "Unknown": "Sequence",
+        "price": "Current price"
+      },
+      "details": {
+        "current": "Current",
+        "time": "Time",
+        "columns": {
+          "price": "Price",
+          "time": "Submitted"
+        },
+        "copyMessage": "Copy message ID",
+        "navigateToMessage": "Go to message"
       }
     }
   },
