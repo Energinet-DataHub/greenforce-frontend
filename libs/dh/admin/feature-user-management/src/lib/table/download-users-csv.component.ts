@@ -44,7 +44,7 @@ type Variables = Partial<GetUsersForCsvQueryVariables>;
 })
 export class DhDownloadUsersCsvComponent {
   query = lazyQuery(GetUsersForCsvDocument);
-  private generateCsv = GenerateCSV.fromQuery(this.query, (result) => result.users?.items || []);
+  private generateCsv = GenerateCSV.fromQuery(this.query, (result) => result.usersForCsvExport || []);
 
   variables = input<Variables>();
 
@@ -54,7 +54,6 @@ export class DhDownloadUsersCsvComponent {
     this.generateCsv
       .addVariables({
         ...this.variables(),
-        take: 10_000,
       })
       .addHeaders([
         `"${translate(basePath + '.userName')}"`,
@@ -67,9 +66,9 @@ export class DhDownloadUsersCsvComponent {
         users.map((user) => [
           `"${user.name}"`,
           `"${user.email}"`,
-          `"${user.administratedBy?.name}"`,
+          `"${user.actorName}"`,
           `"${(user.latestLoginAt && wattFormatDate(user.latestLoginAt, 'short')) || ''}"`,
-          `"${user.administratedBy?.organization.name}"`,
+          `"${user.organizationName}"`,
         ])
       )
       .generate(`${basePath}.fileName`);

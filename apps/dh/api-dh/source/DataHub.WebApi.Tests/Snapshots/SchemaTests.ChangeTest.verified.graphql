@@ -1194,6 +1194,7 @@ type Query {
   domainExists(email: String!): Boolean!
   emailExists(email: String!): Boolean!
   userById(id: UUID!): User!
+  usersForCsvExport(actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): [UserCsvDto!]!
   users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
   userProfile: UserProfile!
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
@@ -1469,6 +1470,14 @@ type UserAuditedChangeAuditLogDto {
   isInitialAssignment: Boolean!
   currentValue: String
   previousValue: String
+}
+
+type UserCsvDto {
+  name: String!
+  email: String!
+  actorName: String!
+  organizationName: String!
+  latestLoginAt: DateTime
 }
 
 type UserOverviewItemDto {

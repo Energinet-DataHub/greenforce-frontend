@@ -13,6 +13,10 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Models;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
+using SortDirection = Energinet.DataHub.WebApi.Modules.Common.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
@@ -96,5 +100,46 @@ public static class UserOperations
     {
         await client.UserInitiateMitidSignupAsync();
         return true;
+    }
+
+    [Query]
+    public static async Task<IEnumerable<UserCsvDto>> GetUsersForCsvExportAsync(
+        Guid? actorId,
+        Guid[]? userRoleIds,
+        UserStatus[]? userStatus,
+        string? filter,
+        UsersSortInput? order,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        var (sortProperty, sortDirection) = order switch
+        {
+            { Name: not null } => (UserOverviewSortProperty.FirstName, order.Name.Value),
+            { Email: not null } => (UserOverviewSortProperty.Email, order.Email.Value),
+            { PhoneNumber: not null } => (UserOverviewSortProperty.PhoneNumber, order.PhoneNumber.Value),
+            { LatestLoginAt: not null } => (UserOverviewSortProperty.LatestLoginAt, order.LatestLoginAt.Value),
+            { Status: not null } => (UserOverviewSortProperty.Status, order.Status.Value),
+            _ => (UserOverviewSortProperty.FirstName, SortDirection.Desc),
+        };
+
+        var response = await client.UserOverviewUsersSearchAsync(
+            1,
+            50_000,
+            sortProperty,
+            sortDirection.FromSortingToMarketParticipantSorting(),
+            new()
+            {
+                ActorId = actorId,
+                SearchText = filter,
+                UserRoleIds = userRoleIds ?? [],
+                UserStatus = userStatus ?? [],
+            });
+
+        var actorLookup = (await client.QuerySelectionActorsAsync()).ToDictionary(x => x.Id);
+
+        return response.Users.Select(x =>
+        {
+            var actor = actorLookup[x.AdministratedBy];
+            return new UserCsvDto(UserOverviewItemNode.GetName(x), x.Email, actor.ActorName, actor.OrganizationName, x.LatestLoginAt);
+        }).ToList();
     }
 }
