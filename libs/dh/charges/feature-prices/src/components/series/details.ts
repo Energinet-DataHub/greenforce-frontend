@@ -31,7 +31,7 @@ import { WATT_MENU } from '@energinet/watt/menu';
 import { WattBadgeComponent } from '@energinet/watt/badge';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataTableComponent } from '@energinet/watt/data';
-import { WattDatePipe, WattRange } from '@energinet/watt/core/date';
+import { WattDatePipe } from '@energinet/watt/core/date';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet/watt/drawer';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
@@ -110,23 +110,15 @@ import formatTime from '../../format-time';
   `,
 })
 export class DhChargeSeriesDetailsComponent {
+  private drawer = viewChild.required(WattDrawerComponent);
   private series = signal<ChargeSeries | null>(null);
+  private charge = signal<Charge | null>(null);
 
-  protected points = computed(() => this.series()?.points ?? []);
   protected currentPoint = computed(() => this.series()?.currentPoint);
-  protected currentPointTime = computed<WattRange<Date>>(() => ({
-    start: this.currentPoint()?.fromDateTime!,
-    end: this.currentPoint()?.toDateTime ?? null,
-  }));
-
   protected resolution = signal<ChargeResolution>('Unknown');
   protected index = signal<number>(0);
-  protected charge = signal<Charge | null>(null);
   protected chargeIdName = computed(() => `${this.charge()?.code} • ${this.charge()?.name}`);
-
   protected dataSource = new WattTableDataSource<ChargeSeriesPoint>();
-
-  protected drawer = viewChild.required(WattDrawerComponent);
 
   protected columns = {
     price: { accessor: (row) => row.price },
