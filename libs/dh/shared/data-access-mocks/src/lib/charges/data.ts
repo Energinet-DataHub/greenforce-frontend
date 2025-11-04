@@ -220,7 +220,7 @@ export const chargeSeriesHourlyResolution: ChargeSeries[] = Array.from({ length:
 });
 
 export const chargeSeriesMonthlyResolution: ChargeSeries[] = Array.from({ length: 12 }, (_, i) => {
-  const numPoints = 1; // 1 point for monthly resolution
+  const numPoints = Math.floor(Math.random() * 5) + 1; // 1 to 5 points
   const points = Array.from({ length: numPoints }, (_, j) => ({
     __typename: 'ChargeSeriesPoint' as const,
     fromDateTime: new Date(new Date('2025-12-01T00:00:00Z').setMonth(i)),
