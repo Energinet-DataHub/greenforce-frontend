@@ -196,6 +196,7 @@
       "@energinet-datahub/dh/shared/util-operators": ["libs/dh/shared/util-operators/src/index.ts"],
       "@energinet-datahub/dh/shared/util-reports": ["libs/dh/shared/util-reports/src/index.ts"],
       "@energinet-datahub/dh/shared/util-table": ["libs/dh/shared/util-table/src/index.ts"],
+      "@energinet-datahub/dh/shared/util-text": ["libs/dh/shared/util-text/index.ts"],
       "@energinet-datahub/dh/wholesale/domain": ["libs/dh/wholesale/domain/src/index.ts"],
       "@energinet-datahub/dh/wholesale/feature-calculations": [
         "libs/dh/wholesale/feature-calculations/src/index.ts"
