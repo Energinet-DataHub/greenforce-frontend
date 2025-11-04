@@ -18,7 +18,11 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { dayjs } from '@energinet/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
@@ -32,74 +36,90 @@ import {
 import { DhCircleComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { capitalize } from '@energinet-datahub/dh/shared/util-text';
+import { DhChargesIntervalField } from './interval-field';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 @Component({
   selector: 'dh-prices',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
+    VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
     WattDatepickerComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
+    WattSpinnerComponent,
     WATT_TABLE,
     DhCircleComponent,
+    DhChargesIntervalField,
   ],
   template: `
-    <watt-data-table
-      vater
-      inset="ml"
-      gap="ml"
-      [header]="false"
-      [error]="series.error()"
-      [ready]="series.called()"
-      [enablePaginator]="false"
-      *transloco="let t; prefix: 'charges.series'"
-    >
-      <watt-data-filters>
-        <watt-datepicker />
-      </watt-data-filters>
-      <watt-table
-        *transloco="let t; read: 'charges.series.columns'"
-        [resolveHeader]="t"
-        [columns]="columns"
-        [dataSource]="dataSource"
-        [loading]="series.loading()"
-        [stickyFooter]="true"
+    @defer (when resolution()) {
+      <watt-data-table
+        vater
+        inset="ml"
+        gap="ml"
+        [header]="false"
+        [error]="series.error()"
+        [ready]="series.called()"
+        [enablePaginator]="false"
+        *transloco="let t; prefix: 'charges.series'"
       >
-        <ng-container *wattTableCell="columns.date; header: t(resolution()); let _; let i = index">
-          {{ formatTime(i) }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
-          @if (series.hasChanged) {
-            <dh-circle />
-          }
-        </ng-container>
-        <ng-container *wattTableCell="columns.history; header: ''; let series">
-          <vater-stack scrollable direction="row" gap="ml">
-            @for (point of series.points.filter(isHistoric); track $index) {
-              <span
-                class="watt-on-light--medium-emphasis"
-                style="text-align: right;"
-                [style.flexBasis.px]="120"
-              >
-                {{ point.price }}
-              </span>
+        <watt-data-filters>
+          <dh-charges-interval-field
+            [resolution]="resolution()"
+            (intervalChange)="series.refetch({ interval: $event })"
+          />
+        </watt-data-filters>
+        <watt-table
+          *transloco="let t; read: 'charges.series.columns'"
+          [resolveHeader]="t"
+          [columns]="columns"
+          [dataSource]="dataSource"
+          [loading]="series.loading()"
+          [stickyFooter]="true"
+        >
+          <ng-container
+            *wattTableCell="columns.date; header: t(resolution()); let _; let i = index"
+          >
+            {{ formatTime(i) }}
+          </ng-container>
+          <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
+            @if (series.hasChanged) {
+              <dh-circle />
             }
-          </vater-stack>
-        </ng-container>
-      </watt-table>
-    </watt-data-table>
+          </ng-container>
+          <ng-container *wattTableCell="columns.history; header: ''; let series">
+            <vater-stack scrollable direction="row" gap="ml">
+              @for (point of series.points.filter(isHistoric); track $index) {
+                <span
+                  class="watt-on-light--medium-emphasis"
+                  style="text-align: right;"
+                  [style.flexBasis.px]="120"
+                >
+                  {{ point.price }}
+                </span>
+              }
+            </vater-stack>
+          </ng-container>
+        </watt-table>
+      </watt-data-table>
+    } @placeholder {
+      <vater-flex fill="both">
+        <watt-spinner vater center />
+      </vater-flex>
+    }
   `,
 })
 export class DhChargeSeriesPage {
   id = input.required<string>();
   charge = query(GetChargeResolutionDocument, () => ({ variables: { id: this.id() } }));
-  resolution = computed(() => this.charge.data()?.chargeById?.resolution ?? 'Unknown');
+  resolution = computed(() => this.charge.data()?.chargeById?.resolution);
   series = query(GetChargeSeriesDocument, () => ({
+    skip: true,
     variables: {
-      interval: { start: new Date(), end: new Date() },
       chargeId: this.id(),
     },
   }));
@@ -113,8 +133,8 @@ export class DhChargeSeriesPage {
       sort: false,
     },
     hasChanged: {
-      accessor: (row) => row.hasChanged,
-      tooltip: 'What',
+      accessor: 'hasChanged',
+      tooltip: 'What', // TODO: Fix
       size: 'min-content',
       align: 'center',
       sort: false,
@@ -125,17 +145,17 @@ export class DhChargeSeriesPage {
   isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
 
   formatTime = (index: number) => {
-    const today = dayjs();
+    const date = dayjs(this.series.variables().interval?.start);
     switch (this.resolution()) {
       case 'QuarterHourly':
-        return `${today.minute(index * 15).format('mm')} — ${today.minute((index + 1) * 15).format('mm')}`;
+        return `${date.minute(index * 15).format('mm')} — ${date.minute((index + 1) * 15).format('mm')}`;
       case 'Hourly':
-        return `${today.hour(index).format('HH')} — ${today.hour(index + 1).format('HH')}`;
+        return `${date.hour(index).format('HH')} — ${date.hour(index + 1).format('HH')}`;
       case 'Daily':
-        return today.date(index + 1).format('DD');
+        return date.date(index + 1).format('DD');
       case 'Monthly':
-        return capitalize(today.month(index).format('MMMM'));
-      case 'Unknown':
+        return capitalize(date.month(index).format('MMMM'));
+      default:
         return index + 1;
     }
   };
