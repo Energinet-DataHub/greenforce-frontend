@@ -18,8 +18,8 @@
 //#endregion
 import { getCharges } from './get-charges.mock';
 import { getChargeSeries } from './get-charge-series.mock';
-import { getChargeById } from './get-charge-by-id.mock';
+import { getChargeById, getChargeResolution } from './get-charge-by-id.mock';
 
 export function chargesMocks() {
-  return [getCharges(), getChargeSeries(), getChargeById()];
+  return [getCharges(), getChargeSeries(), getChargeById(), getChargeResolution()];
 }
