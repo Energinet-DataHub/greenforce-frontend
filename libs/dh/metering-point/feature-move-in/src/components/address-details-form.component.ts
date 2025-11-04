@@ -291,6 +291,7 @@ export class DhAddressDetailsFormComponent {
     { value: 'NO', displayValue: 'NO' },
     { value: 'DE', displayValue: 'DE' },
     { value: 'FI', displayValue: 'FI' },
+    { value: 'GB', displayValue: 'GB' },
     { value: 'PL', displayValue: 'PL' },
     { value: 'NL', displayValue: 'NL' },
     { value: 'CH', displayValue: 'CH' },
