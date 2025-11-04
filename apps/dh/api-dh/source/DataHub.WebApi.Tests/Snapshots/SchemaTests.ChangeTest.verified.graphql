@@ -298,6 +298,7 @@ type ChargeInformationDto {
 }
 
 type ChargeSeries {
+  currentPoint: ChargeSeriesPoint!
   hasChanged: Boolean!
   points: [ChargeSeriesPoint!]!
   totalAmount: Decimal!

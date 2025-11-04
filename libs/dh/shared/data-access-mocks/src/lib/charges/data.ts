@@ -181,11 +181,11 @@ export const charges: ChargeInformationDto[] = [
   },
 ];
 
-export const chargeSeriesDayResolution: ChargeSeries[] = Array.from({ length: 30 }, () => {
+export const chargeSeriesDayResolution: ChargeSeries[] = Array.from({ length: 30 }, (_, i) => {
   const numPoints = Math.floor(Math.random() * 5) + 1; // 1 to 5 points
   const points = Array.from({ length: numPoints }, (_, j) => ({
     __typename: 'ChargeSeriesPoint' as const,
-    fromDateTime: new Date(new Date('2025-10-31T00:00:00Z').setDate(31 - j)),
+    fromDateTime: new Date(new Date('2025-10-31T00:00:00Z').setDate(1 + i)),
     toDateTime:
       j === 0 ? new Date(9999, 0) : new Date(new Date('2025-10-31T23:59:59Z').setDate(31 - j)),
     isCurrent: j === 0,
@@ -195,6 +195,7 @@ export const chargeSeriesDayResolution: ChargeSeries[] = Array.from({ length: 30
     __typename: 'ChargeSeries' as const,
     points,
     hasChanged: numPoints > 1,
+    currentPoint: points[0],
     totalAmount: Number(points.reduce((sum, point) => sum + point.price, 0).toFixed(2)),
   };
 });
@@ -213,6 +214,7 @@ export const chargeSeriesHourlyResolution: ChargeSeries[] = Array.from({ length:
     __typename: 'ChargeSeries' as const,
     points,
     hasChanged: numPoints > 1,
+    currentPoint: points[0],
     totalAmount: Number(points.reduce((sum, point) => sum + point.price, 0).toFixed(2)),
   };
 });
@@ -231,6 +233,7 @@ export const chargeSeriesMonthlyResolution: ChargeSeries[] = Array.from({ length
     __typename: 'ChargeSeries' as const,
     points,
     hasChanged: numPoints > 1,
+    currentPoint: points[0],
     totalAmount: Number(points.reduce((sum, point) => sum + point.price, 0).toFixed(2)),
   };
 });

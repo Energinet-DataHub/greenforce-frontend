@@ -381,16 +381,6 @@
       "NO_VAT": "Uden moms",
       "VAT25": "Med moms"
     },
-    "series": {
-      "columns": {
-        "QuarterHourly": "Tidspunkt",
-        "Hourly": "Tidspunkt",
-        "Daily": "Dato",
-        "Monthly": "Måned",
-        "Unknown": "Sekvens",
-        "price": "Aktuel pris"
-      }
-    },
     "charges": {
       "topBarTitle": "Priser",
       "table": {
@@ -459,6 +449,24 @@
           "auditLogs": {
             "Sample entry": "Dette er en sample {{ entry }}"
           }
+        }
+      }
+    },
+    "series": {
+      "columns": {
+        "QuarterHourly": "Tidspunkt",
+        "Hourly": "Tidspunkt",
+        "Daily": "Dato",
+        "Monthly": "Måned",
+        "Unknown": "Sekvens",
+        "price": "Aktuel pris"
+      },
+      "details": {
+        "current": "Aktuel",
+        "time": "Tidspunkt",
+        "columns": {
+          "price": "Pris",
+          "time": "Indsendt"
         }
       }
     }

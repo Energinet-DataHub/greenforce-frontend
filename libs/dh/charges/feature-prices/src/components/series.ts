@@ -20,18 +20,19 @@ import { ChangeDetectionStrategy, Component, computed, effect, input } from '@an
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { dayjs } from '@energinet/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 import {
   ChargeSeries,
   ChargeSeriesPoint,
-  GetChargeResolutionDocument,
+  GetChargeByIdDocument,
   GetChargeSeriesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhCircleComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { capitalize } from '@energinet-datahub/dh/shared/util-text';
+
+import formatTime from '../format-time';
+import { DhChargeSeriesDetailsComponent } from './series/details';
 
 @Component({
   selector: 'dh-prices',
@@ -45,6 +46,7 @@ import { capitalize } from '@energinet-datahub/dh/shared/util-text';
     WattDataTableComponent,
     WATT_TABLE,
     DhCircleComponent,
+    DhChargeSeriesDetailsComponent,
   ],
   template: `
     <watt-data-table
@@ -67,6 +69,7 @@ import { capitalize } from '@energinet-datahub/dh/shared/util-text';
         [dataSource]="dataSource"
         [loading]="series.loading()"
         [stickyFooter]="true"
+        (rowClick)="details.open(getIndex($event), $event, resolution(), charge.data()?.chargeById)"
       >
         <ng-container *wattTableCell="columns.date; header: t(resolution()); let _; let i = index">
           {{ formatTime(i) }}
@@ -85,11 +88,12 @@ import { capitalize } from '@energinet-datahub/dh/shared/util-text';
         </ng-container>
       </watt-table>
     </watt-data-table>
+    <dh-charge-series-details #details />
   `,
 })
 export class DhChargeSeriesPage {
   id = input.required<string>();
-  charge = query(GetChargeResolutionDocument, () => ({ variables: { id: this.id() } }));
+  charge = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   resolution = computed(() => this.charge.data()?.chargeById?.resolution ?? 'Unknown');
   series = query(GetChargeSeriesDocument, () => ({
     variables: {
@@ -111,21 +115,10 @@ export class DhChargeSeriesPage {
 
   isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
 
-  formatTime = (index: number) => {
-    const today = dayjs();
-    switch (this.resolution()) {
-      case 'QuarterHourly':
-        return `${today.minute(index * 15).format('mm')} — ${today.minute((index + 1) * 15).format('mm')}`;
-      case 'Hourly':
-        return `${today.hour(index).format('HH')} — ${today.hour(index + 1).format('HH')}`;
-      case 'Daily':
-        return today.date(index + 1).format('DD');
-      case 'Monthly':
-        return capitalize(today.month(index).format('MMMM'));
-      case 'Unknown':
-        return index + 1;
-    }
-  };
+  formatTime = (index: number) => formatTime(index, this.resolution());
+
+  getIndex = (selectedSeries: ChargeSeries) =>
+    this.series.data()?.chargeSeries.indexOf(selectedSeries) ?? 0;
 
   constructor() {
     effect(() => {

@@ -59,6 +59,9 @@ import { WattDataIntlService } from './watt-data-intl.service';
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
+      watt-data-table {
+        display: block;
+      }
       watt-data-table h3,
       watt-data-table h4 {
         line-height: 44px;

@@ -2,6 +2,13 @@ query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
   chargeSeries(chargeId: $chargeId, interval: $interval) {
     totalAmount
     hasChanged
+    # TODO: make a point fragment
+    currentPoint {
+      price
+      fromDateTime
+      toDateTime
+      isCurrent
+    }
     points {
       isCurrent
       price
