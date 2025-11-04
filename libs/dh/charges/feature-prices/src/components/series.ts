@@ -147,10 +147,10 @@ export class DhChargeSeriesPage {
   formatTime = (index: number) => {
     const date = dayjs(this.series.variables().interval?.start);
     switch (this.resolution()) {
-      case 'QuarterHourly':
-        return `${date.minute(index * 15).format('mm')} — ${date.minute((index + 1) * 15).format('mm')}`;
       case 'Hourly':
-        return `${date.hour(index).format('HH')} — ${date.hour(index + 1).format('HH')}`;
+        return `${date.add(index * 15, 'minutes').format('HH:mm')} — ${date.add((index + 1) * 15, 'minutes').format('HH:mm')}`;
+      case 'QuarterHourly':
+        return `${date.add(index, 'hour').format('HH')} — ${date.add(index + 1, 'hour').format('HH')}`;
       case 'Daily':
         return date.date(index + 1).format('DD');
       case 'Monthly':

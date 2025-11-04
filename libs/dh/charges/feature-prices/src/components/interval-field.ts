@@ -66,7 +66,7 @@ export class DhChargesIntervalField {
         return { start: date.toDate(), end: date.endOf('year').toDate() };
       }
       default: {
-        const date = dayjs.tz(value.date, danishTimeZoneIdentifier);
+        const date = dayjs(value.date);
         return { start: date.toDate(), end: date.endOf('day').toDate() };
       }
     }
