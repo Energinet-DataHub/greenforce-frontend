@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { ChangeDetectionStrategy, Component, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet/watt/card';
@@ -27,7 +26,7 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet/
 import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
-  imports: [MatSortModule, TranslocoDirective, WATT_TABLE, WattDataTableComponent, WATT_CARD],
+  imports: [TranslocoDirective, WATT_TABLE, WattDataTableComponent, WATT_CARD],
   selector: 'dh-calculations-grid-areas-table',
   template: `
     <watt-data-table
@@ -40,7 +39,7 @@ import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
       <h4>{{ t('gridAreas') }}</h4>
       <!-- Table -->
       <watt-table
-        [dataSource]="_data"
+        [dataSource]="dataSource"
         [columns]="columns"
         [suppressRowHoverHighlight]="true"
         [hideColumnHeaders]="true"
@@ -52,17 +51,18 @@ import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhCalculationsGridAreasTableComponent {
-  @ViewChild(MatSort) sort!: MatSort;
+  readonly data = input.required<CalculationGridArea[]>();
+  readonly disabled = input(false);
 
-  @Input()
-  set data(gridAreas: CalculationGridArea[]) {
-    this._data = new WattTableDataSource(gridAreas);
-  }
+  dataSource: WattTableDataSource<CalculationGridArea> = new WattTableDataSource(undefined);
 
-  @Input() disabled = false;
-
-  _data: WattTableDataSource<CalculationGridArea> = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<CalculationGridArea> = {
     displayName: { accessor: 'displayName' },
   };
+
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.data();
+    });
+  }
 }
