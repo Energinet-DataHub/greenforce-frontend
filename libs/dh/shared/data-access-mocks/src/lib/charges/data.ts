@@ -184,44 +184,53 @@ export const charges: ChargeInformationDto[] = [
 export const chargeSeriesDayResolution: ChargeSeries[] = Array.from({ length: 30 }, () => {
   const numPoints = Math.floor(Math.random() * 5) + 1; // 1 to 5 points
   const points = Array.from({ length: numPoints }, (_, j) => ({
-    __typename: 'Point' as const,
+    __typename: 'ChargeSeriesPoint' as const,
     fromDateTime: new Date(new Date('2025-10-31T00:00:00Z').setDate(31 - j)),
-    toDateTime: new Date(new Date('2025-10-31T23:59:59Z').setDate(31 - j)),
+    toDateTime:
+      j === 0 ? new Date(9999, 0) : new Date(new Date('2025-10-31T23:59:59Z').setDate(31 - j)),
+    isCurrent: j === 0,
     price: Number((Math.random() * 2).toFixed(2)), // Random price between 0 and 2
   }));
   return {
     __typename: 'ChargeSeries' as const,
     points,
+    hasChanged: numPoints > 1,
     totalAmount: Number(points.reduce((sum, point) => sum + point.price, 0).toFixed(2)),
   };
 });
 
-export const chargeSeriesHourlyResolution: ChargeSeries[] = Array.from({ length: 30 }, () => {
-  const numPoints = 24; // 24 points for hourly resolution
+export const chargeSeriesHourlyResolution: ChargeSeries[] = Array.from({ length: 24 }, () => {
+  const numPoints = Math.floor(Math.random() * 5) + 1; // 1 to 5 points
   const points = Array.from({ length: numPoints }, (_, j) => ({
-    __typename: 'Point' as const,
+    __typename: 'ChargeSeriesPoint' as const,
     fromDateTime: new Date(new Date('2025-10-31T00:00:00Z').setHours(j)),
-    toDateTime: new Date(new Date('2025-10-31T00:59:59Z').setHours(j)),
+    toDateTime:
+      j === 0 ? new Date(9999, 0) : new Date(new Date('2025-10-31T00:59:59Z').setHours(j)),
+    isCurrent: j === 0,
     price: Number((Math.random() * 2).toFixed(2)), // Random price between 0 and 2
   }));
   return {
     __typename: 'ChargeSeries' as const,
     points,
+    hasChanged: numPoints > 1,
     totalAmount: Number(points.reduce((sum, point) => sum + point.price, 0).toFixed(2)),
   };
 });
 
 export const chargeSeriesMonthlyResolution: ChargeSeries[] = Array.from({ length: 12 }, (_, i) => {
   const numPoints = 1; // 1 point for monthly resolution
-  const points = Array.from({ length: numPoints }, () => ({
-    __typename: 'Point' as const,
+  const points = Array.from({ length: numPoints }, (_, j) => ({
+    __typename: 'ChargeSeriesPoint' as const,
     fromDateTime: new Date(new Date('2025-12-01T00:00:00Z').setMonth(i)),
-    toDateTime: new Date(new Date('2025-12-31T23:59:59Z').setMonth(i)),
+    toDateTime:
+      j === 0 ? new Date(9999, 0) : new Date(new Date('2025-12-31T23:59:59Z').setMonth(i)),
+    isCurrent: j === 0,
     price: Number((Math.random() * 50).toFixed(2)), // Random price between 0 and 50
   }));
   return {
     __typename: 'ChargeSeries' as const,
     points,
+    hasChanged: numPoints > 1,
     totalAmount: Number(points.reduce((sum, point) => sum + point.price, 0).toFixed(2)),
   };
 });

@@ -158,6 +158,7 @@ export type WattTableColumnDef<T> = Record<string, WattTableColumn<T>>;
 // Used for strongly typing the structural directive
 interface WattTableCellContext<T> {
   $implicit: T;
+  index: number;
 }
 
 interface WattTableToolbarContext<T> {

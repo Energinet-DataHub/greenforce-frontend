@@ -298,8 +298,16 @@ type ChargeInformationDto {
 }
 
 type ChargeSeries {
-  points: [Point!]!
+  hasChanged: Boolean!
+  points: [ChargeSeriesPoint!]!
   totalAmount: Decimal!
+}
+
+type ChargeSeriesPoint {
+  isCurrent: Boolean!
+  fromDateTime: DateTime!
+  toDateTime: DateTime!
+  price: Decimal!
 }
 
 "A segment of a collection."
@@ -1114,12 +1122,6 @@ type PermissionDetailsDto {
   name: String!
   description: String!
   created: DateTime!
-}
-
-type Point {
-  price: Decimal!
-  fromDateTime: DateTime!
-  toDateTime: DateTime!
 }
 
 "A connection to a list of items."

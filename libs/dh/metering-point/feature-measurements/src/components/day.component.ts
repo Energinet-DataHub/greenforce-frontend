@@ -26,10 +26,9 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { Quality, GetMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhCircleComponent } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhCircleComponent } from './circle.component';
 import { DhMeasurementsDayFilterComponent } from './day-filter.component';
 import { MeasurementPosition, MeasurementsQueryVariables } from '../types';
 import { DhMeasurementsDayDetailsComponent } from './day-details.component';
