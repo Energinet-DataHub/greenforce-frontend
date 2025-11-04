@@ -23,7 +23,6 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { dayjs } from '@energinet/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
@@ -47,7 +46,6 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
     VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
-    WattDatepickerComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSpinnerComponent,
@@ -56,7 +54,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
     DhChargesIntervalField,
   ],
   template: `
-    @defer (when resolution()) {
+    @if (resolution(); as resolution) {
       <watt-data-table
         vater
         inset="ml"
@@ -69,7 +67,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
       >
         <watt-data-filters>
           <dh-charges-interval-field
-            [resolution]="resolution()"
+            [resolution]="resolution"
             (intervalChange)="series.refetch({ interval: $event })"
           />
         </watt-data-filters>
@@ -81,9 +79,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
           [loading]="series.loading()"
           [stickyFooter]="true"
         >
-          <ng-container
-            *wattTableCell="columns.date; header: t(resolution()); let _; let i = index"
-          >
+          <ng-container *wattTableCell="columns.date; header: t(resolution); let _; let i = index">
             {{ formatTime(i) }}
           </ng-container>
           <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
@@ -106,7 +102,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
           </ng-container>
         </watt-table>
       </watt-data-table>
-    } @placeholder {
+    } @else {
       <vater-flex fill="both">
         <watt-spinner vater center />
       </vater-flex>
