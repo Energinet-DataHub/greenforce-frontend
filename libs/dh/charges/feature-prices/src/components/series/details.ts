@@ -17,7 +17,7 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import { Component, computed, signal, viewChild } from '@angular/core';
+import { Component, computed, output, signal, viewChild } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -56,7 +56,11 @@ import formatTime from '../../format-time';
     TranslocoDirective,
   ],
   template: `
-    <watt-drawer size="small" *transloco="let t; prefix: 'charges.series.details'">
+    <watt-drawer
+      (closed)="closed.emit()"
+      size="small"
+      *transloco="let t; prefix: 'charges.series.details'"
+    >
       <watt-drawer-heading>
         <h1>{{ chargeIdName() }}</h1>
         <watt-description-list variant="inline-flow">
@@ -114,6 +118,8 @@ export class DhChargeSeriesDetailsComponent {
   private series = signal<ChargeSeries | null>(null);
   private charge = signal<Charge | null>(null);
 
+  closed = output();
+
   protected currentPoint = computed(() => this.series()?.currentPoint);
   protected resolution = signal<ChargeResolution>('Unknown');
   protected index = signal<number>(0);
@@ -128,7 +134,7 @@ export class DhChargeSeriesDetailsComponent {
   } satisfies WattTableColumnDef<ChargeSeriesPoint>;
 
   protected formatTime = (index: number, resolution: ChargeResolution) =>
-    formatTime(index, resolution);
+    formatTime(index, resolution, this.currentPoint()?.fromDateTime);
 
   open(index: number, series: ChargeSeries, resolution: ChargeResolution, charge: Charge) {
     this.series.set(series);
