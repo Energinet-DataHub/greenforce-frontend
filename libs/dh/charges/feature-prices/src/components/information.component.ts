@@ -75,7 +75,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
               }
             </vater-stack>
           </watt-card-title>
-          <watt-description-list variant="stack" [itemSeparators]="false">
+          <watt-description-list variant="compact" [itemSeparators]="false">
             <watt-description-list-item [label]="t('name')">
               {{ charge.name }}
             </watt-description-list-item>
