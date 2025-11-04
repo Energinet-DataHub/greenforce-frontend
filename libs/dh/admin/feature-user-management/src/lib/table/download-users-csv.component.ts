@@ -44,7 +44,10 @@ type Variables = Partial<GetUsersForCsvQueryVariables>;
 })
 export class DhDownloadUsersCsvComponent {
   query = lazyQuery(GetUsersForCsvDocument);
-  private generateCsv = GenerateCSV.fromQuery(this.query, (result) => result.usersForCsvExport || []);
+  private generateCsv = GenerateCSV.fromQuery(
+    this.query,
+    (result) => result.usersForCsvExport || []
+  );
 
   variables = input<Variables>();
 
