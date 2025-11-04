@@ -159,6 +159,7 @@
       "SE": "Sverige",
       "NO": "Norge",
       "FI": "Finland",
+      "GB": "Storbritannien",
       "DE": "Tyskland",
       "PL": "Polen",
       "NL": "Holland",
@@ -1175,6 +1176,7 @@
           "SE": "Sverige",
           "NO": "Norge",
           "FI": "Finland",
+          "GB": "Storbritannien",
           "DE": "Tyskland"
         },
         "glnOrEicNumber": "GLN/EIC",

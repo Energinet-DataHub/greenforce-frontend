@@ -16,20 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-@Injectable({ providedIn: 'root' })
-export class WattPhoneFieldIntlService {
-  readonly changes: Subject<void> = new Subject<void>();
-  invalidPhoneNumber = 'Invalid phone number';
-  DK = 'Denmark';
-  DE = 'Germany';
-  FI = 'Finland';
-  GB = 'United Kingdom';
-  NO = 'Norway';
-  SE = 'Sweden';
-  PL = 'Poland';
-  NL = 'Netherlands';
-  CH = 'Switzerland';
-}
+setUpTestbed();
