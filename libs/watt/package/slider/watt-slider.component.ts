@@ -18,13 +18,15 @@
 //#endregion
 import {
   ChangeDetectionStrategy,
-  Component, computed,
+  Component,
+  computed,
   DestroyRef,
   effect,
   ElementRef,
   inject,
   input,
-  output, signal,
+  output,
+  signal,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
