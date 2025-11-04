@@ -80,10 +80,10 @@ limitations under the License.
           [disabled]="!column.value.accessor || column.value.sort === false"
         >
           {{ getColumnHeader(column) }}
+          @if (column.value.tooltip; as tooltip) {
+            <watt-icon [title]="tooltip" name="info" state="default" />
+          }
         </div>
-        @if (column.value.tooltip; as tooltip) {
-          <watt-icon [title]="tooltip" name="info" />
-        }
       </th>
 
       <td

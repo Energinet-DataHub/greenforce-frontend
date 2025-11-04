@@ -20,7 +20,10 @@ import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import { charges } from './data';
-import { mockGetChargeByIdQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+import {
+  mockGetChargeByIdQuery,
+  mockGetChargeResolutionQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 export function getChargeById() {
   return mockGetChargeByIdQuery(async ({ variables: { id } }) => {
@@ -30,6 +33,25 @@ export function getChargeById() {
       data: {
         __typename: 'Query',
         chargeById: charges.find((charge) => charge.id === id) || null,
+      },
+    });
+  });
+}
+
+export function getChargeResolution() {
+  return mockGetChargeResolutionQuery(async ({ variables: { id } }) => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargeById: charges
+          .map((c) => ({
+            __typename: 'ChargeInformationDto' as const,
+            id: c.id,
+            resolution: c.resolution,
+          }))
+          .find((charge) => charge.id === id),
       },
     });
   });
