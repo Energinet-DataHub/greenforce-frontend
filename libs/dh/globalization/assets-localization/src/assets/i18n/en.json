@@ -382,6 +382,7 @@
       "VAT25": "With VAT"
     },
     "series": {
+      "showHistory": "Show history",
       "columns": {
         "QuarterHourly": "Time",
         "Hourly": "Time",

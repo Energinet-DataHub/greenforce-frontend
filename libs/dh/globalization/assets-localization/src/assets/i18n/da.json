@@ -383,6 +383,7 @@
       "VAT25": "Med moms"
     },
     "series": {
+      "showHistory": "Vis historik",
       "columns": {
         "QuarterHourly": "Tidspunkt",
         "Hourly": "Tidspunkt",
