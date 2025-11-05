@@ -20,7 +20,6 @@ import { ChangeDetectionStrategy, Component, computed, effect, input, signal } f
 import { TranslocoDirective } from '@jsverse/transloco';
 import {
   VaterFlexComponent,
-  VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
@@ -47,7 +46,6 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
     TranslocoDirective,
     VaterFlexComponent,
     VaterStackComponent,
-    VaterSpacerComponent,
     VaterUtilityDirective,
     WattDataFiltersComponent,
     WattDataTableComponent,
@@ -78,7 +76,6 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
             <watt-slide-toggle [(checked)]="showHistory">
               {{ t('showHistory') }}
             </watt-slide-toggle>
-            <vater-spacer />
           </vater-stack>
         </watt-data-filters>
         <watt-table
