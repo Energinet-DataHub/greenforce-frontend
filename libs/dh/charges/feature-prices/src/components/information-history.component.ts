@@ -42,38 +42,42 @@ import {
     WattTableCellDirective,
   ],
   template: `
-    <watt-data-table
-      vater
-      inset="ml"
-      variant="solid"
-      *transloco="let t; prefix: 'charges.charge.priceInformation.history'"
-      [enableSearch]="false"
-      [enablePaginator]="false"
-      [enableCount]="false"
-      [header]="false"
-      [error]="hasError()"
-      [ready]="ready()"
-    >
-      <watt-table
-        [columns]="columns"
-        [dataSource]="dataSource"
-        sortBy="timestamp"
-        [loading]="isLoading()"
-        sortDirection="desc"
-        [hideColumnHeaders]="true"
-        [sortClear]="false"
+    <div vater inset="ml">
+      <watt-data-table
+        vater
+        variant="solid"
+        *transloco="let t; prefix: 'charges.charge.priceInformation.history'"
+        [enableSearch]="false"
+        [enablePaginator]="false"
+        [enableCount]="false"
+        [autoSize]="true"
+        [header]="false"
+        [error]="hasError()"
+        [ready]="ready()"
       >
-        <ng-container
-          *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
+        <watt-table
+          [columns]="columns"
+          [dataSource]="dataSource"
+          sortBy="timestamp"
+          [loading]="isLoading()"
+          sortDirection="desc"
+          [hideColumnHeaders]="true"
+          [sortClear]="false"
         >
-          {{ element.timestamp | wattDate: 'long' }}
-        </ng-container>
+          <ng-container
+            *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
+          >
+            {{ element.timestamp | wattDate: 'long' }}
+          </ng-container>
 
-        <ng-container *wattTableCell="columns.entry; header: t('table.columns.entry'); let element">
-          <span [innerHTML]="t('auditLogs.' + element.entry, element)"> </span>
-        </ng-container>
-      </watt-table>
-    </watt-data-table>
+          <ng-container
+            *wattTableCell="columns.entry; header: t('table.columns.entry'); let element"
+          >
+            <span [innerHTML]="t('auditLogs.' + element.entry, element)"> </span>
+          </ng-container>
+        </watt-table>
+      </watt-data-table>
+    </div>
   `,
 })
 export class DhPriceInformationHistoryComponent {

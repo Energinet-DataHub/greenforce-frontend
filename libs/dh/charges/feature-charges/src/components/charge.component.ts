@@ -23,7 +23,11 @@ import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/tra
 
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import {
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -68,6 +72,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     TranslocoDirective,
     VaterStackComponent,
     VaterSpacerComponent,
+    VaterUtilityDirective,
     WATT_LINK_TABS,
     WATT_BREADCRUMBS,
     WATT_DESCRIPTION_LIST,
@@ -90,7 +95,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
       <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
         <div *transloco="let t; prefix: 'charges.charge'">
           <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
-            {{ chargeIdName() }}
+            {{ charge()?.displayName }}
             @let status = charge()?.status;
 
             @if (status) {
@@ -147,7 +152,6 @@ export class DhChargeComponent {
   private readonly router = inject(Router);
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.chargeById);
-  chargeIdName = computed(() => `${this.charge()?.code} • ${this.charge()?.name}`);
   id = input.required<string>();
   getLink = (path: ChargesSubPaths) => getPath(path);
 
@@ -159,7 +163,7 @@ export class DhChargeComponent {
       url: this.router.createUrlTree([getPath<BasePaths>('charges')]).toString(),
     },
     {
-      label: this.chargeIdName(),
+      label: this.charge()?.displayName,
       url: this.router
         .createUrlTree([
           getPath<BasePaths>('charges'),

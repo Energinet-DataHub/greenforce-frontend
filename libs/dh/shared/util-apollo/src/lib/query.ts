@@ -113,6 +113,7 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
   getDocument: () => TypedDocumentNode<TResult, TVariables>;
   getOptions: () => QueryOptions<TVariables>;
   setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
+  variables: Signal<Partial<TVariables>>;
   refetch: (variables?: Partial<TVariables>) => Promise<ApolloQueryResult<TResult>>;
   subscribeToMore: <TSubscriptionData, TSubscriptionVariables extends OperationVariables>(
     options: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>
@@ -289,6 +290,7 @@ export function query<TResult, TVariables extends OperationVariables>(
       }));
       return result();
     },
+    variables: computed(() => optionsSignal()?.variables ?? ({} as TVariables)),
     refetch: (newVariables?: Partial<TVariables>) => {
       optionsSignal.update((prevOptions) => ({
         ...prevOptions,
