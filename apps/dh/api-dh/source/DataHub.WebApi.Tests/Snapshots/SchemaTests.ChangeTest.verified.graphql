@@ -1483,8 +1483,6 @@ type UserOverviewItemDto {
   phoneNumber: String
   createdDate: DateTime!
   administratedBy: MarketParticipant
-  administratedByName: String!
-  administratedByOrganizationName: String!
   latestLoginAt: DateTime
   actors: [MarketParticipant!]!
 }

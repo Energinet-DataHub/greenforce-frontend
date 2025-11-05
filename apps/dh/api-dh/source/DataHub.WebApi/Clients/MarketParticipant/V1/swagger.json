@@ -5736,12 +5736,6 @@
             "type": "string",
             "format": "uuid"
           },
-          "administratedByName": {
-            "type": "string"
-          },
-          "administratedByOrganizationName": {
-            "type": "string"
-          },
           "latestLoginAt": {
             "type": "string",
             "format": "date-time",
