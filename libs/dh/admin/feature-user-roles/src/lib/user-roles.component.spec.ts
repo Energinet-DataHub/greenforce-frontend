@@ -73,6 +73,7 @@ async function setup({
   const result = await render(DhUserRolesComponent, {
     inputs: {
       selectMode,
+      expanded: true,
       administratedById,
       userRolesPerActor: mockData,
     },
@@ -99,6 +100,19 @@ describe(DhUserRolesComponent, () => {
 
     expect(screen.getByRole('img')).toBeInTheDocument();
     expect(screen.getByRole('tooltip')).toBeInTheDocument();
+  });
+
+  it('show only assigned user roles in read mode', async () => {
+    const localMockData = [
+      generateMarketParticipant(1, '1234', EicFunction.DataHubAdministrator, [true, false, true]),
+    ];
+
+    await setup({ mockData: localMockData, selectMode: false });
+
+    expect(screen.getByText((content) => content.includes('Role 1 (1)'))).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('Role 3 (1)'))).toBeInTheDocument();
+
+    expect(screen.queryByText('Role 2 (1)')).not.toBeInTheDocument();
   });
 
   it('show error when all user roles are unchecked', async () => {

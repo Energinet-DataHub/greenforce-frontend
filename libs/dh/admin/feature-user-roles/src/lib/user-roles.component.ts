@@ -70,10 +70,9 @@ export class DhUserRolesComponent {
   };
 
   administratedById = input<string>();
-  selectMode = input(false);
-  expanded = input(true);
-
-  userRolesPerActor = input<DhUserByIdMarketParticipant[]>([]);
+  selectMode = input.required<boolean>();
+  expanded = input.required<boolean>();
+  userRolesPerActor = input.required<DhUserByIdMarketParticipant[]>();
 
   updateUserRoles = output<UpdateUserRoles>();
 
