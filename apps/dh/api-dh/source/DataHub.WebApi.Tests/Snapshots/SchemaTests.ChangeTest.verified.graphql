@@ -285,6 +285,7 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 
 type ChargeInformationDto {
   status: ChargeStatus!
+  displayName: String!
   id: String!
   validFrom: DateTime!
   validTo: DateTime!
