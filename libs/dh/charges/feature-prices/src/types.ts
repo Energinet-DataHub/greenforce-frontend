@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { getCharges } from './get-charges.mock';
-import { getChargeSeries } from './get-charge-series.mock';
-import { getChargeById } from './get-charge-by-id.mock';
+import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export function chargesMocks() {
-  return [getCharges(), getChargeSeries(), getChargeById()];
-}
+export type Charges = ExtractNodeType<GetChargesDataSource>;
+export type Charge = ResultOf<typeof GetChargeByIdDocument>['chargeById'];
