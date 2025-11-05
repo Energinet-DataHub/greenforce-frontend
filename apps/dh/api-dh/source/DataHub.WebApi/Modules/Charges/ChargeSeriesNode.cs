@@ -22,6 +22,11 @@ namespace Energinet.DataHub.WebApi.Modules.Charges;
 [ObjectType<ChargeSeriesDto>]
 public static partial class ChargeSeriesNode
 {
+    public static Point CurrentPoint([Parent] ChargeSeriesDto chargeSeries) =>
+            chargeSeries.Points
+                        .Where(point => point.FromDateTime <= DateTimeOffset.Now && DateTimeOffset.Now <= point.ToDateTime)
+                        .Single();
+
     [Query]
     [Authorize(Roles = new[] { "charges:view" })]
     public static async Task<IEnumerable<ChargeSeriesDto>> GetChargeSeriesAsync(

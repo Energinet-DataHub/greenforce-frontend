@@ -26,6 +26,11 @@ import { ChargeStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 @Component({
   selector: 'dh-charge-status',
+  styles: `
+    :host {
+      display: flex;
+    }
+  `,
   imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
   template: `
     @let _status = status();

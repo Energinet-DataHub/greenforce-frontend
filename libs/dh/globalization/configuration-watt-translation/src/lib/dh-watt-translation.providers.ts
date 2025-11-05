@@ -110,7 +110,10 @@ export class DhPhoneFieldIntlService extends WattPhoneFieldIntlService {
       this.SE = translations.SE;
       this.DE = translations.DE;
       this.FI = translations.FI;
+      this.GB = translations.GB;
       this.PL = translations.PL;
+      this.NL = translations.NL;
+      this.CH = translations.CH;
       this.changes.next();
     });
   }

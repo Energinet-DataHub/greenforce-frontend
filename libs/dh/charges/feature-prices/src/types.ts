@@ -16,20 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-@Injectable({ providedIn: 'root' })
-export class WattPhoneFieldIntlService {
-  readonly changes: Subject<void> = new Subject<void>();
-  invalidPhoneNumber = 'Invalid phone number';
-  DK = 'Denmark';
-  DE = 'Germany';
-  FI = 'Finland';
-  GB = 'United Kingdom';
-  NO = 'Norway';
-  SE = 'Sweden';
-  PL = 'Poland';
-  NL = 'Netherlands';
-  CH = 'Switzerland';
-}
+export type Charges = ExtractNodeType<GetChargesDataSource>;
+export type Charge = ResultOf<typeof GetChargeByIdDocument>['chargeById'];
