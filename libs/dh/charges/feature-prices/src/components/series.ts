@@ -16,27 +16,32 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
+
 import {
   VaterFlexComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
-import { dayjs } from '@energinet/watt/date';
+
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+
 import {
   ChargeSeries,
   ChargeSeriesPoint,
-  GetChargeResolutionDocument,
+  GetChargeByIdDocument,
   GetChargeSeriesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhCircleComponent } from '@energinet-datahub/dh/shared/ui-util';
+
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { capitalize } from '@energinet-datahub/dh/shared/util-text';
+import { DhCircleComponent } from '@energinet-datahub/dh/shared/ui-util';
+
+import formatTime from '../format-time';
 import { DhChargesIntervalField } from './interval-field';
-import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { DhChargeSeriesDetailsComponent } from './series/details';
 
 @Component({
   selector: 'dh-prices',
@@ -52,6 +57,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
     WATT_TABLE,
     DhCircleComponent,
     DhChargesIntervalField,
+    DhChargeSeriesDetailsComponent,
   ],
   template: `
     @if (resolution(); as resolution) {
@@ -77,6 +83,11 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
           [columns]="columns"
           [dataSource]="dataSource"
           [loading]="series.loading()"
+          (rowClick)="
+            activeRow.set($event);
+            details.open(getIndex($event), $event, resolution, charge.data()?.chargeById)
+          "
+          [activeRow]="activeRow()"
           [stickyFooter]="true"
         >
           <ng-container *wattTableCell="columns.date; header: t(resolution); let _; let i = index">
@@ -107,11 +118,12 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
         <watt-spinner vater center />
       </vater-flex>
     }
+    <dh-charge-series-details #details (closed)="activeRow.set(undefined)" />
   `,
 })
 export class DhChargeSeriesPage {
   id = input.required<string>();
-  charge = query(GetChargeResolutionDocument, () => ({ variables: { id: this.id() } }));
+  charge = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   resolution = computed(() => this.charge.data()?.chargeById?.resolution);
   series = query(GetChargeSeriesDocument, () => ({
     skip: true,
@@ -138,23 +150,15 @@ export class DhChargeSeriesPage {
     history: { accessor: null, size: '1fr', sort: false },
   };
 
+  activeRow = signal<ChargeSeries | undefined>(undefined);
+
+  getIndex = (selectedSeries: ChargeSeries) =>
+    this.series.data()?.chargeSeries.indexOf(selectedSeries) ?? 0;
+
   isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
 
-  formatTime = (index: number) => {
-    const date = dayjs(this.series.variables().interval?.start);
-    switch (this.resolution()) {
-      case 'Hourly':
-        return `${date.add(index * 15, 'minutes').format('HH:mm')} — ${date.add((index + 1) * 15, 'minutes').format('HH:mm')}`;
-      case 'QuarterHourly':
-        return `${date.add(index, 'hour').format('HH')} — ${date.add(index + 1, 'hour').format('HH')}`;
-      case 'Daily':
-        return date.date(index + 1).format('DD');
-      case 'Monthly':
-        return capitalize(date.month(index).format('MMMM'));
-      default:
-        return index + 1;
-    }
-  };
+  formatTime = (index: number) =>
+    formatTime(index, this.resolution(), this.series.variables().interval?.start);
 
   constructor() {
     effect(() => {

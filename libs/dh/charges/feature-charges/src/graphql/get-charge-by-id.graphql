@@ -7,5 +7,6 @@ query GetChargeById($id: String!) {
     chargeType
     owner
     resolution
+    displayName
   }
 }

@@ -285,6 +285,7 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 
 type ChargeInformationDto {
   status: ChargeStatus!
+  displayName: String!
   id: String!
   validFrom: DateTime!
   validTo: DateTime!
@@ -298,6 +299,7 @@ type ChargeInformationDto {
 }
 
 type ChargeSeries {
+  currentPoint: ChargeSeriesPoint!
   hasChanged: Boolean!
   points: [ChargeSeriesPoint!]!
   totalAmount: Decimal!
