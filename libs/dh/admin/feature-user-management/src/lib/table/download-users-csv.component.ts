@@ -67,9 +67,9 @@ export class DhDownloadUsersCsvComponent {
         users.map((user) => [
           `"${user.name}"`,
           `"${user.email}"`,
-          `"${user.administratedByName}"`,
+          `"${user.administratedBy?.name}"`,
           `"${(user.latestLoginAt && wattFormatDate(user.latestLoginAt, 'short')) || ''}"`,
-          `"${user.administratedByOrganizationName}"`,
+          `"${user.administratedBy?.organization.name}"`,
         ])
       )
       .generate(`${basePath}.fileName`);
