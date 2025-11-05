@@ -29,13 +29,13 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
+
 import {
   ChargeSeries,
   ChargeSeriesPoint,
   GetChargeByIdDocument,
   GetChargeSeriesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhCircleComponent } from '@energinet-datahub/dh/shared/ui-util';
 
