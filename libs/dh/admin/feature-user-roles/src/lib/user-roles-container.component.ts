@@ -41,7 +41,7 @@ import { DhUserByIdMarketParticipant } from './types';
       <dh-user-roles
         [selectMode]="selectMode()"
         [expanded]="expanded()"
-        [userRolesPerActor]="userRolesMock"
+        [userRolesPerActor]="userRolesPerActor()"
         [administratedById]="administratedById()"
         (updateUserRoles)="updateUserRoles.emit($event)"
       />
@@ -68,74 +68,6 @@ export class DhUserRolesContainerComponent {
   user = computed(() => this.actorsAndRolesQuery.data()?.userById);
   administratedById = computed(() => this.user()?.administratedBy?.id);
   userRolesPerActor = computed<DhUserByIdMarketParticipant[]>(() => this.user()?.actors ?? []);
-  userRolesMock: DhUserByIdMarketParticipant[] = [
-    {
-      __typename: 'MarketParticipant',
-      glnOrEicNumber: 'gln-number-3',
-      name: 'Market Participant 3',
-      id: '1234',
-      organization: { __typename: 'Organization', id: 'org-id-3', name: 'Organization 3' },
-      userRoles: [
-        {
-          __typename: 'MarketParticipantUserRole',
-          id: 'role-id-1-3',
-          name: 'Role 1 (3)',
-          assigned: true,
-          description: 'Description 1 (3)',
-          eicFunction: 'DataHubAdministrator',
-        },
-        {
-          __typename: 'MarketParticipantUserRole',
-          id: 'role-id-2-3',
-          name: 'Role 2 (3)',
-          assigned: false,
-          description: 'Description 2 (3)',
-          eicFunction: 'DataHubAdministrator',
-        },
-        {
-          __typename: 'MarketParticipantUserRole',
-          id: 'role-id-3-3',
-          name: 'Role 3 (3)',
-          assigned: false,
-          description: 'Description 3 (3)',
-          eicFunction: 'DataHubAdministrator',
-        },
-      ],
-    },
-    {
-      __typename: 'MarketParticipant',
-      glnOrEicNumber: 'gln-number-4',
-      name: 'Market Participant 4',
-      id: '5678',
-      organization: { __typename: 'Organization', id: 'org-id-4', name: 'Organization 4' },
-      userRoles: [
-        {
-          __typename: 'MarketParticipantUserRole',
-          id: 'role-id-1-4',
-          name: 'Role 1 (4)',
-          assigned: true,
-          description: 'Description 1 (4)',
-          eicFunction: 'EnergySupplier',
-        },
-        {
-          __typename: 'MarketParticipantUserRole',
-          id: 'role-id-2-4',
-          name: 'Role 2 (4)',
-          assigned: false,
-          description: 'Description 2 (4)',
-          eicFunction: 'EnergySupplier',
-        },
-        {
-          __typename: 'MarketParticipantUserRole',
-          id: 'role-id-3-4',
-          name: 'Role 3 (4)',
-          assigned: false,
-          description: 'Description 3 (4)',
-          eicFunction: 'EnergySupplier',
-        },
-      ],
-    },
-  ];
 
   resetUpdateUserRoles() {
     this.userRolesCmp().resetUpdateUserRoles();
