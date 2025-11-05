@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { effect, input, output, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+import { effect, input, output, Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoDirective } from '@jsverse/transloco';
 

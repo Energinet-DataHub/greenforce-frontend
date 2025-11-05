@@ -27,17 +27,12 @@ import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
 import { DhUserRolesComponent } from './user-roles.component';
 import { DhUserByIdMarketParticipant } from './types';
 
-let counter = 0;
-
 function generateMarketParticipant(
+  counter = 1,
   administeredById: string,
   eicFunction: EicFunction,
-  role1IsAssigned = true,
-  role2IsAssigned = true,
-  role3IsAssigned = true
+  roleAssignments: [boolean, boolean, boolean] = [true, true, true]
 ): DhUserByIdMarketParticipant {
-  counter = counter + 1;
-
   return {
     __typename: 'MarketParticipant',
     glnOrEicNumber: `gln-number-${counter}`,
@@ -48,38 +43,20 @@ function generateMarketParticipant(
       id: `org-id-${counter}`,
       name: `Organization ${counter}`,
     },
-    userRoles: [
-      {
-        __typename: 'MarketParticipantUserRole',
-        id: `role-id-1-${counter}`,
-        name: `Role 1 (${counter})`,
-        assigned: role1IsAssigned,
-        description: `Description 1 (${counter})`,
-        eicFunction,
-      },
-      {
-        __typename: 'MarketParticipantUserRole',
-        id: `role-id-2-${counter}`,
-        name: `Role 2 (${counter})`,
-        assigned: role2IsAssigned,
-        description: `Description 2 (${counter})`,
-        eicFunction,
-      },
-      {
-        __typename: 'MarketParticipantUserRole',
-        id: `role-id-3-${counter}`,
-        name: `Role 3 (${counter})`,
-        assigned: role3IsAssigned,
-        description: `Description 3 (${counter})`,
-        eicFunction,
-      },
-    ],
+    userRoles: roleAssignments.map((isAssigned, index) => ({
+      __typename: 'MarketParticipantUserRole',
+      id: `role-id-${index + 1}-${counter}`,
+      name: `Role ${index + 1} (${counter})`,
+      assigned: isAssigned,
+      description: `Description ${index + 1} (${counter})`,
+      eicFunction,
+    })),
   };
 }
 
 const globalMockData: DhUserByIdMarketParticipant[] = [
-  generateMarketParticipant('1234', EicFunction.DataHubAdministrator),
-  generateMarketParticipant('5678', EicFunction.EnergySupplier),
+  generateMarketParticipant(1, '1234', EicFunction.DataHubAdministrator),
+  generateMarketParticipant(2, '5678', EicFunction.EnergySupplier),
 ];
 
 async function setup({
@@ -126,7 +103,7 @@ describe(DhUserRolesComponent, () => {
 
   it('show error when all user roles are unchecked', async () => {
     const localMockData = [
-      generateMarketParticipant('1234', EicFunction.DataHubAdministrator, true, true, true),
+      generateMarketParticipant(1, '1234', EicFunction.DataHubAdministrator, [true, true, true]),
     ];
 
     await setup({ mockData: localMockData });
@@ -147,8 +124,8 @@ describe(DhUserRolesComponent, () => {
 
   it('call updateUserRoles output when the user roles change', async () => {
     const localMockData = [
-      generateMarketParticipant('1234', EicFunction.DataHubAdministrator, true, false, false),
-      generateMarketParticipant('5678', EicFunction.EnergySupplier, true, false, false),
+      generateMarketParticipant(1, '1234', EicFunction.DataHubAdministrator, [true, false, false]),
+      generateMarketParticipant(2, '5678', EicFunction.EnergySupplier, [true, false, false]),
     ];
 
     const { updateUserRolesOutput } = await setup({
@@ -165,7 +142,7 @@ describe(DhUserRolesComponent, () => {
           atLeastOneRoleIsAssigned: true,
           id: '1234',
           userRolesToUpdate: {
-            added: ['role-id-2-3'],
+            added: ['role-id-2-1'],
             removed: [],
           },
         },
@@ -173,7 +150,7 @@ describe(DhUserRolesComponent, () => {
           atLeastOneRoleIsAssigned: true,
           id: '5678',
           userRolesToUpdate: {
-            added: ['role-id-1-4'],
+            added: ['role-id-1-2'],
             removed: [],
           },
         },
@@ -190,15 +167,15 @@ describe(DhUserRolesComponent, () => {
           atLeastOneRoleIsAssigned: true,
           id: '1234',
           userRolesToUpdate: {
-            added: ['role-id-2-3'],
-            removed: ['role-id-1-3'],
+            added: ['role-id-2-1'],
+            removed: ['role-id-1-1'],
           },
         },
         {
           atLeastOneRoleIsAssigned: true,
           id: '5678',
           userRolesToUpdate: {
-            added: ['role-id-1-4'],
+            added: ['role-id-1-2'],
             removed: [],
           },
         },
