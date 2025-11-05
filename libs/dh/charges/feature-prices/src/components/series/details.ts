@@ -81,7 +81,7 @@ import formatTime from '../../format-time';
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-content>
-        <watt-data-table inset="0" [autoSize]="true" [header]="false" [enablePaginator]="false">
+        <watt-data-table [autoSize]="true" [header]="false" [enablePaginator]="false">
           <watt-table
             *transloco="let resolveHeader; prefix: 'charges.series.details.columns'"
             [resolveHeader]="resolveHeader"
