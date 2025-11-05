@@ -26,10 +26,12 @@ export function getChargeById() {
   return mockGetChargeByIdQuery(async ({ variables: { id } }) => {
     await delay(mswConfig.delay);
 
+    const charge = charges.find((charge) => charge.id === id) || null;
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        chargeById: charges.find((charge) => charge.id === id) || null,
+        chargeById: charge,
       },
     });
   });

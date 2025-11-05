@@ -16,8 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { DecimalPipe } from '@angular/common';
+import { input, signal, effect, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+
+import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
   VaterFlexComponent,
@@ -25,36 +27,46 @@ import {
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
 
+import {
+  WattDataTableComponent,
+  WattDataFiltersComponent,
+  WattDataActionsComponent,
+} from '@energinet/watt/data';
+
+import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import {
   ChargeSeries,
   ChargeSeriesPoint,
-  GetChargeByIdDocument,
   GetChargeSeriesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhCircleComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import formatTime from '../format-time';
 import { DhChargesIntervalField } from './interval-field';
 import { DhChargeSeriesDetailsComponent } from './series/details';
+import { DateRange } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-prices',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    DecimalPipe,
+    TranslocoPipe,
     TranslocoDirective,
     VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
-    WattDataFiltersComponent,
-    WattDataTableComponent,
-    WattSpinnerComponent,
     WATT_TABLE,
+    WattButtonComponent,
+    WattSpinnerComponent,
+    WattDataTableComponent,
+    WattDataActionsComponent,
+    WattDataFiltersComponent,
     DhCircleComponent,
     DhChargesIntervalField,
     DhChargeSeriesDetailsComponent,
@@ -65,33 +77,40 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
         vater
         inset="ml"
         gap="ml"
-        [header]="false"
-        [error]="series.error()"
-        [ready]="series.called()"
+        [error]="query.error()"
+        [ready]="query.called()"
         [enablePaginator]="false"
+        [enableCount]="false"
+        [enableSearch]="false"
         *transloco="let t; prefix: 'charges.series'"
       >
         <watt-data-filters>
-          <dh-charges-interval-field
-            [resolution]="resolution"
-            (intervalChange)="series.refetch({ interval: $event })"
-          />
+          <dh-charges-interval-field [resolution]="resolution" />
         </watt-data-filters>
+
+        <watt-data-actions>
+          <watt-button icon="download" variant="text" (click)="download()">{{
+            'shared.download' | transloco
+          }}</watt-button>
+        </watt-data-actions>
+
         <watt-table
-          *transloco="let t; read: 'charges.series.columns'"
+          *transloco="let t; prefix: 'charges.series.columns'"
           [resolveHeader]="t"
           [columns]="columns"
           [dataSource]="dataSource"
-          [loading]="series.loading()"
+          [loading]="query.loading()"
           (rowClick)="
-            activeRow.set($event);
-            details.open(getIndex($event), $event, resolution, charge.data()?.chargeById)
+            activeRow.set($event); details.open(getIndex($event), $event, resolution, charge())
           "
           [activeRow]="activeRow()"
           [stickyFooter]="true"
         >
           <ng-container *wattTableCell="columns.date; header: t(resolution); let _; let i = index">
             {{ formatTime(i) }}
+          </ng-container>
+          <ng-container *wattTableCell="columns.price; header: t(resolution); let series">
+            {{ getCurrentPrice(series) | number: '1.6-6' }}
           </ng-container>
           <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
             @if (series.hasChanged) {
@@ -106,7 +125,7 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
                   style="text-align: right;"
                   [style.flexBasis.px]="120"
                 >
-                  {{ point.price }}
+                  {{ point.price | number: '1.6-6' }}
                 </span>
               }
             </vater-stack>
@@ -122,17 +141,21 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
   `,
 })
 export class DhChargeSeriesPage {
+  private series = computed(() => this.query.data()?.chargeById?.series ?? []);
+  private generateCSV = GenerateCSV.fromSignalArray(this.series);
+
   id = input.required<string>();
-  charge = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
-  resolution = computed(() => this.charge.data()?.chargeById?.resolution);
-  series = query(GetChargeSeriesDocument, () => ({
-    skip: true,
+  resolution = computed(() => this.charge()?.resolution);
+  query = query(GetChargeSeriesDocument, () => ({
     variables: {
       chargeId: this.id(),
+      interval: null as DateRange | null,
     },
   }));
 
+  charge = computed(() => this.query.data()?.chargeById);
   dataSource = new WattTableDataSource<ChargeSeries>();
+
   columns: WattTableColumnDef<ChargeSeries> = {
     date: { accessor: null, sort: false },
     price: {
@@ -152,17 +175,46 @@ export class DhChargeSeriesPage {
 
   activeRow = signal<ChargeSeries | undefined>(undefined);
 
-  getIndex = (selectedSeries: ChargeSeries) =>
-    this.series.data()?.chargeSeries.indexOf(selectedSeries) ?? 0;
+  getIndex = (selectedSeries: ChargeSeries) => this.series().indexOf(selectedSeries) ?? 0;
 
   isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
 
   formatTime = (index: number) =>
-    formatTime(index, this.resolution(), this.series.variables().interval?.start);
+    formatTime(index, this.resolution(), this.query.variables().interval?.start);
+
+  getCurrentPrice(series: ChargeSeries): number | undefined {
+    return series.points.find((point) => point.isCurrent)?.price;
+  }
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.series.data()?.chargeSeries ?? [];
+      this.dataSource.data = this.series();
     });
+  }
+
+  download() {
+    const basePath = 'charges.series.csv.columns';
+
+    this.generateCSV
+      .addHeaders([
+        `"${translate(basePath + '.owner')}"`,
+        `"${translate(basePath + '.type')}"`,
+        `"${translate(basePath + '.id')}"`,
+        `"${translate(basePath + '.resolution')}"`,
+        `"${translate(basePath + '.from')}"`,
+        `"${translate(basePath + '.to')}"`,
+      ])
+      .mapLines((series) =>
+        series.map((x) => [
+          `"${this.charge()?.owner}"`,
+          `"${translate('charges.chargeTypes.' + this.charge()?.chargeType)}"`,
+          `"${this.charge()?.id}"`,
+          `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
+          `"${x.currentPoint.fromDateTime.toISOString()}"`,
+          `"${x.currentPoint.toDateTime.toISOString()}"`,
+          `"${x.currentPoint.price.toPrecision(6)}"`,
+        ])
+      )
+      .generate('charges.series.csv.fileName');
   }
 }

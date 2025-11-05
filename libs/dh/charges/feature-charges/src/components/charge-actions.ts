@@ -37,4 +37,4 @@ import { WattButtonComponent } from '@energinet/watt/button';
     </ng-container>
   `,
 })
-export class DhChargeActionsComponent {}
+export class DhChargeActions {}

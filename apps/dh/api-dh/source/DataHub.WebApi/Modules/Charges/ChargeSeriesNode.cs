@@ -13,9 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
-using Energinet.DataHub.Charges.Client;
-using HotChocolate.Authorization;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -26,23 +23,6 @@ public static partial class ChargeSeriesNode
             chargeSeries.Points
                         .Where(point => point.FromDateTime <= DateTimeOffset.Now && DateTimeOffset.Now <= point.ToDateTime)
                         .Single();
-
-    [Query]
-    [Authorize(Roles = new[] { "charges:view" })]
-    public static async Task<IEnumerable<ChargeSeriesDto>> GetChargeSeriesAsync(
-        string chargeId,
-        Interval interval,
-        [Service] IChargesClient client,
-        CancellationToken cancellationToken)
-    {
-        var series = await client.GetChargeSeriesAsync(
-            new ChargeSeriesSearchCriteriaDto(
-                ChargeId: Guid.Empty, // TODO: Fix
-                FromDateTimeUtc: interval.Start.ToDateTimeOffset(),
-                ToDateTimeUtc: interval.End.ToDateTimeOffset()));
-
-        return series.Value ?? [];
-    }
 
     public static bool HasChanged([Parent] ChargeSeriesDto chargeSeries)
     {

@@ -44,7 +44,6 @@ import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet/watt/yearmonth-
     }
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhChargesIntervalField {
   readonly resolution = input.required<ChargeResolution>();
   protected form = new FormGroup({

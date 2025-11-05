@@ -286,6 +286,7 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 type ChargeInformationDto {
   status: ChargeStatus!
   displayName: String!
+  series(interval: DateRange): [ChargeSeries!]!
   id: String!
   validFrom: DateTime!
   validTo: DateTime!
@@ -1147,7 +1148,6 @@ type ProcessesEdge {
 }
 
 type Query {
-  chargeSeries(chargeId: String! interval: DateRange!): [ChargeSeries!]! @authorize(roles: [ "charges:view" ])
   charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): ChargeInformationDto @authorize(roles: [ "charges:view" ])
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])

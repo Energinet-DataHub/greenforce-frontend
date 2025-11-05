@@ -36,8 +36,8 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { Charge } from '../types';
-import { DhChargeStatusComponent } from './status.component';
-import { DhChargesFiltersComponent } from './filters.component';
+import { DhChargeStatus } from './status';
+import { DhChargesFilters } from './filters';
 
 @Component({
   selector: 'dh-charges',
@@ -51,8 +51,8 @@ import { DhChargesFiltersComponent } from './filters.component';
     WattDataTableComponent,
     WattDataFiltersComponent,
     VaterUtilityDirective,
-    DhChargeStatusComponent,
-    DhChargesFiltersComponent,
+    DhChargeStatus,
+    DhChargesFilters,
   ],
   providers: [DhNavigationService],
   template: `
@@ -88,7 +88,7 @@ import { DhChargesFiltersComponent } from './filters.component';
     <router-outlet />
   `,
 })
-export class DhChargesComponent {
+export class DhCharges {
   protected readonly navigation = inject(DhNavigationService);
 
   dataSource = new GetChargesDataSource();

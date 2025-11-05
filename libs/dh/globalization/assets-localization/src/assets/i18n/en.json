@@ -470,6 +470,17 @@
         },
         "copyMessage": "Copy message ID",
         "navigateToMessage": "Go to message"
+      },
+      "csv": {
+        "fileName": "DataHub prices - {{ shared.downloadNameParams }}",
+        "columns": {
+          "owner": "Owner",
+          "type": "Type",
+          "id": "ID",
+          "resolution": "Resolution",
+          "from": "From",
+          "to": "To"
+        }
       }
     }
   },

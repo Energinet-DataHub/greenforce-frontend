@@ -13,12 +13,14 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using HotChocolate.Authorization;
 using HotChocolate.Types.Pagination;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -28,6 +30,27 @@ public static partial class ChargesNode
     public static ChargeStatus Status([Parent] ChargeInformationDto charge) => charge.GetStatus();
 
     public static string DisplayName([Parent] ChargeInformationDto charge) => $"{charge.Code} • {charge.Name}";
+
+    public static async Task<IEnumerable<ChargeSeriesDto>> GetSeriesAsync(
+        [Parent] ChargeInformationDto charge,
+        Interval? interval,
+        [Service] IChargesClient client,
+        CancellationToken cancellationToken)
+    {
+        if (interval is null)
+        {
+            return [];
+        }
+
+        var series = await client.GetChargeSeriesAsync(
+            new ChargeSeriesSearchCriteriaDto(
+                ChargeId: Guid.Empty, // TODO: Fix
+                FromDateTimeUtc: interval.Value.Start.ToDateTimeOffset(),
+                ToDateTimeUtc: interval.Value.End.ToDateTimeOffset()),
+            cancellationToken);
+
+        return series.Value ?? [];
+    }
 
     [Query]
     [UseOffsetPaging]

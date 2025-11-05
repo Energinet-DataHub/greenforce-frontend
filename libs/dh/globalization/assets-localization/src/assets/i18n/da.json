@@ -471,6 +471,17 @@
         },
         "copyMessage": "Kopier besked-ID",
         "navigateToMessage": "Gå til besked"
+      },
+      "csv": {
+        "fileName": "DataHub priser - {{ shared.downloadNameParams }}",
+        "columns": {
+          "owner": "Ejer",
+          "type": "Type",
+          "id": "Id",
+          "resolution": "Tidsopløsning",
+          "from": "Fra",
+          "to": "Til"
+        }
       }
     }
   },

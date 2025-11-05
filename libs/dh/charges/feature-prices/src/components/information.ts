@@ -94,7 +94,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     </vater-stack>
   `,
 })
-export class DhPriceInformationComponent {
+export class DhPriceInformation {
   chargeInformations: Partial<ChargeInformationDto>[] = [
     {
       id: '2',
