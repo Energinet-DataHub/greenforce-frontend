@@ -62,7 +62,7 @@ import formatTime from '../../format-time';
       *transloco="let t; prefix: 'charges.series.details'"
     >
       <watt-drawer-heading>
-        <h1>{{ chargeIdName() }}</h1>
+        <h1>{{ charge()?.displayName }}</h1>
         <watt-description-list variant="inline-flow">
           <watt-description-list-item [label]="t('time')">
             @switch (resolution()) {
@@ -87,7 +87,6 @@ import formatTime from '../../format-time';
             [resolveHeader]="resolveHeader"
             [columns]="columns"
             [dataSource]="dataSource"
-            [stickyFooter]="true"
           >
             <ng-container *wattTableCell="columns.time; let series">
               {{ series.fromDateTime | wattDate }}
@@ -96,7 +95,7 @@ import formatTime from '../../format-time';
               {{ series.price | number: '1.6-6' }}
             </ng-container>
             <ng-container *wattTableCell="columns.status; let series">
-              @if (series.fromDateTime.getTime() === currentPoint()?.fromDateTime?.getTime()) {
+              @if (series.isCurrent) {
                 <watt-badge type="success">{{ t('current') }}</watt-badge>
               }
             </ng-container>
@@ -116,14 +115,13 @@ import formatTime from '../../format-time';
 export class DhChargeSeriesDetailsComponent {
   private drawer = viewChild.required(WattDrawerComponent);
   private series = signal<ChargeSeries | null>(null);
-  private charge = signal<Charge | null>(null);
 
   closed = output();
 
+  protected charge = signal<Charge | null>(null);
   protected currentPoint = computed(() => this.series()?.currentPoint);
   protected resolution = signal<ChargeResolution>('Unknown');
   protected index = signal<number>(0);
-  protected chargeIdName = computed(() => `${this.charge()?.code} • ${this.charge()?.name}`);
   protected dataSource = new WattTableDataSource<ChargeSeriesPoint>();
 
   protected columns = {

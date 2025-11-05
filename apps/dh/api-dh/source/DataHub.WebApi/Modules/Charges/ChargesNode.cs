@@ -27,6 +27,8 @@ public static partial class ChargesNode
 {
     public static ChargeStatus Status([Parent] ChargeInformationDto charge) => charge.GetStatus();
 
+    public static string DisplayName([Parent] ChargeInformationDto charge) => $"{charge.Code} • {charge.Name}";
+
     [Query]
     [UseOffsetPaging]
     [Authorize(Roles = new[] { "charges:view" })]
