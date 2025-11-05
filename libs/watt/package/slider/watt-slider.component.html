@@ -24,7 +24,7 @@ limitations under the License.
     [max]="max()"
     [min]="min()"
     [step]="step()"
-    [value]="value().min"
+    [value]="value()?.min"
   />
   <input
     #maxRange
@@ -33,6 +33,6 @@ limitations under the License.
     [max]="max()"
     [min]="min()"
     [step]="step()"
-    [value]="value().max"
+    [value]="value()?.max"
   />
 </div>
