@@ -26,7 +26,6 @@ import {
   inject,
   input,
   output,
-  signal,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
