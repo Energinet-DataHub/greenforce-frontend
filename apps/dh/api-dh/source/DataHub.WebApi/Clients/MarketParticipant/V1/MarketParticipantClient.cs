@@ -8594,6 +8594,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [Newtonsoft.Json.JsonProperty("administratedBy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Guid AdministratedBy { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("administratedByName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string AdministratedByName { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("administratedByOrganizationName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string AdministratedByOrganizationName { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("latestLoginAt", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset? LatestLoginAt { get; set; } = default!;
 
