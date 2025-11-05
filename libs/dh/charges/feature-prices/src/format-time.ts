@@ -27,9 +27,9 @@ const formatTime = (
 ) => {
   const date = dayjs(intervalStart);
   switch (resolution) {
-    case 'Hourly':
-      return `${date.add(index * 15, 'minutes').format('HH:mm')} — ${date.add((index + 1) * 15, 'minutes').format('HH:mm')}`;
     case 'QuarterHourly':
+      return `${date.add(index * 15, 'minutes').format('HH:mm')} — ${date.add((index + 1) * 15, 'minutes').format('HH:mm')}`;
+    case 'Hourly':
       return `${date.add(index, 'hour').format('HH')} — ${date.add(index + 1, 'hour').format('HH')}`;
     case 'Daily':
       return date.date(index + 1).format('DD');
