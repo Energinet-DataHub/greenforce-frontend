@@ -19,7 +19,7 @@
 import { Component, input } from '@angular/core';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet/watt/button';
+import { WattMenuItemComponent } from '@energinet/watt/menu';
 
 import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
@@ -28,11 +28,13 @@ import { GetPaginatedMarketParticipantsDocument } from '@energinet-datahub/dh/sh
 import { Variables } from '../types';
 
 @Component({
-  imports: [WattButtonComponent, TranslocoPipe],
+  imports: [TranslocoPipe, WattMenuItemComponent],
   selector: 'dh-download-market-participants',
-  template: ` <watt-button icon="download" variant="text" (click)="download()">{{
-    'shared.download' | transloco
-  }}</watt-button>`,
+  template: `
+    <watt-menu-item (click)="download()">
+      <span>{{ 'shared.download' | transloco }}</span>
+    </watt-menu-item>
+  `,
 })
 export class DownloadMarketParticipants {
   private query = lazyQuery(GetPaginatedMarketParticipantsDocument);
