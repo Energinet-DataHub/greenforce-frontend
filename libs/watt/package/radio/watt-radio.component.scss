@@ -12,10 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 :root {
-  --watt-radio-color: var(--watt-color-primary);
-  --watt-disabled-radio-color: var(--watt-color-neutral-grey-300);
+  --watt-radio-color: var(--watt-on-light-low-emphasis);
+  --watt-radio-color-hover: var(--watt-on-light-medium-emphasis);
+  --watt-radio-color-focus: var(--watt-color-primary);
+  --watt-radio-color-checked: var(--watt-color-primary);
+  --watt-radio-color-checked-hover: var(--watt-color-primary-dark);
+  --watt-radio-color-checked-focus: var(--watt-color-primary-dark);
+  --watt-disabled-radio-color: var(--watt-color-neutral-grey-500);
   --watt-radio-label-color: var(--watt-on-light-high-emphasis);
   --watt-disabled-radio-label-color: var(--watt-on-light-low-emphasis);
+}
+
+watt-radio:not(:has(:disabled)) {
+  & label,
+  & input {
+    cursor: pointer;
+  }
 }
 
 watt-radio label {
@@ -24,36 +36,60 @@ watt-radio label {
   color: var(--watt-radio-label-color);
 
   &.disabled {
-    cursor: not-allowed;
     color: var(--watt-radio-disabled-label-color);
   }
 }
 
 watt-radio input[type="radio"] {
-  width: 24px;
-  height: 24px;
-  min-width: 24px;
-  min-height: 24px;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
   appearance: none;
   margin: 0 var(--watt-space-s) 0 0;
-  border: 2px solid currentColor;
+  background: var(--watt-radio-color);
   border-radius: 50%;
-  color: var(--watt-radio-color);
   display: grid;
   place-content: center;
 
   &::before {
     content: "";
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-    transform: scale(0);
-    transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em var(--watt-radio-color);
+    transform: scale(1);
+    transition: var(--watt-time-extra-short) transform var(--watt-ease-linear);
+    background: var(--watt-color-neutral-white);
   }
 
-  &:checked::before {
-    transform: scale(1);
+  &:checked {
+    background: var(--watt-radio-color-checked);
+
+    &::before {
+      transform: scale(0.33);
+    }
+  }
+}
+
+watt-radio input:focus {
+  outline: none;
+}
+
+watt-radio input:not(:disabled) {
+  &:hover {
+    background: var(--watt-radio-color-hover);
+
+    &:checked {
+      background: var(--watt-radio-color-checked-hover);
+    }
+  }
+
+  &:focus-visible {
+    background: var(--watt-radio-color-focus);
+
+    &:checked {
+      background: var(--watt-radio-color-checked-focus);
+    }
   }
 }
 
@@ -61,4 +97,5 @@ watt-radio input[type="radio"] {
 watt-radio.disabled {
   --watt-radio-label-color: var(--watt-disabled-radio-label-color);
   --watt-radio-color: var(--watt-disabled-radio-color);
+  --watt-radio-color-checked: var(--watt-disabled-radio-color);
 }
