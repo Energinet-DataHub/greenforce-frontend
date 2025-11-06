@@ -25,22 +25,22 @@ limitations under the License.
   <h3>{{ t("actors") }}</h3>
 
   <watt-data-actions>
-    <dh-download-market-participants [variables]="variables()" />
-    <ng-container *dhPermissionRequired="['actors:manage']">
-      <watt-button variant="secondary" (click)="createMarketParticipant()">{{
-        t("create")
-      }}</watt-button>
-    </ng-container>
+    <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
+      {{ t("actionsButton") }}
+      <watt-icon name="moreVertical" />
+    </watt-button>
 
-    <ng-container *dhPermissionRequired="['actors:manage']">
-      <watt-button variant="icon" icon="moreVertical" [matMenuTriggerFor]="menu" />
+    <watt-menu #menu>
+      <dh-download-market-participants [variables]="variables()" />
 
-      <mat-menu #menu="matMenu">
-        <button type="button" mat-menu-item (click)="mergeMarketParticipants()">
-          {{ t("mergeMarketParticipantsButton") }}
-        </button>
-      </mat-menu>
-    </ng-container>
+      <watt-menu-item *dhPermissionRequired="['actors:manage']" (click)="createMarketParticipant()">
+        <span>{{ t("create") }}</span>
+      </watt-menu-item>
+
+      <watt-menu-item *dhPermissionRequired="['actors:manage']" (click)="mergeMarketParticipants()">
+        <span>{{ t("mergeMarketParticipantsButton") }}</span>
+      </watt-menu-item>
+    </watt-menu>
   </watt-data-actions>
 
   <watt-data-filters>
