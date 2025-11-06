@@ -76,7 +76,7 @@ limitations under the License.
     <!-- Execution Time -->
     <ng-container *wattTableCell="columns.executionTime; let row">
       @if (!row.startedAt && row.scheduledAt) {
-        <vater-stack direction="row">
+        <vater-stack direction="row" gap="xs">
           <div>{{ row.scheduledAt | wattDate: "long" }}</div>
           @if (row.state === "scheduled") {
             <watt-icon [wattTooltip]="t('scheduledCalculationTooltip')" name="info" size="s" />
