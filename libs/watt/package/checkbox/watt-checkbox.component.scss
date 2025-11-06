@@ -11,8 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-@use "@energinet/watt/utils" as watt;
-
 form.ng-submitted watt-checkbox.ng-invalid label {
   color: var(--watt-checkbox-error-color);
 }
@@ -132,7 +130,6 @@ watt-checkbox {
   }
 
   label {
-    @include watt.typography-watt-text-s;
     display: grid;
     grid-template-columns: 1em auto;
     gap: 0.5em;

@@ -45,7 +45,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
   },
   imports: [FormsModule],
   template: `
-    <label>
+    <label class="watt-text-s">
       <input
         [ngModel]="checked"
         [disabled]="isdisabled()"
