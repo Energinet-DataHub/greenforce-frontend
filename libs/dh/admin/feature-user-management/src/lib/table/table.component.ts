@@ -21,7 +21,7 @@ import { Component, computed, inject, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
-import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet/watt/table';
 import {
   WattDataActionsComponent,
@@ -54,6 +54,7 @@ type Variables = Partial<GetUsersQueryVariables>;
     WattDataFiltersComponent,
     WattDataActionsComponent,
     VaterUtilityDirective,
+    VaterStackComponent,
     DhEmDashFallbackPipe,
     DhUserStatusComponent,
     DhUserLatestLoginComponent,
@@ -73,16 +74,17 @@ type Variables = Partial<GetUsersQueryVariables>;
     <h3>{{ t('tabLabel') }}</h3>
 
     <watt-data-actions>
-      <dh-download-users-csv *dhPermissionRequired="['fas']" [variables]="variables()" />
+      <vater-stack direction="row" gap="m">
+        <dh-download-users-csv *dhPermissionRequired="['fas']" [variables]="variables()" />
 
-      <watt-button
-        *dhPermissionRequired="['users:manage']"
-        icon="plus"
-        variant="secondary"
-        [title]="t('inviteUser')"
-        (click)="invite.emit()"
-        >{{ t('inviteUser') }}
-      </watt-button>
+        <watt-button
+          *dhPermissionRequired="['users:manage']"
+          variant="secondary"
+          [title]="t('inviteUser')"
+          (click)="invite.emit()"
+          >{{ t('inviteUser') }}
+        </watt-button>
+      </vater-stack>
     </watt-data-actions>
 
     <watt-data-filters>
