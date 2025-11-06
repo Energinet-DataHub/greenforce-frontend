@@ -102,10 +102,10 @@ import {
 
           @if (hasHistorical()) {
             <watt-button size="small" variant="text" (click)="toggleHistorical()">{{
-                showHistorical()
-                  ? ('meteringPoint.hideHistoricalButton' | transloco)
-                  : ('meteringPoint.showHistoricalButton' | transloco)
-              }}</watt-button>
+              showHistorical()
+                ? ('meteringPoint.hideHistoricalButton' | transloco)
+                : ('meteringPoint.showHistoricalButton' | transloco)
+            }}</watt-button>
           }
         </vater-stack>
       </watt-card-title>
