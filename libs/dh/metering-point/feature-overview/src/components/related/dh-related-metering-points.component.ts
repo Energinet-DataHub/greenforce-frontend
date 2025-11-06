@@ -53,7 +53,7 @@ import {
   styles: `
     .grid-container {
       display: grid;
-      grid-template-columns: 1fr 1fr min-content;
+      grid-template-columns: 1fr 1fr 140px;
       margin: 0 calc(-1 * var(--watt-space-m));
     }
 
@@ -76,7 +76,9 @@ import {
       }
 
       & > :last-child {
-        align-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
     }
 
@@ -100,10 +102,10 @@ import {
 
           @if (hasHistorical()) {
             <watt-button size="small" variant="text" (click)="toggleHistorical()">{{
-              showHistorical()
-                ? ('meteringPoint.hideHistoricalButton' | transloco)
-                : ('meteringPoint.showHistoricalButton' | transloco)
-            }}</watt-button>
+                showHistorical()
+                  ? ('meteringPoint.hideHistoricalButton' | transloco)
+                  : ('meteringPoint.showHistoricalButton' | transloco)
+              }}</watt-button>
           }
         </vater-stack>
       </watt-card-title>
