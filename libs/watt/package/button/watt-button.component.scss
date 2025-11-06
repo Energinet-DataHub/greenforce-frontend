@@ -19,6 +19,7 @@
   --watt-button-text-focus-color: var(--watt-color-primary);
   --watt-button-text-transform: none;
   --watt-button-primary-disabled-color: var(--watt-color-neutral-grey-500);
+  --mat-button-text-with-icon-horizontal-padding: var(--watt-space-m);
 }
 
 @mixin primary-hover {
@@ -73,6 +74,7 @@ watt-button {
     .mat-mdc-button.mat-primary {
       color: var(--watt-color-primary-contrast);
       background-color: var(--watt-color-primary);
+      border: 1px solid var(--watt-color-neutral-grey-300);
       --mat-button-text-label-text-color: var(--watt-color-primary-contrast);
 
       &:focus-visible {
@@ -191,9 +193,9 @@ watt-button {
         visibility: hidden;
       }
 
-      watt-icon {
-        margin: -5px; // to offset the icons inherent padding of 5px
-      }
+      // watt-icon {
+      //   margin: -5px; // to offset the icons inherent padding of 5px
+      // }
     }
   }
 
