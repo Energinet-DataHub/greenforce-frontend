@@ -50,7 +50,7 @@ import { DhProcessCalculationGridArea } from '../types';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhCalculationsDetailsGridAreasComponent {
+export class DhCalculationsDetailsGridAreas {
   gridAreas = input.required<DhProcessCalculationGridArea[]>();
 
   datasource: WattTableDataSource<DhProcessCalculationGridArea> = new WattTableDataSource(

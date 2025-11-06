@@ -120,22 +120,10 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
     </form>
   `,
 })
-export class DhProcessesFiltersComponent {
-  private gridAreasQuery = query(GetGridAreasDocument);
-  private fb = inject(NonNullableFormBuilder);
+export class DhProcessesFilters {
+  private readonly gridAreasQuery = query(GetGridAreasDocument);
+  private readonly fb = inject(NonNullableFormBuilder);
   filter = output<GetProcessesQueryVariables>();
-
-  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationTypeQueryParameterV1);
-  executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
-  executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
-  gridAreaOptions = computed(
-    () =>
-      this.gridAreasQuery.data()?.gridAreas.map((x) => ({
-        value: x.code,
-        displayValue: x.displayName,
-      })) ?? []
-  );
-
   form = this.fb.group({
     executionType: new FormControl<CalculationExecutionType | null>(null),
     period: new FormControl<WattRange<Date> | null>(null),
@@ -143,7 +131,6 @@ export class DhProcessesFiltersComponent {
     calculationTypes: new FormControl<CalculationTypeQueryParameterV1[] | null>(null),
     state: new FormControl<ProcessState | null>(null),
   });
-
   values = toSignal<GetProcessesQueryVariables>(
     this.form.valueChanges.pipe(
       startWith(null),
@@ -158,11 +145,22 @@ export class DhProcessesFiltersComponent {
           state,
         },
       }))
-    ),
-    { requireSync: true }
+    )
+  );
+
+  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationTypeQueryParameterV1);
+  executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
+  executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
+  gridAreaOptions = computed(
+    () =>
+      this.gridAreasQuery.data()?.gridAreas.map((x) => ({
+        value: x.code,
+        displayValue: x.displayName,
+      })) ?? []
   );
 
   constructor() {
-    effect(() => this.filter.emit(this.values()));
+    const values = this.values();
+    if (values) this.filter.emit(values);
   }
 }
