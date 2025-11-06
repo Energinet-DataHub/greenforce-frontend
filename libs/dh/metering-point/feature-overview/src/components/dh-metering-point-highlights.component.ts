@@ -39,6 +39,9 @@ import { MeteringPointDetails } from '../types';
 
     :host {
       display: block;
+      width: 100%;
+      padding-top: var(--watt-space-ml);
+      padding-left: var(--watt-space-ml);
     }
 
     .watt-chip-label__custom {
