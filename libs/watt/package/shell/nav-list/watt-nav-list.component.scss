@@ -45,6 +45,7 @@ watt-nav-list {
   &.watt-nav-list--expandable {
     .mat-expansion-panel {
       background-color: var(--watt-sidenav-background-color);
+      margin: 0;
       border-radius: 0;
     }
 
