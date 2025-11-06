@@ -11,6 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+@use "@energinet/watt/utils" as watt;
+
 form.ng-submitted watt-checkbox.ng-invalid label {
   color: var(--watt-checkbox-error-color);
 }
@@ -24,8 +26,13 @@ form.ng-submitted watt-checkbox.watt-checkbox--indeterminate.ng-invalid input {
 }
 
 watt-checkbox {
-  --watt-checkbox-disabled-color: var(--watt-color-neutral-grey-400);
+  --watt-checkbox-disabled-color: var(--watt-color-neutral-grey-500);
   --watt-checkbox-color: var(--watt-color-primary);
+  --watt-checkbox-color-focus: var(--watt-color-primary-dark);
+  --watt-checkbox-color-hover: var(--watt-color-primary-dark);
+  --watt-checkbox-border-color: var(--watt-on-light-low-emphasis);
+  --watt-checkbox-border-color-hover: var(--watt-on-light-medium-emphasis);
+  --watt-checkbox-border-color-focus: var(--watt-color-primary);
   --watt-checkbox-checkmark-color: var(--watt-on-dark-high-emphasis);
   --watt-checkbox-error-color: var(--watt-color-state-danger);
 
@@ -45,7 +52,7 @@ watt-checkbox {
     padding: 0;
     width: 16px;
     height: 16px;
-    border: 1px solid var(--watt-checkbox-color);
+    border: 1px solid var(--watt-checkbox-border-color);
     border-radius: 2px;
     display: grid;
     place-content: center;
@@ -70,13 +77,34 @@ watt-checkbox {
     );
   }
 
+  input:focus-visible {
+    outline: none;
+  }
+
+  &:not(.ng-dirty.ng-invalid) input:not(:disabled) {
+    &:hover {
+      border-color: var(--watt-checkbox-border-color-hover);
+
+      &:checked,
+      &:indeterminate {
+        background-color: var(--watt-checkbox-color-hover);
+        border-color: var(--watt-checkbox-color-hover);
+      }
+    }
+    &:focus-visible {
+      border-color: var(--watt-checkbox-border-color-focus);
+
+      &:checked,
+      &:indeterminate {
+        background-color: var(--watt-checkbox-color-focus);
+        border-color: var(--watt-checkbox-color-focus);
+      }
+    }
+  }
+
   &.watt-checkbox--indeterminate input::before {
     clip-path: polygon(29% 44%, 76.5% 44%, 76.5% 56.25%, 29% 56.25%);
     transform: scale(1);
-  }
-
-  &.watt-checkbox--indeterminate.ng-dirty.ng-invalid input::before {
-    background-color: var(--watt-checkbox-error-color);
   }
 
   input:checked::before {
@@ -85,6 +113,7 @@ watt-checkbox {
 
   input:checked,
   &.watt-checkbox--indeterminate input {
+    border-color: var(--watt-checkbox-color);
     background-color: var(--watt-checkbox-color);
   }
 
@@ -103,6 +132,7 @@ watt-checkbox {
   }
 
   label {
+    @include watt.typography-watt-text-s;
     display: grid;
     grid-template-columns: 1em auto;
     gap: 0.5em;

@@ -44,17 +44,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
     '[class.watt-checkbox--indeterminate]': 'indeterminate()',
   },
   imports: [FormsModule],
-  template: `<label>
-    <input
-      [ngModel]="checked"
-      [disabled]="isdisabled()"
-      [indeterminate]="indeterminate()"
-      [required]="required()"
-      (ngModelChange)="onModelChange($event)"
-      type="checkbox"
-    />
-    <ng-content />
-  </label>`,
+  template: `
+    <label>
+      <input
+        [ngModel]="checked"
+        [disabled]="isdisabled()"
+        [indeterminate]="indeterminate()"
+        [required]="required()"
+        (ngModelChange)="onModelChange($event)"
+        type="checkbox"
+      />
+      <ng-content />
+    </label>
+  `,
 })
 export class WattCheckboxComponent implements ControlValueAccessor {
   private element = inject(ElementRef);
