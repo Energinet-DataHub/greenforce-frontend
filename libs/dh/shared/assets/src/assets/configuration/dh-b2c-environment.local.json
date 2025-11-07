@@ -1,7 +1,7 @@
 {
-  "clientId": "aacab446-c97f-4e00-a075-3ad164e2b17a",
-  "scopeUri": "https://b2cshrestestwe001.onmicrosoft.com/backend-bff/api",
-  "authority": "https://b2cshrestestwe001.b2clogin.com/b2cshrestestwe001.onmicrosoft.com/B2C_1_SignInFlow",
-  "mitIdFlowUri": "https://b2cshrestestwe001.b2clogin.com/b2cshrestestwe001.onmicrosoft.com/B2C_1_MitID_SignInSignUpFlow_v2",
-  "knownAuthorities": ["b2cshrestestwe001.b2clogin.com"]
+  "clientId": "de963b62-6f6b-4384-9fd7-9cc589d48ddd",
+  "scopeUri": "https://b2cshresdevwe002.onmicrosoft.com/backend-bff/api",
+  "authority": "https://b2cshresdevwe002.b2clogin.com/b2cshresdevwe002.onmicrosoft.com/B2C_1_SignInFlow",
+  "mitIdFlowUri": "https://b2cshresdevwe002.b2clogin.com/b2cshresdevwe002.onmicrosoft.com/B2C_1_MitID_SignInSignUpFlow_v2",
+  "knownAuthorities": ["b2cshresdevwe002.b2clogin.com"]
 }
