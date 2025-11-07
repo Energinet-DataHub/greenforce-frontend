@@ -132,10 +132,10 @@ export const Enabled: StoryObj<WattChipComponent> = {
   render: () => ({
     template: `
       <div style="display: flex; gap: var(--watt-space-s)">
-        <watt-chip >data.dk</watt-chip>
-        <watt-chip >todo.dk</watt-chip>
-        <watt-chip >funny.dk</watt-chip>
-        <watt-chip >domain.dk</watt-chip>
+        <watt-chip>data.dk</watt-chip>
+        <watt-chip>todo.dk</watt-chip>
+        <watt-chip>funny.dk</watt-chip>
+        <watt-chip>domain.dk</watt-chip>
       </div>
     `,
   }),

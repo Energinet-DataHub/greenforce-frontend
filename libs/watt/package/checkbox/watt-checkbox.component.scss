@@ -63,7 +63,7 @@ watt-checkbox {
     height: 0.65em;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em var(--watt-checkbox-checkmark-color);
+    background-color: var(--watt-checkbox-checkmark-color);
     transform-origin: bottom left;
     clip-path: polygon(
       8.79% 46.33%,
@@ -101,7 +101,9 @@ watt-checkbox {
   }
 
   &.watt-checkbox--indeterminate input::before {
-    clip-path: polygon(29% 44%, 76.5% 44%, 76.5% 56.25%, 29% 56.25%);
+    width: 10px;
+    height: 1px;
+    clip-path: none;
     transform: scale(1);
   }
 
