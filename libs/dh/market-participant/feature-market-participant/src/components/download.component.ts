@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattMenuItemComponent } from '@energinet/watt/menu';
@@ -24,6 +24,7 @@ import { WattMenuItemComponent } from '@energinet/watt/menu';
 import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetPaginatedMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { Variables } from '../types';
 
@@ -37,6 +38,8 @@ import { Variables } from '../types';
   `,
 })
 export class DownloadMarketParticipants {
+  private readonly appInsights = inject(DhApplicationInsights);
+
   private query = lazyQuery(GetPaginatedMarketParticipantsDocument);
   private generateCSV = GenerateCSV.fromQuery(
     this.query,
@@ -46,6 +49,7 @@ export class DownloadMarketParticipants {
   variables = input<Variables>();
 
   async download() {
+    this.appInsights.trackEvent('Button: Download market participants');
     const marketParticipantsPath = 'marketParticipant.actorsOverview';
 
     this.generateCSV
