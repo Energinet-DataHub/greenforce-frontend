@@ -87,6 +87,7 @@ import { VaterStackComponent } from '@energinet/watt/vater';
       }
 
       @include watt.media('>=XLarge') {
+        grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: auto auto 1fr;
 
         dh-metering-point-details {
