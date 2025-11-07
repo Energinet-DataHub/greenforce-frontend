@@ -23,7 +23,7 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 
 export const chargeSeriesRoutes: Routes = [
   {
-    path: getPath<ChargesSubPaths>('prices'),
+    path: `${getPath<ChargesSubPaths>('prices')}/:resolution`,
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
     loadComponent: () => import('./components/series').then((m) => m.DhChargeSeriesPage),
   },

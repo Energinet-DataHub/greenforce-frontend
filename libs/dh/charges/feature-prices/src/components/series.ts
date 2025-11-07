@@ -36,13 +36,15 @@ import {
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
 import {
+  ChargeResolution,
   ChargeSeries,
   ChargeSeriesPoint,
   GetChargeSeriesDocument,
+  Resolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -50,6 +52,7 @@ import formatTime from '../format-time';
 import { DhChargesIntervalField } from './interval-field';
 import { DhChargeSeriesDetailsComponent } from './series/details';
 import { DateRange } from '@energinet-datahub/dh/shared/domain';
+import { WattRange } from '@energinet/watt/core/date';
 
 @Component({
   selector: 'dh-prices',
@@ -67,57 +70,66 @@ import { DateRange } from '@energinet-datahub/dh/shared/domain';
     WattDataTableComponent,
     WattDataActionsComponent,
     WattDataFiltersComponent,
+    WattDataTableComponent,
+    WattSlideToggleComponent,
+    WattSpinnerComponent,
+    WATT_TABLE,
     DhCircleComponent,
     DhChargesIntervalField,
     DhChargeSeriesDetailsComponent,
   ],
   template: `
-    @if (resolution(); as resolution) {
-      <watt-data-table
-        vater
-        inset="ml"
-        gap="ml"
-        [error]="query.error()"
-        [ready]="query.called()"
-        [enablePaginator]="false"
-        [enableCount]="false"
-        [enableSearch]="false"
-        *transloco="let t; prefix: 'charges.series'"
+    <watt-data-table
+      vater
+      inset="ml"
+      gap="ml"
+      [error]="query.error()"
+      [ready]="query.called()"
+      [enablePaginator]="false"
+      [enableCount]="false"
+      [enableSearch]="false"
+      *transloco="let t; prefix: 'charges.series'"
+    >
+      <watt-data-filters>
+        <vater-stack direction="row" align="baseline" gap="xl">
+          <dh-charges-interval-field [resolution]="resolution()" (intervalChange)="fetch($event)" />
+          <watt-slide-toggle [(checked)]="showHistory">
+            {{ t('showHistory') }}
+          </watt-slide-toggle>
+        </vater-stack>
+      </watt-data-filters>
+
+      <watt-data-actions>
+        <watt-button icon="download" variant="text" (click)="download()">{{
+          'shared.download' | transloco
+        }}</watt-button>
+      </watt-data-actions>
+
+      <watt-table
+        *transloco="let t; prefix: 'charges.series.columns'"
+        [resolveHeader]="t"
+        [columns]="columns"
+        [dataSource]="dataSource"
+        [loading]="query.loading()"
+        (rowClick)="
+          activeRow.set($event); details.open(getIndex($event), $event, resolution(), charge())
+        "
+        [activeRow]="activeRow()"
+        [stickyFooter]="true"
       >
-        <watt-data-filters>
-          <dh-charges-interval-field [resolution]="resolution" />
-        </watt-data-filters>
-
-        <watt-data-actions>
-          <watt-button icon="download" variant="text" (click)="download()">{{
-            'shared.download' | transloco
-          }}</watt-button>
-        </watt-data-actions>
-
-        <watt-table
-          *transloco="let t; prefix: 'charges.series.columns'"
-          [resolveHeader]="t"
-          [columns]="columns"
-          [dataSource]="dataSource"
-          [loading]="query.loading()"
-          (rowClick)="
-            activeRow.set($event); details.open(getIndex($event), $event, resolution, charge())
-          "
-          [activeRow]="activeRow()"
-          [stickyFooter]="true"
-        >
-          <ng-container *wattTableCell="columns.date; header: t(resolution); let _; let i = index">
-            {{ formatTime(i) }}
-          </ng-container>
-          <ng-container *wattTableCell="columns.price; header: t(resolution); let series">
-            {{ getCurrentPrice(series) | number: '1.6-6' }}
-          </ng-container>
-          <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
-            @if (series.hasChanged) {
-              <dh-circle />
-            }
-          </ng-container>
-          <ng-container *wattTableCell="columns.history; header: ''; let series">
+        <ng-container *wattTableCell="columns.date; header: t(resolution()); let _; let i = index">
+          {{ formatTime(i) }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.price; let series">
+          {{ getCurrentPrice(series) | number: '1.6-6' }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
+          @if (series.hasChanged) {
+            <dh-circle />
+          }
+        </ng-container>
+        <ng-container *wattTableCell="columns.history; header: ''; let series">
+          @if (showHistory()) {
             <vater-stack scrollable direction="row" gap="ml">
               @for (point of series.points.filter(isHistoric); track $index) {
                 <span
@@ -129,14 +141,10 @@ import { DateRange } from '@energinet-datahub/dh/shared/domain';
                 </span>
               }
             </vater-stack>
-          </ng-container>
-        </watt-table>
-      </watt-data-table>
-    } @else {
-      <vater-flex fill="both">
-        <watt-spinner vater center />
-      </vater-flex>
-    }
+          }
+        </ng-container>
+      </watt-table>
+    </watt-data-table>
     <dh-charge-series-details #details (closed)="activeRow.set(undefined)" />
   `,
 })
@@ -145,15 +153,17 @@ export class DhChargeSeriesPage {
   private generateCSV = GenerateCSV.fromSignalArray(this.series);
 
   id = input.required<string>();
-  resolution = computed(() => this.charge()?.resolution);
+  resolution = input.required<ChargeResolution>();
+
   query = query(GetChargeSeriesDocument, () => ({
+    skip: true,
     variables: {
       chargeId: this.id(),
-      interval: null as DateRange | null,
     },
   }));
 
   charge = computed(() => this.query.data()?.chargeById);
+  showHistory = signal(false);
   dataSource = new WattTableDataSource<ChargeSeries>();
 
   columns: WattTableColumnDef<ChargeSeries> = {
@@ -161,11 +171,12 @@ export class DhChargeSeriesPage {
     price: {
       accessor: (row) => row.points.find((r) => r.isCurrent)?.price,
       align: 'right',
+      size: 'minmax(200px, auto)',
       sort: false,
     },
     hasChanged: {
       accessor: 'hasChanged',
-      tooltip: 'What', // TODO: Fix
+      // tooltip: 'What', // TODO: Fix
       size: 'min-content',
       align: 'center',
       sort: false,
@@ -192,6 +203,14 @@ export class DhChargeSeriesPage {
     });
   }
 
+  fetch(interval: WattRange<Date> | null | undefined) {
+    if (!interval) return;
+    const { start, end } = interval;
+    if (!start || !end) return;
+    console.log('Fetching series with interval', { start, end });
+    this.query.refetch({ interval: { start, end } });
+  }
+
   download() {
     const basePath = 'charges.series.csv.columns';
 
@@ -210,9 +229,9 @@ export class DhChargeSeriesPage {
           `"${translate('charges.chargeTypes.' + this.charge()?.chargeType)}"`,
           `"${this.charge()?.id}"`,
           `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
-          `"${x.currentPoint.fromDateTime.toISOString()}"`,
-          `"${x.currentPoint.toDateTime.toISOString()}"`,
-          `"${x.currentPoint.price.toPrecision(6)}"`,
+          `"${x.currentPoint?.fromDateTime.toISOString()}"`,
+          `"${x.currentPoint?.toDateTime.toISOString()}"`,
+          `"${x.currentPoint?.price.toPrecision(6)}"`,
         ])
       )
       .generate('charges.series.csv.fileName');

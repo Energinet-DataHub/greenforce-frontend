@@ -27,13 +27,13 @@ const formatTime = (
 ) => {
   const date = dayjs(intervalStart);
   switch (resolution) {
-    case 'Hourly':
+    case 'quarterhourly':
       return `${date.add(index * 15, 'minutes').format('HH:mm')} — ${date.add((index + 1) * 15, 'minutes').format('HH:mm')}`;
-    case 'QuarterHourly':
+    case 'hourly':
       return `${date.add(index, 'hour').format('HH')} — ${date.add(index + 1, 'hour').format('HH')}`;
-    case 'Daily':
+    case 'daily':
       return date.date(index + 1).format('DD');
-    case 'Monthly':
+    case 'monthly':
       return capitalize(date.month(index).format('MMMM'));
     default:
       return index + 1;

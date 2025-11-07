@@ -372,11 +372,11 @@
       "TARIFF": "Tarif"
     },
     "resolutions": {
-      "Daily": "Daglig",
-      "QuarterHourly": "Kvartalsvis",
-      "Hourly": "Timevis",
-      "Monthly": "Månedlig",
-      "Unknown": "Ukendt"
+      "daily": "Daglig",
+      "quarterHourly": "Kvartalsvis",
+      "hourly": "Timevis",
+      "monthly": "Månedlig",
+      "unknown": "Ukendt"
     },
     "vatClassifications": {
       "NO_VAT": "Uden moms",
@@ -454,12 +454,13 @@
       }
     },
     "series": {
+      "showHistory": "Vis historik",
       "columns": {
-        "QuarterHourly": "Tidspunkt",
-        "Hourly": "Tidspunkt",
-        "Daily": "Dato",
-        "Monthly": "Måned",
-        "Unknown": "Sekvens",
+        "quarterhourly": "Tidspunkt",
+        "hourly": "Tidspunkt",
+        "daily": "Dato",
+        "monthly": "Måned",
+        "unknown": "Sekvens",
         "price": "Aktuel pris"
       },
       "details": {

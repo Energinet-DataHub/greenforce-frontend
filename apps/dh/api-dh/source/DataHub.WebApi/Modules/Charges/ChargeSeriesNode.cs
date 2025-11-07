@@ -19,14 +19,20 @@ namespace Energinet.DataHub.WebApi.Modules.Charges;
 [ObjectType<ChargeSeriesDto>]
 public static partial class ChargeSeriesNode
 {
-    public static Point CurrentPoint([Parent] ChargeSeriesDto chargeSeries) =>
+    public static Point? CurrentPoint([Parent] ChargeSeriesDto chargeSeries) =>
             chargeSeries.Points
                         .Where(point => point.FromDateTime <= DateTimeOffset.Now && DateTimeOffset.Now <= point.ToDateTime)
-                        .Single();
+                        .SingleOrDefault();
 
     public static bool HasChanged([Parent] ChargeSeriesDto chargeSeries)
     {
-        var currentPoint = chargeSeries.Points.First(ChargeSeriesPointNode.IsCurrent);
+        var currentPoint = chargeSeries.Points.FirstOrDefault(ChargeSeriesPointNode.IsCurrent);
+
+        if (currentPoint == null)
+        {
+            return false;
+        }
+
         return chargeSeries.Points.Any(p => p.Price != currentPoint.Price);
     }
 

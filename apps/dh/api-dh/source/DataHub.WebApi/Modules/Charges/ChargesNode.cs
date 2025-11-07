@@ -33,20 +33,15 @@ public static partial class ChargesNode
 
     public static async Task<IEnumerable<ChargeSeriesDto>> GetSeriesAsync(
         [Parent] ChargeInformationDto charge,
-        Interval? interval,
+        Interval interval,
         [Service] IChargesClient client,
         CancellationToken cancellationToken)
     {
-        if (interval is null)
-        {
-            return [];
-        }
-
         var series = await client.GetChargeSeriesAsync(
             new ChargeSeriesSearchCriteriaDto(
                 ChargeId: Guid.Empty, // TODO: Fix
-                FromDateTimeUtc: interval.Value.Start.ToDateTimeOffset(),
-                ToDateTimeUtc: interval.Value.End.ToDateTimeOffset()),
+                FromDateTimeUtc: interval.Start.ToDateTimeOffset(),
+                ToDateTimeUtc: interval.End.ToDateTimeOffset()),
             cancellationToken);
 
         return series.Value ?? [];

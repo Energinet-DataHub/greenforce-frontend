@@ -1,4 +1,4 @@
-query GetChargeSeries($chargeId: String!, $interval: DateRange) {
+query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
   chargeById(id: $chargeId) {
     id
     resolution
