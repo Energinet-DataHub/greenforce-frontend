@@ -79,6 +79,10 @@ import { WattDataIntlService } from './watt-data-intl.service';
       watt-data-table watt-empty-state {
         margin: var(--watt-space-xl) 0;
       }
+
+      watt-simple-search {
+        width: 400px; /* Magix UX number (replace with variable) */
+      }
     `,
   ],
   template: `
@@ -86,7 +90,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
       <vater-flex autoSize fill="vertical" gap="m">
         @if (header()) {
           <vater-stack direction="row" gap="m" fill="horizontal">
-            <vater-stack direction="row" justify="space-between" fill="horizontal">
+            <vater-stack direction="row" justify="space-between" fill="horizontal" align="start">
               <ng-content select="h3" />
               <ng-content select="h4" />
               @if (enableCount()) {
@@ -97,7 +101,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
               @if (queryTime()) {
                 <span class="watt-label">in {{ queryTime() }} ms</span>
               }
-              <vater-stack justify="space-between" align="start">
+              <vater-stack align="start" gap="m">
                 @if (enableSearch()) {
                   @if (simpleSearch()) {
                     <watt-simple-search

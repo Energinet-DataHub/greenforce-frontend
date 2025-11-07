@@ -70,9 +70,9 @@ import { Organization } from './types';
       [searchLabel]="'shared.search' | transloco"
       [error]="dataSource.error"
       [ready]="dataSource.called"
+      [enableCount]="false"
+      [simpleSearch]="false"
     >
-      <h3>{{ t('organizations') }}</h3>
-
       <watt-data-actions>
         <watt-button icon="download" variant="text" (click)="download()">{{
           'shared.download' | transloco
