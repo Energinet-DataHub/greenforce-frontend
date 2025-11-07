@@ -28,6 +28,7 @@ import {
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
 import {
   ChargeSeries,
@@ -35,7 +36,6 @@ import {
   GetChargeByIdDocument,
   GetChargeSeriesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhCircleComponent } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -53,6 +53,7 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
     VaterUtilityDirective,
     WattDataFiltersComponent,
     WattDataTableComponent,
+    WattSlideToggleComponent,
     WattSpinnerComponent,
     WATT_TABLE,
     DhCircleComponent,
@@ -72,10 +73,15 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
         *transloco="let t; prefix: 'charges.series'"
       >
         <watt-data-filters>
-          <dh-charges-interval-field
-            [resolution]="resolution"
-            (intervalChange)="series.refetch({ interval: $event })"
-          />
+          <vater-stack direction="row" align="baseline" gap="xl">
+            <dh-charges-interval-field
+              [resolution]="resolution"
+              (intervalChange)="series.refetch({ interval: $event })"
+            />
+            <watt-slide-toggle [(checked)]="showHistory">
+              {{ t('showHistory') }}
+            </watt-slide-toggle>
+          </vater-stack>
         </watt-data-filters>
         <watt-table
           *transloco="let t; read: 'charges.series.columns'"
@@ -99,17 +105,19 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
             }
           </ng-container>
           <ng-container *wattTableCell="columns.history; header: ''; let series">
-            <vater-stack scrollable direction="row" gap="ml">
-              @for (point of series.points.filter(isHistoric); track $index) {
-                <span
-                  class="watt-on-light--medium-emphasis"
-                  style="text-align: right;"
-                  [style.flexBasis.px]="120"
-                >
-                  {{ point.price }}
-                </span>
-              }
-            </vater-stack>
+            @if (showHistory()) {
+              <vater-stack scrollable direction="row" gap="ml">
+                @for (point of series.points.filter(isHistoric); track $index) {
+                  <span
+                    class="watt-on-light--medium-emphasis"
+                    style="text-align: right;"
+                    [style.flexBasis.px]="120"
+                  >
+                    {{ point.price }}
+                  </span>
+                }
+              </vater-stack>
+            }
           </ng-container>
         </watt-table>
       </watt-data-table>
@@ -132,17 +140,19 @@ export class DhChargeSeriesPage {
     },
   }));
 
+  showHistory = signal(false);
   dataSource = new WattTableDataSource<ChargeSeries>();
   columns: WattTableColumnDef<ChargeSeries> = {
     date: { accessor: null, sort: false },
     price: {
       accessor: (row) => row.points.find((r) => r.isCurrent)?.price,
       align: 'right',
+      size: 'minmax(200px, auto)',
       sort: false,
     },
     hasChanged: {
       accessor: 'hasChanged',
-      tooltip: 'What', // TODO: Fix
+      // tooltip: 'What', // TODO: Fix
       size: 'min-content',
       align: 'center',
       sort: false,

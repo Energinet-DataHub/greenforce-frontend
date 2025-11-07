@@ -453,6 +453,7 @@
       }
     },
     "series": {
+      "showHistory": "Show history",
       "columns": {
         "QuarterHourly": "Time",
         "Hourly": "Time",
