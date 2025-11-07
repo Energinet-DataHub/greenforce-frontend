@@ -286,7 +286,7 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 type ChargeInformationDto {
   status: ChargeStatus!
   displayName: String!
-  series(interval: DateRange): [ChargeSeries!]!
+  series(interval: DateRange!): [ChargeSeries!]!
   id: String!
   validFrom: DateTime!
   validTo: DateTime!
@@ -300,7 +300,7 @@ type ChargeInformationDto {
 }
 
 type ChargeSeries {
-  currentPoint: ChargeSeriesPoint!
+  currentPoint: ChargeSeriesPoint
   hasChanged: Boolean!
   points: [ChargeSeriesPoint!]!
   totalAmount: Decimal!
@@ -2272,11 +2272,11 @@ enum CalculationTypeQueryParameterV1 {
 }
 
 enum ChargeResolution {
-  Unknown
-  QuarterHourly
-  Hourly
-  Daily
-  Monthly
+  unknown
+  quarterhourly
+  hourly
+  daily
+  monthly
 }
 
 enum ChargeStatus {
