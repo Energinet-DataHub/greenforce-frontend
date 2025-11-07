@@ -162,8 +162,8 @@ export class DhChargeSeriesPage {
     },
   }));
 
-  charge = computed(() => this.query.data()?.chargeById);
   showHistory = signal(false);
+  charge = computed(() => this.query.data()?.chargeById);
   dataSource = new WattTableDataSource<ChargeSeries>();
 
   columns: WattTableColumnDef<ChargeSeries> = {
