@@ -32,6 +32,7 @@ import { DhCustomerOverviewComponent } from './customer/dh-customer-overview.com
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
 import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-points.component';
+import { VaterStackComponent } from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-metering-point-master-data',
@@ -45,6 +46,7 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
     DhCanSeeDirective,
     DhResultComponent,
     DhRelatedMeteringPointsComponent,
+    VaterStackComponent,
   ],
   styles: `
     @use '@energinet/watt/utils' as watt;
@@ -56,7 +58,7 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
 
     .page-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      width: 100%;
       gap: var(--watt-space-ml);
       padding: var(--watt-space-ml);
 
@@ -64,41 +66,23 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto 1fr;
 
-        dh-metering-point-highlights {
-          grid-column: 1 / span 2;
-          grid-row: 1;
-        }
-
         dh-metering-point-details {
-          grid-column: 1;
-          grid-row: 2 / span 2;
+          grid-row: 1 / span 3;
         }
 
         dh-customer-overview {
           grid-column: 2;
-          grid-row: 2;
+          grid-row: 1;
         }
 
         dh-energy-supplier {
           grid-column: 2;
-          grid-row: 3;
-        }
-      }
-
-      @include watt.media('>=XLarge') {
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-
-      @include watt.media('>=Large') {
-        grid-template-rows: auto auto auto 1fr;
-
-        dh-metering-point-details {
-          grid-row: 2 / span 3;
+          grid-row: 2;
         }
 
         dh-related-metering-points {
           grid-column: 2;
-          grid-row: 4;
+          grid-row: 3;
         }
       }
 
@@ -106,11 +90,16 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
         grid-template-rows: auto auto 1fr;
 
         dh-metering-point-details {
-          grid-row: 2 / span 2;
+          grid-row: 1 / span 2;
         }
 
         dh-related-metering-points {
           grid-column: 3;
+          grid-row: 1 / span 2;
+        }
+
+        dh-energy-supplier {
+          grid-column: 2;
           grid-row: 2 / span 2;
         }
       }
@@ -140,23 +129,25 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
   `,
   template: `
     <dh-result [hasError]="query.hasError()" [loading]="query.loading()">
-      <div class="page-grid" [class.page-grid__child-view]="meteringPoint()?.isChild">
+      <vater-stack direction="column">
         <dh-metering-point-highlights [meteringPointDetails]="meteringPoint()" />
-        <dh-metering-point-details [meteringPoint]="meteringPoint()" />
-        <dh-customer-overview
-          *dhCanSee="'customer-overview-card'; meteringPoint: meteringPoint()"
-          [meteringPoint]="meteringPoint()"
-        />
+        <div class="page-grid" [class.page-grid__child-view]="meteringPoint()?.isChild">
+          <dh-metering-point-details [meteringPoint]="meteringPoint()" />
+          <dh-customer-overview
+            *dhCanSee="'customer-overview-card'; meteringPoint: meteringPoint()"
+            [meteringPoint]="meteringPoint()"
+          />
 
-        <dh-energy-supplier
-          *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
-          [energySupplier]="energySupplier()"
-        />
+          <dh-energy-supplier
+            *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
+            [energySupplier]="energySupplier()"
+          />
 
-        @defer (on idle) {
-          <dh-related-metering-points [meteringPointId]="meteringPointId()" />
-        }
-      </div>
+          @defer (on idle) {
+            <dh-related-metering-points [meteringPointId]="meteringPointId()" />
+          }
+        </div>
+      </vater-stack>
     </dh-result>
   `,
 })
