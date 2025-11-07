@@ -31,6 +31,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
   styles: `
     :host {
       height: 44px; /* Magix UX number (replace with variable) */
+      min-height: 44px; /* Magix UX number (replace with variable) */
     }
 
     .clear {

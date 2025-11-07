@@ -91,7 +91,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
       />
 
       <vater-spacer />
-      <watt-button variant="text" icon="undo" type="reset">
+      <watt-button size="small" variant="primary" icon="close" type="reset">
         {{ t('reset') }}
       </watt-button>
     </form>
