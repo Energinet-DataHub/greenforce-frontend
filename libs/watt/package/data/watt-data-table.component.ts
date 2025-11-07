@@ -37,7 +37,7 @@ import { WATT_CARD_VARIANT, WattCardComponent } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet/watt/paginator';
-import { WattSearchComponent } from '@energinet/watt/search';
+import { WattSearchComponent, WattSimpleSearchComponent } from '@energinet/watt/search';
 import { WattTableComponent } from '@energinet/watt/table';
 import { WattIcon } from '@energinet/watt/icon';
 
@@ -55,6 +55,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
     WattPaginatorComponent,
     WattSearchComponent,
     WattButtonComponent,
+    WattSimpleSearchComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -84,8 +85,8 @@ import { WattDataIntlService } from './watt-data-intl.service';
     <watt-card vater fill="vertical" [variant]="variant()">
       <vater-flex autoSize fill="vertical" gap="m">
         @if (header()) {
-          <vater-stack direction="row" gap="m">
-            <vater-stack direction="row" gap="s">
+          <vater-stack direction="row" gap="m" fill="horizontal">
+            <vater-stack direction="row" justify="space-between" fill="horizontal">
               <ng-content select="h3" />
               <ng-content select="h4" />
               @if (enableCount()) {
@@ -96,21 +97,31 @@ import { WattDataIntlService } from './watt-data-intl.service';
               @if (queryTime()) {
                 <span class="watt-label">in {{ queryTime() }} ms</span>
               }
+              <vater-stack justify="space-between" align="start">
+                @if (enableSearch()) {
+                  @if (simpleSearch()) {
+                    <watt-simple-search
+                      [label]="searchLabel() ?? intl.search"
+                      [trim]="trimSearch()"
+                      (search)="onSearch($event)"
+                    />
+                  } @else {
+                    <watt-search
+                      [label]="searchLabel() ?? intl.search"
+                      [trim]="trimSearch()"
+                      (search)="onSearch($event)"
+                    />
+                  }
+                }
+                <ng-content select="watt-data-filters" />
+              </vater-stack>
+
+              <ng-content select="watt-data-actions" />
+              <ng-content select="watt-button" />
             </vater-stack>
             <ng-content />
-            <vater-spacer />
-            @if (enableSearch()) {
-              <watt-search
-                [label]="searchLabel() ?? intl.search"
-                [trim]="trimSearch()"
-                (search)="onSearch($event)"
-              />
-            }
-            <ng-content select="watt-data-actions" />
-            <ng-content select="watt-button" />
           </vater-stack>
         }
-        <ng-content select="watt-data-filters" />
         <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
           @if (
@@ -161,6 +172,7 @@ export class WattDataTableComponent {
   enableEmptyState = input(true);
   queryTime = input<number>();
   searchLabel = input<string>();
+  simpleSearch = input(false);
   enablePaginator = input(true);
   count = input<number>();
   autoSize = input(false);
