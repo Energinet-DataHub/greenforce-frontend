@@ -16,16 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, input } from '@angular/core';
-import { outputFromObservable, toObservable } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhFormToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { outputFromObservable, toObservable } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+
 import { dayjs, WattRange } from '@energinet/watt/date';
-import { WattDatepickerComponent, danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
 import { WattYearField, YEAR_FORMAT } from '@energinet/watt/year-field';
 import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet/watt/yearmonth-field';
-import { skip } from 'rxjs';
+import { WattDatepickerComponent, danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
+
+import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
+import { dhFormToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-charges-interval-field',
@@ -56,7 +57,6 @@ export class DhChargesIntervalField {
   private value = dhFormToSignal(this.form, true);
 
   private interval = computed<WattRange<Date>>(() => {
-    console.log('Calculating interval');
     const value = this.value();
     switch (this.resolution()) {
       case 'daily': {

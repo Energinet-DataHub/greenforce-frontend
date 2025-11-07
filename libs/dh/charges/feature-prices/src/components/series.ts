@@ -21,11 +21,7 @@ import { input, signal, effect, computed, Component, ChangeDetectionStrategy } f
 
 import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import {
-  VaterFlexComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import {
   WattDataTableComponent,
@@ -33,17 +29,16 @@ import {
   WattDataActionsComponent,
 } from '@energinet/watt/data';
 
+import { WattRange } from '@energinet/watt/core/date';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattSpinnerComponent } from '@energinet/watt/spinner';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import {
-  ChargeResolution,
   ChargeSeries,
+  ChargeResolution,
   ChargeSeriesPoint,
   GetChargeSeriesDocument,
-  Resolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
@@ -51,8 +46,6 @@ import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-
 import formatTime from '../format-time';
 import { DhChargesIntervalField } from './interval-field';
 import { DhChargeSeriesDetailsComponent } from './series/details';
-import { DateRange } from '@energinet-datahub/dh/shared/domain';
-import { WattRange } from '@energinet/watt/core/date';
 
 @Component({
   selector: 'dh-prices',
@@ -61,18 +54,15 @@ import { WattRange } from '@energinet/watt/core/date';
     DecimalPipe,
     TranslocoPipe,
     TranslocoDirective,
-    VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
     WATT_TABLE,
     WattButtonComponent,
-    WattSpinnerComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSlideToggleComponent,
-    WattSpinnerComponent,
     WATT_TABLE,
     DhCircleComponent,
     DhChargesIntervalField,
@@ -207,7 +197,6 @@ export class DhChargeSeriesPage {
     if (!interval) return;
     const { start, end } = interval;
     if (!start || !end) return;
-    console.log('Fetching series with interval', { start, end });
     this.query.refetch({ interval: { start, end } });
   }
 
