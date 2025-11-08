@@ -74,6 +74,5 @@ export class DhChargesIntervalField {
     }
   });
 
-  // Date picker is emitting initial value on init, so we skip the first emission
   readonly intervalChange = outputFromObservable(toObservable(this.interval));
 }
