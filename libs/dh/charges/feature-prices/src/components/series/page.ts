@@ -17,9 +17,17 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import { input, signal, effect, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  input,
+  signal,
+  effect,
+  computed,
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+} from '@angular/core';
 
-import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
@@ -43,9 +51,9 @@ import {
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 
-import formatTime from '../format-time';
-import { DhChargesIntervalField } from './interval-field';
-import { DhChargeSeriesDetailsComponent } from './series/details';
+import formatTime from '../../format-time';
+import { DhChargesIntervalField } from '../interval-field';
+import { DhChargeSeriesDetailsComponent } from './details';
 
 @Component({
   selector: 'dh-prices',
@@ -82,7 +90,10 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
     >
       <watt-data-filters>
         <vater-stack direction="row" align="baseline" gap="xl">
-          <dh-charges-interval-field [resolution]="resolution()" (intervalChange)="fetch($event)" />
+          <dh-charges-interval-field
+            [resolution]="resolution()"
+            (intervalChange)="query.refetch({ interval: $event })"
+          />
           <watt-slide-toggle [(checked)]="showHistory">
             {{ t('showHistory') }}
           </watt-slide-toggle>
@@ -96,8 +107,8 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
       </watt-data-actions>
 
       <watt-table
-        *transloco="let t; prefix: 'charges.series.columns'"
-        [resolveHeader]="t"
+        *transloco="let resolveHeader; prefix: 'charges.series.columns'"
+        [resolveHeader]="resolveHeader"
         [columns]="columns"
         [dataSource]="dataSource"
         [loading]="query.loading()"
@@ -107,11 +118,18 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
         [activeRow]="activeRow()"
         [stickyFooter]="true"
       >
-        <ng-container *wattTableCell="columns.date; header: t(resolution()); let _; let i = index">
+        <ng-container
+          *wattTableCell="
+            columns.date;
+            header: t('resolution.' + resolution());
+            let _;
+            let i = index
+          "
+        >
           {{ formatTime(i) }}
         </ng-container>
         <ng-container *wattTableCell="columns.price; let series">
-          {{ getCurrentPrice(series) | number: '1.6-6' }}
+          {{ series.currentPoint?.price | number: '1.6-6' }}
         </ng-container>
         <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
           @if (series.hasChanged) {
@@ -135,10 +153,11 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
         </ng-container>
       </watt-table>
     </watt-data-table>
-    <dh-charge-series-details #details (closed)="activeRow.set(undefined)" />
+    <dh-charge-series-details #details (closed)="activeRow.set(undefined)" [date]="date()" />
   `,
 })
 export class DhChargeSeriesPage {
+  private readonly transloco = inject(TranslocoService);
   private series = computed(() => this.query.data()?.chargeById?.series ?? []);
   private generateCSV = GenerateCSV.fromSignalArray(this.series);
 
@@ -154,6 +173,7 @@ export class DhChargeSeriesPage {
 
   showHistory = signal(false);
   charge = computed(() => this.query.data()?.chargeById);
+  date = computed(() => this.query.variables().interval?.start);
   dataSource = new WattTableDataSource<ChargeSeries>();
 
   columns: WattTableColumnDef<ChargeSeries> = {
@@ -166,7 +186,7 @@ export class DhChargeSeriesPage {
     },
     hasChanged: {
       accessor: 'hasChanged',
-      // tooltip: 'What', // TODO: Fix
+      tooltip: this.transloco.translate('charges.series.columns.tooltip'),
       size: 'min-content',
       align: 'center',
       sort: false,
@@ -180,24 +200,12 @@ export class DhChargeSeriesPage {
 
   isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
 
-  formatTime = (index: number) =>
-    formatTime(index, this.resolution(), this.query.variables().interval?.start);
-
-  getCurrentPrice(series: ChargeSeries): number | undefined {
-    return series.points.find((point) => point.isCurrent)?.price;
-  }
+  formatTime = (index: number) => formatTime(index, this.resolution(), this.date());
 
   constructor() {
     effect(() => {
       this.dataSource.data = this.series();
     });
-  }
-
-  fetch(interval: WattRange<Date> | null | undefined) {
-    if (!interval) return;
-    const { start, end } = interval;
-    if (!start || !end) return;
-    this.query.refetch({ interval: { start, end } });
   }
 
   download() {
