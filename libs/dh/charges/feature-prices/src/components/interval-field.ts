@@ -55,7 +55,6 @@ export class DhChargesIntervalField {
   });
 
   private value = dhFormToSignal(this.form, true);
-
   private interval = computed<WattRange<Date>>(() => {
     const value = this.value();
     switch (this.resolution()) {

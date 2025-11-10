@@ -19,10 +19,9 @@
 import { Component, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet/watt/date';
 import { VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattDataTableComponent } from '@energinet/watt/data';
-
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattDatePipe } from '@energinet/watt/date';
 import {
   WattTableColumnDef,
   WattTableComponent,
@@ -30,60 +29,48 @@ import {
   WattTableCellDirective,
 } from '@energinet/watt/table';
 
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+
 @Component({
   selector: 'dh-price-information-history',
   imports: [
     TranslocoDirective,
     VaterUtilityDirective,
-
+    WATT_CARD,
     WattDatePipe,
     WattTableComponent,
-    WattDataTableComponent,
     WattTableCellDirective,
+    DhResultComponent,
   ],
   template: `
     <div vater inset="ml">
-      <watt-data-table
-        vater
-        variant="solid"
-        *transloco="let t; prefix: 'charges.charge.priceInformation.history'"
-        [enableSearch]="false"
-        [enablePaginator]="false"
-        [enableCount]="false"
-        [autoSize]="true"
-        [header]="false"
-        [error]="hasError()"
-        [ready]="ready()"
-      >
-        <watt-table
-          [columns]="columns"
-          [dataSource]="dataSource"
-          sortBy="timestamp"
-          [loading]="isLoading()"
-          sortDirection="desc"
-          [hideColumnHeaders]="true"
-          [sortClear]="false"
-        >
-          <ng-container
-            *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
+      <watt-card variant="solid" *transloco="let t; prefix: 'charges.priceInformation.history'">
+        <dh-result [hasError]="hasError()" [loading]="isLoading()">
+          <watt-table
+            *transloco="let resolveHeader; prefix: 'charges.priceInformation.history.table.columns'"
+            [columns]="columns"
+            [dataSource]="dataSource"
+            [hideColumnHeaders]="true"
+            [resolveHeader]="resolveHeader"
+            [sortClear]="false"
+            sortBy="timestamp"
+            sortDirection="desc"
           >
-            {{ element.timestamp | wattDate: 'long' }}
-          </ng-container>
-
-          <ng-container
-            *wattTableCell="columns.entry; header: t('table.columns.entry'); let element"
-          >
-            <span [innerHTML]="t('auditLogs.' + element.entry, element)"> </span>
-          </ng-container>
-        </watt-table>
-      </watt-data-table>
+            <ng-container *wattTableCell="columns.timestamp; let element">
+              {{ element.timestamp | wattDate: 'long' }}
+            </ng-container>
+            <ng-container *wattTableCell="columns.entry; let element">
+              <span [innerHTML]="t('auditLogs.' + element.entry, element)"> </span>
+            </ng-container>
+          </watt-table>
+        </dh-result>
+      </watt-card>
     </div>
   `,
 })
 export class DhPriceInformationHistory {
   hasError = signal(false);
-  isLoading = signal(true);
-  ready = signal(false);
+  isLoading = signal(false);
   dataSource = new WattTableDataSource<{ timestamp: string; entry: string }>([
     {
       timestamp: '2024-01-01T12:00:00Z',
