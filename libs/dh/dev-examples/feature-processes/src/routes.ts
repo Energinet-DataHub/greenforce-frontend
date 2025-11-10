@@ -38,17 +38,15 @@ export const devExampleProcessesRoutes: Routes = [
     },
     canActivate: [PermissionGuard(['fas'])],
     path: getPath<DevExamplesSubPaths>('processes'),
-    loadComponent: () => import('./components/table.component').then((m) => m.DhProcessesComponent),
+    loadComponent: () => import('./components/table').then((m) => m.DhProcesses),
     children: [
       {
         path: detailsPath,
-        loadComponent: () =>
-          import('./components/details.component').then((m) => m.DhProcessDetailsComponent),
+        loadComponent: () => import('./components/details').then((m) => m.DhProcessDetails),
         children: [
           {
             path: editPath,
-            loadComponent: () =>
-              import('./components/edit.component').then((m) => m.DhEditProcessComponent),
+            loadComponent: () => import('./components/edit').then((m) => m.DhEditProcess),
           },
         ],
       },

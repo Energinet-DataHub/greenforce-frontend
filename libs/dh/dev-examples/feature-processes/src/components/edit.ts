@@ -68,7 +68,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
     </watt-modal>
   `,
 })
-export class DhEditProcessComponent {
+export class DhEditProcess {
   transloco = inject(TranslocoService);
   fb = inject(NonNullableFormBuilder);
   toast = inject(WattToastService);
