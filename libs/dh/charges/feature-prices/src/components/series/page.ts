@@ -50,9 +50,9 @@ import {
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 
-import formatTime from '../format-time';
-import { DhChargesIntervalField } from './interval-field';
-import { DhChargeSeriesDetailsComponent } from './series/details';
+import formatTime from '../../format-time';
+import { DhChargesIntervalField } from '../interval-field';
+import { DhChargeSeriesDetailsComponent } from './details';
 
 @Component({
   selector: 'dh-prices',
