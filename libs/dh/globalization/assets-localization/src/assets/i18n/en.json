@@ -460,7 +460,8 @@
         "daily": "Date",
         "monthly": "Month",
         "unknown": "Sequence",
-        "price": "Current price"
+        "price": "Current price",
+        "tooltip": "● Has changed values"
       },
       "details": {
         "current": "Current",

@@ -17,9 +17,17 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import { input, signal, effect, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  input,
+  signal,
+  effect,
+  computed,
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+} from '@angular/core';
 
-import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
@@ -139,6 +147,7 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
   `,
 })
 export class DhChargeSeriesPage {
+  private readonly transloco = inject(TranslocoService);
   private series = computed(() => this.query.data()?.chargeById?.series ?? []);
   private generateCSV = GenerateCSV.fromSignalArray(this.series);
 
@@ -166,7 +175,7 @@ export class DhChargeSeriesPage {
     },
     hasChanged: {
       accessor: 'hasChanged',
-      // tooltip: 'What', // TODO: Fix
+      tooltip: this.transloco.translate('charges.series.columns.tooltip'),
       size: 'min-content',
       align: 'center',
       sort: false,

@@ -461,7 +461,8 @@
         "daily": "Dato",
         "monthly": "Måned",
         "unknown": "Sekvens",
-        "price": "Aktuel pris"
+        "price": "Aktuel pris",
+        "tooltip": "● Har ændrede værdier"
       },
       "details": {
         "current": "Aktuel",
