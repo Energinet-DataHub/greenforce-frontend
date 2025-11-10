@@ -37,6 +37,7 @@ import {
   WattDataActionsComponent,
 } from '@energinet/watt/data';
 
+import { dayjs } from '@energinet/watt/core/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
@@ -213,23 +214,55 @@ export class DhChargeSeriesPage {
     this.generateCSV
       .addHeaders([
         `"${translate(basePath + '.owner')}"`,
+        `"${translate(basePath + '.gln')}"`,
         `"${translate(basePath + '.type')}"`,
         `"${translate(basePath + '.id')}"`,
         `"${translate(basePath + '.resolution')}"`,
         `"${translate(basePath + '.from')}"`,
         `"${translate(basePath + '.to')}"`,
       ])
-      .mapLines((series) =>
-        series.map((x) => [
-          `"${this.charge()?.owner}"`,
-          `"${translate('charges.chargeTypes.' + this.charge()?.chargeType)}"`,
-          `"${this.charge()?.id}"`,
-          `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
-          `"${x.currentPoint?.fromDateTime.toISOString()}"`,
-          `"${x.currentPoint?.toDateTime.toISOString()}"`,
-          `"${x.currentPoint?.price.toPrecision(6)}"`,
-        ])
-      )
+      .mapLines((series) => {
+        return series.map((x, i) => {
+          const timeRange = this.formatTimeCsv(
+            i,
+            this.charge()?.resolution,
+            this.query.variables().interval?.start
+          );
+          return [
+            `"${this.charge()?.owner?.name}"`,
+            `"${this.charge()?.owner?.glnOrEicNumber}"`,
+            `"${translate('charges.chargeTypes.' + this.charge()?.chargeType)}"`,
+            `"${this.charge()?.id}"`,
+            `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
+            `"${dayjs(timeRange.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
+            `"${dayjs(timeRange.end).subtract(1, 'millisecond').format('YYYY-MM-DDTHH:mm:ss')}"`,
+            `"${x.currentPoint?.price.toFixed(6)}"`,
+          ];
+        });
+      })
       .generate('charges.series.csv.fileName');
   }
+
+  formatTimeCsv = (
+    index: number,
+    resolution: ChargeResolution | undefined,
+    intervalStart: Date | undefined
+  ) => {
+    const date = dayjs(intervalStart);
+    switch (resolution) {
+      case 'quarterhourly':
+        return {
+          start: date.add(index * 15, 'minutes'),
+          end: date.add((index + 1) * 15, 'minutes'),
+        };
+      case 'hourly':
+        return { start: date.add(index, 'hour'), end: date.add(index + 1, 'hour') };
+      case 'daily':
+        return { start: date.date(index + 1), end: date.date(index + 2) };
+      case 'monthly':
+        return { start: date.month(index), end: date.month(index + 1) };
+      default:
+        return { start: date, end: date };
+    }
+  };
 }
