@@ -649,6 +649,12 @@
         "includeViews": "Include views",
         "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
       },
+      "actions": {
+        "SEND_INFORMATION": "Send information",
+        "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information",
+        "CANCEL_WORKFLOW": "Cancel workflow",
+        "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
+      },
       "steps": {
         "REQUEST_END_OF_SUPPLY": "Request end of supply (BRS-005)"
       },

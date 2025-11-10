@@ -650,6 +650,12 @@
         "includeViews": "Inkluder visninger",
         "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
       },
+      "actions": {
+        "SEND_INFORMATION": "Send information",
+        "FAS_SEND_INFORMATION": "Net og el kan sende information",
+        "CANCEL_WORKFLOW": "Annuller workflow",
+        "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
+      },
       "steps": {
         "REQUEST_END_OF_SUPPLY": "Anmod om leveranceophør (BRS-005)"
       },

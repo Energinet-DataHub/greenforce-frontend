@@ -63,7 +63,10 @@ import { WattDatePipe } from '@energinet/watt/date';
             [value]="cutoffDate() | wattDate: 'long'"
           />
           <watt-description-list-item [label]="t('reasonCode')" [value]="reasonCode()" />
-          <watt-description-list-item [label]="t('initiator')" [value]="initiator()" />
+          <watt-description-list-item
+            [label]="t('initiator')"
+            [value]="initiator() | dhEmDashFallback"
+          />
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-content>
