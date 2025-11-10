@@ -37,7 +37,7 @@ import {
   WattDataActionsComponent,
 } from '@energinet/watt/data';
 
-import { dayjs, WattRange } from '@energinet/watt/core/date';
+import { dayjs } from '@energinet/watt/core/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
