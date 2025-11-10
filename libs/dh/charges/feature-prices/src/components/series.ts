@@ -37,7 +37,6 @@ import {
   WattDataActionsComponent,
 } from '@energinet/watt/data';
 
-import { WattRange } from '@energinet/watt/core/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
@@ -90,7 +89,10 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
     >
       <watt-data-filters>
         <vater-stack direction="row" align="baseline" gap="xl">
-          <dh-charges-interval-field [resolution]="resolution()" (intervalChange)="fetch($event)" />
+          <dh-charges-interval-field
+            [resolution]="resolution()"
+            (intervalChange)="query.refetch({ interval: $event })"
+          />
           <watt-slide-toggle [(checked)]="showHistory">
             {{ t('showHistory') }}
           </watt-slide-toggle>
@@ -104,8 +106,8 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
       </watt-data-actions>
 
       <watt-table
-        *transloco="let t; prefix: 'charges.series.columns'"
-        [resolveHeader]="t"
+        *transloco="let resolveHeader; prefix: 'charges.series.columns'"
+        [resolveHeader]="resolveHeader"
         [columns]="columns"
         [dataSource]="dataSource"
         [loading]="query.loading()"
@@ -115,11 +117,18 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
         [activeRow]="activeRow()"
         [stickyFooter]="true"
       >
-        <ng-container *wattTableCell="columns.date; header: t(resolution()); let _; let i = index">
+        <ng-container
+          *wattTableCell="
+            columns.date;
+            header: t('resolution.' + resolution());
+            let _;
+            let i = index
+          "
+        >
           {{ formatTime(i) }}
         </ng-container>
         <ng-container *wattTableCell="columns.price; let series">
-          {{ getCurrentPrice(series) | number: '1.6-6' }}
+          {{ series.currentPoint?.price | number: '1.6-6' }}
         </ng-container>
         <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
           @if (series.hasChanged) {
@@ -143,7 +152,7 @@ import { DhChargeSeriesDetailsComponent } from './series/details';
         </ng-container>
       </watt-table>
     </watt-data-table>
-    <dh-charge-series-details #details (closed)="activeRow.set(undefined)" />
+    <dh-charge-series-details #details (closed)="activeRow.set(undefined)" [date]="date()" />
   `,
 })
 export class DhChargeSeriesPage {
@@ -163,6 +172,7 @@ export class DhChargeSeriesPage {
 
   showHistory = signal(false);
   charge = computed(() => this.query.data()?.chargeById);
+  date = computed(() => this.query.variables().interval?.start);
   dataSource = new WattTableDataSource<ChargeSeries>();
 
   columns: WattTableColumnDef<ChargeSeries> = {
@@ -189,24 +199,12 @@ export class DhChargeSeriesPage {
 
   isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
 
-  formatTime = (index: number) =>
-    formatTime(index, this.resolution(), this.query.variables().interval?.start);
-
-  getCurrentPrice(series: ChargeSeries): number | undefined {
-    return series.points.find((point) => point.isCurrent)?.price;
-  }
+  formatTime = (index: number) => formatTime(index, this.resolution(), this.date());
 
   constructor() {
     effect(() => {
       this.dataSource.data = this.series();
     });
-  }
-
-  fetch(interval: WattRange<Date> | null | undefined) {
-    if (!interval) return;
-    const { start, end } = interval;
-    if (!start || !end) return;
-    this.query.refetch({ interval: { start, end } });
   }
 
   download() {
