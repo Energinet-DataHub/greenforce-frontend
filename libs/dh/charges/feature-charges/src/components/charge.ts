@@ -111,7 +111,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
               }
             </watt-description-list-item>
             <watt-description-list-item [label]="t('owner')">
-              {{ charge()?.owner | dhEmDashFallback }}
+              {{ charge()?.owner?.displayName | dhEmDashFallback }}
             </watt-description-list-item>
             <watt-description-list-item [label]="t('resolution')">
               @let resolution = charge()?.resolution;

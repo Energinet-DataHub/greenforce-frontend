@@ -477,6 +477,7 @@
         "fileName": "DataHub priser - {{ shared.downloadNameParams }}",
         "columns": {
           "owner": "Ejer",
+          "gln": "GLN",
           "type": "Type",
           "id": "Id",
           "resolution": "Tidsopløsning",

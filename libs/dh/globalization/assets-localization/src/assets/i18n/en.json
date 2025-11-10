@@ -476,6 +476,7 @@
         "fileName": "DataHub prices - {{ shared.downloadNameParams }}",
         "columns": {
           "owner": "Owner",
+          "gln": "GLN",
           "type": "Type",
           "id": "ID",
           "resolution": "Resolution",
