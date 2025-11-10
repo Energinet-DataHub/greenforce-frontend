@@ -844,6 +844,15 @@
       },
       "success": "Move-in is now registered",
       "save": "Customer move-in"
+    },
+    "create": {
+      "modal": {
+        "title": "Select type of metering point to create",
+        "label": "Metering point type",
+        "placeholder": "Input or select",
+        "cancel": "Cancel",
+        "start": "Start"
+      }
     }
   },
   "messageArchive": {
