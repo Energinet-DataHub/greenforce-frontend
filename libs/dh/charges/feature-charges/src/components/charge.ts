@@ -35,8 +35,8 @@ import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graph
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
-import { DhChargeStatusComponent } from './status.component';
-import { DhChargeActionsComponent } from './charge-actions.component';
+import { DhChargeStatus } from './status';
+import { DhChargeActions } from './charge-actions';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
 @Component({
@@ -77,8 +77,8 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     WATT_BREADCRUMBS,
     WATT_DESCRIPTION_LIST,
     DhEmDashFallbackPipe,
-    DhChargeStatusComponent,
-    DhChargeActionsComponent,
+    DhChargeStatus,
+    DhChargeActions,
     DhToolbarPortalComponent,
   ],
   template: `
@@ -139,7 +139,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
       <div class="page-tabs" *transloco="let t; prefix: 'charges.charge.tabs'">
         <watt-link-tabs vater inset="0">
-          <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices')" />
+          <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices', resolution())" />
           <watt-link-tab [label]="t('informationLabel')" [link]="getLink('information')" />
           <watt-link-tab [label]="t('historyLabel')" [link]="getLink('history')" />
         </watt-link-tabs>
@@ -148,15 +148,15 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhChargeComponent {
+export class DhCharge {
   private readonly router = inject(Router);
+  readonly id = input.required<string>();
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.chargeById);
-  id = input.required<string>();
-  getLink = (path: ChargesSubPaths) => getPath(path);
+  resolution = computed(() => this.charge()?.resolution ?? 'unknown');
+  getLink = (path: ChargesSubPaths, ...paths: string[]) => [getPath(path), ...paths].join('/');
 
   breadcrumbLabel = translateSignal('charges.charge.breadcrumb');
-
   breadcrumbs = computed(() => [
     {
       label: this.breadcrumbLabel(),

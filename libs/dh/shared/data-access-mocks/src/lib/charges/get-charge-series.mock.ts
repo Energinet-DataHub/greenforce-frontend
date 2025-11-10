@@ -19,12 +19,7 @@
 import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
-import {
-  charges,
-  chargeSeriesDayResolution,
-  chargeSeriesHourlyResolution,
-  chargeSeriesMonthlyResolution,
-} from './data';
+import { charges } from './data';
 import { mockGetChargeSeriesQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 export function getChargeSeries() {
@@ -32,24 +27,11 @@ export function getChargeSeries() {
     await delay(mswConfig.delay);
 
     const chargeInformation = charges.find((c) => c.id === chargeId);
-    let chargeSeries = null;
-
-    switch (chargeInformation?.resolution) {
-      case 'Hourly':
-        chargeSeries = chargeSeriesHourlyResolution;
-        break;
-      case 'Daily':
-        chargeSeries = chargeSeriesDayResolution;
-        break;
-      case 'Monthly':
-        chargeSeries = chargeSeriesMonthlyResolution;
-        break;
-    }
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        chargeSeries: chargeSeries ?? [],
+        chargeById: chargeInformation,
       },
     });
   });

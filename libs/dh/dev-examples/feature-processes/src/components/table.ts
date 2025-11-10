@@ -31,7 +31,7 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 import { Process } from '../types';
-import { DhProcessesFiltersComponent } from './filters.component';
+import { DhProcessesFilters } from './filters';
 import { GetProcessesQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
 
 type Variables = Partial<GetProcessesQueryVariables>;
@@ -51,7 +51,7 @@ type Variables = Partial<GetProcessesQueryVariables>;
     VaterUtilityDirective,
 
     DhProcessStateBadge,
-    DhProcessesFiltersComponent,
+    DhProcessesFilters,
   ],
   providers: [DhNavigationService],
   template: `
@@ -97,7 +97,7 @@ type Variables = Partial<GetProcessesQueryVariables>;
     <router-outlet />
   `,
 })
-export class DhProcessesComponent {
+export class DhProcesses {
   navigation = inject(DhNavigationService);
 
   columns: WattTableColumnDef<Process> = {

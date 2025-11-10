@@ -29,11 +29,11 @@ export const chargeRoutes: Routes = [
     path: '',
     pathMatch: 'full',
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
-    loadComponent: () => import('./components/charges.component').then((m) => m.DhChargesComponent),
+    loadComponent: () => import('./components/charges').then((m) => m.DhCharges),
   },
   {
     path: ':id',
-    loadComponent: () => import('./components/charge.component').then((m) => m.DhChargeComponent),
+    loadComponent: () => import('./components/charge').then((m) => m.DhCharge),
     loadChildren: () => import('@energinet-datahub/dh/charges/feature-prices'),
   },
 ];
