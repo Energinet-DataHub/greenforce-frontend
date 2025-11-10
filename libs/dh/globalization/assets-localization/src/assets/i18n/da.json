@@ -454,6 +454,7 @@
       }
     },
     "series": {
+      "showHistory": "Vis historik",
       "columns": {
         "QuarterHourly": "Tidspunkt",
         "Hourly": "Tidspunkt",
