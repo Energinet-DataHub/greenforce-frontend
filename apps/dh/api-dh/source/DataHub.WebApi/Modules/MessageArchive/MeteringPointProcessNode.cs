@@ -33,7 +33,7 @@ public static partial class MeteringPointProcessNode
 {
     [Query]
     [UsePaging]
-    [UseSorting]
+    [UseSorting(typeof(MeteringPointProcessSortType))]
     public static async Task<IEnumerable<MeteringPointProcess>> GetMeteringPointProcessOverviewAsync(
         string meteringPointId,
         Interval created,
@@ -81,7 +81,9 @@ public static partial class MeteringPointProcessNode
         [Parent] MeteringPointProcess process)
     {
         if (process.WorkflowSteps is null or { Count: 0 })
+        {
             return [];
+        }
 
         return process.WorkflowSteps.Select(step => new MeteringPointProcessStep(
             Id: step.Id.Value.ToString(),
@@ -96,10 +98,12 @@ public static partial class MeteringPointProcessNode
     }
 
     public static IEnumerable<WorkflowAction> GetAvailableActions(
-        [Parent] MeteringPointProcess process) =>
+        [Parent] MeteringPointProcess process)
+    {
         // Return the action from the workflow instance as an array
         // Filter out NoAction to return an empty array when there are no actions
-        process.Action is null or WorkflowAction.NoAction ? [] : [process.Action.Value];
+        return process.Action is null or WorkflowAction.NoAction ? [] : [process.Action.Value];
+    }
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
     {
@@ -112,7 +116,7 @@ public static partial class MeteringPointProcessNode
         descriptor.Field(f => f.CutoffDate);
         descriptor.Field(f => f.State);
         descriptor.Field("availableActions")
-            .Type<ListType<EnumType<WorkflowAction>>>()
+            .Type<ListType<NonNullType<EnumType<WorkflowAction>>>>()
             .Resolve(ctx => GetAvailableActions(ctx.Parent<MeteringPointProcess>()));
     }
 
