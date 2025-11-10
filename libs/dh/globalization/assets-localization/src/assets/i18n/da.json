@@ -372,11 +372,11 @@
       "TARIFF": "Tarif"
     },
     "resolutions": {
-      "Daily": "Daglig",
-      "QuarterHourly": "Kvartalsvis",
-      "Hourly": "Timevis",
-      "Monthly": "Månedlig",
-      "Unknown": "Ukendt"
+      "daily": "Daglig",
+      "quarterHourly": "Kvartalsvis",
+      "hourly": "Timevis",
+      "monthly": "Månedlig",
+      "unknown": "Ukendt"
     },
     "vatClassifications": {
       "NO_VAT": "Uden moms",
@@ -456,11 +456,11 @@
     "series": {
       "showHistory": "Vis historik",
       "columns": {
-        "QuarterHourly": "Tidspunkt",
-        "Hourly": "Tidspunkt",
-        "Daily": "Dato",
-        "Monthly": "Måned",
-        "Unknown": "Sekvens",
+        "quarterhourly": "Tidspunkt",
+        "hourly": "Tidspunkt",
+        "daily": "Dato",
+        "monthly": "Måned",
+        "unknown": "Sekvens",
         "price": "Aktuel pris"
       },
       "details": {
@@ -472,6 +472,17 @@
         },
         "copyMessage": "Kopier besked-ID",
         "navigateToMessage": "Gå til besked"
+      },
+      "csv": {
+        "fileName": "DataHub priser - {{ shared.downloadNameParams }}",
+        "columns": {
+          "owner": "Ejer",
+          "type": "Type",
+          "id": "Id",
+          "resolution": "Tidsopløsning",
+          "from": "Fra",
+          "to": "Til"
+        }
       }
     }
   },

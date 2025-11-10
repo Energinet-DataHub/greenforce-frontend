@@ -28,10 +28,10 @@ import {
 
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 
-import { DhProcessesComponent } from '../src/components/table.component';
+import { DhProcesses } from '../src/components/table';
 
 async function setup() {
-  await render(DhProcessesComponent, {
+  await render(DhProcesses, {
     providers: [
       provideHttpClient(withInterceptorsFromDi()),
       graphQLProvider,
@@ -42,7 +42,7 @@ async function setup() {
   });
 }
 
-describe(DhProcessesComponent, () => {
+describe(DhProcesses, () => {
   it('should show filter chips', async () => {
     await setup();
     ['Calculation type', 'Calculation period', 'Execution type', 'Grid areas', 'Status']

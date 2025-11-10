@@ -66,6 +66,6 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
     </ng-container>
   `,
 })
-export class DhChargeStatusComponent {
+export class DhChargeStatus {
   status = input.required<ChargeStatus>();
 }

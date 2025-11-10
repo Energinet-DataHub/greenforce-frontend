@@ -103,7 +103,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
     </form>
   `,
 })
-export class DhChargesFiltersComponent {
+export class DhChargesFilters {
   private readonly actorStorage = inject(DhActorStorage);
   private readonly marketRole = this.actorStorage.getSelectedActor().marketRole;
   private readonly moreOptionsTranslations = translateObjectSignal(

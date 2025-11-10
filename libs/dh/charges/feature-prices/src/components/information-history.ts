@@ -80,7 +80,7 @@ import {
     </div>
   `,
 })
-export class DhPriceInformationHistoryComponent {
+export class DhPriceInformationHistory {
   hasError = signal(false);
   isLoading = signal(true);
   ready = signal(false);

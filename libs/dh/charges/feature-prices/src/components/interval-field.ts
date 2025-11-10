@@ -16,15 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { outputFromObservable, toObservable } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhFormToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { dayjs } from '@energinet/watt/date';
-import { WattDatepickerComponent, danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
+import { outputFromObservable, toObservable } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+
+import { dayjs, WattRange } from '@energinet/watt/date';
 import { WattYearField, YEAR_FORMAT } from '@energinet/watt/year-field';
 import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet/watt/yearmonth-field';
+import { WattDatepickerComponent, danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
+
+import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
+import { dhFormToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-charges-interval-field',
@@ -32,10 +34,10 @@ import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet/watt/yearmonth-
   imports: [ReactiveFormsModule, WattDatepickerComponent, WattYearField, WattYearMonthField],
   template: `
     @switch (resolution()) {
-      @case ('Daily') {
+      @case ('daily') {
         <watt-yearmonth-field [formControl]="form.controls.yearMonth" />
       }
-      @case ('Monthly') {
+      @case ('monthly') {
         <watt-year-field [formControl]="form.controls.year" />
       }
       @default {
@@ -44,7 +46,6 @@ import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet/watt/yearmonth-
     }
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhChargesIntervalField {
   readonly resolution = input.required<ChargeResolution>();
   protected form = new FormGroup({
@@ -54,20 +55,21 @@ export class DhChargesIntervalField {
   });
 
   private value = dhFormToSignal(this.form, true);
-  private interval = computed(() => {
+
+  private interval = computed<WattRange<Date>>(() => {
     const value = this.value();
     switch (this.resolution()) {
-      case 'Daily': {
+      case 'daily': {
         const date = dayjs.tz(value.yearMonth, YEARMONTH_FORMAT, danishTimeZoneIdentifier);
         return { start: date.toDate(), end: date.endOf('month').toDate() };
       }
-      case 'Monthly': {
+      case 'monthly': {
         const date = dayjs.tz(value.year, YEAR_FORMAT, danishTimeZoneIdentifier);
         return { start: date.toDate(), end: date.endOf('year').toDate() };
       }
       default: {
         const date = dayjs(value.date);
-        return { start: date.toDate(), end: date.endOf('day').toDate() };
+        return { start: date.startOf('day').toDate(), end: date.endOf('day').toDate() };
       }
     }
   });
