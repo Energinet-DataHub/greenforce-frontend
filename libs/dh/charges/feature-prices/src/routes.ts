@@ -25,7 +25,7 @@ export const chargeSeriesRoutes: Routes = [
   {
     path: `${getPath<ChargesSubPaths>('prices')}/:resolution`,
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
-    loadComponent: () => import('./components/series').then((m) => m.DhChargeSeriesPage),
+    loadComponent: () => import('./components/series/page').then((m) => m.DhChargeSeriesPage),
   },
   {
     path: getPath<ChargesSubPaths>('information'),

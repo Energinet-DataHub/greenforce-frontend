@@ -454,17 +454,19 @@
     },
     "series": {
       "showHistory": "Show history",
-      "columns": {
+      "resolution": {
         "quarterhourly": "Time",
         "hourly": "Time",
         "daily": "Date",
         "monthly": "Month",
-        "unknown": "Sequence",
-        "price": "Current price"
+        "unknown": "Sequence"
+      },
+      "columns": {
+        "price": "Current price",
+        "tooltip": "● Has changed values"
       },
       "details": {
         "current": "Current",
-        "time": "Time",
         "columns": {
           "price": "Price",
           "time": "Submitted"
