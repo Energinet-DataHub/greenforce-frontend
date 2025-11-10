@@ -66,10 +66,10 @@ import formatTime from '../../format-time';
         <watt-description-list variant="inline-flow">
           <watt-description-list-item [label]="t('time')">
             @switch (resolution()) {
-              @case ('Daily') {
+              @case ('daily') {
                 {{ currentPoint()?.fromDateTime | wattDate }}
               }
-              @case ('Monthly') {
+              @case ('monthly') {
                 {{ currentPoint()?.fromDateTime | wattDate: 'monthYear' }}
               }
               @default {
@@ -120,7 +120,7 @@ export class DhChargeSeriesDetailsComponent {
 
   protected charge = signal<Charge | null>(null);
   protected currentPoint = computed(() => this.series()?.currentPoint);
-  protected resolution = signal<ChargeResolution>('Unknown');
+  protected resolution = signal<ChargeResolution>('unknown');
   protected index = signal<number>(0);
   protected dataSource = new WattTableDataSource<ChargeSeriesPoint>();
 

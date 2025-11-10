@@ -23,22 +23,19 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 
 export const chargeSeriesRoutes: Routes = [
   {
-    path: getPath<ChargesSubPaths>('prices'),
+    path: `${getPath<ChargesSubPaths>('prices')}/:resolution`,
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
     loadComponent: () => import('./components/series').then((m) => m.DhChargeSeriesPage),
   },
   {
     path: getPath<ChargesSubPaths>('information'),
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
-    loadComponent: () =>
-      import('./components/information.component').then((m) => m.DhPriceInformationComponent),
+    loadComponent: () => import('./components/information').then((m) => m.DhPriceInformation),
   },
   {
     path: getPath<ChargesSubPaths>('history'),
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
     loadComponent: () =>
-      import('./components/information-history.component').then(
-        (m) => m.DhPriceInformationHistoryComponent
-      ),
+      import('./components/information-history').then((m) => m.DhPriceInformationHistory),
   },
 ];
