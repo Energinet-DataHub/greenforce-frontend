@@ -97,7 +97,7 @@ export class DhCharges {
     type: { accessor: 'chargeType', sort: false },
     code: { accessor: 'code', sort: false },
     name: { accessor: 'name', sort: false },
-    owner: { accessor: 'owner', sort: false },
+    owner: { accessor: (charge) => charge.owner?.displayName, sort: false },
     status: { accessor: 'status', sort: false },
   };
 
