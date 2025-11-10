@@ -1124,7 +1124,7 @@
         "tags": [
           "AdditionalRecipients"
         ],
-        "operationId": "additional-recipients",
+        "operationId": "additional-recipientsPOST",
         "parameters": [
           {
             "name": "actorId",
@@ -1166,6 +1166,63 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/MeteringPointDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AdditionalRecipients"
+        ],
+        "operationId": "additional-recipientsDELETE",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
                 }
               }
             }
