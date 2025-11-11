@@ -17,22 +17,16 @@
  */
 //#endregion
 import { Routes } from '@angular/router';
-import { MeteringPointSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 
 export const meteringPointPricesRoutes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: getPath<MeteringPointSubPaths>('prices'),
-  },
-  {
     canActivate: [
       PermissionGuard(['metering-point:prices']),
       dhReleaseToggleGuard('PM58-PRICES-UI'),
     ],
-    path: getPath<MeteringPointSubPaths>('prices'),
+    path: '',
     loadComponent: () => import('./components/prices').then((m) => m.DhMeteringPointPrices),
     // children: [
     //   {
