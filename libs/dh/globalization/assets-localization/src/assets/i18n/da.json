@@ -506,6 +506,9 @@
       "processes": {
         "tabLabel": "Procesoverblik"
       },
+      "prices": {
+        "tabLabel": "Priser"
+      },
       "messages": {
         "tabLabel": "Beskeder"
       },

@@ -505,6 +505,9 @@
       "processes": {
         "tabLabel": "Processes"
       },
+      "prices": {
+        "tabLabel": "Prices"
+      },
       "messages": {
         "tabLabel": "Messages"
       },
