@@ -102,6 +102,10 @@ export const dhMeteringPointRoutes: Routes = [
               import('@energinet-datahub/dh/metering-point/feature-process-overview'),
           },
           {
+            path: getPath<MeteringPointSubPaths>('prices'),
+            loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-prices'),
+          },
+          {
             path: getPath<MeteringPointSubPaths>('messages'),
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
