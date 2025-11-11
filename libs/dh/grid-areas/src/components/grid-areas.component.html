@@ -21,9 +21,8 @@ limitations under the License.
   [searchLabel]="t('searchLabel')"
   [error]="dataSource.error"
   [ready]="dataSource.called"
+  [enableCount]="false"
 >
-  <h3>{{ t("topBarTitle") }}</h3>
-
   <watt-data-filters>
     <vater-stack direction="row" gap="m" align="start">
       <watt-dropdown
@@ -50,7 +49,7 @@ limitations under the License.
   </watt-data-filters>
 
   <watt-data-actions>
-    <watt-button icon="download" variant="text" (click)="download()">{{
+    <watt-button icon="download" variant="secondary" (click)="download()">{{
       "shared.download" | transloco
     }}</watt-button>
   </watt-data-actions>

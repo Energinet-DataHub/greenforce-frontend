@@ -36,7 +36,7 @@ type Variables = Partial<GetUserRolesForCsvQueryVariables>;
 @Component({
   selector: 'dh-user-roles-download',
   imports: [WattButtonComponent, TranslocoPipe],
-  template: ` <watt-button icon="download" variant="text" (click)="download()">{{
+  template: ` <watt-button icon="download" variant="secondary" (click)="download()">{{
     'shared.download' | transloco
   }}</watt-button>`,
 })
