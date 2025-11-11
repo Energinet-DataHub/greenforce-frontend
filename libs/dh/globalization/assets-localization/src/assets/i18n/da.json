@@ -1253,6 +1253,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "actionsButton": "Handlinger",
       "fileName": "DataHub aktører - {{ shared.downloadNameParams }}",
       "create": "Ny aktør",
       "actors": "Aktører",

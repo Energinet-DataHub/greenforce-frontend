@@ -159,6 +159,41 @@ export const mockedGridAreas: GridAreaDto[] = [
 
 const mockedCalculations: WholesaleAndEnergyCalculation[] = [
   {
+    id: '29ff3b82-978f-4587-b5ad-30b84acf5680',
+    state: 'scheduled',
+    createdBy: {
+      auditIdentityId,
+      displayName: fakeUserEmail,
+      __typename: 'AuditIdentityDto',
+    },
+    startedAt: null,
+    createdAt,
+    scheduledAt: periodStart,
+    terminatedAt: null,
+    calculationType: CalculationTypeQueryParameterV1.Aggregation,
+    executionType: CalculationExecutionType.External,
+    steps: [
+      {
+        isCurrent: true,
+        state: ProcessState.Pending,
+        __typename: 'OrchestrationInstanceStep',
+      },
+      {
+        isCurrent: false,
+        state: ProcessState.Pending,
+        __typename: 'OrchestrationInstanceStep',
+      },
+      {
+        isCurrent: false,
+        state: ProcessState.Pending,
+        __typename: 'OrchestrationInstanceStep',
+      },
+    ],
+    period: { start: periodStart, end: periodEnd },
+    gridAreas: mockedGridAreas,
+    __typename: 'WholesaleAndEnergyCalculation',
+  },
+  {
     __typename: 'WholesaleAndEnergyCalculation',
     id: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
     period: { start: periodStart, end: periodEnd },

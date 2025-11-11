@@ -38,7 +38,11 @@ import { MeteringPointDetails } from '../types';
     @use '@energinet/watt/utils' as watt;
 
     :host {
+      width: 100%;
       display: block;
+    }
+    .highlights-container {
+      padding: var(--watt-space-ml) var(--watt-space-ml) 0;
     }
 
     .watt-chip-label__custom {
@@ -52,62 +56,65 @@ import { MeteringPointDetails } from '../types';
     }
   `,
   template: `
-    <div
-      *transloco="let t; prefix: 'meteringPoint.overview.highlights'"
-      vater-stack
-      wrap
-      direction="row"
-      gap="s"
-    >
-      <ng-container *dhPermissionRequired="['fas']">
-        @if (manuallyHandled()) {
-          <div
-            vater-stack
-            direction="row"
-            gap="s"
-            class="watt-chip-label watt-chip-label__custom__warning"
-          >
-            <watt-icon size="m" name="warning" />
-            <span class="watt-text-s">{{ t('manuallyHandled') }}</span>
+    @if (hasHighlights()) {
+      <div
+        *transloco="let t; prefix: 'meteringPoint.overview.highlights'"
+        vater-stack
+        wrap
+        direction="row"
+        gap="s"
+        class="highlights-container"
+      >
+        <ng-container *dhPermissionRequired="['fas']">
+          @if (manuallyHandled()) {
+            <div
+              vater-stack
+              direction="row"
+              gap="s"
+              class="watt-chip-label watt-chip-label__custom__warning"
+            >
+              <watt-icon size="m" name="warning" />
+              <span class="watt-text-s">{{ t('manuallyHandled') }}</span>
+            </div>
+          }
+        </ng-container>
+
+        @if (hasElectricalHeating()) {
+          <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
+            <watt-icon size="m" name="heatPump" />
+            <span class="watt-text-s">{{ t('electricalHeating') }}</span>
           </div>
         }
-      </ng-container>
 
-      @if (hasElectricalHeating()) {
-        <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
-          <watt-icon size="m" name="heatPump" />
-          <span class="watt-text-s">{{ t('electricalHeating') }}</span>
-        </div>
-      }
+        @if (notActualAddress()) {
+          <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
+            <watt-icon size="m" name="wrongLocation" />
+            <span class="watt-text-s">{{ t('notActualAddress') }}</span>
+          </div>
+        }
 
-      @if (notActualAddress()) {
-        <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
-          <watt-icon size="m" name="wrongLocation" />
-          <span class="watt-text-s">{{ t('notActualAddress') }}</span>
-        </div>
-      }
+        @if (anyHaveProtectedAddress()) {
+          <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
+            <watt-icon size="m" name="warning" state="default" />
+            <span class="watt-text-s">{{ t('protectedAddress') }}</span>
+          </div>
+        }
 
-      @if (anyHaveProtectedAddress()) {
-        <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
-          <watt-icon size="m" name="warning" state="default" />
-          <span class="watt-text-s">{{ t('protectedAddress') }}</span>
-        </div>
-      }
+        @if (annualSettlement()) {
+          <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
+            <watt-icon size="m" name="solarPower" />
+            <span class="watt-text-s">{{ t('annualSettlement') }}</span>
+          </div>
+        }
 
-      @if (annualSettlement()) {
-        <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
-          <watt-icon size="m" name="solarPower" />
-          <span class="watt-text-s">{{ t('annualSettlement') }}</span>
-        </div>
-      }
-
-      @if (productObligation()) {
-        <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
-          <watt-icon size="m" name="checkmark" />
-          <span class="watt-text-s">{{ t('productObligation') }}</span>
-        </div>
-      }
-    </div>
+        @if (productObligation()) {
+          <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
+            <watt-icon size="m" name="checkmark" />
+            <span class="watt-text-s">{{ t('productObligation') }}</span>
+          </div>
+        }
+      </div>
+    }
   `,
 })
 export class DhMeteringPointHighlightsComponent {
@@ -142,4 +149,14 @@ export class DhMeteringPointHighlightsComponent {
   );
 
   manuallyHandled = computed(() => this.meteringPointDetails()?.metadata?.manuallyHandled ?? false);
+
+  hasHighlights = computed(
+    () =>
+      this.hasElectricalHeating() ||
+      this.notActualAddress() ||
+      this.annualSettlement() ||
+      this.productObligation() ||
+      this.anyHaveProtectedAddress() ||
+      this.manuallyHandled()
+  );
 }
