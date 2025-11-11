@@ -48,14 +48,14 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   imports: [TranslocoPipe, WattButtonComponent, VaterStackComponent, DhPermissionRequiredDirective],
   template: `
     <vater-stack direction="row" gap="m">
-      <watt-button icon="download" variant="text" (click)="exportAsCsv()">
+      <watt-button icon="download" variant="secondary" (click)="exportAsCsv()">
         {{ 'shared.download' | transloco }}
       </watt-button>
 
       <watt-button
         *dhPermissionRequired="['user-roles:manage']"
         icon="download"
-        variant="text"
+        variant="secondary"
         (click)="downloadRelationCSV()"
       >
         {{ 'shared.downloadreport' | transloco }}

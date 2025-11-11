@@ -38,7 +38,7 @@ import {
 } from '@energinet/watt/data';
 
 import { WattButtonComponent } from '@energinet/watt/button';
-import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import { DhUserRolesFilterComponent } from './filter.component';
@@ -64,50 +64,53 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
     DhUserRolesFilterComponent,
     DhUserRolesDownloadComponent,
     DhPermissionRequiredDirective,
+    VaterStackComponent,
   ],
-  template: `<watt-data-table
-    *transloco="let t; prefix: 'admin.userManagement.tabs.roles'"
-    vater
-    inset="ml"
-    [searchLabel]="'shared.search' | transloco"
-    [error]="dataSource.error"
-    [ready]="dataSource.called"
-  >
-    <h3>{{ t('tabLabel') }}</h3>
-
-    <watt-data-actions>
-      <dh-user-roles-download [variables]="variables()" />
-      <watt-button
-        *dhPermissionRequired="['user-roles:manage']"
-        icon="plus"
-        variant="secondary"
-        (click)="create()"
-        >{{ t('createuserrole') }}
-      </watt-button>
-    </watt-data-actions>
-
-    <watt-data-filters>
-      <dh-user-roles-filter (filter)="fetch($event)" />
-    </watt-data-filters>
-
-    <watt-table
-      *transloco="let resolveHeader; prefix: 'admin.userManagement.tabs.roles.table.columns'"
-      [dataSource]="dataSource"
-      [columns]="columns"
-      [loading]="dataSource.loading"
-      [resolveHeader]="resolveHeader"
-      [activeRow]="selection()"
-      (rowClick)="onRowClick($event)"
+  template: `
+    <watt-data-table
+      *transloco="let t; prefix: 'admin.userManagement.tabs.roles'"
+      vater
+      inset="ml"
+      [searchLabel]="'shared.search' | transloco"
+      [error]="dataSource.error"
+      [ready]="dataSource.called"
+      [enableCount]="false"
     >
-      <ng-container *wattTableCell="columns.eicFunction; let row">
-        {{ 'marketParticipant.marketRoles.' + row.eicFunction | transloco }}
-      </ng-container>
+      <watt-data-actions>
+        <vater-stack direction="row" gap="m">
+          <dh-user-roles-download [variables]="variables()" />
+          <watt-button
+            *dhPermissionRequired="['user-roles:manage']"
+            icon="plus"
+            variant="secondary"
+            (click)="create()"
+          >{{ t('createuserrole') }}
+          </watt-button>
+        </vater-stack>
+      </watt-data-actions>
 
-      <ng-container *wattTableCell="columns['status']; let role">
-        <dh-role-status [status]="role.status" />
-      </ng-container>
-    </watt-table>
-  </watt-data-table>`,
+      <watt-data-filters>
+        <dh-user-roles-filter (filter)="fetch($event)" />
+      </watt-data-filters>
+
+      <watt-table
+        *transloco="let resolveHeader; prefix: 'admin.userManagement.tabs.roles.table.columns'"
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [loading]="dataSource.loading"
+        [resolveHeader]="resolveHeader"
+        [activeRow]="selection()"
+        (rowClick)="onRowClick($event)"
+      >
+        <ng-container *wattTableCell="columns.eicFunction; let row">
+          {{ 'marketParticipant.marketRoles.' + row.eicFunction | transloco }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns['status']; let role">
+          <dh-role-status [status]="role.status" />
+        </ng-container>
+      </watt-table>
+    </watt-data-table>`,
 })
 export class DhUserRolesTableComponent {
   private navigation = inject(DhNavigationService);
