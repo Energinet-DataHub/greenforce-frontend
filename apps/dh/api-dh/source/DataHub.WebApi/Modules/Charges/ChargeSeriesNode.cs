@@ -13,40 +13,26 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
-using Energinet.DataHub.Charges.Client;
-using HotChocolate.Authorization;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
 [ObjectType<ChargeSeriesDto>]
 public static partial class ChargeSeriesNode
 {
-    public static Point CurrentPoint([Parent] ChargeSeriesDto chargeSeries) =>
+    public static Point? CurrentPoint([Parent] ChargeSeriesDto chargeSeries) =>
             chargeSeries.Points
                         .Where(point => point.FromDateTime <= DateTimeOffset.Now && DateTimeOffset.Now <= point.ToDateTime)
-                        .Single();
-
-    [Query]
-    [Authorize(Roles = new[] { "charges:view" })]
-    public static async Task<IEnumerable<ChargeSeriesDto>> GetChargeSeriesAsync(
-        string chargeId,
-        Interval interval,
-        [Service] IChargesClient client,
-        CancellationToken cancellationToken)
-    {
-        var series = await client.GetChargeSeriesAsync(
-            new ChargeSeriesSearchCriteriaDto(
-                ChargeId: Guid.Empty, // TODO: Fix
-                FromDateTimeUtc: interval.Start.ToDateTimeOffset(),
-                ToDateTimeUtc: interval.End.ToDateTimeOffset()));
-
-        return series.Value ?? [];
-    }
+                        .SingleOrDefault();
 
     public static bool HasChanged([Parent] ChargeSeriesDto chargeSeries)
     {
-        var currentPoint = chargeSeries.Points.First(ChargeSeriesPointNode.IsCurrent);
+        var currentPoint = chargeSeries.Points.FirstOrDefault(ChargeSeriesPointNode.IsCurrent);
+
+        if (currentPoint == null)
+        {
+            return false;
+        }
+
         return chargeSeries.Points.Any(p => p.Price != currentPoint.Price);
     }
 

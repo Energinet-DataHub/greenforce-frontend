@@ -56,7 +56,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     <vater-stack
       gap="m"
       align="start"
-      inset="m"
+      inset="ml"
       *transloco="let t; prefix: 'charges.charge.priceInformation'"
     >
       @for (charge of chargeInformations; track charge.id) {
@@ -94,7 +94,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     </vater-stack>
   `,
 })
-export class DhPriceInformationComponent {
+export class DhPriceInformation {
   chargeInformations: Partial<ChargeInformationDto>[] = [
     {
       id: '2',

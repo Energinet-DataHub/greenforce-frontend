@@ -28,4 +28,15 @@ public static class EnumTypeExtensions
             descriptor.Value(value).Name(Enum.GetName(type, value));
         }
     }
+
+    internal static void AsLowerCase<T>(this IEnumTypeDescriptor<T> descriptor)
+            where T : Enum
+    {
+        descriptor.BindValuesExplicitly();
+
+        foreach (T value in typeof(T).GetEnumValues())
+        {
+            descriptor.Value(value).Name(Enum.GetName(typeof(T), value)?.ToLower());
+        }
+    }
 }

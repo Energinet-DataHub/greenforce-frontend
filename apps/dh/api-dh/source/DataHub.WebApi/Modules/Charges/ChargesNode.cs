@@ -13,12 +13,16 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
 using HotChocolate.Types.Pagination;
+using NodaTime;
+using MarkPart = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -28,6 +32,28 @@ public static partial class ChargesNode
     public static ChargeStatus Status([Parent] ChargeInformationDto charge) => charge.GetStatus();
 
     public static string DisplayName([Parent] ChargeInformationDto charge) => $"{charge.Code} • {charge.Name}";
+
+    public static async Task<MarkPart.ActorDto?> GetOwnerAsync(
+        [Parent] ChargeInformationDto charge,
+        IMarketParticipantByIdDataLoader dataLoader,
+        CancellationToken ct) =>
+        await dataLoader.LoadAsync(new Guid(charge.Owner), ct).ConfigureAwait(false);
+
+    public static async Task<IEnumerable<ChargeSeriesDto>> GetSeriesAsync(
+        [Parent] ChargeInformationDto charge,
+        Interval interval,
+        [Service] IChargesClient client,
+        CancellationToken cancellationToken)
+    {
+        var series = await client.GetChargeSeriesAsync(
+            new ChargeSeriesSearchCriteriaDto(
+                ChargeId: Guid.Empty, // TODO: Fix
+                FromDateTimeUtc: interval.Start.ToDateTimeOffset(),
+                ToDateTimeUtc: interval.End.ToDateTimeOffset()),
+            cancellationToken);
+
+        return series.Value ?? [];
+    }
 
     [Query]
     [UseOffsetPaging]

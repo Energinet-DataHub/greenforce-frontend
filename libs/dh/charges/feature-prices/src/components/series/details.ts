@@ -17,7 +17,7 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import { Component, computed, output, signal, viewChild } from '@angular/core';
+import { Component, computed, input, output, signal, viewChild } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -56,27 +56,12 @@ import formatTime from '../../format-time';
     TranslocoDirective,
   ],
   template: `
-    <watt-drawer
-      (closed)="closed.emit()"
-      size="small"
-      *transloco="let t; prefix: 'charges.series.details'"
-    >
+    <watt-drawer (closed)="closed.emit()" size="small" *transloco="let t; prefix: 'charges.series'">
       <watt-drawer-heading>
-        <h1>{{ charge()?.displayName }}</h1>
+        <h1>{{ date() | wattDate }}</h1>
         <watt-description-list variant="inline-flow">
-          <watt-description-list-item [label]="t('time')">
-            @switch (resolution()) {
-              @case ('Daily') {
-                {{ currentPoint()?.fromDateTime | wattDate }}
-              }
-              @case ('Monthly') {
-                {{ currentPoint()?.fromDateTime | wattDate: 'monthYear' }}
-              }
-              @default {
-                {{ currentPoint()?.fromDateTime | wattDate }} -
-                {{ formatTime(index(), resolution()) }}
-              }
-            }
+          <watt-description-list-item [label]="t('resolution.' + resolution())">
+            {{ formatTime(index(), resolution()) }}
           </watt-description-list-item>
         </watt-description-list>
       </watt-drawer-heading>
@@ -96,14 +81,14 @@ import formatTime from '../../format-time';
             </ng-container>
             <ng-container *wattTableCell="columns.status; let series">
               @if (series.isCurrent) {
-                <watt-badge type="success">{{ t('current') }}</watt-badge>
+                <watt-badge type="success">{{ t('details.current') }}</watt-badge>
               }
             </ng-container>
             <ng-container *wattTableCell="columns.menu">
               <watt-button variant="icon" [wattMenuTriggerFor]="menu" icon="moreVertical" />
               <watt-menu #menu>
-                <watt-menu-item> {{ t('copyMessage') }} </watt-menu-item>
-                <watt-menu-item> {{ t('navigateToMessage') }} </watt-menu-item>
+                <watt-menu-item>{{ t('details.copyMessage') }}</watt-menu-item>
+                <watt-menu-item>{{ t('details.navigateToMessage') }}</watt-menu-item>
               </watt-menu>
             </ng-container>
           </watt-table>
@@ -116,11 +101,12 @@ export class DhChargeSeriesDetailsComponent {
   private drawer = viewChild.required(WattDrawerComponent);
   private series = signal<ChargeSeries | null>(null);
 
-  closed = output();
+  readonly date = input<Date>();
+  readonly closed = output();
 
   protected charge = signal<Charge | null>(null);
   protected currentPoint = computed(() => this.series()?.currentPoint);
-  protected resolution = signal<ChargeResolution>('Unknown');
+  protected resolution = signal<ChargeResolution>('unknown');
   protected index = signal<number>(0);
   protected dataSource = new WattTableDataSource<ChargeSeriesPoint>();
 
@@ -132,7 +118,7 @@ export class DhChargeSeriesDetailsComponent {
   } satisfies WattTableColumnDef<ChargeSeriesPoint>;
 
   protected formatTime = (index: number, resolution: ChargeResolution) =>
-    formatTime(index, resolution, this.currentPoint()?.fromDateTime);
+    formatTime(index, resolution, this.date());
 
   open(index: number, series: ChargeSeries, resolution: ChargeResolution, charge: Charge) {
     this.series.set(series);

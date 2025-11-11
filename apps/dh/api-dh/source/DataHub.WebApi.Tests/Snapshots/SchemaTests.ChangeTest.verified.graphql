@@ -286,6 +286,8 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 type ChargeInformationDto {
   status: ChargeStatus!
   displayName: String!
+  owner: MarketParticipant
+  series(interval: DateRange!): [ChargeSeries!]!
   id: String!
   validFrom: DateTime!
   validTo: DateTime!
@@ -294,12 +296,11 @@ type ChargeInformationDto {
   code: String!
   name: String!
   description: String!
-  owner: String!
   hasAnyPrices: Boolean!
 }
 
 type ChargeSeries {
-  currentPoint: ChargeSeriesPoint!
+  currentPoint: ChargeSeriesPoint
   hasChanged: Boolean!
   points: [ChargeSeriesPoint!]!
   totalAmount: Decimal!
@@ -1147,7 +1148,6 @@ type ProcessesEdge {
 }
 
 type Query {
-  chargeSeries(chargeId: String! interval: DateRange!): [ChargeSeries!]! @authorize(roles: [ "charges:view" ])
   charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): ChargeInformationDto @authorize(roles: [ "charges:view" ])
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
@@ -2272,11 +2272,11 @@ enum CalculationTypeQueryParameterV1 {
 }
 
 enum ChargeResolution {
-  Unknown
-  QuarterHourly
-  Hourly
-  Daily
-  Monthly
+  unknown
+  quarterhourly
+  hourly
+  daily
+  monthly
 }
 
 enum ChargeStatus {

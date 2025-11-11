@@ -42,7 +42,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
+import { DhCalculationsDetailsGridAreas } from './gridareas';
 
 @Component({
   imports: [
@@ -62,7 +62,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
     DhResultComponent,
     DhProcessStateBadge,
     DhEmDashFallbackPipe,
-    DhCalculationsDetailsGridAreasComponent,
+    DhCalculationsDetailsGridAreas,
   ],
   selector: 'dh-process-details',
   template: `
@@ -166,7 +166,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
     <router-outlet />
   `,
 })
-export class DhProcessDetailsComponent {
+export class DhProcessDetails {
   navigation = inject(DhNavigationService);
   drawer = viewChild(WattDrawerComponent);
 

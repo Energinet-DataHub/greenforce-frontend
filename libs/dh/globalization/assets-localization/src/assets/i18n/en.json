@@ -371,11 +371,11 @@
       "TARIFF": "Tariff"
     },
     "resolutions": {
-      "Daily": "Daily",
-      "QuarterHourly": "Quarterly",
-      "Hourly": "Hourly",
-      "Monthly": "Monthly",
-      "Unknown": "Unknown"
+      "daily": "Daily",
+      "quarterhourly": "Quarterly",
+      "hourly": "Hourly",
+      "monthly": "Monthly",
+      "unknown": "Unknown"
     },
     "vatClassifications": {
       "NO_VAT": "Without VAT",
@@ -432,44 +432,59 @@
       "actions": {
         "actionsButton": "Actions"
       },
-      "breadcrumb": "Prices",
-      "priceInformation": {
-        "name": "Name",
-        "description": "Description",
-        "vatClassification": "VAT",
-        "transparentInvoicing": "Transparent Invoicing",
-        "current": "Current",
-        "history": {
-          "table": {
-            "columns": {
-              "timestamp": "Timestamp",
-              "entry": "Change"
-            }
-          },
-          "auditLogs": {
-            "Sample entry": "This is a sample {{ entry }}"
+      "breadcrumb": "Prices"
+    },
+    "priceInformation": {
+      "name": "Name",
+      "description": "Description",
+      "vatClassification": "VAT",
+      "transparentInvoicing": "Transparent Invoicing",
+      "current": "Current",
+      "history": {
+        "table": {
+          "columns": {
+            "timestamp": "Timestamp",
+            "entry": "Change"
           }
+        },
+        "auditLogs": {
+          "Sample entry": "This is a sample {{ entry }}"
         }
       }
     },
     "series": {
+      "showHistory": "Show history",
+      "resolution": {
+        "quarterhourly": "Time",
+        "hourly": "Time",
+        "daily": "Date",
+        "monthly": "Month",
+        "unknown": "Sequence"
+      },
       "columns": {
-        "QuarterHourly": "Time",
-        "Hourly": "Time",
-        "Daily": "Date",
-        "Monthly": "Month",
-        "Unknown": "Sequence",
-        "price": "Current price"
+        "price": "Current price",
+        "tooltip": "● Has changed values"
       },
       "details": {
         "current": "Current",
-        "time": "Time",
         "columns": {
           "price": "Price",
           "time": "Submitted"
         },
         "copyMessage": "Copy message ID",
         "navigateToMessage": "Go to message"
+      },
+      "csv": {
+        "fileName": "DataHub prices - {{ shared.downloadNameParams }}",
+        "columns": {
+          "owner": "Owner",
+          "gln": "GLN",
+          "type": "Type",
+          "id": "ID",
+          "resolution": "Resolution",
+          "from": "From",
+          "to": "To"
+        }
       }
     }
   },

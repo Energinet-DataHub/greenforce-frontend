@@ -17,7 +17,7 @@
  */
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Component, computed, effect, inject, output } from '@angular/core';
+import { Component, computed, inject, output } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { map, startWith } from 'rxjs/operators';
@@ -25,10 +25,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   ProcessState,
-  CalculationTypeQueryParameterV1,
+  GetGridAreasDocument,
   CalculationExecutionType,
   GetProcessesQueryVariables,
-  GetGridAreasDocument,
+  CalculationTypeQueryParameterV1,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -36,15 +36,15 @@ import {
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
 
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { WattRange } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 
 @Component({
   selector: 'dh-processes-filters',
@@ -120,22 +120,10 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
     </form>
   `,
 })
-export class DhProcessesFiltersComponent {
-  private gridAreasQuery = query(GetGridAreasDocument);
-  private fb = inject(NonNullableFormBuilder);
+export class DhProcessesFilters {
+  private readonly gridAreasQuery = query(GetGridAreasDocument);
+  private readonly fb = inject(NonNullableFormBuilder);
   filter = output<GetProcessesQueryVariables>();
-
-  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationTypeQueryParameterV1);
-  executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
-  executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
-  gridAreaOptions = computed(
-    () =>
-      this.gridAreasQuery.data()?.gridAreas.map((x) => ({
-        value: x.code,
-        displayValue: x.displayName,
-      })) ?? []
-  );
-
   form = this.fb.group({
     executionType: new FormControl<CalculationExecutionType | null>(null),
     period: new FormControl<WattRange<Date> | null>(null),
@@ -143,7 +131,6 @@ export class DhProcessesFiltersComponent {
     calculationTypes: new FormControl<CalculationTypeQueryParameterV1[] | null>(null),
     state: new FormControl<ProcessState | null>(null),
   });
-
   values = toSignal<GetProcessesQueryVariables>(
     this.form.valueChanges.pipe(
       startWith(null),
@@ -158,11 +145,22 @@ export class DhProcessesFiltersComponent {
           state,
         },
       }))
-    ),
-    { requireSync: true }
+    )
+  );
+
+  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationTypeQueryParameterV1);
+  executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
+  executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
+  gridAreaOptions = computed(
+    () =>
+      this.gridAreasQuery.data()?.gridAreas.map((x) => ({
+        value: x.code,
+        displayValue: x.displayName,
+      })) ?? []
   );
 
   constructor() {
-    effect(() => this.filter.emit(this.values()));
+    const values = this.values();
+    if (values) this.filter.emit(values);
   }
 }
