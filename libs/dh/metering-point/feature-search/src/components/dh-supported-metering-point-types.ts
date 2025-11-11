@@ -16,4 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export const dhMeteringPointIdParam = 'meteringPointId';
+import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export const dhSupportedMeteringPointTypes = [ElectricityMarketMeteringPointType.Consumption];

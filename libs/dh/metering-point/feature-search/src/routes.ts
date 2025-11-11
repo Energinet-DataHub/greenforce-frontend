@@ -16,7 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { RedirectFunction, Router, Routes } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  RedirectFunction,
+  Router,
+  Routes,
+} from '@angular/router';
 import { inject } from '@angular/core';
 import { forkJoin, map } from 'rxjs';
 
@@ -35,8 +41,13 @@ import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 
 import { DhSearchComponent } from './components/dh-search.component';
-import { dhMeteringPointIdParam } from './components/dh-metering-point-id-param';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
+import { DhCreateMeteringPointComponent } from './components/dh-create.component';
+import {
+  dhMeteringPointIdParam,
+  dhMeteringPointTypeParam,
+} from './components/dh-metering-point-params';
+import { dhSupportedMeteringPointTypes } from './components/dh-supported-metering-point-types';
 
 const marketRolesWithDataAccess = [
   EicFunction.EnergySupplier,
@@ -61,6 +72,11 @@ export const dhMeteringPointRoutes: Routes = [
       {
         path: getPath<MeteringPointSubPaths>('search'),
         component: DhSearchComponent,
+      },
+      {
+        path: getPath<MeteringPointSubPaths>('create'),
+        canActivate: [PermissionGuard(['metering-point:create']), meteringPointCreateGuard()],
+        component: DhCreateMeteringPointComponent,
       },
       {
         path: `:${dhMeteringPointIdParam}`,
@@ -195,5 +211,24 @@ function redirectToLandingPage(): RedirectFunction {
         ]);
       })
     );
+  };
+}
+
+function meteringPointCreateGuard(): CanActivateFn {
+  return (route: ActivatedRouteSnapshot) => {
+    const searchRoute = inject(Router).createUrlTree([
+      getPath<BasePaths>('metering-point'),
+      getPath<MeteringPointSubPaths>('search'),
+    ]);
+
+    const type = route.queryParamMap.get(dhMeteringPointTypeParam);
+
+    if (!type) return searchRoute;
+
+    const isSupportedType = dhSupportedMeteringPointTypes.includes(
+      type as (typeof dhSupportedMeteringPointTypes)[number]
+    );
+
+    return isSupportedType || searchRoute;
   };
 }
