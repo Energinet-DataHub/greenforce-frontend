@@ -433,23 +433,23 @@
       "actions": {
         "actionsButton": "Handlinger"
       },
-      "breadcrumb": "Priser",
-      "priceInformation": {
-        "name": "Navn",
-        "description": "Beskrivelse",
-        "vatClassification": "Moms",
-        "transparentInvoicing": "Viderefakturering",
-        "current": "Aktuel",
-        "history": {
-          "table": {
-            "columns": {
-              "timestamp": "Tidsstempel",
-              "entry": "Ændring"
-            }
-          },
-          "auditLogs": {
-            "Sample entry": "Dette er en sample {{ entry }}"
+      "breadcrumb": "Priser"
+    },
+    "priceInformation": {
+      "name": "Navn",
+      "description": "Beskrivelse",
+      "vatClassification": "Moms",
+      "transparentInvoicing": "Viderefakturering",
+      "current": "Aktuel",
+      "history": {
+        "table": {
+          "columns": {
+            "timestamp": "Tidsstempel",
+            "entry": "Ændring"
           }
+        },
+        "auditLogs": {
+          "Sample entry": "Dette er en sample {{ entry }}"
         }
       }
     },
@@ -479,6 +479,7 @@
         "fileName": "DataHub priser - {{ shared.downloadNameParams }}",
         "columns": {
           "owner": "Ejer",
+          "gln": "GLN",
           "type": "Type",
           "id": "Id",
           "resolution": "Tidsopløsning",

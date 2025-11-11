@@ -432,23 +432,23 @@
       "actions": {
         "actionsButton": "Actions"
       },
-      "breadcrumb": "Prices",
-      "priceInformation": {
-        "name": "Name",
-        "description": "Description",
-        "vatClassification": "VAT",
-        "transparentInvoicing": "Transparent Invoicing",
-        "current": "Current",
-        "history": {
-          "table": {
-            "columns": {
-              "timestamp": "Timestamp",
-              "entry": "Change"
-            }
-          },
-          "auditLogs": {
-            "Sample entry": "This is a sample {{ entry }}"
+      "breadcrumb": "Prices"
+    },
+    "priceInformation": {
+      "name": "Name",
+      "description": "Description",
+      "vatClassification": "VAT",
+      "transparentInvoicing": "Transparent Invoicing",
+      "current": "Current",
+      "history": {
+        "table": {
+          "columns": {
+            "timestamp": "Timestamp",
+            "entry": "Change"
           }
+        },
+        "auditLogs": {
+          "Sample entry": "This is a sample {{ entry }}"
         }
       }
     },
@@ -478,6 +478,7 @@
         "fileName": "DataHub prices - {{ shared.downloadNameParams }}",
         "columns": {
           "owner": "Owner",
+          "gln": "GLN",
           "type": "Type",
           "id": "ID",
           "resolution": "Resolution",

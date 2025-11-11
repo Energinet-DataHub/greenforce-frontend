@@ -3,7 +3,11 @@ query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
     id
     resolution
     displayName
-    owner
+    owner {
+      id
+      name
+      glnOrEicNumber
+    }
     chargeType
     validFrom
     validTo

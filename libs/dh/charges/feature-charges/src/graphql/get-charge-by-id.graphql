@@ -5,7 +5,10 @@ query GetChargeById($id: String!) {
     code
     name
     chargeType
-    owner
+    owner {
+      id
+      displayName
+    }
     resolution
     displayName
   }

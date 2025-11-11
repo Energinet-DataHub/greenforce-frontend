@@ -286,6 +286,7 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 type ChargeInformationDto {
   status: ChargeStatus!
   displayName: String!
+  owner: MarketParticipant
   series(interval: DateRange!): [ChargeSeries!]!
   id: String!
   validFrom: DateTime!
@@ -295,7 +296,6 @@ type ChargeInformationDto {
   code: String!
   name: String!
   description: String!
-  owner: String!
   hasAnyPrices: Boolean!
 }
 
