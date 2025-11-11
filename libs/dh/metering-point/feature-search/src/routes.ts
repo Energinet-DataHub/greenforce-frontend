@@ -42,7 +42,7 @@ import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggl
 
 import { DhSearchComponent } from './components/dh-search.component';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
-import { DhCreateMeteringPointComponent } from './components/dh-create.component';
+import { DhCreateMeteringPoint } from './components/dh-create-metering-point.component';
 import {
   dhMeteringPointIdParam,
   dhMeteringPointTypeParam,
@@ -76,7 +76,7 @@ export const dhMeteringPointRoutes: Routes = [
       {
         path: getPath<MeteringPointSubPaths>('create'),
         canActivate: [PermissionGuard(['metering-point:create']), meteringPointCreateGuard()],
-        component: DhCreateMeteringPointComponent,
+        component: DhCreateMeteringPoint,
       },
       {
         path: `:${dhMeteringPointIdParam}`,

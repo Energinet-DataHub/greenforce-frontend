@@ -858,6 +858,25 @@
         "placeholder": "Input or select",
         "cancel": "Cancel",
         "start": "Start"
+      },
+      "title": "Create {{ type }} metering point",
+      "cancel": "Cancel",
+      "create": "Create metering point",
+      "details": {
+        "title": "Details",
+        "validityDate": "Validity date",
+        "meteringPointId": "Metering point ID",
+        "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
+        "powerLimitKw": "Power limit kW",
+        "powerLimitAmpere": "Power limit ampere",
+        "disconnectionType": "{{ meteringPoint.overview.details.disconnectionType }}",
+        "gridArea": "{{ meteringPoint.overview.details.gridArea }}"
+      },
+      "address": {
+        "title": "Address"
+      },
+      "powerPlant": {
+        "title": "Power plant"
       }
     }
   },

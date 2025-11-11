@@ -859,6 +859,25 @@
         "placeholder": "Indtast eller vælg",
         "cancel": "Annuller",
         "start": "Start"
+      },
+      "title": "Opret {{ type }} målepunkt",
+      "cancel": "Afbryd",
+      "create": "Opret målepunkt",
+      "details": {
+        "title": "Detaljer",
+        "validityDate": "Gyldighedsdato",
+        "meteringPointId": "Målepunkts ID",
+        "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
+        "powerLimitKw": "Effektgrænse kW",
+        "powerLimitAmpere": "Effektgrænse ampere",
+        "disconnectionType": "{{ meteringPoint.overview.details.disconnectionType }}",
+        "gridArea": "{{ meteringPoint.overview.details.gridArea }}"
+      },
+      "address": {
+        "title": "Addresse"
+      },
+      "powerPlant": {
+        "title": "Anlæg"
       }
     }
   },
