@@ -371,10 +371,10 @@
       "TARIFF": "Tariff"
     },
     "resolutions": {
-      "daily": "Daily",
-      "quarterhourly": "Quarterly",
-      "hourly": "Hourly",
-      "monthly": "Monthly",
+      "daily": "Day",
+      "quarterhourly": "Quarter hour",
+      "hourly": "Hour",
+      "monthly": "Month",
       "unknown": "Unknown"
     },
     "vatClassifications": {
@@ -653,6 +653,16 @@
     "selectedRelatedMeteringPoint": "Selected",
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
+    "charges": {
+      "columns": {
+        "type": "Type",
+        "id": "ID",
+        "name": "Name",
+        "owner": "Owner",
+        "amount": "Amount",
+        "period": "Period"
+      }
+    },
     "processOverview": {
       "columns": {
         "createdAt": "Time of message",

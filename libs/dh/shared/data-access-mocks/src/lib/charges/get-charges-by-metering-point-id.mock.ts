@@ -16,11 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-import { getCharges } from './get-charges.mock';
-import { getChargeSeries } from './get-charge-series.mock';
-import { getChargeById } from './get-charge-by-id.mock';
-import { getChargesByMeteringPointId } from './get-charges-by-metering-point-id.mock';
+import { delay, HttpResponse } from 'msw';
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
-export function chargesMocks() {
-  return [getCharges(), getChargeSeries(), getChargeById(), getChargesByMeteringPointId()];
+import { chargeLinks } from './data';
+import { mockGetChargesByMeteringPointIdQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+
+export function getChargesByMeteringPointId() {
+  return mockGetChargesByMeteringPointIdQuery(async ({ variables: { meteringPointId } }) => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargesByMeteringPointId: chargeLinks,
+      },
+    });
+  });
 }

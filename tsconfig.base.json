@@ -120,8 +120,8 @@
       "@energinet-datahub/dh/metering-point/feature-overview": [
         "libs/dh/metering-point/feature-overview/src/index.ts"
       ],
-      "@energinet-datahub/dh/metering-point/feature-prices": [
-        "libs/dh/metering-point/feature-prices/src/index.ts"
+      "@energinet-datahub/dh/metering-point/feature-charges": [
+        "libs/dh/metering-point/feature-charges/src/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/feature-process-overview": [
         "libs/dh/metering-point/feature-process-overview/src/index.ts"

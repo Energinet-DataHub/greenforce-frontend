@@ -372,10 +372,10 @@
       "TARIFF": "Tarif"
     },
     "resolutions": {
-      "daily": "Daglig",
-      "quarterHourly": "Kvartalsvis",
-      "hourly": "Timevis",
-      "monthly": "Månedlig",
+      "daily": "Dag",
+      "quarterHourly": "Kvater",
+      "hourly": "Time",
+      "monthly": "Måned",
       "unknown": "Ukendt"
     },
     "vatClassifications": {
@@ -654,6 +654,16 @@
     "selectedRelatedMeteringPoint": "Valgt",
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
+    "charges": {
+      "columns": {
+        "type": "Type",
+        "id": "Id",
+        "name": "Navn",
+        "owner": "Ejer",
+        "amount": "Antal",
+        "period": "Periode"
+      }
+    },
     "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunkt",

@@ -18,6 +18,7 @@
 //#endregion
 import {
   ChargeInformationDto,
+  ChargeLink,
   ChargeResolution,
   ChargeSeries,
   ChargeStatus,
@@ -324,5 +325,20 @@ export const charges: ChargeInformationDto[] = [
     status: ChargeStatus.Current,
     resolution: ChargeResolution.Hourly,
     series: chargeSeriesHourlyResolution,
+  },
+];
+
+export const chargeLinks: ChargeLink[] = [
+  {
+    __typename: 'ChargeLink',
+    id: 'link-1',
+    type: 'Associated',
+    amount: 100.0,
+    name: 'Charge Link 1',
+    owner: {
+      __typename: 'MarketParticipantId',
+      id: 'owner-1',
+    },
+    period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
   },
 ];
