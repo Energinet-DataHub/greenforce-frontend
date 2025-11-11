@@ -42,6 +42,7 @@ import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/m
 
 import { DhMarketParticipant } from '@energinet-datahub/dh/market-participant/domain';
 import { GetPaginatedMarketParticipantsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { Variables } from '../types';
 import { DownloadMarketParticipants } from './download.component';
@@ -67,6 +68,7 @@ import { DhMarketParticipantsFiltersComponent } from './market-participants-filt
     RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
+
     WATT_CARD,
     WATT_TABLE,
     WATT_MENU,
@@ -86,6 +88,7 @@ import { DhMarketParticipantsFiltersComponent } from './market-participants-filt
 export class DhMarketParticipantsComponent {
   private readonly navigationService = inject(DhNavigationService);
   private readonly modalService = inject(WattModalService);
+  private readonly appInsights = inject(DhApplicationInsights);
 
   dataSource = new GetPaginatedMarketParticipantsDataSource();
 
@@ -113,6 +116,7 @@ export class DhMarketParticipantsComponent {
   };
 
   createMarketParticipant() {
+    this.appInsights.trackEvent('Button: Create market participant');
     this.navigationService.navigate('create');
   }
 
@@ -121,6 +125,7 @@ export class DhMarketParticipantsComponent {
   };
 
   mergeMarketParticipants() {
+    this.appInsights.trackEvent('Button: Merge market participants');
     this.modalService.open({
       component: DhMergeMarketParticipantsComponent,
     });
