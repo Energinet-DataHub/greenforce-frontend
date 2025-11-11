@@ -848,6 +848,15 @@
       },
       "success": "Tilflytning er nu registreret",
       "save": "Tilflyt kunde"
+    },
+    "create": {
+      "modal": {
+        "title": "Vælg type af målepunkt til oprettelse",
+        "label": "Målepunktstype",
+        "placeholder": "Indtast eller vælg",
+        "cancel": "Annuller",
+        "start": "Start"
+      }
     }
   },
   "messageArchive": {

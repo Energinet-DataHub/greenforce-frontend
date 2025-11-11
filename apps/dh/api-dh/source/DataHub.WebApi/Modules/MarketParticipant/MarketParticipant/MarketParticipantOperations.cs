@@ -283,12 +283,8 @@ public static class MarketParticipantOperations
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
         CancellationToken ct)
     {
-        var existingMeteringPoints = await marketParticipantClient
-            .AdditionalRecipientsGetAsync(marketParticipantId, ct)
-            .ConfigureAwait(false);
-
         var meteringPointsWithType = await electricityMarketClient
-            .MeteringPointQueryTypeAsync(existingMeteringPoints.Concat(meteringPointIds), ct)
+            .MeteringPointQueryTypeAsync(meteringPointIds, ct)
             .ConfigureAwait(false);
 
         var foundMeteringPoints = meteringPointsWithType
@@ -363,48 +359,8 @@ public static class MarketParticipantOperations
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
         CancellationToken ct)
     {
-        var existingMeteringPoints = await marketParticipantClient
-            .AdditionalRecipientsGetAsync(marketParticipantId, ct)
-            .ConfigureAwait(false);
-
-        var meteringPointsWithType = await electricityMarketClient
-            .MeteringPointQueryTypeAsync(existingMeteringPoints.Except(meteringPointIds), ct)
-            .ConfigureAwait(false);
-
-        var mappedMeteringPoints = meteringPointsWithType.Select(mp =>
-        {
-            var type = mp.Type switch
-            {
-                MeteringPointType.Consumption => Clients.MarketParticipant.v1.MeteringPointType.E17Consumption,
-                MeteringPointType.Production => Clients.MarketParticipant.v1.MeteringPointType.E18Production,
-                MeteringPointType.Exchange => Clients.MarketParticipant.v1.MeteringPointType.E20Exchange,
-                MeteringPointType.VEProduction => Clients.MarketParticipant.v1.MeteringPointType.D01VeProduction,
-                MeteringPointType.Analysis => Clients.MarketParticipant.v1.MeteringPointType.D02Analysis,
-                MeteringPointType.NotUsed => Clients.MarketParticipant.v1.MeteringPointType.D03NotUsed,
-                MeteringPointType.SurplusProductionGroup6 => Clients.MarketParticipant.v1.MeteringPointType.D04SurplusProductionGroup6,
-                MeteringPointType.NetProduction => Clients.MarketParticipant.v1.MeteringPointType.D05NetProduction,
-                MeteringPointType.SupplyToGrid => Clients.MarketParticipant.v1.MeteringPointType.D06SupplyToGrid,
-                MeteringPointType.ConsumptionFromGrid => Clients.MarketParticipant.v1.MeteringPointType.D07ConsumptionFromGrid,
-                MeteringPointType.WholesaleServicesOrInformation => Clients.MarketParticipant.v1.MeteringPointType.D08WholeSaleServicesInformation,
-                MeteringPointType.OwnProduction => Clients.MarketParticipant.v1.MeteringPointType.D09OwnProduction,
-                MeteringPointType.NetFromGrid => Clients.MarketParticipant.v1.MeteringPointType.D10NetFromGrid,
-                MeteringPointType.NetToGrid => Clients.MarketParticipant.v1.MeteringPointType.D11NetToGrid,
-                MeteringPointType.TotalConsumption => Clients.MarketParticipant.v1.MeteringPointType.D12TotalConsumption,
-                MeteringPointType.NetLossCorrection => Clients.MarketParticipant.v1.MeteringPointType.D13NetLossCorrection,
-                MeteringPointType.ElectricalHeating => Clients.MarketParticipant.v1.MeteringPointType.D14ElectricalHeating,
-                MeteringPointType.NetConsumption => Clients.MarketParticipant.v1.MeteringPointType.D15NetConsumption,
-                MeteringPointType.OtherConsumption => Clients.MarketParticipant.v1.MeteringPointType.D17OtherConsumption,
-                MeteringPointType.OtherProduction => Clients.MarketParticipant.v1.MeteringPointType.D18OtherProduction,
-                MeteringPointType.ExchangeReactiveEnergy => Clients.MarketParticipant.v1.MeteringPointType.D20ExchangeReactiveEnergy,
-                MeteringPointType.InternalUse => Clients.MarketParticipant.v1.MeteringPointType.D99InternalUse,
-                _ => Clients.MarketParticipant.v1.MeteringPointType.Unknown,
-            };
-
-            return new MeteringPointDto { Identification = mp.Identification, MeteringPointType = type };
-        });
-
         await marketParticipantClient
-            .AdditionalRecipientsPostAsync(marketParticipantId, mappedMeteringPoints, ct)
+            .AdditionalRecipientsDeleteAsync(marketParticipantId, meteringPointIds, ct)
             .ConfigureAwait(false);
 
         return true;
