@@ -1,0 +1,115 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; prefix: 'meteringPoint.create'">
+  <vater-stack direction="row" align="center" gap="s" class="watt-space-stack-m">
+    <h3>{{ t("title", { type: "meteringPointType." + mpType | transloco }) }}</h3>
+
+    <vater-spacer />
+
+    <watt-button variant="secondary" [routerLink]="['../']">{{ t("cancel") }}</watt-button>
+    <watt-button type="submit" variant="primary" formId="create-metering-point">
+      {{ t("create") }}
+    </watt-button>
+  </vater-stack>
+
+  <form id="create-metering-point" [formGroup]="form" (ngSubmit)="save()">
+    <div class="page-grid">
+      <watt-card>
+        <watt-card-title>{{ t("details.title") }}</watt-card-title>
+
+        @let detailsControls = form.controls.details.controls;
+
+        <watt-datepicker
+          [formControl]="detailsControls.validityDate"
+          [label]="t('details.validityDate')"
+          [min]="today"
+        />
+
+        <watt-text-field
+          [formControl]="detailsControls.meteringPointId"
+          [label]="t('details.meteringPointId')"
+        >
+        </watt-text-field>
+
+        <label>{{ t("details.subType") }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio group="subType" [formControl]="detailsControls.subType" value="physical">
+            Fysisk
+          </watt-radio>
+          <watt-radio group="subType" [formControl]="detailsControls.subType" value="virtual">
+            Virtuel
+          </watt-radio>
+          <watt-radio group="subType" [formControl]="detailsControls.subType" value="calculated">
+            Beregnet
+          </watt-radio>
+        </vater-stack>
+
+        <vater-stack direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="detailsControls.powerLimitKw"
+            [label]="t('details.powerLimitKw')"
+          >
+          </watt-text-field>
+
+          <watt-text-field
+            [formControl]="detailsControls.powerLimitAmpere"
+            [label]="t('details.powerLimitAmpere')"
+          >
+          </watt-text-field>
+        </vater-stack>
+
+        <label>{{ t("details.disconnectionType") }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio
+            group="disconnectionType"
+            [formControl]="detailsControls.disconnectionType"
+            value="remote"
+          >
+            Fjernafbrydelig (D01)
+          </watt-radio>
+          <watt-radio
+            group="disconnectionType"
+            [formControl]="detailsControls.disconnectionType"
+            value="manual"
+          >
+            Manuel afbrydelig (D02)
+          </watt-radio>
+        </vater-stack>
+
+        <watt-dropdown
+          [formControl]="detailsControls.gridArea"
+          [options]="[]"
+          [showResetOption]="false"
+          [label]="t('details.gridArea')"
+        >
+        </watt-dropdown>
+      </watt-card>
+
+      <watt-card>
+        <watt-card-title>{{ t("address.title") }}</watt-card-title>
+
+        2
+      </watt-card>
+
+      <watt-card>
+        <watt-card-title>{{ t("powerPlant.title") }}</watt-card-title>
+
+        3
+      </watt-card>
+    </div>
+  </form>
+</ng-container>
