@@ -896,7 +896,7 @@ type MeteringPointMetadataDto {
 type MeteringPointProcess {
   initiator: MarketParticipant
   steps: [MeteringPointProcessStep!]!
-  availableActions: [WorkflowAction]
+  availableActions: [WorkflowAction!]
   id: String!
   documentType: DocumentType!
   reasonCode: String!
