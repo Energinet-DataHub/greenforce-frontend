@@ -235,27 +235,4 @@ export class DhChargeSeriesPage {
       )
       .generate('charges.series.csv.fileName');
   }
-
-  formatTimeCsv = (
-    index: number,
-    resolution: ChargeResolution | undefined,
-    intervalStart: Date | undefined
-  ) => {
-    const date = dayjs(intervalStart);
-    switch (resolution) {
-      case 'quarterhourly':
-        return {
-          start: date.add(index * 15, 'minutes'),
-          end: date.add((index + 1) * 15, 'minutes'),
-        };
-      case 'hourly':
-        return { start: date.add(index, 'hour'), end: date.add(index + 1, 'hour') };
-      case 'daily':
-        return { start: date.date(index + 1), end: date.date(index + 2) };
-      case 'monthly':
-        return { start: date.month(index), end: date.month(index + 1) };
-      default:
-        return { start: date, end: date };
-    }
-  };
 }
