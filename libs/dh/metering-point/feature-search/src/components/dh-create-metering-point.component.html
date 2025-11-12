@@ -29,14 +29,17 @@ limitations under the License.
   <form id="create-metering-point" [formGroup]="form" (ngSubmit)="save()">
     <div class="page-grid">
       <watt-card>
-        <watt-card-title>{{ t("details.title") }}</watt-card-title>
+        <watt-card-title>
+          <h4>{{ t("details.title") }}</h4>
+        </watt-card-title>
 
         @let detailsControls = form.controls.details.controls;
 
         <watt-datepicker
           [formControl]="detailsControls.validityDate"
           [label]="t('details.validityDate')"
-          [min]="today"
+          [min]="yesterday"
+          [max]="today"
         />
 
         <watt-text-field
@@ -56,6 +59,11 @@ limitations under the License.
             Beregnet
           </watt-radio>
         </vater-stack>
+
+        <watt-text-field
+          [formControl]="detailsControls.meteringPointNumber"
+          [label]="t('details.meteringPointNumber')"
+        />
 
         <vater-stack direction="row" align="baseline" gap="m">
           <watt-text-field
@@ -96,15 +104,73 @@ limitations under the License.
       </watt-card>
 
       <watt-card>
-        <watt-card-title>{{ t("address.title") }}</watt-card-title>
+        <watt-card-title>
+          <h4>{{ t("address.title") }}</h4>
+        </watt-card-title>
 
         2
       </watt-card>
 
       <watt-card>
-        <watt-card-title>{{ t("powerPlant.title") }}</watt-card-title>
+        <h4 class="watt-space-stack-s">{{ t("powerPlant.title") }}</h4>
 
-        3
+        <label>{{ t("powerPlant.netSettlementGroup") }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio
+            group="netSettlementGroup"
+            [formControl]="form.controls.netSettlementGroup"
+            value="0"
+          >
+            Ingen nettoafregning (0)
+          </watt-radio>
+          <watt-radio
+            group="netSettlementGroup"
+            [formControl]="form.controls.netSettlementGroup"
+            value="3"
+          >
+            Øjebliksafregnet (3)
+          </watt-radio>
+        </vater-stack>
+
+        <hr class="watt-divider" />
+
+        <h4 class="watt-space-stack-s">{{ t("other.title") }}</h4>
+
+        @let otherControls = form.controls.other.controls;
+
+        <label>{{ t("other.resolution") }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio group="resolution" [formControl]="otherControls.resolution" value="hourly">
+            Pr. time
+          </watt-radio>
+          <watt-radio
+            group="resolution"
+            [formControl]="otherControls.resolution"
+            value="quarterHourly"
+          >
+            Pr. kvarter
+          </watt-radio>
+        </vater-stack>
+
+        <label>{{ t("other.measureUnit") }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio group="measureUnit" [formControl]="otherControls.measureUnit" value="K_WH">
+            kWh
+          </watt-radio>
+          <watt-radio group="measureUnit" [formControl]="otherControls.measureUnit" value="KV_ARH">
+            kVArh
+          </watt-radio>
+        </vater-stack>
+
+        <label>{{ t("other.product") }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio group="product" [formControl]="otherControls.product" value="ENERGY_ACTIVE">
+            Aktiv energi
+          </watt-radio>
+          <watt-radio group="product" [formControl]="otherControls.product" value="ENERGY_REACTIVE">
+            Reaktiv energi
+          </watt-radio>
+        </vater-stack>
       </watt-card>
     </div>
   </form>
