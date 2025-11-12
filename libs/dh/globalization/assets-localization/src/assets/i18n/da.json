@@ -373,7 +373,7 @@
     },
     "resolutions": {
       "daily": "Dag",
-      "quarterHourly": "Kvater",
+      "quarterhourly": "Kvarter",
       "hourly": "Time",
       "monthly": "Måned",
       "unknown": "Ukendt"
@@ -460,7 +460,7 @@
         "hourly": "Tidspunkt",
         "daily": "Dato",
         "monthly": "Måned",
-        "unknown": "Sekvens"
+        "unknown": "Dato"
       },
       "columns": {
         "price": "Aktuel pris",
