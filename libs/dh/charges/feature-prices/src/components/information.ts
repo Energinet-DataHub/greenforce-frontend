@@ -46,9 +46,12 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     WATT_DESCRIPTION_LIST,
   ],
   styles: `
+    @use '@energinet/watt/utils' as watt;
     :host {
       watt-card {
-        width: 75%;
+        @include watt.media('>=XLarge') {
+          width: 75%;
+        }
       }
     }
   `,
@@ -57,7 +60,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
       gap="m"
       align="start"
       inset="ml"
-      *transloco="let t; prefix: 'charges.charge.priceInformation'"
+      *transloco="let t; prefix: 'charges.priceInformation'"
     >
       @for (charge of chargeInformations; track charge.id) {
         <watt-card>

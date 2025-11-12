@@ -1,0 +1,12 @@
+query GetChargesByMeteringPointId($order: [ChargeLinkSortInput!], $meteringPointId: String!) {
+  chargesByMeteringPointId(order: $order, meteringPointId: $meteringPointId) {
+    id
+    name
+    amount
+    type
+    owner {
+      id
+    }
+    period
+  }
+}
