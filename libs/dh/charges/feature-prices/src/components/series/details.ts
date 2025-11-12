@@ -65,13 +65,13 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
       <watt-drawer-heading>
         @switch (resolution()) {
           @case ('monthly') {
-            <h1>{{ series()?.period.start | wattDate: 'monthYear' | titlecase }}</h1>
+            <h1>{{ start() | wattDate: 'monthYear' | titlecase }}</h1>
           }
           @case ('daily') {
-            <h1>{{ series()?.period.start | wattDate }}</h1>
+            <h1>{{ start() | wattDate }}</h1>
           }
           @default {
-            <h1>{{ series()?.period.start | wattDate }}</h1>
+            <h1>{{ start() | wattDate }}</h1>
             <watt-description-list variant="inline-flow">
               <watt-description-list-item [label]="t('resolution.' + resolution())">
                 {{ series()?.period | dhChargesPeriod: resolution() }}
@@ -115,7 +115,8 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
 export class DhChargeSeriesDetailsComponent {
   readonly resolution = input.required<ChargeResolution>();
   readonly series = model<ChargeSeries>();
-  readonly points = computed(() => this.series()?.points ?? []);
+  protected points = computed(() => this.series()?.points ?? []);
+  protected start = computed(() => this.series()?.period.start);
   protected dataSource = dataSource(() => this.points());
   protected columns = {
     price: { accessor: (row) => row.price },
