@@ -222,7 +222,7 @@ export class DhChargeSeriesPage {
         `"${translate(basePath + '.to')}"`,
       ])
       .mapLines((series) =>
-        series.map((x, i) => [
+        series.map((x) => [
           `"${this.charge()?.owner?.name}"`,
           `"${this.charge()?.owner?.glnOrEicNumber}"`,
           `"${translate('charges.chargeTypes.' + this.charge()?.type)}"`,
