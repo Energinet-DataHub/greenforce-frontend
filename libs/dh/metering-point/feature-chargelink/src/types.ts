@@ -16,21 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { delay, HttpResponse } from 'msw';
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { GetChargeLinksByMeteringPointIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { chargeLinks } from './data';
-import { mockGetChargeLinksByMeteringPointIdQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
-
-export function getChargesByMeteringPointId() {
-  return mockGetChargeLinksByMeteringPointIdQuery(async () => {
-    await delay(mswConfig.delay);
-
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        chargeLinksByMeteringPointId: chargeLinks,
-      },
-    });
-  });
-}
+export type Charge = ResultOf<
+  typeof GetChargeLinksByMeteringPointIdDocument
+>['chargeLinksByMeteringPointId'][0];

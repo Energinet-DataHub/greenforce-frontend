@@ -18,7 +18,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 
 public class ChargesClient : IChargesClient
 {
-    public Task<IEnumerable<ChargeLink>> GetChargesByMeteringPointIdAsync(string meteringPointId, CancellationToken ct = default)
+    public Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(string meteringPointId, CancellationToken ct = default)
     {
         return Task.FromResult<IEnumerable<ChargeLink>>(Array.Empty<ChargeLink>());
     }

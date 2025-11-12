@@ -23,11 +23,11 @@ public static partial class ChargeOperations
     [Query]
     [UseSorting]
     [Authorize(Roles = new[] { "metering-point:prices" })]
-    public static async Task<IEnumerable<ChargeLink>> GetChargesByMeteringPointIdAsync(
+    public static async Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(
             string meteringPointId,
             CancellationToken ct,
             [Service] IChargesClient client)
     {
-        return await client.GetChargesByMeteringPointIdAsync(meteringPointId, ct).ConfigureAwait(false);
+        return await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct).ConfigureAwait(false);
     }
 }
