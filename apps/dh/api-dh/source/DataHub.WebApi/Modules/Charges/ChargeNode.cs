@@ -39,7 +39,7 @@ public static partial class ChargeNode
         IChargesClient client,
         CancellationToken ct)
     {
-        var result = await client.GetChargesAsync(skip, take, filter, order, query);
+        var result = await client.GetChargesAsync(skip, take, filter, order, query, ct);
         return new CollectionSegment<ChargeInformationDto>(
             result.ToList(),
             new(true, true), // TODO: Fix
