@@ -78,7 +78,7 @@ import { DhChargesFilters } from './filters';
         (rowClick)="navigation.navigate('id', $event.id, 'prices', $event.resolution)"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ 'charges.chargeTypes.' + element.chargeType | transloco }}
+          {{ 'charges.chargeTypes.' + element.type | transloco }}
         </ng-container>
         <ng-container *wattTableCell="columns.status; let element">
           <dh-charge-status [status]="element.status" />
@@ -94,7 +94,7 @@ export class DhCharges {
   dataSource = new GetChargesDataSource();
 
   columns: WattTableColumnDef<Charge> = {
-    type: { accessor: 'chargeType', sort: false },
+    type: { accessor: 'type', sort: false },
     code: { accessor: 'code', sort: false },
     name: { accessor: 'name', sort: false },
     owner: { accessor: (charge) => charge.owner?.displayName, sort: false },

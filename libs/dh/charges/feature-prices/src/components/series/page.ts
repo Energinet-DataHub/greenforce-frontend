@@ -129,7 +129,7 @@ import { DhChargeSeriesDetailsComponent } from './details';
           {{ formatTime(i) }}
         </ng-container>
         <ng-container *wattTableCell="columns.price; let series">
-          {{ series.currentPoint?.price | number: '1.6-6' }}
+          {{ series.price | number: '1.6-6' }}
         </ng-container>
         <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
           @if (series.hasChanged) {
@@ -231,12 +231,12 @@ export class DhChargeSeriesPage {
           return [
             `"${this.charge()?.owner?.name}"`,
             `"${this.charge()?.owner?.glnOrEicNumber}"`,
-            `"${translate('charges.chargeTypes.' + this.charge()?.chargeType)}"`,
+            `"${translate('charges.chargeTypes.' + this.charge()?.type)}"`,
             `"${this.charge()?.id}"`,
             `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
             `"${dayjs(timeRange.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
             `"${dayjs(timeRange.end).subtract(1, 'millisecond').format('YYYY-MM-DDTHH:mm:ss')}"`,
-            `"${x.currentPoint?.price.toFixed(6)}"`,
+            `"${x.price?.toFixed(6)}"`,
           ];
         });
       })

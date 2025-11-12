@@ -4,7 +4,8 @@ query GetChargeById($id: String!) {
     status
     code
     name
-    chargeType
+    description
+    type
     owner {
       id
       displayName

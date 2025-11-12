@@ -13,7 +13,8 @@ query GetCharges(
       code
       validFrom
       validTo
-      chargeType
+      type
+      description
       owner {
         id
         displayName

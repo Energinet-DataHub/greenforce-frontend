@@ -105,7 +105,6 @@ export class DhChargeSeriesDetailsComponent {
   readonly closed = output();
 
   protected charge = signal<Charge | null>(null);
-  protected currentPoint = computed(() => this.series()?.currentPoint);
   protected resolution = signal<ChargeResolution>('unknown');
   protected index = signal<number>(0);
   protected dataSource = new WattTableDataSource<ChargeSeriesPoint>();
