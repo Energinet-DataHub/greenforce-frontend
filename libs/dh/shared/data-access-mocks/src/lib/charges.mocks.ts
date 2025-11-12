@@ -178,7 +178,7 @@ const makeChargeSeriesMock = (period: { start: dayjs.Dayjs; end: dayjs.Dayjs }):
   return {
     __typename: 'ChargeSeries' as const,
     price: points[0].price,
-    period: { start: period.start.toDate(), end: period.start.toDate() },
+    period: { start: period.start.toDate(), end: period.end.subtract(1, 'ms').toDate() },
     hasChanged: points.length > 1,
     points,
   };
