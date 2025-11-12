@@ -48,8 +48,8 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
   styles: `
     @use '@energinet/watt/utils' as watt;
     :host {
-      watt-card {
-        @include watt.media('>=XLarge') {
+      @include watt.media('>=Large') {
+        watt-card {
           width: 75%;
         }
       }
