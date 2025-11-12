@@ -148,7 +148,7 @@ const makeChargeSeriesListMock = (
   resolution: ChargeResolution
 ): ChargeSeries[] => {
   const start = dayjs(interval.start);
-  const end = dayjs(interval.end).add(1, 'millisecond');
+  const end = dayjs(interval.end).add(1, 'ms');
   switch (resolution) {
     case ChargeResolution.Quarterhourly:
       return Array.from({ length: end.diff(interval.start, 'm') / 15 })
