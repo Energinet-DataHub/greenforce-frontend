@@ -8,19 +8,7 @@ query GetCharges(
   charges(query: $query, skip: $skip, take: $take, filter: $filter, order: $order) {
     totalCount
     items {
-      id
-      name
-      code
-      validFrom
-      validTo
-      type
-      description
-      owner {
-        id
-        displayName
-      }
-      resolution # todo: sync fields via fragment with get-charge to fetch byId from cache only
-      status
+      ...ChargeFields
     }
     pageInfo {
       hasNextPage

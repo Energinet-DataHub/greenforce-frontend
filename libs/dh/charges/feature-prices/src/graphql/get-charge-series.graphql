@@ -1,17 +1,6 @@
 query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
   chargeById(id: $chargeId) {
-    id
-    resolution
-    displayName
-    owner {
-      id
-      name
-      glnOrEicNumber
-    }
-    type
-    description
-    validFrom
-    validTo
+    ...ChargeFields
     series(interval: $interval) {
       period
       price
