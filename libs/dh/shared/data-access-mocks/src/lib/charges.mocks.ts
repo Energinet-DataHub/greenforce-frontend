@@ -126,7 +126,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-11',
-      name: 'EEnergy Supplier E',
+      name: 'Energy Supplier E',
       glnOrEicNumber: '1234567890133',
       displayName: '1234567890133 • Energy Supplier E',
     } as MarketParticipant,
