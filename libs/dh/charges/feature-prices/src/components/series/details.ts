@@ -17,7 +17,7 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import { Component, computed, input, output, signal, viewChild } from '@angular/core';
+import { Component, input, output, signal, viewChild } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
