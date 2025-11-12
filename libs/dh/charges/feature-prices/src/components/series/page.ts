@@ -53,17 +53,15 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
-    WATT_TABLE,
     WattButtonComponent,
-    WattDataTableComponent,
     WattDataActionsComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSlideToggleComponent,
     WATT_TABLE,
     DhCircleComponent,
-    DhChargesIntervalField,
     DhChargeSeriesDetailsComponent,
+    DhChargesIntervalField,
     DhChargesPeriodPipe,
   ],
   template: `
@@ -179,7 +177,6 @@ export class DhChargeSeriesPage {
   generateCSV = GenerateCSV.fromSignalArray(this.series);
   download = () => {
     const basePath = 'charges.series.csv.columns';
-
     this.generateCSV
       .addHeaders([
         `"${translate(basePath + '.owner')}"`,
