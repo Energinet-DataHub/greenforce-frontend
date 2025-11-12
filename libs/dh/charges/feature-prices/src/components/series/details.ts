@@ -18,8 +18,16 @@
 //#endregion
 import { DecimalPipe, TitleCasePipe } from '@angular/common';
 import { Component, computed, input, model } from '@angular/core';
-
 import { TranslocoDirective } from '@jsverse/transloco';
+
+import { WattBadgeComponent } from '@energinet/watt/badge';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDataTableComponent } from '@energinet/watt/data';
+import { WattDatePipe } from '@energinet/watt/core/date';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
+import { WATT_MENU } from '@energinet/watt/menu';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
   ChargeSeries,
@@ -27,34 +35,23 @@ import {
   ChargeSeriesPoint,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { WATT_MENU } from '@energinet/watt/menu';
-import { WattBadgeComponent } from '@energinet/watt/badge';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDataTableComponent } from '@energinet/watt/data';
-import { WattDatePipe } from '@energinet/watt/core/date';
-import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
-import { WATT_DRAWER } from '@energinet/watt/drawer';
-import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
-
 import { DhChargesPeriodPipe } from '../../period-pipe';
 
 @Component({
   selector: 'dh-charge-series-details',
   imports: [
+    DecimalPipe,
+    TitleCasePipe,
+    TranslocoDirective,
+    WATT_DESCRIPTION_LIST,
+    WATT_DRAWER,
     WATT_MENU,
     WATT_TABLE,
-    WATT_DRAWER,
-    WATT_DESCRIPTION_LIST,
-
-    WattDatePipe,
     WattBadgeComponent,
     WattButtonComponent,
     WattDataTableComponent,
     WattDatePipe,
-
-    DecimalPipe,
-    TranslocoDirective,
-    TitleCasePipe,
+    WattDatePipe,
     DhChargesPeriodPipe,
   ],
   template: `
@@ -119,7 +116,6 @@ export class DhChargeSeriesDetailsComponent {
   readonly resolution = input.required<ChargeResolution>();
   readonly series = model<ChargeSeries>();
   readonly points = computed(() => this.series()?.points ?? []);
-
   protected dataSource = dataSource(() => this.points());
   protected columns = {
     price: { accessor: (row) => row.price },
