@@ -17,30 +17,19 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import {
-  input,
-  signal,
-  effect,
-  computed,
-  Component,
-  ChangeDetectionStrategy,
-  inject,
-} from '@angular/core';
-
+import { input, signal, computed, Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-
+import { WattButtonComponent } from '@energinet/watt/button';
 import {
   WattDataTableComponent,
   WattDataFiltersComponent,
   WattDataActionsComponent,
 } from '@energinet/watt/data';
-
 import { dayjs } from '@energinet/watt/core/date';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
   ChargeSeries,
@@ -113,15 +102,12 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
         [columns]="columns"
         [dataSource]="dataSource"
         [loading]="query.loading()"
-        (rowClick)="
-          activeRow.set($event); details.open(getIndex($event), $event, resolution(), charge())
-        "
+        (rowClick)="activeRow.set($event)"
         [activeRow]="activeRow()"
         [stickyFooter]="true"
       >
-        <ng-container
-          *wattTableCell="columns.date; header: t('resolution.' + resolution()); let series"
-        >
+        @let dateHeader = t('resolution.' + resolution());
+        <ng-container *wattTableCell="columns.date; header: dateHeader; let series">
           {{ series.period | dhChargesPeriod: resolution() }}
         </ng-container>
         <ng-container *wattTableCell="columns.price; let series">
@@ -149,29 +135,29 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
         </ng-container>
       </watt-table>
     </watt-data-table>
-    <dh-charge-series-details #details (closed)="activeRow.set(undefined)" [date]="date()" />
+    <dh-charge-series-details [(series)]="activeRow" [resolution]="resolution()" />
   `,
 })
 export class DhChargeSeriesPage {
-  private readonly transloco = inject(TranslocoService);
-  private series = computed(() => this.query.data()?.chargeById?.series ?? []);
-  private generateCSV = GenerateCSV.fromSignalArray(this.series);
-
   id = input.required<string>();
   resolution = input.required<ChargeResolution>();
 
-  query = query(GetChargeSeriesDocument, () => ({
+  private transloco = inject(TranslocoService);
+  protected query = query(GetChargeSeriesDocument, () => ({
     skip: true,
     variables: {
       chargeId: this.id(),
     },
   }));
 
-  showHistory = signal(false);
   charge = computed(() => this.query.data()?.chargeById);
-  date = computed(() => this.query.variables().interval?.start);
-  dataSource = new WattTableDataSource<ChargeSeries>();
+  series = computed(() => this.charge()?.series ?? []);
 
+  activeRow = signal<ChargeSeries | undefined>(undefined);
+  showHistory = signal(false);
+  isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
+
+  dataSource = dataSource(() => this.series());
   columns: WattTableColumnDef<ChargeSeries> = {
     date: { accessor: null, sort: false },
     price: {
@@ -190,19 +176,8 @@ export class DhChargeSeriesPage {
     history: { accessor: null, size: '1fr', sort: false },
   };
 
-  activeRow = signal<ChargeSeries | undefined>(undefined);
-
-  getIndex = (selectedSeries: ChargeSeries) => this.series().indexOf(selectedSeries) ?? 0;
-
-  isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
-
-  constructor() {
-    effect(() => {
-      this.dataSource.data = this.series();
-    });
-  }
-
-  download() {
+  generateCSV = GenerateCSV.fromSignalArray(this.series);
+  download = () => {
     const basePath = 'charges.series.csv.columns';
 
     this.generateCSV
@@ -228,5 +203,5 @@ export class DhChargeSeriesPage {
         ])
       )
       .generate('charges.series.csv.fileName');
-  }
+  };
 }

@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { DecimalPipe } from '@angular/common';
-import { Component, computed, input, output, signal, viewChild } from '@angular/core';
+import { DecimalPipe, TitleCasePipe } from '@angular/common';
+import { Component, computed, input, model } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -33,10 +33,9 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataTableComponent } from '@energinet/watt/data';
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet/watt/drawer';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
-import { Charge } from '../../types';
 import { DhChargesPeriodPipe } from '../../period-pipe';
 
 @Component({
@@ -51,20 +50,38 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
     WattBadgeComponent,
     WattButtonComponent,
     WattDataTableComponent,
+    WattDatePipe,
 
     DecimalPipe,
     TranslocoDirective,
+    TitleCasePipe,
     DhChargesPeriodPipe,
   ],
   template: `
-    <watt-drawer (closed)="closed.emit()" size="small" *transloco="let t; prefix: 'charges.series'">
+    <watt-drawer
+      [autoOpen]="series()"
+      [key]="series()"
+      (closed)="series.set(undefined)"
+      size="small"
+      *transloco="let t; prefix: 'charges.series'"
+    >
       <watt-drawer-heading>
-        <h1>{{ date() | wattDate }}</h1>
-        <watt-description-list variant="inline-flow">
-          <watt-description-list-item [label]="t('resolution.' + resolution())">
-            {{ series()?.period | dhChargesPeriod: resolution() }}
-          </watt-description-list-item>
-        </watt-description-list>
+        @switch (resolution()) {
+          @case ('monthly') {
+            <h1>{{ series()?.period.start | wattDate: 'monthYear' | titlecase }}</h1>
+          }
+          @case ('daily') {
+            <h1>{{ series()?.period.start | wattDate }}</h1>
+          }
+          @default {
+            <h1>{{ series()?.period.start | wattDate }}</h1>
+            <watt-description-list variant="inline-flow">
+              <watt-description-list-item [label]="t('resolution.' + resolution())">
+                {{ series()?.period | dhChargesPeriod: resolution() }}
+              </watt-description-list-item>
+            </watt-description-list>
+          }
+        }
       </watt-drawer-heading>
       <watt-drawer-content>
         <watt-data-table [autoSize]="true" [header]="false" [enablePaginator]="false">
@@ -99,27 +116,15 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
   `,
 })
 export class DhChargeSeriesDetailsComponent {
-  private drawer = viewChild.required(WattDrawerComponent);
-  protected series = signal<ChargeSeries | null>(null);
+  readonly resolution = input.required<ChargeResolution>();
+  readonly series = model<ChargeSeries>();
+  readonly points = computed(() => this.series()?.points ?? []);
 
-  readonly date = input<Date>();
-  readonly closed = output();
-
-  protected charge = signal<Charge | null>(null);
-  protected resolution = computed(() => this.charge()?.resolution ?? 'unknown');
-  protected dataSource = new WattTableDataSource<ChargeSeriesPoint>();
-
+  protected dataSource = dataSource(() => this.points());
   protected columns = {
     price: { accessor: (row) => row.price },
     time: { accessor: (row) => row.fromDateTime },
     status: { accessor: (row) => row.fromDateTime, header: '' },
     menu: { accessor: null, header: '' },
   } satisfies WattTableColumnDef<ChargeSeriesPoint>;
-
-  open(index: number, series: ChargeSeries, resolution: ChargeResolution, charge: Charge) {
-    this.series.set(series);
-    this.charge.set(charge);
-    this.dataSource.data = series.points;
-    this.drawer().open();
-  }
 }
