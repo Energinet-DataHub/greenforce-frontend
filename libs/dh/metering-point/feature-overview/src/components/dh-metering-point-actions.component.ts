@@ -45,6 +45,9 @@ import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-tog
 import { WattModalService } from '@energinet/watt/modal';
 
 import { InstallationAddress } from '../types';
+import {
+  DhMoveInCustomerModalComponent
+} from '../../../feature-move-in/src/components/move-in-customer.modal.component';
 
 @Component({
   selector: 'dh-metering-point-actions',
@@ -115,6 +118,22 @@ import { InstallationAddress } from '../types';
           >
             {{ t('moveIn') }}
           </button>
+          <button
+            *dhPermissionRequired="['metering-point:move-in']"
+            type="button"
+            mat-menu-item
+            (click)="startFirstMoveIn()"
+          >
+            Test first part of Movein
+          </button>
+          <button
+            *dhPermissionRequired="['metering-point:move-in']"
+            type="button"
+            mat-menu-item
+            (click)="startSecondMoveIn()"
+          >
+            Test last part of Movein
+          </button>
         }
       </mat-menu>
     </ng-container>
@@ -160,6 +179,22 @@ export class DhMeteringPointActionsComponent {
   });
 
   startMoveIn() {
+    this.modalService.open({
+      component: DhMoveInComponent,
+      data: { installationAddress: this.installationAddress() },
+      disableClose: true,
+    });
+  }
+
+  startFirstMoveIn() {
+    this.modalService.open({
+      component: DhMoveInCustomerModalComponent,
+      data: { installationAddress: this.installationAddress() },
+      disableClose: true,
+    });
+  }
+
+  startSecondMoveIn() {
     this.modalService.open({
       component: DhMoveInComponent,
       data: { installationAddress: this.installationAddress() },
