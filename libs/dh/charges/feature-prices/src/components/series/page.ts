@@ -17,30 +17,19 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import {
-  input,
-  signal,
-  effect,
-  computed,
-  Component,
-  ChangeDetectionStrategy,
-  inject,
-} from '@angular/core';
-
+import { input, signal, computed, Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-
+import { WattButtonComponent } from '@energinet/watt/button';
 import {
   WattDataTableComponent,
   WattDataFiltersComponent,
   WattDataActionsComponent,
 } from '@energinet/watt/data';
-
 import { dayjs } from '@energinet/watt/core/date';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
   ChargeSeries,
@@ -51,9 +40,9 @@ import {
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 
-import formatTime from '../../format-time';
 import { DhChargesIntervalField } from '../interval-field';
 import { DhChargeSeriesDetailsComponent } from './details';
+import { DhChargesPeriodPipe } from '../../period-pipe';
 
 @Component({
   selector: 'dh-prices',
@@ -64,17 +53,16 @@ import { DhChargeSeriesDetailsComponent } from './details';
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
-    WATT_TABLE,
     WattButtonComponent,
-    WattDataTableComponent,
     WattDataActionsComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSlideToggleComponent,
     WATT_TABLE,
     DhCircleComponent,
-    DhChargesIntervalField,
     DhChargeSeriesDetailsComponent,
+    DhChargesIntervalField,
+    DhChargesPeriodPipe,
   ],
   template: `
     <watt-data-table
@@ -101,9 +89,9 @@ import { DhChargeSeriesDetailsComponent } from './details';
       </watt-data-filters>
 
       <watt-data-actions>
-        <watt-button icon="download" variant="text" (click)="download()">{{
-          'shared.download' | transloco
-        }}</watt-button>
+        <watt-button icon="download" variant="text" (click)="download()">
+          {{ 'shared.download' | transloco }}
+        </watt-button>
       </watt-data-actions>
 
       <watt-table
@@ -112,24 +100,16 @@ import { DhChargeSeriesDetailsComponent } from './details';
         [columns]="columns"
         [dataSource]="dataSource"
         [loading]="query.loading()"
-        (rowClick)="
-          activeRow.set($event); details.open(getIndex($event), $event, resolution(), charge())
-        "
+        (rowClick)="activeRow.set($event)"
         [activeRow]="activeRow()"
         [stickyFooter]="true"
       >
-        <ng-container
-          *wattTableCell="
-            columns.date;
-            header: t('resolution.' + resolution());
-            let _;
-            let i = index
-          "
-        >
-          {{ formatTime(i) }}
+        @let dateHeader = t('resolution.' + resolution());
+        <ng-container *wattTableCell="columns.date; header: dateHeader; let series">
+          {{ series.period | dhChargesPeriod: resolution() }}
         </ng-container>
         <ng-container *wattTableCell="columns.price; let series">
-          {{ series.currentPoint?.price | number: '1.6-6' }}
+          {{ series.price | number: '1.6-6' }}
         </ng-container>
         <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
           @if (series.hasChanged) {
@@ -153,29 +133,29 @@ import { DhChargeSeriesDetailsComponent } from './details';
         </ng-container>
       </watt-table>
     </watt-data-table>
-    <dh-charge-series-details #details (closed)="activeRow.set(undefined)" [date]="date()" />
+    <dh-charge-series-details [(series)]="activeRow" [resolution]="resolution()" />
   `,
 })
 export class DhChargeSeriesPage {
-  private readonly transloco = inject(TranslocoService);
-  private series = computed(() => this.query.data()?.chargeById?.series ?? []);
-  private generateCSV = GenerateCSV.fromSignalArray(this.series);
-
   id = input.required<string>();
   resolution = input.required<ChargeResolution>();
 
-  query = query(GetChargeSeriesDocument, () => ({
+  private transloco = inject(TranslocoService);
+  protected query = query(GetChargeSeriesDocument, () => ({
     skip: true,
     variables: {
       chargeId: this.id(),
     },
   }));
 
-  showHistory = signal(false);
   charge = computed(() => this.query.data()?.chargeById);
-  date = computed(() => this.query.variables().interval?.start);
-  dataSource = new WattTableDataSource<ChargeSeries>();
+  series = computed(() => this.charge()?.series ?? []);
 
+  activeRow = signal<ChargeSeries | undefined>(undefined);
+  showHistory = signal(false);
+  isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
+
+  dataSource = dataSource(() => this.series());
   columns: WattTableColumnDef<ChargeSeries> = {
     date: { accessor: null, sort: false },
     price: {
@@ -194,23 +174,9 @@ export class DhChargeSeriesPage {
     history: { accessor: null, size: '1fr', sort: false },
   };
 
-  activeRow = signal<ChargeSeries | undefined>(undefined);
-
-  getIndex = (selectedSeries: ChargeSeries) => this.series().indexOf(selectedSeries) ?? 0;
-
-  isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
-
-  formatTime = (index: number) => formatTime(index, this.resolution(), this.date());
-
-  constructor() {
-    effect(() => {
-      this.dataSource.data = this.series();
-    });
-  }
-
-  download() {
+  generateCSV = GenerateCSV.fromSignalArray(this.series);
+  download = () => {
     const basePath = 'charges.series.csv.columns';
-
     this.generateCSV
       .addHeaders([
         `"${translate(basePath + '.owner')}"`,
@@ -221,48 +187,18 @@ export class DhChargeSeriesPage {
         `"${translate(basePath + '.from')}"`,
         `"${translate(basePath + '.to')}"`,
       ])
-      .mapLines((series) => {
-        return series.map((x, i) => {
-          const timeRange = this.formatTimeCsv(
-            i,
-            this.charge()?.resolution,
-            this.query.variables().interval?.start
-          );
-          return [
-            `"${this.charge()?.owner?.name}"`,
-            `"${this.charge()?.owner?.glnOrEicNumber}"`,
-            `"${translate('charges.chargeTypes.' + this.charge()?.chargeType)}"`,
-            `"${this.charge()?.id}"`,
-            `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
-            `"${dayjs(timeRange.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
-            `"${dayjs(timeRange.end).subtract(1, 'millisecond').format('YYYY-MM-DDTHH:mm:ss')}"`,
-            `"${x.currentPoint?.price.toFixed(6)}"`,
-          ];
-        });
-      })
+      .mapLines((series) =>
+        series.map((x) => [
+          `"${this.charge()?.owner?.name}"`,
+          `"${this.charge()?.owner?.glnOrEicNumber}"`,
+          `"${translate('charges.chargeTypes.' + this.charge()?.type)}"`,
+          `"${this.charge()?.id}"`,
+          `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
+          `"${dayjs(x.period.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
+          `"${dayjs(x.period.end).format('YYYY-MM-DDTHH:mm:ss')}"`,
+          `"${x.price?.toFixed(6)}"`,
+        ])
+      )
       .generate('charges.series.csv.fileName');
-  }
-
-  formatTimeCsv = (
-    index: number,
-    resolution: ChargeResolution | undefined,
-    intervalStart: Date | undefined
-  ) => {
-    const date = dayjs(intervalStart);
-    switch (resolution) {
-      case 'quarterhourly':
-        return {
-          start: date.add(index * 15, 'minutes'),
-          end: date.add((index + 1) * 15, 'minutes'),
-        };
-      case 'hourly':
-        return { start: date.add(index, 'hour'), end: date.add(index + 1, 'hour') };
-      case 'daily':
-        return { start: date.date(index + 1), end: date.date(index + 2) };
-      case 'monthly':
-        return { start: date.month(index), end: date.month(index + 1) };
-      default:
-        return { start: date, end: date };
-    }
   };
 }

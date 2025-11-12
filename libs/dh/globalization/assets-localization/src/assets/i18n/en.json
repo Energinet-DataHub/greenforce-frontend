@@ -459,7 +459,7 @@
         "hourly": "Time",
         "daily": "Date",
         "monthly": "Month",
-        "unknown": "Sequence"
+        "unknown": "Date"
       },
       "columns": {
         "price": "Current price",

@@ -1,26 +1,10 @@
 query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
   chargeById(id: $chargeId) {
-    id
-    resolution
-    displayName
-    owner {
-      id
-      name
-      glnOrEicNumber
-    }
-    chargeType
-    validFrom
-    validTo
+    ...ChargeFields
     series(interval: $interval) {
-      totalAmount
+      period
+      price
       hasChanged
-      # TODO: make a point fragment
-      currentPoint {
-        price
-        fromDateTime
-        toDateTime
-        isCurrent
-      }
       points {
         isCurrent
         price
