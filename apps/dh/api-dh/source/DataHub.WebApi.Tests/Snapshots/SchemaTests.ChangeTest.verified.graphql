@@ -283,20 +283,19 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
   steps: [OrchestrationInstanceStep!]!
 }
 
-type ChargeInformationDto {
-  status: ChargeStatus!
-  displayName: String!
-  owner: MarketParticipant
+type Charge {
   series(interval: DateRange!): [ChargeSeries!]!
+  owner: MarketParticipant
   id: String!
-  validFrom: DateTime!
-  validTo: DateTime!
-  chargeType: ChargeType!
-  resolution: ChargeResolution!
+  type: ChargeType!
   code: String!
+  displayName: String!
   name: String!
   description: String!
-  hasAnyPrices: Boolean!
+  resolution: ChargeResolution!
+  status: ChargeStatus!
+  validFrom: DateTime!
+  validTo: DateTime!
 }
 
 type ChargeLink {
@@ -309,10 +308,10 @@ type ChargeLink {
 }
 
 type ChargeSeries {
-  currentPoint: ChargeSeriesPoint
   hasChanged: Boolean!
+  price: Decimal
+  period: DateRange!
   points: [ChargeSeriesPoint!]!
-  totalAmount: Decimal!
 }
 
 type ChargeSeriesPoint {
@@ -327,7 +326,7 @@ type ChargesCollectionSegment {
   "Information to aid in pagination."
   pageInfo: CollectionSegmentInfo!
   "A flattened list of the items."
-  items: [ChargeInformationDto!]
+  items: [Charge!]
   totalCount: Int!
 }
 
@@ -1162,7 +1161,7 @@ type ProcessesEdge {
 
 type Query {
   charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
-  chargeById(id: String!): ChargeInformationDto @authorize(roles: [ "charges:view" ])
+  chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByMeteringPointId(meteringPointId: String! order: [ChargeLinkSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])

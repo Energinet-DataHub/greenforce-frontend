@@ -13,34 +13,27 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
-[ObjectType<ChargeSeriesDto>]
+[ObjectType<ChargeSeries>]
 public static partial class ChargeSeriesNode
 {
-    public static Point? CurrentPoint([Parent] ChargeSeriesDto chargeSeries) =>
-            chargeSeries.Points
-                        .Where(point => point.FromDateTime <= DateTimeOffset.Now && DateTimeOffset.Now <= point.ToDateTime)
-                        .SingleOrDefault();
-
     public static bool HasChanged([Parent] ChargeSeriesDto chargeSeries)
     {
         var currentPoint = chargeSeries.Points.FirstOrDefault(ChargeSeriesPointNode.IsCurrent);
-
-        if (currentPoint == null)
-        {
-            return false;
-        }
-
-        return chargeSeries.Points.Any(p => p.Price != currentPoint.Price);
+        return currentPoint != null && chargeSeries.Points.Any(p => p.Price != currentPoint.Price);
     }
 
-    static partial void Configure(IObjectTypeDescriptor<ChargeSeriesDto> descriptor)
+    public static decimal? Price([Parent] ChargeSeriesDto chargeSeries) =>
+        chargeSeries.Points.FirstOrDefault(ChargeSeriesPointNode.IsCurrent)?.Price;
+
+    static partial void Configure(IObjectTypeDescriptor<ChargeSeries> descriptor)
     {
         descriptor.Name("ChargeSeries");
         descriptor.BindFieldsExplicitly();
+        descriptor.Field(f => f.Period);
         descriptor.Field(f => f.Points);
-        descriptor.Field(f => f.TotalAmount);
     }
 }

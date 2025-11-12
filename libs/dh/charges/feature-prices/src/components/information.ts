@@ -24,7 +24,7 @@ import {
 
 import {
   // VatClassification,
-  ChargeInformationDto,
+  Charge,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WATT_CARD } from '@energinet/watt/card';
@@ -48,8 +48,8 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
   styles: `
     @use '@energinet/watt/utils' as watt;
     :host {
-      watt-card {
-        @include watt.media('>=XLarge') {
+      @include watt.media('>=Large') {
+        watt-card {
           width: 75%;
         }
       }
@@ -98,7 +98,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
   `,
 })
 export class DhPriceInformation {
-  chargeInformations: Partial<ChargeInformationDto>[] = [
+  chargeInformations: Partial<Charge>[] = [
     {
       id: '2',
       name: 'Charge 2',
