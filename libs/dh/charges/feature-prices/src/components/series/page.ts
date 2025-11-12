@@ -221,25 +221,18 @@ export class DhChargeSeriesPage {
         `"${translate(basePath + '.from')}"`,
         `"${translate(basePath + '.to')}"`,
       ])
-      .mapLines((series) => {
-        return series.map((x, i) => {
-          const timeRange = this.formatTimeCsv(
-            i,
-            this.charge()?.resolution,
-            this.query.variables().interval?.start
-          );
-          return [
-            `"${this.charge()?.owner?.name}"`,
-            `"${this.charge()?.owner?.glnOrEicNumber}"`,
-            `"${translate('charges.chargeTypes.' + this.charge()?.type)}"`,
-            `"${this.charge()?.id}"`,
-            `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
-            `"${dayjs(timeRange.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
-            `"${dayjs(timeRange.end).subtract(1, 'millisecond').format('YYYY-MM-DDTHH:mm:ss')}"`,
-            `"${x.price?.toFixed(6)}"`,
-          ];
-        });
-      })
+      .mapLines((series) =>
+        series.map((x, i) => [
+          `"${this.charge()?.owner?.name}"`,
+          `"${this.charge()?.owner?.glnOrEicNumber}"`,
+          `"${translate('charges.chargeTypes.' + this.charge()?.type)}"`,
+          `"${this.charge()?.id}"`,
+          `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
+          `"${dayjs(x.period.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
+          `"${dayjs(x.period.end).format('YYYY-MM-DDTHH:mm:ss')}"`,
+          `"${x.price?.toFixed(6)}"`,
+        ])
+      )
       .generate('charges.series.csv.fileName');
   }
 
