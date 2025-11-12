@@ -23,14 +23,16 @@ import { chargeLinks } from './data';
 import { mockGetChargesByMeteringPointIdQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 export function getChargesByMeteringPointId() {
-  return mockGetChargesByMeteringPointIdQuery(async ({ variables: { meteringPointId } }) => {
-    await delay(mswConfig.delay);
+  return mockGetChargesByMeteringPointIdQuery(
+    async ({ variables: { meteringPointId: _meteringPointId } }) => {
+      await delay(mswConfig.delay);
 
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        chargesByMeteringPointId: chargeLinks,
-      },
-    });
-  });
+      return HttpResponse.json({
+        data: {
+          __typename: 'Query',
+          chargesByMeteringPointId: chargeLinks,
+        },
+      });
+    }
+  );
 }
