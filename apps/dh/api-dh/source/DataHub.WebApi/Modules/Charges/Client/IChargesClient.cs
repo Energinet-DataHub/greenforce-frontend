@@ -39,7 +39,7 @@ public interface IChargesClient
     /// </summary>
     Task<ChargeInformationDto?> GetChargeByIdAsync(
         string id,
-        CancellationToken ct);
+        CancellationToken ct = default);
 
     /// <summary>
     /// Get charge series for a charge.
@@ -48,5 +48,5 @@ public interface IChargesClient
         string chargeId,
         Resolution resolution,
         Interval interval,
-        CancellationToken ct);
+        CancellationToken ct = default);
 }
