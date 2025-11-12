@@ -12,18 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Client.Extensions.DependencyInjection;
-using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.Modules.Charges.Client;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges;
+namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public class ChargesModule : IModule
-{
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
-        services
-            .AddScoped<IChargesClient, ChargesClient>()
-            .AddChargesClient();
-}
+public record ChargeSeries(
+    Interval Period,
+    List<Point> Points);
