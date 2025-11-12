@@ -158,6 +158,7 @@ const makeChargeSeriesListMock = (
       return Array.from({ length: end.diff(interval.start, 'h') })
         .map((_, i) => ({ start: start.add(i, 'h'), end: start.add(i + 1, 'h') }))
         .map(makeChargeSeriesMock);
+    case ChargeResolution.Unknown:
     case ChargeResolution.Daily:
       return Array.from({ length: end.diff(interval.start, 'd') })
         .map((_, i) => ({ start: start.add(i, 'd'), end: start.add(i + 1, 'd') }))
@@ -165,10 +166,6 @@ const makeChargeSeriesListMock = (
     case ChargeResolution.Monthly:
       return Array.from({ length: end.diff(interval.start, 'M') })
         .map((_, i) => ({ start: start.add(i, 'M'), end: start.add(i + 1, 'M') }))
-        .map(makeChargeSeriesMock);
-    case ChargeResolution.Unknown:
-      return Array.from({ length: end.diff(interval.start, 'w') })
-        .map((_, i) => ({ start: start.add(i, 'w'), end: start.add(i + 1, 'w') }))
         .map(makeChargeSeriesMock);
   }
 };
