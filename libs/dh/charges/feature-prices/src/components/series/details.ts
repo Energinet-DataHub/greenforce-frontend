@@ -51,7 +51,6 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
     WattButtonComponent,
     WattDataTableComponent,
     WattDatePipe,
-    WattDatePipe,
     DhChargesPeriodPipe,
   ],
   template: `
