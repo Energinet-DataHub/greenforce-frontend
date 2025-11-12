@@ -89,9 +89,9 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
       </watt-data-filters>
 
       <watt-data-actions>
-        <watt-button icon="download" variant="text" (click)="download()">{{
-          'shared.download' | transloco
-        }}</watt-button>
+        <watt-button icon="download" variant="text" (click)="download()">
+          {{ 'shared.download' | transloco }}
+        </watt-button>
       </watt-data-actions>
 
       <watt-table
