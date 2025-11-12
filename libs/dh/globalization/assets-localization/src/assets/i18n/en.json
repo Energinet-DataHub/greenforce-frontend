@@ -877,6 +877,7 @@
         "validityDate": "Validity date",
         "meteringPointId": "Metering point ID",
         "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
+        "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
         "powerLimitKw": "Power limit kW",
         "powerLimitAmpere": "Power limit ampere",
         "disconnectionType": "{{ meteringPoint.overview.details.disconnectionType }}",
@@ -886,7 +887,14 @@
         "title": "Address"
       },
       "powerPlant": {
-        "title": "Power plant"
+        "title": "Anlæg",
+        "netSettlementGroup": "Settlement group"
+      },
+      "other": {
+        "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
+        "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
+        "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
+        "product": "Product ID"
       }
     }
   },

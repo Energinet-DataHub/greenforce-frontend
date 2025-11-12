@@ -28,6 +28,7 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { dayjs } from '@energinet/watt/date';
 
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -57,6 +58,7 @@ import { dhMeteringPointTypeParam } from './dh-metering-point-params';
     }
 
     .page-grid {
+      align-items: flex-start;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: var(--watt-space-m);
@@ -67,17 +69,25 @@ import { dhMeteringPointTypeParam } from './dh-metering-point-params';
 export class DhCreateMeteringPoint {
   readonly mpType = inject(ActivatedRoute)?.snapshot.queryParamMap.get(dhMeteringPointTypeParam);
 
-  today = new Date();
+  today = dayjs().startOf('day').toDate();
+  yesterday = dayjs(this.today).subtract(1, 'day').startOf('day').toDate();
 
   form = new FormGroup({
     details: new FormGroup({
       validityDate: dhMakeFormControl<Date | null>(this.today, Validators.required),
       meteringPointId: dhMakeFormControl('', Validators.required),
-      subType: dhMakeFormControl('', Validators.required),
+      subType: dhMakeFormControl('physical', Validators.required),
+      meteringPointNumber: dhMakeFormControl('', Validators.required),
       powerLimitKw: dhMakeFormControl(''),
       powerLimitAmpere: dhMakeFormControl(''),
       disconnectionType: dhMakeFormControl('', Validators.required),
       gridArea: dhMakeFormControl('', Validators.required),
+    }),
+    netSettlementGroup: dhMakeFormControl('0', Validators.required),
+    other: new FormGroup({
+      resolution: dhMakeFormControl('', Validators.required),
+      measureUnit: dhMakeFormControl('K_WH', Validators.required),
+      product: dhMakeFormControl('', Validators.required),
     }),
   });
 

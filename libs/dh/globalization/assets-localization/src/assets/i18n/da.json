@@ -878,6 +878,7 @@
         "validityDate": "Gyldighedsdato",
         "meteringPointId": "Målepunkts ID",
         "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
+        "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
         "powerLimitKw": "Effektgrænse kW",
         "powerLimitAmpere": "Effektgrænse ampere",
         "disconnectionType": "{{ meteringPoint.overview.details.disconnectionType }}",
@@ -887,7 +888,14 @@
         "title": "Addresse"
       },
       "powerPlant": {
-        "title": "Anlæg"
+        "title": "Anlæg",
+        "netSettlementGroup": "Afregningsgruppe"
+      },
+      "other": {
+        "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
+        "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
+        "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
+        "product": "Produkt ID"
       }
     }
   },
