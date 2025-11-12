@@ -105,7 +105,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
           <watt-description-list variant="inline-flow">
             <watt-description-list-item [label]="t('type')">
-              @let chargeType = charge()?.chargeType;
+              @let chargeType = charge()?.type;
               @if (chargeType) {
                 {{ 'charges.chargeTypes.' + chargeType | transloco }}
               }
