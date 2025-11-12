@@ -885,11 +885,30 @@
         "gridArea": "{{ meteringPoint.overview.details.gridArea }}"
       },
       "address": {
-        "title": "Addresse"
+        "title": "Addresse",
+        "actualNotActualLabel": "Faktisk adresse/Ikke faktisk adresse",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetName": "Vejnavn",
+        "buildingNumber": "Husnr.",
+        "floor": "Etage",
+        "room": "Dør",
+        "postCode": "Postnr.",
+        "cityName": "Bynavn",
+        "citySubDivisionName": "{{ meteringPoint.overview.shared.citySubDivisionName }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "comment": "Målepunktsbemærkninger"
       },
       "powerPlant": {
         "title": "Anlæg",
-        "netSettlementGroup": "Afregningsgruppe"
+        "netSettlementGroup": "Afregningsgruppe",
+        "capacity": "Anlægskapacitet",
+        "gsrnNumber": "Værks-GSRN",
+        "connectionType": "Tilslutningstype",
+        "assetType": "Anlægsteknologi"
       },
       "other": {
         "title": "{{ meteringPoint.overview.details.otherSubTitle }}",

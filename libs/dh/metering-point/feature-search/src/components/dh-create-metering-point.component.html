@@ -65,7 +65,7 @@ limitations under the License.
           [label]="t('details.meteringPointNumber')"
         />
 
-        <vater-stack direction="row" align="baseline" gap="m">
+        <vater-flex direction="row" align="baseline" gap="m">
           <watt-text-field
             [formControl]="detailsControls.powerLimitKw"
             [label]="t('details.powerLimitKw')"
@@ -75,7 +75,7 @@ limitations under the License.
             [formControl]="detailsControls.powerLimitAmpere"
             [label]="t('details.powerLimitAmpere')"
           />
-        </vater-stack>
+        </vater-flex>
 
         <label>{{ t("details.disconnectionType") }}</label>
         <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
@@ -108,29 +108,152 @@ limitations under the License.
           <h4>{{ t("address.title") }}</h4>
         </watt-card-title>
 
-        2
+        @let addressControls = form.controls.address.controls;
+
+        <label>{{ t("address.actualNotActualLabel") }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio
+            group="washInstructions"
+            [formControl]="addressControls.washInstructions"
+            value="WASHABLE"
+          >
+            {{ t("address.actualAddress") }}
+          </watt-radio>
+          <watt-radio
+            group="washInstructions"
+            [formControl]="addressControls.washInstructions"
+            value="NOT_WASHABLE"
+          >
+            {{ t("address.notActualAddress") }}
+          </watt-radio>
+        </vater-stack>
+
+        <vater-stack direction="row" align="baseline" gap="m">
+          <watt-dropdown
+            [formControl]="addressControls.countryCode"
+            [options]="[]"
+            [showResetOption]="false"
+            [label]="t('address.country')"
+            class="country-dropdown"
+          />
+
+          <watt-text-field
+            [formControl]="addressControls.streetName"
+            [label]="t('address.streetName')"
+          />
+        </vater-stack>
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="addressControls.buildingNumber"
+            [label]="t('address.buildingNumber')"
+          />
+
+          <watt-text-field [formControl]="addressControls.floor" [label]="t('address.floor')" />
+
+          <watt-text-field [formControl]="addressControls.room" [label]="t('address.room')" />
+
+          <watt-text-field
+            [formControl]="addressControls.postCode"
+            [label]="t('address.postCode')"
+          />
+        </vater-flex>
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="addressControls.cityName"
+            [label]="t('address.cityName')"
+          />
+
+          <watt-text-field
+            [formControl]="addressControls.citySubDivisionName"
+            [label]="t('address.citySubDivisionName')"
+          />
+        </vater-flex>
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="addressControls.streetCode"
+            [label]="t('address.streetCode')"
+          />
+
+          <watt-text-field
+            [formControl]="addressControls.municipalityCode"
+            [label]="t('address.municipalityCode')"
+          />
+        </vater-flex>
+
+        <watt-text-field [formControl]="addressControls.darID" [label]="t('address.darID')" />
+
+        <hr class="watt-divider" />
+
+        <watt-textarea-field
+          [formControl]="addressControls.comment"
+          [label]="t('address.comment')"
+        />
       </watt-card>
 
       <watt-card>
-        <h4 class="watt-space-stack-s">{{ t("powerPlant.title") }}</h4>
+        <watt-card-title>
+          <h4>{{ t("powerPlant.title") }}</h4>
+        </watt-card-title>
+
+        @let powerPlantControls = form.controls.powerPlant.controls;
 
         <label>{{ t("powerPlant.netSettlementGroup") }}</label>
         <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
           <watt-radio
             group="netSettlementGroup"
-            [formControl]="form.controls.netSettlementGroup"
+            [formControl]="powerPlantControls.netSettlementGroup"
             value="0"
           >
             Ingen nettoafregning (0)
           </watt-radio>
           <watt-radio
             group="netSettlementGroup"
-            [formControl]="form.controls.netSettlementGroup"
+            [formControl]="powerPlantControls.netSettlementGroup"
             value="3"
           >
             Øjebliksafregnet (3)
           </watt-radio>
         </vater-stack>
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="powerPlantControls.capacity"
+            [label]="t('powerPlant.capacity')"
+          />
+
+          <watt-text-field
+            [formControl]="powerPlantControls.gsrnNumber"
+            [label]="t('powerPlant.gsrnNumber')"
+          />
+        </vater-flex>
+
+        <label>{{ t("powerPlant.connectionType") }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio
+            group="connectionType"
+            [formControl]="powerPlantControls.connectionType"
+            value="D01"
+          >
+            Direkte tilsluttet (D01)
+          </watt-radio>
+          <watt-radio
+            group="connectionType"
+            [formControl]="powerPlantControls.connectionType"
+            value="D02"
+          >
+            Installationstilsluttet (D02)
+          </watt-radio>
+        </vater-stack>
+
+        <watt-dropdown
+          [formControl]="powerPlantControls.assetType"
+          [options]="[]"
+          [showResetOption]="false"
+          [label]="t('powerPlant.assetType')"
+        />
 
         <hr class="watt-divider" />
 
