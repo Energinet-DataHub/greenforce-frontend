@@ -103,7 +103,7 @@ export const dhMeteringPointRoutes: Routes = [
           },
           {
             path: getPath<MeteringPointSubPaths>('prices'),
-            loadChildren: () => import('libs/dh/metering-point/feature-chargelink/src'),
+            loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-chargelink'),
           },
           {
             path: getPath<MeteringPointSubPaths>('messages'),
