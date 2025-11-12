@@ -51,9 +51,9 @@ import {
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 
-import formatTime from '../../format-time';
 import { DhChargesIntervalField } from '../interval-field';
 import { DhChargeSeriesDetailsComponent } from './details';
+import { DhChargesPeriodPipe } from '../../period-pipe';
 
 @Component({
   selector: 'dh-prices',
@@ -75,6 +75,7 @@ import { DhChargeSeriesDetailsComponent } from './details';
     DhCircleComponent,
     DhChargesIntervalField,
     DhChargeSeriesDetailsComponent,
+    DhChargesPeriodPipe,
   ],
   template: `
     <watt-data-table
@@ -119,14 +120,9 @@ import { DhChargeSeriesDetailsComponent } from './details';
         [stickyFooter]="true"
       >
         <ng-container
-          *wattTableCell="
-            columns.date;
-            header: t('resolution.' + resolution());
-            let _;
-            let i = index
-          "
+          *wattTableCell="columns.date; header: t('resolution.' + resolution()); let series"
         >
-          {{ formatTime(i) }}
+          {{ series.period | dhChargesPeriod: resolution() }}
         </ng-container>
         <ng-container *wattTableCell="columns.price; let series">
           {{ series.price | number: '1.6-6' }}
@@ -199,8 +195,6 @@ export class DhChargeSeriesPage {
   getIndex = (selectedSeries: ChargeSeries) => this.series().indexOf(selectedSeries) ?? 0;
 
   isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
-
-  formatTime = (index: number) => formatTime(index, this.resolution(), this.date());
 
   constructor() {
     effect(() => {
