@@ -64,8 +64,15 @@ public static partial class ChargeNode
     public static async Task<MarkPart.ActorDto?> GetOwnerAsync(
         [Parent] ChargeInformationDto charge,
         IMarketParticipantByIdDataLoader dataLoader,
-        CancellationToken ct) =>
-        await dataLoader.LoadAsync(new Guid(charge.Owner), ct);
+        CancellationToken ct)
+    {
+        if (Guid.TryParse(charge.Owner, out var guid))
+        {
+            return await dataLoader.LoadAsync(guid, ct);
+        }
+
+        return null;
+    }
 
     static partial void Configure(IObjectTypeDescriptor<ChargeInformationDto> descriptor)
     {
