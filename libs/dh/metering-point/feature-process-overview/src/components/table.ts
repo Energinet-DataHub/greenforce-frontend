@@ -85,9 +85,9 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
             {{ t('created') }}
           </watt-date-range-chip>
           <vater-stack direction="row" offset="ml" gap="l">
-            <watt-checkbox [formControl]="form.controls.includeViews">
+            <!--<watt-checkbox [formControl]="form.controls.includeViews">
               {{ t('includeViews') }}
-            </watt-checkbox>
+            </watt-checkbox>-->
             <watt-checkbox [formControl]="form.controls.includeMasterMeasurementAndPriceRequests">
               {{ t('includeMasterMeasurementAndPriceRequests') }}
             </watt-checkbox>
