@@ -26,6 +26,5 @@ query GetMeteringPointProcessById($id: String!) {
       id
       displayName
     }
-    availableActions
   }
 }
