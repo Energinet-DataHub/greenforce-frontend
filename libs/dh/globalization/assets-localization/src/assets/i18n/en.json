@@ -666,11 +666,14 @@
     "processOverview": {
       "columns": {
         "createdAt": "Time of message",
-        "documentType": "Type",
+        "reasonCode": "Type",
         "state": "State",
         "cutoffDate": "Cut-off date",
         "initiator": "Initiating participant",
         "actions": "Possible actions"
+      },
+      "reasonCode": {
+        "EndOfSupply": "End of supply (BRS-002)"
       },
       "filters": {
         "created": "Time",

@@ -22,7 +22,6 @@ public record MeteringPointProcess(
     string Id,
     DateTimeOffset CreatedAt,
     DateTimeOffset CutoffDate,
-    DocumentType DocumentType,
     string ReasonCode,
     string ActorNumber,
     string ActorRole,

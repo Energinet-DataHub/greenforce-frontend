@@ -111,7 +111,6 @@ public static partial class MeteringPointProcessNode
         descriptor.Name("MeteringPointProcess");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Id);
-        descriptor.Field(f => f.DocumentType);
         descriptor.Field(f => f.ReasonCode);
         descriptor.Field(f => f.CreatedAt);
         descriptor.Field(f => f.CutoffDate);
@@ -150,7 +149,6 @@ public static partial class MeteringPointProcessNode
             Id: id.Value.ToString(),
             CreatedAt: lifecycle.CreatedAt,
             CutoffDate: lifecycle.CutoffDate ?? lifecycle.CreatedAt,
-            DocumentType: MapBusinessReasonToDocumentType(businessReasonString),
             ReasonCode: businessReasonString,
             ActorNumber: actorIdentity?.ActorNumber.Value ?? string.Empty,
             ActorRole: actorIdentity?.ActorRole.Name ?? string.Empty,
@@ -158,19 +156,6 @@ public static partial class MeteringPointProcessNode
             Action: action,
             WorkflowSteps: workflowSteps);
     }
-
-    private static DocumentType MapBusinessReasonToDocumentType(string businessReasonCode) =>
-
-        // Map business reason codes to document types
-        // This mapping should align with the business rules
-        businessReasonCode switch
-        {
-            "E20" => DocumentType.RequestWholesaleSettlement,
-            "E23" => DocumentType.NotifyWholesaleServices,
-            "E65" => DocumentType.RequestAggregatedMeasureData,
-            "D02" => DocumentType.RejectRequestWholesaleSettlement,
-            _ => DocumentType.RequestWholesaleSettlement, // Default fallback
-        };
 
     private static ProcessState MapWorkflowStateToProcessState(
         WorkflowInstanceLifecycleState workflowState,

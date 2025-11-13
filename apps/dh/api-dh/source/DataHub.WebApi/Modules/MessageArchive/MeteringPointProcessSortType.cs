@@ -25,7 +25,6 @@ public class MeteringPointProcessSortType : SortInputType<MeteringPointProcess>
         descriptor.Field(f => f.Id);
         descriptor.Field(f => f.CreatedAt);
         descriptor.Field(f => f.CutoffDate);
-        descriptor.Field(f => f.DocumentType);
         descriptor.Field(f => f.ReasonCode);
         descriptor.Field(f => f.State);
     }
