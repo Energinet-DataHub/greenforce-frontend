@@ -22,7 +22,7 @@ import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/tr
 import { firstValueFrom } from 'rxjs';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 import { GetMeteringPointProcessByIdQuery } from '@energinet-datahub/dh/shared/domain/graphql';
-import { emDash } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattDatePipe } from '@energinet/watt/date';
@@ -43,6 +43,7 @@ type MeteringPointProcessStep = NonNullable<
     WATT_TABLE,
     WattDatePipe,
     WattIconComponent,
+    DhEmDashFallbackPipe,
   ],
   template: `
     <watt-table
@@ -77,7 +78,10 @@ type MeteringPointProcessStep = NonNullable<
         {{ process.createdAt | wattDate: 'long' }}
       </ng-container>
       <ng-container *wattTableCell="columns.dueDate; let process">
-        {{ process.dueDate | wattDate: 'long' }}
+        {{ process.dueDate | wattDate: 'long' | dhEmDashFallback }}
+      </ng-container>
+      <ng-container *wattTableCell="columns.actor; let process">
+        {{ process.actor?.name | dhEmDashFallback }}
       </ng-container>
       <ng-container *wattTableCell="columns.state; let process">
         {{ 'shared.states.' + process.state | transloco }}
@@ -98,7 +102,7 @@ export class DhMeteringPointProcessOverviewSteps {
     step: { accessor: 'step', size: '1fr' },
     createdAt: { accessor: 'createdAt' },
     dueDate: { accessor: 'dueDate' },
-    actor: { accessor: 'actor', cell: (r) => r.actor?.name ?? emDash },
+    actor: { accessor: 'actor' },
     state: { accessor: 'state' },
   };
 

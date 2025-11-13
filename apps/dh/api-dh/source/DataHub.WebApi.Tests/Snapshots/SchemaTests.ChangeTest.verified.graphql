@@ -908,8 +908,8 @@ type MeteringPointMetadataDto {
 type MeteringPointProcess {
   initiator: MarketParticipant
   steps: [MeteringPointProcessStep!]!
+  availableActions: [WorkflowAction!]
   id: String!
-  documentType: DocumentType!
   reasonCode: String!
   createdAt: DateTime!
   cutoffDate: DateTime!
@@ -943,7 +943,7 @@ type MeteringPointProcessStep {
   step: String!
   comment: String
   createdAt: DateTime!
-  dueDate: DateTime!
+  dueDate: DateTime
   state: ProcessState!
   messageId: String
 }
@@ -1880,10 +1880,7 @@ input MeteringPointProcessSortInput {
   id: SortEnumType
   createdAt: SortEnumType
   cutoffDate: SortEnumType
-  documentType: SortEnumType
   reasonCode: SortEnumType
-  actorNumber: SortEnumType
-  actorRole: SortEnumType
   state: SortEnumType
 }
 
@@ -2957,6 +2954,12 @@ enum UserStatus {
 enum WashInstructions {
   WASHABLE
   NOT_WASHABLE
+}
+
+enum WorkflowAction {
+  NO_ACTION
+  SEND_INFORMATION
+  CANCEL_WORKFLOW
 }
 
 "The authorize directive."

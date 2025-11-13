@@ -54,7 +54,7 @@ import { Charge } from '../types';
       [error]="query.error()"
       [ready]="query.called() && !query.loading()"
     >
-      <watt-data-filters> </watt-data-filters>
+      <watt-data-filters />
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'meteringPoint.charges.columns'"

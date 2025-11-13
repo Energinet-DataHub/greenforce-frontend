@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
+using HotChocolate.Data.Sorting;
 
-namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 
-public record MeteringPointProcessStep(
-    string Id,
-    string Step,
-    string? Comment,
-    DateTimeOffset CreatedAt,
-    DateTimeOffset? DueDate,
-    string ActorNumber,
-    string ActorRole,
-    ProcessState State,
-    string? MessageId);
+public class MeteringPointProcessSortType : SortInputType<MeteringPointProcess>
+{
+    protected override void Configure(ISortInputTypeDescriptor<MeteringPointProcess> descriptor)
+    {
+        descriptor.BindFieldsExplicitly();
+        descriptor.Field(f => f.Id);
+        descriptor.Field(f => f.CreatedAt);
+        descriptor.Field(f => f.CutoffDate);
+        descriptor.Field(f => f.ReasonCode);
+        descriptor.Field(f => f.State);
+    }
+}

@@ -666,16 +666,25 @@
     "processOverview": {
       "columns": {
         "createdAt": "Time of message",
-        "documentType": "Type",
+        "reasonCode": "Type",
         "state": "State",
         "cutoffDate": "Cut-off date",
         "initiator": "Initiating participant",
         "actions": "Possible actions"
       },
+      "reasonCode": {
+        "EndOfSupply": "End of supply (BRS-002)"
+      },
       "filters": {
         "created": "Time",
         "includeViews": "Include views",
         "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
+      },
+      "actions": {
+        "SEND_INFORMATION": "Send information",
+        "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information",
+        "CANCEL_WORKFLOW": "Cancel workflow",
+        "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
       },
       "steps": {
         "REQUEST_END_OF_SUPPLY": "Request end of supply (BRS-005)"
