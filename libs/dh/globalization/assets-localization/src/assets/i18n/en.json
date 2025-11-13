@@ -492,6 +492,7 @@
     "breadcrumb": "Search metering point",
     "search": {
       "placeholder": "Search by metering point ID",
+      "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
         "containsLetters": "Metering point ID can only contain numbers and not letters",
         "meteringPointIdLength": "Metering point ID must be an 18-digit number"
