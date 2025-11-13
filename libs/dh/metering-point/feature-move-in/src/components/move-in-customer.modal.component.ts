@@ -140,11 +140,4 @@ export class DhMoveInCustomerModalComponent extends WattTypedModal<{
       cpr2Control.reset();
     }
   });
-
-  private success() {
-    const message = this.transloco.translate('meteringPoint.moveIn.success');
-
-    this.toastService.open({ type: 'success', message });
-    this.modal().close(true);
-  }
 }
