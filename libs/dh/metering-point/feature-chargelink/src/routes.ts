@@ -16,9 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-import { GetChargesByMeteringPointIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { Routes } from '@angular/router';
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 
-export type Charge = ResultOf<
-  typeof GetChargesByMeteringPointIdDocument
->['chargesByMeteringPointId'][0];
+export const meteringPointPricesRoutes: Routes = [
+  {
+    canActivate: [
+      PermissionGuard(['metering-point:prices']),
+      dhReleaseToggleGuard('PM58-PRICES-UI'),
+    ],
+    path: '',
+    loadComponent: () => import('./components/chargelinks'),
+    children: [
+      {
+        path: 'details/:id',
+        loadComponent: () => import('./components/details'),
+      },
+    ],
+  },
+];

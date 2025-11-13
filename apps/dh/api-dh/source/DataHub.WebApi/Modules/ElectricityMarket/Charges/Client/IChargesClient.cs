@@ -24,7 +24,7 @@ public interface IChargesClient
     /// <summary>
     /// Get all charges that are linked to a given metering point id.
     /// </summary>
-    Task<IEnumerable<ChargeLink>> GetChargesByMeteringPointIdAsync(
+    Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(
         string meteringPointId,
         CancellationToken ct = default);
 }

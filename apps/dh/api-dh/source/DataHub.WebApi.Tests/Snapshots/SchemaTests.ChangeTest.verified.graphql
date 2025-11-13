@@ -1162,7 +1162,7 @@ type ProcessesEdge {
 type Query {
   charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
-  chargesByMeteringPointId(meteringPointId: String! order: [ChargeLinkSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
+  chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
