@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.WorkflowInstance;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -24,7 +25,7 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
 using NodaTime;
 
-using WorkflowAction = Energinet.DataHub.ProcessManager.Abstractions.Api.Model.WorkflowInstance.WorkflowAction;
+using WorkflowAction = Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model.WorkflowAction;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 
