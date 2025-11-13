@@ -1,16 +1,16 @@
 {
-  "name": "dh-metering-point-feature-charges",
+  "name": "dh-metering-point-feature-chargelinks",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/metering-point/feature-charges/src",
+  "sourceRoot": "libs/dh/metering-point/feature-chargelinks/src",
   "prefix": "dh",
   "projectType": "library",
   "tags": ["product:dh", "domain:metering-point", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/metering-point/feature-charges"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/metering-point/feature-chargelinks"],
       "options": {
-        "config": "libs/dh/metering-point/feature-charges/vite.config.mts"
+        "config": "libs/dh/metering-point/feature-chargelinks/vite.config.mts"
       }
     },
     "lint": {

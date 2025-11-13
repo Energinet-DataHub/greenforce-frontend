@@ -661,6 +661,14 @@
         "owner": "Owner",
         "amount": "Amount",
         "period": "Period"
+      },
+      "details": {
+        "columns": {
+          "submittedAt": "Submitted",
+          "description": "Description"
+        },
+        "copyMessage": "Copy message ID",
+        "navigateToMessage": "Go to message"
       }
     },
     "processOverview": {

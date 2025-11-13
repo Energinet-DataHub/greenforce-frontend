@@ -16,20 +16,24 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Component, computed, inject, input } from '@angular/core';
+
+import { TranslocoDirective } from '@jsverse/transloco';
+
 import { WattDatePipe } from '@energinet/watt/core/date';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { Charge } from '../types';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { VaterUtilityDirective } from '@energinet/watt/vater';
+
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetChargesByMeteringPointIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { GetChargeLinksByMeteringPointIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { Charge } from '../types';
 
 @Component({
-  selector: 'dh-metering-point-charges',
+  selector: 'dh-metering-point-charge-links',
   imports: [
     RouterOutlet,
     TranslocoDirective,
@@ -68,14 +72,14 @@ import { GetChargesByMeteringPointIdDocument } from '@energinet-datahub/dh/share
     </watt-data-table>
     <router-outlet />`,
 })
-export class DhMeteringPointCharges {
+export default class DhMeteringPointChargeLinkPage {
   id = input.required<string>();
-  query = query(GetChargesByMeteringPointIdDocument, () => ({
+  query = query(GetChargeLinksByMeteringPointIdDocument, () => ({
     variables: { meteringPointId: this.id() },
   }));
   navigation = inject(DhNavigationService);
   dataSource = computed(
-    () => new WattTableDataSource(this.query.data()?.chargesByMeteringPointId ?? [])
+    () => new WattTableDataSource(this.query.data()?.chargeLinksByMeteringPointId ?? [])
   );
 
   columns: WattTableColumnDef<Charge> = {

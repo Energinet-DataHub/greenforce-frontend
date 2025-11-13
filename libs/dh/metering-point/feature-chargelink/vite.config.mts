@@ -32,7 +32,7 @@ const mswPolyfillPath = resolve(
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh/metering-point/prices',
+  cacheDir: '../../../../node_modules/.vite/libs/dh/metering-point/chargelinks',
   plugins: [analog(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   resolve: {
     conditions: ['development', 'browser'],
@@ -46,7 +46,7 @@ export default defineConfig(() => ({
     passWithNoTests: true,
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/dh/metering-point/prices',
+      reportsDirectory: '../../../../coverage/libs/dh/metering-point/chargelinks',
       provider: 'v8' as const,
     },
     pool: 'threads',
