@@ -372,10 +372,10 @@
       "TARIFF": "Tarif"
     },
     "resolutions": {
-      "daily": "Daglig",
-      "quarterHourly": "Kvartalsvis",
-      "hourly": "Timevis",
-      "monthly": "Månedlig",
+      "daily": "Dag",
+      "quarterhourly": "Kvarter",
+      "hourly": "Time",
+      "monthly": "Måned",
       "unknown": "Ukendt"
     },
     "vatClassifications": {
@@ -460,7 +460,7 @@
         "hourly": "Tidspunkt",
         "daily": "Dato",
         "monthly": "Måned",
-        "unknown": "Sekvens"
+        "unknown": "Dato"
       },
       "columns": {
         "price": "Aktuel pris",
@@ -505,6 +505,9 @@
       },
       "processes": {
         "tabLabel": "Procesoverblik"
+      },
+      "prices": {
+        "tabLabel": "Priser"
       },
       "messages": {
         "tabLabel": "Beskeder"
@@ -651,6 +654,16 @@
     "selectedRelatedMeteringPoint": "Valgt",
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
+    "charges": {
+      "columns": {
+        "type": "Type",
+        "id": "Id",
+        "name": "Navn",
+        "owner": "Ejer",
+        "amount": "Antal",
+        "period": "Periode"
+      }
+    },
     "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunkt",
@@ -854,6 +867,42 @@
       },
       "success": "Tilflytning er nu registreret",
       "save": "Tilflyt kunde"
+    },
+    "create": {
+      "modal": {
+        "title": "Vælg type af målepunkt til oprettelse",
+        "label": "Målepunktstype",
+        "placeholder": "Indtast eller vælg",
+        "cancel": "Annuller",
+        "start": "Start"
+      },
+      "title": "Opret {{ type }} målepunkt",
+      "cancel": "Afbryd",
+      "create": "Opret målepunkt",
+      "details": {
+        "title": "Detaljer",
+        "validityDate": "Gyldighedsdato",
+        "meteringPointId": "Målepunkts ID",
+        "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
+        "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
+        "powerLimitKw": "Effektgrænse kW",
+        "powerLimitAmpere": "Effektgrænse ampere",
+        "disconnectionType": "{{ meteringPoint.overview.details.disconnectionType }}",
+        "gridArea": "{{ meteringPoint.overview.details.gridArea }}"
+      },
+      "address": {
+        "title": "Addresse"
+      },
+      "powerPlant": {
+        "title": "Anlæg",
+        "netSettlementGroup": "Afregningsgruppe"
+      },
+      "other": {
+        "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
+        "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
+        "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
+        "product": "Produkt ID"
+      }
     }
   },
   "messageArchive": {
@@ -1250,6 +1299,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "actionsButton": "Handlinger",
       "fileName": "DataHub aktører - {{ shared.downloadNameParams }}",
       "create": "Ny aktør",
       "actors": "Aktører",

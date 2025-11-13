@@ -51,7 +51,6 @@ import {
 } from '@energinet/watt/description-list';
 
 import { WATT_CARD } from '@energinet/watt/card';
-import { WattChipComponent } from '@energinet/watt/chip';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
@@ -89,7 +88,6 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
     WATT_TABS,
     WATT_CARD,
     WATT_DRAWER,
-    WattChipComponent,
     WattButtonComponent,
     WattSpinnerComponent,
     WattDescriptionListComponent,

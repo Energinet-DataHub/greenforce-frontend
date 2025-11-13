@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.Charges.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Modules.Charges.Client;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -21,9 +22,8 @@ public class ChargesModule : IModule
 {
     public IServiceCollection RegisterModule(
         IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.AddChargesClient();
-        return services;
-    }
+        IConfiguration configuration) =>
+        services
+            .AddScoped<IChargesClient, ChargesClient>()
+            .AddChargesClient();
 }

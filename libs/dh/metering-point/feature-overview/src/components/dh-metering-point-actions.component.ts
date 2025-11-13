@@ -74,7 +74,7 @@ import { InstallationAddress } from '../types';
             [matMenuTriggerFor]="menu"
           >
             {{ t('actionsButton') }}
-            <watt-icon name="plus" />
+            <watt-icon name="moreVertical" />
           </watt-button>
         } @else {
           <ng-content *ngTemplateOutlet="elseTmpl" />
@@ -88,7 +88,7 @@ import { InstallationAddress } from '../types';
               [matMenuTriggerFor]="menu"
             >
               {{ t('actionsButton') }}
-              <watt-icon name="plus" />
+              <watt-icon name="moreVertical" />
             </watt-button>
           }
         </ng-template>

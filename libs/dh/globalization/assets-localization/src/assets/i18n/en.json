@@ -371,10 +371,10 @@
       "TARIFF": "Tariff"
     },
     "resolutions": {
-      "daily": "Daily",
-      "quarterhourly": "Quarterly",
-      "hourly": "Hourly",
-      "monthly": "Monthly",
+      "daily": "Day",
+      "quarterhourly": "Quarter hour",
+      "hourly": "Hour",
+      "monthly": "Month",
       "unknown": "Unknown"
     },
     "vatClassifications": {
@@ -459,7 +459,7 @@
         "hourly": "Time",
         "daily": "Date",
         "monthly": "Month",
-        "unknown": "Sequence"
+        "unknown": "Date"
       },
       "columns": {
         "price": "Current price",
@@ -504,6 +504,9 @@
       },
       "processes": {
         "tabLabel": "Processes"
+      },
+      "prices": {
+        "tabLabel": "Prices"
       },
       "messages": {
         "tabLabel": "Messages"
@@ -650,6 +653,16 @@
     "selectedRelatedMeteringPoint": "Selected",
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
+    "charges": {
+      "columns": {
+        "type": "Type",
+        "id": "ID",
+        "name": "Name",
+        "owner": "Owner",
+        "amount": "Amount",
+        "period": "Period"
+      }
+    },
     "processOverview": {
       "columns": {
         "createdAt": "Time of message",
@@ -853,6 +866,42 @@
       },
       "success": "Move-in is now registered",
       "save": "Customer move-in"
+    },
+    "create": {
+      "modal": {
+        "title": "Select type of metering point to create",
+        "label": "Metering point type",
+        "placeholder": "Input or select",
+        "cancel": "Cancel",
+        "start": "Start"
+      },
+      "title": "Create {{ type }} metering point",
+      "cancel": "Cancel",
+      "create": "Create metering point",
+      "details": {
+        "title": "Details",
+        "validityDate": "Validity date",
+        "meteringPointId": "Metering point ID",
+        "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
+        "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
+        "powerLimitKw": "Power limit kW",
+        "powerLimitAmpere": "Power limit ampere",
+        "disconnectionType": "{{ meteringPoint.overview.details.disconnectionType }}",
+        "gridArea": "{{ meteringPoint.overview.details.gridArea }}"
+      },
+      "address": {
+        "title": "Address"
+      },
+      "powerPlant": {
+        "title": "Anlæg",
+        "netSettlementGroup": "Settlement group"
+      },
+      "other": {
+        "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
+        "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
+        "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
+        "product": "Product ID"
+      }
     }
   },
   "messageArchive": {
@@ -1249,6 +1298,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "actionsButton": "Actions",
       "fileName": "DataHub market participants - {{ shared.downloadNameParams }}",
       "create": "New market participant",
       "actors": "Market Participants",
