@@ -23,8 +23,13 @@ import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_CARD } from '@energinet/watt/card';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+} from '@energinet/watt/vater';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
@@ -44,12 +49,14 @@ import { dhMeteringPointTypeParam } from './dh-metering-point-params';
 
     VaterStackComponent,
     VaterSpacerComponent,
+    VaterFlexComponent,
     WATT_CARD,
     WattButtonComponent,
     WattTextFieldComponent,
     WattRadioComponent,
     WattDropdownComponent,
     WattDatepickerComponent,
+    WattTextAreaFieldComponent,
   ],
   styles: `
     :host {
@@ -62,6 +69,14 @@ import { dhMeteringPointTypeParam } from './dh-metering-point-params';
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: var(--watt-space-m);
+    }
+
+    .country-dropdown {
+      width: 200px;
+    }
+
+    watt-textarea-field {
+      --watt-textarea-min-height: 100px;
     }
   `,
   templateUrl: './dh-create-metering-point.component.html',
@@ -83,7 +98,28 @@ export class DhCreateMeteringPoint {
       disconnectionType: dhMakeFormControl('', Validators.required),
       gridArea: dhMakeFormControl('', Validators.required),
     }),
-    netSettlementGroup: dhMakeFormControl('0', Validators.required),
+    address: new FormGroup({
+      countryCode: dhMakeFormControl('', Validators.required),
+      washInstructions: dhMakeFormControl('WASHABLE', Validators.required),
+      streetName: dhMakeFormControl('', Validators.required),
+      buildingNumber: dhMakeFormControl('', Validators.required),
+      floor: dhMakeFormControl(''),
+      room: dhMakeFormControl(''),
+      postCode: dhMakeFormControl('', Validators.required),
+      cityName: dhMakeFormControl('', Validators.required),
+      citySubDivisionName: dhMakeFormControl(''),
+      streetCode: dhMakeFormControl('', Validators.required),
+      municipalityCode: dhMakeFormControl('', Validators.required),
+      darID: dhMakeFormControl('', Validators.required),
+      comment: dhMakeFormControl(''),
+    }),
+    powerPlant: new FormGroup({
+      netSettlementGroup: dhMakeFormControl('0', Validators.required),
+      capacity: dhMakeFormControl('', Validators.required),
+      gsrnNumber: dhMakeFormControl('', Validators.required),
+      connectionType: dhMakeFormControl('', Validators.required),
+      assetType: dhMakeFormControl('', Validators.required),
+    }),
     other: new FormGroup({
       resolution: dhMakeFormControl('', Validators.required),
       measureUnit: dhMakeFormControl('K_WH', Validators.required),
