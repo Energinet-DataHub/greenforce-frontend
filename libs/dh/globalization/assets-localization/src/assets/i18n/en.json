@@ -890,11 +890,30 @@
         "gridArea": "{{ meteringPoint.overview.details.gridArea }}"
       },
       "address": {
-        "title": "Address"
+        "title": "Address",
+        "actualNotActualLabel": "Actual address/Not actual address",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetName": "Street name",
+        "buildingNumber": "Building number",
+        "floor": "Floor",
+        "room": "Door",
+        "postCode": "Postal code",
+        "cityName": "City name",
+        "citySubDivisionName": "{{ meteringPoint.overview.shared.citySubDivisionName }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "comment": "Comment"
       },
       "powerPlant": {
-        "title": "Anlæg",
-        "netSettlementGroup": "Settlement group"
+        "title": "Power plant",
+        "netSettlementGroup": "Settlement group",
+        "capacity": "Capacity",
+        "gsrnNumber": "Power plant GSRN",
+        "connectionType": "Connection type",
+        "assetType": "Asset type"
       },
       "other": {
         "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
