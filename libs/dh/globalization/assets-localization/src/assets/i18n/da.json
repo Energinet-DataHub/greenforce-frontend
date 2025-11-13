@@ -885,7 +885,7 @@
         "gridArea": "{{ meteringPoint.overview.details.gridArea }}"
       },
       "address": {
-        "title": "Addresse",
+        "title": "Adresse",
         "actualNotActualLabel": "Faktisk adresse/Ikke faktisk adresse",
         "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
