@@ -675,16 +675,25 @@
     "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunkt",
-        "documentType": "Type",
+        "reasonCode": "Type",
         "state": "Status",
         "cutoffDate": "Skæringsdato",
         "initiator": "Initierende aktør",
         "actions": "Mulige handlinger"
       },
+      "reasonCode": {
+        "EndOfSupply": "Leveranceophør (BRS-002)"
+      },
       "filters": {
         "created": "Tidspunkt",
         "includeViews": "Inkluder visninger",
         "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
+      },
+      "actions": {
+        "SEND_INFORMATION": "Send information",
+        "FAS_SEND_INFORMATION": "Net og el kan sende information",
+        "CANCEL_WORKFLOW": "Annuller workflow",
+        "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
       },
       "steps": {
         "REQUEST_END_OF_SUPPLY": "Anmod om leveranceophør (BRS-005)"
@@ -886,16 +895,43 @@
         "validityDate": "Gyldighedsdato",
         "meteringPointId": "Målepunkts ID",
         "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
+        "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
         "powerLimitKw": "Effektgrænse kW",
         "powerLimitAmpere": "Effektgrænse ampere",
         "disconnectionType": "{{ meteringPoint.overview.details.disconnectionType }}",
         "gridArea": "{{ meteringPoint.overview.details.gridArea }}"
       },
       "address": {
-        "title": "Addresse"
+        "title": "Adresse",
+        "actualNotActualLabel": "Faktisk adresse/Ikke faktisk adresse",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetName": "Vejnavn",
+        "buildingNumber": "Husnr.",
+        "floor": "Etage",
+        "room": "Dør",
+        "postCode": "Postnr.",
+        "cityName": "Bynavn",
+        "citySubDivisionName": "{{ meteringPoint.overview.shared.citySubDivisionName }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "comment": "Målepunktsbemærkninger"
       },
       "powerPlant": {
-        "title": "Anlæg"
+        "title": "Anlæg",
+        "netSettlementGroup": "Afregningsgruppe",
+        "capacity": "Anlægskapacitet",
+        "gsrnNumber": "Værks-GSRN",
+        "connectionType": "Tilslutningstype",
+        "assetType": "Anlægsteknologi"
+      },
+      "other": {
+        "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
+        "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
+        "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
+        "product": "Produkt ID"
       }
     }
   },

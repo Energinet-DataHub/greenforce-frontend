@@ -23,11 +23,17 @@ import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_CARD } from '@energinet/watt/card';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+} from '@energinet/watt/vater';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { dayjs } from '@energinet/watt/date';
 
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -43,12 +49,14 @@ import { dhMeteringPointTypeParam } from './dh-metering-point-params';
 
     VaterStackComponent,
     VaterSpacerComponent,
+    VaterFlexComponent,
     WATT_CARD,
     WattButtonComponent,
     WattTextFieldComponent,
     WattRadioComponent,
     WattDropdownComponent,
     WattDatepickerComponent,
+    WattTextAreaFieldComponent,
   ],
   styles: `
     :host {
@@ -57,9 +65,18 @@ import { dhMeteringPointTypeParam } from './dh-metering-point-params';
     }
 
     .page-grid {
+      align-items: flex-start;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: var(--watt-space-m);
+    }
+
+    .country-dropdown {
+      width: 200px;
+    }
+
+    watt-textarea-field {
+      --watt-textarea-min-height: 100px;
     }
   `,
   templateUrl: './dh-create-metering-point.component.html',
@@ -67,17 +84,46 @@ import { dhMeteringPointTypeParam } from './dh-metering-point-params';
 export class DhCreateMeteringPoint {
   readonly mpType = inject(ActivatedRoute)?.snapshot.queryParamMap.get(dhMeteringPointTypeParam);
 
-  today = new Date();
+  today = dayjs().startOf('day').toDate();
+  yesterday = dayjs(this.today).subtract(1, 'day').startOf('day').toDate();
 
   form = new FormGroup({
     details: new FormGroup({
       validityDate: dhMakeFormControl<Date | null>(this.today, Validators.required),
       meteringPointId: dhMakeFormControl('', Validators.required),
-      subType: dhMakeFormControl('', Validators.required),
+      subType: dhMakeFormControl('physical', Validators.required),
+      meteringPointNumber: dhMakeFormControl('', Validators.required),
       powerLimitKw: dhMakeFormControl(''),
       powerLimitAmpere: dhMakeFormControl(''),
       disconnectionType: dhMakeFormControl('', Validators.required),
       gridArea: dhMakeFormControl('', Validators.required),
+    }),
+    address: new FormGroup({
+      countryCode: dhMakeFormControl('', Validators.required),
+      washInstructions: dhMakeFormControl('WASHABLE', Validators.required),
+      streetName: dhMakeFormControl('', Validators.required),
+      buildingNumber: dhMakeFormControl('', Validators.required),
+      floor: dhMakeFormControl(''),
+      room: dhMakeFormControl(''),
+      postCode: dhMakeFormControl('', Validators.required),
+      cityName: dhMakeFormControl('', Validators.required),
+      citySubDivisionName: dhMakeFormControl(''),
+      streetCode: dhMakeFormControl('', Validators.required),
+      municipalityCode: dhMakeFormControl('', Validators.required),
+      darID: dhMakeFormControl('', Validators.required),
+      comment: dhMakeFormControl(''),
+    }),
+    powerPlant: new FormGroup({
+      netSettlementGroup: dhMakeFormControl('0', Validators.required),
+      capacity: dhMakeFormControl('', Validators.required),
+      gsrnNumber: dhMakeFormControl('', Validators.required),
+      connectionType: dhMakeFormControl('', Validators.required),
+      assetType: dhMakeFormControl('', Validators.required),
+    }),
+    other: new FormGroup({
+      resolution: dhMakeFormControl('', Validators.required),
+      measureUnit: dhMakeFormControl('K_WH', Validators.required),
+      product: dhMakeFormControl('', Validators.required),
     }),
   });
 

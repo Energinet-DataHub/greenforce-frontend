@@ -27,6 +27,7 @@ public static partial class ChargeOperations
     [UseSorting]
     [Authorize(Roles = new[] { "metering-point:prices" })]
     public static async Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(
+    public static async Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(
             string meteringPointId,
             CancellationToken ct,
             [Service] IChargesClient client)

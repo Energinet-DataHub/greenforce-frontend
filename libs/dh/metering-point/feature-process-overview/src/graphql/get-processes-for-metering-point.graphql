@@ -25,13 +25,13 @@ query GetMeteringPointProcessOverview(
       id
       createdAt
       cutoffDate
-      documentType
       reasonCode
       state
       initiator {
         id
         displayName
       }
+      availableActions
     }
   }
 }

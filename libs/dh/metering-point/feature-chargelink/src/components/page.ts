@@ -54,7 +54,7 @@ import { Charge } from '../types';
       [error]="query.error()"
       [ready]="query.called() && !query.loading()"
     >
-      <watt-data-filters> </watt-data-filters>
+      <watt-data-filters />
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'meteringPoint.charges.columns'"
@@ -72,7 +72,11 @@ import { Charge } from '../types';
     </watt-data-table>
     <router-outlet />`,
 })
+<<<<<<<< HEAD:libs/dh/metering-point/feature-chargelink/src/components/page.ts
 export default class DhMeteringPointChargeLinkPage {
+========
+export default class DhMeteringPointCharges {
+>>>>>>>> origin:libs/dh/metering-point/feature-chargelink/src/components/chargelinks.ts
   id = input.required<string>();
   query = query(GetChargeLinksByMeteringPointIdDocument, () => ({
     variables: { meteringPointId: this.id() },
