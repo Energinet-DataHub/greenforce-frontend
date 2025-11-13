@@ -35,6 +35,7 @@ import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component';
@@ -54,6 +55,7 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
 
     DhPermissionRequiredDirective,
     DhFeatureFlagDirective,
+    DhReleaseToggleDirective,
   ],
   styles: `
     .search-wrapper {
@@ -95,12 +97,16 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
           }
         </watt-text-field>
 
-        <watt-button
-          *dhPermissionRequired="['metering-point:create']"
-          icon="plus"
-          variant="icon"
-          (click)="createMeteringPoint()"
-        />
+        <ng-content *dhReleaseToggle="'PM52-CREATE-METERING-POINT-UI'">
+          <watt-button
+            *dhPermissionRequired="['metering-point:create']"
+            icon="plus"
+            variant="secondary"
+            (click)="createMeteringPoint()"
+          >
+            {{ t('createMeteringPoint') }}
+          </watt-button>
+        </ng-content>
       </vater-stack>
 
       @if (meteringPointNotFound()) {

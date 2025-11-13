@@ -75,7 +75,11 @@ export const dhMeteringPointRoutes: Routes = [
       },
       {
         path: getPath<MeteringPointSubPaths>('create'),
-        canActivate: [PermissionGuard(['metering-point:create']), meteringPointCreateGuard()],
+        canActivate: [
+          dhReleaseToggleGuard('PM52-CREATE-METERING-POINT-UI'),
+          PermissionGuard(['metering-point:create']),
+          meteringPointCreateGuard(),
+        ],
         component: DhCreateMeteringPoint,
       },
       {
