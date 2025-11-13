@@ -32,6 +32,7 @@ query GetMeteringPointProcessOverview(
         id
         displayName
       }
+      availableActions
     }
   }
 }

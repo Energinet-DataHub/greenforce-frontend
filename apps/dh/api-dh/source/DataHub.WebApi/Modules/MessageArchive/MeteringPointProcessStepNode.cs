@@ -23,10 +23,10 @@ namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 public static partial class MeteringPointProcessStepNode
 {
     public static async Task<ActorDto?> GetActorAsync(
-        [Parent] MeteringPointProcess process,
+        [Parent] MeteringPointProcessStep step,
         IMarketParticipantByNumberAndRoleDataLoader dataLoader) =>
-        Enum.TryParse<EicFunction>(process.ActorRole, out var role)
-            ? await dataLoader.LoadAsync((process.ActorNumber, role))
+        Enum.TryParse<EicFunction>(step.ActorRole, out var role)
+            ? await dataLoader.LoadAsync((step.ActorNumber, role))
             : null;
 
     public static async Task<ArchivedMessage?> GetMessageAsync(

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
 
@@ -25,4 +26,6 @@ public record MeteringPointProcess(
     string ReasonCode,
     string ActorNumber,
     string ActorRole,
-    ProcessState State);
+    ProcessState State,
+    WorkflowAction? Action = null,
+    IReadOnlyCollection<WorkflowStepInstanceDto>? WorkflowSteps = null);
