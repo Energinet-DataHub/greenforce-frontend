@@ -3,7 +3,6 @@ query GetMeteringPointProcessById($id: String!) {
     id
     createdAt
     cutoffDate
-    documentType
     reasonCode
     state
     steps {
@@ -26,6 +25,5 @@ query GetMeteringPointProcessById($id: String!) {
       id
       displayName
     }
-    availableActions
   }
 }

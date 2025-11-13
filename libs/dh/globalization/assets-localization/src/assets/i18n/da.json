@@ -667,11 +667,14 @@
     "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunkt",
-        "documentType": "Type",
+        "reasonCode": "Type",
         "state": "Status",
         "cutoffDate": "Skæringsdato",
         "initiator": "Initierende aktør",
         "actions": "Mulige handlinger"
+      },
+      "reasonCode": {
+        "EndOfSupply": "Leveranceophør (BRS-002)"
       },
       "filters": {
         "created": "Tidspunkt",

@@ -65,7 +65,7 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
   providers: [DhNavigationService],
   template: `
     <watt-data-table
-      *transloco="let t; prefix: 'messageArchive'"
+      *transloco="let t; prefix: 'meteringPoint.processOverview'"
       vater
       inset="ml"
       [error]="dataSource.error"
@@ -85,9 +85,9 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
             {{ t('created') }}
           </watt-date-range-chip>
           <vater-stack direction="row" offset="ml" gap="l">
-            <watt-checkbox [formControl]="form.controls.includeViews">
+            <!--<watt-checkbox [formControl]="form.controls.includeViews">
               {{ t('includeViews') }}
-            </watt-checkbox>
+            </watt-checkbox>-->
             <watt-checkbox [formControl]="form.controls.includeMasterMeasurementAndPriceRequests">
               {{ t('includeMasterMeasurementAndPriceRequests') }}
             </watt-checkbox>
@@ -110,8 +110,8 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
         <ng-container *wattTableCell="columns.cutoffDate; let process">
           {{ process.cutoffDate | wattDate: 'long' }}
         </ng-container>
-        <ng-container *wattTableCell="columns.documentType; let process">
-          {{ t('documentType.' + process.documentType) }}
+        <ng-container *wattTableCell="columns.reasonCode; let process">
+          {{ t('reasonCode.' + process.reasonCode) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
           <dh-process-state-badge
@@ -185,7 +185,7 @@ export class DhMeteringPointProcessOverviewTable {
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
     cutoffDate: { accessor: 'cutoffDate' },
-    documentType: { accessor: 'documentType' },
+    reasonCode: { accessor: 'reasonCode' },
     state: { accessor: 'state' },
     initiator: { accessor: 'initiator' },
     actions: { accessor: null },

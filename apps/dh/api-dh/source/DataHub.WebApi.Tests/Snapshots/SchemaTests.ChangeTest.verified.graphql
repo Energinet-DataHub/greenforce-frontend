@@ -910,7 +910,6 @@ type MeteringPointProcess {
   steps: [MeteringPointProcessStep!]!
   availableActions: [WorkflowAction!]
   id: String!
-  documentType: DocumentType!
   reasonCode: String!
   createdAt: DateTime!
   cutoffDate: DateTime!
@@ -1881,7 +1880,6 @@ input MeteringPointProcessSortInput {
   id: SortEnumType
   createdAt: SortEnumType
   cutoffDate: SortEnumType
-  documentType: SortEnumType
   reasonCode: SortEnumType
   state: SortEnumType
 }
