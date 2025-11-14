@@ -493,6 +493,7 @@
     "breadcrumb": "Søg målepunkt",
     "search": {
       "placeholder": "Søg på Målepunkts-ID",
+      "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
         "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
         "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
