@@ -352,8 +352,8 @@
     "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
-    "PT15M": "15 min",
-    "PT1H": "60 min",
+    "PT15M": "Quarter hour",
+    "PT1H": "Hour",
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
