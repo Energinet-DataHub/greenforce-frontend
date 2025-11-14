@@ -40,7 +40,7 @@ const chargeLinks: ChargeLink[] = [
   {
     __typename: 'ChargeLink',
     id: '1000',
-    type: 'Associated',
+    type: ChargeType.Fee,
     amount: 100.0,
     name: 'Charge Link 1',
     displayName: '1000 • Charge Link 1',

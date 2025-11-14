@@ -6,6 +6,7 @@ query GetChargeLinksByMeteringPointId($order: [ChargeLinkSortInput!], $meteringP
     type
     owner {
       id
+      displayName
     }
     period
   }

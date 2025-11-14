@@ -663,6 +663,7 @@
         "amount": "Antal",
         "period": "Periode"
       },
+      "chargeType": "Type",
       "details": {
         "columns": {
           "submittedAt": "Indsendt",

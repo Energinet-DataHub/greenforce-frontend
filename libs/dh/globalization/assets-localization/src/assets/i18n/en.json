@@ -662,6 +662,7 @@
         "amount": "Amount",
         "period": "Period"
       },
+      "chargeType": "Type",
       "details": {
         "columns": {
           "submittedAt": "Submitted",

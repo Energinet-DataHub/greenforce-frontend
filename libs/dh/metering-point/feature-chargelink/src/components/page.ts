@@ -19,7 +19,7 @@
 import { RouterOutlet } from '@angular/router';
 import { Component, computed, inject, input } from '@angular/core';
 
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { VaterUtilityDirective } from '@energinet/watt/vater';
@@ -28,18 +28,30 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { GetChargeLinksByMeteringPointIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ChargeType,
+  GetChargeLinksByMeteringPointIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { Charge } from '../types';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
 
 @Component({
   selector: 'dh-metering-point-charge-links',
   imports: [
+    ReactiveFormsModule,
     RouterOutlet,
     TranslocoDirective,
+    TranslocoPipe,
 
     WATT_TABLE,
     WattDatePipe,
+    WattDropdownComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
     VaterUtilityDirective,
@@ -51,10 +63,21 @@ import { Charge } from '../types';
       [enableCount]="false"
       [enableSearch]="false"
       [enablePaginator]="false"
+      *transloco="let t; prefix: 'meteringPoint.charges'"
       [error]="query.error()"
       [ready]="query.called() && !query.loading()"
     >
-      <watt-data-filters />
+      <watt-data-filters>
+        <watt-dropdown
+          [formControl]="this.form.controls.chargeTypes"
+          [chipMode]="true"
+          [multiple]="true"
+          [options]="chargeTypeOptions"
+          [placeholder]="t('chargeType')"
+          dhDropdownTranslator
+          translateKey="charges.chargeTypes"
+        />
+      </watt-data-filters>
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'meteringPoint.charges.columns'"
@@ -65,6 +88,10 @@ import { Charge } from '../types';
         [activeRow]="selection()"
         (rowClick)="navigation.navigate('details', $event.id)"
       >
+        <ng-container *wattTableCell="columns.type; let element">
+          {{ 'charges.chargeTypes.' + element.type | transloco }}
+        </ng-container>
+
         <ng-container *wattTableCell="columns.period; let element">
           {{ element.period | wattDate }}
         </ng-container>
@@ -82,11 +109,17 @@ export default class DhMeteringPointChargeLinkPage {
     () => new WattTableDataSource(this.query.data()?.chargeLinksByMeteringPointId ?? [])
   );
 
+  chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
+
+  form = new FormGroup({
+    chargeTypes: dhMakeFormControl(),
+  });
+
   columns: WattTableColumnDef<Charge> = {
     type: { accessor: 'type' },
     id: { accessor: 'id' },
     name: { accessor: 'name' },
-    owner: { accessor: 'owner' },
+    owner: { accessor: (charge) => charge.owner?.displayName ?? '' },
     amount: { accessor: 'amount' },
     period: { accessor: 'period' },
   };
