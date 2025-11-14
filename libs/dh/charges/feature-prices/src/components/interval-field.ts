@@ -35,13 +35,13 @@ import { dhFormToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/
   template: `
     @switch (resolution()) {
       @case ('daily') {
-        <watt-yearmonth-field [formControl]="form.controls.yearMonth" />
+        <watt-yearmonth-field [formControl]="form.controls.yearMonth" canStepThroughMonths />
       }
       @case ('monthly') {
-        <watt-year-field [formControl]="form.controls.year" />
+        <watt-year-field [formControl]="form.controls.year" canStepThroughYears />
       }
       @default {
-        <watt-datepicker [formControl]="form.controls.date" />
+        <watt-datepicker [formControl]="form.controls.date" canStepThroughDays />
       }
     }
   `,
