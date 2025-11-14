@@ -86,26 +86,16 @@ public static partial class MeteringPointProcessNode
             return [];
         }
 
-        var mapStepName = new Func<WorkflowStepInstanceDto, string>(
-            (step) =>
-            {
-                return step.UniqueName switch
-                {
-                    var uniqueName when uniqueName == Brs_002_EndOfSupply.V1 => GetNameForEndOfSupplyV1Step(step.Sequence),
-                    _ => "Unknown Step",
-                };
-            });
-
         return process.WorkflowSteps.Select(step => new MeteringPointProcessStep(
             Id: step.Id.Id.ToString(),
-            Step: mapStepName(step), // TODO: REPLACE WHEN PROCESS MANAGER IS READY
+            Step: GetStepName(step),
             Comment: null, // TODO: REPLACE WHEN PROCESS MANAGER IS READY
             CreatedAt: step.Lifecycle.CreatedAt,
             DueDate: step.Lifecycle.DueDate,
             ActorNumber: step.Actor?.ActorNumber.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
             State: MapStepStateToProcessState(step.Lifecycle.State),
-            MessageId: step.MessageId ?? "a7d4c835d67c4d0d88345e27d33c538b")); // MessageId which exists on test001, TODO: REPLACE WHEN PROCESS MANAGER IS READY
+            MessageId: step.MessageId ?? "a7d4c835d67c4d0d88345e27d33c538b")); // MessageId which exists on test001
     }
 
     public static IEnumerable<WorkflowAction> GetAvailableActions(
@@ -195,6 +185,15 @@ public static partial class MeteringPointProcessNode
             WorkflowInstanceTerminationState.UserCanceled => ProcessState.Canceled,
             _ => ProcessState.Failed,
         };
+
+    private static string GetStepName(WorkflowStepInstanceDto step)
+    {
+        return step.UniqueName switch
+        {
+            var uniqueName when uniqueName == Brs_002_EndOfSupply.V1 => GetNameForEndOfSupplyV1Step(step.Sequence),
+            _ => "Unknown Step",
+        };
+    }
 
     private static string GetNameForEndOfSupplyV1Step(int number)
     {
