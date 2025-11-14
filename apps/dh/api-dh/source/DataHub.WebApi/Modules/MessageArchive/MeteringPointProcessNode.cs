@@ -15,7 +15,6 @@
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
-using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_002.EndOfSupply.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -44,13 +43,13 @@ public static partial class MeteringPointProcessNode
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
-        var query = new SearchWorkflowInstancesByMeteringPointQuery(
-            MeteringPointId.Create(meteringPointId),
+        var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+            meteringPointId,
             created.Start.ToDateTimeOffset(),
             created.End.ToDateTimeOffset(),
             userIdentity);
 
-        var workflowInstances = await processManagerClient.GetWorkflowInstancesByMeteringPointQueryAsync(query, cancellationToken);
+        var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
 
         return workflowInstances.Select(MapToMeteringPointProcess);
     }
@@ -64,7 +63,7 @@ public static partial class MeteringPointProcessNode
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
-        var query = new GetWorkflowInstanceByIdQuery(userIdentity, new WorkflowInstanceId(Guid.Parse(id)));
+        var query = new GetWorkflowInstanceByIdQuery(userIdentity, Guid.Parse(id));
 
         var workflowInstanceWithSteps = await processManagerClient.GetWorkflowInstanceByIdQueryAsync(query, cancellationToken);
 
@@ -87,10 +86,10 @@ public static partial class MeteringPointProcessNode
         }
 
         return process.WorkflowSteps.Select(step => new MeteringPointProcessStep(
-            Id: step.Id.Id.ToString(),
+            Id: step.Id.ToString(),
             Step: GetStepName(step),
             Comment: null, // TODO: REPLACE WHEN PROCESS MANAGER IS READY
-            CreatedAt: step.Lifecycle.CreatedAt,
+            CompletedAt: step.Lifecycle.CompletedAt,
             DueDate: step.Lifecycle.DueDate,
             ActorNumber: step.Actor?.ActorNumber.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
@@ -125,6 +124,7 @@ public static partial class MeteringPointProcessNode
             workflowInstance.Id,
             workflowInstance.Lifecycle,
             workflowInstance.BusinessReason.Name,
+            workflowInstance.CuteOffDate,
             action: workflowInstance.Action,
             workflowSteps: null);
 
@@ -133,22 +133,24 @@ public static partial class MeteringPointProcessNode
             workflowInstanceWithSteps.Id,
             workflowInstanceWithSteps.Lifecycle,
             workflowInstanceWithSteps.BusinessReason.Name,
+            workflowInstanceWithSteps.CuteOffDate,
             action: null,
             workflowSteps: workflowInstanceWithSteps.Steps);
 
     private static MeteringPointProcess CreateMeteringPointProcess(
-        WorkflowInstanceId id,
+        Guid id,
         WorkflowInstanceLifecycleDto lifecycle,
         string businessReasonString,
+        DateTimeOffset? cuteoffDate = null,
         WorkflowAction? action = null,
         IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null)
     {
         var actorIdentity = lifecycle.CreatedBy as ActorIdentityDto;
 
         return new MeteringPointProcess(
-            Id: id.Value.ToString(),
+            Id: id.ToString(),
             CreatedAt: lifecycle.CreatedAt,
-            CutoffDate: lifecycle.CutoffDate ?? lifecycle.CreatedAt,
+            CutoffDate: cuteoffDate,
             ReasonCode: businessReasonString,
             ActorNumber: actorIdentity?.ActorNumber.Value ?? string.Empty,
             ActorRole: actorIdentity?.ActorRole.Name ?? string.Empty,
