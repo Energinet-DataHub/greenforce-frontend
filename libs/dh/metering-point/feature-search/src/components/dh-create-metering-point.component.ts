@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_CARD } from '@energinet/watt/card';
@@ -78,6 +79,12 @@ import { dhMeteringPointTypeParam } from './dh-metering-point-params';
     watt-textarea-field {
       --watt-textarea-min-height: 100px;
     }
+
+    .is-required::after {
+      content: '*';
+      color: var(--watt-color-primary);
+      margin-left: var(--watt-space-s);
+    }
   `,
   templateUrl: './dh-create-metering-point.component.html',
 })
@@ -95,7 +102,7 @@ export class DhCreateMeteringPoint {
       meteringPointNumber: dhMakeFormControl('', Validators.required),
       powerLimitKw: dhMakeFormControl(''),
       powerLimitAmpere: dhMakeFormControl(''),
-      disconnectionType: dhMakeFormControl('', Validators.required),
+      disconnectionType: dhMakeFormControl('D01', Validators.required),
       gridArea: dhMakeFormControl('', Validators.required),
     }),
     address: new FormGroup({
@@ -117,15 +124,53 @@ export class DhCreateMeteringPoint {
       netSettlementGroup: dhMakeFormControl('0', Validators.required),
       capacity: dhMakeFormControl('', Validators.required),
       gsrnNumber: dhMakeFormControl('', Validators.required),
-      connectionType: dhMakeFormControl('', Validators.required),
+      connectionType: dhMakeFormControl('D01', Validators.required),
       assetType: dhMakeFormControl('', Validators.required),
     }),
     other: new FormGroup({
-      resolution: dhMakeFormControl('', Validators.required),
+      resolution: dhMakeFormControl('quarterHourly', Validators.required),
       measureUnit: dhMakeFormControl('K_WH', Validators.required),
-      product: dhMakeFormControl('', Validators.required),
+      product: dhMakeFormControl('ENERGY_ACTIVE', Validators.required),
     }),
   });
+
+  subTypeChanged = toSignal(this.form.controls.details.controls.subType.valueChanges);
+
+  subTypeEffect = effect(() => {
+    const subType = this.subTypeChanged();
+
+    if (subType === undefined) return;
+
+    if (subType !== 'physical') {
+      this.form.controls.details.controls.meteringPointNumber.reset();
+    }
+  });
+
+  netSettlementGroupChanged = toSignal(
+    this.form.controls.powerPlant.controls.netSettlementGroup.valueChanges
+  );
+
+  netSettlementGroupEffect = effect(() => {
+    const netSettlementGroup = this.netSettlementGroupChanged();
+
+    if (netSettlementGroup === undefined) return;
+
+    if (netSettlementGroup === '0') {
+      const powerPlantControls = this.form.controls.powerPlant.controls;
+
+      powerPlantControls.capacity.reset();
+      powerPlantControls.gsrnNumber.reset();
+      powerPlantControls.connectionType.reset();
+
+      powerPlantControls.assetType.reset();
+      powerPlantControls.assetType.markAsPristine();
+      powerPlantControls.assetType.markAsUntouched();
+    }
+  });
+
+  isRequired(control: FormControl): boolean {
+    return control.hasValidator(Validators.required);
+  }
 
   save() {
     console.log('Saving metering point', this.form.value);
