@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
 //#region License
 /**
  * @license
@@ -19,4 +16,4 @@ const tslib_1 = require("tslib");
  * limitations under the License.
  */
 //#endregion
-tslib_1.__exportStar(require("./apollo-data-source"), exports);
+export * from './src/apollo-data-source';

@@ -50,6 +50,9 @@ const config: CodegenConfig = {
         },
       },
     },
+    'libs/dh/shared/domain/src/lib/generated/graphql/apollo-helpers.ts': {
+      plugins: ['typescript-apollo-client-helpers'],
+    },
     'libs/dh/shared/domain/src/lib/generated/graphql/msw.ts': {
       preset: 'import-types',
       plugins: ['typescript-msw'],
@@ -62,6 +65,9 @@ const config: CodegenConfig = {
     },
     'libs/dh/shared/domain/src/lib/generated/graphql/data-source.ts': {
       plugins: ['libs/dh/shared/feature-graphql-codegen/dist/apollo-data-source.js'],
+    },
+    'libs/dh/shared/domain/src/lib/generated/graphql/typenames.ts': {
+      plugins: ['libs/dh/shared/feature-graphql-codegen/dist/typenames.js'],
     },
   },
 };

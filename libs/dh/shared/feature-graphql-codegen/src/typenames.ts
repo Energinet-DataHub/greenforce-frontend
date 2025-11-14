@@ -16,4 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-export * from './apollo-data-source';
+import { type CodegenPlugin } from '@graphql-codegen/plugin-helpers';
+
+const plugin: CodegenPlugin['plugin'] = (schema) => ({
+  prepend: ['export type Typename ='],
+  content: Object.keys(schema.getTypeMap())
+    .filter((type) => !type.startsWith('__'))
+    .toSorted()
+    .map((type) => `  | '${type}'`)
+    .join('\n'),
+});
+
+export { plugin };
