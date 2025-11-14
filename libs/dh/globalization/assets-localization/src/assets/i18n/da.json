@@ -910,7 +910,7 @@
         "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
         "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
         "darID": "{{ meteringPoint.overview.shared.darID }}",
-        "comment": "Målepunktsbemærkninger"
+        "commentLabel": "Målepunktsbemærkninger"
       },
       "powerPlant": {
         "title": "Anlæg",

@@ -909,7 +909,7 @@
         "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
         "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
         "darID": "{{ meteringPoint.overview.shared.darID }}",
-        "comment": "Comment"
+        "commentLabel": "Comment"
       },
       "powerPlant": {
         "title": "Power plant",
