@@ -305,7 +305,7 @@ type ChargeLink {
   id: String!
   name: String!
   period: DateRange!
-  type: String!
+  type: ChargeType!
   displayName: String!
 }
 
