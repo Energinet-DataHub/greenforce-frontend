@@ -17,10 +17,10 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Client;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_002.EndOfSupply.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
 using NodaTime;
@@ -86,16 +86,26 @@ public static partial class MeteringPointProcessNode
             return [];
         }
 
+        var mapStepName = new Func<WorkflowStepInstanceDto, string>(
+            (step) =>
+            {
+                return step.UniqueName switch
+                {
+                    var uniqueName when uniqueName == Brs_002_EndOfSupply.V1 => GetNameForEndOfSupplyV1Step(step.Sequence),
+                    _ => "Unknown Step",
+                };
+            });
+
         return process.WorkflowSteps.Select(step => new MeteringPointProcessStep(
-            Id: step.Id.Value.ToString(),
-            Step: "STEP NAME", // TODO: REPLACE WHEN PROCESS MANAGER IS READY
+            Id: step.Id.Id.ToString(),
+            Step: mapStepName(step), // TODO: REPLACE WHEN PROCESS MANAGER IS READY
             Comment: null, // TODO: REPLACE WHEN PROCESS MANAGER IS READY
             CreatedAt: step.Lifecycle.CreatedAt,
             DueDate: step.Lifecycle.DueDate,
             ActorNumber: step.Actor?.ActorNumber.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
-            State: MapStepStateToProcessState(step.Lifecycle.State, step.Lifecycle.TerminationState),
-            MessageId: "a7d4c835d67c4d0d88345e27d33c538b")); // MessageId which exists on test001, TODO: REPLACE WHEN PROCESS MANAGER IS READY
+            State: MapStepStateToProcessState(step.Lifecycle.State),
+            MessageId: step.MessageId ?? "a7d4c835d67c4d0d88345e27d33c538b")); // MessageId which exists on test001, TODO: REPLACE WHEN PROCESS MANAGER IS READY
     }
 
     public static IEnumerable<WorkflowAction> GetAvailableActions(
@@ -169,13 +179,11 @@ public static partial class MeteringPointProcessNode
         };
 
     private static ProcessState MapStepStateToProcessState(
-        WorkflowStepInstanceLifecycleState stepState,
-        WorkflowStepInstanceTerminationState? terminationState) =>
+        WorkflowStepInstanceLifecycleState stepState) =>
         stepState switch
         {
             WorkflowStepInstanceLifecycleState.Pending => ProcessState.Pending,
-            WorkflowStepInstanceLifecycleState.Running => ProcessState.Running,
-            WorkflowStepInstanceLifecycleState.Terminated => MapStepTerminationState(terminationState),
+            WorkflowStepInstanceLifecycleState.Completed => ProcessState.Succeeded,
             _ => ProcessState.Pending,
         };
 
@@ -188,11 +196,15 @@ public static partial class MeteringPointProcessNode
             _ => ProcessState.Failed,
         };
 
-    private static ProcessState MapStepTerminationState(WorkflowStepInstanceTerminationState? terminationState) =>
-        terminationState switch
+    private static string GetNameForEndOfSupplyV1Step(int number)
+    {
+        return number switch
         {
-            WorkflowStepInstanceTerminationState.Succeeded => ProcessState.Succeeded,
-            WorkflowStepInstanceTerminationState.Failed => ProcessState.Failed,
-            _ => ProcessState.Failed,
+            1 => "End of Supply Request",
+            2 => "End of Supply Confirm",
+            3 => "End of Supply Reject",
+            4 => "End of Supply Notify",
+            _ => throw new ArgumentOutOfRangeException(nameof(number), number, null),
         };
+    }
 }
