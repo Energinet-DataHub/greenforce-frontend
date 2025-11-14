@@ -17,13 +17,13 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, inject, input } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet/watt/core/date';
-import { VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import { WattDataTableComponent } from '@energinet/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -33,13 +33,12 @@ import {
   GetChargeLinksByMeteringPointIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { Charge } from '../types';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
-  dhEnumToWattDropdownOptions,
   dhMakeFormControl,
+  dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDropdownComponent } from '@energinet/watt/dropdown';
+
+import { Charge } from '../types';
 
 @Component({
   selector: 'dh-metering-point-charge-links-fees',
