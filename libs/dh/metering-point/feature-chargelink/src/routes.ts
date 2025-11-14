@@ -27,7 +27,7 @@ export const meteringPointPricesRoutes: Routes = [
       dhReleaseToggleGuard('PM58-PRICES-UI'),
     ],
     path: '',
-    loadComponent: () => import('./components/chargelinks'),
+    loadComponent: () => import('./components/page'),
     children: [
       {
         path: 'details/:id',

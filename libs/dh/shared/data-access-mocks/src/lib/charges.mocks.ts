@@ -23,6 +23,7 @@ import {
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
   mockGetChargeLinksByMeteringPointIdQuery,
+  mockGetChargeLinkHistoryQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   Charge,
@@ -34,6 +35,37 @@ import {
   MarketParticipant,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dayjs, WattRange } from '@energinet/watt/core/date';
+
+const chargeLinks: ChargeLink[] = [
+  {
+    __typename: 'ChargeLink',
+    id: '1000',
+    type: ChargeType.Fee,
+    amount: 100.0,
+    name: 'Charge Link 1',
+    displayName: '1000 • Charge Link 1',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-1',
+      displayName: '1234567890123 • Energy Supplier A',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-01-15T10:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-001',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-06-20T14:30:00Z'),
+        description: 'Updated charge amount',
+        messageId: 'msg-002',
+      },
+    ],
+    period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+  },
+];
 
 const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   {
@@ -244,21 +276,6 @@ function getChargeSeries() {
   });
 }
 
-const chargeLinks: ChargeLink[] = [
-  {
-    __typename: 'ChargeLink',
-    id: 'link-1',
-    type: 'Associated',
-    amount: 100.0,
-    name: 'Charge Link 1',
-    owner: {
-      __typename: 'MarketParticipantId',
-      id: 'owner-1',
-    },
-    period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
-  },
-];
-
 function getChargesByMeteringPointId() {
   return mockGetChargeLinksByMeteringPointIdQuery(async () => {
     await delay(mswConfig.delay);
@@ -272,6 +289,25 @@ function getChargesByMeteringPointId() {
   });
 }
 
+function getChargeLinkById() {
+  return mockGetChargeLinkHistoryQuery(async ({ variables: { chargeLinkId } }) => {
+    await delay(mswConfig.delay);
+    const chargeLink = chargeLinks.find((cl) => cl.id === chargeLinkId) || null;
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargeLinkById: chargeLink,
+      },
+    });
+  });
+}
+
 export function chargesMocks() {
-  return [getCharges(), getChargeById(), getChargeSeries(), getChargesByMeteringPointId()];
+  return [
+    getCharges(),
+    getChargeById(),
+    getChargeSeries(),
+    getChargesByMeteringPointId(),
+    getChargeLinkById(),
+  ];
 }

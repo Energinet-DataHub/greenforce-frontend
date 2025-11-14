@@ -12,15 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 
-public record ChargeLink(
-    string Id,
-    ChargeType Type,
-    string Name,
-    MarketParticipantId Owner,
-    int Amount,
-    Interval Period);
+public record ChargeLinkHistory(
+    DateTimeOffset SubmittedAt,
+    string Description,
+    string MessageId);

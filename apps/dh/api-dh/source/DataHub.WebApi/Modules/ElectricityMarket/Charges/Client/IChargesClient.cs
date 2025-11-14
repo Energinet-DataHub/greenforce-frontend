@@ -27,4 +27,11 @@ public interface IChargesClient
     Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(
         string meteringPointId,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Get the change history for a given charge id.
+    /// </summary>
+    Task<IEnumerable<ChargeLinkHistory>> GetChargeLinkHistoryAsync(
+        string chargeId,
+        CancellationToken ct = default);
 }

@@ -663,6 +663,15 @@
         "owner": "Ejer",
         "amount": "Antal",
         "period": "Periode"
+      },
+      "chargeType": "Type",
+      "details": {
+        "columns": {
+          "submittedAt": "Indsendt",
+          "description": "Beskrivelse"
+        },
+        "copyMessage": "Kopier besked-ID",
+        "navigateToMessage": "Gå til besked"
       }
     },
     "processOverview": {
