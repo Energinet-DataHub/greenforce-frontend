@@ -16,30 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-import { RouterOutlet } from '@angular/router';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
+import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet/watt/core/date';
-import { VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { WATT_SEGMENTED_BUTTONS } from '@energinet/watt/segmented-buttons';
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import {
-  ChargeType,
-  GetChargeLinksByMeteringPointIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { Charge } from '../types';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import {
-  dhEnumToWattDropdownOptions,
-  dhMakeFormControl,
-} from '@energinet-datahub/dh/shared/ui-util';
-import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { ChargeLinksSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { distinctUntilChanged, filter, map, mergeWith, of } from 'rxjs';
 
 @Component({
   selector: 'dh-metering-point-charge-links',
@@ -47,84 +40,68 @@ import { WattDropdownComponent } from '@energinet/watt/dropdown';
     ReactiveFormsModule,
     RouterOutlet,
     TranslocoDirective,
-    TranslocoPipe,
-
-    WATT_TABLE,
-    WattDatePipe,
-    WattDropdownComponent,
-    WattDataTableComponent,
-    WattDataFiltersComponent,
+    VaterFlexComponent,
+    VaterStackComponent,
     VaterUtilityDirective,
+    WATT_SEGMENTED_BUTTONS,
   ],
   providers: [DhNavigationService],
-  template: `<watt-data-table
-      vater
-      inset="ml"
-      [enableCount]="false"
-      [enableSearch]="false"
-      [enablePaginator]="false"
-      *transloco="let t; prefix: 'meteringPoint.charges'"
-      [error]="query.error()"
-      [ready]="query.called() && !query.loading()"
-    >
-      <watt-data-filters>
-        <watt-dropdown
-          [formControl]="this.form.controls.chargeTypes"
-          [chipMode]="true"
-          [multiple]="true"
-          [options]="chargeTypeOptions"
-          [placeholder]="t('chargeType')"
-          dhDropdownTranslator
-          translateKey="charges.chargeTypes"
-        />
-      </watt-data-filters>
+  template: ` <vater-flex
+    inset="ml"
+    gap="ml"
+    *transloco="let t; prefix: 'meteringPoint.charges.navigation'"
+  >
+    <vater-stack>
+      <watt-segmented-buttons [formControl]="selectedView">
+        <watt-segmented-button [value]="getLink('tariff-and-subscription')">{{
+          t('tariffAndSubscription')
+        }}</watt-segmented-button>
+        <watt-segmented-button [value]="getLink('fees')">{{ t('fees') }}</watt-segmented-button>
+      </watt-segmented-buttons>
+    </vater-stack>
 
-      <watt-table
-        *transloco="let resolveHeader; prefix: 'meteringPoint.charges.columns'"
-        [dataSource]="dataSource()"
-        [columns]="columns"
-        [loading]="query.loading()"
-        [resolveHeader]="resolveHeader"
-        [activeRow]="selection()"
-        (rowClick)="navigation.navigate('details', $event.id)"
-      >
-        <ng-container *wattTableCell="columns.type; let element">
-          {{ 'charges.chargeTypes.' + element.type | transloco }}
-        </ng-container>
-
-        <ng-container *wattTableCell="columns.period; let element">
-          {{ element.period | wattDate }}
-        </ng-container>
-      </watt-table>
-    </watt-data-table>
-    <router-outlet />`,
+    <vater-flex fill="vertical">
+      <router-outlet />
+    </vater-flex>
+  </vater-flex>`,
 })
 export default class DhMeteringPointChargeLinkPage {
-  id = input.required<string>();
-  query = query(GetChargeLinksByMeteringPointIdDocument, () => ({
-    variables: { meteringPointId: this.id() },
-  }));
-  navigation = inject(DhNavigationService);
-  dataSource = computed(
-    () => new WattTableDataSource(this.query.data()?.chargeLinksByMeteringPointId ?? [])
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  selectedView = new FormControl();
+
+  getLink = (key: ChargeLinksSubPaths) => getPath(key);
+
+  navigateTo = toSignal(this.selectedView.valueChanges);
+
+  private routeOnLoad$ =
+    this.route.firstChild?.url.pipe(map((url) => url.map((segment) => segment.path).join('/'))) ||
+    of('');
+
+  private routeOnNavigation$ = this.router.events.pipe(
+    filter((event) => event.type === EventType.NavigationEnd),
+    map((nav) => nav.urlAfterRedirects.split('/').pop()?.split('?')[0])
   );
 
-  chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
+  protected currentView = toSignal<ChargeLinksSubPaths>(
+    this.routeOnLoad$.pipe(
+      mergeWith(this.routeOnNavigation$),
+      distinctUntilChanged(),
+      map((route) => route as ChargeLinksSubPaths),
+      takeUntilDestroyed()
+    )
+  );
 
-  form = new FormGroup({
-    chargeTypes: dhMakeFormControl(),
-  });
+  constructor() {
+    effect(() => {
+      this.selectedView.setValue(this.currentView());
+    });
 
-  columns: WattTableColumnDef<Charge> = {
-    type: { accessor: 'type' },
-    id: { accessor: 'id' },
-    name: { accessor: 'name' },
-    owner: { accessor: (charge) => charge.owner?.displayName ?? '' },
-    amount: { accessor: 'amount' },
-    period: { accessor: 'period' },
-  };
-
-  selection = () => {
-    return this.dataSource().filteredData.find((row) => row.id === this.navigation.id());
-  };
+    effect(() => {
+      this.router.navigate([this.navigateTo()], {
+        relativeTo: this.route,
+        queryParamsHandling: 'merge',
+      });
+    });
+  }
 }

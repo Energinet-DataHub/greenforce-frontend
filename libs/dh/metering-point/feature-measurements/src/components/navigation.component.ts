@@ -100,8 +100,6 @@ export class DhMeasurementsNavigationComponent {
     )
   );
 
-  meteringPointId = input.required<string>();
-
   getLink = (key: MeasurementsSubPaths) => getPath(key);
   selectedView = new FormControl();
 
