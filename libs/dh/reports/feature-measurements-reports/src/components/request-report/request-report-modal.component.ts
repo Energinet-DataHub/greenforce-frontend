@@ -185,31 +185,43 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     const resolutionValue = this.resolutionChanges();
     const switchToMeteringPointIDs = this.switchToMeteringPointIDsChanges();
 
-    if (switchToMeteringPointIDs || this.isSpecialMarketRole) {
-      if (resolutionValue === AggregatedResolution.SumOfDay) {
-        this.form.controls.period.removeValidators([entireMonthsValidator, maxMonthsValidator]);
-        this.form.controls.period.addValidators(maxDaysValidator);
-      } else {
-        this.form.controls.period.removeValidators([maxDaysValidator, entireMonthsValidator]);
-
-        if (resolutionValue === AggregatedResolution.SumOfMonth) {
-          this.form.controls.period.addValidators([entireMonthsValidator]);
-        }
-
-        this.form.controls.period.addValidators([maxMonthsValidator]);
-      }
+    if (this.isSpecialMarketRole || switchToMeteringPointIDs) {
+      this.periodValidatorsForMeteringPointIDs(resolutionValue);
     } else {
-      if (resolutionValue === AggregatedResolution.SumOfMonth) {
-        this.form.controls.period.removeValidators(maxDaysValidator);
-        this.form.controls.period.addValidators([entireMonthsValidator, maxMonthsValidator]);
-      } else {
-        this.form.controls.period.removeValidators([entireMonthsValidator, maxMonthsValidator]);
-        this.form.controls.period.addValidators(maxDaysValidator);
-      }
+      this.periodValidatorsGeneral(resolutionValue);
     }
 
     this.form.controls.period.updateValueAndValidity();
   });
+
+  private periodValidatorsForMeteringPointIDs(resolution?: AggregatedResolution | null) {
+    const periodControl = this.form.controls.period;
+
+    if (resolution === AggregatedResolution.SumOfDay) {
+      periodControl.removeValidators([entireMonthsValidator, maxMonthsValidator]);
+      periodControl.addValidators(maxDaysValidator);
+    } else {
+      periodControl.removeValidators([maxDaysValidator, entireMonthsValidator]);
+
+      if (resolution === AggregatedResolution.SumOfMonth) {
+        periodControl.addValidators([entireMonthsValidator]);
+      }
+
+      periodControl.addValidators([maxMonthsValidator]);
+    }
+  }
+
+  private periodValidatorsGeneral(resolution?: AggregatedResolution | null) {
+    const periodControl = this.form.controls.period;
+
+    if (resolution === AggregatedResolution.SumOfMonth) {
+      periodControl.removeValidators(maxDaysValidator);
+      periodControl.addValidators([entireMonthsValidator, maxMonthsValidator]);
+    } else {
+      periodControl.removeValidators([entireMonthsValidator, maxMonthsValidator]);
+      periodControl.addValidators(maxDaysValidator);
+    }
+  }
 
   private switchToMeteringPointIDsEffect = effect(() => {
     if (this.isSpecialMarketRole) {
