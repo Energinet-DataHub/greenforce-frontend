@@ -507,8 +507,8 @@
       "processes": {
         "tabLabel": "Procesoverblik"
       },
-      "prices": {
-        "tabLabel": "Priser"
+      "chargelinks": {
+        "tabLabel": "Pristilknytninger"
       },
       "messages": {
         "tabLabel": "Beskeder"
@@ -662,7 +662,12 @@
         "name": "Navn",
         "owner": "Ejer",
         "amount": "Antal",
-        "period": "Periode"
+        "period": "Periode",
+        "date": "Dato"
+      },
+      "navigation": {
+        "tariffAndSubscription": "Tarif og abonnement",
+        "fees": "Gebyr"
       },
       "chargeType": "Type",
       "details": {

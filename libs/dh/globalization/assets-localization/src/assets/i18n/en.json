@@ -506,8 +506,8 @@
       "processes": {
         "tabLabel": "Processes"
       },
-      "prices": {
-        "tabLabel": "Prices"
+      "chargelinks": {
+        "tabLabel": "Charge links"
       },
       "messages": {
         "tabLabel": "Messages"
@@ -661,7 +661,12 @@
         "name": "Name",
         "owner": "Owner",
         "amount": "Amount",
-        "period": "Period"
+        "period": "Period",
+        "date": "Date"
+      },
+      "navigation": {
+        "tariffAndSubscription": "Tariff and subscription",
+        "fees": "Fee"
       },
       "chargeType": "Type",
       "details": {
