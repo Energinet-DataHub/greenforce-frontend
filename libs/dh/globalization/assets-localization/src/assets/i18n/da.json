@@ -900,6 +900,8 @@
       "details": {
         "title": "Detaljer",
         "validityDate": "Gyldighedsdato",
+        "status": "{{ meteringPoint.overview.details.meteringPointStatus }}",
+        "newlyCreated": "Nyoprettet",
         "meteringPointId": "Målepunkts ID",
         "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
         "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
