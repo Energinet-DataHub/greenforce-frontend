@@ -894,6 +894,8 @@
       "details": {
         "title": "Details",
         "validityDate": "Validity date",
+        "status": "{{ meteringPoint.overview.details.meteringPointStatus }}",
+        "newlyCreated": "Newly created",
         "meteringPointId": "Metering point ID",
         "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
         "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
