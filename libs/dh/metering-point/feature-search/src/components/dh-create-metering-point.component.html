@@ -1,0 +1,322 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; prefix: 'meteringPoint.create'">
+  <vater-stack direction="row" align="center" gap="s" class="watt-space-stack-m">
+    <h3>{{ t("title", { type: "meteringPointType." + mpType | transloco }) }}</h3>
+
+    <vater-spacer />
+
+    <watt-button variant="secondary" [routerLink]="['../']">{{ t("cancel") }}</watt-button>
+    <watt-button type="submit" variant="primary" formId="create-metering-point">
+      {{ t("create") }}
+    </watt-button>
+  </vater-stack>
+
+  <form id="create-metering-point" [formGroup]="form" (ngSubmit)="save()">
+    <div class="page-grid">
+      <watt-card>
+        <watt-card-title>
+          <h4>{{ t("details.title") }}</h4>
+        </watt-card-title>
+
+        @let detailsControls = form.controls.details.controls;
+
+        <watt-datepicker
+          [formControl]="detailsControls.validityDate"
+          [label]="t('details.validityDate')"
+          [min]="yesterday"
+          [max]="today"
+        />
+
+        <watt-text-field
+          [formControl]="detailsControls.meteringPointId"
+          [label]="t('details.meteringPointId')"
+        />
+
+        <label [class.is-required]="isRequired(detailsControls.subType)">{{
+          t("details.subType")
+        }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio group="subType" [formControl]="detailsControls.subType" value="physical">
+            Fysisk
+          </watt-radio>
+          <watt-radio group="subType" [formControl]="detailsControls.subType" value="virtual">
+            Virtuel
+          </watt-radio>
+          <watt-radio group="subType" [formControl]="detailsControls.subType" value="calculated">
+            Beregnet
+          </watt-radio>
+        </vater-stack>
+
+        @if (detailsControls.subType.value === "physical") {
+          <watt-text-field
+            [formControl]="detailsControls.meteringPointNumber"
+            [label]="t('details.meteringPointNumber')"
+          />
+        }
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="detailsControls.powerLimitKw"
+            [label]="t('details.powerLimitKw')"
+          />
+
+          <watt-text-field
+            [formControl]="detailsControls.powerLimitAmpere"
+            [label]="t('details.powerLimitAmpere')"
+          />
+        </vater-flex>
+
+        <label [class.is-required]="isRequired(detailsControls.disconnectionType)">
+          {{ t("details.disconnectionType") }}
+        </label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio
+            group="disconnectionType"
+            [formControl]="detailsControls.disconnectionType"
+            value="D01"
+          >
+            Fjernafbrydelig (D01)
+          </watt-radio>
+          <watt-radio
+            group="disconnectionType"
+            [formControl]="detailsControls.disconnectionType"
+            value="D02"
+          >
+            Manuel afbrydelig (D02)
+          </watt-radio>
+        </vater-stack>
+
+        <watt-dropdown
+          [formControl]="detailsControls.gridArea"
+          [options]="[]"
+          [showResetOption]="false"
+          [label]="t('details.gridArea')"
+        />
+      </watt-card>
+
+      <watt-card>
+        <watt-card-title>
+          <h4>{{ t("address.title") }}</h4>
+        </watt-card-title>
+
+        @let addressControls = form.controls.address.controls;
+
+        <label [class.is-required]="isRequired(addressControls.washInstructions)">{{
+          t("address.actualNotActualLabel")
+        }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio
+            group="washInstructions"
+            [formControl]="addressControls.washInstructions"
+            value="WASHABLE"
+          >
+            {{ t("address.actualAddress") }}
+          </watt-radio>
+          <watt-radio
+            group="washInstructions"
+            [formControl]="addressControls.washInstructions"
+            value="NOT_WASHABLE"
+          >
+            {{ t("address.notActualAddress") }}
+          </watt-radio>
+        </vater-stack>
+
+        <vater-stack direction="row" align="baseline" gap="m">
+          <watt-dropdown
+            [formControl]="addressControls.countryCode"
+            [options]="[]"
+            [showResetOption]="false"
+            [label]="t('address.country')"
+            class="country-dropdown"
+          />
+
+          <watt-text-field
+            [formControl]="addressControls.streetName"
+            [label]="t('address.streetName')"
+          />
+        </vater-stack>
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="addressControls.buildingNumber"
+            [label]="t('address.buildingNumber')"
+          />
+
+          <watt-text-field [formControl]="addressControls.floor" [label]="t('address.floor')" />
+
+          <watt-text-field [formControl]="addressControls.room" [label]="t('address.room')" />
+
+          <watt-text-field
+            [formControl]="addressControls.postCode"
+            [label]="t('address.postCode')"
+          />
+        </vater-flex>
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="addressControls.cityName"
+            [label]="t('address.cityName')"
+          />
+
+          <watt-text-field
+            [formControl]="addressControls.citySubDivisionName"
+            [label]="t('address.citySubDivisionName')"
+          />
+        </vater-flex>
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="addressControls.streetCode"
+            [label]="t('address.streetCode')"
+          />
+
+          <watt-text-field
+            [formControl]="addressControls.municipalityCode"
+            [label]="t('address.municipalityCode')"
+          />
+        </vater-flex>
+
+        <watt-text-field [formControl]="addressControls.darID" [label]="t('address.darID')" />
+
+        <hr class="watt-divider" />
+
+        <watt-textarea-field
+          [formControl]="addressControls.comment"
+          [label]="t('address.commentLabel')"
+        />
+      </watt-card>
+
+      <watt-card>
+        <watt-card-title>
+          <h4>{{ t("powerPlant.title") }}</h4>
+        </watt-card-title>
+
+        @let powerPlantControls = form.controls.powerPlant.controls;
+
+        <label [class.is-required]="isRequired(powerPlantControls.netSettlementGroup)">{{
+          t("powerPlant.netSettlementGroup")
+        }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio
+            group="netSettlementGroup"
+            [formControl]="powerPlantControls.netSettlementGroup"
+            value="0"
+          >
+            Ingen nettoafregning (0)
+          </watt-radio>
+          <watt-radio
+            group="netSettlementGroup"
+            [formControl]="powerPlantControls.netSettlementGroup"
+            value="3"
+          >
+            Øjebliksafregnet (3)
+          </watt-radio>
+        </vater-stack>
+
+        @if (powerPlantControls.netSettlementGroup.value === "3") {
+          <vater-flex direction="row" align="baseline" gap="m">
+            <watt-text-field
+              [formControl]="powerPlantControls.capacity"
+              [label]="t('powerPlant.capacity')"
+            />
+
+            <watt-text-field
+              [formControl]="powerPlantControls.gsrnNumber"
+              [label]="t('powerPlant.gsrnNumber')"
+            />
+          </vater-flex>
+
+          <label [class.is-required]="isRequired(powerPlantControls.connectionType)">{{
+            t("powerPlant.connectionType")
+          }}</label>
+          <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+            <watt-radio
+              group="connectionType"
+              [formControl]="powerPlantControls.connectionType"
+              value="D01"
+            >
+              Direkte tilsluttet (D01)
+            </watt-radio>
+            <watt-radio
+              group="connectionType"
+              [formControl]="powerPlantControls.connectionType"
+              value="D02"
+            >
+              Installationstilsluttet (D02)
+            </watt-radio>
+          </vater-stack>
+
+          <watt-dropdown
+            [formControl]="powerPlantControls.assetType"
+            [options]="[]"
+            [showResetOption]="false"
+            [label]="t('powerPlant.assetType')"
+          />
+
+          {{ powerPlantControls.assetType.value }}
+        }
+
+        <hr class="watt-divider" />
+
+        <h4 class="watt-space-stack-s">{{ t("other.title") }}</h4>
+
+        @let otherControls = form.controls.other.controls;
+
+        <label [class.is-required]="isRequired(otherControls.resolution)">{{
+          t("other.resolution")
+        }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio
+            group="resolution"
+            [formControl]="otherControls.resolution"
+            value="quarterHourly"
+          >
+            Pr. kvarter
+          </watt-radio>
+          <watt-radio group="resolution" [formControl]="otherControls.resolution" value="hourly">
+            Pr. time
+          </watt-radio>
+        </vater-stack>
+
+        <label [class.is-required]="isRequired(otherControls.measureUnit)">{{
+          t("other.measureUnit")
+        }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio group="measureUnit" [formControl]="otherControls.measureUnit" value="K_WH">
+            kWh
+          </watt-radio>
+          <watt-radio group="measureUnit" [formControl]="otherControls.measureUnit" value="KV_ARH">
+            kVArh
+          </watt-radio>
+        </vater-stack>
+
+        <label [class.is-required]="isRequired(otherControls.product)">{{
+          t("other.product")
+        }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          <watt-radio group="product" [formControl]="otherControls.product" value="ENERGY_ACTIVE">
+            Aktiv energi
+          </watt-radio>
+          <watt-radio group="product" [formControl]="otherControls.product" value="ENERGY_REACTIVE">
+            Reaktiv energi
+          </watt-radio>
+        </vater-stack>
+      </watt-card>
+    </div>
+  </form>
+</ng-container>

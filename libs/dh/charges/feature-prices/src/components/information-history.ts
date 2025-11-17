@@ -83,7 +83,7 @@ export class DhPriceInformationHistory {
   ]);
 
   columns: WattTableColumnDef<{ timestamp: string; entry: string }> = {
-    timestamp: { accessor: 'timestamp' },
-    entry: { accessor: 'entry' },
+    timestamp: { accessor: 'timestamp', size: 'auto' },
+    entry: { accessor: 'entry', size: '1fr' },
   };
 }

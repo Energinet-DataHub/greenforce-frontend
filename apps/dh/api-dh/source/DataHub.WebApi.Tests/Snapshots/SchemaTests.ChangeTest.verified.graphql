@@ -283,27 +283,43 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
   steps: [OrchestrationInstanceStep!]!
 }
 
-type ChargeInformationDto {
-  status: ChargeStatus!
-  displayName: String!
-  owner: MarketParticipant
+type Charge {
   series(interval: DateRange!): [ChargeSeries!]!
+  owner: MarketParticipant
   id: String!
-  validFrom: DateTime!
-  validTo: DateTime!
-  chargeType: ChargeType!
-  resolution: ChargeResolution!
+  type: ChargeType!
   code: String!
+  displayName: String!
   name: String!
   description: String!
-  hasAnyPrices: Boolean!
+  resolution: ChargeResolution!
+  status: ChargeStatus!
+  validFrom: DateTime!
+  validTo: DateTime!
+}
+
+type ChargeLink {
+  history: [ChargeLinkHistory!]!
+  owner: MarketParticipant
+  amount: Int!
+  id: String!
+  name: String!
+  period: DateRange!
+  type: ChargeType!
+  displayName: String!
+}
+
+type ChargeLinkHistory {
+  submittedAt: DateTime!
+  description: String!
+  messageId: String!
 }
 
 type ChargeSeries {
-  currentPoint: ChargeSeriesPoint
   hasChanged: Boolean!
+  price: Decimal
+  period: DateRange!
   points: [ChargeSeriesPoint!]!
-  totalAmount: Decimal!
 }
 
 type ChargeSeriesPoint {
@@ -318,7 +334,7 @@ type ChargesCollectionSegment {
   "Information to aid in pagination."
   pageInfo: CollectionSegmentInfo!
   "A flattened list of the items."
-  items: [ChargeInformationDto!]
+  items: [Charge!]
   totalCount: Int!
 }
 
@@ -896,8 +912,8 @@ type MeteringPointMetadataDto {
 type MeteringPointProcess {
   initiator: MarketParticipant
   steps: [MeteringPointProcessStep!]!
+  availableActions: [WorkflowAction!]
   id: String!
-  documentType: DocumentType!
   reasonCode: String!
   createdAt: DateTime!
   cutoffDate: DateTime!
@@ -931,7 +947,7 @@ type MeteringPointProcessStep {
   step: String!
   comment: String
   createdAt: DateTime!
-  dueDate: DateTime!
+  dueDate: DateTime
   state: ProcessState!
   messageId: String
 }
@@ -1149,15 +1165,17 @@ type ProcessesEdge {
 
 type Query {
   charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
-  chargeById(id: String!): ChargeInformationDto @authorize(roles: [ "charges:view" ])
-  debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
-  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
+  chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
+  chargeLinkById(meteringPointId: String! chargeLinkId: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
   measurements(showOnlyChangedValues: Boolean! showHistoricalValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
   measurementPoints(observationTime: DateTime! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
+  debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
+  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
@@ -1668,6 +1686,15 @@ input CancelSettlementReportInput {
   id: String!
 }
 
+input ChargeLinkSortInput {
+  id: SortEnumType
+  type: SortEnumType
+  name: SortEnumType
+  owner: MarketParticipantIdSortInput
+  amount: SortEnumType
+  period: SortEnumType
+}
+
 input ChargeSortInput {
   fromDateTime: SortDirection
   price: SortDirection
@@ -1824,6 +1851,10 @@ input ManuallyHandleOutgoingMessageInput {
   comment: String!
 }
 
+input MarketParticipantIdSortInput {
+  id: SortEnumType
+}
+
 input MarketParticipantSortInput {
   name: SortEnumType
   glnOrEicNumber: SortEnumType
@@ -1854,10 +1885,7 @@ input MeteringPointProcessSortInput {
   id: SortEnumType
   createdAt: SortEnumType
   cutoffDate: SortEnumType
-  documentType: SortEnumType
   reasonCode: SortEnumType
-  actorNumber: SortEnumType
-  actorRole: SortEnumType
   state: SortEnumType
 }
 
@@ -2931,6 +2959,12 @@ enum UserStatus {
 enum WashInstructions {
   WASHABLE
   NOT_WASHABLE
+}
+
+enum WorkflowAction {
+  NO_ACTION
+  SEND_INFORMATION
+  CANCEL_WORKFLOW
 }
 
 "The authorize directive."

@@ -42,7 +42,7 @@ import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggl
 
 import { DhSearchComponent } from './components/dh-search.component';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
-import { DhCreateMeteringPointComponent } from './components/dh-create.component';
+import { DhCreateMeteringPoint } from './components/dh-create-metering-point.component';
 import {
   dhMeteringPointIdParam,
   dhMeteringPointTypeParam,
@@ -75,8 +75,12 @@ export const dhMeteringPointRoutes: Routes = [
       },
       {
         path: getPath<MeteringPointSubPaths>('create'),
-        canActivate: [PermissionGuard(['metering-point:create']), meteringPointCreateGuard()],
-        component: DhCreateMeteringPointComponent,
+        canActivate: [
+          dhReleaseToggleGuard('PM52-CREATE-METERING-POINT-UI'),
+          PermissionGuard(['metering-point:create']),
+          meteringPointCreateGuard(),
+        ],
+        component: DhCreateMeteringPoint,
       },
       {
         path: `:${dhMeteringPointIdParam}`,
@@ -100,6 +104,10 @@ export const dhMeteringPointRoutes: Routes = [
             path: getPath<MeteringPointSubPaths>('process-overview'),
             loadChildren: () =>
               import('@energinet-datahub/dh/metering-point/feature-process-overview'),
+          },
+          {
+            path: getPath<MeteringPointSubPaths>('prices'),
+            loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-chargelink'),
           },
           {
             path: getPath<MeteringPointSubPaths>('messages'),

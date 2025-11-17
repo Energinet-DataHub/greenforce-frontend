@@ -21,7 +21,7 @@ public record MeteringPointProcessStep(
     string Step,
     string? Comment,
     DateTimeOffset CreatedAt,
-    DateTimeOffset DueDate,
+    DateTimeOffset? DueDate,
     string ActorNumber,
     string ActorRole,
     ProcessState State,

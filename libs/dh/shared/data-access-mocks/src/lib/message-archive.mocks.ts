@@ -147,11 +147,10 @@ function getMeteringPointProcessOverview() {
             endCursor: 'endCursor',
           },
           totalCount: messageArchiveSearchResponseLogs.messages.length,
-          nodes: messageArchiveSearchResponseLogs.messages.map((m) => ({
+          nodes: messageArchiveSearchResponseLogs.messages.map((m, index) => ({
             __typename: 'MeteringPointProcess',
             id: m.id,
-            documentType: DocumentType.SendMeasurements,
-            reasonCode: 'E20',
+            reasonCode: ['MoveIn', 'BalanceFixing', 'WholesaleFixing', 'EndOfSupply'][index % 4],
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
             cutoffDate: m.createdDate ? new Date(m.createdDate) : new Date(),
             state: ProcessState.Succeeded,
@@ -174,14 +173,13 @@ function getMeteringPointProcessById(apiBase: string) {
       data: {
         __typename: 'Query',
         meteringPointProcessById: messageArchiveSearchResponseLogs.messages
-          .map((m) => ({
+          .map((m, index) => ({
             __typename: 'MeteringPointProcess' as const,
             id: m.id,
-            documentType: DocumentType.SendMeasurements,
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
             cutoffDate: m.createdDate ? new Date(m.createdDate) : new Date(),
             state: ProcessState.Succeeded,
-            reasonCode: 'E20',
+            reasonCode: ['MoveIn', 'BalanceFixing', 'WholesaleFixing', 'EndOfSupply'][index % 4],
             initiator: {
               __typename: 'MarketParticipant' as const,
               id: '0199ed3d-f1b2-7180-9546-39b5836fb575',

@@ -143,7 +143,7 @@ export const graphQLProvider = provideApollo(() => {
             },
             chargeById(_, { args, toReference }) {
               return toReference({
-                __typename: 'ChargeInformationDto',
+                __typename: 'Charge',
                 id: args?.id,
               });
             },

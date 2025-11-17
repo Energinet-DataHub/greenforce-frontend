@@ -1,0 +1,15 @@
+fragment ChargeFields on Charge {
+  id
+  status
+  code
+  name
+  type
+  owner {
+    id
+    name
+    displayName
+    glnOrEicNumber
+  }
+  resolution
+  displayName
+}

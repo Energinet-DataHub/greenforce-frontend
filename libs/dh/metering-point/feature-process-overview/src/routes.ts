@@ -17,22 +17,16 @@
  */
 //#endregion
 import { Routes } from '@angular/router';
-import { MeteringPointSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 
 export const meteringPointProcessOverviewRoutes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: getPath<MeteringPointSubPaths>('process-overview'),
-  },
-  {
     canActivate: [
       PermissionGuard(['metering-point:process-overview']),
       dhReleaseToggleGuard('PM116-PROCESSOVERVIEW'),
     ],
-    path: getPath<MeteringPointSubPaths>('process-overview'),
+    path: '',
     loadComponent: () =>
       import('./components/table').then((m) => m.DhMeteringPointProcessOverviewTable),
     children: [
