@@ -71,7 +71,6 @@ import { Organization } from './types';
       [error]="dataSource.error"
       [ready]="dataSource.called"
       [enableCount]="false"
-      [simpleSearch]="false"
     >
       <watt-data-actions>
         <watt-button icon="download" variant="text" (click)="download()">{{

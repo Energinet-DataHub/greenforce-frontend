@@ -29,7 +29,6 @@ import { PageEvent } from '@angular/material/paginator';
 
 import {
   VaterFlexComponent,
-  VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
@@ -47,13 +46,11 @@ import { WattDataIntlService } from './watt-data-intl.service';
   selector: 'watt-data-table',
   imports: [
     VaterFlexComponent,
-    VaterSpacerComponent,
     VaterStackComponent,
     VaterUtilityDirective,
     WattCardComponent,
     WattEmptyStateComponent,
     WattPaginatorComponent,
-    WattSearchComponent,
     WattButtonComponent,
     WattSimpleSearchComponent,
   ],
