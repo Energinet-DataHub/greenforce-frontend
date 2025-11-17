@@ -54,8 +54,7 @@ import { Charge } from '../types';
   ],
   providers: [DhNavigationService],
   template: `<watt-data-table
-      [enableCount]="false"
-      [enableSearch]="false"
+      [header]="false"
       [enablePaginator]="false"
       *transloco="let t; prefix: 'meteringPoint.charges'"
       [error]="query.error()"
