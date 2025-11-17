@@ -16,45 +16,41 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, viewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
-import {
-  dhCprValidator,
-  dhCvrValidator,
-} from '@energinet-datahub/dh/shared/ui-validators';
+import { dhCprValidator, dhCvrValidator, } from '@energinet-datahub/dh/shared/ui-validators';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  MoveInType,
-  StartMoveInDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { MoveInType, StartMoveInDocument, WashInstructions, } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattToastService } from '@energinet/watt/toast';
 
-import {
-  InstallationAddress,
-  MoveInCustomerDetailsFormType,
-} from '../types';
+import { InstallationAddress, MoveInCustomerDetailsFormType, } from '../types';
 import { DhCustomerDetailsComponent } from './customer-details.component';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
-  selector: 'dh-move-in-customer',
+  selector: 'dh-start-move-in-modal',
   imports: [TranslocoDirective, WATT_MODAL, DhCustomerDetailsComponent, WattButtonComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <watt-modal size="large" [title]="t('title')" *transloco="let t; prefix: 'meteringPoint.moveIn'">
+    <watt-modal
+      size="large"
+      [title]="t('title')"
+      *transloco="let t; prefix: 'meteringPoint.moveIn'"
+    >
       <dh-customer-details [customerDetailsForm]="customerDetailsForm" />
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal().close(false)">{{
-            t('save')
-          }}</watt-button>
+        <watt-button variant="secondary" (click)="startMoveIn()">{{
+          t('save')
+        }}</watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
-export class DhMoveInCustomerModalComponent extends WattTypedModal<{
+export class DhStartMoveInModalComponent extends WattTypedModal<{
   installationAddress: InstallationAddress;
 }> {
   private readonly fb = inject(NonNullableFormBuilder);
@@ -68,7 +64,7 @@ export class DhMoveInCustomerModalComponent extends WattTypedModal<{
 
   private privateCustomerForm = this.fb.group({
     name1: this.fb.control<string>('', Validators.required),
-    cpr1: this.fb.control<string>('', [Validators.required, dhCprValidator()])
+    cpr1: this.fb.control<string>('', [Validators.required, dhCprValidator()]),
   });
 
   customerDetailsForm = this.fb.group<MoveInCustomerDetailsFormType>({
@@ -87,8 +83,6 @@ export class DhMoveInCustomerModalComponent extends WattTypedModal<{
   private isForeignCompanyChanged = toSignal<boolean>(
     this.isForeignCompanyFormControl.valueChanges
   );
-
-  private name1Changed = toSignal(this.privateCustomerForm.controls.name1.valueChanges);
 
   private customerTypeEffect = effect(() => {
     const customerType = this.customerTypeChanged();
@@ -121,4 +115,86 @@ export class DhMoveInCustomerModalComponent extends WattTypedModal<{
       this.customerDetailsForm.controls.businessCustomer?.controls.cvr.reset();
     }
   });
+
+  async startMoveIn() {
+    if (this.customerDetailsForm.invalid) {
+      return;
+    }
+
+    const { moveInType } = this.customerDetailsForm.getRawValue();
+
+    if (!moveInType) return;
+
+    const result = await this.startMoveInMutation.mutate({
+      variables: {
+        input: {
+          cutOffDate: '',
+          moveInType,
+          customerType: '',
+          privateCustomerName1: '',
+          privateCustomerCpr1: '',
+          privateCustomerName2: '',
+          privateCustomerCpr2: '',
+          businessCustomerCompanyName: '',
+          businessCustomerCvr: '',
+          customerIsProtectedAddress: false,
+          legalContactDetails: {
+            name: '',
+            attention: '',
+            phone: '',
+            mobile: '',
+            email: '',
+          },
+          legalAddress: {
+            streetName: '',
+            buildingNumber: '',
+            floor: '',
+            room: '',
+            postCode: '',
+            cityName: '',
+            countryCode: '',
+            streetCode: '',
+            postBox: '',
+            municipalityCode: '',
+            darReference: '',
+            citySubDivisionName: '',
+            washInstructions: WashInstructions.Washable,
+          },
+          technicalContactDetails: {
+            name: '',
+            attention: '',
+            phone: '',
+            mobile: '',
+            email: '',
+          },
+          technicalAddress: {
+            streetName: '',
+            buildingNumber: '',
+            floor: '',
+            room: '',
+            postCode: '',
+            cityName: '',
+            countryCode: '',
+            streetCode: '',
+            postBox: '',
+            municipalityCode: '',
+            darReference: '',
+            citySubDivisionName: '',
+            washInstructions: WashInstructions.Washable,
+          },
+        },
+      },
+    });
+
+    if (result.data?.startMoveIn.success) {
+      this.success();
+    }
+  }
+
+  private success() {
+    const message = this.transloco.translate('meteringPoint.moveIn.moveInSuccess');
+
+    this.toastService.open({ type: 'success', message });
+    this.modal().close(true);
+  }
 }

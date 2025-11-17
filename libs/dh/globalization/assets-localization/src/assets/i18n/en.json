@@ -809,6 +809,7 @@
     },
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
+      "updateCustomerData": "Update customer data",
       "steps": {
         "customerDetails": {
           "label": "Customer details",
@@ -877,8 +878,10 @@
           "D29": "Secondary (D29)"
         }
       },
-      "success": "Move-in is now registered",
-      "save": "Customer move-in"
+      "moveInSuccess": "Move-in is now registered",
+      "customerDataSuccess": "Customer data update is now registered",
+      "save": "Customer move-in",
+      "send": "Send"
     },
     "create": {
       "modal": {

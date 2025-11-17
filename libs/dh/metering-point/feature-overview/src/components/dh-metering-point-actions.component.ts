@@ -42,8 +42,8 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   DhMoveInComponent,
-  DhMoveInContactModalComponent,
-  DhMoveInCustomerModalComponent,
+  DhCustomerDataModalComponent,
+  DhStartMoveInModalComponent,
 } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
 import { WattModalService } from '@energinet/watt/modal';
@@ -124,18 +124,9 @@ import { InstallationAddress } from '../types';
             *dhPermissionRequired="['metering-point:move-in']"
             type="button"
             mat-menu-item
-            (click)="startFirstMoveIn()"
-          >
-            Test first part of Movein
-          </button>
-          <!-- TODO: MASEP to be removed-->
-          <button
-            *dhPermissionRequired="['metering-point:move-in']"
-            type="button"
-            mat-menu-item
             (click)="startSecondMoveIn()"
           >
-            Test last part of Movein
+            Opdatér kundestamdata
           </button>
         }
       </mat-menu>
@@ -183,16 +174,7 @@ export class DhMeteringPointActionsComponent {
 
   startMoveIn() {
     this.modalService.open({
-      component: DhMoveInComponent,
-      data: { installationAddress: this.installationAddress() },
-      disableClose: true,
-    });
-  }
-
-  // TODO: MASEP To be removed
-  startFirstMoveIn() {
-    this.modalService.open({
-      component: DhMoveInCustomerModalComponent,
+      component: DhStartMoveInModalComponent,
       data: { installationAddress: this.installationAddress() },
       disableClose: true,
     });
@@ -201,7 +183,7 @@ export class DhMeteringPointActionsComponent {
   // TODO: MASEP To be removed
   startSecondMoveIn() {
     this.modalService.open({
-      component: DhMoveInContactModalComponent,
+      component: DhCustomerDataModalComponent,
       data: { installationAddress: this.installationAddress() },
       disableClose: true,
     });

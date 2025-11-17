@@ -810,6 +810,7 @@
     },
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
+      "updateCustomerData": "Opdater kundestamdata",
       "steps": {
         "customerDetails": {
           "label": "Kundedetaljer",
@@ -878,8 +879,10 @@
           "D29": "Sekundær (D29)"
         }
       },
-      "success": "Tilflytning er nu registreret",
-      "save": "Tilflyt kunde"
+      "moveInSuccess": "Tilflytning er nu registreret",
+      "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
+      "save": "Tilflyt kunde",
+      "send": "Indsend"
     },
     "create": {
       "modal": {

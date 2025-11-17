@@ -17,5 +17,5 @@
  */
 //#endregion
 export { DhMoveInComponent } from './components/move-in.component';
-export { DhMoveInContactModalComponent } from './components/move-in-contact.modal.component';
-export { DhMoveInCustomerModalComponent } from './components/move-in-customer.modal.component';
+export { DhStartMoveInModalComponent } from './components/start-move-in.modal.component';
+export { DhCustomerDataModalComponent } from './components/customer-data.modal.component';

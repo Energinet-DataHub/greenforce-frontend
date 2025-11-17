@@ -43,7 +43,7 @@ import { DhAddressDetailsFormComponent } from './address-details-form.component'
 import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
-  selector: 'dh-move-in-contact',
+  selector: 'dh-customer-data-modal',
   imports: [
     TranslocoDirective,
     WATT_MODAL,
@@ -54,20 +54,20 @@ import { WattButtonComponent } from '@energinet/watt/button';
   template: `
     <watt-modal
       size="large"
-      [title]="t('title')"
+      [title]="t('updateCustomerData')"
       *transloco="let t; prefix: 'meteringPoint.moveIn'"
     >
       <dh-contact-details-form [contactDetailsForm]="contactDetailsForm" />
       <dh-address-details-form [addressDetailsForm]="addressDetailsForm" />
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal().close(false)">{{
-          t('save')
+        <watt-button variant="secondary" (click)="updateCustomerData()">{{
+          t('send')
         }}</watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
-export class DhMoveInContactModalComponent extends WattTypedModal<{
+export class DhCustomerDataModalComponent extends WattTypedModal<{
   installationAddress: InstallationAddress;
 }> {
   private readonly fb = inject(NonNullableFormBuilder);
@@ -76,8 +76,6 @@ export class DhMoveInContactModalComponent extends WattTypedModal<{
   private readonly toastService = inject(WattToastService);
 
   readonly modal = viewChild.required(WattModalComponent);
-
-  private readonly customerTypeInitialValue = 'private';
 
   private readonly addressDataInitialValue: AddressData = {
     streetName: this.modalData.installationAddress?.streetName ?? '',
@@ -254,5 +252,11 @@ export class DhMoveInContactModalComponent extends WattTypedModal<{
 
   private resetLegalAddressFormGroup(data: AddressData) {
     this.addressDetailsForm.controls.legalAddressGroup.reset(data);
+  }
+
+  updateCustomerData() {
+    const message = this.transloco.translate('meteringPoint.moveIn.customerDataSuccess');
+    this.toastService.open({ type: 'success', message });
+    this.modal().close(true);
   }
 }
