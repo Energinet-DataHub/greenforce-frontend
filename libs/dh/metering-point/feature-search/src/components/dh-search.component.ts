@@ -28,13 +28,17 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
+import { WattModalService } from '@energinet/watt/modal';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
+import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component';
 
 @Component({
   selector: 'dh-search',
@@ -49,7 +53,9 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
     WattEmptyStateComponent,
     WattSpinnerComponent,
 
+    DhPermissionRequiredDirective,
     DhFeatureFlagDirective,
+    DhReleaseToggleDirective,
   ],
   styles: `
     .search-wrapper {
@@ -63,7 +69,7 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
   `,
   template: `
     <vater-stack fill="vertical" *transloco="let t; prefix: 'meteringPoint.search'">
-      <div class="search-wrapper watt-space-stack-xl">
+      <vater-stack direction="row" align="start" gap="m" class="search-wrapper watt-space-stack-xl">
         <watt-text-field
           maxLength="18"
           [formControl]="searchControl"
@@ -90,7 +96,18 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
             </watt-field-error>
           }
         </watt-text-field>
-      </div>
+
+        <ng-content *dhReleaseToggle="'PM52-CREATE-METERING-POINT-UI'">
+          <watt-button
+            *dhPermissionRequired="['metering-point:create']"
+            icon="plus"
+            variant="secondary"
+            (click)="createMeteringPoint()"
+          >
+            {{ t('createMeteringPoint') }}
+          </watt-button>
+        </ng-content>
+      </vater-stack>
 
       @if (meteringPointNotFound()) {
         <watt-empty-state size="small" icon="custom-no-results" [title]="t('noResultFound')" />
@@ -109,6 +126,8 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 })
 export class DhSearchComponent {
   private readonly router = inject(Router);
+  private readonly modalService = inject(WattModalService);
+
   private readonly doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
   protected submitted = signal(false);
 
@@ -140,6 +159,12 @@ export class DhSearchComponent {
   navigateToDebug() {
     const meteringPointId = this.searchControl.getRawValue();
     this.router.navigate([combinePaths('metering-point-debug', 'metering-point'), meteringPointId]);
+  }
+
+  createMeteringPoint() {
+    this.modalService.open({
+      component: DhCreateMeteringPointModalComponent,
+    });
   }
 
   async onSubmit() {

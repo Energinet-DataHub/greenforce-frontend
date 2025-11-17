@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Extensions;
 using NodaTime;
 using Xunit;
 

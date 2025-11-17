@@ -352,8 +352,8 @@
     "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
-    "PT15M": "15 min",
-    "PT1H": "60 min",
+    "PT15M": "Quarter hour",
+    "PT1H": "Hour",
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
@@ -371,11 +371,11 @@
       "TARIFF": "Tariff"
     },
     "resolutions": {
-      "Daily": "Daily",
-      "QuarterHourly": "Quarterly",
-      "Hourly": "Hourly",
-      "Monthly": "Monthly",
-      "Unknown": "Unknown"
+      "daily": "Day",
+      "quarterhourly": "Quarter hour",
+      "hourly": "Hour",
+      "monthly": "Month",
+      "unknown": "Unknown"
     },
     "vatClassifications": {
       "NO_VAT": "Without VAT",
@@ -432,44 +432,59 @@
       "actions": {
         "actionsButton": "Actions"
       },
-      "breadcrumb": "Prices",
-      "priceInformation": {
-        "name": "Name",
-        "description": "Description",
-        "vatClassification": "VAT",
-        "transparentInvoicing": "Transparent Invoicing",
-        "current": "Current",
-        "history": {
-          "table": {
-            "columns": {
-              "timestamp": "Timestamp",
-              "entry": "Change"
-            }
-          },
-          "auditLogs": {
-            "Sample entry": "This is a sample {{ entry }}"
+      "breadcrumb": "Prices"
+    },
+    "priceInformation": {
+      "name": "Name",
+      "description": "Description",
+      "vatClassification": "VAT",
+      "transparentInvoicing": "Transparent Invoicing",
+      "current": "Current",
+      "history": {
+        "table": {
+          "columns": {
+            "timestamp": "Timestamp",
+            "entry": "Change"
           }
+        },
+        "auditLogs": {
+          "Sample entry": "This is a sample {{ entry }}"
         }
       }
     },
     "series": {
+      "showHistory": "Show history",
+      "resolution": {
+        "quarterhourly": "Time",
+        "hourly": "Time",
+        "daily": "Date",
+        "monthly": "Month",
+        "unknown": "Date"
+      },
       "columns": {
-        "QuarterHourly": "Time",
-        "Hourly": "Time",
-        "Daily": "Date",
-        "Monthly": "Month",
-        "Unknown": "Sequence",
-        "price": "Current price"
+        "price": "Current price",
+        "tooltip": "● Has changed values"
       },
       "details": {
         "current": "Current",
-        "time": "Time",
         "columns": {
           "price": "Price",
           "time": "Submitted"
         },
         "copyMessage": "Copy message ID",
         "navigateToMessage": "Go to message"
+      },
+      "csv": {
+        "fileName": "DataHub prices - {{ shared.downloadNameParams }}",
+        "columns": {
+          "owner": "Owner",
+          "gln": "GLN",
+          "type": "Type",
+          "id": "ID",
+          "resolution": "Resolution",
+          "from": "From",
+          "to": "To"
+        }
       }
     }
   },
@@ -477,6 +492,7 @@
     "breadcrumb": "Search metering point",
     "search": {
       "placeholder": "Search by metering point ID",
+      "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
         "containsLetters": "Metering point ID can only contain numbers and not letters",
         "meteringPointIdLength": "Metering point ID must be an 18-digit number"
@@ -489,6 +505,9 @@
       },
       "processes": {
         "tabLabel": "Processes"
+      },
+      "prices": {
+        "tabLabel": "Prices"
       },
       "messages": {
         "tabLabel": "Messages"
@@ -635,19 +654,47 @@
     "selectedRelatedMeteringPoint": "Selected",
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
+    "charges": {
+      "columns": {
+        "type": "Type",
+        "id": "ID",
+        "name": "Name",
+        "owner": "Owner",
+        "amount": "Amount",
+        "period": "Period"
+      },
+      "chargeType": "Type",
+      "details": {
+        "columns": {
+          "submittedAt": "Submitted",
+          "description": "Description"
+        },
+        "copyMessage": "Copy message ID",
+        "navigateToMessage": "Go to message"
+      }
+    },
     "processOverview": {
       "columns": {
         "createdAt": "Time of message",
-        "documentType": "Type",
+        "reasonCode": "Type",
         "state": "State",
         "cutoffDate": "Cut-off date",
         "initiator": "Initiating participant",
         "actions": "Possible actions"
       },
+      "reasonCode": {
+        "EndOfSupply": "End of supply (BRS-002)"
+      },
       "filters": {
         "created": "Time",
         "includeViews": "Include views",
         "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
+      },
+      "actions": {
+        "SEND_INFORMATION": "Send information",
+        "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information",
+        "CANCEL_WORKFLOW": "Cancel workflow",
+        "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
       },
       "steps": {
         "REQUEST_END_OF_SUPPLY": "Request end of supply (BRS-005)"
@@ -832,6 +879,61 @@
       },
       "success": "Move-in is now registered",
       "save": "Customer move-in"
+    },
+    "create": {
+      "modal": {
+        "title": "Select type of metering point to create",
+        "label": "Metering point type",
+        "placeholder": "Input or select",
+        "cancel": "Cancel",
+        "start": "Start"
+      },
+      "title": "Create {{ type }} metering point",
+      "cancel": "Cancel",
+      "create": "Create metering point",
+      "details": {
+        "title": "Details",
+        "validityDate": "Validity date",
+        "meteringPointId": "Metering point ID",
+        "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
+        "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
+        "powerLimitKw": "Power limit kW",
+        "powerLimitAmpere": "Power limit ampere",
+        "disconnectionType": "{{ meteringPoint.overview.details.disconnectionType }}",
+        "gridArea": "{{ meteringPoint.overview.details.gridArea }}"
+      },
+      "address": {
+        "title": "Address",
+        "actualNotActualLabel": "Actual address/Not actual address",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetName": "Street name",
+        "buildingNumber": "Building number",
+        "floor": "Floor",
+        "room": "Door",
+        "postCode": "Postal code",
+        "cityName": "City name",
+        "citySubDivisionName": "{{ meteringPoint.overview.shared.citySubDivisionName }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "commentLabel": "Comment"
+      },
+      "powerPlant": {
+        "title": "Power plant",
+        "netSettlementGroup": "Settlement group",
+        "capacity": "Capacity",
+        "gsrnNumber": "Power plant GSRN",
+        "connectionType": "Connection type",
+        "assetType": "Asset type"
+      },
+      "other": {
+        "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
+        "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
+        "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
+        "product": "Product ID"
+      }
     }
   },
   "messageArchive": {

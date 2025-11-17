@@ -39,6 +39,7 @@ function getReleaseTogglesQuery() {
           'MoveInBrs009',
           'PM58-PRICES-UI',
           'PM116-PROCESSOVERVIEW',
+          'PM52-CREATE-METERING-POINT-UI',
         ],
       },
     });

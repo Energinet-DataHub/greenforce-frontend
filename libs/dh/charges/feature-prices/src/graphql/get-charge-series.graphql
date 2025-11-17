@@ -1,19 +1,16 @@
 query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
-  chargeSeries(chargeId: $chargeId, interval: $interval) {
-    totalAmount
-    hasChanged
-    # TODO: make a point fragment
-    currentPoint {
+  chargeById(id: $chargeId) {
+    ...ChargeFields
+    series(interval: $interval) {
+      period
       price
-      fromDateTime
-      toDateTime
-      isCurrent
-    }
-    points {
-      isCurrent
-      price
-      fromDateTime
-      toDateTime
+      hasChanged
+      points {
+        isCurrent
+        price
+        fromDateTime
+        toDateTime
+      }
     }
   }
 }

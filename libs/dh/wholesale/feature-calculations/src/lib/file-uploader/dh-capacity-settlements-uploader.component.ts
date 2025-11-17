@@ -22,6 +22,7 @@ import { translate } from '@jsverse/transloco';
 import { tapResponse } from '@ngrx/operators';
 
 import { WattToastService } from '@energinet/watt/toast';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 const jsonExt = '.json';
 const jsonMimeType = 'application/json';
@@ -46,6 +47,7 @@ const jsonMimeType = 'application/json';
 export class DhCapacitySettlementsUploaderComponent {
   private readonly httpClient = inject(HttpClient);
   private readonly toastService = inject(WattToastService);
+  private readonly appInsights = inject(DhApplicationInsights);
 
   private uploadInput = viewChild.required<ElementRef<HTMLInputElement>>('uploadInput');
 
@@ -54,6 +56,7 @@ export class DhCapacitySettlementsUploaderComponent {
   jsonExt = jsonExt;
 
   selectFile(): void {
+    this.appInsights.trackEvent(`Button: Upload file for capacity settlements`);
     this.uploadInput().nativeElement.click();
   }
 

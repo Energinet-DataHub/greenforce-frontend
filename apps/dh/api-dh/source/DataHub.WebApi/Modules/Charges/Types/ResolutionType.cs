@@ -22,6 +22,6 @@ public class ResolutionType : EnumType<Resolution>
     protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
     {
         descriptor.Name("ChargeResolution");
-        descriptor.AsIsCase();
+        descriptor.AsLowerCase();
     }
 }
