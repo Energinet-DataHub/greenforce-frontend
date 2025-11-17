@@ -182,12 +182,30 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private resolutionChanges = toSignal(this.form.controls.resolution.valueChanges);
 
   private resolutionEffect = effect(() => {
-    if (this.resolutionChanges() === AggregatedResolution.SumOfMonth) {
-      this.form.controls.period.removeValidators(maxDaysValidator);
-      this.form.controls.period.addValidators([entireMonthsValidator, maxMonthsValidator]);
+    const resolutionValue = this.resolutionChanges();
+    const switchToMeteringPointIDs = this.switchToMeteringPointIDsChanges();
+
+    if (switchToMeteringPointIDs || this.isSpecialMarketRole) {
+      if (resolutionValue === AggregatedResolution.SumOfDay) {
+        this.form.controls.period.removeValidators([entireMonthsValidator, maxMonthsValidator]);
+        this.form.controls.period.addValidators(maxDaysValidator);
+      } else {
+        this.form.controls.period.removeValidators([maxDaysValidator, entireMonthsValidator]);
+
+        if (resolutionValue === AggregatedResolution.SumOfMonth) {
+          this.form.controls.period.addValidators([entireMonthsValidator]);
+        }
+
+        this.form.controls.period.addValidators([maxMonthsValidator]);
+      }
     } else {
-      this.form.controls.period.removeValidators([entireMonthsValidator, maxMonthsValidator]);
-      this.form.controls.period.addValidators(maxDaysValidator);
+      if (resolutionValue === AggregatedResolution.SumOfMonth) {
+        this.form.controls.period.removeValidators(maxDaysValidator);
+        this.form.controls.period.addValidators([entireMonthsValidator, maxMonthsValidator]);
+      } else {
+        this.form.controls.period.removeValidators([entireMonthsValidator, maxMonthsValidator]);
+        this.form.controls.period.addValidators(maxDaysValidator);
+      }
     }
 
     this.form.controls.period.updateValueAndValidity();
@@ -219,10 +237,12 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       this.form.controls.meteringPointIDs.reset();
       this.form.controls.meteringPointIDs.removeValidators(Validators.required);
 
-      const resolutionValue = this.resolutionChanges();
+      const resolutionValue = untracked(this.resolutionChanges);
 
       if (resolutionValue && resolutionOptionsToDisable.includes(resolutionValue)) {
         this.form.controls.resolution.reset();
+        this.form.controls.resolution.markAsPristine();
+        this.form.controls.resolution.markAsUntouched();
       }
     }
 
