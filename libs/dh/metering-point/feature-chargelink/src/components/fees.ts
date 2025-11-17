@@ -18,13 +18,13 @@
 //#endregion
 import { RouterOutlet } from '@angular/router';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattDataTableComponent } from '@energinet/watt/data';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
@@ -62,7 +62,7 @@ import { Charge } from '../types';
     >
       <watt-table
         *transloco="let resolveHeader; prefix: 'meteringPoint.charges.columns'"
-        [dataSource]="dataSource()"
+        [dataSource]="dataSource"
         [columns]="columns"
         [loading]="query.loading()"
         [resolveHeader]="resolveHeader"
@@ -86,15 +86,11 @@ export default class DhMeteringPointChargeLinksFees {
     variables: { meteringPointId: this.id() },
   }));
   navigation = inject(DhNavigationService);
-  dataSource = computed(
-    () =>
-      new WattTableDataSource(
-        (this.query.data()?.chargeLinksByMeteringPointId ?? []).filter(
-          (chargeLink) => chargeLink.type === ChargeType.Fee
-        )
-      )
+  dataSource = dataSource(() =>
+    (this.query.data()?.chargeLinksByMeteringPointId ?? []).filter(
+      (chargeLink) => chargeLink.type === ChargeType.Fee
+    )
   );
-
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
 
   form = new FormGroup({
@@ -110,6 +106,6 @@ export default class DhMeteringPointChargeLinksFees {
   };
 
   selection = () => {
-    return this.dataSource().filteredData.find((row) => row.id === this.navigation.id());
+    return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
   };
 }

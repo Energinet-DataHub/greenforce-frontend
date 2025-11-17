@@ -192,7 +192,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
           <ng-container *dhReleaseToggle="'PM58-PRICES-UI'">
             <watt-link-tab
               *dhPermissionRequired="['metering-point:prices']"
-              [label]="t('charge-links.tabLabel')"
+              [label]="t('chargelinks.tabLabel')"
               [link]="getLink('charge-links')"
             />
           </ng-container>

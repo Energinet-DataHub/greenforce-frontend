@@ -507,8 +507,8 @@
       "processes": {
         "tabLabel": "Procesoverblik"
       },
-      "charge-links": {
-        "tabLabel": "Pris tilknytninger"
+      "chargelinks": {
+        "tabLabel": "Pristilknytninger"
       },
       "messages": {
         "tabLabel": "Beskeder"
