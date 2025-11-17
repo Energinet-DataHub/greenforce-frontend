@@ -89,12 +89,11 @@ jobs:
           filename: ${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
           directory: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
 
-      
       - name: Attest SBOM
         uses: actions/attest-sbom@v3
         with:
           subject-path: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
-          sbom-path: ${{ github.workspace }}/sbom.json
+          sbom-path: ${{ github.workspace }}/sbom.spdx.json
 
       - name: Create pre-release
         uses: Energinet-Datahub/.github/.github/actions/github-create-release@v15
