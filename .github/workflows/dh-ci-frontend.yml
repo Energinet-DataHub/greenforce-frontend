@@ -33,6 +33,7 @@ permissions:
   issues: read
   pull-requests: write
   id-token: write
+  attestations: write
 
 jobs:
   #
@@ -79,7 +80,7 @@ jobs:
         with:
           file: ./yarn.lock
           format: spdx-json
-          output-file: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/sbom.spdx.json
+          output-file: ${{ github.workspace }}/sbom.spdx.json
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
@@ -87,6 +88,13 @@ jobs:
           type: zip
           filename: ${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
           directory: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
+
+      
+      - name: Attest SBOM
+        uses: actions/attest-sbom@v3
+        with:
+          subject-path: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
+          sbom-path: ${{ github.workspace }}/sbom.json
 
       - name: Create pre-release
         uses: Energinet-Datahub/.github/.github/actions/github-create-release@v15
