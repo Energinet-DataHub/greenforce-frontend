@@ -31,15 +31,12 @@ export type MoveInCustomerDetailsFormType = {
   privateCustomer?: FormGroup<{
     name1: FormControl<string>;
     cpr1: FormControl<string>;
-    name2: FormControl<string>;
-    cpr2: FormControl<string>;
   }>;
   businessCustomer?: FormGroup<{
     companyName: FormControl<string>;
     cvr: FormControl<string>;
     isForeignCompany: FormControl<boolean>;
   }>;
-  isProtectedAddress: FormControl<boolean>;
 };
 
 export type MoveInContactDetailsFormType = {

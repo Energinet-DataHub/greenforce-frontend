@@ -68,19 +68,13 @@ export class DhMoveInCustomerModalComponent extends WattTypedModal<{
 
   private privateCustomerForm = this.fb.group({
     name1: this.fb.control<string>('', Validators.required),
-    cpr1: this.fb.control<string>('', [Validators.required, dhCprValidator()]),
-    name2: this.fb.control<string>(''),
-    cpr2: this.fb.control<string>({ value: '', disabled: true }, [
-      Validators.required,
-      dhCprValidator(),
-    ]),
+    cpr1: this.fb.control<string>('', [Validators.required, dhCprValidator()])
   });
 
   customerDetailsForm = this.fb.group<MoveInCustomerDetailsFormType>({
     cutOffDate: this.fb.control(new Date(), Validators.required),
     moveInType: this.fb.control<MoveInType | null>(null, Validators.required),
     customerType: this.fb.control(this.customerTypeInitialValue),
-    isProtectedAddress: this.fb.control<boolean>(false),
   });
 
   readonly isForeignCompanyFormControl = this.fb.control<boolean>(false);
@@ -95,7 +89,6 @@ export class DhMoveInCustomerModalComponent extends WattTypedModal<{
   );
 
   private name1Changed = toSignal(this.privateCustomerForm.controls.name1.valueChanges);
-  private name2Changed = toSignal(this.privateCustomerForm.controls.name2.valueChanges);
 
   private customerTypeEffect = effect(() => {
     const customerType = this.customerTypeChanged();
@@ -126,18 +119,6 @@ export class DhMoveInCustomerModalComponent extends WattTypedModal<{
     } else {
       this.customerDetailsForm.controls.businessCustomer?.controls.cvr.enable();
       this.customerDetailsForm.controls.businessCustomer?.controls.cvr.reset();
-    }
-  });
-
-  private name2Effect = effect(() => {
-    const name2 = this.name2Changed();
-    const cpr2Control = this.privateCustomerForm.controls.cpr2;
-
-    if (name2) {
-      cpr2Control.enable();
-    } else {
-      cpr2Control.disable();
-      cpr2Control.reset();
     }
   });
 }
