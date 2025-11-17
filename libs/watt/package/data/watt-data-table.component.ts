@@ -95,10 +95,8 @@ import { WattDataIntlService } from './watt-data-intl.service';
         @if (header()) {
           <vater-stack direction="row" gap="m" fill="horizontal">
             <vater-stack direction="row" justify="space-between" fill="horizontal" align="start">
-
               <!-- Left side -->
               <vater-stack align="start">
-
                 <!-- Header, count and queryTime -->
                 <vater-stack direction="row" gap="m">
                   <ng-content select="h3" />
@@ -138,9 +136,11 @@ import { WattDataIntlService } from './watt-data-intl.service';
         }
         <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
-          @if (enableEmptyState() &&
-          !table().loading() &&
-          table().dataSource().filteredData.length === 0) {
+          @if (
+            enableEmptyState() &&
+            !table().loading() &&
+            table().dataSource().filteredData.length === 0
+          ) {
             <vater-flex [autoSize]="autoSize()" fill="vertical">
               <vater-stack scrollable justify="center">
                 <watt-empty-state
@@ -151,9 +151,8 @@ import { WattDataIntlService } from './watt-data-intl.service';
                   [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
                 >
                   @if (enableRetry()) {
-                    <watt-button variant="secondary" (click)="retry.emit()">{{
-                        intl.emptyRetry
-                      }}
+                    <watt-button variant="secondary" (click)="retry.emit()"
+                      >{{ intl.emptyRetry }}
                     </watt-button>
                   }
                 </watt-empty-state>

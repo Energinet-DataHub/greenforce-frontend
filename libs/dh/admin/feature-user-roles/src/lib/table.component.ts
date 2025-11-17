@@ -66,51 +66,50 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
     DhPermissionRequiredDirective,
     VaterStackComponent,
   ],
-  template: `
-    <watt-data-table
-      *transloco="let t; prefix: 'admin.userManagement.tabs.roles'"
-      vater
-      inset="ml"
-      [searchLabel]="'shared.search' | transloco"
-      [error]="dataSource.error"
-      [ready]="dataSource.called"
-      [enableCount]="false"
-    >
-      <watt-data-actions>
-        <vater-stack direction="row" gap="m">
-          <dh-user-roles-download [variables]="variables()" />
-          <watt-button
-            *dhPermissionRequired="['user-roles:manage']"
-            icon="plus"
-            variant="secondary"
-            (click)="create()"
+  template: ` <watt-data-table
+    *transloco="let t; prefix: 'admin.userManagement.tabs.roles'"
+    vater
+    inset="ml"
+    [searchLabel]="'shared.search' | transloco"
+    [error]="dataSource.error"
+    [ready]="dataSource.called"
+    [enableCount]="false"
+  >
+    <watt-data-actions>
+      <vater-stack direction="row" gap="m">
+        <dh-user-roles-download [variables]="variables()" />
+        <watt-button
+          *dhPermissionRequired="['user-roles:manage']"
+          icon="plus"
+          variant="secondary"
+          (click)="create()"
           >{{ t('createuserrole') }}
-          </watt-button>
-        </vater-stack>
-      </watt-data-actions>
+        </watt-button>
+      </vater-stack>
+    </watt-data-actions>
 
-      <watt-data-filters>
-        <dh-user-roles-filter (filter)="fetch($event)" />
-      </watt-data-filters>
+    <watt-data-filters>
+      <dh-user-roles-filter (filter)="fetch($event)" />
+    </watt-data-filters>
 
-      <watt-table
-        *transloco="let resolveHeader; prefix: 'admin.userManagement.tabs.roles.table.columns'"
-        [dataSource]="dataSource"
-        [columns]="columns"
-        [loading]="dataSource.loading"
-        [resolveHeader]="resolveHeader"
-        [activeRow]="selection()"
-        (rowClick)="onRowClick($event)"
-      >
-        <ng-container *wattTableCell="columns.eicFunction; let row">
-          {{ 'marketParticipant.marketRoles.' + row.eicFunction | transloco }}
-        </ng-container>
+    <watt-table
+      *transloco="let resolveHeader; prefix: 'admin.userManagement.tabs.roles.table.columns'"
+      [dataSource]="dataSource"
+      [columns]="columns"
+      [loading]="dataSource.loading"
+      [resolveHeader]="resolveHeader"
+      [activeRow]="selection()"
+      (rowClick)="onRowClick($event)"
+    >
+      <ng-container *wattTableCell="columns.eicFunction; let row">
+        {{ 'marketParticipant.marketRoles.' + row.eicFunction | transloco }}
+      </ng-container>
 
-        <ng-container *wattTableCell="columns['status']; let role">
-          <dh-role-status [status]="role.status" />
-        </ng-container>
-      </watt-table>
-    </watt-data-table>`,
+      <ng-container *wattTableCell="columns['status']; let role">
+        <dh-role-status [status]="role.status" />
+      </ng-container>
+    </watt-table>
+  </watt-data-table>`,
 })
 export class DhUserRolesTableComponent {
   private navigation = inject(DhNavigationService);
