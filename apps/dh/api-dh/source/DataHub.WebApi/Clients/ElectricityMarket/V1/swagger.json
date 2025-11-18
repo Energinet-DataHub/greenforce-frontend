@@ -363,6 +363,53 @@
         }
       }
     },
+    "/metering-point/{identification}/manual-correction": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "manual-correction",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMeteringPointForManualCorrectionResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMeteringPointForManualCorrectionResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMeteringPointForManualCorrectionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/metering-point/query/type": {
       "post": {
         "tags": [
@@ -435,116 +482,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/sync/electrical-heating": {
-      "get": {
-        "tags": [
-          "Sync"
-        ],
-        "operationId": "electrical-heating",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/sync/capacity-settlement": {
-      "get": {
-        "tags": [
-          "Sync"
-        ],
-        "operationId": "capacity-settlement",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/sync/net-consumption": {
-      "get": {
-        "tags": [
-          "Sync"
-        ],
-        "operationId": "net-consumption",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/sync/hullerlog": {
-      "get": {
-        "tags": [
-          "Sync"
-        ],
-        "operationId": "hullerlog",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/sync/measurements-report": {
-      "get": {
-        "tags": [
-          "Sync"
-        ],
-        "operationId": "measurements-report",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -995,6 +932,15 @@
             "items": {
               "$ref": "#/components/schemas/CustomerDto"
             }
+          }
+        }
+      },
+      "GetMeteringPointForManualCorrectionResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "json": {
+            "type": "string"
           }
         }
       },
@@ -1668,6 +1614,7 @@
           "StopTariff",
           "DismantlingOfMeter",
           "UpdateSpecialMeteringPoint",
+          "UpdateHistoricMeteringPoint",
           "ChangeMeter",
           "ChangeInPurchaseObligation",
           "DisplayingCumulativeDataNotOwner",
@@ -1757,7 +1704,8 @@
           60,
           61,
           62,
-          63
+          63,
+          64
         ]
       },
       "WashInstructions": {
