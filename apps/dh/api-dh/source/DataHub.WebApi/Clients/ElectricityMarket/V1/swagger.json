@@ -127,6 +127,54 @@
         }
       }
     },
+    "/metering-point/exists/{identification}": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "exists",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/metering-point/{identification}/related": {
       "get": {
         "tags": [
