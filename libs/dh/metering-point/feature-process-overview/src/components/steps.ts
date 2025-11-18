@@ -69,13 +69,13 @@ type MeteringPointProcessStep = NonNullable<
           </div>
           @if (process.message?.documentUrl; as documentUrl) {
             <a href="#" (click)="openRawMessage(documentUrl, $event)">
-              <watt-icon size="xs" name="forwardMessage" />
+              <watt-icon size="xs" name="email" />
             </a>
           }
         </vater-flex>
       </ng-container>
-      <ng-container *wattTableCell="columns.createdAt; let process">
-        {{ process.createdAt | wattDate: 'long' }}
+      <ng-container *wattTableCell="columns.completedAt; let process">
+        {{ process.completedAt | wattDate: 'long' }}
       </ng-container>
       <ng-container *wattTableCell="columns.dueDate; let process">
         {{ process.dueDate | wattDate: 'long' | dhEmDashFallback }}
@@ -100,7 +100,7 @@ export class DhMeteringPointProcessOverviewSteps {
   dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
   columns: WattTableColumnDef<MeteringPointProcessStep> = {
     step: { accessor: 'step', size: '1fr' },
-    createdAt: { accessor: 'createdAt' },
+    completedAt: { accessor: 'completedAt' },
     dueDate: { accessor: 'dueDate' },
     actor: { accessor: 'actor' },
     state: { accessor: 'state' },

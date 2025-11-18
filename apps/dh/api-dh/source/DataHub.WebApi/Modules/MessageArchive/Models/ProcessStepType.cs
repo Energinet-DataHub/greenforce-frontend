@@ -12,17 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Processes.Types;
-
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
-public record MeteringPointProcessStep(
-    string Id,
-    ProcessStepType Step,
-    string? Comment,
-    DateTimeOffset? CompletedAt,
-    DateTimeOffset? DueDate,
-    string ActorNumber,
-    string ActorRole,
-    ProcessState State,
-    string? MessageId);
+/// <summary>
+/// Enum representing different process step types.
+/// These values are used as translation keys in the frontend.
+/// </summary>
+public enum ProcessStepType
+{
+    /// <summary>
+    /// RSM-005: Request end of supply
+    /// </summary>
+    Rsm005Request,
+
+    /// <summary>
+    /// RSM-005: Confirm end of supply
+    /// </summary>
+    Rsm005Confirm,
+
+    /// <summary>
+    /// RSM-005: Reject end of supply
+    /// </summary>
+    Rsm005Reject,
+
+    /// <summary>
+    /// RSM-020: Notify cancellation of end of supply
+    /// </summary>
+    Rsm020Request,
+
+    /// <summary>
+    /// Unknown or unmapped step type
+    /// </summary>
+    Unknown,
+}

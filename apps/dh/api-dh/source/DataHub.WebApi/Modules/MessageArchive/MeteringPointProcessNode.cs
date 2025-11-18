@@ -22,6 +22,7 @@ using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using Microsoft.Extensions.Logging;
 using NodaTime;
 
 using WorkflowAction = Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model.WorkflowAction;
@@ -39,6 +40,7 @@ public static partial class MeteringPointProcessNode
         Interval created,
         [Service] IProcessManagerClient processManagerClient,
         [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] ILogger<MeteringPointProcess> logger,
         CancellationToken cancellationToken)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
@@ -49,9 +51,47 @@ public static partial class MeteringPointProcessNode
             created.End.ToDateTimeOffset(),
             userIdentity);
 
-        var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
+        logger.LogInformation(
+            "Searching workflow instances for MeteringPointId: {MeteringPointId}, From: {Start}, To: {End}",
+            meteringPointId,
+            created.Start,
+            created.End);
 
-        return workflowInstances.Select(MapToMeteringPointProcess);
+        try
+        {
+            var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
+
+            logger.LogInformation("Successfully retrieved {Count} workflow instances", workflowInstances.Count());
+
+            return workflowInstances.Select(MapToMeteringPointProcess);
+        }
+        catch (HttpRequestException ex)
+        {
+            logger.LogError(
+                ex,
+                "ProcessManager API returned error. MeteringPointId: {MeteringPointId}, StatusCode: {StatusCode}, From: {From}, To: {To}",
+                meteringPointId,
+                ex.StatusCode,
+                created.Start,
+                created.End);
+
+            // Re-throw with more context
+            throw new InvalidOperationException(
+                $"ProcessManager API failed with {ex.StatusCode} for MeteringPointId '{meteringPointId}'. " +
+                $"Date range: {created.Start} to {created.End}. " +
+                $"This may indicate an issue with the ProcessManager service or invalid query parameters.",
+                ex);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(
+                ex,
+                "Unexpected error querying ProcessManager. MeteringPointId: {MeteringPointId}, From: {From}, To: {To}",
+                meteringPointId,
+                created.Start,
+                created.End);
+            throw;
+        }
     }
 
     [Query]
@@ -90,7 +130,7 @@ public static partial class MeteringPointProcessNode
             Step: GetStepName(step),
             Comment: null, // TODO: REPLACE WHEN PROCESS MANAGER IS READY
             CompletedAt: step.Lifecycle.CompletedAt,
-            DueDate: step.Lifecycle.DueDate,
+            DueDate: null, // DueDate was removed in ProcessManager 8.1.0
             ActorNumber: step.Actor?.ActorNumber.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
             State: MapStepStateToProcessState(step.Lifecycle.State),
@@ -124,7 +164,7 @@ public static partial class MeteringPointProcessNode
             workflowInstance.Id,
             workflowInstance.Lifecycle,
             workflowInstance.BusinessReason.Name,
-            workflowInstance.CuteOffDate,
+            workflowInstance.ExpectedValidityDate,
             action: workflowInstance.Action,
             workflowSteps: null);
 
@@ -133,7 +173,7 @@ public static partial class MeteringPointProcessNode
             workflowInstanceWithSteps.Id,
             workflowInstanceWithSteps.Lifecycle,
             workflowInstanceWithSteps.BusinessReason.Name,
-            workflowInstanceWithSteps.CuteOffDate,
+            workflowInstanceWithSteps.ExpectedValidityDate,
             action: null,
             workflowSteps: workflowInstanceWithSteps.Steps);
 
@@ -188,23 +228,23 @@ public static partial class MeteringPointProcessNode
             _ => ProcessState.Failed,
         };
 
-    private static string GetStepName(WorkflowStepInstanceDto step)
+    private static ProcessStepType GetStepName(WorkflowStepInstanceDto step)
     {
         return step.UniqueName switch
         {
             var uniqueName when uniqueName == Brs_002_EndOfSupply.V1 => GetNameForEndOfSupplyV1Step(step.Sequence),
-            _ => "Unknown Step",
+            _ => ProcessStepType.Unknown,
         };
     }
 
-    private static string GetNameForEndOfSupplyV1Step(int number)
+    private static ProcessStepType GetNameForEndOfSupplyV1Step(int number)
     {
         return number switch
         {
-            1 => "End of Supply Request",
-            2 => "End of Supply Confirm",
-            3 => "End of Supply Reject",
-            4 => "End of Supply Notify",
+            1 => ProcessStepType.Rsm005Request,
+            2 => ProcessStepType.Rsm005Confirm,
+            3 => ProcessStepType.Rsm005Reject,
+            4 => ProcessStepType.Rsm020Request,
             _ => throw new ArgumentOutOfRangeException(nameof(number), number, null),
         };
     }

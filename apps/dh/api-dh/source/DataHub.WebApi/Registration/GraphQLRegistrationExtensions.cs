@@ -36,6 +36,10 @@ public static class GraphQLRegistrationExtensions
             .BindRuntimeType<Interval, DateRangeType>()
             .BindRuntimeType<long, LongType>()
             .BindRuntimeType<YearMonth, YearMonthType>()
+            .ModifyRequestOptions(options =>
+            {
+                options.ExecutionTimeout = TimeSpan.FromMinutes(2); // Increased from default 30s to investigate timeout issue
+            })
             .ModifyOptions(options =>
             {
                 options.EnableOneOf = true;
