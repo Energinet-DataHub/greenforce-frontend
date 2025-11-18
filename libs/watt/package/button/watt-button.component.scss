@@ -132,6 +132,32 @@ watt-button {
     }
   }
 
+  &.watt-button--selection {
+    .mat-mdc-button.mat-selection {
+      @include watt.typography-watt-text-m;
+      border-radius: 4px;
+      border: 1px solid var(--watt-color-neutral-grey-500);
+
+      &:hover {
+        background-color: var(--watt-color-neutral-grey-100);
+      }
+
+      .content-wrapper {
+        width: 100%;
+        display: flex;
+      }
+
+      watt-icon {
+        order: 2;
+        margin-left: auto;
+      }
+
+      &.mat-mdc-button {
+        height: 56px; // Magic UX normal height
+      }
+    }
+  }
+
   &.watt-button--icon {
     &.watt-button--disabled .mat-mdc-button.mat-icon {
       background-color: transparent;
@@ -154,6 +180,27 @@ watt-button {
       &.mat-button {
         min-width: 44px;
       }
+    }
+  }
+
+  &.watt-button-align-text--start {
+    .mdc-button__label {
+      justify-content: flex-start;
+      align-items: start;
+    }
+  }
+
+  &.watt-button-align-text--center {
+    .mdc-button__label {
+      justify-content: center;
+      align-items: start;
+    }
+  }
+
+  &.watt-button-align-text--end {
+    .mdc-button__label {
+      justify-content: flex-end;
+      align-items: start;
     }
   }
 
@@ -180,8 +227,7 @@ watt-button {
 
     .mdc-button__label {
       display: flex;
-      justify-content: center;
-      align-items: center;
+      width: 100%;
 
       .content-wrapper {
         display: flex;

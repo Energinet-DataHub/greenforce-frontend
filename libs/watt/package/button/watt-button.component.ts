@@ -27,7 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 
-export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon'] as const;
+export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon', 'selection'] as const;
 export type WattButtonVariant = (typeof WattButtonTypes)[number];
 export type WattButtonType = 'button' | 'reset' | 'submit';
 export type WattButtonSize = 'small' | 'medium';
@@ -46,6 +46,7 @@ export type WattButtonSize = 'small' | 'medium';
   template: `
     <button
       mat-button
+      [disableRipple]="true"
       [disabled]="disabled()"
       [type]="type()"
       [color]="variant()"
@@ -68,13 +69,17 @@ export type WattButtonSize = 'small' | 'medium';
 export class WattButtonComponent {
   icon = input<WattIcon>();
   variant = input<WattButtonVariant>('primary');
+  alignText = input<'start' | 'center' | 'end'>('start');
   size = input<WattButtonSize>('medium');
   type = input<WattButtonType>('button');
   formId = input<string | null>(null);
   disabled = input(false);
   loading = input(false);
 
-  classes = computed(() => `watt-button--${this.variant()} watt-button-size--${this.size()}`);
+  classes = computed(
+    () =>
+      `watt-button--${this.variant()} watt-button-size--${this.size()} watt-button-align-text--${this.alignText()}`
+  );
 
   // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
   // WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=89041
