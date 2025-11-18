@@ -159,6 +159,9 @@
       "@energinet-datahub/dh/shared/domain/graphql": [
         "libs/dh/shared/domain/src/lib/generated/graphql/types.ts"
       ],
+      "@energinet-datahub/dh/shared/domain/graphql/apollo-helpers": [
+        "libs/dh/shared/domain/src/lib/generated/graphql/apollo-helpers.ts"
+      ],
       "@energinet-datahub/dh/shared/domain/graphql/data-source": [
         "libs/dh/shared/domain/src/lib/generated/graphql/data-source.ts"
       ],
@@ -167,6 +170,9 @@
       ],
       "@energinet-datahub/dh/shared/domain/graphql/msw": [
         "libs/dh/shared/domain/src/lib/generated/graphql/msw.ts"
+      ],
+      "@energinet-datahub/dh/shared/domain/graphql/typenames": [
+        "libs/dh/shared/domain/src/lib/generated/graphql/typenames.ts"
       ],
       "@energinet-datahub/dh/shared/environments": ["libs/dh/shared/environments/src/index.ts"],
       "@energinet-datahub/dh/shared/feature-authorization": [

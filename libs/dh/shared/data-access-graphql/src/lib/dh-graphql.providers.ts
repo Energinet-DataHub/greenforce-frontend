@@ -27,12 +27,13 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { SeverityLevel } from '@microsoft/applicationinsights-web';
-import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
 import introspection from '@energinet-datahub/dh/shared/domain/graphql/introspection';
 
 import { errorHandler } from './error-handler';
 import DhSseLink from './dh-sse-link';
 import { HttpErrorResponse } from '@angular/common/http';
+
+import { typePolicies } from './type-policies';
 
 declare const ngDevMode: boolean;
 
@@ -122,46 +123,7 @@ export const graphQLProvider = provideApollo(() => {
     },
     cache: new InMemoryCache({
       possibleTypes: introspection.possibleTypes,
-      typePolicies: {
-        ...scalarTypePolicies,
-        MessageDelegationType: {
-          keyFields: ['id', 'periodId'],
-        },
-        MarketParticipantUserRole: {
-          keyFields: false,
-        },
-        Calculation: {
-          keyFields: (obj) => `Calculation:${obj.id}`,
-        },
-        Query: {
-          fields: {
-            calculationById(_, { args, toReference }) {
-              return toReference({
-                __typename: 'Calculation',
-                id: args?.id,
-              });
-            },
-            chargeById(_, { args, toReference }) {
-              return toReference({
-                __typename: 'Charge',
-                id: args?.id,
-              });
-            },
-            meteringPointProcessById(_, { args, toReference }) {
-              return toReference({
-                __typename: 'MeteringPointProcess',
-                id: args?.id,
-              });
-            },
-            marketParticipantById(_, { args, toReference }) {
-              return toReference({
-                __typename: 'MarketParticipant',
-                id: args?.['id'],
-              });
-            },
-          },
-        },
-      },
+      typePolicies,
     }),
     link: ApolloLink.from([
       retryLink,
