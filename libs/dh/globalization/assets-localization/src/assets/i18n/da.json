@@ -507,8 +507,8 @@
       "processes": {
         "tabLabel": "Procesoverblik"
       },
-      "prices": {
-        "tabLabel": "Priser"
+      "chargelinks": {
+        "tabLabel": "Pristilknytninger"
       },
       "messages": {
         "tabLabel": "Beskeder"
@@ -662,7 +662,21 @@
         "name": "Navn",
         "owner": "Ejer",
         "amount": "Antal",
-        "period": "Periode"
+        "period": "Periode",
+        "date": "Dato"
+      },
+      "navigation": {
+        "tariffAndSubscription": "Tarif og abonnement",
+        "fees": "Gebyr"
+      },
+      "chargeType": "Type",
+      "details": {
+        "columns": {
+          "submittedAt": "Indsendt",
+          "description": "Beskrivelse"
+        },
+        "copyMessage": "Kopier besked-ID",
+        "navigateToMessage": "Gå til besked"
       }
     },
     "processOverview": {
@@ -890,6 +904,8 @@
       "details": {
         "title": "Detaljer",
         "validityDate": "Gyldighedsdato",
+        "status": "{{ meteringPoint.overview.details.meteringPointStatus }}",
+        "newlyCreated": "Nyoprettet",
         "meteringPointId": "Målepunkts ID",
         "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
         "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",

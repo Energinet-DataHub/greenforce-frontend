@@ -42,6 +42,13 @@ limitations under the License.
           [max]="today"
         />
 
+        <vater-stack align="start" class="watt-space-stack-m">
+          <label>{{ t("details.status") }}</label>
+          <watt-radio group="status" [formControl]="detailsControls.status" value="NEWLY_CREATED">
+            {{ t("details.newlyCreated") }}
+          </watt-radio>
+        </vater-stack>
+
         <watt-text-field
           [formControl]="detailsControls.meteringPointId"
           [label]="t('details.meteringPointId')"
@@ -103,7 +110,7 @@ limitations under the License.
 
         <watt-dropdown
           [formControl]="detailsControls.gridArea"
-          [options]="[]"
+          [options]="gridAreaOptions()"
           [showResetOption]="false"
           [label]="t('details.gridArea')"
         />

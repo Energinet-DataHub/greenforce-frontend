@@ -22,4 +22,9 @@ public class ChargesClient : IChargesClient
     {
         return Task.FromResult<IEnumerable<ChargeLink>>(Array.Empty<ChargeLink>());
     }
+
+    public Task<IEnumerable<ChargeLinkHistory>> GetChargeLinkHistoryAsync(string chargeId, CancellationToken ct = default)
+    {
+        return Task.FromResult<IEnumerable<ChargeLinkHistory>>(Array.Empty<ChargeLinkHistory>());
+    }
 }

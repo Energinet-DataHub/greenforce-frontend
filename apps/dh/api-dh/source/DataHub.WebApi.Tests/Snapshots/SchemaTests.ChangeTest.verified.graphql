@@ -299,12 +299,20 @@ type Charge {
 }
 
 type ChargeLink {
-  id: String!
-  type: String!
-  name: String!
-  owner: MarketParticipantId!
+  history: [ChargeLinkHistory!]!
+  owner: MarketParticipant
   amount: Int!
+  id: String!
+  name: String!
   period: DateRange!
+  type: ChargeType!
+  displayName: String!
+}
+
+type ChargeLinkHistory {
+  submittedAt: DateTime!
+  description: String!
+  messageId: String!
 }
 
 type ChargeSeries {
@@ -721,10 +729,6 @@ type MarketParticipantDelegationAuditLog {
   stopsAt: String
   gridAreaName: String!
   processType: String!
-}
-
-type MarketParticipantId {
-  id: UUID!
 }
 
 type MarketParticipantNameWithId {
@@ -1163,6 +1167,7 @@ type Query {
   charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
+  chargeLinkById(meteringPointId: String! chargeLinkId: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])

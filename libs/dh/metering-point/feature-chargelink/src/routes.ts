@@ -17,6 +17,7 @@
  */
 //#endregion
 import { Routes } from '@angular/router';
+import { ChargeLinksSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 
@@ -27,11 +28,32 @@ export const meteringPointPricesRoutes: Routes = [
       dhReleaseToggleGuard('PM58-PRICES-UI'),
     ],
     path: '',
-    loadComponent: () => import('./components/chargelinks'),
+    loadComponent: () => import('./components/page'),
     children: [
       {
-        path: 'details/:id',
-        loadComponent: () => import('./components/details'),
+        path: '',
+        pathMatch: 'full',
+        redirectTo: getPath<ChargeLinksSubPaths>('tariff-and-subscription'),
+      },
+      {
+        path: getPath<ChargeLinksSubPaths>('tariff-and-subscription'),
+        loadComponent: () => import('./components/tariff-subscriptions'),
+        children: [
+          {
+            path: 'details/:id',
+            loadComponent: () => import('./components/details'),
+          },
+        ],
+      },
+      {
+        path: getPath<ChargeLinksSubPaths>('fees'),
+        loadComponent: () => import('./components/fees'),
+        children: [
+          {
+            path: 'details/:id',
+            loadComponent: () => import('./components/details'),
+          },
+        ],
       },
     ],
   },
