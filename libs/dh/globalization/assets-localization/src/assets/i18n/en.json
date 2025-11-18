@@ -702,7 +702,11 @@
         "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
       },
       "steps": {
-        "REQUEST_END_OF_SUPPLY": "Request end of supply (BRS-005)"
+        "RSM005_REQUEST": "Request end of supply (RSM-005)",
+        "RSM005_CONFIRM": "Confirm end of supply (RSM-005)",
+        "RSM005_REJECT": "Reject end of supply (RSM-005)",
+        "RSM020_REQUEST": "Notify cancellation of end of supply (RSM-020)",
+        "UNKNOWN": "Unknown Step"
       },
       "details": {
         "list": {
@@ -713,7 +717,7 @@
         },
         "columns": {
           "step": "Step",
-          "createdAt": "Time of message",
+          "completedAt": "Completed at",
           "dueDate": "Due date",
           "actor": "Actor",
           "state": "State"

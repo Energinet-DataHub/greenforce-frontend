@@ -9,7 +9,7 @@ query GetMeteringPointProcessById($id: String!) {
       id
       step
       comment
-      createdAt
+      completedAt
       dueDate
       actor {
         id

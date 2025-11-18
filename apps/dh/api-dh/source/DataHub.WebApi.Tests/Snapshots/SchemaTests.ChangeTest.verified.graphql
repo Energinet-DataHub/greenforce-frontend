@@ -916,7 +916,7 @@ type MeteringPointProcess {
   id: String!
   reasonCode: String!
   createdAt: DateTime!
-  cutoffDate: DateTime!
+  cutoffDate: DateTime
   state: ProcessState!
 }
 
@@ -944,9 +944,9 @@ type MeteringPointProcessStep {
   actor: MarketParticipant
   message: ArchivedMessage
   id: String!
-  step: String!
+  step: ProcessStepType!
   comment: String
-  createdAt: DateTime!
+  completedAt: DateTime
   dueDate: DateTime
   state: ProcessState!
   messageId: String
@@ -2708,6 +2708,23 @@ enum ProcessStepState {
   skipped
   canceled
   succeeded
+}
+
+"""
+Enum representing different process step types.
+These values are used as translation keys in the frontend.
+"""
+enum ProcessStepType {
+  "RSM-005: Request end of supply"
+  RSM005_REQUEST
+  "RSM-005: Confirm end of supply"
+  RSM005_CONFIRM
+  "RSM-005: Reject end of supply"
+  RSM005_REJECT
+  "RSM-020: Notify cancellation of end of supply"
+  RSM020_REQUEST
+  "Unknown or unmapped step type"
+  UNKNOWN
 }
 
 enum Product {
