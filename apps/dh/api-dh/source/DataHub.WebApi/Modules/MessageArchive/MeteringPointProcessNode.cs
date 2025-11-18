@@ -22,7 +22,6 @@ using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
-using Microsoft.Extensions.Logging;
 using NodaTime;
 
 using WorkflowAction = Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model.WorkflowAction;
@@ -40,7 +39,6 @@ public static partial class MeteringPointProcessNode
         Interval created,
         [Service] IProcessManagerClient processManagerClient,
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] ILogger<MeteringPointProcess> logger,
         CancellationToken cancellationToken)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
@@ -51,47 +49,9 @@ public static partial class MeteringPointProcessNode
             created.End.ToDateTimeOffset(),
             userIdentity);
 
-        logger.LogInformation(
-            "Searching workflow instances for MeteringPointId: {MeteringPointId}, From: {Start}, To: {End}",
-            meteringPointId,
-            created.Start,
-            created.End);
+        var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
 
-        try
-        {
-            var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
-
-            logger.LogInformation("Successfully retrieved {Count} workflow instances", workflowInstances.Count());
-
-            return workflowInstances.Select(MapToMeteringPointProcess);
-        }
-        catch (HttpRequestException ex)
-        {
-            logger.LogError(
-                ex,
-                "ProcessManager API returned error. MeteringPointId: {MeteringPointId}, StatusCode: {StatusCode}, From: {From}, To: {To}",
-                meteringPointId,
-                ex.StatusCode,
-                created.Start,
-                created.End);
-
-            // Re-throw with more context
-            throw new InvalidOperationException(
-                $"ProcessManager API failed with {ex.StatusCode} for MeteringPointId '{meteringPointId}'. " +
-                $"Date range: {created.Start} to {created.End}. " +
-                $"This may indicate an issue with the ProcessManager service or invalid query parameters.",
-                ex);
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(
-                ex,
-                "Unexpected error querying ProcessManager. MeteringPointId: {MeteringPointId}, From: {From}, To: {To}",
-                meteringPointId,
-                created.Start,
-                created.End);
-            throw;
-        }
+        return workflowInstances.Select(MapToMeteringPointProcess);
     }
 
     [Query]

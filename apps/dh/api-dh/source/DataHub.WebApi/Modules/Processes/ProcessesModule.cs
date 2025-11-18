@@ -32,13 +32,6 @@ public class ProcessManagerModule : IModule
 
         // Client and adapters
         services.AddProcessManagerHttpClients();
-
-        // Add HTTP logging for ProcessManager client debugging
-        services.AddHttpLogging(logging =>
-        {
-            logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.All;
-        });
-
         services.AddScoped<ICalculationsClient, CalculationsClient>();
         services.AddScoped<IRequestsClient, RequestsClient>();
 
