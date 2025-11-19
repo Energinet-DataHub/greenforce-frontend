@@ -22,6 +22,7 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
   mockDoesMeteringPointExistQuery,
+  mockDoesInternalMeteringPointIdExistQuery,
   mockGetAggregatedMeasurementsForAllYearsQuery,
   mockGetAggregatedMeasurementsForMonthQuery,
   mockGetAggregatedMeasurementsForYearQuery,
@@ -49,7 +50,8 @@ import { childMeteringPoint } from './data/metering-point/child-metering-point';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
   return [
-    doesMeteringPointExists(),
+    doesMeteringPointExist(),
+    doesInternalMeteringPointIdExist(),
     getContactCPR(),
     getMeteringPoint(),
     getMeteringPointsByGridArea(),
@@ -499,7 +501,7 @@ const mockMPs: {
   },
 };
 
-function doesMeteringPointExists() {
+function doesMeteringPointExist() {
   return mockDoesMeteringPointExistQuery(async ({ variables: { meteringPointId } }) => {
     await delay(mswConfig.delay);
 
@@ -530,6 +532,41 @@ function doesMeteringPointExists() {
       ],
     });
   });
+}
+
+function doesInternalMeteringPointIdExist() {
+  return mockDoesInternalMeteringPointIdExistQuery(
+    async ({ variables: { internalMeteringPointId } }) => {
+      await delay(mswConfig.delay);
+
+      const mpIdentifications = {
+        [parentMeteringPoint.id]: parentMeteringPoint.identification,
+        [childMeteringPoint.id]: childMeteringPoint.identification,
+      };
+
+      if (Object.keys(mpIdentifications).includes(internalMeteringPointId)) {
+        return HttpResponse.json({
+          data: {
+            __typename: 'Query',
+            meteringPointExists: {
+              __typename: 'MeteringPointIdentificationDto',
+              identification: mpIdentifications[internalMeteringPointId],
+            },
+          },
+        });
+      }
+
+      return HttpResponse.json({
+        data: null,
+        errors: [
+          {
+            message: 'Metering point not found',
+            path: ['meteringPoint'],
+          },
+        ],
+      });
+    }
+  );
 }
 
 function getContactCPR() {

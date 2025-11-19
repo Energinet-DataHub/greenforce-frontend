@@ -185,6 +185,6 @@ export class DhSearchComponent {
       return this.meteringPointNotFound.set(true);
     }
 
-    this.router.navigate(['/', getPath('metering-point'), meteringPointId]);
+    this.router.navigate(['/', getPath('metering-point'), result.data.meteringPoint.id]);
   }
 }

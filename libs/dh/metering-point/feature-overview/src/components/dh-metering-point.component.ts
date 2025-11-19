@@ -217,6 +217,7 @@ export class DhMeteringPointComponent {
   private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   meteringPointId = input.required<string>();
+  internalMeteringPointId = input<string>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
@@ -260,7 +261,7 @@ export class DhMeteringPointComponent {
       url: this.router
         .createUrlTree([
           getPath<BasePaths>('metering-point'),
-          this.meteringPointId(),
+          this.internalMeteringPointId(),
           getPath<MeteringPointSubPaths>('master-data'),
         ])
         .toString(),
