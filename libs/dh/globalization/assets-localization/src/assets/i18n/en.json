@@ -418,6 +418,32 @@
         }
       }
     },
+    "create": {
+      "action": {
+        "SUBSCRIPTION": "Create subscription",
+        "FEE": "Create fee",
+        "TARIFF": "Create tariff"
+      },
+      "close": "Close",
+      "form": {
+        "id": "ID",
+        "name": "Name",
+        "description": "Description",
+        "resolution": "Resolution",
+        "hourly": "Hourly",
+        "daily": "Daily",
+        "vat": "VAT",
+        "withVat": "With VAT",
+        "withoutVat": "Without VAT",
+        "transparentInvoicing": "Transparent Invoicing",
+        "withTransparentInvoicing": "Yes",
+        "withoutTransparentInvoicing": "No",
+        "predictablePrice": "Predictable Price",
+        "withPredictablePrice": "Yes",
+        "withoutPredictablePrice": "No",
+        "validFrom": "Valid From"
+      }
+    },
     "charge": {
       "type": "Type",
       "owner": "Owner",
@@ -430,7 +456,9 @@
         "historyLabel": "History"
       },
       "actions": {
-        "actionsButton": "Actions"
+        "menu": "Actions",
+        "edit": "Edit charge information",
+        "stop": "Stop charge information"
       },
       "breadcrumb": "Prices"
     },

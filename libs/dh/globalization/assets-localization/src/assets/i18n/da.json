@@ -419,6 +419,32 @@
         }
       }
     },
+    "create": {
+      "action": {
+        "SUBSCRIPTION": "Opret abonnement",
+        "FEE": "Opret gebyr",
+        "TARIFF": "Opret tarif"
+      },
+      "close": "Luk",
+      "form": {
+        "id": "ID",
+        "name": "Navn",
+        "description": "Beskrivelse",
+        "resolution": "Opløsning",
+        "hourly": "Time",
+        "daily": "Dag",
+        "vat": "Moms",
+        "withVat": "Med moms",
+        "withoutVat": "Uden moms",
+        "transparentInvoicing": "Viderefakturering",
+        "withTransparentInvoicing": "Ja",
+        "withoutTransparentInvoicing": "Nej",
+        "predictablePrice": "Forudsigelig pris",
+        "withPredictablePrice": "Ja",
+        "withoutPredictablePrice": "Nej",
+        "validFrom": "Gyldig fra"
+      }
+    },
     "charge": {
       "type": "Type",
       "owner": "Ejer",
@@ -431,7 +457,9 @@
         "historyLabel": "Historik"
       },
       "actions": {
-        "actionsButton": "Handlinger"
+        "menu": "Handlinger",
+        "edit": "Rediger prisinformation",
+        "stop": "Stop prisinformation"
       },
       "breadcrumb": "Priser"
     },
