@@ -80,6 +80,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         (blur)="onTouched()"
         (input)="onChanged($event)"
         [maxlength]="maxLength()"
+        [size]="size()"
         [matAutocomplete]="auto"
         [matAutocompleteDisabled]="!autocompleteOptions()"
         [matAutocompleteConnectedTo]="{ elementRef: wattField.wrapper() ?? wattField.elementRef }"
@@ -112,6 +113,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   label = input('');
   tooltip = input('');
   prefix = input<WattIcon>();
+  size = input<string | number | null>(null);
   maxLength = input<string | number | null>(null);
   formControl = input.required<FormControl>();
   autocompleteOptions = input<string[]>([]);
