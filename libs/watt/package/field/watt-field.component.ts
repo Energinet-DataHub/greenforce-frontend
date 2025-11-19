@@ -103,7 +103,6 @@ import { NgTemplateOutlet } from '@angular/common';
     </ng-template>
   `,
   host: {
-    '[class.watt-field--unlabelled]': 'unlabelled()',
     '[class.watt-field--disabled]': 'control()?.disabled',
     '[class.watt-field--show-errors]': 'showErrors()',
     '[class]': 'className()',
@@ -136,8 +135,6 @@ export class WattFieldComponent {
   value = signal('');
   filler = computed(() => this.placeholder().slice(this.value().length));
   ghost = computed(() => this.value().slice(0, this.placeholder().length));
-
-  unlabelled = computed(() => !this.label());
 
   errors = signal<ValidationErrors | null>(null);
   isRequired = signal(false);
