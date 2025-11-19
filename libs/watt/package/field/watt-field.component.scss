@@ -56,6 +56,10 @@ form.ng-submitted watt-field:has(.ng-invalid),
     }
   }
 
+  &:has(watt-field-error, watt-field-warning) {
+    padding-bottom: 0;
+  }
+
   &:has(watt-field-warning):not(:has(watt-field-error)) {
     & .label {
       color: var(--watt-text-color);
@@ -105,12 +109,8 @@ watt-field {
   width: 100%;
   display: block;
 
-  &:not(.watt-field--chip) {
-    min-height: 93px;
-  }
-
-  &:not(.watt-field--chip).watt-field--unlabelled {
-    min-height: 66px;
+  &:not(.watt-field--chip, :has(watt-field-hint)) {
+    padding-bottom: 20px;
   }
 
   .label {
