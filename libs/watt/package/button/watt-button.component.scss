@@ -142,18 +142,24 @@ watt-button {
         background-color: var(--watt-color-neutral-grey-100);
       }
 
-      .content-wrapper {
-        width: 100%;
-        display: flex;
-      }
-
-      watt-icon {
-        order: 2;
-        margin-left: auto;
-      }
-
       &.mat-mdc-button {
         height: 56px; // Magic UX normal height
+
+        .mdc-button__label {
+          justify-content: flex-end;
+          align-items: start;
+          width: 100%;
+
+          .content-wrapper {
+            width: 100%;
+            display: flex;
+
+            watt-icon {
+              order: 2;
+              margin-left: auto;
+            }
+          }
+        }
       }
     }
   }

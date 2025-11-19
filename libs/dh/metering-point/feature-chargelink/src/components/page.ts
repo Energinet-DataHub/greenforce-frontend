@@ -17,22 +17,22 @@
  */
 //#endregion
 import { Component, effect, inject } from '@angular/core';
-import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
 
 import { TranslocoDirective } from '@jsverse/transloco';
+import { distinctUntilChanged, filter, map, mergeWith, of } from 'rxjs';
 
 import { WATT_SEGMENTED_BUTTONS } from '@energinet/watt/segmented-buttons';
+
 import {
   VaterFlexComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
 
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { ChargeLinksSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
-import { distinctUntilChanged, filter, map, mergeWith, of } from 'rxjs';
 
 @Component({
   selector: 'dh-metering-point-charge-links',
@@ -45,25 +45,22 @@ import { distinctUntilChanged, filter, map, mergeWith, of } from 'rxjs';
     VaterUtilityDirective,
     WATT_SEGMENTED_BUTTONS,
   ],
-  providers: [DhNavigationService],
-  template: ` <vater-flex
-    inset="ml"
-    gap="ml"
-    *transloco="let t; prefix: 'meteringPoint.charges.navigation'"
-  >
-    <vater-stack>
-      <watt-segmented-buttons [formControl]="selectedView">
-        <watt-segmented-button [value]="getLink('tariff-and-subscription')">{{
-          t('tariffAndSubscription')
-        }}</watt-segmented-button>
-        <watt-segmented-button [value]="getLink('fees')">{{ t('fees') }}</watt-segmented-button>
-      </watt-segmented-buttons>
-    </vater-stack>
+  template: `
+    <vater-flex inset="ml" gap="ml" *transloco="let t; prefix: 'meteringPoint.charges.navigation'">
+      <vater-stack>
+        <watt-segmented-buttons [formControl]="selectedView">
+          <watt-segmented-button [value]="getLink('tariff-and-subscription')">
+            {{ t('tariffAndSubscription') }}
+          </watt-segmented-button>
+          <watt-segmented-button [value]="getLink('fees')">{{ t('fees') }}</watt-segmented-button>
+        </watt-segmented-buttons>
+      </vater-stack>
 
-    <vater-flex fill="vertical">
-      <router-outlet />
+      <vater-flex fill="vertical">
+        <router-outlet />
+      </vater-flex>
     </vater-flex>
-  </vater-flex>`,
+  `,
 })
 export default class DhMeteringPointChargeLinkPage {
   private router = inject(Router);
@@ -92,12 +89,23 @@ export default class DhMeteringPointChargeLinkPage {
     )
   );
 
+  private currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event) => event.type === EventType.NavigationEnd),
+      map((nav) => nav.urlAfterRedirects),
+      takeUntilDestroyed()
+    )
+  );
+
   constructor() {
     effect(() => {
+      if (this.currentUrl()?.includes('details')) return;
       this.selectedView.setValue(this.currentView());
     });
 
     effect(() => {
+      if (this.currentUrl()?.includes('details')) return;
+
       this.router.navigate([this.navigateTo()], {
         relativeTo: this.route,
         queryParamsHandling: 'merge',

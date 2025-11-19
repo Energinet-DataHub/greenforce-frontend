@@ -56,7 +56,8 @@ import { Charge } from '../types';
     WattDataFiltersComponent,
   ],
   providers: [DhNavigationService],
-  template: `<watt-data-table
+  template: `
+    <watt-data-table
       [header]="false"
       [enablePaginator]="false"
       *transloco="let t; prefix: 'meteringPoint.charges'"
@@ -93,7 +94,8 @@ import { Charge } from '../types';
         </ng-container>
       </watt-table>
     </watt-data-table>
-    <router-outlet />`,
+    <router-outlet />
+  `,
 })
 export default class DhMeteringPointChargeLinksTariffSubscriptions {
   id = input.required<string>();

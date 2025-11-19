@@ -1178,6 +1178,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
+  meteringPointExists(internalMeteringPointId: Long!): MeteringPointIdentificationDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -2895,6 +2896,7 @@ enum TransactionType {
   STOP_TARIFF
   DISMANTLING_OF_METER
   UPDATE_SPECIAL_METERING_POINT
+  UPDATE_HISTORIC_METERING_POINT
   CHANGE_METER
   CHANGE_IN_PURCHASE_OBLIGATION
   DISPLAYING_CUMULATIVE_DATA_NOT_OWNER
