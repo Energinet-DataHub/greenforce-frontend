@@ -16,6 +16,10 @@ watt-textarea-field {
   width: 100%;
   --watt-textarea-min-height: 200px;
 
+  &[small] {
+    --watt-textarea-min-height: 80px;
+  }
+
   textarea {
     border: none;
     width: 100%;
