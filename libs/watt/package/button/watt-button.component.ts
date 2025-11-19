@@ -69,17 +69,13 @@ export type WattButtonSize = 'small' | 'medium';
 export class WattButtonComponent {
   icon = input<WattIcon>();
   variant = input<WattButtonVariant>('primary');
-  alignText = input<'start' | 'center' | 'end'>('start');
   size = input<WattButtonSize>('medium');
   type = input<WattButtonType>('button');
   formId = input<string | null>(null);
   disabled = input(false);
   loading = input(false);
 
-  classes = computed(
-    () =>
-      `watt-button--${this.variant()} watt-button-size--${this.size()} watt-button-align-text--${this.alignText()}`
-  );
+  classes = computed(() => `watt-button--${this.variant()} watt-button-size--${this.size()}`);
 
   // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
   // WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=89041
