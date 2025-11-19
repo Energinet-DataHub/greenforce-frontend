@@ -142,7 +142,7 @@ watt-field {
       display: flex;
       position: relative;
       width: 100%;
-      padding-left: var(--watt-space-s);
+      padding: 0 var(--watt-space-s);
       border-radius: var(--watt-input-border-radius);
       border: 1px solid var(--watt-border-color);
       overflow: hidden;
@@ -163,13 +163,13 @@ watt-field {
     }
 
     :not(.watt-field--chip) :is(watt-field-hint, watt-field-error, watt-field-warning) {
-      padding-left: var(--watt-space-s);
+      padding: 0 var(--watt-space-s);
     }
   }
 
   &:not(.watt-field--box) .watt-field-wrapper {
     border: none;
-    padding-left: 0;
+    padding: 0;
   }
 
   &.watt-field--chip {
