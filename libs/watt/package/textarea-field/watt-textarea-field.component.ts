@@ -48,6 +48,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
       [value]="value()"
       [disabled]="isDisabled()"
       [required]="required()"
+      [maxLength]="maxLength()"
       (input)="onInput($event)"
     ></textarea>
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
@@ -63,6 +64,7 @@ export class WattTextAreaFieldComponent implements ControlValueAccessor {
   formControl = input.required<FormControl>();
   placeholder = input<string>();
   required = input(false);
+  maxLength = input<string | number | null>(null);
   label = input<string>();
 
   onInput(event: Event) {
