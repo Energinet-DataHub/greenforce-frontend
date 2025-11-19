@@ -16,41 +16,49 @@
  * limitations under the License.
  */
 //#endregione';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
+import {
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 import {
   WattTableComponent,
   WattTableColumnDef,
   WattTableCellDirective,
 } from '@energinet/watt/table';
-
-import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
-import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { Charge } from '../types';
 import { DhChargeStatus } from './status';
 import { DhChargesFilters } from './filters';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
   selector: 'dh-charges',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    RouterLink,
     RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
+    WattButtonComponent,
+    WattIconComponent,
     WattTableComponent,
     WattTableCellDirective,
     WattDataTableComponent,
     WattDataFiltersComponent,
-    VaterUtilityDirective,
     DhChargeStatus,
     DhChargesFilters,
   ],
@@ -65,7 +73,14 @@ import { DhChargesFilters } from './filters';
       *transloco="let t; prefix: 'charges.charges.table'"
     >
       <watt-data-filters>
-        <dh-charges-filters [filter]="filter" (filterChange)="fetch($event)" />
+        <vater-stack wrap direction="row" gap="m">
+          <dh-charges-filters [filter]="filter" (filterChange)="fetch($event)" />
+          <vater-spacer />
+          <watt-button variant="secondary" routerLink="create">
+            <watt-icon name="plus" />
+            Opret pris
+          </watt-button>
+        </vater-stack>
       </watt-data-filters>
 
       <watt-table
