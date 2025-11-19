@@ -254,7 +254,6 @@ function meteringPointCreateGuard(): CanActivateFn {
  */
 function internalIdToMeteringPointIdResolver(): ResolveFn<string> {
   return (route: ActivatedRouteSnapshot) => {
-    // Assertion can be used since the function runs after the route guard that ensures the param exists
     const idParam: string = route.params[dhInternalMeteringPointIdParam];
 
     return query(DoesInternalMeteringPointIdExistDocument, {

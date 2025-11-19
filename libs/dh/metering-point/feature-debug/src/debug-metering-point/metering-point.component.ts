@@ -26,7 +26,7 @@ import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointDebugViewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-metering-points-master-data-uploader.component';
 
@@ -74,7 +74,11 @@ import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-
         <dh-metering-points-master-data-uploader *dhPermissionRequired="['fas']" />
       </ng-container>
 
-      <watt-text-field label="MeteringPointId" [formControl]="meteringPointIdFormControl" />
+      <watt-text-field
+        label="MeteringPointId"
+        [formControl]="meteringPointIdFormControl"
+        [maxLength]="18"
+      />
 
       <dh-result [loading]="query.loading()" [hasError]="query.hasError()">
         <textarea spellcheck="false" wrap="off">{{ debugView() }}</textarea>
@@ -89,16 +93,13 @@ export class DhMeteringPointComponent {
 
   meteringPointIdFormControl = new FormControl();
 
-  // Param value
-  id = input<string>();
-
   meteringPointId = toSignal(this.meteringPointIdFormControl.valueChanges);
 
   constructor() {
     effect(() => {
-      const meteringPointId = this.meteringPointId() ?? this.id();
+      const meteringPointId = this.meteringPointId();
 
-      if (!meteringPointId) return;
+      if (!dhIsValidMeteringPointId(meteringPointId)) return;
 
       this.query.query({
         variables: { meteringPointId },
