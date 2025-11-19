@@ -111,7 +111,8 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
 
       @if (meteringPointNotFound()) {
         <watt-empty-state size="small" icon="custom-no-results" [title]="t('noResultFound')" />
-        <ng-container *dhFeatureFlag="'metering-point-debug'">
+
+        <ng-container *dhPermissionRequired="['fas']">
           <watt-button
             *dhFeatureFlag="'metering-point-debug'"
             variant="text"
