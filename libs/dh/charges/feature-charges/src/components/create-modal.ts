@@ -91,7 +91,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
         <watt-field
           [label]="t('resolution')"
           [control]="form.controls.resolution"
-          variant="contents"
+          displayMode="content"
         >
           <watt-radio
             group="resolution"
@@ -108,7 +108,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
             {{ t('hourly') }}
           </watt-radio>
         </watt-field>
-        <watt-field [label]="t('vat')" [control]="form.controls.vat" variant="contents">
+        <watt-field [label]="t('vat')" [control]="form.controls.vat" displayMode="content">
           <watt-radio group="vat" [formControl]="form.controls.vat" [value]="true">
             {{ t('withVat') }}
           </watt-radio>
@@ -119,7 +119,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
         <watt-field
           [label]="t('transparentInvoicing')"
           [control]="form.controls.transparentInvoicing"
-          variant="contents"
+          displayMode="content"
         >
           <watt-radio
             group="transparentInvoicing"
@@ -139,7 +139,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
         <watt-field
           [label]="t('predictablePrice')"
           [control]="form.controls.predictablePrice"
-          variant="contents"
+          displayMode="content"
         >
           <watt-radio
             group="predictablePrice"
