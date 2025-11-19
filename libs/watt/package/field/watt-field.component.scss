@@ -180,7 +180,7 @@ watt-field {
     }
   }
 
-  &:not(.watt-field--chip) .watt-field-wrapper {
+  &.watt-field--box .watt-field-wrapper {
     min-height: 46px;
   }
 }
