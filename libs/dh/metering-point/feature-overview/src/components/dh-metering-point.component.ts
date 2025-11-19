@@ -249,7 +249,7 @@ export class DhMeteringPointComponent {
             url: this.router
               .createUrlTree([
                 getPath<BasePaths>('metering-point'),
-                this.meteringPoint()?.metadata.parentMeteringPoint,
+                this.meteringPoint()?.metadata.internalMeteringPointParentId ?? '',
                 getPath<MeteringPointSubPaths>('master-data'),
               ])
               .toString(),

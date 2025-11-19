@@ -153,6 +153,19 @@ public static partial class MeteringPointNode
         throw new InvalidOperationException("User is not authorized to access the requested metering point.");
     }
 
+    [DataLoader]
+    public static async Task<long> GetParentMeteringPointInternalIdAsync(
+        string meteringPointId,
+        CancellationToken ct,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
+    {
+        var meteringPoint = await GetMeteringPointAsync(meteringPointId, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory);
+
+        return meteringPoint.Id;
+    }
+
     private static ElectricalHeatingDto? FindLastElectricalHeatingDto(MeteringPointDto meteringPoint)
     {
         var orderedHeatingPeriods = meteringPoint.CommercialRelationTimeline.SelectMany(x => x.ElectricalHeatingPeriods).OrderBy(x => x.ValidFrom);
