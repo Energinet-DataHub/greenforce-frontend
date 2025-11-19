@@ -20,11 +20,7 @@ import { Component, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import {
-  VaterFlexComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_MENU } from '@energinet/watt/menu';
@@ -42,7 +38,6 @@ import { WattFieldComponent } from '@energinet/watt/field';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
     WattButtonComponent,
@@ -72,7 +67,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
         [formGroup]="form"
         (ngSubmit)="save()"
       >
-        <vater-flex fill="horizontal" direction="row" gap="m">
+        <vater-stack fill="horizontal" direction="row" gap="m">
           <watt-text-field
             maxLength="10"
             size="10"
@@ -86,7 +81,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
             [label]="t('name')"
             [formControl]="form.controls.name"
           />
-        </vater-flex>
+        </vater-stack>
         <watt-textarea-field
           [label]="t('description')"
           maxLength="2048"
