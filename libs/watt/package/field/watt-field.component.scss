@@ -28,25 +28,27 @@ watt-field watt-field-hint {
 }
 
 watt-field :is(watt-field-error, watt-field-warning),
-.ng-valid watt-field :is(watt-field-error, watt-field-warning) {
+.ng-valid watt-field :is(watt-field-error, watt-field-warning),
+watt-field:has(.ng-valid) :is(watt-field-error, watt-field-warning) {
   display: none;
 }
 
-form.ng-submitted .ng-invalid,
-:not(form).ng-touched.ng-invalid {
-  & watt-field watt-field-hint {
+form.ng-submitted .ng-invalid watt-field,
+form.ng-submitted watt-field:has(.ng-invalid),
+:not(form).ng-touched.ng-invalid watt-field {
+  & watt-field-hint {
     display: none;
   }
 
-  & watt-field.watt-field--show-errors :is(watt-field-error, watt-field-warning) {
+  &.watt-field--show-errors :is(watt-field-error, watt-field-warning) {
     display: block;
   }
 
-  & watt-field.watt-field--show-errors .watt-field-wrapper {
+  &.watt-field--show-errors .watt-field-wrapper {
     border-color: var(--watt-color-state-danger);
   }
 
-  & watt-field.watt-field--show-errors .label {
+  &.watt-field--show-errors .label {
     color: var(--watt-color-state-danger);
 
     &.required::after {
@@ -54,7 +56,7 @@ form.ng-submitted .ng-invalid,
     }
   }
 
-  & watt-field:has(watt-field-warning):not(:has(watt-field-error)) {
+  &:has(watt-field-warning):not(:has(watt-field-error)) {
     & .label {
       color: var(--watt-text-color);
     }
