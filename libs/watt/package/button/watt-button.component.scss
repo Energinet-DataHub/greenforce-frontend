@@ -189,27 +189,6 @@ watt-button {
     }
   }
 
-  &.watt-button-align-text--start {
-    .mdc-button__label {
-      justify-content: flex-start;
-      align-items: start;
-    }
-  }
-
-  &.watt-button-align-text--center {
-    .mdc-button__label {
-      justify-content: center;
-      align-items: start;
-    }
-  }
-
-  &.watt-button-align-text--end {
-    .mdc-button__label {
-      justify-content: flex-end;
-      align-items: start;
-    }
-  }
-
   .mdc-button {
     @include watt.typography-font-weight("semi-bold");
     @include watt.typography-font-size("m");
@@ -233,7 +212,8 @@ watt-button {
 
     .mdc-button__label {
       display: flex;
-      width: 100%;
+      justify-content: center;
+      align-items: center;
 
       .content-wrapper {
         display: flex;
