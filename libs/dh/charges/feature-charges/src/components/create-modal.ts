@@ -83,9 +83,9 @@ import { WattFieldComponent } from '@energinet/watt/field';
           />
         </vater-stack>
         <watt-textarea-field
+          small
           [label]="t('description')"
           maxLength="2048"
-          size="small"
           [formControl]="form.controls.description"
         />
         <watt-field
