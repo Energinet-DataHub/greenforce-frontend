@@ -167,7 +167,7 @@ watt-field {
     }
   }
 
-  &.watt-field--chip .watt-field-wrapper {
+  &:not(.watt-field--box) .watt-field-wrapper {
     border: none;
     padding-left: 0;
   }
