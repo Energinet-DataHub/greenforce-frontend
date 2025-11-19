@@ -25,6 +25,7 @@ import {
   input,
   model,
   signal,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -66,6 +67,7 @@ export class WattTextAreaFieldComponent implements ControlValueAccessor {
   required = input(false);
   maxLength = input<string | number | null>(null);
   label = input<string>();
+  small = input(false, { transform: booleanAttribute });
 
   onInput(event: Event) {
     const target = event.target as HTMLTextAreaElement;
