@@ -579,7 +579,8 @@
       "actions": {
         "actionsButton": "Actions",
         "upload": "Upload measurements",
-        "moveIn": "Customer move-in"
+        "moveIn": "Customer move-in",
+        "attachPrice": "Attach price"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -815,6 +816,23 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "attachPrice": {
+      "title": "Attach price",
+      "close": "Close",
+      "back": "Back",
+      "actions": {
+        "SUBSCRIPTION": "Attach subscription",
+        "TARIFF": "Attach tariff",
+        "FEE": "Attach fee"
+      },
+      "chargeTypes": {
+        "TARIFF": "Tariff",
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee"
+      },
+      "startDate": "Start date",
+      "factor": "Quality"
     },
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",

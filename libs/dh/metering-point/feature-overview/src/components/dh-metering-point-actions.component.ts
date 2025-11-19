@@ -45,6 +45,7 @@ import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-tog
 import { WattModalService } from '@energinet/watt/modal';
 
 import { InstallationAddress } from '../types';
+import { DhMeteringPointCreatePriceLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
 
 @Component({
   selector: 'dh-metering-point-actions',
@@ -116,6 +117,16 @@ import { InstallationAddress } from '../types';
             {{ t('moveIn') }}
           </button>
         }
+        @if (showAttachPriceButton()) {
+          <button
+            *dhPermissionRequired="['metering-point:prices-manage']"
+            type="button"
+            mat-menu-item
+            (click)="attachPrice()"
+          >
+            {{ t('attachPrice') }}
+          </button>
+        }
       </mat-menu>
     </ng-container>
   `,
@@ -155,14 +166,27 @@ export class DhMeteringPointActionsComponent {
     );
   });
 
+  showAttachPriceButton = computed(() => {
+    return this.releaseToggleService.isEnabled('PM60-CHARGE-LINKS-UI');
+  });
+
   showActionsButton = computed(() => {
-    return this.showMeasurementsUploadButton() || this.showMoveInButton();
+    return (
+      this.showMeasurementsUploadButton() || this.showMoveInButton() || this.showAttachPriceButton()
+    );
   });
 
   startMoveIn() {
     this.modalService.open({
       component: DhMoveInComponent,
       data: { installationAddress: this.installationAddress() },
+      disableClose: true,
+    });
+  }
+
+  attachPrice() {
+    this.modalService.open({
+      component: DhMeteringPointCreatePriceLink,
       disableClose: true,
     });
   }

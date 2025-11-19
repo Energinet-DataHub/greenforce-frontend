@@ -17,3 +17,4 @@
  */
 //#endregion
 export { meteringPointPricesRoutes as default } from './routes';
+export { DhMeteringPointCreatePriceLink } from './components/create/create';

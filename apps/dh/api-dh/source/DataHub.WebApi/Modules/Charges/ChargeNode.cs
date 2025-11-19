@@ -52,14 +52,23 @@ public static partial class ChargeNode
         IChargesClient client,
         string id,
         CancellationToken ct) =>
-        await client.GetChargeByIdAsync(id, ct);
+            await client.GetChargeByIdAsync(id, ct);
+
+    [Query]
+    [Authorize(Roles = new[] { "charges:view" })]
+    public static async Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAndOwnerAsync(
+        IChargesClient client,
+        ChargeType type,
+        string owner,
+        CancellationToken ct) =>
+            await client.GetChargesByTypeAsync(type, owner, ct);
 
     public static async Task<IEnumerable<ChargeSeries>> GetSeriesAsync(
         [Parent] ChargeInformationDto charge,
         Interval interval,
         IChargesClient client,
         CancellationToken ct) =>
-        await client.GetChargeSeriesAsync(charge.Id, charge.Resolution, interval, ct);
+            await client.GetChargeSeriesAsync(charge.Id, charge.Resolution, interval, ct);
 
     public static async Task<MarkPart.ActorDto?> GetOwnerAsync(
         [Parent] ChargeInformationDto charge,

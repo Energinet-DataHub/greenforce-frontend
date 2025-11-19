@@ -24,6 +24,8 @@ import {
   mockGetChargeSeriesQuery,
   mockGetChargeLinksByMeteringPointIdQuery,
   mockGetChargeLinkHistoryQuery,
+  mockGetSyoMarketParticipantQuery,
+  mockGetChargeByTypeAndOwnerQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   Charge,
@@ -582,12 +584,47 @@ function getChargeLinkById() {
   });
 }
 
+function getSyoMarketParticipant() {
+  return mockGetSyoMarketParticipantQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        marketParticipantsForEicFunction: [
+          {
+            __typename: 'MarketParticipant',
+            id: 'syo-participant-1',
+            name: 'System Operator A',
+            glnOrEicNumber: '9999999999999',
+            displayName: '9999999999999 • System Operator A',
+          } as MarketParticipant,
+        ],
+      },
+    });
+  });
+}
+
+function getChargesByTypeAndOwner() {
+  return mockGetChargeByTypeAndOwnerQuery(async ({ variables: { owner, type } }) => {
+    await delay(mswConfig.delay);
+    const charges = makeChargesMock();
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargesByTypeAndOwner: charges.filter((charge) => charge.type === type),
+      },
+    });
+  });
+}
+
 export function chargesMocks() {
   return [
     getCharges(),
     getChargeById(),
     getChargeSeries(),
-    getChargesByMeteringPointId(),
     getChargeLinkById(),
+    getSyoMarketParticipant(),
+    getChargesByTypeAndOwner(),
+    getChargesByMeteringPointId(),
   ];
 }

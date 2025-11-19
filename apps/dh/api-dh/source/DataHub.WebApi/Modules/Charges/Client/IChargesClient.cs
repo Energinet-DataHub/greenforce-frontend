@@ -42,6 +42,14 @@ public interface IChargesClient
         CancellationToken ct = default);
 
     /// <summary>
+    /// Get charge information by type.
+    /// </summary>
+    Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAsync(
+        ChargeType type,
+        string owner,
+        CancellationToken ct = default);
+
+    /// <summary>
     /// Get charge series for a charge.
     /// </summary>
     Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(

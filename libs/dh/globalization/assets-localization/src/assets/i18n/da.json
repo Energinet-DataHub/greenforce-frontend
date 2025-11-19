@@ -580,7 +580,8 @@
       "actions": {
         "actionsButton": "Handlinger",
         "upload": "Upload måledata",
-        "moveIn": "Tilflyt kunde"
+        "moveIn": "Tilflyt kunde",
+        "attachPrice": "Tilknyt pris"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -816,6 +817,23 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "attachPrice": {
+      "title": "Tilknyt pris",
+      "close": "Luk",
+      "back": "Tilbage",
+      "actions": {
+        "SUBSCRIPTION": "Tilknyt abonnement",
+        "TARIFF": "Tilknyt tarif",
+        "FEE": "Tilknyt gebyr"
+      },
+      "chargeTypes": {
+        "TARIFF": "Tarif",
+        "SUBSCRIPTION": "Abonnement",
+        "FEE": "Gebyr"
+      },
+      "startDate": "Startdato",
+      "factor": "Antal"
     },
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",

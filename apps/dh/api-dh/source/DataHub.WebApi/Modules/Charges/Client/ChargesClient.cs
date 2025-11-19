@@ -68,6 +68,18 @@ public class ChargesClient(Energinet.DataHub.Charges.Client.IChargesClient clien
         return result.Value?.FirstOrDefault();
     }
 
+    public async Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAsync(
+       ChargeType type,
+       string owner,
+       CancellationToken ct = default)
+    {
+        var result = await client.GetChargeInformationAsync(
+            new ChargeInformationSearchCriteriaDto(string.Empty, [owner], [type], true, ChargeSeriesSortColumnName.FromDateTime, 0, 10_000),
+            ct);
+
+        return result.Value ?? [];
+    }
+
     public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
         string chargeId,
         Resolution resolution,
