@@ -60,7 +60,7 @@ form.ng-submitted watt-field:has(.ng-invalid),
     padding-bottom: 0;
   }
 
-  &:has(watt-field-warning):not(:has(watt-field-error)) {
+  &.watt-field--show-errors:has(watt-field-warning):not(:has(watt-field-error)) {
     & .label {
       color: var(--watt-text-color);
     }
