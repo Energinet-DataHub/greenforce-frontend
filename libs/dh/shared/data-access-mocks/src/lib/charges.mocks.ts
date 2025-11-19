@@ -605,7 +605,7 @@ function getSyoMarketParticipant() {
 }
 
 function getChargesByTypeAndOwner() {
-  return mockGetChargeByTypeAndOwnerQuery(async ({ variables: { owner, type } }) => {
+  return mockGetChargeByTypeAndOwnerQuery(async ({ variables: { type } }) => {
     await delay(mswConfig.delay);
     const charges = makeChargesMock();
     return HttpResponse.json({
