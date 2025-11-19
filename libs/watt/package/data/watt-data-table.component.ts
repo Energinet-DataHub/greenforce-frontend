@@ -90,11 +90,10 @@ import { WattDataIntlService } from './watt-data-intl.service';
     <watt-card vater fill="vertical" [variant]="variant()">
       <vater-flex autoSize fill="vertical" gap="m">
         @if (header()) {
-          <vater-stack direction="row" gap="m" fill="horizontal">
-            <vater-stack direction="row" justify="space-between" fill="horizontal" align="start">
-              <!-- Left side -->
+          <vater-stack direction="column" gap="s" fill="horizontal" align="start">
+            <!-- Header, count, queryTime and custom area -->
+            <vater-stack direction="row" gap="m" justify="space-between" fill="horizontal" align="start" wrap>
               <vater-stack align="start">
-                <!-- Header, count and queryTime -->
                 <vater-stack direction="row" gap="m">
                   <ng-content select="h3" />
                   <ng-content select="h4" />
@@ -106,8 +105,9 @@ import { WattDataIntlService } from './watt-data-intl.service';
                   @if (queryTime()) {
                     <span class="watt-label">in {{ queryTime() }} ms</span>
                   }
+                  <ng-content />
+                  <ng-content select="watt-button" />
                 </vater-stack>
-
                 <!-- Searchbar -->
                 @if (enableSearch()) {
                   <watt-simple-search
@@ -117,27 +117,19 @@ import { WattDataIntlService } from './watt-data-intl.service';
                     class="margin-bottom-medium"
                   />
                 }
-
-                <!-- Filters -->
-                <ng-content select="watt-data-filters" />
               </vater-stack>
-
-              <!-- Right side -->
-              <vater-stack>
-                <ng-content select="watt-data-actions" />
-                <ng-content select="watt-button" />
-              </vater-stack>
+              <ng-content select="watt-data-actions" />
             </vater-stack>
-            <ng-content />
+
+            <!-- Filters -->
+            <ng-content select="watt-data-filters"/>
           </vater-stack>
         }
         <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
-          @if (
-            enableEmptyState() &&
-            !table().loading() &&
-            table().dataSource().filteredData.length === 0
-          ) {
+          @if (enableEmptyState() &&
+          !table().loading() &&
+          table().dataSource().filteredData.length === 0) {
             <vater-flex [autoSize]="autoSize()" fill="vertical">
               <vater-stack scrollable justify="center">
                 <watt-empty-state
@@ -149,7 +141,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
                 >
                   @if (enableRetry()) {
                     <watt-button variant="secondary" (click)="retry.emit()"
-                      >{{ intl.emptyRetry }}
+                    >{{ intl.emptyRetry }}
                     </watt-button>
                   }
                 </watt-empty-state>

@@ -20,6 +20,11 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'watt-data-filters',
+  styles: `
+    :host {
+      width: 100%;
+    }
+  `,
   template: `<ng-content />`,
 })
 export class WattDataFiltersComponent {}
