@@ -507,8 +507,8 @@
       "processes": {
         "tabLabel": "Procesoverblik"
       },
-      "prices": {
-        "tabLabel": "Priser"
+      "chargelinks": {
+        "tabLabel": "Pristilknytninger"
       },
       "messages": {
         "tabLabel": "Beskeder"
@@ -662,7 +662,12 @@
         "name": "Navn",
         "owner": "Ejer",
         "amount": "Antal",
-        "period": "Periode"
+        "period": "Periode",
+        "date": "Dato"
+      },
+      "navigation": {
+        "tariffAndSubscription": "Tarif og abonnement",
+        "fees": "Gebyr"
       },
       "chargeType": "Type",
       "details": {
@@ -698,7 +703,11 @@
         "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
       },
       "steps": {
-        "REQUEST_END_OF_SUPPLY": "Anmod om leveranceophør (BRS-005)"
+        "RSM005_REQUEST": "Anmod om leveranceophør (RSM-005)",
+        "RSM005_CONFIRM": "Godkend anmod om leveranceophør (RSM-005)",
+        "RSM005_REJECT": "Afvis anmod om leveranceophør (RSM-005)",
+        "RSM020_REQUEST": "Anmodning om afbrydelse (RSM-020)",
+        "UNKNOWN": "Ukendt trin"
       },
       "details": {
         "list": {
@@ -709,7 +718,7 @@
         },
         "columns": {
           "step": "Trin",
-          "createdAt": "Beskedtidspkt.",
+          "completedAt": "Fuldført",
           "dueDate": "Forfaldsdato",
           "actor": "Aktør",
           "state": "Status"
@@ -895,6 +904,8 @@
       "details": {
         "title": "Detaljer",
         "validityDate": "Gyldighedsdato",
+        "status": "{{ meteringPoint.overview.details.meteringPointStatus }}",
+        "newlyCreated": "Nyoprettet",
         "meteringPointId": "Målepunkts ID",
         "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
         "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
