@@ -150,7 +150,13 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
         t('latestDispatch')
       }}</watt-date-range-chip>
 
-      <watt-button class="auto-margin-left" variant="primary" size="small" icon="undo" (click)="reset()">
+      <watt-button
+        class="auto-margin-left"
+        variant="primary"
+        size="small"
+        icon="undo"
+        (click)="reset()"
+      >
         {{ t('reset') }}
       </watt-button>
     </form>
