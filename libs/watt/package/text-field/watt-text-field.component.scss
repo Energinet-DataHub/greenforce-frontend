@@ -25,4 +25,8 @@ watt-text-field {
       color: var(--watt-on-light-low-emphasis);
     }
   }
+
+  &[size] {
+    width: auto;
+  }
 }
