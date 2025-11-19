@@ -23,6 +23,10 @@
   --watt-disabled-radio-label-color: var(--watt-on-light-low-emphasis);
 }
 
+watt-radio {
+  padding: 2px 0;
+}
+
 watt-radio:not(:has(:disabled)) {
   & label,
   & input {
