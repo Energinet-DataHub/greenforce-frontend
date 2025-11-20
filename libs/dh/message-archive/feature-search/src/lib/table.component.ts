@@ -29,7 +29,11 @@ import {
   WattTableColumnDef,
   WattTableComponent,
 } from '@energinet/watt/table';
-import { WattDataTableComponent, WattDataFiltersComponent, WattDataActionsComponent } from '@energinet/watt/data';
+import {
+  WattDataTableComponent,
+  WattDataFiltersComponent,
+  WattDataActionsComponent,
+} from '@energinet/watt/data';
 
 import {
   GetArchivedMessagesQueryVariables,
