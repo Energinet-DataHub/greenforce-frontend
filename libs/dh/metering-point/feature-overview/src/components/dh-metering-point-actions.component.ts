@@ -45,7 +45,7 @@ import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-tog
 import { WattModalService } from '@energinet/watt/modal';
 
 import { InstallationAddress } from '../types';
-import { DhMeteringPointCreatePriceLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
+import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
 
 @Component({
   selector: 'dh-metering-point-actions',
@@ -186,7 +186,7 @@ export class DhMeteringPointActionsComponent {
 
   attachPrice() {
     this.modalService.open({
-      component: DhMeteringPointCreatePriceLink,
+      component: DhMeteringPointCreateChargeLink,
       disableClose: true,
     });
   }
