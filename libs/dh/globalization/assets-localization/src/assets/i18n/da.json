@@ -656,7 +656,7 @@
     "selectedRelatedMeteringPoint": "Valgt",
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
-    "charges": {
+    "chargeLinks": {
       "columns": {
         "type": "Type",
         "id": "Id",

@@ -39,7 +39,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-metering-point-create-price-link',
+  selector: 'dh-metering-point-create-charge-link',
   imports: [
     TranslocoPipe,
     TranslocoDirective,
@@ -55,7 +55,7 @@ import {
   ],
   encapsulation: ViewEncapsulation.None,
   styles: `
-    dh-metering-point-create-price-link {
+    dh-metering-point-create-charge-link {
       watt-button .mdc-button.mat-mdc-button {
         width: 100%;
       }
@@ -74,7 +74,7 @@ import {
     <watt-modal
       #create
       size="small"
-      *transloco="let t; prefix: 'meteringPoint.attachPrice'"
+      *transloco="let t; prefix: 'meteringPoint.createChargeLink'"
       [title]="t('title')"
     >
       @let type = selectedType();
@@ -139,7 +139,7 @@ import {
     </watt-modal>
   `,
 })
-export class DhMeteringPointCreatePriceLink extends WattTypedModal {
+export class DhMeteringPointCreateChargeLink extends WattTypedModal {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly actorStorage = inject(DhActorStorage);
   private readonly syoMarketParticipantQuery = query(GetSyoMarketParticipantDocument);
