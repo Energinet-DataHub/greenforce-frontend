@@ -38,7 +38,7 @@ type Variables = Partial<GetUsersForCsvQueryVariables>;
   selector: 'dh-download-users-csv',
   imports: [TranslocoPipe, WattButtonComponent],
   template: `
-    <watt-button variant="secondary" (click)="download()" [loading]="query.loading()">{{
+    <watt-button variant="secondary" icon="download" (click)="download()" [loading]="query.loading()">{{
       'shared.download' | transloco
     }}</watt-button>
   `,
