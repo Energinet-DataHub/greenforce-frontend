@@ -49,7 +49,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
       [value]="value()"
       [disabled]="isDisabled()"
       [required]="required()"
-      [attr.maxLength]="maxLength()"
+      [attr.maxlength]="maxLength()"
       (input)="onInput($event)"
     ></textarea>
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
