@@ -41,7 +41,7 @@ jobs:
   dotnet_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v15
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v16
     with:
       release_name_prefix: ui_dotnet
 
@@ -52,7 +52,7 @@ jobs:
   frontend_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dh_frontend == 'true' || needs.changes.outputs.dh_frontend_e2e == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v15
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v16
     with:
       release_name_prefix: ui_frontend
 
@@ -83,11 +83,11 @@ jobs:
           owner: Energinet-DataHub
 
       - name: Find associated pull request
-        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v15
+        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v16
         id: find_pull_request
 
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ steps.generate_token.outputs.token }}
           repository: ${{ vars.environment_repository_path }}
@@ -109,7 +109,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v15
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v16
     with:
       team_name: TeamFrontend
       subject: "Deployment dispatch failed: UI + BFF"
