@@ -677,7 +677,17 @@
           "description": "Beskrivelse"
         },
         "copyMessage": "Kopier besked-ID",
-        "navigateToMessage": "Gå til besked"
+        "navigateToMessage": "Gå til besked",
+        "edit": "Rediger pristilknytning",
+        "stop": "Stop pristilknytning",
+        "cancel": "Annuller pristilknytning"
+      },
+      "edit": {
+        "title": "Rediger pristilknytning",
+        "factor": "Antal",
+        "startDate": "Skæringsdato",
+        "save": "Gem ændringer",
+        "close": "Luk"
       }
     },
     "processOverview": {
