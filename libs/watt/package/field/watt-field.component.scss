@@ -128,8 +128,6 @@ watt-field {
 
     &.required::after {
       content: "*";
-      margin-left: var(--watt-space-s);
-      color: var(--watt-color-primary);
     }
   }
 
