@@ -56,14 +56,6 @@ import {
   encapsulation: ViewEncapsulation.None,
   styles: `
     dh-metering-point-create-charge-link {
-      watt-button .mdc-button.mat-mdc-button {
-        width: 100%;
-      }
-
-      vater-stack {
-        margin: var(--watt-space-m) 0;
-      }
-
       watt-datepicker,
       watt-text-field {
         width: 50%;
@@ -78,15 +70,11 @@ import {
       [title]="t('title')"
     >
       @let type = selectedType();
+
       @if (type === null) {
-        <vater-stack align="stretch" gap="ml">
+        <vater-stack align="stretch" gap="ml" offset="m">
           @for (chargeType of ChargeTypes; track chargeType) {
-            <watt-button
-              alignText="start"
-              variant="selection"
-              icon="right"
-              (click)="selectedType.set(chargeType)"
-            >
+            <watt-button variant="selection" icon="right" (click)="selectedType.set(chargeType)">
               {{ 'charges.chargeTypes.' + chargeType | transloco }}
             </watt-button>
           }
@@ -104,10 +92,10 @@ import {
           <watt-dropdown
             [formControl]="form.controls.chargeId"
             [options]="chargeOptions()"
-            [label]="t('chargeTypes.' + selectedType())"
+            [label]="t('chargeTypes.' + type)"
           />
 
-          @if (selectedType() !== ChargeType.Tariff) {
+          @if (type !== 'TARIFF') {
             <watt-text-field
               [formControl]="form.controls.factor"
               [label]="t('factor')"
@@ -151,7 +139,6 @@ export class DhMeteringPointCreateChargeLink extends WattTypedModal {
   );
 
   ChargeTypes = Object.values(ChargeType);
-  ChargeType = ChargeType;
 
   form = this.fb.group({
     chargeId: this.fb.control<string>('', Validators.required),
@@ -161,11 +148,8 @@ export class DhMeteringPointCreateChargeLink extends WattTypedModal {
 
   selectedType = signal<ChargeType | null>(null);
 
-  chargeOptions = computed<WattDropdownOptions>(() =>
-    (this.chargesQuery.data()?.chargesByTypeAndOwner ?? []).map((charge) => ({
-      value: charge.id,
-      displayValue: charge.displayName,
-    }))
+  chargeOptions = computed<WattDropdownOptions>(
+    () => this.chargesQuery.data()?.chargesByTypeAndOwner ?? []
   );
 
   createLink() {

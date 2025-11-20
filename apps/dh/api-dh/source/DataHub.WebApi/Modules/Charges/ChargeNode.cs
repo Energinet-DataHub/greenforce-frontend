@@ -61,7 +61,7 @@ public static partial class ChargeNode
         ChargeType type,
         string owner,
         CancellationToken ct) =>
-            await client.GetChargesByTypeAsync(type, owner, ct);
+            await client.GetChargesByTypeAndOwnerAsync(type, owner, ct);
 
     public static async Task<IEnumerable<ChargeSeries>> GetSeriesAsync(
         [Parent] ChargeInformationDto charge,

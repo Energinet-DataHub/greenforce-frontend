@@ -611,7 +611,13 @@ function getChargesByTypeAndOwner() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        chargesByTypeAndOwner: charges.filter((charge) => charge.type === type),
+        chargesByTypeAndOwner: charges
+          .filter((charge) => charge.type === type)
+          .map((charge) => ({
+            __typename: 'Charge',
+            value: charge.id,
+            displayValue: charge.displayName,
+          })),
       },
     });
   });

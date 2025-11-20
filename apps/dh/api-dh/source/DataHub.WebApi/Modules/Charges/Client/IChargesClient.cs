@@ -44,7 +44,7 @@ public interface IChargesClient
     /// <summary>
     /// Get charge information by type.
     /// </summary>
-    Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAsync(
+    Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAndOwnerAsync(
         ChargeType type,
         string owner,
         CancellationToken ct = default);
