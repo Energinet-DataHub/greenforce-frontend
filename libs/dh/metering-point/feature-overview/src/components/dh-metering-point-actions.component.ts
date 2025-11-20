@@ -117,14 +117,14 @@ import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-
             {{ t('moveIn') }}
           </button>
         }
-        @if (showAttachPriceButton()) {
+        @if (showCreateChargeLinkButton()) {
           <button
             *dhPermissionRequired="['metering-point:prices-manage']"
             type="button"
             mat-menu-item
-            (click)="attachPrice()"
+            (click)="createLink()"
           >
-            {{ t('attachPrice') }}
+            {{ t('createChargeLink') }}
           </button>
         }
       </mat-menu>
@@ -166,13 +166,15 @@ export class DhMeteringPointActionsComponent {
     );
   });
 
-  showAttachPriceButton = computed(() => {
+  showCreateChargeLinkButton = computed(() => {
     return this.releaseToggleService.isEnabled('PM60-CHARGE-LINKS-UI');
   });
 
   showActionsButton = computed(() => {
     return (
-      this.showMeasurementsUploadButton() || this.showMoveInButton() || this.showAttachPriceButton()
+      this.showMeasurementsUploadButton() ||
+      this.showMoveInButton() ||
+      this.showCreateChargeLinkButton()
     );
   });
 
@@ -184,7 +186,7 @@ export class DhMeteringPointActionsComponent {
     });
   }
 
-  attachPrice() {
+  createLink() {
     this.modalService.open({
       component: DhMeteringPointCreateChargeLink,
       disableClose: true,

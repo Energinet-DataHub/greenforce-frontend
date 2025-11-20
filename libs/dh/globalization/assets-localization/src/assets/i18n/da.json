@@ -581,7 +581,7 @@
         "actionsButton": "Handlinger",
         "upload": "Upload måledata",
         "moveIn": "Tilflyt kunde",
-        "attachPrice": "Tilknyt pris"
+        "createChargeLink": "Tilknyt pris"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
