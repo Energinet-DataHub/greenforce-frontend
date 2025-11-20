@@ -26,9 +26,6 @@ inputs:
   output_path:
     description: Path to output folder, where all published apps will be placed in subfolders.
     required: true
-  sbom_path:
-    description: Path to the SBOM file that was generated prior to this step.
-    required: true
 
 runs:
   using: composite
@@ -42,7 +39,6 @@ runs:
           --no-restore \
           --configuration Release \
           --output '${{ inputs.output_path }}/functions/bff'
-        cp '${{ inputs.sbom_path }}' '${{ inputs.output_path }}/functions/bff/sbom.json'
 
     - name: Publish Swagger
       shell: bash
