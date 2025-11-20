@@ -90,7 +90,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
     <watt-card vater fill="vertical" [variant]="variant()">
       <vater-flex autoSize fill="vertical" gap="m">
         @if (header()) {
-          <vater-stack direction="column" gap="s" fill="horizontal" align="start">
+          <vater-stack direction="column" fill="horizontal" align="start">
             <!-- Header, count, queryTime and custom area -->
             <vater-stack
               direction="row"

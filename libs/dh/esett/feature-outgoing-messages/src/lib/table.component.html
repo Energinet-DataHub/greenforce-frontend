@@ -21,9 +21,9 @@ limitations under the License.
   [searchLabel]="t('filters.documentId')"
   [error]="dataSource.error"
   [ready]="dataSource.called"
+  [enableCount]="false"
   #wattDataTable
 >
-  <h3>{{ t("tabHeading") }}</h3>
 
   <span class="watt-chip-label">
     @if (gridAreaCount() === 1) {

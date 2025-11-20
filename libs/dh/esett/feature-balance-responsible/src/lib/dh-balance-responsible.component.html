@@ -19,11 +19,11 @@ limitations under the License.
   vater
   inset="ml"
   [enableSearch]="false"
+  [enableCount]="false"
   [error]="dataSource.error"
   [ready]="dataSource.called"
   #wattDataTable
 >
-  <h3>{{ t("tabHeading") }}</h3>
 
   <watt-data-actions>
     <vater-stack direction="row" gap="s">
