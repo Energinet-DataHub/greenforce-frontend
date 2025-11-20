@@ -27,7 +27,7 @@ import {
   WattTableColumnDef,
   WattTableComponent,
 } from '@energinet/watt/table';
-import { WattDataTableComponent } from '@energinet/watt/data';
+import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/watt/data';
 import {
   DhPermissionRequiredDirective,
   PermissionService,
@@ -55,6 +55,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
     WattDataTableComponent,
     DhProcessStateBadge,
     DhPermissionRequiredDirective,
+    WattDataActionsComponent,
   ],
   template: `
     <watt-data-table
@@ -67,18 +68,20 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
     >
       <h3>{{ t('results') }}</h3>
 
-      <watt-button
-        *dhPermissionRequired="[
-          'request-aggregated-measured-data:view',
-          'request-wholesale-settlement:view',
-        ]"
-        variant="secondary"
-        icon="plus"
-        data-testid="newRequest"
-        (click)="new.emit()"
-      >
-        {{ t('button') }}
-      </watt-button>
+      <watt-data-actions>
+        <watt-button
+          *dhPermissionRequired="[
+            'request-aggregated-measured-data:view',
+            'request-wholesale-settlement:view',
+          ]"
+          variant="secondary"
+          icon="plus"
+          data-testid="newRequest"
+          (click)="new.emit()"
+        >
+          {{ t('button') }}
+        </watt-button>
+      </watt-data-actions>
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'wholesale.requests.columns'"
