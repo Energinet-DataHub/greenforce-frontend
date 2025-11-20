@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -8,6 +8,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-metering-point-edit-charge-link',
@@ -54,10 +55,9 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
   `,
 })
 export class DhMeteringPointEditChargeLink extends WattTypedModal {
-  private readonly fb = inject(NonNullableFormBuilder);
-  form = this.fb.group({
-    factor: this.fb.control<number | null>(null, Validators.min(1)),
-    startDate: this.fb.control<Date | null>(null, Validators.required),
+  form = new FormGroup({
+    factor: dhMakeFormControl<number>(null, [Validators.min(1)]),
+    startDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
   editLink() {
