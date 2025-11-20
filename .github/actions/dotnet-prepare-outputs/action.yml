@@ -19,7 +19,6 @@ description: Prepares dotnet outputs for publishing artifacts to dotnet.
 # This action is called from the 'dotnet-build-prerelease.yml' file.
 #
 # Prepared outputs will be zipped and uploaded as the 'ui_dotnet' artifact.
-# The SBOM file located in sbom_path must be copied to each output folder containing a deployable app.
 #
 
 inputs:
