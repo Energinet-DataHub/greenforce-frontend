@@ -25,7 +25,7 @@ export const meteringPointPricesRoutes: Routes = [
   {
     canActivate: [
       PermissionGuard(['metering-point:prices']),
-      dhReleaseToggleGuard('PM58-PRICES-UI'),
+      dhReleaseToggleGuard('PM60-CHARGE-LINKS-UI'),
     ],
     path: '',
     loadComponent: () => import('./components/page'),

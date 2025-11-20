@@ -17,32 +17,39 @@
  */
 //#endregion
 import { RouterLink } from '@angular/router';
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { MatMenuModule } from '@angular/material/menu';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 
-import { WattButtonComponent } from '@energinet/watt/button';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslocoDirective } from '@jsverse/transloco';
+
+import { WATT_MENU } from '@energinet/watt/menu';
+import { WattModalService } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
+
 import {
   getPath,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/routing';
+
 import {
-  ConnectionState,
-  ElectricityMarketMeteringPointType,
-  MeteringPointSubType,
   EicFunction,
+  ConnectionState,
+  MeteringPointSubType,
+  ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import {
-  DhPermissionRequiredDirective,
   PermissionService,
+  DhPermissionRequiredDirective,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
+
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
-import { WattModalService } from '@energinet/watt/modal';
+
+import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
+import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
 
 import { InstallationAddress } from '../types';
 
@@ -50,14 +57,13 @@ import { InstallationAddress } from '../types';
   selector: 'dh-metering-point-actions',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatMenuModule,
     RouterLink,
     NgTemplateOutlet,
     TranslocoDirective,
-
     WattButtonComponent,
     WattIconComponent,
     DhPermissionRequiredDirective,
+    WATT_MENU,
   ],
   styles: `
     :host {
@@ -71,7 +77,7 @@ import { InstallationAddress } from '../types';
           <watt-button
             *dhPermissionRequired="['measurements:manage']; else elseTmpl"
             variant="secondary"
-            [matMenuTriggerFor]="menu"
+            [wattMenuTriggerFor]="menu"
           >
             {{ t('actionsButton') }}
             <watt-icon name="moreVertical" />
@@ -85,7 +91,7 @@ import { InstallationAddress } from '../types';
             <watt-button
               *dhPermissionRequired="['metering-point:move-in']"
               variant="secondary"
-              [matMenuTriggerFor]="menu"
+              [wattMenuTriggerFor]="menu"
             >
               {{ t('actionsButton') }}
               <watt-icon name="moreVertical" />
@@ -94,29 +100,34 @@ import { InstallationAddress } from '../types';
         </ng-template>
       }
 
-      <mat-menu #menu="matMenu">
+      <watt-menu #menu>
         @if (showMeasurementsUploadButton()) {
-          <button
+          <watt-menu-item
             *dhPermissionRequired="['measurements:manage']"
-            type="button"
-            mat-menu-item
             [routerLink]="getMeasurementsUploadLink"
           >
             {{ t('upload') }}
-          </button>
+          </watt-menu-item>
         }
 
         @if (showMoveInButton()) {
-          <button
+          <watt-menu-item
             *dhPermissionRequired="['metering-point:move-in']"
-            type="button"
-            mat-menu-item
             (click)="startMoveIn()"
           >
             {{ t('moveIn') }}
-          </button>
+          </watt-menu-item>
         }
-      </mat-menu>
+
+        @if (showCreateChargeLinkButton()) {
+          <watt-menu-item
+            *dhPermissionRequired="['metering-point:prices-manage']"
+            (click)="createLink()"
+          >
+            {{ t('createChargeLink') }}
+          </watt-menu-item>
+        }
+      </watt-menu>
     </ng-container>
   `,
 })
@@ -155,14 +166,29 @@ export class DhMeteringPointActionsComponent {
     );
   });
 
+  showCreateChargeLinkButton = computed(() => {
+    return this.releaseToggleService.isEnabled('PM60-CHARGE-LINKS-UI');
+  });
+
   showActionsButton = computed(() => {
-    return this.showMeasurementsUploadButton() || this.showMoveInButton();
+    return (
+      this.showMeasurementsUploadButton() ||
+      this.showMoveInButton() ||
+      this.showCreateChargeLinkButton()
+    );
   });
 
   startMoveIn() {
     this.modalService.open({
       component: DhMoveInComponent,
       data: { installationAddress: this.installationAddress() },
+      disableClose: true,
+    });
+  }
+
+  createLink() {
+    this.modalService.open({
+      component: DhMeteringPointCreateChargeLink,
       disableClose: true,
     });
   }

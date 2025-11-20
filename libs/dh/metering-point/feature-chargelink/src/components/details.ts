@@ -46,7 +46,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
       [loading]="query.loading()"
       size="small"
       [key]="id()"
-      *transloco="let t; prefix: 'meteringPoint.charges.details'"
+      *transloco="let t; prefix: 'meteringPoint.chargeLinks.details'"
       (closed)="navigation.navigate('list')"
     >
       <watt-drawer-heading
