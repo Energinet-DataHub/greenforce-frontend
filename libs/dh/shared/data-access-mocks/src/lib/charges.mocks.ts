@@ -18,24 +18,26 @@
 //#endregion
 import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
+
 import {
   mockGetChargesQuery,
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
-  mockGetChargeLinksByMeteringPointIdQuery,
+  mockGetChargeByTypeQuery,
   mockGetChargeLinkHistoryQuery,
-  mockGetSyoMarketParticipantQuery,
-  mockGetChargeByTypeAndOwnerQuery,
+  mockGetChargeLinksByMeteringPointIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+
 import {
   Charge,
+  ChargeType,
   ChargeLink,
-  ChargeResolution,
   ChargeSeries,
   ChargeStatus,
-  ChargeType,
+  ChargeResolution,
   MarketParticipant,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { dayjs, WattRange } from '@energinet/watt/core/date';
 
 const chargeLinks: ChargeLink[] = [
@@ -584,34 +586,14 @@ function getChargeLinkById() {
   });
 }
 
-function getSyoMarketParticipant() {
-  return mockGetSyoMarketParticipantQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        marketParticipantsForEicFunction: [
-          {
-            __typename: 'MarketParticipant',
-            id: 'syo-participant-1',
-            name: 'System Operator A',
-            glnOrEicNumber: '9999999999999',
-            displayName: '9999999999999 • System Operator A',
-          } as MarketParticipant,
-        ],
-      },
-    });
-  });
-}
-
-function getChargesByTypeAndOwner() {
-  return mockGetChargeByTypeAndOwnerQuery(async ({ variables: { type } }) => {
+function getChargesByType() {
+  return mockGetChargeByTypeQuery(async ({ variables: { type } }) => {
     await delay(mswConfig.delay);
     const charges = makeChargesMock();
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        chargesByTypeAndOwner: charges
+        chargesByType: charges
           .filter((charge) => charge.type === type)
           .map((charge) => ({
             __typename: 'Charge',
@@ -628,9 +610,8 @@ export function chargesMocks() {
     getCharges(),
     getChargeById(),
     getChargeSeries(),
+    getChargesByType(),
     getChargeLinkById(),
-    getSyoMarketParticipant(),
-    getChargesByTypeAndOwner(),
     getChargesByMeteringPointId(),
   ];
 }

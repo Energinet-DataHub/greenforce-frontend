@@ -1,6 +1,0 @@
-query GetChargeByTypeAndOwner($type: ChargeType!, $owner: String!) {
-  chargesByTypeAndOwner(type: $type, owner: $owner) {
-    value: id
-    displayValue: displayName
-  }
-}

@@ -28,15 +28,9 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
-import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
-import {
-  ChargeType,
-  EicFunction,
-  GetChargeByTypeAndOwnerDocument,
-  GetSyoMarketParticipantDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-create-charge-link',
@@ -129,14 +123,7 @@ import {
 })
 export class DhMeteringPointCreateChargeLink extends WattTypedModal {
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly actorStorage = inject(DhActorStorage);
-  private readonly syoMarketParticipantQuery = query(GetSyoMarketParticipantDocument);
-  private readonly chargesQuery = lazyQuery(GetChargeByTypeAndOwnerDocument);
-  private readonly syoMarketParticipantGln = computed(
-    () =>
-      this.syoMarketParticipantQuery.data()?.marketParticipantsForEicFunction[0].glnOrEicNumber ??
-      ''
-  );
+  private readonly chargesQuery = lazyQuery(GetChargeByTypeDocument);
 
   ChargeTypes = Object.values(ChargeType);
 
@@ -149,7 +136,7 @@ export class DhMeteringPointCreateChargeLink extends WattTypedModal {
   selectedType = signal<ChargeType | null>(null);
 
   chargeOptions = computed<WattDropdownOptions>(
-    () => this.chargesQuery.data()?.chargesByTypeAndOwner ?? []
+    () => this.chargesQuery.data()?.chargesByType ?? []
   );
 
   createLink() {
@@ -160,18 +147,9 @@ export class DhMeteringPointCreateChargeLink extends WattTypedModal {
     super();
     effect(() => {
       const type = this.selectedType();
-      const syoGln = this.syoMarketParticipantGln();
-      const selectedMarketParticipant = this.actorStorage.getSelectedActor();
 
       if (type) {
-        this.chargesQuery.refetch({
-          owner:
-            selectedMarketParticipant.marketRole === EicFunction.SystemOperator ||
-            EicFunction.EnergySupplier
-              ? syoGln
-              : selectedMarketParticipant.gln,
-          type,
-        });
+        this.chargesQuery.refetch({ type });
       }
     });
   }

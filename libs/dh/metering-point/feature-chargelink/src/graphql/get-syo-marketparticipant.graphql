@@ -1,6 +1,0 @@
-query GetSyoMarketParticipant {
-  marketParticipantsForEicFunction(eicFunctions: [SystemOperator]) {
-    id
-    glnOrEicNumber
-  }
-}

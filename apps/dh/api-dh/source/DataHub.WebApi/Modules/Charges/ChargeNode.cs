@@ -56,12 +56,11 @@ public static partial class ChargeNode
 
     [Query]
     [Authorize(Roles = new[] { "charges:view" })]
-    public static async Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAndOwnerAsync(
+    public static async Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAsync(
         IChargesClient client,
         ChargeType type,
-        string owner,
         CancellationToken ct) =>
-            await client.GetChargesByTypeAndOwnerAsync(type, owner, ct);
+            await client.GetChargesByTypeAsync(type, ct);
 
     public static async Task<IEnumerable<ChargeSeries>> GetSeriesAsync(
         [Parent] ChargeInformationDto charge,
