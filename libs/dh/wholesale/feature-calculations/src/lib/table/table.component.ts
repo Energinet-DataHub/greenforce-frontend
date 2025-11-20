@@ -51,7 +51,6 @@ import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/g
 
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capacity-settlements-uploader.component';
-import { DhOutgoingMessageDownloadComponent } from '../../../../../esett/feature-outgoing-messages/src/lib/download.component';
 
 @Component({
   imports: [
@@ -76,7 +75,6 @@ import { DhOutgoingMessageDownloadComponent } from '../../../../../esett/feature
     DhPermissionRequiredDirective,
     DhCalculationsFiltersComponent,
     DhCapacitySettlementsUploaderComponent,
-    DhOutgoingMessageDownloadComponent,
     WattDataActionsComponent,
   ],
   selector: 'dh-calculations-table',
