@@ -38,16 +38,18 @@ limitations under the License.
   </watt-data-filters>
 
   <watt-data-actions>
-    <watt-button variant="secondary" data-testid="newCalculation.add" [routerLink]="['new']">
-      {{ t("new") }}
-    </watt-button>
-    <watt-button
-      *dhPermissionRequired="['dh2-bridge:import']"
-      variant="secondary"
-      [wattMenuTriggerFor]="menu"
-    >
-      <watt-icon name="moreVertical" />
-    </watt-button>
+    <vater-stack direction="row" gap="m">
+      <watt-button variant="secondary" data-testid="newCalculation.add" [routerLink]="['new']">
+        {{ t("new") }}
+      </watt-button>
+      <watt-button
+        *dhPermissionRequired="['dh2-bridge:import']"
+        variant="secondary"
+        [wattMenuTriggerFor]="menu"
+      >
+        <watt-icon name="moreVertical" />
+      </watt-button>
+    </vater-stack>
   </watt-data-actions>
 
   <watt-table

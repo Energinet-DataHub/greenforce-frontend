@@ -34,7 +34,7 @@ import {
   selector: 'dh-outgoing-message-download',
   imports: [WattButtonComponent, TranslocoPipe],
   template: `
-    <watt-button icon="download" variant="text" (click)="download()">{{
+    <watt-button icon="download" variant="secondary" (click)="download()">{{
       'shared.download' | transloco
     }}</watt-button>
   `,
