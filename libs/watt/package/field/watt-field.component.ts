@@ -103,10 +103,9 @@ import { NgTemplateOutlet } from '@angular/common';
     </ng-template>
   `,
   host: {
-    '[class.watt-field--chip]': 'chipMode()',
-    '[class.watt-field--unlabelled]': 'unlabelled()',
     '[class.watt-field--disabled]': 'control()?.disabled',
     '[class.watt-field--show-errors]': 'showErrors()',
+    '[class]': 'className()',
   },
 })
 export class WattFieldComponent {
@@ -116,10 +115,13 @@ export class WattFieldComponent {
   control = input<FormControl | null>(null);
   label = input<string>();
   id = input<string>();
+  /** @deprecated Use `displayMode` instead. */
   chipMode = input(false);
   tooltip = input<string>();
   placeholder = input('');
   anchorName = input<string>();
+  displayMode = input<'box' | 'chip' | 'content'>('box');
+  className = computed(() => `watt-field--${this.chipMode() ? 'chip' : this.displayMode()}`);
 
   /**
    * Whether the input should receive focus when the component is rendered.
@@ -133,8 +135,6 @@ export class WattFieldComponent {
   value = signal('');
   filler = computed(() => this.placeholder().slice(this.value().length));
   ghost = computed(() => this.value().slice(0, this.placeholder().length));
-
-  unlabelled = computed(() => !this.label());
 
   errors = signal<ValidationErrors | null>(null);
   isRequired = signal(false);
