@@ -817,7 +817,7 @@
         }
       }
     },
-    "attachPrice": {
+    "createChargeLink": {
       "title": "Attach price",
       "close": "Close",
       "back": "Back",

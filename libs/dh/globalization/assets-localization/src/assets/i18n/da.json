@@ -818,7 +818,7 @@
         }
       }
     },
-    "attachPrice": {
+    "createChargeLink": {
       "title": "Tilknyt pris",
       "close": "Luk",
       "back": "Tilbage",
