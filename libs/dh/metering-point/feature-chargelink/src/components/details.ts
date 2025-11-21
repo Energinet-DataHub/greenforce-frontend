@@ -31,6 +31,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterStackComponent, VaterSpacerComponent } from '@energinet/watt/vater';
 import { WattModalService } from '@energinet/watt/modal';
 import { DhMeteringPointEditChargeLink } from './edit';
+import { DhMeteringPointCancelChargeLink } from './cancel';
 
 @Component({
   selector: 'dh-charge-link-details',
@@ -62,7 +63,7 @@ import { DhMeteringPointEditChargeLink } from './edit';
           <watt-menu #actions>
             <watt-menu-item (click)="edit()">{{ t('edit') }}</watt-menu-item>
             <watt-menu-item>{{ t('stop') }}</watt-menu-item>
-            <watt-menu-item>{{ t('cancel') }}</watt-menu-item>
+            <watt-menu-item (click)="cancel()">{{ t('cancel') }}</watt-menu-item>
           </watt-menu>
         </vater-stack>
       </watt-drawer-heading>
@@ -111,6 +112,12 @@ export default class DhChargeLinkDetails {
   edit() {
     this.modalService.open({
       component: DhMeteringPointEditChargeLink,
+    });
+  }
+
+  cancel() {
+    this.modalService.open({
+      component: DhMeteringPointCancelChargeLink,
     });
   }
 }

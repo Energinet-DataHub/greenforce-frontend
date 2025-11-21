@@ -688,6 +688,12 @@
         "startDate": "Skæringsdato",
         "save": "Gem ændringer",
         "close": "Luk"
+      },
+      "cancel": {
+        "title": "Annuller pristilknytning?",
+        "cancelWarning": "Handlingen kan ikke fortrydes",
+        "cancel": "Annuller pristilknytning",
+        "close": "Luk"
       }
     },
     "processOverview": {

@@ -687,6 +687,12 @@
         "startDate": "Start date",
         "save": "Save changes",
         "close": "Close"
+      },
+      "cancel": {
+        "title": "Cancel price link?",
+        "cancelWarning": "This action cannot be undone",
+        "cancel": "Cancel price link",
+        "close": "Close"
       }
     },
     "processOverview": {
