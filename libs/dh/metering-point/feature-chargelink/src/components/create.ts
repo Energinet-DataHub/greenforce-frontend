@@ -17,9 +17,9 @@
  */
 //#endregion
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Component, computed, effect, inject, signal, ViewEncapsulation } from '@angular/core';
+import { model, inject, effect, computed, Component, ViewEncapsulation } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -30,12 +30,12 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/drop
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
+import { DhChargeTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
 import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-create-charge-link',
   imports: [
-    TranslocoPipe,
     TranslocoDirective,
     ReactiveFormsModule,
 
@@ -46,6 +46,7 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
     WattDatepickerComponent,
 
     VaterStackComponent,
+    DhChargeTypeSelection,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: `
@@ -63,17 +64,7 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
       *transloco="let t; prefix: 'meteringPoint.createChargeLink'"
       [title]="t('title')"
     >
-      @let type = selectedType();
-
-      @if (type === null) {
-        <vater-stack align="stretch" gap="ml" offset="m">
-          @for (chargeType of ChargeTypes; track chargeType) {
-            <watt-button variant="selection" icon="right" (click)="selectedType.set(chargeType)">
-              {{ 'charges.chargeTypes.' + chargeType | transloco }}
-            </watt-button>
-          }
-        </vater-stack>
-      } @else {
+      <dh-charge-type-selection [(value)]="selectedType">
         <form
           vater-stack
           align="start"
@@ -86,10 +77,10 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
           <watt-dropdown
             [formControl]="form.controls.chargeId"
             [options]="chargeOptions()"
-            [label]="t('chargeTypes.' + type)"
+            [label]="t('chargeTypes.' + selectedType())"
           />
 
-          @if (type !== 'TARIFF') {
+          @if (selectedType() !== 'TARIFF') {
             <watt-text-field
               [formControl]="form.controls.factor"
               [label]="t('factor')"
@@ -99,9 +90,9 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
 
           <watt-datepicker [formControl]="form.controls.startDate" [label]="t('startDate')" />
         </form>
-      }
+      </dh-charge-type-selection>
       <watt-modal-actions>
-        @if (type === null) {
+        @if (selectedType() === null) {
           <watt-button variant="secondary" (click)="create.close(false)">
             {{ t('close') }}
           </watt-button>
@@ -110,7 +101,7 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
             {{ t('back') }}
           </watt-button>
           <watt-button variant="primary" (click)="createLink(); create.close(true)">
-            {{ t('actions.' + type) }}
+            {{ t('actions.' + selectedType()) }}
           </watt-button>
         }
       </watt-modal-actions>
@@ -129,7 +120,7 @@ export class DhMeteringPointCreateChargeLink extends WattTypedModal {
     startDate: this.fb.control<Date | null>(null, Validators.required),
   });
 
-  selectedType = signal<ChargeType | null>(null);
+  selectedType = model<ChargeType | null>(null);
 
   chargeOptions = computed<WattDropdownOptions>(
     () => this.chargesQuery.data()?.chargesByType ?? []
