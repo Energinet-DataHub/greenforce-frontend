@@ -28,6 +28,9 @@ import { WATT_MENU } from '@energinet/watt/menu';
 import { WattDataTableComponent } from '@energinet/watt/data';
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { VaterStackComponent, VaterSpacerComponent } from '@energinet/watt/vater';
+import { WattModalService } from '@energinet/watt/modal';
+import { DhMeteringPointEditChargeLink } from './edit';
 
 @Component({
   selector: 'dh-charge-link-details',
@@ -39,6 +42,8 @@ import { WattButtonComponent } from '@energinet/watt/button';
     WattDataTableComponent,
     WattButtonComponent,
     TranslocoDirective,
+    VaterStackComponent,
+    VaterSpacerComponent,
   ],
   template: `
     <watt-drawer
@@ -49,13 +54,23 @@ import { WattButtonComponent } from '@energinet/watt/button';
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.details'"
       (closed)="navigation.navigate('list')"
     >
-      <watt-drawer-heading
-        ><h1>{{ chargeLinkWithHistory()?.displayName }}</h1></watt-drawer-heading
-      >
+      <watt-drawer-heading>
+        <vater-stack direction="row">
+          <h1>{{ chargeLinkWithHistory()?.displayName }}</h1>
+          <vater-spacer />
+          <watt-button variant="icon" [wattMenuTriggerFor]="actions" icon="moreVertical" />
+          <watt-menu #actions>
+            <watt-menu-item (click)="edit()">{{ t('edit') }}</watt-menu-item>
+            <watt-menu-item>{{ t('stop') }}</watt-menu-item>
+            <watt-menu-item>{{ t('cancel') }}</watt-menu-item>
+          </watt-menu>
+        </vater-stack>
+      </watt-drawer-heading>
+
       <watt-drawer-content>
         <watt-data-table [autoSize]="true" [header]="false" [enablePaginator]="false">
           <watt-table
-            *transloco="let resolveHeader; prefix: 'meteringPoint.charges.details.columns'"
+            *transloco="let resolveHeader; prefix: 'meteringPoint.chargeLinks.details.columns'"
             [resolveHeader]="resolveHeader"
             [columns]="columns"
             [dataSource]="dataSource"
@@ -77,18 +92,25 @@ import { WattButtonComponent } from '@energinet/watt/button';
   `,
 })
 export default class DhChargeLinkDetails {
+  private readonly modalService = inject(WattModalService);
   query = query(GetChargeLinkHistoryDocument, () => ({
     variables: { chargeLinkId: this.id(), meteringPointId: this.meteringPointId() },
   }));
-  protected dataSource = dataSource(() => this.chargeLinkWithHistory()?.history || []);
+  dataSource = dataSource(() => this.chargeLinkWithHistory()?.history || []);
   chargeLinkWithHistory = computed(() => this.query.data()?.chargeLinkById);
   navigation = inject(DhNavigationService);
   id = input.required<string>();
   meteringPointId = input.required<string>();
 
-  protected columns = {
+  columns = {
     submittedAt: { accessor: (row) => row.submittedAt },
     description: { accessor: (row) => row.description },
     menu: { accessor: null, header: '' },
   } satisfies WattTableColumnDef<History>;
+
+  edit() {
+    this.modalService.open({
+      component: DhMeteringPointEditChargeLink,
+    });
+  }
 }

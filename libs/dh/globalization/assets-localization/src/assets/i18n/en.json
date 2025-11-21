@@ -676,7 +676,17 @@
           "description": "Description"
         },
         "copyMessage": "Copy message ID",
-        "navigateToMessage": "Go to message"
+        "navigateToMessage": "Go to message",
+        "edit": "Edit change link",
+        "stop": "Stop change link",
+        "cancel": "Cancel change link"
+      },
+      "edit": {
+        "title": "Edit charge link",
+        "factor": "Quantity",
+        "startDate": "Start date",
+        "save": "Save changes",
+        "close": "Close"
       }
     },
     "processOverview": {
