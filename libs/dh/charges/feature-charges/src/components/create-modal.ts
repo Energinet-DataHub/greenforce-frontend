@@ -166,8 +166,8 @@ import { WattFieldComponent } from '@energinet/watt/field';
     </watt-modal>
   `,
 })
-export class DhChargeCreateModal {
   type = signal<ChargeType>('TARIFF');
+export default class DhChargeCreateModal {
   navigate = injectRelativeNavigate();
   dailyResolution: ChargeResolution = 'daily';
   hourlyResolution: ChargeResolution = 'hourly';

@@ -32,7 +32,7 @@ export const chargeRoutes: Routes = [
     children: [
       {
         path: 'create',
-        loadComponent: () => import('./components/create-modal').then((m) => m.DhChargeCreateModal),
+        loadComponent: () => import('./components/create-modal'),
       },
     ],
   },
