@@ -423,7 +423,8 @@
       "action": {
         "SUBSCRIPTION": "Create subscription",
         "FEE": "Create fee",
-        "TARIFF": "Create tariff"
+        "TARIFF": "Create tariff",
+        "SELECTION": "Create charge"
       },
       "close": "Close",
       "form": {

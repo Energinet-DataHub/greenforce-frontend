@@ -424,7 +424,8 @@
       "action": {
         "SUBSCRIPTION": "Opret abonnement",
         "FEE": "Opret gebyr",
-        "TARIFF": "Opret tarif"
+        "TARIFF": "Opret tarif",
+        "SELECTION": "Opret pris"
       },
       "close": "Luk",
       "form": {
