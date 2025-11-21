@@ -34,9 +34,10 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetChargeLinkHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { History } from '../types';
-import { DhMeteringPointEditChargeLink } from './edit';
+
 import { DhMeteringPointStopChargeLink } from './stop';
-// import { DhMeteringPointCancelChargeLink } from './cancel';
+import { DhMeteringPointEditChargeLink } from './edit';
+import { DhMeteringPointCancelChargeLink } from './cancel';
 
 @Component({
   selector: 'dh-charge-link-details',
@@ -70,7 +71,7 @@ import { DhMeteringPointStopChargeLink } from './stop';
           <watt-menu #actions>
             <watt-menu-item (click)="edit()">{{ t('edit') }}</watt-menu-item>
             <watt-menu-item (click)="stop()">{{ t('stop') }}</watt-menu-item>
-            <watt-menu-item>{{ t('cancel') }}</watt-menu-item>
+            <watt-menu-item (click)="cancel()">{{ t('cancel') }}</watt-menu-item>
           </watt-menu>
         </vater-stack>
       </watt-drawer-heading>
@@ -119,6 +120,12 @@ export default class DhChargeLinkDetails {
   edit() {
     this.modalService.open({
       component: DhMeteringPointEditChargeLink,
+    });
+  }
+
+  cancel() {
+    this.modalService.open({
+      component: DhMeteringPointCancelChargeLink,
     });
   }
 
