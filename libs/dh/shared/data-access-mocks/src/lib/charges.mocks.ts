@@ -18,22 +18,26 @@
 //#endregion
 import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
+
 import {
   mockGetChargesQuery,
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
-  mockGetChargeLinksByMeteringPointIdQuery,
+  mockGetChargeByTypeQuery,
   mockGetChargeLinkHistoryQuery,
+  mockGetChargeLinksByMeteringPointIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+
 import {
   Charge,
+  ChargeType,
   ChargeLink,
-  ChargeResolution,
   ChargeSeries,
   ChargeStatus,
-  ChargeType,
+  ChargeResolution,
   MarketParticipant,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { dayjs, WattRange } from '@energinet/watt/core/date';
 
 const chargeLinks: ChargeLink[] = [
@@ -582,12 +586,32 @@ function getChargeLinkById() {
   });
 }
 
+function getChargesByType() {
+  return mockGetChargeByTypeQuery(async ({ variables: { type } }) => {
+    await delay(mswConfig.delay);
+    const charges = makeChargesMock();
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargesByType: charges
+          .filter((charge) => charge.type === type)
+          .map((charge) => ({
+            __typename: 'Charge',
+            value: charge.id,
+            displayValue: charge.displayName,
+          })),
+      },
+    });
+  });
+}
+
 export function chargesMocks() {
   return [
     getCharges(),
     getChargeById(),
     getChargeSeries(),
-    getChargesByMeteringPointId(),
+    getChargesByType(),
     getChargeLinkById(),
+    getChargesByMeteringPointId(),
   ];
 }

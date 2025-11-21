@@ -579,7 +579,8 @@
       "actions": {
         "actionsButton": "Actions",
         "upload": "Upload measurements",
-        "moveIn": "Customer move-in"
+        "moveIn": "Customer move-in",
+        "createChargeLink": "Attach price"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -654,7 +655,7 @@
     "selectedRelatedMeteringPoint": "Selected",
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
-    "charges": {
+    "chargeLinks": {
       "columns": {
         "type": "Type",
         "id": "ID",
@@ -675,7 +676,29 @@
           "description": "Description"
         },
         "copyMessage": "Copy message ID",
-        "navigateToMessage": "Go to message"
+        "navigateToMessage": "Go to message",
+        "edit": "Edit change link",
+        "stop": "Stop change link",
+        "cancel": "Cancel change link"
+      },
+      "edit": {
+        "title": "Edit charge link",
+        "factor": "Quantity",
+        "startDate": "Start date",
+        "save": "Save changes",
+        "close": "Close"
+      },
+      "cancel": {
+        "title": "Cancel price link?",
+        "cancelWarning": "This action cannot be undone",
+        "cancel": "Cancel price link",
+        "close": "Close"
+      },
+      "stop": {
+        "title": "Stop price link",
+        "stopDate": "Stop date",
+        "save": "Save changes",
+        "close": "Close"
       }
     },
     "processOverview": {
@@ -815,6 +838,23 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "createChargeLink": {
+      "title": "Attach price",
+      "close": "Close",
+      "back": "Back",
+      "actions": {
+        "SUBSCRIPTION": "Attach subscription",
+        "TARIFF": "Attach tariff",
+        "FEE": "Attach fee"
+      },
+      "chargeTypes": {
+        "TARIFF": "Tariff",
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee"
+      },
+      "startDate": "Start date",
+      "factor": "Quality"
     },
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
