@@ -159,6 +159,7 @@
       "SE": "Sverige",
       "NO": "Norge",
       "FI": "Finland",
+      "GB": "Storbritannien",
       "DE": "Tyskland",
       "PL": "Polen",
       "NL": "Holland",
@@ -352,8 +353,8 @@
     "ENERGY_REACTIVE": "Reaktiv energi"
   },
   "resolution": {
-    "PT15M": "15 min",
-    "PT1H": "60 min",
+    "PT15M": "Kvarter",
+    "PT1H": "Time",
     "P1D": "Pr. dag",
     "P1M": "Pr. måned",
     "P1Y": "Pr. år",
@@ -371,11 +372,11 @@
       "TARIFF": "Tarif"
     },
     "resolutions": {
-      "Daily": "Daglig",
-      "QuarterHourly": "Kvartalsvis",
-      "Hourly": "Timevis",
-      "Monthly": "Månedlig",
-      "Unknown": "Ukendt"
+      "daily": "Dag",
+      "quarterhourly": "Kvarter",
+      "hourly": "Time",
+      "monthly": "Måned",
+      "unknown": "Ukendt"
     },
     "vatClassifications": {
       "NO_VAT": "Uden moms",
@@ -432,23 +433,58 @@
       "actions": {
         "actionsButton": "Handlinger"
       },
-      "breadcrumb": "Priser",
-      "priceInformation": {
-        "name": "Navn",
-        "description": "Beskrivelse",
-        "vatClassification": "Moms",
-        "transparentInvoicing": "Viderefakturering",
-        "current": "Aktuel",
-        "history": {
-          "table": {
-            "columns": {
-              "timestamp": "Tidsstempel",
-              "entry": "Ændring"
-            }
-          },
-          "auditLogs": {
-            "Sample entry": "Dette er en sample {{ entry }}"
+      "breadcrumb": "Priser"
+    },
+    "priceInformation": {
+      "name": "Navn",
+      "description": "Beskrivelse",
+      "vatClassification": "Moms",
+      "transparentInvoicing": "Viderefakturering",
+      "current": "Aktuel",
+      "history": {
+        "table": {
+          "columns": {
+            "timestamp": "Tidsstempel",
+            "entry": "Ændring"
           }
+        },
+        "auditLogs": {
+          "Sample entry": "Dette er en sample {{ entry }}"
+        }
+      }
+    },
+    "series": {
+      "showHistory": "Vis historik",
+      "resolution": {
+        "quarterhourly": "Tidspunkt",
+        "hourly": "Tidspunkt",
+        "daily": "Dato",
+        "monthly": "Måned",
+        "unknown": "Dato"
+      },
+      "columns": {
+        "price": "Aktuel pris",
+        "tooltip": "● Har ændrede værdier"
+      },
+      "details": {
+        "current": "Aktuel",
+        "columns": {
+          "price": "Pris",
+          "time": "Indsendt"
+        },
+        "copyMessage": "Kopier besked-ID",
+        "navigateToMessage": "Gå til besked"
+      },
+      "csv": {
+        "fileName": "DataHub priser - {{ shared.downloadNameParams }}",
+        "columns": {
+          "owner": "Ejer",
+          "gln": "GLN",
+          "type": "Type",
+          "id": "Id",
+          "resolution": "Tidsopløsning",
+          "from": "Fra",
+          "to": "Til"
         }
       }
     }
@@ -457,6 +493,7 @@
     "breadcrumb": "Søg målepunkt",
     "search": {
       "placeholder": "Søg på Målepunkts-ID",
+      "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
         "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
         "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
@@ -469,6 +506,9 @@
       },
       "processes": {
         "tabLabel": "Procesoverblik"
+      },
+      "chargelinks": {
+        "tabLabel": "Pristilknytninger"
       },
       "messages": {
         "tabLabel": "Beskeder"
@@ -540,7 +580,8 @@
       "actions": {
         "actionsButton": "Handlinger",
         "upload": "Upload måledata",
-        "moveIn": "Tilflyt kunde"
+        "moveIn": "Tilflyt kunde",
+        "createChargeLink": "Tilknyt pris"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -615,22 +656,69 @@
     "selectedRelatedMeteringPoint": "Valgt",
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
+    "chargeLinks": {
+      "columns": {
+        "type": "Type",
+        "id": "Id",
+        "name": "Navn",
+        "owner": "Ejer",
+        "amount": "Antal",
+        "period": "Periode",
+        "date": "Dato"
+      },
+      "navigation": {
+        "tariffAndSubscription": "Tarif og abonnement",
+        "fees": "Gebyr"
+      },
+      "chargeType": "Type",
+      "details": {
+        "columns": {
+          "submittedAt": "Indsendt",
+          "description": "Beskrivelse"
+        },
+        "copyMessage": "Kopier besked-ID",
+        "navigateToMessage": "Gå til besked",
+        "edit": "Rediger pristilknytning",
+        "stop": "Stop pristilknytning",
+        "cancel": "Annuller pristilknytning"
+      },
+      "edit": {
+        "title": "Rediger pristilknytning",
+        "factor": "Antal",
+        "startDate": "Skæringsdato",
+        "save": "Gem ændringer",
+        "close": "Luk"
+      }
+    },
     "processOverview": {
       "columns": {
         "createdAt": "Beskedtidspunkt",
-        "documentType": "Type",
+        "reasonCode": "Type",
         "state": "Status",
         "cutoffDate": "Skæringsdato",
         "initiator": "Initierende aktør",
         "actions": "Mulige handlinger"
+      },
+      "reasonCode": {
+        "EndOfSupply": "Leveranceophør (BRS-002)"
       },
       "filters": {
         "created": "Tidspunkt",
         "includeViews": "Inkluder visninger",
         "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
       },
+      "actions": {
+        "SEND_INFORMATION": "Send information",
+        "FAS_SEND_INFORMATION": "Net og el kan sende information",
+        "CANCEL_WORKFLOW": "Annuller workflow",
+        "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
+      },
       "steps": {
-        "REQUEST_END_OF_SUPPLY": "Anmod om leveranceophør (BRS-005)"
+        "RSM005_REQUEST": "Anmod om leveranceophør (RSM-005)",
+        "RSM005_CONFIRM": "Godkend anmod om leveranceophør (RSM-005)",
+        "RSM005_REJECT": "Afvis anmod om leveranceophør (RSM-005)",
+        "RSM020_REQUEST": "Anmodning om afbrydelse (RSM-020)",
+        "UNKNOWN": "Ukendt trin"
       },
       "details": {
         "list": {
@@ -641,7 +729,7 @@
         },
         "columns": {
           "step": "Trin",
-          "createdAt": "Beskedtidspkt.",
+          "completedAt": "Fuldført",
           "dueDate": "Forfaldsdato",
           "actor": "Aktør",
           "state": "Status"
@@ -740,6 +828,23 @@
         }
       }
     },
+    "createChargeLink": {
+      "title": "Tilknyt pris",
+      "close": "Luk",
+      "back": "Tilbage",
+      "actions": {
+        "SUBSCRIPTION": "Tilknyt abonnement",
+        "TARIFF": "Tilknyt tarif",
+        "FEE": "Tilknyt gebyr"
+      },
+      "chargeTypes": {
+        "TARIFF": "Tarif",
+        "SUBSCRIPTION": "Abonnement",
+        "FEE": "Gebyr"
+      },
+      "startDate": "Startdato",
+      "factor": "Antal"
+    },
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "steps": {
@@ -812,6 +917,63 @@
       },
       "success": "Tilflytning er nu registreret",
       "save": "Tilflyt kunde"
+    },
+    "create": {
+      "modal": {
+        "title": "Vælg type af målepunkt til oprettelse",
+        "label": "Målepunktstype",
+        "placeholder": "Indtast eller vælg",
+        "cancel": "Annuller",
+        "start": "Start"
+      },
+      "title": "Opret {{ type }} målepunkt",
+      "cancel": "Afbryd",
+      "create": "Opret målepunkt",
+      "details": {
+        "title": "Detaljer",
+        "validityDate": "Gyldighedsdato",
+        "status": "{{ meteringPoint.overview.details.meteringPointStatus }}",
+        "newlyCreated": "Nyoprettet",
+        "meteringPointId": "Målepunkts ID",
+        "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
+        "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
+        "powerLimitKw": "Effektgrænse kW",
+        "powerLimitAmpere": "Effektgrænse ampere",
+        "disconnectionType": "{{ meteringPoint.overview.details.disconnectionType }}",
+        "gridArea": "{{ meteringPoint.overview.details.gridArea }}"
+      },
+      "address": {
+        "title": "Adresse",
+        "actualNotActualLabel": "Faktisk adresse/Ikke faktisk adresse",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetName": "Vejnavn",
+        "buildingNumber": "Husnr.",
+        "floor": "Etage",
+        "room": "Dør",
+        "postCode": "Postnr.",
+        "cityName": "Bynavn",
+        "citySubDivisionName": "{{ meteringPoint.overview.shared.citySubDivisionName }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "commentLabel": "Målepunktsbemærkninger"
+      },
+      "powerPlant": {
+        "title": "Anlæg",
+        "netSettlementGroup": "Afregningsgruppe",
+        "capacity": "Anlægskapacitet",
+        "gsrnNumber": "Værks-GSRN",
+        "connectionType": "Tilslutningstype",
+        "assetType": "Anlægsteknologi"
+      },
+      "other": {
+        "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
+        "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
+        "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
+        "product": "Produkt ID"
+      }
     }
   },
   "messageArchive": {
@@ -1165,6 +1327,7 @@
           "SE": "Sverige",
           "NO": "Norge",
           "FI": "Finland",
+          "GB": "Storbritannien",
           "DE": "Tyskland"
         },
         "glnOrEicNumber": "GLN/EIC",
@@ -1207,6 +1370,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "actionsButton": "Handlinger",
       "fileName": "DataHub aktører - {{ shared.downloadNameParams }}",
       "create": "Ny aktør",
       "actors": "Aktører",

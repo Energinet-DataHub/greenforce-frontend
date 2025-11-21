@@ -32,7 +32,7 @@ label {
     border: 1px solid var(--watt-on-light-medium-emphasis);
   }
 
-  &:active:not(.disabled),
+  &:active:not(.disabled, .read-only),
   &:focus-within {
     background: var(--watt-color-primary-ultralight);
     border: 1px solid var(--watt-on-light-medium-emphasis);
@@ -59,6 +59,11 @@ label {
 
   &.read-only {
     cursor: inherit;
+    border: 1px solid var(--watt-on-light-surface-overlay);
+    &:hover,
+    &:focus-within {
+      background: transparent;
+    }
   }
 
   .selected-icon {

@@ -24,7 +24,7 @@ import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/dom
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhIsValidMeteringPointId } from '@energinet-datahub/dh/shared/ui-util';
 
-import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
+import { dhMeteringPointIdParam } from './dh-metering-point-params';
 
 export const dhCanActivateMeteringPointOverview: CanActivateFn = (
   route: ActivatedRouteSnapshot

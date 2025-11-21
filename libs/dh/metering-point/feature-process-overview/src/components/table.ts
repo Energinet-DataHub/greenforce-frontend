@@ -18,7 +18,7 @@
 //#endregion
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
+import { combineLatest, filter, map } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -28,6 +28,7 @@ import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/wa
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 import { GetMeteringPointProcessOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
@@ -35,6 +36,9 @@ import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataSource>;
 
@@ -47,10 +51,12 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
     VaterUtilityDirective,
     VaterStackComponent,
     WATT_TABLE,
+    WattButtonComponent,
     WattCheckboxComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattDateRangeChipComponent,
+    WattIconComponent,
     WattDatePipe,
     WattFormChipDirective,
     DhEmDashFallbackPipe,
@@ -59,7 +65,7 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
   providers: [DhNavigationService],
   template: `
     <watt-data-table
-      *transloco="let t; prefix: 'messageArchive'"
+      *transloco="let t; prefix: 'meteringPoint.processOverview'"
       vater
       inset="ml"
       [error]="dataSource.error"
@@ -79,9 +85,9 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
             {{ t('created') }}
           </watt-date-range-chip>
           <vater-stack direction="row" offset="ml" gap="l">
-            <watt-checkbox [formControl]="form.controls.includeViews">
+            <!--<watt-checkbox [formControl]="form.controls.includeViews">
               {{ t('includeViews') }}
-            </watt-checkbox>
+            </watt-checkbox>-->
             <watt-checkbox [formControl]="form.controls.includeMasterMeasurementAndPriceRequests">
               {{ t('includeMasterMeasurementAndPriceRequests') }}
             </watt-checkbox>
@@ -104,8 +110,8 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
         <ng-container *wattTableCell="columns.cutoffDate; let process">
           {{ process.cutoffDate | wattDate: 'long' }}
         </ng-container>
-        <ng-container *wattTableCell="columns.documentType; let process">
-          {{ t('documentType.' + process.documentType) }}
+        <ng-container *wattTableCell="columns.reasonCode; let process">
+          {{ t('reasonCode.' + process.reasonCode) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
           <dh-process-state-badge
@@ -118,6 +124,32 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
         <ng-container *wattTableCell="columns.initiator; let process">
           {{ process.initiator?.displayName | dhEmDashFallback }}
         </ng-container>
+        <ng-container *wattTableCell="columns.actions; let process">
+          @if (canPerformActions() || isFas()) {
+            <vater-stack
+              direction="row"
+              gap="s"
+              *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
+            >
+              @for (action of process.availableActions; track action) {
+                @if (canPerformActions()) {
+                  <watt-button
+                    variant="secondary"
+                    (click)="onActionClick($event, process.id, action)"
+                    size="small"
+                  >
+                    {{ t(action) }}
+                  </watt-button>
+                } @else if (isFas()) {
+                  <vater-stack direction="row" gap="xs">
+                    <watt-icon name="warning" size="s" />
+                    <span>{{ t('FAS_' + action) }}</span>
+                  </vater-stack>
+                }
+              }
+            </vater-stack>
+          }
+        </ng-container>
       </watt-table>
     </watt-data-table>
     <router-outlet />
@@ -127,6 +159,16 @@ export class DhMeteringPointProcessOverviewTable {
   readonly meteringPointId = input.required<string>();
   readonly id = input<string>();
   protected navigation = inject(DhNavigationService);
+  private readonly permissionService = inject(PermissionService);
+
+  protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
+  protected canPerformActions = toSignal(
+    combineLatest([
+      this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
+      this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
+    ]).pipe(map(([isNet, isEl]) => isNet || isEl)),
+    { initialValue: false }
+  );
 
   initialDateRange = {
     start: dayjs().subtract(7, 'days').startOf('day').toDate(),
@@ -143,7 +185,7 @@ export class DhMeteringPointProcessOverviewTable {
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
     cutoffDate: { accessor: 'cutoffDate' },
-    documentType: { accessor: 'documentType' },
+    reasonCode: { accessor: 'reasonCode' },
     state: { accessor: 'state' },
     initiator: { accessor: 'initiator' },
     actions: { accessor: null },
@@ -159,4 +201,10 @@ export class DhMeteringPointProcessOverviewTable {
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
   variables = computed(() => ({ ...this.filters(), meteringPointId: this.meteringPointId() }));
   refetch = effect(() => this.dataSource.refetch(this.variables()));
+
+  onActionClick(event: Event, processId: string, action: string) {
+    event.stopPropagation();
+    console.log('Action clicked:', action, 'for process:', processId);
+    // TODO: Implement action handling logic
+  }
 }

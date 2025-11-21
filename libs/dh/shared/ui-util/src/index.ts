@@ -16,10 +16,12 @@
  * limitations under the License.
  */
 //#endregion
+export * from './lib/dh-circle';
 export * from './lib/dh-em-dash-fallback.pipe';
 export * from './lib/em-dash';
 export * from './lib/dh-form-control-error-to-signal';
 export * from './lib/dh-form-control-to-signal';
+export * from './lib/dh-form-to-signal';
 export * from './lib/dh-form-errors-warnings-only';
 export * from './lib/dh-make-form-control';
 export * from './lib/set-control-required';

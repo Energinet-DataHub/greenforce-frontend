@@ -23,3 +23,6 @@ export { WattFlagGermanyComponent } from './watt-flag-de';
 export { WattFlagNorwayComponent } from './watt-flag-no';
 export { WattFlagPolandComponent } from './watt-flag-pl';
 export { WattFlagSwedenComponent } from './watt-flag-se';
+export { WattFlagUnitedKingdomComponent } from './watt-flag-gb';
+export { WattFlagNetherlandsComponent } from './watt-flag-nl';
+export { WattFlagSwitzerlandComponent } from './watt-flag-ch';

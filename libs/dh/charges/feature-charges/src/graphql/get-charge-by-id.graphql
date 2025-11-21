@@ -1,11 +1,5 @@
-query GetChargeById($id: UUID!) {
+query GetChargeById($id: String!) {
   chargeById(id: $id) {
-    id
-    status
-    code
-    name
-    chargeType
-    owner
-    resolution
+    ...ChargeFields
   }
 }

@@ -1,6 +1,0 @@
-query GetChargeResolution($id: UUID!) {
-  chargeById(id: $id) {
-    id
-    resolution
-  }
-}

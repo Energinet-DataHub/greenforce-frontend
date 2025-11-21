@@ -21,6 +21,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { WattModalService } from '@energinet/watt/modal';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhUsersComponent } from './table/table.component';
 import { DhInviteUserComponent } from './invite/invite.component';
@@ -38,12 +39,14 @@ import { DhInviteUserComponent } from './invite/invite.component';
 export class DhUserManagementComponent {
   private readonly modalService = inject(WattModalService);
   private readonly navigationService = inject(DhNavigationService);
+  private readonly appInsights = inject(DhApplicationInsights);
 
   navigate(id: string) {
     this.navigationService.navigate('details', id);
   }
 
   invite() {
+    this.appInsights.trackEvent('Button: Invite user');
     this.modalService.open({ component: DhInviteUserComponent });
   }
 }

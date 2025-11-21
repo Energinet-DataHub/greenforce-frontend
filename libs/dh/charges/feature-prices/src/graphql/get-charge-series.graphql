@@ -1,10 +1,16 @@
-query GetChargeSeries($chargeId: UUID!, $interval: DateRange!) {
-  chargeSeries(chargeId: $chargeId, interval: $interval) {
-    totalAmount
-    points {
+query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
+  chargeById(id: $chargeId) {
+    ...ChargeFields
+    series(interval: $interval) {
+      period
       price
-      fromDateTime
-      toDateTime
+      hasChanged
+      points {
+        isCurrent
+        price
+        fromDateTime
+        toDateTime
+      }
     }
   }
 }

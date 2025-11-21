@@ -1,0 +1,143 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import { Component } from '@angular/core';
+import {
+  TranslocoDirective,
+  // TranslocoPipe
+} from '@jsverse/transloco';
+
+import {
+  // VatClassification,
+  Charge,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattBadgeComponent } from '@energinet/watt/badge';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { dayjs, WattDatePipe, WattRange } from '@energinet/watt/date';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+
+@Component({
+  selector: 'dh-price-information',
+  imports: [
+    // TranslocoPipe,
+    TranslocoDirective,
+    VaterStackComponent,
+
+    WATT_CARD,
+    WattDatePipe,
+    WattBadgeComponent,
+    WATT_DESCRIPTION_LIST,
+  ],
+  styles: `
+    @use '@energinet/watt/utils' as watt;
+    :host {
+      @include watt.media('>=Large') {
+        watt-card {
+          width: 75%;
+        }
+      }
+    }
+  `,
+  template: `
+    <vater-stack
+      gap="m"
+      align="start"
+      inset="ml"
+      *transloco="let t; prefix: 'charges.priceInformation'"
+    >
+      @for (charge of chargeInformations; track charge.id) {
+        <watt-card>
+          <watt-card-title>
+            <vater-stack gap="m" align="center" direction="row">
+              <h3>
+                @if (charge.validTo && charge.validFrom) {
+                  {{ dateRange(charge.validFrom, charge.validTo) | wattDate }}
+                } @else {
+                  {{ charge.validFrom | wattDate }}
+                }
+              </h3>
+              @if (charge.validTo && isCurrent(charge.validFrom, charge.validTo)) {
+                <watt-badge type="success">{{ t('current') }}</watt-badge>
+              }
+            </vater-stack>
+          </watt-card-title>
+          <watt-description-list variant="compact" [itemSeparators]="false">
+            <watt-description-list-item [label]="t('name')">
+              {{ charge.name }}
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('description')">
+              {{ charge.description }}
+            </watt-description-list-item>
+            <!-- <watt-description-list-item [label]="t('vatClassification')">
+              {{ 'charges.vatClassifications.' + charge.vatClassification | transloco }}
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('transparentInvoicing')">
+              {{ charge.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
+            </watt-description-list-item> -->
+          </watt-description-list>
+        </watt-card>
+      }
+    </vater-stack>
+  `,
+})
+export class DhPriceInformation {
+  chargeInformations: Partial<Charge>[] = [
+    {
+      id: '2',
+      name: 'Charge 2',
+      description:
+        'En længere beskrivelse, der også kan fylde to linjer, eller måske endda endnu mere end to linjer.',
+      // vatClassification: VatClassification.Vat25,
+      // transparentInvoicing: false,
+      validFrom: dayjs().subtract(1, 'year').toDate(),
+      validTo: undefined,
+    },
+    {
+      id: '1',
+      name: 'Charge 1',
+      description:
+        'En længere beskrivelse, der også kan fylde to linjer, eller måske endda endnu mere end to linjer.',
+      // vatClassification: VatClassification.NoVat,
+      // transparentInvoicing: true,
+      validFrom: dayjs().subtract(2, 'year').toDate(),
+      validTo: dayjs().add(1, 'year').toDate(),
+    },
+    {
+      id: '3',
+      name: 'Charge 3',
+      description:
+        'En længere beskrivelse, der også kan fylde to linjer, eller måske endda endnu mere end to linjer.',
+      // vatClassification: VatClassification.Vat25,
+      // transparentInvoicing: false,
+      validFrom: dayjs().subtract(2, 'year').toDate(),
+      validTo: dayjs().subtract(1, 'year').toDate(),
+    },
+  ];
+
+  isCurrent(from: Date | undefined, to: Date | undefined) {
+    const now = new Date();
+    if (!from || !to) return false;
+    return from <= now && to >= now;
+  }
+
+  dateRange(start: Date, end: Date): WattRange<Date> {
+    return { start, end: end };
+  }
+}

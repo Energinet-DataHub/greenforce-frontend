@@ -64,39 +64,29 @@ export class DhNavigationService {
   ) {
     this._id.set(id?.toString());
 
-    if (path === 'edit') {
-      this.router.navigate(['details', id, 'edit'], {
-        queryParamsHandling: 'preserve',
-        relativeTo: this.route,
-      });
+    let navigate = [];
+
+    switch (path) {
+      case 'edit':
+        navigate = ['details', id?.toString(), 'edit', ...args];
+        break;
+      case 'id':
+        navigate = [id?.toString(), ...args];
+        break;
+      case 'create':
+        navigate = ['create'];
+        break;
+      case 'list':
+        navigate = ['.'];
+        break;
+      case 'details':
+        navigate = ['details', id?.toString(), ...args];
+        break;
     }
 
-    if (path === 'id') {
-      this.router.navigate([id, ...args], {
-        queryParamsHandling: 'preserve',
-        relativeTo: this.route,
-      });
-    }
-
-    if (path === 'create') {
-      this.router.navigate(['create'], {
-        queryParamsHandling: 'preserve',
-        relativeTo: this.route,
-      });
-    }
-
-    if (path === 'list') {
-      this.router.navigate(['.'], {
-        queryParamsHandling: 'preserve',
-        relativeTo: this.route,
-      });
-    }
-
-    if (path === 'details') {
-      this.router.navigate([path, id, ...args], {
-        queryParamsHandling: 'preserve',
-        relativeTo: this.route,
-      });
-    }
+    this.router.navigate(navigate, {
+      queryParamsHandling: 'preserve',
+      relativeTo: this.route,
+    });
   }
 }

@@ -80,10 +80,10 @@ limitations under the License.
           [disabled]="!column.value.accessor || column.value.sort === false"
         >
           {{ getColumnHeader(column) }}
+          @if (column.value.tooltip; as tooltip) {
+            <watt-icon [title]="tooltip" name="info" state="default" />
+          }
         </div>
-        @if (column.value.tooltip; as tooltip) {
-          <watt-icon [title]="tooltip" name="info" />
-        }
       </th>
 
       <td
@@ -101,7 +101,7 @@ limitations under the License.
           @defer (when !column.value.expandable || expanded().includes(row)) {
             @if (getColumnTemplate(column.value); as template) {
               <div class="watt-table-cell-wrapper">
-                <ng-container *ngTemplateOutlet="template; context: { $implicit: row }" />
+                <ng-container *ngTemplateOutlet="template; context: { $implicit: row, index }" />
               </div>
             } @else {
               {{ getColumnCell(column.value, row) }}
@@ -110,7 +110,7 @@ limitations under the License.
         } @else {
           @if (getColumnTemplate(column.value); as template) {
             <div class="watt-table-cell-wrapper">
-              <ng-container *ngTemplateOutlet="template; context: { $implicit: row }" />
+              <ng-container *ngTemplateOutlet="template; context: { $implicit: row, index }" />
             </div>
           } @else {
             {{ getColumnCell(column.value, row) }}

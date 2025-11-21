@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.OrchestrationInstance.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;

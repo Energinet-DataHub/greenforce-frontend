@@ -25,6 +25,7 @@ import {
   input,
   model,
   signal,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -48,6 +49,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
       [value]="value()"
       [disabled]="isDisabled()"
       [required]="required()"
+      [attr.maxlength]="maxLength()"
       (input)="onInput($event)"
     ></textarea>
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
@@ -63,7 +65,9 @@ export class WattTextAreaFieldComponent implements ControlValueAccessor {
   formControl = input.required<FormControl>();
   placeholder = input<string>();
   required = input(false);
+  maxLength = input<string | number | null>(null);
   label = input<string>();
+  small = input(false, { transform: booleanAttribute });
 
   onInput(event: Event) {
     const target = event.target as HTMLTextAreaElement;

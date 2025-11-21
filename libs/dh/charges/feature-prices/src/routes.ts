@@ -20,53 +20,22 @@ import { Routes } from '@angular/router';
 import { ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { seriesRedirect } from './series-redirect';
 
 export const chargeSeriesRoutes: Routes = [
   {
-    path: getPath<ChargesSubPaths>('prices'),
-    pathMatch: 'full',
-    redirectTo: seriesRedirect,
-  },
-  {
-    path: getPath<ChargesSubPaths>('prices'),
+    path: `${getPath<ChargesSubPaths>('prices')}/:resolution`,
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
     loadComponent: () => import('./components/series/page').then((m) => m.DhChargeSeriesPage),
-    children: [
-      {
-        path: 'day',
-        loadComponent: () =>
-          import('./components/series/tables/day').then((m) => m.DhChargeSeriesDay),
-      },
-      {
-        path: 'week',
-        loadComponent: () =>
-          import('./components/series/tables/week').then((m) => m.DhChargeSeriesWeek),
-      },
-      {
-        path: 'month',
-        loadComponent: () =>
-          import('./components/series/tables/month').then((m) => m.DhChargeSeriesMonth),
-      },
-      {
-        path: 'year',
-        loadComponent: () =>
-          import('./components/series/tables/year').then((m) => m.DhChargeSeriesYear),
-      },
-    ],
   },
   {
     path: getPath<ChargesSubPaths>('information'),
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
-    loadComponent: () =>
-      import('./components/information.component').then((m) => m.DhPriceInformationComponent),
+    loadComponent: () => import('./components/information').then((m) => m.DhPriceInformation),
   },
   {
     path: getPath<ChargesSubPaths>('history'),
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
     loadComponent: () =>
-      import('./components/information-history.component').then(
-        (m) => m.DhPriceInformationHistoryComponent
-      ),
+      import('./components/information-history').then((m) => m.DhPriceInformationHistory),
   },
 ];
