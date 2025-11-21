@@ -40,6 +40,8 @@ function getReleaseTogglesQuery() {
           'PM58-PRICES-UI',
           'PM116-PROCESSOVERVIEW',
           'PM52-CREATE-METERING-POINT-UI',
+          'PM58-PRICES-UI',
+          'PM60-CHARGE-LINKS-UI',
         ],
       },
     });
