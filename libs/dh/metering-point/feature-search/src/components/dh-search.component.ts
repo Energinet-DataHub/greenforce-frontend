@@ -34,7 +34,7 @@ import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
-import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
@@ -138,7 +138,7 @@ export class DhSearchComponent {
   private readonly router = inject(Router);
   private readonly modalService = inject(WattModalService);
 
-  private readonly doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
+  private readonly doesMeteringPointExist = lazyQuery(DoesInternalMeteringPointIdExistDocument);
   protected submitted = signal(false);
 
   searchControl = new FormControl('', {
@@ -188,6 +188,6 @@ export class DhSearchComponent {
       return this.meteringPointNotFound.set(true);
     }
 
-    this.router.navigate(['/', getPath('metering-point'), result.data.meteringPoint.id]);
+    this.router.navigate(['/', getPath('metering-point'), result.data.meteringPointExists.id]);
   }
 }

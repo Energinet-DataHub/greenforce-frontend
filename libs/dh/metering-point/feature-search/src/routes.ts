@@ -260,6 +260,6 @@ function internalIdToMeteringPointIdResolver(): ResolveFn<string> {
       variables: { internalMeteringPointId: idParam },
     })
       .result()
-      .then((result) => result.data.meteringPointExists.identification);
+      .then((result) => result.data.meteringPointExists.meteringPointId);
   };
 }

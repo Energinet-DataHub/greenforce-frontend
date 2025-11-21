@@ -855,6 +855,11 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
+type MeteringPointBasicDto {
+  id: Long!
+  meteringPointId: String!
+}
+
 type MeteringPointDto {
   meteringPointId: String!
   isChild: Boolean!
@@ -1178,7 +1183,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
-  meteringPointExists(internalMeteringPointId: Long!): MeteringPointIdentificationDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPointExists(internalMeteringPointId: Long meteringPointId: String): MeteringPointBasicDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment

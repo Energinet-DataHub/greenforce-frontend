@@ -536,21 +536,35 @@ function doesMeteringPointExist() {
 
 function doesInternalMeteringPointIdExist() {
   return mockDoesInternalMeteringPointIdExistQuery(
-    async ({ variables: { internalMeteringPointId } }) => {
+    async ({ variables: { internalMeteringPointId, meteringPointId } }) => {
       await delay(mswConfig.delay);
 
-      const mpIdentifications = {
+      const MPs = {
         [parentMeteringPoint.id]: parentMeteringPoint.identification,
         [childMeteringPoint.id]: childMeteringPoint.identification,
       };
 
-      if (Object.keys(mpIdentifications).includes(internalMeteringPointId)) {
+      const params: any = {};
+
+      if (internalMeteringPointId) {
+        params['id'] = Object.keys(MPs).includes(internalMeteringPointId)
+          ? internalMeteringPointId
+          : undefined;
+        params['meteringPointId'] = MPs[internalMeteringPointId];
+      } else if (meteringPointId) {
+        params['id'] = mockMPs[meteringPointId]?.id;
+        params['meteringPointId'] = mockMPs[meteringPointId]?.meteringPointId;
+      }
+      console.log('params', params);
+
+      if (params['id'] && params['meteringPointId']) {
         return HttpResponse.json({
           data: {
             __typename: 'Query',
             meteringPointExists: {
-              __typename: 'MeteringPointIdentificationDto',
-              identification: mpIdentifications[internalMeteringPointId],
+              __typename: 'MeteringPointBasicDto',
+              id: params['id'],
+              meteringPointId: params['meteringPointId'],
             },
           },
         });

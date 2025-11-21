@@ -17,6 +17,7 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRe
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using HotChocolate.Authorization;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
@@ -105,11 +106,37 @@ public static partial class MeteringPointNode
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<MeteringPointIdentificationDto> GetMeteringPointExistsAsync(
-            long internalMeteringPointId,
+    public static async Task<MeteringPointBasicDto> GetMeteringPointExistsAsync(
+            long? internalMeteringPointId,
+            string? meteringPointId,
             CancellationToken ct,
-            [Service] IElectricityMarketClient_V1 client) =>
-                await client.MeteringPointExistsAsync(internalMeteringPointId, ct).ConfigureAwait(false);
+            [Service] IElectricityMarketClient_V1 client,
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] IRequestAuthorization requestAuthorization,
+            [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
+    {
+            if (internalMeteringPointId.HasValue)
+            {
+                var result = await client.MeteringPointExistsAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
+
+                return new MeteringPointBasicDto(
+                    Id: internalMeteringPointId.Value,
+                    MeteringPointId: result.Identification);
+            }
+
+            ArgumentNullException.ThrowIfNull(meteringPointId);
+
+            var meteringPoint = await GetMeteringPointAsync(
+                meteringPointId,
+                ct,
+                httpContextAccessor,
+                requestAuthorization,
+                authorizedHttpClientFactory);
+
+            return new MeteringPointBasicDto(
+                Id: meteringPoint.Id,
+                MeteringPointId: meteringPoint.Identification);
+    }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
