@@ -384,6 +384,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
+        "createButton": "Create charge",
         "columns": {
           "code": "ID",
           "type": "Type",

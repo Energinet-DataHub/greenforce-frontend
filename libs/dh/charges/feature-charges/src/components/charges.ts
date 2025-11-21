@@ -78,7 +78,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
           <vater-spacer />
           <watt-button variant="secondary" routerLink="create">
             <watt-icon name="plus" />
-            Opret pris
+            {{ t('createButton') }}
           </watt-button>
         </vater-stack>
       </watt-data-filters>
