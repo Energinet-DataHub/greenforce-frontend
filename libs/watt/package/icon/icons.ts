@@ -69,10 +69,10 @@ export const WattIconMap = {
   feedback: 'feedback',
   // Files
   save: 'save_alt',
-  upload: 'cloud_upload',
-  download: 'cloud_download',
+  upload: 'publish',
+  download: 'save_alt',
   fileDownload: 'download',
-  fileUpload: 'upload',
+  fileUpload: 'publish',
   print: 'print',
   preview: 'preview',
   // Other
