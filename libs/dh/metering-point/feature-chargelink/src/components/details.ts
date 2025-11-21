@@ -17,28 +17,41 @@
  */
 //#endregion
 import { Component, computed, inject, input } from '@angular/core';
-import { GetChargeLinkHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { WATT_DRAWER } from '@energinet/watt/drawer';
-import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+
 import { TranslocoDirective } from '@jsverse/transloco';
-import { History } from '../types';
+
 import { WATT_MENU } from '@energinet/watt/menu';
-import { WattDataTableComponent } from '@energinet/watt/data';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/core/date';
+import { WattModalService } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDataTableComponent } from '@energinet/watt/data';
+import { VaterStackComponent, VaterSpacerComponent } from '@energinet/watt/vater';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { GetChargeLinkHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { History } from '../types';
+import { DhMeteringPointEditChargeLink } from './edit';
+import { DhMeteringPointStopChargeLink } from './stop';
+// import { DhMeteringPointCancelChargeLink } from './cancel';
 
 @Component({
   selector: 'dh-charge-link-details',
   imports: [
-    WATT_DRAWER,
-    WATT_TABLE,
-    WATT_MENU,
-    WattDatePipe,
-    WattDataTableComponent,
-    WattButtonComponent,
     TranslocoDirective,
+
+    WATT_MENU,
+    WATT_TABLE,
+    WATT_DRAWER,
+    WattDatePipe,
+    WattButtonComponent,
+    WattDataTableComponent,
+
+    VaterStackComponent,
+    VaterSpacerComponent,
   ],
   template: `
     <watt-drawer
@@ -46,16 +59,26 @@ import { WattButtonComponent } from '@energinet/watt/button';
       [loading]="query.loading()"
       size="small"
       [key]="id()"
-      *transloco="let t; prefix: 'meteringPoint.charges.details'"
+      *transloco="let t; prefix: 'meteringPoint.chargeLinks.details'"
       (closed)="navigation.navigate('list')"
     >
-      <watt-drawer-heading
-        ><h1>{{ chargeLinkWithHistory()?.displayName }}</h1></watt-drawer-heading
-      >
+      <watt-drawer-heading>
+        <vater-stack direction="row">
+          <h1>{{ chargeLinkWithHistory()?.displayName }}</h1>
+          <vater-spacer />
+          <watt-button variant="icon" [wattMenuTriggerFor]="actions" icon="moreVertical" />
+          <watt-menu #actions>
+            <watt-menu-item (click)="edit()">{{ t('edit') }}</watt-menu-item>
+            <watt-menu-item (click)="stop()">{{ t('stop') }}</watt-menu-item>
+            <watt-menu-item>{{ t('cancel') }}</watt-menu-item>
+          </watt-menu>
+        </vater-stack>
+      </watt-drawer-heading>
+
       <watt-drawer-content>
         <watt-data-table [autoSize]="true" [header]="false" [enablePaginator]="false">
           <watt-table
-            *transloco="let resolveHeader; prefix: 'meteringPoint.charges.details.columns'"
+            *transloco="let resolveHeader; prefix: 'meteringPoint.chargeLinks.details.columns'"
             [resolveHeader]="resolveHeader"
             [columns]="columns"
             [dataSource]="dataSource"
@@ -77,18 +100,31 @@ import { WattButtonComponent } from '@energinet/watt/button';
   `,
 })
 export default class DhChargeLinkDetails {
+  private readonly modalService = inject(WattModalService);
   query = query(GetChargeLinkHistoryDocument, () => ({
     variables: { chargeLinkId: this.id(), meteringPointId: this.meteringPointId() },
   }));
-  protected dataSource = dataSource(() => this.chargeLinkWithHistory()?.history || []);
+  dataSource = dataSource(() => this.chargeLinkWithHistory()?.history || []);
   chargeLinkWithHistory = computed(() => this.query.data()?.chargeLinkById);
   navigation = inject(DhNavigationService);
   id = input.required<string>();
   meteringPointId = input.required<string>();
 
-  protected columns = {
+  columns = {
     submittedAt: { accessor: (row) => row.submittedAt },
     description: { accessor: (row) => row.description },
     menu: { accessor: null, header: '' },
   } satisfies WattTableColumnDef<History>;
+
+  edit() {
+    this.modalService.open({
+      component: DhMeteringPointEditChargeLink,
+    });
+  }
+
+  stop() {
+    this.modalService.open({
+      component: DhMeteringPointStopChargeLink,
+    });
+  }
 }

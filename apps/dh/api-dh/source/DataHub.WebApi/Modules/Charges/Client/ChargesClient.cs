@@ -14,13 +14,19 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using NodaTime;
+using Markpart = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
-public class ChargesClient(Energinet.DataHub.Charges.Client.IChargesClient client) : IChargesClient
+public class ChargesClient(
+    Energinet.DataHub.Charges.Client.IChargesClient client,
+    Markpart.IMarketParticipantClient_V1 marketParticipantClient_V1,
+    IHttpContextAccessor httpContext) : IChargesClient
 {
     public async Task<IEnumerable<ChargeInformationDto>> GetChargesAsync(
         int skip,
@@ -66,6 +72,31 @@ public class ChargesClient(Energinet.DataHub.Charges.Client.IChargesClient clien
             ct);
 
         return result.Value?.FirstOrDefault();
+    }
+
+    public async Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAsync(
+       ChargeType type,
+       CancellationToken ct = default)
+    {
+        var currentUser = httpContext.CreateUserIdentity();
+        var ownerGln = currentUser.ActorNumber.Value;
+
+        if (currentUser.ActorRole == ActorRole.SystemOperator || currentUser.ActorRole == ActorRole.EnergySupplier)
+        {
+            ownerGln = (await marketParticipantClient_V1.ActorGetAsync(ct))
+            .Where(x => x.MarketRole.EicFunction == Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction.SystemOperator).SingleOrDefault()?.ActorNumber.Value;
+        }
+
+        if (string.IsNullOrWhiteSpace(ownerGln))
+        {
+            return [];
+        }
+
+        var result = await client.GetChargeInformationAsync(
+            new ChargeInformationSearchCriteriaDto(string.Empty, [ownerGln], [type], true, ChargeSeriesSortColumnName.FromDateTime, 0, 10_000),
+            ct);
+
+        return result.Value ?? [];
     }
 
     public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(

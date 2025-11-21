@@ -143,6 +143,7 @@ watt-button {
       }
 
       &.mat-mdc-button {
+        width: 100%;
         height: 56px; // Magic UX normal height
 
         .mdc-button__label {
