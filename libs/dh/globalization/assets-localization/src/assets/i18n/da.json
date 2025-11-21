@@ -688,6 +688,12 @@
         "startDate": "Skæringsdato",
         "save": "Gem ændringer",
         "close": "Luk"
+      },
+      "stop": {
+        "title": "Stop pristilknytning",
+        "stopDate": "Stopdato",
+        "save": "Gem ændringer",
+        "close": "Luk"
       }
     },
     "processOverview": {
