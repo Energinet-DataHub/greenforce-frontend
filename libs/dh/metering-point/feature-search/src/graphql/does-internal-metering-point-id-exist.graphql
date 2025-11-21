@@ -1,0 +1,9 @@
+query DoesInternalMeteringPointIdExist($internalMeteringPointId: Long, $meteringPointId: String) {
+  meteringPointExists(
+    internalMeteringPointId: $internalMeteringPointId
+    meteringPointId: $meteringPointId
+  ) {
+    id
+    meteringPointId
+  }
+}

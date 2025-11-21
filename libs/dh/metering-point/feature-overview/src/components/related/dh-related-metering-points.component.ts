@@ -120,10 +120,7 @@ import {
       >
         <div class="grid-container">
           @for (meteringPoint of relatedMeteringPointsList(); track meteringPoint.identification) {
-            <div
-              class="grid-row"
-              [routerLink]="getLink('master-data', meteringPoint.identification)"
-            >
+            <div class="grid-row" [routerLink]="getLink('master-data', meteringPoint.id)">
               <div class="grid-cell">
                 <span class="watt-text-m watt-on-light--high-emphasis">
                   {{ 'meteringPointType.' + meteringPoint.type | transloco }}
