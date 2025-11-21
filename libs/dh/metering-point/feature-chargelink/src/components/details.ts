@@ -36,7 +36,7 @@ import { GetChargeLinkHistoryDocument } from '@energinet-datahub/dh/shared/domai
 import { History } from '../types';
 import { DhMeteringPointEditChargeLink } from './edit';
 import { DhMeteringPointStopChargeLink } from './stop';
-import { DhMeteringPointCancelChargeLink } from './cancel';
+// import { DhMeteringPointCancelChargeLink } from './cancel';
 
 @Component({
   selector: 'dh-charge-link-details',
