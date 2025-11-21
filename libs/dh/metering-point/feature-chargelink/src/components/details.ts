@@ -17,32 +17,40 @@
  */
 //#endregion
 import { Component, computed, inject, input } from '@angular/core';
-import { GetChargeLinkHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { WATT_DRAWER } from '@energinet/watt/drawer';
-import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+
 import { TranslocoDirective } from '@jsverse/transloco';
-import { History } from '../types';
+
 import { WATT_MENU } from '@energinet/watt/menu';
-import { WattDataTableComponent } from '@energinet/watt/data';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/core/date';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { VaterStackComponent, VaterSpacerComponent } from '@energinet/watt/vater';
 import { WattModalService } from '@energinet/watt/modal';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDataTableComponent } from '@energinet/watt/data';
+import { VaterStackComponent, VaterSpacerComponent } from '@energinet/watt/vater';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { GetChargeLinkHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { History } from '../types';
+
+import { DhMeteringPointStopChargeLink } from './stop';
 import { DhMeteringPointEditChargeLink } from './edit';
 import { DhMeteringPointCancelChargeLink } from './cancel';
 
 @Component({
   selector: 'dh-charge-link-details',
   imports: [
-    WATT_DRAWER,
-    WATT_TABLE,
-    WATT_MENU,
-    WattDatePipe,
-    WattDataTableComponent,
-    WattButtonComponent,
     TranslocoDirective,
+
+    WATT_MENU,
+    WATT_TABLE,
+    WATT_DRAWER,
+    WattDatePipe,
+    WattButtonComponent,
+    WattDataTableComponent,
+
     VaterStackComponent,
     VaterSpacerComponent,
   ],
@@ -62,7 +70,7 @@ import { DhMeteringPointCancelChargeLink } from './cancel';
           <watt-button variant="icon" [wattMenuTriggerFor]="actions" icon="moreVertical" />
           <watt-menu #actions>
             <watt-menu-item (click)="edit()">{{ t('edit') }}</watt-menu-item>
-            <watt-menu-item>{{ t('stop') }}</watt-menu-item>
+            <watt-menu-item (click)="stop()">{{ t('stop') }}</watt-menu-item>
             <watt-menu-item (click)="cancel()">{{ t('cancel') }}</watt-menu-item>
           </watt-menu>
         </vater-stack>
@@ -118,6 +126,12 @@ export default class DhChargeLinkDetails {
   cancel() {
     this.modalService.open({
       component: DhMeteringPointCancelChargeLink,
+    });
+  }
+
+  stop() {
+    this.modalService.open({
+      component: DhMeteringPointStopChargeLink,
     });
   }
 }

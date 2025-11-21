@@ -694,6 +694,12 @@
         "cancelWarning": "Handlingen kan ikke fortrydes",
         "cancel": "Annuller pristilknytning",
         "close": "Luk"
+      },
+      "stop": {
+        "title": "Stop pristilknytning",
+        "stopDate": "Stopdato",
+        "save": "Gem ændringer",
+        "close": "Luk"
       }
     },
     "processOverview": {

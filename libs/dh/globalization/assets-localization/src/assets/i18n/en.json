@@ -693,6 +693,12 @@
         "cancelWarning": "This action cannot be undone",
         "cancel": "Cancel price link",
         "close": "Close"
+      },
+      "stop": {
+        "title": "Stop price link",
+        "stopDate": "Stop date",
+        "save": "Save changes",
+        "close": "Close"
       }
     },
     "processOverview": {
