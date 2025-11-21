@@ -17,23 +17,25 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { MatMenuModule } from '@angular/material/menu';
-
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WATT_MENU } from '@energinet/watt/menu';
 
 @Component({
   selector: 'dh-charge-actions',
-  imports: [MatMenuModule, TranslocoDirective, WattButtonComponent, WattIconComponent],
+  imports: [TranslocoDirective, WattButtonComponent, WattIconComponent, WATT_MENU],
   template: `
     <ng-container *transloco="let t; prefix: 'charges.charge.actions'">
-      <watt-button variant="secondary" [matMenuTriggerFor]="menu">
-        {{ t('actionsButton') }}
+      <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
+        {{ t('menu') }}
         <watt-icon name="plus" />
       </watt-button>
-      <mat-menu #menu="matMenu" />
+      <watt-menu #menu>
+        <watt-menu-item>{{ t('edit') }}</watt-menu-item>
+        <watt-menu-item>{{ t('stop') }}</watt-menu-item>
+      </watt-menu>
     </ng-container>
   `,
 })
