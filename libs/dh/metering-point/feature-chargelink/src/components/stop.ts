@@ -61,11 +61,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
         <watt-button variant="secondary" (click)="stop.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button
-          variant="primary"
-          (click)="stopLink(); stop.close(true)"
-          [disabled]="form.invalid"
-        >
+        <watt-button variant="primary" (click)="stopLink(); stop.close(true)">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>

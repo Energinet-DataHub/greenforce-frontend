@@ -109,11 +109,7 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
           <watt-button variant="secondary" (click)="selectedType.set(null)">
             {{ t('back') }}
           </watt-button>
-          <watt-button
-            variant="primary"
-            (click)="createLink(); create.close(true)"
-            [disabled]="form.invalid"
-          >
+          <watt-button variant="primary" (click)="createLink(); create.close(true)">
             {{ t('actions.' + type) }}
           </watt-button>
         }
