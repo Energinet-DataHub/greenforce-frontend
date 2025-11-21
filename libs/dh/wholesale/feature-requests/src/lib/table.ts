@@ -65,8 +65,8 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
       [enableSearch]="false"
       [error]="dataSource.error"
       [ready]="dataSource.called"
+      [enableCount]="false"
     >
-      <h3>{{ t('results') }}</h3>
 
       <watt-data-actions>
         <watt-button
