@@ -544,7 +544,7 @@ function doesInternalMeteringPointIdExist() {
         [childMeteringPoint.id]: childMeteringPoint.identification,
       };
 
-      const params: any = {};
+      const params: { [key: string]: string | undefined } = {};
 
       if (internalMeteringPointId) {
         params['id'] = Object.keys(MPs).includes(internalMeteringPointId)
