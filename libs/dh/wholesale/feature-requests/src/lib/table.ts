@@ -67,7 +67,6 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
       [ready]="dataSource.called"
       [enableCount]="false"
     >
-
       <watt-data-actions>
         <watt-button
           *dhPermissionRequired="[

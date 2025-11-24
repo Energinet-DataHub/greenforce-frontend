@@ -29,7 +29,11 @@ import { danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 
-import { GenerateCSV, DhEmDashFallbackPipe, DhDownloadButtonComponent } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  GenerateCSV,
+  DhEmDashFallbackPipe,
+  DhDownloadButtonComponent,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';

@@ -28,7 +28,8 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
 import {
   GenerateCSV,
   dhEnumToWattDropdownOptions,
-  DhDropdownTranslatorDirective, DhDownloadButtonComponent,
+  DhDropdownTranslatorDirective,
+  DhDownloadButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';

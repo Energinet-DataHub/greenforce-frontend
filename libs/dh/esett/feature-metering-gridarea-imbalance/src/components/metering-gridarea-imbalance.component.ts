@@ -39,7 +39,11 @@ import {
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhDownloadButtonComponent, DhEmDashFallbackPipe, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDownloadButtonComponent,
+  DhEmDashFallbackPipe,
+  GenerateCSV,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { GetMeteringGridAreaImbalanceDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { DhMeteringGridAreaImbalance } from '../types';

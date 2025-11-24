@@ -36,9 +36,7 @@ type Variables = Partial<GetUsersForCsvQueryVariables>;
 @Component({
   selector: 'dh-download-users-csv',
   imports: [DhDownloadButtonComponent],
-  template: `
-    <dh-download-button (clicked)="download()" [loading]="query.loading()" />
-  `,
+  template: ` <dh-download-button (clicked)="download()" [loading]="query.loading()" /> `,
 })
 export class DhDownloadUsersCsvComponent {
   private readonly appInsights = inject(DhApplicationInsights);

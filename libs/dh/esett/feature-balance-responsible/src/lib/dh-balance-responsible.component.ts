@@ -27,7 +27,11 @@ import { WATT_TABLE, WattTableColumnDef, WattTableComponent } from '@energinet/w
 import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhDownloadButtonComponent, DhEmDashFallbackPipe, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDownloadButtonComponent,
+  DhEmDashFallbackPipe,
+  GenerateCSV,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { GetBalanceResponsibleMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { BalanceResponsibleMessage } from './types';

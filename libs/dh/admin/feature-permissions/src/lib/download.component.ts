@@ -56,7 +56,8 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
       <dh-download-button
         *dhPermissionRequired="['user-roles:manage']"
         [alternateText]="'shared.downloadreport' | transloco"
-        (clicked)="downloadRelationCSV()" />
+        (clicked)="downloadRelationCSV()"
+      />
     </vater-stack>
   `,
 })

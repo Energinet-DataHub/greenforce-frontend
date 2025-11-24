@@ -45,7 +45,12 @@ import {
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhDownloadButtonComponent, DhEmDashFallbackPipe, emDash, toFile } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDownloadButtonComponent,
+  DhEmDashFallbackPipe,
+  emDash,
+  toFile,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhResolveModalComponent } from './resolve.componet';
 import { DhOutgoingMessageStatusBadgeComponent } from './status.component';

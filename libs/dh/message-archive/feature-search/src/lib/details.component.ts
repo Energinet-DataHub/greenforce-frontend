@@ -33,7 +33,11 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet/watt/drawer';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
-import { DhDownloadButtonComponent, DhEmDashFallbackPipe, toFile } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDownloadButtonComponent,
+  DhEmDashFallbackPipe,
+  toFile,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
@@ -74,7 +78,11 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-actions>
-        <dh-download-button [alternateText]="t('details.download')" [disabled]="!document.hasValue()" (clicked)="download()" />
+        <dh-download-button
+          [alternateText]="t('details.download')"
+          [disabled]="!document.hasValue()"
+          (clicked)="download()"
+        />
       </watt-drawer-actions>
       <watt-drawer-content>
         @if (document.isLoading()) {

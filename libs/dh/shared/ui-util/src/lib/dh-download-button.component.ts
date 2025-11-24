@@ -23,13 +23,17 @@ import { WattButtonComponent } from '@energinet/watt/button';
 @Component({
   selector: 'dh-download-button',
   template: `
-    <watt-button icon="download" variant="secondary" [disabled]="disabled()" [loading]="loading()" (click)="clicked.emit()" >
+    <watt-button
+      icon="download"
+      variant="secondary"
+      [disabled]="disabled()"
+      [loading]="loading()"
+      (click)="clicked.emit()"
+    >
       @if (alternateText()) {
         {{ alternateText() }}
       } @else {
-      {{
-        'shared.download' | transloco
-      }}
+        {{ 'shared.download' | transloco }}
       }
     </watt-button>
   `,

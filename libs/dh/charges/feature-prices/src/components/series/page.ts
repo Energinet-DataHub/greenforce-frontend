@@ -37,7 +37,11 @@ import {
   GetChargeSeriesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhCircleComponent, DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhCircleComponent,
+  DhDownloadButtonComponent,
+  GenerateCSV,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhChargesIntervalField } from '../interval-field';
 import { DhChargeSeriesDetailsComponent } from './details';
