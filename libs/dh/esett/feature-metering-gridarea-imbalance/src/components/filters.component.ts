@@ -46,7 +46,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-util';
+import { dhEnumToWattDropdownOptions, DhResetFiltersButtonComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
@@ -81,6 +81,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
     WattDateRangeChipComponent,
 
     DhDropdownTranslatorDirective,
+    DhResetFiltersButtonComponent,
   ],
   template: `
     <form
@@ -120,9 +121,8 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
       </watt-date-range-chip>
 
       <vater-spacer />
-      <watt-button variant="text" icon="undo" type="reset">
-        {{ translate('reset') }}
-      </watt-button>
+
+      <dh-reset-filters-button [text]="translate('reset')" />
     </form>
   `,
 })

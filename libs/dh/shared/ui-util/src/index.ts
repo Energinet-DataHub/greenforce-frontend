@@ -35,3 +35,4 @@ export * from './lib/inject-toast';
 export * from './lib/inject-relative-navigate';
 export * from './lib/dh-metering-point-ids.validator';
 export * from './lib/generate-csv-file';
+export * from './lib/dh-reset-filters-button.component';
