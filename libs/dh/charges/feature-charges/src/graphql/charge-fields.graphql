@@ -1,6 +1,5 @@
 fragment ChargeFields on Charge {
   id
-  status
   code
   name
   type
@@ -12,4 +11,13 @@ fragment ChargeFields on Charge {
   }
   resolution
   displayName
+  status
+  periods {
+    description
+    period
+    transparentInvoicing
+    vatClassification
+    isCurrent
+    name
+  }
 }

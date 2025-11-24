@@ -12,13 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using NodaTime;
+using ChargeApiModels = Energinet.DataHub.Charges.Abstractions.Api.Models;
 using Markpart = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
@@ -28,7 +31,7 @@ public class ChargesClient(
     Markpart.IMarketParticipantClient_V1 marketParticipantClient_V1,
     IHttpContextAccessor httpContext) : IChargesClient
 {
-    public async Task<IEnumerable<ChargeInformationDto>> GetChargesAsync(
+    public async Task<ChargeApiModels.Result<(IEnumerable<ChargeInformationDto> Charges, int TotalCount)>> GetChargesAsync(
         int skip,
         int take,
         string? filter,
@@ -39,20 +42,18 @@ public class ChargesClient(
         var (sortColumnName, sortDirection) =
             order switch
             {
-                { FromDateTime: not null } => (ChargeSeriesSortColumnName.FromDateTime, order.FromDateTime.Value),
-                { Price: not null } => (ChargeSeriesSortColumnName.Price, order.Price.Value),
-                _ => (ChargeSeriesSortColumnName.FromDateTime, SortDirection.Desc),
+                { Code: not null } => (ChargeInformationSortProperty.Code, order.Code.Value),
+                { Type: not null } => (ChargeInformationSortProperty.Type, order.Type.Value),
+                _ => (ChargeInformationSortProperty.Type, SortDirection.Desc),
             };
 
         var result = await client.GetChargeInformationAsync(
             new ChargeInformationSearchCriteriaDto(
-                filter ?? string.Empty,
-                query?.ActorNumbers?.ToList() ?? [],
-                query?.ChargeTypes?.ToList() ?? [],
-                sortDirection == SortDirection.Desc,
-                sortColumnName,
                 skip,
-                take),
+                take,
+                new ChargeInformationFilterDto(filter ?? string.Empty, query?.ActorNumbers ?? [], query?.ChargeTypes ?? []),
+                sortColumnName,
+                sortDirection == SortDirection.Desc),
             ct);
 
         if (result.IsFailure)
@@ -60,18 +61,19 @@ public class ChargesClient(
             throw new GraphQLException(result.Error ?? "Exception in GetChargeInformationAsync");
         }
 
-        return result.Value ?? [];
+        return result;
     }
 
     public async Task<ChargeInformationDto?> GetChargeByIdAsync(
         string id,
         CancellationToken ct = default)
     {
+        var ident = StringToChargeIdentifier(id);
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(id, [], [], true, ChargeSeriesSortColumnName.FromDateTime, 0, 1),
+            new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(ident.Code, [ident.Owner], [ident.ChargeType]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        return result.Value?.FirstOrDefault();
+        return result.Value.Charges.FirstOrDefault();
     }
 
     public async Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAsync(
@@ -93,23 +95,23 @@ public class ChargesClient(
         }
 
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(string.Empty, [ownerGln], [type], true, ChargeSeriesSortColumnName.FromDateTime, 0, 10_000),
+            new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [ownerGln], [type]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        return result.Value ?? [];
+        return result.Value.Charges;
     }
 
     public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
-        string chargeId,
+        ChargeIdentifierDto ident,
         Resolution resolution,
         Interval period,
         CancellationToken ct = default)
     {
         var series = await client.GetChargeSeriesAsync(
             new ChargeSeriesSearchCriteriaDto(
-                ChargeId: Guid.Empty, // TODO: Fix
-                FromDateTimeUtc: period.Start.ToDateTimeOffset(),
-                ToDateTimeUtc: period.End.ToDateTimeOffset()),
+                ident,
+                From: period.Start,
+                To: period.End),
             ct);
 
         if (series.Value is null || series.Value.Count() == 0)
@@ -125,6 +127,25 @@ public class ChargesClient(
         });
     }
 
+    public string ChargeIdentifierToString(ChargeIdentifierDto ident)
+    {
+        return $"{ident.Code}|{ident.ChargeType}|{ident.Owner}";
+    }
+
+    public ChargeIdentifierDto StringToChargeIdentifier(string ident)
+    {
+        var parts = ident.Split('|');
+        if (parts.Length != 3)
+        {
+            throw new ArgumentException("Invalid charge identifier format", nameof(ident));
+        }
+
+        return new ChargeIdentifierDto(
+            Code: parts[0],
+            Owner: parts[2],
+            ChargeType: Enum.Parse<ChargeType>(parts[1]));
+    }
+
     private ZonedDateTime AddResolution(Resolution resolution, Interval period, int index, int totalCount)
     {
         var zone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
@@ -135,8 +156,6 @@ public class ChargesClient(
             Resolution.Hourly => start.PlusHours(index),
             Resolution.Daily => start.LocalDateTime.PlusDays(index).InZoneLeniently(zone),
             Resolution.Monthly => start.LocalDateTime.PlusMonths(index).InZoneLeniently(zone),
-            Resolution.Unknown => start.PlusNanoseconds(index *
-                Convert.ToInt16(period.Duration.TotalNanoseconds / totalCount)),
         };
     }
 }

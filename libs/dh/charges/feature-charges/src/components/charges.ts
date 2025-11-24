@@ -95,9 +95,9 @@ import { WattIconComponent } from '@energinet/watt/icon';
         <ng-container *wattTableCell="columns.type; let element">
           {{ 'charges.chargeTypes.' + element.type | transloco }}
         </ng-container>
-        <ng-container *wattTableCell="columns.status; let element">
+        <!-- <ng-container *wattTableCell="columns.status; let element">
           <dh-charge-status [status]="element.status" />
-        </ng-container>
+        </ng-container> -->
       </watt-table>
     </watt-data-table>
     <router-outlet />
@@ -113,7 +113,7 @@ export class DhCharges {
     code: { accessor: 'code', sort: false },
     name: { accessor: 'name', sort: false },
     owner: { accessor: (charge) => charge.owner?.displayName, sort: false },
-    status: { accessor: 'status', sort: false },
+    // status: { accessor: 'status', sort: false },
   };
 
   filter: GetChargesQueryInput = {

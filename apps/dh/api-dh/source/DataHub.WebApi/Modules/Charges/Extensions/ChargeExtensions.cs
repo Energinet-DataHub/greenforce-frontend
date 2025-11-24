@@ -14,18 +14,20 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 
-public static class ChargeInformationDtoExtensions
+public static class ChargeExtensions
 {
-    public static ChargeStatus GetStatus(this ChargeInformationDto charge) => charge switch
+    public static ChargeInformationPeriodDto GetCurrentPeriod(this ChargeInformationDto charge)
     {
-        _ when charge.ValidFrom == charge.ValidTo => ChargeStatus.Cancelled,
-        _ when charge.ValidTo < DateTimeOffset.Now => ChargeStatus.Closed,
-        { HasAnyPrices: false } c when c.ValidFrom > DateTimeOffset.Now => ChargeStatus.Awaiting,
-        { HasAnyPrices: false } c when c.ValidFrom < DateTimeOffset.Now => ChargeStatus.MissingPriceSeries,
-        { HasAnyPrices: true } c when c.ValidFrom < DateTimeOffset.Now => ChargeStatus.Current,
-        _ => ChargeStatus.Invalid,
-    };
+        return charge.Periods
+            .Where(IsCurrent)
+            .OrderBy(p => p.StartDate)
+            .First();
+    }
+
+    public static bool IsCurrent(this ChargeInformationPeriodDto period) =>
+        period.StartDate.ToDateTimeOffset() <= DateTimeOffset.Now && (period.EndDate == null || period.EndDate?.ToDateTimeOffset() > DateTimeOffset.Now);
 }
