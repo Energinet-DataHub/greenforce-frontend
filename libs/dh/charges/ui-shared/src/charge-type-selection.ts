@@ -28,8 +28,8 @@ import { ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
   imports: [TranslocoPipe, VaterStackComponent, WattButtonComponent],
   template: `
     @if (!value()) {
-      <vater-stack align="stretch" gap="ml" offset="m">
-        @for (chargeType of ChargeTypes; track chargeType) {
+      <vater-stack align="stretch" gap="m" offset="m">
+        @for (chargeType of chargeTypes; track chargeType) {
           <watt-button variant="selection" icon="right" (click)="value.set(chargeType)">
             {{ 'charges.chargeTypes.' + chargeType | transloco }}
           </watt-button>
