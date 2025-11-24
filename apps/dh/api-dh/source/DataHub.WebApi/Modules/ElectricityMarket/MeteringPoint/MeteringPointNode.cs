@@ -108,34 +108,29 @@ public static partial class MeteringPointNode
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<MeteringPointBasicDto> GetMeteringPointExistsAsync(
             long? internalMeteringPointId,
-            string? meteringPointId,
+            long? meteringPointId,
             CancellationToken ct,
-            [Service] IElectricityMarketClient_V1 client,
-            [Service] IHttpContextAccessor httpContextAccessor,
-            [Service] IRequestAuthorization requestAuthorization,
-            [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
+            [Service] IElectricityMarketClient_V1 client)
     {
             if (internalMeteringPointId.HasValue)
             {
-                var result = await client.MeteringPointExistsInternalAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
+                var resultExternal = await client.MeteringPointExistsInternalAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
 
                 return new MeteringPointBasicDto(
-                    Id: internalMeteringPointId.Value,
-                    MeteringPointId: result.Identification);
+                    Id: internalMeteringPointId.Value.ToString(),
+                    MeteringPointId: resultExternal.Identification);
             }
 
-            ArgumentNullException.ThrowIfNull(meteringPointId);
+            if (meteringPointId.HasValue)
+            {
+                var resultInternal = await client.MeteringPointExistsExternalAsync(meteringPointId.Value, ct).ConfigureAwait(false);
 
-            var meteringPoint = await GetMeteringPointAsync(
-                meteringPointId,
-                ct,
-                httpContextAccessor,
-                requestAuthorization,
-                authorizedHttpClientFactory);
+                return new MeteringPointBasicDto(
+                    Id: resultInternal.Identification,
+                    MeteringPointId: meteringPointId.Value.ToString());
+            }
 
-            return new MeteringPointBasicDto(
-                Id: meteringPoint.Id,
-                MeteringPointId: meteringPoint.Identification);
+            throw new ArgumentException("Either internalMeteringPointId or meteringPointId must be provided.");
     }
 
     [Query]
