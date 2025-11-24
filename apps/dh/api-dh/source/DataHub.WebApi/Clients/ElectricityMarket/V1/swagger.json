@@ -127,15 +127,63 @@
         }
       }
     },
-    "/metering-point/exists/{identification}": {
+    "/metering-point/exists/{externalId}/external": {
       "get": {
         "tags": [
           "MeteringPoint"
         ],
-        "operationId": "exists",
+        "operationId": "external",
         "parameters": [
           {
-            "name": "identification",
+            "name": "externalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metering-point/exists/{internalId}/internal": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "internal",
+        "parameters": [
+          {
+            "name": "internalId",
             "in": "path",
             "required": true,
             "schema": {
@@ -416,7 +464,7 @@
         "tags": [
           "MeteringPoint"
         ],
-        "operationId": "manual-correction",
+        "operationId": "manual-correctionGET",
         "parameters": [
           {
             "name": "identification",
@@ -439,18 +487,113 @@
             "description": "OK",
             "content": {
               "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
+              },
+              "text/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "manual-correctionPOST",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            },
+            "text/json": {
+              "schema": {}
+            },
+            "application/*+json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/metering-point/{identification}/manual-correction/simulate": {
+      "post": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "simulate",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            },
+            "text/json": {
+              "schema": {}
+            },
+            "application/*+json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetMeteringPointForManualCorrectionResponse"
+                  "type": "string"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetMeteringPointForManualCorrectionResponse"
+                  "type": "string"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetMeteringPointForManualCorrectionResponse"
+                  "type": "string"
                 }
               }
             }
@@ -980,15 +1123,6 @@
             "items": {
               "$ref": "#/components/schemas/CustomerDto"
             }
-          }
-        }
-      },
-      "GetMeteringPointForManualCorrectionResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "json": {
-            "type": "string"
           }
         }
       },

@@ -357,7 +357,9 @@
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
-    "ANDET": "Other"
+    "QUARTER_HOURLY": "Quarter hour",
+    "HOURLY": "Hour",
+    "MONTHLY": "Monthly"
   },
   "netSettlementGroup": {
     "2": "Hourly settlement (2)",
@@ -384,6 +386,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
+        "createButton": "Create charge",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -418,6 +421,33 @@
         }
       }
     },
+    "create": {
+      "action": {
+        "SUBSCRIPTION": "Create subscription",
+        "FEE": "Create fee",
+        "TARIFF": "Create tariff",
+        "SELECTION": "Create charge"
+      },
+      "close": "Close",
+      "form": {
+        "id": "ID",
+        "name": "Name",
+        "description": "Description",
+        "resolution": "Resolution",
+        "hourly": "Hourly",
+        "daily": "Daily",
+        "vat": "VAT",
+        "withVat": "With VAT",
+        "withoutVat": "Without VAT",
+        "transparentInvoicing": "Transparent Invoicing",
+        "withTransparentInvoicing": "Yes",
+        "withoutTransparentInvoicing": "No",
+        "predictablePrice": "Predictable Price",
+        "withPredictablePrice": "Yes",
+        "withoutPredictablePrice": "No",
+        "validFrom": "Valid From"
+      }
+    },
     "charge": {
       "type": "Type",
       "owner": "Owner",
@@ -430,7 +460,9 @@
         "historyLabel": "History"
       },
       "actions": {
-        "actionsButton": "Actions"
+        "menu": "Actions",
+        "edit": "Edit charge information",
+        "stop": "Stop charge information"
       },
       "breadcrumb": "Prices"
     },
@@ -828,6 +860,7 @@
         "file": "File name",
         "datepicker": "Start operation day",
         "datepickerHint": "The time will automatically be adjusted to UTC.",
+        "resolutionHint": "Upload new measurement data to change resolution.",
         "table": {
           "positionCount": "Number of positions",
           "sum": "Sum"

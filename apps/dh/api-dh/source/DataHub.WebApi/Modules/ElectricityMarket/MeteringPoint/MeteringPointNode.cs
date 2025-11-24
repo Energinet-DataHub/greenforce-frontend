@@ -117,7 +117,7 @@ public static partial class MeteringPointNode
     {
             if (internalMeteringPointId.HasValue)
             {
-                var result = await client.MeteringPointExistsAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
+                var result = await client.MeteringPointExistsInternalAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
 
                 return new MeteringPointBasicDto(
                     Id: internalMeteringPointId.Value,
