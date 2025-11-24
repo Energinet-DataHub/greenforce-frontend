@@ -129,6 +129,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     { countryIsoCode: 'DK', phoneExtension: '+45' },
     { countryIsoCode: 'SE', phoneExtension: '+46' },
     { countryIsoCode: 'NO', phoneExtension: '+47' },
+    { countryIsoCode: 'GB', phoneExtension: '+44' },
     { countryIsoCode: 'DE', phoneExtension: '+49' },
     { countryIsoCode: 'FI', phoneExtension: '+358' },
     { countryIsoCode: 'PL', phoneExtension: '+48' },

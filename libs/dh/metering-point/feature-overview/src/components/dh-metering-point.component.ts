@@ -189,6 +189,13 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
               [link]="getLink('process-overview')"
             />
           </ng-container>
+          <ng-container *dhReleaseToggle="'PM60-CHARGE-LINKS-UI'">
+            <watt-link-tab
+              *dhPermissionRequired="['metering-point:prices']"
+              [label]="t('chargelinks.tabLabel')"
+              [link]="getLink('charge-links')"
+            />
+          </ng-container>
           <watt-link-tab [label]="t('messages.tabLabel')" [link]="getLink('messages')" />
           <watt-link-tab
             *dhMarketRoleRequired="rolesWithAccess"

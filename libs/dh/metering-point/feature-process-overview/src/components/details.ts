@@ -47,23 +47,29 @@ import { WattDatePipe } from '@energinet/watt/date';
         </dh-process-state-badge>
       </watt-drawer-topbar>
       <watt-drawer-heading>
-        <h3 *transloco="let t; prefix: 'messageArchive'">
-          {{ documentType() && t('documentType.' + documentType()) | dhEmDashFallback }}
+        <h3 *transloco="let t; prefix: 'meteringPoint.processOverview'">
+          {{ reasonCode() && t('reasonCode.' + reasonCode()) | dhEmDashFallback }}
         </h3>
         <watt-description-list
           [groupsPerRow]="4"
-          *transloco="let t; prefix: 'meteringPoint.processOverview.details.list'"
+          *transloco="let t; prefix: 'meteringPoint.processOverview'"
         >
           <watt-description-list-item
-            [label]="t('createdAt')"
+            [label]="t('details.list.createdAt')"
             [value]="createdAt() | wattDate: 'long'"
           />
           <watt-description-list-item
-            [label]="t('cutoff')"
+            [label]="t('details.list.cutoff')"
             [value]="cutoffDate() | wattDate: 'long'"
           />
-          <watt-description-list-item [label]="t('reasonCode')" [value]="reasonCode()" />
-          <watt-description-list-item [label]="t('initiator')" [value]="initiator()" />
+          <watt-description-list-item
+            [label]="t('details.list.reasonCode')"
+            [value]="t('reasonCode.' + reasonCode())"
+          />
+          <watt-description-list-item
+            [label]="t('details.list.initiator')"
+            [value]="initiator() | dhEmDashFallback"
+          />
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-content>
@@ -86,7 +92,6 @@ export class DhMeteringPointProcessOverviewDetails {
   state = computed(() => this.process.data()?.meteringPointProcessById?.state);
   createdAt = computed(() => this.process.data()?.meteringPointProcessById?.createdAt);
   cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
-  documentType = computed(() => this.process.data()?.meteringPointProcessById?.documentType);
   reasonCode = computed(() => this.process.data()?.meteringPointProcessById?.reasonCode);
   initiator = computed(() => this.process.data()?.meteringPointProcessById?.initiator?.displayName);
   steps = computed(() => this.process.data()?.meteringPointProcessById?.steps ?? []);

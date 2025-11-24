@@ -20,14 +20,8 @@ query GetUsersForCsv(
       id
       name
       email
-      administratedBy {
-        id
-        name
-        organization {
-          id
-          name
-        }
-      }
+      administratedByName
+      administratedByOrganizationName
       latestLoginAt
     }
     totalCount

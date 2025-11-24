@@ -19,7 +19,6 @@
 import { RouterOutlet } from '@angular/router';
 import { Component, computed, inject } from '@angular/core';
 
-import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet/watt/card';
@@ -27,6 +26,8 @@ import { WattModalService } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterUtilityDirective } from '@energinet/watt/vater';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { WATT_MENU } from '@energinet/watt/menu';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 import {
   WattDataTableComponent,
@@ -41,6 +42,7 @@ import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/m
 
 import { DhMarketParticipant } from '@energinet-datahub/dh/market-participant/domain';
 import { GetPaginatedMarketParticipantsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { Variables } from '../types';
 import { DownloadMarketParticipants } from './download.component';
@@ -65,10 +67,12 @@ import { DhMarketParticipantsFiltersComponent } from './market-participants-filt
   imports: [
     RouterOutlet,
     TranslocoPipe,
-    MatMenuModule,
     TranslocoDirective,
+
     WATT_CARD,
     WATT_TABLE,
+    WATT_MENU,
+    WattIconComponent,
     WattButtonComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
@@ -84,6 +88,7 @@ import { DhMarketParticipantsFiltersComponent } from './market-participants-filt
 export class DhMarketParticipantsComponent {
   private readonly navigationService = inject(DhNavigationService);
   private readonly modalService = inject(WattModalService);
+  private readonly appInsights = inject(DhApplicationInsights);
 
   dataSource = new GetPaginatedMarketParticipantsDataSource();
 
@@ -111,6 +116,7 @@ export class DhMarketParticipantsComponent {
   };
 
   createMarketParticipant() {
+    this.appInsights.trackEvent('Button: Create market participant');
     this.navigationService.navigate('create');
   }
 
@@ -119,6 +125,7 @@ export class DhMarketParticipantsComponent {
   };
 
   mergeMarketParticipants() {
+    this.appInsights.trackEvent('Button: Merge market participants');
     this.modalService.open({
       component: DhMergeMarketParticipantsComponent,
     });

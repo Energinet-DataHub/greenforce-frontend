@@ -26,6 +26,7 @@ export class WattPhoneFieldIntlService {
   DK = 'Denmark';
   DE = 'Germany';
   FI = 'Finland';
+  GB = 'United Kingdom';
   NO = 'Norway';
   SE = 'Sweden';
   PL = 'Poland';

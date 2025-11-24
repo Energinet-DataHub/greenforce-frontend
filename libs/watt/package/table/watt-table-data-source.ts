@@ -17,6 +17,7 @@
  */
 //#endregion
 import { DataSource } from '@angular/cdk/collections';
+import { computed, effect } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -53,3 +54,13 @@ export class WattTableDataSource<T>
     return this.data.length;
   }
 }
+
+/** Convenience method for creating a data source from reactive input. */
+export const dataSource = <T>(computation: () => T[]) => {
+  const data = computed(computation);
+  const dataSource = new WattTableDataSource<T>();
+  effect(() => {
+    dataSource.data = data();
+  });
+  return dataSource;
+};

@@ -28,25 +28,27 @@ watt-field watt-field-hint {
 }
 
 watt-field :is(watt-field-error, watt-field-warning),
-.ng-valid watt-field :is(watt-field-error, watt-field-warning) {
+.ng-valid watt-field :is(watt-field-error, watt-field-warning),
+watt-field:has(.ng-valid) :is(watt-field-error, watt-field-warning) {
   display: none;
 }
 
-form.ng-submitted .ng-invalid,
-:not(form).ng-touched.ng-invalid {
-  & watt-field watt-field-hint {
+form.ng-submitted .ng-invalid watt-field,
+form.ng-submitted watt-field:has(.ng-invalid),
+:not(form).ng-touched.ng-invalid watt-field {
+  & watt-field-hint {
     display: none;
   }
 
-  & watt-field.watt-field--show-errors :is(watt-field-error, watt-field-warning) {
+  &.watt-field--show-errors :is(watt-field-error, watt-field-warning) {
     display: block;
   }
 
-  & watt-field.watt-field--show-errors .watt-field-wrapper {
+  &.watt-field--show-errors .watt-field-wrapper {
     border-color: var(--watt-color-state-danger);
   }
 
-  & watt-field.watt-field--show-errors .label {
+  &.watt-field--show-errors .label {
     color: var(--watt-color-state-danger);
 
     &.required::after {
@@ -54,7 +56,11 @@ form.ng-submitted .ng-invalid,
     }
   }
 
-  & watt-field:has(watt-field-warning):not(:has(watt-field-error)) {
+  &:has(watt-field-error, watt-field-warning) {
+    padding-bottom: 0;
+  }
+
+  &.watt-field--show-errors:has(watt-field-warning):not(:has(watt-field-error)) {
     & .label {
       color: var(--watt-text-color);
     }
@@ -103,12 +109,8 @@ watt-field {
   width: 100%;
   display: block;
 
-  &:not(.watt-field--chip) {
-    min-height: 93px;
-  }
-
-  &:not(.watt-field--chip).watt-field--unlabelled {
-    min-height: 66px;
+  &:not(.watt-field--chip, :has(watt-field-hint)) {
+    padding-bottom: 20px;
   }
 
   .label {
@@ -126,8 +128,6 @@ watt-field {
 
     &.required::after {
       content: "*";
-      margin-left: var(--watt-space-s);
-      color: var(--watt-color-primary);
     }
   }
 
@@ -142,7 +142,7 @@ watt-field {
       display: flex;
       position: relative;
       width: 100%;
-      padding-left: var(--watt-space-s);
+      padding: 0 var(--watt-space-s);
       border-radius: var(--watt-input-border-radius);
       border: 1px solid var(--watt-border-color);
       overflow: hidden;
@@ -163,13 +163,13 @@ watt-field {
     }
 
     :not(.watt-field--chip) :is(watt-field-hint, watt-field-error, watt-field-warning) {
-      padding-left: var(--watt-space-s);
+      padding: 0 var(--watt-space-s);
     }
   }
 
-  &.watt-field--chip .watt-field-wrapper {
+  &:not(.watt-field--box) .watt-field-wrapper {
     border: none;
-    padding-left: 0;
+    padding: 0;
   }
 
   &.watt-field--chip {
@@ -180,7 +180,7 @@ watt-field {
     }
   }
 
-  &:not(.watt-field--chip) .watt-field-wrapper {
+  &.watt-field--box .watt-field-wrapper {
     min-height: 46px;
   }
 }

@@ -23,32 +23,28 @@ limitations under the License.
 >
   <h3>{{ t("headline") }}</h3>
 
-  <watt-button
-    variant="secondary"
-    icon="plus"
-    data-testid="newCalculation.add"
-    [routerLink]="['new']"
-  >
+  <watt-button variant="secondary" data-testid="newCalculation.add" [routerLink]="['new']">
     {{ t("new") }}
   </watt-button>
 
   <watt-button
     *dhPermissionRequired="['dh2-bridge:import']"
-    variant="icon"
-    icon="moreVertical"
-    [matMenuTriggerFor]="menu"
-  />
+    variant="secondary"
+    [wattMenuTriggerFor]="menu"
+  >
+    <watt-icon name="moreVertical" />
+  </watt-button>
+
+  <watt-menu #menu>
+    <watt-menu-item (click)="uploader.selectFile()">
+      <span>{{ t("capacitySettlements.uploadButton") }}</span>
+    </watt-menu-item>
+  </watt-menu>
 
   <dh-capacity-settlements-uploader
     [uploadUrl]="dataSource.query.data()?.calculations?.capacitySettlementsUploadUrl ?? ''"
     #uploader
   />
-
-  <mat-menu #menu="matMenu">
-    <button type="button" mat-menu-item (click)="uploader.selectFile()">
-      {{ t("capacitySettlements.uploadButton") }}
-    </button>
-  </mat-menu>
 
   <watt-data-filters>
     <dh-calculations-filters [filter]="filter" (filterChange)="fetch($event)" />
@@ -76,7 +72,7 @@ limitations under the License.
     <!-- Execution Time -->
     <ng-container *wattTableCell="columns.executionTime; let row">
       @if (!row.startedAt && row.scheduledAt) {
-        <vater-stack direction="row">
+        <vater-stack direction="row" gap="xs">
           <div>{{ row.scheduledAt | wattDate: "long" }}</div>
           @if (row.state === "scheduled") {
             <watt-icon [wattTooltip]="t('scheduledCalculationTooltip')" name="info" size="s" />

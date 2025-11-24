@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export { IWattTableDataSource, WattTableDataSource } from './watt-table-data-source';
+export { IWattTableDataSource, WattTableDataSource, dataSource } from './watt-table-data-source';
 export {
   type WattTableColumn,
   type WattTableColumnDef,
