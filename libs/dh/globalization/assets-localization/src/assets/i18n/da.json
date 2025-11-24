@@ -387,6 +387,7 @@
     "charges": {
       "topBarTitle": "Priser",
       "table": {
+        "createButton": "Opret pris",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -421,6 +422,33 @@
         }
       }
     },
+    "create": {
+      "action": {
+        "SUBSCRIPTION": "Opret abonnement",
+        "FEE": "Opret gebyr",
+        "TARIFF": "Opret tarif",
+        "SELECTION": "Opret pris"
+      },
+      "close": "Luk",
+      "form": {
+        "id": "ID",
+        "name": "Navn",
+        "description": "Beskrivelse",
+        "resolution": "Opløsning",
+        "hourly": "Time",
+        "daily": "Dag",
+        "vat": "Moms",
+        "withVat": "Med moms",
+        "withoutVat": "Uden moms",
+        "transparentInvoicing": "Viderefakturering",
+        "withTransparentInvoicing": "Ja",
+        "withoutTransparentInvoicing": "Nej",
+        "predictablePrice": "Forudsigelig pris",
+        "withPredictablePrice": "Ja",
+        "withoutPredictablePrice": "Nej",
+        "validFrom": "Gyldig fra"
+      }
+    },
     "charge": {
       "type": "Type",
       "owner": "Ejer",
@@ -433,7 +461,9 @@
         "historyLabel": "Historik"
       },
       "actions": {
-        "actionsButton": "Handlinger"
+        "menu": "Handlinger",
+        "edit": "Rediger prisinformation",
+        "stop": "Stop prisinformation"
       },
       "breadcrumb": "Priser"
     },
@@ -679,7 +709,29 @@
           "description": "Beskrivelse"
         },
         "copyMessage": "Kopier besked-ID",
-        "navigateToMessage": "Gå til besked"
+        "navigateToMessage": "Gå til besked",
+        "edit": "Rediger pristilknytning",
+        "stop": "Stop pristilknytning",
+        "cancel": "Annuller pristilknytning"
+      },
+      "edit": {
+        "title": "Rediger pristilknytning",
+        "factor": "Antal",
+        "startDate": "Skæringsdato",
+        "save": "Gem ændringer",
+        "close": "Luk"
+      },
+      "cancel": {
+        "title": "Annuller pristilknytning?",
+        "cancelWarning": "Handlingen kan ikke fortrydes",
+        "cancel": "Annuller pristilknytning",
+        "close": "Luk"
+      },
+      "stop": {
+        "title": "Stop pristilknytning",
+        "stopDate": "Stopdato",
+        "save": "Gem ændringer",
+        "close": "Luk"
       }
     },
     "processOverview": {

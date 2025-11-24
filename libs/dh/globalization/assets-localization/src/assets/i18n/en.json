@@ -386,6 +386,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
+        "createButton": "Create charge",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -420,6 +421,33 @@
         }
       }
     },
+    "create": {
+      "action": {
+        "SUBSCRIPTION": "Create subscription",
+        "FEE": "Create fee",
+        "TARIFF": "Create tariff",
+        "SELECTION": "Create charge"
+      },
+      "close": "Close",
+      "form": {
+        "id": "ID",
+        "name": "Name",
+        "description": "Description",
+        "resolution": "Resolution",
+        "hourly": "Hourly",
+        "daily": "Daily",
+        "vat": "VAT",
+        "withVat": "With VAT",
+        "withoutVat": "Without VAT",
+        "transparentInvoicing": "Transparent Invoicing",
+        "withTransparentInvoicing": "Yes",
+        "withoutTransparentInvoicing": "No",
+        "predictablePrice": "Predictable Price",
+        "withPredictablePrice": "Yes",
+        "withoutPredictablePrice": "No",
+        "validFrom": "Valid From"
+      }
+    },
     "charge": {
       "type": "Type",
       "owner": "Owner",
@@ -432,7 +460,9 @@
         "historyLabel": "History"
       },
       "actions": {
-        "actionsButton": "Actions"
+        "menu": "Actions",
+        "edit": "Edit charge information",
+        "stop": "Stop charge information"
       },
       "breadcrumb": "Prices"
     },
@@ -678,7 +708,29 @@
           "description": "Description"
         },
         "copyMessage": "Copy message ID",
-        "navigateToMessage": "Go to message"
+        "navigateToMessage": "Go to message",
+        "edit": "Edit change link",
+        "stop": "Stop change link",
+        "cancel": "Cancel change link"
+      },
+      "edit": {
+        "title": "Edit charge link",
+        "factor": "Quantity",
+        "startDate": "Start date",
+        "save": "Save changes",
+        "close": "Close"
+      },
+      "cancel": {
+        "title": "Cancel price link?",
+        "cancelWarning": "This action cannot be undone",
+        "cancel": "Cancel price link",
+        "close": "Close"
+      },
+      "stop": {
+        "title": "Stop price link",
+        "stopDate": "Stop date",
+        "save": "Save changes",
+        "close": "Close"
       }
     },
     "processOverview": {
