@@ -539,23 +539,22 @@ function doesInternalMeteringPointIdExist() {
     async ({ variables: { internalMeteringPointId, meteringPointId } }) => {
       await delay(mswConfig.delay);
 
-      const MPs = {
-        [parentMeteringPoint.id]: parentMeteringPoint.identification,
-        [childMeteringPoint.id]: childMeteringPoint.identification,
+      const mpIDs = {
+        [parentMeteringPoint.id]: parentMeteringPoint.meteringPointId,
+        [childMeteringPoint.id]: childMeteringPoint.meteringPointId,
       };
 
       const params: { [key: string]: string | undefined } = {};
 
       if (internalMeteringPointId) {
-        params['id'] = Object.keys(MPs).includes(internalMeteringPointId)
+        params['id'] = Object.keys(mpIDs).includes(internalMeteringPointId)
           ? internalMeteringPointId
           : undefined;
-        params['meteringPointId'] = MPs[internalMeteringPointId];
+        params['meteringPointId'] = mpIDs[internalMeteringPointId];
       } else if (meteringPointId) {
         params['id'] = mockMPs[meteringPointId]?.id;
         params['meteringPointId'] = mockMPs[meteringPointId]?.meteringPointId;
       }
-      console.log('params', params);
 
       if (params['id'] && params['meteringPointId']) {
         return HttpResponse.json({
