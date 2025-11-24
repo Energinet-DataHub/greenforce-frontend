@@ -208,14 +208,16 @@ export class DhUploadMeasurementsPage {
     }
   });
 
-  resolutionOptions = computed<WattDropdownOption[]>(() => [
-    SendMeasurementsResolution.QuarterHourly,
-    SendMeasurementsResolution.Hourly,
-    SendMeasurementsResolution.Monthly,
-  ].map((resolution) => ({
-    value: resolution,
-    displayValue: this.transloco.translate(`resolution.${resolution}`),
-  })));
+  resolutionOptions = computed<WattDropdownOption[]>(() =>
+    [
+      SendMeasurementsResolution.QuarterHourly,
+      SendMeasurementsResolution.Hourly,
+      SendMeasurementsResolution.Monthly,
+    ].map((resolution) => ({
+      value: resolution,
+      displayValue: this.transloco.translate(`resolution.${resolution}`),
+    }))
+  );
 
   csv = signal<MeasureDataResult | null>(null, { equal: () => false });
   totalSum = computed(() => this.csv()?.sum ?? 0);
