@@ -238,7 +238,7 @@ export class DhUploadMeasurementsPage {
     assertIsDefined(resolution);
     await this.measurements.parseFile(file, resolution).forEach(this.csv.set);
     const errors = this.csv()?.errors;
-    return errors && errors.length > 0 ? errors : null;
+    return errors?.length ? errors : null;
   };
 
   resolution = dhMakeFormControl<SendMeasurementsResolution | null>(null, Validators.required);
