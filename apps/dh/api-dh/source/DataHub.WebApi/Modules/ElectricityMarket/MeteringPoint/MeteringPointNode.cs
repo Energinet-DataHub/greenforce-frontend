@@ -109,7 +109,7 @@ public static partial class MeteringPointNode
             long internalMeteringPointId,
             CancellationToken ct,
             [Service] IElectricityMarketClient_V1 client) =>
-                await client.MeteringPointExistsAsync(internalMeteringPointId, ct).ConfigureAwait(false);
+                await client.MeteringPointExistsInternalAsync(internalMeteringPointId, ct).ConfigureAwait(false);
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
