@@ -28,7 +28,7 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
 import {
   GenerateCSV,
   dhEnumToWattDropdownOptions,
-  DhDropdownTranslatorDirective,
+  DhDropdownTranslatorDirective, DhDownloadButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { WATT_CARD } from '@energinet/watt/card';
@@ -85,6 +85,7 @@ import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
 
     DhDropdownTranslatorDirective,
     DhGridAreaStatusBadgeComponent,
+    DhDownloadButtonComponent,
   ],
   providers: [DhNavigationService],
 })

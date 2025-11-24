@@ -49,9 +49,7 @@ limitations under the License.
   </watt-data-filters>
 
   <watt-data-actions>
-    <watt-button icon="download" variant="secondary" (click)="download()">{{
-      "shared.download" | transloco
-    }}</watt-button>
+    <dh-download-button (clicked)="download()" />
   </watt-data-actions>
 
   <watt-table
