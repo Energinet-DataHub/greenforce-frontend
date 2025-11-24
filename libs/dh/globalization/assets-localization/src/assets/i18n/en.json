@@ -352,12 +352,14 @@
     "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
-    "PT15M": "15 min",
-    "PT1H": "60 min",
+    "PT15M": "Quarter hour",
+    "PT1H": "Hour",
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
-    "ANDET": "Other"
+    "QUARTER_HOURLY": "Quarter hour",
+    "HOURLY": "Hour",
+    "MONTHLY": "Monthly"
   },
   "netSettlementGroup": {
     "2": "Hourly settlement (2)",
@@ -371,11 +373,11 @@
       "TARIFF": "Tariff"
     },
     "resolutions": {
-      "Daily": "Daily",
-      "QuarterHourly": "Quarterly",
-      "Hourly": "Hourly",
-      "Monthly": "Monthly",
-      "Unknown": "Unknown"
+      "daily": "Day",
+      "quarterhourly": "Quarter hour",
+      "hourly": "Hour",
+      "monthly": "Month",
+      "unknown": "Unknown"
     },
     "vatClassifications": {
       "NO_VAT": "Without VAT",
@@ -384,6 +386,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
+        "createButton": "Create charge",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -418,6 +421,33 @@
         }
       }
     },
+    "create": {
+      "action": {
+        "SUBSCRIPTION": "Create subscription",
+        "FEE": "Create fee",
+        "TARIFF": "Create tariff",
+        "SELECTION": "Create charge"
+      },
+      "close": "Close",
+      "form": {
+        "id": "ID",
+        "name": "Name",
+        "description": "Description",
+        "resolution": "Resolution",
+        "hourly": "Hourly",
+        "daily": "Daily",
+        "vat": "VAT",
+        "withVat": "With VAT",
+        "withoutVat": "Without VAT",
+        "transparentInvoicing": "Transparent Invoicing",
+        "withTransparentInvoicing": "Yes",
+        "withoutTransparentInvoicing": "No",
+        "predictablePrice": "Predictable Price",
+        "withPredictablePrice": "Yes",
+        "withoutPredictablePrice": "No",
+        "validFrom": "Valid From"
+      }
+    },
     "charge": {
       "type": "Type",
       "owner": "Owner",
@@ -430,46 +460,63 @@
         "historyLabel": "History"
       },
       "actions": {
-        "actionsButton": "Actions"
+        "menu": "Actions",
+        "edit": "Edit charge information",
+        "stop": "Stop charge information"
       },
-      "breadcrumb": "Prices",
-      "priceInformation": {
-        "name": "Name",
-        "description": "Description",
-        "vatClassification": "VAT",
-        "transparentInvoicing": "Transparent Invoicing",
-        "current": "Current",
-        "history": {
-          "table": {
-            "columns": {
-              "timestamp": "Timestamp",
-              "entry": "Change"
-            }
-          },
-          "auditLogs": {
-            "Sample entry": "This is a sample {{ entry }}"
+      "breadcrumb": "Prices"
+    },
+    "priceInformation": {
+      "name": "Name",
+      "description": "Description",
+      "vatClassification": "VAT",
+      "transparentInvoicing": "Transparent Invoicing",
+      "current": "Current",
+      "history": {
+        "table": {
+          "columns": {
+            "timestamp": "Timestamp",
+            "entry": "Change"
           }
+        },
+        "auditLogs": {
+          "Sample entry": "This is a sample {{ entry }}"
         }
       }
     },
     "series": {
+      "showHistory": "Show history",
+      "resolution": {
+        "quarterhourly": "Time",
+        "hourly": "Time",
+        "daily": "Date",
+        "monthly": "Month",
+        "unknown": "Date"
+      },
       "columns": {
-        "QuarterHourly": "Time",
-        "Hourly": "Time",
-        "Daily": "Date",
-        "Monthly": "Month",
-        "Unknown": "Sequence",
-        "price": "Current price"
+        "price": "Current price",
+        "tooltip": "● Has changed values"
       },
       "details": {
         "current": "Current",
-        "time": "Time",
         "columns": {
           "price": "Price",
           "time": "Submitted"
         },
         "copyMessage": "Copy message ID",
         "navigateToMessage": "Go to message"
+      },
+      "csv": {
+        "fileName": "DataHub prices - {{ shared.downloadNameParams }}",
+        "columns": {
+          "owner": "Owner",
+          "gln": "GLN",
+          "type": "Type",
+          "id": "ID",
+          "resolution": "Resolution",
+          "from": "From",
+          "to": "To"
+        }
       }
     }
   },
@@ -477,6 +524,7 @@
     "breadcrumb": "Search metering point",
     "search": {
       "placeholder": "Search by metering point ID",
+      "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
         "containsLetters": "Metering point ID can only contain numbers and not letters",
         "meteringPointIdLength": "Metering point ID must be an 18-digit number"
@@ -489,6 +537,9 @@
       },
       "processes": {
         "tabLabel": "Processes"
+      },
+      "chargelinks": {
+        "tabLabel": "Charge links"
       },
       "messages": {
         "tabLabel": "Messages"
@@ -560,7 +611,8 @@
       "actions": {
         "actionsButton": "Actions",
         "upload": "Upload measurements",
-        "moveIn": "Customer move-in"
+        "moveIn": "Customer move-in",
+        "createChargeLink": "Attach price"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -635,22 +687,81 @@
     "selectedRelatedMeteringPoint": "Selected",
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
+    "chargeLinks": {
+      "columns": {
+        "type": "Type",
+        "id": "ID",
+        "name": "Name",
+        "owner": "Owner",
+        "amount": "Amount",
+        "period": "Period",
+        "date": "Date"
+      },
+      "navigation": {
+        "tariffAndSubscription": "Tariff and subscription",
+        "fees": "Fee"
+      },
+      "chargeType": "Type",
+      "details": {
+        "columns": {
+          "submittedAt": "Submitted",
+          "description": "Description"
+        },
+        "copyMessage": "Copy message ID",
+        "navigateToMessage": "Go to message",
+        "edit": "Edit change link",
+        "stop": "Stop change link",
+        "cancel": "Cancel change link"
+      },
+      "edit": {
+        "title": "Edit charge link",
+        "factor": "Quantity",
+        "startDate": "Start date",
+        "save": "Save changes",
+        "close": "Close"
+      },
+      "cancel": {
+        "title": "Cancel price link?",
+        "cancelWarning": "This action cannot be undone",
+        "cancel": "Cancel price link",
+        "close": "Close"
+      },
+      "stop": {
+        "title": "Stop price link",
+        "stopDate": "Stop date",
+        "save": "Save changes",
+        "close": "Close"
+      }
+    },
     "processOverview": {
       "columns": {
         "createdAt": "Time of message",
-        "documentType": "Type",
+        "reasonCode": "Type",
         "state": "State",
         "cutoffDate": "Cut-off date",
         "initiator": "Initiating participant",
         "actions": "Possible actions"
+      },
+      "reasonCode": {
+        "EndOfSupply": "End of supply (BRS-002)"
       },
       "filters": {
         "created": "Time",
         "includeViews": "Include views",
         "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
       },
+      "actions": {
+        "SEND_INFORMATION": "Send information",
+        "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information",
+        "CANCEL_WORKFLOW": "Cancel workflow",
+        "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
+      },
       "steps": {
-        "REQUEST_END_OF_SUPPLY": "Request end of supply (BRS-005)"
+        "RSM005_REQUEST": "Request end of supply (RSM-005)",
+        "RSM005_CONFIRM": "Confirm end of supply (RSM-005)",
+        "RSM005_REJECT": "Reject end of supply (RSM-005)",
+        "RSM020_REQUEST": "Notify cancellation of end of supply (RSM-020)",
+        "UNKNOWN": "Unknown Step"
       },
       "details": {
         "list": {
@@ -661,7 +772,7 @@
         },
         "columns": {
           "step": "Step",
-          "createdAt": "Time of message",
+          "completedAt": "Completed at",
           "dueDate": "Due date",
           "actor": "Actor",
           "state": "State"
@@ -749,6 +860,7 @@
         "file": "File name",
         "datepicker": "Start operation day",
         "datepickerHint": "The time will automatically be adjusted to UTC.",
+        "resolutionHint": "Upload new measurement data to change resolution.",
         "table": {
           "positionCount": "Number of positions",
           "sum": "Sum"
@@ -759,6 +871,23 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "createChargeLink": {
+      "title": "Attach price",
+      "close": "Close",
+      "back": "Back",
+      "actions": {
+        "SUBSCRIPTION": "Attach subscription",
+        "TARIFF": "Attach tariff",
+        "FEE": "Attach fee"
+      },
+      "chargeTypes": {
+        "TARIFF": "Tariff",
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee"
+      },
+      "startDate": "Start date",
+      "factor": "Quality"
     },
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
@@ -832,6 +961,63 @@
       },
       "success": "Move-in is now registered",
       "save": "Customer move-in"
+    },
+    "create": {
+      "modal": {
+        "title": "Select type of metering point to create",
+        "label": "Metering point type",
+        "placeholder": "Input or select",
+        "cancel": "Cancel",
+        "start": "Start"
+      },
+      "title": "Create {{ type }} metering point",
+      "cancel": "Cancel",
+      "create": "Create metering point",
+      "details": {
+        "title": "Details",
+        "validityDate": "Validity date",
+        "status": "{{ meteringPoint.overview.details.meteringPointStatus }}",
+        "newlyCreated": "Newly created",
+        "meteringPointId": "Metering point ID",
+        "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
+        "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
+        "powerLimitKw": "Power limit kW",
+        "powerLimitAmpere": "Power limit ampere",
+        "disconnectionType": "{{ meteringPoint.overview.details.disconnectionType }}",
+        "gridArea": "{{ meteringPoint.overview.details.gridArea }}"
+      },
+      "address": {
+        "title": "Address",
+        "actualNotActualLabel": "Actual address/Not actual address",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetName": "Street name",
+        "buildingNumber": "Building number",
+        "floor": "Floor",
+        "room": "Door",
+        "postCode": "Postal code",
+        "cityName": "City name",
+        "citySubDivisionName": "{{ meteringPoint.overview.shared.citySubDivisionName }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "commentLabel": "Comment"
+      },
+      "powerPlant": {
+        "title": "Power plant",
+        "netSettlementGroup": "Settlement group",
+        "capacity": "Capacity",
+        "gsrnNumber": "Power plant GSRN",
+        "connectionType": "Connection type",
+        "assetType": "Asset type"
+      },
+      "other": {
+        "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
+        "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
+        "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
+        "product": "Product ID"
+      }
     }
   },
   "messageArchive": {
@@ -1228,6 +1414,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "actionsButton": "Actions",
       "fileName": "DataHub market participants - {{ shared.downloadNameParams }}",
       "create": "New market participant",
       "actors": "Market Participants",

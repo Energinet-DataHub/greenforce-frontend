@@ -27,7 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 
-export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon'] as const;
+export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon', 'selection'] as const;
 export type WattButtonVariant = (typeof WattButtonTypes)[number];
 export type WattButtonType = 'button' | 'reset' | 'submit';
 export type WattButtonSize = 'small' | 'medium';
@@ -46,6 +46,7 @@ export type WattButtonSize = 'small' | 'medium';
   template: `
     <button
       mat-button
+      [disableRipple]="true"
       [disabled]="disabled()"
       [type]="type()"
       [color]="variant()"

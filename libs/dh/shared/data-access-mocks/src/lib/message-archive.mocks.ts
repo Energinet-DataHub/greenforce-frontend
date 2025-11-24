@@ -19,7 +19,11 @@
 import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { DocumentType, ProcessState } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DocumentType,
+  ProcessState,
+  ProcessStepType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   mockGetArchivedMessagesQuery,
   mockGetArchivedMessagesForMeteringPointQuery,
@@ -147,11 +151,10 @@ function getMeteringPointProcessOverview() {
             endCursor: 'endCursor',
           },
           totalCount: messageArchiveSearchResponseLogs.messages.length,
-          nodes: messageArchiveSearchResponseLogs.messages.map((m) => ({
+          nodes: messageArchiveSearchResponseLogs.messages.map((m, index) => ({
             __typename: 'MeteringPointProcess',
             id: m.id,
-            documentType: DocumentType.SendMeasurements,
-            reasonCode: 'E20',
+            reasonCode: ['MoveIn', 'BalanceFixing', 'WholesaleFixing', 'EndOfSupply'][index % 4],
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
             cutoffDate: m.createdDate ? new Date(m.createdDate) : new Date(),
             state: ProcessState.Succeeded,
@@ -174,14 +177,13 @@ function getMeteringPointProcessById(apiBase: string) {
       data: {
         __typename: 'Query',
         meteringPointProcessById: messageArchiveSearchResponseLogs.messages
-          .map((m) => ({
+          .map((m, index) => ({
             __typename: 'MeteringPointProcess' as const,
             id: m.id,
-            documentType: DocumentType.SendMeasurements,
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
             cutoffDate: m.createdDate ? new Date(m.createdDate) : new Date(),
             state: ProcessState.Succeeded,
-            reasonCode: 'E20',
+            reasonCode: ['MoveIn', 'BalanceFixing', 'WholesaleFixing', 'EndOfSupply'][index % 4],
             initiator: {
               __typename: 'MarketParticipant' as const,
               id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
@@ -191,9 +193,9 @@ function getMeteringPointProcessById(apiBase: string) {
               {
                 __typename: 'MeteringPointProcessStep' as const,
                 id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
-                step: 'REQUEST_END_OF_SUPPLY',
+                step: ProcessStepType.Rsm005Request,
                 comment: 'OBS: Sendt til foged',
-                createdAt: new Date(m.createdDate),
+                completedAt: new Date(m.createdDate),
                 dueDate: new Date(m.createdDate),
                 state: ProcessState.Succeeded,
                 messageId: '38374f50-f00c-4e2a-aec1-70d391cade06',

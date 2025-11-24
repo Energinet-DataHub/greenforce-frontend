@@ -3,14 +3,13 @@ query GetMeteringPointProcessById($id: String!) {
     id
     createdAt
     cutoffDate
-    documentType
     reasonCode
     state
     steps {
       id
       step
       comment
-      createdAt
+      completedAt
       dueDate
       actor {
         id

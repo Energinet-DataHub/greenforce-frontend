@@ -30,6 +30,7 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import { WATT_MENU } from '@energinet/watt/menu';
 
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
@@ -58,6 +59,7 @@ import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capa
     VaterUtilityDirective,
 
     WATT_TABLE,
+    WATT_MENU,
     WattDatePipe,
     WattIconComponent,
     WattButtonComponent,

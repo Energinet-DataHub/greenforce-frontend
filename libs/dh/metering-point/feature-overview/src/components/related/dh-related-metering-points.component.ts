@@ -53,7 +53,7 @@ import {
   styles: `
     .grid-container {
       display: grid;
-      grid-template-columns: 1fr 1fr min-content;
+      grid-template-columns: 1fr 1fr 140px;
       margin: 0 calc(-1 * var(--watt-space-m));
     }
 
@@ -76,7 +76,9 @@ import {
       }
 
       & > :last-child {
-        align-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
     }
 

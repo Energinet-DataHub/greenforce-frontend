@@ -14,9 +14,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.Charges.Abstractions.Api.Models;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
@@ -70,39 +71,38 @@ public class ChargeStatusTests
         var server = new GraphQLTestService();
 
         server.ChargesClientMock
-            .Setup(x => x.GetChargeInformationAsync(It.IsAny<ChargeInformationSearchCriteriaDto>(), It.IsAny<System.Threading.CancellationToken>()))
-            .Returns(
-               Task.FromResult(Result<IEnumerable<ChargeInformationDto>>.Success(new List<ChargeInformationDto>
-               {
-                new ChargeInformationDto(
-                    Id: "01234",
-                    Code: "SUB-123",
-                    ChargeType: ChargeType.Subscription,
-                    Name: "Subscription 123",
-                    Owner: "Energy Provider A",
-                    Description: "Standard grid payment",
-                    Resolution: Resolution.Daily,
-                    // TaxIndicator: false,
-                    // TransparentInvoicing: false,
-                    // VatClassification: VatClassification.Vat25,
-                    HasAnyPrices: hasAnyPrices,
-                    ValidFrom: validFrom,
-                    ValidTo: validTo),
-                new ChargeInformationDto(
-                    Id: "56789",
-                    Code: "FEE-456",
-                    ChargeType: ChargeType.Fee,
-                    Name: "Fee 456",
-                    Owner: "Grid Company B",
-                    Description: "System utilization fee",
-                    Resolution: Resolution.Daily,
-                    // TaxIndicator: false,
-                    // TransparentInvoicing: false,
-                    // VatClassification: VatClassification.Vat25,
-                    HasAnyPrices: hasAnyPrices,
-                    ValidFrom: validFrom,
-                    ValidTo: validTo),
-               })));
+            .Setup(x => x.GetChargesAsync(0, 10, null, null, It.IsAny<GetChargesQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(
+                [
+                    new(
+                        Id: "01234",
+                        Code: "SUB-123",
+                        ChargeType: ChargeType.Subscription,
+                        Name: "Subscription 123",
+                        Owner: "Energy Provider A",
+                        Description: "Standard grid payment",
+                        Resolution: Resolution.Daily,
+                        // TaxIndicator: false,
+                        // TransparentInvoicing: false,
+                        // VatClassification: VatClassification.Vat25,
+                        HasAnyPrices: hasAnyPrices,
+                        ValidFrom: validFrom,
+                        ValidTo: validTo),
+                    new(
+                        Id: "56789",
+                        Code: "FEE-456",
+                        ChargeType: ChargeType.Fee,
+                        Name: "Fee 456",
+                        Owner: "Grid Company B",
+                        Description: "System utilization fee",
+                        Resolution: Resolution.Daily,
+                        // TaxIndicator: false,
+                        // TransparentInvoicing: false,
+                        // VatClassification: VatClassification.Vat25,
+                        HasAnyPrices: hasAnyPrices,
+                        ValidFrom: validFrom,
+                        ValidTo: validTo),
+                ]);
 
         var result = await server.ExecuteRequestAsync(b => b
             .SetDocument(_query)
