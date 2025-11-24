@@ -26,9 +26,7 @@ limitations under the License.
 >
   <watt-data-actions>
     <vater-stack direction="row" gap="s">
-      <watt-button icon="download" variant="text" [loading]="isDownloading()" (click)="download()"
-        >{{ "shared.download" | transloco }}
-      </watt-button>
+      <dh-download-button [loading]="isDownloading()" (clicked)="download()" />
 
       <dh-balance-responsible-importer [uploadUrl]="importUrl()" />
     </vater-stack>

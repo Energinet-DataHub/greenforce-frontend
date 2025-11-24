@@ -28,9 +28,7 @@ limitations under the License.
       (filtersChanges)="store.updateFilters($event)"
     />
 
-    <watt-button icon="download" variant="text" (click)="store.download()">{{
-      "shared.download" | transloco
-    }}</watt-button>
+    <dh-download-button (clicked)="store.download()" />
   </vater-stack>
 
   @if (store.isLoading()) {

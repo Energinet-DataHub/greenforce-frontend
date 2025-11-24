@@ -37,29 +37,26 @@ import { Component, input } from '@angular/core';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet/watt/vater';
-import { WattButtonComponent } from '@energinet/watt/button';
 
 import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
-import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-permissions-download',
-  imports: [TranslocoPipe, WattButtonComponent, VaterStackComponent, DhPermissionRequiredDirective],
+  imports: [
+    TranslocoPipe,
+    VaterStackComponent,
+    DhPermissionRequiredDirective,
+    DhDownloadButtonComponent,
+  ],
   template: `
     <vater-stack direction="row" gap="m">
-      <watt-button icon="download" variant="secondary" (click)="exportAsCsv()">
-        {{ 'shared.download' | transloco }}
-      </watt-button>
-
-      <watt-button
+      <dh-download-button (clicked)="exportAsCsv()" />
+      <dh-download-button
         *dhPermissionRequired="['user-roles:manage']"
-        icon="download"
-        variant="secondary"
-        (click)="downloadRelationCSV()"
-      >
-        {{ 'shared.downloadreport' | transloco }}
-      </watt-button>
+        [alternateText]="'shared.downloadreport' | transloco"
+        (clicked)="downloadRelationCSV()" />
     </vater-stack>
   `,
 })

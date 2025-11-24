@@ -27,14 +27,13 @@ import {
 } from '@energinet/watt/description-list';
 
 import { WattCodeComponent } from '@energinet/watt/code';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WattDatePipe, wattFormatDate } from '@energinet/watt/date';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet/watt/drawer';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
-import { DhEmDashFallbackPipe, toFile } from '@energinet-datahub/dh/shared/ui-util';
+import { DhDownloadButtonComponent, DhEmDashFallbackPipe, toFile } from '@energinet-datahub/dh/shared/ui-util';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
@@ -46,11 +45,11 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
     WATT_DRAWER,
     WattDatePipe,
     WattCodeComponent,
-    WattButtonComponent,
     WattSpinnerComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     DhEmDashFallbackPipe,
+    DhDownloadButtonComponent,
   ],
   template: `
     <watt-drawer size="normal" *transloco="let t; prefix: 'messageArchive'" (closed)="onClose()">
@@ -75,9 +74,7 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-actions>
-        <watt-button (click)="download()" icon="download" [disabled]="!document.hasValue()">
-          {{ t('details.download') }}
-        </watt-button>
+        <dh-download-button [alternateText]="t('details.download')" [disabled]="!document.hasValue()" (clicked)="download()" />
       </watt-drawer-actions>
       <watt-drawer-content>
         @if (document.isLoading()) {

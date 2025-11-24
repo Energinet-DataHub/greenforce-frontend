@@ -18,7 +18,7 @@
 //#endregion
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Component, inject, input, computed } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
+import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import { tap } from 'rxjs';
 
@@ -34,13 +34,12 @@ import { WattToastService } from '@energinet/watt/toast';
 import { WattCodeComponent } from '@energinet/watt/code';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattTableDataSource } from '@energinet/watt/table';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhEmDashFallbackPipe, toFile } from '@energinet-datahub/dh/shared/ui-util';
+import { DhDownloadButtonComponent, DhEmDashFallbackPipe, toFile } from '@energinet-datahub/dh/shared/ui-util';
 import { GetMeteringGridAreaImbalanceByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDrawerImbalanceTableComponent } from './imbalances.component';
@@ -65,13 +64,11 @@ import { DhDrawerImbalanceTableComponent } from './imbalances.component';
     `,
   ],
   imports: [
-    TranslocoPipe,
     TranslocoDirective,
     WATT_TABS,
     WATT_DRAWER,
     WattDatePipe,
     WattCodeComponent,
-    WattButtonComponent,
     WattSpinnerComponent,
     WattDescriptionListComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
@@ -79,6 +76,7 @@ import { DhDrawerImbalanceTableComponent } from './imbalances.component';
     VaterFlexComponent,
     DhEmDashFallbackPipe,
     DhDrawerImbalanceTableComponent,
+    DhDownloadButtonComponent,
   ],
 })
 export class DhMeteringGridAreaImbalanceDetails {

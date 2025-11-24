@@ -18,17 +18,16 @@
 //#endregion
 import { Component, inject, input } from '@angular/core';
 
-import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { wattFormatDate } from '@energinet/watt/date';
-import { WattButtonComponent } from '@energinet/watt/button';
 
 import {
   GetUsersForCsvDocument,
   GetUsersForCsvQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
@@ -36,15 +35,9 @@ type Variables = Partial<GetUsersForCsvQueryVariables>;
 
 @Component({
   selector: 'dh-download-users-csv',
-  imports: [TranslocoPipe, WattButtonComponent],
+  imports: [DhDownloadButtonComponent],
   template: `
-    <watt-button
-      variant="secondary"
-      icon="download"
-      (click)="download()"
-      [loading]="query.loading()"
-      >{{ 'shared.download' | transloco }}</watt-button
-    >
+    <dh-download-button (clicked)="download()" [loading]="query.loading()" />
   `,
 })
 export class DhDownloadUsersCsvComponent {

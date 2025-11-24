@@ -19,18 +19,17 @@
 import { Component, input, effect, signal, inject, computed, output } from '@angular/core';
 
 import { Apollo } from 'apollo-angular';
-import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { dayjs, wattFormatDate } from '@energinet/watt/date';
 import { WattDatePipe } from '@energinet/watt/date';
 import { VaterFlexComponent } from '@energinet/watt/vater';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 
-import { GenerateCSV, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { GenerateCSV, DhEmDashFallbackPipe, DhDownloadButtonComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
@@ -72,17 +71,16 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
     `,
   ],
   imports: [
-    TranslocoPipe,
     TranslocoDirective,
     WATT_DRAWER,
     WattDatePipe,
     VaterFlexComponent,
-    WattButtonComponent,
     WattSpinnerComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
     DhEmDashFallbackPipe,
     DhStatusBadgeComponent,
     DhTableDayViewComponent,
+    DhDownloadButtonComponent,
   ],
 })
 export class DhImbalancePricesDetailsComponent {

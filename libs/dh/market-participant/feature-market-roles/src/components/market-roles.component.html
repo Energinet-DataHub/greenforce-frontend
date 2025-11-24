@@ -19,9 +19,7 @@ limitations under the License.
     <vater-stack direction="row" gap="s">
       <vater-spacer />
 
-      <watt-button icon="download" variant="secondary" (click)="download()">{{
-        "shared.download" | transloco
-      }}</watt-button>
+      <dh-download-button (clicked)="download()"/>
     </vater-stack>
 
     <vater-flex fill="vertical" scrollable>

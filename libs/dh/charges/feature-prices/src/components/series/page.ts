@@ -18,10 +18,9 @@
 //#endregion
 import { DecimalPipe } from '@angular/common';
 import { input, signal, computed, Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattButtonComponent } from '@energinet/watt/button';
 import {
   WattDataTableComponent,
   WattDataFiltersComponent,
@@ -38,7 +37,7 @@ import {
   GetChargeSeriesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhCircleComponent, DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhChargesIntervalField } from '../interval-field';
 import { DhChargeSeriesDetailsComponent } from './details';
@@ -49,11 +48,9 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DecimalPipe,
-    TranslocoPipe,
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
-    WattButtonComponent,
     WattDataActionsComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
@@ -63,6 +60,7 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
     DhChargeSeriesDetailsComponent,
     DhChargesIntervalField,
     DhChargesPeriodPipe,
+    DhDownloadButtonComponent,
   ],
   template: `
     <watt-data-table
@@ -89,9 +87,7 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
       </watt-data-filters>
 
       <watt-data-actions>
-        <watt-button icon="download" variant="text" (click)="download()">
-          {{ 'shared.download' | transloco }}
-        </watt-button>
+        <dh-download-button (clicked)="download()" />
       </watt-data-actions>
 
       <watt-table

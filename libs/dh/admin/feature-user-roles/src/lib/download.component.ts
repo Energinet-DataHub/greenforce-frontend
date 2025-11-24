@@ -19,11 +19,9 @@
 import { Component, inject, input } from '@angular/core';
 
 import { take } from 'rxjs';
-import { translate, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { translate, TranslocoService } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet/watt/button';
-
-import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
@@ -35,10 +33,8 @@ type Variables = Partial<GetUserRolesForCsvQueryVariables>;
 
 @Component({
   selector: 'dh-user-roles-download',
-  imports: [WattButtonComponent, TranslocoPipe],
-  template: ` <watt-button icon="download" variant="secondary" (click)="download()">{{
-    'shared.download' | transloco
-  }}</watt-button>`,
+  imports: [DhDownloadButtonComponent],
+  template: ` <dh-download-button (clicked)="download()" />`,
 })
 export class DhUserRolesDownloadComponent {
   private transloco = inject(TranslocoService);

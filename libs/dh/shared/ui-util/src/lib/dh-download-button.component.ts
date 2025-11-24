@@ -23,14 +23,21 @@ import { WattButtonComponent } from '@energinet/watt/button';
 @Component({
   selector: 'dh-download-button',
   template: `
-    <watt-button icon="download" variant="secondary" (click)="clicked.emit()" [loading]="loading()">{{
+    <watt-button icon="download" variant="secondary" [disabled]="disabled()" [loading]="loading()" (click)="clicked.emit()" >
+      @if (alternateText()) {
+        {{ alternateText() }}
+      } @else {
+      {{
         'shared.download' | transloco
       }}
+      }
     </watt-button>
   `,
   imports: [TranslocoPipe, WattButtonComponent],
 })
 export class DhDownloadButtonComponent {
   loading = input<boolean>(false);
+  alternateText = input<string | undefined>(undefined);
+  disabled = input<boolean>(false);
   clicked = output<void>();
 }

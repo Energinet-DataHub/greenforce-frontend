@@ -21,7 +21,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { effect, inject, signal, Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
+import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
@@ -30,9 +30,6 @@ import {
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective, DhDownloadButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
-
-import { WATT_CARD } from '@energinet/watt/card';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
@@ -69,12 +66,8 @@ import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
   imports: [
     FormsModule,
     RouterOutlet,
-    TranslocoPipe,
     TranslocoDirective,
-
-    WATT_CARD,
     WATT_TABLE,
-    WattButtonComponent,
     WattDropdownComponent,
     WattDataTableComponent,
     WattDataActionsComponent,

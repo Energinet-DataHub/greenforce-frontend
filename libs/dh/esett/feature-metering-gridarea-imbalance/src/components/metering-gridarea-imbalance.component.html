@@ -24,9 +24,7 @@ limitations under the License.
   [ready]="dataSource.called"
 >
   <watt-data-actions>
-    <watt-button icon="download" variant="text" (click)="download()" [loading]="query.loading()">{{
-      "shared.download" | transloco
-    }}</watt-button>
+    <dh-download-button [loading]="query.loading()" (clicked)="download()" />
   </watt-data-actions>
 
   <watt-data-filters>

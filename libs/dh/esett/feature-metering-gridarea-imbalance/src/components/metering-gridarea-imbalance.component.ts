@@ -18,7 +18,7 @@
 //#endregion
 import { RouterOutlet } from '@angular/router';
 import { Component, inject } from '@angular/core';
-import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import {
   WattDataTableComponent,
@@ -27,7 +27,6 @@ import {
 } from '@energinet/watt/data';
 
 import { WattDatePipe } from '@energinet/watt/date';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterUtilityDirective } from '@energinet/watt/vater';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
@@ -40,7 +39,7 @@ import {
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhEmDashFallbackPipe, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhDownloadButtonComponent, DhEmDashFallbackPipe, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { GetMeteringGridAreaImbalanceDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { DhMeteringGridAreaImbalance } from '../types';
@@ -64,17 +63,16 @@ type Variables = Partial<GetMeteringGridAreaImbalanceQueryVariables>;
   ],
   imports: [
     TranslocoDirective,
-    TranslocoPipe,
     RouterOutlet,
     WATT_TABLE,
     WattDatePipe,
-    WattButtonComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattDataActionsComponent,
     VaterUtilityDirective,
     DhMeteringGridAreaImbalanceFiltersComponent,
     DhEmDashFallbackPipe,
+    DhDownloadButtonComponent,
   ],
   providers: [DhNavigationService],
 })

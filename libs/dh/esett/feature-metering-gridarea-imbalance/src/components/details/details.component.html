@@ -71,12 +71,7 @@ limitations under the License.
 
       <watt-tab [label]="t('tabs.message')">
         <vater-flex>
-          <watt-button
-            variant="text"
-            icon="download"
-            (click)="download(mgai?.mgaImbalanceDocumentUrl)"
-            >{{ "shared.download" | transloco }}
-          </watt-button>
+          <dh-download-button (clicked)="download(mgai?.mgaImbalanceDocumentUrl)"/>
         </vater-flex>
         <vater-flex fill="vertical">
           @defer (on viewport) {
