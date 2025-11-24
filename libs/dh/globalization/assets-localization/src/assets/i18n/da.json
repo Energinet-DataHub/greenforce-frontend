@@ -358,7 +358,9 @@
     "P1D": "Pr. dag",
     "P1M": "Pr. måned",
     "P1Y": "Pr. år",
-    "ANDET": "Andet"
+    "QUARTER_HOURLY": "Kvarter",
+    "HOURLY": "Time",
+    "MONTHLY": "Pr. måned"
   },
   "netSettlementGroup": {
     "2": "Timebaseret afregning (2)",
@@ -859,6 +861,7 @@
         "file": "Filnavn",
         "datepicker": "Start driftsdøgn",
         "datepickerHint": "Tidspunktet vil automatisk blive overført til UTC-tid.",
+        "resolutionHint": "Upload ny måledata for at ændre tidsopløsning.",
         "table": {
           "positionCount": "Antal af positioner",
           "sum": "Sum"
