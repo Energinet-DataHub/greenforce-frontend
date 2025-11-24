@@ -36,7 +36,8 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater
 
 import {
   DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions, DhResetFiltersButtonComponent,
+  dhEnumToWattDropdownOptions,
+  DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
@@ -139,19 +140,16 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
         translateKey="eSett.outgoingMessages.shared.documentStatus"
       />
 
-      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.period">{{
-          t('period')
-        }}
+      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.period"
+        >{{ t('period') }}
       </watt-date-range-chip>
 
-      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.created">{{
-          t('created')
-        }}
+      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.created"
+        >{{ t('created') }}
       </watt-date-range-chip>
 
-      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.latestDispatch">{{
-          t('latestDispatch')
-        }}
+      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.latestDispatch"
+        >{{ t('latestDispatch') }}
       </watt-date-range-chip>
 
       <dh-reset-filters-button class="auto-margin-left" [text]="t('reset')" (clicked)="reset()" />

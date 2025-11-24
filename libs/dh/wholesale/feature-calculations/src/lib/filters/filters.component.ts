@@ -30,7 +30,8 @@ import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/wa
 import {
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
-  dhMakeFormControl, DhResetFiltersButtonComponent,
+  dhMakeFormControl,
+  DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';

@@ -46,7 +46,10 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { dhEnumToWattDropdownOptions, DhResetFiltersButtonComponent } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhEnumToWattDropdownOptions,
+  DhResetFiltersButtonComponent,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({

@@ -22,8 +22,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 @Component({
   selector: 'dh-reset-filters-button',
   template: `
-    <watt-button size="small" variant="primary" icon="close" type="reset" (click)="clicked.emit()"
-    >
+    <watt-button size="small" variant="primary" icon="close" type="reset" (click)="clicked.emit()">
       {{ text() }}
     </watt-button>
   `,

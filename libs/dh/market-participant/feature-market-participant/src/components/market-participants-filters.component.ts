@@ -32,7 +32,8 @@ import {
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
-  dhMakeFormControl, DhResetFiltersButtonComponent,
+  dhMakeFormControl,
+  DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
@@ -92,7 +93,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
       />
 
       <vater-spacer />
-      <dh-reset-filters-button [text]="t('reset')"/>
+      <dh-reset-filters-button [text]="t('reset')" />
     </form>
   `,
 })

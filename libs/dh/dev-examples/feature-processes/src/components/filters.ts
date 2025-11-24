@@ -33,7 +33,8 @@ import {
 
 import {
   dhEnumToWattDropdownOptions,
-  DhDropdownTranslatorDirective, DhResetFiltersButtonComponent,
+  DhDropdownTranslatorDirective,
+  DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
