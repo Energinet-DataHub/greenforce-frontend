@@ -1,12 +1,5 @@
 query GetChargeById($id: String!) {
   chargeById(id: $id) {
-    id
-    status
-    code
-    name
-    chargeType
-    owner
-    resolution
-    displayName
+    ...ChargeFields
   }
 }

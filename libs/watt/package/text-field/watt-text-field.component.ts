@@ -75,6 +75,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         [attr.aria-label]="label()"
         [attr.type]="type()"
         [attr.placeholder]="placeholder()"
+        [attr.size]="size()"
         [value]="model()"
         [formControl]="formControl()"
         (blur)="onTouched()"
@@ -112,6 +113,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   label = input('');
   tooltip = input('');
   prefix = input<WattIcon>();
+  size = input<string | number | null>(null);
   maxLength = input<string | number | null>(null);
   formControl = input.required<FormControl>();
   autocompleteOptions = input<string[]>([]);

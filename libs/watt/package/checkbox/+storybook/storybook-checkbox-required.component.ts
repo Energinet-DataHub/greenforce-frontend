@@ -35,6 +35,6 @@ import { WattButtonComponent } from '../../button/watt-button.component';
 export class StoryBookCheckboxRequiredComponent {
   formBuilder = inject(FormBuilder);
   form = this.formBuilder.group({
-    checkbox: [null, [Validators.requiredTrue]],
+    checkbox: [false, [Validators.requiredTrue]],
   });
 }

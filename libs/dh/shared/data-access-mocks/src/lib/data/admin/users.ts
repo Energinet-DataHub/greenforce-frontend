@@ -144,6 +144,8 @@ export const users: UserOverviewItemDto[] = [
     latestLoginAt: new Date('2024-02-02'),
     actors: [actor],
     administratedBy: actor,
+    administratedByName: actor.name,
+    administratedByOrganizationName: actor.organization.name,
   },
   {
     __typename: 'UserOverviewItemDto',
@@ -158,6 +160,8 @@ export const users: UserOverviewItemDto[] = [
     latestLoginAt: new Date('2024-02-02'),
     actors: [actor],
     administratedBy: actor,
+    administratedByName: actor.name,
+    administratedByOrganizationName: actor.organization.name,
   },
   {
     __typename: 'UserOverviewItemDto',
@@ -171,6 +175,8 @@ export const users: UserOverviewItemDto[] = [
     phoneNumber: '11223344',
     latestLoginAt: new Date('2024-02-01'),
     administratedBy: actor,
+    administratedByName: actor.name,
+    administratedByOrganizationName: actor.organization.name,
     actors: [
       {
         __typename: 'MarketParticipant',
@@ -254,6 +260,8 @@ export const users: UserOverviewItemDto[] = [
     phoneNumber: '22334455',
     latestLoginAt: new Date('2023-02-01'),
     administratedBy: actor,
+    administratedByName: actor.name,
+    administratedByOrganizationName: actor.organization.name,
     actors: [
       {
         __typename: 'MarketParticipant',
@@ -337,6 +345,8 @@ export const users: UserOverviewItemDto[] = [
     phoneNumber: '33445566',
     latestLoginAt: new Date('2024-02-01'),
     administratedBy: actor,
+    administratedByName: actor.name,
+    administratedByOrganizationName: actor.organization.name,
     actors: [
       {
         __typename: 'MarketParticipant',
@@ -420,6 +430,8 @@ export const users: UserOverviewItemDto[] = [
     phoneNumber: '44556677',
     latestLoginAt: new Date('2024-04-01'),
     administratedBy: actor,
+    administratedByName: actor.name,
+    administratedByOrganizationName: actor.organization.name,
     actors: [
       {
         __typename: 'MarketParticipant',

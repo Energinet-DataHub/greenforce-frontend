@@ -16,10 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { DecimalPipe } from '@angular/common';
-import { Component, computed, output, signal, viewChild } from '@angular/core';
-
+import { DecimalPipe, TitleCasePipe } from '@angular/common';
+import { Component, computed, input, model } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
+
+import { WattBadgeComponent } from '@energinet/watt/badge';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDataTableComponent } from '@energinet/watt/data';
+import { WattDatePipe } from '@energinet/watt/core/date';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
+import { WATT_MENU } from '@energinet/watt/menu';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
   ChargeSeries,
@@ -27,58 +35,49 @@ import {
   ChargeSeriesPoint,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { WATT_MENU } from '@energinet/watt/menu';
-import { WattBadgeComponent } from '@energinet/watt/badge';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDataTableComponent } from '@energinet/watt/data';
-import { WattDatePipe } from '@energinet/watt/core/date';
-import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet/watt/drawer';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
-
-import { Charge } from '../../types';
-import formatTime from '../../format-time';
+import { DhChargesPeriodPipe } from '../../period-pipe';
 
 @Component({
   selector: 'dh-charge-series-details',
   imports: [
+    DecimalPipe,
+    TitleCasePipe,
+    TranslocoDirective,
     WATT_MENU,
     WATT_TABLE,
     WATT_DRAWER,
     WATT_DESCRIPTION_LIST,
-
     WattDatePipe,
     WattBadgeComponent,
     WattButtonComponent,
     WattDataTableComponent,
-
-    DecimalPipe,
-    TranslocoDirective,
+    DhChargesPeriodPipe,
   ],
   template: `
     <watt-drawer
-      (closed)="closed.emit()"
+      [autoOpen]="series()"
+      [key]="series()"
+      (closed)="series.set(undefined)"
       size="small"
-      *transloco="let t; prefix: 'charges.series.details'"
+      *transloco="let t; prefix: 'charges.series'"
     >
       <watt-drawer-heading>
-        <h1>{{ charge()?.displayName }}</h1>
-        <watt-description-list variant="inline-flow">
-          <watt-description-list-item [label]="t('time')">
-            @switch (resolution()) {
-              @case ('Daily') {
-                {{ currentPoint()?.fromDateTime | wattDate }}
-              }
-              @case ('Monthly') {
-                {{ currentPoint()?.fromDateTime | wattDate: 'monthYear' }}
-              }
-              @default {
-                {{ currentPoint()?.fromDateTime | wattDate }} -
-                {{ formatTime(index(), resolution()) }}
-              }
-            }
-          </watt-description-list-item>
-        </watt-description-list>
+        @switch (resolution()) {
+          @case ('monthly') {
+            <h1>{{ start() | wattDate: 'monthYear' | titlecase }}</h1>
+          }
+          @case ('daily') {
+            <h1>{{ start() | wattDate }}</h1>
+          }
+          @default {
+            <h1>{{ start() | wattDate }}</h1>
+            <watt-description-list variant="inline-flow">
+              <watt-description-list-item [label]="t('resolution.' + resolution())">
+                {{ series()?.period | dhChargesPeriod: resolution() }}
+              </watt-description-list-item>
+            </watt-description-list>
+          }
+        }
       </watt-drawer-heading>
       <watt-drawer-content>
         <watt-data-table [autoSize]="true" [header]="false" [enablePaginator]="false">
@@ -96,14 +95,14 @@ import formatTime from '../../format-time';
             </ng-container>
             <ng-container *wattTableCell="columns.status; let series">
               @if (series.isCurrent) {
-                <watt-badge type="success">{{ t('current') }}</watt-badge>
+                <watt-badge type="success">{{ t('details.current') }}</watt-badge>
               }
             </ng-container>
             <ng-container *wattTableCell="columns.menu">
               <watt-button variant="icon" [wattMenuTriggerFor]="menu" icon="moreVertical" />
               <watt-menu #menu>
-                <watt-menu-item> {{ t('copyMessage') }} </watt-menu-item>
-                <watt-menu-item> {{ t('navigateToMessage') }} </watt-menu-item>
+                <watt-menu-item>{{ t('details.copyMessage') }}</watt-menu-item>
+                <watt-menu-item>{{ t('details.navigateToMessage') }}</watt-menu-item>
               </watt-menu>
             </ng-container>
           </watt-table>
@@ -113,33 +112,15 @@ import formatTime from '../../format-time';
   `,
 })
 export class DhChargeSeriesDetailsComponent {
-  private drawer = viewChild.required(WattDrawerComponent);
-  private series = signal<ChargeSeries | null>(null);
-
-  closed = output();
-
-  protected charge = signal<Charge | null>(null);
-  protected currentPoint = computed(() => this.series()?.currentPoint);
-  protected resolution = signal<ChargeResolution>('Unknown');
-  protected index = signal<number>(0);
-  protected dataSource = new WattTableDataSource<ChargeSeriesPoint>();
-
+  readonly resolution = input.required<ChargeResolution>();
+  readonly series = model<ChargeSeries>();
+  protected points = computed(() => this.series()?.points ?? []);
+  protected start = computed(() => this.series()?.period.start);
+  protected dataSource = dataSource(() => this.points());
   protected columns = {
     price: { accessor: (row) => row.price },
     time: { accessor: (row) => row.fromDateTime },
     status: { accessor: (row) => row.fromDateTime, header: '' },
     menu: { accessor: null, header: '' },
   } satisfies WattTableColumnDef<ChargeSeriesPoint>;
-
-  protected formatTime = (index: number, resolution: ChargeResolution) =>
-    formatTime(index, resolution, this.currentPoint()?.fromDateTime);
-
-  open(index: number, series: ChargeSeries, resolution: ChargeResolution, charge: Charge) {
-    this.series.set(series);
-    this.index.set(index);
-    this.charge.set(charge);
-    this.resolution.set(resolution);
-    this.dataSource.data = series.points;
-    this.drawer().open();
-  }
 }

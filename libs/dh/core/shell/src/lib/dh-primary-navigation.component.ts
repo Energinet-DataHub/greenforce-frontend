@@ -17,6 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
@@ -52,7 +53,9 @@ import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
   ],
   templateUrl: './dh-primary-navigation.component.html',
   imports: [
+    MatExpansionModule,
     TranslocoDirective,
+
     WattNavListComponent,
     WattNavListItemComponent,
     DhFeatureFlagDirective,

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Abstractions.Api;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.OrchestrationInstance.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 using NodaTime;

@@ -57,7 +57,7 @@ ${template}`;
 
 export const WithFormControl: StoryFn<WattRadioComponent> = () => ({
   props: {
-    exampleFormControl: new FormControl(null),
+    exampleFormControl: new FormControl('angular'),
   },
   template,
 });
@@ -71,14 +71,14 @@ WithFormControl.parameters = {
 
 export const Disabled: StoryFn<WattRadioComponent> = () => ({
   props: {
-    exampleFormControl: new FormControl({ value: null, disabled: true }),
+    exampleFormControl: new FormControl({ value: 'angular', disabled: true }),
   },
   template,
 });
 Disabled.parameters = {
   docs: {
     source: {
-      code: `new FormControl({ value: null, disabled: true })`,
+      code: `new FormControl({ value: 'angular', disabled: true })`,
     },
   },
 };

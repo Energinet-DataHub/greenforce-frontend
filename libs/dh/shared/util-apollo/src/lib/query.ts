@@ -120,6 +120,9 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
   ) => () => void;
 };
 
+// Copied from generated types, prevents optional properties from being omitted from type
+type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+
 /** Create an initial ApolloQueryResult object. */
 function makeInitialResult<T>(skip?: boolean): ApolloQueryResult<T> {
   return {
@@ -140,7 +143,7 @@ function makeReactive<R>(valueOrFunction: R | (() => R)) {
 export function query<TResult, TVariables extends OperationVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
   document: TypedDocumentNode<TResult, TVariables>,
-  options?: QueryOptions<TVariables> | (() => QueryOptions<TVariables>)
+  options?: QueryOptions<Exact<TVariables>> | (() => QueryOptions<Exact<TVariables>>)
 ): QueryResult<TResult, TVariables> {
   // Inject dependencies
   const client = inject(Apollo);

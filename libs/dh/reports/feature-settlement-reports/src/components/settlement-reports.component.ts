@@ -81,9 +81,6 @@ import { DhNewReportRequest } from './new-report-request.component';
         } @else {
           <vater-flex fill="vertical" gap="ml">
             <vater-stack direction="row" gap="s">
-              <h3>{{ t('title') }}</h3>
-              <span class="watt-chip-label">{{ totalCount() }}</span>
-
               <vater-spacer />
 
               <dh-new-report-request />

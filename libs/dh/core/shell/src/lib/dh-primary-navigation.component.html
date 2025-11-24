@@ -15,118 +15,120 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let transloco; prefix: 'sidebar.navigation'">
-  <watt-nav-list
-    *dhFeatureFlag="'dev-examples'"
-    [title]="transloco('devExamples.menuGroupLabel')"
-    [expandable]="true"
-  >
-    <watt-nav-list-item [link]="getLink('dev-examples')">{{
-      transloco("devExamples.processes")
-    }}</watt-nav-list-item>
-  </watt-nav-list>
-
-  <watt-nav-list>
-    <watt-nav-list-item
-      *dhPermissionRequired="['metering-point:search']"
-      [link]="getLink('metering-point')"
-      >{{ transloco("meteringPoints") }}</watt-nav-list-item
+  <mat-accordion>
+    <watt-nav-list
+      *dhFeatureFlag="'dev-examples'"
+      [title]="transloco('devExamples.menuGroupLabel')"
+      [expandable]="true"
     >
-  </watt-nav-list>
-
-  <ng-container *dhReleaseToggle="'PM58-PRICES-UI'">
-    <watt-nav-list *dhFeatureFlag="'charges'">
-      <watt-nav-list-item *dhPermissionRequired="['charges:view']" [link]="getLink('charges')">{{
-        transloco("prices")
+      <watt-nav-list-item [link]="getLink('dev-examples')">{{
+        transloco("devExamples.processes")
       }}</watt-nav-list-item>
     </watt-nav-list>
-  </ng-container>
 
-  <watt-nav-list [title]="transloco('messageArchive.menuGroupLabel')" [expandable]="true">
-    <watt-nav-list-item [link]="getLink('message-archive')">{{
-      transloco("messageArchive.messageArchive")
-    }}</watt-nav-list-item>
-
-    <watt-nav-list-item
-      *dhPermissionRequired="[
-        'request-aggregated-measured-data:view',
-        'request-wholesale-settlement:view',
-        'calculations:manage',
-      ]"
-      [link]="getWholesaleLink('requests')"
-    >
-      {{ transloco("messageArchive.requestCalculation") }}
-    </watt-nav-list-item>
-  </watt-nav-list>
-
-  <watt-nav-list>
-    <watt-nav-list-item
-      *dhPermissionRequired="['calculations:view']"
-      [link]="getWholesaleLink('calculations')"
-      >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
-    >
-
-    <watt-nav-list-item
-      *dhPermissionRequired="['esett-exchange:manage']"
-      [link]="getLink('esett')"
-      >{{ transloco("eSett") }}</watt-nav-list-item
-    >
-  </watt-nav-list>
-
-  <watt-nav-list
-    *dhPermissionRequired="[
-      'measurements-reports:manage',
-      'settlement-reports:manage',
-      'missing-measurements-log:view',
-    ]"
-    [expandable]="true"
-    [title]="transloco('reports.menuGroupLabel')"
-  >
-    <ng-container *dhReleaseToggle="'PM31-REPORTS'">
-      <watt-nav-list-item
-        *dhPermissionRequired="['measurements-reports:manage']"
-        [link]="getReportsLink('overview')"
-        >{{ transloco("reports.overview") }}</watt-nav-list-item
-      >
-    </ng-container>
-
-    <watt-nav-list-item
-      *dhPermissionRequired="['settlement-reports:manage', 'imbalance-prices:view']"
-      [link]="getReportsLink('settlements')"
-    >
-      {{ transloco("reports.settlements") }}
-    </watt-nav-list-item>
-
-    <ng-container *dhReleaseToggle="'MISSINGDATALOG'">
-      <watt-nav-list-item
-        *dhPermissionRequired="['missing-measurements-log:view']"
-        [link]="getMissingMeasurementsLogLink('request')"
-      >
-        {{ transloco("reports.missingMeasurementsLog") }}
-      </watt-nav-list-item>
-    </ng-container>
-  </watt-nav-list>
-
-  <watt-nav-list *dhFeatureFlag="'metering-point-debug'">
-    <ng-container *dhMarketRoleRequired="[EicFunction.DataHubAdministrator]">
+    <watt-nav-list>
       <watt-nav-list-item
         *dhPermissionRequired="['metering-point:search']"
-        [link]="getLink('metering-point-debug')"
-        >{{ transloco("meteringPointDebug") }}</watt-nav-list-item
+        [link]="getLink('metering-point')"
+        >{{ transloco("meteringPoints") }}</watt-nav-list-item
       >
+    </watt-nav-list>
+
+    <ng-container *dhReleaseToggle="'PM58-PRICES-UI'">
+      <watt-nav-list *dhFeatureFlag="'charges'">
+        <watt-nav-list-item *dhPermissionRequired="['charges:view']" [link]="getLink('charges')">{{
+          transloco("prices")
+        }}</watt-nav-list-item>
+      </watt-nav-list>
     </ng-container>
-  </watt-nav-list>
 
-  <watt-nav-list [title]="transloco('marketParticipant.menuGroupLabel')" [expandable]="true">
-    <watt-nav-list-item *dhPermissionRequired="['users:manage']" [link]="getLink('admin')">{{
-      transloco("marketParticipant.userManagement")
-    }}</watt-nav-list-item>
+    <watt-nav-list [title]="transloco('messageArchive.menuGroupLabel')" [expandable]="true">
+      <watt-nav-list-item [link]="getLink('message-archive')">{{
+        transloco("messageArchive.messageArchive")
+      }}</watt-nav-list-item>
 
-    <watt-nav-list-item [link]="getLink('market-participant')">{{
-      transloco("marketParticipant.marketParticipantMasterData")
-    }}</watt-nav-list-item>
+      <watt-nav-list-item
+        *dhPermissionRequired="[
+          'request-aggregated-measured-data:view',
+          'request-wholesale-settlement:view',
+          'calculations:manage',
+        ]"
+        [link]="getWholesaleLink('requests')"
+      >
+        {{ transloco("messageArchive.requestCalculation") }}
+      </watt-nav-list-item>
+    </watt-nav-list>
 
-    <watt-nav-list-item [link]="getLink('grid-areas')">{{
-      transloco("marketParticipant.gridAreas")
-    }}</watt-nav-list-item>
-  </watt-nav-list>
+    <watt-nav-list>
+      <watt-nav-list-item
+        *dhPermissionRequired="['calculations:view']"
+        [link]="getWholesaleLink('calculations')"
+        >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
+      >
+
+      <watt-nav-list-item
+        *dhPermissionRequired="['esett-exchange:manage']"
+        [link]="getLink('esett')"
+        >{{ transloco("eSett") }}</watt-nav-list-item
+      >
+    </watt-nav-list>
+
+    <watt-nav-list
+      *dhPermissionRequired="[
+        'measurements-reports:manage',
+        'settlement-reports:manage',
+        'missing-measurements-log:view',
+      ]"
+      [expandable]="true"
+      [title]="transloco('reports.menuGroupLabel')"
+    >
+      <ng-container *dhReleaseToggle="'PM31-REPORTS'">
+        <watt-nav-list-item
+          *dhPermissionRequired="['measurements-reports:manage']"
+          [link]="getReportsLink('overview')"
+          >{{ transloco("reports.overview") }}</watt-nav-list-item
+        >
+      </ng-container>
+
+      <watt-nav-list-item
+        *dhPermissionRequired="['settlement-reports:manage', 'imbalance-prices:view']"
+        [link]="getReportsLink('settlements')"
+      >
+        {{ transloco("reports.settlements") }}
+      </watt-nav-list-item>
+
+      <ng-container *dhReleaseToggle="'MISSINGDATALOG'">
+        <watt-nav-list-item
+          *dhPermissionRequired="['missing-measurements-log:view']"
+          [link]="getMissingMeasurementsLogLink('request')"
+        >
+          {{ transloco("reports.missingMeasurementsLog") }}
+        </watt-nav-list-item>
+      </ng-container>
+    </watt-nav-list>
+
+    <watt-nav-list *dhFeatureFlag="'metering-point-debug'">
+      <ng-container *dhMarketRoleRequired="[EicFunction.DataHubAdministrator]">
+        <watt-nav-list-item
+          *dhPermissionRequired="['metering-point:search']"
+          [link]="getLink('metering-point-debug')"
+          >{{ transloco("meteringPointDebug") }}</watt-nav-list-item
+        >
+      </ng-container>
+    </watt-nav-list>
+
+    <watt-nav-list [title]="transloco('marketParticipant.menuGroupLabel')" [expandable]="true">
+      <watt-nav-list-item *dhPermissionRequired="['users:manage']" [link]="getLink('admin')">{{
+        transloco("marketParticipant.userManagement")
+      }}</watt-nav-list-item>
+
+      <watt-nav-list-item [link]="getLink('market-participant')">{{
+        transloco("marketParticipant.marketParticipantMasterData")
+      }}</watt-nav-list-item>
+
+      <watt-nav-list-item [link]="getLink('grid-areas')">{{
+        transloco("marketParticipant.gridAreas")
+      }}</watt-nav-list-item>
+    </watt-nav-list>
+  </mat-accordion>
 </ng-container>
