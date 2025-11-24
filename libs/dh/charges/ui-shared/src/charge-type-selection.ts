@@ -41,6 +41,6 @@ import { ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
   `,
 })
 export class DhChargeTypeSelection {
-  ChargeTypes = Object.values(ChargeType);
+  chargeTypes = [ChargeType.Tariff, ChargeType.Subscription, ChargeType.Fee];
   value = model<ChargeType | null>(null);
 }
