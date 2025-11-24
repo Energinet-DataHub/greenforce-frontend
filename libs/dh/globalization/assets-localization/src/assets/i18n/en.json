@@ -357,7 +357,9 @@
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
-    "ANDET": "Other"
+    "QUARTER_HOURLY": "Quarter hour",
+    "HOURLY": "Hour",
+    "MONTHLY": "Monthly"
   },
   "netSettlementGroup": {
     "2": "Hourly settlement (2)",
@@ -806,6 +808,7 @@
         "file": "File name",
         "datepicker": "Start operation day",
         "datepickerHint": "The time will automatically be adjusted to UTC.",
+        "resolutionHint": "Upload new measurement data to change resolution.",
         "table": {
           "positionCount": "Number of positions",
           "sum": "Sum"
