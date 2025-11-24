@@ -26,11 +26,7 @@ import {
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
-import {
-  WattDataTableComponent,
-  WattDataFiltersComponent,
-  WattDataActionsComponent,
-} from '@energinet/watt/data';
+import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
 import { dayjs } from '@energinet/watt/core/date';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
