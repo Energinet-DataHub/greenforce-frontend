@@ -29,6 +29,7 @@ export * from './lib/dh-dropdown-translator.directive';
 export * from './lib/dh-enum-to-dropdown-options';
 export * from './lib/stream-to-file';
 export * from './lib/dh-result.component';
+export * from './lib/dh-download-button.component';
 export * from './lib/dh-metering-point-utils';
 export * from './lib/inject-toast';
 export * from './lib/inject-relative-navigate';
