@@ -60,7 +60,7 @@ import { Charge } from '../types';
     <watt-data-table
       [header]="false"
       [enablePaginator]="false"
-      *transloco="let t; prefix: 'meteringPoint.charges'"
+      *transloco="let t; prefix: 'meteringPoint.chargeLinks'"
       [error]="query.error()"
       [ready]="query.called() && !query.loading()"
     >
@@ -77,7 +77,7 @@ import { Charge } from '../types';
       </watt-data-filters>
 
       <watt-table
-        *transloco="let resolveHeader; prefix: 'meteringPoint.charges.columns'"
+        *transloco="let resolveHeader; prefix: 'meteringPoint.chargeLinks.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [loading]="query.loading()"

@@ -357,7 +357,9 @@
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
-    "ANDET": "Other"
+    "QUARTER_HOURLY": "Quarter hour",
+    "HOURLY": "Hour",
+    "MONTHLY": "Monthly"
   },
   "netSettlementGroup": {
     "2": "Hourly settlement (2)",
@@ -384,6 +386,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
+        "createButton": "Create charge",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -418,6 +421,33 @@
         }
       }
     },
+    "create": {
+      "action": {
+        "SUBSCRIPTION": "Create subscription",
+        "FEE": "Create fee",
+        "TARIFF": "Create tariff",
+        "SELECTION": "Create charge"
+      },
+      "close": "Close",
+      "form": {
+        "id": "ID",
+        "name": "Name",
+        "description": "Description",
+        "resolution": "Resolution",
+        "hourly": "Hourly",
+        "daily": "Daily",
+        "vat": "VAT",
+        "withVat": "With VAT",
+        "withoutVat": "Without VAT",
+        "transparentInvoicing": "Transparent Invoicing",
+        "withTransparentInvoicing": "Yes",
+        "withoutTransparentInvoicing": "No",
+        "predictablePrice": "Predictable Price",
+        "withPredictablePrice": "Yes",
+        "withoutPredictablePrice": "No",
+        "validFrom": "Valid From"
+      }
+    },
     "charge": {
       "type": "Type",
       "owner": "Owner",
@@ -430,7 +460,9 @@
         "historyLabel": "History"
       },
       "actions": {
-        "actionsButton": "Actions"
+        "menu": "Actions",
+        "edit": "Edit charge information",
+        "stop": "Stop charge information"
       },
       "breadcrumb": "Prices"
     },
@@ -579,7 +611,8 @@
       "actions": {
         "actionsButton": "Actions",
         "upload": "Upload measurements",
-        "moveIn": "Customer move-in"
+        "moveIn": "Customer move-in",
+        "createChargeLink": "Attach price"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -654,7 +687,7 @@
     "selectedRelatedMeteringPoint": "Selected",
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
-    "charges": {
+    "chargeLinks": {
       "columns": {
         "type": "Type",
         "id": "ID",
@@ -675,7 +708,29 @@
           "description": "Description"
         },
         "copyMessage": "Copy message ID",
-        "navigateToMessage": "Go to message"
+        "navigateToMessage": "Go to message",
+        "edit": "Edit change link",
+        "stop": "Stop change link",
+        "cancel": "Cancel change link"
+      },
+      "edit": {
+        "title": "Edit charge link",
+        "factor": "Quantity",
+        "startDate": "Start date",
+        "save": "Save changes",
+        "close": "Close"
+      },
+      "cancel": {
+        "title": "Cancel price link?",
+        "cancelWarning": "This action cannot be undone",
+        "cancel": "Cancel price link",
+        "close": "Close"
+      },
+      "stop": {
+        "title": "Stop price link",
+        "stopDate": "Stop date",
+        "save": "Save changes",
+        "close": "Close"
       }
     },
     "processOverview": {
@@ -805,6 +860,7 @@
         "file": "File name",
         "datepicker": "Start operation day",
         "datepickerHint": "The time will automatically be adjusted to UTC.",
+        "resolutionHint": "Upload new measurement data to change resolution.",
         "table": {
           "positionCount": "Number of positions",
           "sum": "Sum"
@@ -815,6 +871,23 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "createChargeLink": {
+      "title": "Attach price",
+      "close": "Close",
+      "back": "Back",
+      "actions": {
+        "SUBSCRIPTION": "Attach subscription",
+        "TARIFF": "Attach tariff",
+        "FEE": "Attach fee"
+      },
+      "chargeTypes": {
+        "TARIFF": "Tariff",
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee"
+      },
+      "startDate": "Start date",
+      "factor": "Quality"
     },
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",

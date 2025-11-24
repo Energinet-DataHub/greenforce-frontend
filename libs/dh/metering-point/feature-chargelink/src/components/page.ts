@@ -46,7 +46,11 @@ import { ChargeLinksSubPaths, getPath } from '@energinet-datahub/dh/core/routing
     WATT_SEGMENTED_BUTTONS,
   ],
   template: `
-    <vater-flex inset="ml" gap="ml" *transloco="let t; prefix: 'meteringPoint.charges.navigation'">
+    <vater-flex
+      inset="ml"
+      gap="ml"
+      *transloco="let t; prefix: 'meteringPoint.chargeLinks.navigation'"
+    >
       <vater-stack>
         <watt-segmented-buttons [formControl]="selectedView">
           <watt-segmented-button [value]="getLink('tariff-and-subscription')">

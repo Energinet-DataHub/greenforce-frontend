@@ -16,5 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-export { meteringPointPricesRoutes as default } from './routes';
-export { DhMeteringPointCreateChargeLink } from './components/create';
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
+import '@analogjs/vite-plugin-angular/setup-vitest';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();

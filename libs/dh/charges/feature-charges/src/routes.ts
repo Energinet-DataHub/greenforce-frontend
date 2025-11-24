@@ -27,9 +27,14 @@ export const chargeRoutes: Routes = [
       titleTranslationKey: 'charges.charges.topBarTitle',
     },
     path: '',
-    pathMatch: 'full',
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
     loadComponent: () => import('./components/charges').then((m) => m.DhCharges),
+    children: [
+      {
+        path: 'create',
+        loadComponent: () => import('./components/create-modal'),
+      },
+    ],
   },
   {
     path: ':id',

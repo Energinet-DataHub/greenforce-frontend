@@ -16,5 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { meteringPointPricesRoutes as default } from './routes';
-export { DhMeteringPointCreateChargeLink } from './components/create';
+export { DhChargeTypeSelection } from './src/charge-type-selection';
