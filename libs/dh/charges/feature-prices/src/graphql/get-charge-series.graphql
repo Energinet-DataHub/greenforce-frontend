@@ -8,8 +8,6 @@ query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
       points {
         isCurrent
         price
-        fromDateTime
-        toDateTime
       }
     }
   }
