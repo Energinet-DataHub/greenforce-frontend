@@ -117,8 +117,8 @@ public static partial class MeteringPointNode
                 var resultExternal = await client.MeteringPointExistsInternalAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
 
                 return new MeteringPointBasicDto(
-                    Id: internalMeteringPointId.Value.ToString(),
-                    MeteringPointId: resultExternal.Identification);
+                    Id: resultExternal.InternalIdentification,
+                    MeteringPointId: resultExternal.ExternalIdentification);
             }
 
             if (meteringPointId.HasValue)
@@ -126,8 +126,8 @@ public static partial class MeteringPointNode
                 var resultInternal = await client.MeteringPointExistsExternalAsync(meteringPointId.Value, ct).ConfigureAwait(false);
 
                 return new MeteringPointBasicDto(
-                    Id: resultInternal.Identification,
-                    MeteringPointId: meteringPointId.Value.ToString());
+                    Id: resultInternal.InternalIdentification,
+                    MeteringPointId: resultInternal.ExternalIdentification);
             }
 
             throw new ArgumentException("Either internalMeteringPointId or meteringPointId must be provided.");
