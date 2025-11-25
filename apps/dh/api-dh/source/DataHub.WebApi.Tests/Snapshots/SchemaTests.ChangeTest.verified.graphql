@@ -287,7 +287,7 @@ type Charge {
   series(interval: DateRange!): [ChargeSeries!]!
   owner: MarketParticipant
   displayName: String!
-  name: String
+  currentPeriod: ChargePeriod
   status: ChargeStatus!
   id: String!
   type: ChargeType!

@@ -28,6 +28,11 @@ public static class ChargeExtensions
             .FirstOrDefault();
     }
 
+    public static string ChargeIdentifierToString(this ChargeIdentifierDto ident)
+    {
+        return $"{ident.Code}|{ident.ChargeType}|{ident.Owner}";
+    }
+
     public static bool IsCurrent(this ChargeInformationPeriodDto period) =>
         period.StartDate.ToDateTimeOffset() <= DateTimeOffset.Now && (period.EndDate == null || period.EndDate?.ToDateTimeOffset() > DateTimeOffset.Now);
 }

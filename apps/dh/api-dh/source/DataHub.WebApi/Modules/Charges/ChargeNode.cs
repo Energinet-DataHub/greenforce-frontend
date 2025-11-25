@@ -97,11 +97,8 @@ public static partial class ChargeNode
         return $"{charge.ChargeIdentifierDto.Code} - {current?.Name}";
     }
 
-    public static string? Name([Parent] ChargeInformationDto charge)
-    {
-        var current = charge.GetCurrentPeriod();
-        return current?.Name;
-    }
+    public static ChargeInformationPeriodDto? CurrentPeriod([Parent] ChargeInformationDto charge) =>
+        charge.GetCurrentPeriod();
 
     public static async Task<ChargeStatus> GetStatusAsync(
         [Parent] ChargeInformationDto charge,
@@ -159,7 +156,7 @@ public static partial class ChargeNode
     {
         descriptor.Name("Charge");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => $"{f.ChargeIdentifierDto.Code}-{f.ChargeIdentifierDto.ChargeType}-{f.ChargeIdentifierDto.Owner}").Name("id");
+        descriptor.Field(f => f.ChargeIdentifierDto.ChargeIdentifierToString()).Name("id");
         descriptor.Field(f => f.ChargeIdentifierDto.ChargeType).Name("type");
         descriptor.Field(f => f.ChargeIdentifierDto.Code).Name("code");
         descriptor.Field(f => f.Resolution);

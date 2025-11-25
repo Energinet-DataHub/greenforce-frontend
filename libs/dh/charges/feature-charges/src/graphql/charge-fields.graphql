@@ -1,7 +1,6 @@
 fragment ChargeFields on Charge {
   id
   code
-  name
   type
   owner {
     id
@@ -12,6 +11,11 @@ fragment ChargeFields on Charge {
   resolution
   displayName
   status
+  currentPeriod {
+    transparentInvoicing
+    vatClassification
+    name
+  }
   periods {
     description
     period

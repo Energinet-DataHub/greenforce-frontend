@@ -57,14 +57,4 @@ public interface IChargesClient
         Resolution resolution,
         Interval interval,
         CancellationToken ct = default);
-
-    /// <summary>
-    /// Convert ChargeIdentifierDto to string representation.
-    /// </summary>
-    string ChargeIdentifierToString(ChargeIdentifierDto ident);
-
-    /// <summary>
-    /// Convert string representation to ChargeIdentifierDto.
-    /// </summary>
-    ChargeIdentifierDto StringToChargeIdentifier(string ident);
 }

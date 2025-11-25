@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.WebApi.Extensions;
@@ -27,7 +25,7 @@ using Markpart = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
 public class ChargesClient(
-    Energinet.DataHub.Charges.Client.IChargesClient client,
+    DataHub.Charges.Client.IChargesClient client,
     Markpart.IMarketParticipantClient_V1 marketParticipantClient_V1,
     IHttpContextAccessor httpContext) : IChargesClient
 {
@@ -86,7 +84,7 @@ public class ChargesClient(
         if (currentUser.ActorRole == ActorRole.SystemOperator || currentUser.ActorRole == ActorRole.EnergySupplier)
         {
             ownerGln = (await marketParticipantClient_V1.ActorGetAsync(ct))
-            .Where(x => x.MarketRole.EicFunction == Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction.SystemOperator).SingleOrDefault()?.ActorNumber.Value;
+            .Where(x => x.MarketRole.EicFunction == DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction.SystemOperator).SingleOrDefault()?.ActorNumber.Value;
         }
 
         if (string.IsNullOrWhiteSpace(ownerGln))
@@ -107,32 +105,34 @@ public class ChargesClient(
         Interval period,
         CancellationToken ct = default)
     {
-        var series = await client.GetChargeSeriesAsync(
-            new ChargeSeriesSearchCriteriaDto(
-                ident,
-                From: period.Start,
-                To: period.End),
-            ct);
+        try
+        {
+            var series = await client.GetChargeSeriesAsync(
+                new ChargeSeriesSearchCriteriaDto(
+                    ident,
+                    From: period.Start,
+                    To: period.End),
+                ct);
 
-        if (series.Value is null || series.Value.Count() == 0)
+            if (series.Value is null || series.Value.Count() == 0)
+            {
+                return [];
+            }
+
+            return series.Value.Select((s, i) =>
+            {
+                var start = AddResolution(resolution, period, i, series.Value.Count());
+                var end = AddResolution(resolution, period, i + 1, series.Value.Count());
+                return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), s.Points);
+            });
+        }
+        catch
         {
             return [];
         }
-
-        return series.Value.Select((s, i) =>
-        {
-            var start = AddResolution(resolution, period, i, series.Value.Count());
-            var end = AddResolution(resolution, period, i + 1, series.Value.Count());
-            return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), s.Points);
-        });
     }
 
-    public string ChargeIdentifierToString(ChargeIdentifierDto ident)
-    {
-        return $"{ident.Code}|{ident.ChargeType}|{ident.Owner}";
-    }
-
-    public ChargeIdentifierDto StringToChargeIdentifier(string ident)
+    private ChargeIdentifierDto StringToChargeIdentifier(string ident)
     {
         var parts = ident.Split('|');
         if (parts.Length != 3)
