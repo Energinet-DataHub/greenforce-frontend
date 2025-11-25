@@ -38,7 +38,8 @@ export class DhNotificationsCenterService {
       },
       position: 'top-right',
       dismissible: true,
-      autoClose: false,
+      autoClose: true,
+      duration: 5_000,
       style: {
         border: `1px solid ${this.colorService.getColor('grey400')}`,
         'backdrop-filter': 'blur(30px)',

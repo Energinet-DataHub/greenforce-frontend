@@ -19,15 +19,11 @@ description: Prepares dotnet outputs for publishing artifacts to dotnet.
 # This action is called from the 'dotnet-build-prerelease.yml' file.
 #
 # Prepared outputs will be zipped and uploaded as the 'ui_dotnet' artifact.
-# The SBOM file located in sbom_path must be copied to each output folder containing a deployable app.
 #
 
 inputs:
   output_path:
     description: Path to output folder, where all published apps will be placed in subfolders.
-    required: true
-  sbom_path:
-    description: Path to the SBOM file that was generated prior to this step.
     required: true
 
 runs:
@@ -42,7 +38,6 @@ runs:
           --no-restore \
           --configuration Release \
           --output '${{ inputs.output_path }}/functions/bff'
-        cp '${{ inputs.sbom_path }}' '${{ inputs.output_path }}/functions/bff/sbom.json'
 
     - name: Publish Swagger
       shell: bash

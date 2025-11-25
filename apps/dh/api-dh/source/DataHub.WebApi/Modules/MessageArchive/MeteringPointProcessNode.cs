@@ -15,12 +15,11 @@
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
-using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Client;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_002.EndOfSupply.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
 using NodaTime;
@@ -44,13 +43,13 @@ public static partial class MeteringPointProcessNode
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
-        var query = new SearchWorkflowInstancesByMeteringPointQuery(
-            MeteringPointId.Create(meteringPointId),
+        var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+            userIdentity,
+            meteringPointId,
             created.Start.ToDateTimeOffset(),
-            created.End.ToDateTimeOffset(),
-            userIdentity);
+            created.End.ToDateTimeOffset());
 
-        var workflowInstances = await processManagerClient.GetWorkflowInstancesByMeteringPointQueryAsync(query, cancellationToken);
+        var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
 
         return workflowInstances.Select(MapToMeteringPointProcess);
     }
@@ -64,7 +63,7 @@ public static partial class MeteringPointProcessNode
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
-        var query = new GetWorkflowInstanceByIdQuery(userIdentity, new WorkflowInstanceId(Guid.Parse(id)));
+        var query = new GetWorkflowInstanceByIdQuery(userIdentity, Guid.Parse(id));
 
         var workflowInstanceWithSteps = await processManagerClient.GetWorkflowInstanceByIdQueryAsync(query, cancellationToken);
 
@@ -87,15 +86,15 @@ public static partial class MeteringPointProcessNode
         }
 
         return process.WorkflowSteps.Select(step => new MeteringPointProcessStep(
-            Id: step.Id.Value.ToString(),
-            Step: "STEP NAME", // TODO: REPLACE WHEN PROCESS MANAGER IS READY
+            Id: step.Id.ToString(),
+            Step: GetStepName(step),
             Comment: null, // TODO: REPLACE WHEN PROCESS MANAGER IS READY
-            CreatedAt: step.Lifecycle.CreatedAt,
-            DueDate: step.Lifecycle.DueDate,
+            CompletedAt: step.Lifecycle.CompletedAt,
+            DueDate: null, // DueDate was removed in ProcessManager 8.1.0
             ActorNumber: step.Actor?.ActorNumber.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
-            State: MapStepStateToProcessState(step.Lifecycle.State, step.Lifecycle.TerminationState),
-            MessageId: "a7d4c835d67c4d0d88345e27d33c538b")); // MessageId which exists on test001, TODO: REPLACE WHEN PROCESS MANAGER IS READY
+            State: MapStepStateToProcessState(step.Lifecycle.State),
+            MessageId: step.MessageId ?? "a7d4c835d67c4d0d88345e27d33c538b")); // MessageId which exists on test001
     }
 
     public static IEnumerable<WorkflowAction> GetAvailableActions(
@@ -125,6 +124,7 @@ public static partial class MeteringPointProcessNode
             workflowInstance.Id,
             workflowInstance.Lifecycle,
             workflowInstance.BusinessReason.Name,
+            workflowInstance.ExpectedValidityDate,
             action: workflowInstance.Action,
             workflowSteps: null);
 
@@ -133,22 +133,24 @@ public static partial class MeteringPointProcessNode
             workflowInstanceWithSteps.Id,
             workflowInstanceWithSteps.Lifecycle,
             workflowInstanceWithSteps.BusinessReason.Name,
+            workflowInstanceWithSteps.ExpectedValidityDate,
             action: null,
             workflowSteps: workflowInstanceWithSteps.Steps);
 
     private static MeteringPointProcess CreateMeteringPointProcess(
-        WorkflowInstanceId id,
+        Guid id,
         WorkflowInstanceLifecycleDto lifecycle,
         string businessReasonString,
+        DateTimeOffset? cuteoffDate = null,
         WorkflowAction? action = null,
         IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null)
     {
         var actorIdentity = lifecycle.CreatedBy as ActorIdentityDto;
 
         return new MeteringPointProcess(
-            Id: id.Value.ToString(),
+            Id: id.ToString(),
             CreatedAt: lifecycle.CreatedAt,
-            CutoffDate: lifecycle.CutoffDate ?? lifecycle.CreatedAt,
+            CutoffDate: cuteoffDate,
             ReasonCode: businessReasonString,
             ActorNumber: actorIdentity?.ActorNumber.Value ?? string.Empty,
             ActorRole: actorIdentity?.ActorRole.Name ?? string.Empty,
@@ -169,13 +171,11 @@ public static partial class MeteringPointProcessNode
         };
 
     private static ProcessState MapStepStateToProcessState(
-        WorkflowStepInstanceLifecycleState stepState,
-        WorkflowStepInstanceTerminationState? terminationState) =>
+        WorkflowStepInstanceLifecycleState stepState) =>
         stepState switch
         {
             WorkflowStepInstanceLifecycleState.Pending => ProcessState.Pending,
-            WorkflowStepInstanceLifecycleState.Running => ProcessState.Running,
-            WorkflowStepInstanceLifecycleState.Terminated => MapStepTerminationState(terminationState),
+            WorkflowStepInstanceLifecycleState.Completed => ProcessState.Succeeded,
             _ => ProcessState.Pending,
         };
 
@@ -188,11 +188,24 @@ public static partial class MeteringPointProcessNode
             _ => ProcessState.Failed,
         };
 
-    private static ProcessState MapStepTerminationState(WorkflowStepInstanceTerminationState? terminationState) =>
-        terminationState switch
+    private static ProcessStepType GetStepName(WorkflowStepInstanceDto step)
+    {
+        return step.UniqueName switch
         {
-            WorkflowStepInstanceTerminationState.Succeeded => ProcessState.Succeeded,
-            WorkflowStepInstanceTerminationState.Failed => ProcessState.Failed,
-            _ => ProcessState.Failed,
+            var uniqueName when uniqueName == Brs_002_EndOfSupply.V1 => GetNameForEndOfSupplyV1Step(step.Sequence),
+            _ => ProcessStepType.Unknown,
         };
+    }
+
+    private static ProcessStepType GetNameForEndOfSupplyV1Step(int number)
+    {
+        return number switch
+        {
+            1 => ProcessStepType.Rsm005Request,
+            2 => ProcessStepType.Rsm005Confirm,
+            3 => ProcessStepType.Rsm005Reject,
+            4 => ProcessStepType.Rsm020Request,
+            _ => throw new ArgumentOutOfRangeException(nameof(number), number, null),
+        };
+    }
 }

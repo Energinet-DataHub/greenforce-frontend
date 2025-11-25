@@ -18,22 +18,26 @@
 //#endregion
 import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
+
 import {
   mockGetChargesQuery,
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
-  mockGetChargeLinksByMeteringPointIdQuery,
+  mockGetChargeByTypeQuery,
   mockGetChargeLinkHistoryQuery,
+  mockGetChargeLinksByMeteringPointIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+
 import {
   Charge,
+  ChargeType,
   ChargeLink,
-  ChargeResolution,
   ChargeSeries,
   ChargeStatus,
-  ChargeType,
+  ChargeResolution,
   MarketParticipant,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { dayjs, WattRange } from '@energinet/watt/core/date';
 
 const chargeLinks: ChargeLink[] = [
@@ -64,6 +68,286 @@ const chargeLinks: ChargeLink[] = [
       },
     ],
     period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+  },
+  {
+    __typename: 'ChargeLink',
+    id: '1001',
+    type: ChargeType.Tariff,
+    amount: 75.5,
+    name: 'Charge Link 2',
+    displayName: '1001 • Charge Link 2',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-2',
+      displayName: '2345678901234 • Energy Supplier B',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-02-10T09:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-003',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-03-15T11:00:00Z'),
+        description: 'Changed owner',
+        messageId: 'msg-004',
+      },
+    ],
+    period: { start: new Date('2023-02-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+  },
+  {
+    __typename: 'ChargeLink',
+    id: '1002',
+    type: ChargeType.Subscription,
+    amount: 50.0,
+    name: 'Charge Link 3',
+    displayName: '1002 • Charge Link 3',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-3',
+      displayName: '3456789012345 • Energy Supplier C',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-03-05T08:30:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-005',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-04-10T10:45:00Z'),
+        description: 'Changed period',
+        messageId: 'msg-006',
+      },
+    ],
+    period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+  },
+  {
+    __typename: 'ChargeLink',
+    id: '1003',
+    type: ChargeType.Fee,
+    amount: 120.0,
+    name: 'Charge Link 4',
+    displayName: '1003 • Charge Link 4',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-4',
+      displayName: '4567890123456 • Energy Supplier D',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-04-12T12:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-007',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-05-20T15:00:00Z'),
+        description: 'Changed amount',
+        messageId: 'msg-008',
+      },
+    ],
+    period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+  },
+  {
+    __typename: 'ChargeLink',
+    id: '1004',
+    type: ChargeType.Tariff,
+    amount: 80.0,
+    name: 'Charge Link 5',
+    displayName: '1004 • Charge Link 5',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-5',
+      displayName: '5678901234567 • Energy Supplier E',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-05-01T10:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-009',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-06-01T11:00:00Z'),
+        description: 'Changed charge type',
+        messageId: 'msg-010',
+      },
+    ],
+    period: { start: new Date('2023-05-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+  },
+  {
+    __typename: 'ChargeLink',
+    id: '1005',
+    type: ChargeType.Subscription,
+    amount: 60.0,
+    name: 'Charge Link 6',
+    displayName: '1005 • Charge Link 6',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-6',
+      displayName: '6789012345678 • Energy Supplier F',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-06-10T09:30:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-011',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-07-15T13:00:00Z'),
+        description: 'Changed owner',
+        messageId: 'msg-012',
+      },
+    ],
+    period: { start: new Date('2023-06-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+  },
+  {
+    __typename: 'ChargeLink',
+    id: '1006',
+    type: ChargeType.Fee,
+    amount: 110.0,
+    name: 'Charge Link 7',
+    displayName: '1006 • Charge Link 7',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-7',
+      displayName: '7890123456789 • Energy Supplier G',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-07-20T14:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-013',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-08-25T16:00:00Z'),
+        description: 'Changed period',
+        messageId: 'msg-014',
+      },
+    ],
+    period: { start: new Date('2023-07-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+  },
+  {
+    __typename: 'ChargeLink',
+    id: '1007',
+    type: ChargeType.Tariff,
+    amount: 90.0,
+    name: 'Charge Link 8',
+    displayName: '1007 • Charge Link 8',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-8',
+      displayName: '8901234567890 • Energy Supplier H',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-08-05T08:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-015',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-09-10T10:00:00Z'),
+        description: 'Changed amount',
+        messageId: 'msg-016',
+      },
+    ],
+    period: { start: new Date('2023-08-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+  },
+  {
+    __typename: 'ChargeLink',
+    id: '1008',
+    type: ChargeType.Subscription,
+    amount: 55.0,
+    name: 'Charge Link 9',
+    displayName: '1008 • Charge Link 9',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-9',
+      displayName: '9012345678901 • Energy Supplier I',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-09-15T09:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-017',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-10-20T12:00:00Z'),
+        description: 'Changed charge type',
+        messageId: 'msg-018',
+      },
+    ],
+    period: { start: new Date('2023-09-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+  },
+  {
+    __typename: 'ChargeLink',
+    id: '1009',
+    type: ChargeType.Fee,
+    amount: 130.0,
+    name: 'Charge Link 10',
+    displayName: '1009 • Charge Link 10',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-10',
+      displayName: '0123456789012 • Energy Supplier J',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-10-25T11:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-019',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-11-30T14:00:00Z'),
+        description: 'Changed owner',
+        messageId: 'msg-020',
+      },
+    ],
+    period: { start: new Date('2023-10-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+  },
+  {
+    __typename: 'ChargeLink',
+    id: '1010',
+    type: ChargeType.Tariff,
+    amount: 85.0,
+    name: 'Charge Link 11',
+    displayName: '1010 • Charge Link 11',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-11',
+      displayName: '1234567890133 • Energy Supplier E',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-11-05T10:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-021',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-12-10T13:00:00Z'),
+        description: 'Changed period',
+        messageId: 'msg-022',
+      },
+    ],
+    period: { start: new Date('2023-11-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
   },
 ];
 
@@ -302,12 +586,32 @@ function getChargeLinkById() {
   });
 }
 
+function getChargesByType() {
+  return mockGetChargeByTypeQuery(async ({ variables: { type } }) => {
+    await delay(mswConfig.delay);
+    const charges = makeChargesMock();
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargesByType: charges
+          .filter((charge) => charge.type === type)
+          .map((charge) => ({
+            __typename: 'Charge',
+            value: charge.id,
+            displayValue: charge.displayName,
+          })),
+      },
+    });
+  });
+}
+
 export function chargesMocks() {
   return [
     getCharges(),
     getChargeById(),
     getChargeSeries(),
-    getChargesByMeteringPointId(),
+    getChargesByType(),
     getChargeLinkById(),
+    getChargesByMeteringPointId(),
   ];
 }

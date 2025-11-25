@@ -20,6 +20,7 @@ import { Component, effect, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { from, Observable, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -32,10 +33,12 @@ import {
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattRadioComponent } from '@energinet/watt/radio';
-import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { dayjs } from '@energinet/watt/date';
 
+import { getGridAreaOptionsForPeriod } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 import { dhMeteringPointTypeParam } from './dh-metering-point-params';
@@ -89,6 +92,8 @@ import { dhMeteringPointTypeParam } from './dh-metering-point-params';
   templateUrl: './dh-create-metering-point.component.html',
 })
 export class DhCreateMeteringPoint {
+  private readonly marketParticipantId = inject(DhActorStorage).getSelectedActorId();
+
   readonly mpType = inject(ActivatedRoute)?.snapshot.queryParamMap.get(dhMeteringPointTypeParam);
 
   today = dayjs().startOf('day').toDate();
@@ -97,6 +102,7 @@ export class DhCreateMeteringPoint {
   form = new FormGroup({
     details: new FormGroup({
       validityDate: dhMakeFormControl<Date | null>(this.today, Validators.required),
+      status: dhMakeFormControl({ value: 'NEWLY_CREATED', disabled: true }),
       meteringPointId: dhMakeFormControl('', Validators.required),
       subType: dhMakeFormControl('physical', Validators.required),
       meteringPointNumber: dhMakeFormControl('', Validators.required),
@@ -130,25 +136,36 @@ export class DhCreateMeteringPoint {
     other: new FormGroup({
       resolution: dhMakeFormControl('quarterHourly', Validators.required),
       measureUnit: dhMakeFormControl('K_WH', Validators.required),
-      product: dhMakeFormControl('ENERGY_ACTIVE', Validators.required),
+      product: dhMakeFormControl({ value: 'ENERGY_ACTIVE', disabled: true }, Validators.required),
     }),
   });
 
+  gridAreaOptions = toSignal(this.getGridAreaOptions(), {
+    initialValue: [],
+  });
+
   subTypeChanged = toSignal(this.form.controls.details.controls.subType.valueChanges);
+  netSettlementGroupChanged = toSignal(
+    this.form.controls.powerPlant.controls.netSettlementGroup.valueChanges
+  );
+  measureUnitChanged = toSignal(this.form.controls.other.controls.measureUnit.valueChanges);
 
   subTypeEffect = effect(() => {
     const subType = this.subTypeChanged();
 
     if (subType === undefined) return;
 
-    if (subType !== 'physical') {
-      this.form.controls.details.controls.meteringPointNumber.reset();
-    }
-  });
+    const detailsControls = this.form.controls.details.controls;
 
-  netSettlementGroupChanged = toSignal(
-    this.form.controls.powerPlant.controls.netSettlementGroup.valueChanges
-  );
+    if (subType !== 'physical') {
+      detailsControls.meteringPointNumber.reset();
+      detailsControls.meteringPointNumber.removeValidators(Validators.required);
+    } else {
+      detailsControls.meteringPointNumber.addValidators(Validators.required);
+    }
+
+    detailsControls.meteringPointNumber.updateValueAndValidity();
+  });
 
   netSettlementGroupEffect = effect(() => {
     const netSettlementGroup = this.netSettlementGroupChanged();
@@ -168,11 +185,43 @@ export class DhCreateMeteringPoint {
     }
   });
 
+  measureUnitEffect = effect(() => {
+    const measureUnit = this.measureUnitChanged();
+
+    if (measureUnit === undefined) return;
+
+    const productControl = this.form.controls.other.controls.product;
+
+    if (measureUnit === 'K_WH') {
+      productControl.setValue('ENERGY_ACTIVE');
+    } else {
+      productControl.setValue('ENERGY_REACTIVE');
+    }
+  });
+
   isRequired(control: FormControl): boolean {
     return control.hasValidator(Validators.required);
   }
 
+  private getGridAreaOptions(): Observable<WattDropdownOptions> {
+    return from(
+      getGridAreaOptionsForPeriod(
+        {
+          start: this.yesterday,
+          end: this.today,
+        },
+        this.marketParticipantId
+      )
+    ).pipe(
+      tap((gridAreaOptions) => {
+        if (gridAreaOptions.length === 1) {
+          this.form.controls.details.controls.gridArea.setValue(gridAreaOptions[0].value);
+        }
+      })
+    );
+  }
+
   save() {
-    console.log('Saving metering point', this.form.value);
+    console.log('Saving metering point', this.form.valid, this.form.value);
   }
 }

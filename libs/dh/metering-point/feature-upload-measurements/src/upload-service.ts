@@ -38,7 +38,7 @@ export class DhUploadMeasurementsService {
   protected toastEffect = effect(() => this.toast(this.sendMeasurements.status()));
 
   /** Maps resolution string to SendMeasurementsResolution. */
-  private mapResolution = (resolution: string) => {
+  mapResolution(resolution: string): SendMeasurementsResolution {
     switch (resolution) {
       case 'PT15M':
         return SendMeasurementsResolution.QuarterHourly;
@@ -49,7 +49,7 @@ export class DhUploadMeasurementsService {
       default:
         throw new Error(`Unsupported resolution: ${resolution}`);
     }
-  };
+  }
 
   /** Maps metering point type to more narrow type.  */
   private mapMeteringPointType = (type: ElectricityMarketMeteringPointType) => {
@@ -120,16 +120,18 @@ export class DhUploadMeasurementsService {
   }
 
   /** Parses a CSV file of measurement data, streaming the result. */
-  parseFile = (file: File, resolution: string) =>
-    parseMeasurements(file, this.mapResolution(resolution));
+  parseFile(file: File, resolution: SendMeasurementsResolution) {
+    return parseMeasurements(file, resolution);
+  }
 
   /** Sends measurements to the server. */
-  send = (
+  send(
     meteringPointId: string,
     meteringPointType: ElectricityMarketMeteringPointType,
     measurementUnit: MeteringPointMeasureUnit,
+    resolution: SendMeasurementsResolution,
     result: MeasureDataResult
-  ) => {
+  ) {
     const interval = result.maybeGetDateRange();
     assertIsDefined(interval?.start);
     assertIsDefined(interval?.end);
@@ -140,12 +142,12 @@ export class DhUploadMeasurementsService {
           meteringPointId,
           meteringPointType: this.mapMeteringPointType(meteringPointType),
           measurementUnit: this.mapMeasurementUnit(measurementUnit),
-          resolution: result.resolution,
+          resolution,
           start: interval.start,
           end: interval.end,
           measurements: result.measurements,
         },
       },
     });
-  };
+  }
 }
