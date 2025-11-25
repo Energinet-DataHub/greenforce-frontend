@@ -44,10 +44,10 @@ public static partial class MeteringPointProcessNode
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
         var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+            userIdentity,
             meteringPointId,
             created.Start.ToDateTimeOffset(),
-            created.End.ToDateTimeOffset(),
-            userIdentity);
+            created.End.ToDateTimeOffset());
 
         var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
 
