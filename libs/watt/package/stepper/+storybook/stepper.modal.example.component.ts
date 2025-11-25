@@ -24,7 +24,7 @@ import { WATT_STEPPER } from '..';
 import { WattButtonComponent } from '../../button';
 import { WattModalComponent } from '../../modal/watt-modal.component';
 import { StepperExampleComponent } from './stepper.example.component';
-import { WattModalService } from '@energinet/watt/modal';
+import { WattModalService } from '../../modal/watt-modal.service';
 
 @Component({
   selector: 'watt-stepper-modal-example',
