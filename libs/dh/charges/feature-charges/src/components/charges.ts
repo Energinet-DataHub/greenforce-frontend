@@ -21,15 +21,18 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
-  VaterSpacerComponent,
   VaterStackComponent,
+  VaterSpacerComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
+
 import {
   WattTableComponent,
   WattTableColumnDef,
   WattTableCellDirective,
 } from '@energinet/watt/table';
+
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
@@ -40,7 +43,6 @@ import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphq
 import { Charge } from '../types';
 import { DhChargeStatus } from './status';
 import { DhChargesFilters } from './filters';
-import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
   selector: 'dh-charges',
@@ -95,9 +97,9 @@ import { WattIconComponent } from '@energinet/watt/icon';
         <ng-container *wattTableCell="columns.type; let element">
           {{ 'charges.chargeTypes.' + element.type | transloco }}
         </ng-container>
-        <!-- <ng-container *wattTableCell="columns.status; let element">
+        <ng-container *wattTableCell="columns.status; let element">
           <dh-charge-status [status]="element.status" />
-        </ng-container> -->
+        </ng-container>
       </watt-table>
     </watt-data-table>
     <router-outlet />
@@ -113,7 +115,7 @@ export class DhCharges {
     code: { accessor: 'code', sort: false },
     name: { accessor: 'name', sort: false },
     owner: { accessor: (charge) => charge.owner?.displayName, sort: false },
-    // status: { accessor: 'status', sort: false },
+    status: { accessor: 'status', sort: false },
   };
 
   filter: GetChargesQueryInput = {
