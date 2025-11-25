@@ -71,6 +71,7 @@ import {
   dhMeteringPointIDsValidator,
   normalizeMeteringPointIDs,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { specialMarketRoles } from '../util/special-market-roles';
 import { selectEntireMonthsValidator } from '../util/select-entire-months.validator';
@@ -147,6 +148,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly toastService = inject(WattToastService);
+  private readonly featureFlagsService = inject(DhFeatureFlagsService);
 
   private readonly requestReportMutation = mutation(RequestMeasurementsReportDocument);
 
@@ -185,8 +187,12 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     const resolutionValue = this.resolutionChanges();
     const switchToMeteringPointIDs = this.switchToMeteringPointIDsChanges();
 
-    if (this.isSpecialMarketRole || switchToMeteringPointIDs) {
-      this.periodValidatorsForMeteringPointIDs(resolutionValue);
+    if (this.featureFlagsService.isEnabled('measurements-reports-resolution-improvements')) {
+      if (this.isSpecialMarketRole || switchToMeteringPointIDs) {
+        this.periodValidatorsForMeteringPointIDs(resolutionValue);
+      } else {
+        this.periodValidatorsGeneral(resolutionValue);
+      }
     } else {
       this.periodValidatorsGeneral(resolutionValue);
     }
