@@ -20,13 +20,13 @@ import { DecimalPipe } from '@angular/common';
 import { input, signal, computed, Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattButtonComponent } from '@energinet/watt/button';
 import {
-  WattDataTableComponent,
-  WattDataFiltersComponent,
-  WattDataActionsComponent,
-} from '@energinet/watt/data';
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
 import { dayjs } from '@energinet/watt/core/date';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
@@ -52,9 +52,9 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
     TranslocoPipe,
     TranslocoDirective,
     VaterStackComponent,
+    VaterSpacerComponent,
     VaterUtilityDirective,
     WattButtonComponent,
-    WattDataActionsComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSlideToggleComponent,
@@ -68,16 +68,14 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
     <watt-data-table
       vater
       inset="ml"
-      gap="ml"
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
-      [enableCount]="false"
-      [enableSearch]="false"
+      [header]="false"
       *transloco="let t; prefix: 'charges.series'"
     >
       <watt-data-filters>
-        <vater-stack direction="row" align="baseline" gap="xl">
+        <vater-stack wrap direction="row" align="baseline" gap="m">
           <dh-charges-interval-field
             [resolution]="resolution()"
             (intervalChange)="query.refetch({ interval: $event })"
@@ -85,14 +83,12 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
           <watt-slide-toggle [(checked)]="showHistory">
             {{ t('showHistory') }}
           </watt-slide-toggle>
+          <vater-spacer />
+          <watt-button icon="download" variant="text" (click)="download()">
+            {{ 'shared.download' | transloco }}
+          </watt-button>
         </vater-stack>
       </watt-data-filters>
-
-      <watt-data-actions>
-        <watt-button icon="download" variant="text" (click)="download()">
-          {{ 'shared.download' | transloco }}
-        </watt-button>
-      </watt-data-actions>
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'charges.series.columns'"

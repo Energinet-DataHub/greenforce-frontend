@@ -486,7 +486,7 @@
       }
     },
     "series": {
-      "showHistory": "Vis historik",
+      "showHistory": "Historik",
       "resolution": {
         "quarterhourly": "Tidspunkt",
         "hourly": "Tidspunkt",
