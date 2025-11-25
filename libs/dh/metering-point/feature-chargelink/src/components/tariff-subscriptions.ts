@@ -41,6 +41,8 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { Charge } from '../types';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 @Component({
   selector: 'dh-metering-point-charge-links-tariff-subscriptions',
   imports: [
@@ -48,12 +50,13 @@ import { Charge } from '../types';
     RouterOutlet,
     TranslocoDirective,
     TranslocoPipe,
-
     WATT_TABLE,
     WattDatePipe,
     WattDropdownComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
+    WattTooltipDirective,
+    WattIconComponent,
   ],
   providers: [DhNavigationService],
   template: `
@@ -92,6 +95,12 @@ import { Charge } from '../types';
         <ng-container *wattTableCell="columns.period; let element">
           {{ element.period | wattDate }}
         </ng-container>
+
+        <ng-container *wattTableCell="columns.transparentInvoicing; let element">
+          @if (element.charge?.currentPeriod?.transparentInvoicing) {
+            <watt-icon name="forward" size="s" [wattTooltip]="t('tooltip.transparentInvoicing')" />
+          }
+        </ng-container>
       </watt-table>
     </watt-data-table>
     <router-outlet />
@@ -119,7 +128,11 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
     type: { accessor: 'type' },
     id: { accessor: 'id' },
     name: { accessor: 'name' },
-    owner: { accessor: (charge) => charge.owner?.displayName ?? '' },
+    owner: { accessor: (chargeLink) => chargeLink.owner?.displayName ?? '' },
+    transparentInvoicing: {
+      header: '',
+      accessor: (chargeLink) => chargeLink.charge?.currentPeriod?.transparentInvoicing ?? false,
+    },
     amount: { accessor: 'amount' },
     period: { accessor: 'period' },
   };
