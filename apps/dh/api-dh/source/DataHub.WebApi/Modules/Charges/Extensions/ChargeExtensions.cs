@@ -29,5 +29,5 @@ public static class ChargeExtensions
     }
 
     public static bool IsCurrent(this ChargeInformationPeriodDto period) =>
-        period.StartDate.ToDateTimeOffset() <= DateTimeOffset.Now && (period.EndDate == null || period.EndDate?.ToDateTimeOffset() > DateTimeOffset.Now);
+        period.StartDate.ToDateTimeOffset() <= DateTimeOffset.Now || period.StartDate == period.EndDate;
 }

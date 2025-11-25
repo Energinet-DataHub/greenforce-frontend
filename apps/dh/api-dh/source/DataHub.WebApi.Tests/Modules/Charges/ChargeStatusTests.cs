@@ -86,13 +86,13 @@ public class ChargeStatusTests
                                 Owner: "Energy Provider A"),
                             Resolution: Resolution.Daily,
                             TaxIndicator: false,
-                            Periods: hasAnyPrices ? [new(
+                            Periods: [new(
                                     Description: "Period 1",
                                     StartDate: Instant.FromDateTimeOffset(validFrom),
                                     EndDate: validTo == DateTimeOffset.MaxValue ? null : Instant.FromDateTimeOffset(validTo),
                                     TransparentInvoicing: false,
                                     VatClassification: VatClassification.NoVat,
-                                    Name: "Standard Period")] : []),
+                                    Name: "Standard Period")]),
                         new(
                             ChargeIdentifierDto: new ChargeIdentifierDto(
                                 Code: "FEE-456",
@@ -100,7 +100,7 @@ public class ChargeStatusTests
                                 Owner: "Grid Company B"),
                             Resolution: Resolution.Daily,
                             TaxIndicator: false,
-                            Periods: hasAnyPrices ? [
+                            Periods: [
                                 new(
                                     Description: "Period 1",
                                     StartDate: Instant.FromDateTimeOffset(validFrom),
@@ -108,21 +108,21 @@ public class ChargeStatusTests
                                     TransparentInvoicing: false,
                                     VatClassification: VatClassification.NoVat,
                                     Name: "Standard Period")
-                            ] : []),
+                            ]),
                     },
                     2)));
 #pragma warning restore SA1118 // Parameter should not span multiple lines
 
         server.ChargesClientMock
             .Setup(x => x.GetChargeSeriesAsync(It.IsAny<ChargeIdentifierDto>(), It.IsAny<Resolution>(), It.IsAny<Interval>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<ChargeSeries>(
+            .ReturnsAsync(new List<ChargeSeries>(hasAnyPrices ?
                 [
                     new ChargeSeries(
                         Period: new Interval(
                             start: Instant.FromDateTimeOffset(DateTimeOffset.Now.AddDays(-5)),
                             end: Instant.FromDateTimeOffset(DateTimeOffset.Now.AddDays(10))),
                         Points: [])
-                ]));
+                ] : []));
 
         var result = await server.ExecuteRequestAsync(b => b
             .SetDocument(_query)
