@@ -105,11 +105,11 @@ public static partial class MeteringPointNode
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<MeteringPointIdentificationDto> GetMeteringPointExistsAsync(
+    public static async Task<MeteringPointIdentificationForExistsDto> GetMeteringPointExistsAsync(
             long internalMeteringPointId,
             CancellationToken ct,
             [Service] IElectricityMarketClient_V1 client) =>
-                await client.MeteringPointExistsAsync(internalMeteringPointId, ct).ConfigureAwait(false);
+                await client.MeteringPointExistsInternalAsync(internalMeteringPointId, ct).ConfigureAwait(false);
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
