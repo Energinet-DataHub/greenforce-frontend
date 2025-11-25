@@ -23,9 +23,11 @@ import { Component, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet/watt/core/date';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
@@ -41,15 +43,14 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { Charge } from '../types';
-import { WattIconComponent } from '@energinet/watt/icon';
-import { WattTooltipDirective } from '@energinet/watt/tooltip';
 @Component({
   selector: 'dh-metering-point-charge-links-tariff-subscriptions',
   imports: [
-    ReactiveFormsModule,
     RouterOutlet,
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
+    ReactiveFormsModule,
+
     WATT_TABLE,
     WattDatePipe,
     WattDropdownComponent,
