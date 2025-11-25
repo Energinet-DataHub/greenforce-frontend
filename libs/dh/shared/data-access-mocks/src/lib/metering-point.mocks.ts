@@ -561,7 +561,7 @@ function doesInternalMeteringPointIdExist() {
           data: {
             __typename: 'Query',
             meteringPointExists: {
-              __typename: 'MeteringPointBasicDto',
+              __typename: 'MeteringPointDto',
               id: params['id'],
               meteringPointId: params['meteringPointId'],
             },

@@ -106,31 +106,35 @@ public static partial class MeteringPointNode
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<MeteringPointBasicDto> GetMeteringPointExistsAsync(
+    public static async Task<MeteringPointDto> GetMeteringPointExistsAsync(
             long? internalMeteringPointId,
             long? meteringPointId,
             CancellationToken ct,
-            [Service] IElectricityMarketClient_V1 client)
+            [Service] IElectricityMarketClient_V1 client,
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] IRequestAuthorization requestAuthorization,
+            [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
     {
-            if (internalMeteringPointId.HasValue)
-            {
-                var resultExternal = await client.MeteringPointExistsInternalAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
-
-                return new MeteringPointBasicDto(
-                    Id: resultExternal.InternalIdentification,
-                    MeteringPointId: resultExternal.ExternalIdentification);
-            }
-
-            if (meteringPointId.HasValue)
-            {
-                var resultInternal = await client.MeteringPointExistsExternalAsync(meteringPointId.Value, ct).ConfigureAwait(false);
-
-                return new MeteringPointBasicDto(
-                    Id: resultInternal.InternalIdentification,
-                    MeteringPointId: resultInternal.ExternalIdentification);
-            }
-
+        if (internalMeteringPointId == null && meteringPointId == null)
+        {
             throw new ArgumentException("Either internalMeteringPointId or meteringPointId must be provided.");
+        }
+
+        var meteringPointExternalID = meteringPointId?.ToString();
+
+        if (meteringPointExternalID == null && internalMeteringPointId.HasValue)
+        {
+            var resultInternalEndpoint = await client.MeteringPointExistsInternalAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
+
+            meteringPointExternalID = resultInternalEndpoint.ExternalIdentification;
+        }
+
+        if (meteringPointExternalID == null)
+        {
+            throw new InvalidOperationException("Could not resolve metering point external ID.");
+        }
+
+        return await GetMeteringPointAsync(meteringPointExternalID, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory);
     }
 
     [Query]
@@ -176,7 +180,7 @@ public static partial class MeteringPointNode
     }
 
     [DataLoader]
-    public static async Task<long> GetParentMeteringPointInternalIdAsync(
+    public static async Task<long?> GetParentMeteringPointInternalIdAsync(
         string meteringPointId,
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
@@ -185,7 +189,7 @@ public static partial class MeteringPointNode
     {
         var meteringPoint = await GetMeteringPointAsync(meteringPointId, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory);
 
-        return meteringPoint.Id;
+        return meteringPoint?.Id;
     }
 
     private static ElectricalHeatingDto? FindLastElectricalHeatingDto(MeteringPointDto meteringPoint)

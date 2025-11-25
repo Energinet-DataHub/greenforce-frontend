@@ -149,7 +149,7 @@ export const graphQLProvider = provideApollo(() => {
             },
             meteringPointExists(_, { args, toReference }) {
               return toReference({
-                __typename: 'MeteringPointBasicDto',
+                __typename: 'MeteringPointDto',
                 id: args?.internalMeteringPointId,
               });
             },
