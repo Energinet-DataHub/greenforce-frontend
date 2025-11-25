@@ -87,17 +87,17 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
             [columns]="columns"
             [dataSource]="dataSource"
           >
-            <ng-container *wattTableCell="columns.time; let series">
+            <!-- <ng-container *wattTableCell="columns.time; let series">
               {{ series.fromDateTime | wattDate }}
-            </ng-container>
+            </ng-container> -->
             <ng-container *wattTableCell="columns.price; let series">
               {{ series.price | number: '1.6-6' }}
             </ng-container>
-            <ng-container *wattTableCell="columns.status; let series">
+            <!-- <ng-container *wattTableCell="columns.status; let series">
               @if (series.isCurrent) {
                 <watt-badge type="success">{{ t('details.current') }}</watt-badge>
               }
-            </ng-container>
+            </ng-container> -->
             <ng-container *wattTableCell="columns.menu">
               <watt-button variant="icon" [wattMenuTriggerFor]="menu" icon="moreVertical" />
               <watt-menu #menu>
@@ -119,8 +119,8 @@ export class DhChargeSeriesDetailsComponent {
   protected dataSource = dataSource(() => this.points());
   protected columns = {
     price: { accessor: (row) => row.price },
-    time: { accessor: (row) => row.fromDateTime },
-    status: { accessor: (row) => row.fromDateTime, header: '' },
+    // time: { accessor: (row) => row.fromDateTime },
+    // status: { accessor: (row) => row.fromDateTime, header: '' },
     menu: { accessor: null, header: '' },
   } satisfies WattTableColumnDef<ChargeSeriesPoint>;
 }

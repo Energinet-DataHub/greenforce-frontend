@@ -26,7 +26,7 @@ import { capitalize } from '@energinet-datahub/dh/shared/util-text';
   name: 'dhChargesPeriod',
 })
 export class DhChargesPeriodPipe implements PipeTransform {
-  transform(input?: WattRange<Date>, resolution: ChargeResolution = 'unknown') {
+  transform(input?: WattRange<Date>, resolution: ChargeResolution = 'daily') {
     if (!input) return '';
     const start = dayjs(input.start);
     const end = dayjs(input.end).add(1, 'ms');
