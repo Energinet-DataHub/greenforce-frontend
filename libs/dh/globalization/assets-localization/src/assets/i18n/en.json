@@ -485,7 +485,7 @@
       }
     },
     "series": {
-      "showHistory": "Show history",
+      "showHistory": "History",
       "resolution": {
         "quarterhourly": "Time",
         "hourly": "Time",
