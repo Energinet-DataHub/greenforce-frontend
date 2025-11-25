@@ -25,9 +25,9 @@ import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DismissNotificationDocument,
   GetNotificationsDocument,
-  NotificationType,
   OnNotificationAddedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIcon } from '@energinet/watt/icon';
@@ -109,7 +109,7 @@ import { DhSettlementReportNotificationComponent } from './dh-settlement-report-
       [icon]="notificationIcon()"
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
-      (click)="isOpen = !isOpen"
+      (click)="togglePanel()"
     />
 
     <ng-template
@@ -129,9 +129,7 @@ import { DhSettlementReportNotificationComponent } from './dh-settlement-report-
 
         <div class="notifications-panel__items">
           @for (notification of notifications(); track notification.id) {
-            @if (
-              notification.notificationType === NotificationType.SettlementReportReadyForDownload
-            ) {
+            @if (notification.notificationType === 'SettlementReportReadyForDownload') {
               <dh-settlement-report-notification
                 [notification]="notification"
                 (click)="navigateTo(notification)"
@@ -154,13 +152,13 @@ import { DhSettlementReportNotificationComponent } from './dh-settlement-report-
 })
 export class DhNotificationsCenterComponent {
   private readonly router = inject(Router);
+  private readonly appInsights = inject(DhApplicationInsights);
   private readonly notificationsService = inject(DhNotificationsCenterService);
+
   private readonly dismissMutation = mutation(DismissNotificationDocument);
   private readonly getNotificationsQuery = query(GetNotificationsDocument);
 
   private readonly initTime = new Date();
-
-  NotificationType = NotificationType;
 
   isOpen = false;
 
@@ -208,6 +206,14 @@ export class DhNotificationsCenterComponent {
       overlayY: 'top',
     },
   ];
+
+  togglePanel(): void {
+    this.isOpen = !this.isOpen;
+
+    if (this.isOpen) {
+      this.appInsights.trackEvent('Notifications panel opened');
+    }
+  }
 
   navigateTo(notification: DhNotification): void {
     this.router.navigate(dhGetRouteByType(notification));

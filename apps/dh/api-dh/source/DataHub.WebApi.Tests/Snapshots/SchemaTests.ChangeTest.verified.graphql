@@ -877,6 +877,11 @@ type MeteringPointIdentificationDto {
   identification: String!
 }
 
+type MeteringPointIdentificationForExistsDto {
+  internalIdentification: String!
+  externalIdentification: String!
+}
+
 type MeteringPointMetadataDto {
   gridArea: GridAreaDto
   fromGridArea: GridAreaDto
@@ -1178,7 +1183,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
-  meteringPointExists(internalMeteringPointId: Long!): MeteringPointIdentificationDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPointExists(internalMeteringPointId: Long!): MeteringPointIdentificationForExistsDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
