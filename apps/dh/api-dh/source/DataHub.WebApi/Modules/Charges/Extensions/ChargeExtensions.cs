@@ -20,14 +20,14 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 
 public static class ChargeExtensions
 {
-    public static ChargeInformationPeriodDto GetCurrentPeriod(this ChargeInformationDto charge)
+    public static ChargeInformationPeriodDto? GetCurrentPeriod(this ChargeInformationDto charge)
     {
         return charge.Periods
             .Where(IsCurrent)
             .OrderBy(p => p.StartDate)
-            .First();
+            .FirstOrDefault();
     }
 
     public static bool IsCurrent(this ChargeInformationPeriodDto period) =>
-        period.StartDate.ToDateTimeOffset() <= DateTimeOffset.Now || period.StartDate == period.EndDate;
+        period.StartDate.ToDateTimeOffset() <= DateTimeOffset.Now && (period.EndDate == null || period.EndDate?.ToDateTimeOffset() > DateTimeOffset.Now);
 }

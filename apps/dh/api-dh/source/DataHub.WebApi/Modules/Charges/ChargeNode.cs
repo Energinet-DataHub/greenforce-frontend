@@ -94,13 +94,13 @@ public static partial class ChargeNode
     public static string DisplayName([Parent] ChargeInformationDto charge)
     {
         var current = charge.GetCurrentPeriod();
-        return $"{charge.ChargeIdentifierDto.Code} - {current.Name}";
+        return $"{charge.ChargeIdentifierDto.Code} - {current?.Name}";
     }
 
-    public static string Name([Parent] ChargeInformationDto charge)
+    public static string? Name([Parent] ChargeInformationDto charge)
     {
         var current = charge.GetCurrentPeriod();
-        return current.Name;
+        return current?.Name;
     }
 
     public static async Task<ChargeStatus> GetStatusAsync(
@@ -110,6 +110,12 @@ public static partial class ChargeNode
     {
         var hasAnyPrices = await hasAnyPricesDataLoader.LoadAsync(charge, ct);
         var currentPeriod = charge.GetCurrentPeriod();
+
+        if (currentPeriod == null)
+        {
+            return ChargeStatus.Invalid;
+        }
+
         var validFrom = currentPeriod.StartDate.ToDateTimeOffset();
         var validTo = currentPeriod.EndDate?.ToDateTimeOffset();
         return hasAnyPrices switch
@@ -131,10 +137,16 @@ public static partial class ChargeNode
     {
         var tasks = charges.Select(async charge =>
             {
+                var currentPeriod = charge.GetCurrentPeriod();
+                if (currentPeriod == null)
+                {
+                    return (charge, hasAnyPrices: false);
+                }
+
                 var series = await client.GetChargeSeriesAsync(
                     charge.ChargeIdentifierDto,
                     charge.Resolution,
-                    new Interval(charge.GetCurrentPeriod().StartDate, charge.GetCurrentPeriod().EndDate),
+                    new Interval(currentPeriod.StartDate, currentPeriod.EndDate),
                     ct);
                 return (charge, hasAnyPrices: series.Any());
             });

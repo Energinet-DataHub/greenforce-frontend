@@ -4,10 +4,10 @@
       "totalCount": 2,
       "items": [
         {
-          "status": "CANCELLED"
+          "status": "INVALID"
         },
         {
-          "status": "CANCELLED"
+          "status": "INVALID"
         }
       ]
     }
