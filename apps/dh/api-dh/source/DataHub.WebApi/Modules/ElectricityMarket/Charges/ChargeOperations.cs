@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
@@ -27,12 +29,10 @@ public static partial class ChargeOperations
     [UseSorting]
     [Authorize(Roles = new[] { "metering-point:prices" })]
     public static async Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(
-            string meteringPointId,
-            CancellationToken ct,
-            [Service] IChargesClient client)
-    {
-        return await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct).ConfigureAwait(false);
-    }
+        string meteringPointId,
+        CancellationToken ct,
+        IChargeLinkClient client) =>
+            await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct).ConfigureAwait(false);
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:prices" })]
@@ -40,7 +40,7 @@ public static partial class ChargeOperations
         string meteringPointId,
         string chargeLinkId,
         CancellationToken ct,
-        [Service] IChargesClient client)
+        IChargeLinkClient client)
     {
         var chargeLinks = await client
             .GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct)
@@ -50,18 +50,22 @@ public static partial class ChargeOperations
     }
 
     public static async Task<IEnumerable<ChargeLinkHistory>> GetHistoryAsync(
-            [Parent] ChargeLink chargeLink,
-            CancellationToken ct,
-            [Service] IChargesClient client)
-    {
-        return await client.GetChargeLinkHistoryAsync(chargeLink.Id, ct).ConfigureAwait(false);
-    }
+        [Parent] ChargeLink chargeLink,
+        CancellationToken ct,
+        IChargeLinkClient client) =>
+            await client.GetChargeLinkHistoryAsync(chargeLink.Id, ct).ConfigureAwait(false);
+
+    public static async Task<ChargeInformationDto?> GetChargeAsync(
+        [Parent] ChargeLink chargeLink,
+        IChargesClient client,
+        CancellationToken ct) =>
+            await client.GetChargeByIdAsync(chargeLink.Id, ct).ConfigureAwait(false);
 
     public static async Task<MarkPart.ActorDto?> GetOwnerAsync(
         [Parent] ChargeLink chargeLink,
         IMarketParticipantByIdDataLoader dataLoader,
         CancellationToken ct) =>
-        await dataLoader.LoadAsync(chargeLink.Owner.Id, ct).ConfigureAwait(false);
+            await dataLoader.LoadAsync(chargeLink.Owner.Id, ct).ConfigureAwait(false);
 
     static partial void Configure(IObjectTypeDescriptor<ChargeLink> descriptor)
     {

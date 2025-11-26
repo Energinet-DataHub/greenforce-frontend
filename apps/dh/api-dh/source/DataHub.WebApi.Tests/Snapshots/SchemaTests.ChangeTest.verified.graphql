@@ -298,6 +298,7 @@ type Charge {
 
 type ChargeLink {
   history: [ChargeLinkHistory!]!
+  charge: Charge
   owner: MarketParticipant
   amount: Int!
   id: String!
@@ -1694,8 +1695,15 @@ input CancelSettlementReportInput {
   id: String!
 }
 
+input ChargeIdentifierDtoSortInput {
+  code: SortEnumType
+  owner: SortEnumType
+  chargeType: SortEnumType
+}
+
 input ChargeLinkSortInput {
   id: SortEnumType
+  chargeIdentifier: ChargeIdentifierDtoSortInput
   type: SortEnumType
   name: SortEnumType
   owner: MarketParticipantIdSortInput

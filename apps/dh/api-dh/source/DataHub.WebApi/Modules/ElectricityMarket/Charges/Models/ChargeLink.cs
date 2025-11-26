@@ -19,6 +19,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 
 public record ChargeLink(
     string Id,
+    ChargeIdentifierDto ChargeIdentifier,
     ChargeType Type,
     string Name,
     MarketParticipantId Owner,

@@ -697,6 +697,9 @@
         "period": "Period",
         "date": "Date"
       },
+      "tooltip": {
+        "transparentInvoicing": "Transparent invoicing"
+      },
       "navigation": {
         "tariffAndSubscription": "Tariff and subscription",
         "fees": "Fee"
