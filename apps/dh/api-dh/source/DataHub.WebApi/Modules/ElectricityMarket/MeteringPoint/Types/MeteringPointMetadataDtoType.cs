@@ -49,6 +49,18 @@ public static partial class MeteringPointMetadataDtoType
         return await dataLoader.LoadAsync(meteringPointMetadata.ToGridAreaCode);
     }
 
+    public static async Task<long?> GetInternalMeteringPointParentIdAsync(
+        [Parent] MeteringPointMetadataDto meteringPointMetadata,
+        IParentMeteringPointInternalIdDataLoader dataLoader)
+    {
+        if (meteringPointMetadata.ParentMeteringPoint == null)
+        {
+            return null;
+        }
+
+        return await dataLoader.LoadAsync(meteringPointMetadata.ParentMeteringPoint);
+    }
+
     static partial void Configure(
         IObjectTypeDescriptor<MeteringPointMetadataDto> descriptor)
     {

@@ -486,7 +486,7 @@
       }
     },
     "series": {
-      "showHistory": "Vis historik",
+      "showHistory": "Historik",
       "resolution": {
         "quarterhourly": "Tidspunkt",
         "hourly": "Tidspunkt",
@@ -697,6 +697,9 @@
         "amount": "Antal",
         "period": "Periode",
         "date": "Dato"
+      },
+      "tooltip": {
+        "transparentInvoicing": "Skal viderefaktures"
       },
       "navigation": {
         "tariffAndSubscription": "Tarif og abonnement",
