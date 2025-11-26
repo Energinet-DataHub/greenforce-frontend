@@ -72,6 +72,10 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.local, DhAppEnvironment.prod],
   },
+  'measurements-reports-resolution-improvements': {
+    created: latestBump,
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

@@ -71,6 +71,7 @@ import {
   dhMeteringPointIDsValidator,
   normalizeMeteringPointIDs,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { specialMarketRoles } from '../util/special-market-roles';
 import { selectEntireMonthsValidator } from '../util/select-entire-months.validator';
@@ -147,6 +148,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly toastService = inject(WattToastService);
+  private readonly featureFlagsService = inject(DhFeatureFlagsService);
 
   private readonly requestReportMutation = mutation(RequestMeasurementsReportDocument);
 
@@ -182,16 +184,51 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private resolutionChanges = toSignal(this.form.controls.resolution.valueChanges);
 
   private resolutionEffect = effect(() => {
-    if (this.resolutionChanges() === AggregatedResolution.SumOfMonth) {
-      this.form.controls.period.removeValidators(maxDaysValidator);
-      this.form.controls.period.addValidators([entireMonthsValidator, maxMonthsValidator]);
+    const resolutionValue = this.resolutionChanges();
+
+    if (this.featureFlagsService.isEnabled('measurements-reports-resolution-improvements')) {
+      const switchToMeteringPointIDs = this.switchToMeteringPointIDsChanges();
+
+      if (this.isSpecialMarketRole || switchToMeteringPointIDs) {
+        this.periodValidatorsForMeteringPointIDs(resolutionValue);
+      } else {
+        this.periodValidatorsGeneral(resolutionValue);
+      }
     } else {
-      this.form.controls.period.removeValidators([entireMonthsValidator, maxMonthsValidator]);
-      this.form.controls.period.addValidators(maxDaysValidator);
+      this.periodValidatorsGeneral(resolutionValue);
     }
 
     this.form.controls.period.updateValueAndValidity();
   });
+
+  private periodValidatorsForMeteringPointIDs(resolution?: AggregatedResolution | null) {
+    const periodControl = this.form.controls.period;
+
+    if (resolution === AggregatedResolution.SumOfDay) {
+      periodControl.removeValidators([entireMonthsValidator, maxMonthsValidator]);
+      periodControl.addValidators(maxDaysValidator);
+    } else {
+      periodControl.removeValidators([maxDaysValidator, entireMonthsValidator]);
+
+      if (resolution === AggregatedResolution.SumOfMonth) {
+        periodControl.addValidators([entireMonthsValidator]);
+      }
+
+      periodControl.addValidators([maxMonthsValidator]);
+    }
+  }
+
+  private periodValidatorsGeneral(resolution?: AggregatedResolution | null) {
+    const periodControl = this.form.controls.period;
+
+    if (resolution === AggregatedResolution.SumOfMonth) {
+      periodControl.removeValidators(maxDaysValidator);
+      periodControl.addValidators([entireMonthsValidator, maxMonthsValidator]);
+    } else {
+      periodControl.removeValidators([entireMonthsValidator, maxMonthsValidator]);
+      periodControl.addValidators(maxDaysValidator);
+    }
+  }
 
   private switchToMeteringPointIDsEffect = effect(() => {
     if (this.isSpecialMarketRole) {
@@ -219,10 +256,12 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       this.form.controls.meteringPointIDs.reset();
       this.form.controls.meteringPointIDs.removeValidators(Validators.required);
 
-      const resolutionValue = this.resolutionChanges();
+      const resolutionValue = untracked(this.resolutionChanges);
 
       if (resolutionValue && resolutionOptionsToDisable.includes(resolutionValue)) {
         this.form.controls.resolution.reset();
+        this.form.controls.resolution.markAsPristine();
+        this.form.controls.resolution.markAsUntouched();
       }
     }
 
