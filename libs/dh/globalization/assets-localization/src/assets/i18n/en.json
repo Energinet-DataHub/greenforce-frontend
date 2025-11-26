@@ -2204,6 +2204,7 @@
       "search": "Search by ID",
       "new": "New calculation",
       "scheduledCalculationTooltip": "The actual time may differ from the scheduled time",
+      "actionsButton": "Actions",
       "capacitySettlements": {
         "uploadButton": "Upload file for capacity settlements",
         "uploadInProgress": "Upload in progress",

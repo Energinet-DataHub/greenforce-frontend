@@ -22,7 +22,7 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattTableColumnDef, WattTableComponent, WattTableDataSource } from '@energinet/watt/table';
-import { WattDataIntlService, WattDataTableComponent } from '@energinet/watt/data';
+import { WattDataActionsComponent, WattDataIntlService, WattDataTableComponent } from '@energinet/watt/data';
 
 @Injectable()
 export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
@@ -64,6 +64,7 @@ export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
     WattButtonComponent,
     VaterUtilityDirective,
     WattDataTableComponent,
+    WattDataActionsComponent,
   ],
   providers: [{ provide: WattDataIntlService, useClass: DhReportsMissingMeasurementsLogIntl }],
   template: `
@@ -77,9 +78,11 @@ export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
     >
       <h3>{{ t('results') }}</h3>
 
-      <watt-button variant="secondary" icon="plus" data-testid="newRequest" (click)="new.emit()">
-        {{ t('button') }}
-      </watt-button>
+      <watt-data-actions>
+        <watt-button variant="secondary" icon="plus" data-testid="newRequest" (click)="new.emit()">
+          {{ t('button') }}
+        </watt-button>
+      </watt-data-actions>
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'reports.missingMeasurementsLog.columns'"
