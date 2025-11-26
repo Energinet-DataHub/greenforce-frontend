@@ -38,6 +38,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Moq;
+using NodaTime;
 using IHttpClientFactory = System.Net.Http.IHttpClientFactory;
 
 namespace Energinet.DataHub.WebApi.Tests.TestServices;
@@ -70,13 +71,17 @@ public class GraphQLTestService
             .AddLogging()
             .AddAuthorization()
             .AddGraphQLServer(disableDefaultSecurity: true)
-            .AddInMemorySubscriptions()
             .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
+            .AddInMemorySubscriptions()
+            .AddAuthorization()
             .AddMutationConventions(applyToAllMutations: true)
             .AddTypes()
             .AddModules()
-            .AddAuthorization()
             .AddSorting()
+            .AddType<HotChocolate.Types.NodaTime.LocalDateType>()
+            .BindRuntimeType<Interval, DateRangeType>()
+            .BindRuntimeType<long, LongType>()
+            .BindRuntimeType<YearMonth, YearMonthType>()
             .ModifyOptions(options =>
             {
                 options.EnableOneOf = true;
@@ -88,10 +93,6 @@ public class GraphQLTestService
                 options.MaxPageSize = 250;
                 options.IncludeTotalCount = true;
             })
-            .AddType<LocalDateType>()
-            .BindRuntimeType<NodaTime.Interval, DateRangeType>()
-            .BindRuntimeType<NodaTime.YearMonth, YearMonthType>()
-            .BindRuntimeType<long, LongType>()
             .Services
             .AddSingleton<IConfiguration>(new ConfigurationRoot([]))
             .AddSingleton<ISettlementReportsClient, SettlementReportsClient>()

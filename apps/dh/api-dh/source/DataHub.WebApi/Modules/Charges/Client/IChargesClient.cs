@@ -39,7 +39,7 @@ public interface IChargesClient
     /// Get charge information by id.
     /// </summary>
     Task<ChargeInformationDto?> GetChargeByIdAsync(
-        string id,
+        ChargeIdentifierDto id,
         CancellationToken ct = default);
 
     /// <summary>
@@ -53,7 +53,7 @@ public interface IChargesClient
     /// Get charge series for a charge.
     /// </summary>
     Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
-        ChargeIdentifierDto ident,
+        ChargeIdentifierDto id,
         Resolution resolution,
         Interval interval,
         CancellationToken ct = default);
