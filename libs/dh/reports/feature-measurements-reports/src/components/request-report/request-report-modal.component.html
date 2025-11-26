@@ -60,6 +60,7 @@ limitations under the License.
       @if (isSpecialMarketRole || form.controls.switchToMeteringPointIDs.value) {
         <div class="items-group">
           <watt-textarea-field
+            small
             [formControl]="form.controls.meteringPointIDs"
             [label]="t('meteringPointIDsLabel')"
             data-testid="measurementreport.meteringPointIds"
