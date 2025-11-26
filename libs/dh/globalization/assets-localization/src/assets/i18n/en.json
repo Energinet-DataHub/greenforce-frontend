@@ -370,7 +370,8 @@
     "chargeTypes": {
       "SUBSCRIPTION": "Subscription",
       "FEE": "Fee",
-      "TARIFF": "Tariff"
+      "TARIFF": "Tariff",
+      "TARIFF_FEE": "Tariff, afgift"
     },
     "resolutions": {
       "daily": "Day",
@@ -386,7 +387,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
-        "createButton": "Create charge",
+        "createButton": "New charge",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -423,10 +424,11 @@
     },
     "create": {
       "action": {
-        "SUBSCRIPTION": "Create subscription",
-        "FEE": "Create fee",
-        "TARIFF": "Create tariff",
-        "SELECTION": "Create charge"
+        "SUBSCRIPTION": "New subscription",
+        "FEE": "New fee",
+        "TARIFF": "New tariff",
+        "TARIFF_FEE": "New tariff, fee",
+        "SELECTION": "New charge"
       },
       "close": "Close",
       "form": {
