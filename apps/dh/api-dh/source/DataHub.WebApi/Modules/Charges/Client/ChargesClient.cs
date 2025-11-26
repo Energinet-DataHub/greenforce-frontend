@@ -113,6 +113,11 @@ public class ChargesClient(
                     To: period.End),
                 ct);
 
+            if (result.IsFailure)
+            {
+                throw new GraphQLException(result.Error ?? "Exception in GetChargeSeriesAsync");
+            }
+
             var (chargeSeries, totalCount) = result.Value;
             return chargeSeries == null || !chargeSeries.Any() || totalCount == 0
                 ? []
