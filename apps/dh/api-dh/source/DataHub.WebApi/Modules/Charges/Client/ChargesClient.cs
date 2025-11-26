@@ -106,28 +106,30 @@ public class ChargesClient(
     {
         try
         {
-            var series = await client.GetChargeSeriesAsync(
+            var result = await client.GetChargeSeriesAsync(
                 new ChargeSeriesSearchCriteriaDto(
                     id,
                     From: period.Start,
                     To: period.End),
                 ct);
 
-            if (series.Value is null || series.Value.Count() == 0)
+            var (chargeSeries, totalCount) = result.Value;
+            if (chargeSeries == null || !chargeSeries.Any() || totalCount == 0)
             {
-                return [];
+                return Enumerable.Empty<ChargeSeries>();
             }
 
-            return series.Value.Select((s, i) =>
+            return chargeSeries.Select((s, i) =>
             {
-                var start = AddResolution(resolution, period, i, series.Value.Count());
-                var end = AddResolution(resolution, period, i + 1, series.Value.Count());
-                return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), s.Points);
+                var start = AddResolution(resolution, period, i, totalCount);
+                var end = AddResolution(resolution, period, i + 1, totalCount);
+                var point = new ChargeSeriesPoint(start.ToInstant(), s.Price);
+                return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), point);
             });
         }
         catch
         {
-            return [];
+            return Enumerable.Empty<ChargeSeries>();
         }
     }
 
