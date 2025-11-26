@@ -26,6 +26,7 @@ using HotChocolate.Execution;
 using Moq;
 using NodaTime;
 using Xunit;
+using ChargeType = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.Charges;
 

@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.WebApi.Extensions;
@@ -20,13 +19,16 @@ using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using NodaTime;
 using ChargeApiModels = Energinet.DataHub.Charges.Abstractions.Api.Models;
-using Markpart = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeIdentifierDto;
+using ChargeInformationDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationDto;
+using ChargeInformationSortProperty = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationSortProperty;
+using Resolution = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
 public class ChargesClient(
     DataHub.Charges.Client.IChargesClient client,
-    Markpart.IMarketParticipantClient_V1 marketParticipantClient_V1,
+    DataHub.WebApi.Clients.MarketParticipant.v1.IMarketParticipantClient_V1 marketParticipantClient_V1,
     IHttpContextAccessor httpContext) : IChargesClient
 {
     public async Task<ChargeApiModels.Result<(IEnumerable<ChargeInformationDto> Charges, int TotalCount)>> GetChargesAsync(
@@ -49,7 +51,10 @@ public class ChargesClient(
             new ChargeInformationSearchCriteriaDto(
                 skip,
                 take,
-                new ChargeInformationFilterDto(filter ?? string.Empty, query?.ActorNumbers ?? [], query?.ChargeTypes ?? []),
+                new ChargeInformationFilterDto(
+                    filter ?? string.Empty,
+                    query?.ActorNumbers ?? [],
+                    query?.ChargeTypes?.Select(c => c.Type) ?? []),
                 sortColumnName,
                 sortDirection == SortDirection.Desc),
             ct);
@@ -92,7 +97,7 @@ public class ChargesClient(
         }
 
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [ownerGln], [type]), ChargeInformationSortProperty.Type, false),
+            new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [ownerGln], [type.Type]), ChargeInformationSortProperty.Type, false),
             ct);
 
         return result.Value.Charges;

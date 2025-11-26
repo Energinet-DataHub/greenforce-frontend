@@ -11,8 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+//
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
@@ -20,7 +20,9 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
 using HotChocolate.Types.Pagination;
 using NodaTime;
-using MarkPart = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeIdentifierDto;
+using ChargeInformationDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationDto;
+using ChargeInformationPeriodDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationPeriodDto;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -78,7 +80,7 @@ public static partial class ChargeNode
         CancellationToken ct) =>
             await client.GetChargeSeriesAsync(charge.ChargeIdentifierDto, charge.Resolution, interval, ct);
 
-    public static async Task<MarkPart.ActorDto?> GetOwnerAsync(
+    public static async Task<ActorDto?> GetOwnerAsync(
         [Parent] ChargeInformationDto charge,
         IMarketParticipantByIdDataLoader dataLoader,
         CancellationToken ct)
@@ -157,7 +159,7 @@ public static partial class ChargeNode
         descriptor.Name("Charge");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.ChargeIdentifierDto).Name("id");
-        descriptor.Field(f => f.ChargeIdentifierDto.ChargeType).Name("type");
+        descriptor.Field(f => ChargeType.Make(f.ChargeIdentifierDto.ChargeType, f.TaxIndicator)).Name("type");
         descriptor.Field(f => f.ChargeIdentifierDto.Code).Name("code");
         descriptor.Field(f => f.Resolution);
         descriptor.Field(f => f.Periods);
