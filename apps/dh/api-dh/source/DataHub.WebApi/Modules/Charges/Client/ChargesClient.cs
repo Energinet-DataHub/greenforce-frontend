@@ -114,12 +114,9 @@ public class ChargesClient(
                 ct);
 
             var (chargeSeries, totalCount) = result.Value;
-            if (chargeSeries == null || !chargeSeries.Any() || totalCount == 0)
-            {
-                return Enumerable.Empty<ChargeSeries>();
-            }
-
-            return chargeSeries.Select((s, i) =>
+            return chargeSeries == null || !chargeSeries.Any() || totalCount == 0
+                ? []
+                : chargeSeries.Select((s, i) =>
             {
                 var start = AddResolution(resolution, period, i, totalCount);
                 var end = AddResolution(resolution, period, i + 1, totalCount);
@@ -128,8 +125,8 @@ public class ChargesClient(
             });
         }
         catch
-        {
-            return Enumerable.Empty<ChargeSeries>();
+            {
+                return [];
         }
     }
 
