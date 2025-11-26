@@ -1015,6 +1015,22 @@
         "connectionType": "Connection type",
         "assetType": "Asset type"
       },
+      "disconnectionType": {
+        "REMOTE_DISCONNECTION": "{{ disconnectionType.REMOTE_DISCONNECTION }} (D01)",
+        "MANUAL_DISCONNECTION": "{{ disconnectionType.MANUAL_DISCONNECTION }} (D02)"
+      },
+      "connectionType": {
+        "DIRECT": "{{ connectionType.DIRECT }} (D01)",
+        "INSTALLATION": "{{ connectionType.INSTALLATION }} (D02)"
+      },
+      "netSettlementGroup": {
+        "0": "Ingen nettoafregning (0) [DK]",
+        "3": "Immediate settlement (3)"
+      },
+      "resolution": {
+        "quarterHourly": "Quarter hour",
+        "hourly": "Hour"
+      },
       "other": {
         "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
         "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",

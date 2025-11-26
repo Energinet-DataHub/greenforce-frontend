@@ -37,11 +37,29 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/drop
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { dayjs } from '@energinet/watt/date';
 
+import {
+  ConnectionType,
+  DisconnectionType,
+  MeteringPointSubType,
+  Product,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { getGridAreaOptionsForPeriod } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import { dhMeteringPointTypeParam } from './dh-metering-point-params';
+
+enum CountryCode {
+  DK = 'DK',
+  SE = 'SE',
+  NO = 'NO',
+  FI = 'FI',
+  DE = 'DE',
+}
 
 @Component({
   selector: 'dh-create-metering-point',
@@ -61,6 +79,7 @@ import { dhMeteringPointTypeParam } from './dh-metering-point-params';
     WattDropdownComponent,
     WattDatepickerComponent,
     WattTextAreaFieldComponent,
+    DhDropdownTranslatorDirective,
   ],
   styles: `
     :host {
@@ -77,10 +96,6 @@ import { dhMeteringPointTypeParam } from './dh-metering-point-params';
 
     .country-dropdown {
       width: 200px;
-    }
-
-    watt-textarea-field {
-      --watt-textarea-min-height: 100px;
     }
 
     .is-required::after {
@@ -104,15 +119,21 @@ export class DhCreateMeteringPoint {
       validityDate: dhMakeFormControl<Date | null>(this.today, Validators.required),
       status: dhMakeFormControl({ value: 'NEWLY_CREATED', disabled: true }),
       meteringPointId: dhMakeFormControl('', Validators.required),
-      subType: dhMakeFormControl('physical', Validators.required),
+      subType: dhMakeFormControl<MeteringPointSubType>(
+        MeteringPointSubType.Physical,
+        Validators.required
+      ),
       meteringPointNumber: dhMakeFormControl('', Validators.required),
       powerLimitKw: dhMakeFormControl(''),
       powerLimitAmpere: dhMakeFormControl(''),
-      disconnectionType: dhMakeFormControl('D01', Validators.required),
+      disconnectionType: dhMakeFormControl<DisconnectionType>(
+        DisconnectionType.RemoteDisconnection,
+        Validators.required
+      ),
       gridArea: dhMakeFormControl('', Validators.required),
     }),
     address: new FormGroup({
-      countryCode: dhMakeFormControl('', Validators.required),
+      countryCode: dhMakeFormControl('DK', Validators.required),
       washInstructions: dhMakeFormControl('WASHABLE', Validators.required),
       streetName: dhMakeFormControl('', Validators.required),
       buildingNumber: dhMakeFormControl('', Validators.required),
@@ -130,19 +151,32 @@ export class DhCreateMeteringPoint {
       netSettlementGroup: dhMakeFormControl('0', Validators.required),
       capacity: dhMakeFormControl('', Validators.required),
       gsrnNumber: dhMakeFormControl('', Validators.required),
-      connectionType: dhMakeFormControl('D01', Validators.required),
+      connectionType: dhMakeFormControl<ConnectionType>(ConnectionType.Direct, Validators.required),
       assetType: dhMakeFormControl('', Validators.required),
     }),
     other: new FormGroup({
-      resolution: dhMakeFormControl('quarterHourly', Validators.required),
-      measureUnit: dhMakeFormControl('K_WH', Validators.required),
-      product: dhMakeFormControl({ value: 'ENERGY_ACTIVE', disabled: true }, Validators.required),
+      resolution: dhMakeFormControl<'quarterHourly' | 'hourly'>(
+        'quarterHourly',
+        Validators.required
+      ),
+      measureUnit: dhMakeFormControl<'K_WH' | 'K_VARH'>('K_WH', Validators.required),
+      product: dhMakeFormControl<Product>(
+        { value: Product.EnergyActive, disabled: true },
+        Validators.required
+      ),
     }),
   });
 
   gridAreaOptions = toSignal(this.getGridAreaOptions(), {
     initialValue: [],
   });
+
+  MeteringPointSubType = MeteringPointSubType;
+  DisconnectionType = DisconnectionType;
+  ConnectionType = ConnectionType;
+  Product = Product;
+
+  countryOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(CountryCode);
 
   subTypeChanged = toSignal(this.form.controls.details.controls.subType.valueChanges);
   netSettlementGroupChanged = toSignal(
@@ -157,7 +191,7 @@ export class DhCreateMeteringPoint {
 
     const detailsControls = this.form.controls.details.controls;
 
-    if (subType !== 'physical') {
+    if (subType !== MeteringPointSubType.Physical) {
       detailsControls.meteringPointNumber.reset();
       detailsControls.meteringPointNumber.removeValidators(Validators.required);
     } else {
