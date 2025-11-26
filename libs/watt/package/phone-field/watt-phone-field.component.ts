@@ -111,8 +111,8 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
           #phoneNumberInput
         />
       </div>
-      <ng-content select="watt-field-hint" />
-      <ng-content select="watt-field-error" />
+      <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
+      <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
       @if (formControl().hasError('invalidPhone')) {
         <watt-field-error> {{ intl.invalidPhoneNumber }} </watt-field-error>
       }
@@ -168,6 +168,11 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     if (value) {
       const country = this.countries.find((country) => value.startsWith(country.phoneExtension));
       if (country) {
+        // Exclude Signal from being tracked
+        // in case the parent component sets the value inside an `effect`.
+        // Without this, updating the Signal internaly triggers the parrent `effect` to re-run.
+        // Note: Revisit once v19 is released because the `effect` API has changed
+        // significantly and this might not be necessary anymore
         untracked(() => {
           this.setCountry(country);
         });
