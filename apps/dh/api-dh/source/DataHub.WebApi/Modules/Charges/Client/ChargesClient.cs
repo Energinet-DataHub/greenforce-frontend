@@ -125,8 +125,8 @@ public class ChargesClient(
             });
         }
         catch
-            {
-                return [];
+        {
+            return [];
         }
     }
 
