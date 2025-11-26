@@ -120,8 +120,8 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
   `,
   styleUrl: './watt-phone-field.component.scss',
   host: {
-    '[attr.watt-field-disabled]': 'isDisabled()'
-  }
+    '[attr.watt-field-disabled]': 'isDisabled()',
+  },
 })
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
