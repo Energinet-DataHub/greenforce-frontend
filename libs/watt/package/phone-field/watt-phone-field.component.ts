@@ -25,7 +25,7 @@ import {
   input,
   signal,
   untracked,
-  viewChild,
+  viewChild, ElementRef,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -156,7 +156,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   value: string | null = null;
 
   /** @ignore */
-  phoneNumberInput = viewChild.required('phoneNumberInput');
+  phoneNumberInput = viewChild.required<ElementRef<HTMLInputElement>>('phoneNumberInput');
 
   /** @ignore */
   ngOnInit(): void {
@@ -218,10 +218,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     this.setCountry(country);
     this.formControl().reset();
     setTimeout(() => {
-      const input = this.phoneNumberInput();
-      if (input && typeof input === 'object' && input !== null && typeof (input as any).focus === 'function') {
-        (input as HTMLInputElement).focus();
-      }
+      this.phoneNumberInput().nativeElement.focus();
     }, 100);
   }
 
