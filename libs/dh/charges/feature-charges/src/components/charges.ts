@@ -21,15 +21,18 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
-  VaterSpacerComponent,
   VaterStackComponent,
+  VaterSpacerComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
+
 import {
   WattTableComponent,
   WattTableColumnDef,
   WattTableCellDirective,
 } from '@energinet/watt/table';
+
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
@@ -40,7 +43,6 @@ import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphq
 import { Charge } from '../types';
 import { DhChargeStatus } from './status';
 import { DhChargesFilters } from './filters';
-import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
   selector: 'dh-charges',
@@ -111,7 +113,7 @@ export class DhCharges {
   columns: WattTableColumnDef<Charge> = {
     type: { accessor: 'type', sort: false },
     code: { accessor: 'code', sort: false },
-    name: { accessor: 'name', sort: false },
+    name: { accessor: (charge) => charge.currentPeriod?.name, sort: false },
     owner: { accessor: (charge) => charge.owner?.displayName, sort: false },
     status: { accessor: 'status', sort: false },
   };

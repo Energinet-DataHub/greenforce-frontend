@@ -76,6 +76,7 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
         displayName
       }
       parentMeteringPoint
+      internalMeteringPointParentId
       ownedBy
       connectionState
       netSettlementGroup

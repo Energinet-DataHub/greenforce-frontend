@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, input, linkedSignal, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -29,11 +29,12 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattModalService } from '@energinet/watt/modal';
+import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
-import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
@@ -52,6 +53,7 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
     WattButtonComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
+    WattCopyToClipboardDirective,
 
     DhPermissionRequiredDirective,
     DhFeatureFlagDirective,
@@ -65,6 +67,10 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
 
     watt-spinner {
       margin-right: var(--watt-space-m);
+    }
+
+    .debug-button {
+      margin-top: var(--watt-space-m);
     }
   `,
   template: `
@@ -109,16 +115,19 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
         </ng-content>
       </vater-stack>
 
-      @if (meteringPointNotFound()) {
+      @if (searchControl.value && meteringPointNotFound()) {
         <watt-empty-state size="small" icon="custom-no-results" [title]="t('noResultFound')" />
 
         <ng-container *dhPermissionRequired="['fas']">
           <watt-button
             *dhFeatureFlag="'metering-point-debug'"
-            variant="text"
+            variant="secondary"
+            icon="contentCopy"
+            class="debug-button"
+            [wattCopyToClipboard]="searchControl.value"
             (click)="navigateToDebug()"
           >
-            Debug
+            Debug "{{ searchControl.value }}"
           </watt-button>
         </ng-container>
       }
@@ -129,7 +138,7 @@ export class DhSearchComponent {
   private readonly router = inject(Router);
   private readonly modalService = inject(WattModalService);
 
-  private readonly doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
+  private readonly doesMeteringPointExist = lazyQuery(DoesInternalMeteringPointIdExistDocument);
   protected submitted = signal(false);
 
   searchControl = new FormControl('', {
@@ -139,27 +148,19 @@ export class DhSearchComponent {
 
   private readonly seachControlChange = toSignal(this.searchControl.valueChanges);
 
-  meteringPointId = input<string>();
-
-  meteringPointNotFound = linkedSignal(() => this.seachControlChange() === this.meteringPointId());
+  meteringPointNotFound = signal(false);
   loading = this.doesMeteringPointExist.loading;
 
   constructor() {
     effect(() => {
-      const maybeMeteringPointId = this.meteringPointId();
+      this.seachControlChange();
 
-      if (maybeMeteringPointId) {
-        this.searchControl.setValue(maybeMeteringPointId);
-        this.searchControl.markAsTouched();
-      } else {
-        this.searchControl.reset();
-      }
+      this.meteringPointNotFound.set(false);
     });
   }
 
   navigateToDebug() {
-    const meteringPointId = this.searchControl.getRawValue();
-    this.router.navigate([combinePaths('metering-point-debug', 'metering-point'), meteringPointId]);
+    this.router.navigate([combinePaths('metering-point-debug', 'metering-point')]);
   }
 
   createMeteringPoint() {
@@ -174,6 +175,8 @@ export class DhSearchComponent {
 
     if (this.searchControl.invalid) return;
 
+    this.meteringPointNotFound.set(false);
+
     const meteringPointId = this.searchControl.getRawValue();
     const result = await this.doesMeteringPointExist.query({
       variables: {
@@ -185,6 +188,6 @@ export class DhSearchComponent {
       return this.meteringPointNotFound.set(true);
     }
 
-    this.router.navigate(['/', getPath('metering-point'), meteringPointId]);
+    this.router.navigate(['/', getPath('metering-point'), result.data.meteringPointExists.id]);
   }
 }

@@ -119,16 +119,16 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
                 {{ 'charges.resolutions.' + resolution | transloco }}
               }
             </watt-description-list-item>
-            <!-- <watt-description-list-item [label]="t('vat')">
-              @let vatClassification = charge()?.vatClassification;
+            <watt-description-list-item [label]="t('vat')">
+              @let vatClassification = charge()?.currentPeriod?.vatClassification;
               @if (vatClassification) {
                 {{ 'charges.vatClassifications.' + vatClassification | transloco }}
               }
             </watt-description-list-item>
             <watt-description-list-item [label]="t('transparentInvoicing')">
-              @let transparentInvoicing = charge()?.transparentInvoicing;
+              @let transparentInvoicing = charge()?.currentPeriod?.transparentInvoicing;
               {{ transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
-            </watt-description-list-item> -->
+            </watt-description-list-item>
           </watt-description-list>
         </div>
 

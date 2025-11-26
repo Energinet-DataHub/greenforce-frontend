@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;

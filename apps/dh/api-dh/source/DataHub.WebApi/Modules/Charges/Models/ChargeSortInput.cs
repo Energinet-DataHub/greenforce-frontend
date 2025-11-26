@@ -17,5 +17,5 @@ using Energinet.DataHub.WebApi.Modules.Common.Enums;
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 public record ChargeSortInput(
-    SortDirection? FromDateTime,
-    SortDirection? Price);
+    SortDirection? Type,
+    SortDirection? Code);

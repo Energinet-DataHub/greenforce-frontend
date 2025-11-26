@@ -41,6 +41,7 @@ export const WattIconMap = {
   monetization: 'monetization_on',
   payments: 'payments',
   forwardMessage: 'forward_to_inbox',
+  forward: 'forward',
   menu: 'menu',
   moreVertical: 'more_vert',
   logout: 'logout',
