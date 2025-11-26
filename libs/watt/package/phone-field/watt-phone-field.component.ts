@@ -120,8 +120,8 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
   `,
   styleUrl: './watt-phone-field.component.scss',
   host: {
-    '[attr.watt-field-disabled]': 'isDisabled()'
-  }
+    '[attr.watt-field-disabled]': 'isDisabled()',
+  },
 })
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
@@ -219,7 +219,12 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     this.formControl().reset();
     setTimeout(() => {
       const input = this.phoneNumberInput();
-      if (input && typeof input === 'object' && input !== null && typeof (input as any).focus === 'function') {
+      if (
+        input &&
+        typeof input === 'object' &&
+        input !== null &&
+        typeof (input as any).focus === 'function'
+      ) {
         (input as HTMLInputElement).focus();
       }
     }, 100);
