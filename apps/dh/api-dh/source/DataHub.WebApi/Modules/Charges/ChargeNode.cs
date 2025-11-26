@@ -59,7 +59,7 @@ public static partial class ChargeNode
     [Authorize(Roles = new[] { "charges:view" })]
     public static async Task<ChargeInformationDto?> GetChargeByIdAsync(
         IChargesClient client,
-        string id,
+        ChargeIdentifierDto id,
         CancellationToken ct) =>
             await client.GetChargeByIdAsync(id, ct);
 
@@ -156,7 +156,7 @@ public static partial class ChargeNode
     {
         descriptor.Name("Charge");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.ChargeIdentifierDto.ChargeIdentifierToString()).Name("id");
+        descriptor.Field(f => f.ChargeIdentifierDto).Name("id");
         descriptor.Field(f => f.ChargeIdentifierDto.ChargeType).Name("type");
         descriptor.Field(f => f.ChargeIdentifierDto.Code).Name("code");
         descriptor.Field(f => f.Resolution);

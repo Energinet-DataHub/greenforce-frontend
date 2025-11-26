@@ -63,12 +63,11 @@ public class ChargesClient(
     }
 
     public async Task<ChargeInformationDto?> GetChargeByIdAsync(
-        string id,
+        ChargeIdentifierDto id,
         CancellationToken ct = default)
     {
-        var ident = StringToChargeIdentifier(id);
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(ident.Code, [ident.Owner], [ident.ChargeType]), ChargeInformationSortProperty.Type, false),
+            new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(id.Code, [id.Owner], [id.ChargeType]), ChargeInformationSortProperty.Type, false),
             ct);
 
         return result.Value.Charges.FirstOrDefault();
@@ -100,7 +99,7 @@ public class ChargesClient(
     }
 
     public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
-        ChargeIdentifierDto ident,
+        ChargeIdentifierDto id,
         Resolution resolution,
         Interval period,
         CancellationToken ct = default)
@@ -109,7 +108,7 @@ public class ChargesClient(
         {
             var series = await client.GetChargeSeriesAsync(
                 new ChargeSeriesSearchCriteriaDto(
-                    ident,
+                    id,
                     From: period.Start,
                     To: period.End),
                 ct);
@@ -130,20 +129,6 @@ public class ChargesClient(
         {
             return [];
         }
-    }
-
-    private ChargeIdentifierDto StringToChargeIdentifier(string ident)
-    {
-        var parts = ident.Split('|');
-        if (parts.Length != 3)
-        {
-            throw new ArgumentException("Invalid charge identifier format", nameof(ident));
-        }
-
-        return new ChargeIdentifierDto(
-            Code: parts[0],
-            Owner: parts[2],
-            ChargeType: Enum.Parse<ChargeType>(parts[1]));
     }
 
     private ZonedDateTime AddResolution(Resolution resolution, Interval period, int index, int totalCount)
