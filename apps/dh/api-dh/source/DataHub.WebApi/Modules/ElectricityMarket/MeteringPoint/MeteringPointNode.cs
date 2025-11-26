@@ -17,6 +17,7 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRe
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using HotChocolate.Authorization;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
@@ -105,11 +106,36 @@ public static partial class MeteringPointNode
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<MeteringPointIdentificationDto> GetMeteringPointExistsAsync(
-            long internalMeteringPointId,
+    public static async Task<MeteringPointDto> GetMeteringPointExistsAsync(
+            long? internalMeteringPointId,
+            long? meteringPointId,
             CancellationToken ct,
-            [Service] IElectricityMarketClient_V1 client) =>
-                await client.MeteringPointExistsAsync(internalMeteringPointId, ct).ConfigureAwait(false);
+            [Service] IElectricityMarketClient_V1 client,
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] IRequestAuthorization requestAuthorization,
+            [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
+    {
+        if (internalMeteringPointId == null && meteringPointId == null)
+        {
+            throw new ArgumentException("Either internalMeteringPointId or meteringPointId must be provided.");
+        }
+
+        var meteringPointExternalID = meteringPointId?.ToString();
+
+        if (meteringPointExternalID == null && internalMeteringPointId.HasValue)
+        {
+            var resultInternalEndpoint = await client.MeteringPointExistsInternalAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
+
+            meteringPointExternalID = resultInternalEndpoint.ExternalIdentification;
+        }
+
+        if (meteringPointExternalID == null)
+        {
+            throw new InvalidOperationException("Could not resolve metering point external ID.");
+        }
+
+        return await GetMeteringPointAsync(meteringPointExternalID, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory);
+    }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
@@ -151,6 +177,19 @@ public static partial class MeteringPointNode
         }
 
         throw new InvalidOperationException("User is not authorized to access the requested metering point.");
+    }
+
+    [DataLoader]
+    public static async Task<long?> GetParentMeteringPointInternalIdAsync(
+        string meteringPointId,
+        CancellationToken ct,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
+    {
+        var meteringPoint = await GetMeteringPointAsync(meteringPointId, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory);
+
+        return meteringPoint?.Id;
     }
 
     private static ElectricalHeatingDto? FindLastElectricalHeatingDto(MeteringPointDto meteringPoint)

@@ -18,3 +18,4 @@
 //#endregion
 export const dhMeteringPointTypeParam = 'type';
 export const dhMeteringPointIdParam = 'meteringPointId';
+export const dhInternalMeteringPointIdParam = 'internalMeteringPointId';

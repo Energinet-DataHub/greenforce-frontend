@@ -1,13 +1,13 @@
 ﻿{
   "data": {
     "charges": {
-      "totalCount": 9999,
+      "totalCount": 2,
       "items": [
         {
-          "status": "CLOSED"
+          "status": "INVALID"
         },
         {
-          "status": "CLOSED"
+          "status": "INVALID"
         }
       ]
     }

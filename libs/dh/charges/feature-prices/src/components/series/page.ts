@@ -70,16 +70,14 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
     <watt-data-table
       vater
       inset="ml"
-      gap="ml"
       [error]="query.error()"
       [ready]="query.called()"
       [enablePaginator]="false"
-      [enableCount]="false"
-      [enableSearch]="false"
+      [header]="false"
       *transloco="let t; prefix: 'charges.series'"
     >
       <watt-data-filters>
-        <vater-stack direction="row" align="baseline" gap="xl">
+        <vater-stack wrap direction="row" align="baseline" gap="m">
           <dh-charges-interval-field
             [resolution]="resolution()"
             (intervalChange)="query.refetch({ interval: $event })"

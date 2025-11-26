@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef, inject, viewChild } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -24,6 +24,7 @@ import { WATT_STEPPER } from '..';
 import { WattButtonComponent } from '../../button';
 import { WattModalComponent } from '../../modal/watt-modal.component';
 import { StepperExampleComponent } from './stepper.example.component';
+import { WattModalService } from '../../modal/watt-modal.service';
 
 @Component({
   selector: 'watt-stepper-modal-example',
@@ -36,6 +37,8 @@ import { StepperExampleComponent } from './stepper.example.component';
     StepperExampleComponent,
     MatButtonModule,
   ],
+  providers: [WattModalService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepperModalExampleComponent {
   formBuilder = inject(FormBuilder);
@@ -45,8 +48,7 @@ export class StepperModalExampleComponent {
   });
   address = this.formBuilder.group({ street: [''], city: [''] });
   email = this.formBuilder.group({ email: [''] });
-  @ViewChild('modal')
-  modal!: TemplateRef<Element>;
+  readonly modal = viewChild<TemplateRef<Element>>('modal');
 
   complete(): void {
     console.log('completed');

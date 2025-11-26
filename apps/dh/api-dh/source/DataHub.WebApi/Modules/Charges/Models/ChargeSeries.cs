@@ -19,4 +19,4 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 public record ChargeSeries(
     Interval Period,
-    List<Point> Points);
+    IEnumerable<PointDto> Points);

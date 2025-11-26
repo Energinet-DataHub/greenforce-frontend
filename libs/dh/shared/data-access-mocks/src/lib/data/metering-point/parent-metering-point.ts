@@ -140,6 +140,7 @@ const commercialRelation: CommercialRelationDto = {
 const metadata: MeteringPointMetadataDto = {
   __typename: 'MeteringPointMetadataDto',
   id: '222222211',
+  internalMeteringPointParentId: null,
   parentMeteringPoint: null,
   measureUnit: MeteringPointMeasureUnit.KWh,
   manuallyHandled: true,

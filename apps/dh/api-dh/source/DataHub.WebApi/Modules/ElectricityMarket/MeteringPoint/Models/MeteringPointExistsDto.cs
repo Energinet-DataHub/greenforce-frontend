@@ -12,16 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using NodaTime;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
-
-public record ChargeLink(
+public record MeteringPointBasicDto(
     string Id,
-    ChargeIdentifierDto ChargeIdentifier,
-    ChargeType Type,
-    string Name,
-    MarketParticipantId Owner,
-    int Amount,
-    Interval Period);
+    string MeteringPointId);
