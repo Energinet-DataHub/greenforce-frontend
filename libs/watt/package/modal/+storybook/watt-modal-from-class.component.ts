@@ -45,6 +45,7 @@ export class WattModalComponent extends WattTypedModal<string> {
   isLoading = signal(false);
 
   constructor() {
+    super();
     effect(() => {
       this.isLoading.set(true);
       setTimeout(() => {
