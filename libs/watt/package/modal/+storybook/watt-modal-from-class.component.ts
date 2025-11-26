@@ -16,17 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { WattButtonComponent } from '../../button/watt-button.component';
 import { WATT_MODAL } from '../watt-modal.component';
 import { WattTypedModal, WattModalService } from '../watt-modal.service';
 import { WattTextFieldComponent } from '../../text-field/watt-text-field.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { signal, effect } from '@angular/core';
 
 @Component({
   imports: [WATT_MODAL, WattTextFieldComponent, WattButtonComponent, ReactiveFormsModule],
   template: `
-    <watt-modal #modal [title]="title" closeLabel="Close modal" [loading]="isLoading">
+    <watt-modal #modal [title]="title()" closeLabel="Close modal" [loading]="isLoading()">
       <p>{{ modalData }}</p>
       <watt-text-field [formControl]="usernameControl" label="Username" />
       <watt-text-field [formControl]="passwordControl" label="Password" type="password" />
@@ -37,18 +38,20 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     </watt-modal>
   `,
 })
-export class WattModalComponent extends WattTypedModal<string> implements OnInit {
-  title = 'This is a modal opened from a class';
+export class WattModalComponent extends WattTypedModal<string> {
+  title = signal('This is a modal opened from a class');
   usernameControl = new FormControl('');
   passwordControl = new FormControl('');
-  isLoading = false;
+  isLoading = signal(false);
 
-  ngOnInit(): void {
-    this.isLoading = true;
-
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 300);
+  constructor() {
+    super();
+    effect(() => {
+      this.isLoading.set(true);
+      setTimeout(() => {
+        this.isLoading.set(false);
+      }, 300);
+    });
   }
 }
 

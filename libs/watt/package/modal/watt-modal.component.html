@@ -15,39 +15,39 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-template #modal>
-  <div class="watt-modal" [ngClass]="'watt-modal--' + size">
-    @if (!disableClose && !hideCloseButton) {
+  <div class="watt-modal" [ngClass]="'watt-modal--' + size()">
+    @if (!disableClose() && !hideCloseButton()) {
       <watt-button
         variant="icon"
         icon="close"
         class="watt-modal-close"
-        [attr.aria-label]="closeLabel"
+        [attr.aria-label]="closeLabel()"
         (click)="close(false)"
       />
     }
-    @if (title && loading === false) {
-      <h2 class="watt-modal-title" [ngClass]="{ 'watt-modal-title-icon': titleIcon }">
-        @if (titleIcon) {
-          <watt-icon [name]="titleIcon" [size]="'l'" />
+    @if (title() && loading() === false) {
+      <h2 class="watt-modal-title" [ngClass]="{ 'watt-modal-title-icon': titleIcon() }">
+        @if (titleIcon()) {
+          <watt-icon [name]="titleIcon()" [size]="'l'" />
         }
-        {{ title }}
+        {{ title() }}
       </h2>
     }
     <div
       wattResizeObserver
       class="watt-modal-content"
-      [class.watt-modal-scrollable]="scrollable"
+      [class.watt-modal-scrollable]="scrollable()"
       (resize)="onResize($event)"
     >
       <ng-content />
     </div>
     <ng-content select="watt-modal-actions" />
 
-    @if (loading) {
+    @if (loading()) {
       <div class="watt-modal__spinner">
         <div>
           <watt-spinner />
-          <p>{{ loadingMessage }}</p>
+          <p>{{ loadingMessage() }}</p>
         </div>
       </div>
     }
