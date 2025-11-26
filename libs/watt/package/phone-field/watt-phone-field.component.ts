@@ -25,7 +25,8 @@ import {
   input,
   signal,
   untracked,
-  viewChild, ElementRef,
+  viewChild,
+  ElementRef,
 } from '@angular/core';
 import {
   AbstractControl,
