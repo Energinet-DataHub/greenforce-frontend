@@ -74,7 +74,7 @@ export const dhFeatureFlagsConfig = {
   },
   'measurements-reports-resolution-improvements': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 
