@@ -126,7 +126,7 @@ public class ChargesClient(
                 var start = AddResolution(resolution, period, i, totalCount);
                 var end = AddResolution(resolution, period, i + 1, totalCount);
                 var point = new ChargeSeriesPoint(start.ToInstant(), s.Price);
-                return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), point);
+                return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), [point]);
             });
         }
         catch
