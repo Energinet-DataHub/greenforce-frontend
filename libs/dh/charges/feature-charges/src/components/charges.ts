@@ -20,9 +20,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import {
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VaterUtilityDirective } from '@energinet/watt/vater';
 
 import {
   WattTableComponent,
@@ -32,7 +30,11 @@ import {
 
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDataActionsComponent, WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import {
+  WattDataActionsComponent,
+  WattDataFiltersComponent,
+  WattDataTableComponent,
+} from '@energinet/watt/data';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';

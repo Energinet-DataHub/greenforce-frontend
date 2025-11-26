@@ -22,7 +22,11 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattTableColumnDef, WattTableComponent, WattTableDataSource } from '@energinet/watt/table';
-import { WattDataActionsComponent, WattDataIntlService, WattDataTableComponent } from '@energinet/watt/data';
+import {
+  WattDataActionsComponent,
+  WattDataIntlService,
+  WattDataTableComponent,
+} from '@energinet/watt/data';
 
 @Injectable()
 export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
