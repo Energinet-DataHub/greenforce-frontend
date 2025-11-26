@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
+using Energinet.DataHub.WebApi.Modules.Common.Utilities;
+using HotChocolate.Execution.Configuration;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -26,4 +29,10 @@ public class ChargesModule : IModule
         services
             .AddScoped<IChargesClient, ChargesClient>()
             .AddChargesClient();
+
+    public IRequestExecutorBuilder AddGraphQLConfiguration(IRequestExecutorBuilder builder) =>
+        builder
+            .BindRuntimeType<ChargeIdentifierDto, StringType>()
+            .AddTypeConverter<ChargeIdentifierDto, string>(JsonBase64Converter.Serialize)
+            .AddTypeConverter<string, ChargeIdentifierDto>(JsonBase64Converter.Deserialize<ChargeIdentifierDto>);
 }

@@ -16,18 +16,18 @@ using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
-[ObjectType<Point>]
+[ObjectType<PointDto>]
 public static partial class ChargeSeriesPointNode
 {
-    public static bool IsCurrent([Parent] Point point) =>
-        point.FromDateTime <= DateTimeOffset.Now && point.ToDateTime > DateTimeOffset.Now;
+    public static bool IsCurrent([Parent] PointDto point) => true;
 
-    static partial void Configure(IObjectTypeDescriptor<Point> descriptor)
+    // point.FromDateTime <= DateTimeOffset.Now && point.ToDateTime > DateTimeOffset.Now;
+    static partial void Configure(IObjectTypeDescriptor<PointDto> descriptor)
     {
         descriptor.Name("ChargeSeriesPoint");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.FromDateTime);
-        descriptor.Field(f => f.ToDateTime);
+        // descriptor.Field(f => f.FromDateTime);
+        // descriptor.Field(f => f.ToDateTime);
         descriptor.Field(f => f.Price);
     }
 }

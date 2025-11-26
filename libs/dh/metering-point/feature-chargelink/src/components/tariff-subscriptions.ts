@@ -23,9 +23,11 @@ import { Component, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet/watt/core/date';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
@@ -44,16 +46,18 @@ import { Charge } from '../types';
 @Component({
   selector: 'dh-metering-point-charge-links-tariff-subscriptions',
   imports: [
-    ReactiveFormsModule,
     RouterOutlet,
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
+    ReactiveFormsModule,
 
     WATT_TABLE,
     WattDatePipe,
     WattDropdownComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
+    WattTooltipDirective,
+    WattIconComponent,
   ],
   providers: [DhNavigationService],
   template: `
@@ -92,6 +96,12 @@ import { Charge } from '../types';
         <ng-container *wattTableCell="columns.period; let element">
           {{ element.period | wattDate }}
         </ng-container>
+
+        <ng-container *wattTableCell="columns.transparentInvoicing; let element">
+          @if (element.charge?.currentPeriod?.transparentInvoicing) {
+            <watt-icon name="forward" size="s" [wattTooltip]="t('tooltip.transparentInvoicing')" />
+          }
+        </ng-container>
       </watt-table>
     </watt-data-table>
     <router-outlet />
@@ -119,7 +129,11 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
     type: { accessor: 'type' },
     id: { accessor: 'id' },
     name: { accessor: 'name' },
-    owner: { accessor: (charge) => charge.owner?.displayName ?? '' },
+    owner: { accessor: (chargeLink) => chargeLink.owner?.displayName ?? '' },
+    transparentInvoicing: {
+      header: '',
+      accessor: (chargeLink) => chargeLink.charge?.currentPeriod?.transparentInvoicing ?? false,
+    },
     amount: { accessor: 'amount' },
     period: { accessor: 'period' },
   };

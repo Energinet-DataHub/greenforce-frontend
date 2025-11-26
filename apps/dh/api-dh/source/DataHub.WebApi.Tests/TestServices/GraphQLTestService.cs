@@ -24,6 +24,7 @@ using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
@@ -37,6 +38,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Moq;
+using NodaTime;
 using IHttpClientFactory = System.Net.Http.IHttpClientFactory;
 
 namespace Energinet.DataHub.WebApi.Tests.TestServices;
@@ -63,18 +65,23 @@ public class GraphQLTestService
         AuthorizationServiceMock = new Mock<IAuthorizationService>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
         ChargesClientMock = new Mock<IChargesClient>();
+        ChargeLinkClientMock = new Mock<IChargeLinkClient>();
 
         Services = new ServiceCollection()
             .AddLogging()
             .AddAuthorization()
             .AddGraphQLServer(disableDefaultSecurity: true)
-            .AddInMemorySubscriptions()
             .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
+            .AddInMemorySubscriptions()
+            .AddAuthorization()
             .AddMutationConventions(applyToAllMutations: true)
             .AddTypes()
             .AddModules()
-            .AddAuthorization()
             .AddSorting()
+            .AddType<HotChocolate.Types.NodaTime.LocalDateType>()
+            .BindRuntimeType<Interval, DateRangeType>()
+            .BindRuntimeType<long, LongType>()
+            .BindRuntimeType<YearMonth, YearMonthType>()
             .ModifyOptions(options =>
             {
                 options.EnableOneOf = true;
@@ -86,10 +93,6 @@ public class GraphQLTestService
                 options.MaxPageSize = 250;
                 options.IncludeTotalCount = true;
             })
-            .AddType<LocalDateType>()
-            .BindRuntimeType<NodaTime.Interval, DateRangeType>()
-            .BindRuntimeType<NodaTime.YearMonth, YearMonthType>()
-            .BindRuntimeType<long, LongType>()
             .Services
             .AddSingleton<IConfiguration>(new ConfigurationRoot([]))
             .AddSingleton<ISettlementReportsClient, SettlementReportsClient>()
@@ -111,6 +114,7 @@ public class GraphQLTestService
             .AddSingleton(AuthorizationServiceMock.Object)
             .AddSingleton(MeasurementsResponseMapperMock.Object)
             .AddSingleton(ChargesClientMock.Object)
+            .AddSingleton(ChargeLinkClientMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -152,6 +156,8 @@ public class GraphQLTestService
     public Mock<IAuthorizationService> AuthorizationServiceMock { get; set; }
 
     public Mock<IMeasurementsResponseMapper> MeasurementsResponseMapperMock { get; set; }
+
+    public Mock<IChargeLinkClient> ChargeLinkClientMock { get; set; }
 
     public IServiceCollection Services { get; set; }
 

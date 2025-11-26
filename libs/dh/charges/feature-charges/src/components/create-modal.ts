@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -30,16 +30,12 @@ import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 
-import {
-  dhFormControlToSignal,
-  dhMakeFormControl,
-  injectRelativeNavigate,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { ChargeResolution, ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhChargeTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
 
 @Component({
-  selector: 'dh-charge-actions',
+  selector: 'dh-charges-create-modal',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -64,7 +60,7 @@ import { DhChargeTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
       [title]="t('action.' + (type() ?? 'SELECTION'))"
       (closed)="navigate('..')"
     >
-      <dh-charge-type-selection (valueChange)="type.set($event)">
+      <dh-charge-type-selection [(value)]="type">
         <form
           *transloco="let t; prefix: 'charges.create.form'"
           id="create-charge"
@@ -72,7 +68,7 @@ import { DhChargeTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
           direction="column"
           gap="s"
           align="start"
-          [formGroup]="form"
+          [formGroup]="form()"
           (ngSubmit)="save()"
         >
           <vater-stack fill="horizontal" direction="row" gap="m">
@@ -80,91 +76,95 @@ import { DhChargeTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
               maxLength="10"
               size="10"
               [label]="t('id')"
-              [formControl]="form.controls.id"
+              [formControl]="form().controls.id"
             />
             <watt-text-field
               vater
               fill="horizontal"
               maxLength="132"
               [label]="t('name')"
-              [formControl]="form.controls.name"
+              [formControl]="form().controls.name"
             />
           </vater-stack>
           <watt-textarea-field
             small
             [label]="t('description')"
             maxLength="2048"
-            [formControl]="form.controls.description"
+            [formControl]="form().controls.description"
           />
-          <watt-field
-            [label]="t('resolution')"
-            [control]="form.controls.resolution"
-            displayMode="content"
-          >
-            <watt-radio
-              group="resolution"
-              [formControl]="form.controls.resolution"
-              [value]="dailyResolution"
+          @if (!form().controls.resolution.disabled) {
+            <watt-field
+              [label]="t('resolution')"
+              [control]="form().controls.resolution"
+              displayMode="content"
             >
-              {{ t('daily') }}
-            </watt-radio>
-            <watt-radio
-              group="resolution"
-              [formControl]="form.controls.resolution"
-              [value]="hourlyResolution"
-            >
-              {{ t('hourly') }}
-            </watt-radio>
-          </watt-field>
-          <watt-field [label]="t('vat')" [control]="form.controls.vat" displayMode="content">
-            <watt-radio group="vat" [formControl]="form.controls.vat" [value]="true">
+              <watt-radio
+                group="resolution"
+                [formControl]="form().controls.resolution"
+                [value]="dailyResolution"
+              >
+                {{ t('daily') }}
+              </watt-radio>
+              <watt-radio
+                group="resolution"
+                [formControl]="form().controls.resolution"
+                [value]="hourlyResolution"
+              >
+                {{ t('hourly') }}
+              </watt-radio>
+            </watt-field>
+          }
+          <watt-field [label]="t('vat')" [control]="form().controls.vat" displayMode="content">
+            <watt-radio group="vat" [formControl]="form().controls.vat" [value]="true">
               {{ t('withVat') }}
             </watt-radio>
-            <watt-radio group="vat" [formControl]="form.controls.vat" [value]="false">
+            <watt-radio group="vat" [formControl]="form().controls.vat" [value]="false">
               {{ t('withoutVat') }}
             </watt-radio>
           </watt-field>
-          <watt-field
-            [label]="t('transparentInvoicing')"
-            [control]="form.controls.transparentInvoicing"
-            displayMode="content"
-          >
-            <watt-radio
-              group="transparentInvoicing"
-              [formControl]="form.controls.transparentInvoicing"
-              [value]="true"
+          @if (!form().controls.transparentInvoicing.disabled) {
+            <watt-field
+              [label]="t('transparentInvoicing')"
+              [control]="form().controls.transparentInvoicing"
+              displayMode="content"
             >
-              {{ t('withTransparentInvoicing') }}
-            </watt-radio>
-            <watt-radio
-              group="transparentInvoicing"
-              [formControl]="form.controls.transparentInvoicing"
-              [value]="false"
-            >
-              {{ t('withoutTransparentInvoicing') }}
-            </watt-radio>
-          </watt-field>
+              <watt-radio
+                group="transparentInvoicing"
+                [formControl]="form().controls.transparentInvoicing"
+                [value]="true"
+              >
+                {{ t('withTransparentInvoicing') }}
+              </watt-radio>
+              <watt-radio
+                group="transparentInvoicing"
+                [formControl]="form().controls.transparentInvoicing"
+                [value]="false"
+              >
+                {{ t('withoutTransparentInvoicing') }}
+              </watt-radio>
+            </watt-field>
+          }
           <watt-field
             [label]="t('predictablePrice')"
-            [control]="form.controls.predictablePrice"
+            [control]="form().controls.predictablePrice"
             displayMode="content"
           >
             <watt-radio
               group="predictablePrice"
-              [formControl]="form.controls.predictablePrice"
+              [formControl]="form().controls.predictablePrice"
               [value]="true"
             >
               {{ t('withPredictablePrice') }}
             </watt-radio>
             <watt-radio
               group="predictablePrice"
-              [formControl]="form.controls.predictablePrice"
+              [formControl]="form().controls.predictablePrice"
               [value]="false"
             >
               {{ t('withoutPredictablePrice') }}
             </watt-radio>
           </watt-field>
-          <watt-datepicker [label]="t('validFrom')" [formControl]="form.controls.validFrom" />
+          <watt-datepicker [label]="t('validFrom')" [formControl]="form().controls.validFrom" />
         </form>
       </dh-charge-type-selection>
       <watt-modal-actions>
@@ -184,21 +184,34 @@ export default class DhChargeCreateModal {
   navigate = injectRelativeNavigate();
   dailyResolution: ChargeResolution = 'daily';
   hourlyResolution: ChargeResolution = 'hourly';
-  form = new FormGroup({
-    id: dhMakeFormControl('', Validators.required),
-    type: dhMakeFormControl<ChargeType>(null, Validators.required),
-    name: dhMakeFormControl('', Validators.required),
-    description: dhMakeFormControl('', Validators.required),
-    validFrom: dhMakeFormControl<Date>(null, Validators.required),
-    resolution: dhMakeFormControl<ChargeResolution>(null, Validators.required),
-    vat: dhMakeFormControl<boolean>(null, Validators.required),
-    transparentInvoicing: dhMakeFormControl<boolean>(null, Validators.required),
-    predictablePrice: dhMakeFormControl<boolean>(null, Validators.required),
-  });
-
-  type = dhFormControlToSignal(this.form.controls.type);
+  type = signal<ChargeType | null>(null);
+  // datepicker does not work when formControl changes
+  validFrom = dhMakeFormControl<Date>(null, Validators.required);
+  form = computed(
+    () =>
+      new FormGroup({
+        id: dhMakeFormControl('', Validators.required),
+        type: dhMakeFormControl<ChargeType>(this.type(), Validators.required),
+        name: dhMakeFormControl('', Validators.required),
+        description: dhMakeFormControl('', Validators.required),
+        validFrom: this.validFrom,
+        resolution: dhMakeFormControl<ChargeResolution>(
+          { value: null, disabled: this.type() !== 'TARIFF' },
+          Validators.required
+        ),
+        vat: dhMakeFormControl<boolean>(null, Validators.required),
+        transparentInvoicing: dhMakeFormControl<boolean>(
+          { value: null, disabled: this.type() == 'FEE' },
+          Validators.required
+        ),
+        predictablePrice: dhMakeFormControl<boolean>(
+          { value: null, disabled: false /* disabled if "afgift" */ },
+          Validators.required
+        ),
+      })
+  );
 
   save() {
-    console.log('saving form');
+    console.log(this.form().value, 'saving form');
   }
 }

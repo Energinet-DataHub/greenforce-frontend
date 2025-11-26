@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using NodaTime;
+using System.Text;
+using Newtonsoft.Json;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
+namespace Energinet.DataHub.WebApi.Modules.Common.Utilities;
 
-public record ChargeLink(
-    string Id,
-    ChargeIdentifierDto ChargeIdentifier,
-    ChargeType Type,
-    string Name,
-    MarketParticipantId Owner,
-    int Amount,
-    Interval Period);
+public static class JsonBase64Converter
+{
+    public static string Serialize<T>(T obj) =>
+        Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(obj)));
+
+    public static T Deserialize<T>(string base64) =>
+        JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(Convert.FromBase64String(base64)))
+            ?? throw new ArgumentException("Invalid base64 string", nameof(base64));
+}

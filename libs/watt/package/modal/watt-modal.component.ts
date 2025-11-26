@@ -19,16 +19,15 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
   TemplateRef,
-  ViewChild,
   ViewEncapsulation,
   afterRenderEffect,
   booleanAttribute,
   inject,
   input,
+  output,
+  viewChild,
+  signal,
 } from '@angular/core';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -67,55 +66,49 @@ export type WattModalSize = 'small' | 'medium' | 'large';
 export class WattModalComponent {
   private modalService = inject(WattModalService);
   protected dialogRef = inject<MatDialogRef<unknown>>(MatDialogRef, { optional: true });
-  /** Title to stay fixed to top of modal. */
-  @Input() title = '';
 
-  @Input() size: WattModalSize = 'medium';
+  /** Title to stay fixed to top of modal. */
+  title = input('');
+
+  size = input<WattModalSize>('medium');
 
   /** Whether the modal should show a loading state. */
-  @Input() loading = false;
+  loading = input(false);
 
   /** Whether the modal should show a loading text for the loading state. */
-  @Input() loadingMessage = '';
+  loadingMessage = input('');
 
   /** Disable ESC, close button and backdrop click as methods of closing. */
-  @Input() disableClose = false;
+  disableClose = input(false);
 
   /** Whether to show the close button */
-  @Input() hideCloseButton = false;
+  hideCloseButton = input(false);
 
   /** Disable ESC, backdrop click as methods of closing. */
-  @Input() disableEscAndBackdropClose = false;
+  disableEscAndBackdropClose = input(false);
 
   /** The aria-label for the close button. */
-  @Input() closeLabel = 'Close';
+  closeLabel = input('Close');
 
   /** Classes added to the modal panel */
-  @Input() panelClass: string[] = [];
+  panelClass = input<string[]>([]);
 
-  @Input() minHeight = '147px';
+  minHeight = input('147px');
 
   /** Whether the dialog should restore focus to the previously-focused element, after it's closed. */
-  @Input() restoreFocus = true;
+  restoreFocus = input(true);
 
   /** Icon displayed next to the modal title. */
-  @Input() titleIcon?: WattIcon;
+  titleIcon = input<WattIcon | undefined>(undefined);
 
   /** Whether the modal should open automatically when rendered.  */
   autoOpen = input(false, { transform: booleanAttribute });
 
-  /**
-   * When modal is closed, emits `true` if it was "accepted",
-   * otherwise emits `false`.
-   * @ignore
-   */
-  @Output() closed = new EventEmitter<boolean>();
+  closed = output<boolean>();
 
-  /** @ignore */
-  @ViewChild('modal') modal!: TemplateRef<Element>;
+  modal = viewChild<TemplateRef<Element>>('modal');
 
-  /** @ignore */
-  scrollable = false;
+  scrollable = signal(false);
 
   constructor() {
     afterRenderEffect(() => {
@@ -131,12 +124,12 @@ export class WattModalComponent {
    */
   open() {
     this.modalService.open({
-      disableClose: this.disableEscAndBackdropClose || this.disableClose,
-      templateRef: this.modal,
-      onClosed: this.closed,
-      minHeight: this.minHeight,
-      panelClass: this.panelClass,
-      restoreFocus: this.restoreFocus,
+      disableClose: this.disableEscAndBackdropClose() || this.disableClose(),
+      templateRef: this.modal(),
+      onClosed: (result: boolean) => this.closed.emit(result),
+      minHeight: this.minHeight(),
+      panelClass: this.panelClass(),
+      restoreFocus: this.restoreFocus(),
     });
   }
 
@@ -154,7 +147,7 @@ export class WattModalComponent {
    * @ignore
    */
   onResize(event: ResizeObserverEntry) {
-    this.scrollable = event.target.scrollHeight > event.target.clientHeight;
+    this.scrollable.set(event.target.scrollHeight > event.target.clientHeight);
   }
 }
 

@@ -15,6 +15,7 @@
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using NodaTime;
+using ChargeApiModels = Energinet.DataHub.Charges.Abstractions.Api.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
@@ -26,7 +27,7 @@ public interface IChargesClient
     /// <summary>
     /// Query charge information.
     /// </summary>
-    Task<IEnumerable<ChargeInformationDto>> GetChargesAsync(
+    Task<ChargeApiModels.Result<(IEnumerable<ChargeInformationDto> Charges, int TotalCount)>> GetChargesAsync(
         int skip,
         int take,
         string? filter,
@@ -38,7 +39,7 @@ public interface IChargesClient
     /// Get charge information by id.
     /// </summary>
     Task<ChargeInformationDto?> GetChargeByIdAsync(
-        string id,
+        ChargeIdentifierDto id,
         CancellationToken ct = default);
 
     /// <summary>
@@ -52,7 +53,7 @@ public interface IChargesClient
     /// Get charge series for a charge.
     /// </summary>
     Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
-        string chargeId,
+        ChargeIdentifierDto id,
         Resolution resolution,
         Interval interval,
         CancellationToken ct = default);

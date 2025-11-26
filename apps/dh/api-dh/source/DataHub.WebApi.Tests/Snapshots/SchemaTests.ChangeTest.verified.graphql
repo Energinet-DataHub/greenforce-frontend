@@ -286,20 +286,19 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 type Charge {
   series(interval: DateRange!): [ChargeSeries!]!
   owner: MarketParticipant
+  displayName: String!
+  currentPeriod: ChargePeriod
+  status: ChargeStatus!
   id: String!
   type: ChargeType!
   code: String!
-  displayName: String!
-  name: String!
-  description: String!
   resolution: ChargeResolution!
-  status: ChargeStatus!
-  validFrom: DateTime!
-  validTo: DateTime!
+  periods: [ChargePeriod!]!
 }
 
 type ChargeLink {
   history: [ChargeLinkHistory!]!
+  charge: Charge
   owner: MarketParticipant
   amount: Int!
   id: String!
@@ -315,6 +314,15 @@ type ChargeLinkHistory {
   messageId: String!
 }
 
+type ChargePeriod {
+  isCurrent: Boolean!
+  description: String!
+  period: DateRange!
+  transparentInvoicing: Boolean!
+  vatClassification: VatClassification!
+  name: String!
+}
+
 type ChargeSeries {
   hasChanged: Boolean!
   price: Decimal
@@ -324,8 +332,6 @@ type ChargeSeries {
 
 type ChargeSeriesPoint {
   isCurrent: Boolean!
-  fromDateTime: DateTime!
-  toDateTime: DateTime!
   price: Decimal!
 }
 
@@ -881,6 +887,7 @@ type MeteringPointMetadataDto {
   gridArea: GridAreaDto
   fromGridArea: GridAreaDto
   toGridArea: GridAreaDto
+  internalMeteringPointParentId: Long
   id: Long!
   validFrom: DateTime!
   validTo: DateTime!
@@ -1178,7 +1185,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
-  meteringPointExists(internalMeteringPointId: Long!): MeteringPointIdentificationDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPointExists(internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -1688,8 +1695,15 @@ input CancelSettlementReportInput {
   id: String!
 }
 
+input ChargeIdentifierDtoSortInput {
+  code: SortEnumType
+  owner: SortEnumType
+  chargeType: SortEnumType
+}
+
 input ChargeLinkSortInput {
   id: SortEnumType
+  chargeIdentifier: ChargeIdentifierDtoSortInput
   type: SortEnumType
   name: SortEnumType
   owner: MarketParticipantIdSortInput
@@ -1698,8 +1712,8 @@ input ChargeLinkSortInput {
 }
 
 input ChargeSortInput {
-  fromDateTime: SortDirection
-  price: SortDirection
+  type: SortDirection
+  code: SortDirection
 }
 
 input CreateActorContactDtoInput {
@@ -2302,7 +2316,6 @@ enum CalculationTypeQueryParameterV1 {
 }
 
 enum ChargeResolution {
-  unknown
   quarterhourly
   hourly
   daily
@@ -2974,6 +2987,11 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
+}
+
+enum VatClassification {
+  NO_VAT
+  VAT25
 }
 
 enum WashInstructions {
