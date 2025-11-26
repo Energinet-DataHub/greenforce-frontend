@@ -20,40 +20,37 @@ import { ActivatedRouteSnapshot, CanActivateFn, Router, UrlTree } from '@angular
 import { inject } from '@angular/core';
 
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhIsValidMeteringPointId } from '@energinet-datahub/dh/shared/ui-util';
+import { dhIsValidInternalId } from '@energinet-datahub/dh/shared/ui-util';
 
-import { dhMeteringPointIdParam } from './dh-metering-point-params';
+import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 
 export const dhCanActivateMeteringPointOverview: CanActivateFn = (
   route: ActivatedRouteSnapshot
 ): Promise<UrlTree | boolean> | UrlTree => {
-  const meteringPointId: string = route.params[dhMeteringPointIdParam];
-  const isValidMP = dhIsValidMeteringPointId(meteringPointId);
   const router = inject(Router);
 
-  if (isValidMP) {
-    return query(DoesMeteringPointExistDocument, { variables: { meteringPointId } })
+  const searchRoute = router.createUrlTree([
+    getPath<BasePaths>('metering-point'),
+    getPath<MeteringPointSubPaths>('search'),
+  ]);
+
+  const idParam: string = route.params[dhInternalMeteringPointIdParam];
+
+  if (dhIsValidInternalId(idParam)) {
+    return query(DoesInternalMeteringPointIdExistDocument, {
+      variables: { internalMeteringPointId: idParam },
+    })
       .result()
       .then((result) => {
         if (!result.data) {
-          return router.createUrlTree(
-            [getPath<BasePaths>('metering-point'), getPath<MeteringPointSubPaths>('search')],
-            {
-              queryParams: {
-                [dhMeteringPointIdParam]: meteringPointId,
-              },
-            }
-          );
+          return searchRoute;
         }
 
         return true;
       });
   }
 
-  return router.createUrlTree([
-    getPath<BasePaths>('metering-point'),
-    getPath<MeteringPointSubPaths>('search'),
-  ]);
+  return searchRoute;
 };
