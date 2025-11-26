@@ -22,7 +22,7 @@ import { WATT_MODAL } from '../watt-modal.component';
 import { WattTypedModal, WattModalService } from '../watt-modal.service';
 import { WattTextFieldComponent } from '../../text-field/watt-text-field.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { signal, effect } from '@angular/core';
+import { signal } from '@angular/core';
 
 @Component({
   imports: [WATT_MODAL, WattTextFieldComponent, WattButtonComponent, ReactiveFormsModule],
