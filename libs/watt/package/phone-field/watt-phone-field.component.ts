@@ -18,16 +18,15 @@
 //#endregion
 import {
   Component,
-  ElementRef,
-  HostBinding,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
   forwardRef,
   inject,
   input,
   signal,
   untracked,
+  viewChild,
+  ElementRef,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -59,7 +58,6 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) return null;
     const valid = isValidPhoneNumber(control.value, countryCode);
-
     return valid ? null : { invalidPhone: true };
   };
 }
@@ -95,7 +93,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
           <mat-select-trigger>
             <watt-flag [country]="chosenCountry().countryIsoCode" />
           </mat-select-trigger>
-          @for (contry of countries; track contry; let index = $index) {
+          @for (contry of countries; track contry) {
             <mat-option value="{{ contry.countryIsoCode }}">
               <watt-flag [country]="contry.countryIsoCode" />
               <div>{{ getCountryName(contry.countryIsoCode) }}</div>
@@ -122,6 +120,9 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
     </watt-field>
   `,
   styleUrl: './watt-phone-field.component.scss',
+  host: {
+    '[attr.watt-field-disabled]': 'isDisabled()',
+  },
 })
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
@@ -150,14 +151,13 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   intl = inject(WattPhoneFieldIntlService);
 
   /** @ignore */
-  @HostBinding('attr.watt-field-disabled')
-  isDisabled = false;
+  isDisabled = signal(false);
 
   /** @ignore */
   value: string | null = null;
 
   /** @ignore */
-  @ViewChild('phoneNumberInput') phoneNumberInput!: ElementRef<HTMLInputElement>;
+  phoneNumberInput = viewChild.required<ElementRef<HTMLInputElement>>('phoneNumberInput');
 
   /** @ignore */
   ngOnInit(): void {
@@ -168,7 +168,6 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   writeValue(value: string): void {
     if (value) {
       const country = this.countries.find((country) => value.startsWith(country.phoneExtension));
-
       if (country) {
         // Exclude Signal from being tracked
         // in case the parent component sets the value inside an `effect`.
@@ -208,22 +207,19 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
   /** @ignore */
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
+    this.isDisabled.set(isDisabled);
   }
 
   /** @ignore */
   selectedContry({ value }: MatSelectChange) {
     const country = this.countries.find((contry) => contry.countryIsoCode === value);
-
     if (!country) {
       throw new Error('Prefix not found');
     }
-
     this.setCountry(country);
     this.formControl().reset();
-
     setTimeout(() => {
-      this.phoneNumberInput.nativeElement.focus();
+      this.phoneNumberInput().nativeElement.focus();
     }, 100);
   }
 
@@ -241,13 +237,11 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
   /** @ignore */
   private generatePhoneOptions(): void {
-    const phoneOptions = maskitoPhoneOptionsGenerator({
+    this.mask = maskitoPhoneOptionsGenerator({
       countryIsoCode: this.chosenCountry().countryIsoCode,
       metadata: phoneMetadata,
       separator: ' ',
     });
-
-    this.mask = phoneOptions;
   }
 
   /** @ignore */

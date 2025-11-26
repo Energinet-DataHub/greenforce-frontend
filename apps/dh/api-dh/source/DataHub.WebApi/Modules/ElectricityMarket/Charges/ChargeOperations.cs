@@ -59,7 +59,7 @@ public static partial class ChargeOperations
         [Parent] ChargeLink chargeLink,
         IChargesClient client,
         CancellationToken ct) =>
-            await client.GetChargeByIdAsync(chargeLink.Id, ct).ConfigureAwait(false);
+            await client.GetChargeByIdAsync(chargeLink.ChargeIdentifier, ct).ConfigureAwait(false);
 
     public static async Task<MarkPart.ActorDto?> GetOwnerAsync(
         [Parent] ChargeLink chargeLink,

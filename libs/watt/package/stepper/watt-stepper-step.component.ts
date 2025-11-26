@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, input, output, TemplateRef, viewChild } from '@angular/core';
 import { MatStep } from '@angular/material/stepper';
 import { CdkStep } from '@angular/cdk/stepper';
 
@@ -29,7 +29,7 @@ export { CdkStep as WattStep };
   </ng-template>`,
 })
 export class WattStepperStepComponent extends MatStep {
-  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null = null;
+  public readonly templateRef = viewChild<TemplateRef<unknown>>('templateRef');
 
   nextButtonLabel = input<string>();
   disableNextButton = input<boolean>(false);
