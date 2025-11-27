@@ -3,6 +3,7 @@ fragment RelatedMeteringPoint on RelatedMeteringPointDto {
   identification
   type
   connectionState
+  createdDate
   connectionDate
   closedDownDate
 }

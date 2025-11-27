@@ -1269,6 +1269,7 @@ type RelatedMeteringPointDto {
   identification: String!
   type: ElectricityMarketMeteringPointType!
   connectionState: ConnectionState!
+  createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
 }
