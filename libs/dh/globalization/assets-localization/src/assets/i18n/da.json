@@ -1108,7 +1108,9 @@
       "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
       "UPDATE_CHARGE_LINKS": "Opdatering af pristilknytninger (RSM-030)",
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Bekræftelse af anmodning om opdatering af pristilknytninger (RSM-030)",
-      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af anmodning om opdatering af pristilknytninger (RSM-030)"
+      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af anmodning om opdatering af pristilknytninger (RSM-030)",
+      "NOTIFY_BILLING_MASTER_DATA": "Information om pristilknytning (RSM-031)",
+      "REQUEST_CHANGE_OF_PRICE_LIST": "Opdatering af priser (RSM-033)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",

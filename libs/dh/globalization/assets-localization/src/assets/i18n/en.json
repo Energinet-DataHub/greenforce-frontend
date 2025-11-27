@@ -1107,7 +1107,9 @@
       "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)",
       "UPDATE_CHARGE_LINKS": "Update charge links (RSM-030)",
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm update charge links (RSM-030)",
-      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject update charge links (RSM-030)"
+      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject update charge links (RSM-030)",
+      "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
+      "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
