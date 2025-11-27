@@ -1109,9 +1109,9 @@
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Request for wholesale services (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)",
-      "UPDATE_CHARGE_LINKS": "Update charge links (RSM-030)",
-      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm update charge links (RSM-030)",
-      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject update charge links (RSM-030)",
+      "UPDATE_CHARGE_LINKS": "Request change billing master data (RSM-030)",
+      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm request change billing master data (RSM-030)",
+      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
       "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)"
     },
