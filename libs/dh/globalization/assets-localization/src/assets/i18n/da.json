@@ -372,7 +372,7 @@
       "SUBSCRIPTION": "Abonnement",
       "FEE": "Gebyr",
       "TARIFF": "Tarif",
-      "TARIFF_FEE": "Tarif, afgift"
+      "TARIFF_TAX": "Tarif, afgift"
     },
     "resolutions": {
       "daily": "Dag",
@@ -428,7 +428,7 @@
         "SUBSCRIPTION": "Nyt abonnement",
         "FEE": "Nyt gebyr",
         "TARIFF": "Ny tarif",
-        "TARIFF_FEE": "Ny tarif, afgift",
+        "TARIFF_TAX": "Ny tarif, afgift",
         "SELECTION": "Ny pris"
       },
       "close": "Luk",
@@ -885,10 +885,12 @@
       "actions": {
         "SUBSCRIPTION": "Tilknyt abonnement",
         "TARIFF": "Tilknyt tarif",
+        "TARIFF_TAX": "Tilknyt tarif, afgift",
         "FEE": "Tilknyt gebyr"
       },
       "chargeTypes": {
         "TARIFF": "Tarif",
+        "TARIFF_TAX": "Tarif, afgift",
         "SUBSCRIPTION": "Abonnement",
         "FEE": "Gebyr"
       },

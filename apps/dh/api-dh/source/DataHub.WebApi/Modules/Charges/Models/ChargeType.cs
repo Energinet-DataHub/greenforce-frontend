@@ -22,17 +22,17 @@ public record ChargeType(
     bool IsFee)
 {
     public static readonly ChargeType Tariff = new ChargeType(nameof(Tariff), ChargeInformation.ChargeType.Tariff, false);
-    public static readonly ChargeType TariffFee = new ChargeType(nameof(TariffFee), ChargeInformation.ChargeType.Tariff, true);
+    public static readonly ChargeType TariffTax = new ChargeType(nameof(TariffTax), ChargeInformation.ChargeType.Tariff, true);
     public static readonly ChargeType Subscription = new ChargeType(nameof(Subscription), ChargeInformation.ChargeType.Subscription, false);
-    public static readonly ChargeType Fee = new ChargeType(nameof(Fee), ChargeInformation.ChargeType.Fee, true);
+    public static readonly ChargeType Fee = new ChargeType(nameof(Fee), ChargeInformation.ChargeType.Fee, false);
 
     public override string ToString() => Name;
 
-    public static ChargeType Make(ChargeInformation.ChargeType chargeType, bool isFee) =>
+    public static ChargeType Make(ChargeInformation.ChargeType chargeType, bool isTax) =>
         chargeType switch
         {
-            ChargeInformation.ChargeType.Tariff when isFee is false => ChargeType.Tariff,
-            ChargeInformation.ChargeType.Tariff when isFee is true => ChargeType.TariffFee,
+            ChargeInformation.ChargeType.Tariff when isTax is true => ChargeType.TariffTax,
+            ChargeInformation.ChargeType.Tariff => ChargeType.Tariff,
             ChargeInformation.ChargeType.Subscription => ChargeType.Subscription,
             ChargeInformation.ChargeType.Fee => ChargeType.Fee,
         };

@@ -371,7 +371,7 @@
       "SUBSCRIPTION": "Subscription",
       "FEE": "Fee",
       "TARIFF": "Tariff",
-      "TARIFF_FEE": "Tariff, afgift"
+      "TARIFF_TAX": "Tariff, tax"
     },
     "resolutions": {
       "daily": "Day",
@@ -427,7 +427,7 @@
         "SUBSCRIPTION": "New subscription",
         "FEE": "New fee",
         "TARIFF": "New tariff",
-        "TARIFF_FEE": "New tariff, fee",
+        "TARIFF_TAX": "New tariff, tax",
         "SELECTION": "New charge"
       },
       "close": "Close",
@@ -884,10 +884,12 @@
       "actions": {
         "SUBSCRIPTION": "Attach subscription",
         "TARIFF": "Attach tariff",
+        "TARIFF_TAX": "Attach tariff, tax",
         "FEE": "Attach fee"
       },
       "chargeTypes": {
         "TARIFF": "Tariff",
+        "TARIFF_TAX": "Tariff, tax",
         "SUBSCRIPTION": "Subscription",
         "FEE": "Fee"
       },

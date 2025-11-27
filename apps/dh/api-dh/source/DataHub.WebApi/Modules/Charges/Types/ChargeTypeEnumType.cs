@@ -28,8 +28,8 @@ public class ChargeTypeEnumType : EnumType<ChargeType>
             .Name("TARIFF");
 
         descriptor
-            .Value(ChargeType.TariffFee)
-            .Name("TARIFF_FEE");
+            .Value(ChargeType.TariffTax)
+            .Name("TARIFF_TAX");
 
         descriptor
             .Value(ChargeType.Subscription)
