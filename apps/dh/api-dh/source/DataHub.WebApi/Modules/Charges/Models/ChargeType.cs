@@ -19,7 +19,7 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 public record ChargeType(
     string Name,
     ChargeInformation.ChargeType Type,
-    bool IsFee)
+    bool IsTax)
 {
     public static readonly ChargeType Tariff = new ChargeType(nameof(Tariff), ChargeInformation.ChargeType.Tariff, false);
     public static readonly ChargeType TariffTax = new ChargeType(nameof(TariffTax), ChargeInformation.ChargeType.Tariff, true);
