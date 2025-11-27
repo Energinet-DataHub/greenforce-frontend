@@ -371,7 +371,8 @@
     "chargeTypes": {
       "SUBSCRIPTION": "Abonnement",
       "FEE": "Gebyr",
-      "TARIFF": "Tarif"
+      "TARIFF": "Tarif",
+      "TARIFF_TAX": "Tarif, afgift"
     },
     "resolutions": {
       "daily": "Dag",
@@ -387,7 +388,7 @@
     "charges": {
       "topBarTitle": "Priser",
       "table": {
-        "createButton": "Opret pris",
+        "createButton": "Ny pris",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -424,10 +425,11 @@
     },
     "create": {
       "action": {
-        "SUBSCRIPTION": "Opret abonnement",
-        "FEE": "Opret gebyr",
-        "TARIFF": "Opret tarif",
-        "SELECTION": "Opret pris"
+        "SUBSCRIPTION": "Nyt abonnement",
+        "FEE": "Nyt gebyr",
+        "TARIFF": "Ny tarif",
+        "TARIFF_TAX": "Ny tarif, afgift",
+        "SELECTION": "Ny pris"
       },
       "close": "Luk",
       "form": {
@@ -883,10 +885,12 @@
       "actions": {
         "SUBSCRIPTION": "Tilknyt abonnement",
         "TARIFF": "Tilknyt tarif",
+        "TARIFF_TAX": "Tilknyt tarif, afgift",
         "FEE": "Tilknyt gebyr"
       },
       "chargeTypes": {
         "TARIFF": "Tarif",
+        "TARIFF_TAX": "Tarif, afgift",
         "SUBSCRIPTION": "Abonnement",
         "FEE": "Gebyr"
       },

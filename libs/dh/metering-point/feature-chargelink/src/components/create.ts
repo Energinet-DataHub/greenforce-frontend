@@ -112,8 +112,6 @@ export class DhMeteringPointCreateChargeLink extends WattTypedModal {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly chargesQuery = lazyQuery(GetChargeByTypeDocument);
 
-  ChargeTypes = Object.values(ChargeType);
-
   form = this.fb.group({
     chargeId: this.fb.control<string>('', Validators.required),
     factor: this.fb.control<number | null>(null, Validators.min(1)),
