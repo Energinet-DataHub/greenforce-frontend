@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges;
+namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
 [ObjectType<PointDto>]
 public static partial class ChargeSeriesPointNode

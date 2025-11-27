@@ -13,7 +13,7 @@
 // limitations under the License.
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Types;
+namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
 public class ChargeTypeEnumType : EnumType<ChargeType>
 {

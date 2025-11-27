@@ -15,7 +15,7 @@
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
+namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
 public class ResolutionType : EnumType<Resolution>
 {
