@@ -583,17 +583,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/SimulateManualCorrectionResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/SimulateManualCorrectionResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/SimulateManualCorrectionResponse"
                 }
               }
             }
@@ -1693,6 +1693,11 @@
               }
             ]
           },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "connectionDate": {
             "type": "string",
             "format": "date-time",
@@ -1763,6 +1768,15 @@
           1,
           2
         ]
+      },
+      "SimulateManualCorrectionResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "result": {
+            "type": "string"
+          }
+        }
       },
       "TransactionType": {
         "type": "integer",
