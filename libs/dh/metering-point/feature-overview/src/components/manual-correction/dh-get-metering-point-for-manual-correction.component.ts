@@ -29,7 +29,6 @@ import { WattMenuItemComponent } from '@energinet/watt/menu';
 @Component({
   selector: 'dh-get-metering-point-for-manual-correction',
   imports: [TranslocoDirective, ReactiveFormsModule, WattMenuItemComponent],
-  styles: ``,
   template: `
     <watt-menu-item
       *transloco="let t; prefix: 'meteringPoint.overview.manualCorrection'"
