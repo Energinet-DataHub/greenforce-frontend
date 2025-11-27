@@ -12,36 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using EdiTypes = Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.Common;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 
 public record RequestCalculationType(
     string Name,
-    EdiTypes.BusinessReason BusinessReason,
-    EdiTypes.SettlementVersion? SettlementVersion)
+    BusinessReasonV1 BusinessReason,
+    SettlementVersionV1? SettlementVersion)
 {
-    public static readonly RequestCalculationType Aggregation = new RequestCalculationType(nameof(Aggregation), EdiTypes.BusinessReason.PreliminaryAggregation, null);
-    public static readonly RequestCalculationType BalanceFixing = new RequestCalculationType(nameof(BalanceFixing), EdiTypes.BusinessReason.BalanceFixing, null);
-    public static readonly RequestCalculationType WholesaleFixing = new RequestCalculationType(nameof(WholesaleFixing), EdiTypes.BusinessReason.WholesaleFixing, null);
-    public static readonly RequestCalculationType FirstCorrection = new RequestCalculationType(nameof(FirstCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.FirstCorrection);
-    public static readonly RequestCalculationType SecondCorrection = new RequestCalculationType(nameof(SecondCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.SecondCorrection);
-    public static readonly RequestCalculationType ThirdCorrection = new RequestCalculationType(nameof(ThirdCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.ThirdCorrection);
-    public static readonly RequestCalculationType LatestCorrection = new RequestCalculationType(nameof(ThirdCorrection), EdiTypes.BusinessReason.Correction, null);
+    public static readonly RequestCalculationType Aggregation = new RequestCalculationType(nameof(Aggregation), BusinessReasonV1.PreliminaryAggregation, null);
+    public static readonly RequestCalculationType BalanceFixing = new RequestCalculationType(nameof(BalanceFixing), BusinessReasonV1.BalanceFixing, null);
+    public static readonly RequestCalculationType WholesaleFixing = new RequestCalculationType(nameof(WholesaleFixing), BusinessReasonV1.WholesaleFixing, null);
+    public static readonly RequestCalculationType FirstCorrection = new RequestCalculationType(nameof(FirstCorrection), BusinessReasonV1.Correction, SettlementVersionV1.FirstCorrection);
+    public static readonly RequestCalculationType SecondCorrection = new RequestCalculationType(nameof(SecondCorrection), BusinessReasonV1.Correction, SettlementVersionV1.SecondCorrection);
+    public static readonly RequestCalculationType ThirdCorrection = new RequestCalculationType(nameof(ThirdCorrection), BusinessReasonV1.Correction, SettlementVersionV1.ThirdCorrection);
+    public static readonly RequestCalculationType LatestCorrection = new RequestCalculationType(nameof(ThirdCorrection), BusinessReasonV1.Correction, null);
 
     public override string ToString() => Name;
 
     public static RequestCalculationType? FromSerialized(string businessReason, string? settlementVersion) =>
         businessReason switch
         {
-            nameof(EdiTypes.BusinessReason.PreliminaryAggregation) => Aggregation,
-            nameof(EdiTypes.BusinessReason.BalanceFixing) => BalanceFixing,
-            nameof(EdiTypes.BusinessReason.WholesaleFixing) => WholesaleFixing,
-            nameof(EdiTypes.BusinessReason.Correction) => settlementVersion switch
+            nameof(BusinessReasonV1.PreliminaryAggregation) => Aggregation,
+            nameof(BusinessReasonV1.BalanceFixing) => BalanceFixing,
+            nameof(BusinessReasonV1.WholesaleFixing) => WholesaleFixing,
+            nameof(BusinessReasonV1.Correction) => settlementVersion switch
             {
-                nameof(EdiTypes.SettlementVersion.FirstCorrection) => FirstCorrection,
-                nameof(EdiTypes.SettlementVersion.SecondCorrection) => SecondCorrection,
-                nameof(EdiTypes.SettlementVersion.ThirdCorrection) => ThirdCorrection,
+                nameof(SettlementVersionV1.FirstCorrection) => FirstCorrection,
+                nameof(SettlementVersionV1.SecondCorrection) => SecondCorrection,
+                nameof(SettlementVersionV1.ThirdCorrection) => ThirdCorrection,
                 "" or null => LatestCorrection,
                 _ => null, // invalid/unknown
             },

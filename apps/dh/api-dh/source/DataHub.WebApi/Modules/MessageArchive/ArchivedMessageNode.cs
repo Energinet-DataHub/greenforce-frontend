@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
@@ -19,10 +21,8 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
-using MeteringPointDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointDocumentType;
-using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v3.DocumentType;
 
-namespace Energinet.DataHub.WebApi.Modules.Esett;
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 
 [ObjectType<ArchivedMessage>]
 public static partial class ArchivedMessageNode
@@ -34,7 +34,7 @@ public static partial class ArchivedMessageNode
         string meteringPointId,
         Guid? senderId,
         Guid? receiverId,
-        MeteringPointDocumentType? documentType,
+        MeteringPointDocumentTypeDtoV1? documentType,
         int? first,
         string? after,
         int? last,
@@ -61,7 +61,7 @@ public static partial class ArchivedMessageNode
         Interval created,
         Guid? senderId,
         Guid? receiverId,
-        SearchDocumentType[]? documentTypes,
+        DocumentTypeDtoV1[]? documentTypes,
         BusinessReason[]? businessReasons,
         bool? includeRelated,
         string? filter,

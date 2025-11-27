@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.SendMeasurements.V1;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.SendMeasurements;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.SendMeasurements.Model;
 using Energinet.DataHub.ProcessManager.Client;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Extensions;
@@ -159,11 +161,17 @@ public static partial class MeasurementOperations
     [UseRevisionLog]
     [Authorize(Roles = new[] { "measurements:manage" })]
     public static async Task<bool> SendMeasurementsAsync(
-        SendMeasurementsRequestV2 input,
+        SendMeasurementsRequestV1 input,
         CancellationToken ct,
-        [Service] IEdiB2CWebAppClient_V3 client)
+        [Service] IB2CClient client)
     {
-        await client.SendMeasurementsAsync("3", input, ct);
+        var sendMeasurementsRequestCommandV1 = new SendMeasurementsCommandV1(input);
+        var result = await client.SendAsync(sendMeasurementsRequestCommandV1, ct);
+        if (!result.IsSuccess)
+        {
+            throw new B2CApiException($"{nameof(SendMeasurementsRequestV1)} failed", result.Data?.MessageBody);
+        }
+
         return true;
     }
 

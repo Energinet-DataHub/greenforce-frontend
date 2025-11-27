@@ -1,4 +1,4 @@
-// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.EDI.B2CClient.Abstractions.SendMeasurements.V1;
+namespace Energinet.DataHub.WebApi.Common;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Types;
-
-public class SendMeasurementsQualityType : EnumType<QualityV1>
+public class B2CApiException(string message, string? response) : Exception(message)
 {
-    protected override void Configure(IEnumTypeDescriptor<QualityV1> descriptor)
-    {
-        descriptor.Name("SendMeasurementsQuality");
-    }
+    public string? Response { get; } = response;
 }

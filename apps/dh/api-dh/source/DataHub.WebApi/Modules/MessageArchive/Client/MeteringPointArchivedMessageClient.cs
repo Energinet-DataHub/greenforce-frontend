@@ -19,7 +19,6 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Extensions;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
-using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointDocumentType;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 
@@ -35,7 +34,7 @@ public class MeteringPointArchivedMessageClient(
         string meteringPointId,
         Guid? senderId,
         Guid? receiverId,
-        SearchDocumentType? documentType,
+        MeteringPointDocumentTypeDtoV1? documentType,
         int? first,
         string? after,
         int? last,
@@ -99,17 +98,17 @@ public class MeteringPointArchivedMessageClient(
             archivedMessageSearchCommand.SearchArchivedMessage.Pagination.PageSize);
     }
 
-    private MeteringPointDocumentTypeDtoV1 MapDocumentType(SearchDocumentType? searchDocumentType) =>
+    private MeteringPointDocumentTypeDtoV1 MapDocumentType(MeteringPointDocumentTypeDtoV1? searchDocumentType) =>
         searchDocumentType switch
         {
-            SearchDocumentType.Acknowledgement => MeteringPointDocumentTypeDtoV1.Acknowledgement,
-            SearchDocumentType.SendMeasurements => MeteringPointDocumentTypeDtoV1.SendMeasurements,
-            SearchDocumentType.RequestMeasurements => MeteringPointDocumentTypeDtoV1.RequestMeasurements,
-            SearchDocumentType.RejectRequestMeasurements => MeteringPointDocumentTypeDtoV1.RejectRequestMeasurements,
-            SearchDocumentType.UpdateChargeLinks => MeteringPointDocumentTypeDtoV1.UpdateChargeLinks,
-            SearchDocumentType.ConfirmRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1
+            MeteringPointDocumentTypeDtoV1.Acknowledgement => MeteringPointDocumentTypeDtoV1.Acknowledgement,
+            MeteringPointDocumentTypeDtoV1.SendMeasurements => MeteringPointDocumentTypeDtoV1.SendMeasurements,
+            MeteringPointDocumentTypeDtoV1.RequestMeasurements => MeteringPointDocumentTypeDtoV1.RequestMeasurements,
+            MeteringPointDocumentTypeDtoV1.RejectRequestMeasurements => MeteringPointDocumentTypeDtoV1.RejectRequestMeasurements,
+            MeteringPointDocumentTypeDtoV1.UpdateChargeLinks => MeteringPointDocumentTypeDtoV1.UpdateChargeLinks,
+            MeteringPointDocumentTypeDtoV1.ConfirmRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1
                 .ConfirmRequestChangeBillingMasterData,
-            SearchDocumentType.RejectRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1
+            MeteringPointDocumentTypeDtoV1.RejectRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1
                 .RejectRequestChangeBillingMasterData,
             _ => throw new ArgumentOutOfRangeException(nameof(searchDocumentType), $"Unsupported document type: {searchDocumentType}"),
         };

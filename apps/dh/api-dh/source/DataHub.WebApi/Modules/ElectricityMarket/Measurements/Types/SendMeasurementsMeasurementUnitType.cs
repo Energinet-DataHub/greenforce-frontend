@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.SendMeasurements.V1;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Types;
 
-public class SendMeasurementsMeasurementUnitType : EnumType<MeasurementUnit>
+public class SendMeasurementsMeasurementUnitType : EnumType<MeasurementUnitV1>
 {
-    protected override void Configure(IEnumTypeDescriptor<MeasurementUnit> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<MeasurementUnitV1> descriptor)
     {
         descriptor.Name("SendMeasurementsMeasurementUnit");
     }
