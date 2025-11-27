@@ -52,6 +52,9 @@ import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-
 import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
 
 import { InstallationAddress } from '../types';
+import { DhGetMeteringPointForManualCorrectionComponent } from "./manual-correction/dh-get-metering-point-for-manual-correction.component";
+import { DhSimulateMeteringPointManualCorrectionComponent } from "./manual-correction/dh-simulate-metering-point-manual-correction.component";
+import { DhExecuteMeteringPointManualCorrectionComponent } from "./manual-correction/dh-execute-metering-point-manual-correction.component";
 
 @Component({
   selector: 'dh-metering-point-actions',
@@ -64,7 +67,10 @@ import { InstallationAddress } from '../types';
     WattIconComponent,
     DhPermissionRequiredDirective,
     WATT_MENU,
-  ],
+    DhGetMeteringPointForManualCorrectionComponent,
+    DhSimulateMeteringPointManualCorrectionComponent,
+    DhExecuteMeteringPointManualCorrectionComponent
+],
   styles: `
     :host {
       display: block;
@@ -127,6 +133,17 @@ import { InstallationAddress } from '../types';
             {{ t('createChargeLink') }}
           </watt-menu-item>
         }
+        @if (showManualCorrectionButtons()) {
+          <dh-get-metering-point-for-manual-correction
+            [meteringPointId]="meteringPointId()"
+          />
+          <dh-simulate-metering-point-manual-correction
+            [meteringPointId]="meteringPointId()"
+          />
+          <dh-execute-metering-point-manual-correction
+            [meteringPointId]="meteringPointId()"
+          />
+        }
       </watt-menu>
     </ng-container>
   `,
@@ -139,10 +156,16 @@ export class DhMeteringPointActionsComponent {
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
 
+  meteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
   subType = input<MeteringPointSubType | null>();
   connectionState = input<ConnectionState | null>();
   installationAddress = input<InstallationAddress | null>();
+
+  private readonly hasDataHubAdministratorRole = toSignal(
+    this.permissionService.hasMarketRole(EicFunction.DataHubAdministrator),
+    { initialValue: false }
+  );
 
   private readonly hasGridAccessProviderRole = toSignal(
     this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
@@ -170,11 +193,16 @@ export class DhMeteringPointActionsComponent {
     return this.releaseToggleService.isEnabled('PM60-CHARGE-LINKS-UI');
   });
 
+  showManualCorrectionButtons = computed(() => {
+    return this.hasDataHubAdministratorRole();
+  });
+
   showActionsButton = computed(() => {
     return (
       this.showMeasurementsUploadButton() ||
       this.showMoveInButton() ||
-      this.showCreateChargeLinkButton()
+      this.showCreateChargeLinkButton() ||
+      this.showManualCorrectionButtons()
     );
   });
 

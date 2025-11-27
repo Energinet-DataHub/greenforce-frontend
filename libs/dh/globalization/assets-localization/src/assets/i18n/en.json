@@ -680,6 +680,13 @@
         "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      },
+      "manualCorrection": {
+        "getMeteringPoint": "Download metering point",
+        "verifyCorrection": "Verify manual correction",
+        "executeCorrection": "Apply manual correction",
+        "saveSuccess": "Manual correction of metering point applied",
+        "saveError": "Manual correction of metering point failed"
       }
     },
     "relatedMeteringPointsTitle": "Related metering points",

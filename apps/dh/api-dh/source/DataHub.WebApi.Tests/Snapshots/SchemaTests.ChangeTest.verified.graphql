@@ -500,6 +500,10 @@ type ExchangeEventStatusReportResponse {
   waitingForExternalResponse: Int!
 }
 
+type ExecuteMeteringPointManualCorrectionPayload {
+  boolean: Boolean
+}
+
 "A connection to a list of items."
 type FailedSendMeasurementsInstancesConnection {
   "Information to aid in pagination."
@@ -979,6 +983,8 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 
 type Mutation {
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
+  simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "metering-point:search" ])
+  executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "metering-point:search" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1184,6 +1190,7 @@ type Query {
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
   meteringPointExists(internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
@@ -1424,6 +1431,10 @@ type SettlementReport {
   includesBasisData: Boolean!
   progress: Float!
   includeMonthlyAmount: Boolean!
+}
+
+type SimulateMeteringPointManualCorrectionPayload {
+  string: String
 }
 
 type StartMoveInPayload {
@@ -1816,6 +1827,11 @@ input EsettExchangeEventSortInput {
   timeSeriesType: SortEnumType
 }
 
+input ExecuteMeteringPointManualCorrectionInput {
+  meteringPointId: String!
+  json: String!
+}
+
 input GetAggregateByYearQueryInput {
   meteringPointId: String!
   actorNumber: String!
@@ -2075,6 +2091,11 @@ input SendMeasurementsRequestV2Input {
   start: DateTime!
   end: DateTime!
   measurements: [MeasurementInput!]!
+}
+
+input SimulateMeteringPointManualCorrectionInput {
+  meteringPointId: String!
+  json: String!
 }
 
 input StartMoveInInput {
