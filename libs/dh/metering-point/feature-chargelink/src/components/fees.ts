@@ -33,10 +33,7 @@ import {
   GetChargeLinksByMeteringPointIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import {
-  dhMakeFormControl,
-  dhEnumToWattDropdownOptions,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 import { Charge } from '../types';
 
@@ -93,7 +90,6 @@ export default class DhMeteringPointChargeLinksFees {
       (chargeLink) => chargeLink.type === ChargeType.Fee
     )
   );
-  chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
 
   form = new FormGroup({
     chargeTypes: dhMakeFormControl(),

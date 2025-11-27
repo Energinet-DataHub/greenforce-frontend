@@ -11,17 +11,32 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
-public class ResolutionType : EnumType<Resolution>
+public class ChargeTypeEnumType : EnumType<ChargeType>
 {
-    protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<ChargeType> descriptor)
     {
-        descriptor.Name("ChargeResolution");
-        descriptor.AsLowerCase();
+        descriptor
+            .Name("ChargeType")
+            .BindValuesExplicitly();
+
+        descriptor
+            .Value(ChargeType.Tariff)
+            .Name("TARIFF");
+
+        descriptor
+            .Value(ChargeType.TariffTax)
+            .Name("TARIFF_TAX");
+
+        descriptor
+            .Value(ChargeType.Subscription)
+            .Name("SUBSCRIPTION");
+
+        descriptor
+            .Value(ChargeType.Fee)
+            .Name("FEE");
     }
 }

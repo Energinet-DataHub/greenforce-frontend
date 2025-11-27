@@ -31,6 +31,7 @@ export const permissions = [
   'delegation:manage',
   'delegation:view',
   'dh2-bridge:import',
+  'dh3-skalpellen',
   'esett-exchange:manage',
   'fas',
   'grid-loss-notifications:view',

@@ -1705,7 +1705,7 @@ input ChargeIdentifierDtoSortInput {
 input ChargeLinkSortInput {
   id: SortEnumType
   chargeIdentifier: ChargeIdentifierDtoSortInput
-  type: SortEnumType
+  type: ChargeTypeSortInput
   name: SortEnumType
   owner: MarketParticipantIdSortInput
   amount: SortEnumType
@@ -1715,6 +1715,12 @@ input ChargeLinkSortInput {
 input ChargeSortInput {
   type: SortDirection
   code: SortDirection
+}
+
+input ChargeTypeSortInput {
+  name: SortEnumType
+  type: SortEnumType
+  isTax: SortEnumType
 }
 
 input CreateActorContactDtoInput {
@@ -2333,9 +2339,10 @@ enum ChargeStatus {
 }
 
 enum ChargeType {
+  TARIFF
+  TARIFF_TAX
   SUBSCRIPTION
   FEE
-  TARIFF
 }
 
 enum ConnectionState {
