@@ -1719,7 +1719,7 @@ input ChargeSortInput {
 input ChargeTypeSortInput {
   name: SortEnumType
   type: SortEnumType
-  isFee: SortEnumType
+  isTax: SortEnumType
 }
 
 input CreateActorContactDtoInput {
@@ -2339,7 +2339,7 @@ enum ChargeStatus {
 
 enum ChargeType {
   TARIFF
-  TARIFF_FEE
+  TARIFF_TAX
   SUBSCRIPTION
   FEE
 }
