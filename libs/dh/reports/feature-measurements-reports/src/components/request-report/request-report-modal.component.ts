@@ -134,10 +134,6 @@ type MeasurementsReportRequestedBy = {
     .items-group > * {
       width: 85%;
     }
-
-    watt-textarea-field {
-      --watt-textarea-min-height: 100px;
-    }
   `,
   templateUrl: './request-report-modal.component.html',
 })
