@@ -47,7 +47,7 @@ export class DhGetMeteringPointForManualCorrectionComponent {
   );
 
   async getMeteringPointForManualCorrection() {
-    var result = await this.getMeteringPointForManualCorrectionQuery.query({
+    const result = await this.getMeteringPointForManualCorrectionQuery.query({
       variables: {
         meteringPointId: this.meteringPointId(),
       },
