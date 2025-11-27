@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges;
+namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
 [ObjectType<ChargeSeries>]
 public static partial class ChargeSeriesNode

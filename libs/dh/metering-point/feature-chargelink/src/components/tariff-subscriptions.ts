@@ -40,6 +40,7 @@ import {
 import {
   dhMakeFormControl,
   dhEnumToWattDropdownOptions,
+  DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { Charge } from '../types';
@@ -58,6 +59,7 @@ import { Charge } from '../types';
     WattDataFiltersComponent,
     WattTooltipDirective,
     WattIconComponent,
+    DhDropdownTranslatorDirective,
   ],
   providers: [DhNavigationService],
   template: `
@@ -119,7 +121,7 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
     )
   );
 
-  chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
+  chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType, [ChargeType.Fee]);
 
   form = new FormGroup({
     chargeTypes: dhMakeFormControl(),
