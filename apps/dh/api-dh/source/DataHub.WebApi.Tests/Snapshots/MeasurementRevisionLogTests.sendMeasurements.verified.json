@@ -1,7 +1,7 @@
 ﻿{
   "activity": "sendMeasurements",
   "payload": {
-    "query": "mutation($input: SendMeasurementsRequestV2Input!) { sendMeasurements(input: $input) }",
+    "query": "mutation($input: SendMeasurementsRequestV1Input!) { sendMeasurements(input: $input) }",
     "variables": {
       "input": {
         "meteringPointId": "1234567890",

@@ -35,7 +35,7 @@ import { GetArchivedMessagesForMeteringPointDataSource } from '@energinet-datahu
 import {
   GetMarketParticipantOptionsDocument,
   SortEnumType,
-  MeteringPointDocumentType,
+  MeteringPointDocumentTypeDtoV1,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
@@ -169,19 +169,19 @@ export class DhMeteringPointMessagesComponent {
   initialCreated = { start: dayjs().startOf('day').toDate(), end: dayjs().endOf('day').toDate() };
   form = new FormGroup({
     created: new FormControl(this.initialCreated, { nonNullable: true }),
-    documentType: new FormControl<MeteringPointDocumentType | null>(null),
+    documentType: new FormControl<MeteringPointDocumentTypeDtoV1 | null>(null),
     senderId: new FormControl<string | null>(null),
     receiverId: new FormControl<string | null>(null),
   });
 
   updateChargeLinksDocumentTypes = [
-    MeteringPointDocumentType.UpdateChargeLinks,
-    MeteringPointDocumentType.ConfirmRequestChangeBillingMasterData,
-    MeteringPointDocumentType.RejectRequestChangeBillingMasterData,
+    MeteringPointDocumentTypeDtoV1.UpdateChargeLinks,
+    MeteringPointDocumentTypeDtoV1.ConfirmRequestChangeBillingMasterData,
+    MeteringPointDocumentTypeDtoV1.RejectRequestChangeBillingMasterData,
   ];
 
   documentTypeOptions = dhEnumToWattDropdownOptions(
-    MeteringPointDocumentType,
+    MeteringPointDocumentTypeDtoV1,
     !this.featureFlagsService.isEnabled('update-charge-links')
       ? this.updateChargeLinksDocumentTypes
       : []

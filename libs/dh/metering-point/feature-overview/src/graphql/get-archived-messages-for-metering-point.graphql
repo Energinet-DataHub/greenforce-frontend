@@ -3,7 +3,7 @@ query GetArchivedMessagesForMeteringPoint(
   $meteringPointId: String!
   $senderId: UUID
   $receiverId: UUID
-  $documentType: MeteringPointDocumentType
+  $documentType: MeteringPointDocumentTypeDtoV1
   $first: Int
   $last: Int
   $after: String

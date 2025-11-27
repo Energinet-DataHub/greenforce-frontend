@@ -978,7 +978,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
-  sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
+  sendMeasurements(input: SendMeasurementsRequestV1Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1231,7 +1231,7 @@ type Query {
   userRoles(actorId: UUID): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
   measurementsReports: [MeasurementsReport!]!
-  archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentType "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
+  archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentTypeDtoV1 "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [SearchDocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   meteringPointProcessOverview(meteringPointId: String! created: DateRange! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [MeteringPointProcessSortInput!]): MeteringPointProcessOverviewConnection
   meteringPointProcessById(id: String!): MeteringPointProcess
@@ -1885,7 +1885,7 @@ input MarketParticipantSortInput {
   status: SortEnumType
 }
 
-input MeasurementInput {
+input MeasurementV1Input {
   position: Int!
   quantity: Float!
   quality: SendMeasurementsQuality!
@@ -2067,14 +2067,14 @@ input SendMeasurementsInstanceDtoSortInput {
   errorText: SortEnumType
 }
 
-input SendMeasurementsRequestV2Input {
+input SendMeasurementsRequestV1Input {
   meteringPointId: String!
   meteringPointType: SendMeasurementsMeteringPointType!
   measurementUnit: SendMeasurementsMeasurementUnit!
   resolution: SendMeasurementsResolution!
   start: DateTime!
   end: DateTime!
-  measurements: [MeasurementInput!]!
+  measurements: [MeasurementV1Input!]!
 }
 
 input StartMoveInInput {
@@ -2633,7 +2633,7 @@ enum MeteringGridImbalanceValuesToInclude {
   BOTH
 }
 
-enum MeteringPointDocumentType {
+enum MeteringPointDocumentTypeDtoV1 {
   ACKNOWLEDGEMENT
   SEND_MEASUREMENTS
   REQUEST_MEASUREMENTS
@@ -2641,6 +2641,7 @@ enum MeteringPointDocumentType {
   UPDATE_CHARGE_LINKS
   CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA
   REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA
+  NOTIFY_BILLING_MASTER_DATA
 }
 
 enum MeteringPointMeasureUnit {
@@ -2795,6 +2796,7 @@ enum SearchDocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
+  REQUEST_CHANGE_OF_PRICE_LIST
 }
 
 enum SendMeasurementsMeasurementUnit {
