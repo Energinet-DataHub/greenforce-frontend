@@ -45,6 +45,5 @@ public static class SearchDocumentTypeExtensions
             MeteringPointDocumentTypeDtoV1.UpdateChargeLinks => DocumentType.UpdateChargeLinks,
             MeteringPointDocumentTypeDtoV1.ConfirmRequestChangeBillingMasterData => DocumentType.ConfirmRequestChangeBillingMasterData,
             MeteringPointDocumentTypeDtoV1.RejectRequestChangeBillingMasterData => DocumentType.RejectRequestChangeBillingMasterData,
-
         };
 }
