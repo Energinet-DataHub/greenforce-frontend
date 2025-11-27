@@ -15,27 +15,11 @@
 using Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
-using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v3.DocumentType;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Extensions;
 
 public static class SearchDocumentTypeExtensions
 {
-    internal static DocumentType OldToDocumentType(this SearchDocumentType documentType) =>
-        documentType switch
-        {
-            SearchDocumentType.Acknowledgement => DocumentType.Acknowledgement,
-            SearchDocumentType.B2CRequestAggregatedMeasureData => DocumentType.B2CRequestAggregatedMeasureData,
-            SearchDocumentType.B2CRequestWholesaleSettlement => DocumentType.B2CRequestWholesaleSettlement,
-            SearchDocumentType.NotifyAggregatedMeasureData => DocumentType.NotifyAggregatedMeasureData,
-            SearchDocumentType.NotifyWholesaleServices => DocumentType.NotifyWholesaleServices,
-            SearchDocumentType.RejectRequestAggregatedMeasureData => DocumentType.RejectRequestAggregatedMeasureData,
-            SearchDocumentType.RejectRequestWholesaleSettlement => DocumentType.RejectRequestWholesaleSettlement,
-            SearchDocumentType.RequestAggregatedMeasureData => DocumentType.RequestAggregatedMeasureData,
-            SearchDocumentType.RequestWholesaleSettlement => DocumentType.RequestWholesaleSettlement,
-            SearchDocumentType.ReminderOfMissingMeasurements => DocumentType.ReminderOfMissingMeasurements,
-        };
-
     internal static DocumentType ToDocumentType(this DocumentTypeDtoV1 documentType) =>
         documentType switch
         {
@@ -61,5 +45,6 @@ public static class SearchDocumentTypeExtensions
             MeteringPointDocumentTypeDtoV1.UpdateChargeLinks => DocumentType.UpdateChargeLinks,
             MeteringPointDocumentTypeDtoV1.ConfirmRequestChangeBillingMasterData => DocumentType.ConfirmRequestChangeBillingMasterData,
             MeteringPointDocumentTypeDtoV1.RejectRequestChangeBillingMasterData => DocumentType.RejectRequestChangeBillingMasterData,
+
         };
 }
