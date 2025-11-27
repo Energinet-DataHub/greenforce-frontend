@@ -52,9 +52,9 @@ import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-
 import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
 
 import { InstallationAddress } from '../types';
-import { DhGetMeteringPointForManualCorrectionComponent } from "./manual-correction/dh-get-metering-point-for-manual-correction.component";
-import { DhSimulateMeteringPointManualCorrectionComponent } from "./manual-correction/dh-simulate-metering-point-manual-correction.component";
-import { DhExecuteMeteringPointManualCorrectionComponent } from "./manual-correction/dh-execute-metering-point-manual-correction.component";
+import { DhGetMeteringPointForManualCorrectionComponent } from './manual-correction/dh-get-metering-point-for-manual-correction.component';
+import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-correction/dh-simulate-metering-point-manual-correction.component';
+import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correction/dh-execute-metering-point-manual-correction.component';
 
 @Component({
   selector: 'dh-metering-point-actions',
@@ -69,8 +69,8 @@ import { DhExecuteMeteringPointManualCorrectionComponent } from "./manual-correc
     WATT_MENU,
     DhGetMeteringPointForManualCorrectionComponent,
     DhSimulateMeteringPointManualCorrectionComponent,
-    DhExecuteMeteringPointManualCorrectionComponent
-],
+    DhExecuteMeteringPointManualCorrectionComponent,
+  ],
   styles: `
     :host {
       display: block;
@@ -134,15 +134,9 @@ import { DhExecuteMeteringPointManualCorrectionComponent } from "./manual-correc
           </watt-menu-item>
         }
         @if (showManualCorrectionButtons()) {
-          <dh-get-metering-point-for-manual-correction
-            [meteringPointId]="meteringPointId()"
-          />
-          <dh-simulate-metering-point-manual-correction
-            [meteringPointId]="meteringPointId()"
-          />
-          <dh-execute-metering-point-manual-correction
-            [meteringPointId]="meteringPointId()"
-          />
+          <dh-get-metering-point-for-manual-correction [meteringPointId]="meteringPointId()" />
+          <dh-simulate-metering-point-manual-correction [meteringPointId]="meteringPointId()" />
+          <dh-execute-metering-point-manual-correction [meteringPointId]="meteringPointId()" />
         }
       </watt-menu>
     </ng-container>
