@@ -51,25 +51,38 @@ limitations under the License.
 
         <watt-text-field
           [formControl]="detailsControls.meteringPointId"
+          maxLength="18"
           [label]="t('details.meteringPointId')"
         />
 
-        <label [class.is-required]="isRequired(detailsControls.subType)">{{
-          t("details.subType")
-        }}</label>
+        <label [class.is-required]="isRequired(detailsControls.subType)">
+          {{ t("details.subType") }}
+        </label>
         <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
-          <watt-radio group="subType" [formControl]="detailsControls.subType" value="physical">
-            Fysisk
+          <watt-radio
+            group="subType"
+            [formControl]="detailsControls.subType"
+            [value]="MeteringPointSubType.Physical"
+          >
+            {{ `meteringPointSubType.${MeteringPointSubType.Physical}` | transloco }}
           </watt-radio>
-          <watt-radio group="subType" [formControl]="detailsControls.subType" value="virtual">
-            Virtuel
+          <watt-radio
+            group="subType"
+            [formControl]="detailsControls.subType"
+            [value]="MeteringPointSubType.Virtual"
+          >
+            {{ `meteringPointSubType.${MeteringPointSubType.Virtual}` | transloco }}
           </watt-radio>
-          <watt-radio group="subType" [formControl]="detailsControls.subType" value="calculated">
-            Beregnet
+          <watt-radio
+            group="subType"
+            [formControl]="detailsControls.subType"
+            [value]="MeteringPointSubType.Calculated"
+          >
+            {{ `meteringPointSubType.${MeteringPointSubType.Calculated}` | transloco }}
           </watt-radio>
         </vater-stack>
 
-        @if (detailsControls.subType.value === "physical") {
+        @if (detailsControls.subType.value === MeteringPointSubType.Physical) {
           <watt-text-field
             [formControl]="detailsControls.meteringPointNumber"
             [label]="t('details.meteringPointNumber')"
@@ -95,16 +108,16 @@ limitations under the License.
           <watt-radio
             group="disconnectionType"
             [formControl]="detailsControls.disconnectionType"
-            value="D01"
+            [value]="DisconnectionType.RemoteDisconnection"
           >
-            Fjernafbrydelig (D01)
+            {{ t(`disconnectionType.${DisconnectionType.RemoteDisconnection}`) }}
           </watt-radio>
           <watt-radio
             group="disconnectionType"
             [formControl]="detailsControls.disconnectionType"
-            value="D02"
+            [value]="DisconnectionType.ManualDisconnection"
           >
-            Manuel afbrydelig (D02)
+            {{ t(`disconnectionType.${DisconnectionType.ManualDisconnection}`) }}
           </watt-radio>
         </vater-stack>
 
@@ -123,9 +136,9 @@ limitations under the License.
 
         @let addressControls = form.controls.address.controls;
 
-        <label [class.is-required]="isRequired(addressControls.washInstructions)">{{
-          t("address.actualNotActualLabel")
-        }}</label>
+        <label [class.is-required]="isRequired(addressControls.washInstructions)">
+          {{ t("address.actualNotActualLabel") }}
+        </label>
         <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
           <watt-radio
             group="washInstructions"
@@ -146,10 +159,12 @@ limitations under the License.
         <vater-stack direction="row" align="baseline" gap="m">
           <watt-dropdown
             [formControl]="addressControls.countryCode"
-            [options]="[]"
+            [options]="countryOptions"
             [showResetOption]="false"
             [label]="t('address.country')"
             class="country-dropdown"
+            dhDropdownTranslator
+            translateKey="shared.countries"
           />
 
           <watt-text-field
@@ -205,6 +220,7 @@ limitations under the License.
         <watt-textarea-field
           [formControl]="addressControls.comment"
           [label]="t('address.commentLabel')"
+          small
         />
       </watt-card>
 
@@ -215,23 +231,23 @@ limitations under the License.
 
         @let powerPlantControls = form.controls.powerPlant.controls;
 
-        <label [class.is-required]="isRequired(powerPlantControls.netSettlementGroup)">{{
-          t("powerPlant.netSettlementGroup")
-        }}</label>
+        <label [class.is-required]="isRequired(powerPlantControls.netSettlementGroup)">
+          {{ t("powerPlant.netSettlementGroup") }}
+        </label>
         <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
           <watt-radio
             group="netSettlementGroup"
             [formControl]="powerPlantControls.netSettlementGroup"
             value="0"
           >
-            Ingen nettoafregning (0)
+            {{ t("netSettlementGroup.0") }}
           </watt-radio>
           <watt-radio
             group="netSettlementGroup"
             [formControl]="powerPlantControls.netSettlementGroup"
             value="3"
           >
-            Øjebliksafregnet (3)
+            {{ t("netSettlementGroup.3") }}
           </watt-radio>
         </vater-stack>
 
@@ -248,23 +264,23 @@ limitations under the License.
             />
           </vater-flex>
 
-          <label [class.is-required]="isRequired(powerPlantControls.connectionType)">{{
-            t("powerPlant.connectionType")
-          }}</label>
+          <label [class.is-required]="isRequired(powerPlantControls.connectionType)">
+            {{ t("powerPlant.connectionType") }}
+          </label>
           <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
             <watt-radio
               group="connectionType"
               [formControl]="powerPlantControls.connectionType"
-              value="D01"
+              [value]="ConnectionType.Direct"
             >
-              Direkte tilsluttet (D01)
+              {{ t(`connectionType.${ConnectionType.Direct}`) }}
             </watt-radio>
             <watt-radio
               group="connectionType"
               [formControl]="powerPlantControls.connectionType"
-              value="D02"
+              [value]="ConnectionType.Installation"
             >
-              Installationstilsluttet (D02)
+              {{ t(`connectionType.${ConnectionType.Installation}`) }}
             </watt-radio>
           </vater-stack>
 
@@ -284,19 +300,19 @@ limitations under the License.
 
         @let otherControls = form.controls.other.controls;
 
-        <label [class.is-required]="isRequired(otherControls.resolution)">{{
-          t("other.resolution")
-        }}</label>
+        <label [class.is-required]="isRequired(otherControls.resolution)">
+          {{ t("other.resolution") }}
+        </label>
         <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
           <watt-radio
             group="resolution"
             [formControl]="otherControls.resolution"
             value="quarterHourly"
           >
-            Pr. kvarter
+            {{ t("resolution.quarterHourly") }}
           </watt-radio>
           <watt-radio group="resolution" [formControl]="otherControls.resolution" value="hourly">
-            Pr. time
+            {{ t("resolution.hourly") }}
           </watt-radio>
         </vater-stack>
 
@@ -305,10 +321,10 @@ limitations under the License.
         }}</label>
         <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
           <watt-radio group="measureUnit" [formControl]="otherControls.measureUnit" value="K_WH">
-            kWh
+            {{ `measureUnit.K_WH` | transloco }}
           </watt-radio>
           <watt-radio group="measureUnit" [formControl]="otherControls.measureUnit" value="KV_ARH">
-            kVArh
+            {{ `measureUnit.KV_ARH` | transloco }}
           </watt-radio>
         </vater-stack>
 
@@ -316,11 +332,19 @@ limitations under the License.
           t("other.product")
         }}</label>
         <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
-          <watt-radio group="product" [formControl]="otherControls.product" value="ENERGY_ACTIVE">
-            Aktiv energi
+          <watt-radio
+            group="product"
+            [formControl]="otherControls.product"
+            [value]="Product.EnergyActive"
+          >
+            {{ `product.${Product.EnergyActive}` | transloco }}
           </watt-radio>
-          <watt-radio group="product" [formControl]="otherControls.product" value="ENERGY_REACTIVE">
-            Reaktiv energi
+          <watt-radio
+            group="product"
+            [formControl]="otherControls.product"
+            [value]="Product.EnergyReactive"
+          >
+            {{ `product.${Product.EnergyReactive}` | transloco }}
           </watt-radio>
         </vater-stack>
       </watt-card>

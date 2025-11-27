@@ -1016,6 +1016,22 @@
         "connectionType": "Tilslutningstype",
         "assetType": "Anlægsteknologi"
       },
+      "disconnectionType": {
+        "REMOTE_DISCONNECTION": "{{ disconnectionType.REMOTE_DISCONNECTION }} (D01)",
+        "MANUAL_DISCONNECTION": "{{ disconnectionType.MANUAL_DISCONNECTION }} (D02)"
+      },
+      "connectionType": {
+        "DIRECT": "{{ connectionType.DIRECT }} (D01)",
+        "INSTALLATION": "{{ connectionType.INSTALLATION }} (D02)"
+      },
+      "netSettlementGroup": {
+        "0": "Ingen nettoafregning (0)",
+        "3": "Øjebliksafregnet (3)"
+      },
+      "resolution": {
+        "quarterHourly": "Pr. kvarter",
+        "hourly": "Pr. time"
+      },
       "other": {
         "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
         "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
