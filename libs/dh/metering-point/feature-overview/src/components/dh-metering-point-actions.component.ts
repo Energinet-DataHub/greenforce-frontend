@@ -40,13 +40,8 @@ import {
   ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import {
-  PermissionService,
-  DhPermissionRequiredDirective,
-} from '@energinet-datahub/dh/shared/feature-authorization';
-
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
-
 import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
 
