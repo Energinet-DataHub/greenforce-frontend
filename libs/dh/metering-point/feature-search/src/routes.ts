@@ -48,6 +48,7 @@ import {
   dhMeteringPointTypeParam,
 } from './components/dh-metering-point-params';
 import { dhSupportedMeteringPointTypes } from './components/dh-supported-metering-point-types';
+import { DhCustomerDataComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 
 const marketRolesWithDataAccess = [
   EicFunction.EnergySupplier,
@@ -176,6 +177,13 @@ export const dhMeteringPointRoutes: Routes = [
                   ),
               },
             ],
+          },
+          {
+            path: getPath<MeteringPointSubPaths>('update-customer-details'),
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-move-in').then(
+                (m) => m.DhCustomerDataComponent
+              ),
           },
         ],
       },

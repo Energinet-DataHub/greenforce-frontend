@@ -130,9 +130,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
                   {{ t('municipalityCodeError.containsLetters') }}
                 } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
                   {{ t('municipalityCodeError.startsWithZero') }}
-                } @else if (
-                  legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
-                ) {
+                } @else if (legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
                   {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
                 }
               </watt-field-error>
@@ -146,7 +144,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
-              [formControl]="legalGroupControls.citySubdivisionName"
+              [formControl]="legalGroupControls.citySubDivisionName"
               [label]="t('citySubdivisionName')"
               data-testid="legal-city-subdivision-name"
             />
@@ -241,9 +239,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
                   {{ t('municipalityCodeError.containsLetters') }}
                 } @else if (legalGroupControls.municipalityCode.hasError('startsWithZero')) {
                   {{ t('municipalityCodeError.startsWithZero') }}
-                } @else if (
-                  legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
-                ) {
+                } @else if (legalGroupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
                   {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
                 }
               </watt-field-error>
@@ -257,7 +253,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
-              [formControl]="technicalGroupControls.citySubdivisionName"
+              [formControl]="technicalGroupControls.citySubDivisionName"
               [label]="t('citySubdivisionName')"
               data-testid="technical-city-subdivision-name"
             />

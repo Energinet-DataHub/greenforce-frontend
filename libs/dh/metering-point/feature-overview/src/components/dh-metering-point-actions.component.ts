@@ -41,9 +41,7 @@ import {
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  DhMoveInComponent,
-  DhCustomerDataModalComponent,
-  DhStartMoveInModalComponent,
+  DhStartMoveInComponent
 } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
 import { WattModalService } from '@energinet/watt/modal';
@@ -124,7 +122,7 @@ import { InstallationAddress } from '../types';
             *dhPermissionRequired="['metering-point:move-in']"
             type="button"
             mat-menu-item
-            (click)="startSecondMoveIn()"
+            [routerLink]="getUpdateCustomerDetailsLink"
           >
             Opdatér kundestamdata
           </button>
@@ -140,6 +138,7 @@ export class DhMeteringPointActionsComponent {
 
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
+  getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
 
   type = input<ElectricityMarketMeteringPointType | null>();
   subType = input<MeteringPointSubType | null>();
@@ -174,16 +173,7 @@ export class DhMeteringPointActionsComponent {
 
   startMoveIn() {
     this.modalService.open({
-      component: DhStartMoveInModalComponent,
-      data: { installationAddress: this.installationAddress() },
-      disableClose: true,
-    });
-  }
-
-  // TODO: MASEP To be removed
-  startSecondMoveIn() {
-    this.modalService.open({
-      component: DhCustomerDataModalComponent,
+      component: DhStartMoveInComponent,
       data: { installationAddress: this.installationAddress() },
       disableClose: true,
     });

@@ -16,6 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMoveInComponent } from './components/move-in.component';
-export { DhStartMoveInModalComponent } from './components/start-move-in.modal.component';
-export { DhCustomerDataModalComponent } from './components/customer-data.modal.component';
+export { DhStartMoveInComponent } from './components/dh-start-move-in.component';
+export { DhCustomerDataComponent } from './components/dh-customer-data.component';

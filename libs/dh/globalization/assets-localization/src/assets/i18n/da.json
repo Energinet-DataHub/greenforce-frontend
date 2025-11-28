@@ -882,7 +882,8 @@
       "moveInSuccess": "Tilflytning er nu registreret",
       "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
       "save": "Tilflyt kunde",
-      "send": "Indsend"
+      "send": "Indsend",
+      "cancel": "Annuller"
     },
     "create": {
       "modal": {

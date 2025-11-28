@@ -28,7 +28,7 @@ import { MoveInType, StartMoveInDocument, WashInstructions, } from '@energinet-d
 import { WattToastService } from '@energinet/watt/toast';
 
 import { InstallationAddress, MoveInCustomerDetailsFormType, } from '../types';
-import { DhCustomerDetailsComponent } from './customer-details.component';
+import { DhCustomerDetailsComponent } from './dh-customer-details.component';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
@@ -50,7 +50,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
     </watt-modal>
   `,
 })
-export class DhStartMoveInModalComponent extends WattTypedModal<{
+export class DhStartMoveInComponent extends WattTypedModal<{
   installationAddress: InstallationAddress;
 }> {
   private readonly fb = inject(NonNullableFormBuilder);

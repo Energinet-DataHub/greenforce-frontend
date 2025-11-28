@@ -881,7 +881,8 @@
       "moveInSuccess": "Move-in is now registered",
       "customerDataSuccess": "Customer data update is now registered",
       "save": "Customer move-in",
-      "send": "Send"
+      "send": "Send",
+      "cancel": "Cancel"
     },
     "create": {
       "modal": {
