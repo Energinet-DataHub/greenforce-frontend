@@ -143,15 +143,19 @@ import {
                 </span>
                 <br />
                 <span class="watt-text-s watt-on-light--medium-emphasis">
-                  @if (meteringPoint.connectionState === ConnectionState.ClosedDown) {
-                    @if (meteringPoint.createdDate) {
-                      {{
-                        toDateRange(meteringPoint.createdDate, meteringPoint.closedDownDate)
-                          | wattDate
-                      }}
+                  @switch (meteringPoint.connectionState) {
+                    @case ('NEW') {
+                      {{ meteringPoint.createdDate | wattDate }}
                     }
-                  } @else {
-                    {{ meteringPoint.createdDate | wattDate }}
+                    @case ('CONNECTED') {
+                      {{ meteringPoint.connectionDate | wattDate }}
+                    }
+                    @case ('CLOSED_DOWN') {
+                      {{ meteringPoint.closedDownDate | wattDate }}
+                    }
+                    @default {
+                      {{ meteringPoint.createdDate | wattDate }}
+                    }
                   }
                 </span>
               </div>
