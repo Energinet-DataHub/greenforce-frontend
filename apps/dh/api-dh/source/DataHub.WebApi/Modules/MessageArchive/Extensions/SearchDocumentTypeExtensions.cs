@@ -33,6 +33,7 @@ public static class SearchDocumentTypeExtensions
             DocumentTypeDtoV1.RequestAggregatedMeasureData => DocumentType.RequestAggregatedMeasureData,
             DocumentTypeDtoV1.RequestWholesaleSettlement => DocumentType.RequestWholesaleSettlement,
             DocumentTypeDtoV1.ReminderOfMissingMeasurements => DocumentType.ReminderOfMissingMeasurements,
+            DocumentTypeDtoV1.RequestChangeOfPriceList => DocumentType.RequestChangeOfPriceList,
         };
 
     internal static DocumentType ToDocumentType(this MeteringPointDocumentTypeDtoV1 documentType) =>
@@ -45,5 +46,6 @@ public static class SearchDocumentTypeExtensions
             MeteringPointDocumentTypeDtoV1.UpdateChargeLinks => DocumentType.UpdateChargeLinks,
             MeteringPointDocumentTypeDtoV1.ConfirmRequestChangeBillingMasterData => DocumentType.ConfirmRequestChangeBillingMasterData,
             MeteringPointDocumentTypeDtoV1.RejectRequestChangeBillingMasterData => DocumentType.RejectRequestChangeBillingMasterData,
+            MeteringPointDocumentTypeDtoV1.NotifyBillingMasterData => DocumentType.NotifyBillingMasterData,
         };
 }
