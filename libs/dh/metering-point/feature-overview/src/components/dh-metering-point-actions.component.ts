@@ -61,9 +61,9 @@ import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correc
   imports: [
     RouterLink,
     TranslocoDirective,
+
     WattButtonComponent,
     WattIconComponent,
-    DhPermissionRequiredDirective,
     WATT_MENU,
     DhGetMeteringPointForManualCorrectionComponent,
     DhSimulateMeteringPointManualCorrectionComponent,
@@ -101,6 +101,7 @@ import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correc
             {{ t('createChargeLink') }}
           </watt-menu-item>
         }
+
         @if (showManualCorrectionButtons()) {
           <dh-get-metering-point-for-manual-correction [meteringPointId]="meteringPointId()" />
           <dh-simulate-metering-point-manual-correction [meteringPointId]="meteringPointId()" />
@@ -123,11 +124,6 @@ export class DhMeteringPointActionsComponent {
   subType = input<MeteringPointSubType | null>();
   connectionState = input<ConnectionState | null>();
   installationAddress = input<InstallationAddress | null>();
-
-  private readonly hasDataHubAdministratorRole = toSignal(
-    this.permissionService.hasMarketRole(EicFunction.DataHubAdministrator),
-    { initialValue: false }
-  );
 
   private readonly hasGridAccessProviderRole = toSignal(
     this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
@@ -180,11 +176,7 @@ export class DhMeteringPointActionsComponent {
     );
   });
 
-  showManualCorrectionButtons = computed(() => {
-    return (
-      this.permissionService.hasPermission('dh3-skalpellen') && this.hasDataHubAdministratorRole()
-    );
-  });
+  showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
 
   showActionsButton = computed(() => {
     return (

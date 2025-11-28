@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ElementRef, inject, input, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -36,10 +36,9 @@ import { WattToastService } from '@energinet/watt/toast';
   `,
   template: `
     <input
-      id="execute-manual-correction-input"
       class="execute-manual-correction-input"
       type="file"
-      accept="json"
+      accept=".json"
       (change)="onFileSelected(fileUpload.files)"
       #fileUpload
     />
@@ -52,8 +51,7 @@ import { WattToastService } from '@energinet/watt/toast';
   `,
 })
 export class DhExecuteMeteringPointManualCorrectionComponent {
-  @ViewChild('fileUpload')
-  fileUpload!: ElementRef<HTMLInputElement>;
+  private fileUpload = viewChild.required<ElementRef<HTMLInputElement>>('fileUpload');
 
   meteringPointId = input.required<string>();
 
@@ -70,9 +68,14 @@ export class DhExecuteMeteringPointManualCorrectionComponent {
     }
 
     const file = files[0];
+
+    if (file.type !== 'application/json') {
+      return;
+    }
+
     const content = await file.text();
 
-    this.fileUpload.nativeElement.value = '';
+    this.fileUpload().nativeElement.value = '';
 
     const response = await this.executeMeteringPointManualCorrectionQuery.mutate({
       variables: {
