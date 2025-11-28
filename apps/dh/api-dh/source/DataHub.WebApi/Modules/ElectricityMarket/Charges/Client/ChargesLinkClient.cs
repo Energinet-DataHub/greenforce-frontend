@@ -12,18 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
+using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
+using ChargeApiModels = Energinet.DataHub.Charges.Abstractions.Api.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 
-public class ChargeLinkClient : IChargeLinkClient
+public class ChargeLinkClient(DataHub.Charges.Client.IChargesClient client) : IChargeLinkClient
 {
-    public Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(string meteringPointId, CancellationToken ct = default)
-    {
-        return Task.FromResult<IEnumerable<ChargeLink>>(Array.Empty<ChargeLink>());
-    }
+    public Task<ChargeApiModels.Result<(IEnumerable<ChargeLinkDto>, int)>> GetChargeLinksByMeteringPointIdAsync(
+        string meteringPointId,
+        CancellationToken ct = default) =>
+        client.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(meteringPointId));
 
-    public Task<IEnumerable<ChargeLinkHistory>> GetChargeLinkHistoryAsync(string chargeId, CancellationToken ct = default)
+    public Task<IEnumerable<ChargeLinkHistory>> GetChargeLinkHistoryAsync(long chargeLinkId, CancellationToken ct = default)
     {
         return Task.FromResult<IEnumerable<ChargeLinkHistory>>(Array.Empty<ChargeLinkHistory>());
     }

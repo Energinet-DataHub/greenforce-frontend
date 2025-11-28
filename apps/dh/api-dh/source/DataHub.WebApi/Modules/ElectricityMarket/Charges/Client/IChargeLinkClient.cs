@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
+using ChargeApiModels = Energinet.DataHub.Charges.Abstractions.Api.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 
@@ -24,14 +26,14 @@ public interface IChargeLinkClient
     /// <summary>
     /// Get all charges that are linked to a given metering point id.
     /// </summary>
-    Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(
+    Task<ChargeApiModels.Result<(IEnumerable<ChargeLinkDto> Items, int TotalCount)>> GetChargeLinksByMeteringPointIdAsync(
         string meteringPointId,
         CancellationToken ct = default);
 
     /// <summary>
-    /// Get the change history for a given charge id.
+    /// Get the change history for a given charge link id.
     /// </summary>
     Task<IEnumerable<ChargeLinkHistory>> GetChargeLinkHistoryAsync(
-        string chargeId,
+        long chargeLinkId,
         CancellationToken ct = default);
 }
