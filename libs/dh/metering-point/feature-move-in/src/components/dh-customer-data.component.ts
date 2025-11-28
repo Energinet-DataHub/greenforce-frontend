@@ -41,7 +41,7 @@ import { DhContactDetailsFormComponent } from './dh-contact-details-form.compone
 import { DhAddressDetailsFormComponent } from './dh-address-details-form.component';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_CARD } from '@energinet/watt/card';
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-customer-data',
@@ -52,18 +52,35 @@ import { VaterStackComponent } from '@energinet/watt/vater';
     DhAddressDetailsFormComponent,
     WATT_CARD,
     VaterStackComponent,
+    VaterFlexComponent,
   ],
+  styles: `
+    .customer-data-card {
+      margin: var(--watt-space-ml)
+    }
+
+    .details-max-height {
+      max-height: 65vh;
+      overflow-y: scroll;
+    }
+
+    .buttons-margin {
+      margin-top: var(--watt-space-m);
+    }
+  `,
   template: `
     <form *transloco="let t; prefix: 'meteringPoint.moveIn'">
-      <watt-card>
+      <watt-card class="customer-data-card">
+        <vater-flex class="details-max-height">
         <dh-contact-details-form [contactDetailsForm]="contactDetailsForm" />
         <dh-address-details-form [addressDetailsForm]="addressDetailsForm" />
-        <vater-stack direction="row" justify="end">
-        <watt-button variant="secondary" (click)="cancel()">{{ t('cancel') }}</watt-button>
-        <watt-button type="submit" variant="secondary" (click)="updateCustomerData()"
-        >{{ t('send') }}
-        </watt-button>
-      </vater-stack>
+        </vater-flex>
+        <vater-stack class="buttons-margin" direction="row" justify="end">
+          <watt-button variant="secondary" (click)="cancel()">{{ t('cancel') }}</watt-button>
+          <watt-button type="submit" variant="secondary" (click)="updateCustomerData()"
+            >{{ t('send') }}
+          </watt-button>
+        </vater-stack>
       </watt-card>
     </form>
   `,
