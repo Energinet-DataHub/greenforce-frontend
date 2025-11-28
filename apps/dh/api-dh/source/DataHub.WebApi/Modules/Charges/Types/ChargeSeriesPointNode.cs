@@ -12,22 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
-[ObjectType<PointDto>]
+[ObjectType<ChargeSeriesPoint>]
 public static partial class ChargeSeriesPointNode
 {
-    public static bool IsCurrent([Parent] PointDto point) => true;
+    public static bool IsCurrent([Parent] ChargeSeriesPoint point) => true;
 
     // point.FromDateTime <= DateTimeOffset.Now && point.ToDateTime > DateTimeOffset.Now;
-    static partial void Configure(IObjectTypeDescriptor<PointDto> descriptor)
+    static partial void Configure(IObjectTypeDescriptor<ChargeSeriesPoint> descriptor)
     {
         descriptor.Name("ChargeSeriesPoint");
         descriptor.BindFieldsExplicitly();
         // descriptor.Field(f => f.FromDateTime);
         // descriptor.Field(f => f.ToDateTime);
+        // descriptor.Field(f => f.Time);
         descriptor.Field(f => f.Price);
     }
 }
