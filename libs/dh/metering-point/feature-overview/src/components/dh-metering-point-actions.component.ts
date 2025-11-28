@@ -17,7 +17,6 @@
  */
 //#endregion
 import { RouterLink } from '@angular/router';
-import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -52,16 +51,15 @@ import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-
 import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
 
 import { InstallationAddress } from '../types';
-import { DhGetMeteringPointForManualCorrectionComponent } from "./manual-correction/dh-get-metering-point-for-manual-correction.component";
-import { DhSimulateMeteringPointManualCorrectionComponent } from "./manual-correction/dh-simulate-metering-point-manual-correction.component";
-import { DhExecuteMeteringPointManualCorrectionComponent } from "./manual-correction/dh-execute-metering-point-manual-correction.component";
+import { DhGetMeteringPointForManualCorrectionComponent } from './manual-correction/dh-get-metering-point-for-manual-correction.component';
+import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-correction/dh-simulate-metering-point-manual-correction.component';
+import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correction/dh-execute-metering-point-manual-correction.component';
 
 @Component({
   selector: 'dh-metering-point-actions',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
-    NgTemplateOutlet,
     TranslocoDirective,
     WattButtonComponent,
     WattIconComponent,
@@ -69,8 +67,8 @@ import { DhExecuteMeteringPointManualCorrectionComponent } from "./manual-correc
     WATT_MENU,
     DhGetMeteringPointForManualCorrectionComponent,
     DhSimulateMeteringPointManualCorrectionComponent,
-    DhExecuteMeteringPointManualCorrectionComponent
-],
+    DhExecuteMeteringPointManualCorrectionComponent,
+  ],
   styles: `
     :host {
       display: block;
@@ -79,31 +77,10 @@ import { DhExecuteMeteringPointManualCorrectionComponent } from "./manual-correc
   template: `
     <ng-container *transloco="let t; prefix: 'meteringPoint.overview.actions'">
       @if (showActionsButton()) {
-        @if (showMeasurementsUploadButton()) {
-          <watt-button
-            *dhPermissionRequired="['measurements:manage']; else elseTmpl"
-            variant="secondary"
-            [wattMenuTriggerFor]="menu"
-          >
-            {{ t('actionsButton') }}
-            <watt-icon name="moreVertical" />
-          </watt-button>
-        } @else {
-          <ng-content *ngTemplateOutlet="elseTmpl" />
-        }
-
-        <ng-template #elseTmpl>
-          @if (showMoveInButton()) {
-            <watt-button
-              *dhPermissionRequired="['metering-point:move-in']"
-              variant="secondary"
-              [wattMenuTriggerFor]="menu"
-            >
-              {{ t('actionsButton') }}
-              <watt-icon name="moreVertical" />
-            </watt-button>
-          }
-        </ng-template>
+        <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
+          {{ t('actionsButton') }}
+          <watt-icon name="moreVertical" />
+        </watt-button>
       }
 
       <watt-menu #menu>
@@ -134,15 +111,9 @@ import { DhExecuteMeteringPointManualCorrectionComponent } from "./manual-correc
           </watt-menu-item>
         }
         @if (showManualCorrectionButtons()) {
-          <dh-get-metering-point-for-manual-correction
-            [meteringPointId]="meteringPointId()"
-          />
-          <dh-simulate-metering-point-manual-correction
-            [meteringPointId]="meteringPointId()"
-          />
-          <dh-execute-metering-point-manual-correction
-            [meteringPointId]="meteringPointId()"
-          />
+          <dh-get-metering-point-for-manual-correction [meteringPointId]="meteringPointId()" />
+          <dh-simulate-metering-point-manual-correction [meteringPointId]="meteringPointId()" />
+          <dh-execute-metering-point-manual-correction [meteringPointId]="meteringPointId()" />
         }
       </watt-menu>
     </ng-container>
@@ -172,8 +143,24 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
+  private readonly hasMessurementsManagePermission = toSignal(
+    this.permissionService.hasPermission('measurements:manage'),
+    { initialValue: false }
+  );
+
+  private readonly hasMeteringPointMoveInPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:move-in'),
+    { initialValue: false }
+  );
+
+  private readonly hasMeteringPointPricesManagePermission = toSignal(
+    this.permissionService.hasPermission('metering-point:prices-manage'),
+    { initialValue: false }
+  );
+
   showMeasurementsUploadButton = computed(() => {
     return (
+      this.hasMessurementsManagePermission() &&
       this.releaseToggleService.isEnabled('PM96-SHAREMEASUREDATA') &&
       !this.isCalculatedMeteringPoint() &&
       this.hasGridAccessProviderRole()
@@ -182,6 +169,7 @@ export class DhMeteringPointActionsComponent {
 
   showMoveInButton = computed(() => {
     return (
+      this.hasMeteringPointMoveInPermission() &&
       this.releaseToggleService.isEnabled('MoveInBrs009') &&
       this.connectionState() === ConnectionState.Connected &&
       (this.type() === ElectricityMarketMeteringPointType.Consumption ||
@@ -190,7 +178,10 @@ export class DhMeteringPointActionsComponent {
   });
 
   showCreateChargeLinkButton = computed(() => {
-    return this.releaseToggleService.isEnabled('PM60-CHARGE-LINKS-UI');
+    return (
+      this.hasMeteringPointPricesManagePermission() &&
+      this.releaseToggleService.isEnabled('PM60-CHARGE-LINKS-UI')
+    );
   });
 
   showManualCorrectionButtons = computed(() => {
