@@ -1,0 +1,7 @@
+mutation SimulateMeteringPointManualCorrection(
+  $input: SimulateMeteringPointManualCorrectionInput!
+) {
+  simulateMeteringPointManualCorrection(input: $input) {
+    string
+  }
+}

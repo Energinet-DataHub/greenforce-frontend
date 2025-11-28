@@ -687,6 +687,13 @@
         "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      },
+      "manualCorrection": {
+        "getMeteringPoint": "Hent målepunkt",
+        "verifyCorrection": "Verificer manuel korrigering",
+        "executeCorrection": "Gennemfør manuel korrigering",
+        "saveSuccess": "Manuel korrigering af målepunkt gennemført",
+        "saveError": "Manuel korrigering af målepunkt mislykkedes"
       }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",

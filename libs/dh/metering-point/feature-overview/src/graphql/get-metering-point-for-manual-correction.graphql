@@ -1,0 +1,3 @@
+query GetMeteringPointForManualCorrection($meteringPointId: String!) {
+  meteringPointForManualCorrection(meteringPointId: $meteringPointId)
+}

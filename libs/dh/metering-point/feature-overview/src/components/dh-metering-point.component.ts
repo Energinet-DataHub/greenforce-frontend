@@ -168,6 +168,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
         <vater-spacer />
 
         <dh-metering-point-actions
+          [meteringPointId]="meteringPointId()"
           [type]="metadata()?.type"
           [subType]="metadata()?.subType"
           [connectionState]="metadata()?.connectionState"
