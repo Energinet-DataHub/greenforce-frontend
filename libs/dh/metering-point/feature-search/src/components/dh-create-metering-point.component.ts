@@ -35,6 +35,7 @@ import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { dayjs } from '@energinet/watt/date';
 
 import {
@@ -52,6 +53,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { dhMeteringPointTypeParam } from './dh-metering-point-params';
+import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 
 enum CountryCode {
   DK = 'DK',
@@ -68,7 +70,6 @@ enum CountryCode {
     ReactiveFormsModule,
     TranslocoDirective,
     TranslocoPipe,
-
     VaterStackComponent,
     VaterSpacerComponent,
     VaterFlexComponent,
@@ -80,6 +81,7 @@ enum CountryCode {
     WattDatepickerComponent,
     WattTextAreaFieldComponent,
     DhDropdownTranslatorDirective,
+    WattFieldErrorComponent,
   ],
   styles: `
     :host {
@@ -100,8 +102,6 @@ enum CountryCode {
 
     .is-required::after {
       content: '*';
-      color: var(--watt-color-primary);
-      margin-left: var(--watt-space-s);
     }
   `,
   templateUrl: './dh-create-metering-point.component.html',
@@ -117,8 +117,7 @@ export class DhCreateMeteringPoint {
   form = new FormGroup({
     details: new FormGroup({
       validityDate: dhMakeFormControl<Date | null>(this.today, Validators.required),
-      status: dhMakeFormControl({ value: 'NEWLY_CREATED', disabled: true }),
-      meteringPointId: dhMakeFormControl('', Validators.required),
+      meteringPointId: dhMakeFormControl('', [Validators.required, dhMeteringPointIdValidator()]),
       subType: dhMakeFormControl<MeteringPointSubType>(
         MeteringPointSubType.Physical,
         Validators.required
@@ -159,11 +158,7 @@ export class DhCreateMeteringPoint {
         'quarterHourly',
         Validators.required
       ),
-      measureUnit: dhMakeFormControl<'K_WH' | 'K_VARH'>('K_WH', Validators.required),
-      product: dhMakeFormControl<Product>(
-        { value: Product.EnergyActive, disabled: true },
-        Validators.required
-      ),
+      measureUnit: dhMakeFormControl<'K_WH' | 'KV_ARH'>('K_WH', Validators.required),
     }),
   });
 
@@ -216,20 +211,6 @@ export class DhCreateMeteringPoint {
       powerPlantControls.assetType.reset();
       powerPlantControls.assetType.markAsPristine();
       powerPlantControls.assetType.markAsUntouched();
-    }
-  });
-
-  measureUnitEffect = effect(() => {
-    const measureUnit = this.measureUnitChanged();
-
-    if (measureUnit === undefined) return;
-
-    const productControl = this.form.controls.other.controls.product;
-
-    if (measureUnit === 'K_WH') {
-      productControl.setValue('ENERGY_ACTIVE');
-    } else {
-      productControl.setValue('ENERGY_REACTIVE');
     }
   });
 

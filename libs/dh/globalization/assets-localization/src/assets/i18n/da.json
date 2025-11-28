@@ -525,12 +525,18 @@
   },
   "meteringPoint": {
     "breadcrumb": "Søg målepunkt",
+    "shared": {
+      "error": {
+        "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
+        "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
+      }
+    },
     "search": {
       "placeholder": "Søg på Målepunkts-ID",
       "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
-        "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
-        "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
+        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
+        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "Intet resultat fundet"
     },
@@ -978,7 +984,7 @@
         "cancel": "Annuller",
         "start": "Start"
       },
-      "title": "Opret {{ type }} målepunkt",
+      "title": "Nyt målepunkt: {{ type }}",
       "cancel": "Afbryd",
       "create": "Opret målepunkt",
       "details": {
@@ -1041,6 +1047,10 @@
         "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
         "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
         "product": "Produkt ID"
+      },
+      "error": {
+        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
+        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       }
     }
   },
