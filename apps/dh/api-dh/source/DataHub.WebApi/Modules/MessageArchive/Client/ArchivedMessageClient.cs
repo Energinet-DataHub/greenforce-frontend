@@ -136,6 +136,7 @@ public class ArchivedMessageClient(
             SearchDocumentType.B2CRequestWholesaleSettlement => DocumentTypeDtoV1.B2CRequestWholesaleSettlement,
             SearchDocumentType.Acknowledgement => DocumentTypeDtoV1.Acknowledgement,
             SearchDocumentType.ReminderOfMissingMeasurements => DocumentTypeDtoV1.ReminderOfMissingMeasurements,
+            SearchDocumentType.RequestChangeOfPriceList => DocumentTypeDtoV1.RequestChangeOfPriceList,
             _ => throw new ArgumentOutOfRangeException(nameof(searchDocumentType), $"Unsupported document type: {searchDocumentType}"),
         };
 
