@@ -29,10 +29,7 @@ import { WattDatePipe } from '@energinet/watt/date';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import {
-  ConnectionState,
-  GetRelatedMeteringPointsByIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-related-metering-points',
@@ -135,9 +132,7 @@ import {
                 <span
                   *transloco="let t; prefix: 'meteringPoint.overview.status'"
                   class="watt-text-m watt-on-light--high-emphasis"
-                  [class.closed-down-state]="
-                    meteringPoint.connectionState === ConnectionState.ClosedDown
-                  "
+                  [class.closed-down-state]="meteringPoint.connectionState === 'CLOSED_DOWN'"
                 >
                   {{ t(meteringPoint.connectionState) }}
                 </span>
@@ -184,8 +179,6 @@ export class DhRelatedMeteringPointsComponent {
   private maybeRelatedMeteringPoints = computed(() => this.query.data()?.relatedMeteringPoints);
 
   meteringPointId = input.required<string>();
-
-  ConnectionState = ConnectionState;
 
   showHistorical = signal(false);
 
