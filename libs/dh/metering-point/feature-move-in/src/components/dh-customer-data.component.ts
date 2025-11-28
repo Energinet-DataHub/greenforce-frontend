@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+import { Location } from '@angular/common';
 import { Component, effect, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -39,6 +40,8 @@ import {
 import { DhContactDetailsFormComponent } from './dh-contact-details-form.component';
 import { DhAddressDetailsFormComponent } from './dh-address-details-form.component';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_CARD } from '@energinet/watt/card';
+import { VaterStackComponent } from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-customer-data',
@@ -47,20 +50,21 @@ import { WattButtonComponent } from '@energinet/watt/button';
     DhContactDetailsFormComponent,
     WattButtonComponent,
     DhAddressDetailsFormComponent,
+    WATT_CARD,
+    VaterStackComponent,
   ],
   template: `
     <form *transloco="let t; prefix: 'meteringPoint.moveIn'">
-      <dh-contact-details-form [contactDetailsForm]="contactDetailsForm" />
-      <dh-address-details-form [addressDetailsForm]="addressDetailsForm" />
-
-      <watt-button variant="secondary">{{
-          t('cancel')
-        }}
-      </watt-button>
-      <watt-button type="submit" variant="secondary" (click)="updateCustomerData()">{{
-          t('send')
-        }}
-      </watt-button>
+      <watt-card>
+        <dh-contact-details-form [contactDetailsForm]="contactDetailsForm" />
+        <dh-address-details-form [addressDetailsForm]="addressDetailsForm" />
+        <vater-stack direction="row" justify="end">
+        <watt-button variant="secondary" (click)="cancel()">{{ t('cancel') }}</watt-button>
+        <watt-button type="submit" variant="secondary" (click)="updateCustomerData()"
+        >{{ t('send') }}
+        </watt-button>
+      </vater-stack>
+      </watt-card>
     </form>
   `,
 })
@@ -69,6 +73,7 @@ export class DhCustomerDataComponent {
   private readonly transloco = inject(TranslocoService);
   private readonly startMoveInMutation = mutation(StartMoveInDocument);
   private readonly toastService = inject(WattToastService);
+  private location = inject(Location);
 
   addressData = input<AddressData>();
 
@@ -252,5 +257,9 @@ export class DhCustomerDataComponent {
   updateCustomerData() {
     const message = this.transloco.translate('meteringPoint.moveIn.customerDataSuccess');
     this.toastService.open({ type: 'success', message });
+  }
+
+  cancel() {
+    this.location.back();
   }
 }
