@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using NodaTime;
-
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 
 public record ChargeLinkHistory(

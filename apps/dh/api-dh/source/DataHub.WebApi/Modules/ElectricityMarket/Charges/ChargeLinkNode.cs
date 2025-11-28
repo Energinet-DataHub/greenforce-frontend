@@ -13,69 +13,80 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
+using NodaTime;
 using MarkPart = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges;
 
-[ObjectType<ChargeLink>]
-public static partial class ChargeOperations
+[ObjectType<ChargeLinkDto>]
+public static partial class ChargeLinkNode
 {
     [Query]
     [UseSorting]
     [Authorize(Roles = new[] { "metering-point:prices" })]
-    public static async Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(
+    public static async Task<IEnumerable<ChargeLinkDto>> GetChargeLinksByMeteringPointIdAsync(
         string meteringPointId,
-        CancellationToken ct,
-        IChargeLinkClient client) =>
-            await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct).ConfigureAwait(false);
-
-    [Query]
-    [Authorize(Roles = new[] { "metering-point:prices" })]
-    public static async Task<ChargeLink?> GetChargeLinkByIdAsync(
-        string meteringPointId,
-        string chargeLinkId,
         CancellationToken ct,
         IChargeLinkClient client)
     {
-        var chargeLinks = await client
-            .GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct)
-            .ConfigureAwait(false);
+        var result = await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct);
+        return result.Value.Items;
+    }
 
-        return chargeLinks.FirstOrDefault(cl => cl.Id == chargeLinkId);
+    [Query]
+    [Authorize(Roles = new[] { "metering-point:prices" })]
+    public static async Task<ChargeLinkDto?> GetChargeLinkByIdAsync(
+        string meteringPointId,
+        long chargeLinkId,
+        CancellationToken ct,
+        IChargeLinkClient client)
+    {
+        var result = await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct);
+        return result.Value.Items.FirstOrDefault(c => c.ChargeLinkId == chargeLinkId);
     }
 
     public static async Task<IEnumerable<ChargeLinkHistory>> GetHistoryAsync(
-        [Parent] ChargeLink chargeLink,
+        [Parent] ChargeLinkDto chargeLink,
         CancellationToken ct,
         IChargeLinkClient client) =>
-            await client.GetChargeLinkHistoryAsync(chargeLink.Id, ct).ConfigureAwait(false);
+        await client.GetChargeLinkHistoryAsync(chargeLink.ChargeLinkId, ct).ConfigureAwait(false);
 
     public static async Task<ChargeInformationDto?> GetChargeAsync(
-        [Parent] ChargeLink chargeLink,
+        [Parent] ChargeLinkDto chargeLink,
         IChargesClient client,
         CancellationToken ct) =>
-            await client.GetChargeByIdAsync(chargeLink.ChargeIdentifier, ct).ConfigureAwait(false);
+        // TODO: Fix this!
+        await client.GetChargeByIdAsync(default!, ct).ConfigureAwait(false);
 
     public static async Task<MarkPart.ActorDto?> GetOwnerAsync(
-        [Parent] ChargeLink chargeLink,
+        [Parent] ChargeLinkDto chargeLink,
         IMarketParticipantByIdDataLoader dataLoader,
         CancellationToken ct) =>
-            await dataLoader.LoadAsync(chargeLink.Owner.Id, ct).ConfigureAwait(false);
+        // TODO: Fix this!
+        await dataLoader.LoadAsync(Guid.Empty, ct).ConfigureAwait(false);
 
-    static partial void Configure(IObjectTypeDescriptor<ChargeLink> descriptor)
+    public static int GetAmount(
+        [Parent] ChargeLinkDto chargeLink) =>
+        // TODO: Is this correct?
+        chargeLink.ChargeLinkPeriods.FirstOrDefault()?.Factor ?? 0;
+
+    public static Interval GetPeriod(
+        [Parent] ChargeLinkDto chargeLink) =>
+        // TODO: Is this correct?
+        new Interval(chargeLink.ChargeLinkPeriods.First().From, chargeLink.ChargeLinkPeriods.First().To);
+
+    static partial void Configure(IObjectTypeDescriptor<ChargeLinkDto> descriptor)
     {
         descriptor.Name("ChargeLink");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.Amount);
-        descriptor.Field(f => f.Id);
-        descriptor.Field(f => f.Name);
-        descriptor.Field(f => f.Period);
-        descriptor.Field(f => f.Type);
-        descriptor.Field(f => $"{f.Id} • ({f.Name})").Name("displayName");
+        descriptor.Field(f => f.ChargeLinkId).Name("id");
+        descriptor.Field(f => ChargeType.Tariff); // TODO: Fix
+        descriptor.Field(f => $"ThisIsAMockedName").Name("displayName"); // TODO: Fix
     }
 }
