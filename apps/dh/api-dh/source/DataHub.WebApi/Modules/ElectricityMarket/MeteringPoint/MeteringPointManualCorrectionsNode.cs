@@ -22,7 +22,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint;
 public static class MeteringPointManualCorrectionsNode
 {
     [Query]
-    [Authorize(Roles = ["metering-point:search"])]
+    [Authorize(Roles = ["dh3-skalpellen"])]
     public static async Task<string> GetMeteringPointForManualCorrectionAsync(
         string meteringPointId,
         CancellationToken ct,
@@ -35,7 +35,7 @@ public static class MeteringPointManualCorrectionsNode
     }
 
     [Mutation]
-    [Authorize(Roles = ["metering-point:search"])]
+    [Authorize(Roles = ["dh3-skalpellen"])]
     public static async Task<string> SimulateMeteringPointManualCorrectionAsync(
         string meteringPointId,
         string json,
@@ -49,7 +49,7 @@ public static class MeteringPointManualCorrectionsNode
     }
 
     [Mutation]
-    [Authorize(Roles = ["metering-point:search"])]
+    [Authorize(Roles = ["dh3-skalpellen"])]
     public static async Task<bool> ExecuteMeteringPointManualCorrectionAsync(
         string meteringPointId,
         string json,

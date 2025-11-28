@@ -85,28 +85,19 @@ import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correc
 
       <watt-menu #menu>
         @if (showMeasurementsUploadButton()) {
-          <watt-menu-item
-            *dhPermissionRequired="['measurements:manage']"
-            [routerLink]="getMeasurementsUploadLink"
-          >
+          <watt-menu-item [routerLink]="getMeasurementsUploadLink">
             {{ t('upload') }}
           </watt-menu-item>
         }
 
         @if (showMoveInButton()) {
-          <watt-menu-item
-            *dhPermissionRequired="['metering-point:move-in']"
-            (click)="startMoveIn()"
-          >
+          <watt-menu-item (click)="startMoveIn()">
             {{ t('moveIn') }}
           </watt-menu-item>
         }
 
         @if (showCreateChargeLinkButton()) {
-          <watt-menu-item
-            *dhPermissionRequired="['metering-point:prices-manage']"
-            (click)="createLink()"
-          >
+          <watt-menu-item (click)="createLink()">
             {{ t('createChargeLink') }}
           </watt-menu-item>
         }
@@ -158,6 +149,11 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
+  private readonly hasDh3SkalpellenPermission = toSignal(
+    this.permissionService.hasPermission('dh3-skalpellen'),
+    { initialValue: false }
+  );
+
   showMeasurementsUploadButton = computed(() => {
     return (
       this.hasMessurementsManagePermission() &&
@@ -185,7 +181,9 @@ export class DhMeteringPointActionsComponent {
   });
 
   showManualCorrectionButtons = computed(() => {
-    return this.hasDataHubAdministratorRole();
+    return (
+      this.permissionService.hasPermission('dh3-skalpellen') && this.hasDataHubAdministratorRole()
+    );
   });
 
   showActionsButton = computed(() => {
