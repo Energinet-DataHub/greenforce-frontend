@@ -15,8 +15,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Mappers;
@@ -53,8 +52,7 @@ public class GraphQLTestService
         MeasurementsReportClientMock = new Mock<IMeasurementsReportClient>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         GridAreasClientMock = new Mock<IGridAreasClient>();
-        EdiB2CWebAppClientV1Mock = new Mock<IEdiB2CWebAppClient_V1>();
-        EdiB2CWebAppClientV3Mock = new Mock<IEdiB2CWebAppClient_V3>();
+        EdiB2CClientMock = new Mock<IB2CClient>();
         RevisionLogClientMock = new Mock<IRevisionLogClient>();
         MeasurementsClientMock = new Mock<IMeasurementsClient>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -102,8 +100,7 @@ public class GraphQLTestService
             .AddSingleton(MeasurementsReportClientMock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(GridAreasClientMock.Object)
-            .AddSingleton(EdiB2CWebAppClientV1Mock.Object)
-            .AddSingleton(EdiB2CWebAppClientV3Mock.Object)
+            .AddSingleton(EdiB2CClientMock.Object)
             .AddSingleton(GridAreasClientMock.Object)
             .AddSingleton(RevisionLogClientMock.Object)
             .AddSingleton(MeasurementsClientMock.Object)
@@ -140,9 +137,7 @@ public class GraphQLTestService
 
     public Mock<IGridAreasClient> GridAreasClientMock { get; set; }
 
-    public Mock<IEdiB2CWebAppClient_V1> EdiB2CWebAppClientV1Mock { get; set; }
-
-    public Mock<IEdiB2CWebAppClient_V3> EdiB2CWebAppClientV3Mock { get; set; }
+    public Mock<IB2CClient> EdiB2CClientMock { get; set; }
 
     public Mock<IRevisionLogClient> RevisionLogClientMock { get; set; }
 

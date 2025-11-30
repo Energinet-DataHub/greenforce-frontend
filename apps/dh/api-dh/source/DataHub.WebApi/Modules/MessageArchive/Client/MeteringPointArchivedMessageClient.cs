@@ -19,7 +19,7 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Extensions;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
-using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointDocumentType;
+using SearchDocumentType = Energinet.DataHub.WebApi.Model.MeteringPointArchivedMessages.MeteringPointDocumentType;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 
@@ -114,6 +114,8 @@ public class MeteringPointArchivedMessageClient(
             SearchDocumentType.NotifyBillingMasterData => MeteringPointDocumentTypeDtoV1
                 .NotifyBillingMasterData,
             _ => throw new ArgumentOutOfRangeException(nameof(searchDocumentType), $"Unsupported document type: {searchDocumentType}"),
+
+            // TODO: SearchDocumentType.NotifyBillingMasterData has no mapping. Is this intentional?
         };
 
     private (FieldToSortByDtoV1 Field,
