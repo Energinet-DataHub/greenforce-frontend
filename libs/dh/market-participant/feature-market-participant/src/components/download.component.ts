@@ -68,7 +68,7 @@ export class DownloadMarketParticipants {
       .mapLines((marketParticipants) =>
         marketParticipants.map((marketParticipant) => [
           `"${marketParticipant.id}"`,
-          `"""${marketParticipant.glnOrEicNumber}"""`,
+          `"${marketParticipant.glnOrEicNumber}"`,
           `"${marketParticipant.name}"`,
           `"${
             marketParticipant.marketRole == null

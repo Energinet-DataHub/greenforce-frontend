@@ -22,10 +22,12 @@ import { MsalService } from '@azure/msal-angular';
 
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WATT_MENU } from '@energinet/watt/menu';
-import { DhProfileModalComponent } from '@energinet-datahub/dh/profile/feature-profile-modal';
 import { WattModalService } from '@energinet/watt/modal';
+
+import { DhProfileModalComponent } from '@energinet-datahub/dh/profile/feature-profile-modal';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 @Component({
   selector: 'dh-profile-avatar',
@@ -62,6 +64,7 @@ export class DhProfileAvatarComponent {
   private readonly authService = inject(MsalService);
   private readonly modalService = inject(WattModalService);
   private readonly languageService = inject(DhLanguageService);
+  private readonly appInsights = inject(DhApplicationInsights);
 
   selectedLaguage = this.languageService.selectedLanguage;
   displayLanguage = DisplayLanguage;
@@ -75,6 +78,8 @@ export class DhProfileAvatarComponent {
   }
 
   openProfileModal() {
+    this.appInsights.trackEvent('Menu item: Open profile modal');
+
     this.modalService.open({
       component: DhProfileModalComponent,
       data: { email: this.getAccount().email },
@@ -82,6 +87,8 @@ export class DhProfileAvatarComponent {
   }
 
   changeLaguage(): void {
+    this.appInsights.trackEvent('Menu item: Language change');
+
     this.languageService.selectedLanguage.update((currentLanguage) => {
       return currentLanguage === DisplayLanguage.Danish
         ? DisplayLanguage.English

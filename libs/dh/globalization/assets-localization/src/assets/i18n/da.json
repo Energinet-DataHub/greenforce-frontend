@@ -587,7 +587,7 @@
         "citySubDivisionName": "Supplerende bynavn",
         "postBox": "Postboks",
         "municipalityCode": "Kommunekode",
-        "darID": "DAR-ID",
+        "darID": "DAR-reference",
         "closeButton": "Luk"
       },
       "highlights": {
@@ -972,7 +972,7 @@
             "startsWithZero": "Må ikke starte med 0",
             "invalidMunicipalityCodeLength": "Skal bestå af 3 cifre"
           },
-          "darReference": "Dar reference",
+          "darReference": "DAR-reference",
           "nameAddressProtection": "Navne- og adressebeskyttelse"
         },
         "moveInType": {
@@ -999,7 +999,7 @@
         "validityDate": "Gyldighedsdato",
         "status": "{{ meteringPoint.overview.details.meteringPointStatus }}",
         "newlyCreated": "Nyoprettet",
-        "meteringPointId": "Målepunkts ID",
+        "meteringPointId": "Målepunkts-ID",
         "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
         "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
         "powerLimitKw": "Effektgrænse kW",
@@ -1046,14 +1046,14 @@
         "3": "Øjebliksafregnet (3)"
       },
       "resolution": {
-        "quarterHourly": "Pr. kvarter",
-        "hourly": "Pr. time"
+        "quarterHourly": "Kvarter",
+        "hourly": "Time"
       },
       "other": {
         "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
         "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
         "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
-        "product": "Produkt ID"
+        "product": "Produkt-ID"
       },
       "error": {
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
