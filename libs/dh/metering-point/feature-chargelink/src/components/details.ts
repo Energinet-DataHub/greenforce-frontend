@@ -40,7 +40,7 @@ import { DhMeteringPointEditChargeLink } from './edit';
 import { DhMeteringPointCancelChargeLink } from './cancel';
 
 @Component({
-  selector: 'dh-charges-link-details',
+  selector: 'dh-charge-link-details',
   imports: [
     TranslocoDirective,
 
@@ -100,7 +100,7 @@ import { DhMeteringPointCancelChargeLink } from './cancel';
     </watt-drawer>
   `,
 })
-export default class DhChargesLinkDetails {
+export default class DhChargeLinkDetails {
   private readonly modalService = inject(WattModalService);
   query = query(GetChargeLinkHistoryDocument, () => ({
     variables: { chargeLinkId: this.id(), meteringPointId: this.meteringPointId() },
