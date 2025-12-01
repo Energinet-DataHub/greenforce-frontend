@@ -1,7 +1,7 @@
 ﻿{
   "data": {
     "charges": {
-      "totalCount": 9999,
+      "totalCount": 2,
       "items": [
         {
           "status": "MISSING_PRICE_SERIES"

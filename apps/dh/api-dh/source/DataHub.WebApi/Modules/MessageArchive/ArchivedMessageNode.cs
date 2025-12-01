@@ -20,7 +20,7 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
 using MeteringPointDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointDocumentType;
-using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v3.DocumentType;
+using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.DocumentTypeDtoV1;
 
 namespace Energinet.DataHub.WebApi.Modules.Esett;
 

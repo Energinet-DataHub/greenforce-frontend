@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 public record ChargeSeries(
     Interval Period,
-    List<Point> Points);
+    IEnumerable<ChargeSeriesPoint> Points);

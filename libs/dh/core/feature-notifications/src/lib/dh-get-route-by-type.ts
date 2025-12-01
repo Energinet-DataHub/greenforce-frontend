@@ -59,7 +59,7 @@ export function dhGetRouteByType({ notificationType, relatedToId }: DhNotificati
     case NotificationType.GridLossValidationError:
     case NotificationType.SystemCorrectionValidationError:
       if (relatedToId) {
-        return [rootPath, getPath<BasePaths>('metering-point'), relatedToId];
+        return [rootPath, getPath<BasePaths>('metering-point')];
       }
       return [rootPath];
     default:

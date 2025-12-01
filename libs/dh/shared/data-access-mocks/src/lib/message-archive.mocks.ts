@@ -19,7 +19,11 @@
 import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { DocumentType, ProcessState } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DocumentType,
+  ProcessState,
+  ProcessStepType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   mockGetArchivedMessagesQuery,
   mockGetArchivedMessagesForMeteringPointQuery,
@@ -189,9 +193,9 @@ function getMeteringPointProcessById(apiBase: string) {
               {
                 __typename: 'MeteringPointProcessStep' as const,
                 id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
-                step: 'REQUEST_END_OF_SUPPLY',
+                step: ProcessStepType.Rsm005Request,
                 comment: 'OBS: Sendt til foged',
-                createdAt: new Date(m.createdDate),
+                completedAt: new Date(m.createdDate),
                 dueDate: new Date(m.createdDate),
                 state: ProcessState.Succeeded,
                 messageId: '38374f50-f00c-4e2a-aec1-70d391cade06',

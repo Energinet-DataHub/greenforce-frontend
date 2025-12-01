@@ -20,6 +20,7 @@ import {
   ActivatedRouteSnapshot,
   CanActivateFn,
   RedirectFunction,
+  ResolveFn,
   Router,
   Routes,
 } from '@angular/router';
@@ -37,15 +38,19 @@ import {
   MeasurementsSubPaths,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/routing';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DoesInternalMeteringPointIdExistDocument,
+  EicFunction,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhSearchComponent } from './components/dh-search.component';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
 import { DhCreateMeteringPoint } from './components/dh-create-metering-point.component';
 import {
-  dhMeteringPointIdParam,
   dhMeteringPointTypeParam,
+  dhInternalMeteringPointIdParam,
 } from './components/dh-metering-point-params';
 import { dhSupportedMeteringPointTypes } from './components/dh-supported-metering-point-types';
 import { DhCustomerDataComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
@@ -84,8 +89,11 @@ export const dhMeteringPointRoutes: Routes = [
         component: DhCreateMeteringPoint,
       },
       {
-        path: `:${dhMeteringPointIdParam}`,
+        path: `:${dhInternalMeteringPointIdParam}`,
         canActivate: [dhCanActivateMeteringPointOverview],
+        resolve: {
+          meteringPointId: internalIdToMeteringPointIdResolver(),
+        },
         loadComponent: () => import('@energinet-datahub/dh/metering-point/feature-overview'),
         children: [
           {
@@ -107,7 +115,7 @@ export const dhMeteringPointRoutes: Routes = [
               import('@energinet-datahub/dh/metering-point/feature-process-overview'),
           },
           {
-            path: getPath<MeteringPointSubPaths>('prices'),
+            path: getPath<MeteringPointSubPaths>('charge-links'),
             loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-chargelink'),
           },
           {
@@ -192,7 +200,7 @@ export const dhMeteringPointRoutes: Routes = [
 ];
 
 /**
- * Function used to determine the landing page after navigating to '/metering-point/<id>' URL.
+ * Determines the landing page after navigating to '/metering-point/<internal-id>' URL.
  *
  * If the user has the market role to access 'master-data' they are redirected to '/master-data'.
  * Otherwise, the user is redirected to '/messages'.
@@ -206,7 +214,7 @@ function redirectToLandingPage(): RedirectFunction {
       marketRolesWithDataAccess.map((role) => permissionService.hasMarketRole(role))
     );
 
-    const meteringPointId = params[dhMeteringPointIdParam];
+    const internalMeteringPointId = params[dhInternalMeteringPointIdParam];
 
     return hasMarketRoles$.pipe(
       map((hasMarketRoles) => {
@@ -214,7 +222,7 @@ function redirectToLandingPage(): RedirectFunction {
           return router.createUrlTree([
             '/',
             getPath<BasePaths>('metering-point'),
-            meteringPointId,
+            internalMeteringPointId,
             getPath<MeteringPointSubPaths>('master-data'),
           ]);
         }
@@ -222,7 +230,7 @@ function redirectToLandingPage(): RedirectFunction {
         return router.createUrlTree([
           '/',
           getPath<BasePaths>('metering-point'),
-          meteringPointId,
+          internalMeteringPointId,
           getPath<MeteringPointSubPaths>('messages'),
         ]);
       })
@@ -246,5 +254,20 @@ function meteringPointCreateGuard(): CanActivateFn {
     );
 
     return isSupportedType || searchRoute;
+  };
+}
+
+/**
+ * Resolves the metering point ID from the internal metering point ID.
+ */
+function internalIdToMeteringPointIdResolver(): ResolveFn<string> {
+  return (route: ActivatedRouteSnapshot) => {
+    const idParam: string = route.params[dhInternalMeteringPointIdParam];
+
+    return query(DoesInternalMeteringPointIdExistDocument, {
+      variables: { internalMeteringPointId: idParam },
+    })
+      .result()
+      .then((result) => result.data.meteringPointExists.meteringPointId);
   };
 }

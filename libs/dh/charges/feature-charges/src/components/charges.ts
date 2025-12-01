@@ -16,10 +16,15 @@
  * limitations under the License.
  */
 //#endregione';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+
+import {
+  VaterStackComponent,
+  VaterSpacerComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 
 import {
   WattTableComponent,
@@ -27,12 +32,12 @@ import {
   WattTableCellDirective,
 } from '@energinet/watt/table';
 
-import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
-import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { Charge } from '../types';
@@ -43,14 +48,19 @@ import { DhChargesFilters } from './filters';
   selector: 'dh-charges',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    RouterLink,
     RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
+    WattButtonComponent,
+    WattIconComponent,
     WattTableComponent,
     WattTableCellDirective,
     WattDataTableComponent,
     WattDataFiltersComponent,
-    VaterUtilityDirective,
     DhChargeStatus,
     DhChargesFilters,
   ],
@@ -65,7 +75,14 @@ import { DhChargesFilters } from './filters';
       *transloco="let t; prefix: 'charges.charges.table'"
     >
       <watt-data-filters>
-        <dh-charges-filters [filter]="filter" (filterChange)="fetch($event)" />
+        <vater-stack wrap direction="row" gap="m">
+          <dh-charges-filters [filter]="filter" (filterChange)="fetch($event)" />
+          <vater-spacer />
+          <watt-button variant="secondary" routerLink="create">
+            <watt-icon name="plus" />
+            {{ t('createButton') }}
+          </watt-button>
+        </vater-stack>
       </watt-data-filters>
 
       <watt-table
@@ -96,7 +113,7 @@ export class DhCharges {
   columns: WattTableColumnDef<Charge> = {
     type: { accessor: 'type', sort: false },
     code: { accessor: 'code', sort: false },
-    name: { accessor: 'name', sort: false },
+    name: { accessor: (charge) => charge.currentPeriod?.name, sort: false },
     owner: { accessor: (charge) => charge.owner?.displayName, sort: false },
     status: { accessor: 'status', sort: false },
   };

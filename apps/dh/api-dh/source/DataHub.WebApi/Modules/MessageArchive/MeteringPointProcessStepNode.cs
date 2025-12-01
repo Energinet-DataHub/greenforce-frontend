@@ -59,7 +59,7 @@ public static partial class MeteringPointProcessStepNode
         descriptor.Field(f => f.Id);
         descriptor.Field(f => f.Step);
         descriptor.Field(f => f.Comment);
-        descriptor.Field(f => f.CreatedAt);
+        descriptor.Field(f => f.CompletedAt);
         descriptor.Field(f => f.DueDate);
         descriptor.Field(f => f.State);
         descriptor.Field(f => f.MessageId);

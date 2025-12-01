@@ -9,5 +9,11 @@ query GetChargeLinksByMeteringPointId($order: [ChargeLinkSortInput!], $meteringP
       displayName
     }
     period
+    charge {
+      id
+      currentPeriod {
+        transparentInvoicing
+      }
+    }
   }
 }

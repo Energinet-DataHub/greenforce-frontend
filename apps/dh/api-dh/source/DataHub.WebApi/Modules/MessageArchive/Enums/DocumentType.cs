@@ -34,4 +34,6 @@ public enum DocumentType
     UpdateChargeLinks,
     ConfirmRequestChangeBillingMasterData,
     RejectRequestChangeBillingMasterData,
+    NotifyBillingMasterData,
+    RequestChangeOfPriceList,
 }

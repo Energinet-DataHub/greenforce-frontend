@@ -18,23 +18,215 @@
 //#endregion
 import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
+
 import {
   mockGetChargesQuery,
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
-  mockGetChargeLinksByMeteringPointIdQuery,
+  mockGetChargeByTypeQuery,
   mockGetChargeLinkHistoryQuery,
+  mockGetChargeLinksByMeteringPointIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+
 import {
   Charge,
+  ChargeType,
   ChargeLink,
-  ChargeResolution,
   ChargeSeries,
   ChargeStatus,
-  ChargeType,
+  ChargeResolution,
   MarketParticipant,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { dayjs, WattRange } from '@energinet/watt/core/date';
+
+const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
+  {
+    __typename: 'Charge',
+    id: '1',
+    displayName: 'CHARGE001 • Grid Fee',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-1',
+      name: 'Energy xupplier A',
+      glnOrEicNumber: '1234567890123',
+      displayName: '1234567890123 • Energy Supplier A',
+    } as MarketParticipant,
+    type: ChargeType.Fee,
+    code: 'CHARGE001',
+    status: ChargeStatus.Awaiting,
+    resolution: ChargeResolution.Quarterhourly,
+    currentPeriod: {
+      __typename: 'ChargePeriod',
+      name: 'Period 2022',
+      description: 'current period',
+      period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+      isCurrent: true,
+      transparentInvoicing: true,
+      vatClassification: 'NO_VAT',
+    },
+    periods: [
+      {
+        __typename: 'ChargePeriod',
+        name: 'Period 2022',
+        description: 'Initial period',
+        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        isCurrent: false,
+        transparentInvoicing: true,
+        vatClassification: 'NO_VAT',
+      },
+      {
+        __typename: 'ChargePeriod',
+        name: 'Period 2022',
+        description: 'current period',
+        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        isCurrent: true,
+        transparentInvoicing: true,
+        vatClassification: 'NO_VAT',
+      },
+    ],
+    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Quarterhourly) : [],
+  },
+  {
+    __typename: 'Charge',
+    id: '2',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-2',
+      name: 'Energy Supplier B',
+      glnOrEicNumber: '2345678901234',
+      displayName: '2345678901234 • Energy Supplier B',
+    } as MarketParticipant,
+    type: ChargeType.Tariff,
+    code: 'CHARGE002',
+    displayName: 'CHARGE002 • Peak Hours Tariff',
+    status: ChargeStatus.Current,
+    resolution: ChargeResolution.Hourly,
+    currentPeriod: {
+      __typename: 'ChargePeriod',
+      name: 'Period 2022',
+      description: 'current period',
+      period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+      isCurrent: true,
+      transparentInvoicing: false,
+      vatClassification: 'NO_VAT',
+    },
+    periods: [
+      {
+        __typename: 'ChargePeriod',
+        name: 'Period 2022',
+        description: 'Initial period',
+        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        isCurrent: false,
+        transparentInvoicing: true,
+        vatClassification: 'NO_VAT',
+      },
+      {
+        __typename: 'ChargePeriod',
+        name: 'Period 2022',
+        description: 'current period',
+        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        isCurrent: true,
+        transparentInvoicing: false,
+        vatClassification: 'NO_VAT',
+      },
+    ],
+    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Hourly) : [],
+  },
+  {
+    __typename: 'Charge',
+    id: '3',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-3',
+      name: 'Energy Supplier C',
+      glnOrEicNumber: '3456789012345',
+      displayName: '3456789012345 • Energy Supplier C',
+    } as MarketParticipant,
+    type: ChargeType.Subscription,
+    code: 'CHARGE003',
+    displayName: 'CHARGE003 • Green Energy Plan',
+    status: ChargeStatus.Current,
+    resolution: ChargeResolution.Daily,
+    currentPeriod: {
+      __typename: 'ChargePeriod',
+      name: 'Period 2022',
+      description: 'current period',
+      period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+      isCurrent: true,
+      transparentInvoicing: true,
+      vatClassification: 'NO_VAT',
+    },
+    periods: [
+      {
+        __typename: 'ChargePeriod',
+        name: 'Period 2022',
+        description: 'Initial period',
+        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        isCurrent: false,
+        transparentInvoicing: true,
+        vatClassification: 'NO_VAT',
+      },
+      {
+        __typename: 'ChargePeriod',
+        name: 'Period 2022',
+        description: 'current period',
+        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        isCurrent: true,
+        transparentInvoicing: true,
+        vatClassification: 'NO_VAT',
+      },
+    ],
+    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Daily) : [],
+  },
+  {
+    __typename: 'Charge',
+    id: '4',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-4',
+      name: 'Energy Supplier D',
+      glnOrEicNumber: '4567890123456',
+      displayName: '4567890123456 • Energy Supplier D',
+    } as MarketParticipant,
+    type: ChargeType.Fee,
+    code: 'CHARGE004',
+    displayName: 'CHARGE004 • Connection Fee',
+
+    status: ChargeStatus.Closed,
+    resolution: ChargeResolution.Monthly,
+    currentPeriod: {
+      __typename: 'ChargePeriod',
+      name: 'Period 2022',
+      description: 'current period',
+      period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+      isCurrent: true,
+      transparentInvoicing: true,
+      vatClassification: 'NO_VAT',
+    },
+    periods: [
+      {
+        __typename: 'ChargePeriod',
+        name: 'Period 2022',
+        description: 'Initial period',
+        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        isCurrent: false,
+        transparentInvoicing: true,
+        vatClassification: 'NO_VAT',
+      },
+      {
+        __typename: 'ChargePeriod',
+        name: 'Period 2022',
+        description: 'current period',
+        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        isCurrent: true,
+        transparentInvoicing: true,
+        vatClassification: 'NO_VAT',
+      },
+    ],
+    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Monthly) : [],
+  },
+];
 
 const chargeLinks: ChargeLink[] = [
   {
@@ -64,114 +256,94 @@ const chargeLinks: ChargeLink[] = [
       },
     ],
     period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
-  },
-];
-
-const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
-  {
-    __typename: 'Charge',
-    id: '1',
-    displayName: 'CHARGE001 • Grid Fee',
-    owner: {
-      __typename: 'MarketParticipant',
-      id: 'owner-1',
-      name: 'Energy Supplier A',
-      glnOrEicNumber: '1234567890123',
-      displayName: '1234567890123 • Energy Supplier A',
-    } as MarketParticipant,
-    type: ChargeType.Fee,
-    code: 'CHARGE001',
-    name: 'Grid Fee (QuarterHourly)',
-    description: 'Monthly grid fee for residential customers',
-    validFrom: new Date('2023-01-01T00:00:00Z'),
-    validTo: new Date('2023-12-31T23:59:59Z'),
-    status: ChargeStatus.Awaiting,
-    resolution: ChargeResolution.Quarterhourly,
-    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Quarterhourly) : [],
+    charge: makeChargesMock()[0],
   },
   {
-    __typename: 'Charge',
-    id: '2',
+    __typename: 'ChargeLink',
+    id: '1001',
+    type: ChargeType.Tariff,
+    amount: 75.5,
+    name: 'Charge Link 2',
+    displayName: '1001 • Charge Link 2',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-2',
-      name: 'Energy Supplier B',
-      glnOrEicNumber: '2345678901234',
       displayName: '2345678901234 • Energy Supplier B',
     } as MarketParticipant,
-    type: ChargeType.Tariff,
-    code: 'CHARGE002',
-    displayName: 'CHARGE002 • Peak Hours Tariff',
-    name: 'Peak Hours Tariff (Hourly)',
-    description: 'Higher rates during peak consumption hours',
-    validFrom: new Date('2023-03-01T00:00:00Z'),
-    validTo: new Date('2024-02-29T23:59:59Z'),
-    status: ChargeStatus.Current,
-    resolution: ChargeResolution.Hourly,
-    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Hourly) : [],
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-02-10T09:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-003',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-03-15T11:00:00Z'),
+        description: 'Changed owner',
+        messageId: 'msg-004',
+      },
+    ],
+    period: { start: new Date('2023-02-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+    charge: makeChargesMock()[1],
   },
   {
-    __typename: 'Charge',
-    id: '3',
+    __typename: 'ChargeLink',
+    id: '1002',
+    type: ChargeType.Subscription,
+    amount: 50.0,
+    name: 'Charge Link 3',
+    displayName: '1002 • Charge Link 3',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-3',
-      name: 'Energy Supplier C',
-      glnOrEicNumber: '3456789012345',
       displayName: '3456789012345 • Energy Supplier C',
     } as MarketParticipant,
-    type: ChargeType.Subscription,
-    code: 'CHARGE003',
-    displayName: 'CHARGE003 • Green Energy Plan',
-    name: 'Green Energy Plan (Daily)',
-    description: 'Subscription for renewable energy sources',
-    validFrom: new Date('2023-06-01T00:00:00Z'),
-    validTo: new Date('2024-05-31T23:59:59Z'),
-    status: ChargeStatus.Current,
-    resolution: ChargeResolution.Daily,
-    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Daily) : [],
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-03-05T08:30:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-005',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-04-10T10:45:00Z'),
+        description: 'Changed period',
+        messageId: 'msg-006',
+      },
+    ],
+    period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+    charge: makeChargesMock()[2],
   },
   {
-    __typename: 'Charge',
-    id: '4',
+    __typename: 'ChargeLink',
+    id: '1003',
+    type: ChargeType.Fee,
+    amount: 120.0,
+    name: 'Charge Link 4',
+    displayName: '1003 • Charge Link 4',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-4',
-      name: 'Energy Supplier D',
-      glnOrEicNumber: '4567890123456',
       displayName: '4567890123456 • Energy Supplier D',
     } as MarketParticipant,
-    type: ChargeType.Fee,
-    code: 'CHARGE004',
-    displayName: 'CHARGE004 • Connection Fee',
-    name: 'Connection Fee (Monthly)',
-    description: 'One-time connection fee for new customers',
-    validFrom: new Date('2023-07-15T00:00:00Z'),
-    validTo: new Date('2025-12-31T23:59:59Z'),
-    status: ChargeStatus.Closed,
-    resolution: ChargeResolution.Monthly,
-    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Monthly) : [],
-  },
-  {
-    __typename: 'Charge',
-    id: '5',
-    owner: {
-      __typename: 'MarketParticipant',
-      id: 'owner-11',
-      name: 'Energy Supplier E',
-      glnOrEicNumber: '1234567890133',
-      displayName: '1234567890133 • Energy Supplier E',
-    } as MarketParticipant,
-    type: ChargeType.Tariff,
-    code: 'CHARGE005',
-    displayName: 'CHARGE005 • Holiday Rate',
-    name: 'Holiday Rate (Unknown)',
-    description: 'Special tariff rates during public holidays',
-    validFrom: new Date('2024-04-01T00:00:00Z'),
-    validTo: new Date('2025-03-31T23:59:59Z'),
-    status: ChargeStatus.Current,
-    resolution: ChargeResolution.Unknown,
-    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Unknown) : [],
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-04-12T12:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-007',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-05-20T15:00:00Z'),
+        description: 'Changed amount',
+        messageId: 'msg-008',
+      },
+    ],
+    period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+    charge: makeChargesMock()[3],
   },
 ];
 
@@ -190,7 +362,6 @@ const makeChargeSeriesListMock = (
       return Array.from({ length: end.diff(interval.start, 'h') })
         .map((_, i) => ({ start: start.add(i, 'h'), end: start.add(i + 1, 'h') }))
         .map(makeChargeSeriesMock);
-    case ChargeResolution.Unknown:
     case ChargeResolution.Daily:
       return Array.from({ length: end.diff(interval.start, 'd') })
         .map((_, i) => ({ start: start.add(i, 'd'), end: start.add(i + 1, 'd') }))
@@ -302,12 +473,32 @@ function getChargeLinkById() {
   });
 }
 
+function getChargesByType() {
+  return mockGetChargeByTypeQuery(async ({ variables: { type } }) => {
+    await delay(mswConfig.delay);
+    const charges = makeChargesMock();
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargesByType: charges
+          .filter((charge) => charge.type === type)
+          .map((charge) => ({
+            __typename: 'Charge',
+            value: charge.id,
+            displayValue: charge.displayName,
+          })),
+      },
+    });
+  });
+}
+
 export function chargesMocks() {
   return [
     getCharges(),
     getChargeById(),
     getChargeSeries(),
-    getChargesByMeteringPointId(),
+    getChargesByType(),
     getChargeLinkById(),
+    getChargesByMeteringPointId(),
   ];
 }

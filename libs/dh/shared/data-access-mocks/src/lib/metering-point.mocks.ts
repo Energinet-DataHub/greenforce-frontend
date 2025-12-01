@@ -22,6 +22,7 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
   mockDoesMeteringPointExistQuery,
+  mockDoesInternalMeteringPointIdExistQuery,
   mockGetAggregatedMeasurementsForAllYearsQuery,
   mockGetAggregatedMeasurementsForMonthQuery,
   mockGetAggregatedMeasurementsForYearQuery,
@@ -49,7 +50,8 @@ import { childMeteringPoint } from './data/metering-point/child-metering-point';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
   return [
-    doesMeteringPointExists(),
+    doesMeteringPointExist(),
+    doesInternalMeteringPointIdExist(),
     getContactCPR(),
     getMeteringPoint(),
     getMeteringPointsByGridArea(),
@@ -77,8 +79,9 @@ function getRelatedMeteringPoints() {
             connectionState: ConnectionState.Connected,
             identification: '444444444444444444',
             type: ElectricityMarketMeteringPointType.ElectricalHeating,
-            closedDownDate: null,
+            createdDate: new Date('2021-01-01'),
             connectionDate: new Date('2021-01-01'),
+            closedDownDate: null,
           },
           parent: {
             __typename: 'RelatedMeteringPointDto',
@@ -86,8 +89,9 @@ function getRelatedMeteringPoints() {
             connectionState: ConnectionState.Connected,
             identification: '222222222222222222',
             type: ElectricityMarketMeteringPointType.Consumption,
-            closedDownDate: null,
+            createdDate: new Date('2021-01-01'),
             connectionDate: new Date('2021-01-01'),
+            closedDownDate: null,
           },
           relatedMeteringPoints: [
             {
@@ -96,8 +100,9 @@ function getRelatedMeteringPoints() {
               connectionState: ConnectionState.Connected,
               identification: '333333333333333333',
               type: ElectricityMarketMeteringPointType.Exchange,
-              closedDownDate: null,
+              createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2024-01-01'),
+              closedDownDate: null,
             },
           ],
           relatedByGsrn: [
@@ -107,8 +112,9 @@ function getRelatedMeteringPoints() {
               connectionState: ConnectionState.New,
               identification: '444444444444441111',
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
-              closedDownDate: null,
+              createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2024-01-01'),
+              closedDownDate: null,
             },
           ],
           historicalMeteringPoints: [
@@ -118,8 +124,9 @@ function getRelatedMeteringPoints() {
               connectionState: ConnectionState.ClosedDown,
               identification: '555555555555555555',
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
-              closedDownDate: new Date('2021-11-01'),
+              createdDate: new Date('2021-01-01'),
               connectionDate: new Date('2021-01-01'),
+              closedDownDate: new Date('2021-11-01'),
             },
           ],
           historicalMeteringPointsByGsrn: [
@@ -129,8 +136,9 @@ function getRelatedMeteringPoints() {
               connectionState: ConnectionState.Disconnected,
               identification: '666666666666666666',
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
-              closedDownDate: null,
+              createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2022-01-01'),
+              closedDownDate: null,
             },
           ],
         },
@@ -499,7 +507,7 @@ const mockMPs: {
   },
 };
 
-function doesMeteringPointExists() {
+function doesMeteringPointExist() {
   return mockDoesMeteringPointExistQuery(async ({ variables: { meteringPointId } }) => {
     await delay(mswConfig.delay);
 
@@ -530,6 +538,54 @@ function doesMeteringPointExists() {
       ],
     });
   });
+}
+
+function doesInternalMeteringPointIdExist() {
+  return mockDoesInternalMeteringPointIdExistQuery(
+    async ({ variables: { internalMeteringPointId, meteringPointId } }) => {
+      await delay(mswConfig.delay);
+
+      const mpIDs = {
+        [parentMeteringPoint.id]: parentMeteringPoint.meteringPointId,
+        [childMeteringPoint.id]: childMeteringPoint.meteringPointId,
+      };
+
+      const params: { [key: string]: string | undefined } = {};
+
+      if (internalMeteringPointId) {
+        params['id'] = Object.keys(mpIDs).includes(internalMeteringPointId)
+          ? internalMeteringPointId
+          : undefined;
+        params['meteringPointId'] = mpIDs[internalMeteringPointId];
+      } else if (meteringPointId) {
+        params['id'] = mockMPs[meteringPointId]?.id;
+        params['meteringPointId'] = mockMPs[meteringPointId]?.meteringPointId;
+      }
+
+      if (params['id'] && params['meteringPointId']) {
+        return HttpResponse.json({
+          data: {
+            __typename: 'Query',
+            meteringPointExists: {
+              __typename: 'MeteringPointDto',
+              id: params['id'],
+              meteringPointId: params['meteringPointId'],
+            },
+          },
+        });
+      }
+
+      return HttpResponse.json({
+        data: null,
+        errors: [
+          {
+            message: 'Metering point not found',
+            path: ['meteringPoint'],
+          },
+        ],
+      });
+    }
+  );
 }
 
 function getContactCPR() {

@@ -286,20 +286,19 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 type Charge {
   series(interval: DateRange!): [ChargeSeries!]!
   owner: MarketParticipant
+  displayName: String!
+  currentPeriod: ChargePeriod
+  status: ChargeStatus!
   id: String!
   type: ChargeType!
   code: String!
-  displayName: String!
-  name: String!
-  description: String!
   resolution: ChargeResolution!
-  status: ChargeStatus!
-  validFrom: DateTime!
-  validTo: DateTime!
+  periods: [ChargePeriod!]!
 }
 
 type ChargeLink {
   history: [ChargeLinkHistory!]!
+  charge: Charge
   owner: MarketParticipant
   amount: Int!
   id: String!
@@ -315,6 +314,15 @@ type ChargeLinkHistory {
   messageId: String!
 }
 
+type ChargePeriod {
+  isCurrent: Boolean!
+  description: String!
+  period: DateRange!
+  transparentInvoicing: Boolean!
+  vatClassification: VatClassification!
+  name: String!
+}
+
 type ChargeSeries {
   hasChanged: Boolean!
   price: Decimal
@@ -324,8 +332,6 @@ type ChargeSeries {
 
 type ChargeSeriesPoint {
   isCurrent: Boolean!
-  fromDateTime: DateTime!
-  toDateTime: DateTime!
   price: Decimal!
 }
 
@@ -492,6 +498,10 @@ type ExchangeEventSearchResult {
 
 type ExchangeEventStatusReportResponse {
   waitingForExternalResponse: Int!
+}
+
+type ExecuteMeteringPointManualCorrectionPayload {
+  boolean: Boolean
 }
 
 "A connection to a list of items."
@@ -881,6 +891,7 @@ type MeteringPointMetadataDto {
   gridArea: GridAreaDto
   fromGridArea: GridAreaDto
   toGridArea: GridAreaDto
+  internalMeteringPointParentId: Long
   id: Long!
   validFrom: DateTime!
   validTo: DateTime!
@@ -916,7 +927,7 @@ type MeteringPointProcess {
   id: String!
   reasonCode: String!
   createdAt: DateTime!
-  cutoffDate: DateTime!
+  cutoffDate: DateTime
   state: ProcessState!
 }
 
@@ -944,9 +955,9 @@ type MeteringPointProcessStep {
   actor: MarketParticipant
   message: ArchivedMessage
   id: String!
-  step: String!
+  step: ProcessStepType!
   comment: String
-  createdAt: DateTime!
+  completedAt: DateTime
   dueDate: DateTime
   state: ProcessState!
   messageId: String
@@ -972,6 +983,8 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 
 type Mutation {
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
+  simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
+  executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1166,6 +1179,7 @@ type ProcessesEdge {
 type Query {
   charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
+  chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
   chargeLinkById(meteringPointId: String! chargeLinkId: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1176,7 +1190,9 @@ type Query {
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
+  meteringPointExists(internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -1260,6 +1276,7 @@ type RelatedMeteringPointDto {
   identification: String!
   type: ElectricityMarketMeteringPointType!
   connectionState: ConnectionState!
+  createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
 }
@@ -1414,6 +1431,10 @@ type SettlementReport {
   includesBasisData: Boolean!
   progress: Float!
   includeMonthlyAmount: Boolean!
+}
+
+type SimulateMeteringPointManualCorrectionPayload {
+  string: String
 }
 
 type StartMoveInPayload {
@@ -1686,9 +1707,16 @@ input CancelSettlementReportInput {
   id: String!
 }
 
+input ChargeIdentifierDtoSortInput {
+  code: SortEnumType
+  owner: SortEnumType
+  chargeType: SortEnumType
+}
+
 input ChargeLinkSortInput {
   id: SortEnumType
-  type: SortEnumType
+  chargeIdentifier: ChargeIdentifierDtoSortInput
+  type: ChargeTypeSortInput
   name: SortEnumType
   owner: MarketParticipantIdSortInput
   amount: SortEnumType
@@ -1696,8 +1724,14 @@ input ChargeLinkSortInput {
 }
 
 input ChargeSortInput {
-  fromDateTime: SortDirection
-  price: SortDirection
+  type: SortDirection
+  code: SortDirection
+}
+
+input ChargeTypeSortInput {
+  name: SortEnumType
+  type: SortEnumType
+  isTax: SortEnumType
 }
 
 input CreateActorContactDtoInput {
@@ -1791,6 +1825,11 @@ input EsettExchangeEventSortInput {
   gridAreaCode: SortEnumType
   latestDispatched: SortEnumType
   timeSeriesType: SortEnumType
+}
+
+input ExecuteMeteringPointManualCorrectionInput {
+  meteringPointId: String!
+  json: String!
 }
 
 input GetAggregateByYearQueryInput {
@@ -2054,6 +2093,11 @@ input SendMeasurementsRequestV2Input {
   measurements: [MeasurementInput!]!
 }
 
+input SimulateMeteringPointManualCorrectionInput {
+  meteringPointId: String!
+  json: String!
+}
+
 input StartMoveInInput {
   cutOffDate: String!
   moveInType: MoveInType!
@@ -2300,7 +2344,6 @@ enum CalculationTypeQueryParameterV1 {
 }
 
 enum ChargeResolution {
-  unknown
   quarterhourly
   hourly
   daily
@@ -2317,9 +2360,10 @@ enum ChargeStatus {
 }
 
 enum ChargeType {
+  TARIFF
+  TARIFF_TAX
   SUBSCRIPTION
   FEE
-  TARIFF
 }
 
 enum ConnectionState {
@@ -2402,6 +2446,8 @@ enum DocumentType {
   UPDATE_CHARGE_LINKS
   CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA
   REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA
+  NOTIFY_BILLING_MASTER_DATA
+  REQUEST_CHANGE_OF_PRICE_LIST
 }
 
 enum ESettStageComponent {
@@ -2618,6 +2664,7 @@ enum MeteringPointDocumentType {
   UPDATE_CHARGE_LINKS
   CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA
   REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA
+  NOTIFY_BILLING_MASTER_DATA
 }
 
 enum MeteringPointMeasureUnit {
@@ -2710,6 +2757,23 @@ enum ProcessStepState {
   succeeded
 }
 
+"""
+Enum representing different process step types.
+These values are used as translation keys in the frontend.
+"""
+enum ProcessStepType {
+  "RSM-005: Request end of supply"
+  RSM005_REQUEST
+  "RSM-005: Confirm end of supply"
+  RSM005_CONFIRM
+  "RSM-005: Reject end of supply"
+  RSM005_REJECT
+  "RSM-020: Notify cancellation of end of supply"
+  RSM020_REQUEST
+  "Unknown or unmapped step type"
+  UNKNOWN
+}
+
 enum Product {
   TARIFF
   FUEL_QUANTITY
@@ -2755,6 +2819,7 @@ enum SearchDocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
+  REQUEST_CHANGE_OF_PRICE_LIST
 }
 
 enum SendMeasurementsMeasurementUnit {
@@ -2877,6 +2942,7 @@ enum TransactionType {
   STOP_TARIFF
   DISMANTLING_OF_METER
   UPDATE_SPECIAL_METERING_POINT
+  UPDATE_HISTORIC_METERING_POINT
   CHANGE_METER
   CHANGE_IN_PURCHASE_OBLIGATION
   DISPLAYING_CUMULATIVE_DATA_NOT_OWNER
@@ -2954,6 +3020,11 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
+}
+
+enum VatClassification {
+  NO_VAT
+  VAT25
 }
 
 enum WashInstructions {

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
@@ -99,8 +99,6 @@ export class DhMeasurementsNavigationComponent {
       takeUntilDestroyed()
     )
   );
-
-  meteringPointId = input.required<string>();
 
   getLink = (key: MeasurementsSubPaths) => getPath(key);
   selectedView = new FormControl();

@@ -16,27 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
-import {
-  TranslocoDirective,
-  // TranslocoPipe
-} from '@jsverse/transloco';
+import { Component, computed, input } from '@angular/core';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import {
-  // VatClassification,
-  Charge,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattBadgeComponent } from '@energinet/watt/badge';
 import { VaterStackComponent } from '@energinet/watt/vater';
-import { dayjs, WattDatePipe, WattRange } from '@energinet/watt/date';
+import { WattDatePipe } from '@energinet/watt/date';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-price-information',
   imports: [
-    // TranslocoPipe,
+    TranslocoPipe,
     TranslocoDirective,
     VaterStackComponent,
 
@@ -62,35 +57,31 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
       inset="ml"
       *transloco="let t; prefix: 'charges.priceInformation'"
     >
-      @for (charge of chargeInformations; track charge.id) {
+      @for (period of chargeInformationPeriods(); track period) {
         <watt-card>
           <watt-card-title>
             <vater-stack gap="m" align="center" direction="row">
               <h3>
-                @if (charge.validTo && charge.validFrom) {
-                  {{ dateRange(charge.validFrom, charge.validTo) | wattDate }}
-                } @else {
-                  {{ charge.validFrom | wattDate }}
-                }
+                {{ period.period | wattDate }}
               </h3>
-              @if (charge.validTo && isCurrent(charge.validFrom, charge.validTo)) {
+              @if (period.isCurrent) {
                 <watt-badge type="success">{{ t('current') }}</watt-badge>
               }
             </vater-stack>
           </watt-card-title>
           <watt-description-list variant="compact" [itemSeparators]="false">
             <watt-description-list-item [label]="t('name')">
-              {{ charge.name }}
+              {{ period.name }}
             </watt-description-list-item>
             <watt-description-list-item [label]="t('description')">
-              {{ charge.description }}
+              {{ period.description }}
             </watt-description-list-item>
-            <!-- <watt-description-list-item [label]="t('vatClassification')">
-              {{ 'charges.vatClassifications.' + charge.vatClassification | transloco }}
+            <watt-description-list-item [label]="t('vatClassification')">
+              {{ 'charges.vatClassifications.' + period.vatClassification | transloco }}
             </watt-description-list-item>
             <watt-description-list-item [label]="t('transparentInvoicing')">
-              {{ charge.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
-            </watt-description-list-item> -->
+              {{ period.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
+            </watt-description-list-item>
           </watt-description-list>
         </watt-card>
       }
@@ -98,46 +89,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
   `,
 })
 export class DhPriceInformation {
-  chargeInformations: Partial<Charge>[] = [
-    {
-      id: '2',
-      name: 'Charge 2',
-      description:
-        'En længere beskrivelse, der også kan fylde to linjer, eller måske endda endnu mere end to linjer.',
-      // vatClassification: VatClassification.Vat25,
-      // transparentInvoicing: false,
-      validFrom: dayjs().subtract(1, 'year').toDate(),
-      validTo: undefined,
-    },
-    {
-      id: '1',
-      name: 'Charge 1',
-      description:
-        'En længere beskrivelse, der også kan fylde to linjer, eller måske endda endnu mere end to linjer.',
-      // vatClassification: VatClassification.NoVat,
-      // transparentInvoicing: true,
-      validFrom: dayjs().subtract(2, 'year').toDate(),
-      validTo: dayjs().add(1, 'year').toDate(),
-    },
-    {
-      id: '3',
-      name: 'Charge 3',
-      description:
-        'En længere beskrivelse, der også kan fylde to linjer, eller måske endda endnu mere end to linjer.',
-      // vatClassification: VatClassification.Vat25,
-      // transparentInvoicing: false,
-      validFrom: dayjs().subtract(2, 'year').toDate(),
-      validTo: dayjs().subtract(1, 'year').toDate(),
-    },
-  ];
-
-  isCurrent(from: Date | undefined, to: Date | undefined) {
-    const now = new Date();
-    if (!from || !to) return false;
-    return from <= now && to >= now;
-  }
-
-  dateRange(start: Date, end: Date): WattRange<Date> {
-    return { start, end: end };
-  }
+  id = input.required<string>();
+  query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
+  chargeInformationPeriods = computed(() => this.query.data()?.chargeById?.periods ?? []);
 }

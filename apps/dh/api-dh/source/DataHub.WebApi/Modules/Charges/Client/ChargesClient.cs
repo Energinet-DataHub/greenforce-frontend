@@ -12,17 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using NodaTime;
+using ChargeApiModels = Energinet.DataHub.Charges.Abstractions.Api.Models;
+using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeIdentifierDto;
+using ChargeInformationDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationDto;
+using ChargeInformationSortProperty = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationSortProperty;
+using Resolution = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
-public class ChargesClient(Energinet.DataHub.Charges.Client.IChargesClient client) : IChargesClient
+public class ChargesClient(
+    DataHub.Charges.Client.IChargesClient client,
+    DataHub.WebApi.Clients.MarketParticipant.v1.IMarketParticipantClient_V1 marketParticipantClient_V1,
+    IHttpContextAccessor httpContext) : IChargesClient
 {
-    public async Task<IEnumerable<ChargeInformationDto>> GetChargesAsync(
+    public async Task<ChargeApiModels.Result<(IEnumerable<ChargeInformationDto> Charges, int TotalCount)>> GetChargesAsync(
         int skip,
         int take,
         string? filter,
@@ -33,20 +42,21 @@ public class ChargesClient(Energinet.DataHub.Charges.Client.IChargesClient clien
         var (sortColumnName, sortDirection) =
             order switch
             {
-                { FromDateTime: not null } => (ChargeSeriesSortColumnName.FromDateTime, order.FromDateTime.Value),
-                { Price: not null } => (ChargeSeriesSortColumnName.Price, order.Price.Value),
-                _ => (ChargeSeriesSortColumnName.FromDateTime, SortDirection.Desc),
+                { Code: not null } => (ChargeInformationSortProperty.Code, order.Code.Value),
+                { Type: not null } => (ChargeInformationSortProperty.Type, order.Type.Value),
+                _ => (ChargeInformationSortProperty.Type, SortDirection.Desc),
             };
 
         var result = await client.GetChargeInformationAsync(
             new ChargeInformationSearchCriteriaDto(
-                filter ?? string.Empty,
-                query?.ActorNumbers?.ToList() ?? [],
-                query?.ChargeTypes?.ToList() ?? [],
-                sortDirection == SortDirection.Desc,
-                sortColumnName,
                 skip,
-                take),
+                take,
+                new ChargeInformationFilterDto(
+                    filter ?? string.Empty,
+                    query?.ActorNumbers ?? [],
+                    query?.ChargeTypes?.Select(c => c.Type) ?? []),
+                sortColumnName,
+                sortDirection == SortDirection.Desc),
             ct);
 
         if (result.IsFailure)
@@ -54,44 +64,80 @@ public class ChargesClient(Energinet.DataHub.Charges.Client.IChargesClient clien
             throw new GraphQLException(result.Error ?? "Exception in GetChargeInformationAsync");
         }
 
-        return result.Value ?? [];
+        return result;
     }
 
     public async Task<ChargeInformationDto?> GetChargeByIdAsync(
-        string id,
+        ChargeIdentifierDto id,
         CancellationToken ct = default)
     {
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(id, [], [], true, ChargeSeriesSortColumnName.FromDateTime, 0, 1),
+            new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(id.Code, [id.Owner], [id.ChargeType]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        return result.Value?.FirstOrDefault();
+        return result.Value.Charges.FirstOrDefault();
     }
 
-    public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
-        string chargeId,
-        Resolution resolution,
-        Interval period,
-        CancellationToken ct = default)
+    public async Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAsync(
+       ChargeType type,
+       CancellationToken ct = default)
     {
-        var series = await client.GetChargeSeriesAsync(
-            new ChargeSeriesSearchCriteriaDto(
-                ChargeId: Guid.Empty, // TODO: Fix
-                FromDateTimeUtc: period.Start.ToDateTimeOffset(),
-                ToDateTimeUtc: period.End.ToDateTimeOffset()),
-            ct);
+        var currentUser = httpContext.CreateUserIdentity();
+        var ownerGln = currentUser.ActorNumber.Value;
 
-        if (series.Value is null || series.Value.Count() == 0)
+        if (currentUser.ActorRole == ActorRole.SystemOperator || currentUser.ActorRole == ActorRole.EnergySupplier)
+        {
+            ownerGln = (await marketParticipantClient_V1.ActorGetAsync(ct))
+            .Where(x => x.MarketRole.EicFunction == DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction.SystemOperator).SingleOrDefault()?.ActorNumber.Value;
+        }
+
+        if (string.IsNullOrWhiteSpace(ownerGln))
         {
             return [];
         }
 
-        return series.Value.Select((s, i) =>
+        var result = await client.GetChargeInformationAsync(
+            new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [ownerGln], [type.Type]), ChargeInformationSortProperty.Type, false),
+            ct);
+
+        return result.Value.Charges;
+    }
+
+    public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
+        ChargeIdentifierDto id,
+        Resolution resolution,
+        Interval period,
+        CancellationToken ct = default)
+    {
+        try
         {
-            var start = AddResolution(resolution, period, i, series.Value.Count());
-            var end = AddResolution(resolution, period, i + 1, series.Value.Count());
-            return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), s.Points);
-        });
+            var result = await client.GetChargeSeriesAsync(
+                new ChargeSeriesSearchCriteriaDto(
+                    id,
+                    From: period.Start,
+                    To: period.End),
+                ct);
+
+            if (result.IsFailure)
+            {
+                throw new GraphQLException(result.Error ?? "Exception in GetChargeSeriesAsync");
+            }
+
+            var (chargeSeries, totalCount) = result.Value;
+            return chargeSeries == null || !chargeSeries.Any() || totalCount == 0
+                ? []
+                : chargeSeries.Select((s, i) =>
+            {
+                var start = AddResolution(resolution, period, i, totalCount);
+                var end = AddResolution(resolution, period, i + 1, totalCount);
+                var point = new ChargeSeriesPoint(start.ToInstant(), s.Price);
+                return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), [point]);
+            });
+        }
+        catch
+        {
+            return [];
+        }
     }
 
     private ZonedDateTime AddResolution(Resolution resolution, Interval period, int index, int totalCount)
@@ -104,8 +150,6 @@ public class ChargesClient(Energinet.DataHub.Charges.Client.IChargesClient clien
             Resolution.Hourly => start.PlusHours(index),
             Resolution.Daily => start.LocalDateTime.PlusDays(index).InZoneLeniently(zone),
             Resolution.Monthly => start.LocalDateTime.PlusMonths(index).InZoneLeniently(zone),
-            Resolution.Unknown => start.PlusNanoseconds(index *
-                Convert.ToInt16(period.Duration.TotalNanoseconds / totalCount)),
         };
     }
 }

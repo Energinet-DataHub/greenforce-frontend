@@ -357,7 +357,9 @@
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
-    "ANDET": "Other"
+    "QUARTER_HOURLY": "Quarter hour",
+    "HOURLY": "Hour",
+    "MONTHLY": "Monthly"
   },
   "netSettlementGroup": {
     "2": "Hourly settlement (2)",
@@ -368,7 +370,8 @@
     "chargeTypes": {
       "SUBSCRIPTION": "Subscription",
       "FEE": "Fee",
-      "TARIFF": "Tariff"
+      "TARIFF": "Tariff",
+      "TARIFF_TAX": "Tariff, tax"
     },
     "resolutions": {
       "daily": "Day",
@@ -384,6 +387,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
+        "createButton": "New charge",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -418,6 +422,34 @@
         }
       }
     },
+    "create": {
+      "action": {
+        "SUBSCRIPTION": "New subscription",
+        "FEE": "New fee",
+        "TARIFF": "New tariff",
+        "TARIFF_TAX": "New tariff, tax",
+        "SELECTION": "New charge"
+      },
+      "close": "Close",
+      "form": {
+        "id": "ID",
+        "name": "Name",
+        "description": "Description",
+        "resolution": "Resolution",
+        "hourly": "Hourly",
+        "daily": "Daily",
+        "vat": "VAT",
+        "withVat": "With VAT",
+        "withoutVat": "Without VAT",
+        "transparentInvoicing": "Transparent Invoicing",
+        "withTransparentInvoicing": "Yes",
+        "withoutTransparentInvoicing": "No",
+        "predictablePrice": "Predictable Price",
+        "withPredictablePrice": "Yes",
+        "withoutPredictablePrice": "No",
+        "validFrom": "Valid From"
+      }
+    },
     "charge": {
       "type": "Type",
       "owner": "Owner",
@@ -430,7 +462,9 @@
         "historyLabel": "History"
       },
       "actions": {
-        "actionsButton": "Actions"
+        "menu": "Actions",
+        "edit": "Edit charge information",
+        "stop": "Stop charge information"
       },
       "breadcrumb": "Prices"
     },
@@ -453,7 +487,7 @@
       }
     },
     "series": {
-      "showHistory": "Show history",
+      "showHistory": "History",
       "resolution": {
         "quarterhourly": "Time",
         "hourly": "Time",
@@ -490,12 +524,18 @@
   },
   "meteringPoint": {
     "breadcrumb": "Search metering point",
+    "shared": {
+      "error": {
+        "containsLetters": "Metering point ID can only contain numbers and not letters",
+        "meteringPointIdLength": "Metering point ID must be an 18-digit number"
+      }
+    },
     "search": {
       "placeholder": "Search by metering point ID",
       "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
-        "containsLetters": "Metering point ID can only contain numbers and not letters",
-        "meteringPointIdLength": "Metering point ID must be an 18-digit number"
+        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
+        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found"
     },
@@ -506,8 +546,8 @@
       "processes": {
         "tabLabel": "Processes"
       },
-      "prices": {
-        "tabLabel": "Prices"
+      "chargelinks": {
+        "tabLabel": "Charge links"
       },
       "messages": {
         "tabLabel": "Messages"
@@ -546,7 +586,7 @@
         "citySubDivisionName": "Additional city name",
         "postBox": "POBox",
         "municipalityCode": "Municipality code",
-        "darID": "DAR-ID",
+        "darID": "DAR reference",
         "closeButton": "Close"
       },
       "highlights": {
@@ -579,7 +619,8 @@
       "actions": {
         "actionsButton": "Actions",
         "upload": "Upload measurements",
-        "moveIn": "Customer move-in"
+        "moveIn": "Customer move-in",
+        "createChargeLink": "Attach price"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -645,6 +686,13 @@
         "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      },
+      "manualCorrection": {
+        "getMeteringPoint": "Download metering point",
+        "verifyCorrection": "Verify manual correction",
+        "executeCorrection": "Apply manual correction",
+        "saveSuccess": "Manual correction of metering point applied",
+        "saveError": "Manual correction of metering point failed"
       }
     },
     "relatedMeteringPointsTitle": "Related metering points",
@@ -654,14 +702,22 @@
     "selectedRelatedMeteringPoint": "Selected",
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
-    "charges": {
+    "chargeLinks": {
       "columns": {
         "type": "Type",
         "id": "ID",
         "name": "Name",
         "owner": "Owner",
         "amount": "Amount",
-        "period": "Period"
+        "period": "Period",
+        "date": "Date"
+      },
+      "tooltip": {
+        "transparentInvoicing": "Transparent invoicing"
+      },
+      "navigation": {
+        "tariffAndSubscription": "Tariff and subscription",
+        "fees": "Fee"
       },
       "chargeType": "Type",
       "details": {
@@ -670,7 +726,29 @@
           "description": "Description"
         },
         "copyMessage": "Copy message ID",
-        "navigateToMessage": "Go to message"
+        "navigateToMessage": "Go to message",
+        "edit": "Edit change link",
+        "stop": "Stop change link",
+        "cancel": "Cancel change link"
+      },
+      "edit": {
+        "title": "Edit charge link",
+        "factor": "Quantity",
+        "startDate": "Start date",
+        "save": "Save changes",
+        "close": "Close"
+      },
+      "cancel": {
+        "title": "Cancel price link?",
+        "cancelWarning": "This action cannot be undone",
+        "cancel": "Cancel price link",
+        "close": "Close"
+      },
+      "stop": {
+        "title": "Stop price link",
+        "stopDate": "Stop date",
+        "save": "Save changes",
+        "close": "Close"
       }
     },
     "processOverview": {
@@ -697,7 +775,11 @@
         "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
       },
       "steps": {
-        "REQUEST_END_OF_SUPPLY": "Request end of supply (BRS-005)"
+        "RSM005_REQUEST": "Request end of supply (RSM-005)",
+        "RSM005_CONFIRM": "Confirm end of supply (RSM-005)",
+        "RSM005_REJECT": "Reject end of supply (RSM-005)",
+        "RSM020_REQUEST": "Notify cancellation of end of supply (RSM-020)",
+        "UNKNOWN": "Unknown Step"
       },
       "details": {
         "list": {
@@ -708,7 +790,7 @@
         },
         "columns": {
           "step": "Step",
-          "createdAt": "Time of message",
+          "completedAt": "Completed at",
           "dueDate": "Due date",
           "actor": "Actor",
           "state": "State"
@@ -796,6 +878,7 @@
         "file": "File name",
         "datepicker": "Start operation day",
         "datepickerHint": "The time will automatically be adjusted to UTC.",
+        "resolutionHint": "Upload new measurement data to change resolution.",
         "table": {
           "positionCount": "Number of positions",
           "sum": "Sum"
@@ -806,6 +889,25 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "createChargeLink": {
+      "title": "Attach price",
+      "close": "Close",
+      "back": "Back",
+      "actions": {
+        "SUBSCRIPTION": "Attach subscription",
+        "TARIFF": "Attach tariff",
+        "TARIFF_TAX": "Attach tariff, tax",
+        "FEE": "Attach fee"
+      },
+      "chargeTypes": {
+        "TARIFF": "Tariff",
+        "TARIFF_TAX": "Tariff, tax",
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee"
+      },
+      "startDate": "Start date",
+      "factor": "Quality"
     },
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
@@ -892,12 +994,14 @@
         "cancel": "Cancel",
         "start": "Start"
       },
-      "title": "Create {{ type }} metering point",
+      "title": "New metering point: {{ type }}",
       "cancel": "Cancel",
       "create": "Create metering point",
       "details": {
         "title": "Details",
         "validityDate": "Validity date",
+        "status": "{{ meteringPoint.overview.details.meteringPointStatus }}",
+        "newlyCreated": "Newly created",
         "meteringPointId": "Metering point ID",
         "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
         "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
@@ -932,11 +1036,31 @@
         "connectionType": "Connection type",
         "assetType": "Asset type"
       },
+      "disconnectionType": {
+        "REMOTE_DISCONNECTION": "{{ disconnectionType.REMOTE_DISCONNECTION }} (D01)",
+        "MANUAL_DISCONNECTION": "{{ disconnectionType.MANUAL_DISCONNECTION }} (D02)"
+      },
+      "connectionType": {
+        "DIRECT": "{{ connectionType.DIRECT }} (D01)",
+        "INSTALLATION": "{{ connectionType.INSTALLATION }} (D02)"
+      },
+      "netSettlementGroup": {
+        "0": "Ingen nettoafregning (0) [DK]",
+        "3": "Immediate settlement (3)"
+      },
+      "resolution": {
+        "quarterHourly": "Quarter hour",
+        "hourly": "Hour"
+      },
       "other": {
         "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
         "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
         "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
         "product": "Product ID"
+      },
+      "error": {
+        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
+        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       }
     }
   },
@@ -1006,9 +1130,11 @@
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Request for wholesale services (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)",
-      "UPDATE_CHARGE_LINKS": "Update charge links (RSM-030)",
-      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm update charge links (RSM-030)",
-      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject update charge links (RSM-030)"
+      "UPDATE_CHARGE_LINKS": "Request change billing master data (RSM-030)",
+      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm request change billing master data (RSM-030)",
+      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
+      "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
+      "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",

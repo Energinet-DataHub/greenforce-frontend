@@ -19,7 +19,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 /// <summary>
 /// Client for interacting with charges.
 /// </summary>
-public interface IChargesClient
+public interface IChargeLinkClient
 {
     /// <summary>
     /// Get all charges that are linked to a given metering point id.
