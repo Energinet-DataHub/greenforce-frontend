@@ -30,7 +30,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/drop
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { DhChargeTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
 import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -46,7 +46,7 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
     WattDatepickerComponent,
 
     VaterStackComponent,
-    DhChargeTypeSelection,
+    DhChargesTypeSelection,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: `
@@ -64,7 +64,7 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
       *transloco="let t; prefix: 'meteringPoint.createChargeLink'"
       [title]="t('title')"
     >
-      <dh-charge-type-selection [(value)]="selectedType">
+      <dh-charges-type-selection [(value)]="selectedType">
         <form
           vater-stack
           align="start"
@@ -90,7 +90,7 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
 
           <watt-datepicker [formControl]="form.controls.startDate" [label]="t('startDate')" />
         </form>
-      </dh-charge-type-selection>
+      </dh-charges-type-selection>
       <watt-modal-actions>
         @if (selectedType() === null) {
           <watt-button variant="secondary" (click)="create.close(false)">

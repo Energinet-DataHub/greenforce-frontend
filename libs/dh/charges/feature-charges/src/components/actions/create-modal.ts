@@ -32,7 +32,7 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 
 import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { ChargeResolution, ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhChargeTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
 
 @Component({
   selector: 'dh-charges-create-modal',
@@ -49,7 +49,7 @@ import { DhChargeTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
     WattTextFieldComponent,
     WATT_MENU,
     WATT_MODAL,
-    DhChargeTypeSelection,
+    DhChargesTypeSelection,
   ],
   template: `
     <watt-modal
@@ -60,7 +60,7 @@ import { DhChargeTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
       [title]="t('action.' + (type() ?? 'SELECTION'))"
       (closed)="navigate('..')"
     >
-      <dh-charge-type-selection [(value)]="type">
+      <dh-charges-type-selection [(value)]="type">
         <form
           *transloco="let t; prefix: 'charges.create.form'"
           id="create-charge"
@@ -166,7 +166,7 @@ import { DhChargeTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
           </watt-field>
           <watt-datepicker [label]="t('validFrom')" [formControl]="form().controls.validFrom" />
         </form>
-      </dh-charge-type-selection>
+      </dh-charges-type-selection>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('close') }}
@@ -180,7 +180,7 @@ import { DhChargeTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
     </watt-modal>
   `,
 })
-export default class DhChargeCreateModal {
+export default class DhChargesCreateModal {
   navigate = injectRelativeNavigate();
   dailyResolution: ChargeResolution = 'daily';
   hourlyResolution: ChargeResolution = 'hourly';

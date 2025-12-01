@@ -39,30 +39,32 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhChargesIntervalField,
+  DhChargesPeriodPipe,
+} from '@energinet-datahub/dh/charges/ui-shared';
 
-import { DhChargesIntervalField } from '../interval-field';
-import { DhChargeSeriesDetailsComponent } from './details';
-import { DhChargesPeriodPipe } from '../../period-pipe';
+import { DhChargesSeriesDetails } from './series-details';
 
 @Component({
-  selector: 'dh-prices',
+  selector: 'dh-charges-series-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DecimalPipe,
-    TranslocoPipe,
     TranslocoDirective,
-    VaterStackComponent,
+    TranslocoPipe,
     VaterSpacerComponent,
+    VaterStackComponent,
     VaterUtilityDirective,
+    WATT_TABLE,
     WattButtonComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSlideToggleComponent,
-    WATT_TABLE,
     DhCircleComponent,
-    DhChargeSeriesDetailsComponent,
     DhChargesIntervalField,
     DhChargesPeriodPipe,
+    DhChargesSeriesDetails,
   ],
   template: `
     <watt-data-table
@@ -129,10 +131,10 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
         </ng-container>
       </watt-table>
     </watt-data-table>
-    <dh-charge-series-details [(series)]="activeRow" [resolution]="resolution()" />
+    <dh-charges-series-details [(series)]="activeRow" [resolution]="resolution()" />
   `,
 })
-export class DhChargeSeriesPage {
+export class DhChargesSeriesTable {
   id = input.required<string>();
   resolution = input.required<ChargeResolution>();
 
