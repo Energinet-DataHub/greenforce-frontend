@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  GetMeteringPointResultDtoV1
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointResultDtoV1 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const debugViewV2: GetMeteringPointResultDtoV1 = {
   __typename: 'GetMeteringPointResultDtoV1',
@@ -54,10 +52,10 @@ export const debugViewV2: GetMeteringPointResultDtoV1 = {
             validFrom: new Date('2023-01-01T00:00:00Z'),
             validTo: new Date('2023-12-31T23:59:59Z'),
             contacts: [],
-          }
-        ]
+          },
+        ],
       },
-    ]
+    ],
   },
   events: [
     {
@@ -65,21 +63,24 @@ export const debugViewV2: GetMeteringPointResultDtoV1 = {
       id: 'event-1',
       type: 'MeteringPointCreatedEventV1',
       timestamp: new Date('2023-01-01T12:00:00Z'),
-      jsonData: '{ "id": "111111111", "type": "Consumption", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "NEW" }',
+      jsonData:
+        '{ "id": "111111111", "type": "Consumption", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "NEW" }',
     },
     {
       __typename: 'ElectricityMarketV2EventDto',
       id: 'event-2',
       type: 'MoveInInitiatedEventV1',
       timestamp: new Date('2023-01-04T07:00:00Z'),
-      jsonData: '{ "customerId": "111", "validityDate": "2023-01-04T00:00:00Z", "energySupplierId": "2222222222222222" }',
+      jsonData:
+        '{ "customerId": "111", "validityDate": "2023-01-04T00:00:00Z", "energySupplierId": "2222222222222222" }',
     },
     {
       __typename: 'ElectricityMarketV2EventDto',
       id: 'event-3',
       type: 'MeteringPointConnectedEventV1',
       timestamp: new Date('2023-01-01T12:00:00Z'),
-      jsonData: '{ "id": "111111111", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "CONNECTED" }',
+      jsonData:
+        '{ "id": "111111111", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "CONNECTED" }',
     },
-  ]
+  ],
 };

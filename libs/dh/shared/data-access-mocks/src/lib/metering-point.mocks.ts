@@ -641,8 +641,7 @@ function getmeteringPointDebugViewV2() {
       data: {
         __typename: 'Query',
         debugViewV2,
-      }
-    })
-
+      },
+    });
   });
 }
