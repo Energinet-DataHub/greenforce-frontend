@@ -100,6 +100,11 @@ export class DhMeteringPointV2Component {
       const meteringPointId = this.meteringPointId();
 
       if (!dhIsValidMeteringPointId(meteringPointId)) {
+
+        if (this.query.data()) {
+          this.query.reset();
+        }
+
         return;
       }
 
@@ -115,7 +120,7 @@ function safeJsonParse(str: string): unknown {
   try {
     return JSON.parse(str);
   } catch (error) {
-    console.log('Failed to parse JSON:', str);
+    console.error('Failed to parse JSON:', str);
     console.error(error);
     return str;
   }
