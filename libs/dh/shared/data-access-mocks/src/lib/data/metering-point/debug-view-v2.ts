@@ -27,16 +27,23 @@ export const debugViewV2: GetMeteringPointResultDtoV1 = {
     meteringPointId: '111111111111111111',
     meteringPointPeriods: [
       {
-        __typename: 'MeteringPointPeriodDto2',
+        __typename: 'MeteringPointPeriodDto',
         validFrom: new Date('2023-01-01T00:00:00Z'),
         validTo: new Date('2023-12-31T23:59:59Z'),
         type: 'Consumption',
-        connectionState: 'CONNECTED',
+        connectionState: 'Connected',
+      },
+      {
+        __typename: 'MeteringPointPeriodDto',
+        validFrom: new Date('2023-01-01T00:00:00Z'),
+        validTo: new Date('2023-12-31T23:59:59Z'),
+        type: 'Consumption',
+        connectionState: 'Connected',
       },
     ],
     commercialRelations: [
       {
-        __typename: 'CommercialRelationDto2',
+        __typename: 'ElectricityMarketV2CommercialRelationDto',
         customerId: '111',
         energySupplierId: '2222222222222222',
         startDate: new Date('2023-01-01T00:00:00Z'),
@@ -54,22 +61,22 @@ export const debugViewV2: GetMeteringPointResultDtoV1 = {
   },
   events: [
     {
-      __typename: 'EventDto',
+      __typename: 'ElectricityMarketV2EventDto',
       id: 'event-1',
       type: 'MeteringPointCreatedEventV1',
       timestamp: new Date('2023-01-01T12:00:00Z'),
       jsonData: '{ "id": "111111111", "type": "Consumption", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "NEW" }',
     },
     {
-      __typename: 'EventDto',
+      __typename: 'ElectricityMarketV2EventDto',
       id: 'event-2',
       type: 'MoveInInitiatedEventV1',
       timestamp: new Date('2023-01-04T07:00:00Z'),
       jsonData: '{ "customerId": "111", "validityDate": "2023-01-04T00:00:00Z", "energySupplierId": "2222222222222222" }',
     },
     {
-      __typename: 'EventDto',
-      id: 'event-2',
+      __typename: 'ElectricityMarketV2EventDto',
+      id: 'event-3',
       type: 'MeteringPointConnectedEventV1',
       timestamp: new Date('2023-01-01T12:00:00Z'),
       jsonData: '{ "id": "111111111", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "CONNECTED" }',
