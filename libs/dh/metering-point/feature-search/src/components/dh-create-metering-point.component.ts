@@ -18,7 +18,7 @@
 //#endregion
 import { Component, effect, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { from, Observable, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -35,7 +35,7 @@ import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattFieldErrorComponent, WattFieldComponent } from '@energinet/watt/field';
 import { dayjs } from '@energinet/watt/date';
 
 import {
@@ -70,6 +70,7 @@ enum CountryCode {
     ReactiveFormsModule,
     TranslocoDirective,
     TranslocoPipe,
+
     VaterStackComponent,
     VaterSpacerComponent,
     VaterFlexComponent,
@@ -80,8 +81,9 @@ enum CountryCode {
     WattDropdownComponent,
     WattDatepickerComponent,
     WattTextAreaFieldComponent,
-    DhDropdownTranslatorDirective,
     WattFieldErrorComponent,
+    WattFieldComponent,
+    DhDropdownTranslatorDirective,
   ],
   styles: `
     :host {
@@ -98,10 +100,6 @@ enum CountryCode {
 
     .country-dropdown {
       width: 200px;
-    }
-
-    .is-required::after {
-      content: '*';
     }
   `,
   templateUrl: './dh-create-metering-point.component.html',
@@ -213,10 +211,6 @@ export class DhCreateMeteringPoint {
       powerPlantControls.assetType.markAsUntouched();
     }
   });
-
-  isRequired(control: FormControl): boolean {
-    return control.hasValidator(Validators.required);
-  }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
     return from(
