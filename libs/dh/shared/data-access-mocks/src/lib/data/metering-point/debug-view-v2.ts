@@ -64,7 +64,7 @@ export const debugViewV2: GetMeteringPointResultDtoV1 = {
       type: 'MeteringPointCreatedEventV1',
       timestamp: new Date('2023-01-01T12:00:00Z'),
       jsonData:
-        '{ "id": "111111111", "type": "Consumption", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "NEW" }',
+        '{ "id": "111111111", "type": "Consumption", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "New" }',
     },
     {
       __typename: 'ElectricityMarketV2EventDto',
@@ -80,7 +80,7 @@ export const debugViewV2: GetMeteringPointResultDtoV1 = {
       type: 'MeteringPointConnectedEventV1',
       timestamp: new Date('2023-01-01T12:00:00Z'),
       jsonData:
-        '{ "id": "111111111", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "CONNECTED" }',
+        '{ "id": "111111111", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "Connected" }',
     },
   ],
 };

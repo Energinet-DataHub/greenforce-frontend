@@ -56,11 +56,16 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
       />
 
       <dh-result [loading]="query.loading()" [hasError]="query.hasError()">
-        <h1>Metering Point</h1>
-        <pre>{{ (debugViewV2() && (debugViewV2()?.meteringPoint | json)) || 'empty' }}</pre>
+        @if (debugViewV2()) {
+          <h1>Metering Point</h1>
+          <pre>{{ debugViewV2()!.meteringPoint | json }}</pre>
 
-        <h1>Events</h1>
-        <pre>{{ (debugViewV2() && (debugViewV2()?.events | json)) || 'empty' }}</pre>
+          <h1>Events</h1>
+          <pre>{{ debugViewV2()!.events | json }}</pre>
+        }
+        @else {
+          <p>No data</p>
+        }
       </dh-result>
     </vater-flex>
   `,
@@ -69,7 +74,7 @@ export class DhMeteringPointV2Component {
   query = lazyQuery(GetMeteringPointDebugV2ViewDocument);
 
   debugViewV2 = computed(() => {
-    var debugView = this.query.data()?.debugViewV2;
+    let debugView = this.query.data()?.debugViewV2;
 
     console.log("Debug View V2 data", debugView);
 
@@ -87,7 +92,7 @@ export class DhMeteringPointV2Component {
     };;
   });
 
-  meteringPointIdFormControl = new FormControl({ value: '111111111111111111', disabled: false });
+  meteringPointIdFormControl = new FormControl();
 
   meteringPointId = toSignal(this.meteringPointIdFormControl.valueChanges);
 
@@ -95,12 +100,16 @@ export class DhMeteringPointV2Component {
     effect(() => {
       const meteringPointId = this.meteringPointId();
 
-      if (!dhIsValidMeteringPointId(meteringPointId!)) return;
+      if (!dhIsValidMeteringPointId(meteringPointId!)) {
+        return;
+      };
 
       this.query.query({
         variables: { meteringPointId: meteringPointId! },
       });
     });
+
+    //this.meteringPointIdFormControl.setValue('111111111111111111');
   }
 }
 
