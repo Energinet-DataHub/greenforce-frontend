@@ -24,7 +24,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointDebugV2ViewDocument, GetMeteringPointResultDtoV1 } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetMeteringPointDebugV2ViewDocument,
+  GetMeteringPointResultDtoV1,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
@@ -54,10 +57,10 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
 
       <dh-result [loading]="query.loading()" [hasError]="query.hasError()">
         <h1>Metering Point</h1>
-        <pre>{{ debugViewV2() && (debugViewV2()?.meteringPoint | json) || "empty" }}</pre>
+        <pre>{{ (debugViewV2() && (debugViewV2()?.meteringPoint | json)) || 'empty' }}</pre>
 
         <h1>Events</h1>
-        <pre>{{ debugViewV2() && (debugViewV2()?.events | json) || "empty" }}</pre>
+        <pre>{{ (debugViewV2() && (debugViewV2()?.events | json)) || 'empty' }}</pre>
       </dh-result>
     </vater-flex>
   `,
@@ -74,7 +77,7 @@ export class DhMeteringPointV2Component {
 
     const returnValue = {
       ...debugView,
-      events: debugView?.events.map(e => ({
+      events: debugView?.events.map((e) => ({
         ...e,
         data: safeJsonParse(e.jsonData),
         jsonData: undefined,
@@ -105,7 +108,7 @@ export class DhMeteringPointV2Component {
 function safeJsonParse(str: string): unknown {
   try {
     return JSON.parse(str);
-  } catch(error) {
+  } catch (error) {
     console.log('Failed to parse JSON:', str);
     console.error(error);
     return str;
