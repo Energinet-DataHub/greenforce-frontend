@@ -62,8 +62,7 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
 
           <h1>Events</h1>
           <pre>{{ debugViewV2()!.events | json }}</pre>
-        }
-        @else {
+        } @else {
           <p>No data</p>
         }
       </dh-result>
@@ -102,7 +101,7 @@ export class DhMeteringPointV2Component {
 
       if (!dhIsValidMeteringPointId(meteringPointId!)) {
         return;
-      };
+      }
 
       this.query.query({
         variables: { meteringPointId: meteringPointId! },
