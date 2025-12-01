@@ -364,6 +364,23 @@ type CommercialRelationDto {
   electricalHeatingPeriods: [ElectricalHeatingDto!]!
 }
 
+type CommercialRelationDto2 {
+  startDate: DateTime!
+  endDate: DateTime!
+  energySupplierId: String!
+  customerId: UUID!
+  energySupplierPeriods: [EnergySupplierPeriodDto!]!
+}
+
+type ContactAddressDto {
+  streetName: String!
+}
+
+type ContactDto {
+  name: String!
+  address: ContactAddressDto
+}
+
 type CreateCalculationPayload {
   uuid: UUID
 }
@@ -451,6 +468,12 @@ type ElectricalHeatingDto {
   transactionType: TransactionType
 }
 
+type EnergySupplierPeriodDto {
+  validFrom: DateTime!
+  validTo: DateTime!
+  contacts: [ContactDto!]!
+}
+
 type EnergySupplyPeriodDto {
   id: Long!
   validFrom: DateTime!
@@ -481,6 +504,18 @@ type EsettOutgoingMessage {
   documentStatus: DocumentStatus!
   lastDispatched: DateTime
   manuallyHandledExchangeEventMetaData: ManuallyHandledExchangeEventMetaData
+}
+
+"Represents an event in the event stream of a metering point."
+type EventDto {
+  "The event id, given by the event store."
+  id: UUID!
+  "The timestamp of when the event was added to the event store."
+  timestamp: DateTime!
+  "The type name of the event."
+  type: String!
+  "The data for the event."
+  jsonData: String!
 }
 
 type ExchangeEventSearchResult {
@@ -563,6 +598,11 @@ type FilteredUserRolesEdge {
   cursor: String!
   "The item at the end of the edge."
   node: UserRoleDto!
+}
+
+type GetMeteringPointResultDtoV1 {
+  meteringPoint: MeteringPointDtoV1!
+  events: [EventDto!]!
 }
 
 type GridAreaAuditedChangeAuditLogDto {
@@ -883,6 +923,12 @@ type MeteringPointDto {
   commercialRelationTimeline: [CommercialRelationDto!]!
 }
 
+type MeteringPointDtoV1 {
+  meteringPointId: String!
+  meteringPointPeriods: [MeteringPointPeriodDto2!]!
+  commercialRelations: [CommercialRelationDto2!]!
+}
+
 type MeteringPointIdentificationDto {
   identification: String!
 }
@@ -918,6 +964,13 @@ type MeteringPointMetadataDto {
   settlementMethod: SettlementMethod
   installationAddress: InstallationAddressDto
   manuallyHandled: Boolean!
+}
+
+type MeteringPointPeriodDto2 {
+  validFrom: DateTime!
+  validTo: DateTime!
+  type: ElectricityMarketMeteringPointType!
+  connectionState: ConnectionState!
 }
 
 type MeteringPointProcess {
@@ -1190,6 +1243,7 @@ type Query {
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  debugViewV2(meteringPointId: String!): GetMeteringPointResultDtoV1! @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
   meteringPointExists(internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
