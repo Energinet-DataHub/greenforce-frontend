@@ -34,13 +34,15 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 
-import { DhChargeStatus } from './status';
-import { DhChargeActions } from './charge-actions';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WATT_MENU } from '@energinet/watt/menu';
 
 @Component({
-  selector: 'dh-charge',
+  selector: 'dh-charges-information',
   styles: `
     @use '@energinet/watt/utils' as watt;
 
@@ -76,9 +78,11 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     WATT_LINK_TABS,
     WATT_BREADCRUMBS,
     WATT_DESCRIPTION_LIST,
+    WATT_MENU,
+    WattButtonComponent,
+    WattIconComponent,
     DhEmDashFallbackPipe,
-    DhChargeStatus,
-    DhChargeActions,
+    DhChargesStatus,
     DhToolbarPortalComponent,
   ],
   template: `
@@ -99,7 +103,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
             @let status = charge()?.status;
 
             @if (status) {
-              <dh-charge-status [status]="status" />
+              <dh-charges-status [status]="status" />
             }
           </h2>
 
@@ -134,7 +138,16 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
         <vater-spacer />
 
-        <dh-charge-actions />
+        <ng-container *transloco="let t; prefix: 'charges.charge.actions'">
+          <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
+            {{ t('menu') }}
+            <watt-icon name="plus" />
+          </watt-button>
+          <watt-menu #menu>
+            <watt-menu-item>{{ t('edit') }}</watt-menu-item>
+            <watt-menu-item>{{ t('stop') }}</watt-menu-item>
+          </watt-menu>
+        </ng-container>
       </div>
 
       <div class="page-tabs" *transloco="let t; prefix: 'charges.charge.tabs'">
@@ -148,7 +161,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhCharge {
+export class DhChargesInformation {
   private readonly router = inject(Router);
   readonly id = input.required<string>();
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));

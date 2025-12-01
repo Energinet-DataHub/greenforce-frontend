@@ -32,7 +32,7 @@ import {
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  selector: 'dh-price-information-history',
+  selector: 'dh-charges-information-history',
   imports: [
     TranslocoDirective,
     VaterUtilityDirective,
@@ -68,7 +68,7 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
     </div>
   `,
 })
-export class DhPriceInformationHistory {
+export class DhChargesInformationHistory {
   hasError = signal(false);
   isLoading = signal(false);
   dataSource = new WattTableDataSource<{ timestamp: string; entry: string }>([

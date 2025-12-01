@@ -23,7 +23,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-charge-type-selection',
+  selector: 'dh-charges-type-selection',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, VaterStackComponent, WattButtonComponent],
   template: `
@@ -40,7 +40,7 @@ import { ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
     }
   `,
 })
-export class DhChargeTypeSelection {
+export class DhChargesTypeSelection {
   chargeTypes = [ChargeType.Tariff, ChargeType.TariffTax, ChargeType.Subscription, ChargeType.Fee];
   value = model<ChargeType | null>(null);
 }
