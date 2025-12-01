@@ -2890,8 +2890,8 @@
     "meteringPoint": {
       "tabLabel": "Målepunkt"
     },
-    "meteringPoint-v2": {
-      "tabLabel": "Målepunkt (v2)"
+    "meteringPointEvents": {
+      "tabLabel": "Målepunkt events"
     },
     "meteringPoints": {
       "tabLabel": "Målepunkter",

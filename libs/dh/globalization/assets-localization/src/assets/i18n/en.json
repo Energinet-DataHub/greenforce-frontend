@@ -2889,8 +2889,8 @@
     "meteringPoint": {
       "tabLabel": "Metering point"
     },
-    "meteringPoint-v2": {
-      "tabLabel": "Metering point (v2)"
+    "meteringPointEvents": {
+      "tabLabel": "Metering point events"
     },
     "meteringPoints": {
       "tabLabel": "Metering points",
