@@ -100,7 +100,6 @@ export class DhMeteringPointV2Component {
       const meteringPointId = this.meteringPointId();
 
       if (!dhIsValidMeteringPointId(meteringPointId)) {
-
         if (this.query.data()) {
           this.query.reset();
         }
