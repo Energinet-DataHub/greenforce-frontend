@@ -100,16 +100,14 @@ export class DhMeteringPointV2Component {
     effect(() => {
       const meteringPointId = this.meteringPointId();
 
-      if (!dhIsValidMeteringPointId(meteringPointId!)) {
+      if (!dhIsValidMeteringPointId(meteringPointId)) {
         return;
       };
 
       this.query.query({
-        variables: { meteringPointId: meteringPointId! },
+        variables: { meteringPointId: meteringPointId },
       });
     });
-
-    //this.meteringPointIdFormControl.setValue('111111111111111111');
   }
 }
 
