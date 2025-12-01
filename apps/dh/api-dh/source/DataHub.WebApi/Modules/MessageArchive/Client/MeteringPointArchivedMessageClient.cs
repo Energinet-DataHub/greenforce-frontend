@@ -111,6 +111,8 @@ public class MeteringPointArchivedMessageClient(
                 .ConfirmRequestChangeBillingMasterData,
             SearchDocumentType.RejectRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1
                 .RejectRequestChangeBillingMasterData,
+            SearchDocumentType.NotifyBillingMasterData => MeteringPointDocumentTypeDtoV1
+                .NotifyBillingMasterData,
             _ => throw new ArgumentOutOfRangeException(nameof(searchDocumentType), $"Unsupported document type: {searchDocumentType}"),
         };
 
