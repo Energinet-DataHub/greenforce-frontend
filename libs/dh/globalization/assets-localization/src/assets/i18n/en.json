@@ -586,7 +586,7 @@
         "citySubDivisionName": "Additional city name",
         "postBox": "POBox",
         "municipalityCode": "Municipality code",
-        "darID": "DAR-ID",
+        "darID": "DAR reference",
         "closeButton": "Close"
       },
       "highlights": {
