@@ -68,20 +68,20 @@ export class DhMeteringPointV2Component {
   debugViewV2 = computed(() => {
     var debugView = this.query.data()?.debugViewV2;
 
+    console.log("Debug View V2 data", debugView);
+
     if (!debugView) return undefined;
 
     debugView = removeTypename(debugView) as GetMeteringPointResultDtoV1;
 
-    const returnValue = {
+    return {
       ...debugView,
       events: debugView?.events.map(e => ({
         ...e,
         data: safeJsonParse(e.jsonData),
         jsonData: undefined,
       })),
-    };
-
-    return returnValue;
+    };;
   });
 
   meteringPointIdFormControl = new FormControl({ value: '111111111111111111', disabled: false });
