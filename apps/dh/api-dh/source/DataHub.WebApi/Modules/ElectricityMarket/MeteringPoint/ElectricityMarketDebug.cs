@@ -59,7 +59,7 @@ public static class ElectricityMarketDebug
 
         if (!meteringPointResult.IsSuccess)
         {
-            throw new InvalidOperationException($"Failed to get metering point: {meteringPointResult.DiagnosticMessage}.");
+            throw new InvalidOperationException($"Failed to get metering point {meteringPointId}: {meteringPointResult.DiagnosticMessage}.");
         }
 
         if (!meteringPointResult.HasData)
