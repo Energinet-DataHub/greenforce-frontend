@@ -52,7 +52,7 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
   template: `
     <watt-modal
       #modal
-      *transloco="let t; prefix: 'charges.create'"
+      *transloco="let t; prefix: 'charges.actions.create'"
       autoOpen
       size="small"
       [title]="t('action.' + (type() ?? 'SELECTION'))"
@@ -60,7 +60,7 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
     >
       <dh-charges-type-selection [(value)]="type">
         <form
-          *transloco="let t; prefix: 'charges.create.form'"
+          *transloco="let t; prefix: 'charges.actions.create.form'"
           id="create-charge"
           vater-stack
           direction="column"

@@ -422,32 +422,34 @@
         }
       }
     },
-    "create": {
-      "action": {
-        "SUBSCRIPTION": "New subscription",
-        "FEE": "New fee",
-        "TARIFF": "New tariff",
-        "TARIFF_TAX": "New tariff, tax",
-        "SELECTION": "New charge"
-      },
-      "close": "Close",
-      "form": {
-        "id": "ID",
-        "name": "Name",
-        "description": "Description",
-        "resolution": "Resolution",
-        "hourly": "Hourly",
-        "daily": "Daily",
-        "vat": "VAT",
-        "withVat": "With VAT",
-        "withoutVat": "Without VAT",
-        "transparentInvoicing": "Transparent Invoicing",
-        "withTransparentInvoicing": "Yes",
-        "withoutTransparentInvoicing": "No",
-        "predictablePrice": "Predictable Price",
-        "withPredictablePrice": "Yes",
-        "withoutPredictablePrice": "No",
-        "validFrom": "Valid From"
+    "actions": {
+      "create": {
+        "action": {
+          "SUBSCRIPTION": "New subscription",
+          "FEE": "New fee",
+          "TARIFF": "New tariff",
+          "TARIFF_TAX": "New tariff, tax",
+          "SELECTION": "New charge"
+        },
+        "close": "Close",
+        "form": {
+          "id": "ID",
+          "name": "Name",
+          "description": "Description",
+          "resolution": "Resolution",
+          "hourly": "Hourly",
+          "daily": "Daily",
+          "vat": "VAT",
+          "withVat": "With VAT",
+          "withoutVat": "Without VAT",
+          "transparentInvoicing": "Transparent Invoicing",
+          "withTransparentInvoicing": "Yes",
+          "withoutTransparentInvoicing": "No",
+          "predictablePrice": "Predictable Price",
+          "withPredictablePrice": "Yes",
+          "withoutPredictablePrice": "No",
+          "validFrom": "Valid From"
+        }
       }
     },
     "charge": {
