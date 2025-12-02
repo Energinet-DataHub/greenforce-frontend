@@ -109,16 +109,7 @@ export class DhActorTokenService {
                   // Prevent multiple logs of the same event in AppInsights
                   if (this.logoutInProgress === false) {
                     if (error instanceof Error) {
-                      if (
-                        error.message.includes('AADB2C90273') &&
-                        error.message.includes('mitid_erhverv.no_identities')
-                      ) {
-                        this.appInsights.trackEvent(
-                          'A non-DataHub user tries to login with MitID Private'
-                        );
-                      } else {
-                        this.appInsights.trackException(error, 3);
-                      }
+                      this.handleError(error);
                     } else {
                       try {
                         const errorString = JSON.stringify(error);
@@ -193,5 +184,16 @@ export class DhActorTokenService {
 
   private isTokenRequest(request: HttpRequest<unknown>): boolean {
     return request.url.includes(this.apiToken.getTokenUrl);
+  }
+
+  private handleError(error: Error): void {
+    if (
+      error.message.includes('AADB2C90273') &&
+      error.message.includes('mitid_erhverv.no_identities')
+    ) {
+      this.appInsights.trackEvent('A non-DataHub user tries to login with MitID Private');
+    } else {
+      this.appInsights.trackException(error, 3);
+    }
   }
 }
