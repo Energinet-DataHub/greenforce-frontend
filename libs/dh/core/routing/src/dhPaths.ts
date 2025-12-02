@@ -67,6 +67,7 @@ const meteringPointDebugSubPaths = {
   meteringPoint: 'metering-point',
   meteringPoints: 'metering-points',
   failedMeasurements: 'failed-measurements',
+  meteringPointEvents: 'metering-point-events',
 } as const;
 
 const devExamplesSubPaths = {

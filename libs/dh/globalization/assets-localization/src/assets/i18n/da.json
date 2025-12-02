@@ -2898,6 +2898,9 @@
     "meteringPoint": {
       "tabLabel": "Målepunkt"
     },
+    "meteringPointEvents": {
+      "tabLabel": "Målepunkt events"
+    },
     "meteringPoints": {
       "tabLabel": "Målepunkter",
       "gridArea": "Netområde",

@@ -376,6 +376,15 @@ type CommercialRelationDto {
   electricalHeatingPeriods: [ElectricalHeatingDto!]!
 }
 
+type ContactAddressDto {
+  streetName: String!
+}
+
+type ContactDto {
+  name: String!
+  address: ContactAddressDto
+}
+
 type CreateCalculationPayload {
   uuid: UUID
 }
@@ -461,6 +470,27 @@ type ElectricalHeatingDto {
   validTo: DateTime!
   isActive: Boolean!
   transactionType: TransactionType
+}
+
+type ElectricityMarketV2CommercialRelationDto {
+  startDate: DateTime!
+  endDate: DateTime!
+  energySupplierId: String!
+  customerId: UUID!
+  energySupplierPeriods: [EnergySupplierPeriodDto!]!
+}
+
+type ElectricityMarketV2EventDto {
+  jsonData: String!
+  id: UUID!
+  timestamp: DateTime!
+  type: String!
+}
+
+type EnergySupplierPeriodDto {
+  validFrom: DateTime!
+  validTo: DateTime!
+  contacts: [ContactDto!]!
 }
 
 type EnergySupplyPeriodDto {
@@ -575,6 +605,11 @@ type FilteredUserRolesEdge {
   cursor: String!
   "The item at the end of the edge."
   node: UserRoleDto!
+}
+
+type GetMeteringPointResultDtoV1 {
+  meteringPoint: MeteringPointDtoV1!
+  events: [ElectricityMarketV2EventDto!]!
 }
 
 type GridAreaAuditedChangeAuditLogDto {
@@ -895,6 +930,12 @@ type MeteringPointDto {
   commercialRelationTimeline: [CommercialRelationDto!]!
 }
 
+type MeteringPointDtoV1 {
+  meteringPointId: String!
+  meteringPointPeriods: [MeteringPointPeriodDto!]!
+  commercialRelations: [ElectricityMarketV2CommercialRelationDto!]!
+}
+
 type MeteringPointIdentificationDto {
   identification: String!
 }
@@ -930,6 +971,13 @@ type MeteringPointMetadataDto {
   settlementMethod: SettlementMethod
   installationAddress: InstallationAddressDto
   manuallyHandled: Boolean!
+}
+
+type MeteringPointPeriodDto {
+  validFrom: DateTime!
+  validTo: DateTime!
+  type: ElectricityMarketV2MeteringPointType!
+  connectionState: ElectricityMarketV2ConnectionState!
 }
 
 type MeteringPointProcess {
@@ -1202,6 +1250,7 @@ type Query {
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  eventsDebugView(meteringPointId: String!): GetMeteringPointResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
   meteringPointExists(internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
@@ -2508,6 +2557,47 @@ enum ElectricityEicFunctionType {
 }
 
 enum ElectricityMarketMeteringPointType {
+  Consumption
+  Production
+  Exchange
+  VEProduction
+  Analysis
+  NotUsed
+  SurplusProductionGroup6
+  NetProduction
+  SupplyToGrid
+  ConsumptionFromGrid
+  WholesaleServicesOrInformation
+  OwnProduction
+  NetFromGrid
+  NetToGrid
+  TotalConsumption
+  NetLossCorrection
+  ElectricalHeating
+  NetConsumption
+  OtherConsumption
+  OtherProduction
+  CapacitySettlement
+  ExchangeReactiveEnergy
+  CollectiveNetProduction
+  CollectiveNetConsumption
+  ActivatedDownregulation
+  ActivatedUpregulation
+  ActualConsumption
+  ActualProduction
+  InternalUse
+}
+
+enum ElectricityMarketV2ConnectionState {
+  Unknown
+  New
+  Connected
+  Disconnected
+  ClosedDown
+}
+
+enum ElectricityMarketV2MeteringPointType {
+  Unknown
   Consumption
   Production
   Exchange

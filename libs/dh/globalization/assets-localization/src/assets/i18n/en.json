@@ -2897,6 +2897,9 @@
     "meteringPoint": {
       "tabLabel": "Metering point"
     },
+    "meteringPointEvents": {
+      "tabLabel": "Metering point events"
+    },
     "meteringPoints": {
       "tabLabel": "Metering points",
       "gridArea": "Grid area",
