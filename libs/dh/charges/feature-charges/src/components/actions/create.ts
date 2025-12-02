@@ -24,7 +24,6 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattFieldComponent } from '@energinet/watt/field';
-import { WATT_MENU } from '@energinet/watt/menu';
 import { WATT_MODAL } from '@energinet/watt/modal';
 import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
@@ -47,7 +46,6 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
     WattRadioComponent,
     WattTextAreaFieldComponent,
     WattTextFieldComponent,
-    WATT_MENU,
     WATT_MODAL,
     DhChargesTypeSelection,
   ],
