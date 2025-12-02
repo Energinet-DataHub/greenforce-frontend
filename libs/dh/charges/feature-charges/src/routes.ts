@@ -33,7 +33,7 @@ export const chargeRoutes: Routes = [
     children: [
       {
         path: 'create',
-        loadComponent: () => import('./components/actions/create-modal'),
+        loadComponent: () => import('./components/actions/create'),
       },
     ],
   },

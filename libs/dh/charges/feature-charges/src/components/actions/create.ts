@@ -35,7 +35,7 @@ import { ChargeResolution, ChargeType } from '@energinet-datahub/dh/shared/domai
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
 
 @Component({
-  selector: 'dh-charges-create-modal',
+  selector: 'dh-charges-create',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -180,7 +180,7 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
     </watt-modal>
   `,
 })
-export default class DhChargesCreateModal {
+export default class DhChargesCreate {
   navigate = injectRelativeNavigate();
   dailyResolution: ChargeResolution = 'daily';
   hourlyResolution: ChargeResolution = 'hourly';
