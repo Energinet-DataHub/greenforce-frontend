@@ -25,13 +25,13 @@ import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  GetMeteringPointDebugV2ViewDocument,
+  GetMeteringPointEventsDebugViewDocument,
   GetMeteringPointResultDtoV1,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  selector: 'dh-metering-point-v2',
+  selector: 'dh-metering-point-events',
   imports: [
     ReactiveFormsModule,
     VaterFlexComponent,
@@ -69,13 +69,11 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
     </vater-flex>
   `,
 })
-export class DhMeteringPointV2Component {
-  query = lazyQuery(GetMeteringPointDebugV2ViewDocument);
+export class DhMeteringPointEventsComponent {
+  query = lazyQuery(GetMeteringPointEventsDebugViewDocument);
 
   debugViewV2 = computed(() => {
     let debugView = this.query.data()?.debugViewV2;
-
-    console.log('Debug View V2 data', debugView);
 
     if (!debugView) return undefined;
 
@@ -114,13 +112,11 @@ export class DhMeteringPointV2Component {
   }
 }
 
-// Helper function (add outside the class)
 function safeJsonParse(str: string): unknown {
   try {
     return JSON.parse(str);
   } catch (error) {
-    console.error('Failed to parse JSON:', str);
-    console.error(error);
+    console.error('Failed to parse JSON:', str, error);
     return str;
   }
 }

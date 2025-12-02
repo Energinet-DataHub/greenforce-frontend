@@ -47,12 +47,11 @@ public static class ElectricityMarketDebug
 
     [Query]
     [Authorize(Roles = ["metering-point:search"])]
-    public static async Task<GetMeteringPointResultDtoV1?> GetDebugViewV2Async(
+    public static async Task<GetMeteringPointResultDtoV1?> GetEventsDebugViewAsync(
         string meteringPointId,
         CancellationToken ct,
         [Service] IElectricityMarketClient electricityMarketClient)
     {
-
         var meteringPointResult = await electricityMarketClient
             .SendAsync(new GetMeteringPointQueryV1(meteringPointId), ct)
             .ConfigureAwait(false);

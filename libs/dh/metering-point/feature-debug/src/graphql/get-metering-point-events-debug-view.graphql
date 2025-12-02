@@ -1,5 +1,5 @@
-query GetMeteringPointDebugV2View($meteringPointId: String!) {
-  debugViewV2(meteringPointId: $meteringPointId) {
+query GetMeteringPointEventsDebugView($meteringPointId: String!) {
+  eventsDebugView(meteringPointId: $meteringPointId) {
     meteringPoint {
       meteringPointId
       meteringPointPeriods {

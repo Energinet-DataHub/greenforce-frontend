@@ -36,7 +36,7 @@ import { VaterUtilityDirective } from '@energinet/watt/vater';
       />
       <watt-link-tab
         [label]="t('meteringPointEvents.tabLabel')"
-        [link]="getLink('metering-point-v2')"
+        [link]="getLink('metering-point-events')"
       />
     </watt-link-tabs>
   `,

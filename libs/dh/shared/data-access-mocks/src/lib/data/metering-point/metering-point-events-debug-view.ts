@@ -18,7 +18,7 @@
 //#endregion
 import { GetMeteringPointResultDtoV1 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const debugViewV2: GetMeteringPointResultDtoV1 = {
+export const eventsDebugView: GetMeteringPointResultDtoV1 = {
   __typename: 'GetMeteringPointResultDtoV1',
   meteringPoint: {
     __typename: 'MeteringPointDtoV1',
