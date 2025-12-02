@@ -142,26 +142,28 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
               </watt-radio>
             </watt-field>
           }
-          <watt-field
-            [label]="t('predictablePrice')"
-            [control]="form().controls.predictablePrice"
-            displayMode="content"
-          >
-            <watt-radio
-              group="predictablePrice"
-              [formControl]="form().controls.predictablePrice"
-              [value]="true"
+          @if (!form().controls.predictablePrice.disabled) {
+            <watt-field
+              [label]="t('predictablePrice')"
+              [control]="form().controls.predictablePrice"
+              displayMode="content"
             >
-              {{ t('withPredictablePrice') }}
-            </watt-radio>
-            <watt-radio
-              group="predictablePrice"
-              [formControl]="form().controls.predictablePrice"
-              [value]="false"
-            >
-              {{ t('withoutPredictablePrice') }}
-            </watt-radio>
-          </watt-field>
+              <watt-radio
+                group="predictablePrice"
+                [formControl]="form().controls.predictablePrice"
+                [value]="true"
+              >
+                {{ t('withPredictablePrice') }}
+              </watt-radio>
+              <watt-radio
+                group="predictablePrice"
+                [formControl]="form().controls.predictablePrice"
+                [value]="false"
+              >
+                {{ t('withoutPredictablePrice') }}
+              </watt-radio>
+            </watt-field>
+          }
           <watt-datepicker [label]="t('validFrom')" [formControl]="form().controls.validFrom" />
         </form>
       </dh-charges-type-selection>
@@ -194,7 +196,7 @@ export default class DhChargesCreate {
         description: dhMakeFormControl('', Validators.required),
         validFrom: this.validFrom,
         resolution: dhMakeFormControl<ChargeResolution>(
-          { value: null, disabled: this.type() !== 'TARIFF' },
+          { value: null, disabled: this.type() !== 'TARIFF' && this.type() !== 'TARIFF_TAX' },
           Validators.required
         ),
         vat: dhMakeFormControl<boolean>(null, Validators.required),
@@ -203,7 +205,7 @@ export default class DhChargesCreate {
           Validators.required
         ),
         predictablePrice: dhMakeFormControl<boolean>(
-          { value: null, disabled: false /* disabled if "afgift" */ },
+          { value: null, disabled: this.type() == 'TARIFF_TAX' },
           Validators.required
         ),
       })
