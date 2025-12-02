@@ -105,22 +105,22 @@ export class DhActorTokenService {
                   }
                 },
                 // Error callback called for every failed request to the token endpoint
-                // Happens when:
-                // 1. a non-DataHub user tries to login with MitID
                 (error) => {
                   // Prevent multiple logs of the same event in AppInsights
                   if (this.logoutInProgress === false) {
-                    this.appInsights.trackEvent('Failed login by non-DataHub user');
-
                     if (error instanceof Error) {
-                      this.appInsights.trackException(error, 3);
+                      this.handleError(error);
                     } else {
                       try {
                         const errorString = JSON.stringify(error);
-                        this.appInsights.trackTrace(`Unknown error: ${errorString}`);
+                        this.appInsights.trackException(
+                          new Error(`Unknown error: ${errorString}`),
+                          3
+                        );
                       } catch {
-                        this.appInsights.trackTrace(
-                          'Unknown error: Could not stringify error object'
+                        this.appInsights.trackException(
+                          new Error('Unknown error: Could not stringify error object'),
+                          3
                         );
                       }
                     }
@@ -184,5 +184,16 @@ export class DhActorTokenService {
 
   private isTokenRequest(request: HttpRequest<unknown>): boolean {
     return request.url.includes(this.apiToken.getTokenUrl);
+  }
+
+  private handleError(error: Error): void {
+    if (
+      error.message.includes('AADB2C90273') &&
+      error.message.includes('mitid_erhverv.no_identities')
+    ) {
+      this.appInsights.trackEvent('A non-DataHub user tries to login with MitID Private');
+    } else {
+      this.appInsights.trackException(error, 3);
+    }
   }
 }
