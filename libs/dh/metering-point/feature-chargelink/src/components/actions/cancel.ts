@@ -22,8 +22,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { WATT_MODAL } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
+
+import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-metering-point-cancel-charge-link',
@@ -39,8 +41,10 @@ import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
     <watt-modal
       size="small"
       #cancel
+      autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.cancel'"
       [title]="t('title')"
+      (closed)="navigate('..')"
     >
       {{ t('cancelWarning') }}
       <watt-modal-actions>
@@ -54,7 +58,8 @@ import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
     </watt-modal>
   `,
 })
-export class DhMeteringPointCancelChargeLink extends WattTypedModal {
+export default class DhMeteringPointCancelChargeLink {
+  navigate = injectRelativeNavigate();
   cancelLink() {
     console.log('Cancelling link with values:');
   }

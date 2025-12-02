@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { Component, computed, inject, input } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -35,13 +36,11 @@ import { GetChargeLinkHistoryDocument } from '@energinet-datahub/dh/shared/domai
 
 import { History } from '../types';
 
-import { DhMeteringPointStopChargeLink } from './stop';
-import { DhMeteringPointEditChargeLink } from './edit';
-import { DhMeteringPointCancelChargeLink } from './cancel';
-
 @Component({
   selector: 'dh-charge-link-details',
   imports: [
+    RouterLink,
+    RouterOutlet,
     TranslocoDirective,
 
     WATT_MENU,
@@ -69,9 +68,15 @@ import { DhMeteringPointCancelChargeLink } from './cancel';
           <vater-spacer />
           <watt-button variant="icon" [wattMenuTriggerFor]="actions" icon="moreVertical" />
           <watt-menu #actions>
-            <watt-menu-item (click)="edit()">{{ t('edit') }}</watt-menu-item>
-            <watt-menu-item (click)="stop()">{{ t('stop') }}</watt-menu-item>
-            <watt-menu-item (click)="cancel()">{{ t('cancel') }}</watt-menu-item>
+            <watt-menu-item [routerLink]="[{ outlets: { actions: ['edit'] } }]">{{
+              t('edit')
+            }}</watt-menu-item>
+            <watt-menu-item [routerLink]="[{ outlets: { actions: ['stop'] } }]">{{
+              t('stop')
+            }}</watt-menu-item>
+            <watt-menu-item [routerLink]="[{ outlets: { actions: ['cancel'] } }]">{{
+              t('cancel')
+            }}</watt-menu-item>
           </watt-menu>
         </vater-stack>
       </watt-drawer-heading>
@@ -98,10 +103,10 @@ import { DhMeteringPointCancelChargeLink } from './cancel';
         </watt-data-table>
       </watt-drawer-content>
     </watt-drawer>
+    <router-outlet name="actions" />
   `,
 })
 export default class DhChargeLinkDetails {
-  private readonly modalService = inject(WattModalService);
   query = query(GetChargeLinkHistoryDocument, () => ({
     variables: { chargeLinkId: this.id(), meteringPointId: this.meteringPointId() },
   }));
@@ -116,22 +121,4 @@ export default class DhChargeLinkDetails {
     description: { accessor: (row) => row.description },
     menu: { accessor: null, header: '' },
   } satisfies WattTableColumnDef<History>;
-
-  edit() {
-    this.modalService.open({
-      component: DhMeteringPointEditChargeLink,
-    });
-  }
-
-  cancel() {
-    this.modalService.open({
-      component: DhMeteringPointCancelChargeLink,
-    });
-  }
-
-  stop() {
-    this.modalService.open({
-      component: DhMeteringPointStopChargeLink,
-    });
-  }
 }
