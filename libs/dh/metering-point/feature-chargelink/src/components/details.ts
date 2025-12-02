@@ -24,7 +24,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WATT_MENU } from '@energinet/watt/menu';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/core/date';
-import { WattModalService } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataTableComponent } from '@energinet/watt/data';
 import { VaterStackComponent, VaterSpacerComponent } from '@energinet/watt/vater';
