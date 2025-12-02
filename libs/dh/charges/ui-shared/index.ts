@@ -16,4 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export { DhChargeTypeSelection } from './src/charge-type-selection';
+export { DhChargesIntervalField } from './src/interval-field';
+export { DhChargesPeriodPipe } from './src/period-pipe';
+export { DhChargesStatus } from './src/status';
+export { DhChargesTypeSelection } from './src/type-selection';

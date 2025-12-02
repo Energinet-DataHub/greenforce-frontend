@@ -29,7 +29,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
-  selector: 'dh-price-information',
+  selector: 'dh-charges-information-periods',
   imports: [
     TranslocoPipe,
     TranslocoDirective,
@@ -88,7 +88,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
     </vater-stack>
   `,
 })
-export class DhPriceInformation {
+export class DhChargesInformationPeriods {
   id = input.required<string>();
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   chargeInformationPeriods = computed(() => this.query.data()?.chargeById?.periods ?? []);

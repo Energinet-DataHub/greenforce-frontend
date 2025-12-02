@@ -42,6 +42,7 @@ import { capitalize } from '@energinet-datahub/dh/shared/util-text';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
 import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/dropdown';
+
 @Component({
   selector: 'dh-charges-filters',
   imports: [

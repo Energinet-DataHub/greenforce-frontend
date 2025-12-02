@@ -34,23 +34,22 @@ import {
   ChargeResolution,
   ChargeSeriesPoint,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { DhChargesPeriodPipe } from '../../period-pipe';
+import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/ui-shared';
 
 @Component({
-  selector: 'dh-charge-series-details',
+  selector: 'dh-charges-series-details',
   imports: [
     DecimalPipe,
     TitleCasePipe,
     TranslocoDirective,
+    WATT_DESCRIPTION_LIST,
+    WATT_DRAWER,
     WATT_MENU,
     WATT_TABLE,
-    WATT_DRAWER,
-    WATT_DESCRIPTION_LIST,
-    WattDatePipe,
     WattBadgeComponent,
     WattButtonComponent,
     WattDataTableComponent,
+    WattDatePipe,
     DhChargesPeriodPipe,
   ],
   template: `
@@ -111,7 +110,7 @@ import { DhChargesPeriodPipe } from '../../period-pipe';
     </watt-drawer>
   `,
 })
-export class DhChargeSeriesDetailsComponent {
+export class DhChargesSeriesDetails {
   readonly resolution = input.required<ChargeResolution>();
   readonly series = model<ChargeSeries>();
   protected points = computed(() => this.series()?.points ?? []);
