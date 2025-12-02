@@ -52,7 +52,6 @@ public static class ElectricityMarketDebug
         CancellationToken ct,
         [Service] IElectricityMarketClient electricityMarketClient)
     {
-        await Task.CompletedTask.ConfigureAwait(false);
 
         var meteringPointResult = await electricityMarketClient
             .SendAsync(new GetMeteringPointQueryV1(meteringPointId), ct)
