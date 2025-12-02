@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregione';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
@@ -70,6 +70,7 @@ import { WATT_MENU } from '@energinet/watt/menu';
   `,
   imports: [
     RouterLink,
+    RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
     VaterStackComponent,
@@ -145,7 +146,9 @@ import { WATT_MENU } from '@energinet/watt/menu';
           </watt-button>
           <watt-menu #menu>
             <watt-menu-item>{{ t('edit') }}</watt-menu-item>
-            <watt-menu-item>{{ t('stop') }}</watt-menu-item>
+            <watt-menu-item [routerLink]="[{ outlets: { actions: ['stop'] } }]">
+              {{ t('stop') }}
+            </watt-menu-item>
           </watt-menu>
         </ng-container>
       </div>
@@ -158,6 +161,7 @@ import { WATT_MENU } from '@energinet/watt/menu';
         </watt-link-tabs>
       </div>
     </div>
+    <router-outlet name="actions" />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

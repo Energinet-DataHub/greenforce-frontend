@@ -64,6 +64,11 @@ export const chargeRoutes: Routes = [
             (m) => m.DhChargesInformationHistory
           ),
       },
+      {
+        path: 'stop',
+        loadComponent: () => import('./components/actions/stop'),
+        outlet: 'actions',
+      },
     ],
   },
 ];
