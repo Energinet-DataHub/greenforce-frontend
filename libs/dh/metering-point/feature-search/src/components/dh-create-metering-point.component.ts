@@ -39,6 +39,7 @@ import { WattFieldErrorComponent, WattFieldComponent } from '@energinet/watt/fie
 import { dayjs } from '@energinet/watt/date';
 
 import {
+  AssetType,
   ConnectionType,
   DisconnectionType,
   MeteringPointSubType,
@@ -130,8 +131,11 @@ export class DhCreateMeteringPoint {
       gridArea: dhMakeFormControl('', Validators.required),
     }),
     address: new FormGroup({
-      countryCode: dhMakeFormControl('DK', Validators.required),
-      washInstructions: dhMakeFormControl('WASHABLE', Validators.required),
+      countryCode: dhMakeFormControl<CountryCode>(CountryCode.DK, Validators.required),
+      washInstructions: dhMakeFormControl<'WASHABLE' | 'NOT_WASHABLE'>(
+        'WASHABLE',
+        Validators.required
+      ),
       streetName: dhMakeFormControl('', Validators.required),
       buildingNumber: dhMakeFormControl('', Validators.required),
       floor: dhMakeFormControl(''),
@@ -145,11 +149,11 @@ export class DhCreateMeteringPoint {
       comment: dhMakeFormControl(''),
     }),
     powerPlant: new FormGroup({
-      netSettlementGroup: dhMakeFormControl('0', Validators.required),
-      capacity: dhMakeFormControl('', Validators.required),
-      gsrnNumber: dhMakeFormControl('', Validators.required),
-      connectionType: dhMakeFormControl<ConnectionType>(ConnectionType.Direct, Validators.required),
-      assetType: dhMakeFormControl('', Validators.required),
+      netSettlementGroup: dhMakeFormControl<'0' | '3'>('0', Validators.required),
+      capacity: dhMakeFormControl(''),
+      gsrnNumber: dhMakeFormControl(''),
+      connectionType: dhMakeFormControl<ConnectionType>(ConnectionType.Direct),
+      assetType: dhMakeFormControl<AssetType>(),
     }),
     other: new FormGroup({
       resolution: dhMakeFormControl<'quarterHourly' | 'hourly'>(
@@ -170,6 +174,7 @@ export class DhCreateMeteringPoint {
   Product = Product;
 
   countryOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(CountryCode);
+  assetTypeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(AssetType);
 
   subTypeChanged = toSignal(this.form.controls.details.controls.subType.valueChanges);
   netSettlementGroupChanged = toSignal(
@@ -199,8 +204,18 @@ export class DhCreateMeteringPoint {
 
     if (netSettlementGroup === undefined) return;
 
-    if (netSettlementGroup === '0') {
-      const powerPlantControls = this.form.controls.powerPlant.controls;
+    const powerPlantControls = this.form.controls.powerPlant.controls;
+
+    if (netSettlementGroup === '3') {
+      powerPlantControls.capacity.addValidators(Validators.required);
+      powerPlantControls.gsrnNumber.addValidators(Validators.required);
+      powerPlantControls.connectionType.addValidators(Validators.required);
+      powerPlantControls.assetType.addValidators(Validators.required);
+    } else if (netSettlementGroup === '0') {
+      powerPlantControls.capacity.removeValidators(Validators.required);
+      powerPlantControls.gsrnNumber.removeValidators(Validators.required);
+      powerPlantControls.connectionType.removeValidators(Validators.required);
+      powerPlantControls.assetType.removeValidators(Validators.required);
 
       powerPlantControls.capacity.reset();
       powerPlantControls.gsrnNumber.reset();
@@ -210,6 +225,11 @@ export class DhCreateMeteringPoint {
       powerPlantControls.assetType.markAsPristine();
       powerPlantControls.assetType.markAsUntouched();
     }
+
+    powerPlantControls.capacity.updateValueAndValidity();
+    powerPlantControls.gsrnNumber.updateValueAndValidity();
+    powerPlantControls.connectionType.updateValueAndValidity();
+    powerPlantControls.assetType.updateValueAndValidity();
   });
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
