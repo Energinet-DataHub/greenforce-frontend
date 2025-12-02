@@ -107,10 +107,24 @@ export class DhActorTokenService {
                 // Error callback called for every failed request to the token endpoint
                 // Happens when:
                 // 1. a non-DataHub user tries to login with MitID
-                () => {
+                (error) => {
                   // Prevent multiple logs of the same event in AppInsights
                   if (this.logoutInProgress === false) {
                     this.appInsights.trackEvent('Failed login by non-DataHub user');
+
+                    if (error instanceof Error) {
+                      this.appInsights.trackException(error, 3);
+                    } else {
+                      try {
+                        const errorString = JSON.stringify(error);
+                        this.appInsights.trackTrace(`Unknown error: ${errorString}`);
+                      } catch {
+                        this.appInsights.trackTrace(
+                          'Unknown error: Could not stringify error object'
+                        );
+                      }
+                    }
+
                     this.appInsights.flush();
 
                     // Delay redirect to logout so AppInsights has a chance to flush
