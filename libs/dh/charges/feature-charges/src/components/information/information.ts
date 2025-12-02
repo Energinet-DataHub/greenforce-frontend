@@ -21,25 +21,26 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
+import { WATT_MENU } from '@energinet/watt/menu';
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import {
-  VaterSpacerComponent,
   VaterStackComponent,
+  VaterSpacerComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 
-import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattIconComponent } from '@energinet/watt/icon';
-import { WATT_MENU } from '@energinet/watt/menu';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 
 @Component({
   selector: 'dh-charges-information',
@@ -85,6 +86,7 @@ import { WATT_MENU } from '@energinet/watt/menu';
     DhEmDashFallbackPipe,
     DhChargesStatus,
     DhToolbarPortalComponent,
+    DhFeatureFlagDirective,
   ],
   template: `
     <dh-toolbar-portal>
@@ -157,7 +159,11 @@ import { WATT_MENU } from '@energinet/watt/menu';
         <watt-link-tabs vater inset="0">
           <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices', resolution())" />
           <watt-link-tab [label]="t('informationLabel')" [link]="getLink('information')" />
-          <watt-link-tab [label]="t('historyLabel')" [link]="getLink('history')" />
+          <watt-link-tab
+            *dhFeatureFlag="'charges-history'"
+            [label]="t('historyLabel')"
+            [link]="getLink('history')"
+          />
         </watt-link-tabs>
       </div>
     </div>
