@@ -33,7 +33,7 @@ export const chargeRoutes: Routes = [
     children: [
       {
         path: 'create',
-        loadComponent: () => import('./components/actions/create-modal'),
+        loadComponent: () => import('./components/actions/create'),
       },
     ],
   },
@@ -63,6 +63,11 @@ export const chargeRoutes: Routes = [
           import('./components/information/information-history').then(
             (m) => m.DhChargesInformationHistory
           ),
+      },
+      {
+        path: 'stop',
+        loadComponent: () => import('./components/actions/stop'),
+        outlet: 'actions',
       },
     ],
   },

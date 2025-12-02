@@ -423,32 +423,40 @@
         }
       }
     },
-    "create": {
-      "action": {
-        "SUBSCRIPTION": "Nyt abonnement",
-        "FEE": "Nyt gebyr",
-        "TARIFF": "Ny tarif",
-        "TARIFF_TAX": "Ny tarif, afgift",
-        "SELECTION": "Ny pris"
+    "actions": {
+      "create": {
+        "action": {
+          "SUBSCRIPTION": "Nyt abonnement",
+          "FEE": "Nyt gebyr",
+          "TARIFF": "Ny tarif",
+          "TARIFF_TAX": "Ny tarif, afgift",
+          "SELECTION": "Ny pris"
+        },
+        "close": "Luk",
+        "form": {
+          "id": "ID",
+          "name": "Navn",
+          "description": "Beskrivelse",
+          "resolution": "Opløsning",
+          "hourly": "Time",
+          "daily": "Dag",
+          "vat": "Moms",
+          "withVat": "Med moms",
+          "withoutVat": "Uden moms",
+          "transparentInvoicing": "Viderefakturering",
+          "withTransparentInvoicing": "Ja",
+          "withoutTransparentInvoicing": "Nej",
+          "predictablePrice": "Forudsigelig pris",
+          "withPredictablePrice": "Ja",
+          "withoutPredictablePrice": "Nej",
+          "validFrom": "Gyldig fra"
+        }
       },
-      "close": "Luk",
-      "form": {
-        "id": "ID",
-        "name": "Navn",
-        "description": "Beskrivelse",
-        "resolution": "Opløsning",
-        "hourly": "Time",
-        "daily": "Dag",
-        "vat": "Moms",
-        "withVat": "Med moms",
-        "withoutVat": "Uden moms",
-        "transparentInvoicing": "Viderefakturering",
-        "withTransparentInvoicing": "Ja",
-        "withoutTransparentInvoicing": "Nej",
-        "predictablePrice": "Forudsigelig pris",
-        "withPredictablePrice": "Ja",
-        "withoutPredictablePrice": "Nej",
-        "validFrom": "Gyldig fra"
+      "stop": {
+        "title": "Stop prisinformation",
+        "date": "Stopdato",
+        "submit": "Gem ændringer",
+        "close": "Luk"
       }
     },
     "charge": {

@@ -24,7 +24,6 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattFieldComponent } from '@energinet/watt/field';
-import { WATT_MENU } from '@energinet/watt/menu';
 import { WATT_MODAL } from '@energinet/watt/modal';
 import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
@@ -35,7 +34,7 @@ import { ChargeResolution, ChargeType } from '@energinet-datahub/dh/shared/domai
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
 
 @Component({
-  selector: 'dh-charges-create-modal',
+  selector: 'dh-charges-create',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -47,14 +46,13 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
     WattRadioComponent,
     WattTextAreaFieldComponent,
     WattTextFieldComponent,
-    WATT_MENU,
     WATT_MODAL,
     DhChargesTypeSelection,
   ],
   template: `
     <watt-modal
       #modal
-      *transloco="let t; prefix: 'charges.create'"
+      *transloco="let t; prefix: 'charges.actions.create'"
       autoOpen
       size="small"
       [title]="t('action.' + (type() ?? 'SELECTION'))"
@@ -62,7 +60,7 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
     >
       <dh-charges-type-selection [(value)]="type">
         <form
-          *transloco="let t; prefix: 'charges.create.form'"
+          *transloco="let t; prefix: 'charges.actions.create.form'"
           id="create-charge"
           vater-stack
           direction="column"
@@ -144,26 +142,28 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
               </watt-radio>
             </watt-field>
           }
-          <watt-field
-            [label]="t('predictablePrice')"
-            [control]="form().controls.predictablePrice"
-            displayMode="content"
-          >
-            <watt-radio
-              group="predictablePrice"
-              [formControl]="form().controls.predictablePrice"
-              [value]="true"
+          @if (!form().controls.predictablePrice.disabled) {
+            <watt-field
+              [label]="t('predictablePrice')"
+              [control]="form().controls.predictablePrice"
+              displayMode="content"
             >
-              {{ t('withPredictablePrice') }}
-            </watt-radio>
-            <watt-radio
-              group="predictablePrice"
-              [formControl]="form().controls.predictablePrice"
-              [value]="false"
-            >
-              {{ t('withoutPredictablePrice') }}
-            </watt-radio>
-          </watt-field>
+              <watt-radio
+                group="predictablePrice"
+                [formControl]="form().controls.predictablePrice"
+                [value]="true"
+              >
+                {{ t('withPredictablePrice') }}
+              </watt-radio>
+              <watt-radio
+                group="predictablePrice"
+                [formControl]="form().controls.predictablePrice"
+                [value]="false"
+              >
+                {{ t('withoutPredictablePrice') }}
+              </watt-radio>
+            </watt-field>
+          }
           <watt-datepicker [label]="t('validFrom')" [formControl]="form().controls.validFrom" />
         </form>
       </dh-charges-type-selection>
@@ -180,7 +180,7 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
     </watt-modal>
   `,
 })
-export default class DhChargesCreateModal {
+export default class DhChargesCreate {
   navigate = injectRelativeNavigate();
   dailyResolution: ChargeResolution = 'daily';
   hourlyResolution: ChargeResolution = 'hourly';
@@ -196,7 +196,7 @@ export default class DhChargesCreateModal {
         description: dhMakeFormControl('', Validators.required),
         validFrom: this.validFrom,
         resolution: dhMakeFormControl<ChargeResolution>(
-          { value: null, disabled: this.type() !== 'TARIFF' },
+          { value: null, disabled: this.type() !== 'TARIFF' && this.type() !== 'TARIFF_TAX' },
           Validators.required
         ),
         vat: dhMakeFormControl<boolean>(null, Validators.required),
@@ -205,7 +205,7 @@ export default class DhChargesCreateModal {
           Validators.required
         ),
         predictablePrice: dhMakeFormControl<boolean>(
-          { value: null, disabled: false /* disabled if "afgift" */ },
+          { value: null, disabled: this.type() == 'TARIFF_TAX' },
           Validators.required
         ),
       })
