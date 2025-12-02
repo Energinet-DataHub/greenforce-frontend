@@ -73,7 +73,7 @@ export class DhMeteringPointEventsComponent {
   query = lazyQuery(GetMeteringPointEventsDebugViewDocument);
 
   debugViewV2 = computed(() => {
-    let debugView = this.query.data()?.debugViewV2;
+    let debugView = this.query.data()?.eventsDebugView;
 
     if (!debugView) return undefined;
 
