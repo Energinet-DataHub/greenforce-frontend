@@ -37,11 +37,13 @@ public class ChargeStatusTests
     {
         charges(
             query: { chargeTypes: [FEE] }
-            skip: 0
-            take: 10
+            after: null
+            before: null
+            first: 50
+            last: null
         ) {
             totalCount
-            items {
+            nodes {
               status
             }
         }
@@ -75,7 +77,7 @@ public class ChargeStatusTests
 
 #pragma warning disable SA1118 // Parameter should not span multiple lines
         server.ChargesClientMock
-            .Setup(x => x.GetChargesAsync(It.IsAny<int>(), It.IsAny<int>(), null, null, It.IsAny<GetChargesQuery>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetChargesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<ChargeSortInput>(), It.IsAny<GetChargesQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<(IEnumerable<ChargeInformationDto> Charges, int TotalCount)>.Success(
                 (
                     new List<ChargeInformationDto>
