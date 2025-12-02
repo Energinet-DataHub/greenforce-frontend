@@ -286,12 +286,13 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 type Charge {
   series(interval: DateRange!): [ChargeSeries!]!
   owner: MarketParticipant
-  displayName: String!
   currentPeriod: ChargePeriod
   status: ChargeStatus!
   id: String!
   type: ChargeType!
   code: String!
+  name: String
+  displayName: String!
   resolution: ChargeResolution!
   periods: [ChargePeriod!]!
 }
@@ -335,13 +336,24 @@ type ChargeSeriesPoint {
   price: Decimal!
 }
 
-"A segment of a collection."
-type ChargesCollectionSegment {
+"A connection to a list of items."
+type ChargesConnection {
   "Information to aid in pagination."
-  pageInfo: CollectionSegmentInfo!
-  "A flattened list of the items."
-  items: [Charge!]
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [ChargesEdge!]
+  "A flattened list of the nodes."
+  nodes: [Charge!]
+  "Identifies the total count of items in the connection."
   totalCount: Int!
+}
+
+"An edge in a connection."
+type ChargesEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Charge!
 }
 
 "Information about the offset pagination."
@@ -1177,7 +1189,7 @@ type ProcessesEdge {
 }
 
 type Query {
-  charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
+  charges(filter: String query: GetChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
@@ -1724,8 +1736,9 @@ input ChargeLinkSortInput {
 }
 
 input ChargeSortInput {
-  type: SortDirection
-  code: SortDirection
+  type: SortEnumType
+  code: SortEnumType
+  name: SortEnumType
 }
 
 input ChargeTypeSortInput {

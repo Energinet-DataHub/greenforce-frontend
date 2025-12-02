@@ -1,11 +1,8 @@
 ﻿{
   "data": {
     "charges": {
-      "totalCount": 2,
-      "items": [
-        {
-          "status": "MISSING_PRICE_SERIES"
-        },
+      "totalCount": 1,
+      "nodes": [
         {
           "status": "MISSING_PRICE_SERIES"
         }

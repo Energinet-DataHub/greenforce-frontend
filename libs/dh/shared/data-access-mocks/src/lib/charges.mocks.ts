@@ -405,14 +405,14 @@ function getCharges() {
       data: {
         __typename: 'Query',
         charges: {
-          __typename: 'ChargesCollectionSegment',
+          __typename: 'ChargesConnection',
           pageInfo: {
-            __typename: 'CollectionSegmentInfo',
-            hasNextPage: false,
-            hasPreviousPage: false,
+            __typename: 'PageInfo',
+            startCursor: null,
+            endCursor: null,
           },
           totalCount: charges.length,
-          items: charges,
+          nodes: charges,
         },
       },
     });

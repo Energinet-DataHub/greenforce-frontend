@@ -111,9 +111,9 @@ export class DhCharges {
   dataSource = new GetChargesDataSource();
 
   columns: WattTableColumnDef<Charge> = {
-    type: { accessor: 'type', sort: false },
-    code: { accessor: 'code', sort: false },
-    name: { accessor: (charge) => charge.currentPeriod?.name, sort: false },
+    type: { accessor: 'type' },
+    code: { accessor: 'code' },
+    name: { accessor: 'name' },
     owner: { accessor: (charge) => charge.owner?.displayName, sort: false },
     status: { accessor: 'status', sort: false },
   };

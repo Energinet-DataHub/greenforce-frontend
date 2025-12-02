@@ -18,11 +18,11 @@ using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
-using HotChocolate.Types.Pagination;
 using NodaTime;
 using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeIdentifierDto;
 using ChargeInformationDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationDto;
 using ChargeInformationPeriodDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationPeriodDto;
+using VatClassification = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.VatClassification;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -30,31 +30,55 @@ namespace Energinet.DataHub.WebApi.Modules.Charges;
 public static partial class ChargeNode
 {
     [Query]
-    [UseOffsetPaging]
+    [UsePaging]
+    [UseSorting]
     [Authorize(Roles = new[] { "charges:view" })]
-    public static async Task<CollectionSegment<ChargeInformationDto>> GetChargesAsync(
-        int skip,
-        int? take,
+    public static async Task<IEnumerable<ChargeInformationDto>> GetChargesAsync(
         string? filter,
-        ChargeSortInput? order,
         GetChargesQuery? query,
         IChargesClient client,
         CancellationToken ct)
     {
-        var pageSize = take ?? 50;
-        var pageNumber = (skip / pageSize) + 1;
+        var result = (await client.GetChargesAsync(0, 1000, filter, new ChargeSortInput(Common.Enums.SortDirection.Desc, null), query, ct)).Value.Charges ?? Enumerable.Empty<ChargeInformationDto>();
 
-        var result = await client.GetChargesAsync(pageNumber, pageSize, filter, order, query, ct);
+        if (query?.ActorNumbers?.Any() == true)
+        {
+            result = result.Where(charge =>
+                query.ActorNumbers.Contains(charge.ChargeIdentifierDto.Owner));
+        }
 
-        var totalCount = result.Value.TotalCount;
-        var hasPreviousPage = pageNumber > 1;
-        var hasNextPage = totalCount > pageNumber * pageSize;
-        var pageInfo = new CollectionSegmentInfo(hasPreviousPage, hasNextPage);
+        if (query?.ChargeTypes?.Any() == true)
+        {
+            result = result.Where(charge =>
+                query.ChargeTypes.Any(type => type == ChargeType.Make(charge.ChargeIdentifierDto.ChargeType, charge.TaxIndicator)));
+        }
 
-        return new CollectionSegment<ChargeInformationDto>(
-            result.Value.Charges.ToList(),
-            pageInfo,
-            totalCount);
+        if (query?.MoreOptions?.Any(x => x == "vat-true") == true)
+        {
+            result = result.Where(charge => charge.GetCurrentPeriod()?.VatClassification == VatClassification.Vat25);
+        }
+
+        if (query?.MoreOptions?.Any(x => x == "vat-false") == true)
+        {
+            result = result.Where(charge => charge.GetCurrentPeriod()?.VatClassification == VatClassification.NoVat);
+        }
+
+        if (query?.MoreOptions?.Any(x => x == "transparentInvoicing-true") == true)
+        {
+            result = result.Where(charge => charge.GetCurrentPeriod()?.TransparentInvoicing == true);
+        }
+
+        if (query?.MoreOptions?.Any(x => x == "transparentInvoicing-false") == true)
+        {
+            result = result.Where(charge => charge.GetCurrentPeriod()?.TransparentInvoicing == false);
+        }
+
+        result = result.Where(charge =>
+            filter is null ||
+            charge.ChargeIdentifierDto.Code.Contains(filter, StringComparison.CurrentCultureIgnoreCase) ||
+            charge.Periods.Any(p => p.Name.Contains(filter, StringComparison.CurrentCultureIgnoreCase)));
+
+        return result;
     }
 
     [Query]
@@ -93,12 +117,6 @@ public static partial class ChargeNode
         return null;
     }
 
-    public static string DisplayName([Parent] ChargeInformationDto charge)
-    {
-        var current = charge.GetCurrentPeriod();
-        return $"{charge.ChargeIdentifierDto.Code} - {current?.Name}";
-    }
-
     public static ChargeInformationPeriodDto? CurrentPeriod([Parent] ChargeInformationDto charge) =>
         charge.GetCurrentPeriod();
 
@@ -108,15 +126,18 @@ public static partial class ChargeNode
         CancellationToken ct)
     {
         var hasAnyPrices = await hasAnyPricesDataLoader.LoadAsync(charge, ct);
-        var currentPeriod = charge.GetCurrentPeriod();
+        var period = charge.Periods
+            .OrderByDescending(x => x.StartDate)
+            .FirstOrDefault();
 
-        if (currentPeriod == null)
+        if (period == null)
         {
             return ChargeStatus.Invalid;
         }
 
-        var validFrom = currentPeriod.StartDate.ToDateTimeOffset();
-        var validTo = currentPeriod.EndDate?.ToDateTimeOffset();
+        var validFrom = period.StartDate.ToDateTimeOffset();
+        var validTo = period.EndDate?.ToDateTimeOffset();
+
         return hasAnyPrices switch
         {
             _ when validFrom == validTo => ChargeStatus.Cancelled,
@@ -161,6 +182,8 @@ public static partial class ChargeNode
         descriptor.Field(f => f.ChargeIdentifierDto).Name("id");
         descriptor.Field(f => ChargeType.Make(f.ChargeIdentifierDto.ChargeType, f.TaxIndicator)).Name("type");
         descriptor.Field(f => f.ChargeIdentifierDto.Code).Name("code");
+        descriptor.Field(f => f.Name()).Name("name");
+        descriptor.Field(f => f.DisplayName()).Name("displayName");
         descriptor.Field(f => f.Resolution);
         descriptor.Field(f => f.Periods);
     }
