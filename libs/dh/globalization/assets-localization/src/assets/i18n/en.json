@@ -450,6 +450,12 @@
           "withoutPredictablePrice": "No",
           "validFrom": "Valid From"
         }
+      },
+      "stop": {
+        "title": "Stop price",
+        "date": "Stop date",
+        "submit": "Save changes",
+        "close": "Close"
       }
     },
     "charge": {

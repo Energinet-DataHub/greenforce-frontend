@@ -451,6 +451,12 @@
           "withoutPredictablePrice": "Nej",
           "validFrom": "Gyldig fra"
         }
+      },
+      "stop": {
+        "title": "Stop prisinformation",
+        "date": "Stopdato",
+        "submit": "Gem ændringer",
+        "close": "Luk"
       }
     },
     "charge": {
