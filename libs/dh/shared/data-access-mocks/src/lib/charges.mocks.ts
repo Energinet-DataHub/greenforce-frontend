@@ -146,7 +146,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     type: ChargeType.Subscription,
     code: 'CHARGE003',
     displayName: 'CHARGE003 • Green Energy Plan',
-    status: ChargeStatus.Closed,
+    status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Daily,
     currentPeriod: {
       __typename: 'ChargePeriod',
