@@ -55,7 +55,6 @@ import { DhChargesSeriesDetails } from './series-details';
   imports: [
     DecimalPipe,
     TranslocoDirective,
-    TranslocoPipe,
     VaterStackComponent,
     VaterUtilityDirective,
     WATT_TABLE,
