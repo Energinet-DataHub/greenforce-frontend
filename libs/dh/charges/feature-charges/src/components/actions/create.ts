@@ -164,7 +164,10 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
               </watt-radio>
             </watt-field>
           }
-          <watt-datepicker [label]="t('validFrom')" [formControl]="form().controls.validFrom" />
+          <!-- datepicker does not support updating formControl -->
+          @if (type()) {
+            <watt-datepicker [label]="t('validFrom')" [formControl]="form().controls.validFrom" />
+          }
         </form>
       </dh-charges-type-selection>
       <watt-modal-actions>
@@ -185,8 +188,6 @@ export default class DhChargesCreate {
   dailyResolution: ChargeResolution = 'daily';
   hourlyResolution: ChargeResolution = 'hourly';
   type = signal<ChargeType | null>(null);
-  // datepicker does not work when formControl changes
-  validFrom = dhMakeFormControl<Date>(null, Validators.required);
   form = computed(
     () =>
       new FormGroup({
@@ -194,7 +195,7 @@ export default class DhChargesCreate {
         type: dhMakeFormControl<ChargeType>(this.type(), Validators.required),
         name: dhMakeFormControl('', Validators.required),
         description: dhMakeFormControl('', Validators.required),
-        validFrom: this.validFrom,
+        validFrom: dhMakeFormControl<Date>(null, Validators.required),
         resolution: dhMakeFormControl<ChargeResolution>(
           { value: null, disabled: this.type() !== 'TARIFF' && this.type() !== 'TARIFF_TAX' },
           Validators.required
