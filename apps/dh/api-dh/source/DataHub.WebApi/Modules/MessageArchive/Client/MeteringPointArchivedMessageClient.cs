@@ -114,8 +114,6 @@ public class MeteringPointArchivedMessageClient(
             SearchDocumentType.NotifyBillingMasterData => MeteringPointDocumentTypeDtoV1
                 .NotifyBillingMasterData,
             _ => throw new ArgumentOutOfRangeException(nameof(searchDocumentType), $"Unsupported document type: {searchDocumentType}"),
-
-            // TODO: SearchDocumentType.NotifyBillingMasterData has no mapping. Is this intentional?
         };
 
     private (FieldToSortByDtoV1 Field,
