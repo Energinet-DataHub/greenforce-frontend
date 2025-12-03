@@ -25,21 +25,15 @@ public class ChangeOfSupplierClient : IChangeOfSupplierClient
         _httpClient = httpClient;
     }
 
-    public async Task<bool> RequestChangeOfSupplierAsync(RequestChangeOfSupplierInput input, CancellationToken cancellationToken = default)
+    public async Task<bool> InitiateChangeOfSupplierAsync(InitiateChangeOfSupplierInput input, CancellationToken cancellationToken = default)
     {
         var response = await _httpClient.PostAsJsonAsync("/api/v1/RequestChangeOfSupplier/request", input, cancellationToken);
         return response.IsSuccessStatusCode;
     }
 
-    public async Task<bool> InitiateChangeOfSupplierAsync(InitiateChangeOfSupplierInput input, CancellationToken cancellationToken = default)
-    {
-        var response = await _httpClient.PostAsJsonAsync("/api/v1/ChangeOfSupplier/initiate", input, cancellationToken);
-        return response.IsSuccessStatusCode;
-    }
-
     public async Task<bool> UpdateCustomerMasterDataAsync(UpdateCustomerMasterDataInput input, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PostAsJsonAsync("/api/v1/ChangeOfSupplier/update-customer-master-data", input, cancellationToken);
+        var response = await _httpClient.PostAsJsonAsync("/api/v1/RequestChangeCustomerCharacteristics/request", input, cancellationToken);
         return response.IsSuccessStatusCode;
     }
 }

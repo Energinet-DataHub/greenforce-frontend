@@ -21,15 +21,6 @@ public static class ChangeOfSupplierOperations
 {
     [Mutation]
     [Authorize(Roles = new[] { "change-of-supplier:manage" })]
-    public static async Task<bool> RequestChangeOfSupplierAsync(
-        RequestChangeOfSupplierInput input,
-        IChangeOfSupplierClient client)
-    {
-        return await client.RequestChangeOfSupplierAsync(input);
-    }
-
-    [Mutation]
-    [Authorize(Roles = new[] { "change-of-supplier:manage" })]
     public static async Task<bool> InitiateChangeOfSupplierAsync(
         InitiateChangeOfSupplierInput input,
         IChangeOfSupplierClient client)

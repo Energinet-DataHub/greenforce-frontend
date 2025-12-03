@@ -24,11 +24,6 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier;
 public interface IChangeOfSupplierClient
 {
     /// <summary>
-    /// Start or schedule calculation in the Process Manager.
-    /// </summary>
-    Task<bool> RequestChangeOfSupplierAsync(RequestChangeOfSupplierInput input, CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Initiate change of supplier request.
     /// </summary>
     Task<bool> InitiateChangeOfSupplierAsync(InitiateChangeOfSupplierInput input, CancellationToken cancellationToken = default);

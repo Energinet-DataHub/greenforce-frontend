@@ -12,19 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Models;
-using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
-using HotChocolate.Authorization;
+namespace Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier.Enums;
 
-namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
-
-public static partial class MoveInOperations
+public enum MoveInType
 {
-    [Mutation]
-    [Authorize(Roles = new[] { "metering-point:move-in" })]
-    public static Task<bool> StartMoveInAsync(
-        StartMoveInInput input)
-    {
-        return Task.FromResult(true);
-    }
+    E65,
+    D29,
 }

@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier;
 using Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier.Models;
-using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Enums;
 using Moq;
 using Moq.Protected;
 using Xunit;
@@ -28,75 +28,121 @@ namespace Energinet.DataHub.WebApi.Tests.Modules.Processes;
 public class ChangeOfSupplierClientTests
 {
     [Fact]
-    public async Task RequestChangeOfSupplierAsync_ReturnsTrue_WhenSuccessStatusCode()
+    public async Task InitiateChangeOfSupplierAsync_ReturnsTrue_OnSuccessStatusCode()
     {
         // Arrange
         var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-        handlerMock
-            .Protected()
+        handlerMock.Protected()
             .Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
-                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.Is<HttpRequestMessage>(req =>
+                    req.RequestUri!.AbsolutePath == "/api/v1/RequestChangeOfSupplier/request"),
                 ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-            });
-
-        var httpClient = new HttpClient(handlerMock.Object)
-        {
-            BaseAddress = new System.Uri("http://localhost"),
-        };
+            .ReturnsAsync(new HttpResponseMessage { StatusCode = HttpStatusCode.OK });
+        var httpClient = new HttpClient(handlerMock.Object) { BaseAddress = new Uri("http://localhost") };
         var client = new ChangeOfSupplierClient(httpClient);
-        var input = new RequestChangeOfSupplierInput(
+        var input = new InitiateChangeOfSupplierInput(
+            "E65",
+            "1234567890",
             "2025-12-03",
-            MoveInType.E65,
-            "Private",
+            "SupplierId",
+            "BalanceResponsibleId",
             "John Doe",
             "123456-7890",
-            "Doe Inc.",
-            "98765432");
-
+            null);
         // Act
-        var result = await client.RequestChangeOfSupplierAsync(input);
-
+        var result = await client.InitiateChangeOfSupplierAsync(input);
         // Assert
         Assert.True(result);
     }
 
     [Fact]
-    public async Task RequestChangeOfSupplierAsync_ReturnsFalse_WhenNotSuccessStatusCode()
+    public async Task InitiateChangeOfSupplierAsync_ReturnsFalse_OnNonSuccessStatusCode()
     {
         // Arrange
         var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-        handlerMock
-            .Protected()
+        handlerMock.Protected()
             .Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
-                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.Is<HttpRequestMessage>(req =>
+                    req.RequestUri!.AbsolutePath == "/api/v1/RequestChangeOfSupplier/request"),
                 ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.BadRequest,
-            });
-
-        var httpClient = new HttpClient(handlerMock.Object)
-        {
-            BaseAddress = new System.Uri("http://localhost"),
-        };
+            .ReturnsAsync(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest });
+        var httpClient = new HttpClient(handlerMock.Object) { BaseAddress = new Uri("http://localhost") };
         var client = new ChangeOfSupplierClient(httpClient);
-        var input = new RequestChangeOfSupplierInput(
+        var input = new InitiateChangeOfSupplierInput(
+            "E65",
+            "1234567890",
             "2025-12-03",
-            MoveInType.E65,
-            "Private",
+            "SupplierId",
+            "BalanceResponsibleId",
             "John Doe",
             "123456-7890",
-            "Doe Inc.",
-            "98765432");
-
+            null);
         // Act
-        var result = await client.RequestChangeOfSupplierAsync(input);
+        var result = await client.InitiateChangeOfSupplierAsync(input);
+        // Assert
+        Assert.False(result);
+    }
 
+    [Fact]
+    public async Task UpdateCustomerMasterDataAsync_ReturnsTrue_OnSuccessStatusCode()
+    {
+        // Arrange
+        var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+        handlerMock.Protected()
+            .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.Is<HttpRequestMessage>(req =>
+                    req.RequestUri!.AbsolutePath == "/api/v1/RequestChangeCustomerCharacteristics/request"),
+                ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage { StatusCode = HttpStatusCode.OK });
+        var httpClient = new HttpClient(handlerMock.Object) { BaseAddress = new Uri("http://localhost") };
+        var client = new ChangeOfSupplierClient(httpClient);
+        var input = new UpdateCustomerMasterDataInput(
+            "E65",
+            "1234567890",
+            "2025-12-03",
+            "John Doe",
+            "Jane Doe",
+            "123456-7890",
+            "234567-8901",
+            null,
+            "Main Street 1",
+            "Second Street 2");
+        // Act
+        var result = await client.UpdateCustomerMasterDataAsync(input);
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public async Task UpdateCustomerMasterDataAsync_ReturnsFalse_OnNonSuccessStatusCode()
+    {
+        // Arrange
+        var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+        handlerMock.Protected()
+            .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.Is<HttpRequestMessage>(req =>
+                    req.RequestUri!.AbsolutePath == "/api/v1/RequestChangeCustomerCharacteristics/request"),
+                ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest });
+        var httpClient = new HttpClient(handlerMock.Object) { BaseAddress = new Uri("http://localhost") };
+        var client = new ChangeOfSupplierClient(httpClient);
+        var input = new UpdateCustomerMasterDataInput(
+            "E65",
+            "1234567890",
+            "2025-12-03",
+            "John Doe",
+            "Jane Doe",
+            "123456-7890",
+            "234567-8901",
+            null,
+            "Main Street 1",
+            "Second Street 2");
+        // Act
+        var result = await client.UpdateCustomerMasterDataAsync(input);
         // Assert
         Assert.False(result);
     }
