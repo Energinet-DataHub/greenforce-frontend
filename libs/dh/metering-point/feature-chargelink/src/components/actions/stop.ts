@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -26,6 +26,9 @@ import { WATT_MODAL } from '@energinet/watt/modal';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { StopChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
@@ -71,12 +74,17 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
   `,
 })
 export default class DhMeteringPointStopChargeLink {
+  private readonly stopChangeLink = mutation(StopChargeLinkDocument);
   navigate = injectRelativeNavigate();
   form = new FormGroup({
     stopDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
-  stopLink() {
-    console.log('Stopping link with values:', this.form.value);
+  id = input.required<string>();
+
+  async stopLink() {
+    await this.stopChangeLink.mutate({
+      variables: { chargeLinkId: this.id(), stopDate: this.form.value.stopDate! },
+    });
   }
 }

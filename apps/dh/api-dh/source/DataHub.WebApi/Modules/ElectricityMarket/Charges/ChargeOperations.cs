@@ -49,6 +49,15 @@ public static partial class ChargeOperations
         return chargeLinks.FirstOrDefault(cl => cl.Id == chargeLinkId);
     }
 
+    [Mutation]
+    [Authorize(Roles = new[] { "metering-point:prices-manage" })]
+    public static async Task<bool> StopChargeLinkAsync(
+        string chargeLinkId,
+        DateTimeOffset stopDate,
+        CancellationToken ct,
+        IChargeLinkClient client) =>
+            await client.StopChargeLinkAsync(chargeLinkId, stopDate, ct).ConfigureAwait(false);
+
     public static async Task<IEnumerable<ChargeLinkHistory>> GetHistoryAsync(
         [Parent] ChargeLink chargeLink,
         CancellationToken ct,
