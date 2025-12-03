@@ -1042,6 +1042,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
+  stopChargeLink(input: StopChargeLinkInput!): StopChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
@@ -1499,6 +1500,10 @@ type SimulateMeteringPointManualCorrectionPayload {
 }
 
 type StartMoveInPayload {
+  boolean: Boolean
+}
+
+type StopChargeLinkPayload {
   boolean: Boolean
 }
 
@@ -2175,6 +2180,11 @@ input StartMoveInInput {
   legalAddress: MoveInInstallationAddressInput!
   technicalContactDetails: MoveInContactDetailsInput!
   technicalAddress: MoveInInstallationAddressInput!
+}
+
+input StopChargeLinkInput {
+  chargeLinkId: String!
+  stopDate: DateTime!
 }
 
 input StopDelegationInput {

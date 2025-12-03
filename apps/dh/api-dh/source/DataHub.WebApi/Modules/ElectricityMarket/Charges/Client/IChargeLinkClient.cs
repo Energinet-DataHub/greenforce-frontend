@@ -34,4 +34,12 @@ public interface IChargeLinkClient
     Task<IEnumerable<ChargeLinkHistory>> GetChargeLinkHistoryAsync(
         string chargeId,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Stops a charge link by its id.
+    /// </summary>
+    Task<bool> StopChargeLinkAsync(
+        string chargeLinkId,
+        DateTimeOffset stopDate,
+        CancellationToken ct = default);
 }
