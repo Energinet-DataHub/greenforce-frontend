@@ -218,7 +218,7 @@ export class DhMeteringPointComponent {
   private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   meteringPointId = input.required<string>();
-  internalMeteringPointId = input<string>();
+  internalMeteringPointId = input.required<string>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
