@@ -27,6 +27,7 @@ import {
   mockGetChargeLinkHistoryQuery,
   mockGetChargeLinksByMeteringPointIdQuery,
   mockStopChargeLinkMutation,
+  mockCancelChargeLinkMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import {
@@ -584,12 +585,28 @@ function stopChargeLink() {
   });
 }
 
+function cancelChargeLink() {
+  return mockCancelChargeLinkMutation(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        cancelChargeLink: {
+          __typename: 'CancelChargeLinkPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
 export function chargesMocks() {
   return [
     getCharges(),
     getChargeById(),
     stopChargeLink(),
     getChargeSeries(),
+    cancelChargeLink(),
     getChargesByType(),
     getChargeLinkById(),
     getChargesByMeteringPointId(),

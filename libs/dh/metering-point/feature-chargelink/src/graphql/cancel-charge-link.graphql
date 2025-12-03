@@ -1,0 +1,5 @@
+mutation CancelChargeLink($chargeLinkId: String!) {
+  cancelChargeLink(input: { chargeLinkId: $chargeLinkId }) {
+    success: boolean
+  }
+}
