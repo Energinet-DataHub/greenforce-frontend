@@ -83,8 +83,12 @@ export default class DhMeteringPointStopChargeLink {
   id = input.required<string>();
 
   async stopLink() {
+    const stopDate = this.form.controls.stopDate.value;
+
+    if (!stopDate) return;
+
     await this.stopChangeLink.mutate({
-      variables: { chargeLinkId: this.id(), stopDate: this.form.value.stopDate! },
+      variables: { chargeLinkId: this.id(), stopDate },
     });
   }
 }
