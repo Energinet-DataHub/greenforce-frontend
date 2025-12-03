@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1;
+using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using HotChocolate.Authorization;
@@ -40,5 +42,29 @@ public static class ElectricityMarketDebug
         var grouped = response.GroupBy(x => x.Identification.Substring(10, 4));
 
         return grouped.Select(x => new MeteringPointsGroupByPackageNumber(x.Key, x)).OrderBy(x => x.PackageNumber);
+    }
+
+    [Query]
+    [Authorize(Roles = ["metering-point:search"])]
+    public static async Task<GetMeteringPointResultDtoV1?> GetEventsDebugViewAsync(
+        string meteringPointId,
+        CancellationToken ct,
+        [Service] IElectricityMarketClient electricityMarketClient)
+    {
+        var meteringPointResult = await electricityMarketClient
+            .SendAsync(new GetMeteringPointQueryV1(meteringPointId), ct)
+            .ConfigureAwait(false);
+
+        if (!meteringPointResult.IsSuccess)
+        {
+            throw new InvalidOperationException($"Failed to get metering point {meteringPointId}: {meteringPointResult.DiagnosticMessage}.");
+        }
+
+        if (!meteringPointResult.HasData)
+        {
+            return null;
+        }
+
+        return meteringPointResult.Data;
     }
 }

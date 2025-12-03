@@ -286,12 +286,13 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 type Charge {
   series(interval: DateRange!): [ChargeSeries!]!
   owner: MarketParticipant
-  displayName: String!
   currentPeriod: ChargePeriod
   status: ChargeStatus!
   id: String!
   type: ChargeType!
   code: String!
+  name: String
+  displayName: String!
   resolution: ChargeResolution!
   periods: [ChargePeriod!]!
 }
@@ -335,13 +336,24 @@ type ChargeSeriesPoint {
   price: Decimal!
 }
 
-"A segment of a collection."
-type ChargesCollectionSegment {
+"A connection to a list of items."
+type ChargesConnection {
   "Information to aid in pagination."
-  pageInfo: CollectionSegmentInfo!
-  "A flattened list of the items."
-  items: [Charge!]
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [ChargesEdge!]
+  "A flattened list of the nodes."
+  nodes: [Charge!]
+  "Identifies the total count of items in the connection."
   totalCount: Int!
+}
+
+"An edge in a connection."
+type ChargesEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Charge!
 }
 
 "Information about the offset pagination."
@@ -362,6 +374,15 @@ type CommercialRelationDto {
   energySupplyPeriodTimeline: [EnergySupplyPeriodDto!]!
   activeElectricalHeatingPeriods: ElectricalHeatingDto
   electricalHeatingPeriods: [ElectricalHeatingDto!]!
+}
+
+type ContactAddressDto {
+  streetName: String!
+}
+
+type ContactDto {
+  name: String!
+  address: ContactAddressDto
 }
 
 type CreateCalculationPayload {
@@ -451,6 +472,27 @@ type ElectricalHeatingDto {
   transactionType: TransactionType
 }
 
+type ElectricityMarketV2CommercialRelationDto {
+  startDate: DateTime!
+  endDate: DateTime!
+  energySupplierId: String!
+  customerId: UUID!
+  energySupplierPeriods: [EnergySupplierPeriodDto!]!
+}
+
+type ElectricityMarketV2EventDto {
+  jsonData: String!
+  id: UUID!
+  timestamp: DateTime!
+  type: String!
+}
+
+type EnergySupplierPeriodDto {
+  validFrom: DateTime!
+  validTo: DateTime!
+  contacts: [ContactDto!]!
+}
+
 type EnergySupplyPeriodDto {
   id: Long!
   validFrom: DateTime!
@@ -498,6 +540,10 @@ type ExchangeEventSearchResult {
 
 type ExchangeEventStatusReportResponse {
   waitingForExternalResponse: Int!
+}
+
+type ExecuteMeteringPointManualCorrectionPayload {
+  boolean: Boolean
 }
 
 "A connection to a list of items."
@@ -559,6 +605,11 @@ type FilteredUserRolesEdge {
   cursor: String!
   "The item at the end of the edge."
   node: UserRoleDto!
+}
+
+type GetMeteringPointResultDtoV1 {
+  meteringPoint: MeteringPointDtoV1!
+  events: [ElectricityMarketV2EventDto!]!
 }
 
 type GridAreaAuditedChangeAuditLogDto {
@@ -879,6 +930,12 @@ type MeteringPointDto {
   commercialRelationTimeline: [CommercialRelationDto!]!
 }
 
+type MeteringPointDtoV1 {
+  meteringPointId: String!
+  meteringPointPeriods: [MeteringPointPeriodDto!]!
+  commercialRelations: [ElectricityMarketV2CommercialRelationDto!]!
+}
+
 type MeteringPointIdentificationDto {
   identification: String!
 }
@@ -914,6 +971,13 @@ type MeteringPointMetadataDto {
   settlementMethod: SettlementMethod
   installationAddress: InstallationAddressDto
   manuallyHandled: Boolean!
+}
+
+type MeteringPointPeriodDto {
+  validFrom: DateTime!
+  validTo: DateTime!
+  type: ElectricityMarketV2MeteringPointType!
+  connectionState: ElectricityMarketV2ConnectionState!
 }
 
 type MeteringPointProcess {
@@ -979,6 +1043,8 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 
 type Mutation {
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
+  simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
+  executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1171,7 +1237,7 @@ type ProcessesEdge {
 }
 
 type Query {
-  charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
+  charges(filter: String query: GetChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
@@ -1184,6 +1250,8 @@ type Query {
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  eventsDebugView(meteringPointId: String!): GetMeteringPointResultDtoV1 @authorize(roles: [ "metering-point:search" ])
+  meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
   meteringPointExists(internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
@@ -1269,6 +1337,7 @@ type RelatedMeteringPointDto {
   identification: String!
   type: ElectricityMarketMeteringPointType!
   connectionState: ConnectionState!
+  createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
 }
@@ -1423,6 +1492,10 @@ type SettlementReport {
   includesBasisData: Boolean!
   progress: Float!
   includeMonthlyAmount: Boolean!
+}
+
+type SimulateMeteringPointManualCorrectionPayload {
+  string: String
 }
 
 type StartMoveInPayload {
@@ -1704,7 +1777,7 @@ input ChargeIdentifierDtoSortInput {
 input ChargeLinkSortInput {
   id: SortEnumType
   chargeIdentifier: ChargeIdentifierDtoSortInput
-  type: SortEnumType
+  type: ChargeTypeSortInput
   name: SortEnumType
   owner: MarketParticipantIdSortInput
   amount: SortEnumType
@@ -1712,8 +1785,15 @@ input ChargeLinkSortInput {
 }
 
 input ChargeSortInput {
-  type: SortDirection
-  code: SortDirection
+  type: SortEnumType
+  code: SortEnumType
+  name: SortEnumType
+}
+
+input ChargeTypeSortInput {
+  name: SortEnumType
+  type: SortEnumType
+  isTax: SortEnumType
 }
 
 input CreateActorContactDtoInput {
@@ -1807,6 +1887,11 @@ input EsettExchangeEventSortInput {
   gridAreaCode: SortEnumType
   latestDispatched: SortEnumType
   timeSeriesType: SortEnumType
+}
+
+input ExecuteMeteringPointManualCorrectionInput {
+  meteringPointId: String!
+  json: String!
 }
 
 input GetAggregateByYearQueryInput {
@@ -2068,6 +2153,11 @@ input SendMeasurementsRequestV2Input {
   start: DateTime!
   end: DateTime!
   measurements: [MeasurementInput!]!
+}
+
+input SimulateMeteringPointManualCorrectionInput {
+  meteringPointId: String!
+  json: String!
 }
 
 input StartMoveInInput {
@@ -2332,9 +2422,10 @@ enum ChargeStatus {
 }
 
 enum ChargeType {
+  TARIFF
+  TARIFF_TAX
   SUBSCRIPTION
   FEE
-  TARIFF
 }
 
 enum ConnectionState {
@@ -2417,6 +2508,8 @@ enum DocumentType {
   UPDATE_CHARGE_LINKS
   CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA
   REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA
+  NOTIFY_BILLING_MASTER_DATA
+  REQUEST_CHANGE_OF_PRICE_LIST
 }
 
 enum ESettStageComponent {
@@ -2464,6 +2557,47 @@ enum ElectricityEicFunctionType {
 }
 
 enum ElectricityMarketMeteringPointType {
+  Consumption
+  Production
+  Exchange
+  VEProduction
+  Analysis
+  NotUsed
+  SurplusProductionGroup6
+  NetProduction
+  SupplyToGrid
+  ConsumptionFromGrid
+  WholesaleServicesOrInformation
+  OwnProduction
+  NetFromGrid
+  NetToGrid
+  TotalConsumption
+  NetLossCorrection
+  ElectricalHeating
+  NetConsumption
+  OtherConsumption
+  OtherProduction
+  CapacitySettlement
+  ExchangeReactiveEnergy
+  CollectiveNetProduction
+  CollectiveNetConsumption
+  ActivatedDownregulation
+  ActivatedUpregulation
+  ActualConsumption
+  ActualProduction
+  InternalUse
+}
+
+enum ElectricityMarketV2ConnectionState {
+  Unknown
+  New
+  Connected
+  Disconnected
+  ClosedDown
+}
+
+enum ElectricityMarketV2MeteringPointType {
+  Unknown
   Consumption
   Production
   Exchange
@@ -2633,6 +2767,7 @@ enum MeteringPointDocumentType {
   UPDATE_CHARGE_LINKS
   CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA
   REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA
+  NOTIFY_BILLING_MASTER_DATA
 }
 
 enum MeteringPointMeasureUnit {
@@ -2787,6 +2922,7 @@ enum SearchDocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
+  REQUEST_CHANGE_OF_PRICE_LIST
 }
 
 enum SendMeasurementsMeasurementUnit {

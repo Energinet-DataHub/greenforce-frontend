@@ -370,7 +370,8 @@
     "chargeTypes": {
       "SUBSCRIPTION": "Subscription",
       "FEE": "Fee",
-      "TARIFF": "Tariff"
+      "TARIFF": "Tariff",
+      "TARIFF_TAX": "Tariff, tax"
     },
     "resolutions": {
       "daily": "Day",
@@ -386,7 +387,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
-        "createButton": "Create charge",
+        "createButton": "New charge",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -421,31 +422,40 @@
         }
       }
     },
-    "create": {
-      "action": {
-        "SUBSCRIPTION": "Create subscription",
-        "FEE": "Create fee",
-        "TARIFF": "Create tariff",
-        "SELECTION": "Create charge"
+    "actions": {
+      "create": {
+        "action": {
+          "SUBSCRIPTION": "New subscription",
+          "FEE": "New fee",
+          "TARIFF": "New tariff",
+          "TARIFF_TAX": "New tariff, tax",
+          "SELECTION": "New charge"
+        },
+        "close": "Close",
+        "form": {
+          "id": "ID",
+          "name": "Name",
+          "description": "Description",
+          "resolution": "Resolution",
+          "hourly": "Hourly",
+          "daily": "Daily",
+          "vat": "VAT",
+          "withVat": "With VAT",
+          "withoutVat": "Without VAT",
+          "transparentInvoicing": "Transparent Invoicing",
+          "withTransparentInvoicing": "Yes",
+          "withoutTransparentInvoicing": "No",
+          "predictablePrice": "Predictable Price",
+          "withPredictablePrice": "Yes",
+          "withoutPredictablePrice": "No",
+          "validFrom": "Valid From"
+        }
       },
-      "close": "Close",
-      "form": {
-        "id": "ID",
-        "name": "Name",
-        "description": "Description",
-        "resolution": "Resolution",
-        "hourly": "Hourly",
-        "daily": "Daily",
-        "vat": "VAT",
-        "withVat": "With VAT",
-        "withoutVat": "Without VAT",
-        "transparentInvoicing": "Transparent Invoicing",
-        "withTransparentInvoicing": "Yes",
-        "withoutTransparentInvoicing": "No",
-        "predictablePrice": "Predictable Price",
-        "withPredictablePrice": "Yes",
-        "withoutPredictablePrice": "No",
-        "validFrom": "Valid From"
+      "stop": {
+        "title": "Stop price",
+        "date": "Stop date",
+        "submit": "Save changes",
+        "close": "Close"
       }
     },
     "charge": {
@@ -522,12 +532,18 @@
   },
   "meteringPoint": {
     "breadcrumb": "Search metering point",
+    "shared": {
+      "error": {
+        "containsLetters": "Metering point ID can only contain numbers and not letters",
+        "meteringPointIdLength": "Metering point ID must be an 18-digit number"
+      }
+    },
     "search": {
       "placeholder": "Search by metering point ID",
       "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
-        "containsLetters": "Metering point ID can only contain numbers and not letters",
-        "meteringPointIdLength": "Metering point ID must be an 18-digit number"
+        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
+        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found"
     },
@@ -578,7 +594,7 @@
         "citySubDivisionName": "Additional city name",
         "postBox": "POBox",
         "municipalityCode": "Municipality code",
-        "darID": "DAR-ID",
+        "darID": "DAR reference",
         "closeButton": "Close"
       },
       "highlights": {
@@ -678,6 +694,13 @@
         "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      },
+      "manualCorrection": {
+        "getMeteringPoint": "Download metering point",
+        "verifyCorrection": "Verify manual correction",
+        "executeCorrection": "Apply manual correction",
+        "saveSuccess": "Manual correction of metering point applied",
+        "saveError": "Manual correction of metering point failed"
       }
     },
     "relatedMeteringPointsTitle": "Related metering points",
@@ -882,10 +905,12 @@
       "actions": {
         "SUBSCRIPTION": "Attach subscription",
         "TARIFF": "Attach tariff",
+        "TARIFF_TAX": "Attach tariff, tax",
         "FEE": "Attach fee"
       },
       "chargeTypes": {
         "TARIFF": "Tariff",
+        "TARIFF_TAX": "Tariff, tax",
         "SUBSCRIPTION": "Subscription",
         "FEE": "Fee"
       },
@@ -973,7 +998,7 @@
         "cancel": "Cancel",
         "start": "Start"
       },
-      "title": "Create {{ type }} metering point",
+      "title": "New metering point: {{ type }}",
       "cancel": "Cancel",
       "create": "Create metering point",
       "details": {
@@ -1015,11 +1040,31 @@
         "connectionType": "Connection type",
         "assetType": "Asset type"
       },
+      "disconnectionType": {
+        "REMOTE_DISCONNECTION": "{{ disconnectionType.REMOTE_DISCONNECTION }} (D01)",
+        "MANUAL_DISCONNECTION": "{{ disconnectionType.MANUAL_DISCONNECTION }} (D02)"
+      },
+      "connectionType": {
+        "DIRECT": "{{ connectionType.DIRECT }} (D01)",
+        "INSTALLATION": "{{ connectionType.INSTALLATION }} (D02)"
+      },
+      "netSettlementGroup": {
+        "0": "Ingen nettoafregning (0) [DK]",
+        "3": "Immediate settlement (3)"
+      },
+      "resolution": {
+        "quarterHourly": "Quarter hour",
+        "hourly": "Hour"
+      },
       "other": {
         "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
         "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
         "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
         "product": "Product ID"
+      },
+      "error": {
+        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
+        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       }
     }
   },
@@ -1089,9 +1134,11 @@
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Request for wholesale services (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)",
-      "UPDATE_CHARGE_LINKS": "Update charge links (RSM-030)",
-      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm update charge links (RSM-030)",
-      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject update charge links (RSM-030)"
+      "UPDATE_CHARGE_LINKS": "Request change billing master data (RSM-030)",
+      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm request change billing master data (RSM-030)",
+      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
+      "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
+      "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
@@ -2850,6 +2897,9 @@
     "topBarTitle": "Debug metering point",
     "meteringPoint": {
       "tabLabel": "Metering point"
+    },
+    "meteringPointEvents": {
+      "tabLabel": "Metering point events"
     },
     "meteringPoints": {
       "tabLabel": "Metering points",

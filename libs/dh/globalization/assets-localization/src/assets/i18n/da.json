@@ -371,7 +371,8 @@
     "chargeTypes": {
       "SUBSCRIPTION": "Abonnement",
       "FEE": "Gebyr",
-      "TARIFF": "Tarif"
+      "TARIFF": "Tarif",
+      "TARIFF_TAX": "Tarif, afgift"
     },
     "resolutions": {
       "daily": "Dag",
@@ -387,7 +388,7 @@
     "charges": {
       "topBarTitle": "Priser",
       "table": {
-        "createButton": "Opret pris",
+        "createButton": "Ny pris",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -422,31 +423,40 @@
         }
       }
     },
-    "create": {
-      "action": {
-        "SUBSCRIPTION": "Opret abonnement",
-        "FEE": "Opret gebyr",
-        "TARIFF": "Opret tarif",
-        "SELECTION": "Opret pris"
+    "actions": {
+      "create": {
+        "action": {
+          "SUBSCRIPTION": "Nyt abonnement",
+          "FEE": "Nyt gebyr",
+          "TARIFF": "Ny tarif",
+          "TARIFF_TAX": "Ny tarif, afgift",
+          "SELECTION": "Ny pris"
+        },
+        "close": "Luk",
+        "form": {
+          "id": "ID",
+          "name": "Navn",
+          "description": "Beskrivelse",
+          "resolution": "Opløsning",
+          "hourly": "Time",
+          "daily": "Dag",
+          "vat": "Moms",
+          "withVat": "Med moms",
+          "withoutVat": "Uden moms",
+          "transparentInvoicing": "Viderefakturering",
+          "withTransparentInvoicing": "Ja",
+          "withoutTransparentInvoicing": "Nej",
+          "predictablePrice": "Forudsigelig pris",
+          "withPredictablePrice": "Ja",
+          "withoutPredictablePrice": "Nej",
+          "validFrom": "Gyldig fra"
+        }
       },
-      "close": "Luk",
-      "form": {
-        "id": "ID",
-        "name": "Navn",
-        "description": "Beskrivelse",
-        "resolution": "Opløsning",
-        "hourly": "Time",
-        "daily": "Dag",
-        "vat": "Moms",
-        "withVat": "Med moms",
-        "withoutVat": "Uden moms",
-        "transparentInvoicing": "Viderefakturering",
-        "withTransparentInvoicing": "Ja",
-        "withoutTransparentInvoicing": "Nej",
-        "predictablePrice": "Forudsigelig pris",
-        "withPredictablePrice": "Ja",
-        "withoutPredictablePrice": "Nej",
-        "validFrom": "Gyldig fra"
+      "stop": {
+        "title": "Stop prisinformation",
+        "date": "Stopdato",
+        "submit": "Gem ændringer",
+        "close": "Luk"
       }
     },
     "charge": {
@@ -523,12 +533,18 @@
   },
   "meteringPoint": {
     "breadcrumb": "Søg målepunkt",
+    "shared": {
+      "error": {
+        "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
+        "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
+      }
+    },
     "search": {
       "placeholder": "Søg på Målepunkts-ID",
       "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
-        "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
-        "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
+        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
+        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "Intet resultat fundet"
     },
@@ -579,7 +595,7 @@
         "citySubDivisionName": "Supplerende bynavn",
         "postBox": "Postboks",
         "municipalityCode": "Kommunekode",
-        "darID": "DAR-ID",
+        "darID": "DAR-reference",
         "closeButton": "Luk"
       },
       "highlights": {
@@ -679,6 +695,13 @@
         "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      },
+      "manualCorrection": {
+        "getMeteringPoint": "Hent målepunkt",
+        "verifyCorrection": "Verificer manuel korrigering",
+        "executeCorrection": "Gennemfør manuel korrigering",
+        "saveSuccess": "Manuel korrigering af målepunkt gennemført",
+        "saveError": "Manuel korrigering af målepunkt mislykkedes"
       }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
@@ -883,10 +906,12 @@
       "actions": {
         "SUBSCRIPTION": "Tilknyt abonnement",
         "TARIFF": "Tilknyt tarif",
+        "TARIFF_TAX": "Tilknyt tarif, afgift",
         "FEE": "Tilknyt gebyr"
       },
       "chargeTypes": {
         "TARIFF": "Tarif",
+        "TARIFF_TAX": "Tarif, afgift",
         "SUBSCRIPTION": "Abonnement",
         "FEE": "Gebyr"
       },
@@ -955,7 +980,7 @@
             "startsWithZero": "Må ikke starte med 0",
             "invalidMunicipalityCodeLength": "Skal bestå af 3 cifre"
           },
-          "darReference": "Dar reference",
+          "darReference": "DAR-reference",
           "nameAddressProtection": "Navne- og adressebeskyttelse"
         },
         "moveInType": {
@@ -974,7 +999,7 @@
         "cancel": "Annuller",
         "start": "Start"
       },
-      "title": "Opret {{ type }} målepunkt",
+      "title": "Nyt målepunkt: {{ type }}",
       "cancel": "Afbryd",
       "create": "Opret målepunkt",
       "details": {
@@ -982,7 +1007,7 @@
         "validityDate": "Gyldighedsdato",
         "status": "{{ meteringPoint.overview.details.meteringPointStatus }}",
         "newlyCreated": "Nyoprettet",
-        "meteringPointId": "Målepunkts ID",
+        "meteringPointId": "Målepunkts-ID",
         "subType": "{{ meteringPoint.overview.details.meteringPointSubType }}",
         "meteringPointNumber": "{{ meteringPoint.overview.details.meteringPointNumber }}",
         "powerLimitKw": "Effektgrænse kW",
@@ -1016,11 +1041,31 @@
         "connectionType": "Tilslutningstype",
         "assetType": "Anlægsteknologi"
       },
+      "disconnectionType": {
+        "REMOTE_DISCONNECTION": "{{ disconnectionType.REMOTE_DISCONNECTION }} (D01)",
+        "MANUAL_DISCONNECTION": "{{ disconnectionType.MANUAL_DISCONNECTION }} (D02)"
+      },
+      "connectionType": {
+        "DIRECT": "{{ connectionType.DIRECT }} (D01)",
+        "INSTALLATION": "{{ connectionType.INSTALLATION }} (D02)"
+      },
+      "netSettlementGroup": {
+        "0": "Ingen nettoafregning (0)",
+        "3": "Øjebliksafregnet (3)"
+      },
+      "resolution": {
+        "quarterHourly": "Kvarter",
+        "hourly": "Time"
+      },
       "other": {
         "title": "{{ meteringPoint.overview.details.otherSubTitle }}",
         "resolution": "{{ meteringPoint.overview.details.resolutionLabel }}",
         "measureUnit": "{{ meteringPoint.overview.details.measureUnit }}",
-        "product": "Produkt ID"
+        "product": "Produkt-ID"
+      },
+      "error": {
+        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
+        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       }
     }
   },
@@ -1090,9 +1135,11 @@
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Anmod om engrosydelser (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
-      "UPDATE_CHARGE_LINKS": "Opdatering af pristilknytninger (RSM-030)",
-      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Bekræftelse af anmodning om opdatering af pristilknytninger (RSM-030)",
-      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af anmodning om opdatering af pristilknytninger (RSM-030)"
+      "UPDATE_CHARGE_LINKS": "Anmodning om opdatering af pristilknytninger (RSM-030)",
+      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Godkendelse af opdatering af pristilknytninger (RSM-030)",
+      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af opdatering af pristilknytninger (RSM-030)",
+      "NOTIFY_BILLING_MASTER_DATA": "Information om pristilknytninger (RSM-031)",
+      "REQUEST_CHANGE_OF_PRICE_LIST": "Anmodning om opdatering af priser (RSM-033)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -2851,6 +2898,9 @@
     "topBarTitle": "Debug målepunkt",
     "meteringPoint": {
       "tabLabel": "Målepunkt"
+    },
+    "meteringPointEvents": {
+      "tabLabel": "Målepunkt events"
     },
     "meteringPoints": {
       "tabLabel": "Målepunkter",

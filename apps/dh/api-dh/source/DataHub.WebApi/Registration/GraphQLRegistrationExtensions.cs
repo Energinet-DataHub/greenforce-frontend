@@ -25,8 +25,8 @@ public static class GraphQLRegistrationExtensions
         return services
             .AddGraphQLServer(disableDefaultSecurity: true)
             .InitializeOnStartup()
-            .AddInMemorySubscriptions()
             .AddInstrumentation()
+            .AddInMemorySubscriptions()
             .AddAuthorization()
             .AddMutationConventions(applyToAllMutations: true)
             .AddTypes()

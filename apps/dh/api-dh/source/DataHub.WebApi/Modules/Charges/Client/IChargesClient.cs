@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using NodaTime;
 using ChargeApiModels = Energinet.DataHub.Charges.Abstractions.Api.Models;
+using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeIdentifierDto;
+using ChargeInformationDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationDto;
+using Resolution = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
@@ -39,7 +41,7 @@ public interface IChargesClient
     /// Get charge information by id.
     /// </summary>
     Task<ChargeInformationDto?> GetChargeByIdAsync(
-        string id,
+        ChargeIdentifierDto id,
         CancellationToken ct = default);
 
     /// <summary>
@@ -53,7 +55,7 @@ public interface IChargesClient
     /// Get charge series for a charge.
     /// </summary>
     Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
-        ChargeIdentifierDto ident,
+        ChargeIdentifierDto id,
         Resolution resolution,
         Interval interval,
         CancellationToken ct = default);

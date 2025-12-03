@@ -33,12 +33,10 @@ import {
   GetChargeLinksByMeteringPointIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import {
-  dhMakeFormControl,
-  dhEnumToWattDropdownOptions,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 import { Charge } from '../types';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 
 @Component({
   selector: 'dh-metering-point-charge-links-fees',
@@ -51,6 +49,8 @@ import { Charge } from '../types';
     WATT_TABLE,
     WattDatePipe,
     WattDataTableComponent,
+
+    DhChargesStatus,
   ],
   providers: [DhNavigationService],
   template: `
@@ -77,6 +77,13 @@ import { Charge } from '../types';
         <ng-container *wattTableCell="columns.date; let element">
           {{ element.period.start | wattDate }}
         </ng-container>
+
+        <ng-container *wattTableCell="columns.status; let element">
+          @let status = element.charge?.status;
+          @if (status && status === 'CANCELLED') {
+            <dh-charges-status [status]="status" />
+          }
+        </ng-container>
       </watt-table>
     </watt-data-table>
     <router-outlet />
@@ -93,7 +100,6 @@ export default class DhMeteringPointChargeLinksFees {
       (chargeLink) => chargeLink.type === ChargeType.Fee
     )
   );
-  chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
 
   form = new FormGroup({
     chargeTypes: dhMakeFormControl(),
@@ -105,6 +111,7 @@ export default class DhMeteringPointChargeLinksFees {
     owner: { accessor: (charge) => charge.owner?.displayName ?? '' },
     amount: { accessor: 'amount' },
     date: { accessor: 'period' },
+    status: { header: '', accessor: (charge) => charge.charge?.status },
   };
 
   selection = () => {

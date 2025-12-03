@@ -146,7 +146,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     type: ChargeType.Subscription,
     code: 'CHARGE003',
     displayName: 'CHARGE003 • Green Energy Plan',
-    status: ChargeStatus.Current,
+    status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Daily,
     currentPeriod: {
       __typename: 'ChargePeriod',
@@ -193,7 +193,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     code: 'CHARGE004',
     displayName: 'CHARGE004 • Connection Fee',
 
-    status: ChargeStatus.Closed,
+    status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Monthly,
     currentPeriod: {
       __typename: 'ChargePeriod',
@@ -345,6 +345,35 @@ const chargeLinks: ChargeLink[] = [
     period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     charge: makeChargesMock()[3],
   },
+  {
+    __typename: 'ChargeLink',
+    id: '1004',
+    type: ChargeType.Fee,
+    amount: 120.0,
+    name: 'Charge Link 4',
+    displayName: '1004 • Charge Link 4',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-4',
+      displayName: '4567890123456 • Energy Supplier D',
+    } as MarketParticipant,
+    history: [
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-04-12T12:00:00Z'),
+        description: 'Initial link creation',
+        messageId: 'msg-007',
+      },
+      {
+        __typename: 'ChargeLinkHistory',
+        submittedAt: new Date('2023-05-20T15:00:00Z'),
+        description: 'Changed amount',
+        messageId: 'msg-008',
+      },
+    ],
+    period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+    charge: makeChargesMock()[4],
+  },
 ];
 
 const makeChargeSeriesListMock = (
@@ -405,14 +434,14 @@ function getCharges() {
       data: {
         __typename: 'Query',
         charges: {
-          __typename: 'ChargesCollectionSegment',
+          __typename: 'ChargesConnection',
           pageInfo: {
-            __typename: 'CollectionSegmentInfo',
-            hasNextPage: false,
-            hasPreviousPage: false,
+            __typename: 'PageInfo',
+            startCursor: null,
+            endCursor: null,
           },
           totalCount: charges.length,
-          items: charges,
+          nodes: charges,
         },
       },
     });

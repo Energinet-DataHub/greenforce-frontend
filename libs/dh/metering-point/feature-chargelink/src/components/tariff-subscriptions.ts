@@ -30,6 +30,7 @@ import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/tabl
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 import {
@@ -40,6 +41,7 @@ import {
 import {
   dhMakeFormControl,
   dhEnumToWattDropdownOptions,
+  DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { Charge } from '../types';
@@ -58,6 +60,8 @@ import { Charge } from '../types';
     WattDataFiltersComponent,
     WattTooltipDirective,
     WattIconComponent,
+    DhDropdownTranslatorDirective,
+    DhChargesStatus,
   ],
   providers: [DhNavigationService],
   template: `
@@ -102,6 +106,12 @@ import { Charge } from '../types';
             <watt-icon name="forward" size="s" [wattTooltip]="t('tooltip.transparentInvoicing')" />
           }
         </ng-container>
+        <ng-container *wattTableCell="columns.status; let element">
+          @let status = element.charge?.status;
+          @if (status && status === 'CANCELLED') {
+            <dh-charges-status [status]="status" />
+          }
+        </ng-container>
       </watt-table>
     </watt-data-table>
     <router-outlet />
@@ -119,7 +129,7 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
     )
   );
 
-  chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
+  chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType, [ChargeType.Fee]);
 
   form = new FormGroup({
     chargeTypes: dhMakeFormControl(),
@@ -136,6 +146,7 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
     },
     amount: { accessor: 'amount' },
     period: { accessor: 'period' },
+    status: { header: '', accessor: (charge) => charge.charge?.status },
   };
 
   selection = () => {

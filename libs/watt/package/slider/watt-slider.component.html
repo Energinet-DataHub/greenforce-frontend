@@ -21,18 +21,18 @@ limitations under the License.
     [style.z-index]="1"
     [style.height]="0"
     type="range"
-    [max]="max"
-    [min]="min"
-    [step]="step"
-    [value]="value.min"
+    [max]="max()"
+    [min]="min()"
+    [step]="step()"
+    [value]="value()?.min"
   />
   <input
     #maxRange
     class="max-range"
     type="range"
-    [max]="max"
-    [min]="min"
-    [step]="step"
-    [value]="value.max"
+    [max]="max()"
+    [min]="min()"
+    [step]="step()"
+    [value]="value()?.max"
   />
 </div>

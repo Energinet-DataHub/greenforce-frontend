@@ -13,8 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.WebApi.Modules.Charges.Models;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 
@@ -28,10 +26,13 @@ public static class ChargeExtensions
             .FirstOrDefault();
     }
 
-    public static string ChargeIdentifierToString(this ChargeIdentifierDto ident)
+    public static string DisplayName(this ChargeInformationDto charge)
     {
-        return $"{ident.Code}|{ident.ChargeType}|{ident.Owner}";
+        var current = charge.GetCurrentPeriod();
+        return $"{charge.ChargeIdentifierDto.Code} - {current?.Name}";
     }
+
+    public static string? Name(this ChargeInformationDto charge) => charge.GetCurrentPeriod()?.Name;
 
     public static bool IsCurrent(this ChargeInformationPeriodDto period) =>
         period.StartDate.ToDateTimeOffset() <= DateTimeOffset.Now && (period.EndDate == null || period.EndDate?.ToDateTimeOffset() > DateTimeOffset.Now);

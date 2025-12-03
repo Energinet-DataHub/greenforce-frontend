@@ -46,7 +46,7 @@ limitations under the License.
       <mat-step [editable]="step.editable" [stepControl]="step.stepControl">
         <ng-template matStepLabel>{{ step.label }}</ng-template>
         <div class="watt-stepper-content-wrapper">
-          <ng-container *ngTemplateOutlet="step.templateRef" />
+          <ng-container *ngTemplateOutlet="step.templateRef()" />
         </div>
         <div class="watt-stepper-button-wrapper">
           @if (!(onFirstStep$ | push)) {

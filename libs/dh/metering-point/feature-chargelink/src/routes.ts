@@ -42,6 +42,23 @@ export const meteringPointPricesRoutes: Routes = [
           {
             path: 'details/:id',
             loadComponent: () => import('./components/details'),
+            children: [
+              {
+                path: 'edit',
+                loadComponent: () => import('./components/actions/edit'),
+                outlet: 'actions',
+              },
+              {
+                path: 'stop',
+                loadComponent: () => import('./components/actions/stop'),
+                outlet: 'actions',
+              },
+              {
+                path: 'cancel',
+                loadComponent: () => import('./components/actions/cancel'),
+                outlet: 'actions',
+              },
+            ],
           },
         ],
       },
@@ -52,6 +69,23 @@ export const meteringPointPricesRoutes: Routes = [
           {
             path: 'details/:id',
             loadComponent: () => import('./components/details'),
+            children: [
+              {
+                path: 'edit',
+                loadComponent: () => import('./components/actions/edit'),
+                outlet: 'actions',
+              },
+              {
+                path: 'stop',
+                loadComponent: () => import('./components/actions/stop'),
+                outlet: 'actions',
+              },
+              {
+                path: 'cancel',
+                loadComponent: () => import('./components/actions/cancel'),
+                outlet: 'actions',
+              },
+            ],
           },
         ],
       },
