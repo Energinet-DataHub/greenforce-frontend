@@ -29,4 +29,5 @@ public record MoveInInstallationAddress(
   string MunicipalityCode,
   string CountryCode,
   string DarReference,
-  WashInstructions WashInstructions);
+  WashInstructions WashInstructions,
+  bool CustomerIsProtectedAddress);

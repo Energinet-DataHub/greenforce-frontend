@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier;
 using Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier.Models;
+using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Enums;
 using Moq;
 using Moq.Protected;
 using Xunit;
@@ -47,7 +48,14 @@ public class ChangeOfSupplierClientTests
             BaseAddress = new System.Uri("http://localhost"),
         };
         var client = new ChangeOfSupplierClient(httpClient);
-        var input = new RequestChangeOfSupplierInput("metering-point-id", "supplier-id", "2025-12-03");
+        var input = new RequestChangeOfSupplierInput(
+            "2025-12-03",
+            MoveInType.E65,
+            "Private",
+            "John Doe",
+            "123456-7890",
+            "Doe Inc.",
+            "98765432");
 
         // Act
         var result = await client.RequestChangeOfSupplierAsync(input);
@@ -77,7 +85,14 @@ public class ChangeOfSupplierClientTests
             BaseAddress = new System.Uri("http://localhost"),
         };
         var client = new ChangeOfSupplierClient(httpClient);
-        var input = new RequestChangeOfSupplierInput("metering-point-id", "supplier-id", "2025-12-03");
+        var input = new RequestChangeOfSupplierInput(
+            "2025-12-03",
+            MoveInType.E65,
+            "Private",
+            "John Doe",
+            "123456-7890",
+            "Doe Inc.",
+            "98765432");
 
         // Act
         var result = await client.RequestChangeOfSupplierAsync(input);

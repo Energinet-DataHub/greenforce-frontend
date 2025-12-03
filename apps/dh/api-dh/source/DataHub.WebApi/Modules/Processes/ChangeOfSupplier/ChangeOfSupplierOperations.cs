@@ -27,4 +27,22 @@ public static class ChangeOfSupplierOperations
     {
         return await client.RequestChangeOfSupplierAsync(input);
     }
+
+    [Mutation]
+    [Authorize(Roles = new[] { "change-of-supplier:manage" })]
+    public static async Task<bool> InitiateChangeOfSupplierAsync(
+        InitiateChangeOfSupplierInput input,
+        IChangeOfSupplierClient client)
+    {
+        return await client.InitiateChangeOfSupplierAsync(input);
+    }
+
+    [Mutation]
+    [Authorize(Roles = new[] { "change-of-supplier:manage" })]
+    public static async Task<bool> UpdateCustomerMasterDataAsync(
+        UpdateCustomerMasterDataInput input,
+        IChangeOfSupplierClient client)
+    {
+        return await client.UpdateCustomerMasterDataAsync(input);
+    }
 }

@@ -16,6 +16,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier;
 using Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier.Models;
+using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Enums;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
@@ -41,10 +42,85 @@ public class ChangeOfSupplierClientIntegrationTests
         var baseUrl = server.Url ?? throw new System.InvalidOperationException("WireMock server URL is null");
         var httpClient = new HttpClient { BaseAddress = new System.Uri(baseUrl) };
         var client = new ChangeOfSupplierClient(httpClient);
-        var input = new RequestChangeOfSupplierInput("metering-point-id", "supplier-id", "2025-12-03");
+        var input = new RequestChangeOfSupplierInput(
+            "2025-12-03",
+            MoveInType.E65,
+            "Private",
+            "John Doe",
+            "123456-7890",
+            "Doe Inc.",
+            "98765432");
 
         // Act
         var result = await client.RequestChangeOfSupplierAsync(input);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public async Task InitiateChangeOfSupplierAsync_ReturnsTrue_WhenWireMockReturnsSuccess()
+    {
+        // Arrange
+        using var server = WireMockServer.Start();
+        server.Given(
+                Request.Create()
+                    .WithPath("/api/v1/ChangeOfSupplier/initiate")
+                    .UsingPost())
+            .RespondWith(
+                Response.Create()
+                    .WithStatusCode(200));
+
+        var baseUrl = server.Url ?? throw new System.InvalidOperationException("WireMock server URL is null");
+        var httpClient = new HttpClient { BaseAddress = new System.Uri(baseUrl) };
+        var client = new ChangeOfSupplierClient(httpClient);
+        var input = new InitiateChangeOfSupplierInput(
+            "E65",
+            "1234567890",
+            "2025-12-03",
+            "SupplierId",
+            "BalanceResponsibleId",
+            "John Doe",
+            "123456-7890",
+            null);
+
+        // Act
+        var result = await client.InitiateChangeOfSupplierAsync(input);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public async Task UpdateCustomerMasterDataAsync_ReturnsTrue_WhenWireMockReturnsSuccess()
+    {
+        // Arrange
+        using var server = WireMockServer.Start();
+        server.Given(
+                Request.Create()
+                    .WithPath("/api/v1/ChangeOfSupplier/update-customer-master-data")
+                    .UsingPost())
+            .RespondWith(
+                Response.Create()
+                    .WithStatusCode(200));
+
+        var baseUrl = server.Url ?? throw new System.InvalidOperationException("WireMock server URL is null");
+        var httpClient = new HttpClient { BaseAddress = new System.Uri(baseUrl) };
+        var client = new ChangeOfSupplierClient(httpClient);
+        var input = new UpdateCustomerMasterDataInput(
+            "E65",
+            "1234567890",
+            "2025-12-03",
+            "John Doe",
+            "Jane Doe",
+            "123456-7890",
+            "234567-8901",
+            null,
+            "Main Street 1",
+            "Second Street 2");
+
+        // Act
+        var result = await client.UpdateCustomerMasterDataAsync(input);
 
         // Assert
         Assert.True(result);

@@ -1,4 +1,4 @@
-// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Enums;
+namespace Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Models;
-
-public record StartMoveInInput(
-    string CutOffDate,
-    MoveInType MoveInType,
-    string CustomerType,
-    string PrivateCustomerName,
-    string PrivateCustomerCpr,
-    string BusinessCustomerCompanyName,
-    string BusinessCustomerCvr);
+public record UpdateCustomerMasterDataInput(
+    string BusinessReason,
+    string MeteringPointId,
+    string EffectiveDate,
+    string CustomerName,
+    string? CustomerName2,
+    string? CustomerCpr,
+    string? CustomerCpr2,
+    string? CustomerCvr,
+    string? Address,
+    string? Address2);
