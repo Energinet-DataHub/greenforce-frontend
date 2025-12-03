@@ -449,12 +449,18 @@
           "predictablePrice": "Forudsigelig pris",
           "withPredictablePrice": "Ja",
           "withoutPredictablePrice": "Nej",
-          "validFrom": "Gyldig fra"
+          "validFrom": "Gyldig fra",
+          "cutoffDate": "Skæringsdato"
         }
       },
       "stop": {
         "title": "Stop prisinformation",
         "date": "Stopdato",
+        "submit": "Gem ændringer",
+        "close": "Luk"
+      },
+      "edit": {
+        "title": "Rediger prisinformation",
         "submit": "Gem ændringer",
         "close": "Luk"
       }

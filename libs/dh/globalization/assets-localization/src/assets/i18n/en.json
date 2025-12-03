@@ -448,12 +448,18 @@
           "predictablePrice": "Predictable Price",
           "withPredictablePrice": "Yes",
           "withoutPredictablePrice": "No",
-          "validFrom": "Valid From"
+          "validFrom": "Valid From",
+          "cutoffDate": "Cut-off Date"
         }
       },
       "stop": {
         "title": "Stop price",
         "date": "Stop date",
+        "submit": "Save changes",
+        "close": "Close"
+      },
+      "edit": {
+        "title": "Edit price",
         "submit": "Save changes",
         "close": "Close"
       }
