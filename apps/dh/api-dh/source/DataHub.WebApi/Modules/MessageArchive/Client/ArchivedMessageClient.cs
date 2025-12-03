@@ -23,7 +23,7 @@ using ActorRoleDtoV1 = Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMess
 using BusinessReason = Energinet.DataHub.WebApi.Modules.MessageArchive.Enums.BusinessReason;
 using DirectionToSortByDtoV1 = Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1.DirectionToSortByDtoV1;
 using FieldToSortByDtoV1 = Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1.FieldToSortByDtoV1;
-using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.DocumentTypeDtoV1;
+using SearchDocumentType = Energinet.DataHub.WebApi.Model.MeteringPointArchivedMessages.DocumentType;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 

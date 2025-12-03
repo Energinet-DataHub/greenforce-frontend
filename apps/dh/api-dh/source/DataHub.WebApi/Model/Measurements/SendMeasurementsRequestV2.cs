@@ -1,4 +1,4 @@
-// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -14,12 +14,14 @@
 
 using Energinet.DataHub.WebApi.Model.MeteringPoint;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Types;
+namespace Energinet.DataHub.WebApi.Model.Measurements;
 
-public class SendMeasurementsMeteringPointType : EnumType<MeteringPointType>
-{
-    protected override void Configure(IEnumTypeDescriptor<MeteringPointType> descriptor)
-    {
-        descriptor.Name("SendMeasurementsMeteringPointType");
-    }
-}
+// TODO: This record needs to be renamed to SendMeasurementsRequest, which will result in changes in the client.
+public record SendMeasurementsRequestV2(
+        string MeteringPointId,
+        MeteringPointType MeteringPointType,
+        MeasurementUnit MeasurementUnit,
+        Resolution Resolution,
+        DateTimeOffset Start,
+        DateTimeOffset End,
+        IReadOnlyCollection<Measurement> Measurements);
