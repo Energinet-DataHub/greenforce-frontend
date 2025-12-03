@@ -22,22 +22,20 @@ import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { WATT_MODAL } from '@energinet/watt/modal';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  selector: 'dh-metering-point-edit-charge-link',
+  selector: 'dh-metering-point-stop-charge-link',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
 
     WATT_MODAL,
     WattButtonComponent,
-    WattTextFieldComponent,
     WattDatepickerComponent,
 
     VaterStackComponent,
@@ -52,32 +50,33 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
   template: `
     <watt-modal
       size="small"
-      #edit
-      *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
+      #stop
+      autoOpen
+      *transloco="let t; prefix: 'meteringPoint.chargeLinks.stop'"
       [title]="t('title')"
+      (closed)="navigate('..')"
     >
       <form vater-stack align="start" direction="column" gap="s" tabindex="-1" [formGroup]="form">
-        <watt-text-field [formControl]="form.controls.factor" [label]="t('factor')" type="number" />
-        <watt-datepicker [formControl]="form.controls.startDate" [label]="t('startDate')" />
+        <watt-datepicker [formControl]="form.controls.stopDate" [label]="t('stopDate')" />
       </form>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="edit.close(false)">
+        <watt-button variant="secondary" (click)="stop.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" (click)="editLink(); edit.close(true)">
+        <watt-button variant="primary" (click)="stopLink(); stop.close(true)">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
-export class DhMeteringPointEditChargeLink extends WattTypedModal {
+export default class DhMeteringPointStopChargeLink {
+  navigate = injectRelativeNavigate();
   form = new FormGroup({
-    factor: dhMakeFormControl<number>(null, [Validators.min(1)]),
-    startDate: dhMakeFormControl<Date>(null, [Validators.required]),
+    stopDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
-  editLink() {
-    console.log('Editing link with values:', this.form.value);
+  stopLink() {
+    console.log('Stopping link with values:', this.form.value);
   }
 }
