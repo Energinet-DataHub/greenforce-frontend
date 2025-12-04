@@ -60,9 +60,6 @@ export class ChargeSeriesResult {
   /** Date of the last point. */
   last?: dayjs.Dayjs;
 
-  /** Total sum of all points. */
-  sum = 0;
-
   /** Progress of the parsing process. */
   progress = 0;
 

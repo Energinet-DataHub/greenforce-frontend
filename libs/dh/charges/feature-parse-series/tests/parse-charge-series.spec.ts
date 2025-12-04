@@ -29,7 +29,6 @@ const makeReadable = (result: ChargeSeriesResult) => ({
   points: result.points.length,
   progress: result.progress,
   resolution: result.resolution,
-  sum: result.sum,
 });
 
 describe(parseChargeSeries, () => {
