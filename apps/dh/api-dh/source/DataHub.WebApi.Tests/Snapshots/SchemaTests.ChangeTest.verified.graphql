@@ -455,6 +455,10 @@ type DismissNotificationPayload {
   errors: [DismissNotificationError!]
 }
 
+type EditChargeLinkPayload {
+  boolean: Boolean
+}
+
 type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance {
   executionType: CalculationExecutionType!
   calculationType: CalculationTypeQueryParameterV1!
@@ -1047,6 +1051,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 
 type Mutation {
   stopChargeLink(input: StopChargeLinkInput!): StopChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
+  editChargeLink(input: EditChargeLinkInput!): EditChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   cancelChargeLink(input: CancelChargeLinkInput!): CancelChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
@@ -1891,6 +1896,12 @@ input DeactivateUserRoleInput {
 
 input DismissNotificationInput {
   notificationId: Int!
+}
+
+input EditChargeLinkInput {
+  chargeLinkId: String!
+  newStartDate: DateTime!
+  factor: Int!
 }
 
 input EsettExchangeEventSortInput {
