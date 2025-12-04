@@ -18,9 +18,9 @@
 //#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
 import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
-import { parseCsv } from '../src/parse-csv';
+import { parseChargeSeries } from '../src/parse-charge-series';
 import { lastValueFrom } from 'rxjs';
-import { ChargeSeriesResult } from '../src/models/charge-series-result';
+import { ChargeSeriesResult } from '../src/charge-series-result';
 
 const makeReadable = (result: ChargeSeriesResult) => ({
   interval: result.maybeGetDateRange(),
@@ -32,7 +32,7 @@ const makeReadable = (result: ChargeSeriesResult) => ({
   sum: result.sum,
 });
 
-describe(parseCsv, () => {
+describe(parseChargeSeries, () => {
   it('should parse points in quarter hourly resolution', async () => {
     const csv = [
       'Position,Periode,Pris',
@@ -43,7 +43,7 @@ describe(parseCsv, () => {
       '5,28.4.2025 1.00,2',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Quarterhourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Quarterhourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -58,7 +58,7 @@ describe(parseCsv, () => {
       '5,28.4.2025 4.00,8',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Hourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Hourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -73,7 +73,7 @@ describe(parseCsv, () => {
       '5,02.5.2025 0.00,8',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Hourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Hourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -94,7 +94,7 @@ describe(parseCsv, () => {
       '11,1.11.2025 0.00,100',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Monthly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -117,7 +117,7 @@ describe(parseCsv, () => {
       '13,30.3.2025 4.00,2',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Quarterhourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Quarterhourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -132,7 +132,7 @@ describe(parseCsv, () => {
       '5,30.3.2025 5.00,2',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Hourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Hourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -163,7 +163,7 @@ describe(parseCsv, () => {
       '21,26.10.2025 4.00,2',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Quarterhourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Quarterhourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -179,7 +179,7 @@ describe(parseCsv, () => {
       '6,26.10.2025 4.00,2',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Hourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Hourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -193,7 +193,7 @@ describe(parseCsv, () => {
       '5,28.4.2025 1.00,2',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Quarterhourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Quarterhourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -207,7 +207,7 @@ describe(parseCsv, () => {
       '4,28.4.2025 0.30,2',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Quarterhourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Quarterhourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -221,7 +221,7 @@ describe(parseCsv, () => {
       '4,28.4.2025 4.00,8',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Hourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Hourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -236,7 +236,7 @@ describe(parseCsv, () => {
       '5,28.4.2025 4.00,8',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Hourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Hourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -250,7 +250,7 @@ describe(parseCsv, () => {
       '4,5.1.2025 0.00,100',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Monthly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -266,7 +266,7 @@ describe(parseCsv, () => {
       '6,5.1.2025 0.00,100',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Monthly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -280,7 +280,7 @@ describe(parseCsv, () => {
       '4,1.5.2025 0.00,100',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Monthly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -296,7 +296,7 @@ describe(parseCsv, () => {
       '6,1.5.2025 0.00,100',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Monthly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -312,7 +312,7 @@ describe(parseCsv, () => {
       '1.5.2025 0.00,100',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Monthly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -327,7 +327,7 @@ describe(parseCsv, () => {
       '5,26.10 1.00,2',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Quarterhourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Quarterhourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -342,7 +342,7 @@ describe(parseCsv, () => {
       '5,26.10.2025 1.00,2',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Quarterhourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Quarterhourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -357,7 +357,7 @@ describe(parseCsv, () => {
       '5,26.10.2025 1.00,2',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Quarterhourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Quarterhourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
@@ -372,7 +372,7 @@ describe(parseCsv, () => {
       '5,26.10.2025 1.00,2',
     ].join('\n');
 
-    const stream = parseCsv(csv, ChargeResolution.Quarterhourly);
+    const stream = parseChargeSeries(csv, ChargeResolution.Quarterhourly);
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
