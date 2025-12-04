@@ -61,7 +61,9 @@ import {
         [showProgressBar]="progress() > 0"
         [loadingMessage]="progress() === 100 ? t('success') : t('loading')"
       >
-        <watt-field-hint>{{ t('hint') }}</watt-field-hint>
+        @if (!progress()) {
+          <watt-field-hint>{{ t('hint') }}</watt-field-hint>
+        }
         @if (file.errors?.multiple) {
           <watt-field-error>
             {{ t('errors.multiple') }}
