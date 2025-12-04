@@ -22,18 +22,17 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropZone } from '@energinet/watt/dropzone';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
 import { WATT_MODAL } from '@energinet/watt/modal';
 
 import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import {
   parseChargeSeries,
   ChargeSeriesResult,
 } from '@energinet-datahub/dh/charges/feature-parse-series';
-import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { WattFieldErrorComponent } from '@energinet/watt/field';
-import { WattFieldHintComponent } from '../../../../../../watt/package/field/watt-field-hint.component';
 
 @Component({
   selector: 'dh-charges-upload-series',
