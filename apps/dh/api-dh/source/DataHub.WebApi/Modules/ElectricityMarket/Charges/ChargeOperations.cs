@@ -60,6 +60,16 @@ public static partial class ChargeOperations
 
     [Mutation]
     [Authorize(Roles = new[] { "metering-point:prices-manage" })]
+    public static async Task<bool> EditChargeLinkAsync(
+        string chargeLinkId,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct,
+        IChargeLinkClient client) =>
+            await client.EditChargeLinkAsync(chargeLinkId, newStartDate, factor, ct).ConfigureAwait(false);
+
+    [Mutation]
+    [Authorize(Roles = new[] { "metering-point:prices-manage" })]
     public static async Task<bool> CancelChargeLinkAsync(
         string chargeLinkId,
         CancellationToken ct,

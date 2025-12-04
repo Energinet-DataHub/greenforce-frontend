@@ -49,4 +49,13 @@ public interface IChargeLinkClient
     Task<bool> CancelChargeLinkAsync(
         string chargeLinkId,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Edits a charge link's start date and factor.
+    /// </summary>
+    Task<bool> EditChargeLinkAsync(
+        string chargeLinkId,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default);
 }

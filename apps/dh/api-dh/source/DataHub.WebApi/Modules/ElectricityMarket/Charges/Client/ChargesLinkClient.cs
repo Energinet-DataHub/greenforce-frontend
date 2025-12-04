@@ -37,4 +37,9 @@ public class ChargeLinkClient : IChargeLinkClient
     {
         return Task.FromResult(true);
     }
+
+    public Task<bool> EditChargeLinkAsync(string chargeLinkId, DateTimeOffset newStartDate, int factor, CancellationToken ct = default)
+    {
+        return Task.FromResult(true);
+    }
 }
