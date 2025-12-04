@@ -182,14 +182,10 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private resolutionEffect = effect(() => {
     const resolutionValue = this.resolutionChanges();
 
-    if (this.featureFlagsService.isEnabled('measurements-reports-resolution-improvements')) {
-      const switchToMeteringPointIDs = this.switchToMeteringPointIDsChanges();
+    const switchToMeteringPointIDs = this.switchToMeteringPointIDsChanges();
 
-      if (this.isSpecialMarketRole || switchToMeteringPointIDs) {
-        this.periodValidatorsForMeteringPointIDs(resolutionValue);
-      } else {
-        this.periodValidatorsGeneral(resolutionValue);
-      }
+    if (this.isSpecialMarketRole || switchToMeteringPointIDs) {
+      this.periodValidatorsForMeteringPointIDs(resolutionValue);
     } else {
       this.periodValidatorsGeneral(resolutionValue);
     }
