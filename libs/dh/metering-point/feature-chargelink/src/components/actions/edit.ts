@@ -17,17 +17,21 @@
  */
 //#endregion
 
-import { Component } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { WATT_MODAL } from '@energinet/watt/modal';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WATT_MODAL } from '@energinet/watt/modal';
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-edit-charge-link',
@@ -56,7 +60,7 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
       [title]="t('title')"
-      (closed)="navigate('..')"
+      (closed)="navigate.navigate('details', id())"
     >
       <form vater-stack align="start" direction="column" gap="s" tabindex="-1" [formGroup]="form">
         <watt-text-field [formControl]="form.controls.factor" [label]="t('factor')" type="number" />
@@ -66,7 +70,7 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
         <watt-button variant="secondary" (click)="edit.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" (click)="editLink(); edit.close(true)">
+        <watt-button variant="primary" (click)="editLink(edit.close.bind(edit))">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -74,13 +78,30 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
   `,
 })
 export default class DhMeteringPointEditChargeLink {
-  navigate = injectRelativeNavigate();
+  private edit = mutation(EditChargeLinkDocument);
+  navigate = inject(DhNavigationService);
   form = new FormGroup({
     factor: dhMakeFormControl<number>(null, [Validators.min(1)]),
     startDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
-  editLink() {
-    console.log('Editing link with values:', this.form.value);
+  id = input.required<string>();
+
+  editLink(close: (result: boolean) => void) {
+    const startDate = this.form.value.startDate;
+    const factor = this.form.value.factor;
+    if (this.form.invalid) return;
+    if (!startDate) return;
+    if (!factor) return;
+
+    this.edit.mutate({
+      variables: {
+        chargeLinkId: this.id(),
+        newStartDate: startDate,
+        factor,
+      },
+    });
+
+    close(true);
   }
 }
