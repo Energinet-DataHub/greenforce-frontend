@@ -69,6 +69,11 @@ export const chargeRoutes: Routes = [
         loadComponent: () => import('./components/actions/stop'),
         outlet: 'actions',
       },
+      {
+        path: 'edit',
+        loadComponent: () => import('./components/actions/edit'),
+        outlet: 'actions',
+      },
     ],
   },
 ];

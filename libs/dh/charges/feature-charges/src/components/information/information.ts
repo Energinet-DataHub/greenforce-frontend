@@ -147,7 +147,9 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
             <watt-icon name="plus" />
           </watt-button>
           <watt-menu #menu>
-            <watt-menu-item>{{ t('edit') }}</watt-menu-item>
+            <watt-menu-item [routerLink]="[{ outlets: { actions: ['edit'] } }]">
+              {{ t('edit') }}
+            </watt-menu-item>
             <watt-menu-item [routerLink]="[{ outlets: { actions: ['stop'] } }]">
               {{ t('stop') }}
             </watt-menu-item>
