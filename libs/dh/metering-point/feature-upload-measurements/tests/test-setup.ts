@@ -17,7 +17,6 @@
  */
 //#endregion
 import '@angular/compiler';
-import '@analogjs/vitest-angular/setup-zone';
 import '@testing-library/jest-dom/vitest';
 import '@analogjs/vite-plugin-angular/setup-vitest';
 import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';

@@ -31,10 +31,10 @@ export default defineConfig(() => ({
     passWithNoTests: true,
     reporters: ['default'],
     globals: true,
-
+    pool: 'forks',
     environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    setupFiles: ['src/test-setup.ts'],
+    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    setupFiles: ['tests/test-setup.ts'],
     coverage: {
       reportsDirectory:
         '../../../../coverage/libs/dh/metering-point/feature-measurements-csv-parser',
