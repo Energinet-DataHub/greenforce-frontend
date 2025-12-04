@@ -1,4 +1,4 @@
-// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Model.Measurements;
+namespace Energinet.DataHub.WebApi.Model.MeteringPointArchivedMessages;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Types;
-
-public class SendMeasurementsQualityType : EnumType<Quality>
+public enum MeteringPointDocumentType
 {
-    protected override void Configure(IEnumTypeDescriptor<Quality> descriptor)
-    {
-        descriptor.Name("SendMeasurementsQuality");
-    }
+    Acknowledgement = 0,
+    SendMeasurements = 1,
+    RequestMeasurements = 2,
+    RejectRequestMeasurements = 3,
+    UpdateChargeLinks = 4,
+    ConfirmRequestChangeBillingMasterData = 5,
+    RejectRequestChangeBillingMasterData = 6,
+    NotifyBillingMasterData = 7,
 }

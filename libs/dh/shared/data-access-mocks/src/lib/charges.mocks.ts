@@ -26,6 +26,8 @@ import {
   mockGetChargeByTypeQuery,
   mockGetChargeLinkHistoryQuery,
   mockGetChargeLinksByMeteringPointIdQuery,
+  mockStopChargeLinkMutation,
+  mockCancelChargeLinkMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import {
@@ -194,6 +196,53 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE004 • Connection Fee',
 
     status: ChargeStatus.Cancelled,
+    resolution: ChargeResolution.Monthly,
+    currentPeriod: {
+      __typename: 'ChargePeriod',
+      name: 'Period 2022',
+      description: 'current period',
+      period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+      isCurrent: true,
+      transparentInvoicing: true,
+      vatClassification: 'NO_VAT',
+    },
+    periods: [
+      {
+        __typename: 'ChargePeriod',
+        name: 'Period 2022',
+        description: 'Initial period',
+        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        isCurrent: false,
+        transparentInvoicing: true,
+        vatClassification: 'NO_VAT',
+      },
+      {
+        __typename: 'ChargePeriod',
+        name: 'Period 2022',
+        description: 'current period',
+        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        isCurrent: true,
+        transparentInvoicing: true,
+        vatClassification: 'NO_VAT',
+      },
+    ],
+    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Monthly) : [],
+  },
+  {
+    __typename: 'Charge',
+    id: '5',
+    owner: {
+      __typename: 'MarketParticipant',
+      id: 'owner-5',
+      name: 'Energy Supplier D',
+      glnOrEicNumber: '4567890123456',
+      displayName: '4567890123456 • Energy Supplier D',
+    } as MarketParticipant,
+    type: ChargeType.TariffTax,
+    code: 'CHARGE005',
+    displayName: 'CHARGE005 • Connection Fee',
+
+    status: ChargeStatus.Current,
     resolution: ChargeResolution.Monthly,
     currentPeriod: {
       __typename: 'ChargePeriod',
@@ -521,11 +570,43 @@ function getChargesByType() {
   });
 }
 
+function stopChargeLink() {
+  return mockStopChargeLinkMutation(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        stopChargeLink: {
+          __typename: 'StopChargeLinkPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function cancelChargeLink() {
+  return mockCancelChargeLinkMutation(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        cancelChargeLink: {
+          __typename: 'CancelChargeLinkPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
 export function chargesMocks() {
   return [
     getCharges(),
     getChargeById(),
+    stopChargeLink(),
     getChargeSeries(),
+    cancelChargeLink(),
     getChargesByType(),
     getChargeLinkById(),
     getChargesByMeteringPointId(),

@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -26,6 +26,8 @@ import { WATT_MODAL } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-cancel-charge-link',
@@ -59,8 +61,11 @@ import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
   `,
 })
 export default class DhMeteringPointCancelChargeLink {
+  private cancel = mutation(CancelChargeLinkDocument);
   navigate = injectRelativeNavigate();
-  cancelLink() {
-    console.log('Cancelling link with values:');
+  id = input.required<string>();
+
+  async cancelLink() {
+    await this.cancel.mutate({ variables: { chargeLinkId: this.id() } });
   }
 }

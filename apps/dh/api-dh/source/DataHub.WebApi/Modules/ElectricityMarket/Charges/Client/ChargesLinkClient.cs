@@ -27,4 +27,14 @@ public class ChargeLinkClient : IChargeLinkClient
     {
         return Task.FromResult<IEnumerable<ChargeLinkHistory>>(Array.Empty<ChargeLinkHistory>());
     }
+
+    public Task<bool> StopChargeLinkAsync(string chargeLinkId, DateTimeOffset stopDate, CancellationToken ct = default)
+    {
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> CancelChargeLinkAsync(string chargeLinkId, CancellationToken ct = default)
+    {
+        return Task.FromResult(true);
+    }
 }
