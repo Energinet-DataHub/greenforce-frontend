@@ -22,11 +22,11 @@ import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { WATT_MODAL } from '@energinet/watt/modal';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
@@ -60,7 +60,7 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
       [title]="t('title')"
-      (closed)="navigate.navigate('details', id())"
+      (closed)="save($event)"
     >
       <form vater-stack align="start" direction="column" gap="s" tabindex="-1" [formGroup]="form">
         <watt-text-field [formControl]="form.controls.factor" [label]="t('factor')" type="number" />
@@ -70,7 +70,7 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
         <watt-button variant="secondary" (click)="edit.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" (click)="editLink(edit)">
+        <watt-button variant="primary" (click)="edit.close(true)">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -87,14 +87,16 @@ export default class DhMeteringPointEditChargeLink {
 
   id = input.required<string>();
 
-  editLink(component: WattModalComponent) {
+  save = async (save: boolean) => {
+    if (!save) return this.navigate.navigate('details', this.id());
+
     const startDate = this.form.value.startDate;
     const factor = this.form.value.factor;
     if (this.form.invalid) return;
     if (!startDate) return;
     if (!factor) return;
 
-    this.edit.mutate({
+    await this.edit.mutate({
       variables: {
         chargeLinkId: this.id(),
         newStartDate: startDate,
@@ -102,6 +104,6 @@ export default class DhMeteringPointEditChargeLink {
       },
     });
 
-    component.close(true);
-  }
+    this.navigate.navigate('details', this.id());
+  };
 }
