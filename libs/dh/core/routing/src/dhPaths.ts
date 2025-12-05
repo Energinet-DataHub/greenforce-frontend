@@ -164,8 +164,8 @@ export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;
 
 export const combinePaths = <T extends BasePaths | SubPaths, Y extends BasePaths | SubPaths>(
   part1: Y,
-  path2: T
-) => `${part1}/${path2}`;
+  part2: T
+) => `${part1}/${part2}`;
 
 export const combineWithIdPaths = <T extends SubPaths, Y extends BasePaths>(
   basePath: Y,
