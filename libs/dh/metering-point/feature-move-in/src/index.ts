@@ -17,4 +17,4 @@
  */
 //#endregion
 export { DhStartMoveInComponent } from './components/dh-start-move-in.component';
-export { DhCustomerDataComponent } from './components/dh-customer-data.component';
+export { DhUpdateCustomerDataComponent } from './components/dh-update-customer-data.component';

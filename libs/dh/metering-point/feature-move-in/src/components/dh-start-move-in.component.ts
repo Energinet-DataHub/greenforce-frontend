@@ -27,13 +27,13 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { MoveInType, StartMoveInDocument, WashInstructions, } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattToastService } from '@energinet/watt/toast';
 
-import { InstallationAddress, MoveInCustomerDetailsFormType, } from '../types';
-import { DhCustomerDetailsComponent } from './dh-customer-details.component';
+import { InstallationAddress, StartMoveInFormType, } from '../types';
+import { DhStartMoveInFormComponent } from './dh-start-move-in-form.component';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
   selector: 'dh-start-move-in-modal',
-  imports: [TranslocoDirective, WATT_MODAL, DhCustomerDetailsComponent, WattButtonComponent],
+  imports: [TranslocoDirective, WATT_MODAL, DhStartMoveInFormComponent, WattButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <watt-modal
@@ -67,7 +67,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
     cpr1: this.fb.control<string>('', [Validators.required, dhCprValidator()]),
   });
 
-  customerDetailsForm = this.fb.group<MoveInCustomerDetailsFormType>({
+  customerDetailsForm = this.fb.group<StartMoveInFormType>({
     cutOffDate: this.fb.control(new Date(), Validators.required),
     moveInType: this.fb.control<MoveInType | null>(null, Validators.required),
     customerType: this.fb.control(this.customerTypeInitialValue),

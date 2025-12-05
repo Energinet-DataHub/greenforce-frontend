@@ -952,9 +952,6 @@
           "invalidEmail": "Ugyldig e-mail"
         },
         "addressDetails": {
-          "label": "Adresseoplysninger",
-          "legalAddressSection": "Juridisk adresse",
-          "technicalAddressSection": "Teknisk adresse",
           "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
           "addressSameAsLegal": "Samme som juridisk adresse",
           "street": "Vejnavn",
@@ -984,7 +981,6 @@
       "moveInSuccess": "Tilflytning er nu registreret",
       "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
       "save": "Tilflyt kunde",
-      "send": "Indsend",
       "cancel": "Annuller"
     },
     "create": {

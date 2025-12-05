@@ -24,7 +24,7 @@ import {
   MoveInType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type MoveInCustomerDetailsFormType = {
+export type StartMoveInFormType = {
   cutOffDate: FormControl<Date>;
   moveInType: FormControl<MoveInType | null>;
   customerType: FormControl<'private' | 'business'>;
@@ -46,6 +46,11 @@ export type MoveInContactDetailsFormType = {
   technicalContactGroup: FormGroup<ContactDetailsFormGroup>;
 };
 
+export type ContactDetailsFormType = {
+  contactSameAsCustomer: FormControl<boolean>;
+  contactGroup: FormGroup<ContactDetailsFormGroup>;
+};
+
 export type ContactDetailsFormGroup = {
   name: FormControl<string>;
   title: FormControl<string>;
@@ -54,13 +59,10 @@ export type ContactDetailsFormGroup = {
   email: FormControl<string>;
 };
 
-export type MoveInAddressDetailsFormType = {
-  legalAddressSameAsMeteringPoint: FormControl<boolean>;
-  legalAddressGroup: FormGroup<AddressGroup>;
-  legalNameAddressProtection: FormControl<boolean>;
-  technicalAddressSameAsLegal: FormControl<boolean>;
-  technicalAddressGroup: FormGroup<AddressGroup>;
-  technicalNameAddressProtection: FormControl<boolean>;
+export type AddressDetailsFormType = {
+  addressSameAsMeteringPoint: FormControl<boolean>;
+  addressGroup: FormGroup<AddressGroup>;
+  nameAddressProtection: FormControl<boolean>;
 };
 
 export type AddressData = {

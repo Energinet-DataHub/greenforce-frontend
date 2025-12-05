@@ -35,10 +35,10 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { MoveInCustomerDetailsFormType } from '../types';
+import { StartMoveInFormType } from '../types';
 
 @Component({
-  selector: 'dh-customer-details',
+  selector: 'dh-start-move-in-form',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -68,7 +68,7 @@ import { MoveInCustomerDetailsFormType } from '../types';
     }
   `,
   template: `
-    @let form = customerDetailsForm();
+    @let form = startMoveInForm();
 
     <form
       [formGroup]="form"
@@ -100,13 +100,13 @@ import { MoveInCustomerDetailsFormType } from '../types';
             group="customer-type"
             [formControl]="form.controls.customerType"
             value="private"
-            >{{ t('private') }}
+          >{{ t('private') }}
           </watt-radio>
           <watt-radio
             group="customer-type"
             [formControl]="form.controls.customerType"
             value="business"
-            >{{ t('business') }}
+          >{{ t('business') }}
           </watt-radio>
         </vater-stack>
       </vater-stack>
@@ -173,8 +173,8 @@ import { MoveInCustomerDetailsFormType } from '../types';
     </form>
   `,
 })
-export class DhCustomerDetailsComponent {
-  customerDetailsForm = input.required<FormGroup<MoveInCustomerDetailsFormType>>();
+export class DhStartMoveInFormComponent {
+  startMoveInForm = input.required<FormGroup<StartMoveInFormType>>();
 
   sevenDaysAgo = dayjs().subtract(7, 'day').toDate();
   sixtyDaysFromNow = dayjs().add(60, 'day').toDate();

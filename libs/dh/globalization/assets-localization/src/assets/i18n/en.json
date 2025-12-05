@@ -951,9 +951,6 @@
           "invalidEmail": "Invalid e-mail"
         },
         "addressDetails": {
-          "label": "Address details",
-          "legalAddressSection": "Legal address",
-          "technicalAddressSection": "Technical address",
           "addressSameAsMeteringPoint": "Same as metering point address",
           "addressSameAsLegal": "Same as legal address",
           "street": "Street",
@@ -983,7 +980,6 @@
       "moveInSuccess": "Move-in is now registered",
       "customerDataSuccess": "Customer data update is now registered",
       "save": "Customer move-in",
-      "send": "Send",
       "cancel": "Cancel"
     },
     "create": {

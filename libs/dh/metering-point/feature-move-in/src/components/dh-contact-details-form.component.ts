@@ -22,7 +22,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet/watt/phone-field';
-import { MoveInContactDetailsFormType } from '../types';
+import { ContactDetailsFormType } from '../types';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 
@@ -39,103 +39,52 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
   ],
   template: `
     @let form = contactDetailsForm();
-    @let legalControls = form.controls.legalContactGroup.controls;
-    @let technicalControls = form.controls.technicalContactGroup.controls;
+    @let controls = form.controls.contactGroup.controls;
     <form
       [formGroup]="form"
       *transloco="let t; prefix: 'meteringPoint.moveIn.steps.contactDetails'"
     >
-      <!-- Legal Contact Section -->
       <vater-flex gap="xl" direction="row">
         <vater-flex align="stretch">
-          <h3>
-            {{ t('legalContactSection') }}
-          </h3>
           <watt-checkbox
-            [formControl]="form.controls.legalContactSameAsCustomer"
+            [formControl]="form.controls.contactSameAsCustomer"
             data-testid="legal-contact-same-as-customer"
           >
             {{ t('contactSameAsCustomer') }}
           </watt-checkbox>
 
           <watt-text-field
-            [formControl]="legalControls.name"
+            [formControl]="controls.name"
             [label]="t('contactName')"
             data-testid="legal-contact-name"
           />
 
           <watt-text-field
-            [formControl]="legalControls.title"
+            [formControl]="controls.title"
             [label]="t('attention')"
             data-testid="legal-contact-title"
           />
 
           <watt-phone-field
-            [formControl]="legalControls.phone"
+            [formControl]="controls.phone"
             [label]="t('phoneNumber')"
             data-testid="legal-contact-phone"
           />
 
           <watt-phone-field
-            [formControl]="legalControls.mobile"
+            [formControl]="controls.mobile"
             [label]="t('mobile')"
             data-testid="legal-contact-mobile"
           />
 
           <watt-text-field
-            [formControl]="legalControls.email"
+            [formControl]="controls.email"
             [label]="t('email')"
             type="email"
             data-testid="legal-contact-email"
           >
             <watt-field-error>
-              @if (legalControls.email.hasError('email')) {
-                {{ t('invalidEmail') }}
-              }
-            </watt-field-error>
-          </watt-text-field>
-        </vater-flex>
-        <!-- Technical Contact Section -->
-        <vater-flex align="stretch">
-          <h3>
-            {{ t('technicalContactSection') }}
-          </h3>
-          <watt-checkbox
-            [formControl]="form.controls.technicalContactSameAsLegal"
-            data-testid="technical-contact-same-as-legal"
-          >
-            {{ t('technicalContactSameAsLegal') }}
-          </watt-checkbox>
-
-          <watt-text-field
-            [formControl]="technicalControls.name"
-            [label]="t('contactName')"
-            data-testid="technical-contact-name"
-          />
-          <watt-text-field
-            [formControl]="technicalControls.title"
-            [label]="t('attention')"
-            data-testid="technical-contact-title"
-          />
-          <watt-phone-field
-            [formControl]="technicalControls.phone"
-            [label]="t('phoneNumber')"
-            data-testid="technical-contact-phone"
-          />
-          <watt-phone-field
-            [formControl]="technicalControls.mobile"
-            [label]="t('mobile')"
-            data-testid="technical-contact-mobile"
-          />
-
-          <watt-text-field
-            [formControl]="technicalControls.email"
-            [label]="t('email')"
-            type="email"
-            data-testid="technical-contact-email"
-          >
-            <watt-field-error>
-              @if (technicalControls.email.invalid) {
+              @if (controls.email.hasError('email')) {
                 {{ t('invalidEmail') }}
               }
             </watt-field-error>
@@ -146,5 +95,5 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
   `,
 })
 export class DhContactDetailsFormComponent {
-  contactDetailsForm = input.required<FormGroup<MoveInContactDetailsFormType>>();
+  contactDetailsForm = input.required<FormGroup<ContactDetailsFormType>>();
 }
