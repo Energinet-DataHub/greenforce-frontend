@@ -22,9 +22,8 @@ import { take } from 'rxjs';
 
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet/watt/table';
 import { WATT_CARD } from '@energinet/watt/card';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
@@ -51,12 +50,11 @@ import {
     TranslocoPipe,
     WATT_CARD,
     WATT_TABLE,
-    WattButtonComponent,
     VaterFlexComponent,
     VaterSpacerComponent,
     VaterStackComponent,
     VaterUtilityDirective,
-    WattButtonComponent,
+    DhDownloadButtonComponent,
   ],
 })
 export class DhMarketRolesComponent implements AfterViewInit {

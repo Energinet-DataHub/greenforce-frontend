@@ -34,6 +34,7 @@ import {
 import {
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
+  DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -62,6 +63,7 @@ import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/wa
     VaterSpacerComponent,
 
     DhDropdownTranslatorDirective,
+    DhResetFiltersButtonComponent,
   ],
   template: `
     <form
@@ -116,7 +118,7 @@ import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/wa
 
       <vater-spacer />
 
-      <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
+      <dh-reset-filters-button [text]="t('reset')" />
     </form>
   `,
 })

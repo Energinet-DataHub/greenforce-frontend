@@ -16,15 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
-  selector: 'watt-data-filters',
-  styles: `
-    :host {
-      width: 100%;
-    }
+  selector: 'dh-reset-filters-button',
+  template: `
+    <watt-button size="small" variant="primary" icon="close" type="reset" (click)="clicked.emit()">
+      {{ text() }}
+    </watt-button>
   `,
-  template: `<ng-content />`,
+  imports: [WattButtonComponent],
 })
-export class WattDataFiltersComponent {}
+export class DhResetFiltersButtonComponent {
+  text = input.required<string>();
+  clicked = output<void>();
+}

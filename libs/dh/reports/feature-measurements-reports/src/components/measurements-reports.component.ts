@@ -81,11 +81,7 @@ import { DhOverview } from './overview/overview.component';
         } @else {
           <vater-flex fill="vertical" gap="ml">
             <vater-stack direction="row" gap="s">
-              <h3>{{ t('title') }}</h3>
-              <span class="watt-chip-label">{{ totalCount() }}</span>
-
               <vater-spacer />
-
               <dh-new-report-request />
             </vater-stack>
 

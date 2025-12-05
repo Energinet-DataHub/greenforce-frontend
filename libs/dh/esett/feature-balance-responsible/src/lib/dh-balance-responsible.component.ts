@@ -22,13 +22,16 @@ import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco
 
 import { WattDatePipe } from '@energinet/watt/date';
 import { WattBadgeComponent } from '@energinet/watt/badge';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableComponent } from '@energinet/watt/table';
 import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhEmDashFallbackPipe, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDownloadButtonComponent,
+  DhEmDashFallbackPipe,
+  GenerateCSV,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { GetBalanceResponsibleMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { BalanceResponsibleMessage } from './types';
@@ -59,13 +62,13 @@ import { RouterOutlet } from '@angular/router';
     WattDatePipe,
     WattBadgeComponent,
     WattTableComponent,
-    WattButtonComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
     VaterUtilityDirective,
     DhEmDashFallbackPipe,
     DhBalanceResponsibleImporterComponent,
     VaterStackComponent,
+    DhDownloadButtonComponent,
   ],
 })
 export class DhBalanceResponsibleComponent {
