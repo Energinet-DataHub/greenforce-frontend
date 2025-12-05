@@ -22,11 +22,11 @@ import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL } from '@energinet/watt/modal';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
@@ -70,7 +70,7 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
         <watt-button variant="secondary" (click)="edit.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" (click)="editLink(edit.close.bind(edit))">
+        <watt-button variant="primary" (click)="editLink(edit)">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -87,7 +87,7 @@ export default class DhMeteringPointEditChargeLink {
 
   id = input.required<string>();
 
-  editLink(close: (result: boolean) => void) {
+  editLink(component: WattModalComponent) {
     const startDate = this.form.value.startDate;
     const factor = this.form.value.factor;
     if (this.form.invalid) return;
@@ -102,6 +102,6 @@ export default class DhMeteringPointEditChargeLink {
       },
     });
 
-    close(true);
+    component.close(true);
   }
 }
