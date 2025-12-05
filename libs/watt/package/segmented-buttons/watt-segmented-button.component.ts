@@ -26,5 +26,6 @@ import { Component, input, TemplateRef, viewChild } from '@angular/core';
 })
 export class WattSegmentedButtonComponent {
   templateRef = viewChild.required<TemplateRef<unknown>>(TemplateRef);
-  value = input.required<string>();
+  value = input<string>();
+  link = input<string>();
 }

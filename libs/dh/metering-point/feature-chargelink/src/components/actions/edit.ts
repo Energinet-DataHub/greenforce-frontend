@@ -60,7 +60,7 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
       [title]="t('title')"
-      (closed)="navigate.navigate('details', id())"
+      (closed)="save($event)"
     >
       <form vater-stack align="start" direction="column" gap="s" tabindex="-1" [formGroup]="form">
         <watt-text-field [formControl]="form.controls.factor" [label]="t('factor')" type="number" />
@@ -70,7 +70,7 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
         <watt-button variant="secondary" (click)="edit.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" (click)="editLink(edit.close.bind(edit))">
+        <watt-button variant="primary" (click)="edit.close(true)">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -87,14 +87,16 @@ export default class DhMeteringPointEditChargeLink {
 
   id = input.required<string>();
 
-  editLink(close: (result: boolean) => void) {
+  save = async (save: boolean) => {
+    if (!save) return this.navigate.navigate('details', this.id());
+
     const startDate = this.form.value.startDate;
     const factor = this.form.value.factor;
     if (this.form.invalid) return;
     if (!startDate) return;
     if (!factor) return;
 
-    this.edit.mutate({
+    await this.edit.mutate({
       variables: {
         chargeLinkId: this.id(),
         newStartDate: startDate,
@@ -102,6 +104,6 @@ export default class DhMeteringPointEditChargeLink {
       },
     });
 
-    close(true);
-  }
+    this.navigate.navigate('details', this.id());
+  };
 }

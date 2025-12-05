@@ -16,18 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
-import { distinctUntilChanged, filter, map, mergeWith, of } from 'rxjs';
 
-import {
-  WattSegmentedButtonComponent,
-  WattSegmentedButtonsComponent,
-} from '@energinet/watt/segmented-buttons';
+import { WATT_SEGMENTED_BUTTONS } from '@energinet/watt/segmented-buttons';
 
 import {
   VaterFlexComponent,
@@ -47,8 +42,7 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
     VaterUtilityDirective,
     VaterFlexComponent,
     VaterStackComponent,
-    WattSegmentedButtonsComponent,
-    WattSegmentedButtonComponent,
+    WATT_SEGMENTED_BUTTONS,
   ],
   template: `
     <vater-flex
@@ -56,22 +50,18 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
       gap="ml"
       *transloco="let t; prefix: 'meteringPoint.measurements.navigation'"
     >
-      @if (currentView() !== 'upload') {
-        <vater-stack>
-          <watt-segmented-buttons [formControl]="selectedView">
-            <watt-segmented-button [value]="getLink('day')">{{ t('day') }}</watt-segmented-button>
-            <watt-segmented-button [value]="getLink('month')">{{
-              t('month')
-            }}</watt-segmented-button>
-            <watt-segmented-button [value]="getLink('year')">
-              {{ t('year') }}
-            </watt-segmented-button>
-            <watt-segmented-button [value]="getLink('all')">
-              {{ t('allYears') }}
-            </watt-segmented-button>
-          </watt-segmented-buttons>
-        </vater-stack>
-      }
+      <vater-stack>
+        <watt-segmented-buttons>
+          <watt-segmented-button [link]="getLink('day')">{{ t('day') }}</watt-segmented-button>
+          <watt-segmented-button [link]="getLink('month')">{{ t('month') }}</watt-segmented-button>
+          <watt-segmented-button [link]="getLink('year')">
+            {{ t('year') }}
+          </watt-segmented-button>
+          <watt-segmented-button [link]="getLink('all')">
+            {{ t('allYears') }}
+          </watt-segmented-button>
+        </watt-segmented-buttons>
+      </vater-stack>
 
       <vater-flex fill="vertical">
         <router-outlet />
@@ -80,41 +70,5 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
   `,
 })
 export class DhMeasurementsNavigationComponent {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private routeOnLoad$ =
-    this.route.firstChild?.url.pipe(map((url) => url.map((segment) => segment.path).join('/'))) ||
-    of('');
-
-  private routeOnNavigation$ = this.router.events.pipe(
-    filter((event) => event.type === EventType.NavigationEnd),
-    map((nav) => nav.urlAfterRedirects.split('/').pop()?.split('?')[0])
-  );
-
-  protected currentView = toSignal<MeasurementsSubPaths>(
-    this.routeOnLoad$.pipe(
-      mergeWith(this.routeOnNavigation$),
-      distinctUntilChanged(),
-      map((route) => route as MeasurementsSubPaths),
-      takeUntilDestroyed()
-    )
-  );
-
   getLink = (key: MeasurementsSubPaths) => getPath(key);
-  selectedView = new FormControl();
-
-  navigateTo = toSignal(this.selectedView.valueChanges);
-
-  constructor() {
-    effect(() => {
-      this.selectedView.setValue(this.currentView());
-    });
-
-    effect(() => {
-      this.router.navigate([this.navigateTo()], {
-        relativeTo: this.route,
-        queryParamsHandling: 'merge',
-      });
-    });
-  }
 }
