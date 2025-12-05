@@ -14,48 +14,46 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<dh-result [loading]="loading()" [hasError]="hasError()">
-  <mat-accordion *transloco="let t; prefix: 'admin.userManagement.tabs.roles'" multi>
-    @for (actor of userRolesPerActor(); track actor.id) {
-      <watt-expandable-card
-        variant="solid"
-        [expanded]="expanded()"
-        *transloco="let translateMarketRole; prefix: 'marketParticipant.marketRoles'"
-      >
-        @let title =
-          actor.glnOrEicNumber +
-          " • " +
-          actor.organization.name +
-          " - " +
-          (actor.name ? actor.name : "") +
-          " (" +
-          translateMarketRole(actor.userRoles[0].eicFunction) +
-          ")";
+<mat-accordion *transloco="let t; prefix: 'admin.userManagement.tabs.roles'" multi>
+  @for (actor of userRolesPerActor(); track actor.id) {
+    <watt-expandable-card
+      variant="solid"
+      [expanded]="expanded()"
+      *transloco="let translateMarketRole; prefix: 'marketParticipant.marketRoles'"
+    >
+      @let title =
+        actor.glnOrEicNumber +
+        " • " +
+        actor.organization.name +
+        " - " +
+        (actor.name ? actor.name : "") +
+        " (" +
+        translateMarketRole(actor.userRoles[0].eicFunction) +
+        ")";
 
-        <watt-expandable-card-title>
-          {{ title }}
+      <watt-expandable-card-title
+        >{{ title }}
 
-          @if (actor.id === user()?.administratedBy?.id) {
-            <watt-icon
-              name="personCheck"
-              wattTooltipPosition="right"
-              [wattTooltip]="t('userResponsible')"
-            />
-          }
-        </watt-expandable-card-title>
-
-        @if (!checkIfAtLeastOneRoleIsAssigned(actor.id) && selectMode()) {
-          <watt-field-error>
-            {{ t("atleastOneRole") }}
-          </watt-field-error>
+        @if (actor.id === administratedById()) {
+          <watt-icon
+            name="personCheck"
+            wattTooltipPosition="right"
+            [wattTooltip]="t('userResponsible')"
+          />
         }
+      </watt-expandable-card-title>
 
-        <dh-basic-user-roles-table
-          [userRoles]="actor.userRoles"
-          [selectMode]="selectMode()"
-          (selectionChanged)="selectionChanged(actor.id, $event, actor.userRoles)"
-        />
-      </watt-expandable-card>
-    }
-  </mat-accordion>
-</dh-result>
+      @if (selectMode() && !checkIfAtLeastOneRoleIsAssigned(actor.id)) {
+        <watt-field-error>
+          {{ t("atleastOneRole") }}
+        </watt-field-error>
+      }
+
+      <dh-basic-user-roles-table
+        [userRoles]="actor.userRoles"
+        [selectMode]="selectMode()"
+        (selectionChanged)="selectionChanged(actor.id, $event, actor.userRoles)"
+      />
+    </watt-expandable-card>
+  }
+</mat-accordion>

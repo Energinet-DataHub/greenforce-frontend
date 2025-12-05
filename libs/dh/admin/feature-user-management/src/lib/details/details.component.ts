@@ -51,7 +51,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import { DhUserRolesContainerComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDeactivteComponent } from './deactivate.component';
@@ -72,7 +72,7 @@ import { DhUserMasterDataComponent } from './tabs/master-data.component';
     WATT_MODAL,
     WATT_DRAWER,
     WattButtonComponent,
-    DhUserRolesComponent,
+    DhUserRolesContainerComponent,
     DhDeactivteComponent,
     DhReactivateComponent,
     DhUserStatusComponent,

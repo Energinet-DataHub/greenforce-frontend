@@ -16,22 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { effect, input, output, computed, Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { effect, input, output, Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
-import { WattTableColumnDef, WATT_TABLE } from '@energinet/watt/table';
+import { WATT_TABLE } from '@energinet/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 
 import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-access-api';
+import { ActorUserRoles } from '@energinet-datahub/dh/admin/data-access-api';
 
 import { DhBasicUserRolesTableComponent } from './basic-user-roles-table.component';
 import { DhUserByIdMarketParticipant } from './types';
@@ -57,7 +53,6 @@ import { DhUserByIdMarketParticipant } from './types';
     }
   `,
   imports: [
-    FormsModule,
     TranslocoDirective,
     MatExpansionModule,
 
@@ -66,36 +61,20 @@ import { DhUserByIdMarketParticipant } from './types';
     WattTooltipDirective,
     WattFieldErrorComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
-    DhResultComponent,
     DhBasicUserRolesTableComponent,
   ],
 })
 export class DhUserRolesComponent {
-  private actorsAndRolesQuery = query(GetActorsAndUserRolesDocument, () => ({
-    variables: { id: this.id() },
-  }));
-
   private _updateUserRoles: UpdateUserRoles = {
     actors: [],
   };
 
-  id = input.required<string>();
-  selectMode = input(false);
-  expanded = input(true);
+  administratedById = input<string>();
+  selectMode = input.required<boolean>();
+  expanded = input.required<boolean>();
+  userRolesPerActor = input.required<DhUserByIdMarketParticipant[]>();
 
   updateUserRoles = output<UpdateUserRoles>();
-
-  user = computed(() => this.actorsAndRolesQuery.data()?.userById);
-
-  loading = this.actorsAndRolesQuery.loading;
-  hasError = this.actorsAndRolesQuery.hasError;
-
-  userRolesPerActor = computed<DhUserByIdMarketParticipant[]>(() => this.user()?.actors ?? []);
-
-  columns: WattTableColumnDef<ActorUserRole> = {
-    name: { accessor: 'name' },
-    description: { accessor: 'description', sort: false },
-  };
 
   constructor() {
     effect(() => {
