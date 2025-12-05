@@ -43,6 +43,9 @@
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
       "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/src/index.ts"],
       "@energinet-datahub/dh/charges/feature-charges": ["libs/dh/charges/feature-charges/index.ts"],
+      "@energinet-datahub/dh/charges/feature-parse-series": [
+        "libs/dh/charges/feature-parse-series/index.ts"
+      ],
       "@energinet-datahub/dh/charges/ui-shared": ["libs/dh/charges/ui-shared/index.ts"],
       "@energinet-datahub/dh/core/feature-notifications": [
         "libs/dh/core/feature-notifications/src/index.ts"

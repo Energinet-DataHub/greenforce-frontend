@@ -145,7 +145,7 @@ export default class DhChargesEdit {
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.chargeById);
   code = computed(() => this.charge()?.code);
-  name = computed(() => this.charge()?.currentPeriod?.name);
+  name = computed(() => this.charge()?.name);
   description = computed(() => this.charge()?.currentPeriod?.description);
   type = computed(() => this.charge()?.type);
   vatClassification = computed(() => this.charge()?.currentPeriod?.vatClassification);

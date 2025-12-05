@@ -1,0 +1,20 @@
+{
+  "name": "dh-charges-feature-parse-series",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/charges/feature-parse-series/src",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:charges", "type:feature"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

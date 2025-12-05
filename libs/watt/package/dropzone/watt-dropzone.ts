@@ -93,7 +93,11 @@ export type MimeType = `${string}/${string}`;
         >
           @if (showProgressBar()) {
             <vater-stack center gap="s" fill="horizontal" align="start">
-              <span>{{ intl.loadingMessage }} ( {{ progress() + '%' }} )</span>
+              <vater-stack fill="horizontal" direction="row" justify="space-between">
+                <span>{{ loadingMessage() ?? intl.loadingMessage }}</span>
+                <span>{{ progress() }}%</span>
+              </vater-stack>
+
               <mat-progress-bar mode="determinate" [value]="progress()" />
             </vater-stack>
           } @else {
@@ -136,6 +140,9 @@ export class WattDropZone implements ControlValueAccessor {
 
   /** Value for the progress bar. Only shown when `showProgressBar` is true. */
   progress = input(0);
+
+  /** Message to display when `showProgressBar` is true. Overrides default implementation. */
+  loadingMessage = input<string>();
 
   /** Emits when one or more files are selected. */
   selected = output<File[]>();

@@ -24,7 +24,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh-metering-point-feature-measurements-csv-parser',
+  cacheDir: '../../../../node_modules/.vite/libs/dh-charges-feature-parse-series',
   plugins: [analog(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     watch: false,
@@ -36,8 +36,7 @@ export default defineConfig(() => ({
     include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     setupFiles: ['tests/test-setup.ts'],
     coverage: {
-      reportsDirectory:
-        '../../../../coverage/libs/dh/metering-point/feature-measurements-csv-parser',
+      reportsDirectory: '../../../../coverage/libs/dh/charges/feature-parse-series',
       provider: 'v8',
     },
   },

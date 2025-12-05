@@ -153,6 +153,9 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
             <watt-menu-item [routerLink]="[{ outlets: { actions: ['stop'] } }]">
               {{ t('stop') }}
             </watt-menu-item>
+            <watt-menu-item [routerLink]="[{ outlets: { actions: ['upload-series'] } }]">
+              {{ t('uploadSeries') }}
+            </watt-menu-item>
           </watt-menu>
         </ng-container>
       </div>

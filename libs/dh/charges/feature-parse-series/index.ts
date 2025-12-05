@@ -16,10 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-import '@angular/compiler';
-import '@testing-library/jest-dom/vitest';
-import '@analogjs/vite-plugin-angular/setup-vitest';
-import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
-
-setUpTestbed();
-setUpAngularTestingLibrary();
+export { parseChargeSeries } from './src/parse-charge-series';
+export { ChargeSeriesResult } from './src/charge-series-result';

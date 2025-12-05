@@ -1,9 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`parseMeasurements should error when period is invalid 1`] = `
-Object {
-  "errors": Array [
-    Object {
+exports[`parseMeasurements > should error when period is invalid 1`] = `
+{
+  "errors": [
+    {
       "index": 0,
       "key": "INVALID_PERIOD",
     },
@@ -18,15 +18,15 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should error when position is invalid 1`] = `
-Object {
-  "errors": Array [
-    Object {
+exports[`parseMeasurements > should error when position is invalid 1`] = `
+{
+  "errors": [
+    {
       "index": 0,
       "key": "INVALID_POSITION",
     },
   ],
-  "interval": Object {
+  "interval": {
     "end": 2025-10-25T23:15:00.000Z,
     "start": 2025-10-25T22:00:00.000Z,
   },
@@ -39,15 +39,15 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should error when quality is invalid 1`] = `
-Object {
-  "errors": Array [
-    Object {
+exports[`parseMeasurements > should error when quality is invalid 1`] = `
+{
+  "errors": [
+    {
       "index": 3,
       "key": "INVALID_QUALITY",
     },
   ],
-  "interval": Object {
+  "interval": {
     "end": 2025-10-25T23:15:00.000Z,
     "start": 2025-10-25T22:00:00.000Z,
   },
@@ -60,15 +60,15 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should error when quantity is invalid 1`] = `
-Object {
-  "errors": Array [
-    Object {
+exports[`parseMeasurements > should error when quantity is invalid 1`] = `
+{
+  "errors": [
+    {
       "index": 0,
       "key": "INVALID_QUANTITY",
     },
   ],
-  "interval": Object {
+  "interval": {
     "end": 2025-10-25T23:15:00.000Z,
     "start": 2025-10-25T22:00:00.000Z,
   },
@@ -81,10 +81,10 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should error when structure is unexpected 1`] = `
-Object {
-  "errors": Array [
-    Object {
+exports[`parseMeasurements > should error when structure is unexpected 1`] = `
+{
+  "errors": [
+    {
       "index": 0,
       "key": "STRUCTURE",
     },
@@ -99,15 +99,15 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should error with missing measurements in hourly resolution 1`] = `
-Object {
-  "errors": Array [
-    Object {
+exports[`parseMeasurements > should error with missing measurements in hourly resolution 1`] = `
+{
+  "errors": [
+    {
       "index": 1,
       "key": "MISSING_MEASUREMENT",
     },
   ],
-  "interval": Object {
+  "interval": {
     "end": 2025-04-28T01:00:00.000Z,
     "start": 2025-04-27T22:00:00.000Z,
   },
@@ -120,15 +120,15 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should error with missing measurements in monthly resolution 1`] = `
-Object {
-  "errors": Array [
-    Object {
+exports[`parseMeasurements > should error with missing measurements in monthly resolution 1`] = `
+{
+  "errors": [
+    {
       "index": 2,
       "key": "MISSING_MEASUREMENT",
     },
   ],
-  "interval": Object {
+  "interval": {
     "end": 2025-04-30T22:00:00.000Z,
     "start": 2024-12-31T23:00:00.000Z,
   },
@@ -141,15 +141,15 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should error with missing measurements in quarter hourly resolution 1`] = `
-Object {
-  "errors": Array [
-    Object {
+exports[`parseMeasurements > should error with missing measurements in quarter hourly resolution 1`] = `
+{
+  "errors": [
+    {
       "index": 1,
       "key": "MISSING_MEASUREMENT",
     },
   ],
-  "interval": Object {
+  "interval": {
     "end": 2025-04-27T22:45:00.000Z,
     "start": 2025-04-27T22:00:00.000Z,
   },
@@ -162,15 +162,15 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should error with unexpected measurements in hourly resolution 1`] = `
-Object {
-  "errors": Array [
-    Object {
+exports[`parseMeasurements > should error with unexpected measurements in hourly resolution 1`] = `
+{
+  "errors": [
+    {
       "index": 1,
       "key": "UNEXPECTED_MEASUREMENT",
     },
   ],
-  "interval": Object {
+  "interval": {
     "end": 2025-04-27T23:15:00.000Z,
     "start": 2025-04-27T22:00:00.000Z,
   },
@@ -183,15 +183,15 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should error with unexpected measurements in monthly resolution 1`] = `
-Object {
-  "errors": Array [
-    Object {
+exports[`parseMeasurements > should error with unexpected measurements in monthly resolution 1`] = `
+{
+  "errors": [
+    {
       "index": 5,
       "key": "UNEXPECTED_MEASUREMENT",
     },
   ],
-  "interval": Object {
+  "interval": {
     "end": 2025-05-31T22:00:00.000Z,
     "start": 2024-12-31T23:00:00.000Z,
   },
@@ -204,15 +204,15 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should error with unexpected measurements in quarter hourly resolution 1`] = `
-Object {
-  "errors": Array [
-    Object {
+exports[`parseMeasurements > should error with unexpected measurements in quarter hourly resolution 1`] = `
+{
+  "errors": [
+    {
       "index": 1,
       "key": "UNEXPECTED_MEASUREMENT",
     },
   ],
-  "interval": Object {
+  "interval": {
     "end": 2025-04-27T22:20:00.000Z,
     "start": 2025-04-27T22:00:00.000Z,
   },
@@ -225,10 +225,10 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should handle DST end correctly in hourly resolution 1`] = `
-Object {
-  "errors": Array [],
-  "interval": Object {
+exports[`parseMeasurements > should handle DST end correctly in hourly resolution 1`] = `
+{
+  "errors": [],
+  "interval": {
     "end": 2025-10-26T04:00:00.000Z,
     "start": 2025-10-25T22:00:00.000Z,
   },
@@ -241,10 +241,10 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should handle DST end correctly in quarter hourly resolution 1`] = `
-Object {
-  "errors": Array [],
-  "interval": Object {
+exports[`parseMeasurements > should handle DST end correctly in quarter hourly resolution 1`] = `
+{
+  "errors": [],
+  "interval": {
     "end": 2025-10-26T03:15:00.000Z,
     "start": 2025-10-25T22:00:00.000Z,
   },
@@ -257,10 +257,10 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should handle DST start correctly in hourly resolution 1`] = `
-Object {
-  "errors": Array [],
-  "interval": Object {
+exports[`parseMeasurements > should handle DST start correctly in hourly resolution 1`] = `
+{
+  "errors": [],
+  "interval": {
     "end": 2025-03-30T04:00:00.000Z,
     "start": 2025-03-29T23:00:00.000Z,
   },
@@ -273,10 +273,10 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should handle DST start correctly in quarter hourly resolution 1`] = `
-Object {
-  "errors": Array [],
-  "interval": Object {
+exports[`parseMeasurements > should handle DST start correctly in quarter hourly resolution 1`] = `
+{
+  "errors": [],
+  "interval": {
     "end": 2025-03-30T02:15:00.000Z,
     "start": 2025-03-29T23:00:00.000Z,
   },
@@ -289,10 +289,10 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should parse measurements in hourly resolution 1`] = `
-Object {
-  "errors": Array [],
-  "interval": Object {
+exports[`parseMeasurements > should parse measurements in hourly resolution 1`] = `
+{
+  "errors": [],
+  "interval": {
     "end": 2025-04-28T03:00:00.000Z,
     "start": 2025-04-27T22:00:00.000Z,
   },
@@ -305,10 +305,10 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should parse measurements in monthly resolution 1`] = `
-Object {
-  "errors": Array [],
-  "interval": Object {
+exports[`parseMeasurements > should parse measurements in monthly resolution 1`] = `
+{
+  "errors": [],
+  "interval": {
     "end": 2025-11-30T23:00:00.000Z,
     "start": 2024-12-31T23:00:00.000Z,
   },
@@ -321,10 +321,10 @@ Object {
 }
 `;
 
-exports[`parseMeasurements should parse measurements in quarter hourly resolution 1`] = `
-Object {
-  "errors": Array [],
-  "interval": Object {
+exports[`parseMeasurements > should parse measurements in quarter hourly resolution 1`] = `
+{
+  "errors": [],
+  "interval": {
     "end": 2025-04-27T23:15:00.000Z,
     "start": 2025-04-27T22:00:00.000Z,
   },
