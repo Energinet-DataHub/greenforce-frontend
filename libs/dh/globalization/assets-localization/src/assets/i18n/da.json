@@ -360,7 +360,8 @@
     "P1Y": "Pr. år",
     "QUARTER_HOURLY": "Kvarter",
     "HOURLY": "Time",
-    "MONTHLY": "Pr. måned"
+    "MONTHLY": "Pr. måned",
+    "OTHER": "Andet"
   },
   "netSettlementGroup": {
     "2": "Timebaseret afregning (2)",
