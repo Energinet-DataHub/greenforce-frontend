@@ -42,10 +42,10 @@ jobs:
   frontend_ci_build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
 
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
