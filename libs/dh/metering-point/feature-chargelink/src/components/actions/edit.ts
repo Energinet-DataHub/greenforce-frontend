@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, ViewEncapsulation } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -32,19 +32,21 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
 @Component({
   selector: 'dh-metering-point-edit-charge-link',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattButtonComponent,
     WattTextFieldComponent,
     WattDatepickerComponent,
-
     VaterStackComponent,
+    WattIconComponent,
+    WattTooltipDirective,
   ],
   styles: `
     :host {
@@ -62,6 +64,10 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
       [title]="t('title')"
       (closed)="save($event)"
     >
+      <h2 vater-stack direction="row" gap="s">
+        {{ t('title') }}
+        <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
+      </h2>
       <form vater-stack align="start" direction="column" gap="s" tabindex="-1" [formGroup]="form">
         <watt-text-field [formControl]="form.controls.factor" [label]="t('factor')" type="number" />
         <watt-datepicker [formControl]="form.controls.startDate" [label]="t('startDate')" />

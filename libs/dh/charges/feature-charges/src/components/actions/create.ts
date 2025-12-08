@@ -20,18 +20,20 @@ import { Component, computed, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattFieldComponent } from '@energinet/watt/field';
 import { WATT_MODAL } from '@energinet/watt/modal';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WattRadioComponent } from '@energinet/watt/radio';
-import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { WattFieldComponent } from '@energinet/watt/field';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
-import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
-import { ChargeResolution, ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
+import { ChargeResolution, ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-charges-create',
@@ -48,6 +50,8 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
     WattTextFieldComponent,
     WATT_MODAL,
     DhChargesTypeSelection,
+    WattIconComponent,
+    WattTooltipDirective,
   ],
   template: `
     <watt-modal
@@ -58,6 +62,10 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared'
       [title]="t('action.' + (type() ?? 'SELECTION'))"
       (closed)="navigate('..')"
     >
+      <h2 vater-stack direction="row" gap="s">
+        {{ t('action.' + (type() ?? 'SELECTION')) }}
+        <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
+      </h2>
       <dh-charges-type-selection [(value)]="type">
         <form
           *transloco="let t; prefix: 'charges.actions.create.form'"
