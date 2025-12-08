@@ -20,21 +20,24 @@ import { Component, computed, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_MODAL } from '@energinet/watt/modal';
-
-import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
-import {
-  GetChargeByIdDocument,
-  VatClassification,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattFieldComponent } from '@energinet/watt/field';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WattRadioComponent } from '@energinet/watt/radio';
-import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { WattFieldComponent } from '@energinet/watt/field';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+
+import {
+  VatClassification,
+  GetChargeByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-charges-edit',
@@ -50,6 +53,8 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
     WattTextAreaFieldComponent,
     WattTextFieldComponent,
     WATT_MODAL,
+    WattIconComponent,
+    WattTooltipDirective,
   ],
   template: `
     <watt-modal
@@ -57,9 +62,12 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
       *transloco="let t; prefix: 'charges.actions.edit'"
       autoOpen
       size="small"
-      [title]="t('title')"
       (closed)="navigate('..')"
     >
+      <h2 vater-stack direction="row" gap="s">
+        {{ t('title') }}
+        <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
+      </h2>
       <form
         *transloco="let t; prefix: 'charges.actions.create.form'"
         id="edit-charge"

@@ -27,6 +27,7 @@ $offset: 6px;
   border-radius: 6px;
   @include watt.space-inset-squish-s;
   @include watt.typography-watt-text-s;
+  white-space: pre-wrap;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 

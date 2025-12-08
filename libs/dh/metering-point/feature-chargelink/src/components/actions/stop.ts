@@ -23,8 +23,10 @@ import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_MODAL } from '@energinet/watt/modal';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -36,12 +38,12 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattButtonComponent,
     WattDatepickerComponent,
-
     VaterStackComponent,
+    WattIconComponent,
+    WattTooltipDirective,
   ],
   styles: `
     :host {
@@ -56,9 +58,12 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
       #stop
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.stop'"
-      [title]="t('title')"
       (closed)="navigate('..')"
     >
+      <h2 vater-stack direction="row" gap="s">
+        {{ t('title') }}
+        <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
+      </h2>
       <form vater-stack align="start" direction="column" gap="s" tabindex="-1" [formGroup]="form">
         <watt-datepicker [formControl]="form.controls.stopDate" [label]="t('stopDate')" />
       </form>

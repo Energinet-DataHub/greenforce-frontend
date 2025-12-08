@@ -25,14 +25,20 @@ limitations under the License.
         (click)="close(false)"
       />
     }
-    @if (title() && loading() === false) {
-      <h2 class="watt-modal-title" [ngClass]="{ 'watt-modal-title-icon': titleIcon() }">
-        @if (titleIcon()) {
-          <watt-icon [name]="titleIcon()" [size]="'l'" />
-        }
-        {{ title() }}
-      </h2>
-    }
+    <div class="watt-modal-title">
+      @if (!loading()) {
+        <ng-content select="h1,h2,h3,h4,h5,h6">
+          @if (title()) {
+            <h2 [ngClass]="{ 'watt-modal-title-icon': titleIcon() }">
+              @if (titleIcon()) {
+                <watt-icon [name]="titleIcon()" [size]="'l'" />
+              }
+              {{ title() }}
+            </h2>
+          }
+        </ng-content>
+      }
+    </div>
     <div
       wattResizeObserver
       class="watt-modal-content"

@@ -452,18 +452,21 @@
           "withoutPredictablePrice": "Nej",
           "validFrom": "Gyldig fra",
           "cutoffDate": "Skæringsdato"
-        }
+        },
+        "tooltip": "Processen tager få minutter. Afvisningsårsager findes\n i forretningsbeskeder."
       },
       "stop": {
         "title": "Stop prisinformation",
         "date": "Stopdato",
         "submit": "Gem ændringer",
-        "close": "Luk"
+        "close": "Luk",
+        "tooltip": "Processen tager få minutter. Resultat\n vises her, og afvisningsårsager findes\n i forretningsbeskeder."
       },
       "edit": {
         "title": "Rediger prisinformation",
         "submit": "Gem ændringer",
-        "close": "Luk"
+        "close": "Luk",
+        "tooltip": "Processen tager få minutter. Resultat\n vises her, og afvisningsårsager findes\n i forretningsbeskeder."
       },
       "uploadSeries": {
         "title": "Tilføj prisserie",
@@ -742,6 +745,9 @@
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
     "chargeLinks": {
+      "shared": {
+        "tooltip": "Processen tager få minutter. Resultat vises her, \n og afvisningsårsager findes i forretningsbeskeder."
+      },
       "columns": {
         "type": "Type",
         "id": "Id",
@@ -770,24 +776,47 @@
         "stop": "Stop pristilknytning",
         "cancel": "Annuller pristilknytning"
       },
+      "create": {
+        "title": "Tilknyt pris",
+        "close": "Luk",
+        "back": "Tilbage",
+        "actions": {
+          "SUBSCRIPTION": "Tilknyt abonnement",
+          "TARIFF": "Tilknyt tarif",
+          "TARIFF_TAX": "Tilknyt tarif, afgift",
+          "FEE": "Tilknyt gebyr"
+        },
+        "chargeTypes": {
+          "TARIFF": "Tarif",
+          "TARIFF_TAX": "Tarif, afgift",
+          "SUBSCRIPTION": "Abonnement",
+          "FEE": "Gebyr"
+        },
+        "startDate": "Startdato",
+        "factor": "Antal",
+        "tooltip": "Processen tager få minutter.\n Afvisningsårsager findes i forretningsbeskeder."
+      },
       "edit": {
         "title": "Rediger pristilknytning",
         "factor": "Antal",
         "startDate": "Skæringsdato",
         "save": "Gem ændringer",
-        "close": "Luk"
+        "close": "Luk",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "cancel": {
         "title": "Annuller pristilknytning?",
         "cancelWarning": "Handlingen kan ikke fortrydes",
         "cancel": "Annuller pristilknytning",
-        "close": "Luk"
+        "close": "Luk",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "stop": {
         "title": "Stop pristilknytning",
         "stopDate": "Stopdato",
         "save": "Gem ændringer",
-        "close": "Luk"
+        "close": "Luk",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       }
     },
     "processOverview": {
@@ -929,25 +958,7 @@
         }
       }
     },
-    "createChargeLink": {
-      "title": "Tilknyt pris",
-      "close": "Luk",
-      "back": "Tilbage",
-      "actions": {
-        "SUBSCRIPTION": "Tilknyt abonnement",
-        "TARIFF": "Tilknyt tarif",
-        "TARIFF_TAX": "Tilknyt tarif, afgift",
-        "FEE": "Tilknyt gebyr"
-      },
-      "chargeTypes": {
-        "TARIFF": "Tarif",
-        "TARIFF_TAX": "Tarif, afgift",
-        "SUBSCRIPTION": "Abonnement",
-        "FEE": "Gebyr"
-      },
-      "startDate": "Startdato",
-      "factor": "Antal"
-    },
+
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "steps": {

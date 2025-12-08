@@ -20,9 +20,12 @@ import { Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_MODAL } from '@energinet/watt/modal';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -34,6 +37,9 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
     WattButtonComponent,
     WattDatepickerComponent,
     WATT_MODAL,
+    WattIconComponent,
+    WattTooltipDirective,
+    VaterStackComponent,
   ],
   template: `
     <watt-modal
@@ -41,9 +47,12 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
       *transloco="let t; prefix: 'charges.actions.stop'"
       autoOpen
       size="small"
-      [title]="t('title')"
       (closed)="navigate('..')"
     >
+      <h2 vater-stack direction="row" gap="s">
+        {{ t('title') }}
+        <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
+      </h2>
       <form id="stop-charge" [formGroup]="form" (ngSubmit)="save()">
         <watt-datepicker [label]="t('date')" [formControl]="form.controls.date" />
       </form>

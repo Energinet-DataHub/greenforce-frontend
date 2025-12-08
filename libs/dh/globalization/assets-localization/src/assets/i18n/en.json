@@ -451,18 +451,21 @@
           "withoutPredictablePrice": "No",
           "validFrom": "Valid From",
           "cutoffDate": "Cut-off Date"
-        }
+        },
+        "tooltip": "The process takes a few minutes. Rejection reasons can be found in business messages."
       },
       "stop": {
         "title": "Stop price",
         "date": "Stop date",
         "submit": "Save changes",
-        "close": "Close"
+        "close": "Close",
+        "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
       },
       "edit": {
         "title": "Edit price",
         "submit": "Save changes",
-        "close": "Close"
+        "close": "Close",
+        "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
       },
       "uploadSeries": {
         "title": "Add charge series",
@@ -741,6 +744,9 @@
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
     "chargeLinks": {
+      "shared": {
+        "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
+      },
       "columns": {
         "type": "Type",
         "id": "ID",
@@ -769,24 +775,47 @@
         "stop": "Stop change link",
         "cancel": "Cancel change link"
       },
+      "create": {
+        "title": "Attach price",
+        "close": "Close",
+        "back": "Back",
+        "actions": {
+          "SUBSCRIPTION": "Attach subscription",
+          "TARIFF": "Attach tariff",
+          "TARIFF_TAX": "Attach tariff, tax",
+          "FEE": "Attach fee"
+        },
+        "chargeTypes": {
+          "TARIFF": "Tariff",
+          "TARIFF_TAX": "Tariff, tax",
+          "SUBSCRIPTION": "Subscription",
+          "FEE": "Fee"
+        },
+        "startDate": "Start date",
+        "factor": "Quality",
+        "tooltip": "The process takes a few minutes.\n Rejection reasons can be found in business messages."
+      },
       "edit": {
         "title": "Edit charge link",
         "factor": "Quantity",
         "startDate": "Start date",
         "save": "Save changes",
-        "close": "Close"
+        "close": "Close",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "cancel": {
         "title": "Cancel price link?",
         "cancelWarning": "This action cannot be undone",
         "cancel": "Cancel price link",
-        "close": "Close"
+        "close": "Close",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "stop": {
         "title": "Stop price link",
         "stopDate": "Stop date",
         "save": "Save changes",
-        "close": "Close"
+        "close": "Close",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       }
     },
     "processOverview": {
@@ -927,25 +956,6 @@
           "error": "{{shared.error.title}}"
         }
       }
-    },
-    "createChargeLink": {
-      "title": "Attach price",
-      "close": "Close",
-      "back": "Back",
-      "actions": {
-        "SUBSCRIPTION": "Attach subscription",
-        "TARIFF": "Attach tariff",
-        "TARIFF_TAX": "Attach tariff, tax",
-        "FEE": "Attach fee"
-      },
-      "chargeTypes": {
-        "TARIFF": "Tariff",
-        "TARIFF_TAX": "Tariff, tax",
-        "SUBSCRIPTION": "Subscription",
-        "FEE": "Fee"
-      },
-      "startDate": "Start date",
-      "factor": "Quality"
     },
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
