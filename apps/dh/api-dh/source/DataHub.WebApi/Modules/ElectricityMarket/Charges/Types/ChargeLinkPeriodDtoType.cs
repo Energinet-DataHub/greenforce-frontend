@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using NodaTime;
-using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeIdentifierDto;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
+namespace Energinet.DataHub.WebApi.Modules.Charges;
 
-public record ChargeLink(
-    string Id,
-    ChargeIdentifierDto ChargeIdentifier,
-    ChargeType Type,
-    string Name,
-    MarketParticipantId Owner,
-    int Amount,
-    Interval Period);
+[ObjectType<ChargeLinkPeriodDto>]
+public static partial class ChargeLinkPeriodDtoType
+{
+    static partial void Configure(IObjectTypeDescriptor<ChargeLinkPeriodDto> descriptor)
+    {
+        descriptor.Name("ChargeLinkPeriod");
+        descriptor.BindFieldsExplicitly();
+        descriptor.Field(f => new Interval(f.From, f.To)).Name("period");
+        descriptor.Field(f => f.Factor).Name("amount");
+        descriptor.Field(f => f.ChargeLinkPeriodId).Name("id");
+    }
+}

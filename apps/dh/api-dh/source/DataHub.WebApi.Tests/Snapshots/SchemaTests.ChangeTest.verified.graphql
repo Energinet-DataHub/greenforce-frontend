@@ -304,19 +304,21 @@ type Charge {
 type ChargeLink {
   history: [ChargeLinkHistory!]!
   charge: Charge
-  owner: MarketParticipant
   amount: Int!
-  id: String!
-  name: String!
-  period: DateRange!
-  type: ChargeType!
-  displayName: String!
+  currentPeriod: ChargeLinkPeriod
+  id: Long!
 }
 
 type ChargeLinkHistory {
   submittedAt: DateTime!
   description: String!
   messageId: String!
+}
+
+type ChargeLinkPeriod {
+  period: DateRange!
+  amount: Int!
+  id: Long!
 }
 
 type ChargePeriod {
@@ -1251,8 +1253,8 @@ type Query {
   charges(filter: String query: GetChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
-  chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
-  chargeLinkById(meteringPointId: String! chargeLinkId: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
+  chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
+  chargeLinkById(meteringPointId: String! chargeLinkId: Long!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1790,29 +1792,19 @@ input CancelSettlementReportInput {
 input ChargeIdentifierDtoSortInput {
   code: SortEnumType
   owner: SortEnumType
-  chargeType: SortEnumType
+  type: SortEnumType
 }
 
-input ChargeLinkSortInput {
-  id: SortEnumType
+input ChargeLinkDtoSortInput {
+  chargeLinkId: SortEnumType
+  meteringPointId: SortEnumType
   chargeIdentifier: ChargeIdentifierDtoSortInput
-  type: ChargeTypeSortInput
-  name: SortEnumType
-  owner: MarketParticipantIdSortInput
-  amount: SortEnumType
-  period: SortEnumType
 }
 
 input ChargeSortInput {
   type: SortEnumType
   code: SortEnumType
   name: SortEnumType
-}
-
-input ChargeTypeSortInput {
-  name: SortEnumType
-  type: SortEnumType
-  isTax: SortEnumType
 }
 
 input CreateActorContactDtoInput {
@@ -1975,10 +1967,6 @@ input InviteUserInput {
 input ManuallyHandleOutgoingMessageInput {
   documentId: String!
   comment: String!
-}
-
-input MarketParticipantIdSortInput {
-  id: SortEnumType
 }
 
 input MarketParticipantSortInput {
