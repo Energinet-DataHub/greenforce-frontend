@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, inject, input, ViewEncapsulation } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
