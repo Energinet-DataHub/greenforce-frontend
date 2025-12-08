@@ -12,6 +12,11 @@ fragment CalculationFields on Calculation {
   steps {
     isCurrent
     state
+    error {
+      code
+      message
+      meteringPointIds
+    }
   }
   ... on WholesaleAndEnergyCalculation {
     period

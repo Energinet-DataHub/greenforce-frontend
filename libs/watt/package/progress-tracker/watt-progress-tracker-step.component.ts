@@ -56,6 +56,9 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
         @case ('succeeded') {
           <watt-icon name="checkmark" size="xs" />
         }
+        @case ('warning') {
+          <watt-icon name="priorityHigh" size="xs" />
+        }
       }
     </div>
     <div class="watt-progress-tracker-step-text"><ng-content /></div>
@@ -63,7 +66,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 })
 export class WattProgressTrackerStepComponent {
   status = input.required<
-    'pending' | 'running' | 'skipped' | 'canceled' | 'failed' | 'succeeded'
+    'pending' | 'running' | 'skipped' | 'canceled' | 'failed' | 'succeeded' | 'warning'
   >();
   label = input<string>();
   current = input(false);

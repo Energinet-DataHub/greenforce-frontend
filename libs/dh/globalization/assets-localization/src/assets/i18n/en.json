@@ -2390,6 +2390,7 @@
         "period": "Calculation period",
         "startedBy": "Created by",
         "calculationId": "Calculation ID",
+        "orchestrationInstanceId": "Orchestration Instance ID",
         "executionType": "Execution type",
         "executionTime": "Execution time",
         "gridAreas": "Grid Areas",
@@ -2409,6 +2410,10 @@
         }
       },
       "steps": {
+        "errors": {
+          "FAILED_ENQUEUE_MEASUREMENTS": "Failed to enqueue measurements for {{count}} metering points",
+          "meteringPointIds": "Metering point IDs"
+        },
         "0": {
           "pending": "Pending scheduling",
           "running": "Scheduling",

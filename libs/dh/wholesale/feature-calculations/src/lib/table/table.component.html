@@ -98,9 +98,14 @@ limitations under the License.
 
     <!-- Status -->
     <ng-container *wattTableCell="columns.status; let row">
-      <dh-process-state-badge [status]="row.state">
-        {{ "shared.states." + row.state | transloco }}
-      </dh-process-state-badge>
+      <vater-stack direction="row" gap="xs" align="center">
+        @if (hasStepErrors(row)) {
+          <watt-icon name="warning" size="s" />
+        }
+        <dh-process-state-badge [status]="row.state">
+          {{ "shared.states." + row.state | transloco }}
+        </dh-process-state-badge>
+      </vater-stack>
     </ng-container>
   </watt-table>
 </watt-data-table>

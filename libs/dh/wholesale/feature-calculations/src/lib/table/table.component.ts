@@ -118,6 +118,9 @@ export class DhCalculationsTableComponent {
 
   activeRow = computed(() => this.dataSource.data.find((row) => row.id === this.id()));
 
+  hasStepErrors = (calculation: Calculation) =>
+    calculation.steps?.some((step) => step.error) ?? false;
+
   constructor() {
     this.dataSource.subscribeToMore({
       document: OnCalculationUpdatedDocument,

@@ -27,6 +27,7 @@ import {
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet/watt/drawer';
 import { WATT_PROGRESS_TRACKER } from '@energinet/watt/progress-tracker';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   CancelScheduledCalculationDocument,
@@ -56,6 +57,7 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattEmptyStateComponent,
+    WattIconComponent,
     WattModalComponent,
     WattModalActionsComponent,
     VaterFlexComponent,
@@ -88,6 +90,7 @@ export class DhCalculationsDetailsComponent {
   state = computed(() => this.result()?.state);
   cancelable = computed(() => this.state() === ProcessState.Scheduled);
   startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.result()?.scheduledAt);
+  hasStepErrors = computed(() => this.result()?.steps?.some(step => step.error) ?? false);
 
   cancelCalculation = mutation(CancelScheduledCalculationDocument, {
     onCompleted: () =>

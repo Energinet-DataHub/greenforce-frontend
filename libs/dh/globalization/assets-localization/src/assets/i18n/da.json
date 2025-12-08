@@ -2391,6 +2391,7 @@
         "period": "Beregningsperiode",
         "startedBy": "Bestilt af",
         "calculationId": "Beregnings-ID",
+        "orchestrationInstanceId": "Orkestreringsinstans-ID",
         "executionType": "Afviklingstype",
         "executionTime": "Afviklingstidspunkt",
         "gridAreas": "Netområder",
@@ -2410,6 +2411,10 @@
         }
       },
       "steps": {
+        "errors": {
+          "FAILED_ENQUEUE_MEASUREMENTS": "Kunne ikke sætte målinger i kø for {{count}} målepunkter",
+          "meteringPointIds": "Målepunkt ID'er"
+        },
         "0": {
           "pending": "Afventer planlægning",
           "running": "Planlægger",

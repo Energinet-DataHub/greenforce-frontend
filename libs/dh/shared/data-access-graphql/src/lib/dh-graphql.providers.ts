@@ -133,6 +133,16 @@ export const graphQLProvider = provideApollo(() => {
         Calculation: {
           keyFields: (obj) => `Calculation:${obj.id}`,
         },
+        OrchestrationInstanceStep: {
+          keyFields: false,
+          fields: {
+            error: {
+              read(existing = null) {
+                return existing;
+              },
+            },
+          },
+        },
         Query: {
           fields: {
             calculationById(_, { args, toReference }) {

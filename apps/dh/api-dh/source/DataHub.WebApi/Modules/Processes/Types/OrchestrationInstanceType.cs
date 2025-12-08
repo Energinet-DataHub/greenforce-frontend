@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OrchestrationInstance.Model;
 using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
@@ -74,21 +75,44 @@ public class OrchestrationInstanceType : InterfaceType<OrchestrationInstanceType
     private static OrchestrationInstanceStep CreateOrchestrationInstanceStep(
         OrchestrationInstanceTypedDto instance,
         StepInstanceDto step) =>
-        new OrchestrationInstanceStep(step.Lifecycle.ToProcessStepState(), IsCurrentStep(instance, step));
+        new OrchestrationInstanceStep(
+            step.Lifecycle.ToProcessStepState(),
+            IsCurrentStep(instance, step),
+            ParseStepError(step.CustomState));
 
     private static OrchestrationInstanceStep CreateInitialOrchestrationInstanceStep(
         OrchestrationInstanceTypedDto instance) => instance.Lifecycle.State switch
         {
             OrchestrationInstanceLifecycleState.Pending =>
-                new OrchestrationInstanceStep(ProcessStepState.Pending, true),
+                new OrchestrationInstanceStep(ProcessStepState.Pending, true, null),
             OrchestrationInstanceLifecycleState.Queued or
             OrchestrationInstanceLifecycleState.Running =>
-                new OrchestrationInstanceStep(ProcessStepState.Succeeded, false),
+                new OrchestrationInstanceStep(ProcessStepState.Succeeded, false, null),
             OrchestrationInstanceLifecycleState.Terminated =>
                 instance.Lifecycle.TerminationState == OrchestrationInstanceTerminationState.UserCanceled
-                    ? new OrchestrationInstanceStep(ProcessStepState.Canceled, true)
-                    : new OrchestrationInstanceStep(ProcessStepState.Succeeded, false),
+                    ? new OrchestrationInstanceStep(ProcessStepState.Canceled, true, null)
+                    : new OrchestrationInstanceStep(ProcessStepState.Succeeded, false, null),
         };
+
+    private static StepError? ParseStepError(string? customState)
+    {
+        if (string.IsNullOrWhiteSpace(customState))
+            return null;
+
+        try
+        {
+            var errorData = JsonSerializer.Deserialize<StepErrorData>(customState);
+            return errorData is not null
+                ? new StepError(errorData.Code, errorData.Message, errorData.MeteringPointIds)
+                : null;
+        }
+        catch (JsonException)
+        {
+            return null;
+        }
+    }
+
+    private record StepErrorData(string? Code, string? Message, List<string>? MeteringPointIds);
 
     private static bool IsCurrentStep(
         OrchestrationInstanceTypedDto instance,

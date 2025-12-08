@@ -14,4 +14,4 @@
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Types;
 
-public record OrchestrationInstanceStep(ProcessStepState State, bool IsCurrent, StepError? Error);
+public record StepError(string? Code, string? Message, IReadOnlyList<string>? MeteringPointIds);

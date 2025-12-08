@@ -43,9 +43,14 @@ limitations under the License.
   *transloco="let t; prefix: 'wholesale.calculations'"
 >
   <watt-drawer-topbar>
-    <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
-      {{ t(state() ?? "indeterminate") }}
-    </dh-process-state-badge>
+    <vater-stack direction="row" gap="xs" align="center">
+      @if (hasStepErrors()) {
+        <watt-icon name="warning" size="s" />
+      }
+      <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
+        {{ t(state() ?? "indeterminate") }}
+      </dh-process-state-badge>
+    </vater-stack>
   </watt-drawer-topbar>
   @if (guid && cancelable()) {
     <watt-drawer-actions>
@@ -88,7 +93,7 @@ limitations under the License.
           @for (step of calculation.steps; track step; let i = $index) {
             <watt-progress-tracker-step
               [label]="t('steps.' + i + '.pending')"
-              [status]="step.state"
+              [status]="step.state === 'succeeded' && step.error ? 'warning' : step.state"
               [current]="step.isCurrent"
             >
               {{ t("steps." + i + ".succeeded") }}
@@ -98,7 +103,25 @@ limitations under the License.
       }
 
       <vater-stack scrollable fill="vertical" align="stretch">
-        @if (wholesaleAndEnergyCalculation && wholesaleAndEnergyCalculation?.gridAreas) {
+        @if (hasStepErrors() && calculation) {
+          @for (step of calculation.steps; track step) {
+            @if (step.error) {
+              <div class="step-error-details">
+                @if (step.error.code) {
+                  <p>{{ t("steps.errors." + step.error.code, { count: step.error.meteringPointIds?.length || 0 }) }}</p>
+                } @else if (step.error.message) {
+                  <p>{{ step.error.message }}</p>
+                }
+                @if (step.error.meteringPointIds && step.error.meteringPointIds.length > 0) {
+                  @for (id of step.error.meteringPointIds; track id) {
+                    <div>{{ id }}</div>
+                  }
+                }
+                <p>({{ t("details.orchestrationInstanceId") }}={{ calculation.id }}).</p>
+              </div>
+            }
+          }
+        } @else if (wholesaleAndEnergyCalculation && wholesaleAndEnergyCalculation?.gridAreas) {
           <dh-calculations-grid-areas-table [data]="wholesaleAndEnergyCalculation.gridAreas" />
         } @else if (query.error()) {
           <watt-empty-state
