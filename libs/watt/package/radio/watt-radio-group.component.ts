@@ -104,7 +104,7 @@ export class WattRadioGroupComponent<T> implements ControlValueAccessor {
   private group = computed(() => this.name() ?? `watt-radio-group-${this.instance}`);
 
   private radios = contentChildren(WattRadioComponent<T>, { descendants: true });
-  private inheritPropertiesEffect = effect(() => {
+  protected inheritPropertiesEffect = effect(() => {
     this.radios().forEach((r) => {
       r.disabled.set(this.disabled());
       r.name.set(this.group());
