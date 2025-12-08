@@ -47,6 +47,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   {
     __typename: 'Charge',
     id: '1',
+    name: 'Grid Fee',
     displayName: 'CHARGE001 • Grid Fee',
     owner: {
       __typename: 'MarketParticipant',
@@ -93,6 +94,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   {
     __typename: 'Charge',
     id: '2',
+    name: 'Peak Hours Tariff',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-2',
@@ -139,6 +141,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   {
     __typename: 'Charge',
     id: '3',
+    name: 'Green Energy Plan',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-3',
@@ -185,6 +188,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   {
     __typename: 'Charge',
     id: '4',
+    name: 'Connection Fee',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-4',
@@ -232,6 +236,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   {
     __typename: 'Charge',
     id: '5',
+    name: 'Connection Fee',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-5',
@@ -283,6 +288,12 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1000',
     amount: 100.0,
+    currentPeriod: {
+      __typename: 'ChargeLinkPeriod',
+      amount: 100.0,
+      period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+      id: 'clp-1000',
+    },
     history: [
       {
         __typename: 'ChargeLinkHistory',
@@ -303,6 +314,7 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1001',
     amount: 75.5,
+    currentPeriod: null,
     history: [
       {
         __typename: 'ChargeLinkHistory',
@@ -323,6 +335,12 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1002',
     amount: 50.0,
+    currentPeriod: {
+      __typename: 'ChargeLinkPeriod',
+      amount: 50.0,
+      period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
+      id: 'clp-1002',
+    },
     history: [
       {
         __typename: 'ChargeLinkHistory',
@@ -343,6 +361,12 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1003',
     amount: 120.0,
+    currentPeriod: {
+      __typename: 'ChargeLinkPeriod',
+      amount: 120.0,
+      period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
+      id: 'clp-1003',
+    },
     history: [
       {
         __typename: 'ChargeLinkHistory',
@@ -363,6 +387,12 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1004',
     amount: 120.0,
+    currentPeriod: {
+      __typename: 'ChargeLinkPeriod',
+      amount: 120.0,
+      period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
+      id: 'clp-1004',
+    },
     history: [
       {
         __typename: 'ChargeLinkHistory',
