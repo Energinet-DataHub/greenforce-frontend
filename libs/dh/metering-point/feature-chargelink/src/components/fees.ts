@@ -71,11 +71,11 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
         (rowClick)="navigation.navigate('details', $event.id)"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ 'charges.chargeTypes.' + element.type | transloco }}
+          {{ 'charges.chargeTypes.' + element.charge?.type | transloco }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.date; let element">
-          {{ element.period.start | wattDate }}
+          {{ element.currentPeriod?.period | wattDate }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.status; let element">
@@ -97,7 +97,7 @@ export default class DhMeteringPointChargeLinksFees {
   navigation = inject(DhNavigationService);
   dataSource = dataSource(() =>
     (this.query.data()?.chargeLinksByMeteringPointId ?? []).filter(
-      (chargeLink) => chargeLink.type === ChargeType.Fee
+      (chargeLink) => chargeLink.charge?.type === ChargeType.Fee
     )
   );
 
@@ -107,11 +107,11 @@ export default class DhMeteringPointChargeLinksFees {
 
   columns: WattTableColumnDef<Charge> = {
     id: { accessor: 'id' },
-    name: { accessor: 'name' },
-    owner: { accessor: (charge) => charge.owner?.displayName ?? '' },
+    name: { accessor: (chargeLink) => chargeLink.charge?.name ?? '' },
+    owner: { accessor: (chargeLink) => chargeLink.charge?.owner?.displayName ?? '' },
     amount: { accessor: 'amount' },
-    date: { accessor: 'period' },
-    status: { header: '', accessor: (charge) => charge.charge?.status },
+    date: { accessor: (chargeLink) => chargeLink.currentPeriod?.period },
+    status: { header: '', accessor: (chargeLink) => chargeLink.charge?.status },
   };
 
   selection = () => {

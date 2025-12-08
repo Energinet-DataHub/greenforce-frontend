@@ -12,26 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using NodaTime;
-using ChargeApiModels = Energinet.DataHub.Charges.Abstractions.Api.Models;
-using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeIdentifierDto;
-using ChargeInformationDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationDto;
-using ChargeInformationSortProperty = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationSortProperty;
-using Resolution = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.Resolution;
+using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
 public class ChargesClient(
     DataHub.Charges.Client.IChargesClient client,
-    DataHub.WebApi.Clients.MarketParticipant.v1.IMarketParticipantClient_V1 marketParticipantClient_V1,
+    Clients.MarketParticipant.v1.IMarketParticipantClient_V1 marketParticipantClient_V1,
     IHttpContextAccessor httpContext) : IChargesClient
 {
-    public async Task<ChargeApiModels.Result<(IEnumerable<ChargeInformationDto> Charges, int TotalCount)>> GetChargesAsync(
+    public async Task<DataHub.Charges.Abstractions.Api.Models.Result<(IEnumerable<ChargeInformationDto> Charges, int TotalCount)>?> GetChargesAsync(
         int skip,
         int take,
         string? filter,

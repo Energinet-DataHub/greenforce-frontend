@@ -13,32 +13,35 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using HotChocolate.Authorization;
-using MarkPart = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges;
 
-[ObjectType<ChargeLink>]
-public static partial class ChargeOperations
+[ObjectType<ChargeLinkDto>]
+public static partial class ChargeLinkOperations
 {
     [Query]
     [UseSorting]
     [Authorize(Roles = new[] { "metering-point:prices" })]
-    public static async Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(
+    public static async Task<IEnumerable<ChargeLinkDto>> GetChargeLinksByMeteringPointIdAsync(
         string meteringPointId,
         CancellationToken ct,
-        IChargeLinkClient client) =>
-            await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct).ConfigureAwait(false);
+        IChargeLinkClient client)
+    {
+        var result = await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct).ConfigureAwait(false);
+        return result;
+    }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:prices" })]
-    public static async Task<ChargeLink?> GetChargeLinkByIdAsync(
+    public static async Task<ChargeLinkDto?> GetChargeLinkByIdAsync(
         string meteringPointId,
-        string chargeLinkId,
+        long chargeLinkId,
         CancellationToken ct,
         IChargeLinkClient client)
     {
@@ -46,7 +49,7 @@ public static partial class ChargeOperations
             .GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct)
             .ConfigureAwait(false);
 
-        return chargeLinks.FirstOrDefault(cl => cl.Id == chargeLinkId);
+        return chargeLinks.FirstOrDefault(cl => cl.ChargeLinkId == chargeLinkId);
     }
 
     [Mutation]
@@ -77,32 +80,26 @@ public static partial class ChargeOperations
             await client.CancelChargeLinkAsync(chargeLinkId, ct).ConfigureAwait(false);
 
     public static async Task<IEnumerable<ChargeLinkHistory>> GetHistoryAsync(
-        [Parent] ChargeLink chargeLink,
+        [Parent] ChargeLinkDto chargeLink,
         CancellationToken ct,
         IChargeLinkClient client) =>
-            await client.GetChargeLinkHistoryAsync(chargeLink.Id, ct).ConfigureAwait(false);
+            await client.GetChargeLinkHistoryAsync(chargeLink.ChargeLinkId, ct).ConfigureAwait(false);
 
     public static async Task<ChargeInformationDto?> GetChargeAsync(
-        [Parent] ChargeLink chargeLink,
+        [Parent] ChargeLinkDto chargeLink,
         IChargesClient client,
         CancellationToken ct) =>
             await client.GetChargeByIdAsync(chargeLink.ChargeIdentifier, ct).ConfigureAwait(false);
 
-    public static async Task<MarkPart.ActorDto?> GetOwnerAsync(
-        [Parent] ChargeLink chargeLink,
-        IMarketParticipantByIdDataLoader dataLoader,
-        CancellationToken ct) =>
-            await dataLoader.LoadAsync(chargeLink.Owner.Id, ct).ConfigureAwait(false);
+    public static int GetAmount([Parent] ChargeLinkDto chargeLink) => chargeLink.GetCurrentPeriod()?.Factor ?? 1;
 
-    static partial void Configure(IObjectTypeDescriptor<ChargeLink> descriptor)
+    public static ChargeLinkPeriodDto? GetCurrentPeriod([Parent] ChargeLinkDto chargeLink) =>
+        chargeLink.GetCurrentPeriod();
+
+    static partial void Configure(IObjectTypeDescriptor<ChargeLinkDto> descriptor)
     {
         descriptor.Name("ChargeLink");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.Amount);
-        descriptor.Field(f => f.Id);
-        descriptor.Field(f => f.Name);
-        descriptor.Field(f => f.Period);
-        descriptor.Field(f => f.Type);
-        descriptor.Field(f => $"{f.Id} • ({f.Name})").Name("displayName");
+        descriptor.Field(f => f.ChargeLinkId).Name("id");
     }
 }

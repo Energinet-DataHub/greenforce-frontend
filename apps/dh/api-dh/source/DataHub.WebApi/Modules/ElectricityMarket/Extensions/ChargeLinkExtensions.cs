@@ -12,16 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Shared;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 
-public class ResolutionType : EnumType<Resolution>
+public static class ChargeLinkExtensions
 {
-    protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
+    public static ChargeLinkPeriodDto? GetCurrentPeriod(this ChargeLinkDto chargeLink)
     {
-        descriptor.Name("ChargeResolution");
-        descriptor.AsLowerCase();
+        return chargeLink.ChargeLinkPeriods
+            .Where(IsCurrent)
+            .OrderBy(p => p.From)
+            .FirstOrDefault();
     }
+
+    public static bool IsCurrent(this ChargeLinkPeriodDto period) =>
+        period.From.ToDateTimeOffset() <= DateTimeOffset.Now && (period.To == null || period.To?.ToDateTimeOffset() > DateTimeOffset.Now);
 }

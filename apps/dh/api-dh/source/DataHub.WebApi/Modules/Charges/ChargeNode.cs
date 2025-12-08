@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
@@ -19,10 +21,7 @@ using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
 using NodaTime;
-using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeIdentifierDto;
-using ChargeInformationDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationDto;
-using ChargeInformationPeriodDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationPeriodDto;
-using VatClassification = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.VatClassification;
+using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -39,7 +38,7 @@ public static partial class ChargeNode
         IChargesClient client,
         CancellationToken ct)
     {
-        var result = (await client.GetChargesAsync(0, 1000, filter, new ChargeSortInput(Common.Enums.SortDirection.Desc, null), query, ct)).Value.Charges ?? Enumerable.Empty<ChargeInformationDto>();
+        var result = (await client.GetChargesAsync(0, 1000, filter, new ChargeSortInput(Common.Enums.SortDirection.Desc, null), query, ct))?.Value.Charges ?? Enumerable.Empty<ChargeInformationDto>();
 
         if (query?.ActorNumbers?.Any() == true)
         {
