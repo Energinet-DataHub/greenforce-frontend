@@ -74,6 +74,11 @@ export const chargeRoutes: Routes = [
         loadComponent: () => import('./components/actions/edit'),
         outlet: 'actions',
       },
+      {
+        path: 'upload-series',
+        loadComponent: () => import('./components/actions/upload-series'),
+        outlet: 'actions',
+      },
     ],
   },
 ];
