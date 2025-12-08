@@ -359,7 +359,8 @@
     "P1Y": "Yearly",
     "QUARTER_HOURLY": "Quarter hour",
     "HOURLY": "Hour",
-    "MONTHLY": "Monthly"
+    "MONTHLY": "Monthly",
+    "OTHER": "Other"
   },
   "netSettlementGroup": {
     "2": "Hourly settlement (2)",
