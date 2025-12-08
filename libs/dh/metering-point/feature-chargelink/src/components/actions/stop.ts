@@ -58,7 +58,6 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
       #stop
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.stop'"
-      [title]="t('title')"
       (closed)="navigate('..')"
     >
       <h2 vater-stack direction="row" gap="s">

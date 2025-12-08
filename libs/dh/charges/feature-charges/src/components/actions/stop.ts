@@ -47,7 +47,6 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
       *transloco="let t; prefix: 'charges.actions.stop'"
       autoOpen
       size="small"
-      [title]="t('title')"
       (closed)="navigate('..')"
     >
       <h2 vater-stack direction="row" gap="s">

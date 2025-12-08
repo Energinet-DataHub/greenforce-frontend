@@ -61,7 +61,6 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
       #edit
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
-      [title]="t('title')"
       (closed)="save($event)"
     >
       <h2 vater-stack direction="row" gap="s">

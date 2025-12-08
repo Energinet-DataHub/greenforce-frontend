@@ -62,7 +62,6 @@ import {
       *transloco="let t; prefix: 'charges.actions.edit'"
       autoOpen
       size="small"
-      [title]="t('title')"
       (closed)="navigate('..')"
     >
       <h2 vater-stack direction="row" gap="s">

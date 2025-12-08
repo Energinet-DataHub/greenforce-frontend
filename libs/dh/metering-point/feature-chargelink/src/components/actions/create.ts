@@ -60,12 +60,7 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
     }
   `,
   template: `
-    <watt-modal
-      #create
-      size="small"
-      *transloco="let t; prefix: 'meteringPoint.chargeLinks.create'"
-      [title]="t('title')"
-    >
+    <watt-modal #create size="small" *transloco="let t; prefix: 'meteringPoint.chargeLinks.create'">
       <h2 vater-stack direction="row" gap="s">
         {{ t('title') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />

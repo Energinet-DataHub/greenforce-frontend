@@ -56,7 +56,6 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
       #cancel
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.cancel'"
-      [title]="t('title')"
       (closed)="navigate('..')"
     >
       <h2 vater-stack direction="row" gap="s">
