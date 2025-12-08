@@ -104,6 +104,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     } as MarketParticipant,
     type: ChargeType.Tariff,
     code: 'CHARGE002',
+    name: 'Peak Hours Tariff',
     displayName: 'CHARGE002 • Peak Hours Tariff',
     status: ChargeStatus.Current,
     resolution: ChargeResolution.Hourly,
@@ -151,6 +152,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     } as MarketParticipant,
     type: ChargeType.Subscription,
     code: 'CHARGE003',
+    name: 'Green Energy Plan',
     displayName: 'CHARGE003 • Green Energy Plan',
     status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Daily,
@@ -198,8 +200,8 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     } as MarketParticipant,
     type: ChargeType.Fee,
     code: 'CHARGE004',
+    name: 'Connection Fee',
     displayName: 'CHARGE004 • Connection Fee',
-
     status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Monthly,
     currentPeriod: {
@@ -246,8 +248,8 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     } as MarketParticipant,
     type: ChargeType.TariffTax,
     code: 'CHARGE005',
+    name: 'Connection Fee',
     displayName: 'CHARGE005 • Connection Fee',
-
     status: ChargeStatus.Current,
     resolution: ChargeResolution.Monthly,
     currentPeriod: {

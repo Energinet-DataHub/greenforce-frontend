@@ -360,7 +360,8 @@
     "P1Y": "Pr. år",
     "QUARTER_HOURLY": "Kvarter",
     "HOURLY": "Time",
-    "MONTHLY": "Pr. måned"
+    "MONTHLY": "Pr. måned",
+    "OTHER": "Andet"
   },
   "netSettlementGroup": {
     "2": "Timebaseret afregning (2)",
@@ -463,6 +464,27 @@
         "title": "Rediger prisinformation",
         "submit": "Gem ændringer",
         "close": "Luk"
+      },
+      "uploadSeries": {
+        "title": "Tilføj prisserie",
+        "submit": "Tilføj prisserie",
+        "close": "Luk",
+        "hint": "Kun CSV-filer er tilladt",
+        "success": "Prisserie klar til indsendelse",
+        "loading": "Indlæser prisserie",
+        "errors": {
+          "type": "Filen skal være i CSV format",
+          "multiple": "Du kan kun vælge én fil ad gangen"
+        },
+        "csvErrors": {
+          "STRUCTURE": "CSV-filen skal indeholde kolonnerne: \"Position\", \"Periode\" og \"Pris\".",
+          "UNKNOWN": "Der opstod en fejl under indlæsning af filen. Prøv venligst igen eller vælg en anden fil.",
+          "INVALID_PERIOD": "Kolonnen \"Periode\" skal være i korrekt datoformat. Fejl fundet i række {{row}}.",
+          "INVALID_POSITION": "Kolonnen \"Position\" må kun indeholde tal. Fejl fundet i række {{row}}.",
+          "INVALID_PRICE": "Kolonnen \"Pris\" må kun indeholde tal. Fejl fundet i række {{row}}.",
+          "MISSING_POINT": "Filen har manglende positioner. Fejl fundet nær række {{row}}.",
+          "UNEXPECTED_POINT": "Filen har for mange positioner. Fejl fundet nær række {{row}}."
+        }
       }
     },
     "charge": {
@@ -479,7 +501,8 @@
       "actions": {
         "menu": "Handlinger",
         "edit": "Rediger prisinformation",
-        "stop": "Stop prisinformation"
+        "stop": "Stop prisinformation",
+        "uploadSeries": "Tilføj prisserie"
       },
       "breadcrumb": "Priser"
     },

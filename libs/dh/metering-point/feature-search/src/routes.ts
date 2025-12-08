@@ -178,7 +178,8 @@ export const dhMeteringPointRoutes: Routes = [
           {
             path: combinePaths(
               getPath<MeteringPointSubPaths>('measurements'),
-              getPath<MeasurementsSubPaths>('upload')
+              getPath<MeasurementsSubPaths>('upload'),
+              false
             ),
             canActivate: [
               PermissionGuard(['measurements:manage']),
