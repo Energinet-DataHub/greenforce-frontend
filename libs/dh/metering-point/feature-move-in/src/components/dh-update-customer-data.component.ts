@@ -53,19 +53,37 @@ import { WattButtonComponent } from '@energinet/watt/button';
     WattButtonComponent,
     VaterStackComponent,
   ],
-  styles: ``,
+  styles: `
+    .sticky-header {
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .margin-medium {
+      margin: 0 var(--watt-space-m) 0 var(--watt-space-m)
+    }
+
+    .form-container {
+      margin: var(--watt-space-m);
+      flex: 1 1 0;
+      min-height: 0;
+      overflow: auto;
+    }
+  `,
   template: `
     <form *transloco="let t; prefix: 'meteringPoint.moveIn'">
-      <watt-card style="padding: 0; position: sticky; top: 0; z-index: 1;">
-        <vater-stack style="margin:0 var(--watt-space-m) 0 var(--watt-space-m)" direction="row" justify="space-between">
-          <h3>Opdater kundestamdata</h3>
+      <watt-card class="sticky-header">
+        <vater-stack class="margin-medium" direction="row" justify="space-between">
+          <h3>{{ t('updateCustomerData')}}</h3>
           <vater-stack direction="row" gap="m">
-            <watt-button variant="secondary">Annuller</watt-button>
-            <watt-button>Opdater kundestamdata</watt-button>
+            <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }}</watt-button>
+            <watt-button>{{ t('updateCustomerData')}}</watt-button>
           </vater-stack>
         </vater-stack>
       </watt-card>
-      <vater-flex direction="row" gap="m" style="margin: var(--watt-space-m); flex: 1 1 0; min-height: 0; overflow: auto;">
+      <vater-flex direction="row" gap="m" class="form-container">
         <watt-card>
           <!-- Legal -->
           <watt-card-title>

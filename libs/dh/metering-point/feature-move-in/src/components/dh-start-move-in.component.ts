@@ -41,11 +41,12 @@ import { WattButtonComponent } from '@energinet/watt/button';
       [title]="t('title')"
       *transloco="let t; prefix: 'meteringPoint.moveIn'"
     >
-      <dh-customer-details [customerDetailsForm]="customerDetailsForm" />
+      <dh-start-move-in-form [startMoveInForm]="startMoveInForm" />
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="startMoveIn()">{{
-          t('save')
-        }}</watt-button>
+            t('save')
+          }}
+        </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
@@ -67,7 +68,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
     cpr1: this.fb.control<string>('', [Validators.required, dhCprValidator()]),
   });
 
-  customerDetailsForm = this.fb.group<StartMoveInFormType>({
+  startMoveInForm = this.fb.group<StartMoveInFormType>({
     cutOffDate: this.fb.control(new Date(), Validators.required),
     moveInType: this.fb.control<MoveInType | null>(null, Validators.required),
     customerType: this.fb.control(this.customerTypeInitialValue),
@@ -76,7 +77,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
   readonly isForeignCompanyFormControl = this.fb.control<boolean>(false);
 
   private customerTypeChanged = toSignal(
-    this.customerDetailsForm.controls.customerType.valueChanges,
+    this.startMoveInForm.controls.customerType.valueChanges,
     { initialValue: this.customerTypeInitialValue }
   );
 
@@ -88,10 +89,10 @@ export class DhStartMoveInComponent extends WattTypedModal<{
     const customerType = this.customerTypeChanged();
 
     if (customerType === 'private') {
-      this.customerDetailsForm.addControl('privateCustomer', this.privateCustomerForm);
-      this.customerDetailsForm.removeControl('businessCustomer');
+      this.startMoveInForm.addControl('privateCustomer', this.privateCustomerForm);
+      this.startMoveInForm.removeControl('businessCustomer');
     } else {
-      this.customerDetailsForm.addControl(
+      this.startMoveInForm.addControl(
         'businessCustomer',
         this.fb.group({
           companyName: this.fb.control<string>('', Validators.required),
@@ -100,7 +101,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
         })
       );
 
-      this.customerDetailsForm.removeControl('privateCustomer');
+      this.startMoveInForm.removeControl('privateCustomer');
       this.privateCustomerForm.reset();
     }
   });
@@ -108,20 +109,20 @@ export class DhStartMoveInComponent extends WattTypedModal<{
   private isForeignCompanyEffect = effect(() => {
     const isForeignCompany = this.isForeignCompanyChanged();
     if (isForeignCompany) {
-      this.customerDetailsForm.controls.businessCustomer?.controls.cvr.disable();
-      this.customerDetailsForm.controls.businessCustomer?.controls.cvr.setValue('11111111');
+      this.startMoveInForm.controls.businessCustomer?.controls.cvr.disable();
+      this.startMoveInForm.controls.businessCustomer?.controls.cvr.setValue('11111111');
     } else {
-      this.customerDetailsForm.controls.businessCustomer?.controls.cvr.enable();
-      this.customerDetailsForm.controls.businessCustomer?.controls.cvr.reset();
+      this.startMoveInForm.controls.businessCustomer?.controls.cvr.enable();
+      this.startMoveInForm.controls.businessCustomer?.controls.cvr.reset();
     }
   });
 
   async startMoveIn() {
-    if (this.customerDetailsForm.invalid) {
+    if (this.startMoveInForm.invalid) {
       return;
     }
 
-    const { moveInType } = this.customerDetailsForm.getRawValue();
+    const { moveInType } = this.startMoveInForm.getRawValue();
 
     if (!moveInType) return;
 

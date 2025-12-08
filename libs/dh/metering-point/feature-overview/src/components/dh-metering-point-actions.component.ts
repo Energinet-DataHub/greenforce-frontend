@@ -41,7 +41,6 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
-  DhPermissionRequiredDirective,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
@@ -91,12 +90,12 @@ import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correc
         }
 
         @if (showMoveInButton()) {
-          <watt-menu-item (click)="startMoveIn()">
+          <watt-menu-item
+            (click)="startMoveIn()">
             {{ t('moveIn') }}
           </watt-menu-item>
           <!-- TODO: MASEP to be removed-->
           <watt-menu-item
-            *dhPermissionRequired="['metering-point:move-in']"
             [routerLink]="getUpdateCustomerDetailsLink"
           >
             Opdatér kundestamdata
