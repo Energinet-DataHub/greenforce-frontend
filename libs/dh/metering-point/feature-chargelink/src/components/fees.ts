@@ -90,9 +90,9 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
   `,
 })
 export default class DhMeteringPointChargeLinksFees {
-  id = input.required<string>();
+  meteringPointId = input.required<string>();
   query = query(GetChargeLinksByMeteringPointIdDocument, () => ({
-    variables: { meteringPointId: this.id() },
+    variables: { meteringPointId: this.meteringPointId() },
   }));
   navigation = inject(DhNavigationService);
   dataSource = dataSource(() =>
