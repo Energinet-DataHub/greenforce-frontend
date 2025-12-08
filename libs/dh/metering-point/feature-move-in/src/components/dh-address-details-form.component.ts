@@ -54,13 +54,13 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
           <vater-stack align="start" gap="xs" class="checkbox-margin-bottom">
             <watt-checkbox
               [formControl]="form.controls.addressSameAsMeteringPoint"
-              data-testid="technical-address-same-as-legal"
+              data-testid="address-same-as-metering-point"
             >
-              {{ t('addressSameAsLegal') }}
+              {{ t('addressSameAsMeteringPoint') }}
             </watt-checkbox>
             <watt-checkbox
               [formControl]="form.controls.nameAddressProtection"
-              data-testid="technical-name-address-protection"
+              data-testid="name-address-protection"
             >
               {{ t('nameAddressProtection') }}
             </watt-checkbox>
@@ -69,24 +69,24 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
           <watt-text-field
             [formControl]="groupControls.streetName"
             [label]="t('street')"
-            data-testid="technical-street-name"
+            data-testid="street-name"
           />
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="groupControls.buildingNumber"
               [label]="t('houseNumber')"
-              data-testid="technical-building-number"
+              data-testid="building-number"
             />
             <watt-text-field
               [formControl]="groupControls.floor"
               [label]="t('floor')"
-              data-testid="technical-floor"
+              data-testid="floor"
             />
             <watt-text-field
               [formControl]="groupControls.room"
               [label]="t('door')"
-              data-testid="technical-room"
+              data-testid="room"
             />
           </vater-flex>
 
@@ -94,12 +94,12 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
             <watt-text-field
               [formControl]="groupControls.postCode"
               [label]="t('postalCode')"
-              data-testid="technical-post-code"
+              data-testid="post-code"
             />
             <watt-text-field
               [formControl]="groupControls.cityName"
               [label]="t('city')"
-              data-testid="technical-city-name"
+              data-testid="city-name"
             />
           </vater-flex>
 
@@ -109,7 +109,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
             [formControl]="groupControls.countryCode"
             [options]="countryOptions"
             [label]="t('country')"
-            data-testid="technical-country-code"
+            data-testid="country-code"
           />
 
           <vater-flex direction="row" gap="m" justify="space-between">
@@ -117,7 +117,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
               [formControl]="groupControls.municipalityCode"
               [label]="t('municipalityCode')"
               maxLength="3"
-              data-testid="technical-municipality-code"
+              data-testid="municipality-code"
             >
               <watt-field-error>
                 @if (groupControls.municipalityCode.hasError('containsLetters')) {
@@ -132,7 +132,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
             <watt-text-field
               [formControl]="groupControls.streetCode"
               [label]="t('streetCode')"
-              data-testid="technical-street-code"
+              data-testid="street-code"
             />
           </vater-flex>
 
@@ -140,19 +140,19 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
             <watt-text-field
               [formControl]="groupControls.citySubDivisionName"
               [label]="t('citySubdivisionName')"
-              data-testid="technical-city-subdivision-name"
+              data-testid="city-subdivision-name"
             />
             <watt-text-field
               [formControl]="groupControls.postBox"
               [label]="t('postBox')"
-              data-testid="technical-post-box"
+              data-testid="post-box"
             />
           </vater-flex>
 
           <watt-text-field
             [formControl]="groupControls.darReference"
             [label]="t('darReference')"
-            data-testid="technical-dar-reference"
+            data-testid="dar-reference"
           />
         </vater-flex>
       </vater-flex>

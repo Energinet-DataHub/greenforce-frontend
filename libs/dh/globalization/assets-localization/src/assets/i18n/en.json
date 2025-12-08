@@ -952,7 +952,6 @@
         },
         "addressDetails": {
           "addressSameAsMeteringPoint": "Same as metering point address",
-          "addressSameAsLegal": "Same as legal address",
           "street": "Street",
           "houseNumber": "House number",
           "floor": "Floor",
