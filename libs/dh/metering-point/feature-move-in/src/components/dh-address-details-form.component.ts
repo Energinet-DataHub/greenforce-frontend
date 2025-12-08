@@ -25,8 +25,9 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { AddressDetailsFormType } from '../types';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
 @Component({
   selector: 'dh-address-details-form',
@@ -38,9 +39,18 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
     WattTextFieldComponent,
     DhDropdownTranslatorDirective,
     VaterFlexComponent,
-    VaterStackComponent,
     WattFieldErrorComponent,
+    WattSlideToggleComponent,
   ],
+  styles: `
+    .checkbox-margin-bottom {
+      margin-bottom: var(--watt-space-l);
+    }
+
+    .slide-toggle-margin-bottom {
+      margin-bottom: var(--watt-space-m);
+    }
+  `,
   template: `
     @let form = addressDetailsForm();
     @let groupControls = addressDetailsForm().controls.addressGroup.controls;
@@ -51,20 +61,15 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
     >
       <vater-flex direction="row" align="center" justify="space-between" gap="xl">
         <vater-flex>
-          <vater-stack align="start" gap="xs" class="checkbox-margin-bottom">
-            <watt-checkbox
-              [formControl]="form.controls.addressSameAsMeteringPoint"
-              data-testid="address-same-as-metering-point"
-            >
-              {{ t('addressSameAsMeteringPoint') }}
-            </watt-checkbox>
-            <watt-checkbox
-              [formControl]="form.controls.nameAddressProtection"
-              data-testid="name-address-protection"
-            >
-              {{ t('nameAddressProtection') }}
-            </watt-checkbox>
-          </vater-stack>
+          <h4>{{ t('label') }}</h4>
+
+          <watt-slide-toggle
+            [formControl]="form.controls.addressSameAsMeteringPoint"
+            class="slide-toggle-margin-bottom"
+            data-testid="address-same-as-metering-point">
+            {{ t('addressSameAsMeteringPoint') }}
+
+          </watt-slide-toggle>
 
           <watt-text-field
             [formControl]="groupControls.streetName"
@@ -154,14 +159,17 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
             [label]="t('darReference')"
             data-testid="dar-reference"
           />
+
+          <watt-checkbox
+            [formControl]="form.controls.nameAddressProtection"
+            class="checkbox-margin-bottom"
+            data-testid="name-address-protection"
+          >
+            {{ t('nameAddressProtection') }}
+          </watt-checkbox>
         </vater-flex>
       </vater-flex>
     </form>
-  `,
-  styles: `
-    .checkbox-margin-bottom {
-      margin-bottom: var(--watt-space-m);
-    }
   `,
 })
 export class DhAddressDetailsFormComponent {

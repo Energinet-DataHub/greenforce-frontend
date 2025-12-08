@@ -952,6 +952,7 @@
           "invalidEmail": "Ugyldig e-mail"
         },
         "addressDetails": {
+          "label": "Adresseoplysninger",
           "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
           "street": "Vejnavn",
           "houseNumber": "Husnummer",

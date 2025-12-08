@@ -19,24 +19,29 @@
 import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet/watt/phone-field';
 import { ContactDetailsFormType } from '../types';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
 @Component({
   selector: 'dh-contact-details-form',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    WattCheckboxComponent,
     WattTextFieldComponent,
     WattPhoneFieldComponent,
     VaterFlexComponent,
     WattFieldErrorComponent,
+    WattSlideToggleComponent,
   ],
+  styles: `
+    .slide-toggle-margin-bottom {
+      margin-bottom: var(--watt-space-m);
+    }
+  `,
   template: `
     @let form = contactDetailsForm();
     @let controls = form.controls.contactGroup.controls;
@@ -46,12 +51,13 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
     >
       <vater-flex gap="xl" direction="row">
         <vater-flex align="stretch">
-          <watt-checkbox
+          <watt-slide-toggle
             [formControl]="form.controls.contactSameAsCustomer"
+            class="slide-toggle-margin-bottom"
             data-testid="legal-contact-same-as-customer"
           >
             {{ t('contactSameAsCustomer') }}
-          </watt-checkbox>
+          </watt-slide-toggle>
 
           <watt-text-field
             [formControl]="controls.name"
