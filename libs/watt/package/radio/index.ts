@@ -17,3 +17,4 @@
  */
 //#endregion
 export { WattRadioComponent } from './watt-radio.component';
+export { WATT_RADIO, WattRadioGroupComponent } from './watt-radio-group.component';
