@@ -3,6 +3,7 @@ query GetChargeLinkHistory($meteringPointId: String!, $chargeLinkId: Long!) {
     id
     charge {
       id
+      displayName
       owner {
         id
         displayName
