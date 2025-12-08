@@ -481,7 +481,7 @@
           "INVALID_POSITION": "Column \"Position\" must only contain numbers. Error found in row {{row}}.",
           "INVALID_PRICE": "Column \"Pris\" must only contain numbers. Error found in row {{row}}.",
           "MISSING_POINT": "File has missing points. Error found near row {{row}}.",
-          "UNEXPECTED_POINTS": "File has unexpected points. Error found near row {{row}}."
+          "UNEXPECTED_POINT": "File has unexpected points. Error found near row {{row}}."
         }
       }
     },
