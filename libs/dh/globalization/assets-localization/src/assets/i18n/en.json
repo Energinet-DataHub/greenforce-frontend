@@ -656,7 +656,8 @@
         "actionsButton": "Actions",
         "upload": "Upload measurements",
         "moveIn": "Customer move-in",
-        "createChargeLink": "Attach price"
+        "createChargeLink": "Attach price",
+        "changeConnectionStatus": "Change connection status"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -1094,6 +1095,13 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       }
+    },
+    "changeConnectionState": {
+      "modalTitle": "{{ meteringPoint.overview.actions.changeConnectionStatus }}",
+      "connectionStateLabel": "Connection status",
+      "validityDate": "Validity date",
+      "cancel": "Cancel",
+      "save": "Save changes"
     }
   },
   "messageArchive": {

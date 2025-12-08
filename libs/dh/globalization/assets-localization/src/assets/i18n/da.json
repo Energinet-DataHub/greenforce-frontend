@@ -657,7 +657,8 @@
         "actionsButton": "Handlinger",
         "upload": "Upload måledata",
         "moveIn": "Tilflyt kunde",
-        "createChargeLink": "Tilknyt pris"
+        "createChargeLink": "Tilknyt pris",
+        "changeConnectionStatus": "Ændr tilslutningstatus"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -1095,6 +1096,13 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       }
+    },
+    "changeConnectionState": {
+      "modalTitle": "{{ meteringPoint.overview.actions.changeConnectionStatus }}",
+      "connectionStateLabel": "Tilslutningsstatus",
+      "validityDate": "Gyldighedsdato",
+      "cancel": "Annuller",
+      "save": "Gem ændringer"
     }
   },
   "messageArchive": {
