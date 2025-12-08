@@ -49,7 +49,7 @@ public static partial class ChargeNode
         if (query?.ChargeTypes?.Any() == true)
         {
             result = result.Where(charge =>
-                query.ChargeTypes.Any(type => type == ChargeType.Make(charge.ChargeIdentifierDto.ChargeType, charge.TaxIndicator)));
+                query.ChargeTypes.Any(type => type == ChargeType.Make(charge.ChargeIdentifierDto.Type, charge.TaxIndicator)));
         }
 
         if (query?.MoreOptions?.Any(x => x == "vat-true") == true)
@@ -179,7 +179,7 @@ public static partial class ChargeNode
         descriptor.Name("Charge");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.ChargeIdentifierDto).Name("id");
-        descriptor.Field(f => ChargeType.Make(f.ChargeIdentifierDto.ChargeType, f.TaxIndicator)).Name("type");
+        descriptor.Field(f => ChargeType.Make(f.ChargeIdentifierDto.Type, f.TaxIndicator)).Name("type");
         descriptor.Field(f => f.ChargeIdentifierDto.Code).Name("code");
         descriptor.Field(f => f.Name()).Name("name");
         descriptor.Field(f => f.DisplayName()).Name("displayName");
