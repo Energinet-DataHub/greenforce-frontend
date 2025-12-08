@@ -128,7 +128,7 @@ export class ChargeSeriesResult {
     return true;
   }
 
-  /** Returns the end date of all points or `null` if there no points. */
+  /** Returns the end date of all points or `null` if there are no points. */
   maybeGetEnd = () => {
     if (!this.last) return null;
     switch (this.resolution) {
