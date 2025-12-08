@@ -131,8 +131,8 @@ watt-field {
     }
   }
 
-  label,
-  .watt-label {
+  & > label,
+  & > .watt-label {
     color: var(--watt-label-text-color);
     display: block;
     width: 100%;
