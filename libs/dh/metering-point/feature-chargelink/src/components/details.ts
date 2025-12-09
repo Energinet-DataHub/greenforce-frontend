@@ -63,7 +63,7 @@ import { History } from '../types';
     >
       <watt-drawer-heading>
         <vater-stack direction="row">
-          <h1>{{ chargeLinkWithHistory()?.displayName }}</h1>
+          <h1>{{ chargeLinkWithHistory()?.charge?.displayName }}</h1>
           <vater-spacer />
           <watt-button variant="icon" [wattMenuTriggerFor]="actions" icon="moreVertical" />
           <watt-menu #actions>

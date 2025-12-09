@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Charges.Abstractions.Api.Models;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.Mocks;
@@ -26,7 +27,7 @@ using HotChocolate.Execution;
 using Moq;
 using NodaTime;
 using Xunit;
-using ChargeType = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeType;
+using ChargeType = Energinet.DataHub.Charges.Abstractions.Shared.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.Charges;
 
@@ -85,7 +86,7 @@ public class ChargeStatusTests
                         new(
                             ChargeIdentifierDto: new ChargeIdentifierDto(
                                 Code: "SUB-123",
-                                ChargeType: ChargeType.Subscription,
+                                Type: ChargeType.Subscription,
                                 Owner: "Energy Provider A"),
                             Resolution: Resolution.Daily,
                             TaxIndicator: false,
@@ -99,7 +100,7 @@ public class ChargeStatusTests
                         new(
                             ChargeIdentifierDto: new ChargeIdentifierDto(
                                 Code: "FEE-456",
-                                ChargeType: ChargeType.Fee,
+                                Type: ChargeType.Fee,
                                 Owner: "Grid Company B"),
                             Resolution: Resolution.Daily,
                             TaxIndicator: false,

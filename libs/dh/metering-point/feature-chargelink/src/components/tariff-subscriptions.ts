@@ -94,11 +94,11 @@ import { Charge } from '../types';
         (rowClick)="navigation.navigate('details', $event.id)"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ 'charges.chargeTypes.' + element.type | transloco }}
+          {{ 'charges.chargeTypes.' + element.charge?.type | transloco }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.period; let element">
-          {{ element.period | wattDate }}
+          {{ element.currentPeriod?.period | wattDate }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.transparentInvoicing; let element">
@@ -118,14 +118,14 @@ import { Charge } from '../types';
   `,
 })
 export default class DhMeteringPointChargeLinksTariffSubscriptions {
-  id = input.required<string>();
+  meteringPointId = input.required<string>();
   query = query(GetChargeLinksByMeteringPointIdDocument, () => ({
-    variables: { meteringPointId: this.id() },
+    variables: { meteringPointId: this.meteringPointId() },
   }));
   navigation = inject(DhNavigationService);
   dataSource = dataSource(() =>
     (this.query.data()?.chargeLinksByMeteringPointId ?? []).filter(
-      (chargeLink) => chargeLink.type != ChargeType.Fee
+      (chargeLink) => chargeLink.charge?.type != ChargeType.Fee
     )
   );
 
@@ -136,16 +136,16 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
   });
 
   columns: WattTableColumnDef<Charge> = {
-    type: { accessor: 'type' },
+    type: { accessor: (chargeLink) => chargeLink.charge?.type },
     id: { accessor: 'id' },
-    name: { accessor: 'name' },
-    owner: { accessor: (chargeLink) => chargeLink.owner?.displayName ?? '' },
+    name: { accessor: (chargeLink) => chargeLink.charge?.name ?? '' },
+    owner: { accessor: (chargeLink) => chargeLink.charge?.owner?.displayName ?? '' },
     transparentInvoicing: {
       header: '',
       accessor: (chargeLink) => chargeLink.charge?.currentPeriod?.transparentInvoicing ?? false,
     },
     amount: { accessor: 'amount' },
-    period: { accessor: 'period' },
+    period: { accessor: (chargeLink) => chargeLink.currentPeriod?.period },
     status: { header: '', accessor: (charge) => charge.charge?.status },
   };
 

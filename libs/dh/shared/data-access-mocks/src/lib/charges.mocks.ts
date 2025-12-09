@@ -94,6 +94,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   {
     __typename: 'Charge',
     id: '2',
+    name: 'Peak Hours Tariff',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-2',
@@ -103,7 +104,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     } as MarketParticipant,
     type: ChargeType.Tariff,
     code: 'CHARGE002',
-    name: 'Peak Hours Tariff',
     displayName: 'CHARGE002 • Peak Hours Tariff',
     status: ChargeStatus.Current,
     resolution: ChargeResolution.Hourly,
@@ -141,6 +141,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   {
     __typename: 'Charge',
     id: '3',
+    name: 'Green Energy Plan',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-3',
@@ -150,7 +151,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     } as MarketParticipant,
     type: ChargeType.Subscription,
     code: 'CHARGE003',
-    name: 'Green Energy Plan',
     displayName: 'CHARGE003 • Green Energy Plan',
     status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Daily,
@@ -188,6 +188,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   {
     __typename: 'Charge',
     id: '4',
+    name: 'Connection Fee',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-4',
@@ -197,7 +198,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     } as MarketParticipant,
     type: ChargeType.Fee,
     code: 'CHARGE004',
-    name: 'Connection Fee',
     displayName: 'CHARGE004 • Connection Fee',
     status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Monthly,
@@ -235,6 +235,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   {
     __typename: 'Charge',
     id: '5',
+    name: 'Connection Fee',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-5',
@@ -244,7 +245,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     } as MarketParticipant,
     type: ChargeType.TariffTax,
     code: 'CHARGE005',
-    name: 'Connection Fee',
     displayName: 'CHARGE005 • Connection Fee',
     status: ChargeStatus.Current,
     resolution: ChargeResolution.Monthly,
@@ -285,15 +285,13 @@ const chargeLinks: ChargeLink[] = [
   {
     __typename: 'ChargeLink',
     id: '1000',
-    type: ChargeType.Fee,
     amount: 100.0,
-    name: 'Charge Link 1',
-    displayName: '1000 • Charge Link 1',
-    owner: {
-      __typename: 'MarketParticipant',
-      id: 'owner-1',
-      displayName: '1234567890123 • Energy Supplier A',
-    } as MarketParticipant,
+    currentPeriod: {
+      __typename: 'ChargeLinkPeriod',
+      amount: 100.0,
+      period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+      id: 'clp-1000',
+    },
     history: [
       {
         __typename: 'ChargeLinkHistory',
@@ -308,21 +306,13 @@ const chargeLinks: ChargeLink[] = [
         messageId: 'msg-002',
       },
     ],
-    period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     charge: makeChargesMock()[0],
   },
   {
     __typename: 'ChargeLink',
     id: '1001',
-    type: ChargeType.Tariff,
     amount: 75.5,
-    name: 'Charge Link 2',
-    displayName: '1001 • Charge Link 2',
-    owner: {
-      __typename: 'MarketParticipant',
-      id: 'owner-2',
-      displayName: '2345678901234 • Energy Supplier B',
-    } as MarketParticipant,
+    currentPeriod: null,
     history: [
       {
         __typename: 'ChargeLinkHistory',
@@ -337,21 +327,18 @@ const chargeLinks: ChargeLink[] = [
         messageId: 'msg-004',
       },
     ],
-    period: { start: new Date('2023-02-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     charge: makeChargesMock()[1],
   },
   {
     __typename: 'ChargeLink',
     id: '1002',
-    type: ChargeType.Subscription,
     amount: 50.0,
-    name: 'Charge Link 3',
-    displayName: '1002 • Charge Link 3',
-    owner: {
-      __typename: 'MarketParticipant',
-      id: 'owner-3',
-      displayName: '3456789012345 • Energy Supplier C',
-    } as MarketParticipant,
+    currentPeriod: {
+      __typename: 'ChargeLinkPeriod',
+      amount: 50.0,
+      period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
+      id: 'clp-1002',
+    },
     history: [
       {
         __typename: 'ChargeLinkHistory',
@@ -366,21 +353,18 @@ const chargeLinks: ChargeLink[] = [
         messageId: 'msg-006',
       },
     ],
-    period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     charge: makeChargesMock()[2],
   },
   {
     __typename: 'ChargeLink',
     id: '1003',
-    type: ChargeType.Fee,
     amount: 120.0,
-    name: 'Charge Link 4',
-    displayName: '1003 • Charge Link 4',
-    owner: {
-      __typename: 'MarketParticipant',
-      id: 'owner-4',
-      displayName: '4567890123456 • Energy Supplier D',
-    } as MarketParticipant,
+    currentPeriod: {
+      __typename: 'ChargeLinkPeriod',
+      amount: 120.0,
+      period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
+      id: 'clp-1003',
+    },
     history: [
       {
         __typename: 'ChargeLinkHistory',
@@ -395,21 +379,18 @@ const chargeLinks: ChargeLink[] = [
         messageId: 'msg-008',
       },
     ],
-    period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     charge: makeChargesMock()[3],
   },
   {
     __typename: 'ChargeLink',
     id: '1004',
-    type: ChargeType.Fee,
     amount: 120.0,
-    name: 'Charge Link 4',
-    displayName: '1004 • Charge Link 4',
-    owner: {
-      __typename: 'MarketParticipant',
-      id: 'owner-4',
-      displayName: '4567890123456 • Energy Supplier D',
-    } as MarketParticipant,
+    currentPeriod: {
+      __typename: 'ChargeLinkPeriod',
+      amount: 120.0,
+      period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
+      id: 'clp-1004',
+    },
     history: [
       {
         __typename: 'ChargeLinkHistory',
@@ -424,7 +405,6 @@ const chargeLinks: ChargeLink[] = [
         messageId: 'msg-008',
       },
     ],
-    period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     charge: makeChargesMock()[4],
   },
 ];
