@@ -173,6 +173,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
           [subType]="metadata()?.subType"
           [connectionState]="metadata()?.connectionState"
           [installationAddress]="metadata()?.installationAddress"
+          [createdDate]="meteringPoint()?.createdDate"
         />
       </div>
 
