@@ -114,19 +114,16 @@ export class WattRadioGroupComponent<T> implements ControlValueAccessor {
   // Two-way binding
   constructor() {
     effect(() => {
-      // group to buttons
+      // group -> buttons
       this.radios().forEach((r) => {
         r.checked.set(r.value() === this.value());
       });
     });
 
-    effect(() => {
-      // buttons to group
-      this.radios().forEach((r) => {
-        r.isChecked.subscribe(() => {
-          this.value.set(r.value());
-        });
-      });
+    // buttons -> group
+    effect((onCleanup) => {
+      const subs = this.radios().map((r) => r.isChecked.subscribe(() => this.value.set(r.value())));
+      onCleanup(() => subs.forEach((s) => s.unsubscribe()));
     });
   }
 
