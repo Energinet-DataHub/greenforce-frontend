@@ -1111,6 +1111,7 @@
     },
     "changeConnectionState": {
       "modalTitle": "{{ meteringPoint.overview.actions.changeConnectionStatus }}",
+      "tooltip": "Processen tager få minutter. Det ønskede \n resultat vises her, og afvisningsårsager \n findes i forretningsbeskeder.",
       "connectionStateLabel": "Tilslutningsstatus",
       "validityDate": "Gyldighedsdato",
       "cancel": "Annuller",
