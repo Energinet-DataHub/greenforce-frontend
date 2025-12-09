@@ -31,11 +31,8 @@ public static partial class ChargeLinkOperations
     public static async Task<IEnumerable<ChargeLinkDto>> GetChargeLinksByMeteringPointIdAsync(
         string meteringPointId,
         CancellationToken ct,
-        IChargeLinkClient client)
-    {
-        var result = await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct).ConfigureAwait(false);
-        return result;
-    }
+        IChargeLinkClient client) =>
+            await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct).ConfigureAwait(false);
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:prices" })]
