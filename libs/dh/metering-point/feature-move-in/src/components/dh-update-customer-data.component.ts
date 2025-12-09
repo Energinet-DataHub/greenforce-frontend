@@ -22,25 +22,25 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 
 import {
+  dhCprValidator,
   dhMunicipalityCodeValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  StartMoveInDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattToastService } from '@energinet/watt/toast';
 
 import {
-  AddressData,
   AddressDetailsFormType,
+  BusinessCustomerFormGroup,
   ContactDetailsFormGroup,
   ContactDetailsFormType,
+  PrivateCustomerFormGroup,
 } from '../types';
 import { WATT_CARD } from '@energinet/watt/card';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { DhContactDetailsFormComponent } from './dh-contact-details-form.component';
 import { DhAddressDetailsFormComponent } from './dh-address-details-form.component';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { DhPrivateCustomerDetailsFormComponent } from './dh-private-customer-details-form.component';
+import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -52,6 +52,8 @@ import { WattButtonComponent } from '@energinet/watt/button';
     DhAddressDetailsFormComponent,
     WattButtonComponent,
     VaterStackComponent,
+    DhBusinessCustomerDetailsFormComponent,
+    DhPrivateCustomerDetailsFormComponent
   ],
   styles: `
     .sticky-header {
@@ -62,7 +64,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
     }
 
     .margin-medium {
-      margin: 0 var(--watt-space-m) 0 var(--watt-space-m)
+      margin: 0 var(--watt-space-m) 0 var(--watt-space-m);
     }
 
     .form-container {
@@ -71,21 +73,38 @@ import { WattButtonComponent } from '@energinet/watt/button';
       min-height: 0;
       overflow: auto;
     }
+
+    .customer-details-card {
+      height: fit-content;
+    }
   `,
   template: `
     <form *transloco="let t; prefix: 'meteringPoint.moveIn'">
       <watt-card class="sticky-header">
         <vater-stack class="margin-medium" direction="row" justify="space-between">
-          <h3>{{ t('updateCustomerData')}}</h3>
+          <h3>{{ t('updateCustomerData') }}</h3>
           <vater-stack direction="row" gap="m">
             <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }}</watt-button>
-            <watt-button>{{ t('updateCustomerData')}}</watt-button>
+            <watt-button (click)="updateCustomerData()">{{ t('updateCustomerData') }}</watt-button>
           </vater-stack>
         </vater-stack>
       </watt-card>
       <vater-flex direction="row" gap="m" class="form-container">
+        <!-- Customer -->
+        <watt-card class="customer-details-card">
+          <watt-card-title>
+            <h3>
+              {{ t('steps.customerDetails.label') }}
+            </h3>
+          </watt-card-title>
+          @if (isBusinessCustomer()) {
+            <dh-business-customer-details-form [businessCustomerFormGroup]="businessCustomerDetailsForm" />
+          } @else {
+            <dh-private-customer-details-form [privateCustomerFormGroup]="privateCustomerDetailsForm" />
+          }
+        </watt-card>
+        <!-- Legal -->
         <watt-card>
-          <!-- Legal -->
           <watt-card-title>
             <h3>
               {{ t('steps.contactDetails.legalContactSection') }}
@@ -94,8 +113,8 @@ import { WattButtonComponent } from '@energinet/watt/button';
           <dh-contact-details-form [contactDetailsForm]="legalContactDetailsForm" />
           <dh-address-details-form [addressDetailsForm]="legalAddressDetailsForm" />
         </watt-card>
+        <!-- Technical -->
         <watt-card>
-          <!-- Technical -->
           <watt-card-title>
             <h3>
               {{ t('steps.contactDetails.technicalContactSection') }}
@@ -111,36 +130,20 @@ import { WattButtonComponent } from '@energinet/watt/button';
 export class DhUpdateCustomerDataComponent {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly transloco = inject(TranslocoService);
-  private readonly startMoveInMutation = mutation(StartMoveInDocument);
   private readonly toastService = inject(WattToastService);
   private location = inject(Location);
 
-  addressData = input<AddressData>();
+  isBusinessCustomer = input<boolean>(false);
 
   public updateCustomerData() {
     const message = this.transloco.translate('meteringPoint.moveIn.customerDataSuccess');
     this.toastService.open({ type: 'success', message });
+    this.location.back();
   }
 
   public cancel() {
     this.location.back();
   }
-
-  private readonly addressDataInitialValue: AddressData = {
-    streetName: this.addressData()?.streetName ?? '',
-    buildingNumber: this.addressData()?.buildingNumber ?? '',
-    floor: this.addressData()?.floor ?? '',
-    room: this.addressData()?.room ?? '',
-    postCode: this.addressData()?.postCode ?? '',
-    cityName: this.addressData()?.cityName ?? '',
-    countryCode: this.addressData()?.countryCode ?? '',
-    streetCode: this.addressData()?.streetCode ?? '',
-    citySubDivisionName: this.addressData()?.citySubDivisionName ?? '',
-    postalDistrict: this.addressData()?.postalDistrict ?? '',
-    postBox: this.addressData()?.postBox ?? '',
-    municipalityCode: this.addressData()?.municipalityCode ?? '',
-    darReference: this.addressData()?.darReference ?? '',
-  };
 
   legalContactDetailsForm = this.fb.group<ContactDetailsFormType>({
     contactSameAsCustomer: this.fb.control<boolean>(true),
@@ -167,27 +170,19 @@ export class DhUpdateCustomerDataComponent {
   legalAddressDetailsForm = this.fb.group<AddressDetailsFormType>({
     addressSameAsMeteringPoint: this.fb.control<boolean>(true),
     addressGroup: this.fb.group({
-      streetName: this.fb.control<string>(
-        this.addressDataInitialValue.streetName,
-        Validators.required
-      ),
-      buildingNumber: this.fb.control<string>(this.addressDataInitialValue.buildingNumber),
-      floor: this.fb.control<string>(this.addressDataInitialValue.floor),
-      room: this.fb.control<string>(this.addressDataInitialValue.room),
-      postCode: this.fb.control<string>(this.addressDataInitialValue.postCode, Validators.required),
-      cityName: this.fb.control<string>(this.addressDataInitialValue.cityName, Validators.required),
-      countryCode: this.fb.control<string>(this.addressDataInitialValue.countryCode),
-      streetCode: this.fb.control<string>(this.addressDataInitialValue.streetCode),
-      citySubDivisionName: this.fb.control<string>(
-        this.addressDataInitialValue.citySubDivisionName
-      ),
-      postalDistrict: this.fb.control<string>(this.addressDataInitialValue.postalDistrict),
-      postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>(
-        this.addressDataInitialValue.municipalityCode,
-        dhMunicipalityCodeValidator()
-      ),
-      darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
+      streetName: this.fb.control<string>('', Validators.required),
+      buildingNumber: this.fb.control<string>(''),
+      floor: this.fb.control<string>(''),
+      room: this.fb.control<string>(''),
+      postCode: this.fb.control<string>('', Validators.required),
+      cityName: this.fb.control<string>('', Validators.required),
+      countryCode: this.fb.control<string>(''),
+      streetCode: this.fb.control<string>(''),
+      citySubDivisionName: this.fb.control<string>(''),
+      postalDistrict: this.fb.control<string>(''),
+      postBox: this.fb.control<string>(''), // TODO: MASEP Find out if needed?
+      municipalityCode: this.fb.control<string>('', dhMunicipalityCodeValidator()),
+      darReference: this.fb.control<string>(''),
     }),
     nameAddressProtection: this.fb.control<boolean>(false),
   });
@@ -195,28 +190,32 @@ export class DhUpdateCustomerDataComponent {
   technicalAddressDetailsForm = this.fb.group<AddressDetailsFormType>({
     addressSameAsMeteringPoint: this.fb.control<boolean>(true),
     addressGroup: this.fb.group({
-      streetName: this.fb.control<string>(
-        this.addressDataInitialValue.streetName,
-        Validators.required
-      ),
-      buildingNumber: this.fb.control<string>(this.addressDataInitialValue.buildingNumber),
-      floor: this.fb.control<string>(this.addressDataInitialValue.floor),
-      room: this.fb.control<string>(this.addressDataInitialValue.room),
-      postCode: this.fb.control<string>(this.addressDataInitialValue.postCode, Validators.required),
-      cityName: this.fb.control<string>(this.addressDataInitialValue.cityName, Validators.required),
-      countryCode: this.fb.control<string>(this.addressDataInitialValue.countryCode),
-      streetCode: this.fb.control<string>(this.addressDataInitialValue.streetCode),
-      citySubDivisionName: this.fb.control<string>(
-        this.addressDataInitialValue.citySubDivisionName
-      ),
-      postalDistrict: this.fb.control<string>(this.addressDataInitialValue.postalDistrict),
-      postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>(
-        this.addressDataInitialValue.municipalityCode,
-        dhMunicipalityCodeValidator()
-      ),
-      darReference: this.fb.control<string>(this.addressDataInitialValue.darReference),
+      streetName: this.fb.control<string>('', Validators.required),
+      buildingNumber: this.fb.control<string>(''),
+      floor: this.fb.control<string>(''),
+      room: this.fb.control<string>(''),
+      postCode: this.fb.control<string>('', Validators.required),
+      cityName: this.fb.control<string>('', Validators.required),
+      countryCode: this.fb.control<string>(''),
+      streetCode: this.fb.control<string>(''),
+      citySubDivisionName: this.fb.control<string>(''),
+      postalDistrict: this.fb.control<string>(''),
+      postBox: this.fb.control<string>(''),
+      municipalityCode: this.fb.control<string>('', dhMunicipalityCodeValidator()),
+      darReference: this.fb.control<string>(''),
     }),
     nameAddressProtection: this.fb.control<boolean>(false),
+  });
+
+  businessCustomerDetailsForm = this.fb.group<BusinessCustomerFormGroup>({
+    companyName: this.fb.control<string>('', Validators.required),
+    cvr: this.fb.control<string>('', Validators.required),
+  });
+
+  privateCustomerDetailsForm = this.fb.group<PrivateCustomerFormGroup>({
+    customerName1: this.fb.control<string>('', Validators.required),
+    cpr1: this.fb.control<string>('', [Validators.required, dhCprValidator]),
+    customerName2: this.fb.control<string>(''),
+    cpr2: this.fb.control<string>('', dhCprValidator),
   });
 }
