@@ -57,7 +57,7 @@ ${template}`;
 
 // "Docs" page will render the first story twice, which will cause issues when
 // they have the same group. This fix prevents that by generating a unique ID.
-const generateUniqueId = () => crypto.randomUUID();
+const generateUniqueId = () => crypto.randomUUID?.() ?? Math.random().toString(36).substring(2);
 
 export const WithFormControl: StoryFn<WattRadioComponent<string>> = () => ({
   props: {
