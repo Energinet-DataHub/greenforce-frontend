@@ -36,42 +36,16 @@ public static partial class ChargeNode
         string? filter,
         GetChargesQuery? query,
         IChargesClient client,
+        IHasAnyPricesDataLoader hasAnyPricesDataLoader,
         CancellationToken ct)
     {
         var result = (await client.GetChargesAsync(0, 1000, filter, new ChargeSortInput(Common.Enums.SortDirection.Desc, null), query, ct))?.Value.Charges ?? Enumerable.Empty<ChargeInformationDto>();
 
-        if (query?.ActorNumbers?.Any() == true)
-        {
-            result = result.Where(charge =>
-                query.ActorNumbers.Contains(charge.ChargeIdentifierDto.Owner));
-        }
-
-        if (query?.ChargeTypes?.Any() == true)
-        {
-            result = result.Where(charge =>
-                query.ChargeTypes.Any(type => type == ChargeType.Make(charge.ChargeIdentifierDto.Type, charge.TaxIndicator)));
-        }
-
-        if (query?.MoreOptions?.Any(x => x == "vat-true") == true)
-        {
-            result = result.Where(charge => charge.GetCurrentPeriod()?.VatClassification == VatClassification.Vat25);
-        }
-
-        if (query?.MoreOptions?.Any(x => x == "vat-false") == true)
-        {
-            result = result.Where(charge => charge.GetCurrentPeriod()?.VatClassification == VatClassification.NoVat);
-        }
-
-        if (query?.MoreOptions?.Any(x => x == "transparentInvoicing-true") == true)
-        {
-            result = result.Where(charge => charge.GetCurrentPeriod()?.TransparentInvoicing == true);
-        }
-
-        if (query?.MoreOptions?.Any(x => x == "transparentInvoicing-false") == true)
-        {
-            result = result.Where(charge => charge.GetCurrentPeriod()?.TransparentInvoicing == false);
-        }
-
+        result = result.FilterOnActors(query?.ActorNumbers);
+        result = result.FilterOnTypes(query?.ChargeTypes);
+        result = result.FilterOnVatClassification(query?.MoreOptions);
+        result = result.FilterOnTransparentInvoicing(query?.MoreOptions);
+        // TODO: Apply when performance gets better result = await result.FilterOnStatusesAsync(query?.Statuses, hasAnyPricesDataLoader, ct);
         result = result.Where(charge =>
             filter is null ||
             charge.ChargeIdentifierDto.Code.Contains(filter, StringComparison.CurrentCultureIgnoreCase) ||
@@ -122,34 +96,10 @@ public static partial class ChargeNode
     public static async Task<ChargeStatus> GetStatusAsync(
         [Parent] ChargeInformationDto charge,
         IHasAnyPricesDataLoader hasAnyPricesDataLoader,
-        CancellationToken ct)
-    {
-        var hasAnyPrices = await hasAnyPricesDataLoader.LoadAsync(charge, ct);
-        var period = charge.Periods
-            .OrderByDescending(x => x.StartDate)
-            .FirstOrDefault();
-
-        if (period == null)
-        {
-            return ChargeStatus.Invalid;
-        }
-
-        var validFrom = period.StartDate.ToDateTimeOffset();
-        var validTo = period.EndDate?.ToDateTimeOffset();
-
-        return hasAnyPrices switch
-        {
-            _ when validFrom == validTo => ChargeStatus.Cancelled,
-            _ when validTo < DateTimeOffset.Now => ChargeStatus.Closed,
-            false when validFrom > DateTimeOffset.Now => ChargeStatus.Awaiting,
-            false when validFrom < DateTimeOffset.Now => ChargeStatus.MissingPriceSeries,
-            true when validFrom < DateTimeOffset.Now => ChargeStatus.Current,
-            _ => ChargeStatus.Invalid,
-        };
-    }
+        CancellationToken ct) => await charge.GetChargeStatusAsync(hasAnyPricesDataLoader, ct);
 
     [DataLoader]
-    public static async Task<IReadOnlyDictionary<ChargeInformationDto, bool>> HasAnyPricesAsync(
+    public static async Task<IReadOnlyDictionary<string, bool>> HasAnyPricesAsync(
         IReadOnlyList<ChargeInformationDto> charges,
         IChargesClient client,
         CancellationToken ct)
@@ -171,7 +121,7 @@ public static partial class ChargeNode
             });
 
         var series = await Task.WhenAll(tasks);
-        return series.ToDictionary(x => x.charge, x => x.hasAnyPrices);
+        return series.ToDictionary(x => x.charge.ChargeIdentifierDto.ToIdString(), x => x.hasAnyPrices);
     }
 
     static partial void Configure(IObjectTypeDescriptor<ChargeInformationDto> descriptor)
