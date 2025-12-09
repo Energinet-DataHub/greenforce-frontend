@@ -32,7 +32,7 @@ import {
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { WattFieldComponent } from '@energinet/watt/field';
-import { WattRadioComponent } from '@energinet/watt/radio';
+import { WattRadioComponent } from './watt-radio.component';
 
 @Component({
   imports: [FormsModule, WattFieldComponent, WattRadioComponent],
