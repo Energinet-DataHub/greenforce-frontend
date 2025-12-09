@@ -122,13 +122,13 @@ export class WattRadioGroupComponent<T> implements ControlValueAccessor {
 
     // buttons -> group
     effect((onCleanup) => {
-      const subs = this.radios().map((r) =>
+      const subscriptions = this.radios().map((r) =>
         r.isChecked.subscribe(() => {
           this.value.set(r.value());
         })
       );
 
-      onCleanup(() => subs.forEach((s) => s.unsubscribe()));
+      onCleanup(() => subscriptions.forEach((s) => s.unsubscribe()));
     });
   }
 
