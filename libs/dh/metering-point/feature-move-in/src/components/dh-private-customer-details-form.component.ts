@@ -21,18 +21,55 @@ import { PrivateCustomerFormGroup } from '../types';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 
 @Component({
   selector: 'dh-private-customer-details-form',
-  imports: [ReactiveFormsModule, WattTextFieldComponent, TranslocoDirective],
+  imports: [
+    ReactiveFormsModule,
+    WattTextFieldComponent,
+    TranslocoDirective,
+    WattFieldErrorComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @let form = privateCustomerFormGroup();
-    <form [formGroup]="form" *transloco="let t; prefix: 'meteringPoint.moveIn.steps.customerDetails'">
+    <form
+      [formGroup]="form"
+      *transloco="let t; prefix: 'meteringPoint.moveIn.steps.customerDetails'"
+    >
       <watt-text-field [label]="t('name1')" [formControl]="form.controls.customerName1" />
-      <watt-text-field [label]="t('cpr1')" [formControl]="form.controls.cpr1" />
+      <watt-text-field [label]="t('cpr1')" [formControl]="form.controls.cpr1">
+        <watt-field-error>
+          @if (form.controls.cpr1.hasError('containsLetters')) {
+            {{ t('cprError.containsLetters') }}
+          } @else if (form.controls.cpr1.hasError('containsDash')) {
+            {{ t('cprError.containsDash') }}
+          } @else if (form.controls.cpr1.hasError('invalidCprLength')) {
+            {{ t('cprError.invalidCprLength') }}
+          } @else if (form.controls.cpr1.hasError('invalidDate')) {
+            {{ t('cprError.invalidDate') }}
+          } @else if (form.controls.cpr1.hasError('allOnes')) {
+            {{ t('cprError.allOnes') }}
+          }
+        </watt-field-error>
+      </watt-text-field>
       <watt-text-field [label]="t('name2')" [formControl]="form.controls.customerName2" />
-      <watt-text-field [label]="t('cpr2')" [formControl]="form.controls.cpr2" />
+      <watt-text-field [label]="t('cpr2')" [formControl]="form.controls.cpr2">
+        <watt-field-error>
+          @if (form.controls.cpr2.hasError('containsLetters')) {
+            {{ t('cprError.containsLetters') }}
+          } @else if (form.controls.cpr2.hasError('containsDash')) {
+            {{ t('cprError.containsDash') }}
+          } @else if (form.controls.cpr2.hasError('invalidCprLength')) {
+            {{ t('cprError.invalidCprLength') }}
+          } @else if (form.controls.cpr2.hasError('invalidDate')) {
+            {{ t('cprError.invalidDate') }}
+          } @else if (form.controls.cpr2.hasError('allOnes')) {
+            {{ t('cprError.allOnes') }}
+          }
+        </watt-field-error>
+      </watt-text-field>
     </form>
   `,
 })

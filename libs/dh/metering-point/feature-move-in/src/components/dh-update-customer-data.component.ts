@@ -20,6 +20,7 @@ import { Location } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { signal, effect } from '@angular/core';
 
 import {
   dhCprValidator,
@@ -135,16 +136,6 @@ export class DhUpdateCustomerDataComponent {
 
   isBusinessCustomer = input<boolean>(false);
 
-  public updateCustomerData() {
-    const message = this.transloco.translate('meteringPoint.moveIn.customerDataSuccess');
-    this.toastService.open({ type: 'success', message });
-    this.location.back();
-  }
-
-  public cancel() {
-    this.location.back();
-  }
-
   legalContactDetailsForm = this.fb.group<ContactDetailsFormType>({
     contactSameAsCustomer: this.fb.control<boolean>(true),
     contactGroup: this.fb.group<ContactDetailsFormGroup>({
@@ -214,8 +205,65 @@ export class DhUpdateCustomerDataComponent {
 
   privateCustomerDetailsForm = this.fb.group<PrivateCustomerFormGroup>({
     customerName1: this.fb.control<string>('', Validators.required),
-    cpr1: this.fb.control<string>('', [Validators.required, dhCprValidator]),
+    cpr1: this.fb.control<string>('', [Validators.required, dhCprValidator()]),
     customerName2: this.fb.control<string>(''),
-    cpr2: this.fb.control<string>('', dhCprValidator),
+    cpr2: this.fb.control<string>('', dhCprValidator()),
   });
+
+  // Signals for customer name fields
+  private customerName1Signal = signal(this.privateCustomerDetailsForm.controls.customerName1.value);
+  private companyNameSignal = signal(this.businessCustomerDetailsForm.controls.companyName.value);
+
+  // Signals for contactSameAsCustomer controls
+  private legalContactSameAsCustomerSignal = signal(this.legalContactDetailsForm.controls.contactSameAsCustomer.value);
+  private technicalContactSameAsCustomerSignal = signal(this.technicalContactDetailsForm.controls.contactSameAsCustomer.value);
+
+  constructor() {
+    // Effect for legal contact
+    effect(() => {
+      if (this.legalContactSameAsCustomerSignal()) {
+        const name = this.isBusinessCustomer() ? this.companyNameSignal() : this.customerName1Signal();
+        this.legalContactDetailsForm.controls.contactGroup.controls.name.setValue(name);
+        this.legalContactDetailsForm.controls.contactGroup.controls.name.disable();
+      } else {
+        this.legalContactDetailsForm.controls.contactGroup.controls.name.setValue('');
+        this.legalContactDetailsForm.controls.contactGroup.controls.name.enable();
+      }
+    });
+    // Effect for technical contact
+    effect(() => {
+      if (this.technicalContactSameAsCustomerSignal()) {
+        const name = this.isBusinessCustomer() ? this.companyNameSignal() : this.customerName1Signal();
+        this.technicalContactDetailsForm.controls.contactGroup.controls.name.setValue(name);
+        this.technicalContactDetailsForm.controls.contactGroup.controls.name.disable();
+      } else {
+        this.technicalContactDetailsForm.controls.contactGroup.controls.name.setValue('');
+        this.technicalContactDetailsForm.controls.contactGroup.controls.name.enable();
+      }
+    });
+    // Listen for changes in customer name fields and update signals
+    this.privateCustomerDetailsForm.controls.customerName1.valueChanges.subscribe(value => {
+      this.customerName1Signal.set(value);
+    });
+    this.businessCustomerDetailsForm.controls.companyName.valueChanges.subscribe(value => {
+      this.companyNameSignal.set(value);
+    });
+    // Listen for changes in contactSameAsCustomer controls and update signals
+    this.legalContactDetailsForm.controls.contactSameAsCustomer.valueChanges.subscribe(value => {
+      this.legalContactSameAsCustomerSignal.set(value);
+    });
+    this.technicalContactDetailsForm.controls.contactSameAsCustomer.valueChanges.subscribe(value => {
+      this.technicalContactSameAsCustomerSignal.set(value);
+    });
+  }
+
+  public updateCustomerData() {
+    const message = this.transloco.translate('meteringPoint.moveIn.customerDataSuccess');
+    this.toastService.open({ type: 'success', message });
+    this.location.back();
+  }
+
+  public cancel() {
+    this.location.back();
+  }
 }
