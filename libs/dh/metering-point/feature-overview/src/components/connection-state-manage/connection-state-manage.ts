@@ -109,24 +109,14 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
     }),
   });
 
-  stateControlOptions = this.findStateControlOptions();
+  stateControlOptions = dhEnumToWattDropdownOptions(ConnectionState, this.statesToExclude());
 
-  private findStateControlOptions() {
-    let statesToExclude: ConnectionState[] | undefined;
-
-    switch (this.modalData.currentConnectionState) {
-      case ConnectionState.New:
-        statesToExclude = [
-          ConnectionState.NotUsed,
-          ConnectionState.ClosedDown,
-          ConnectionState.Disconnected,
-        ];
-        break;
-      default:
-        break;
+  private statesToExclude(): ConnectionState[] | undefined {
+    if (this.modalData.currentConnectionState === ConnectionState.New) {
+      return [ConnectionState.NotUsed, ConnectionState.ClosedDown, ConnectionState.Disconnected];
     }
 
-    return dhEnumToWattDropdownOptions(ConnectionState, statesToExclude);
+    return undefined;
   }
 
   save() {
