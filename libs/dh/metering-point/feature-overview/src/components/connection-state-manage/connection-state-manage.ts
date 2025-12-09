@@ -98,9 +98,10 @@ import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-uti
 })
 export class DhConnectionStateManageComponent extends WattTypedModal<{
   currentConnectionState: ConnectionState;
+  currentCreatedDate: Date;
 }> {
   today = new Date();
-  minDate = dayjs(this.today).subtract(7, 'days').toDate();
+  minDate = this.findMinDate();
 
   form = new FormGroup({
     state: new FormControl<ConnectionState>(this.modalData.currentConnectionState),
@@ -110,6 +111,20 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
   });
 
   stateControlOptions = dhEnumToWattDropdownOptions(ConnectionState, this.statesToExclude());
+
+  private findMinDate() {
+    const daysSinceCreated = dayjs(this.today).diff(
+      dayjs(this.modalData.currentCreatedDate),
+      'days'
+    );
+    const maxDaysBackInTime = 7;
+
+    if (daysSinceCreated < maxDaysBackInTime) {
+      return this.modalData.currentCreatedDate;
+    }
+
+    return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
+  }
 
   private statesToExclude(): ConnectionState[] | undefined {
     if (this.modalData.currentConnectionState === ConnectionState.New) {

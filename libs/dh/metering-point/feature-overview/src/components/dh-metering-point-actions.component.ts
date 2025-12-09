@@ -44,6 +44,7 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
 import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { InstallationAddress } from '../types';
 import { DhGetMeteringPointForManualCorrectionComponent } from './manual-correction/dh-get-metering-point-for-manual-correction.component';
@@ -125,6 +126,7 @@ export class DhMeteringPointActionsComponent {
   type = input<ElectricityMarketMeteringPointType | null>();
   subType = input<MeteringPointSubType | null>();
   connectionState = input<ConnectionState | null>();
+  createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();
 
   private readonly hasGridAccessProviderRole = toSignal(
@@ -215,10 +217,17 @@ export class DhMeteringPointActionsComponent {
   }
 
   connectionStateManage() {
+    const currentConnectionState = this.connectionState();
+    const currentCreatedDate = this.createdDate();
+
+    assertIsDefined(currentConnectionState);
+    assertIsDefined(currentCreatedDate);
+
     this.modalService.open({
       component: DhConnectionStateManageComponent,
       data: {
-        currentConnectionState: this.connectionState(),
+        currentConnectionState,
+        currentCreatedDate,
       },
     });
   }
