@@ -56,12 +56,12 @@ exampleFormControl = new FormControl(true);
 ${template}`;
 
 // "Docs" page will render the first story twice, which will cause issues when
-// they have the same group. This fix prevents that by counting up each render.
-let counter = 1;
+// they have the same group. This fix prevents that by generating a unique ID.
+const generateUniqueId = () => crypto.randomUUID();
 
 export const WithFormControl: StoryFn<WattRadioComponent<string>> = () => ({
   props: {
-    group: `fav_framework_${counter++}`,
+    group: `fav_framework_${generateUniqueId()}`,
     exampleFormControl: new FormControl('angular'),
   },
   template,
@@ -76,7 +76,7 @@ WithFormControl.parameters = {
 
 export const Disabled: StoryFn<WattRadioComponent<string>> = () => ({
   props: {
-    group: `fav_framework_${counter++}`,
+    group: `fav_framework_${generateUniqueId()}`,
     exampleFormControl: new FormControl({ value: 'angular', disabled: true }),
   },
   template,
