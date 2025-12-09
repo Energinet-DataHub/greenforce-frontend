@@ -29,13 +29,13 @@ import {
   contentChildren,
   effect,
 } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattRadioComponent } from './watt-radio.component';
 
 @Component({
-  imports: [FormsModule, WattFieldComponent, WattRadioComponent],
+  imports: [WattFieldComponent, WattRadioComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
