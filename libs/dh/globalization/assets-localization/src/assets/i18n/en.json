@@ -229,6 +229,7 @@
         "requestCalculation": "Request calculation data"
       },
       "meteringPoints": "Metering Points",
+      "prices": "Prices",
       "marketParticipant": {
         "menuGroupLabel": "Market participants",
         "userManagement": "User Management",
