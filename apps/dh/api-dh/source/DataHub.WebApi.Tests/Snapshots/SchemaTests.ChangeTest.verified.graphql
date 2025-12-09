@@ -930,6 +930,7 @@ type MeteringPointDto {
   electricalHeatingStartDate: DateTime
   hadElectricalHeating: Boolean!
   haveElectricalHeating: Boolean!
+  createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
   id: Long!

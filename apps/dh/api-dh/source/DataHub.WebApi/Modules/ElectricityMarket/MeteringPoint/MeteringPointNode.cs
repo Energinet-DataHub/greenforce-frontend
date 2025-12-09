@@ -17,7 +17,6 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRe
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using HotChocolate.Authorization;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
@@ -53,6 +52,9 @@ public static partial class MeteringPointNode
 
         return lastHeating.IsActive;
     }
+
+    public static DateTimeOffset? CreatedDate([Parent] MeteringPointDto meteringPoint) =>
+        FindCreatedDate(meteringPoint.MetadataTimeline);
 
     public static DateTimeOffset? ConnectionDate([Parent] MeteringPointDto meteringPoint) =>
         FindFirstConnectedDate(meteringPoint.MetadataTimeline);
@@ -227,5 +229,15 @@ public static partial class MeteringPointNode
             .FirstOrDefault();
 
         return closedDownDate?.ValidFrom;
+    }
+
+    private static DateTimeOffset? FindCreatedDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods)
+    {
+        var createdDate = meteringPointPeriods
+            .Where(mp => mp.ConnectionState == ConnectionState.New)
+            .OrderBy(mp => mp.ValidFrom)
+            .FirstOrDefault();
+
+        return createdDate?.ValidFrom;
     }
 }
