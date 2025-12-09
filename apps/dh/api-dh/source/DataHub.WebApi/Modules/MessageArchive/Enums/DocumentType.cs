@@ -36,4 +36,6 @@ public enum DocumentType
     RejectRequestChangeBillingMasterData,
     NotifyBillingMasterData,
     RequestChangeOfPriceList,
+    ConfirmRequestChangeOfPriceList,
+    RejectRequestChangeOfPriceList,
 }
