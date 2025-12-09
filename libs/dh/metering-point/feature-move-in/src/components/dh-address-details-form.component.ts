@@ -50,6 +50,14 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
     .slide-toggle-margin-bottom {
       margin-bottom: var(--watt-space-m);
     }
+
+    .flex-grow-1 {
+      flex-grow: 1;
+    }
+
+    .flex-grow-2 {
+      flex-grow: 2;
+    }
   `,
   template: `
     @let form = addressDetailsForm();
@@ -70,6 +78,15 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
             {{ t('addressSameAsMeteringPoint') }}
 
           </watt-slide-toggle>
+
+          <watt-dropdown
+            translateKey="shared.countries"
+            dhDropdownTranslator
+            [formControl]="groupControls.countryCode"
+            [options]="countryOptions"
+            [label]="t('country')"
+            data-testid="country-code"
+          />
 
           <watt-text-field
             [formControl]="groupControls.streetName"
@@ -99,25 +116,30 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
             <watt-text-field
               [formControl]="groupControls.postCode"
               [label]="t('postalCode')"
+              class="flex-grow-1"
               data-testid="post-code"
             />
             <watt-text-field
               [formControl]="groupControls.cityName"
               [label]="t('city')"
+              class="flex-grow-2"
               data-testid="city-name"
+            />
+
+            <watt-text-field
+              [formControl]="groupControls.citySubDivisionName"
+              [label]="t('citySubdivisionName')"
+              class="flex-grow-2"
+              data-testid="city-subdivision-name"
             />
           </vater-flex>
 
-          <watt-dropdown
-            translateKey="shared.countries"
-            dhDropdownTranslator
-            [formControl]="groupControls.countryCode"
-            [options]="countryOptions"
-            [label]="t('country')"
-            data-testid="country-code"
-          />
-
           <vater-flex direction="row" gap="m" justify="space-between">
+            <watt-text-field
+              [formControl]="groupControls.streetCode"
+              [label]="t('streetCode')"
+              data-testid="street-code"
+            />
             <watt-text-field
               [formControl]="groupControls.municipalityCode"
               [label]="t('municipalityCode')"
@@ -134,18 +156,13 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
                 }
               </watt-field-error>
             </watt-text-field>
-            <watt-text-field
-              [formControl]="groupControls.streetCode"
-              [label]="t('streetCode')"
-              data-testid="street-code"
-            />
           </vater-flex>
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
-              [formControl]="groupControls.citySubDivisionName"
-              [label]="t('citySubdivisionName')"
-              data-testid="city-subdivision-name"
+              [formControl]="groupControls.postalDistrict"
+              [label]="t('postBox')"
+              data-testid="postal-district"
             />
             <watt-text-field
               [formControl]="groupControls.postBox"

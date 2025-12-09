@@ -75,6 +75,7 @@ export type AddressData = {
   countryCode: string;
   streetCode: string;
   citySubDivisionName: string;
+  postalDistrict: string;
   postBox: string;
   municipalityCode: string;
   darReference: string;
@@ -90,6 +91,7 @@ type AddressGroup = {
   countryCode: FormControl<string>;
   streetCode: FormControl<string>;
   citySubDivisionName: FormControl<string>;
+  postalDistrict: FormControl<string>;
   postBox: FormControl<string>;
   municipalityCode: FormControl<string>;
   darReference: FormControl<string>;

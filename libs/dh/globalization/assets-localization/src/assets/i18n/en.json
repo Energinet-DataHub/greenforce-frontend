@@ -961,6 +961,7 @@
           "country": "Country",
           "streetCode": "Street code",
           "citySubdivisionName": "Additional city name",
+          "postalDistrict": "Postal district",
           "postBox": "Post box",
           "municipalityCode": "Municipality code",
           "municipalityCodeError": {

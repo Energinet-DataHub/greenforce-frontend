@@ -963,6 +963,7 @@
           "country": "Land",
           "streetCode": "Vejkode",
           "citySubdivisionName": "Supplerende bynavn",
+          "postalDistrict": "Postdistrikt",
           "postBox": "Postboks",
           "municipalityCode": "Kommunekode",
           "municipalityCodeError": {

@@ -136,7 +136,8 @@ export class DhUpdateCustomerDataComponent {
     countryCode: this.addressData()?.countryCode ?? '',
     streetCode: this.addressData()?.streetCode ?? '',
     citySubDivisionName: this.addressData()?.citySubDivisionName ?? '',
-    postBox: '',
+    postalDistrict: this.addressData()?.postalDistrict ?? '',
+    postBox: this.addressData()?.postBox ?? '',
     municipalityCode: this.addressData()?.municipalityCode ?? '',
     darReference: this.addressData()?.darReference ?? '',
   };
@@ -180,6 +181,7 @@ export class DhUpdateCustomerDataComponent {
       citySubDivisionName: this.fb.control<string>(
         this.addressDataInitialValue.citySubDivisionName
       ),
+      postalDistrict: this.fb.control<string>(this.addressDataInitialValue.postalDistrict),
       postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
       municipalityCode: this.fb.control<string>(
         this.addressDataInitialValue.municipalityCode,
@@ -207,6 +209,7 @@ export class DhUpdateCustomerDataComponent {
       citySubDivisionName: this.fb.control<string>(
         this.addressDataInitialValue.citySubDivisionName
       ),
+      postalDistrict: this.fb.control<string>(this.addressDataInitialValue.postalDistrict),
       postBox: this.fb.control<string>(this.addressDataInitialValue.postBox), // TODO: MASEP Find out if needed?
       municipalityCode: this.fb.control<string>(
         this.addressDataInitialValue.municipalityCode,
