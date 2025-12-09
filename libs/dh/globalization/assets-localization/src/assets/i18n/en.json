@@ -1109,6 +1109,7 @@
     },
     "changeConnectionState": {
       "modalTitle": "{{ meteringPoint.overview.actions.changeConnectionStatus }}",
+      "tooltip": "The process takes a few minutes. The desired \n result is displayed here, and rejection reasons \n can be found in business messages.",
       "connectionStateLabel": "Connection status",
       "validityDate": "Validity date",
       "cancel": "Cancel",
