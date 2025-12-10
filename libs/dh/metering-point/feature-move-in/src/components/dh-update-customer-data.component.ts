@@ -17,7 +17,7 @@
  */
 //#endregion
 import { JsonPipe, Location } from '@angular/common';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, Signal } from '@angular/core';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -30,6 +30,7 @@ import {
 import { WattToastService } from '@energinet/watt/toast';
 
 import {
+  AddressData,
   AddressDetailsFormType,
   BusinessCustomerFormGroup,
   ContactDetailsFormGroup,
@@ -44,7 +45,8 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { DhPrivateCustomerDetailsFormComponent } from './dh-private-customer-details-form.component';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { CustomerRelationType, GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { Contact } from '../../../feature-overview/src/types';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -149,8 +151,26 @@ export class DhUpdateCustomerDataComponent {
   }));
 
   meteringPointId = input.required<string>();
-
   meteringPoint = computed(() => this.query.data()?.meteringPoint);
+
+  addressDataFromMeteringPoint = computed((): AddressData => {
+    const address = this.meteringPoint()?.metadata?.installationAddress;
+    return {
+      streetName: address?.streetName ?? '',
+      buildingNumber: address?.buildingNumber ?? '',
+      floor: address?.floor ?? '',
+      room: address?.room ?? '',
+      postCode: address?.postCode ?? '',
+      cityName: address?.cityName ?? '',
+      countryCode: address?.countryCode ?? '',
+      streetCode: address?.streetCode ?? '',
+      citySubDivisionName: address?.citySubDivisionName ?? '',
+      postalDistrict: '',
+      postBox: '',
+      municipalityCode: address?.municipalityCode ?? '',
+      darReference: address?.darReference ?? '',
+    };
+  });
 
   legalContactDetailsForm = this.fb.group<ContactDetailsFormType>({
     contactSameAsCustomer: this.fb.control<boolean>(true),
@@ -240,6 +260,14 @@ export class DhUpdateCustomerDataComponent {
     this.technicalContactDetailsForm.controls.contactSameAsCustomer.value
   );
 
+  // Signals for addressSameAsMeteringPoint controls
+  private legalAddressSameAsMeteringPointSignal = signal(
+    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.value
+  );
+  private technicalAddressSameAsMeteringPointSignal = signal(
+    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.value
+  );
+
   constructor() {
     // Effect for legal contact
     effect(() => {
@@ -267,6 +295,56 @@ export class DhUpdateCustomerDataComponent {
         this.technicalContactDetailsForm.controls.contactGroup.controls.name.enable();
       }
     });
+    // Effect for legal address
+    effect(() => {
+      if (this.legalAddressSameAsMeteringPointSignal()) {
+        const address = this.addressDataFromMeteringPoint();
+        this.legalAddressDetailsForm.controls.addressGroup.patchValue(address);
+        this.legalAddressDetailsForm.controls.addressGroup.disable();
+      } else {
+        this.legalAddressDetailsForm.controls.addressGroup.patchValue({
+          streetName: '',
+          buildingNumber: '',
+          floor: '',
+          room: '',
+          postCode: '',
+          cityName: '',
+          countryCode: '',
+          streetCode: '',
+          citySubDivisionName: '',
+          postalDistrict: '',
+          postBox: '',
+          municipalityCode: '',
+          darReference: '',
+        });
+        this.legalAddressDetailsForm.controls.addressGroup.enable();
+      }
+    });
+    // Effect for technical address
+    effect(() => {
+      if (this.technicalAddressSameAsMeteringPointSignal()) {
+        const address = this.addressDataFromMeteringPoint();
+        this.technicalAddressDetailsForm.controls.addressGroup.patchValue(address);
+        this.technicalAddressDetailsForm.controls.addressGroup.disable();
+      } else {
+        this.technicalAddressDetailsForm.controls.addressGroup.patchValue({
+          streetName: '',
+          buildingNumber: '',
+          floor: '',
+          room: '',
+          postCode: '',
+          cityName: '',
+          countryCode: '',
+          streetCode: '',
+          citySubDivisionName: '',
+          postalDistrict: '',
+          postBox: '',
+          municipalityCode: '',
+          darReference: '',
+        });
+        this.technicalAddressDetailsForm.controls.addressGroup.enable();
+      }
+    });
     // Listen for changes in customer name fields and update signals
     this.privateCustomerDetailsForm.controls.customerName1.valueChanges.subscribe((value) => {
       this.customerName1Signal.set(value);
@@ -283,6 +361,13 @@ export class DhUpdateCustomerDataComponent {
         this.technicalContactSameAsCustomerSignal.set(value);
       }
     );
+    // Listen for changes in addressSameAsMeteringPoint controls and update signals
+    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges.subscribe(value => {
+      this.legalAddressSameAsMeteringPointSignal.set(value);
+    });
+    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges.subscribe(value => {
+      this.technicalAddressSameAsMeteringPointSignal.set(value);
+    });
   }
 
   public updateCustomerData() {
