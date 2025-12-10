@@ -118,7 +118,7 @@ import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/wa
 
       <vater-spacer />
 
-      <dh-reset-filters-button/>
+      <dh-reset-filters-button />
     </form>
   `,
 })

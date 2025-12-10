@@ -19,7 +19,11 @@
 import { Component, computed } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective, } from '@energinet/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';

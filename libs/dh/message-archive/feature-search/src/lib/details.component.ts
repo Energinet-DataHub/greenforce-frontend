@@ -78,10 +78,7 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-actions>
-        <dh-download-button
-          [disabled]="!document.hasValue()"
-          (click)="download()"
-        />
+        <dh-download-button [disabled]="!document.hasValue()" (click)="download()" />
       </watt-drawer-actions>
       <watt-drawer-content>
         @if (document.isLoading()) {
