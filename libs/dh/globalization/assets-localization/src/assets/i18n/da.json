@@ -843,10 +843,10 @@
         "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
       },
       "steps": {
-        "RSM005_REQUEST": "Anmod om leveranceophør (RSM-005)",
-        "RSM005_CONFIRM": "Godkend anmod om leveranceophør (RSM-005)",
-        "RSM005_REJECT": "Afvis anmod om leveranceophør (RSM-005)",
-        "RSM020_REQUEST": "Anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
         "UNKNOWN": "Ukendt trin"
       },
       "details": {

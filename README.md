@@ -72,6 +72,7 @@ areas:
 - [Mocking](docs/dh/mocking.md)
 - [Feature Flags](libs/dh/shared/feature-flags/README.md)
 - [Logging with Application Insights](docs/dh/logging.md)
+- [Adding new processes to `metering-point/process-overview`](docs/dh/adding-processes.md)
 
 ### Getting Started
 

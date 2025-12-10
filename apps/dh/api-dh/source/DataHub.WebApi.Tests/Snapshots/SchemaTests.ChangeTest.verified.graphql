@@ -2882,19 +2882,24 @@ enum ProcessStepState {
 }
 
 """
-Enum representing different process step types.
+Enum representing known process step types.
 These values are used as translation keys in the frontend.
+When adding new processes, add the step identifiers here.
+Format: {PROCESS_NAME}_V{VERSION}_STEP_{SEQUENCE}
 """
 enum ProcessStepType {
-  "RSM-005: Request end of supply"
-  RSM005_REQUEST
-  "RSM-005: Confirm end of supply"
-  RSM005_CONFIRM
-  "RSM-005: Reject end of supply"
-  RSM005_REJECT
-  "RSM-020: Notify cancellation of end of supply"
-  RSM020_REQUEST
-  "Unknown or unmapped step type"
+  "BRS-002 Request End of Supply - Step 1: Request end of supply (RSM-005)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1
+  "BRS-002 Request End of Supply - Step 2: Confirm end of supply (RSM-005)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2
+  "BRS-002 Request End of Supply - Step 3: Reject end of supply (RSM-005)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3
+  "BRS-002 Request End of Supply - Step 4: Notify cancellation of end of supply (RSM-020)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4
+  """
+  Unknown or unmapped step type.
+  Used when ProcessManager returns a step we haven't added to this enum yet.
+  """
   UNKNOWN
 }
 
