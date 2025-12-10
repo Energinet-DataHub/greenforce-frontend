@@ -144,8 +144,6 @@ import {
 export default class DhChargesEdit {
   id = input.required<string>();
   navigate = injectRelativeNavigate();
-  dailyResolution: ChargeResolution = 'daily';
-  hourlyResolution: ChargeResolution = 'hourly';
   vat25 = VatClassification.Vat25;
   noVat = VatClassification.NoVat;
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
@@ -153,7 +151,7 @@ export default class DhChargesEdit {
   code = computed(() => this.charge()?.code);
   name = computed(() => this.charge()?.name);
   description = computed(() => this.charge()?.currentPeriod?.description);
-  resolution = computed(() => this.charge()?.resolution ?? ChargeResolution.Daily);
+  resolution = computed(() => this.charge()?.resolution);
   type = computed(() => this.charge()?.type);
   vatClassification = computed(() => this.charge()?.currentPeriod?.vatClassification);
   transparentInvoicing = computed(() => this.charge()?.currentPeriod?.transparentInvoicing ?? null);
