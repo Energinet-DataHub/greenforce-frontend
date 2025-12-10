@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
@@ -179,6 +181,22 @@ public static partial class MeteringPointNode
         }
 
         throw new InvalidOperationException("User is not authorized to access the requested metering point.");
+    }
+
+    [Mutation]
+    [Authorize(Roles = new[] { "metering-point:connection-state-manage" })]
+    public static async Task<bool> RequestConnectionStateChangeAsync(
+        string meteringPointId,
+        DateTimeOffset validityDate,
+        CancellationToken ct,
+        [Service] IB2CClient ediB2CClient)
+    {
+        var command = new RequestConnectMeteringPointCommandV1(
+            new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        return result.IsSuccess;
     }
 
     [DataLoader]

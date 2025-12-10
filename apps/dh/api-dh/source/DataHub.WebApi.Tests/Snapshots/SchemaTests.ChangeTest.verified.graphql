@@ -1059,6 +1059,7 @@ type Mutation {
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
+  requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1405,6 +1406,10 @@ type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult
 type RequestClientSecretCredentialsPayload {
   actorClientSecretDto: ActorClientSecretDto
   errors: [RequestClientSecretCredentialsError!]
+}
+
+type RequestConnectionStateChangePayload {
+  boolean: Boolean
 }
 
 type RequestMeasurementsReportPayload {
@@ -2083,6 +2088,11 @@ input RequestCalculatedWholesaleServicesInput {
 
 input RequestClientSecretCredentialsInput {
   marketParticipantId: UUID!
+}
+
+input RequestConnectionStateChangeInput {
+  meteringPointId: String!
+  validityDate: DateTime!
 }
 
 input RequestInput @oneOf {

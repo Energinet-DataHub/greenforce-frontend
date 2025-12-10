@@ -1115,7 +1115,8 @@
       "connectionStateLabel": "Tilslutningsstatus",
       "validityDate": "Gyldighedsdato",
       "cancel": "Annuller",
-      "save": "Gem ændringer"
+      "save": "Gem ændringer",
+      "saveSuccess": "Tilslutningsstatus opdateres"
     }
   },
   "messageArchive": {

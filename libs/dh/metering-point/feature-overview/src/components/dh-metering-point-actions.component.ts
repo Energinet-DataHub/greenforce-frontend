@@ -228,6 +228,7 @@ export class DhMeteringPointActionsComponent {
       data: {
         currentConnectionState,
         currentCreatedDate,
+        meteringPointId: this.meteringPointId(),
       },
     });
   }

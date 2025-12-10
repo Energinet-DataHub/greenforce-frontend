@@ -1114,7 +1114,8 @@
       "connectionStateLabel": "Connection status",
       "validityDate": "Validity date",
       "cancel": "Cancel",
-      "save": "Save changes"
+      "save": "Save changes",
+      "saveSuccess": "Connection status is being updated"
     }
   },
   "messageArchive": {
