@@ -1168,8 +1168,7 @@
       "created": "Sendt",
       "messageId": "Besked ID",
       "sender": "Afsender",
-      "receiver": "Modtager",
-      "download": "Download"
+      "receiver": "Modtager"
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",

@@ -1168,7 +1168,6 @@
       "messageId": "Message ID",
       "receiver": "Receiver",
       "sender": "Sender",
-      "download": "Download"
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Rejection (RSM-009)",
