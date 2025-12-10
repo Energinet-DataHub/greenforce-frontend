@@ -73,39 +73,16 @@ import { WattButtonComponent } from '@energinet/watt/button';
   `,
 })
 export class WattSimpleSearchComponent {
-  /**
-   * @ignore
-   */
   input = viewChild.required<ElementRef<HTMLInputElement>>('input');
-
-  /**
-   * @ignore
-   */
   label = input<string>('');
-
-  /**
-   * @ignore
-   */
   debounceTime = input<number>(300);
 
   /**
    * If true, trims whitespace from the search value before emitting.
    */
   trim = input(true);
-
-  /**
-   * @ignore
-   */
   search$ = new BehaviorSubject<string>('');
-
-  /**
-   * @ignore
-   */
   search = outputFromObservable(this.search$.pipe(skip(1), debounceTime(this.debounceTime())));
-
-  /**
-   * @ignore
-   */
   size = input<WattIconSize>('s');
 
   /**
@@ -116,9 +93,6 @@ export class WattSimpleSearchComponent {
     this.search$.next(processed);
   }
 
-  /**
-   * @ignore
-   */
   clear(): void {
     const element = this.input().nativeElement;
     if (element.value === '') return;
