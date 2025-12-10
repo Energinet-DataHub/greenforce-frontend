@@ -157,9 +157,9 @@ export class DhUpdateCustomerDataComponent {
     contactGroup: this.fb.group<ContactDetailsFormGroup>({
       name: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
       title: this.fb.control<string>(''),
-      phone: this.fb.control<string>(''),
-      mobile: this.fb.control<string>(''),
-      email: this.fb.control<string>('', Validators.email),
+      phone: this.fb.control<string>('', Validators.required),
+      mobile: this.fb.control<string>('', Validators.required),
+      email: this.fb.control<string>('', [Validators.email, Validators.required]),
     }),
   });
 
@@ -178,17 +178,17 @@ export class DhUpdateCustomerDataComponent {
     addressSameAsMeteringPoint: this.fb.control<boolean>(true),
     addressGroup: this.fb.group({
       streetName: this.fb.control<string>('', Validators.required),
-      buildingNumber: this.fb.control<string>(''),
+      buildingNumber: this.fb.control<string>('', Validators.required),
       floor: this.fb.control<string>(''),
       room: this.fb.control<string>(''),
       postCode: this.fb.control<string>('', Validators.required),
       cityName: this.fb.control<string>('', Validators.required),
-      countryCode: this.fb.control<string>(''),
-      streetCode: this.fb.control<string>(''),
+      countryCode: this.fb.control<string>('', Validators.required),
+      streetCode: this.fb.control<string>('', Validators.required),
       citySubDivisionName: this.fb.control<string>(''),
       postalDistrict: this.fb.control<string>(''),
       postBox: this.fb.control<string>(''), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>('', dhMunicipalityCodeValidator()),
+      municipalityCode: this.fb.control<string>('', [dhMunicipalityCodeValidator(), Validators.required]),
       darReference: this.fb.control<string>(''),
     }),
     nameAddressProtection: this.fb.control<boolean>(false),
