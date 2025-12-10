@@ -38,19 +38,8 @@ public static class ChargeExtensions
     public static bool IsCurrent(this ChargeInformationPeriodDto period) =>
         period.StartDate.ToDateTimeOffset() <= DateTimeOffset.Now && (period.EndDate == null || period.EndDate?.ToDateTimeOffset() > DateTimeOffset.Now);
 
-    public static async Task<ChargeStatus> GetChargeStatusAsync(
-        this ChargeInformationDto charge,
-        IHasAnyPricesDataLoader hasAnyPricesDataLoader,
-        CancellationToken ct)
-    {
-        var hasAnyPrices = await hasAnyPricesDataLoader.LoadAsync([charge], ct);
-        var hasAnyPrice = hasAnyPrices?[charge.ChargeIdentifierDto.ToIdString()] ?? false;
-        return charge.GetChargeStatus(hasAnyPrice);
-    }
-
     public static ChargeStatus GetChargeStatus(
-        this ChargeInformationDto charge,
-        bool hasAnyPrices)
+        this Charge charge)
     {
         var period = charge.GetCurrentPeriod();
 
@@ -62,7 +51,7 @@ public static class ChargeExtensions
         var validFrom = period.StartDate.ToDateTimeOffset();
         var validTo = period.EndDate?.ToDateTimeOffset();
 
-        return hasAnyPrices switch
+        return charge.HasAnyPrices switch
         {
             _ when validFrom == validTo => ChargeStatus.Cancelled,
             _ when validTo < DateTimeOffset.Now => ChargeStatus.Closed,

@@ -28,7 +28,7 @@ public interface IChargesClient
     /// <summary>
     /// Query charge information.
     /// </summary>
-    Task<Energinet.DataHub.Charges.Abstractions.Api.Models.Result<(IEnumerable<ChargeInformationDto> Charges, int TotalCount)>?> GetChargesAsync(
+    Task<(IEnumerable<Charge> Charges, int TotalCount)?> GetChargesAsync(
         int skip,
         int take,
         string? filter,
@@ -39,14 +39,14 @@ public interface IChargesClient
     /// <summary>
     /// Get charge information by id.
     /// </summary>
-    Task<ChargeInformationDto?> GetChargeByIdAsync(
+    Task<Charge?> GetChargeByIdAsync(
         ChargeIdentifierDto id,
         CancellationToken ct = default);
 
     /// <summary>
     /// Get charge information by type.
     /// </summary>
-    Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAsync(
+    Task<IEnumerable<Charge>> GetChargesByTypeAsync(
         ChargeType type,
         CancellationToken ct = default);
 

@@ -20,8 +20,8 @@ using VatClassification = Energinet.DataHub.Charges.Abstractions.Shared.VatClass
 
 public static class ChagesFilterExtensions
 {
-    public static IEnumerable<ChargeInformationDto> FilterOnActors(
-            this IEnumerable<ChargeInformationDto> charges,
+    public static IEnumerable<Charge> FilterOnActors(
+            this IEnumerable<Charge> charges,
             string[]? actorIds)
     {
         if (actorIds?.Any() == true)
@@ -33,8 +33,8 @@ public static class ChagesFilterExtensions
         return charges;
     }
 
-    public static IEnumerable<ChargeInformationDto> FilterOnTypes(
-            this IEnumerable<ChargeInformationDto> charges,
+    public static IEnumerable<Charge> FilterOnTypes(
+            this IEnumerable<Charge> charges,
             ChargeType[]? chargeTypes)
     {
         if (chargeTypes?.Any() == true)
@@ -46,8 +46,8 @@ public static class ChagesFilterExtensions
         return charges;
     }
 
-    public static IEnumerable<ChargeInformationDto> FilterOnVatClassification(
-            this IEnumerable<ChargeInformationDto> charges,
+    public static IEnumerable<Charge> FilterOnVatClassification(
+            this IEnumerable<Charge> charges,
             string[]? moreOptions)
     {
         if (moreOptions?.Any(x => x == "vat-true") == true)
@@ -63,8 +63,8 @@ public static class ChagesFilterExtensions
         return charges;
     }
 
-    public static IEnumerable<ChargeInformationDto> FilterOnTransparentInvoicing(
-            this IEnumerable<ChargeInformationDto> charges,
+    public static IEnumerable<Charge> FilterOnTransparentInvoicing(
+            this IEnumerable<Charge> charges,
             string[]? moreOptions)
     {
         if (moreOptions?.Any(x => x == "transparentInvoicing-true") == true)
@@ -80,23 +80,14 @@ public static class ChagesFilterExtensions
         return charges;
     }
 
-    public static async Task<IEnumerable<ChargeInformationDto>> FilterOnStatusesAsync(
-            this IEnumerable<ChargeInformationDto> charges,
+    public static IEnumerable<Charge> FilterOnStatuses(
+            this IEnumerable<Charge> charges,
             ChargeStatus[]? statuses,
-            IHasAnyPricesDataLoader hasAnyPricesDataLoader,
             CancellationToken ct)
     {
         if (statuses?.Any() == true)
         {
-            var hasAnyPricesDict = await hasAnyPricesDataLoader.LoadAsync(charges.ToList(), ct);
-
-            if (hasAnyPricesDict == null)
-            {
-                return charges;
-            }
-
-            return charges.Where(charge => statuses.Contains(
-                charge.GetChargeStatus(hasAnyPricesDict[charge.ChargeIdentifierDto.ToIdString()])));
+            return charges.Where(charge => statuses.Contains(charge.GetChargeStatus()));
         }
 
         return charges;

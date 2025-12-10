@@ -19,9 +19,9 @@ using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
-public sealed class ChargeSortType : SortInputType<ChargeInformationDto>
+public sealed class ChargeSortType : SortInputType<Charge>
 {
-    protected override void Configure(ISortInputTypeDescriptor<ChargeInformationDto> descriptor)
+    protected override void Configure(ISortInputTypeDescriptor<Charge> descriptor)
     {
         descriptor.Name("ChargeSortInput");
         descriptor.BindFieldsExplicitly();
