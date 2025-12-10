@@ -125,7 +125,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
 
       <vater-spacer />
 
-      <dh-reset-filters-button [text]="translate('reset')" />
+      <dh-reset-filters-button />
     </form>
   `,
 })

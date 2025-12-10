@@ -31,7 +31,7 @@ import {
 @Component({
   selector: 'dh-outgoing-message-download',
   imports: [DhDownloadButtonComponent],
-  template: ` <dh-download-button (clicked)="download()" /> `,
+  template: ` <dh-download-button (click)="download()" /> `,
 })
 export class DhOutgoingMessageDownloadComponent {
   private downloadMessagesQuery = lazyQuery(DownloadEsettExchangeEventsDocument);

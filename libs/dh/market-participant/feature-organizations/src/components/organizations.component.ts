@@ -70,7 +70,7 @@ import { Organization } from './types';
       [enableCount]="false"
     >
       <watt-data-actions>
-        <dh-download-button (clicked)="download()" />
+        <dh-download-button (click)="download()" />
       </watt-data-actions>
 
       <watt-table

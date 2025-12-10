@@ -34,7 +34,7 @@ type Variables = Partial<GetUserRolesForCsvQueryVariables>;
 @Component({
   selector: 'dh-user-roles-download',
   imports: [DhDownloadButtonComponent],
-  template: ` <dh-download-button (clicked)="download()" />`,
+  template: ` <dh-download-button (click)="download()" />`,
 })
 export class DhUserRolesDownloadComponent {
   private transloco = inject(TranslocoService);

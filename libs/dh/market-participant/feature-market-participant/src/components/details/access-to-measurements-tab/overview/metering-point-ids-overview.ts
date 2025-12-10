@@ -69,7 +69,7 @@ import {
         <h3>{{ t('modalTitle') }}</h3>
 
         <watt-data-actions>
-          <dh-download-button class="download-button" (clicked)="download()" />
+          <dh-download-button class="download-button" (click)="download()" />
           <ng-content />
         </watt-data-actions>
 

@@ -1167,7 +1167,7 @@
       "created": "Sent",
       "messageId": "Message ID",
       "receiver": "Receiver",
-      "sender": "Sender",
+      "sender": "Sender"
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Rejection (RSM-009)",
@@ -1528,8 +1528,7 @@
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
-        "reset": "{{ shared.form.reset }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
       },
       "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {

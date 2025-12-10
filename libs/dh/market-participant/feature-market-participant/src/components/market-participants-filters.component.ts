@@ -93,7 +93,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
       />
 
       <vater-spacer />
-      <dh-reset-filters-button [text]="t('reset')" />
+      <dh-reset-filters-button />
     </form>
   `,
 })

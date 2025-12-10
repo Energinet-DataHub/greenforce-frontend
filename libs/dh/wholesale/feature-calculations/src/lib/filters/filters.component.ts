@@ -111,7 +111,7 @@ import {
       />
 
       <vater-spacer />
-      <dh-reset-filters-button [text]="t('reset')" />
+      <dh-reset-filters-button />
     </form>
   `,
 })

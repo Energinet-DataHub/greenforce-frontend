@@ -28,7 +28,7 @@ limitations under the License.
       (filtersChanges)="store.updateFilters($event)"
     />
 
-    <dh-download-button (clicked)="store.download()" />
+    <dh-download-button (click)="store.download()" />
   </vater-stack>
 
   @if (store.isLoading()) {

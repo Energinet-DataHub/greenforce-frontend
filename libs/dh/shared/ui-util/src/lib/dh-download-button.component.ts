@@ -16,20 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, output } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
   selector: 'dh-download-button',
   template: `
-    <watt-button
-      icon="download"
-      variant="secondary"
-      [disabled]="disabled()"
-      [loading]="loading()"
-      (click)="clicked.emit()"
-    >
+    <watt-button icon="download" variant="secondary" [disabled]="disabled()" [loading]="loading()">
       @if (alternateText()) {
         {{ alternateText() }}
       } @else {
@@ -43,5 +37,4 @@ export class DhDownloadButtonComponent {
   loading = input<boolean>(false);
   alternateText = input<string | undefined>(undefined);
   disabled = input<boolean>(false);
-  clicked = output<void>();
 }

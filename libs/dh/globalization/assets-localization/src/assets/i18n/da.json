@@ -1529,8 +1529,7 @@
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
-        "reset": "{{ shared.form.reset }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
       },
       "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {

@@ -152,7 +152,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
         >{{ t('latestDispatch') }}
       </watt-date-range-chip>
 
-      <dh-reset-filters-button class="auto-margin-left" [text]="t('reset')" (clicked)="reset()" />
+      <dh-reset-filters-button class="auto-margin-left" (click)="reset()" />
     </form>
   `,
 })

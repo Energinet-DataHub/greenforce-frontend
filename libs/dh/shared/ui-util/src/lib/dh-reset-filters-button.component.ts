@@ -16,19 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, output } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'dh-reset-filters-button',
   template: `
-    <watt-button size="small" variant="primary" icon="close" type="reset" (click)="clicked.emit()">
-      {{ text() }}
+    <watt-button size="small" variant="primary" icon="close" type="reset">
+      @if (alternateText()) {
+        {{ alternateText() }}
+      } @else {
+        {{ 'shared.form.reset' | transloco }}
+      }
     </watt-button>
   `,
-  imports: [WattButtonComponent],
+  imports: [WattButtonComponent, TranslocoPipe],
 })
 export class DhResetFiltersButtonComponent {
-  text = input.required<string>();
-  clicked = output<void>();
+  alternateText = input<string>();
 }
