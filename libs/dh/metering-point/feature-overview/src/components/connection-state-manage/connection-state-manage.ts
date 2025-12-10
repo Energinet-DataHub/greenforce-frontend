@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Validators, FormControl, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
