@@ -4,7 +4,7 @@
       "totalCount": 1,
       "nodes": [
         {
-          "status": "CANCELLED"
+          "status": "INVALID"
         }
       ]
     }

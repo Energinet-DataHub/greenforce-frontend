@@ -79,42 +79,43 @@ public class ChargeStatusTests
 #pragma warning disable SA1118 // Parameter should not span multiple lines
         server.ChargesClientMock
             .Setup(x => x.GetChargesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<ChargeSortInput>(), It.IsAny<GetChargesQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<(IEnumerable<ChargeInformationDto> Charges, int TotalCount)>.Success(
-                (
-                    new List<ChargeInformationDto>
-                    {
-                        new(
-                            ChargeIdentifierDto: new ChargeIdentifierDto(
-                                Code: "SUB-123",
-                                Type: ChargeType.Subscription,
-                                Owner: "Energy Provider A"),
-                            Resolution: Resolution.Daily,
-                            TaxIndicator: false,
-                            Periods: [new(
-                                    Description: "Period 1",
-                                    StartDate: Instant.FromDateTimeOffset(validFrom),
-                                    EndDate: validTo == DateTimeOffset.MaxValue ? null : Instant.FromDateTimeOffset(validTo),
-                                    TransparentInvoicing: false,
-                                    VatClassification: VatClassification.NoVat,
-                                    Name: "Standard Period")]),
-                        new(
-                            ChargeIdentifierDto: new ChargeIdentifierDto(
-                                Code: "FEE-456",
-                                Type: ChargeType.Fee,
-                                Owner: "Grid Company B"),
-                            Resolution: Resolution.Daily,
-                            TaxIndicator: false,
-                            Periods: [
-                                new(
-                                    Description: "Period 1",
-                                    StartDate: Instant.FromDateTimeOffset(validFrom),
-                                    EndDate: validTo == DateTimeOffset.MaxValue ? null : Instant.FromDateTimeOffset(validTo),
-                                    TransparentInvoicing: false,
-                                    VatClassification: VatClassification.NoVat,
-                                    Name: "Standard Period")
-                            ]),
-                    },
-                    2)));
+            .ReturnsAsync((
+                new List<Charge>
+                {
+                    new(
+                        ChargeIdentifierDto: new ChargeIdentifierDto(
+                            Code: "SUB-123",
+                            Type: ChargeType.Subscription,
+                            Owner: "Energy Provider A"),
+                        Resolution: Resolution.Daily,
+                        TaxIndicator: false,
+                        HasAnyPrices: hasAnyPrices,
+                        Periods: [new(
+                                Description: "Period 1",
+                                StartDate: Instant.FromDateTimeOffset(validFrom),
+                                EndDate: validTo == DateTimeOffset.MaxValue ? null : Instant.FromDateTimeOffset(validTo),
+                                TransparentInvoicing: false,
+                                VatClassification: VatClassification.NoVat,
+                                Name: "Standard Period")]),
+                    new(
+                        ChargeIdentifierDto: new ChargeIdentifierDto(
+                            Code: "FEE-456",
+                            Type: ChargeType.Fee,
+                            Owner: "Grid Company B"),
+                        Resolution: Resolution.Daily,
+                        TaxIndicator: false,
+                        HasAnyPrices: hasAnyPrices,
+                        Periods: [
+                            new(
+                                Description: "Period 1",
+                                StartDate: Instant.FromDateTimeOffset(validFrom),
+                                EndDate: validTo == DateTimeOffset.MaxValue ? null : Instant.FromDateTimeOffset(validTo),
+                                TransparentInvoicing: false,
+                                VatClassification: VatClassification.NoVat,
+                                Name: "Standard Period")
+                        ]),
+                },
+                2));
 #pragma warning restore SA1118 // Parameter should not span multiple lines
 
         server.ChargesClientMock
