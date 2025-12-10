@@ -102,8 +102,19 @@ export type BusinessCustomerFormGroup = {
   cvr: FormControl<string>;
 }
 
-export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
-
 export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
+
+export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
+
+type CommercialRelation = NonNullable<MeteringPointDetails['commercialRelation']>;
+type ActiveEnergySupplyPeriod = NonNullable<CommercialRelation['activeEnergySupplyPeriod']>;
+
+export type EnergySupplier = {
+  gln?: CommercialRelation['energySupplier'];
+  name?: NonNullable<CommercialRelation['energySupplierName']>['value'];
+  validFrom?: ActiveEnergySupplyPeriod['validFrom'];
+};
+
+export type Contact = ActiveEnergySupplyPeriod['customers'][0];
