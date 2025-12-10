@@ -187,9 +187,9 @@ export class DhRelatedMeteringPointsComponent {
 
     if (!relatedMeteringPoints) return [];
 
-    return [
-      ...(relatedMeteringPoints.parent ? [relatedMeteringPoints.parent] : []),
-      ...(relatedMeteringPoints.current ? [relatedMeteringPoints.current] : []),
+    const list = [
+      relatedMeteringPoints.parent,
+      relatedMeteringPoints.current,
       ...(relatedMeteringPoints.relatedMeteringPoints ?? []),
       ...(relatedMeteringPoints.relatedByGsrn ?? []),
       // Historical
@@ -197,7 +197,9 @@ export class DhRelatedMeteringPointsComponent {
       ...(this.showHistorical()
         ? (relatedMeteringPoints.historicalMeteringPointsByGsrn ?? [])
         : []),
-    ];
+    ].filter((mp): mp is NonNullable<typeof mp> => !!mp);
+
+    return list.sort((a, b) => a.identification.localeCompare(b.identification));
   });
 
   hasHistorical = computed(() => {
