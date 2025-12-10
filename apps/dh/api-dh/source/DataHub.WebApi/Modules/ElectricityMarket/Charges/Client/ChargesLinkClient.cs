@@ -12,19 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
+using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 
-public class ChargeLinkClient : IChargeLinkClient
+public class ChargeLinkClient(DataHub.Charges.Client.IChargesClient client) : IChargeLinkClient
 {
-    public Task<IEnumerable<ChargeLink>> GetChargeLinksByMeteringPointIdAsync(string meteringPointId, CancellationToken ct = default)
+    public async Task<IEnumerable<ChargeLinkDto>> GetChargeLinksByMeteringPointIdAsync(string meteringPointId, CancellationToken ct = default)
     {
-        return Task.FromResult<IEnumerable<ChargeLink>>(Array.Empty<ChargeLink>());
+        var result = await client.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(meteringPointId), ct).ConfigureAwait(false);
+        return result.Value.ChargeLinks ?? Enumerable.Empty<ChargeLinkDto>();
     }
 
-    public Task<IEnumerable<ChargeLinkHistory>> GetChargeLinkHistoryAsync(string chargeId, CancellationToken ct = default)
+    public Task<IEnumerable<ChargeLinkHistory>> GetChargeLinkHistoryAsync(long chargeId, CancellationToken ct = default)
     {
         return Task.FromResult<IEnumerable<ChargeLinkHistory>>(Array.Empty<ChargeLinkHistory>());
+    }
+
+    public Task<bool> StopChargeLinkAsync(string chargeLinkId, DateTimeOffset stopDate, CancellationToken ct = default)
+    {
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> CancelChargeLinkAsync(string chargeLinkId, CancellationToken ct = default)
+    {
+        return Task.FromResult(true);
+    }
+
+    public Task<bool> EditChargeLinkAsync(string chargeLinkId, DateTimeOffset newStartDate, int factor, CancellationToken ct = default)
+    {
+        return Task.FromResult(true);
     }
 }

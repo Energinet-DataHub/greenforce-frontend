@@ -1,0 +1,5 @@
+mutation StopChargeLink($chargeLinkId: String!, $stopDate: DateTime!) {
+  stopChargeLink(input: { chargeLinkId: $chargeLinkId, stopDate: $stopDate }) {
+    success: boolean
+  }
+}

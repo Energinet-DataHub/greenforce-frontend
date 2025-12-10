@@ -1,0 +1,5 @@
+mutation RequestConnectionStateChange($input: RequestConnectionStateChangeInput!) {
+  requestConnectionStateChange(input: $input) {
+    success: boolean
+  }
+}

@@ -1,4 +1,4 @@
-// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Charges.Models;
-using NodaTime;
-using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeIdentifierDto;
+namespace Energinet.DataHub.WebApi.Model.Measurements;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
-
-public record ChargeLink(
-    string Id,
-    ChargeIdentifierDto ChargeIdentifier,
-    ChargeType Type,
-    string Name,
-    MarketParticipantId Owner,
-    int Amount,
-    Interval Period);
+public enum Quality
+{
+    Estimated,
+    Measured,
+}

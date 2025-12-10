@@ -8,7 +8,7 @@ Run `bun nx test dh-shared-feature-microsoft-clarity` to execute the unit tests 
 
 ## Testing Microsoft Clarity Locally
 
-Microsoft Clarity is controlled by the `microsoft-clarity` feature flag. By default, this feature flag is disabled in local and production environments.
+Microsoft Clarity is controlled by the `microsoft-clarity` feature flag. By default, this feature flag is disabled in local environment.
 
 ### Verifying the Integration
 
@@ -30,7 +30,7 @@ When Microsoft Clarity is active, you can verify it's working by:
 ### Important Notes
 
 - The project ID is configured in the environment files
-- Microsoft Clarity is controlled by a feature flag (`microsoft-clarity`) which is disabled in production
+- Microsoft Clarity is controlled by a feature flag (`microsoft-clarity`) which is disabled in local environment
 - Cookie consent is automatically integrated with the platform's cookie management
 - The service gracefully handles missing configuration and won't break the application
 

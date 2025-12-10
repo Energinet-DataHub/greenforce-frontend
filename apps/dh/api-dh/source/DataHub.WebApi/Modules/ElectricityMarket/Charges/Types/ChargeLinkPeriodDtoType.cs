@@ -11,32 +11,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-@use "@energinet/watt/utils" as watt;
-@use "@angular/material" as mat;
 
-:root {
-  @include mat.button-toggle-overrides(
-    (
-      selected-state-text-color: white,
-      selected-state-background-color: var(--watt-color-primary),
-      height: 2.5rem,
-    )
-  );
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
+using NodaTime;
 
-  mat-button-toggle-group {
-    border-color: var(--watt-color-neutral-grey-700);
+namespace Energinet.DataHub.WebApi.Modules.Charges;
 
-    mat-button-toggle {
-      border-color: var(--watt-color-neutral-grey-700) !important;
-
-      button {
-        min-width: 6.5rem;
-
-        span {
-          font-size: 0.875rem;
-          font-weight: 600;
-        }
-      }
+[ObjectType<ChargeLinkPeriodDto>]
+public static partial class ChargeLinkPeriodDtoType
+{
+    static partial void Configure(IObjectTypeDescriptor<ChargeLinkPeriodDto> descriptor)
+    {
+        descriptor.Name("ChargeLinkPeriod");
+        descriptor.BindFieldsExplicitly();
+        descriptor.Field(f => new Interval(f.From, f.To)).Name("period");
+        descriptor.Field(f => f.Factor).Name("amount");
+        descriptor.Field(f => f.ChargeLinkPeriodId).Name("id");
     }
-  }
 }

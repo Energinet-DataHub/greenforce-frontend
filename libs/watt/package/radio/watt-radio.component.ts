@@ -16,11 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, forwardRef, ViewEncapsulation, input } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  Component,
+  forwardRef,
+  ViewEncapsulation,
+  input,
+  linkedSignal,
+  model,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  imports: [FormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -34,57 +43,45 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
     <label class="watt-text-s">
       <input
         type="radio"
-        [name]="group()"
+        [name]="name()"
         [value]="value()"
-        [(ngModel)]="model"
-        [disabled]="isDisabled"
-        (ngModelChange)="onChange($event)"
+        [disabled]="disabled()"
+        [checked]="checked()"
+        (change)="isChecked.emit()"
+        (blur)="touched.emit()"
       />
       <ng-content />
     </label>
   `,
   encapsulation: ViewEncapsulation.None,
   host: {
-    '[class.disabled]': 'isDisabled',
+    '[class.disabled]': 'disabled()',
   },
 })
-export class WattRadioComponent implements ControlValueAccessor {
-  group = input.required<string>();
-  value = input.required<string | boolean>();
+export class WattRadioComponent<T> implements ControlValueAccessor {
+  /** The name of the radio button. Prefer using `<watt-radio-group>` over this. */
+  group = input<string>();
+  name = linkedSignal(this.group); // allows inheriting from `watt-radio-group`
 
-  /** @ignore */
-  model!: string;
+  /** Value of the radio button. */
+  value = input.required<T>();
 
-  /** @ignore */
-  isDisabled = false;
+  /** Whether the radio is disabled. */
+  disabled = model(false);
 
-  /** @ignore */
-  onChange: (value: string) => void = () => {
-    /* left blank intentionally */
-  };
+  /** Whether the radio is checked. */
+  checked = model(false);
 
-  /** @ignore */
-  onTouched: () => void = () => {
-    /* left blank intentionally */
-  };
+  /** Emits only when the radio is checked. Never emits when unchecked. */
+  isChecked = output();
 
-  /** @ignore */
-  writeValue(value: string): void {
-    this.model = value;
-  }
+  /** Emits when the radio is touched. */
+  touched = output();
 
-  /** @ignore */
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
-  }
-
-  /** @ignore */
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  /** @ignore */
-  setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
+  // Implementation for ControlValueAccessor
+  writeValue = (value: T | null | undefined) => this.checked.set(value === this.value());
+  setDisabledState = (isDisabled: boolean) => this.disabled.set(isDisabled);
+  registerOnTouched = (fn: () => void) => this.touched.subscribe(fn);
+  registerOnChange = (fn: (value: T | null | undefined) => void) =>
+    this.isChecked.subscribe(() => fn(this.value()));
 }

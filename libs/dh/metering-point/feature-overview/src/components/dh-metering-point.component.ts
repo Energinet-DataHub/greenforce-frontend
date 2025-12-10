@@ -173,6 +173,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
           [subType]="metadata()?.subType"
           [connectionState]="metadata()?.connectionState"
           [installationAddress]="metadata()?.installationAddress"
+          [createdDate]="meteringPoint()?.createdDate"
         />
       </div>
 
@@ -218,7 +219,7 @@ export class DhMeteringPointComponent {
   private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   meteringPointId = input.required<string>();
-  internalMeteringPointId = input<string>();
+  internalMeteringPointId = input.required<string>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {

@@ -14,10 +14,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.Framework;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.SendMeasurements.V1;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
+using Moq;
 using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Measurements;
@@ -36,6 +40,12 @@ public class MeasurementRevisionLogTests
             """;
 
         var server = new GraphQLTestService();
+
+        var result = Result<SendMeasurementsResponseV1>.Success(new SendMeasurementsResponseV1(string.Empty));
+        server.EdiB2CClientMock
+            .Setup(x => x.SendAsync(It.IsAny<SendMeasurementsCommandV1>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.FromResult(result));
+
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
             server,
             operation,

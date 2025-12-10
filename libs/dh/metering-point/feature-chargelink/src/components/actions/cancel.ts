@@ -17,19 +17,32 @@
  */
 //#endregion
 
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_MODAL } from '@energinet/watt/modal';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
 import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-cancel-charge-link',
-  imports: [TranslocoDirective, ReactiveFormsModule, WATT_MODAL, WattButtonComponent],
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    WATT_MODAL,
+    WattButtonComponent,
+    WattIconComponent,
+    WattTooltipDirective,
+    VaterStackComponent,
+  ],
   styles: `
     :host {
       form > * {
@@ -43,9 +56,12 @@ import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
       #cancel
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.cancel'"
-      [title]="t('title')"
       (closed)="navigate('..')"
     >
+      <h2 vater-stack direction="row" gap="s">
+        {{ t('title') }}
+        <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
+      </h2>
       {{ t('cancelWarning') }}
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="cancel.close(false)">
@@ -59,8 +75,11 @@ import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
   `,
 })
 export default class DhMeteringPointCancelChargeLink {
+  private cancel = mutation(CancelChargeLinkDocument);
   navigate = injectRelativeNavigate();
-  cancelLink() {
-    console.log('Cancelling link with values:');
+  id = input.required<string>();
+
+  async cancelLink() {
+    await this.cancel.mutate({ variables: { chargeLinkId: this.id() } });
   }
 }

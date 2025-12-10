@@ -34,6 +34,8 @@ public static class SearchDocumentTypeExtensions
             DocumentTypeDtoV1.RequestWholesaleSettlement => DocumentType.RequestWholesaleSettlement,
             DocumentTypeDtoV1.ReminderOfMissingMeasurements => DocumentType.ReminderOfMissingMeasurements,
             DocumentTypeDtoV1.RequestChangeOfPriceList => DocumentType.RequestChangeOfPriceList,
+            DocumentTypeDtoV1.ConfirmRequestChangeOfPriceList => DocumentType.ConfirmRequestChangeOfPriceList,
+            DocumentTypeDtoV1.RejectRequestChangeOfPriceList => DocumentType.RejectRequestChangeOfPriceList,
         };
 
     internal static DocumentType ToDocumentType(this MeteringPointDocumentTypeDtoV1 documentType) =>
