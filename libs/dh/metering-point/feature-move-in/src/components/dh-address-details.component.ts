@@ -30,7 +30,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
 @Component({
-  selector: 'dh-address-details-form',
+  selector: 'dh-address-details',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -60,11 +60,11 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
     }
   `,
   template: `
-    @let form = addressDetailsForm();
-    @let groupControls = addressDetailsForm().controls.addressGroup.controls;
+    @let formGroup = addressDetailsFormGroup();
+    @let groupControls = addressDetailsFormGroup().controls.addressGroup.controls;
 
     <form
-      [formGroup]="form"
+      [formGroup]="formGroup"
       *transloco="let t; prefix: 'meteringPoint.moveIn.steps.addressDetails'"
     >
       <vater-flex direction="row" align="center" justify="space-between" gap="xl">
@@ -72,7 +72,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
           <h4>{{ t('label') }}</h4>
 
           <watt-slide-toggle
-            [formControl]="form.controls.addressSameAsMeteringPoint"
+            [formControl]="formGroup.controls.addressSameAsMeteringPoint"
             class="slide-toggle-margin-bottom"
             data-testid="address-same-as-metering-point">
             {{ t('addressSameAsMeteringPoint') }}
@@ -161,7 +161,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="groupControls.postalDistrict"
-              [label]="t('postBox')"
+              [label]="t('postalDistrict')"
               data-testid="postal-district"
             />
             <watt-text-field
@@ -178,7 +178,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
           />
 
           <watt-checkbox
-            [formControl]="form.controls.nameAddressProtection"
+            [formControl]="formGroup.controls.nameAddressProtection"
             class="checkbox-margin-bottom"
             data-testid="name-address-protection"
           >
@@ -189,8 +189,8 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
     </form>
   `,
 })
-export class DhAddressDetailsFormComponent {
-  addressDetailsForm = input.required<FormGroup<AddressDetailsFormType>>();
+export class DhAddressDetailsComponent {
+  addressDetailsFormGroup = input.required<FormGroup<AddressDetailsFormType>>();
   countryOptions: WattDropdownOptions = [
     { value: 'DK', displayValue: 'DK' },
     { value: 'SE', displayValue: 'SE' },

@@ -24,7 +24,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 
 @Component({
-  selector: 'dh-private-customer-details-form',
+  selector: 'dh-private-customer-details',
   imports: [
     ReactiveFormsModule,
     WattTextFieldComponent,
@@ -33,46 +33,46 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @let form = privateCustomerFormGroup();
-    <form
-      [formGroup]="form"
+    @let formGroup = privateCustomerFormGroup();
+    <ng-container
+      [formGroup]="formGroup"
       *transloco="let t; prefix: 'meteringPoint.moveIn.steps.customerDetails'"
     >
-      <watt-text-field [label]="t('name1')" [formControl]="form.controls.customerName1" />
-      <watt-text-field [label]="t('cpr1')" [formControl]="form.controls.cpr1">
+      <watt-text-field [label]="t('name1')" [formControl]="formGroup.controls.customerName1" />
+      <watt-text-field [label]="t('cpr1')" [formControl]="formGroup.controls.cpr1">
         <watt-field-error>
-          @if (form.controls.cpr1.hasError('containsLetters')) {
+          @if (formGroup.controls.cpr1.hasError('containsLetters')) {
             {{ t('cprError.containsLetters') }}
-          } @else if (form.controls.cpr1.hasError('containsDash')) {
+          } @else if (formGroup.controls.cpr1.hasError('containsDash')) {
             {{ t('cprError.containsDash') }}
-          } @else if (form.controls.cpr1.hasError('invalidCprLength')) {
+          } @else if (formGroup.controls.cpr1.hasError('invalidCprLength')) {
             {{ t('cprError.invalidCprLength') }}
-          } @else if (form.controls.cpr1.hasError('invalidDate')) {
+          } @else if (formGroup.controls.cpr1.hasError('invalidDate')) {
             {{ t('cprError.invalidDate') }}
-          } @else if (form.controls.cpr1.hasError('allOnes')) {
+          } @else if (formGroup.controls.cpr1.hasError('allOnes')) {
             {{ t('cprError.allOnes') }}
           }
         </watt-field-error>
       </watt-text-field>
-      <watt-text-field [label]="t('name2')" [formControl]="form.controls.customerName2" />
-      <watt-text-field [label]="t('cpr2')" [formControl]="form.controls.cpr2">
+      <watt-text-field [label]="t('name2')" [formControl]="formGroup.controls.customerName2" />
+      <watt-text-field [label]="t('cpr2')" [formControl]="formGroup.controls.cpr2">
         <watt-field-error>
-          @if (form.controls.cpr2.hasError('containsLetters')) {
+          @if (formGroup.controls.cpr2.hasError('containsLetters')) {
             {{ t('cprError.containsLetters') }}
-          } @else if (form.controls.cpr2.hasError('containsDash')) {
+          } @else if (formGroup.controls.cpr2.hasError('containsDash')) {
             {{ t('cprError.containsDash') }}
-          } @else if (form.controls.cpr2.hasError('invalidCprLength')) {
+          } @else if (formGroup.controls.cpr2.hasError('invalidCprLength')) {
             {{ t('cprError.invalidCprLength') }}
-          } @else if (form.controls.cpr2.hasError('invalidDate')) {
+          } @else if (formGroup.controls.cpr2.hasError('invalidDate')) {
             {{ t('cprError.invalidDate') }}
-          } @else if (form.controls.cpr2.hasError('allOnes')) {
+          } @else if (formGroup.controls.cpr2.hasError('allOnes')) {
             {{ t('cprError.allOnes') }}
           }
         </watt-field-error>
       </watt-text-field>
-    </form>
+    </ng-container>
   `,
 })
-export class DhPrivateCustomerDetailsFormComponent {
+export class DhPrivateCustomerDetailsComponent {
   privateCustomerFormGroup = input.required<FormGroup<PrivateCustomerFormGroup>>();
 }

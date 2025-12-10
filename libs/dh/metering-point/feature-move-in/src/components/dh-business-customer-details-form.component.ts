@@ -23,7 +23,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 
 @Component({
-  selector: 'dh-business-customer-details-form',
+  selector: 'dh-business-customer-details',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -32,10 +32,10 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
   changeDetection: ChangeDetectionStrategy.OnPush,
  template: `
    <form>
-     @let form = businessCustomerFormGroup();
-     <form [formGroup]="form" *transloco="let t; prefix: 'meteringPoint.moveIn.steps.customerDetails'">
-       <watt-text-field [label]="t('companyName')" [formControl]="form.controls.companyName" />
-       <watt-text-field [label]="t('cvr')" [formControl]="form.controls.cvr" />
+     @let formGroup = businessCustomerFormGroup();
+     <form [formGroup]="formGroup" *transloco="let t; prefix: 'meteringPoint.moveIn.steps.customerDetails'">
+       <watt-text-field [label]="t('companyName')" [formControl]="formGroup.controls.companyName" />
+       <watt-text-field [label]="t('cvr')" [formControl]="formGroup.controls.cvr" />
      </form>
    </form>
  `,

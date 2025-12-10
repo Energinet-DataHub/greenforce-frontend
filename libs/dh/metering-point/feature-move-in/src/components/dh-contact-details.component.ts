@@ -27,7 +27,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
 @Component({
-  selector: 'dh-contact-details-form',
+  selector: 'dh-contact-details',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -43,16 +43,16 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
     }
   `,
   template: `
-    @let form = contactDetailsForm();
-    @let controls = form.controls.contactGroup.controls;
-    <form
-      [formGroup]="form"
+    @let formGroup = contactDetailsFormGroup();
+    @let controls = formGroup.controls.contactGroup.controls;
+    <ng-container
+      [formGroup]="formGroup"
       *transloco="let t; prefix: 'meteringPoint.moveIn.steps.contactDetails'"
     >
       <vater-flex gap="xl" direction="row">
         <vater-flex align="stretch">
           <watt-slide-toggle
-            [formControl]="form.controls.contactSameAsCustomer"
+            [formControl]="formGroup.controls.contactSameAsCustomer"
             class="slide-toggle-margin-bottom"
             data-testid="legal-contact-same-as-customer"
           >
@@ -99,9 +99,9 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
           </watt-text-field>
         </vater-flex>
       </vater-flex>
-    </form>
+    </ng-container>
   `,
 })
-export class DhContactDetailsFormComponent {
-  contactDetailsForm = input.required<FormGroup<ContactDetailsFormType>>();
+export class DhContactDetailsComponent {
+  contactDetailsFormGroup = input.required<FormGroup<ContactDetailsFormType>>();
 }
