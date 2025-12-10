@@ -1858,7 +1858,6 @@
       "ItSupplier": "IT supplier"
     },
     "gridAreas": {
-      "topBarTitle": "Grid Areas",
       "noGridAreas": "No grid areas found",
       "error": "An error occurred",
       "searchLabel": "Search",
