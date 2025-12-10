@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Location } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { JsonPipe, Location } from '@angular/common';
+import { Component, computed, inject, input } from '@angular/core';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { signal, effect } from '@angular/core';
@@ -42,6 +43,8 @@ import { DhAddressDetailsFormComponent } from './dh-address-details-form.compone
 import { WattButtonComponent } from '@energinet/watt/button';
 import { DhPrivateCustomerDetailsFormComponent } from './dh-private-customer-details-form.component';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -54,7 +57,8 @@ import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-d
     WattButtonComponent,
     VaterStackComponent,
     DhBusinessCustomerDetailsFormComponent,
-    DhPrivateCustomerDetailsFormComponent
+    DhPrivateCustomerDetailsFormComponent,
+    JsonPipe,
   ],
   styles: `
     .sticky-header {
@@ -99,9 +103,13 @@ import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-d
             </h3>
           </watt-card-title>
           @if (isBusinessCustomer()) {
-            <dh-business-customer-details-form [businessCustomerFormGroup]="businessCustomerDetailsForm" />
+            <dh-business-customer-details-form
+              [businessCustomerFormGroup]="businessCustomerDetailsForm"
+            />
           } @else {
-            <dh-private-customer-details-form [privateCustomerFormGroup]="privateCustomerDetailsForm" />
+            <dh-private-customer-details-form
+              [privateCustomerFormGroup]="privateCustomerDetailsForm"
+            />
           }
         </watt-card>
         <!-- Legal -->
@@ -133,8 +141,16 @@ export class DhUpdateCustomerDataComponent {
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
   private location = inject(Location);
+  private actor = inject(DhActorStorage).getSelectedActor();
 
-  isBusinessCustomer = input<boolean>(false);
+  isBusinessCustomer = signal<boolean>(false);
+  query = query(GetMeteringPointByIdDocument, () => ({
+    variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor.gln },
+  }));
+
+  meteringPointId = input.required<string>();
+
+  meteringPoint = computed(() => this.query.data()?.meteringPoint);
 
   legalContactDetailsForm = this.fb.group<ContactDetailsFormType>({
     contactSameAsCustomer: this.fb.control<boolean>(true),
@@ -211,18 +227,26 @@ export class DhUpdateCustomerDataComponent {
   });
 
   // Signals for customer name fields
-  private customerName1Signal = signal(this.privateCustomerDetailsForm.controls.customerName1.value);
+  private customerName1Signal = signal(
+    this.privateCustomerDetailsForm.controls.customerName1.value
+  );
   private companyNameSignal = signal(this.businessCustomerDetailsForm.controls.companyName.value);
 
   // Signals for contactSameAsCustomer controls
-  private legalContactSameAsCustomerSignal = signal(this.legalContactDetailsForm.controls.contactSameAsCustomer.value);
-  private technicalContactSameAsCustomerSignal = signal(this.technicalContactDetailsForm.controls.contactSameAsCustomer.value);
+  private legalContactSameAsCustomerSignal = signal(
+    this.legalContactDetailsForm.controls.contactSameAsCustomer.value
+  );
+  private technicalContactSameAsCustomerSignal = signal(
+    this.technicalContactDetailsForm.controls.contactSameAsCustomer.value
+  );
 
   constructor() {
     // Effect for legal contact
     effect(() => {
       if (this.legalContactSameAsCustomerSignal()) {
-        const name = this.isBusinessCustomer() ? this.companyNameSignal() : this.customerName1Signal();
+        const name = this.isBusinessCustomer()
+          ? this.companyNameSignal()
+          : this.customerName1Signal();
         this.legalContactDetailsForm.controls.contactGroup.controls.name.setValue(name);
         this.legalContactDetailsForm.controls.contactGroup.controls.name.disable();
       } else {
@@ -233,7 +257,9 @@ export class DhUpdateCustomerDataComponent {
     // Effect for technical contact
     effect(() => {
       if (this.technicalContactSameAsCustomerSignal()) {
-        const name = this.isBusinessCustomer() ? this.companyNameSignal() : this.customerName1Signal();
+        const name = this.isBusinessCustomer()
+          ? this.companyNameSignal()
+          : this.customerName1Signal();
         this.technicalContactDetailsForm.controls.contactGroup.controls.name.setValue(name);
         this.technicalContactDetailsForm.controls.contactGroup.controls.name.disable();
       } else {
@@ -242,19 +268,21 @@ export class DhUpdateCustomerDataComponent {
       }
     });
     // Listen for changes in customer name fields and update signals
-    this.privateCustomerDetailsForm.controls.customerName1.valueChanges.subscribe(value => {
+    this.privateCustomerDetailsForm.controls.customerName1.valueChanges.subscribe((value) => {
       this.customerName1Signal.set(value);
     });
-    this.businessCustomerDetailsForm.controls.companyName.valueChanges.subscribe(value => {
+    this.businessCustomerDetailsForm.controls.companyName.valueChanges.subscribe((value) => {
       this.companyNameSignal.set(value);
     });
     // Listen for changes in contactSameAsCustomer controls and update signals
-    this.legalContactDetailsForm.controls.contactSameAsCustomer.valueChanges.subscribe(value => {
+    this.legalContactDetailsForm.controls.contactSameAsCustomer.valueChanges.subscribe((value) => {
       this.legalContactSameAsCustomerSignal.set(value);
     });
-    this.technicalContactDetailsForm.controls.contactSameAsCustomer.valueChanges.subscribe(value => {
-      this.technicalContactSameAsCustomerSignal.set(value);
-    });
+    this.technicalContactDetailsForm.controls.contactSameAsCustomer.valueChanges.subscribe(
+      (value) => {
+        this.technicalContactSameAsCustomerSignal.set(value);
+      }
+    );
   }
 
   public updateCustomerData() {

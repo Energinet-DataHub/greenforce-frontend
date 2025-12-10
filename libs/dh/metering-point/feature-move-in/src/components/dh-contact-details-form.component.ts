@@ -71,7 +71,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
             data-testid="legal-contact-title"
           />
 
-          <vater-flex direction="row" gap="xl" justify="space-between">
+          <vater-flex direction="row" gap="m" justify="space-between">
             <watt-phone-field
               [formControl]="controls.phone"
               [label]="t('phoneNumber')"
