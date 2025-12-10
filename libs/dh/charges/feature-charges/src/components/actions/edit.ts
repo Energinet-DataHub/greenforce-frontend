@@ -36,7 +36,6 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
 import {
   VatClassification,
   GetChargeByIdDocument,
-  ChargeResolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
