@@ -19,12 +19,7 @@
 import { Component, computed } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective, } from '@energinet/watt/vater';
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
@@ -44,7 +39,6 @@ import { DhOverview } from './overview/overview.component';
     VaterStackComponent,
     VaterFlexComponent,
     VaterUtilityDirective,
-    VaterSpacerComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
     DhNewReportRequest,
@@ -80,8 +74,7 @@ import { DhOverview } from './overview/overview.component';
           </vater-stack>
         } @else {
           <vater-flex fill="vertical" gap="ml">
-            <vater-stack direction="row" gap="s">
-              <vater-spacer />
+            <vater-stack direction="row" gap="s" justify="end">
               <dh-new-report-request />
             </vater-stack>
 
