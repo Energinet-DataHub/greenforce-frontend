@@ -199,8 +199,6 @@ export class DhRelatedMeteringPointsComponent {
         : []),
     ].filter((mp): mp is NonNullable<typeof mp> => !!mp);
 
-    // 🔑 Stable order that doesn’t depend on which one is "current"
-    // You can tweak this if you want a different sort rule.
     return list.sort((a, b) => a.identification.localeCompare(b.identification));
   });
 
