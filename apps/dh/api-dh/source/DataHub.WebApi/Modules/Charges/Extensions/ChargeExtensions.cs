@@ -27,13 +27,13 @@ public static class ChargeExtensions
             .FirstOrDefault();
     }
 
-    public static string DisplayName(this ChargeInformationDto charge)
+    public static string DisplayName(this Charge charge)
     {
         var current = charge.GetCurrentPeriod();
         return $"{charge.ChargeIdentifierDto.Code} - {current?.Name}";
     }
 
-    public static string? Name(this ChargeInformationDto charge) => charge.GetCurrentPeriod()?.Name;
+    public static string? Name(this Charge charge) => charge.GetCurrentPeriod()?.Name;
 
     public static bool IsCurrent(this ChargeInformationPeriodDto period) =>
         period.StartDate.ToDateTimeOffset() <= DateTimeOffset.Now && (period.EndDate == null || period.EndDate?.ToDateTimeOffset() > DateTimeOffset.Now);

@@ -301,16 +301,9 @@ type Charge {
   periods: [ChargePeriod!]!
 }
 
-type ChargeInformationDto {
-  chargeIdentifierDto: String!
-  resolution: ChargeResolution!
-  taxIndicator: Boolean!
-  periods: [ChargePeriod!]!
-}
-
 type ChargeLink {
   history: [ChargeLinkHistory!]!
-  charge: ChargeInformationDto
+  charge: Charge
   amount: Int!
   currentPeriod: ChargeLinkPeriod
   id: Long!
