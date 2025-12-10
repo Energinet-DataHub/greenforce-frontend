@@ -16,17 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { JsonPipe, Location } from '@angular/common';
-import { Component, computed, inject, input, Signal } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { signal, effect } from '@angular/core';
 
-import {
-  dhCprValidator,
-  dhMunicipalityCodeValidator,
-} from '@energinet-datahub/dh/shared/ui-validators';
+import { dhCprValidator, dhMunicipalityCodeValidator, } from '@energinet-datahub/dh/shared/ui-validators';
 import { WattToastService } from '@energinet/watt/toast';
 
 import {
@@ -45,8 +41,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { DhPrivateCustomerDetailsFormComponent } from './dh-private-customer-details-form.component';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { CustomerRelationType, GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { Contact } from '../../../feature-overview/src/types';
+import { GetMeteringPointByIdDocument, } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -60,7 +55,6 @@ import { Contact } from '../../../feature-overview/src/types';
     VaterStackComponent,
     DhBusinessCustomerDetailsFormComponent,
     DhPrivateCustomerDetailsFormComponent,
-    JsonPipe,
   ],
   styles: `
     .sticky-header {
@@ -208,7 +202,10 @@ export class DhUpdateCustomerDataComponent {
       citySubDivisionName: this.fb.control<string>(''),
       postalDistrict: this.fb.control<string>(''),
       postBox: this.fb.control<string>(''), // TODO: MASEP Find out if needed?
-      municipalityCode: this.fb.control<string>('', [dhMunicipalityCodeValidator(), Validators.required]),
+      municipalityCode: this.fb.control<string>('', [
+        dhMunicipalityCodeValidator(),
+        Validators.required,
+      ]),
       darReference: this.fb.control<string>(''),
     }),
     nameAddressProtection: this.fb.control<boolean>(false),
@@ -362,12 +359,16 @@ export class DhUpdateCustomerDataComponent {
       }
     );
     // Listen for changes in addressSameAsMeteringPoint controls and update signals
-    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges.subscribe(value => {
-      this.legalAddressSameAsMeteringPointSignal.set(value);
-    });
-    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges.subscribe(value => {
-      this.technicalAddressSameAsMeteringPointSignal.set(value);
-    });
+    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges.subscribe(
+      (value) => {
+        this.legalAddressSameAsMeteringPointSignal.set(value);
+      }
+    );
+    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges.subscribe(
+      (value) => {
+        this.technicalAddressSameAsMeteringPointSignal.set(value);
+      }
+    );
   }
 
   public updateCustomerData() {
