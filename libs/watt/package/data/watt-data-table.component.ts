@@ -80,10 +80,6 @@ import { WattDataIntlService } from './watt-data-intl.service';
       watt-simple-search {
         width: 400px; /* Magix UX number (replace with variable) */
       }
-
-      .margin-bottom-medium {
-        margin-bottom: var(--watt-space-m);
-      }
     `,
   ],
   template: `
@@ -121,7 +117,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
                     [label]="searchLabel() ?? intl.search"
                     [trim]="trimSearch()"
                     (search)="onSearch($event)"
-                    class="margin-bottom-medium"
+                    class="watt-space-stack-m"
                   />
                 }
               </vater-stack>
