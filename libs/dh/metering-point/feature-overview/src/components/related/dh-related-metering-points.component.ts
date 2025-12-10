@@ -187,9 +187,9 @@ export class DhRelatedMeteringPointsComponent {
 
     if (!relatedMeteringPoints) return [];
 
-    return [
-      ...(relatedMeteringPoints.parent ? [relatedMeteringPoints.parent] : []),
-      ...(relatedMeteringPoints.current ? [relatedMeteringPoints.current] : []),
+    const list = [
+      relatedMeteringPoints.parent,
+      relatedMeteringPoints.current,
       ...(relatedMeteringPoints.relatedMeteringPoints ?? []),
       ...(relatedMeteringPoints.relatedByGsrn ?? []),
       // Historical
@@ -197,7 +197,11 @@ export class DhRelatedMeteringPointsComponent {
       ...(this.showHistorical()
         ? (relatedMeteringPoints.historicalMeteringPointsByGsrn ?? [])
         : []),
-    ];
+    ].filter((mp): mp is NonNullable<typeof mp> => !!mp);
+
+    // 🔑 Stable order that doesn’t depend on which one is "current"
+    // You can tweak this if you want a different sort rule.
+    return list.sort((a, b) => a.identification.localeCompare(b.identification));
   });
 
   hasHistorical = computed(() => {
