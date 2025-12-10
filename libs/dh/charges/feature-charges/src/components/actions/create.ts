@@ -20,16 +20,15 @@ import { Component, computed, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL } from '@energinet/watt/modal';
-import { WattIconComponent } from '@energinet/watt/icon';
-import { WattRadioComponent } from '@energinet/watt/radio';
-import { WattFieldComponent } from '@energinet/watt/field';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattTooltipDirective } from '@energinet/watt/tooltip';
-import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WATT_MODAL } from '@energinet/watt/modal';
+import { WATT_RADIO, WattRadioComponent } from '@energinet/watt/radio';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
 import { ChargeResolution, ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -42,13 +41,13 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
+    WATT_MODAL,
+    WATT_RADIO,
     WattButtonComponent,
     WattDatepickerComponent,
-    WattFieldComponent,
     WattRadioComponent,
     WattTextAreaFieldComponent,
     WattTextFieldComponent,
-    WATT_MODAL,
     DhChargesTypeSelection,
     WattIconComponent,
     WattTooltipDirective,
@@ -98,78 +97,48 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
             [formControl]="form().controls.description"
           />
           @if (!form().controls.resolution.disabled) {
-            <watt-field
-              [label]="t('resolution')"
-              [control]="form().controls.resolution"
-              displayMode="content"
-            >
-              <watt-radio
-                group="resolution"
-                [formControl]="form().controls.resolution"
-                [value]="dailyResolution"
-              >
+            <watt-radio-group [label]="t('resolution')" [formControl]="form().controls.resolution">
+              <watt-radio [value]="dailyResolution">
                 {{ t('daily') }}
               </watt-radio>
-              <watt-radio
-                group="resolution"
-                [formControl]="form().controls.resolution"
-                [value]="hourlyResolution"
-              >
+              <watt-radio [value]="hourlyResolution">
                 {{ t('hourly') }}
               </watt-radio>
-            </watt-field>
+            </watt-radio-group>
           }
-          <watt-field [label]="t('vat')" [control]="form().controls.vat" displayMode="content">
-            <watt-radio group="vat" [formControl]="form().controls.vat" [value]="true">
+          <watt-radio-group [label]="t('vat')" [formControl]="form().controls.vat">
+            <watt-radio [value]="true">
               {{ t('withVat') }}
             </watt-radio>
-            <watt-radio group="vat" [formControl]="form().controls.vat" [value]="false">
+            <watt-radio [value]="false">
               {{ t('withoutVat') }}
             </watt-radio>
-          </watt-field>
+          </watt-radio-group>
           @if (!form().controls.transparentInvoicing.disabled) {
-            <watt-field
+            <watt-radio-group
               [label]="t('transparentInvoicing')"
-              [control]="form().controls.transparentInvoicing"
-              displayMode="content"
+              [formControl]="form().controls.transparentInvoicing"
             >
-              <watt-radio
-                group="transparentInvoicing"
-                [formControl]="form().controls.transparentInvoicing"
-                [value]="true"
-              >
+              <watt-radio [value]="true">
                 {{ t('withTransparentInvoicing') }}
               </watt-radio>
-              <watt-radio
-                group="transparentInvoicing"
-                [formControl]="form().controls.transparentInvoicing"
-                [value]="false"
-              >
+              <watt-radio [value]="false">
                 {{ t('withoutTransparentInvoicing') }}
               </watt-radio>
-            </watt-field>
+            </watt-radio-group>
           }
           @if (!form().controls.predictablePrice.disabled) {
-            <watt-field
+            <watt-radio-group
               [label]="t('predictablePrice')"
-              [control]="form().controls.predictablePrice"
-              displayMode="content"
+              [formControl]="form().controls.predictablePrice"
             >
-              <watt-radio
-                group="predictablePrice"
-                [formControl]="form().controls.predictablePrice"
-                [value]="true"
-              >
+              <watt-radio [value]="true">
                 {{ t('withPredictablePrice') }}
               </watt-radio>
-              <watt-radio
-                group="predictablePrice"
-                [formControl]="form().controls.predictablePrice"
-                [value]="false"
-              >
+              <watt-radio [value]="false">
                 {{ t('withoutPredictablePrice') }}
               </watt-radio>
-            </watt-field>
+            </watt-radio-group>
           }
           <!-- datepicker does not support updating formControl -->
           @if (type()) {

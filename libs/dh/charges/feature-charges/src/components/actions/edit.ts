@@ -18,18 +18,17 @@
 //#endregion
 import { Component, computed, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WATT_MODAL } from '@energinet/watt/modal';
-import { WattIconComponent } from '@energinet/watt/icon';
-import { WattRadioComponent } from '@energinet/watt/radio';
-import { WattFieldComponent } from '@energinet/watt/field';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattTooltipDirective } from '@energinet/watt/tooltip';
-import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WATT_MODAL } from '@energinet/watt/modal';
+import { WATT_RADIO } from '@energinet/watt/radio';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
@@ -44,15 +43,15 @@ import {
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
+    TranslocoPipe,
     VaterStackComponent,
     VaterUtilityDirective,
+    WATT_MODAL,
+    WATT_RADIO,
     WattButtonComponent,
     WattDatepickerComponent,
-    WattFieldComponent,
-    WattRadioComponent,
     WattTextAreaFieldComponent,
     WattTextFieldComponent,
-    WATT_MODAL,
     WattIconComponent,
     WattTooltipDirective,
   ],
@@ -99,35 +98,31 @@ import {
           maxLength="2048"
           [formControl]="form().controls.description"
         />
-        <watt-field [label]="t('vat')" [control]="form().controls.vat" displayMode="content">
-          <watt-radio group="vat" [formControl]="form().controls.vat" [value]="vat25">
+        <watt-radio-group readonly [label]="t('resolution')" [value]="resolution()">
+          <watt-radio [value]="resolution()">
+            {{ 'charges.resolutions.' + resolution() | transloco }}
+          </watt-radio>
+        </watt-radio-group>
+        <watt-radio-group [label]="t('vat')" [formControl]="form().controls.vat">
+          <watt-radio [value]="vat25">
             {{ t('withVat') }}
           </watt-radio>
-          <watt-radio group="vat" [formControl]="form().controls.vat" [value]="noVat">
+          <watt-radio [value]="noVat">
             {{ t('withoutVat') }}
           </watt-radio>
-        </watt-field>
+        </watt-radio-group>
         @if (!form().controls.transparentInvoicing.disabled) {
-          <watt-field
+          <watt-radio-group
             [label]="t('transparentInvoicing')"
-            [control]="form().controls.transparentInvoicing"
-            displayMode="content"
+            [formControl]="form().controls.transparentInvoicing"
           >
-            <watt-radio
-              group="transparentInvoicing"
-              [formControl]="form().controls.transparentInvoicing"
-              [value]="true"
-            >
+            <watt-radio [value]="true">
               {{ t('withTransparentInvoicing') }}
             </watt-radio>
-            <watt-radio
-              group="transparentInvoicing"
-              [formControl]="form().controls.transparentInvoicing"
-              [value]="false"
-            >
+            <watt-radio [value]="false">
               {{ t('withoutTransparentInvoicing') }}
             </watt-radio>
-          </watt-field>
+          </watt-radio-group>
         }
         <!-- datepicker does not support updating formControl -->
         @if (cutoffDate()) {
@@ -155,6 +150,7 @@ export default class DhChargesEdit {
   code = computed(() => this.charge()?.code);
   name = computed(() => this.charge()?.name);
   description = computed(() => this.charge()?.currentPeriod?.description);
+  resolution = computed(() => this.charge()?.resolution);
   type = computed(() => this.charge()?.type);
   vatClassification = computed(() => this.charge()?.currentPeriod?.vatClassification);
   transparentInvoicing = computed(() => this.charge()?.currentPeriod?.transparentInvoicing ?? null);
