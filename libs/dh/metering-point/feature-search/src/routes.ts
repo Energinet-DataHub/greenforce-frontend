@@ -54,7 +54,6 @@ import {
   dhInternalMeteringPointIdParam,
 } from './components/dh-metering-point-params';
 import { dhSupportedMeteringPointTypes } from './components/dh-supported-metering-point-types';
-import { DhUpdateCustomerDataComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 
 const marketRolesWithDataAccess = [
   EicFunction.EnergySupplier,
