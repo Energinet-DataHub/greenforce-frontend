@@ -68,7 +68,6 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
             class="watt-space-stack-m"
             data-testid="address-same-as-metering-point">
             {{ t('addressSameAsMeteringPoint') }}
-
           </watt-slide-toggle>
 
           <watt-dropdown
