@@ -73,7 +73,7 @@ export class DhActorStorage {
     this.setSelectedActorId(actor.id);
   };
 
-  hasSelectedMarketParticipant = (): boolean => {
+  hasSelectedActor = (): boolean => {
     try {
       this.getSelectedActor();
       return true;

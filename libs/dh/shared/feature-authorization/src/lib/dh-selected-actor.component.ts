@@ -49,13 +49,13 @@ export class DhSelectedActorComponent {
   private readonly actorStorage = inject(DhActorStorage);
 
   private query = query(GetSelectionMarketParticipantsDocument);
-  private invitedToMarketParticipants = computed(
+  private memberOfMarketParticipants = computed(
     () => this.query.data()?.selectionMarketParticipants || []
   );
 
   marketParticipantGroups = computed(() => {
-    if (this.invitedToMarketParticipants().length === 0) return [];
-    const sortedSelectedMarketParticipants = this.invitedToMarketParticipants().toSorted((a, b) => {
+    if (this.memberOfMarketParticipants().length === 0) return [];
+    const sortedSelectedMarketParticipants = this.memberOfMarketParticipants().toSorted((a, b) => {
       const nameCompare = a.organizationName.localeCompare(b.organizationName);
 
       return nameCompare !== 0 ? nameCompare : a.gln.localeCompare(b.gln);
@@ -73,7 +73,7 @@ export class DhSelectedActorComponent {
   });
 
   selectedMarketParticipant = computed(() =>
-    this.invitedToMarketParticipants().find(
+    this.memberOfMarketParticipants().find(
       (participant) => participant.id === this.actorStorage.getSelectedActorId()
     )
   );
@@ -93,8 +93,7 @@ export class DhSelectedActorComponent {
 
   constructor() {
     effect(() => {
-      const hasSelectedMarketParticipantInStorage =
-        this.actorStorage.hasSelectedMarketParticipant();
+      const hasSelectedMarketParticipantInStorage = this.actorStorage.hasSelectedActor();
 
       const marketParticipant = this.selectedMarketParticipant();
 
