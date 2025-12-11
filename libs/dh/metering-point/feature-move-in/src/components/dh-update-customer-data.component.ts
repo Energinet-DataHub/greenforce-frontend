@@ -41,7 +41,7 @@ import {
 import { WATT_CARD } from '@energinet/watt/card';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
-import { DhAddressDetailsComponent } from './dh-address-details.component';
+import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details.component';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { DhPrivateCustomerDetailsComponent } from './dh-private-customer-details.component';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
@@ -55,7 +55,7 @@ import { CustomerRelationType, GetMeteringPointByIdDocument, } from '@energinet-
     WATT_CARD,
     VaterFlexComponent,
     DhContactDetailsComponent,
-    DhAddressDetailsComponent,
+    DhCustomerAddressDetailsComponent,
     WattButtonComponent,
     VaterStackComponent,
     DhBusinessCustomerDetailsFormComponent,
@@ -125,7 +125,7 @@ import { CustomerRelationType, GetMeteringPointByIdDocument, } from '@energinet-
           <dh-contact-details
             [contactDetailsFormGroup]="updateCustomerDataForm.controls.legalContactDetails"
           />
-          <dh-address-details
+          <dh-customer-address-details
             [addressDetailsFormGroup]="updateCustomerDataForm.controls.legalAddressDetails"
           />
         </watt-card>
@@ -139,7 +139,7 @@ import { CustomerRelationType, GetMeteringPointByIdDocument, } from '@energinet-
           <dh-contact-details
             [contactDetailsFormGroup]="updateCustomerDataForm.controls.technicalContactDetails"
           />
-          <dh-address-details
+          <dh-customer-address-details
             [addressDetailsFormGroup]="updateCustomerDataForm.controls.technicalAddressDetails"
           />
         </watt-card>

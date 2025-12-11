@@ -30,7 +30,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
 @Component({
-  selector: 'dh-address-details',
+  selector: 'dh-customer-address-details',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -180,7 +180,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
     </ng-container>
   `,
 })
-export class DhAddressDetailsComponent {
+export class DhCustomerAddressDetailsComponent {
   addressDetailsFormGroup = input.required<FormGroup<AddressDetailsFormType>>();
   countryOptions: WattDropdownOptions = [
     { value: 'DK', displayValue: 'DK' },
