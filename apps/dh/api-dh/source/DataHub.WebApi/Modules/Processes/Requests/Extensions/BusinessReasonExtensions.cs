@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Model;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Types;
 using RequestAggregatedMeasureDataBusinessReasonV1 = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestAggregatedMeasureData.V1.BusinessReasonV1;
 using RequestWholesaleSettlementBusinessReasonV1 = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestWholesaleSettlement.V1.BusinessReasonV1;
 
-namespace Energinet.DataHub.WebApi.Mapper;
+namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Extensions;
 
 public static class BusinessReasonExtensions
 {

@@ -12,16 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Model.MeteringPointArchivedMessages;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Types;
 
-public enum MeteringPointDocumentType
+public enum Quality
 {
-    Acknowledgement = 0,
-    SendMeasurements = 1,
-    RequestMeasurements = 2,
-    RejectRequestMeasurements = 3,
-    UpdateChargeLinks = 4,
-    ConfirmRequestChangeBillingMasterData = 5,
-    RejectRequestChangeBillingMasterData = 6,
-    NotifyBillingMasterData = 7,
+    Estimated,
+    Measured,
 }

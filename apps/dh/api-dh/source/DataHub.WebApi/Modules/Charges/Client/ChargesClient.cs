@@ -21,6 +21,7 @@ using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using NodaTime;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
+using Resolution = Energinet.DataHub.Charges.Abstractions.Shared.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
