@@ -29,13 +29,13 @@ import {
   contentChildren,
   effect,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattRadioComponent } from './watt-radio.component';
 
 @Component({
-  imports: [WattFieldComponent, WattRadioComponent],
+  imports: [WattFieldComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -56,7 +56,7 @@ import { WattRadioComponent } from './watt-radio.component';
     }
   `,
   template: `
-    <watt-field [label]="label()" displayMode="content">
+    <watt-field [label]="label()" [control]="formControl()" displayMode="content">
       <ng-content />
     </watt-field>
   `,
@@ -97,6 +97,11 @@ export class WattRadioGroupComponent<T> implements ControlValueAccessor {
    * Emits when the radio button group is touched.
    */
   touched = output();
+
+  /**
+   * Tracks the FormControl instance bound to the directive.
+   */
+  formControl = input<FormControl | null>(null);
 
   // Used for generating unique radio button names
   private static instance = 1;

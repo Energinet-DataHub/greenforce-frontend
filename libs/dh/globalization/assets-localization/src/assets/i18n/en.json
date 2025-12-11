@@ -843,10 +843,10 @@
         "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
       },
       "steps": {
-        "RSM005_REQUEST": "Request end of supply (RSM-005)",
-        "RSM005_CONFIRM": "Confirm end of supply (RSM-005)",
-        "RSM005_REJECT": "Reject end of supply (RSM-005)",
-        "RSM020_REQUEST": "Notify cancellation of end of supply (RSM-020)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Request end of supply (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Confirm end of supply (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Reject end of supply (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4": "Notify cancellation of end of supply (RSM-020)",
         "UNKNOWN": "Unknown Step"
       },
       "details": {
@@ -1114,7 +1114,8 @@
       "connectionStateLabel": "Connection status",
       "validityDate": "Validity date",
       "cancel": "Cancel",
-      "save": "Save changes"
+      "save": "Save changes",
+      "saveSuccess": "Connection status is being updated"
     }
   },
   "messageArchive": {
@@ -1187,7 +1188,9 @@
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm request change billing master data (RSM-030)",
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
-      "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)"
+      "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)",
+      "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Confirm request change of price list (RSM-033)",
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",

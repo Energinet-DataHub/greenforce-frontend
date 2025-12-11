@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Model.Measurements;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Types;
 
-public record Measurement(
-    int Position,
-    double Quantity,
-    Quality Quality);
+public enum MeasurementUnit
+{
+    KilowattHour,
+    KiloVoltAmpereReactiveHour,
+}

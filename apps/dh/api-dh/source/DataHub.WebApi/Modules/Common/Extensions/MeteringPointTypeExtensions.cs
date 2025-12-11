@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Model.MeteringPoint;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using RequestAggregatedMeasureDataMeteringPointTypeV1 = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestAggregatedMeasureData.V1.MeteringPointTypeV1;
 using SendMeasurementsMeteringPointTypeV1 = Energinet.DataHub.EDI.B2CClient.Abstractions.SendMeasurements.V1.MeteringPointTypeV1;
 
-namespace Energinet.DataHub.WebApi.Mapper.MeteringPoint;
+namespace Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
 public static class MeteringPointTypeExtensions
 {

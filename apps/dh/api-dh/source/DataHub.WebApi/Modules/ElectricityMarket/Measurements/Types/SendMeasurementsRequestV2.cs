@@ -12,19 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Model.MeteringPointArchivedMessages;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
 
-public enum DocumentType
-{
-    NotifyAggregatedMeasureData = 0,
-    NotifyWholesaleServices = 1,
-    RejectRequestAggregatedMeasureData = 2,
-    RejectRequestWholesaleSettlement = 3,
-    RequestAggregatedMeasureData = 4,
-    B2CRequestAggregatedMeasureData = 5,
-    RequestWholesaleSettlement = 6,
-    B2CRequestWholesaleSettlement = 7,
-    Acknowledgement = 8,
-    ReminderOfMissingMeasurements = 9,
-    RequestChangeOfPriceList = 10,
-}
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Types;
+
+// TODO: This record needs to be renamed to SendMeasurementsRequest, which will result in changes in the client.
+public record SendMeasurementsRequestV2(
+        string MeteringPointId,
+        MeteringPointType MeteringPointType,
+        MeasurementUnit MeasurementUnit,
+        Resolution Resolution,
+        DateTimeOffset Start,
+        DateTimeOffset End,
+        IReadOnlyCollection<Measurement> Measurements);

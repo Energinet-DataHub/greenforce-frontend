@@ -13,9 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestWholesaleSettlement.V1;
-using Energinet.DataHub.WebApi.Model;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
 
-namespace Energinet.DataHub.WebApi.Mapper;
+namespace Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
 public static class ResolutionExtensions
 {

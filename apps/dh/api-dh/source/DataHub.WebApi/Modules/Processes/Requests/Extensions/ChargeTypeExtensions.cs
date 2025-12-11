@@ -12,24 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestAggregatedMeasureData.V1;
-using Energinet.DataHub.WebApi.Model.AggregatedMeasureData;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestWholesaleSettlement.V1;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 
-namespace Energinet.DataHub.WebApi.Mapper.AggregatedMeasureData;
+namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Extensions;
 
-public static class SettlementMethodExtensions
+public static class ChargeTypeExtensions
 {
-    public static SettlementMethodV1 MapToRequestAggregatedMeasureDataV1(this SettlementMethod source)
+    public static ChargeTypeV1 MapToRequestWholesaleSettlementV1(this ChargeType source)
     {
         return source switch
         {
-            SettlementMethod.Flex => SettlementMethodV1.Flex,
-            SettlementMethod.NonProfiled => SettlementMethodV1.NonProfiled,
+            ChargeType.Fee => ChargeTypeV1.Fee,
+            ChargeType.Subscription => ChargeTypeV1.Subscription,
+            ChargeType.Tariff => ChargeTypeV1.Tariff,
         };
     }
 
-    public static SettlementMethodV1? MapToRequestAggregatedMeasureDataV1(this SettlementMethod? source)
+    public static ChargeTypeV1? MapToRequestWholesaleSettlementV1(this ChargeType? source)
     {
-        return source?.MapToRequestAggregatedMeasureDataV1();
+        return source?.MapToRequestWholesaleSettlementV1();
     }
 }

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ModelChargeType = Energinet.DataHub.WebApi.Model.ChargeType;
-using ModelResolution = Energinet.DataHub.WebApi.Model.Resolution;
+using ModelChargeType = Energinet.DataHub.WebApi.Modules.Processes.Requests.Models.ChargeType;
+using ModelResolution = Energinet.DataHub.WebApi.Modules.Common.Enums.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 

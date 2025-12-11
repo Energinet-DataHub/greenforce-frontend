@@ -843,10 +843,10 @@
         "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
       },
       "steps": {
-        "RSM005_REQUEST": "Anmod om leveranceophør (RSM-005)",
-        "RSM005_CONFIRM": "Godkend anmod om leveranceophør (RSM-005)",
-        "RSM005_REJECT": "Afvis anmod om leveranceophør (RSM-005)",
-        "RSM020_REQUEST": "Anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
         "UNKNOWN": "Ukendt trin"
       },
       "details": {
@@ -1115,7 +1115,8 @@
       "connectionStateLabel": "Tilslutningsstatus",
       "validityDate": "Gyldighedsdato",
       "cancel": "Annuller",
-      "save": "Gem ændringer"
+      "save": "Gem ændringer",
+      "saveSuccess": "Tilslutningsstatus opdateres"
     }
   },
   "messageArchive": {
@@ -1188,7 +1189,9 @@
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Godkendelse af opdatering af pristilknytninger (RSM-030)",
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af opdatering af pristilknytninger (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Information om pristilknytninger (RSM-031)",
-      "REQUEST_CHANGE_OF_PRICE_LIST": "Anmodning om opdatering af priser (RSM-033)"
+      "REQUEST_CHANGE_OF_PRICE_LIST": "Anmodning om opdatering af priser (RSM-033)",
+      "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Godkendelse af opdatering af priser (RSM-033)",
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af opdatering af priser (RSM-033)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",

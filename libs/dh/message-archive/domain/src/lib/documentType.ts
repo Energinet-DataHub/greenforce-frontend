@@ -56,5 +56,9 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-031';
     case DocumentType.RequestChangeOfPriceList:
       return 'RSM-033';
+    case DocumentType.ConfirmRequestChangeOfPriceList:
+      return 'RSM-033';
+    case DocumentType.RejectRequestChangeOfPriceList:
+      return 'RSM-033';
   }
 };
