@@ -55,7 +55,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
     @let formGroup = addressDetailsFormGroup();
     @let groupControls = addressDetailsFormGroup().controls.addressGroup.controls;
 
-    <form
+    <ng-container
       [formGroup]="formGroup"
       *transloco="let t; prefix: 'meteringPoint.moveIn.steps.addressDetails'"
     >
@@ -177,7 +177,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
           </watt-checkbox>
         </vater-flex>
       </vater-flex>
-    </form>
+    </ng-container>
   `,
 })
 export class DhAddressDetailsComponent {
