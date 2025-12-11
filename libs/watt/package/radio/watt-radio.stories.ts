@@ -22,7 +22,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WattRadioComponent } from './watt-radio.component';
 import { WattButtonComponent } from '../button';
 
-const meta: Meta<WattRadioComponent> = {
+const meta: Meta<WattRadioComponent<string>> = {
   title: 'Components/Radio Button',
   component: WattRadioComponent,
   decorators: [
@@ -35,9 +35,9 @@ const meta: Meta<WattRadioComponent> = {
 export default meta;
 
 const template = `<div style="display: flex; gap: var(--watt-space-m); flex-direction: column; margin-bottom: var(--watt-space-m);">
-  <watt-radio group="fav_framework" [formControl]="exampleFormControl" value="angular">Angular</watt-radio>
-  <watt-radio group="fav_framework" [formControl]="exampleFormControl" value="react">React</watt-radio>
-  <watt-radio group="fav_framework" [formControl]="exampleFormControl" value="svelte">Svelte</watt-radio>
+  <watt-radio [group]="group" [formControl]="exampleFormControl" value="angular">Angular</watt-radio>
+  <watt-radio [group]="group" [formControl]="exampleFormControl" value="react">React</watt-radio>
+  <watt-radio [group]="group" [formControl]="exampleFormControl" value="svelte">Svelte</watt-radio>
 </div><p>Value: {{exampleFormControl.value}}</p>`;
 
 const howToUseGuideBasic = `
@@ -55,8 +55,13 @@ exampleFormControl = new FormControl(true);
 
 ${template}`;
 
-export const WithFormControl: StoryFn<WattRadioComponent> = () => ({
+// "Docs" page will render the first story twice, which will cause issues when
+// they have the same group. This fix prevents that by counting up each render.
+let counter = 1;
+
+export const WithFormControl: StoryFn<WattRadioComponent<string>> = () => ({
   props: {
+    group: `fav_framework_${counter++}`,
     exampleFormControl: new FormControl('angular'),
   },
   template,
@@ -69,8 +74,9 @@ WithFormControl.parameters = {
   },
 };
 
-export const Disabled: StoryFn<WattRadioComponent> = () => ({
+export const Disabled: StoryFn<WattRadioComponent<string>> = () => ({
   props: {
+    group: `fav_framework_${counter++}`,
     exampleFormControl: new FormControl({ value: 'angular', disabled: true }),
   },
   template,

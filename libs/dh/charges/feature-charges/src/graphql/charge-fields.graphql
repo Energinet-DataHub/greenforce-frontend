@@ -9,9 +9,12 @@ fragment ChargeFields on Charge {
     glnOrEicNumber
   }
   resolution
+  name
   displayName
   status
   currentPeriod {
+    description
+    period
     transparentInvoicing
     vatClassification
     name

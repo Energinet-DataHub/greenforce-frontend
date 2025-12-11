@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Types;

@@ -68,6 +68,7 @@ const meteringPointDebugSubPaths = {
   meteringPoint: 'metering-point',
   meteringPoints: 'metering-points',
   failedMeasurements: 'failed-measurements',
+  meteringPointEvents: 'metering-point-events',
 } as const;
 
 const devExamplesSubPaths = {
@@ -162,8 +163,11 @@ type SubPaths =
 
 export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;
 
-export const combinePaths = <T extends SubPaths, Y extends BasePaths>(basePath: Y, path: T) =>
-  `/${basePath}/${path}`;
+export const combinePaths = <T extends BasePaths | SubPaths, Y extends BasePaths | SubPaths>(
+  part1: Y,
+  part2: T,
+  absolute: boolean = true
+) => (absolute ? `/${part1}/${part2}` : `${part1}/${part2}`);
 
 export const combineWithIdPaths = <T extends SubPaths, Y extends BasePaths>(
   basePath: Y,

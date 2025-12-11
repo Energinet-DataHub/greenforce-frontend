@@ -39,6 +39,7 @@ export const permissions = [
   'imbalance-prices:view',
   'measurements-reports:manage',
   'measurements:manage',
+  'metering-point:connection-state-manage',
   'metering-point:create',
   'metering-point:move-in',
   'metering-point:search',

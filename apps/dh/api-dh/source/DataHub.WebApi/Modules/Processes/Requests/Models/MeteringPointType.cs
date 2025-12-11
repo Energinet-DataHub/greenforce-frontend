@@ -12,21 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using EdiTypes = Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using ModelMeteringPointType = Energinet.DataHub.WebApi.Model.MeteringPoint.MeteringPointType;
+using ModelSettlementMethod = Energinet.DataHub.WebApi.Model.AggregatedMeasureData.SettlementMethod;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 
 public record MeteringPointType(
     string Name,
-    EdiTypes.MeteringPointType2? EvaluationPoint,
-    EdiTypes.SettlementMethod? SettlementMethod)
+    ModelMeteringPointType? EvaluationPoint,
+    ModelSettlementMethod? SettlementMethod)
 {
-    public static readonly MeteringPointType All = new MeteringPointType(nameof(All), null, null);
-    public static readonly MeteringPointType Production = new MeteringPointType(nameof(Production), EdiTypes.MeteringPointType2.Production, null);
-    public static readonly MeteringPointType FlexConsumption = new MeteringPointType(nameof(FlexConsumption), EdiTypes.MeteringPointType2.Consumption, EdiTypes.SettlementMethod.Flex);
-    public static readonly MeteringPointType TotalConsumption = new MeteringPointType(nameof(TotalConsumption), EdiTypes.MeteringPointType2.Consumption, null);
-    public static readonly MeteringPointType NonProfiledConsumption = new MeteringPointType(nameof(NonProfiledConsumption), EdiTypes.MeteringPointType2.Consumption, EdiTypes.SettlementMethod.NonProfiled);
-    public static readonly MeteringPointType Exchange = new MeteringPointType(nameof(Exchange), EdiTypes.MeteringPointType2.Exchange, null);
+    public static readonly MeteringPointType All = new(nameof(All), null, null);
+    public static readonly MeteringPointType Production = new(nameof(Production), ModelMeteringPointType.Production, null);
+    public static readonly MeteringPointType FlexConsumption = new(nameof(FlexConsumption), ModelMeteringPointType.Consumption, ModelSettlementMethod.Flex);
+    public static readonly MeteringPointType TotalConsumption = new(nameof(TotalConsumption), ModelMeteringPointType.Consumption, null);
+    public static readonly MeteringPointType NonProfiledConsumption = new(nameof(NonProfiledConsumption), ModelMeteringPointType.Consumption, ModelSettlementMethod.NonProfiled);
+    public static readonly MeteringPointType Exchange = new(nameof(Exchange), ModelMeteringPointType.Exchange, null);
 
     public override string ToString() => Name;
 
@@ -34,12 +35,12 @@ public record MeteringPointType(
         evaluationPoint switch
         {
             "" or null when string.IsNullOrEmpty(settlementMethod) => All,
-            nameof(EdiTypes.MeteringPointType2.Production) => Production,
-            nameof(EdiTypes.MeteringPointType2.Exchange) => Exchange,
-            nameof(EdiTypes.MeteringPointType2.Consumption) => settlementMethod switch
+            nameof(ModelMeteringPointType.Production) => Production,
+            nameof(ModelMeteringPointType.Exchange) => Exchange,
+            nameof(ModelMeteringPointType.Consumption) => settlementMethod switch
             {
-                nameof(EdiTypes.SettlementMethod.Flex) => FlexConsumption,
-                nameof(EdiTypes.SettlementMethod.NonProfiled) => NonProfiledConsumption,
+                nameof(ModelSettlementMethod.Flex) => FlexConsumption,
+                nameof(ModelSettlementMethod.NonProfiled) => NonProfiledConsumption,
                 "" or null => TotalConsumption,
                 _ => null,
             },

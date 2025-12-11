@@ -1,18 +1,25 @@
-query GetChargeLinksByMeteringPointId($order: [ChargeLinkSortInput!], $meteringPointId: String!) {
+query GetChargeLinksByMeteringPointId(
+  $order: [ChargeLinkDtoSortInput!]
+  $meteringPointId: String!
+) {
   chargeLinksByMeteringPointId(order: $order, meteringPointId: $meteringPointId) {
     id
-    name
     amount
-    type
-    owner {
+    currentPeriod {
+      period
       id
-      displayName
     }
-    period
     charge {
       id
       currentPeriod {
         transparentInvoicing
+      }
+      name
+      type
+      status
+      owner {
+        id
+        displayName
       }
     }
   }

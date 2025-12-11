@@ -1,13 +1,10 @@
 ﻿{
   "data": {
     "charges": {
-      "totalCount": 2,
-      "items": [
+      "totalCount": 1,
+      "nodes": [
         {
-          "status": "INVALID"
-        },
-        {
-          "status": "INVALID"
+          "status": "CLOSED"
         }
       ]
     }

@@ -32,6 +32,8 @@ import {
   mockGetMeteringPointByIdQuery,
   mockGetMeteringPointsByGridAreaQuery,
   mockGetRelatedMeteringPointsByIdQuery,
+  mockGetMeteringPointEventsDebugViewQuery,
+  mockRequestConnectionStateChangeMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ConnectionState,
@@ -46,6 +48,7 @@ import { parentMeteringPoint } from './data/metering-point/parent-metering-point
 import { measurementPoints } from './data/metering-point/measurements-points';
 import { meteringPointsByGridAreaCode } from './data/metering-point/metering-points-by-grid-area-code';
 import { childMeteringPoint } from './data/metering-point/child-metering-point';
+import { eventsDebugView } from './data/metering-point/metering-point-events-debug-view';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
@@ -61,6 +64,8 @@ export function meteringPointMocks(apiBase: string) {
     getAggreatedMeasurementsForYear(),
     getAggreatedMeasurementsForAllYears(),
     getRelatedMeteringPoints(),
+    getMeteringPointEventsDebugView(),
+    requestConnectionStateChange(),
   ];
 }
 
@@ -625,6 +630,35 @@ function getMeteringPointsByGridArea() {
       data: {
         __typename: 'Query',
         meteringPointsByGridAreaCode,
+      },
+    });
+  });
+}
+
+function getMeteringPointEventsDebugView() {
+  return mockGetMeteringPointEventsDebugViewQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        eventsDebugView: eventsDebugView,
+      },
+    });
+  });
+}
+
+function requestConnectionStateChange() {
+  return mockRequestConnectionStateChangeMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        requestConnectionStateChange: {
+          __typename: 'RequestConnectionStateChangePayload',
+          success: true,
+        },
       },
     });
   });

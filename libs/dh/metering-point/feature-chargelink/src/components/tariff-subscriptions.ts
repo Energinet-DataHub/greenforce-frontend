@@ -30,6 +30,7 @@ import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/tabl
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 import {
@@ -60,6 +61,7 @@ import { Charge } from '../types';
     WattTooltipDirective,
     WattIconComponent,
     DhDropdownTranslatorDirective,
+    DhChargesStatus,
   ],
   providers: [DhNavigationService],
   template: `
@@ -92,16 +94,22 @@ import { Charge } from '../types';
         (rowClick)="navigation.navigate('details', $event.id)"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ 'charges.chargeTypes.' + element.type | transloco }}
+          {{ 'charges.chargeTypes.' + element.charge?.type | transloco }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.period; let element">
-          {{ element.period | wattDate }}
+          {{ element.currentPeriod?.period | wattDate }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.transparentInvoicing; let element">
           @if (element.charge?.currentPeriod?.transparentInvoicing) {
             <watt-icon name="forward" size="s" [wattTooltip]="t('tooltip.transparentInvoicing')" />
+          }
+        </ng-container>
+        <ng-container *wattTableCell="columns.status; let element">
+          @let status = element.charge?.status;
+          @if (status && status === 'CANCELLED') {
+            <dh-charges-status [status]="status" />
           }
         </ng-container>
       </watt-table>
@@ -110,14 +118,14 @@ import { Charge } from '../types';
   `,
 })
 export default class DhMeteringPointChargeLinksTariffSubscriptions {
-  id = input.required<string>();
+  meteringPointId = input.required<string>();
   query = query(GetChargeLinksByMeteringPointIdDocument, () => ({
-    variables: { meteringPointId: this.id() },
+    variables: { meteringPointId: this.meteringPointId() },
   }));
   navigation = inject(DhNavigationService);
   dataSource = dataSource(() =>
     (this.query.data()?.chargeLinksByMeteringPointId ?? []).filter(
-      (chargeLink) => chargeLink.type != ChargeType.Fee
+      (chargeLink) => chargeLink.charge?.type != ChargeType.Fee
     )
   );
 
@@ -128,16 +136,17 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
   });
 
   columns: WattTableColumnDef<Charge> = {
-    type: { accessor: 'type' },
+    type: { accessor: (chargeLink) => chargeLink.charge?.type },
     id: { accessor: 'id' },
-    name: { accessor: 'name' },
-    owner: { accessor: (chargeLink) => chargeLink.owner?.displayName ?? '' },
+    name: { accessor: (chargeLink) => chargeLink.charge?.name ?? '' },
+    owner: { accessor: (chargeLink) => chargeLink.charge?.owner?.displayName ?? '' },
     transparentInvoicing: {
       header: '',
       accessor: (chargeLink) => chargeLink.charge?.currentPeriod?.transparentInvoicing ?? false,
     },
     amount: { accessor: 'amount' },
-    period: { accessor: 'period' },
+    period: { accessor: (chargeLink) => chargeLink.currentPeriod?.period },
+    status: { header: '', accessor: (charge) => charge.charge?.status },
   };
 
   selection = () => {

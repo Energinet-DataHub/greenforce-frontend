@@ -21,6 +21,27 @@ import { ChargeLinksSubPaths, getPath } from '@energinet-datahub/dh/core/routing
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 
+const detailsRoutes = [
+  {
+    path: 'details/:id',
+    loadComponent: () => import('./components/details'),
+    children: [
+      {
+        path: 'edit',
+        loadComponent: () => import('./components/actions/edit'),
+      },
+      {
+        path: 'stop',
+        loadComponent: () => import('./components/actions/stop'),
+      },
+      {
+        path: 'cancel',
+        loadComponent: () => import('./components/actions/cancel'),
+      },
+    ],
+  },
+];
+
 export const meteringPointPricesRoutes: Routes = [
   {
     canActivate: [
@@ -38,22 +59,12 @@ export const meteringPointPricesRoutes: Routes = [
       {
         path: getPath<ChargeLinksSubPaths>('tariff-and-subscription'),
         loadComponent: () => import('./components/tariff-subscriptions'),
-        children: [
-          {
-            path: 'details/:id',
-            loadComponent: () => import('./components/details'),
-          },
-        ],
+        children: detailsRoutes,
       },
       {
         path: getPath<ChargeLinksSubPaths>('fees'),
         loadComponent: () => import('./components/fees'),
-        children: [
-          {
-            path: 'details/:id',
-            loadComponent: () => import('./components/details'),
-          },
-        ],
+        children: detailsRoutes,
       },
     ],
   },

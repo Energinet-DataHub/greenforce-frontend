@@ -34,6 +34,7 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   BasePaths,
+  combinePaths,
   getPath,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
@@ -173,18 +174,22 @@ export const dhMeteringPointRoutes: Routes = [
                     (m) => m.DhMeasurementsAllYearsComponent
                   ),
               },
-              {
-                path: getPath<MeasurementsSubPaths>('upload'),
-                canActivate: [
-                  PermissionGuard(['measurements:manage']),
-                  dhReleaseToggleGuard('PM96-SHAREMEASUREDATA'),
-                ],
-                loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-upload-measurements').then(
-                    (m) => m.DhUploadMeasurementsPage
-                  ),
-              },
             ],
+          },
+          {
+            path: combinePaths(
+              getPath<MeteringPointSubPaths>('measurements'),
+              getPath<MeasurementsSubPaths>('upload'),
+              false
+            ),
+            canActivate: [
+              PermissionGuard(['measurements:manage']),
+              dhReleaseToggleGuard('PM96-SHAREMEASUREDATA'),
+            ],
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-upload-measurements').then(
+                (m) => m.DhUploadMeasurementsPage
+              ),
           },
           {
             path: getPath<MeteringPointSubPaths>('update-customer-details'),

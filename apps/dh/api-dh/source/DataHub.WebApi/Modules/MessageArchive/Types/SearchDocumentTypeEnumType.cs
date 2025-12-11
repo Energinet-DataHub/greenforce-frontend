@@ -12,22 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.WebApi.Model.MeteringPointArchivedMessages;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 
-public class SearchDocumentTypeEnumType : EnumType<DocumentTypeDtoV1>
+public class SearchDocumentTypeEnumType : EnumType<DocumentType>
 {
-    protected override void Configure(IEnumTypeDescriptor<DocumentTypeDtoV1> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<DocumentType> descriptor)
     {
         descriptor.Name("SearchDocumentType");
 
         descriptor
-            .Value(DocumentTypeDtoV1.B2CRequestAggregatedMeasureData)
+            .Value(DocumentType.B2CRequestAggregatedMeasureData)
             .Name("B2C_REQUEST_AGGREGATED_MEASURE_DATA");
 
         descriptor
-            .Value(DocumentTypeDtoV1.B2CRequestWholesaleSettlement)
+            .Value(DocumentType.B2CRequestWholesaleSettlement)
             .Name("B2C_REQUEST_WHOLESALE_SETTLEMENT");
     }
 }

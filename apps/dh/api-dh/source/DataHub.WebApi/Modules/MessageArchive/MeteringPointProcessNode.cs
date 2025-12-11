@@ -16,7 +16,6 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
 using Energinet.DataHub.ProcessManager.Client;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_002.EndOfSupply.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
@@ -87,7 +86,7 @@ public static partial class MeteringPointProcessNode
 
         return process.WorkflowSteps.Select(step => new MeteringPointProcessStep(
             Id: step.Id.ToString(),
-            Step: GetStepName(step),
+            Step: GetStepIdentifier(step),
             Comment: null, // TODO: REPLACE WHEN PROCESS MANAGER IS READY
             CompletedAt: step.Lifecycle.CompletedAt,
             DueDate: null, // DueDate was removed in ProcessManager 8.1.0
@@ -188,24 +187,32 @@ public static partial class MeteringPointProcessNode
             _ => ProcessState.Failed,
         };
 
-    private static ProcessStepType GetStepName(WorkflowStepInstanceDto step)
+    /// <summary>
+    /// Generates a step identifier based on the workflow's unique name and step sequence,
+    /// and maps it to a known ProcessStepType enum value.
+    /// Format: {PROCESS_NAME}_V{VERSION}_STEP_{SEQUENCE}
+    /// Example: BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1
+    ///
+    /// If the generated identifier doesn't match any known enum value, returns ProcessStepType.UNKNOWN.
+    /// This allows new processes to work without breaking the application.
+    /// </summary>
+    private static ProcessStepType GetStepIdentifier(WorkflowStepInstanceDto step)
     {
-        return step.UniqueName switch
-        {
-            var uniqueName when uniqueName == Brs_002_EndOfSupply.V1 => GetNameForEndOfSupplyV1Step(step.Sequence),
-            _ => ProcessStepType.Unknown,
-        };
-    }
+        // Normalize the process name: replace dots and spaces with underscores, convert to uppercase
+        var processName = step.UniqueName.Name
+            .Replace(".", "_")
+            .Replace(" ", string.Empty)
+            .ToUpperInvariant();
 
-    private static ProcessStepType GetNameForEndOfSupplyV1Step(int number)
-    {
-        return number switch
+        var identifier = $"{processName}_V{step.UniqueName.Version}_STEP_{step.Sequence}";
+
+        // Try to parse the identifier to a known ProcessStepType enum value
+        if (Enum.TryParse<ProcessStepType>(identifier, ignoreCase: true, out var stepType))
         {
-            1 => ProcessStepType.Rsm005Request,
-            2 => ProcessStepType.Rsm005Confirm,
-            3 => ProcessStepType.Rsm005Reject,
-            4 => ProcessStepType.Rsm020Request,
-            _ => throw new ArgumentOutOfRangeException(nameof(number), number, null),
-        };
+            return stepType;
+        }
+
+        // If not found, return UNKNOWN (new processes that haven't been added to the enum yet)
+        return ProcessStepType.UNKNOWN;
     }
 }

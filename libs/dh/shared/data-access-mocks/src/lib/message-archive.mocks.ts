@@ -193,7 +193,7 @@ function getMeteringPointProcessById(apiBase: string) {
               {
                 __typename: 'MeteringPointProcessStep' as const,
                 id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
-                step: ProcessStepType.Rsm005Request,
+                step: ProcessStepType.Brs_002RequestendofsupplyV1Step_1,
                 comment: 'OBS: Sendt til foged',
                 completedAt: new Date(m.createdDate),
                 dueDate: new Date(m.createdDate),

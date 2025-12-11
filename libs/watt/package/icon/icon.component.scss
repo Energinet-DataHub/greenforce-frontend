@@ -57,19 +57,23 @@ watt-icon {
     }
   }
 
-  &.icon-state-success .mat-icon {
+  & .mat-icon {
+    color: currentColor;
+  }
+
+  &.icon-state-success {
     color: var(--watt-color-state-success);
   }
 
-  &.icon-state-danger .mat-icon {
+  &.icon-state-danger {
     color: var(--watt-color-state-danger);
   }
 
-  &.icon-state-warning .mat-icon {
+  &.icon-state-warning {
     color: var(--watt-color-state-warning);
   }
 
-  &.icon-state-info .mat-icon {
+  &.icon-state-info {
     color: var(--watt-color-state-info);
   }
 }

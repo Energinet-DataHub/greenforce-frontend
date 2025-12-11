@@ -41,8 +41,8 @@ import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared
 import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { Charge } from '../types';
-import { DhChargeStatus } from './status';
-import { DhChargesFilters } from './filters';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesFilters } from './charges-filters';
 
 @Component({
   selector: 'dh-charges',
@@ -50,19 +50,19 @@ import { DhChargesFilters } from './filters';
   imports: [
     RouterLink,
     RouterOutlet,
-    TranslocoPipe,
     TranslocoDirective,
-    VaterStackComponent,
+    TranslocoPipe,
     VaterSpacerComponent,
+    VaterStackComponent,
     VaterUtilityDirective,
     WattButtonComponent,
-    WattIconComponent,
-    WattTableComponent,
-    WattTableCellDirective,
-    WattDataTableComponent,
     WattDataFiltersComponent,
-    DhChargeStatus,
+    WattDataTableComponent,
+    WattIconComponent,
+    WattTableCellDirective,
+    WattTableComponent,
     DhChargesFilters,
+    DhChargesStatus,
   ],
   providers: [DhNavigationService],
   template: `
@@ -98,7 +98,7 @@ import { DhChargesFilters } from './filters';
           {{ 'charges.chargeTypes.' + element.type | transloco }}
         </ng-container>
         <ng-container *wattTableCell="columns.status; let element">
-          <dh-charge-status [status]="element.status" />
+          <dh-charges-status [status]="element.status" />
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -111,9 +111,9 @@ export class DhCharges {
   dataSource = new GetChargesDataSource();
 
   columns: WattTableColumnDef<Charge> = {
-    type: { accessor: 'type', sort: false },
-    code: { accessor: 'code', sort: false },
-    name: { accessor: (charge) => charge.currentPeriod?.name, sort: false },
+    type: { accessor: 'type' },
+    code: { accessor: 'code' },
+    name: { accessor: 'name' },
     owner: { accessor: (charge) => charge.owner?.displayName, sort: false },
     status: { accessor: 'status', sort: false },
   };

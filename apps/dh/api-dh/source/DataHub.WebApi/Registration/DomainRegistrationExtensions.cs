@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Core.App.Common.Extensions.DependencyInjection;
+using Energinet.DataHub.ElectricityMarket.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi.Clients.Dh2Bridge;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.Import;
 using Energinet.DataHub.WebApi.Extensions;
@@ -29,7 +31,9 @@ public static class DomainRegistrationExtensions
             .AddHttpContextAccessor()
             .AddAuthorizedHttpClient()
             .AddClient<IDh2BridgeClient>(baseUrls => baseUrls.Dh2BridgeBaseUrl, (_, client) => new Dh2BridgeClient(client))
-            .AddClient<IElectricityMarketImportClient>(baseUrls => baseUrls.ElectricityMarketBaseUrl, (_, client) => new ElectricityMarketImportClient(client));
+            .AddClient<IElectricityMarketImportClient>(baseUrls => baseUrls.ElectricityMarketBaseUrl, (_, client) => new ElectricityMarketImportClient(client))
+            .AddAuthorizationHeaderProvider()
+            .AddElectricityMarketClient();
     }
 
     private static IServiceCollection AddAuthorizedHttpClient(this IServiceCollection serviceCollection)

@@ -307,12 +307,12 @@ limitations under the License.
 
           <watt-dropdown
             [formControl]="powerPlantControls.assetType"
-            [options]="[]"
+            [options]="assetTypeOptions"
             [showResetOption]="false"
             [label]="t('powerPlant.assetType')"
+            dhDropdownTranslator
+            translateKey="assetType"
           />
-
-          {{ powerPlantControls.assetType.value }}
         }
 
         <hr class="watt-divider" />
