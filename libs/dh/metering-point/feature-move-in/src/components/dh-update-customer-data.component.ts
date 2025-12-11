@@ -21,6 +21,8 @@ import { Component, computed, effect, inject, input, signal } from '@angular/cor
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   dhCprValidator,
@@ -153,6 +155,7 @@ export class DhUpdateCustomerDataComponent {
   private readonly wattToastService = inject(WattToastService);
   private locationService = inject(Location);
   private actorStorage = inject(DhActorStorage).getSelectedActor();
+  private readonly destroyRef = inject(DestroyRef);
 
   isBusinessCustomer = signal<boolean>(false);
   meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
@@ -399,32 +402,38 @@ export class DhUpdateCustomerDataComponent {
       }
     });
     // Listen for changes in customer name fields and update signals
-    this.privateCustomerDetailsForm.controls.customerName1.valueChanges.subscribe((value) => {
-      this.customerName1.set(value);
-    });
-    this.businessCustomerDetailsForm.controls.companyName.valueChanges.subscribe((value) => {
-      this.companyName.set(value);
-    });
+    this.privateCustomerDetailsForm.controls.customerName1.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        this.customerName1.set(value);
+      });
+    this.businessCustomerDetailsForm.controls.companyName.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        this.companyName.set(value);
+      });
     // Listen for changes in contactSameAsCustomer controls and update signals
-    this.legalContactDetailsForm.controls.contactSameAsCustomer.valueChanges.subscribe((value) => {
-      this.legalContactSameAsCustomer.set(value);
-    });
-    this.technicalContactDetailsForm.controls.contactSameAsCustomer.valueChanges.subscribe(
-      (value) => {
+    this.legalContactDetailsForm.controls.contactSameAsCustomer.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        this.legalContactSameAsCustomer.set(value);
+      });
+    this.technicalContactDetailsForm.controls.contactSameAsCustomer.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
         this.technicalContactSameAsCustomer.set(value);
-      }
-    );
+      });
     // Listen for changes in addressSameAsMeteringPoint controls and update signals
-    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges.subscribe(
-      (value) => {
+    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
         this.legalAddressSameAsMeteringPoint.set(value);
-      }
-    );
-    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges.subscribe(
-      (value) => {
+      });
+    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
         this.technicalAddressSameAsMeteringPoint.set(value);
-      }
-    );
+      });
   }
 
   public updateCustomerData() {
