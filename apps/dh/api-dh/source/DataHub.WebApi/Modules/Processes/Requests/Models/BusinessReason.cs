@@ -12,16 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Model.MeteringPoint;
+namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 
-namespace Energinet.DataHub.WebApi.Model.Measurements;
-
-// TODO: This record needs to be renamed to SendMeasurementsRequest, which will result in changes in the client.
-public record SendMeasurementsRequestV2(
-        string MeteringPointId,
-        MeteringPointType MeteringPointType,
-        MeasurementUnit MeasurementUnit,
-        Resolution Resolution,
-        DateTimeOffset Start,
-        DateTimeOffset End,
-        IReadOnlyCollection<Measurement> Measurements);
+public enum BusinessReason
+{
+    BalanceFixing,
+    PreliminaryAggregation,
+    WholesaleFixing,
+    Correction,
+}

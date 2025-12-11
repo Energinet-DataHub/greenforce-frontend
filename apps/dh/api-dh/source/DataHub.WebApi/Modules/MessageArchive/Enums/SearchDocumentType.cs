@@ -12,12 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Model;
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 
-public enum BusinessReason
+public enum SearchDocumentType
 {
-    BalanceFixing,
-    PreliminaryAggregation,
-    WholesaleFixing,
-    Correction,
+    NotifyAggregatedMeasureData = 0,
+    NotifyWholesaleServices = 1,
+    RejectRequestAggregatedMeasureData = 2,
+    RejectRequestWholesaleSettlement = 3,
+    RequestAggregatedMeasureData = 4,
+    B2CRequestAggregatedMeasureData = 5,
+    RequestWholesaleSettlement = 6,
+    B2CRequestWholesaleSettlement = 7,
+    Acknowledgement = 8,
+    ReminderOfMissingMeasurements = 9,
+    RequestChangeOfPriceList = 10,
 }

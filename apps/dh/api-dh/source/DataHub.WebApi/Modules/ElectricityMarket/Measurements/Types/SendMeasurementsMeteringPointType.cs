@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Model.MeteringPoint;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Types;
 

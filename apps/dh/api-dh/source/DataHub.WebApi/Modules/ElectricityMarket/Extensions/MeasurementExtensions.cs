@@ -13,11 +13,11 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient.Abstractions.SendMeasurements.V1;
-using Energinet.DataHub.WebApi.Mapper.MeteringPoint;
-using Energinet.DataHub.WebApi.Model;
-using Energinet.DataHub.WebApi.Model.Measurements;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Types;
 
-namespace Energinet.DataHub.WebApi.Mapper.Measurement;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Mappers;
 
 public static class MeasurementExtensions
 {
@@ -63,7 +63,7 @@ public static class MeasurementExtensions
             Quality.Measured => QualityV1.Measured,
         };
 
-    public static MeasurementV1 MapToSendMeasurementsV1(this Model.Measurements.Measurement source)
+    public static MeasurementV1 MapToSendMeasurementsV1(this Modules.ElectricityMarket.Measurements.Types.Measurement source)
     {
         ArgumentNullException.ThrowIfNull(source);
 
