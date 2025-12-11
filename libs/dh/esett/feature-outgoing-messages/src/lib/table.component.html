@@ -24,6 +24,7 @@ limitations under the License.
   [enableCount]="false"
   #wattDataTable
 >
+  <vater-stack direction="row" class="watt-space-stack-m">
   <span class="watt-chip-label">
     @if (gridAreaCount() === 1) {
       {{ t("countGridAreas.singular", { gridAreaCount: gridAreaCount() }) }}
@@ -58,6 +59,7 @@ limitations under the License.
       }}</watt-button>
     </vater-stack>
   }
+  </vater-stack>
 
   <watt-data-filters>
     <dh-outgoing-messages-filters (filter)="fetch($event)" (resetFilters)="wattDataTable.reset()" />
