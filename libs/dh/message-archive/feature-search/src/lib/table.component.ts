@@ -74,7 +74,6 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
       [enableCount]="false"
       (clear)="reset()"
     >
-
       <watt-data-actions>
         <watt-button variant="secondary" icon="plus" (click)="onNewSearch()">
           {{ t('new') }}
