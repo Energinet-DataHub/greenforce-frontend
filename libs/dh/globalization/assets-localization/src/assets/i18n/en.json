@@ -620,7 +620,8 @@
         "actionsButton": "Actions",
         "upload": "Upload measurements",
         "moveIn": "Customer move-in",
-        "createChargeLink": "Attach price"
+        "createChargeLink": "Attach price",
+        "updateCustomerData": "Update customer data"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",

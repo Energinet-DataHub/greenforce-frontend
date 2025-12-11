@@ -90,15 +90,11 @@ import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correc
         }
 
         @if (showMoveInButton()) {
-          <watt-menu-item
-            (click)="startMoveIn()">
+          <watt-menu-item (click)="startMoveIn()">
             {{ t('moveIn') }}
           </watt-menu-item>
-          <!-- TODO: MASEP to be removed-->
-          <watt-menu-item
-            [routerLink]="getUpdateCustomerDetailsLink"
-          >
-            Opdatér kundestamdata
+          <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
+            {{ t('updateCustomerData') }}
           </watt-menu-item>
         }
 
