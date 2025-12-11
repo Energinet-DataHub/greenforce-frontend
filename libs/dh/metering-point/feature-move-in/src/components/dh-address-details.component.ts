@@ -43,14 +43,6 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
     WattSlideToggleComponent,
   ],
   styles: `
-    .checkbox-margin-bottom {
-      margin-bottom: var(--watt-space-l);
-    }
-
-    .slide-toggle-margin-bottom {
-      margin-bottom: var(--watt-space-m);
-    }
-
     .flex-grow-1 {
       flex-grow: 1;
     }
@@ -73,7 +65,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
           <watt-slide-toggle
             [formControl]="formGroup.controls.addressSameAsMeteringPoint"
-            class="slide-toggle-margin-bottom"
+            class="watt-space-stack-m"
             data-testid="address-same-as-metering-point">
             {{ t('addressSameAsMeteringPoint') }}
 
@@ -179,7 +171,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
           <watt-checkbox
             [formControl]="formGroup.controls.nameAddressProtection"
-            class="checkbox-margin-bottom"
+            class="watt-space-stack-l"
             data-testid="name-address-protection"
           >
             {{ t('nameAddressProtection') }}
