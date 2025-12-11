@@ -41,7 +41,9 @@ public static class ChargeExtensions
     public static ChargeStatus GetChargeStatus(
         this Charge charge)
     {
-        var period = charge.GetCurrentPeriod();
+        var period = charge.Periods
+            .OrderByDescending(x => x.StartDate)
+            .FirstOrDefault();
 
         if (period == null)
         {
