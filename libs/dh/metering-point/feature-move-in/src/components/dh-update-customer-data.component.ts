@@ -48,7 +48,10 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { DhPrivateCustomerDetailsComponent } from './dh-private-customer-details.component';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { CustomerRelationType, GetMeteringPointByIdDocument, } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  CustomerRelationType,
+  GetMeteringPointByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -95,7 +98,9 @@ import { CustomerRelationType, GetMeteringPointByIdDocument, } from '@energinet-
           <h3>{{ t('updateCustomerData') }}</h3>
           <vater-stack direction="row" gap="m">
             <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }}</watt-button>
-            <watt-button (click)="updateCustomerData()" type="submit">{{ t('updateCustomerData') }}</watt-button>
+            <watt-button (click)="updateCustomerData()" type="submit">{{
+              t('updateCustomerData')
+            }}</watt-button>
           </vater-stack>
         </vater-stack>
       </watt-card>
@@ -269,7 +274,10 @@ export class DhUpdateCustomerDataComponent {
       cityName: this.formBuilder.control<string>('', Validators.required),
       citySubDivisionName: this.formBuilder.control<string>(''),
       streetCode: this.formBuilder.control<string>('', Validators.required),
-      municipalityCode: this.formBuilder.control<string>('', [dhMunicipalityCodeValidator(), Validators.required]),
+      municipalityCode: this.formBuilder.control<string>('', [
+        dhMunicipalityCodeValidator(),
+        Validators.required,
+      ]),
       postalDistrict: this.formBuilder.control<string>(''),
       postBox: this.formBuilder.control<string>(''),
       darReference: this.formBuilder.control<string>(''),
