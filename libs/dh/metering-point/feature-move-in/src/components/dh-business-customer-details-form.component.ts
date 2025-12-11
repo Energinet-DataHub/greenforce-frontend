@@ -31,13 +31,13 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
  template: `
-   <form>
+   <ng-container>
      @let formGroup = businessCustomerFormGroup();
      <form [formGroup]="formGroup" *transloco="let t; prefix: 'meteringPoint.moveIn.steps.customerDetails'">
        <watt-text-field [label]="t('companyName')" [formControl]="formGroup.controls.companyName" />
        <watt-text-field [label]="t('cvr')" [formControl]="formGroup.controls.cvr" />
      </form>
-   </form>
+   </ng-container>
  `,
 })
 export class DhBusinessCustomerDetailsFormComponent {
