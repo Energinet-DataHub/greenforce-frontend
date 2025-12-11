@@ -71,9 +71,9 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
       [searchLabel]="t('searchById')"
       [error]="dataSource.error"
       [ready]="dataSource.called"
+      [enableCount]="false"
       (clear)="reset()"
     >
-      <h3>{{ t('results') }}</h3>
 
       <watt-data-actions>
         <watt-button variant="secondary" icon="plus" (click)="onNewSearch()">

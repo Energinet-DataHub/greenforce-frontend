@@ -1122,7 +1122,6 @@
   "messageArchive": {
     "topBarTitle": "Fremsøg forretningsbeskeder",
     "new": "Ny søgning",
-    "results": "Resultater",
     "searchById": "Søg på ID",
     "refetching": "Henter forretningsbeskeder...",
     "drawer": {
