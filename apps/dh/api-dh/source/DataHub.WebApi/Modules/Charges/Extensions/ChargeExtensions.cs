@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 
@@ -26,14 +27,40 @@ public static class ChargeExtensions
             .FirstOrDefault();
     }
 
-    public static string DisplayName(this ChargeInformationDto charge)
+    public static string DisplayName(this Charge charge)
     {
         var current = charge.GetCurrentPeriod();
         return $"{charge.ChargeIdentifierDto.Code} - {current?.Name}";
     }
 
-    public static string? Name(this ChargeInformationDto charge) => charge.GetCurrentPeriod()?.Name;
+    public static string? Name(this Charge charge) => charge.GetCurrentPeriod()?.Name;
 
     public static bool IsCurrent(this ChargeInformationPeriodDto period) =>
         period.StartDate.ToDateTimeOffset() <= DateTimeOffset.Now && (period.EndDate == null || period.EndDate?.ToDateTimeOffset() > DateTimeOffset.Now);
+
+    public static ChargeStatus GetChargeStatus(
+        this Charge charge)
+    {
+        var period = charge.Periods
+            .OrderByDescending(x => x.StartDate)
+            .FirstOrDefault();
+
+        if (period == null)
+        {
+            return ChargeStatus.Invalid;
+        }
+
+        var validFrom = period.StartDate.ToDateTimeOffset();
+        var validTo = period.EndDate?.ToDateTimeOffset();
+
+        return charge.HasAnyPrices switch
+        {
+            _ when validFrom == validTo => ChargeStatus.Cancelled,
+            _ when validTo < DateTimeOffset.Now => ChargeStatus.Closed,
+            false when validFrom > DateTimeOffset.Now => ChargeStatus.Awaiting,
+            false when validFrom < DateTimeOffset.Now => ChargeStatus.MissingPriceSeries,
+            true when validFrom < DateTimeOffset.Now => ChargeStatus.Current,
+            _ => ChargeStatus.Invalid,
+        };
+    }
 }

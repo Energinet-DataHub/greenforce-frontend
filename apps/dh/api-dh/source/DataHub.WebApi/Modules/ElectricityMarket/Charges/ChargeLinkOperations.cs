@@ -82,7 +82,7 @@ public static partial class ChargeLinkOperations
         IChargeLinkClient client) =>
             await client.GetChargeLinkHistoryAsync(chargeLink.ChargeLinkId, ct).ConfigureAwait(false);
 
-    public static async Task<ChargeInformationDto?> GetChargeAsync(
+    public static async Task<Charge?> GetChargeAsync(
         [Parent] ChargeLinkDto chargeLink,
         IChargesClient client,
         CancellationToken ct) =>
