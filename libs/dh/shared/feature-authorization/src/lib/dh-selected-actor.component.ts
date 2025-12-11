@@ -17,10 +17,10 @@
  */
 //#endregion
 import { Component, computed, effect, inject } from '@angular/core';
-
+import { Router } from '@angular/router';
+import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 import { TranslocoPipe } from '@jsverse/transloco';
 import type { ResultOf } from '@graphql-typed-document-node/core';
-import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
@@ -35,6 +35,8 @@ export type SelectionMarketParticipant = ResultOf<
   typeof GetSelectionMarketParticipantsDocument
 >['selectionMarketParticipants'][0];
 
+const meteringPointSubPathRegex = /^\/metering-point\/\d+\//;
+
 @Component({
   selector: 'dh-selected-actor',
   styleUrls: ['./dh-selected-actor.component.scss'],
@@ -42,18 +44,20 @@ export type SelectionMarketParticipant = ResultOf<
   imports: [WattIconComponent, WattSpinnerComponent, OverlayModule, TranslocoPipe],
 })
 export class DhSelectedActorComponent {
-  private location = inject(windowLocationToken);
-  private actorStorage = inject(DhActorStorage);
+  private readonly router = inject(Router);
+  private readonly location = inject(windowLocationToken);
+  private readonly actorStorage = inject(DhActorStorage);
 
-  selectedMarketParticipants = query(GetSelectionMarketParticipantsDocument);
+  private query = query(GetSelectionMarketParticipantsDocument);
+  private invitedToMarketParticipants = computed(
+    () => this.query.data()?.selectionMarketParticipants || []
+  );
 
   marketParticipantGroups = computed(() => {
-    const selectedMarketParticipants =
-      this.selectedMarketParticipants.data()?.selectionMarketParticipants;
-    if (!selectedMarketParticipants) return [];
-
-    const sortedSelectedMarketParticipants = selectedMarketParticipants.toSorted((a, b) => {
+    if (this.invitedToMarketParticipants().length === 0) return [];
+    const sortedSelectedMarketParticipants = this.invitedToMarketParticipants().toSorted((a, b) => {
       const nameCompare = a.organizationName.localeCompare(b.organizationName);
+
       return nameCompare !== 0 ? nameCompare : a.gln.localeCompare(b.gln);
     });
 
@@ -67,14 +71,14 @@ export class DhSelectedActorComponent {
       actors: value,
     }));
   });
+
   selectedMarketParticipant = computed(() =>
-    this.selectedMarketParticipants
-      .data()
-      ?.selectionMarketParticipants.find(
-        (participant) => participant.id === this.actorStorage.getSelectedActorId()
-      )
+    this.invitedToMarketParticipants().find(
+      (participant) => participant.id === this.actorStorage.getSelectedActorId()
+    )
   );
-  isLoading = this.selectedMarketParticipants.loading;
+
+  isLoading = this.query.loading;
   isOpen = false;
   positionPairs: ConnectionPositionPair[] = [
     {
@@ -89,17 +93,25 @@ export class DhSelectedActorComponent {
 
   constructor() {
     effect(() => {
+      const hasSelectedMarketParticipantInStorage =
+        this.actorStorage.hasSelectedMarketParticipant();
+
+      const marketParticipant = this.selectedMarketParticipant();
+
       // If no selected market participant is set in the storage, set the selected market participant.
-      const haveParticipant = this.actorStorage.haveSelectedActor();
-      const participant = this.selectedMarketParticipant();
-      if (participant && !haveParticipant) {
-        this.selectMarketParticipant(participant);
+      if (marketParticipant && !hasSelectedMarketParticipantInStorage) {
+        this.selectMarketParticipant(marketParticipant);
       }
     });
   }
 
-  selectMarketParticipant = (marketParticipant: SelectionMarketParticipant) => {
+  selectMarketParticipant = async (marketParticipant: SelectionMarketParticipant) => {
     this.actorStorage.setSelectedActor(marketParticipant);
+
+    if (meteringPointSubPathRegex.test(this.router.url)) {
+      await this.router.navigate(['/metering-point/search']);
+    }
+
     this.location.reload();
   };
 
