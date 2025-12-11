@@ -22,12 +22,16 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
-import { dhCprValidator, dhCvrValidator, } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { MoveInType, StartMoveInDocument, WashInstructions, } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  MoveInType,
+  StartMoveInDocument,
+  WashInstructions,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattToastService } from '@energinet/watt/toast';
 
-import { InstallationAddress, StartMoveInFormType, } from '../types';
+import { InstallationAddress, StartMoveInFormType } from '../types';
 import { DhStartMoveInFormComponent } from './dh-start-move-in-form.component';
 import { WattButtonComponent } from '@energinet/watt/button';
 
@@ -43,10 +47,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
     >
       <dh-start-move-in-form [startMoveInForm]="startMoveInForm" />
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="startMoveIn()">{{
-            t('save')
-          }}
-        </watt-button>
+        <watt-button variant="secondary" (click)="startMoveIn()">{{ t('save') }} </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
@@ -76,10 +77,9 @@ export class DhStartMoveInComponent extends WattTypedModal<{
 
   readonly isForeignCompanyFormControl = this.fb.control<boolean>(false);
 
-  private customerTypeChanged = toSignal(
-    this.startMoveInForm.controls.customerType.valueChanges,
-    { initialValue: this.customerTypeInitialValue }
-  );
+  private customerTypeChanged = toSignal(this.startMoveInForm.controls.customerType.valueChanges, {
+    initialValue: this.customerTypeInitialValue,
+  });
 
   private isForeignCompanyChanged = toSignal<boolean>(
     this.isForeignCompanyFormControl.valueChanges

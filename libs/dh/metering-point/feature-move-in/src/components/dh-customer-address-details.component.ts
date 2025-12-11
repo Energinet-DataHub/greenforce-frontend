@@ -66,7 +66,8 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
           <watt-slide-toggle
             [formControl]="formGroup.controls.addressSameAsMeteringPoint"
             class="watt-space-stack-m"
-            data-testid="address-same-as-metering-point">
+            data-testid="address-same-as-metering-point"
+          >
             {{ t('addressSameAsMeteringPoint') }}
           </watt-slide-toggle>
 
@@ -142,7 +143,9 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
                   {{ t('municipalityCodeError.containsLetters') }}
                 } @else if (groupControls.municipalityCode.hasError('startsWithZero')) {
                   {{ t('municipalityCodeError.startsWithZero') }}
-                } @else if (groupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
+                } @else if (
+                  groupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
+                ) {
                   {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
                 }
               </watt-field-error>

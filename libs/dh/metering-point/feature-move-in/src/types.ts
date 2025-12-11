@@ -95,12 +95,12 @@ export type PrivateCustomerFormGroup = {
   cpr1: FormControl<string>;
   customerName2: FormControl<string>;
   cpr2: FormControl<string>;
-}
+};
 
 export type BusinessCustomerFormGroup = {
   companyName: FormControl<string>;
   cvr: FormControl<string>;
-}
+};
 
 export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
