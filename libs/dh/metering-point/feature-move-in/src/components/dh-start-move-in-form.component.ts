@@ -35,10 +35,10 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { MoveInCustomerDetailsFormType } from '../types';
+import { StartMoveInFormType } from '../types';
 
 @Component({
-  selector: 'dh-customer-details',
+  selector: 'dh-start-move-in-form',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -68,7 +68,7 @@ import { MoveInCustomerDetailsFormType } from '../types';
     }
   `,
   template: `
-    @let form = customerDetailsForm();
+    @let form = startMoveInForm();
 
     <form
       [formGroup]="form"
@@ -141,33 +141,6 @@ import { MoveInCustomerDetailsFormType } from '../types';
               }
             </watt-field-error>
           </watt-text-field>
-
-          <watt-text-field
-            class="name"
-            [label]="t('name2')"
-            [formControl]="privateCustomer.controls.name2"
-          />
-
-          <watt-text-field
-            class="cpr"
-            [label]="t('cpr2')"
-            [formControl]="privateCustomer.controls.cpr2"
-            maxLength="10"
-          >
-            <watt-field-error>
-              @if (privateCustomer.controls.cpr2.hasError('containsLetters')) {
-                {{ t('cprError.containsLetters') }}
-              } @else if (privateCustomer.controls.cpr2.hasError('containsDash')) {
-                {{ t('cprError.containsDash') }}
-              } @else if (privateCustomer.controls.cpr2.hasError('invalidCprLength')) {
-                {{ t('cprError.invalidCprLength') }}
-              } @else if (privateCustomer.controls.cpr2.hasError('invalidDate')) {
-                {{ t('cprError.invalidDate') }}
-              } @else if (privateCustomer.controls.cpr2.hasError('allOnes')) {
-                {{ t('cprError.allOnes') }}
-              }
-            </watt-field-error>
-          </watt-text-field>
         }
       } @else {
         @let businessCustomer = form.controls.businessCustomer;
@@ -197,15 +170,11 @@ import { MoveInCustomerDetailsFormType } from '../types';
           </vater-stack>
         }
       }
-
-      <watt-checkbox [formControl]="form.controls.isProtectedAddress">
-        {{ t('protectedAddress') }}
-      </watt-checkbox>
     </form>
   `,
 })
-export class DhCustomerDetailsComponent {
-  customerDetailsForm = input.required<FormGroup<MoveInCustomerDetailsFormType>>();
+export class DhStartMoveInFormComponent {
+  startMoveInForm = input.required<FormGroup<StartMoveInFormType>>();
 
   sevenDaysAgo = dayjs().subtract(7, 'day').toDate();
   sixtyDaysFromNow = dayjs().add(60, 'day').toDate();
