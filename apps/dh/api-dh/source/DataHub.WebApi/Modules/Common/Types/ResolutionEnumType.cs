@@ -12,16 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Shared;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
+namespace Energinet.DataHub.WebApi.Modules.Common.Types;
 
-public class ResolutionType : EnumType<Resolution>
+public class ResolutionEnumType : EnumType<Resolution>
 {
     protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
     {
-        descriptor.Name("ChargeResolution");
-        descriptor.AsLowerCase();
+        descriptor
+            .Name("ChargeResolution") // TODO: Rename to "Resolution" by aligning all enums!
+            .BindValuesExplicitly();
+
+        descriptor
+            .Value(Resolution.QuarterHourly)
+            .Name("QUARTER_HOURLY");
+
+        descriptor
+            .Value(Resolution.Hourly)
+            .Name("HOURLY");
+
+        descriptor
+            .Value(Resolution.Daily)
+            .Name("DAILY");
+
+        descriptor
+            .Value(Resolution.Monthly)
+            .Name("MONTHLY");
     }
 }

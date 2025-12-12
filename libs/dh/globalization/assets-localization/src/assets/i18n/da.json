@@ -376,11 +376,11 @@
       "TARIFF_TAX": "Tarif, afgift"
     },
     "resolutions": {
-      "daily": "Dag",
-      "quarterhourly": "Kvarter",
-      "hourly": "Time",
-      "monthly": "Måned",
-      "unknown": "Ukendt"
+      "DAILY": "Dag",
+      "QUARTER_HOURLY": "Kvarter",
+      "HOURLY": "Time",
+      "MONTHLY": "Måned",
+      "UNKNOWN": "Ukendt"
     },
     "vatClassifications": {
       "NO_VAT": "Uden moms",
@@ -439,8 +439,8 @@
           "name": "Navn",
           "description": "Beskrivelse",
           "resolution": "Opløsning",
-          "hourly": "Time",
-          "daily": "Dag",
+          "HOURLY": "Time",
+          "DAILY": "Dag",
           "vat": "Moms",
           "withVat": "Med moms",
           "withoutVat": "Uden moms",
@@ -530,11 +530,11 @@
     "series": {
       "showHistory": "Historik",
       "resolution": {
-        "quarterhourly": "Tidspunkt",
-        "hourly": "Tidspunkt",
-        "daily": "Dato",
-        "monthly": "Måned",
-        "unknown": "Dato"
+        "QUARTER_HOURLY": "Tidspunkt",
+        "HOURLY": "Tidspunkt",
+        "DAILY": "Dato",
+        "MONTHLY": "Måned",
+        "UNKNOWN": "Dato"
       },
       "columns": {
         "price": "Aktuel pris",

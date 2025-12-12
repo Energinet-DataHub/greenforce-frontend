@@ -19,13 +19,15 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 
 public static class ChargeExtensions
 {
-    public static ChargeInformationPeriodDto? GetCurrentPeriod(this ChargeInformationDto charge)
-    {
-        return charge.Periods
+    public static ChargeInformationPeriodDto? GetCurrentPeriod(this Charge charge)
+        => GetCurrentPeriod(charge.Periods);
+
+    public static ChargeInformationPeriodDto? GetCurrentPeriod(
+        IReadOnlyCollection<ChargeInformationPeriodDto> periods) =>
+        periods
             .Where(IsCurrent)
             .OrderBy(p => p.StartDate)
             .FirstOrDefault();
-    }
 
     public static string DisplayName(this Charge charge)
     {

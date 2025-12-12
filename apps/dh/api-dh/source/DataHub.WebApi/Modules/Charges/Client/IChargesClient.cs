@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using NodaTime;
+using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Shared.ChargeIdentifierDto;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
@@ -57,5 +57,12 @@ public interface IChargesClient
         ChargeIdentifierDto id,
         Resolution resolution,
         Interval interval,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Create a new charge.
+    /// </summary>
+    Task<bool> CreateChargeAsync(
+        CreateChargeInput input,
         CancellationToken ct = default);
 }

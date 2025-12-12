@@ -22,6 +22,7 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
 using NodaTime;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
+using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -68,6 +69,14 @@ public static partial class ChargeNode
         ChargeType type,
         CancellationToken ct) =>
             await client.GetChargesByTypeAsync(type, ct);
+
+    [Mutation]
+    [Authorize(Roles = new[] { "charges:manage" })]
+    public static async Task<bool> CreateChargeAsync(
+        IChargesClient client,
+        CreateChargeInput input,
+        CancellationToken ct) =>
+            await client.CreateChargeAsync(input, ct);
 
     public static async Task<IEnumerable<ChargeSeries>> GetSeriesAsync(
         [Parent] Charge charge,

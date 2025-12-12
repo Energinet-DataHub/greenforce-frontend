@@ -46,7 +46,7 @@ import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/ui-shared';
     WATT_DRAWER,
     WATT_MENU,
     WATT_TABLE,
-    WattBadgeComponent,
+    // WattBadgeComponent,
     WattButtonComponent,
     WattDataTableComponent,
     WattDatePipe,
@@ -62,10 +62,10 @@ import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/ui-shared';
     >
       <watt-drawer-heading>
         @switch (resolution()) {
-          @case ('monthly') {
+          @case ('MONTHLY') {
             <h1>{{ start() | wattDate: 'monthYear' | titlecase }}</h1>
           }
-          @case ('daily') {
+          @case ('DAILY') {
             <h1>{{ start() | wattDate }}</h1>
           }
           @default {

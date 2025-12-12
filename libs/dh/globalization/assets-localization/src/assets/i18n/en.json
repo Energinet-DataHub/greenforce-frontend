@@ -376,11 +376,11 @@
       "TARIFF_TAX": "Tariff, tax"
     },
     "resolutions": {
-      "daily": "Day",
-      "quarterhourly": "Quarter hour",
-      "hourly": "Hour",
-      "monthly": "Month",
-      "unknown": "Unknown"
+      "DAILY": "Day",
+      "QUARTER_HOURLY": "Quarter hour",
+      "HOURLY": "Hour",
+      "MONTHLY": "Month",
+      "UNKNOWN": "Unknown"
     },
     "vatClassifications": {
       "NO_VAT": "Without VAT",
@@ -439,8 +439,8 @@
           "name": "Name",
           "description": "Description",
           "resolution": "Resolution",
-          "hourly": "Hourly",
-          "daily": "Daily",
+          "HOURLY": "Hourly",
+          "DAILY": "Daily",
           "vat": "VAT",
           "withVat": "With VAT",
           "withoutVat": "Without VAT",
@@ -530,11 +530,11 @@
     "series": {
       "showHistory": "History",
       "resolution": {
-        "quarterhourly": "Time",
-        "hourly": "Time",
-        "daily": "Date",
-        "monthly": "Month",
-        "unknown": "Date"
+        "QUARTER_HOURLY": "Time",
+        "HOURLY": "Time",
+        "DAILY": "Date",
+        "MONTHLY": "Month",
+        "UNKNOWN": "Date"
       },
       "columns": {
         "price": "Current price",
