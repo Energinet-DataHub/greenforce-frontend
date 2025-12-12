@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, inject, output, } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  output,
+} from '@angular/core';
 
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
