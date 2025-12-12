@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ModelBusinessReason = Energinet.DataHub.WebApi.Model.BusinessReason;
-using ModelSettlementVersion = Energinet.DataHub.WebApi.Model.SettlementVersion;
+using ModelBusinessReason = Energinet.DataHub.WebApi.Modules.Processes.Requests.Models.BusinessReason;
+using ModelSettlementVersion = Energinet.DataHub.WebApi.Modules.Processes.Requests.Models.SettlementVersion;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 

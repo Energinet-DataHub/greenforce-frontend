@@ -42,7 +42,7 @@ import {
 
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
-import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
+import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
@@ -91,6 +91,9 @@ import { DhConnectionStateManageComponent } from './connection-state-manage/conn
           <watt-menu-item (click)="startMoveIn()">
             {{ t('moveIn') }}
           </watt-menu-item>
+          <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
+            {{ t('updateCustomerData') }}
+          </watt-menu-item>
         }
 
         @if (showCreateChargeLinkButton()) {
@@ -121,6 +124,7 @@ export class DhMeteringPointActionsComponent {
 
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
+  getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
 
   meteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
@@ -203,7 +207,7 @@ export class DhMeteringPointActionsComponent {
 
   startMoveIn() {
     this.modalService.open({
-      component: DhMoveInComponent,
+      component: DhStartMoveInComponent,
       data: { installationAddress: this.installationAddress() },
       disableClose: true,
     });

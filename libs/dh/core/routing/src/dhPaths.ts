@@ -48,6 +48,7 @@ const meteringPointSubPaths = {
   failedMeasurements: 'failed-measurements',
   processOverview: 'process-overview',
   chargeLinks: 'charge-links',
+  updateCustomerDetails: 'update-customer-details',
 } as const;
 
 const chargeLinksSubPaths = {

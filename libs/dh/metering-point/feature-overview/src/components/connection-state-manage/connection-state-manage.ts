@@ -26,7 +26,6 @@ import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
-import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { dayjs } from '@energinet/watt/date';
 
@@ -47,7 +46,6 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
     TranslocoDirective,
     ReactiveFormsModule,
 
-    VaterStackComponent,
     WATT_MODAL,
     WattButtonComponent,
     WattDropdownComponent,
@@ -62,7 +60,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
   `,
   template: `
     <watt-modal #modal *transloco="let t; prefix: 'meteringPoint.changeConnectionState'">
-      <h2 vater-stack direction="row" gap="s">
+      <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('modalTitle') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>

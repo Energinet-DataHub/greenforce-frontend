@@ -17,10 +17,12 @@ using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using NodaTime;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
+using Resolution = Energinet.DataHub.Charges.Abstractions.Shared.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
@@ -29,7 +31,7 @@ public class ChargesClient(
     Clients.MarketParticipant.v1.IMarketParticipantClient_V1 marketParticipantClient_V1,
     IHttpContextAccessor httpContext) : IChargesClient
 {
-    public async Task<DataHub.Charges.Abstractions.Api.Models.Result<(IEnumerable<ChargeInformationDto> Charges, int TotalCount)>?> GetChargesAsync(
+    public async Task<(IEnumerable<Charge> Charges, int TotalCount)?> GetChargesAsync(
         int skip,
         int take,
         string? filter,
@@ -62,10 +64,10 @@ public class ChargesClient(
             throw new GraphQLException(result.Error ?? "Exception in GetChargeInformationAsync");
         }
 
-        return result;
+        return (await Task.WhenAll(result.Value.Charges.Select(async c => new Charge(c.ChargeIdentifierDto, c.Resolution, c.TaxIndicator, c.Periods, await HasAnyPricesAsync(c, ct)))), result.Value.TotalCount);
     }
 
-    public async Task<ChargeInformationDto?> GetChargeByIdAsync(
+    public async Task<Charge?> GetChargeByIdAsync(
         ChargeIdentifierDto id,
         CancellationToken ct = default)
     {
@@ -73,10 +75,17 @@ public class ChargesClient(
             new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(id.Code, [id.Owner], [id.Type]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        return result.Value.Charges.FirstOrDefault();
+        return result.IsFailure || !result.Value.Charges.Any()
+            ? null
+            : new Charge(
+                result.Value.Charges.First().ChargeIdentifierDto,
+                result.Value.Charges.First().Resolution,
+                result.Value.Charges.First().TaxIndicator,
+                result.Value.Charges.First().Periods,
+                await HasAnyPricesAsync(result.Value.Charges.First(), ct));
     }
 
-    public async Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAsync(
+    public async Task<IEnumerable<Charge>> GetChargesByTypeAsync(
        ChargeType type,
        CancellationToken ct = default)
     {
@@ -98,7 +107,7 @@ public class ChargesClient(
             new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [ownerGln], [type.Type]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        return result.Value.Charges;
+        return await Task.WhenAll(result.Value.Charges.Select(async c => new Charge(c.ChargeIdentifierDto, c.Resolution, c.TaxIndicator, c.Periods, await HasAnyPricesAsync(c, ct))));
     }
 
     public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
@@ -136,6 +145,20 @@ public class ChargesClient(
         {
             return [];
         }
+    }
+
+    private async Task<bool> HasAnyPricesAsync(
+        ChargeInformationDto charge,
+        CancellationToken ct)
+    {
+        var currentPeriod = charge.GetCurrentPeriod();
+        if (currentPeriod == null)
+        {
+            return false;
+        }
+
+        var series = await GetChargeSeriesAsync(charge.ChargeIdentifierDto, charge.Resolution, new Interval(currentPeriod.StartDate, currentPeriod.EndDate), ct);
+        return series.Any();
     }
 
     private ZonedDateTime AddResolution(Resolution resolution, Interval period, int index, int totalCount)

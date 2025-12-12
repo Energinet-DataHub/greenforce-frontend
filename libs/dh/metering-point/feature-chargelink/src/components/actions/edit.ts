@@ -63,7 +63,7 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
       (closed)="save($event)"
     >
-      <h2 vater-stack direction="row" gap="s">
+      <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>

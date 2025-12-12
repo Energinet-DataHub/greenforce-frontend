@@ -19,7 +19,7 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Extensions;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
-using SearchDocumentType = Energinet.DataHub.WebApi.Model.MeteringPointArchivedMessages.MeteringPointDocumentType;
+using SearchDocumentType = Energinet.DataHub.WebApi.Modules.MessageArchive.Enums.MeteringPointDocumentType;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 

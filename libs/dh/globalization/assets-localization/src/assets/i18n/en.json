@@ -662,7 +662,8 @@
         "upload": "Upload measurements",
         "moveIn": "Customer move-in",
         "createChargeLink": "Attach price",
-        "changeConnectionStatus": "Change connection status"
+        "changeConnectionStatus": "Change connection status",
+        "updateCustomerData": "Update customer data"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -960,6 +961,7 @@
     },
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
+      "updateCustomerData": "Update customer data",
       "steps": {
         "customerDetails": {
           "label": "Customer details",
@@ -968,7 +970,7 @@
           "customerInformation": "Customer information",
           "private": "Private",
           "business": "Business",
-          "name1": "Customer name",
+          "name1": "Customer name 1",
           "cpr1": "CPR 1",
           "name2": "Customer name 2",
           "cpr2": "CPR 2",
@@ -999,11 +1001,7 @@
           "invalidEmail": "Invalid e-mail"
         },
         "addressDetails": {
-          "label": "Address details",
-          "legalAddressSection": "Legal address",
-          "technicalAddressSection": "Technical address",
           "addressSameAsMeteringPoint": "Same as metering point address",
-          "addressSameAsLegal": "Same as legal address",
           "street": "Street",
           "houseNumber": "House number",
           "floor": "Floor",
@@ -1013,6 +1011,7 @@
           "country": "Country",
           "streetCode": "Street code",
           "citySubdivisionName": "Additional city name",
+          "postalDistrict": "Postal district",
           "postBox": "Post box",
           "municipalityCode": "Municipality code",
           "municipalityCodeError": {
@@ -1028,8 +1027,10 @@
           "D29": "Secondary (D29)"
         }
       },
-      "success": "Move-in is now registered",
-      "save": "Customer move-in"
+      "moveInSuccess": "Move-in is now registered",
+      "customerDataSuccess": "Customer data update is now registered",
+      "save": "Customer move-in",
+      "cancel": "Cancel"
     },
     "create": {
       "modal": {

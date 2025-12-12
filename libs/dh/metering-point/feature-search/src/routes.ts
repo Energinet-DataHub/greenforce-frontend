@@ -190,6 +190,13 @@ export const dhMeteringPointRoutes: Routes = [
                 (m) => m.DhUploadMeasurementsPage
               ),
           },
+          {
+            path: getPath<MeteringPointSubPaths>('update-customer-details'),
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-move-in').then(
+                (m) => m.DhUpdateCustomerDataComponent
+              ),
+          },
         ],
       },
     ],
