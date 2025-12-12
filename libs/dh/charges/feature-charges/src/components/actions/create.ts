@@ -60,7 +60,7 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
       size="small"
       (closed)="navigate('..')"
     >
-      <h2 vater-stack direction="row" gap="s">
+      <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('action.' + (type() ?? 'SELECTION')) }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
