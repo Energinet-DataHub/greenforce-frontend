@@ -70,7 +70,7 @@ export default class DhSseLink {
   // token is needed since subscriptions cannot have their "Authorization" header
   // updated while they are still subscribed. Subscriptions will unsubscribe and
   // then resubscribe with the new token once the token$ emits.
-  token$ = timer(0, 30000).pipe(
+  token$ = timer(0, 30_000).pipe(
     switchMap(() => this.tokenService.acquireToken()),
     distinctUntilChanged(),
     shareReplay(1)

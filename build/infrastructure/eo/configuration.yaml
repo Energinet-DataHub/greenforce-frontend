@@ -1,7 +1,0 @@
-name: eo-frontend-app
-repo: ghcr.io/energinet-datahub
-references:
-  - file: k8s/energy-origin-apps/frontend/base/deployment.yaml
-    path: .spec.template.spec.containers[] | select(.name == "frontend-app") | .image
-  - file: k8s/energy-origin-apps/frontend/base/deployment.yaml
-    path: .spec.template.spec.initContainers[] | select(.name == "frontend-app-cp-assets") | .image
