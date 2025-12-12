@@ -24,26 +24,26 @@ import { map, startWith } from 'rxjs/operators';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
-  ProcessState,
-  GetGridAreasDocument,
   CalculationExecutionType,
-  GetProcessesQueryVariables,
   CalculationTypeQueryParameterV1,
+  GetGridAreasDocument,
+  GetProcessesQueryVariables,
+  ProcessState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
-  dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+  DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { WattRange } from '@energinet/watt/date';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 
 @Component({
@@ -52,16 +52,15 @@ import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/wa
     TranslocoDirective,
     ReactiveFormsModule,
 
-    WattButtonComponent,
     WattDropdownComponent,
     WattFormChipDirective,
     WattQueryParamsDirective,
     WattDateRangeChipComponent,
 
     VaterStackComponent,
-    VaterSpacerComponent,
 
     DhDropdownTranslatorDirective,
+    DhResetFiltersButtonComponent,
   ],
   template: `
     <form
@@ -114,9 +113,7 @@ import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/wa
         t('period')
       }}</watt-date-range-chip>
 
-      <vater-spacer />
-
-      <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
+      <dh-reset-filters-button />
     </form>
   `,
 })

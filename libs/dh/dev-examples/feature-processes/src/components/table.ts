@@ -62,9 +62,8 @@ type Variables = Partial<GetProcessesQueryVariables>;
       [searchLabel]="t('searchLabel')"
       [error]="dataSource.error"
       [ready]="dataSource.called"
+      [enableCount]="false"
     >
-      <h3>{{ t('headline') }}</h3>
-
       <watt-data-filters>
         <dh-processes-filters (filter)="fetch($event)" />
       </watt-data-filters>
