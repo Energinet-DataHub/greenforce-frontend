@@ -16,14 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  effect,
-  inject,
-  output,
-  computed,
-  Component,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, output, } from '@angular/core';
 
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
@@ -33,24 +26,23 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { dayjs, WattRange } from '@energinet/watt/date';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
 import {
   GetGridAreasDocument,
-  MeteringGridImbalanceValuesToInclude,
   GetMeteringGridAreaImbalanceQueryVariables,
+  MeteringGridImbalanceValuesToInclude,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import {
+  DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-metering-gridarea-imbalance-filters',
@@ -75,9 +67,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
     ReactiveFormsModule,
 
     VaterStackComponent,
-    VaterSpacerComponent,
 
-    WattButtonComponent,
     WattFormChipDirective,
     WattDropdownComponent,
     WattQueryParamsDirective,
@@ -122,8 +112,6 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
       <watt-date-range-chip [showActions]="true" [formControl]="form.controls.calculationPeriod">
         {{ translate('calculationPeriod') }}
       </watt-date-range-chip>
-
-      <vater-spacer />
 
       <dh-reset-filters-button />
     </form>

@@ -23,7 +23,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 @Component({
   selector: 'dh-reset-filters-button',
   template: `
-    <watt-button size="small" variant="primary" icon="close" type="reset">
+    <watt-button size="small" variant="secondary" icon="close" type="reset">
       @if (alternateText()) {
         {{ alternateText() }}
       } @else {

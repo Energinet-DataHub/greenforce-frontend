@@ -16,31 +16,29 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, Component, ChangeDetectionStrategy, untracked, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, model, untracked } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
 import { TranslocoDirective } from '@jsverse/transloco';
-
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 import {
-  dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
   dhMakeFormControl,
   DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  ProcessState,
-  GetGridAreasDocument,
-  CalculationsQueryInput,
   CalculationExecutionType,
+  CalculationsQueryInput,
   CalculationTypeQueryParameterV1,
+  GetGridAreasDocument,
+  ProcessState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -48,9 +46,9 @@ import {
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-    VaterSpacerComponent,
+
     VaterStackComponent,
-    WattButtonComponent,
+
     WattDropdownComponent,
     WattFormChipDirective,
     WattQueryParamsDirective,
@@ -110,7 +108,6 @@ import {
         translateKey="shared.states"
       />
 
-      <vater-spacer />
       <dh-reset-filters-button />
     </form>
   `,
