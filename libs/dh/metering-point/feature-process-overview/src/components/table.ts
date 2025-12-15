@@ -37,7 +37,10 @@ import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/s
 import { RouterOutlet } from '@angular/router';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { EicFunction, GetMeteringPointProcessOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  GetMeteringPointProcessOverviewDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattIconComponent } from '@energinet/watt/icon';
 
 type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataSource>;
@@ -177,7 +180,6 @@ export class DhMeteringPointProcessOverviewTable {
     start: dayjs().subtract(3, 'months').startOf('day').toDate(),
     end: dayjs().endOf('day').toDate(),
   };
-
 
   query = query(GetMeteringPointProcessOverviewDocument, () => ({
     variables: {
