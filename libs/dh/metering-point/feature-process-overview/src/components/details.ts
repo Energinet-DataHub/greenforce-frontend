@@ -50,7 +50,7 @@ import { WattDatePipe } from '@energinet/watt/date';
       </watt-drawer-topbar>
       <watt-drawer-heading>
         <h3 *transloco="let t; prefix: 'meteringPoint.processOverview'">
-          {{ (reasonCode() && t('processType.' + reasonCode())) | dhEmDashFallback }}
+          {{ reasonCode() && t('processType.' + reasonCode()) | dhEmDashFallback }}
         </h3>
         <watt-description-list
           [groupsPerRow]="4"
