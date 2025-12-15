@@ -7,7 +7,7 @@
   "tags": ["product:dh", "scope:shared", "type:util"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/util-application-insights"],
       "options": {
         "config": "libs/dh/shared/util-application-insights/vite.config.mts"

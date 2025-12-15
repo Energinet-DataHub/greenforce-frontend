@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:message-archive", "type:domain"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/message-archive/domain"],
       "options": {
         "config": "libs/dh/message-archive/domain/vite.config.mts"

@@ -1,0 +1,59 @@
+{
+  "migrations": [
+    {
+      "cli": "nx",
+      "version": "22.1.0-beta.5",
+      "description": "Updates the nx wrapper.",
+      "implementation": "./src/migrations/update-22-1-0/update-nx-wrapper",
+      "package": "nx",
+      "name": "22-1-0-update-nx-wrapper"
+    },
+    {
+      "version": "22.1.0-rc.1",
+      "description": "Removes redundant TypeScript project references from project's tsconfig.json files when runtime tsconfig files (e.g., tsconfig.lib.json, tsconfig.app.json) exist.",
+      "factory": "./src/migrations/update-22-1-0/remove-redundant-ts-project-references",
+      "package": "@nx/js",
+      "name": "remove-redundant-ts-project-references"
+    },
+    {
+      "version": "22.2.0-beta.2",
+      "description": "Migrate Vitest usage from @nx/vite to @nx/vitest package.",
+      "implementation": "./src/migrations/update-22-2-0/migrate-vitest-to-vitest-package",
+      "package": "@nx/vite",
+      "name": "migrate-vitest-to-vitest-package"
+    },
+    {
+      "cli": "nx",
+      "version": "22.1.0-beta.8",
+      "requires": { "storybook": ">=10.0.0" },
+      "description": "Update workspace to use Storybook v10",
+      "implementation": "./src/migrations/update-22-1-0/migrate-to-storybook-10",
+      "package": "@nx/storybook",
+      "name": "update-22-1-0-migrate-storybook-v10"
+    },
+    {
+      "version": "22.1.0-beta.6",
+      "requires": { "cypress": ">=15.0.0" },
+      "description": "Renames `cy.exec().its('code')` usages to the new `exitCode` property introduced in Cypress v15.",
+      "implementation": "./src/migrations/update-22-1-0/rename-cy-exec-code-property",
+      "package": "@nx/cypress",
+      "name": "rename-cy-exec-code-property"
+    },
+    {
+      "version": "22.1.0-beta.6",
+      "requires": { "cypress": ">=15.0.0" },
+      "description": "Updates the deprecated `Cypress.SelectorPlayground` API to `Cypress.ElementSelector` and removes the unsupported `onElement` option.",
+      "implementation": "./src/migrations/update-22-1-0/update-selector-playground-api",
+      "package": "@nx/cypress",
+      "name": "update-selector-playground-api"
+    },
+    {
+      "version": "22.1.0-beta.6",
+      "requires": { "cypress": ">=15.0.0" },
+      "description": "For Angular component testing projects below v18, switches to the fallback `@cypress/angular` harness required by Cypress v15.",
+      "implementation": "./src/migrations/update-22-1-0/update-angular-component-testing-support",
+      "package": "@nx/cypress",
+      "name": "update-angular-component-testing-support"
+    }
+  ]
+}

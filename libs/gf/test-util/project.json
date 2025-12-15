@@ -7,7 +7,7 @@
   "tags": ["product:gf", "domain:shared", "type:test-util"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/test-util"],
       "options": {
         "config": "libs/gf/test-util/vite.config.mts"

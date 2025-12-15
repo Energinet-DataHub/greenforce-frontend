@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:imbalance-prices", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "configFile": "libs/dh/imbalance-prices/vite.config.mts"

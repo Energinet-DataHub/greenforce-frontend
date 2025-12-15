@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:market-participant", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "vitestConfig": "libs/dh/market-participant/feature-market-roles/vite.config.mts"

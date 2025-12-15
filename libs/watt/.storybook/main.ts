@@ -16,9 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import path from 'path';
+// This file has been automatically migrated to valid ESM format by Storybook.
+import { fileURLToPath } from 'node:url';
+import path, { dirname } from 'path';
 import type { UserConfig } from 'vite';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const config = {
   staticDirs: [
@@ -29,17 +34,17 @@ const config = {
   ],
 
   stories: ['../package/**/*.mdx', '../package/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-docs'],
+  addons: [getAbsolutePath('@storybook/addon-links'), getAbsolutePath('@storybook/addon-docs')],
 
   framework: {
-    name: '@storybook/angular',
+    name: getAbsolutePath('@storybook/angular'),
     options: {},
   },
 
   core: {
     disableTelemetry: true,
     builder: {
-      name: '@storybook/builder-vite',
+      name: getAbsolutePath('@storybook/builder-vite'),
       options: {
         viteConfigPath: undefined,
       },
@@ -85,3 +90,7 @@ const config = {
 };
 
 export default config;
+
+function getAbsolutePath(value: string): any {
+  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
+}

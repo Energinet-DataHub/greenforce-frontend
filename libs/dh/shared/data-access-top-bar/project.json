@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:shared", "type:data-access"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-top-bar"],
       "options": {
         "configFile": "libs/dh/shared/data-access-top-bar/vite.config.mts"
