@@ -42,13 +42,15 @@ import { WattDatePipe } from '@energinet/watt/date';
   template: `
     <watt-drawer autoOpen [key]="id()" (closed)="navigation.navigate('list')">
       <watt-drawer-topbar>
-        <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
-          {{ t(state() ?? 'indeterminate') }}
-        </dh-process-state-badge>
+        @if (isLoading() || state()) {
+          <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
+            {{ t(state() ?? 'indeterminate') }}
+          </dh-process-state-badge>
+        }
       </watt-drawer-topbar>
       <watt-drawer-heading>
         <h3 *transloco="let t; prefix: 'meteringPoint.processOverview'">
-          {{ reasonCode() && t('reasonCode.' + reasonCode()) | dhEmDashFallback }}
+          {{ reasonCode() && t('processType.' + reasonCode()) | dhEmDashFallback }}
         </h3>
         <watt-description-list
           [groupsPerRow]="4"
@@ -56,15 +58,15 @@ import { WattDatePipe } from '@energinet/watt/date';
         >
           <watt-description-list-item
             [label]="t('details.list.createdAt')"
-            [value]="createdAt() | wattDate: 'long'"
+            [value]="createdAt() | wattDate: 'long' | dhEmDashFallback"
           />
           <watt-description-list-item
             [label]="t('details.list.cutoff')"
-            [value]="cutoffDate() | wattDate: 'long'"
+            [value]="cutoffDate() | wattDate: 'long' | dhEmDashFallback"
           />
           <watt-description-list-item
             [label]="t('details.list.reasonCode')"
-            [value]="t('reasonCode.' + reasonCode())"
+            [value]="reasonCode() ? t('reasonCode.' + reasonCode()) : (null | dhEmDashFallback)"
           />
           <watt-description-list-item
             [label]="t('details.list.initiator')"
@@ -73,7 +75,11 @@ import { WattDatePipe } from '@energinet/watt/date';
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-content>
-        <dh-metering-point-process-overview-steps [steps]="steps()" [loading]="process.loading()" />
+        <dh-metering-point-process-overview-steps
+          [steps]="steps()"
+          [loading]="isLoading()"
+          [error]="process.error()"
+        />
       </watt-drawer-content>
     </watt-drawer>
   `,
@@ -81,6 +87,7 @@ import { WattDatePipe } from '@energinet/watt/date';
 export class DhMeteringPointProcessOverviewDetails {
   readonly id = input.required<string>();
   protected navigation = inject(DhNavigationService);
+
   process = query(GetMeteringPointProcessByIdDocument, () => ({
     fetchPolicy: 'cache-and-network',
     returnPartialData: true,
@@ -94,5 +101,16 @@ export class DhMeteringPointProcessOverviewDetails {
   cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
   reasonCode = computed(() => this.process.data()?.meteringPointProcessById?.reasonCode);
   initiator = computed(() => this.process.data()?.meteringPointProcessById?.initiator?.displayName);
-  steps = computed(() => this.process.data()?.meteringPointProcessById?.steps ?? []);
+
+  // Only return steps when we have process data, otherwise empty to keep loading state
+  steps = computed(() => {
+    const data = this.process.data();
+    if (!data?.meteringPointProcessById) return [];
+    return data.meteringPointProcessById.steps ?? [];
+  });
+
+  // Show loading until we have data or an error
+  isLoading = computed(() => {
+    return !this.process.called() || this.process.loading();
+  });
 }

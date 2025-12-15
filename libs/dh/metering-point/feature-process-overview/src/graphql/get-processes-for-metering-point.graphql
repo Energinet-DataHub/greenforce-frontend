@@ -1,37 +1,14 @@
-query GetMeteringPointProcessOverview(
-  $meteringPointId: String!
-  $created: DateRange!
-  $first: Int
-  $last: Int
-  $after: String
-  $before: String
-  $order: [MeteringPointProcessSortInput!]
-) {
-  meteringPointProcessOverview(
-    meteringPointId: $meteringPointId
-    created: $created
-    first: $first
-    last: $last
-    after: $after
-    before: $before
-    order: $order
-  ) {
-    totalCount
-    pageInfo {
-      startCursor
-      endCursor
-    }
-    nodes {
+query GetMeteringPointProcessOverview($meteringPointId: String!, $created: DateRange!) {
+  meteringPointProcessOverview(meteringPointId: $meteringPointId, created: $created) {
+    id
+    createdAt
+    cutoffDate
+    reasonCode
+    state
+    initiator {
       id
-      createdAt
-      cutoffDate
-      reasonCode
-      state
-      initiator {
-        id
-        displayName
-      }
-      availableActions
+      displayName
     }
+    availableActions
   }
 }
