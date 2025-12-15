@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -27,7 +27,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
-import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+import { injectRelativeNavigate, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -73,7 +73,8 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
   `,
 })
 export default class DhMeteringPointCancelChargeLink {
-  private cancel = mutation(CancelChargeLinkDocument);
+  private readonly toast = injectToast('meteringPoint.chargeLinks.cancel.toast');
+  private readonly cancel = mutation(CancelChargeLinkDocument);
   navigate = injectRelativeNavigate();
   id = input.required<string>();
   meteringPointId = input.required<string>();
@@ -82,5 +83,9 @@ export default class DhMeteringPointCancelChargeLink {
     await this.cancel.mutate({
       variables: { chargeId: this.id(), meteringPointId: this.meteringPointId() },
     });
+  }
+
+  constructor() {
+    effect(() => this.toast(this.cancel.status()));
   }
 }

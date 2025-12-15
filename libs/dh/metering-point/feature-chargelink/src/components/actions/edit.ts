@@ -17,24 +17,24 @@
  */
 //#endregion
 
-import { Component, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_MODAL } from '@energinet/watt/modal';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattIconComponent } from '@energinet/watt/icon';
-import { WattTooltipDirective } from '@energinet/watt/tooltip';
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-metering-point-edit-charge-link',
@@ -84,7 +84,8 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export default class DhMeteringPointEditChargeLink {
-  private edit = mutation(EditChargeLinkDocument);
+  private readonly toast = injectToast('meteringPoint.chargeLinks.edit.toast');
+  private readonly edit = mutation(EditChargeLinkDocument);
   navigate = inject(DhNavigationService);
   form = new FormGroup({
     factor: dhMakeFormControl<number>(null, [Validators.min(1)]),
@@ -113,4 +114,6 @@ export default class DhMeteringPointEditChargeLink {
 
     this.navigate.navigate('details', this.id());
   };
+
+  effect = effect(() => this.toast(this.edit.status()));
 }

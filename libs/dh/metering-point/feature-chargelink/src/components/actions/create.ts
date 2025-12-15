@@ -38,15 +38,16 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
+import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
+
 import {
   ChargeType,
-  CreateChargeLinkDocument,
   GetChargeByTypeDocument,
+  CreateChargeLinkDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-metering-point-create-charge-link',
@@ -123,6 +124,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export class DhMeteringPointCreateChargeLink extends WattTypedModal {
+  private readonly toast = injectToast('meteringPoint.chargeLinks.create.toast');
   private readonly createChargeLink = mutation(CreateChargeLinkDocument);
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly chargesQuery = lazyQuery(GetChargeByTypeDocument);
@@ -167,5 +169,6 @@ export class DhMeteringPointCreateChargeLink extends WattTypedModal {
         this.chargesQuery.refetch({ type });
       }
     });
+    effect(() => this.toast(this.createChargeLink.status()));
   }
 }

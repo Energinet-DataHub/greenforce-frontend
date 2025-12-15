@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -30,11 +30,17 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+
 import {
-  GetChargeLinkByIdDocument,
   StopChargeLinkDocument,
+  GetChargeLinkByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+
+import {
+  injectToast,
+  dhMakeFormControl,
+  injectRelativeNavigate,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-metering-point-stop-charge-link',
@@ -82,11 +88,12 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
   `,
 })
 export default class DhMeteringPointStopChargeLink {
+  private readonly toast = injectToast('meteringPoint.chargeLinks.stop.toast');
   private readonly stopChangeLink = mutation(StopChargeLinkDocument);
   private readonly query = query(GetChargeLinkByIdDocument, () => ({
     variables: { chargeLinkId: this.id(), meteringPointId: this.meteringPointId() },
   }));
-  private chargeLink = computed(() => this.query.data()?.chargeLinkById);
+  private readonly chargeLink = computed(() => this.query.data()?.chargeLinkById);
   navigate = injectRelativeNavigate();
   form = new FormGroup({
     stopDate: dhMakeFormControl<Date>(null, [Validators.required]),
@@ -108,5 +115,9 @@ export default class DhMeteringPointStopChargeLink {
         stopDate,
       },
     });
+  }
+
+  constructor() {
+    effect(() => this.toast(this.stopChangeLink.status()));
   }
 }
