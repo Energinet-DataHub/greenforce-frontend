@@ -44,7 +44,8 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/drop
 
 import {
   dhEnumToWattDropdownOptions,
-  DhDropdownTranslatorDirective, DhResetFiltersButtonComponent,
+  DhDropdownTranslatorDirective,
+  DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
