@@ -138,6 +138,7 @@
     "@nx/plugin": "21.6.5",
     "@nx/storybook": "21.6.5",
     "@nx/vite": "21.6.5",
+    "@nx/vitest": "22.2.3",
     "@nx/web": "21.6.5",
     "@nx/workspace": "21.6.5",
     "@openapitools/openapi-generator-cli": "2.13.4",
@@ -166,8 +167,6 @@
     "@types/vimeo__player": "2.16.3",
     "@typescript-eslint/typescript-estree": "8.18.0",
     "@typescript-eslint/utils": "7.18.0",
-    "@vitest/coverage-v8": "1.6.1",
-    "@vitest/ui": "1.6.1",
     "cross-env": "7.0.3",
     "crypto-js": "4.2.0",
     "cypress": "14.5.4",
@@ -200,7 +199,6 @@
     "typescript-eslint": "7.16.0",
     "vite": "7.1.11",
     "vite-tsconfig-paths": "5.1.4",
-    "vitest": "1.6.1",
     "xml2js": "0.6.2"
   },
   "volta": {
