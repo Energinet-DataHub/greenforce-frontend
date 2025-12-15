@@ -45,6 +45,8 @@ limitations under the License.
         [(ngModel)]="selectedGridAreaStatuses"
         [placeholder]="t('statusTypePlaceholder')"
       />
+
+      <dh-reset-filters-button (click)="resetFilters()" />
     </vater-stack>
   </watt-data-filters>
 

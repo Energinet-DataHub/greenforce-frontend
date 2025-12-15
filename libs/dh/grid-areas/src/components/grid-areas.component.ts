@@ -29,7 +29,7 @@ import {
   GenerateCSV,
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
-  DhDownloadButtonComponent,
+  DhDownloadButtonComponent, DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
@@ -80,6 +80,7 @@ import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
     DhDropdownTranslatorDirective,
     DhGridAreaStatusBadgeComponent,
     DhDownloadButtonComponent,
+    DhResetFiltersButtonComponent,
   ],
   providers: [DhNavigationService],
 })
@@ -154,5 +155,10 @@ export class DhGridAreasComponent {
         ])
       )
       .generate('marketParticipant.gridAreas.fileName');
+  }
+
+  resetFilters() {
+    this.selectedGridAreaStatuses.set([]);
+    this.selectedGridAreaType.set(null);
   }
 }
