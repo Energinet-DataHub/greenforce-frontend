@@ -14,7 +14,6 @@
 
 using System;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
-using Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Xunit;
 using ChargeResolution = Energinet.DataHub.Charges.Abstractions.Shared.Resolution;
