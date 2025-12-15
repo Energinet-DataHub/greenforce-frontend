@@ -65,8 +65,8 @@ type MeteringPointProcess = NonNullable<GetMeteringPointProcessOverviewQuery['me
       *transloco="let t; prefix: 'meteringPoint.processOverview'"
       vater
       inset="ml"
-      [error]="query.error"
-      [ready]="query.called() && !query.loading"
+      [error]="query.error()"
+      [ready]="query.called() && !query.loading()"
       [header]="false"
       [pageSize]="100"
     >
