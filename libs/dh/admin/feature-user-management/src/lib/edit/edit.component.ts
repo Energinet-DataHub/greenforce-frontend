@@ -42,7 +42,7 @@ import {
 import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import { DhUserRolesContainerComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { WattToastService } from '@energinet/watt/toast';
@@ -67,7 +67,7 @@ import { GraphQLFormattedError } from 'graphql';
     WattTextFieldComponent,
     WattPhoneFieldComponent,
     VaterFlexComponent,
-    DhUserRolesComponent,
+    DhUserRolesContainerComponent,
   ],
   templateUrl: './edit.component.html',
   styles: `
@@ -97,7 +97,7 @@ export class DhEditUserComponent {
   });
 
   modal = viewChild.required(WattModalComponent);
-  userRoles = viewChild.required(DhUserRolesComponent);
+  userRolesCmp = viewChild.required(DhUserRolesContainerComponent);
 
   isSaving = this.editUserMutation.loading;
 
@@ -202,7 +202,7 @@ export class DhEditUserComponent {
       message: this.transloco.translate('admin.userManagement.editUser.saveSuccess'),
     });
 
-    this.userRoles().resetUpdateUserRoles();
+    this.userRolesCmp().resetUpdateUserRoles();
     this.close();
   }
 

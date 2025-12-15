@@ -829,8 +829,11 @@
         "initiator": "Initiating participant",
         "actions": "Possible actions"
       },
-      "reasonCode": {
+      "processType": {
         "EndOfSupply": "End of supply (BRS-002)"
+      },
+      "reasonCode": {
+        "EndOfSupply": "E20"
       },
       "filters": {
         "created": "Time",
@@ -851,6 +854,8 @@
         "UNKNOWN": "Unknown Step"
       },
       "details": {
+        "notFound": "Process not found",
+        "noSteps": "No steps available for this process",
         "list": {
           "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",
