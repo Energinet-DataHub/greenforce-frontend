@@ -17,7 +17,8 @@ using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Enums;
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Models;
 
 public record InitiateMoveInInput(
-    string CutOffDate,
-    BusinessReason MoveInType,
-    string CustomerName,
-    string? CustomerCprOrCVR);
+    string MeteringPointId,
+    BusinessReason BusinessReason,
+    DateTimeOffset StartDate,
+    string CustomerCprOrCVR,
+    string CustomerName);

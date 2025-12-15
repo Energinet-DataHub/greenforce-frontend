@@ -27,28 +27,31 @@ public static class MoveInOperations
         CancellationToken ct,
         [Service] IB2CClient ediB2CClient)
     {
-        // Add Command from EDI B2C Client to initiate Move-In process
-        // var command = new RequestConnectMeteringPointCommandV1(
-        //     new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
-        //
-        // var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
-        //
-        // return result.IsSuccess;
+        var command = new RequestChangeOfSupplierCommandV1(
+            new RequestChangeOfSupplierRequestV1(
+                input.MeteringPointId,
+                input.BusinessReason,
+                input.StartDate,
+                input.CustomerCprOrCVR,
+                input.CustomerName));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        return result.IsSuccess;
     }
 
     [Mutation]
     [Authorize(Roles = new[] { "metering-point:connection-state-manage" })]
-    public static async Task<bool> RequestConnectionStateChangeAsync(
-        string meteringPointId,
-        DateTimeOffset validityDate,
+    public static async Task<bool> UpdateCustomerDataAsync(
+        RequestChangeCustomerCharacteristicsInput input,
         CancellationToken ct,
         [Service] IB2CClient ediB2CClient)
     {
-        // var command = new RequestConnectMeteringPointCommandV1(
-        //     new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
-        //
-        // var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
-        //
-        // return result.IsSuccess;
+        var command = new RequestChangeCustomerCharacteristicsRequestV1(
+            new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        return result.IsSuccess;
     }
 }
