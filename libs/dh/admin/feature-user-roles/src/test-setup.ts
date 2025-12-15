@@ -18,8 +18,8 @@
 //#endregion
 import '@angular/compiler';
 import '@analogjs/vitest-angular/setup-zone';
-
 import '@testing-library/jest-dom/vitest';
+import '@energinet-datahub/gf/test-util-vitest'; // Import MSW polyfills
 
 import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
