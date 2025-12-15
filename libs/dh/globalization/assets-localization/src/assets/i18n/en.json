@@ -851,6 +851,8 @@
         "UNKNOWN": "Unknown Step"
       },
       "details": {
+        "notFound": "Process not found",
+        "noSteps": "No steps available for this process",
         "list": {
           "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",

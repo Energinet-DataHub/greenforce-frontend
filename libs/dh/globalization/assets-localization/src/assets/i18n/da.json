@@ -585,7 +585,7 @@
         "tabLabel": "Stamdata"
       },
       "processes": {
-        "tabLabel": "Procesoverblik"
+        "tabLabel": "Processer"
       },
       "chargelinks": {
         "tabLabel": "Pristilknytninger"
@@ -829,8 +829,11 @@
         "initiator": "Initierende aktør",
         "actions": "Mulige handlinger"
       },
-      "reasonCode": {
+      "processType": {
         "EndOfSupply": "Leveranceophør (BRS-002)"
+      },
+      "reasonCode": {
+        "EndOfSupply": "E20"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -851,6 +854,8 @@
         "UNKNOWN": "Ukendt trin"
       },
       "details": {
+        "notFound": "Process ikke fundet",
+        "noSteps": "Ingen trin tilgængelige for denne process",
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",

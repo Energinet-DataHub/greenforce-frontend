@@ -143,11 +143,12 @@ limitations under the License.
     mat-row
     *matRowDef="let row; columns: renderedColumns()"
     [attr.aria-selected]="row === activeRow()"
+    [class]="getRowClass(row)"
     [ngClass]="{
       'watt-table-highlight-row': !disabled() && !suppressRowHoverHighlight(),
       'watt-table-clickable-row': !disabled() && rowClick$.observed,
       'watt-table-active-row': isActiveRow(row),
-      'watt-table-no-end-divider': hideColumnHeaders(),
+      'watt-table-no-end-divider': hideColumnHeaders()
     }"
   ></tr>
 

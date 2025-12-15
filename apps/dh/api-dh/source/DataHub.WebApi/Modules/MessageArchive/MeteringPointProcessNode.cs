@@ -31,8 +31,6 @@ namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 public static partial class MeteringPointProcessNode
 {
     [Query]
-    [UsePaging]
-    [UseSorting(typeof(MeteringPointProcessSortType))]
     public static async Task<IEnumerable<MeteringPointProcess>> GetMeteringPointProcessOverviewAsync(
         string meteringPointId,
         Interval created,
