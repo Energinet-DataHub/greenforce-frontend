@@ -30,7 +30,7 @@
     "designsystem:package": "nx run watt:package",
     "graph": "nx graph",
     "e2e": "nx run-many --target=e2e",
-    "format": "nx format:write",
+    "format": "nx format:write --sort-root-tsconfig-paths",
     "format:check": "nx format:check",
     "help": "nx help",
     "i18n:optimize:app-dh": "transloco-optimize dist/apps/dh/app-dh/browser/assets/i18n",
