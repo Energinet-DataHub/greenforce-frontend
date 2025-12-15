@@ -829,8 +829,11 @@
         "initiator": "Initiating participant",
         "actions": "Possible actions"
       },
-      "reasonCode": {
+      "processType": {
         "EndOfSupply": "End of supply (BRS-002)"
+      },
+      "reasonCode": {
+        "EndOfSupply": "E20"
       },
       "filters": {
         "created": "Time",
