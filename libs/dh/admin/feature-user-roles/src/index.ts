@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/user-roles.component';
+export { DhUserRolesContainerComponent } from './lib/user-roles-container.component';
 export { DhCreateUserRoleComponent } from './lib/create.component';
 export { DhUserRoleEditComponent } from './lib/details/edit.component';
 export { DhUserRoleDetailsComponent } from './lib/details/details.component';
