@@ -42,7 +42,7 @@ import { WattDatePipe } from '@energinet/watt/date';
   template: `
     <watt-drawer autoOpen [key]="id()" (closed)="navigation.navigate('list')">
       <watt-drawer-topbar>
-        @if(isLoading() || state()) {
+        @if (isLoading() || state()) {
           <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
             {{ t(state() ?? 'indeterminate') }}
           </dh-process-state-badge>
@@ -66,7 +66,7 @@ import { WattDatePipe } from '@energinet/watt/date';
           />
           <watt-description-list-item
             [label]="t('details.list.reasonCode')"
-            [value]="reasonCode() ? t('reasonCode.' + reasonCode()) : null | dhEmDashFallback"
+            [value]="reasonCode() ? t('reasonCode.' + reasonCode()) : (null | dhEmDashFallback)"
           />
           <watt-description-list-item
             [label]="t('details.list.initiator')"

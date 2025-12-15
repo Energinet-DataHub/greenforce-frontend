@@ -35,10 +35,16 @@ import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/s
 import { RouterOutlet } from '@angular/router';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { EicFunction, GetMeteringPointProcessOverviewDocument, GetMeteringPointProcessOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  GetMeteringPointProcessOverviewDocument,
+  GetMeteringPointProcessOverviewQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattIconComponent } from '@energinet/watt/icon';
 
-type MeteringPointProcess = NonNullable<GetMeteringPointProcessOverviewQuery['meteringPointProcessOverview']>[number];
+type MeteringPointProcess = NonNullable<
+  GetMeteringPointProcessOverviewQuery['meteringPointProcessOverview']
+>[number];
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
