@@ -395,6 +395,10 @@ type CreateCalculationPayload {
   uuid: UUID
 }
 
+type CreateChargeLinkPayload {
+  boolean: Boolean
+}
+
 type CreateDelegationsForMarketParticipantPayload {
   boolean: Boolean
   errors: [CreateDelegationsForMarketParticipantError!]
@@ -1055,6 +1059,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 type Mutation {
   stopChargeLink(input: StopChargeLinkInput!): StopChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   editChargeLink(input: EditChargeLinkInput!): EditChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
+  createChargeLink(input: CreateChargeLinkInput!): CreateChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   cancelChargeLink(input: CancelChargeLinkInput!): CancelChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
@@ -1780,7 +1785,8 @@ input CalculationsQueryInput {
 }
 
 input CancelChargeLinkInput {
-  chargeLinkId: String!
+  chargeId: String!
+  meteringPointId: String!
 }
 
 input CancelMeasurementsReportInput {
@@ -1832,6 +1838,13 @@ input CreateCalculationInput {
   calculationType: StartCalculationType!
   period: PeriodInput!
   gridAreaCodes: [String!]
+}
+
+input CreateChargeLinkInput {
+  chargeId: String!
+  meteringPointId: String!
+  newStartDate: DateTime!
+  factor: Int!
 }
 
 input CreateDelegationsForMarketParticipantInput {
@@ -1897,7 +1910,8 @@ input DismissNotificationInput {
 }
 
 input EditChargeLinkInput {
-  chargeLinkId: String!
+  chargeId: String!
+  meteringPointId: String!
   newStartDate: DateTime!
   factor: Int!
 }
@@ -2202,7 +2216,8 @@ input StartMoveInInput {
 }
 
 input StopChargeLinkInput {
-  chargeLinkId: String!
+  chargeId: String!
+  meteringPointId: String!
   stopDate: DateTime!
 }
 
