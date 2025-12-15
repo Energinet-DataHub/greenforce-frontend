@@ -25,19 +25,19 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 import { GetMeteringPointProcessOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import { ExtractNodeType, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { EicFunction, GetMeteringPointProcessOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattIconComponent } from '@energinet/watt/icon';
 
 type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataSource>;
@@ -68,7 +68,8 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
       *transloco="let t; prefix: 'meteringPoint.processOverview'"
       vater
       inset="ml"
-      [error]="dataSource.error"
+      [error]="query.error"
+      [ready]="query.called() && !query.loading"
       [header]="false"
     >
       <watt-data-filters>
@@ -96,10 +97,12 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
       </watt-data-filters>
       <watt-table
         variant="zebra"
+        sortBy="createdAt"
+        sortDirection="desc"
         *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
-        [loading]="dataSource.loading"
+        [loading]="query.loading()"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
         (rowClick)="navigation.navigate('details', $event.id)"
@@ -171,24 +174,27 @@ export class DhMeteringPointProcessOverviewTable {
   );
 
   initialDateRange = {
-    start: dayjs().subtract(7, 'days').startOf('day').toDate(),
+    start: dayjs().subtract(3, 'months').startOf('day').toDate(),
     end: dayjs().endOf('day').toDate(),
   };
 
-  dataSource = new GetMeteringPointProcessOverviewDataSource({
-    skip: true,
+
+  query = query(GetMeteringPointProcessOverviewDocument, () => ({
     variables: {
+      meteringPointId: this.meteringPointId(),
       created: this.initialDateRange,
     },
-  });
+  }));
+
+  dataSource = dataSource(() => this.query.data()?.meteringPointProcessOverview?.nodes ?? []);
 
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
     cutoffDate: { accessor: 'cutoffDate' },
     reasonCode: { accessor: 'reasonCode' },
     state: { accessor: 'state' },
-    initiator: { accessor: 'initiator' },
-    actions: { accessor: null },
+    initiator: { accessor: (process) => process.initiator?.displayName },
+    actions: { accessor: (process) => process.availableActions?.length ?? 0 },
   };
 
   form = new FormGroup({
@@ -200,7 +206,7 @@ export class DhMeteringPointProcessOverviewTable {
   selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
   variables = computed(() => ({ ...this.filters(), meteringPointId: this.meteringPointId() }));
-  refetch = effect(() => this.dataSource.refetch(this.variables()));
+  refetch = effect(() => this.query.refetch(this.variables()));
 
   onActionClick(event: Event, processId: string, action: string) {
     event.stopPropagation();

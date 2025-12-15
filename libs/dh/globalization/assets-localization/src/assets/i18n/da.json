@@ -821,7 +821,7 @@
     },
     "processOverview": {
       "columns": {
-        "createdAt": "Beskedtidspunkt",
+        "createdAt": "Registreret i DataHub",
         "reasonCode": "Type",
         "state": "Status",
         "cutoffDate": "Skæringsdato",
@@ -851,7 +851,7 @@
       },
       "details": {
         "list": {
-          "createdAt": "Beskedtidspunkt",
+          "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
           "reasonCode": "Årsagskode",
           "initiator": "Initierende aktør"

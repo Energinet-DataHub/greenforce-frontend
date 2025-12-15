@@ -821,7 +821,7 @@
     },
     "processOverview": {
       "columns": {
-        "createdAt": "Time of message",
+        "createdAt": "Registered in DataHub",
         "reasonCode": "Type",
         "state": "State",
         "cutoffDate": "Cut-off date",
@@ -851,7 +851,7 @@
       },
       "details": {
         "list": {
-          "createdAt": "Time of message",
+          "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",
           "reasonCode": "Reason code",
           "initiator": "Initiating participant"
