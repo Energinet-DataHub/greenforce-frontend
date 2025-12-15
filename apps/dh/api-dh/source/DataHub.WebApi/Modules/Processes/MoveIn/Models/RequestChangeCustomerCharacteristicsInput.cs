@@ -11,7 +11,7 @@ public record RequestChangeCustomerCharacteristicsInput(
     bool AddressProtection,
     string LegalContact,
     string LegalAddress,
-    bool legalAddressProtection,
+    bool LegalAddressProtection,
     string TechnicalContact,
     string TechnicalAddress,
     bool TechnicalAddressProtection
