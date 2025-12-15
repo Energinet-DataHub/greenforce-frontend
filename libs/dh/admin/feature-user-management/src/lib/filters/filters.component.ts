@@ -44,7 +44,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/drop
 
 import {
   dhEnumToWattDropdownOptions,
-  DhDropdownTranslatorDirective,
+  DhDropdownTranslatorDirective, DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
@@ -67,6 +67,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
     WattDropdownComponent,
     WattQueryParamsDirective,
     DhDropdownTranslatorDirective,
+    DhResetFiltersButtonComponent,
   ],
   template: `
     <form
@@ -105,6 +106,8 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
         [multiple]="true"
         [chipMode]="true"
       />
+
+      <dh-reset-filters-button />
     </form>
   `,
 })
