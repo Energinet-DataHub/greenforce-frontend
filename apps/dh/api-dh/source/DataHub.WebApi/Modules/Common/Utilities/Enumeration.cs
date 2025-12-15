@@ -12,13 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using HotChocolate.Types.Descriptors;
+
 namespace Energinet.DataHub.WebApi.Modules.Common.Utilities;
 
 public abstract record Enumeration<TEnum>
 {
+    private static INamingConventions namingConvention = new DefaultNamingConventions();
+
     public abstract string Name { get; init; }
 
-    public override string ToString() => Name;
+    public sealed override string ToString() => namingConvention.GetEnumValueName(Name);
 
     public T Cast<T>()
         where T : Enum => (T)Enum.Parse(typeof(T), Name, true);
