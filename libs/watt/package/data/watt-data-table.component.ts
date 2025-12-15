@@ -141,6 +141,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
           <watt-paginator
             [for]="table().dataSource()"
             [length]="count() ?? 0"
+            [pageSize]="pageSize()"
             (changed)="pageChanged.emit($event)"
           />
         }
@@ -162,6 +163,7 @@ export class WattDataTableComponent {
   queryTime = input<number>();
   searchLabel = input<string>();
   enablePaginator = input(true);
+  pageSize = input<number>(50);
   count = input<number>();
   autoSize = input(false);
   variant = input<WATT_CARD_VARIANT>('solid');

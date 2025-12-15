@@ -23,16 +23,14 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 
-import { GetMeteringPointProcessOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { ExtractNodeType, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
@@ -40,10 +38,13 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 import {
   EicFunction,
   GetMeteringPointProcessOverviewDocument,
+  GetMeteringPointProcessOverviewQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattIconComponent } from '@energinet/watt/icon';
 
-type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataSource>;
+type MeteringPointProcess = NonNullable<
+  GetMeteringPointProcessOverviewQuery['meteringPointProcessOverview']
+>[number];
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
@@ -55,7 +56,6 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
     VaterStackComponent,
     WATT_TABLE,
     WattButtonComponent,
-    WattCheckboxComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattDateRangeChipComponent,
@@ -71,9 +71,10 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
       *transloco="let t; prefix: 'meteringPoint.processOverview'"
       vater
       inset="ml"
-      [error]="query.error"
-      [ready]="query.called() && !query.loading"
+      [error]="query.error()"
+      [ready]="query.called() && !query.loading()"
       [header]="false"
+      [pageSize]="100"
     >
       <watt-data-filters>
         <form
@@ -92,9 +93,9 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
             <!--<watt-checkbox [formControl]="form.controls.includeViews">
               {{ t('includeViews') }}
             </watt-checkbox>-->
-            <watt-checkbox [formControl]="form.controls.includeMasterMeasurementAndPriceRequests">
+            <!--<watt-checkbox [formControl]="form.controls.includeMasterMeasurementAndPriceRequests">
               {{ t('includeMasterMeasurementAndPriceRequests') }}
-            </watt-checkbox>
+            </watt-checkbox>-->
           </vater-stack>
         </form>
       </watt-data-filters>
@@ -117,7 +118,7 @@ type MeteringPointProcess = ExtractNodeType<GetMeteringPointProcessOverviewDataS
           {{ process.cutoffDate | wattDate: 'long' }}
         </ng-container>
         <ng-container *wattTableCell="columns.reasonCode; let process">
-          {{ t('reasonCode.' + process.reasonCode) }}
+          {{ t('processType.' + process.reasonCode) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
           <dh-process-state-badge
@@ -188,7 +189,7 @@ export class DhMeteringPointProcessOverviewTable {
     },
   }));
 
-  dataSource = dataSource(() => this.query.data()?.meteringPointProcessOverview?.nodes ?? []);
+  dataSource = dataSource(() => this.query.data()?.meteringPointProcessOverview ?? []);
 
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
