@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -29,8 +29,11 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { StopChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  GetChargeLinkByIdDocument,
+  StopChargeLinkDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
@@ -80,20 +83,30 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
 })
 export default class DhMeteringPointStopChargeLink {
   private readonly stopChangeLink = mutation(StopChargeLinkDocument);
+  private readonly query = query(GetChargeLinkByIdDocument, () => ({
+    variables: { chargeLinkId: this.id(), meteringPointId: this.meteringPointId() },
+  }));
+  private chargeLink = computed(() => this.query.data()?.chargeLinkById);
   navigate = injectRelativeNavigate();
   form = new FormGroup({
     stopDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
   id = input.required<string>();
+  meteringPointId = input.required<string>();
 
   async stopLink() {
     const stopDate = this.form.controls.stopDate.value;
+    const charge = this.chargeLink()?.charge;
 
-    if (!stopDate) return;
+    if (!stopDate || !charge) return;
 
     await this.stopChangeLink.mutate({
-      variables: { chargeLinkId: this.id(), stopDate },
+      variables: {
+        chargeId: charge.id,
+        meteringPointId: this.meteringPointId(),
+        stopDate,
+      },
     });
   }
 }

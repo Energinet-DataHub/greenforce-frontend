@@ -34,6 +34,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-metering-point-edit-charge-link',
@@ -91,21 +92,22 @@ export default class DhMeteringPointEditChargeLink {
   });
 
   id = input.required<string>();
+  meteringPointId = input.required<string>();
 
   save = async (save: boolean) => {
     if (!save) return this.navigate.navigate('details', this.id());
 
-    const startDate = this.form.value.startDate;
-    const factor = this.form.value.factor;
     if (this.form.invalid) return;
-    if (!startDate) return;
-    if (!factor) return;
+
+    assertIsDefined(this.form.value.startDate);
+    assertIsDefined(this.form.value.factor);
 
     await this.edit.mutate({
       variables: {
-        chargeLinkId: this.id(),
-        newStartDate: startDate,
-        factor,
+        chargeId: this.id(),
+        meteringPointId: this.meteringPointId(),
+        newStartDate: this.form.value.startDate,
+        factor: this.form.value.factor,
       },
     });
 

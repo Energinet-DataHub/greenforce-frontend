@@ -14,6 +14,8 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
+using Energinet.DataHub.Charges.Abstractions.Shared;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
@@ -52,29 +54,53 @@ public static partial class ChargeLinkOperations
     [Mutation]
     [Authorize(Roles = new[] { "metering-point:prices-manage" })]
     public static async Task<bool> StopChargeLinkAsync(
-        string chargeLinkId,
+        ChargeIdentifierDto chargeId,
+        string meteringPointId,
         DateTimeOffset stopDate,
-        CancellationToken ct,
-        IChargeLinkClient client) =>
-            await client.StopChargeLinkAsync(chargeLinkId, stopDate, ct).ConfigureAwait(false);
+        IChargeLinkClient client,
+        IHttpContextAccessor httpContext,
+        CancellationToken ct)
+    {
+        var ownerId = httpContext?.HttpContext?.User.GetMarketParticipantNumber();
+
+        if (string.IsNullOrWhiteSpace(ownerId))
+        {
+            throw new InvalidOperationException("Cannot determine owner from the current user.");
+        }
+
+        return await client.StopChargeLinkAsync(chargeId, meteringPointId, stopDate, ct).ConfigureAwait(false);
+    }
 
     [Mutation]
     [Authorize(Roles = new[] { "metering-point:prices-manage" })]
     public static async Task<bool> EditChargeLinkAsync(
-        string chargeLinkId,
+        ChargeIdentifierDto chargeId,
+        string meteringPointId,
         DateTimeOffset newStartDate,
         int factor,
         CancellationToken ct,
         IChargeLinkClient client) =>
-            await client.EditChargeLinkAsync(chargeLinkId, newStartDate, factor, ct).ConfigureAwait(false);
+            await client.EditChargeLinkAsync(chargeId, meteringPointId, newStartDate, factor, ct).ConfigureAwait(false);
+
+    [Mutation]
+    [Authorize(Roles = new[] { "metering-point:prices-manage" })]
+    public static async Task<bool> CreateChargeLinkAsync(
+        ChargeIdentifierDto chargeId,
+        string meteringPointId,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct,
+        IChargeLinkClient client) =>
+            await client.EditChargeLinkAsync(chargeId, meteringPointId, newStartDate, factor, ct).ConfigureAwait(false);
 
     [Mutation]
     [Authorize(Roles = new[] { "metering-point:prices-manage" })]
     public static async Task<bool> CancelChargeLinkAsync(
-        string chargeLinkId,
+        ChargeIdentifierDto chargeId,
+        string meteringPointId,
         CancellationToken ct,
         IChargeLinkClient client) =>
-            await client.CancelChargeLinkAsync(chargeLinkId, ct).ConfigureAwait(false);
+            await client.CancelChargeLinkAsync(chargeId, meteringPointId, ct).ConfigureAwait(false);
 
     public static async Task<IEnumerable<ChargeLinkHistory>> GetHistoryAsync(
         [Parent] ChargeLinkDto chargeLink,

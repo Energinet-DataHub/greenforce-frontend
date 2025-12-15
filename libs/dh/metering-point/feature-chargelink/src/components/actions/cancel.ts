@@ -76,8 +76,11 @@ export default class DhMeteringPointCancelChargeLink {
   private cancel = mutation(CancelChargeLinkDocument);
   navigate = injectRelativeNavigate();
   id = input.required<string>();
+  meteringPointId = input.required<string>();
 
   async cancelLink() {
-    await this.cancel.mutate({ variables: { chargeLinkId: this.id() } });
+    await this.cancel.mutate({
+      variables: { chargeId: this.id(), meteringPointId: this.meteringPointId() },
+    });
   }
 }
