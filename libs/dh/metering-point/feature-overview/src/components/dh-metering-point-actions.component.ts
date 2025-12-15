@@ -18,46 +18,53 @@
 //#endregion
 import { RouterLink } from '@angular/router';
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
-import { MatMenuModule } from '@angular/material/menu';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WattButtonComponent } from '@energinet/watt/button';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslocoDirective } from '@jsverse/transloco';
+
+import { WATT_MENU } from '@energinet/watt/menu';
+import { WattModalService } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
+
 import {
   getPath,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/routing';
+
 import {
-  ConnectionState,
-  ElectricityMarketMeteringPointType,
-  MeteringPointSubType,
   EicFunction,
+  ConnectionState,
+  MeteringPointSubType,
+  ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import {
-  DhPermissionRequiredDirective,
-  PermissionService,
-} from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
+
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
-import { WattModalService } from '@energinet/watt/modal';
+import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
+import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { InstallationAddress } from '../types';
+import { DhGetMeteringPointForManualCorrectionComponent } from './manual-correction/dh-get-metering-point-for-manual-correction.component';
+import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-correction/dh-simulate-metering-point-manual-correction.component';
+import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correction/dh-execute-metering-point-manual-correction.component';
+import { DhConnectionStateManageComponent } from './connection-state-manage/connection-state-manage';
 
 @Component({
   selector: 'dh-metering-point-actions',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatMenuModule,
     RouterLink,
-    NgTemplateOutlet,
     TranslocoDirective,
 
     WattButtonComponent,
     WattIconComponent,
-    DhPermissionRequiredDirective,
+    WATT_MENU,
+    DhGetMeteringPointForManualCorrectionComponent,
+    DhSimulateMeteringPointManualCorrectionComponent,
+    DhExecuteMeteringPointManualCorrectionComponent,
   ],
   styles: `
     :host {
@@ -67,56 +74,46 @@ import { InstallationAddress } from '../types';
   template: `
     <ng-container *transloco="let t; prefix: 'meteringPoint.overview.actions'">
       @if (showActionsButton()) {
-        @if (showMeasurementsUploadButton()) {
-          <watt-button
-            *dhPermissionRequired="['measurements:manage']; else elseTmpl"
-            variant="secondary"
-            [matMenuTriggerFor]="menu"
-          >
-            {{ t('actionsButton') }}
-            <watt-icon name="plus" />
-          </watt-button>
-        } @else {
-          <ng-content *ngTemplateOutlet="elseTmpl" />
-        }
-
-        <ng-template #elseTmpl>
-          @if (showMoveInButton()) {
-            <watt-button
-              *dhPermissionRequired="['metering-point:move-in']"
-              variant="secondary"
-              [matMenuTriggerFor]="menu"
-            >
-              {{ t('actionsButton') }}
-              <watt-icon name="plus" />
-            </watt-button>
-          }
-        </ng-template>
+        <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
+          {{ t('actionsButton') }}
+          <watt-icon name="moreVertical" />
+        </watt-button>
       }
 
-      <mat-menu #menu="matMenu">
+      <watt-menu #menu>
         @if (showMeasurementsUploadButton()) {
-          <button
-            *dhPermissionRequired="['measurements:manage']"
-            type="button"
-            mat-menu-item
-            [routerLink]="getMeasurementsUploadLink"
-          >
+          <watt-menu-item [routerLink]="getMeasurementsUploadLink">
             {{ t('upload') }}
-          </button>
+          </watt-menu-item>
         }
 
         @if (showMoveInButton()) {
-          <button
-            *dhPermissionRequired="['metering-point:move-in']"
-            type="button"
-            mat-menu-item
-            (click)="startMoveIn()"
-          >
+          <watt-menu-item (click)="startMoveIn()">
             {{ t('moveIn') }}
-          </button>
+          </watt-menu-item>
+          <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
+            {{ t('updateCustomerData') }}
+          </watt-menu-item>
         }
-      </mat-menu>
+
+        @if (showCreateChargeLinkButton()) {
+          <watt-menu-item (click)="createLink()">
+            {{ t('createChargeLink') }}
+          </watt-menu-item>
+        }
+
+        @if (showManualCorrectionButtons()) {
+          <dh-get-metering-point-for-manual-correction [meteringPointId]="meteringPointId()" />
+          <dh-simulate-metering-point-manual-correction [meteringPointId]="meteringPointId()" />
+          <dh-execute-metering-point-manual-correction [meteringPointId]="meteringPointId()" />
+        }
+
+        @if (showConnectionStateManageButton()) {
+          <watt-menu-item (click)="connectionStateManage()">
+            {{ t('changeConnectionStatus') }}
+          </watt-menu-item>
+        }
+      </watt-menu>
     </ng-container>
   `,
 })
@@ -127,10 +124,13 @@ export class DhMeteringPointActionsComponent {
 
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
+  getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
 
+  meteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
   subType = input<MeteringPointSubType | null>();
   connectionState = input<ConnectionState | null>();
+  createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();
 
   private readonly hasGridAccessProviderRole = toSignal(
@@ -138,8 +138,34 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
+  private readonly hasMessurementsManagePermission = toSignal(
+    this.permissionService.hasPermission('measurements:manage'),
+    { initialValue: false }
+  );
+
+  private readonly hasMeteringPointMoveInPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:move-in'),
+    { initialValue: false }
+  );
+
+  private readonly hasMeteringPointPricesManagePermission = toSignal(
+    this.permissionService.hasPermission('metering-point:prices-manage'),
+    { initialValue: false }
+  );
+
+  private readonly hasDh3SkalpellenPermission = toSignal(
+    this.permissionService.hasPermission('dh3-skalpellen'),
+    { initialValue: false }
+  );
+
+  private readonly hasConnectionStateManagePermission = toSignal(
+    this.permissionService.hasPermission('metering-point:connection-state-manage'),
+    { initialValue: false }
+  );
+
   showMeasurementsUploadButton = computed(() => {
     return (
+      this.hasMessurementsManagePermission() &&
       this.releaseToggleService.isEnabled('PM96-SHAREMEASUREDATA') &&
       !this.isCalculatedMeteringPoint() &&
       this.hasGridAccessProviderRole()
@@ -148,6 +174,7 @@ export class DhMeteringPointActionsComponent {
 
   showMoveInButton = computed(() => {
     return (
+      this.hasMeteringPointMoveInPermission() &&
       this.releaseToggleService.isEnabled('MoveInBrs009') &&
       this.connectionState() === ConnectionState.Connected &&
       (this.type() === ElectricityMarketMeteringPointType.Consumption ||
@@ -155,15 +182,58 @@ export class DhMeteringPointActionsComponent {
     );
   });
 
+  showCreateChargeLinkButton = computed(() => {
+    return (
+      this.hasMeteringPointPricesManagePermission() &&
+      this.releaseToggleService.isEnabled('PM60-CHARGE-LINKS-UI')
+    );
+  });
+
+  showConnectionStateManageButton = computed(
+    () =>
+      this.hasConnectionStateManagePermission() && this.connectionState() === ConnectionState.New
+  );
+  showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
+
   showActionsButton = computed(() => {
-    return this.showMeasurementsUploadButton() || this.showMoveInButton();
+    return (
+      this.showMeasurementsUploadButton() ||
+      this.showMoveInButton() ||
+      this.showCreateChargeLinkButton() ||
+      this.showManualCorrectionButtons() ||
+      this.showConnectionStateManageButton()
+    );
   });
 
   startMoveIn() {
     this.modalService.open({
-      component: DhMoveInComponent,
+      component: DhStartMoveInComponent,
       data: { installationAddress: this.installationAddress() },
       disableClose: true,
+    });
+  }
+
+  createLink() {
+    this.modalService.open({
+      component: DhMeteringPointCreateChargeLink,
+      disableClose: true,
+    });
+  }
+
+  connectionStateManage() {
+    const currentConnectionState = this.connectionState();
+    const currentCreatedDate = this.createdDate();
+
+    assertIsDefined(currentConnectionState);
+    assertIsDefined(currentCreatedDate);
+
+    this.modalService.open({
+      component: DhConnectionStateManageComponent,
+      data: {
+        currentConnectionState,
+        currentCreatedDate,
+        meteringPointId: this.meteringPointId(),
+      },
     });
   }
 }

@@ -12,13 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestAggregatedMeasureData.V1;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestWholesaleSettlement.V1;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_045.MissingMeasurementsLogOnDemandCalculation.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Common.Exceptions;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.MissingMeasurementsLog.Types;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
@@ -27,7 +32,7 @@ public class RequestsClient(
     IHttpContextAccessor httpContextAccessor,
     IMarketParticipantClient_V1 marketParticipant,
     IProcessManagerClient processManager,
-    IEdiB2CWebAppClient_V1 edi)
+    IB2CClient ediClient)
     : IRequestsClient
 {
     public async Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(
@@ -66,19 +71,23 @@ public class RequestsClient(
         {
             var request = input.RequestCalculatedWholesaleServices;
             var interval = request.Period.ToIntervalOrThrow();
-            await edi.RequestWholesaleSettlementAsync(
-                cancellationToken: ct,
-                body: new RequestWholesaleSettlementMarketRequestV1
-                {
-                    BusinessReason = request.CalculationType.BusinessReason,
-                    SettlementVersion = request.CalculationType.SettlementVersion,
-                    StartDate = interval.Start.ToDateTimeOffset(),
-                    EndDate = interval.End.ToDateTimeOffset(),
-                    ChargeType = request.PriceType.ChargeType,
-                    Resolution = request.PriceType.Resolution,
-                    GridAreaCode = request.GridArea,
-                    EnergySupplierId = eicFunction == EicFunction.EnergySupplier ? actorNumber : null,
-                });
+            var requestWholesaleSettlementMarketRequestCommandV1 = new RequestWholesaleSettlementMarketRequestCommandV1(
+                new RequestWholesaleSettlementMarketRequestV1(
+                    request.CalculationType.SettlementVersion.MapToRequestWholesaleSettlementV1(),
+                    request.CalculationType.BusinessReason.MapToRequestWholesaleSettlementV1(),
+                    interval.Start.ToDateTimeOffset(),
+                    interval.End.ToDateTimeOffset(),
+                    request.GridArea,
+                    eicFunction == EicFunction.EnergySupplier ? actorNumber : null,
+                    request.PriceType.Resolution.MapToRequestWholesaleSettlementV1(),
+                    request.PriceType.ChargeType.MapToRequestWholesaleSettlementV1()));
+
+            var response = await ediClient.SendAsync(requestWholesaleSettlementMarketRequestCommandV1, ct);
+
+            if (!response.IsSuccess)
+            {
+                throw new B2CApiException("RequestWholesaleSettlementMarketRequest failed", response.Data?.MessageBody);
+            }
 
             return true;
         }
@@ -87,22 +96,26 @@ public class RequestsClient(
         {
             var request = input.RequestCalculatedEnergyTimeSeries;
             var interval = request.Period.ToIntervalOrThrow();
-            await edi.RequestAggregatedMeasureDataAsync(
-                cancellationToken: ct,
-                body: new RequestAggregatedMeasureDataMarketRequestV1
-                {
-                    BusinessReason = request.CalculationType.BusinessReason,
-                    SettlementVersion = request.CalculationType.SettlementVersion,
-                    StartDate = interval.Start.ToDateTimeOffset(),
-                    EndDate = interval.End.ToDateTimeOffset(),
-                    MeteringPointType = request.MeteringPointType?.EvaluationPoint,
-                    SettlementMethod = request.MeteringPointType?.SettlementMethod,
-                    GridAreaCode = request.GridArea,
-                    BalanceResponsibleId = eicFunction == EicFunction.BalanceResponsibleParty ? actorNumber : null,
-                    EnergySupplierId = eicFunction == EicFunction.EnergySupplier ? actorNumber : null,
-                });
 
-            return true;
+            var requestAggregatedMeasureDataMarketRequestV1 = new RequestAggregatedMeasureDataMarketRequestV1(
+                request.CalculationType.BusinessReason.MapToRequestAggregatedMeasureDataV1(),
+                request.CalculationType.SettlementVersion.MapToRequestAggregatedMeasureDataV1(),
+                request.MeteringPointType?.SettlementMethod.MapToRequestAggregatedMeasureDataV1(),
+                request.MeteringPointType?.EvaluationPoint.MapToRequestAggregatedMeasureDataV1(),
+                interval.Start.ToDateTimeOffset(),
+                interval.End.ToDateTimeOffset(),
+                request.GridArea,
+                eicFunction == EicFunction.EnergySupplier ? actorNumber : null,
+                eicFunction == EicFunction.BalanceResponsibleParty ? actorNumber : null);
+
+            var aggregatedMeasureDataMarketRequestCommandV1 =
+                new RequestAggregatedMeasureDataMarketRequestCommandV1(requestAggregatedMeasureDataMarketRequestV1);
+
+            var response = await ediClient.SendAsync(aggregatedMeasureDataMarketRequestCommandV1, ct);
+            if (!response.IsSuccess)
+            {
+                throw new B2CApiException($"{nameof(RequestAggregatedMeasureDataMarketRequestV1)} failed", response.Data?.MessageBody);
+            }
         }
 
         return false;

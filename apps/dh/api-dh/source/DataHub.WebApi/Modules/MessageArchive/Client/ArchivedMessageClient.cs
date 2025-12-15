@@ -15,6 +15,7 @@
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Extensions;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
@@ -23,7 +24,6 @@ using ActorRoleDtoV1 = Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMess
 using BusinessReason = Energinet.DataHub.WebApi.Modules.MessageArchive.Enums.BusinessReason;
 using DirectionToSortByDtoV1 = Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1.DirectionToSortByDtoV1;
 using FieldToSortByDtoV1 = Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1.FieldToSortByDtoV1;
-using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v3.DocumentType;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 
@@ -136,6 +136,9 @@ public class ArchivedMessageClient(
             SearchDocumentType.B2CRequestWholesaleSettlement => DocumentTypeDtoV1.B2CRequestWholesaleSettlement,
             SearchDocumentType.Acknowledgement => DocumentTypeDtoV1.Acknowledgement,
             SearchDocumentType.ReminderOfMissingMeasurements => DocumentTypeDtoV1.ReminderOfMissingMeasurements,
+            SearchDocumentType.RequestChangeOfPriceList => DocumentTypeDtoV1.RequestChangeOfPriceList,
+            SearchDocumentType.ConfirmRequestChangeOfPriceList => DocumentTypeDtoV1.ConfirmRequestChangeOfPriceList,
+            SearchDocumentType.RejectRequestChangeOfPriceList => DocumentTypeDtoV1.RejectRequestChangeOfPriceList,
             _ => throw new ArgumentOutOfRangeException(nameof(searchDocumentType), $"Unsupported document type: {searchDocumentType}"),
         };
 

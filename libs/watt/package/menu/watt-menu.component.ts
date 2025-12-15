@@ -76,6 +76,11 @@ import { MatMenu, MatMenuModule } from '@angular/material/menu';
           padding-block: var(--watt-menu-padding-block);
         }
 
+        /* Remove default letter-spacing */
+        .mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text {
+          letter-spacing: 0;
+        }
+
         /* Hide icon space when no menu items have icons */
         &:not(:has(watt-icon)) .watt-menu-item-icon {
           display: none;

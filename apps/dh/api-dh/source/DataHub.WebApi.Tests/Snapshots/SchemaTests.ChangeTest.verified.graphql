@@ -257,6 +257,10 @@ type CalculationsEdge {
   node: Calculation!
 }
 
+type CancelChargeLinkPayload {
+  boolean: Boolean
+}
+
 type CancelMeasurementsReportPayload {
   boolean: Boolean
 }
@@ -283,42 +287,79 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
   steps: [OrchestrationInstanceStep!]!
 }
 
-type ChargeInformationDto {
+type Charge {
+  series(interval: DateRange!): [ChargeSeries!]!
+  owner: MarketParticipant
+  currentPeriod: ChargePeriod
   status: ChargeStatus!
-  displayName: String!
   id: String!
-  validFrom: DateTime!
-  validTo: DateTime!
-  chargeType: ChargeType!
-  resolution: ChargeResolution!
+  type: ChargeType!
   code: String!
-  name: String!
+  name: String
+  displayName: String!
+  resolution: ChargeResolution!
+  periods: [ChargePeriod!]!
+}
+
+type ChargeLink {
+  history: [ChargeLinkHistory!]!
+  charge: Charge
+  amount: Int!
+  currentPeriod: ChargeLinkPeriod
+  id: Long!
+}
+
+type ChargeLinkHistory {
+  submittedAt: DateTime!
   description: String!
-  owner: String!
-  hasAnyPrices: Boolean!
+  messageId: String!
+}
+
+type ChargeLinkPeriod {
+  period: DateRange!
+  amount: Int!
+  id: Long!
+}
+
+type ChargePeriod {
+  isCurrent: Boolean!
+  description: String!
+  period: DateRange!
+  transparentInvoicing: Boolean!
+  vatClassification: VatClassification!
+  name: String!
 }
 
 type ChargeSeries {
-  currentPoint: ChargeSeriesPoint!
   hasChanged: Boolean!
+  price: Decimal
+  period: DateRange!
   points: [ChargeSeriesPoint!]!
-  totalAmount: Decimal!
 }
 
 type ChargeSeriesPoint {
   isCurrent: Boolean!
-  fromDateTime: DateTime!
-  toDateTime: DateTime!
   price: Decimal!
 }
 
-"A segment of a collection."
-type ChargesCollectionSegment {
+"A connection to a list of items."
+type ChargesConnection {
   "Information to aid in pagination."
-  pageInfo: CollectionSegmentInfo!
-  "A flattened list of the items."
-  items: [ChargeInformationDto!]
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [ChargesEdge!]
+  "A flattened list of the nodes."
+  nodes: [Charge!]
+  "Identifies the total count of items in the connection."
   totalCount: Int!
+}
+
+"An edge in a connection."
+type ChargesEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Charge!
 }
 
 "Information about the offset pagination."
@@ -339,6 +380,15 @@ type CommercialRelationDto {
   energySupplyPeriodTimeline: [EnergySupplyPeriodDto!]!
   activeElectricalHeatingPeriods: ElectricalHeatingDto
   electricalHeatingPeriods: [ElectricalHeatingDto!]!
+}
+
+type ContactAddressDto {
+  streetName: String!
+}
+
+type ContactDto {
+  name: String!
+  address: ContactAddressDto
 }
 
 type CreateCalculationPayload {
@@ -407,6 +457,10 @@ type DismissNotificationPayload {
   errors: [DismissNotificationError!]
 }
 
+type EditChargeLinkPayload {
+  boolean: Boolean
+}
+
 type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance {
   executionType: CalculationExecutionType!
   calculationType: CalculationTypeQueryParameterV1!
@@ -426,6 +480,27 @@ type ElectricalHeatingDto {
   validTo: DateTime!
   isActive: Boolean!
   transactionType: TransactionType
+}
+
+type ElectricityMarketV2CommercialRelationDto {
+  startDate: DateTime!
+  endDate: DateTime!
+  energySupplierId: String!
+  customerId: UUID!
+  energySupplierPeriods: [EnergySupplierPeriodDto!]!
+}
+
+type ElectricityMarketV2EventDto {
+  jsonData: String!
+  id: UUID!
+  timestamp: DateTime!
+  type: String!
+}
+
+type EnergySupplierPeriodDto {
+  validFrom: DateTime!
+  validTo: DateTime!
+  contacts: [ContactDto!]!
 }
 
 type EnergySupplyPeriodDto {
@@ -475,6 +550,10 @@ type ExchangeEventSearchResult {
 
 type ExchangeEventStatusReportResponse {
   waitingForExternalResponse: Int!
+}
+
+type ExecuteMeteringPointManualCorrectionPayload {
+  boolean: Boolean
 }
 
 "A connection to a list of items."
@@ -536,6 +615,11 @@ type FilteredUserRolesEdge {
   cursor: String!
   "The item at the end of the edge."
   node: UserRoleDto!
+}
+
+type GetMeteringPointResultDtoV1 {
+  meteringPoint: MeteringPointDtoV1!
+  events: [ElectricityMarketV2EventDto!]!
 }
 
 type GridAreaAuditedChangeAuditLogDto {
@@ -846,6 +930,7 @@ type MeteringPointDto {
   electricalHeatingStartDate: DateTime
   hadElectricalHeating: Boolean!
   haveElectricalHeating: Boolean!
+  createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
   id: Long!
@@ -856,6 +941,12 @@ type MeteringPointDto {
   commercialRelationTimeline: [CommercialRelationDto!]!
 }
 
+type MeteringPointDtoV1 {
+  meteringPointId: String!
+  meteringPointPeriods: [MeteringPointPeriodDto!]!
+  commercialRelations: [ElectricityMarketV2CommercialRelationDto!]!
+}
+
 type MeteringPointIdentificationDto {
   identification: String!
 }
@@ -864,6 +955,7 @@ type MeteringPointMetadataDto {
   gridArea: GridAreaDto
   fromGridArea: GridAreaDto
   toGridArea: GridAreaDto
+  internalMeteringPointParentId: Long
   id: Long!
   validFrom: DateTime!
   validTo: DateTime!
@@ -892,14 +984,21 @@ type MeteringPointMetadataDto {
   manuallyHandled: Boolean!
 }
 
+type MeteringPointPeriodDto {
+  validFrom: DateTime!
+  validTo: DateTime!
+  type: ElectricityMarketV2MeteringPointType!
+  connectionState: ElectricityMarketV2ConnectionState!
+}
+
 type MeteringPointProcess {
   initiator: MarketParticipant
   steps: [MeteringPointProcessStep!]!
+  availableActions: [WorkflowAction!]
   id: String!
-  documentType: DocumentType!
   reasonCode: String!
   createdAt: DateTime!
-  cutoffDate: DateTime!
+  cutoffDate: DateTime
   state: ProcessState!
 }
 
@@ -927,10 +1026,10 @@ type MeteringPointProcessStep {
   actor: MarketParticipant
   message: ArchivedMessage
   id: String!
-  step: String!
+  step: ProcessStepType!
   comment: String
-  createdAt: DateTime!
-  dueDate: DateTime!
+  completedAt: DateTime
+  dueDate: DateTime
   state: ProcessState!
   messageId: String
 }
@@ -954,7 +1053,13 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
+  stopChargeLink(input: StopChargeLinkInput!): StopChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
+  editChargeLink(input: EditChargeLinkInput!): EditChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
+  cancelChargeLink(input: CancelChargeLinkInput!): CancelChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
+  simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
+  executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
+  requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1147,18 +1252,23 @@ type ProcessesEdge {
 }
 
 type Query {
-  chargeSeries(chargeId: String! interval: DateRange!): [ChargeSeries!]! @authorize(roles: [ "charges:view" ])
-  charges(skip: Int take: Int filter: String order: ChargeSortInput query: GetChargesQueryInput): ChargesCollectionSegment @authorize(roles: [ "charges:view" ])
-  chargeById(id: String!): ChargeInformationDto @authorize(roles: [ "charges:view" ])
-  debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
-  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  charges(filter: String query: GetChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
+  chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
+  chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
+  chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
+  chargeLinkById(meteringPointId: String! chargeLinkId: Long!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
   measurements(showOnlyChangedValues: Boolean! showHistoricalValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
   measurementPoints(observationTime: DateTime! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
+  debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
+  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  eventsDebugView(meteringPointId: String!): GetMeteringPointResultDtoV1 @authorize(roles: [ "metering-point:search" ])
+  meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
+  meteringPointExists(internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -1242,6 +1352,7 @@ type RelatedMeteringPointDto {
   identification: String!
   type: ElectricityMarketMeteringPointType!
   connectionState: ConnectionState!
+  createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
 }
@@ -1295,6 +1406,10 @@ type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult
 type RequestClientSecretCredentialsPayload {
   actorClientSecretDto: ActorClientSecretDto
   errors: [RequestClientSecretCredentialsError!]
+}
+
+type RequestConnectionStateChangePayload {
+  boolean: Boolean
 }
 
 type RequestMeasurementsReportPayload {
@@ -1398,7 +1513,15 @@ type SettlementReport {
   includeMonthlyAmount: Boolean!
 }
 
+type SimulateMeteringPointManualCorrectionPayload {
+  string: String
+}
+
 type StartMoveInPayload {
+  boolean: Boolean
+}
+
+type StopChargeLinkPayload {
   boolean: Boolean
 }
 
@@ -1656,6 +1779,10 @@ input CalculationsQueryInput {
   period: DateRange
 }
 
+input CancelChargeLinkInput {
+  chargeLinkId: String!
+}
+
 input CancelMeasurementsReportInput {
   id: String!
 }
@@ -1668,9 +1795,22 @@ input CancelSettlementReportInput {
   id: String!
 }
 
+input ChargeIdentifierDtoSortInput {
+  code: SortEnumType
+  owner: SortEnumType
+  type: SortEnumType
+}
+
+input ChargeLinkDtoSortInput {
+  chargeLinkId: SortEnumType
+  meteringPointId: SortEnumType
+  chargeIdentifier: ChargeIdentifierDtoSortInput
+}
+
 input ChargeSortInput {
-  fromDateTime: SortDirection
-  price: SortDirection
+  type: SortEnumType
+  code: SortEnumType
+  name: SortEnumType
 }
 
 input CreateActorContactDtoInput {
@@ -1756,6 +1896,12 @@ input DismissNotificationInput {
   notificationId: Int!
 }
 
+input EditChargeLinkInput {
+  chargeLinkId: String!
+  newStartDate: DateTime!
+  factor: Int!
+}
+
 input EsettExchangeEventSortInput {
   calculationType: SortEnumType
   created: SortEnumType
@@ -1764,6 +1910,11 @@ input EsettExchangeEventSortInput {
   gridAreaCode: SortEnumType
   latestDispatched: SortEnumType
   timeSeriesType: SortEnumType
+}
+
+input ExecuteMeteringPointManualCorrectionInput {
+  meteringPointId: String!
+  json: String!
 }
 
 input GetAggregateByYearQueryInput {
@@ -1854,10 +2005,7 @@ input MeteringPointProcessSortInput {
   id: SortEnumType
   createdAt: SortEnumType
   cutoffDate: SortEnumType
-  documentType: SortEnumType
   reasonCode: SortEnumType
-  actorNumber: SortEnumType
-  actorRole: SortEnumType
   state: SortEnumType
 }
 
@@ -1940,6 +2088,11 @@ input RequestCalculatedWholesaleServicesInput {
 
 input RequestClientSecretCredentialsInput {
   marketParticipantId: UUID!
+}
+
+input RequestConnectionStateChangeInput {
+  meteringPointId: String!
+  validityDate: DateTime!
 }
 
 input RequestInput @oneOf {
@@ -2026,6 +2179,11 @@ input SendMeasurementsRequestV2Input {
   measurements: [MeasurementInput!]!
 }
 
+input SimulateMeteringPointManualCorrectionInput {
+  meteringPointId: String!
+  json: String!
+}
+
 input StartMoveInInput {
   cutOffDate: String!
   moveInType: MoveInType!
@@ -2041,6 +2199,11 @@ input StartMoveInInput {
   legalAddress: MoveInInstallationAddressInput!
   technicalContactDetails: MoveInContactDetailsInput!
   technicalAddress: MoveInInstallationAddressInput!
+}
+
+input StopChargeLinkInput {
+  chargeLinkId: String!
+  stopDate: DateTime!
 }
 
 input StopDelegationInput {
@@ -2272,11 +2435,10 @@ enum CalculationTypeQueryParameterV1 {
 }
 
 enum ChargeResolution {
-  Unknown
-  QuarterHourly
-  Hourly
-  Daily
-  Monthly
+  quarterhourly
+  hourly
+  daily
+  monthly
 }
 
 enum ChargeStatus {
@@ -2289,9 +2451,10 @@ enum ChargeStatus {
 }
 
 enum ChargeType {
+  TARIFF
+  TARIFF_TAX
   SUBSCRIPTION
   FEE
-  TARIFF
 }
 
 enum ConnectionState {
@@ -2374,6 +2537,10 @@ enum DocumentType {
   UPDATE_CHARGE_LINKS
   CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA
   REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA
+  NOTIFY_BILLING_MASTER_DATA
+  REQUEST_CHANGE_OF_PRICE_LIST
+  CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
+  REJECT_REQUEST_CHANGE_OF_PRICE_LIST
 }
 
 enum ESettStageComponent {
@@ -2421,6 +2588,47 @@ enum ElectricityEicFunctionType {
 }
 
 enum ElectricityMarketMeteringPointType {
+  Consumption
+  Production
+  Exchange
+  VEProduction
+  Analysis
+  NotUsed
+  SurplusProductionGroup6
+  NetProduction
+  SupplyToGrid
+  ConsumptionFromGrid
+  WholesaleServicesOrInformation
+  OwnProduction
+  NetFromGrid
+  NetToGrid
+  TotalConsumption
+  NetLossCorrection
+  ElectricalHeating
+  NetConsumption
+  OtherConsumption
+  OtherProduction
+  CapacitySettlement
+  ExchangeReactiveEnergy
+  CollectiveNetProduction
+  CollectiveNetConsumption
+  ActivatedDownregulation
+  ActivatedUpregulation
+  ActualConsumption
+  ActualProduction
+  InternalUse
+}
+
+enum ElectricityMarketV2ConnectionState {
+  Unknown
+  New
+  Connected
+  Disconnected
+  ClosedDown
+}
+
+enum ElectricityMarketV2MeteringPointType {
+  Unknown
   Consumption
   Production
   Exchange
@@ -2590,6 +2798,7 @@ enum MeteringPointDocumentType {
   UPDATE_CHARGE_LINKS
   CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA
   REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA
+  NOTIFY_BILLING_MASTER_DATA
 }
 
 enum MeteringPointMeasureUnit {
@@ -2682,6 +2891,28 @@ enum ProcessStepState {
   succeeded
 }
 
+"""
+Enum representing known process step types.
+These values are used as translation keys in the frontend.
+When adding new processes, add the step identifiers here.
+Format: {PROCESS_NAME}_V{VERSION}_STEP_{SEQUENCE}
+"""
+enum ProcessStepType {
+  "BRS-002 Request End of Supply - Step 1: Request end of supply (RSM-005)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1
+  "BRS-002 Request End of Supply - Step 2: Confirm end of supply (RSM-005)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2
+  "BRS-002 Request End of Supply - Step 3: Reject end of supply (RSM-005)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3
+  "BRS-002 Request End of Supply - Step 4: Notify cancellation of end of supply (RSM-020)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4
+  """
+  Unknown or unmapped step type.
+  Used when ProcessManager returns a step we haven't added to this enum yet.
+  """
+  UNKNOWN
+}
+
 enum Product {
   TARIFF
   FUEL_QUANTITY
@@ -2727,6 +2958,9 @@ enum SearchDocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
+  REQUEST_CHANGE_OF_PRICE_LIST
+  CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
+  REJECT_REQUEST_CHANGE_OF_PRICE_LIST
 }
 
 enum SendMeasurementsMeasurementUnit {
@@ -2849,6 +3083,7 @@ enum TransactionType {
   STOP_TARIFF
   DISMANTLING_OF_METER
   UPDATE_SPECIAL_METERING_POINT
+  UPDATE_HISTORIC_METERING_POINT
   CHANGE_METER
   CHANGE_IN_PURCHASE_OBLIGATION
   DISPLAYING_CUMULATIVE_DATA_NOT_OWNER
@@ -2928,9 +3163,20 @@ enum UserStatus {
   INVITE_EXPIRED
 }
 
+enum VatClassification {
+  NO_VAT
+  VAT25
+}
+
 enum WashInstructions {
   WASHABLE
   NOT_WASHABLE
+}
+
+enum WorkflowAction {
+  NO_ACTION
+  SEND_INFORMATION
+  CANCEL_WORKFLOW
 }
 
 "The authorize directive."

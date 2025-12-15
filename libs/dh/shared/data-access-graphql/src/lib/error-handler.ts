@@ -17,9 +17,10 @@
  */
 //#endregion
 import { onError } from '@apollo/client/link/error';
+import { GraphQLFormattedError } from 'graphql';
+import { SeverityLevel } from '@microsoft/applicationinsights-web';
 
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
-import { GraphQLFormattedError } from 'graphql';
 
 export const errorHandler = (logger: DhApplicationInsights) =>
   onError(({ graphQLErrors }) => {
@@ -27,7 +28,7 @@ export const errorHandler = (logger: DhApplicationInsights) =>
       graphQLErrors.map(({ message, extensions }) => {
         logger.trackException(
           new Error(extensions ? (extensions['details'] as string) || message : message),
-          3
+          SeverityLevel.Error
         );
       });
     }

@@ -15,15 +15,15 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.Charges.Client;
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Mappers;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
@@ -31,12 +31,12 @@ using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
 using HotChocolate;
 using HotChocolate.Execution;
-using HotChocolate.Types.NodaTime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Moq;
+using NodaTime;
 using IHttpClientFactory = System.Net.Http.IHttpClientFactory;
 
 namespace Energinet.DataHub.WebApi.Tests.TestServices;
@@ -52,8 +52,7 @@ public class GraphQLTestService
         MeasurementsReportClientMock = new Mock<IMeasurementsReportClient>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         GridAreasClientMock = new Mock<IGridAreasClient>();
-        EdiB2CWebAppClientV1Mock = new Mock<IEdiB2CWebAppClient_V1>();
-        EdiB2CWebAppClientV3Mock = new Mock<IEdiB2CWebAppClient_V3>();
+        EdiB2CClientMock = new Mock<IB2CClient>();
         RevisionLogClientMock = new Mock<IRevisionLogClient>();
         MeasurementsClientMock = new Mock<IMeasurementsClient>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -63,18 +62,23 @@ public class GraphQLTestService
         AuthorizationServiceMock = new Mock<IAuthorizationService>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
         ChargesClientMock = new Mock<IChargesClient>();
+        ChargeLinkClientMock = new Mock<IChargeLinkClient>();
 
         Services = new ServiceCollection()
             .AddLogging()
             .AddAuthorization()
             .AddGraphQLServer(disableDefaultSecurity: true)
-            .AddInMemorySubscriptions()
             .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
+            .AddInMemorySubscriptions()
+            .AddAuthorization()
             .AddMutationConventions(applyToAllMutations: true)
             .AddTypes()
             .AddModules()
-            .AddAuthorization()
             .AddSorting()
+            .AddType<HotChocolate.Types.NodaTime.LocalDateType>()
+            .BindRuntimeType<Interval, DateRangeType>()
+            .BindRuntimeType<long, LongType>()
+            .BindRuntimeType<YearMonth, YearMonthType>()
             .ModifyOptions(options =>
             {
                 options.EnableOneOf = true;
@@ -86,10 +90,6 @@ public class GraphQLTestService
                 options.MaxPageSize = 250;
                 options.IncludeTotalCount = true;
             })
-            .AddType<LocalDateType>()
-            .BindRuntimeType<NodaTime.Interval, DateRangeType>()
-            .BindRuntimeType<NodaTime.YearMonth, YearMonthType>()
-            .BindRuntimeType<long, LongType>()
             .Services
             .AddSingleton<IConfiguration>(new ConfigurationRoot([]))
             .AddSingleton<ISettlementReportsClient, SettlementReportsClient>()
@@ -100,8 +100,7 @@ public class GraphQLTestService
             .AddSingleton(MeasurementsReportClientMock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(GridAreasClientMock.Object)
-            .AddSingleton(EdiB2CWebAppClientV1Mock.Object)
-            .AddSingleton(EdiB2CWebAppClientV3Mock.Object)
+            .AddSingleton(EdiB2CClientMock.Object)
             .AddSingleton(GridAreasClientMock.Object)
             .AddSingleton(RevisionLogClientMock.Object)
             .AddSingleton(MeasurementsClientMock.Object)
@@ -111,6 +110,7 @@ public class GraphQLTestService
             .AddSingleton(AuthorizationServiceMock.Object)
             .AddSingleton(MeasurementsResponseMapperMock.Object)
             .AddSingleton(ChargesClientMock.Object)
+            .AddSingleton(ChargeLinkClientMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -137,9 +137,7 @@ public class GraphQLTestService
 
     public Mock<IGridAreasClient> GridAreasClientMock { get; set; }
 
-    public Mock<IEdiB2CWebAppClient_V1> EdiB2CWebAppClientV1Mock { get; set; }
-
-    public Mock<IEdiB2CWebAppClient_V3> EdiB2CWebAppClientV3Mock { get; set; }
+    public Mock<IB2CClient> EdiB2CClientMock { get; set; }
 
     public Mock<IRevisionLogClient> RevisionLogClientMock { get; set; }
 
@@ -152,6 +150,8 @@ public class GraphQLTestService
     public Mock<IAuthorizationService> AuthorizationServiceMock { get; set; }
 
     public Mock<IMeasurementsResponseMapper> MeasurementsResponseMapperMock { get; set; }
+
+    public Mock<IChargeLinkClient> ChargeLinkClientMock { get; set; }
 
     public IServiceCollection Services { get; set; }
 

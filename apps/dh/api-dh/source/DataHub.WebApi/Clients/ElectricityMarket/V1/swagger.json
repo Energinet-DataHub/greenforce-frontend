@@ -127,6 +127,102 @@
         }
       }
     },
+    "/metering-point/exists/{externalId}/external": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "external",
+        "parameters": [
+          {
+            "name": "externalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationForExistsDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationForExistsDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationForExistsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metering-point/exists/{internalId}/internal": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "internal",
+        "parameters": [
+          {
+            "name": "internalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationForExistsDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationForExistsDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointIdentificationForExistsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/metering-point/{identification}/related": {
       "get": {
         "tags": [
@@ -363,6 +459,148 @@
         }
       }
     },
+    "/metering-point/{identification}/manual-correction": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "manual-correctionGET",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
+              },
+              "text/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "manual-correctionPOST",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            },
+            "text/json": {
+              "schema": {}
+            },
+            "application/*+json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/metering-point/{identification}/manual-correction/simulate": {
+      "post": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "simulate",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            },
+            "text/json": {
+              "schema": {}
+            },
+            "application/*+json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulateManualCorrectionResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulateManualCorrectionResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulateManualCorrectionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/metering-point/query/type": {
       "post": {
         "tags": [
@@ -435,116 +673,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/sync/electrical-heating": {
-      "get": {
-        "tags": [
-          "Sync"
-        ],
-        "operationId": "electrical-heating",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/sync/capacity-settlement": {
-      "get": {
-        "tags": [
-          "Sync"
-        ],
-        "operationId": "capacity-settlement",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/sync/net-consumption": {
-      "get": {
-        "tags": [
-          "Sync"
-        ],
-        "operationId": "net-consumption",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/sync/hullerlog": {
-      "get": {
-        "tags": [
-          "Sync"
-        ],
-        "operationId": "hullerlog",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/sync/measurements-report": {
-      "get": {
-        "tags": [
-          "Sync"
-        ],
-        "operationId": "measurements-report",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -1109,6 +1237,18 @@
           }
         }
       },
+      "MeteringPointIdentificationForExistsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "internalIdentification": {
+            "type": "string"
+          },
+          "externalIdentification": {
+            "type": "string"
+          }
+        }
+      },
       "MeteringPointMeasureUnit": {
         "type": "integer",
         "format": "int32",
@@ -1553,6 +1693,11 @@
               }
             ]
           },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "connectionDate": {
             "type": "string",
             "format": "date-time",
@@ -1624,6 +1769,15 @@
           2
         ]
       },
+      "SimulateManualCorrectionResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "result": {
+            "type": "string"
+          }
+        }
+      },
       "TransactionType": {
         "type": "integer",
         "format": "int32",
@@ -1668,6 +1822,7 @@
           "StopTariff",
           "DismantlingOfMeter",
           "UpdateSpecialMeteringPoint",
+          "UpdateHistoricMeteringPoint",
           "ChangeMeter",
           "ChangeInPurchaseObligation",
           "DisplayingCumulativeDataNotOwner",
@@ -1757,7 +1912,8 @@
           60,
           61,
           62,
-          63
+          63,
+          64
         ]
       },
       "WashInstructions": {

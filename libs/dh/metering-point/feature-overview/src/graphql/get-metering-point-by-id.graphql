@@ -29,9 +29,9 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
     electricalHeatingStartDate
     haveElectricalHeating
     hadElectricalHeating
+    createdDate
     closedDownDate
     connectionDate
-
     commercialRelation {
       id
       startDate
@@ -76,6 +76,7 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
         displayName
       }
       parentMeteringPoint
+      internalMeteringPointParentId
       ownedBy
       connectionState
       netSettlementGroup

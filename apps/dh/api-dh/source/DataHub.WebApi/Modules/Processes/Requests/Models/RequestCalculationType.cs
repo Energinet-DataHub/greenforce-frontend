@@ -12,36 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using EdiTypes = Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using ModelBusinessReason = Energinet.DataHub.WebApi.Modules.Processes.Requests.Models.BusinessReason;
+using ModelSettlementVersion = Energinet.DataHub.WebApi.Modules.Processes.Requests.Models.SettlementVersion;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 
 public record RequestCalculationType(
     string Name,
-    EdiTypes.BusinessReason BusinessReason,
-    EdiTypes.SettlementVersion? SettlementVersion)
+    ModelBusinessReason BusinessReason,
+    ModelSettlementVersion? SettlementVersion)
 {
-    public static readonly RequestCalculationType Aggregation = new RequestCalculationType(nameof(Aggregation), EdiTypes.BusinessReason.PreliminaryAggregation, null);
-    public static readonly RequestCalculationType BalanceFixing = new RequestCalculationType(nameof(BalanceFixing), EdiTypes.BusinessReason.BalanceFixing, null);
-    public static readonly RequestCalculationType WholesaleFixing = new RequestCalculationType(nameof(WholesaleFixing), EdiTypes.BusinessReason.WholesaleFixing, null);
-    public static readonly RequestCalculationType FirstCorrection = new RequestCalculationType(nameof(FirstCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.FirstCorrection);
-    public static readonly RequestCalculationType SecondCorrection = new RequestCalculationType(nameof(SecondCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.SecondCorrection);
-    public static readonly RequestCalculationType ThirdCorrection = new RequestCalculationType(nameof(ThirdCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.ThirdCorrection);
-    public static readonly RequestCalculationType LatestCorrection = new RequestCalculationType(nameof(ThirdCorrection), EdiTypes.BusinessReason.Correction, null);
+    public static readonly RequestCalculationType Aggregation = new(nameof(Aggregation), ModelBusinessReason.PreliminaryAggregation, null);
+    public static readonly RequestCalculationType BalanceFixing = new(nameof(BalanceFixing), ModelBusinessReason.BalanceFixing, null);
+    public static readonly RequestCalculationType WholesaleFixing = new(nameof(WholesaleFixing), ModelBusinessReason.WholesaleFixing, null);
+    public static readonly RequestCalculationType FirstCorrection = new(nameof(FirstCorrection), ModelBusinessReason.Correction, ModelSettlementVersion.FirstCorrection);
+    public static readonly RequestCalculationType SecondCorrection = new(nameof(SecondCorrection), ModelBusinessReason.Correction, ModelSettlementVersion.SecondCorrection);
+    public static readonly RequestCalculationType ThirdCorrection = new(nameof(ThirdCorrection), ModelBusinessReason.Correction, ModelSettlementVersion.ThirdCorrection);
+    public static readonly RequestCalculationType LatestCorrection = new(nameof(ThirdCorrection), ModelBusinessReason.Correction, null);
 
     public override string ToString() => Name;
 
     public static RequestCalculationType? FromSerialized(string businessReason, string? settlementVersion) =>
         businessReason switch
         {
-            nameof(EdiTypes.BusinessReason.PreliminaryAggregation) => Aggregation,
-            nameof(EdiTypes.BusinessReason.BalanceFixing) => BalanceFixing,
-            nameof(EdiTypes.BusinessReason.WholesaleFixing) => WholesaleFixing,
-            nameof(EdiTypes.BusinessReason.Correction) => settlementVersion switch
+            nameof(ModelBusinessReason.PreliminaryAggregation) => Aggregation,
+            nameof(ModelBusinessReason.BalanceFixing) => BalanceFixing,
+            nameof(ModelBusinessReason.WholesaleFixing) => WholesaleFixing,
+            nameof(ModelBusinessReason.Correction) => settlementVersion switch
             {
-                nameof(EdiTypes.SettlementVersion.FirstCorrection) => FirstCorrection,
-                nameof(EdiTypes.SettlementVersion.SecondCorrection) => SecondCorrection,
-                nameof(EdiTypes.SettlementVersion.ThirdCorrection) => ThirdCorrection,
+                nameof(ModelSettlementVersion.FirstCorrection) => FirstCorrection,
+                nameof(ModelSettlementVersion.SecondCorrection) => SecondCorrection,
+                nameof(ModelSettlementVersion.ThirdCorrection) => ThirdCorrection,
                 "" or null => LatestCorrection,
                 _ => null, // invalid/unknown
             },

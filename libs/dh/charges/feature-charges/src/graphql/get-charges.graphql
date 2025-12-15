@@ -1,26 +1,28 @@
 query GetCharges(
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
   $query: GetChargesQueryInput
-  $skip: Int
-  $take: Int
+  $order: [ChargeSortInput!]
   $filter: String
-  $order: ChargeSortInput
 ) {
-  charges(query: $query, skip: $skip, take: $take, filter: $filter, order: $order) {
+  charges(
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    query: $query
+    order: $order
+    filter: $filter
+  ) {
     totalCount
-    items {
-      id
-      name
-      code
-      validFrom
-      validTo
-      chargeType
-      owner
-      resolution # todo: sync fields via fragment with get-charge to fetch byId from cache only
-      status
+    nodes {
+      ...ChargeFields
     }
     pageInfo {
-      hasNextPage
-      hasPreviousPage
+      startCursor
+      endCursor
     }
   }
 }

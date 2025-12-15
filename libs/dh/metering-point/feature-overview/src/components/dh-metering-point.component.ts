@@ -168,10 +168,12 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
         <vater-spacer />
 
         <dh-metering-point-actions
+          [meteringPointId]="meteringPointId()"
           [type]="metadata()?.type"
           [subType]="metadata()?.subType"
           [connectionState]="metadata()?.connectionState"
           [installationAddress]="metadata()?.installationAddress"
+          [createdDate]="meteringPoint()?.createdDate"
         />
       </div>
 
@@ -187,6 +189,13 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
               *dhPermissionRequired="['metering-point:process-overview']"
               [label]="t('processes.tabLabel')"
               [link]="getLink('process-overview')"
+            />
+          </ng-container>
+          <ng-container *dhReleaseToggle="'PM60-CHARGE-LINKS-UI'">
+            <watt-link-tab
+              *dhPermissionRequired="['metering-point:prices']"
+              [label]="t('chargelinks.tabLabel')"
+              [link]="getLink('charge-links')"
             />
           </ng-container>
           <watt-link-tab [label]="t('messages.tabLabel')" [link]="getLink('messages')" />
@@ -210,6 +219,7 @@ export class DhMeteringPointComponent {
   private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   meteringPointId = input.required<string>();
+  internalMeteringPointId = input.required<string>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
@@ -241,7 +251,7 @@ export class DhMeteringPointComponent {
             url: this.router
               .createUrlTree([
                 getPath<BasePaths>('metering-point'),
-                this.meteringPoint()?.metadata.parentMeteringPoint,
+                this.meteringPoint()?.metadata.internalMeteringPointParentId ?? '',
                 getPath<MeteringPointSubPaths>('master-data'),
               ])
               .toString(),
@@ -253,7 +263,7 @@ export class DhMeteringPointComponent {
       url: this.router
         .createUrlTree([
           getPath<BasePaths>('metering-point'),
-          this.meteringPointId(),
+          this.internalMeteringPointId(),
           getPath<MeteringPointSubPaths>('master-data'),
         ])
         .toString(),

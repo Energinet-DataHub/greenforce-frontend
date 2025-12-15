@@ -1,11 +1,8 @@
 ﻿{
   "data": {
     "charges": {
-      "totalCount": 9999,
-      "items": [
-        {
-          "status": "CURRENT"
-        },
+      "totalCount": 1,
+      "nodes": [
         {
           "status": "CURRENT"
         }

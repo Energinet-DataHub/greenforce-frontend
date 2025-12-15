@@ -1,0 +1,18 @@
+query GetChargeLinkHistory($meteringPointId: String!, $chargeLinkId: Long!) {
+  chargeLinkById(meteringPointId: $meteringPointId, chargeLinkId: $chargeLinkId) {
+    id
+    charge {
+      id
+      displayName
+      owner {
+        id
+        displayName
+      }
+    }
+    history {
+      submittedAt
+      description
+      messageId
+    }
+  }
+}

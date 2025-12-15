@@ -44,8 +44,16 @@ const meteringPointSubPaths = {
   masterData: 'master-data',
   measurements: 'measurements',
   messages: 'messages',
+  create: 'create',
   failedMeasurements: 'failed-measurements',
   processOverview: 'process-overview',
+  chargeLinks: 'charge-links',
+  updateCustomerDetails: 'update-customer-details',
+} as const;
+
+const chargeLinksSubPaths = {
+  tariffAndSubscription: 'tariff-and-subscription',
+  fees: 'fees',
 } as const;
 
 const measurementsSubPaths = {
@@ -60,6 +68,7 @@ const meteringPointDebugSubPaths = {
   meteringPoint: 'metering-point',
   meteringPoints: 'metering-points',
   failedMeasurements: 'failed-measurements',
+  meteringPointEvents: 'metering-point-events',
 } as const;
 
 const devExamplesSubPaths = {
@@ -135,6 +144,8 @@ export type GridAreaSubPaths = (typeof gridAreaSubPaths)[keyof typeof gridAreaSu
 
 export type ChargesSubPaths = (typeof chargesSubPaths)[keyof typeof chargesSubPaths];
 
+export type ChargeLinksSubPaths = (typeof chargeLinksSubPaths)[keyof typeof chargeLinksSubPaths];
+
 type SubPaths =
   | MarketParticipantSubPaths
   | ESettSubPaths
@@ -147,12 +158,16 @@ type SubPaths =
   | ReportsSubPaths
   | MissingMeasurementsLogSubPaths
   | GridAreaSubPaths
-  | ChargesSubPaths;
+  | ChargesSubPaths
+  | ChargeLinksSubPaths;
 
 export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;
 
-export const combinePaths = <T extends SubPaths, Y extends BasePaths>(basePath: Y, path: T) =>
-  `/${basePath}/${path}`;
+export const combinePaths = <T extends BasePaths | SubPaths, Y extends BasePaths | SubPaths>(
+  part1: Y,
+  part2: T,
+  absolute: boolean = true
+) => (absolute ? `/${part1}/${part2}` : `${part1}/${part2}`);
 
 export const combineWithIdPaths = <T extends SubPaths, Y extends BasePaths>(
   basePath: Y,

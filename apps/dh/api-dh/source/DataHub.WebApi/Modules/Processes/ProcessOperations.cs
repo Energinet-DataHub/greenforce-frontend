@@ -12,10 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.SendMeasurements;
-using Energinet.DataHub.ProcessManager.Client;
-using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.OrchestrationInstance.Model;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;

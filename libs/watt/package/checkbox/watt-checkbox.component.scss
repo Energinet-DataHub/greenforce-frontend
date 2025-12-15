@@ -24,8 +24,13 @@ form.ng-submitted watt-checkbox.watt-checkbox--indeterminate.ng-invalid input {
 }
 
 watt-checkbox {
-  --watt-checkbox-disabled-color: var(--watt-color-neutral-grey-400);
+  --watt-checkbox-disabled-color: var(--watt-color-neutral-grey-500);
   --watt-checkbox-color: var(--watt-color-primary);
+  --watt-checkbox-color-focus: var(--watt-color-primary-dark);
+  --watt-checkbox-color-hover: var(--watt-color-primary-dark);
+  --watt-checkbox-border-color: var(--watt-on-light-low-emphasis);
+  --watt-checkbox-border-color-hover: var(--watt-on-light-medium-emphasis);
+  --watt-checkbox-border-color-focus: var(--watt-color-primary);
   --watt-checkbox-checkmark-color: var(--watt-on-dark-high-emphasis);
   --watt-checkbox-error-color: var(--watt-color-state-danger);
 
@@ -45,7 +50,7 @@ watt-checkbox {
     padding: 0;
     width: 16px;
     height: 16px;
-    border: 1px solid var(--watt-checkbox-color);
+    border: 1px solid var(--watt-checkbox-border-color);
     border-radius: 2px;
     display: grid;
     place-content: center;
@@ -58,7 +63,7 @@ watt-checkbox {
     height: 0.65em;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em var(--watt-checkbox-checkmark-color);
+    background-color: var(--watt-checkbox-checkmark-color);
     transform-origin: bottom left;
     clip-path: polygon(
       8.79% 46.33%,
@@ -70,13 +75,36 @@ watt-checkbox {
     );
   }
 
-  &.watt-checkbox--indeterminate input::before {
-    clip-path: polygon(29% 44%, 76.5% 44%, 76.5% 56.25%, 29% 56.25%);
-    transform: scale(1);
+  input:focus-visible {
+    outline: none;
   }
 
-  &.watt-checkbox--indeterminate.ng-dirty.ng-invalid input::before {
-    background-color: var(--watt-checkbox-error-color);
+  &:not(.ng-dirty.ng-invalid) input:not(:disabled) {
+    &:hover {
+      border-color: var(--watt-checkbox-border-color-hover);
+
+      &:checked,
+      &:indeterminate {
+        background-color: var(--watt-checkbox-color-hover);
+        border-color: var(--watt-checkbox-color-hover);
+      }
+    }
+    &:focus-visible {
+      border-color: var(--watt-checkbox-border-color-focus);
+
+      &:checked,
+      &:indeterminate {
+        background-color: var(--watt-checkbox-color-focus);
+        border-color: var(--watt-checkbox-color-focus);
+      }
+    }
+  }
+
+  &.watt-checkbox--indeterminate input::before {
+    width: 10px;
+    height: 1px;
+    clip-path: none;
+    transform: scale(1);
   }
 
   input:checked::before {
@@ -85,6 +113,7 @@ watt-checkbox {
 
   input:checked,
   &.watt-checkbox--indeterminate input {
+    border-color: var(--watt-checkbox-color);
     background-color: var(--watt-checkbox-color);
   }
 

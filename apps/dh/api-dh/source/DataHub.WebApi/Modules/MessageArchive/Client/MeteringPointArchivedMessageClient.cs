@@ -19,7 +19,7 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Extensions;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
-using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointDocumentType;
+using SearchDocumentType = Energinet.DataHub.WebApi.Modules.MessageArchive.Enums.MeteringPointDocumentType;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 
@@ -111,6 +111,8 @@ public class MeteringPointArchivedMessageClient(
                 .ConfirmRequestChangeBillingMasterData,
             SearchDocumentType.RejectRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1
                 .RejectRequestChangeBillingMasterData,
+            SearchDocumentType.NotifyBillingMasterData => MeteringPointDocumentTypeDtoV1
+                .NotifyBillingMasterData,
             _ => throw new ArgumentOutOfRangeException(nameof(searchDocumentType), $"Unsupported document type: {searchDocumentType}"),
         };
 

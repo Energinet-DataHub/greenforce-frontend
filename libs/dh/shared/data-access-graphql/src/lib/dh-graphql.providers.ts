@@ -56,8 +56,8 @@ export const graphQLProvider = provideApollo(() => {
   // Configure retry link for release toggles and other queries
   const retryLink = new RetryLink({
     delay: {
-      initial: 1000, // Start with 1 second delay
-      max: 30000, // Max 30 seconds between retries
+      initial: 1_000, // Start with 1 second delay
+      max: 30_000, // Max 30 seconds between retries
       jitter: true, // Add randomness to prevent thundering herd
     },
     attempts: {
@@ -143,8 +143,14 @@ export const graphQLProvider = provideApollo(() => {
             },
             chargeById(_, { args, toReference }) {
               return toReference({
-                __typename: 'ChargeInformationDto',
+                __typename: 'Charge',
                 id: args?.id,
+              });
+            },
+            meteringPointExists(_, { args, toReference }) {
+              return toReference({
+                __typename: 'MeteringPointDto',
+                id: args?.internalMeteringPointId,
               });
             },
             meteringPointProcessById(_, { args, toReference }) {

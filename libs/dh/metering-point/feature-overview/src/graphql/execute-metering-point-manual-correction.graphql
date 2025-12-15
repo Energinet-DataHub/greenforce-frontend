@@ -1,0 +1,5 @@
+mutation ExecuteMeteringPointManualCorrection($input: ExecuteMeteringPointManualCorrectionInput!) {
+  executeMeteringPointManualCorrection(input: $input) {
+    boolean
+  }
+}

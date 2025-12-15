@@ -17,8 +17,6 @@ using HotChocolate.Execution.Configuration;
 
 public static class ModuleExtensions
 {
-    private static readonly List<IModule> RegisteredModules = new List<IModule>();
-
     public static IServiceCollection RegisterModules(
         this IServiceCollection services,
         IConfiguration configuration)
@@ -28,7 +26,6 @@ public static class ModuleExtensions
         foreach (var module in modules)
         {
             module.RegisterModule(services, configuration);
-            RegisteredModules.Add(module);
         }
 
         return services;
@@ -36,7 +33,9 @@ public static class ModuleExtensions
 
     public static IRequestExecutorBuilder AddModules(this IRequestExecutorBuilder builder)
     {
-        foreach (var module in RegisteredModules)
+        var modules = DiscoverModules();
+
+        foreach (var module in modules)
         {
             module.AddGraphQLConfiguration(builder);
         }

@@ -29,10 +29,7 @@ import { WattDatePipe } from '@energinet/watt/date';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import {
-  ConnectionState,
-  GetRelatedMeteringPointsByIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-related-metering-points',
@@ -53,7 +50,7 @@ import {
   styles: `
     .grid-container {
       display: grid;
-      grid-template-columns: 1fr 1fr min-content;
+      grid-template-columns: 1fr 1fr 140px;
       margin: 0 calc(-1 * var(--watt-space-m));
     }
 
@@ -76,7 +73,9 @@ import {
       }
 
       & > :last-child {
-        align-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
     }
 
@@ -118,10 +117,7 @@ import {
       >
         <div class="grid-container">
           @for (meteringPoint of relatedMeteringPointsList(); track meteringPoint.identification) {
-            <div
-              class="grid-row"
-              [routerLink]="getLink('master-data', meteringPoint.identification)"
-            >
+            <div class="grid-row" [routerLink]="getLink('master-data', meteringPoint.id)">
               <div class="grid-cell">
                 <span class="watt-text-m watt-on-light--high-emphasis">
                   {{ 'meteringPointType.' + meteringPoint.type | transloco }}
@@ -136,19 +132,25 @@ import {
                 <span
                   *transloco="let t; prefix: 'meteringPoint.overview.status'"
                   class="watt-text-m watt-on-light--high-emphasis"
-                  [class.closed-down-state]="
-                    meteringPoint.connectionState === ConnectionState.ClosedDown
-                  "
+                  [class.closed-down-state]="meteringPoint.connectionState === 'CLOSED_DOWN'"
                 >
                   {{ t(meteringPoint.connectionState) }}
                 </span>
                 <br />
                 <span class="watt-text-s watt-on-light--medium-emphasis">
-                  @if (meteringPoint.connectionState === ConnectionState.ClosedDown) {
-                    {{ meteringPoint.connectionDate | wattDate }} ―
-                    {{ meteringPoint.closedDownDate | wattDate }}
-                  } @else {
-                    {{ meteringPoint.connectionDate | wattDate }}
+                  @switch (meteringPoint.connectionState) {
+                    @case ('NEW') {
+                      {{ meteringPoint.createdDate | wattDate }}
+                    }
+                    @case ('CONNECTED') {
+                      {{ meteringPoint.connectionDate | wattDate }}
+                    }
+                    @case ('CLOSED_DOWN') {
+                      {{ meteringPoint.closedDownDate | wattDate }}
+                    }
+                    @default {
+                      {{ meteringPoint.createdDate | wattDate }}
+                    }
                   }
                 </span>
               </div>
@@ -177,8 +179,6 @@ export class DhRelatedMeteringPointsComponent {
   private maybeRelatedMeteringPoints = computed(() => this.query.data()?.relatedMeteringPoints);
 
   meteringPointId = input.required<string>();
-
-  ConnectionState = ConnectionState;
 
   showHistorical = signal(false);
 

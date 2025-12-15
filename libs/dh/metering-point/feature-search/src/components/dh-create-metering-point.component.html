@@ -1,0 +1,367 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; prefix: 'meteringPoint.create'">
+  <vater-stack direction="row" align="center" gap="s" class="watt-space-stack-m">
+    <h3>{{ t("title", { type: "meteringPointType." + mpType | transloco }) }}</h3>
+
+    <vater-spacer />
+
+    <watt-button variant="secondary" [routerLink]="['../']">{{ t("cancel") }}</watt-button>
+    <watt-button type="submit" variant="primary" formId="create-metering-point">
+      {{ t("create") }}
+    </watt-button>
+  </vater-stack>
+
+  <form id="create-metering-point" [formGroup]="form" (ngSubmit)="save()">
+    <div class="page-grid">
+      <watt-card>
+        <watt-card-title>
+          <h4>{{ t("details.title") }}</h4>
+        </watt-card-title>
+
+        @let detailsControls = form.controls.details.controls;
+
+        <watt-datepicker
+          [formControl]="detailsControls.validityDate"
+          [label]="t('details.validityDate')"
+          [min]="yesterday"
+          [max]="today"
+        />
+
+        <vater-stack align="start" class="watt-space-stack-m">
+          <label>{{ t("details.status") }}</label>
+          <small>{{ t("details.newlyCreated") }}</small>
+        </vater-stack>
+
+        <watt-text-field
+          [formControl]="detailsControls.meteringPointId"
+          maxLength="18"
+          [label]="t('details.meteringPointId')"
+        >
+          @if (detailsControls.meteringPointId.hasError("containsLetters")) {
+            <watt-field-error>
+              {{ t("error.containsLetters") }}
+            </watt-field-error>
+          }
+
+          @if (detailsControls.meteringPointId.hasError("meteringPointIdLength")) {
+            <watt-field-error>
+              {{ t("error.meteringPointIdLength") }}
+            </watt-field-error>
+          }
+        </watt-text-field>
+
+        <watt-field
+          [label]="t('details.subType')"
+          [control]="detailsControls.subType"
+          displayMode="content"
+        >
+          <watt-radio
+            group="subType"
+            [formControl]="detailsControls.subType"
+            [value]="MeteringPointSubType.Physical"
+          >
+            {{ `meteringPointSubType.${MeteringPointSubType.Physical}` | transloco }}
+          </watt-radio>
+
+          <watt-radio
+            group="subType"
+            [formControl]="detailsControls.subType"
+            [value]="MeteringPointSubType.Virtual"
+          >
+            {{ `meteringPointSubType.${MeteringPointSubType.Virtual}` | transloco }}
+          </watt-radio>
+
+          <watt-radio
+            group="subType"
+            [formControl]="detailsControls.subType"
+            [value]="MeteringPointSubType.Calculated"
+          >
+            {{ `meteringPointSubType.${MeteringPointSubType.Calculated}` | transloco }}
+          </watt-radio>
+        </watt-field>
+
+        @if (detailsControls.subType.value === MeteringPointSubType.Physical) {
+          <watt-text-field
+            [formControl]="detailsControls.meteringPointNumber"
+            [label]="t('details.meteringPointNumber')"
+          />
+        }
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="detailsControls.powerLimitKw"
+            [label]="t('details.powerLimitKw')"
+          />
+
+          <watt-text-field
+            [formControl]="detailsControls.powerLimitAmpere"
+            [label]="t('details.powerLimitAmpere')"
+          />
+        </vater-flex>
+
+        <watt-field
+          [label]="t('details.disconnectionType')"
+          [control]="detailsControls.disconnectionType"
+          displayMode="content"
+        >
+          <watt-radio
+            group="disconnectionType"
+            [formControl]="detailsControls.disconnectionType"
+            [value]="DisconnectionType.RemoteDisconnection"
+          >
+            {{ t(`disconnectionType.${DisconnectionType.RemoteDisconnection}`) }}
+          </watt-radio>
+
+          <watt-radio
+            group="disconnectionType"
+            [formControl]="detailsControls.disconnectionType"
+            [value]="DisconnectionType.ManualDisconnection"
+          >
+            {{ t(`disconnectionType.${DisconnectionType.ManualDisconnection}`) }}
+          </watt-radio>
+        </watt-field>
+
+        <watt-dropdown
+          [formControl]="detailsControls.gridArea"
+          [options]="gridAreaOptions()"
+          [showResetOption]="false"
+          [label]="t('details.gridArea')"
+        />
+      </watt-card>
+
+      <watt-card>
+        <watt-card-title>
+          <h4>{{ t("address.title") }}</h4>
+        </watt-card-title>
+
+        @let addressControls = form.controls.address.controls;
+
+        <watt-field
+          [label]="t('address.actualNotActualLabel')"
+          [control]="addressControls.washInstructions"
+          displayMode="content"
+        >
+          <watt-radio
+            group="washInstructions"
+            [formControl]="addressControls.washInstructions"
+            value="WASHABLE"
+          >
+            {{ t("address.actualAddress") }}
+          </watt-radio>
+
+          <watt-radio
+            group="washInstructions"
+            [formControl]="addressControls.washInstructions"
+            value="NOT_WASHABLE"
+          >
+            {{ t("address.notActualAddress") }}
+          </watt-radio>
+        </watt-field>
+
+        <vater-stack direction="row" align="baseline" gap="m">
+          <watt-dropdown
+            [formControl]="addressControls.countryCode"
+            [options]="countryOptions"
+            [showResetOption]="false"
+            [label]="t('address.country')"
+            class="country-dropdown"
+            dhDropdownTranslator
+            translateKey="shared.countries"
+          />
+
+          <watt-text-field
+            [formControl]="addressControls.streetName"
+            [label]="t('address.streetName')"
+          />
+        </vater-stack>
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="addressControls.buildingNumber"
+            [label]="t('address.buildingNumber')"
+          />
+
+          <watt-text-field [formControl]="addressControls.floor" [label]="t('address.floor')" />
+
+          <watt-text-field [formControl]="addressControls.room" [label]="t('address.room')" />
+
+          <watt-text-field
+            [formControl]="addressControls.postCode"
+            [label]="t('address.postCode')"
+          />
+        </vater-flex>
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="addressControls.cityName"
+            [label]="t('address.cityName')"
+          />
+
+          <watt-text-field
+            [formControl]="addressControls.citySubDivisionName"
+            [label]="t('address.citySubDivisionName')"
+          />
+        </vater-flex>
+
+        <vater-flex direction="row" align="baseline" gap="m">
+          <watt-text-field
+            [formControl]="addressControls.streetCode"
+            [label]="t('address.streetCode')"
+          />
+
+          <watt-text-field
+            [formControl]="addressControls.municipalityCode"
+            [label]="t('address.municipalityCode')"
+          />
+        </vater-flex>
+
+        <watt-text-field [formControl]="addressControls.darID" [label]="t('address.darID')" />
+
+        <hr class="watt-divider" />
+
+        <watt-textarea-field
+          [formControl]="addressControls.comment"
+          [label]="t('address.commentLabel')"
+          small
+        />
+      </watt-card>
+
+      <watt-card>
+        <watt-card-title>
+          <h4>{{ t("powerPlant.title") }}</h4>
+        </watt-card-title>
+
+        @let powerPlantControls = form.controls.powerPlant.controls;
+
+        <watt-field
+          [label]="t('powerPlant.netSettlementGroup')"
+          [control]="powerPlantControls.netSettlementGroup"
+          displayMode="content"
+        >
+          <watt-radio
+            group="netSettlementGroup"
+            [formControl]="powerPlantControls.netSettlementGroup"
+            value="0"
+          >
+            {{ t("netSettlementGroup.0") }}
+          </watt-radio>
+
+          <watt-radio
+            group="netSettlementGroup"
+            [formControl]="powerPlantControls.netSettlementGroup"
+            value="3"
+          >
+            {{ t("netSettlementGroup.3") }}
+          </watt-radio>
+        </watt-field>
+
+        @if (powerPlantControls.netSettlementGroup.value === "3") {
+          <vater-flex direction="row" align="baseline" gap="m">
+            <watt-text-field
+              [formControl]="powerPlantControls.capacity"
+              [label]="t('powerPlant.capacity')"
+            />
+
+            <watt-text-field
+              [formControl]="powerPlantControls.gsrnNumber"
+              [label]="t('powerPlant.gsrnNumber')"
+            />
+          </vater-flex>
+
+          <watt-field
+            [label]="t('powerPlant.connectionType')"
+            [control]="powerPlantControls.connectionType"
+            displayMode="content"
+          >
+            <watt-radio
+              group="connectionType"
+              [formControl]="powerPlantControls.connectionType"
+              [value]="ConnectionType.Direct"
+            >
+              {{ t(`connectionType.${ConnectionType.Direct}`) }}
+            </watt-radio>
+
+            <watt-radio
+              group="connectionType"
+              [formControl]="powerPlantControls.connectionType"
+              [value]="ConnectionType.Installation"
+            >
+              {{ t(`connectionType.${ConnectionType.Installation}`) }}
+            </watt-radio>
+          </watt-field>
+
+          <watt-dropdown
+            [formControl]="powerPlantControls.assetType"
+            [options]="assetTypeOptions"
+            [showResetOption]="false"
+            [label]="t('powerPlant.assetType')"
+            dhDropdownTranslator
+            translateKey="assetType"
+          />
+        }
+
+        <hr class="watt-divider" />
+
+        <h4 class="watt-space-stack-s">{{ t("other.title") }}</h4>
+
+        @let otherControls = form.controls.other.controls;
+
+        <watt-field
+          [label]="t('other.resolution')"
+          [control]="otherControls.resolution"
+          displayMode="content"
+        >
+          <watt-radio
+            group="resolution"
+            [formControl]="otherControls.resolution"
+            value="quarterHourly"
+          >
+            {{ t("resolution.quarterHourly") }}
+          </watt-radio>
+
+          <watt-radio group="resolution" [formControl]="otherControls.resolution" value="hourly">
+            {{ t("resolution.hourly") }}
+          </watt-radio>
+        </watt-field>
+
+        <watt-field
+          [label]="t('other.measureUnit')"
+          [control]="otherControls.measureUnit"
+          displayMode="content"
+        >
+          <watt-radio group="measureUnit" [formControl]="otherControls.measureUnit" value="K_WH">
+            {{ `measureUnit.K_WH` | transloco }}
+          </watt-radio>
+
+          <watt-radio group="measureUnit" [formControl]="otherControls.measureUnit" value="KV_ARH">
+            {{ `measureUnit.KV_ARH` | transloco }}
+          </watt-radio>
+        </watt-field>
+
+        <label>{{ t("other.product") }}</label>
+        <vater-stack direction="row" align="baseline" gap="m" class="watt-space-stack-m">
+          @if (otherControls.measureUnit.value === "K_WH") {
+            <small>{{ `product.${Product.EnergyActive}` | transloco }}</small>
+          } @else if (otherControls.measureUnit.value === "KV_ARH") {
+            <small>{{ `product.${Product.EnergyReactive}` | transloco }}</small>
+          }
+        </vater-stack>
+      </watt-card>
+    </div>
+  </form>
+</ng-container>

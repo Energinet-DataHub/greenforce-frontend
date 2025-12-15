@@ -20,6 +20,7 @@ import { Routes } from '@angular/router';
 
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 export const chargeRoutes: Routes = [
   {
@@ -27,13 +28,57 @@ export const chargeRoutes: Routes = [
       titleTranslationKey: 'charges.charges.topBarTitle',
     },
     path: '',
-    pathMatch: 'full',
     canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
-    loadComponent: () => import('./components/charges.component').then((m) => m.DhChargesComponent),
+    loadComponent: () => import('./components/charges').then((m) => m.DhCharges),
+    children: [
+      {
+        path: 'create',
+        loadComponent: () => import('./components/actions/create'),
+      },
+    ],
   },
   {
     path: ':id',
-    loadComponent: () => import('./components/charge.component').then((m) => m.DhChargeComponent),
-    loadChildren: () => import('@energinet-datahub/dh/charges/feature-prices'),
+    loadComponent: () =>
+      import('./components/information/information').then((m) => m.DhChargesInformation),
+    children: [
+      {
+        path: `${getPath<ChargesSubPaths>('prices')}/:resolution`,
+        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
+        loadComponent: () =>
+          import('./components/series/series').then((m) => m.DhChargesSeriesTable),
+      },
+      {
+        path: getPath<ChargesSubPaths>('information'),
+        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
+        loadComponent: () =>
+          import('./components/information/information-periods').then(
+            (m) => m.DhChargesInformationPeriods
+          ),
+      },
+      {
+        path: getPath<ChargesSubPaths>('history'),
+        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
+        loadComponent: () =>
+          import('./components/information/information-history').then(
+            (m) => m.DhChargesInformationHistory
+          ),
+      },
+      {
+        path: 'stop',
+        loadComponent: () => import('./components/actions/stop'),
+        outlet: 'actions',
+      },
+      {
+        path: 'edit',
+        loadComponent: () => import('./components/actions/edit'),
+        outlet: 'actions',
+      },
+      {
+        path: 'upload-series',
+        loadComponent: () => import('./components/actions/upload-series'),
+        outlet: 'actions',
+      },
+    ],
   },
 ];

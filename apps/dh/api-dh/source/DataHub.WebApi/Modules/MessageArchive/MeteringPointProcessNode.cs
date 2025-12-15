@@ -12,12 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
+using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
 using NodaTime;
+
+using WorkflowAction = Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model.WorkflowAction;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 
@@ -26,34 +32,42 @@ public static partial class MeteringPointProcessNode
 {
     [Query]
     [UsePaging]
-    [UseSorting]
+    [UseSorting(typeof(MeteringPointProcessSortType))]
     public static async Task<IEnumerable<MeteringPointProcess>> GetMeteringPointProcessOverviewAsync(
         string meteringPointId,
-        Interval created) =>
-        await Task.FromResult<IEnumerable<MeteringPointProcess>>([
-            new MeteringPointProcess(
-                Id: "01992fc0-702d-7482-b524-523ab2ad545c",
-                CreatedAt: new DateTimeOffset(2023, 1, 1, 0, 0, 0, 0, TimeSpan.Zero),
-                CutoffDate: new DateTimeOffset(2023, 2, 1, 0, 0, 0, 0, TimeSpan.Zero),
-                DocumentType: DocumentType.RequestWholesaleSettlement,
-                ReasonCode: "E20",
-                ActorNumber: "905495045940594",
-                ActorRole: "GridAccessProvider",
-                State: ProcessState.Succeeded),
-        ]);
+        Interval created,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+
+        var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+            userIdentity,
+            meteringPointId,
+            created.Start.ToDateTimeOffset(),
+            created.End.ToDateTimeOffset());
+
+        var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
+
+        return workflowInstances.Select(MapToMeteringPointProcess);
+    }
 
     [Query]
-    public static async Task<MeteringPointProcess?> GetMeteringPointProcessByIdAsync(string id) =>
-        await Task.FromResult<MeteringPointProcess>(
-            new MeteringPointProcess(
-                Id: "01992fc0-702d-7482-b524-523ab2ad545c",
-                CreatedAt: new DateTimeOffset(2023, 1, 1, 0, 0, 0, 0, TimeSpan.Zero),
-                CutoffDate: new DateTimeOffset(2023, 2, 1, 0, 0, 0, 0, TimeSpan.Zero),
-                DocumentType: DocumentType.RequestWholesaleSettlement,
-                ReasonCode: "E20",
-                ActorNumber: "905495045940594",
-                ActorRole: "GridAccessProvider",
-                State: ProcessState.Succeeded));
+    public static async Task<MeteringPointProcess?> GetMeteringPointProcessByIdAsync(
+        string id,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+
+        var query = new GetWorkflowInstanceByIdQuery(userIdentity, Guid.Parse(id));
+
+        var workflowInstanceWithSteps = await processManagerClient.GetWorkflowInstanceByIdQueryAsync(query, cancellationToken);
+
+        return workflowInstanceWithSteps is not null ? MapToMeteringPointProcess(workflowInstanceWithSteps) : null;
+    }
 
     public static async Task<ActorDto?> GetInitiatorAsync(
         [Parent] MeteringPointProcess process,
@@ -63,29 +77,142 @@ public static partial class MeteringPointProcessNode
             : null;
 
     public static IEnumerable<MeteringPointProcessStep> GetSteps(
-        [Parent] MeteringPointProcess process) =>
-        [
-            new MeteringPointProcessStep(
-                Id: "0199f10f-d7e4-7ad3-b250-f1e88cd2a510",
-                Step: "REQUEST_END_OF_SUPPLY",
-                Comment: null,
-                CreatedAt: new DateTimeOffset(2023, 1, 1, 0, 0, 0, 0, TimeSpan.Zero),
-                DueDate: new DateTimeOffset(2023, 2, 1, 0, 0, 0, 0, TimeSpan.Zero),
-                ActorNumber: "905495045940594",
-                ActorRole: "GridAccessProvider",
-                State: ProcessState.Pending,
-                MessageId: "a7d4c835d67c4d0d88345e27d33c538b"), // MessageId which exists on test001
-        ];
+        [Parent] MeteringPointProcess process)
+    {
+        if (process.WorkflowSteps is null or { Count: 0 })
+        {
+            return [];
+        }
+
+        return process.WorkflowSteps.Select(step => new MeteringPointProcessStep(
+            Id: step.Id.ToString(),
+            Step: GetStepIdentifier(step),
+            Comment: null, // TODO: REPLACE WHEN PROCESS MANAGER IS READY
+            CompletedAt: step.Lifecycle.CompletedAt,
+            DueDate: null, // DueDate was removed in ProcessManager 8.1.0
+            ActorNumber: step.Actor?.ActorNumber.Value ?? string.Empty,
+            ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
+            State: MapStepStateToProcessState(step.Lifecycle.State),
+            MessageId: step.MessageId ?? "a7d4c835d67c4d0d88345e27d33c538b")); // MessageId which exists on test001
+    }
+
+    public static IEnumerable<WorkflowAction> GetAvailableActions(
+        [Parent] MeteringPointProcess process)
+    {
+        // Return the action from the workflow instance as an array
+        // Filter out NoAction to return an empty array when there are no actions
+        return process.Action is null or WorkflowAction.NoAction ? [] : [process.Action.Value];
+    }
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
     {
         descriptor.Name("MeteringPointProcess");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Id);
-        descriptor.Field(f => f.DocumentType);
         descriptor.Field(f => f.ReasonCode);
         descriptor.Field(f => f.CreatedAt);
         descriptor.Field(f => f.CutoffDate);
         descriptor.Field(f => f.State);
+        descriptor.Field("availableActions")
+            .Type<ListType<NonNullType<EnumType<WorkflowAction>>>>()
+            .Resolve(ctx => GetAvailableActions(ctx.Parent<MeteringPointProcess>()));
+    }
+
+    private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceDto workflowInstance) =>
+        CreateMeteringPointProcess(
+            workflowInstance.Id,
+            workflowInstance.Lifecycle,
+            workflowInstance.BusinessReason.Name,
+            workflowInstance.ExpectedValidityDate,
+            action: workflowInstance.Action,
+            workflowSteps: null);
+
+    private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps) =>
+        CreateMeteringPointProcess(
+            workflowInstanceWithSteps.Id,
+            workflowInstanceWithSteps.Lifecycle,
+            workflowInstanceWithSteps.BusinessReason.Name,
+            workflowInstanceWithSteps.ExpectedValidityDate,
+            action: null,
+            workflowSteps: workflowInstanceWithSteps.Steps);
+
+    private static MeteringPointProcess CreateMeteringPointProcess(
+        Guid id,
+        WorkflowInstanceLifecycleDto lifecycle,
+        string businessReasonString,
+        DateTimeOffset? cuteoffDate = null,
+        WorkflowAction? action = null,
+        IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null)
+    {
+        var actorIdentity = lifecycle.CreatedBy as ActorIdentityDto;
+
+        return new MeteringPointProcess(
+            Id: id.ToString(),
+            CreatedAt: lifecycle.CreatedAt,
+            CutoffDate: cuteoffDate,
+            ReasonCode: businessReasonString,
+            ActorNumber: actorIdentity?.ActorNumber.Value ?? string.Empty,
+            ActorRole: actorIdentity?.ActorRole.Name ?? string.Empty,
+            State: MapWorkflowStateToProcessState(lifecycle.State, lifecycle.TerminationState),
+            Action: action,
+            WorkflowSteps: workflowSteps);
+    }
+
+    private static ProcessState MapWorkflowStateToProcessState(
+        WorkflowInstanceLifecycleState workflowState,
+        WorkflowInstanceTerminationState? terminationState) =>
+        workflowState switch
+        {
+            WorkflowInstanceLifecycleState.Pending or WorkflowInstanceLifecycleState.Sleeping => ProcessState.Pending,
+            WorkflowInstanceLifecycleState.Active => ProcessState.Running,
+            WorkflowInstanceLifecycleState.Terminated => MapWorkflowTerminationState(terminationState),
+            _ => ProcessState.Pending,
+        };
+
+    private static ProcessState MapStepStateToProcessState(
+        WorkflowStepInstanceLifecycleState stepState) =>
+        stepState switch
+        {
+            WorkflowStepInstanceLifecycleState.Pending => ProcessState.Pending,
+            WorkflowStepInstanceLifecycleState.Completed => ProcessState.Succeeded,
+            _ => ProcessState.Pending,
+        };
+
+    private static ProcessState MapWorkflowTerminationState(WorkflowInstanceTerminationState? terminationState) =>
+        terminationState switch
+        {
+            WorkflowInstanceTerminationState.Succeeded => ProcessState.Succeeded,
+            WorkflowInstanceTerminationState.Failed => ProcessState.Failed,
+            WorkflowInstanceTerminationState.UserCanceled => ProcessState.Canceled,
+            _ => ProcessState.Failed,
+        };
+
+    /// <summary>
+    /// Generates a step identifier based on the workflow's unique name and step sequence,
+    /// and maps it to a known ProcessStepType enum value.
+    /// Format: {PROCESS_NAME}_V{VERSION}_STEP_{SEQUENCE}
+    /// Example: BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1
+    ///
+    /// If the generated identifier doesn't match any known enum value, returns ProcessStepType.UNKNOWN.
+    /// This allows new processes to work without breaking the application.
+    /// </summary>
+    private static ProcessStepType GetStepIdentifier(WorkflowStepInstanceDto step)
+    {
+        // Normalize the process name: replace dots and spaces with underscores, convert to uppercase
+        var processName = step.UniqueName.Name
+            .Replace(".", "_")
+            .Replace(" ", string.Empty)
+            .ToUpperInvariant();
+
+        var identifier = $"{processName}_V{step.UniqueName.Version}_STEP_{step.Sequence}";
+
+        // Try to parse the identifier to a known ProcessStepType enum value
+        if (Enum.TryParse<ProcessStepType>(identifier, ignoreCase: true, out var stepType))
+        {
+            return stepType;
+        }
+
+        // If not found, return UNKNOWN (new processes that haven't been added to the enum yet)
+        return ProcessStepType.UNKNOWN;
     }
 }

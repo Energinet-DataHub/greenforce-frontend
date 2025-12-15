@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
+namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
 public class ResolutionType : EnumType<Resolution>
 {
     protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
     {
         descriptor.Name("ChargeResolution");
-        descriptor.AsIsCase();
+        descriptor.AsLowerCase();
     }
 }

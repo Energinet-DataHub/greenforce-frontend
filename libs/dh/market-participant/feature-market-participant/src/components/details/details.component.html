@@ -127,7 +127,7 @@ limitations under the License.
                   <watt-button
                     *dhPermissionRequired="['actors:manage']"
                     (click)="editOrganization(loadedMarketParticipant.organization.id)"
-                    variant="text"
+                    variant="secondary"
                     >{{ t("tabs.masterData.editOrganization") }}</watt-button
                   >
                 </vater-stack>
@@ -148,9 +148,7 @@ limitations under the License.
                 />
                 <watt-description-list-item [label]="t('tabs.masterData.domains')">
                   <vater-stack wrap direction="row" gap="s">
-                    @for (domain of loadedMarketParticipant.organization.domains; track domain) {
-                      <watt-chip [readonly]="true">{{ domain }}</watt-chip>
-                    }
+                    {{ loadedMarketParticipant.organization.domains.join(" - ") }}
                   </vater-stack>
                 </watt-description-list-item>
               </watt-description-list>

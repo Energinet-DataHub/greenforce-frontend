@@ -17,9 +17,10 @@
  */
 //#endregion
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import {
   VaterFlexComponent,
@@ -34,6 +35,7 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet/watt/description-list';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet/watt/dropdown';
 import { WattDropZone } from '@energinet/watt/dropzone';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
 import { WattFileField } from '@energinet/watt/file-field';
@@ -41,6 +43,7 @@ import { WattFileField } from '@energinet/watt/file-field';
 import {
   GetMeteringPointUploadMetadataByIdDocument,
   MeteringPointSubType,
+  SendMeasurementsResolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhEmDashFallbackPipe,
@@ -69,6 +72,7 @@ import { DhUploadMeasurementsService } from './upload-service';
     WattDatepickerComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
+    WattDropdownComponent,
     WattDropZone,
     WattFieldErrorComponent,
     WattFileField,
@@ -93,7 +97,7 @@ import { DhUploadMeasurementsService } from './upload-service';
     }
   `,
   template: `
-    <watt-card vater fill="vertical" *transloco="let t; prefix: 'meteringPoint.measurements'">
+    <watt-card inset="ml" vater *transloco="let t; prefix: 'meteringPoint.measurements'">
       <watt-card-title>
         <vater-stack direction="row" gap="m">
           <h3>{{ t('upload.title') }}</h3>
@@ -114,17 +118,28 @@ import { DhUploadMeasurementsService } from './upload-service';
         </vater-stack>
       </watt-card-title>
       <vater-flex wrap direction="row" gap="xl" align="baseline">
-        <watt-description-list variant="compact" *transloco="let tCommon">
-          <watt-description-list-item [label]="t('upload.quality')">
-            {{ quality() && t('quality.' + quality()) | dhEmDashFallback }}
-          </watt-description-list-item>
-          <watt-description-list-item [label]="t('upload.resolution')">
-            {{ resolution() && tCommon('resolution.' + resolution()) | dhEmDashFallback }}
-          </watt-description-list-item>
-          <watt-description-list-item [label]="t('upload.measureUnit')">
-            {{ measureUnit() && t('units.' + measureUnit()) | dhEmDashFallback }}
-          </watt-description-list-item>
-        </watt-description-list>
+        <vater-stack direction="column" gap="m" align="stretch" *transloco="let tCommon">
+          <watt-dropdown
+            [label]="t('upload.resolution')"
+            [formControl]="resolution"
+            [options]="resolutionOptions()"
+            [showResetOption]="false"
+          >
+            @if (resolution.disabled) {
+              <watt-field-hint>
+                {{ t('upload.resolutionHint') }}
+              </watt-field-hint>
+            }
+          </watt-dropdown>
+          <watt-description-list variant="compact">
+            <watt-description-list-item [label]="t('upload.quality')">
+              {{ quality() && t('quality.' + quality()) | dhEmDashFallback }}
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('upload.measureUnit')">
+              {{ measureUnit() && t('units.' + measureUnit()) | dhEmDashFallback }}
+            </watt-description-list-item>
+          </watt-description-list>
+        </vater-stack>
         @if (!file.valid) {
           <watt-dropzone
             accept="text/csv"
@@ -175,6 +190,7 @@ export class DhUploadMeasurementsPage {
 
   private navigate = injectRelativeNavigate();
   private measurements = inject(DhUploadMeasurementsService);
+  private transloco = inject(TranslocoService);
   private meteringPointQuery = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
     fetchPolicy: 'cache-only',
     variables: {
@@ -184,12 +200,24 @@ export class DhUploadMeasurementsPage {
 
   metadata = computed(() => this.meteringPointQuery.data()?.meteringPoint?.metadata);
   measureUnit = computed(() => this.metadata()?.measureUnit);
-  resolution = computed(() => this.metadata()?.resolution);
-  handleInvalidMeteringPointSubTypeEffect = effect(() => {
+  meteringPointResolution = computed(() => this.metadata()?.resolution);
+
+  preventCalculatedSubTypeEffect = effect(() => {
     if (this.metadata()?.subType === MeteringPointSubType.Calculated) {
       this.navigate('..');
     }
   });
+
+  resolutionOptions = computed<WattDropdownOption[]>(() =>
+    [
+      SendMeasurementsResolution.QuarterHourly,
+      SendMeasurementsResolution.Hourly,
+      SendMeasurementsResolution.Monthly,
+    ].map((resolution) => ({
+      value: resolution,
+      displayValue: this.transloco.translate(`resolution.${resolution}`),
+    }))
+  );
 
   csv = signal<MeasureDataResult | null>(null, { equal: () => false });
   totalSum = computed(() => this.csv()?.sum ?? 0);
@@ -206,31 +234,75 @@ export class DhUploadMeasurementsPage {
   private validate = async (): Promise<ValidationErrors | null> => {
     if (!this.file.value) return null;
     const [file] = this.file.value;
-    const resolution = this.resolution();
+    const resolution = this.resolution.getRawValue();
     assertIsDefined(resolution);
     await this.measurements.parseFile(file, resolution).forEach(this.csv.set);
-    return this.csv()?.errors ?? null;
+    const errors = this.csv()?.errors;
+    return errors?.length ? errors : null;
   };
 
+  resolution = dhMakeFormControl<SendMeasurementsResolution | null>(null, Validators.required);
+  resolutionValue = toSignal(this.resolution.valueChanges);
   file = dhMakeFormControl<File[]>(null, Validators.required, this.validate);
   date = dhMakeFormControl<Date>({ value: null, disabled: true }, Validators.required);
 
-  updateDateEffect = effect(() => {
+  setDefaultResolutionEffect = effect(() => {
+    const meteringPointResolution = this.meteringPointResolution();
+
+    if (meteringPointResolution && !this.resolution.dirty) {
+      this.resolution.setValue(this.measurements.mapResolution(meteringPointResolution));
+    }
+  });
+
+  setStartDateEffect = effect(() => {
     const csv = this.csv();
     if (csv?.progress !== 100) return;
+
     const start = csv?.maybeGetDateRange()?.start;
     if (start) this.date.setValue(start);
+  });
+
+  toggleResolutionEffect = effect(() => {
+    const csv = this.csv();
+    const isValidUpload = csv?.progress === 100 && !csv?.errors.length;
+
+    if (isValidUpload) {
+      this.resolution.disable();
+    } else {
+      this.resolution.enable();
+    }
+  });
+
+  revalidateEffect = effect(() => {
+    const resolution = this.resolutionValue();
+
+    if (resolution && this.file.value && this.resolution.dirty) {
+      this.csv.set(null);
+      this.file.setValue([...this.file.value]);
+    }
   });
 
   submit = () => {
     const csv = this.csv();
     const metadata = this.metadata();
+    const selectedResolution = this.resolution.getRawValue();
     assertIsDefined(csv);
     assertIsDefined(metadata);
-    this.measurements.send(this.meteringPointId(), metadata.type, metadata.measureUnit, csv);
+    assertIsDefined(selectedResolution);
+    this.measurements.send(
+      this.meteringPointId(),
+      metadata.type,
+      metadata.measureUnit,
+      selectedResolution,
+      csv
+    );
   };
 
   reset = () => {
+    const meteringPointResolution = this.meteringPointResolution();
+    if (meteringPointResolution) {
+      this.resolution.setValue(this.measurements.mapResolution(meteringPointResolution));
+    }
     this.file.reset();
     this.date.reset();
     this.csv.set(null);

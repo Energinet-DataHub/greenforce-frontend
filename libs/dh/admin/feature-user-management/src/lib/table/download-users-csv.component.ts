@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
@@ -30,6 +30,7 @@ import {
 
 import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 type Variables = Partial<GetUsersForCsvQueryVariables>;
 
@@ -37,18 +38,21 @@ type Variables = Partial<GetUsersForCsvQueryVariables>;
   selector: 'dh-download-users-csv',
   imports: [TranslocoPipe, WattButtonComponent],
   template: `
-    <watt-button icon="download" variant="text" (click)="download()" [loading]="query.loading()">{{
+    <watt-button variant="secondary" (click)="download()" [loading]="query.loading()">{{
       'shared.download' | transloco
     }}</watt-button>
   `,
 })
 export class DhDownloadUsersCsvComponent {
+  private readonly appInsights = inject(DhApplicationInsights);
+
   query = lazyQuery(GetUsersForCsvDocument);
   private generateCsv = GenerateCSV.fromQuery(this.query, (result) => result.users?.items || []);
 
   variables = input<Variables>();
 
   async download() {
+    this.appInsights.trackEvent('Button: Download users');
     const basePath = 'admin.userManagement.downloadUsers';
 
     this.generateCsv
