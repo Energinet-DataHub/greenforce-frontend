@@ -12,32 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Modules.Common.Utilities;
 using NodaTime;
 using NodaTime.Text;
 
 namespace Energinet.DataHub.WebApi.Modules.Common.Models;
 
-// TODO: Can we replace the mapping logic with tests instead, to improve safety?
-public record Resolution(string Name, string Duration)
+public record Resolution(string Name, string Duration) : Enumeration<Resolution>
 {
     public static readonly Resolution QuarterHourly = new Resolution(nameof(QuarterHourly), "PT15M");
     public static readonly Resolution Hourly = new Resolution(nameof(Hourly), "PT1H");
     public static readonly Resolution Daily = new Resolution(nameof(Daily), "P1D");
     public static readonly Resolution Monthly = new Resolution(nameof(Monthly), "P1M");
 
-    public override string ToString() => Name;
-
     public Period ToPeriod() => PeriodPattern.NormalizingIso.Parse(Duration).Value;
-
-    public static Resolution FromDuration(string duration) =>
-        duration switch
-        {
-            "PT15M" => QuarterHourly,
-            "PT1H" => Hourly,
-            "P1D" => Daily,
-            "P1M" => Monthly,
-            _ => throw new ArgumentException(),
-        };
 
     public static Resolution FromName(string name) =>
         name.ToLower() switch
@@ -49,9 +37,16 @@ public record Resolution(string Name, string Duration)
             _ => throw new ArgumentException(),
         };
 
-    public T MagicDuration<T>()
-        where T : Enum => (T)Enum.Parse(typeof(T), Duration, true);
+    public static Resolution FromDuration(string duration) =>
+        duration switch
+        {
+            "PT15M" => QuarterHourly,
+            "PT1H" => Hourly,
+            "P1D" => Daily,
+            "P1M" => Monthly,
+            _ => throw new ArgumentException(),
+        };
 
-    public T MagicName<T>()
-        where T : Enum => (T)Enum.Parse(typeof(T), Name, true);
+    public T CastFromDuration<T>()
+        where T : Enum => (T)Enum.Parse(typeof(T), Duration, true);
 }

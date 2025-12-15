@@ -161,7 +161,7 @@ public class ChargesClient(
                 ChargeType: input.Type.ToRequestChangeOfPriceListChargeType(),
                 ChargeName: input.Name,
                 ChargeDescription: input.Description,
-                Resolution: input.Resolution.MagicDuration<ResolutionV1>(),
+                Resolution: input.Resolution.CastFromDuration<ResolutionV1>(),
                 Start: input.ValidFrom,
                 End: null,
                 VatPayer: input.Vat ? VatPayerV1.D02 : VatPayerV1.D01,
