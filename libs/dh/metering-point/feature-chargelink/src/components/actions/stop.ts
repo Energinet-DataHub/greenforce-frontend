@@ -30,6 +30,7 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import {
   StopChargeLinkDocument,
@@ -103,16 +104,15 @@ export default class DhMeteringPointStopChargeLink {
   meteringPointId = input.required<string>();
 
   async stopLink() {
-    const stopDate = this.form.controls.stopDate.value;
+    assertIsDefined(this.form.controls.stopDate.value);
     const charge = this.chargeLink()?.charge;
-
-    if (!stopDate || !charge) return;
+    assertIsDefined(charge);
 
     await this.stopChangeLink.mutate({
       variables: {
         chargeId: charge.id,
         meteringPointId: this.meteringPointId(),
-        stopDate,
+        stopDate: this.form.controls.stopDate.value,
       },
     });
   }
