@@ -87,6 +87,7 @@
     "@popperjs/core": "2.11.8",
     "@rx-angular/cdk": "17.0.1",
     "@rx-angular/template": "17.1.0",
+    "@vitest/coverage-v8": "^4.0.15",
     "apollo-angular": "11.0.0",
     "chardet": "2.1.0",
     "dayjs": "1.11.13",
