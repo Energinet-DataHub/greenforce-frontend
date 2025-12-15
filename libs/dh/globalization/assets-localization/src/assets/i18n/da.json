@@ -662,7 +662,8 @@
         "upload": "Upload måledata",
         "moveIn": "Tilflyt kunde",
         "createChargeLink": "Tilknyt pris",
-        "changeConnectionStatus": "Ændr tilslutningstatus"
+        "changeConnectionStatus": "Ændr tilslutningstatus",
+        "updateCustomerData": "Opdater kundestamdata"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -961,6 +962,7 @@
 
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
+      "updateCustomerData": "Opdater kundestamdata",
       "steps": {
         "customerDetails": {
           "label": "Kundedetaljer",
@@ -969,11 +971,11 @@
           "customerInformation": "Kundeoplysninger",
           "private": "Privat",
           "business": "Erhverv",
-          "name1": "Kundenavn",
+          "name1": "Kundenavn 1",
           "cpr1": "CPR 1",
           "name2": "Kundenavn 2",
           "cpr2": "CPR 2",
-          "companyName": "Kundenavn",
+          "companyName": "Navn",
           "cvr": "CVR",
           "foreignCompany": "Udenlandsk virksomhed",
           "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
@@ -1001,10 +1003,7 @@
         },
         "addressDetails": {
           "label": "Adresseoplysninger",
-          "legalAddressSection": "Juridisk adresse",
-          "technicalAddressSection": "Teknisk adresse",
           "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
-          "addressSameAsLegal": "Samme som juridisk adresse",
           "street": "Vejnavn",
           "houseNumber": "Husnummer",
           "floor": "Etage",
@@ -1014,6 +1013,7 @@
           "country": "Land",
           "streetCode": "Vejkode",
           "citySubdivisionName": "Supplerende bynavn",
+          "postalDistrict": "Postdistrikt",
           "postBox": "Postboks",
           "municipalityCode": "Kommunekode",
           "municipalityCodeError": {
@@ -1029,8 +1029,10 @@
           "D29": "Sekundær (D29)"
         }
       },
-      "success": "Tilflytning er nu registreret",
-      "save": "Tilflyt kunde"
+      "moveInSuccess": "Tilflytning er nu registreret",
+      "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
+      "save": "Tilflyt kunde",
+      "cancel": "Annuller"
     },
     "create": {
       "modal": {
@@ -1115,7 +1117,8 @@
       "connectionStateLabel": "Tilslutningsstatus",
       "validityDate": "Gyldighedsdato",
       "cancel": "Annuller",
-      "save": "Gem ændringer"
+      "save": "Gem ændringer",
+      "saveSuccess": "Tilslutningsstatus opdateres"
     }
   },
   "messageArchive": {

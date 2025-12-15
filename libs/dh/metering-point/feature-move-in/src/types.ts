@@ -24,29 +24,24 @@ import {
   MoveInType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type MoveInCustomerDetailsFormType = {
+export type StartMoveInFormType = {
   cutOffDate: FormControl<Date>;
   moveInType: FormControl<MoveInType | null>;
   customerType: FormControl<'private' | 'business'>;
   privateCustomer?: FormGroup<{
     name1: FormControl<string>;
     cpr1: FormControl<string>;
-    name2: FormControl<string>;
-    cpr2: FormControl<string>;
   }>;
   businessCustomer?: FormGroup<{
     companyName: FormControl<string>;
     cvr: FormControl<string>;
     isForeignCompany: FormControl<boolean>;
   }>;
-  isProtectedAddress: FormControl<boolean>;
 };
 
-export type MoveInContactDetailsFormType = {
-  legalContactSameAsCustomer: FormControl<boolean>;
-  legalContactGroup: FormGroup<ContactDetailsFormGroup>;
-  technicalContactSameAsLegal: FormControl<boolean>;
-  technicalContactGroup: FormGroup<ContactDetailsFormGroup>;
+export type ContactDetailsFormType = {
+  contactSameAsCustomer: FormControl<boolean>;
+  contactGroup: FormGroup<ContactDetailsFormGroup>;
 };
 
 export type ContactDetailsFormGroup = {
@@ -57,13 +52,10 @@ export type ContactDetailsFormGroup = {
   email: FormControl<string>;
 };
 
-export type MoveInAddressDetailsFormType = {
-  legalAddressSameAsMeteringPoint: FormControl<boolean>;
-  legalAddressGroup: FormGroup<AddressGroup>;
-  legalNameAddressProtection: FormControl<boolean>;
-  technicalAddressSameAsLegal: FormControl<boolean>;
-  technicalAddressGroup: FormGroup<AddressGroup>;
-  technicalNameAddressProtection: FormControl<boolean>;
+export type AddressDetailsFormType = {
+  addressSameAsMeteringPoint: FormControl<boolean>;
+  addressGroup: FormGroup<AddressGroup>;
+  nameAddressProtection: FormControl<boolean>;
 };
 
 export type AddressData = {
@@ -75,13 +67,14 @@ export type AddressData = {
   cityName: string;
   countryCode: string;
   streetCode: string;
-  citySubdivisionName: string;
+  citySubDivisionName: string;
+  postalDistrict: string;
   postBox: string;
   municipalityCode: string;
   darReference: string;
 };
 
-type AddressGroup = {
+export type AddressGroup = {
   streetName: FormControl<string>;
   buildingNumber: FormControl<string>;
   floor: FormControl<string>;
@@ -90,14 +83,38 @@ type AddressGroup = {
   cityName: FormControl<string>;
   countryCode: FormControl<string>;
   streetCode: FormControl<string>;
-  citySubdivisionName: FormControl<string>;
+  citySubDivisionName: FormControl<string>;
+  postalDistrict: FormControl<string>;
   postBox: FormControl<string>;
   municipalityCode: FormControl<string>;
   darReference: FormControl<string>;
 };
 
-export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
+export type PrivateCustomerFormGroup = {
+  customerName1: FormControl<string>;
+  cpr1: FormControl<string>;
+  customerName2: FormControl<string>;
+  cpr2: FormControl<string>;
+};
+
+export type BusinessCustomerFormGroup = {
+  companyName: FormControl<string>;
+  cvr: FormControl<string>;
+};
 
 export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
+
+export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
+
+type CommercialRelation = NonNullable<MeteringPointDetails['commercialRelation']>;
+type ActiveEnergySupplyPeriod = NonNullable<CommercialRelation['activeEnergySupplyPeriod']>;
+
+export type EnergySupplier = {
+  gln?: CommercialRelation['energySupplier'];
+  name?: NonNullable<CommercialRelation['energySupplierName']>['value'];
+  validFrom?: ActiveEnergySupplyPeriod['validFrom'];
+};
+
+export type Contact = ActiveEnergySupplyPeriod['customers'][0];

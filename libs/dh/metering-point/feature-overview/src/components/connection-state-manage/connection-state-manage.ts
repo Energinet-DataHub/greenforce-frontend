@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Validators, FormControl, ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
@@ -26,11 +26,18 @@ import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattToastService } from '@energinet/watt/toast';
 import { dayjs } from '@energinet/watt/date';
 
-import { ConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  RequestConnectionStateChangeDocument,
+  ConnectionState,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-connection-state-manage',
@@ -39,7 +46,6 @@ import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-uti
     TranslocoDirective,
     ReactiveFormsModule,
 
-    VaterStackComponent,
     WATT_MODAL,
     WattButtonComponent,
     WattDropdownComponent,
@@ -54,7 +60,7 @@ import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-uti
   `,
   template: `
     <watt-modal #modal *transloco="let t; prefix: 'meteringPoint.changeConnectionState'">
-      <h2 vater-stack direction="row" gap="s">
+      <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('modalTitle') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
@@ -88,6 +94,7 @@ import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-uti
         <watt-button
           formId="change-connection-state-form"
           [disabled]="isCurrentStatusSameAsNew"
+          [loading]="loading()"
           type="submit"
         >
           {{ t('save') }}
@@ -99,18 +106,43 @@ import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-uti
 export class DhConnectionStateManageComponent extends WattTypedModal<{
   currentConnectionState: ConnectionState;
   currentCreatedDate: Date;
+  meteringPointId: string;
 }> {
+  private readonly mutation = mutation(RequestConnectionStateChangeDocument);
+  private readonly toastService = inject(WattToastService);
+
   today = new Date();
   minDate = this.findMinDate();
 
   form = new FormGroup({
-    state: new FormControl<ConnectionState>(this.modalData.currentConnectionState),
-    validityDate: new FormControl<Date>(this.today, {
-      validators: [Validators.required],
-    }),
+    state: dhMakeFormControl<ConnectionState>(this.modalData.currentConnectionState),
+    validityDate: dhMakeFormControl<Date>(this.today, Validators.required),
   });
 
   stateControlOptions = dhEnumToWattDropdownOptions(ConnectionState, this.statesToExclude());
+  loading = this.mutation.loading;
+
+  async save() {
+    const { validityDate } = this.form.getRawValue();
+
+    const result = await this.mutation.mutate({
+      variables: {
+        input: {
+          meteringPointId: this.modalData.meteringPointId,
+          validityDate,
+        },
+      },
+    });
+
+    if (result.data?.requestConnectionStateChange.success) {
+      this.toastService.open({
+        message: translate('meteringPoint.changeConnectionState.saveSuccess'),
+        type: 'success',
+      });
+
+      this.dialogRef.close(true);
+    }
+  }
 
   private findMinDate() {
     const daysSinceCreated = dayjs(this.today).diff(
@@ -132,9 +164,5 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
     }
 
     return undefined;
-  }
-
-  save() {
-    console.log('Saving connection state changes...');
   }
 }

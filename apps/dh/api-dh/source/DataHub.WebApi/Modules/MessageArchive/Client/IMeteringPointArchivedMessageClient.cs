@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Model.MeteringPointArchivedMessages;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;

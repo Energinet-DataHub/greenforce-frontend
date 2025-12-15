@@ -21,10 +21,9 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Common.Exceptions;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Mapper;
-using Energinet.DataHub.WebApi.Mapper.AggregatedMeasureData;
-using Energinet.DataHub.WebApi.Mapper.MeteringPoint;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.MissingMeasurementsLog.Types;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;

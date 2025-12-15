@@ -33,6 +33,7 @@ import {
   mockGetMeteringPointsByGridAreaQuery,
   mockGetRelatedMeteringPointsByIdQuery,
   mockGetMeteringPointEventsDebugViewQuery,
+  mockRequestConnectionStateChangeMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ConnectionState,
@@ -64,6 +65,7 @@ export function meteringPointMocks(apiBase: string) {
     getAggreatedMeasurementsForAllYears(),
     getRelatedMeteringPoints(),
     getMeteringPointEventsDebugView(),
+    requestConnectionStateChange(),
   ];
 }
 
@@ -641,6 +643,22 @@ function getMeteringPointEventsDebugView() {
       data: {
         __typename: 'Query',
         eventsDebugView: eventsDebugView,
+      },
+    });
+  });
+}
+
+function requestConnectionStateChange() {
+  return mockRequestConnectionStateChangeMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        requestConnectionStateChange: {
+          __typename: 'RequestConnectionStateChangePayload',
+          success: true,
+        },
       },
     });
   });

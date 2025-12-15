@@ -63,7 +63,7 @@ import {
       size="small"
       (closed)="navigate('..')"
     >
-      <h2 vater-stack direction="row" gap="s">
+      <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>

@@ -22,7 +22,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_MODAL } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
@@ -39,7 +38,6 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
     WATT_MODAL,
     WattIconComponent,
     WattTooltipDirective,
-    VaterStackComponent,
   ],
   template: `
     <watt-modal
@@ -49,7 +47,7 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
       size="small"
       (closed)="navigate('..')"
     >
-      <h2 vater-stack direction="row" gap="s">
+      <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
