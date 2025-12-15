@@ -4,6 +4,6 @@
     "connectionString": "<connection-string>"
   },
   "microsoftClarity": {
-    "projectId": "tr07ms69r2"
+    "projectId": "<project-id>"
   }
 }
