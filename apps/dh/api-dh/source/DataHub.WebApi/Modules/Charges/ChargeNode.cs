@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
@@ -19,60 +21,30 @@ using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
 using NodaTime;
-using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeIdentifierDto;
-using ChargeInformationDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationDto;
-using ChargeInformationPeriodDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationPeriodDto;
-using VatClassification = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.VatClassification;
+using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
-[ObjectType<ChargeInformationDto>]
+[ObjectType<Charge>]
 public static partial class ChargeNode
 {
     [Query]
     [UsePaging]
     [UseSorting]
     [Authorize(Roles = new[] { "charges:view" })]
-    public static async Task<IEnumerable<ChargeInformationDto>> GetChargesAsync(
+    public static async Task<IEnumerable<Charge>> GetChargesAsync(
         string? filter,
         GetChargesQuery? query,
         IChargesClient client,
         CancellationToken ct)
     {
-        var result = (await client.GetChargesAsync(0, 1000, filter, new ChargeSortInput(Common.Enums.SortDirection.Desc, null), query, ct)).Value.Charges ?? Enumerable.Empty<ChargeInformationDto>();
+        var result = (await client.GetChargesAsync(0, 1000, filter, new ChargeSortInput(Common.Enums.SortDirection.Desc, null), query, ct)).Value.Charges ?? Enumerable.Empty<Charge>();
 
-        if (query?.ActorNumbers?.Any() == true)
-        {
-            result = result.Where(charge =>
-                query.ActorNumbers.Contains(charge.ChargeIdentifierDto.Owner));
-        }
-
-        if (query?.ChargeTypes?.Any() == true)
-        {
-            result = result.Where(charge =>
-                query.ChargeTypes.Any(type => type == ChargeType.Make(charge.ChargeIdentifierDto.ChargeType, charge.TaxIndicator)));
-        }
-
-        if (query?.MoreOptions?.Any(x => x == "vat-true") == true)
-        {
-            result = result.Where(charge => charge.GetCurrentPeriod()?.VatClassification == VatClassification.Vat25);
-        }
-
-        if (query?.MoreOptions?.Any(x => x == "vat-false") == true)
-        {
-            result = result.Where(charge => charge.GetCurrentPeriod()?.VatClassification == VatClassification.NoVat);
-        }
-
-        if (query?.MoreOptions?.Any(x => x == "transparentInvoicing-true") == true)
-        {
-            result = result.Where(charge => charge.GetCurrentPeriod()?.TransparentInvoicing == true);
-        }
-
-        if (query?.MoreOptions?.Any(x => x == "transparentInvoicing-false") == true)
-        {
-            result = result.Where(charge => charge.GetCurrentPeriod()?.TransparentInvoicing == false);
-        }
-
+        result = result.FilterOnActors(query?.ActorNumbers);
+        result = result.FilterOnTypes(query?.ChargeTypes);
+        result = result.FilterOnVatClassification(query?.MoreOptions);
+        result = result.FilterOnTransparentInvoicing(query?.MoreOptions);
+        result = result.FilterOnStatuses(query?.Statuses, ct);
         result = result.Where(charge =>
             filter is null ||
             charge.ChargeIdentifierDto.Code.Contains(filter, StringComparison.CurrentCultureIgnoreCase) ||
@@ -83,7 +55,7 @@ public static partial class ChargeNode
 
     [Query]
     [Authorize(Roles = new[] { "charges:view" })]
-    public static async Task<ChargeInformationDto?> GetChargeByIdAsync(
+    public static async Task<Charge?> GetChargeByIdAsync(
         IChargesClient client,
         ChargeIdentifierDto id,
         CancellationToken ct) =>
@@ -91,21 +63,21 @@ public static partial class ChargeNode
 
     [Query]
     [Authorize(Roles = new[] { "charges:view" })]
-    public static async Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAsync(
+    public static async Task<IEnumerable<Charge>> GetChargesByTypeAsync(
         IChargesClient client,
         ChargeType type,
         CancellationToken ct) =>
             await client.GetChargesByTypeAsync(type, ct);
 
     public static async Task<IEnumerable<ChargeSeries>> GetSeriesAsync(
-        [Parent] ChargeInformationDto charge,
+        [Parent] Charge charge,
         Interval interval,
         IChargesClient client,
         CancellationToken ct) =>
             await client.GetChargeSeriesAsync(charge.ChargeIdentifierDto, charge.Resolution, interval, ct);
 
     public static async Task<ActorDto?> GetOwnerAsync(
-        [Parent] ChargeInformationDto charge,
+        [Parent] Charge charge,
         IMarketParticipantByIdDataLoader dataLoader,
         CancellationToken ct)
     {
@@ -117,70 +89,17 @@ public static partial class ChargeNode
         return null;
     }
 
-    public static ChargeInformationPeriodDto? CurrentPeriod([Parent] ChargeInformationDto charge) =>
+    public static ChargeInformationPeriodDto? CurrentPeriod([Parent] Charge charge) =>
         charge.GetCurrentPeriod();
 
-    public static async Task<ChargeStatus> GetStatusAsync(
-        [Parent] ChargeInformationDto charge,
-        IHasAnyPricesDataLoader hasAnyPricesDataLoader,
-        CancellationToken ct)
-    {
-        var hasAnyPrices = await hasAnyPricesDataLoader.LoadAsync(charge, ct);
-        var period = charge.Periods
-            .OrderByDescending(x => x.StartDate)
-            .FirstOrDefault();
+    public static ChargeStatus GetStatus([Parent] Charge charge) => charge.GetChargeStatus();
 
-        if (period == null)
-        {
-            return ChargeStatus.Invalid;
-        }
-
-        var validFrom = period.StartDate.ToDateTimeOffset();
-        var validTo = period.EndDate?.ToDateTimeOffset();
-
-        return hasAnyPrices switch
-        {
-            _ when validFrom == validTo => ChargeStatus.Cancelled,
-            _ when validTo < DateTimeOffset.Now => ChargeStatus.Closed,
-            false when validFrom > DateTimeOffset.Now => ChargeStatus.Awaiting,
-            false when validFrom < DateTimeOffset.Now => ChargeStatus.MissingPriceSeries,
-            true when validFrom < DateTimeOffset.Now => ChargeStatus.Current,
-            _ => ChargeStatus.Invalid,
-        };
-    }
-
-    [DataLoader]
-    public static async Task<IReadOnlyDictionary<ChargeInformationDto, bool>> HasAnyPricesAsync(
-        IReadOnlyList<ChargeInformationDto> charges,
-        IChargesClient client,
-        CancellationToken ct)
-    {
-        var tasks = charges.Select(async charge =>
-            {
-                var currentPeriod = charge.GetCurrentPeriod();
-                if (currentPeriod == null)
-                {
-                    return (charge, hasAnyPrices: false);
-                }
-
-                var series = await client.GetChargeSeriesAsync(
-                    charge.ChargeIdentifierDto,
-                    charge.Resolution,
-                    new Interval(currentPeriod.StartDate, currentPeriod.EndDate),
-                    ct);
-                return (charge, hasAnyPrices: series.Any());
-            });
-
-        var series = await Task.WhenAll(tasks);
-        return series.ToDictionary(x => x.charge, x => x.hasAnyPrices);
-    }
-
-    static partial void Configure(IObjectTypeDescriptor<ChargeInformationDto> descriptor)
+    static partial void Configure(IObjectTypeDescriptor<Charge> descriptor)
     {
         descriptor.Name("Charge");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.ChargeIdentifierDto).Name("id");
-        descriptor.Field(f => ChargeType.Make(f.ChargeIdentifierDto.ChargeType, f.TaxIndicator)).Name("type");
+        descriptor.Field(f => ChargeType.Make(f.ChargeIdentifierDto.Type, f.TaxIndicator)).Name("type");
         descriptor.Field(f => f.ChargeIdentifierDto.Code).Name("code");
         descriptor.Field(f => f.Name()).Name("name");
         descriptor.Field(f => f.DisplayName()).Name("displayName");

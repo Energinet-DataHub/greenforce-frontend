@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ModelMeteringPointType = Energinet.DataHub.WebApi.Model.MeteringPoint.MeteringPointType;
-using ModelSettlementMethod = Energinet.DataHub.WebApi.Model.AggregatedMeasureData.SettlementMethod;
+using ModelMeteringPointType = Energinet.DataHub.WebApi.Modules.Common.Enums.MeteringPointType;
+using ModelSettlementMethod = Energinet.DataHub.WebApi.Modules.Processes.Requests.Models.SettlementMethod;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 

@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using NodaTime;
-using ChargeApiModels = Energinet.DataHub.Charges.Abstractions.Api.Models;
-using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeIdentifierDto;
-using ChargeInformationDto = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.ChargeInformationDto;
-using Resolution = Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation.Resolution;
+using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
@@ -29,7 +28,7 @@ public interface IChargesClient
     /// <summary>
     /// Query charge information.
     /// </summary>
-    Task<ChargeApiModels.Result<(IEnumerable<ChargeInformationDto> Charges, int TotalCount)>> GetChargesAsync(
+    Task<(IEnumerable<Charge> Charges, int TotalCount)?> GetChargesAsync(
         int skip,
         int take,
         string? filter,
@@ -40,14 +39,14 @@ public interface IChargesClient
     /// <summary>
     /// Get charge information by id.
     /// </summary>
-    Task<ChargeInformationDto?> GetChargeByIdAsync(
+    Task<Charge?> GetChargeByIdAsync(
         ChargeIdentifierDto id,
         CancellationToken ct = default);
 
     /// <summary>
     /// Get charge information by type.
     /// </summary>
-    Task<IEnumerable<ChargeInformationDto>> GetChargesByTypeAsync(
+    Task<IEnumerable<Charge>> GetChargesByTypeAsync(
         ChargeType type,
         CancellationToken ct = default);
 

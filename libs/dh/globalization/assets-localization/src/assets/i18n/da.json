@@ -360,7 +360,8 @@
     "P1Y": "Pr. år",
     "QUARTER_HOURLY": "Kvarter",
     "HOURLY": "Time",
-    "MONTHLY": "Pr. måned"
+    "MONTHLY": "Pr. måned",
+    "OTHER": "Andet"
   },
   "netSettlementGroup": {
     "2": "Timebaseret afregning (2)",
@@ -449,14 +450,44 @@
           "predictablePrice": "Forudsigelig pris",
           "withPredictablePrice": "Ja",
           "withoutPredictablePrice": "Nej",
-          "validFrom": "Gyldig fra"
-        }
+          "validFrom": "Gyldig fra",
+          "cutoffDate": "Skæringsdato"
+        },
+        "tooltip": "Processen tager få minutter. Afvisningsårsager findes\n i forretningsbeskeder."
       },
       "stop": {
         "title": "Stop prisinformation",
         "date": "Stopdato",
         "submit": "Gem ændringer",
-        "close": "Luk"
+        "close": "Luk",
+        "tooltip": "Processen tager få minutter. Resultat\n vises her, og afvisningsårsager findes\n i forretningsbeskeder."
+      },
+      "edit": {
+        "title": "Rediger prisinformation",
+        "submit": "Gem ændringer",
+        "close": "Luk",
+        "tooltip": "Processen tager få minutter. Resultat\n vises her, og afvisningsårsager findes\n i forretningsbeskeder."
+      },
+      "uploadSeries": {
+        "title": "Tilføj prisserie",
+        "submit": "Tilføj prisserie",
+        "close": "Luk",
+        "hint": "Kun CSV-filer er tilladt",
+        "success": "Prisserie klar til indsendelse",
+        "loading": "Indlæser prisserie",
+        "errors": {
+          "type": "Filen skal være i CSV format",
+          "multiple": "Du kan kun vælge én fil ad gangen"
+        },
+        "csvErrors": {
+          "STRUCTURE": "CSV-filen skal indeholde kolonnerne: \"Position\", \"Periode\" og \"Pris\".",
+          "UNKNOWN": "Der opstod en fejl under indlæsning af filen. Prøv venligst igen eller vælg en anden fil.",
+          "INVALID_PERIOD": "Kolonnen \"Periode\" skal være i korrekt datoformat. Fejl fundet i række {{row}}.",
+          "INVALID_POSITION": "Kolonnen \"Position\" må kun indeholde tal. Fejl fundet i række {{row}}.",
+          "INVALID_PRICE": "Kolonnen \"Pris\" må kun indeholde tal. Fejl fundet i række {{row}}.",
+          "MISSING_POINT": "Filen har manglende positioner. Fejl fundet nær række {{row}}.",
+          "UNEXPECTED_POINT": "Filen har for mange positioner. Fejl fundet nær række {{row}}."
+        }
       }
     },
     "charge": {
@@ -473,7 +504,8 @@
       "actions": {
         "menu": "Handlinger",
         "edit": "Rediger prisinformation",
-        "stop": "Stop prisinformation"
+        "stop": "Stop prisinformation",
+        "uploadSeries": "Tilføj prisserie"
       },
       "breadcrumb": "Priser"
     },
@@ -629,7 +661,9 @@
         "actionsButton": "Handlinger",
         "upload": "Upload måledata",
         "moveIn": "Tilflyt kunde",
-        "createChargeLink": "Tilknyt pris"
+        "createChargeLink": "Tilknyt pris",
+        "changeConnectionStatus": "Ændr tilslutningstatus",
+        "updateCustomerData": "Opdater kundestamdata"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -712,6 +746,9 @@
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
     "chargeLinks": {
+      "shared": {
+        "tooltip": "Processen tager få minutter. Resultat vises her, \n og afvisningsårsager findes i forretningsbeskeder."
+      },
       "columns": {
         "type": "Type",
         "id": "Id",
@@ -740,24 +777,47 @@
         "stop": "Stop pristilknytning",
         "cancel": "Annuller pristilknytning"
       },
+      "create": {
+        "title": "Tilknyt pris",
+        "close": "Luk",
+        "back": "Tilbage",
+        "actions": {
+          "SUBSCRIPTION": "Tilknyt abonnement",
+          "TARIFF": "Tilknyt tarif",
+          "TARIFF_TAX": "Tilknyt tarif, afgift",
+          "FEE": "Tilknyt gebyr"
+        },
+        "chargeTypes": {
+          "TARIFF": "Tarif",
+          "TARIFF_TAX": "Tarif, afgift",
+          "SUBSCRIPTION": "Abonnement",
+          "FEE": "Gebyr"
+        },
+        "startDate": "Startdato",
+        "factor": "Antal",
+        "tooltip": "Processen tager få minutter.\n Afvisningsårsager findes i forretningsbeskeder."
+      },
       "edit": {
         "title": "Rediger pristilknytning",
         "factor": "Antal",
         "startDate": "Skæringsdato",
         "save": "Gem ændringer",
-        "close": "Luk"
+        "close": "Luk",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "cancel": {
         "title": "Annuller pristilknytning?",
         "cancelWarning": "Handlingen kan ikke fortrydes",
         "cancel": "Annuller pristilknytning",
-        "close": "Luk"
+        "close": "Luk",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "stop": {
         "title": "Stop pristilknytning",
         "stopDate": "Stopdato",
         "save": "Gem ændringer",
-        "close": "Luk"
+        "close": "Luk",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       }
     },
     "processOverview": {
@@ -784,10 +844,10 @@
         "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
       },
       "steps": {
-        "RSM005_REQUEST": "Anmod om leveranceophør (RSM-005)",
-        "RSM005_CONFIRM": "Godkend anmod om leveranceophør (RSM-005)",
-        "RSM005_REJECT": "Afvis anmod om leveranceophør (RSM-005)",
-        "RSM020_REQUEST": "Anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
         "UNKNOWN": "Ukendt trin"
       },
       "details": {
@@ -899,27 +959,10 @@
         }
       }
     },
-    "createChargeLink": {
-      "title": "Tilknyt pris",
-      "close": "Luk",
-      "back": "Tilbage",
-      "actions": {
-        "SUBSCRIPTION": "Tilknyt abonnement",
-        "TARIFF": "Tilknyt tarif",
-        "TARIFF_TAX": "Tilknyt tarif, afgift",
-        "FEE": "Tilknyt gebyr"
-      },
-      "chargeTypes": {
-        "TARIFF": "Tarif",
-        "TARIFF_TAX": "Tarif, afgift",
-        "SUBSCRIPTION": "Abonnement",
-        "FEE": "Gebyr"
-      },
-      "startDate": "Startdato",
-      "factor": "Antal"
-    },
+
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
+      "updateCustomerData": "Opdater kundestamdata",
       "steps": {
         "customerDetails": {
           "label": "Kundedetaljer",
@@ -928,11 +971,11 @@
           "customerInformation": "Kundeoplysninger",
           "private": "Privat",
           "business": "Erhverv",
-          "name1": "Kundenavn",
+          "name1": "Kundenavn 1",
           "cpr1": "CPR 1",
           "name2": "Kundenavn 2",
           "cpr2": "CPR 2",
-          "companyName": "Kundenavn",
+          "companyName": "Navn",
           "cvr": "CVR",
           "foreignCompany": "Udenlandsk virksomhed",
           "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
@@ -960,10 +1003,7 @@
         },
         "addressDetails": {
           "label": "Adresseoplysninger",
-          "legalAddressSection": "Juridisk adresse",
-          "technicalAddressSection": "Teknisk adresse",
           "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
-          "addressSameAsLegal": "Samme som juridisk adresse",
           "street": "Vejnavn",
           "houseNumber": "Husnummer",
           "floor": "Etage",
@@ -973,6 +1013,7 @@
           "country": "Land",
           "streetCode": "Vejkode",
           "citySubdivisionName": "Supplerende bynavn",
+          "postalDistrict": "Postdistrikt",
           "postBox": "Postboks",
           "municipalityCode": "Kommunekode",
           "municipalityCodeError": {
@@ -988,8 +1029,10 @@
           "D29": "Sekundær (D29)"
         }
       },
-      "success": "Tilflytning er nu registreret",
-      "save": "Tilflyt kunde"
+      "moveInSuccess": "Tilflytning er nu registreret",
+      "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
+      "save": "Tilflyt kunde",
+      "cancel": "Annuller"
     },
     "create": {
       "modal": {
@@ -1067,6 +1110,15 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       }
+    },
+    "changeConnectionState": {
+      "modalTitle": "{{ meteringPoint.overview.actions.changeConnectionStatus }}",
+      "tooltip": "Processen tager få minutter. Det ønskede \n resultat vises her, og afvisningsårsager \n findes i forretningsbeskeder.",
+      "connectionStateLabel": "Tilslutningsstatus",
+      "validityDate": "Gyldighedsdato",
+      "cancel": "Annuller",
+      "save": "Gem ændringer",
+      "saveSuccess": "Tilslutningsstatus opdateres"
     }
   },
   "messageArchive": {
@@ -1133,13 +1185,15 @@
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Afvis anmod om engrosydelser (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Anmod om engrosydelser (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
+      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
       "UPDATE_CHARGE_LINKS": "Anmodning om opdatering af pristilknytninger (RSM-030)",
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Godkendelse af opdatering af pristilknytninger (RSM-030)",
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af opdatering af pristilknytninger (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Information om pristilknytninger (RSM-031)",
-      "REQUEST_CHANGE_OF_PRICE_LIST": "Anmodning om opdatering af priser (RSM-033)"
+      "REQUEST_CHANGE_OF_PRICE_LIST": "Anmodning om opdatering af priser (RSM-033)",
+      "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Godkendelse af opdatering af priser (RSM-033)",
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af opdatering af priser (RSM-033)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",

@@ -229,6 +229,7 @@
         "requestCalculation": "Request calculation data"
       },
       "meteringPoints": "Metering Points",
+      "prices": "Prices",
       "marketParticipant": {
         "menuGroupLabel": "Market participants",
         "userManagement": "User Management",
@@ -359,7 +360,8 @@
     "P1Y": "Yearly",
     "QUARTER_HOURLY": "Quarter hour",
     "HOURLY": "Hour",
-    "MONTHLY": "Monthly"
+    "MONTHLY": "Monthly",
+    "OTHER": "Other"
   },
   "netSettlementGroup": {
     "2": "Hourly settlement (2)",
@@ -448,14 +450,44 @@
           "predictablePrice": "Predictable Price",
           "withPredictablePrice": "Yes",
           "withoutPredictablePrice": "No",
-          "validFrom": "Valid From"
-        }
+          "validFrom": "Valid From",
+          "cutoffDate": "Cut-off Date"
+        },
+        "tooltip": "The process takes a few minutes. Rejection reasons can be found in business messages."
       },
       "stop": {
         "title": "Stop price",
         "date": "Stop date",
         "submit": "Save changes",
-        "close": "Close"
+        "close": "Close",
+        "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
+      },
+      "edit": {
+        "title": "Edit price",
+        "submit": "Save changes",
+        "close": "Close",
+        "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
+      },
+      "uploadSeries": {
+        "title": "Add charge series",
+        "submit": "Add charge series",
+        "close": "Close",
+        "hint": "File must be in CSV format",
+        "success": "Charge series ready for submit",
+        "loading": "Loading charge series",
+        "errors": {
+          "type": "The file must be in CSV format",
+          "multiple": "You can only select one file at a time"
+        },
+        "csvErrors": {
+          "STRUCTURE": "The CSV file must contain the columns: \"Position\", \"Periode\" and \"Pris\".",
+          "UNKNOWN": "An error occurred while loading the file. Please try again or select another file.",
+          "INVALID_PERIOD": "Column \"Periode\" must be in correct date format. Error found in row {{row}}.",
+          "INVALID_POSITION": "Column \"Position\" must only contain numbers. Error found in row {{row}}.",
+          "INVALID_PRICE": "Column \"Pris\" must only contain numbers. Error found in row {{row}}.",
+          "MISSING_POINT": "File has missing points. Error found near row {{row}}.",
+          "UNEXPECTED_POINT": "File has unexpected points. Error found near row {{row}}."
+        }
       }
     },
     "charge": {
@@ -472,7 +504,8 @@
       "actions": {
         "menu": "Actions",
         "edit": "Edit charge information",
-        "stop": "Stop charge information"
+        "stop": "Stop charge information",
+        "uploadSeries": "Upload charge series"
       },
       "breadcrumb": "Prices"
     },
@@ -628,7 +661,9 @@
         "actionsButton": "Actions",
         "upload": "Upload measurements",
         "moveIn": "Customer move-in",
-        "createChargeLink": "Attach price"
+        "createChargeLink": "Attach price",
+        "changeConnectionStatus": "Change connection status",
+        "updateCustomerData": "Update customer data"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -711,6 +746,9 @@
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
     "chargeLinks": {
+      "shared": {
+        "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
+      },
       "columns": {
         "type": "Type",
         "id": "ID",
@@ -739,24 +777,47 @@
         "stop": "Stop change link",
         "cancel": "Cancel change link"
       },
+      "create": {
+        "title": "Attach price",
+        "close": "Close",
+        "back": "Back",
+        "actions": {
+          "SUBSCRIPTION": "Attach subscription",
+          "TARIFF": "Attach tariff",
+          "TARIFF_TAX": "Attach tariff, tax",
+          "FEE": "Attach fee"
+        },
+        "chargeTypes": {
+          "TARIFF": "Tariff",
+          "TARIFF_TAX": "Tariff, tax",
+          "SUBSCRIPTION": "Subscription",
+          "FEE": "Fee"
+        },
+        "startDate": "Start date",
+        "factor": "Quality",
+        "tooltip": "The process takes a few minutes.\n Rejection reasons can be found in business messages."
+      },
       "edit": {
         "title": "Edit charge link",
         "factor": "Quantity",
         "startDate": "Start date",
         "save": "Save changes",
-        "close": "Close"
+        "close": "Close",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "cancel": {
         "title": "Cancel price link?",
         "cancelWarning": "This action cannot be undone",
         "cancel": "Cancel price link",
-        "close": "Close"
+        "close": "Close",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "stop": {
         "title": "Stop price link",
         "stopDate": "Stop date",
         "save": "Save changes",
-        "close": "Close"
+        "close": "Close",
+        "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       }
     },
     "processOverview": {
@@ -783,10 +844,10 @@
         "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
       },
       "steps": {
-        "RSM005_REQUEST": "Request end of supply (RSM-005)",
-        "RSM005_CONFIRM": "Confirm end of supply (RSM-005)",
-        "RSM005_REJECT": "Reject end of supply (RSM-005)",
-        "RSM020_REQUEST": "Notify cancellation of end of supply (RSM-020)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Request end of supply (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Confirm end of supply (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Reject end of supply (RSM-005)",
+        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4": "Notify cancellation of end of supply (RSM-020)",
         "UNKNOWN": "Unknown Step"
       },
       "details": {
@@ -898,27 +959,9 @@
         }
       }
     },
-    "createChargeLink": {
-      "title": "Attach price",
-      "close": "Close",
-      "back": "Back",
-      "actions": {
-        "SUBSCRIPTION": "Attach subscription",
-        "TARIFF": "Attach tariff",
-        "TARIFF_TAX": "Attach tariff, tax",
-        "FEE": "Attach fee"
-      },
-      "chargeTypes": {
-        "TARIFF": "Tariff",
-        "TARIFF_TAX": "Tariff, tax",
-        "SUBSCRIPTION": "Subscription",
-        "FEE": "Fee"
-      },
-      "startDate": "Start date",
-      "factor": "Quality"
-    },
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
+      "updateCustomerData": "Update customer data",
       "steps": {
         "customerDetails": {
           "label": "Customer details",
@@ -927,7 +970,7 @@
           "customerInformation": "Customer information",
           "private": "Private",
           "business": "Business",
-          "name1": "Customer name",
+          "name1": "Customer name 1",
           "cpr1": "CPR 1",
           "name2": "Customer name 2",
           "cpr2": "CPR 2",
@@ -958,11 +1001,7 @@
           "invalidEmail": "Invalid e-mail"
         },
         "addressDetails": {
-          "label": "Address details",
-          "legalAddressSection": "Legal address",
-          "technicalAddressSection": "Technical address",
           "addressSameAsMeteringPoint": "Same as metering point address",
-          "addressSameAsLegal": "Same as legal address",
           "street": "Street",
           "houseNumber": "House number",
           "floor": "Floor",
@@ -972,6 +1011,7 @@
           "country": "Country",
           "streetCode": "Street code",
           "citySubdivisionName": "Additional city name",
+          "postalDistrict": "Postal district",
           "postBox": "Post box",
           "municipalityCode": "Municipality code",
           "municipalityCodeError": {
@@ -987,8 +1027,10 @@
           "D29": "Secondary (D29)"
         }
       },
-      "success": "Move-in is now registered",
-      "save": "Customer move-in"
+      "moveInSuccess": "Move-in is now registered",
+      "customerDataSuccess": "Customer data update is now registered",
+      "save": "Customer move-in",
+      "cancel": "Cancel"
     },
     "create": {
       "modal": {
@@ -1066,6 +1108,15 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       }
+    },
+    "changeConnectionState": {
+      "modalTitle": "{{ meteringPoint.overview.actions.changeConnectionStatus }}",
+      "tooltip": "The process takes a few minutes. The desired \n result is displayed here, and rejection reasons \n can be found in business messages.",
+      "connectionStateLabel": "Connection status",
+      "validityDate": "Validity date",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saveSuccess": "Connection status is being updated"
     }
   },
   "messageArchive": {
@@ -1132,13 +1183,15 @@
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Reject request for wholesale services (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Request for wholesale services (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Request for wholesale services (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)",
+      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
       "UPDATE_CHARGE_LINKS": "Request change billing master data (RSM-030)",
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm request change billing master data (RSM-030)",
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
-      "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)"
+      "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)",
+      "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Confirm request change of price list (RSM-033)",
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",

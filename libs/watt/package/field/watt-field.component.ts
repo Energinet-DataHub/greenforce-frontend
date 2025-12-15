@@ -55,7 +55,7 @@ import { NgTemplateOutlet } from '@angular/common';
   ],
   styleUrls: ['./watt-field.component.scss'],
   template: `
-    @if (chipMode()) {
+    @if (chipMode() || displayMode() !== 'box') {
       <span [attr.autofocus]="autoFocus() || null" class="watt-label" #wattLabel>
         <ng-container *ngTemplateOutlet="template" />
       </span>

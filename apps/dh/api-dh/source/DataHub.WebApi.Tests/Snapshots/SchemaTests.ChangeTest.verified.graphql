@@ -304,19 +304,21 @@ type Charge {
 type ChargeLink {
   history: [ChargeLinkHistory!]!
   charge: Charge
-  owner: MarketParticipant
   amount: Int!
-  id: String!
-  name: String!
-  period: DateRange!
-  type: ChargeType!
-  displayName: String!
+  currentPeriod: ChargeLinkPeriod
+  id: Long!
 }
 
 type ChargeLinkHistory {
   submittedAt: DateTime!
   description: String!
   messageId: String!
+}
+
+type ChargeLinkPeriod {
+  period: DateRange!
+  amount: Int!
+  id: Long!
 }
 
 type ChargePeriod {
@@ -453,6 +455,10 @@ type DeactivateUserRolePayload {
 type DismissNotificationPayload {
   boolean: Boolean
   errors: [DismissNotificationError!]
+}
+
+type EditChargeLinkPayload {
+  boolean: Boolean
 }
 
 type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance {
@@ -924,6 +930,7 @@ type MeteringPointDto {
   electricalHeatingStartDate: DateTime
   hadElectricalHeating: Boolean!
   haveElectricalHeating: Boolean!
+  createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
   id: Long!
@@ -1047,10 +1054,12 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 
 type Mutation {
   stopChargeLink(input: StopChargeLinkInput!): StopChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
+  editChargeLink(input: EditChargeLinkInput!): EditChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   cancelChargeLink(input: CancelChargeLinkInput!): CancelChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
+  requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1246,8 +1255,8 @@ type Query {
   charges(filter: String query: GetChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
-  chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
-  chargeLinkById(meteringPointId: String! chargeLinkId: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
+  chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
+  chargeLinkById(meteringPointId: String! chargeLinkId: Long!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1397,6 +1406,10 @@ type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult
 type RequestClientSecretCredentialsPayload {
   actorClientSecretDto: ActorClientSecretDto
   errors: [RequestClientSecretCredentialsError!]
+}
+
+type RequestConnectionStateChangePayload {
+  boolean: Boolean
 }
 
 type RequestMeasurementsReportPayload {
@@ -1785,29 +1798,19 @@ input CancelSettlementReportInput {
 input ChargeIdentifierDtoSortInput {
   code: SortEnumType
   owner: SortEnumType
-  chargeType: SortEnumType
+  type: SortEnumType
 }
 
-input ChargeLinkSortInput {
-  id: SortEnumType
+input ChargeLinkDtoSortInput {
+  chargeLinkId: SortEnumType
+  meteringPointId: SortEnumType
   chargeIdentifier: ChargeIdentifierDtoSortInput
-  type: ChargeTypeSortInput
-  name: SortEnumType
-  owner: MarketParticipantIdSortInput
-  amount: SortEnumType
-  period: SortEnumType
 }
 
 input ChargeSortInput {
   type: SortEnumType
   code: SortEnumType
   name: SortEnumType
-}
-
-input ChargeTypeSortInput {
-  name: SortEnumType
-  type: SortEnumType
-  isTax: SortEnumType
 }
 
 input CreateActorContactDtoInput {
@@ -1893,6 +1896,12 @@ input DismissNotificationInput {
   notificationId: Int!
 }
 
+input EditChargeLinkInput {
+  chargeLinkId: String!
+  newStartDate: DateTime!
+  factor: Int!
+}
+
 input EsettExchangeEventSortInput {
   calculationType: SortEnumType
   created: SortEnumType
@@ -1964,10 +1973,6 @@ input InviteUserInput {
 input ManuallyHandleOutgoingMessageInput {
   documentId: String!
   comment: String!
-}
-
-input MarketParticipantIdSortInput {
-  id: SortEnumType
 }
 
 input MarketParticipantSortInput {
@@ -2083,6 +2088,11 @@ input RequestCalculatedWholesaleServicesInput {
 
 input RequestClientSecretCredentialsInput {
   marketParticipantId: UUID!
+}
+
+input RequestConnectionStateChangeInput {
+  meteringPointId: String!
+  validityDate: DateTime!
 }
 
 input RequestInput @oneOf {
@@ -2529,6 +2539,8 @@ enum DocumentType {
   REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA
   NOTIFY_BILLING_MASTER_DATA
   REQUEST_CHANGE_OF_PRICE_LIST
+  CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
+  REJECT_REQUEST_CHANGE_OF_PRICE_LIST
 }
 
 enum ESettStageComponent {
@@ -2880,19 +2892,24 @@ enum ProcessStepState {
 }
 
 """
-Enum representing different process step types.
+Enum representing known process step types.
 These values are used as translation keys in the frontend.
+When adding new processes, add the step identifiers here.
+Format: {PROCESS_NAME}_V{VERSION}_STEP_{SEQUENCE}
 """
 enum ProcessStepType {
-  "RSM-005: Request end of supply"
-  RSM005_REQUEST
-  "RSM-005: Confirm end of supply"
-  RSM005_CONFIRM
-  "RSM-005: Reject end of supply"
-  RSM005_REJECT
-  "RSM-020: Notify cancellation of end of supply"
-  RSM020_REQUEST
-  "Unknown or unmapped step type"
+  "BRS-002 Request End of Supply - Step 1: Request end of supply (RSM-005)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1
+  "BRS-002 Request End of Supply - Step 2: Confirm end of supply (RSM-005)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2
+  "BRS-002 Request End of Supply - Step 3: Reject end of supply (RSM-005)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3
+  "BRS-002 Request End of Supply - Step 4: Notify cancellation of end of supply (RSM-020)"
+  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4
+  """
+  Unknown or unmapped step type.
+  Used when ProcessManager returns a step we haven't added to this enum yet.
+  """
   UNKNOWN
 }
 
@@ -2942,6 +2959,8 @@ enum SearchDocumentType {
   ACKNOWLEDGEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
   REQUEST_CHANGE_OF_PRICE_LIST
+  CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
+  REJECT_REQUEST_CHANGE_OF_PRICE_LIST
 }
 
 enum SendMeasurementsMeasurementUnit {

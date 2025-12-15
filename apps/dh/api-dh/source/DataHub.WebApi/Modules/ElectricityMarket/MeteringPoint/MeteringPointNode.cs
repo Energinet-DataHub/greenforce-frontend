@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using HotChocolate.Authorization;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
@@ -53,6 +54,9 @@ public static partial class MeteringPointNode
 
         return lastHeating.IsActive;
     }
+
+    public static DateTimeOffset? CreatedDate([Parent] MeteringPointDto meteringPoint) =>
+        FindCreatedDate(meteringPoint.MetadataTimeline);
 
     public static DateTimeOffset? ConnectionDate([Parent] MeteringPointDto meteringPoint) =>
         FindFirstConnectedDate(meteringPoint.MetadataTimeline);
@@ -179,6 +183,22 @@ public static partial class MeteringPointNode
         throw new InvalidOperationException("User is not authorized to access the requested metering point.");
     }
 
+    [Mutation]
+    [Authorize(Roles = new[] { "metering-point:connection-state-manage" })]
+    public static async Task<bool> RequestConnectionStateChangeAsync(
+        string meteringPointId,
+        DateTimeOffset validityDate,
+        CancellationToken ct,
+        [Service] IB2CClient ediB2CClient)
+    {
+        var command = new RequestConnectMeteringPointCommandV1(
+            new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        return result.IsSuccess;
+    }
+
     [DataLoader]
     public static async Task<long?> GetParentMeteringPointInternalIdAsync(
         string meteringPointId,
@@ -227,5 +247,15 @@ public static partial class MeteringPointNode
             .FirstOrDefault();
 
         return closedDownDate?.ValidFrom;
+    }
+
+    private static DateTimeOffset? FindCreatedDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods)
+    {
+        var createdDate = meteringPointPeriods
+            .Where(mp => mp.ConnectionState == ConnectionState.New)
+            .OrderBy(mp => mp.ValidFrom)
+            .FirstOrDefault();
+
+        return createdDate?.ValidFrom;
     }
 }

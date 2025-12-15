@@ -63,19 +63,13 @@ import { History } from '../types';
     >
       <watt-drawer-heading>
         <vater-stack direction="row">
-          <h1>{{ chargeLinkWithHistory()?.displayName }}</h1>
+          <h1>{{ chargeLinkWithHistory()?.charge?.displayName }}</h1>
           <vater-spacer />
           <watt-button variant="icon" [wattMenuTriggerFor]="actions" icon="moreVertical" />
           <watt-menu #actions>
-            <watt-menu-item [routerLink]="[{ outlets: { actions: ['edit'] } }]">{{
-              t('edit')
-            }}</watt-menu-item>
-            <watt-menu-item [routerLink]="[{ outlets: { actions: ['stop'] } }]">{{
-              t('stop')
-            }}</watt-menu-item>
-            <watt-menu-item [routerLink]="[{ outlets: { actions: ['cancel'] } }]">{{
-              t('cancel')
-            }}</watt-menu-item>
+            <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
+            <watt-menu-item [routerLink]="['stop']">{{ t('stop') }}</watt-menu-item>
+            <watt-menu-item [routerLink]="['cancel']">{{ t('cancel') }}</watt-menu-item>
           </watt-menu>
         </vater-stack>
       </watt-drawer-heading>
@@ -102,7 +96,7 @@ import { History } from '../types';
         </watt-data-table>
       </watt-drawer-content>
     </watt-drawer>
-    <router-outlet name="actions" />
+    <router-outlet />
   `,
 })
 export default class DhChargeLinkDetails {

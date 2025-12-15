@@ -78,7 +78,7 @@ export const dhFeatureFlagsConfig = {
   },
   'microsoft-clarity': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.local, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.local],
   },
   'measurements-reports-resolution-improvements': {
     created: latestBump,

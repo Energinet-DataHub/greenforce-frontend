@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.Measurements.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Common;
@@ -28,10 +29,11 @@ public class ElectricityMarketModule : IModule
         IConfiguration configuration)
     {
         services.AddMeasurementsClient();
+        services.AddChargesClient();
 
         services.AddClient<IElectricityMarketClient_V1>(baseUrls => baseUrls.ElectricityMarketBaseUrl, (baseUrl, client) => new ElectricityMarketClient_V1(baseUrl, client));
-        services.AddScoped<IChargesClient, ChargesClient>();
         services.AddScoped<IChargeLinkClient, ChargeLinkClient>();
+        services.AddScoped<IChargesClient, ChargesClient>();
 
         return services;
     }

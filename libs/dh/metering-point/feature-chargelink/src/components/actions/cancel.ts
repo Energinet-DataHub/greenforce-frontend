@@ -23,7 +23,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_MODAL } from '@energinet/watt/modal';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
 import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -31,7 +33,14 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
 
 @Component({
   selector: 'dh-metering-point-cancel-charge-link',
-  imports: [TranslocoDirective, ReactiveFormsModule, WATT_MODAL, WattButtonComponent],
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    WATT_MODAL,
+    WattButtonComponent,
+    WattIconComponent,
+    WattTooltipDirective,
+  ],
   styles: `
     :host {
       form > * {
@@ -45,9 +54,12 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
       #cancel
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.cancel'"
-      [title]="t('title')"
       (closed)="navigate('..')"
     >
+      <h2 class="watt-modal-title watt-modal-title-icon">
+        {{ t('title') }}
+        <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
+      </h2>
       {{ t('cancelWarning') }}
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="cancel.close(false)">

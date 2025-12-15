@@ -21,8 +21,10 @@ import { model, inject, effect, computed, Component, ViewEncapsulation } from '@
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
@@ -38,15 +40,15 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattButtonComponent,
     WattDropdownComponent,
     WattTextFieldComponent,
     WattDatepickerComponent,
-
     VaterStackComponent,
     DhChargesTypeSelection,
+    WattIconComponent,
+    WattTooltipDirective,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: `
@@ -58,12 +60,11 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
     }
   `,
   template: `
-    <watt-modal
-      #create
-      size="small"
-      *transloco="let t; prefix: 'meteringPoint.createChargeLink'"
-      [title]="t('title')"
-    >
+    <watt-modal #create size="small" *transloco="let t; prefix: 'meteringPoint.chargeLinks.create'">
+      <h2 class="watt-modal-title watt-modal-title-icon">
+        {{ t('title') }}
+        <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
+      </h2>
       <dh-charges-type-selection [(value)]="selectedType">
         <form
           vater-stack

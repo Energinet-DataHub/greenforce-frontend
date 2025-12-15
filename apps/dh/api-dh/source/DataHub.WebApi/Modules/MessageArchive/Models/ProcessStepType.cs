@@ -15,33 +15,36 @@
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
 /// <summary>
-/// Enum representing different process step types.
+/// Enum representing known process step types.
 /// These values are used as translation keys in the frontend.
+/// When adding new processes, add the step identifiers here.
+/// Format: {PROCESS_NAME}_V{VERSION}_STEP_{SEQUENCE}
 /// </summary>
 public enum ProcessStepType
 {
     /// <summary>
-    /// RSM-005: Request end of supply
+    /// BRS-002 Request End of Supply - Step 1: Request end of supply (RSM-005)
     /// </summary>
-    Rsm005Request,
+    BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1,
 
     /// <summary>
-    /// RSM-005: Confirm end of supply
+    /// BRS-002 Request End of Supply - Step 2: Confirm end of supply (RSM-005)
     /// </summary>
-    Rsm005Confirm,
+    BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2,
 
     /// <summary>
-    /// RSM-005: Reject end of supply
+    /// BRS-002 Request End of Supply - Step 3: Reject end of supply (RSM-005)
     /// </summary>
-    Rsm005Reject,
+    BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3,
 
     /// <summary>
-    /// RSM-020: Notify cancellation of end of supply
+    /// BRS-002 Request End of Supply - Step 4: Notify cancellation of end of supply (RSM-020)
     /// </summary>
-    Rsm020Request,
+    BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4,
 
     /// <summary>
-    /// Unknown or unmapped step type
+    /// Unknown or unmapped step type.
+    /// Used when ProcessManager returns a step we haven't added to this enum yet.
     /// </summary>
-    Unknown,
+    UNKNOWN,
 }
