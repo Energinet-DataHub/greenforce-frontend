@@ -22,7 +22,6 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
 using NodaTime;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
-using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
