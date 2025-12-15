@@ -12,14 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier.Models;
+using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Enums;
 
-public record InitiateChangeOfSupplierInput(
-    string BusinessReason,
-    string MeteringPointId,
-    string StartDate,
-    string SupplierId,
-    string BalanceResponsibleId,
+namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Models;
+
+public record InitiateMoveInInput(
+    string CutOffDate,
+    BusinessReason MoveInType,
     string CustomerName,
-    string? CustomerCpr,
-    string? CustomerCvr);
+    string? CustomerCprOrCVR);

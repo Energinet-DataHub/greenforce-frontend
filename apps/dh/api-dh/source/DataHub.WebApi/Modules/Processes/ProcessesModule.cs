@@ -17,7 +17,6 @@ using Energinet.DataHub.ProcessManager.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.ProcessManager.Client.Extensions.Options;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
-using Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using Energinet.DataHub.WebApi.Registration;
 
@@ -35,7 +34,6 @@ public class ProcessManagerModule : IModule
         services.AddProcessManagerHttpClients();
         services.AddScoped<ICalculationsClient, CalculationsClient>();
         services.AddScoped<IRequestsClient, RequestsClient>();
-        services.AddScoped<IChangeOfSupplierClient, ChangeOfSupplierClient>();
 
         var processManagerClientOptions = configuration
             .GetSection(ProcessManagerHttpClientsOptions.SectionName)
