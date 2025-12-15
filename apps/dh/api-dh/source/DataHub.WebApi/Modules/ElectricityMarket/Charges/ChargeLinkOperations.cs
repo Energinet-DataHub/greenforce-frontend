@@ -58,18 +58,7 @@ public static partial class ChargeLinkOperations
         string meteringPointId,
         DateTimeOffset stopDate,
         IChargeLinkClient client,
-        IHttpContextAccessor httpContext,
-        CancellationToken ct)
-    {
-        var ownerId = httpContext?.HttpContext?.User.GetMarketParticipantNumber();
-
-        if (string.IsNullOrWhiteSpace(ownerId))
-        {
-            throw new InvalidOperationException("Cannot determine owner from the current user.");
-        }
-
-        return await client.StopChargeLinkAsync(chargeId, meteringPointId, stopDate, ct).ConfigureAwait(false);
-    }
+        CancellationToken ct) => await client.StopChargeLinkAsync(chargeId, meteringPointId, stopDate, ct).ConfigureAwait(false);
 
     [Mutation]
     [Authorize(Roles = new[] { "metering-point:prices-manage" })]
