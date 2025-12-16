@@ -822,15 +822,18 @@
     },
     "processOverview": {
       "columns": {
-        "createdAt": "Time of message",
+        "createdAt": "Registered in DataHub",
         "reasonCode": "Type",
         "state": "State",
         "cutoffDate": "Cut-off date",
         "initiator": "Initiating participant",
         "actions": "Possible actions"
       },
-      "reasonCode": {
+      "processType": {
         "EndOfSupply": "End of supply (BRS-002)"
+      },
+      "reasonCode": {
+        "EndOfSupply": "E20"
       },
       "filters": {
         "created": "Time",
@@ -851,8 +854,10 @@
         "UNKNOWN": "Unknown Step"
       },
       "details": {
+        "notFound": "Process not found",
+        "noSteps": "No steps available for this process",
         "list": {
-          "createdAt": "Time of message",
+          "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",
           "reasonCode": "Reason code",
           "initiator": "Initiating participant"
