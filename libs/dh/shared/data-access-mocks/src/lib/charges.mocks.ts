@@ -290,7 +290,6 @@ const chargeLinks: ChargeLink[] = [
       __typename: 'ChargeLinkPeriod',
       amount: 100.0,
       period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
-      id: 'clp-1000',
     },
     history: [
       {
@@ -337,7 +336,6 @@ const chargeLinks: ChargeLink[] = [
       __typename: 'ChargeLinkPeriod',
       amount: 50.0,
       period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
-      id: 'clp-1002',
     },
     history: [
       {
@@ -363,7 +361,6 @@ const chargeLinks: ChargeLink[] = [
       __typename: 'ChargeLinkPeriod',
       amount: 120.0,
       period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
-      id: 'clp-1003',
     },
     history: [
       {
@@ -389,7 +386,6 @@ const chargeLinks: ChargeLink[] = [
       __typename: 'ChargeLinkPeriod',
       amount: 120.0,
       period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
-      id: 'clp-1004',
     },
     history: [
       {
@@ -523,9 +519,9 @@ function getChargesByMeteringPointId() {
 }
 
 function getChargeLinkById() {
-  return mockGetChargeLinkHistoryQuery(async ({ variables: { chargeLinkId } }) => {
+  return mockGetChargeLinkHistoryQuery(async ({ variables: { chargeId } }) => {
     await delay(mswConfig.delay);
-    const chargeLink = chargeLinks.find((cl) => cl.id === chargeLinkId) || null;
+    const chargeLink = chargeLinks.find((cl) => cl.id === chargeId) || null;
     return HttpResponse.json({
       data: {
         __typename: 'Query',

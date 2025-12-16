@@ -27,12 +27,7 @@ public class ChargeLinkClient(DataHub.Charges.Client.IChargesClient chargesClien
     public async Task<IEnumerable<ChargeLinkDto>> GetChargeLinksByMeteringPointIdAsync(string meteringPointId, CancellationToken ct = default)
     {
         var result = await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(meteringPointId), ct).ConfigureAwait(false);
-        return result.Value.ChargeLinks ?? Enumerable.Empty<ChargeLinkDto>();
-    }
-
-    public Task<IEnumerable<ChargeLinkHistory>> GetChargeLinkHistoryAsync(long chargeId, CancellationToken ct = default)
-    {
-        return Task.FromResult<IEnumerable<ChargeLinkHistory>>(Array.Empty<ChargeLinkHistory>());
+        return result.Value ?? Enumerable.Empty<ChargeLinkDto>();
     }
 
     public async Task<bool> StopChargeLinkAsync(ChargeIdentifierDto ident, string meteringPointId, DateTimeOffset stopDate, CancellationToken ct = default) =>

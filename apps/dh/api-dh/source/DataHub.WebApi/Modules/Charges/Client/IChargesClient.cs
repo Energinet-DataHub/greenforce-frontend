@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using NodaTime;
@@ -28,7 +27,7 @@ public interface IChargesClient
     /// <summary>
     /// Query charge information.
     /// </summary>
-    Task<(IEnumerable<Charge> Charges, int TotalCount)?> GetChargesAsync(
+    Task<IEnumerable<Charge>?> GetChargesAsync(
         int skip,
         int take,
         string? filter,

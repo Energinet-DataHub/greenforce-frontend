@@ -7,7 +7,6 @@ query GetChargeLinksByMeteringPointId(
     amount
     currentPeriod {
       period
-      id
     }
     charge {
       id

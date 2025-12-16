@@ -29,7 +29,7 @@ public class ChargesClient(
     DataHub.Charges.Client.IChargesClient client,
     IHttpContextAccessor httpContext) : IChargesClient
 {
-    public async Task<(IEnumerable<Charge> Charges, int TotalCount)?> GetChargesAsync(
+    public async Task<IEnumerable<Charge>?> GetChargesAsync(
         int skip,
         int take,
         string? filter,
@@ -57,12 +57,12 @@ public class ChargesClient(
                 sortDirection == SortDirection.Desc),
             ct);
 
-        if (result.IsFailure)
+        if (result.IsFailure || result.Value == null)
         {
-            throw new GraphQLException(result.Error ?? "Exception in GetChargeInformationAsync");
+            return [];
         }
 
-        return (await Task.WhenAll(result.Value.Charges.Select(async c => new Charge(c.ChargeIdentifierDto, c.Resolution, c.TaxIndicator, c.Periods, await HasAnyPricesAsync(c, ct)))), result.Value.TotalCount);
+        return await Task.WhenAll(result.Value.Select(async c => new Charge(c.ChargeIdentifierDto, c.Resolution, c.TaxIndicator, c.Periods, await HasAnyPricesAsync(c, ct))));
     }
 
     public async Task<Charge?> GetChargeByIdAsync(
@@ -73,14 +73,19 @@ public class ChargesClient(
             new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(id.Code, [id.Owner], [id.Type]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        return result.IsFailure || !result.Value.Charges.Any()
-            ? null
-            : new Charge(
-                result.Value.Charges.First().ChargeIdentifierDto,
-                result.Value.Charges.First().Resolution,
-                result.Value.Charges.First().TaxIndicator,
-                result.Value.Charges.First().Periods,
-                await HasAnyPricesAsync(result.Value.Charges.First(), ct));
+        if (result.IsFailure || result.Value == null)
+        {
+            return null;
+        }
+
+        var charge = result.Value.First();
+
+        return new Charge(
+                charge.ChargeIdentifierDto,
+                charge.Resolution,
+                charge.TaxIndicator,
+                charge.Periods,
+                await HasAnyPricesAsync(charge, ct));
     }
 
     public async Task<IEnumerable<Charge>> GetChargesByTypeAsync(
@@ -98,7 +103,12 @@ public class ChargesClient(
             new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [user.GetMarketParticipantNumber()], [type.Type]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        return await Task.WhenAll(result.Value.Charges.Select(async c => new Charge(c.ChargeIdentifierDto, c.Resolution, c.TaxIndicator, c.Periods, await HasAnyPricesAsync(c, ct))));
+        if (result.IsFailure || result.Value == null)
+        {
+            return [];
+        }
+
+        return await Task.WhenAll(result.Value.Select(async c => new Charge(c.ChargeIdentifierDto, c.Resolution, c.TaxIndicator, c.Periods, await HasAnyPricesAsync(c, ct))));
     }
 
     public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
@@ -116,19 +126,19 @@ public class ChargesClient(
                     To: period.End),
                 ct);
 
-            if (result.IsFailure)
+            if (result.IsFailure || result.Value == null)
             {
-                throw new GraphQLException(result.Error ?? "Exception in GetChargeSeriesAsync");
+                return [];
             }
 
-            var (chargeSeries, totalCount) = result.Value;
-            return chargeSeries == null || !chargeSeries.Any() || totalCount == 0
+            var chargeSeries = result.Value;
+            return chargeSeries == null || !chargeSeries.Any()
                 ? []
                 : chargeSeries.Select((s, i) =>
             {
-                var start = AddResolution(resolution, period, i, totalCount);
-                var end = AddResolution(resolution, period, i + 1, totalCount);
-                var point = new ChargeSeriesPoint(start.ToInstant(), s.Price);
+                var start = AddResolution(resolution, period, i);
+                var end = AddResolution(resolution, period, i + 1);
+                var point = new ChargeSeriesPoint(start.ToInstant(), s.Points.First().Price);
                 return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), [point]);
             });
         }
@@ -152,7 +162,7 @@ public class ChargesClient(
         return series.Any();
     }
 
-    private ZonedDateTime AddResolution(Resolution resolution, Interval period, int index, int totalCount)
+    private ZonedDateTime AddResolution(Resolution resolution, Interval period, int index)
     {
         var zone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
         var start = period.Start.InZone(zone);
