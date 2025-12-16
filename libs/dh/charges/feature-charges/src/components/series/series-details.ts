@@ -20,7 +20,6 @@ import { DecimalPipe, TitleCasePipe } from '@angular/common';
 import { Component, computed, input, model } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattBadgeComponent } from '@energinet/watt/badge';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataTableComponent } from '@energinet/watt/data';
 import { WattDatePipe } from '@energinet/watt/core/date';
