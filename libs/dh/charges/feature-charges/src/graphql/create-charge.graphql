@@ -1,0 +1,5 @@
+mutation CreateCharge($input: CreateChargeInput!) {
+  createCharge(input: $input) {
+    boolean
+  }
+}

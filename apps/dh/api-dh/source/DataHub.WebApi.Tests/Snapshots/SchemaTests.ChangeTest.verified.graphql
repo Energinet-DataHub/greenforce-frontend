@@ -399,6 +399,10 @@ type CreateChargeLinkPayload {
   boolean: Boolean
 }
 
+type CreateChargePayload {
+  boolean: Boolean
+}
+
 type CreateDelegationsForMarketParticipantPayload {
   boolean: Boolean
   errors: [CreateDelegationsForMarketParticipantError!]
@@ -1037,6 +1041,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
+  createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   stopChargeLink(input: StopChargeLinkInput!): StopChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   editChargeLink(input: EditChargeLinkInput!): EditChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   createChargeLink(input: CreateChargeLinkInput!): CreateChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
@@ -1820,6 +1825,17 @@ input CreateCalculationInput {
   gridAreaCodes: [String!]
 }
 
+input CreateChargeInput {
+  code: String!
+  name: String!
+  description: String!
+  type: ChargeType!
+  resolution: ChargeResolution!
+  validFrom: DateTime!
+  vat: Boolean!
+  transparentInvoicing: Boolean!
+}
+
 input CreateChargeLinkInput {
   chargeId: String!
   meteringPointId: String!
@@ -2422,10 +2438,10 @@ enum CalculationTypeQueryParameterV1 {
 }
 
 enum ChargeResolution {
-  quarterhourly
-  hourly
-  daily
-  monthly
+  QUARTER_HOURLY
+  HOURLY
+  DAILY
+  MONTHLY
 }
 
 enum ChargeStatus {

@@ -28,6 +28,7 @@ using Moq;
 using NodaTime;
 using Xunit;
 using ChargeType = Energinet.DataHub.Charges.Abstractions.Shared.ChargeType;
+using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.Charges;
 

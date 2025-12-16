@@ -14,14 +14,11 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Shared;
+using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 public record Charge(
     ChargeIdentifierDto ChargeIdentifierDto,
     Resolution Resolution,
     bool TaxIndicator,
     IReadOnlyCollection<ChargeInformationPeriodDto> Periods,
-    bool HasAnyPrices) : ChargeInformationDto(
-        ChargeIdentifierDto,
-        Resolution,
-        TaxIndicator,
-        Periods);
+    bool HasAnyPrices);
