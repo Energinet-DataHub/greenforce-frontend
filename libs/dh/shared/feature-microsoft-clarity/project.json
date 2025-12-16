@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:shared", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
         "reportsDirectory": "../../../../coverage/libs/dh/shared/feature-microsoft-clarity"

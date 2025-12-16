@@ -7,7 +7,7 @@
   "tags": ["product:dh", "scope:shared", "type:test-util"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-mocks"],
       "options": {
         "config": "libs/dh/shared/data-access-mocks/vite.config.mts"

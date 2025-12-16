@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:dev-examples", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "config": "libs/dh/dev-examples/feature-processes/vite.config.mts"

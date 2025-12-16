@@ -7,7 +7,7 @@
   "tags": ["product:gf", "domain:globalization", "type:configuration"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/globalization/configuration-danish-locale"],
       "options": {
         "config": "libs/gf/globalization/configuration-danish-locale/vite.config.mts"

@@ -16,9 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import path from 'path';
+// This file has been automatically migrated to valid ESM format by Storybook.
+import { fileURLToPath } from 'node:url';
+import path, { dirname } from 'path';
 import type { UserConfig } from 'vite';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const config = {
   staticDirs: [
@@ -56,7 +61,6 @@ const config = {
       optimizeDeps: {
         include: [
           '@storybook/angular',
-          '@storybook/angular/dist/client',
           '@angular/compiler',
           '@storybook/addon-docs/blocks',
           'tslib',
