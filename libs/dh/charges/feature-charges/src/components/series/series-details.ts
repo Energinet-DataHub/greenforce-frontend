@@ -20,7 +20,6 @@ import { DecimalPipe, TitleCasePipe } from '@angular/common';
 import { Component, computed, input, model } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattBadgeComponent } from '@energinet/watt/badge';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataTableComponent } from '@energinet/watt/data';
 import { WattDatePipe } from '@energinet/watt/core/date';
@@ -46,7 +45,7 @@ import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/ui-shared';
     WATT_DRAWER,
     WATT_MENU,
     WATT_TABLE,
-    WattBadgeComponent,
+    // WattBadgeComponent,
     WattButtonComponent,
     WattDataTableComponent,
     WattDatePipe,
@@ -62,10 +61,10 @@ import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/ui-shared';
     >
       <watt-drawer-heading>
         @switch (resolution()) {
-          @case ('monthly') {
+          @case ('MONTHLY') {
             <h1>{{ start() | wattDate: 'monthYear' | titlecase }}</h1>
           }
-          @case ('daily') {
+          @case ('DAILY') {
             <h1>{{ start() | wattDate }}</h1>
           }
           @default {

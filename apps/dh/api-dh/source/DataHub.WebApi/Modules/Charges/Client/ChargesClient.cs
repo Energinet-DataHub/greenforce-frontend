@@ -14,19 +14,23 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
-using Energinet.DataHub.Charges.Abstractions.Shared;
+using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using NodaTime;
+using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Shared.ChargeIdentifierDto;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
-using Resolution = Energinet.DataHub.Charges.Abstractions.Shared.Resolution;
+using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
 public class ChargesClient(
     DataHub.Charges.Client.IChargesClient client,
+    IB2CClient ediClient,
     IHttpContextAccessor httpContext) : IChargesClient
 {
     public async Task<IEnumerable<Charge>?> GetChargesAsync(
@@ -62,7 +66,7 @@ public class ChargesClient(
             return [];
         }
 
-        return await Task.WhenAll(result.Value.Select(async c => new Charge(c.ChargeIdentifierDto, c.Resolution, c.TaxIndicator, c.Periods, await HasAnyPricesAsync(c, ct))));
+        return await Task.WhenAll(result.Value.Select(async c => new Charge(c.ChargeIdentifierDto, Resolution.FromName(c.Resolution.ToString()), c.TaxIndicator, c.Periods, await HasAnyPricesAsync(c, ct))));
     }
 
     public async Task<Charge?> GetChargeByIdAsync(
@@ -82,7 +86,7 @@ public class ChargesClient(
 
         return new Charge(
                 charge.ChargeIdentifierDto,
-                charge.Resolution,
+                Resolution.FromName(charge.Resolution.ToString()),
                 charge.TaxIndicator,
                 charge.Periods,
                 await HasAnyPricesAsync(charge, ct));
@@ -108,7 +112,7 @@ public class ChargesClient(
             return [];
         }
 
-        return await Task.WhenAll(result.Value.Select(async c => new Charge(c.ChargeIdentifierDto, c.Resolution, c.TaxIndicator, c.Periods, await HasAnyPricesAsync(c, ct))));
+        return await Task.WhenAll(result.Value.Select(async c => new Charge(c.ChargeIdentifierDto, Resolution.FromName(c.Resolution.ToString()), c.TaxIndicator, c.Periods, await HasAnyPricesAsync(c, ct))));
     }
 
     public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
@@ -136,10 +140,9 @@ public class ChargesClient(
                 ? []
                 : chargeSeries.Select((s, i) =>
             {
-                var start = AddResolution(resolution, period, i);
-                var end = AddResolution(resolution, period, i + 1);
-                var point = new ChargeSeriesPoint(start.ToInstant(), s.Points.First().Price);
-                return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), [point]);
+                var start = PlusResolution(resolution, period, i);
+                var end = PlusResolution(resolution, period, i + 1);
+                return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), s.Points);
             });
         }
         catch
@@ -148,30 +151,53 @@ public class ChargesClient(
         }
     }
 
+    public async Task<bool> CreateChargeAsync(
+        CreateChargeInput input,
+        CancellationToken ct = default)
+    {
+        var result = await ediClient.SendAsync(
+            new UpsertChargeInformationCommandV1(new(
+                ChargeId: input.Code,
+                ChargeOwnerId: httpContext.CreateUserIdentity().ActorNumber.Value,
+                ChargeType: input.Type.ToRequestChangeOfPriceListChargeType(),
+                ChargeName: input.Name,
+                ChargeDescription: input.Description,
+                Resolution: input.Resolution.CastFromDuration<ResolutionV1>(),
+                Start: input.ValidFrom,
+                End: null,
+                VatPayer: input.Vat ? VatPayerV1.D02 : VatPayerV1.D01,
+                TransparentInvoicing: input.TransparentInvoicing,
+                TaxIndicator: input.Type.IsTax,
+                LocalPricingCategoryType: null)),
+            ct);
+
+        return result.IsSuccess;
+    }
+
+    private ZonedDateTime PlusResolution(Resolution resolution, Interval interval, int count)
+    {
+        var zone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
+        var start = interval.Start.InZone(zone);
+        var period = resolution.ToPeriod();
+        return Enumerable.Range(0, count).Aggregate(start, (acc, _) =>
+            period.HasDateComponent
+                ? start.LocalDateTime.Plus(period).InZoneLeniently(zone)
+                : start.Plus(period.ToDuration()));
+    }
+
     private async Task<bool> HasAnyPricesAsync(
         ChargeInformationDto charge,
         CancellationToken ct)
     {
-        var currentPeriod = charge.GetCurrentPeriod();
+        // TODO: Fix ChargeExtensions usage here, perhaps by adding CurrentPeriod to Charge record
+        var currentPeriod = ChargeExtensions.GetCurrentPeriod(charge.Periods);
         if (currentPeriod == null)
         {
             return false;
         }
 
-        var series = await GetChargeSeriesAsync(charge.ChargeIdentifierDto, charge.Resolution, new Interval(currentPeriod.StartDate, currentPeriod.EndDate), ct);
+        var resolution = Resolution.FromName(charge.Resolution.ToString());
+        var series = await GetChargeSeriesAsync(charge.ChargeIdentifierDto, resolution, new Interval(currentPeriod.StartDate, currentPeriod.EndDate), ct);
         return series.Any();
-    }
-
-    private ZonedDateTime AddResolution(Resolution resolution, Interval period, int index)
-    {
-        var zone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
-        var start = period.Start.InZone(zone);
-        return resolution switch
-        {
-            Resolution.QuarterHourly => start.PlusMinutes(index * 15),
-            Resolution.Hourly => start.PlusHours(index),
-            Resolution.Daily => start.LocalDateTime.PlusDays(index).InZoneLeniently(zone),
-            Resolution.Monthly => start.LocalDateTime.PlusMonths(index).InZoneLeniently(zone),
-        };
     }
 }

@@ -12,16 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Shared;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using HotChocolate.Types.Descriptors;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
+namespace Energinet.DataHub.WebApi.Modules.Common.Utilities;
 
-public class ResolutionType : EnumType<Resolution>
+public abstract record Enumeration<TEnum>
 {
-    protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
-    {
-        descriptor.Name("ChargeResolution");
-        descriptor.AsLowerCase();
-    }
+    private static INamingConventions namingConvention = new DefaultNamingConventions();
+
+    public abstract string Name { get; init; }
+
+    public sealed override string ToString() => namingConvention.GetEnumValueName(Name);
+
+    public T Cast<T>()
+        where T : Enum => (T)Enum.Parse(typeof(T), Name, true);
+
+    public object Cast(Type enumType) => Enum.Parse(enumType, Name, true);
 }

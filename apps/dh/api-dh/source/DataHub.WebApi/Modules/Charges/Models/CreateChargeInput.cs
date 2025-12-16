@@ -12,11 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
-using NodaTime;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record ChargeSeries(
-    Interval Period,
-    IEnumerable<ChargeSeriesPointDto> Points);
+public record CreateChargeInput(
+    string Code,
+    string Name,
+    string Description,
+    ChargeType Type,
+    Resolution Resolution,
+    DateTimeOffset ValidFrom,
+    bool Vat,
+    bool TransparentInvoicing);

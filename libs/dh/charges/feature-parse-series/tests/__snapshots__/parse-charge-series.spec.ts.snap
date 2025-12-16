@@ -12,7 +12,7 @@ exports[`parseChargeSeries > should error when period is invalid 1`] = `
   "isFatal": true,
   "points": 0,
   "progress": 39,
-  "resolution": "quarterhourly",
+  "resolution": "QUARTER_HOURLY",
 }
 `;
 
@@ -31,7 +31,7 @@ exports[`parseChargeSeries > should error when position is invalid 1`] = `
   "isFatal": false,
   "points": 4,
   "progress": 100,
-  "resolution": "quarterhourly",
+  "resolution": "QUARTER_HOURLY",
 }
 `;
 
@@ -50,7 +50,7 @@ exports[`parseChargeSeries > should error when price is invalid 1`] = `
   "isFatal": false,
   "points": 4,
   "progress": 100,
-  "resolution": "quarterhourly",
+  "resolution": "QUARTER_HOURLY",
 }
 `;
 
@@ -66,7 +66,7 @@ exports[`parseChargeSeries > should error when structure is unexpected 1`] = `
   "isFatal": true,
   "points": 0,
   "progress": 26,
-  "resolution": "monthly",
+  "resolution": "MONTHLY",
 }
 `;
 
@@ -85,7 +85,7 @@ exports[`parseChargeSeries > should error with missing points in daily resolutio
   "isFatal": true,
   "points": 2,
   "progress": 81,
-  "resolution": "daily",
+  "resolution": "DAILY",
 }
 `;
 
@@ -104,7 +104,7 @@ exports[`parseChargeSeries > should error with missing points in hourly resoluti
   "isFatal": true,
   "points": 1,
   "progress": 62,
-  "resolution": "hourly",
+  "resolution": "HOURLY",
 }
 `;
 
@@ -123,7 +123,7 @@ exports[`parseChargeSeries > should error with missing points in monthly resolut
   "isFatal": true,
   "points": 2,
   "progress": 81,
-  "resolution": "monthly",
+  "resolution": "MONTHLY",
 }
 `;
 
@@ -142,7 +142,7 @@ exports[`parseChargeSeries > should error with missing points in quarter hourly 
   "isFatal": true,
   "points": 1,
   "progress": 62,
-  "resolution": "quarterhourly",
+  "resolution": "QUARTER_HOURLY",
 }
 `;
 
@@ -161,7 +161,7 @@ exports[`parseChargeSeries > should error with unexpected points in daily resolu
   "isFatal": true,
   "points": 5,
   "progress": 100,
-  "resolution": "daily",
+  "resolution": "DAILY",
 }
 `;
 
@@ -180,7 +180,7 @@ exports[`parseChargeSeries > should error with unexpected points in hourly resol
   "isFatal": true,
   "points": 1,
   "progress": 52,
-  "resolution": "hourly",
+  "resolution": "HOURLY",
 }
 `;
 
@@ -199,7 +199,7 @@ exports[`parseChargeSeries > should error with unexpected points in monthly reso
   "isFatal": true,
   "points": 5,
   "progress": 100,
-  "resolution": "monthly",
+  "resolution": "MONTHLY",
 }
 `;
 
@@ -218,7 +218,7 @@ exports[`parseChargeSeries > should error with unexpected points in quarter hour
   "isFatal": true,
   "points": 1,
   "progress": 62,
-  "resolution": "quarterhourly",
+  "resolution": "QUARTER_HOURLY",
 }
 `;
 
@@ -232,7 +232,7 @@ exports[`parseChargeSeries > should handle DST end correctly in hourly resolutio
   "isFatal": false,
   "points": 6,
   "progress": 100,
-  "resolution": "hourly",
+  "resolution": "HOURLY",
 }
 `;
 
@@ -246,7 +246,7 @@ exports[`parseChargeSeries > should handle DST end correctly in quarter hourly r
   "isFatal": false,
   "points": 21,
   "progress": 100,
-  "resolution": "quarterhourly",
+  "resolution": "QUARTER_HOURLY",
 }
 `;
 
@@ -260,7 +260,7 @@ exports[`parseChargeSeries > should handle DST start correctly in hourly resolut
   "isFatal": false,
   "points": 5,
   "progress": 100,
-  "resolution": "hourly",
+  "resolution": "HOURLY",
 }
 `;
 
@@ -274,7 +274,7 @@ exports[`parseChargeSeries > should handle DST start correctly in quarter hourly
   "isFatal": false,
   "points": 13,
   "progress": 100,
-  "resolution": "quarterhourly",
+  "resolution": "QUARTER_HOURLY",
 }
 `;
 
@@ -288,7 +288,7 @@ exports[`parseChargeSeries > should parse points in daily resolution 1`] = `
   "isFatal": false,
   "points": 5,
   "progress": 100,
-  "resolution": "daily",
+  "resolution": "DAILY",
 }
 `;
 
@@ -302,7 +302,7 @@ exports[`parseChargeSeries > should parse points in hourly resolution 1`] = `
   "isFatal": false,
   "points": 5,
   "progress": 100,
-  "resolution": "hourly",
+  "resolution": "HOURLY",
 }
 `;
 
@@ -316,7 +316,7 @@ exports[`parseChargeSeries > should parse points in monthly resolution 1`] = `
   "isFatal": false,
   "points": 11,
   "progress": 100,
-  "resolution": "monthly",
+  "resolution": "MONTHLY",
 }
 `;
 
@@ -330,6 +330,6 @@ exports[`parseChargeSeries > should parse points in quarter hourly resolution 1`
   "isFatal": false,
   "points": 5,
   "progress": 100,
-  "resolution": "quarterhourly",
+  "resolution": "QUARTER_HOURLY",
 }
 `;

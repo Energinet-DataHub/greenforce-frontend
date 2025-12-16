@@ -69,6 +69,14 @@ public static partial class ChargeNode
         CancellationToken ct) =>
             await client.GetChargesByTypeAsync(type, ct);
 
+    [Mutation]
+    [Authorize(Roles = new[] { "charges:manage" })]
+    public static async Task<bool> CreateChargeAsync(
+        IChargesClient client,
+        CreateChargeInput input,
+        CancellationToken ct) =>
+            await client.CreateChargeAsync(input, ct);
+
     public static async Task<IEnumerable<ChargeSeries>> GetSeriesAsync(
         [Parent] Charge charge,
         Interval interval,
