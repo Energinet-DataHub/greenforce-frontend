@@ -36,7 +36,7 @@ A. Convert `module.exports`
 
 // FROM (CJS):
 
-```
+```js
 module.exports = {
     stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
     addons: ['@storybook/addon-essentials']
@@ -45,7 +45,7 @@ module.exports = {
 
 // TO (ESM):
 
-```
+```js
 export default {
     stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
     addons: ['@storybook/addon-essentials']
@@ -56,14 +56,14 @@ B. Convert `require()` to import
 
 // FROM (CJS):
 
-```
+```js
 const { nxViteTsPaths } = require('@nx/vite/plugins/nx-tsconfig-paths.plugin');
 const { mergeConfig } = require('vite');
 ```
 
 // TO (ESM):
 
-```
+```js
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { mergeConfig } from 'vite';
 ```
@@ -72,14 +72,14 @@ C. Handle `path.join()` patterns
 
 // FROM (CJS):
 
-```
+```js
 const path = require('path');
 const rootMain = require(path.join(__dirname, '../../.storybook/main'));
 ```
 
 // TO (ESM):
 
-```
+```js
 import { join } from 'path';
 import rootMain from '../../.storybook/main';
 ```
@@ -88,7 +88,7 @@ D. Handle Dynamic Requires in Config Functions
 
 // FROM (CJS):
 
-```
+```js
 module.exports = {
     viteFinal: async (config) => {
         const { mergeConfig } = require('vite');
@@ -99,7 +99,7 @@ module.exports = {
 
 // TO (ESM):
 
-```
+```js
 import { mergeConfig } from 'vite';
 
 export default {
@@ -131,7 +131,7 @@ Provide a summary of:
 
 Before (CJS):
 
-```
+```js
 const path = require('path');
 const { mergeConfig } = require('vite');
 
@@ -150,7 +150,7 @@ module.exports = {
 
 After (ESM):
 
-```
+```js
 import { join } from 'path';
 import { mergeConfig } from 'vite';
 
