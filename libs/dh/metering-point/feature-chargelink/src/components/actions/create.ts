@@ -17,7 +17,15 @@
  */
 //#endregion
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { model, inject, effect, computed, Component, ViewEncapsulation } from '@angular/core';
+import {
+  model,
+  inject,
+  effect,
+  computed,
+  Component,
+  ViewEncapsulation,
+  input,
+} from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -30,10 +38,16 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-
+import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
-import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import {
+  ChargeType,
+  GetChargeByTypeDocument,
+  CreateChargeLinkDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-create-charge-link',
@@ -110,6 +124,8 @@ import { ChargeType, GetChargeByTypeDocument } from '@energinet-datahub/dh/share
   `,
 })
 export class DhMeteringPointCreateChargeLink extends WattTypedModal {
+  private readonly toast = injectToast('meteringPoint.chargeLinks.create.toast');
+  private readonly createChargeLink = mutation(CreateChargeLinkDocument);
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly chargesQuery = lazyQuery(GetChargeByTypeDocument);
 
@@ -119,14 +135,29 @@ export class DhMeteringPointCreateChargeLink extends WattTypedModal {
     startDate: this.fb.control<Date | null>(null, Validators.required),
   });
 
+  meteringPointId = input.required<string>();
+
   selectedType = model<ChargeType | null>(null);
 
   chargeOptions = computed<WattDropdownOptions>(
     () => this.chargesQuery.data()?.chargesByType ?? []
   );
 
-  createLink() {
-    console.log('Create this', this.form.value);
+  async createLink() {
+    if (this.form.invalid) return;
+
+    assertIsDefined(this.form.value.startDate);
+    assertIsDefined(this.form.value.factor);
+    assertIsDefined(this.form.value.chargeId);
+
+    await this.createChargeLink.mutate({
+      variables: {
+        chargeId: this.form.value.chargeId,
+        meteringPointId: this.meteringPointId(),
+        newStartDate: this.form.value.startDate,
+        factor: this.form.value.factor,
+      },
+    });
   }
 
   constructor() {
@@ -138,5 +169,6 @@ export class DhMeteringPointCreateChargeLink extends WattTypedModal {
         this.chargesQuery.refetch({ type });
       }
     });
+    effect(() => this.toast(this.createChargeLink.status()));
   }
 }

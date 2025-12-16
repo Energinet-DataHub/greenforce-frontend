@@ -13,6 +13,7 @@
 // limitations under the License.
 //
 using ExternalChargeType = Energinet.DataHub.Charges.Abstractions.Shared.ChargeType;
+using RequestChangeBillingMasterData = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
@@ -36,4 +37,11 @@ public record ChargeType(
             ExternalChargeType.Subscription => ChargeType.Subscription,
             ExternalChargeType.Fee => ChargeType.Fee,
         };
+
+    public RequestChangeBillingMasterData.ChargeTypeV1 ToRequestChangeBillingMasterDataChargeType() => Type switch
+    {
+        ExternalChargeType.Tariff => RequestChangeBillingMasterData.ChargeTypeV1.Tariff,
+        ExternalChargeType.Subscription => RequestChangeBillingMasterData.ChargeTypeV1.Subscription,
+        ExternalChargeType.Fee => RequestChangeBillingMasterData.ChargeTypeV1.Fee,
+    };
 }

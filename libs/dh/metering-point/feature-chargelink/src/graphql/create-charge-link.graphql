@@ -1,10 +1,10 @@
-mutation EditChargeLink(
+mutation CreateChargeLink(
   $chargeId: String!
   $meteringPointId: String!
   $newStartDate: DateTime!
   $factor: Int!
 ) {
-  editChargeLink(
+  createChargeLink(
     input: {
       chargeId: $chargeId
       meteringPointId: $meteringPointId

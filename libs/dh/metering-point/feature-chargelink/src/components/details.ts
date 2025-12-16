@@ -34,6 +34,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetChargeLinkHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { History } from '../types';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-charge-link-details',
@@ -51,6 +52,8 @@ import { History } from '../types';
 
     VaterStackComponent,
     VaterSpacerComponent,
+
+    DhPermissionRequiredDirective,
   ],
   template: `
     <watt-drawer
@@ -65,12 +68,14 @@ import { History } from '../types';
         <vater-stack direction="row">
           <h1>{{ chargeLinkWithHistory()?.charge?.displayName }}</h1>
           <vater-spacer />
-          <watt-button variant="icon" [wattMenuTriggerFor]="actions" icon="moreVertical" />
-          <watt-menu #actions>
-            <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
-            <watt-menu-item [routerLink]="['stop']">{{ t('stop') }}</watt-menu-item>
-            <watt-menu-item [routerLink]="['cancel']">{{ t('cancel') }}</watt-menu-item>
-          </watt-menu>
+          <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
+            <watt-button variant="icon" [wattMenuTriggerFor]="actions" icon="moreVertical" />
+            <watt-menu #actions>
+              <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
+              <watt-menu-item [routerLink]="['stop']">{{ t('stop') }}</watt-menu-item>
+              <watt-menu-item [routerLink]="['cancel']">{{ t('cancel') }}</watt-menu-item>
+            </watt-menu>
+          </ng-container>
         </vater-stack>
       </watt-drawer-heading>
 
