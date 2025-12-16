@@ -27,4 +27,6 @@ public enum SearchDocumentType
     Acknowledgement = 8,
     ReminderOfMissingMeasurements = 9,
     RequestChangeOfPriceList = 10,
+    ConfirmRequestChangeOfPriceList = 11,
+    RejectRequestChangeOfPriceList = 12,
 }

@@ -17,23 +17,24 @@
  */
 //#endregion
 
-import { Component, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_MODAL } from '@energinet/watt/modal';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattIconComponent } from '@energinet/watt/icon';
-import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
 @Component({
   selector: 'dh-metering-point-edit-charge-link',
@@ -83,7 +84,8 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
   `,
 })
 export default class DhMeteringPointEditChargeLink {
-  private edit = mutation(EditChargeLinkDocument);
+  private readonly toast = injectToast('meteringPoint.chargeLinks.edit.toast');
+  private readonly edit = mutation(EditChargeLinkDocument);
   navigate = inject(DhNavigationService);
   form = new FormGroup({
     factor: dhMakeFormControl<number>(null, [Validators.min(1)]),
@@ -91,24 +93,27 @@ export default class DhMeteringPointEditChargeLink {
   });
 
   id = input.required<string>();
+  meteringPointId = input.required<string>();
 
   save = async (save: boolean) => {
     if (!save) return this.navigate.navigate('details', this.id());
 
-    const startDate = this.form.value.startDate;
-    const factor = this.form.value.factor;
     if (this.form.invalid) return;
-    if (!startDate) return;
-    if (!factor) return;
+
+    assertIsDefined(this.form.value.startDate);
+    assertIsDefined(this.form.value.factor);
 
     await this.edit.mutate({
       variables: {
-        chargeLinkId: this.id(),
-        newStartDate: startDate,
-        factor,
+        chargeId: this.id(),
+        meteringPointId: this.meteringPointId(),
+        newStartDate: this.form.value.startDate,
+        factor: this.form.value.factor,
       },
     });
 
     this.navigate.navigate('details', this.id());
   };
+
+  effect = effect(() => this.toast(this.edit.status()));
 }

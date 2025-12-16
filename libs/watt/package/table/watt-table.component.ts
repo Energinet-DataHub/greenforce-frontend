@@ -290,6 +290,11 @@ export class WattTableComponent<T> {
   readonly sortClear = input(true);
 
   /**
+   * Optional function to determine CSS class(es) for each row.
+   */
+  readonly rowClass = input<(row: T) => string | string[]>();
+
+  /**
    * Whether the table should include a checkbox column for row selection.
    */
   readonly selectable = input(false);
@@ -446,6 +451,13 @@ export class WattTableComponent<T> {
     const activeRowComparator = this.activeRowComparator();
     if (!activeRow) return false;
     return activeRowComparator ? activeRowComparator(row, activeRow) : row === activeRow;
+  };
+
+  protected getRowClass = (row: T): string => {
+    const rowClass = this.rowClass();
+    if (!rowClass) return '';
+    const result = rowClass(row);
+    return Array.isArray(result) ? result.join(' ') : result;
   };
 
   protected onRowClick = (row: T) => {

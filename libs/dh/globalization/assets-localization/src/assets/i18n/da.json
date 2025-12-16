@@ -585,7 +585,7 @@
         "tabLabel": "Stamdata"
       },
       "processes": {
-        "tabLabel": "Procesoverblik"
+        "tabLabel": "Processer"
       },
       "chargelinks": {
         "tabLabel": "Pristilknytninger"
@@ -778,6 +778,7 @@
         "cancel": "Annuller pristilknytning"
       },
       "create": {
+        "toast": "Pris tilknyttes..",
         "title": "Tilknyt pris",
         "close": "Luk",
         "back": "Tilbage",
@@ -798,6 +799,7 @@
         "tooltip": "Processen tager få minutter.\n Afvisningsårsager findes i forretningsbeskeder."
       },
       "edit": {
+        "toast": "Ændringer gemmes..",
         "title": "Rediger pristilknytning",
         "factor": "Antal",
         "startDate": "Skæringsdato",
@@ -806,6 +808,7 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "cancel": {
+        "toast": "Pristilknytning annulleres..",
         "title": "Annuller pristilknytning?",
         "cancelWarning": "Handlingen kan ikke fortrydes",
         "cancel": "Annuller pristilknytning",
@@ -813,6 +816,7 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "stop": {
+        "toast": "Ændringer gemmes..",
         "title": "Stop pristilknytning",
         "stopDate": "Stopdato",
         "save": "Gem ændringer",
@@ -822,15 +826,18 @@
     },
     "processOverview": {
       "columns": {
-        "createdAt": "Beskedtidspunkt",
+        "createdAt": "Registreret i DataHub",
         "reasonCode": "Type",
         "state": "Status",
         "cutoffDate": "Skæringsdato",
         "initiator": "Initierende aktør",
         "actions": "Mulige handlinger"
       },
-      "reasonCode": {
+      "processType": {
         "EndOfSupply": "Leveranceophør (BRS-002)"
+      },
+      "reasonCode": {
+        "EndOfSupply": "E20"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -851,8 +858,10 @@
         "UNKNOWN": "Ukendt trin"
       },
       "details": {
+        "notFound": "Process ikke fundet",
+        "noSteps": "Ingen trin tilgængelige for denne process",
         "list": {
-          "createdAt": "Beskedtidspunkt",
+          "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
           "reasonCode": "Årsagskode",
           "initiator": "Initierende aktør"

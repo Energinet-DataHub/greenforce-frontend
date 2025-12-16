@@ -17,11 +17,15 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { firstValueFrom } from 'rxjs';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
-import { GetMeteringPointProcessByIdQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattDataTableComponent } from '@energinet/watt/data';
+import {
+  GetMeteringPointProcessByIdQuery,
+  ProcessStepState,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattIconComponent } from '@energinet/watt/icon';
@@ -41,52 +45,72 @@ type MeteringPointProcessStep = NonNullable<
     VaterFlexComponent,
     VaterUtilityDirective,
     WATT_TABLE,
+    WattDataTableComponent,
     WattDatePipe,
     WattIconComponent,
     DhEmDashFallbackPipe,
   ],
+  styles: `
+    tr.pending-step {
+      color: var(--watt-on-light-low-emphasis);
+    }
+  `,
+  encapsulation: ViewEncapsulation.None,
   template: `
-    <watt-table
-      *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.details.columns'"
-      [dataSource]="dataSource()"
-      [columns]="columns"
-      [resolveHeader]="resolveHeader"
-      [loading]="loading()"
+    <watt-data-table
+      vater
+      [ready]="!loading()"
+      [error]="error()"
+      [header]="false"
+      [enableSearch]="false"
+      [enablePaginator]="false"
+      [enableCount]="false"
     >
-      <ng-container *wattTableCell="columns.step; let process">
-        <vater-flex
-          fill="horizontal"
-          direction="row"
-          gap="s"
-          align="center"
-          justify="space-between"
-        >
-          <div vater fill="horizontal">
-            {{ 'meteringPoint.processOverview.steps.' + process.step | transloco }}
-            @if (process.comment) {
-              <div class="watt-text-s-highlighted">{{ process.comment }}</div>
-            }
-          </div>
+      <watt-table
+        *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.details.columns'"
+        [dataSource]="dataSource()"
+        [columns]="columns"
+        [resolveHeader]="resolveHeader"
+        [loading]="loading()"
+        [rowClass]="getRowClass"
+      >
+        <ng-container *wattTableCell="columns.message; let process">
           @if (process.message?.documentUrl; as documentUrl) {
             <a href="#" (click)="openRawMessage(documentUrl, $event)">
               <watt-icon size="xs" name="email" />
             </a>
           }
-        </vater-flex>
-      </ng-container>
-      <ng-container *wattTableCell="columns.completedAt; let process">
-        {{ process.completedAt | wattDate: 'long' }}
-      </ng-container>
-      <ng-container *wattTableCell="columns.dueDate; let process">
-        {{ process.dueDate | wattDate: 'long' | dhEmDashFallback }}
-      </ng-container>
-      <ng-container *wattTableCell="columns.actor; let process">
-        {{ process.actor?.name | dhEmDashFallback }}
-      </ng-container>
-      <ng-container *wattTableCell="columns.state; let process">
-        {{ 'shared.states.' + process.state | transloco }}
-      </ng-container>
-    </watt-table>
+        </ng-container>
+        <ng-container *wattTableCell="columns.step; let process">
+          <vater-flex
+            fill="horizontal"
+            direction="row"
+            gap="s"
+            align="center"
+            justify="space-between"
+          >
+            <div vater fill="horizontal">
+              {{ 'meteringPoint.processOverview.steps.' + process.step | transloco }}
+              @if (process.comment) {
+                <div class="watt-text-s-highlighted">{{ process.comment }}</div>
+              }
+            </div>
+          </vater-flex>
+        </ng-container>
+        <ng-container *wattTableCell="columns.completedAt; let process">
+          {{ process.completedAt | wattDate: 'long' }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.dueDate; let process">
+          {{ process.dueDate | wattDate: 'long' | dhEmDashFallback }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.actor; let process">
+          {{ process.actor?.name | dhEmDashFallback }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.state; let process">
+          {{ 'shared.states.' + process.state | transloco }}
+        </ng-container>
+      </watt-table>
+    </watt-data-table>
   `,
 })
 export class DhMeteringPointProcessOverviewSteps {
@@ -96,14 +120,21 @@ export class DhMeteringPointProcessOverviewSteps {
 
   readonly steps = input.required<MeteringPointProcessStep[]>();
   readonly loading = input(false);
+  readonly error = input<unknown>();
 
   dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
+
   columns: WattTableColumnDef<MeteringPointProcessStep> = {
-    step: { accessor: 'step', size: '1fr' },
-    completedAt: { accessor: 'completedAt' },
-    dueDate: { accessor: 'dueDate' },
-    actor: { accessor: 'actor' },
-    state: { accessor: 'state' },
+    message: { accessor: 'message', sort: false, header: '' },
+    step: { accessor: 'step', size: '1fr', sort: false },
+    completedAt: { accessor: 'completedAt', sort: false },
+    dueDate: { accessor: 'dueDate', sort: false },
+    actor: { accessor: 'actor', sort: false },
+    state: { accessor: 'state', sort: false },
+  };
+
+  getRowClass = (step: MeteringPointProcessStep) => {
+    return step.state === ProcessStepState.Pending ? 'pending-step' : '';
   };
 
   async openRawMessage(documentUrl: string, event: Event) {

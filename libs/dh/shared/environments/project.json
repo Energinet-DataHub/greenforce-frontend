@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:shared", "type:environments"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
         "reportsDirectory": "../../../../coverage/libs/dh/shared/environments"

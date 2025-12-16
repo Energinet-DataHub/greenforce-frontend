@@ -2,7 +2,7 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 1.20.2 | MIT |
+  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 2.1.3 | MIT |
 | [@angular/animations](https://github.com/angular/angular) | 20.3.6 | MIT |
 | [@angular/cdk](https://github.com/angular/components) | 20.2.9 | MIT |
 | [@angular/common](https://github.com/angular/angular) | 20.3.6 | MIT |
@@ -42,6 +42,6 @@
 | [papaparse](https://github.com/mholt/PapaParse) | 5.5.3 | MIT |
 | [qs](https://github.com/ljharb/qs) | 6.12.1 | BSD-3-Clause |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.2 | Apache-2.0 |
-| [storybook](https://github.com/storybookjs/storybook) | 9.0.10 | MIT |
+| [storybook](https://github.com/storybookjs/storybook) | 10.1.9 | MIT |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
 | [zone.js](https://github.com/angular/angular) | 0.15.0 | MIT |

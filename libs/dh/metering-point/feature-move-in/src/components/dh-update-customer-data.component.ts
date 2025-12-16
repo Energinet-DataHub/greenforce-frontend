@@ -106,7 +106,7 @@ import {
       </watt-card>
       <vater-flex direction="row" gap="m" class="form-container">
         <!-- Customer -->
-        <watt-card class="customer-details-card">
+        <watt-card class="customer-details-card" data-testid="customer-details-card">
           <watt-card-title>
             <h3>
               {{ t('steps.customerDetails.label') }}
@@ -123,7 +123,7 @@ import {
           }
         </watt-card>
         <!-- Legal -->
-        <watt-card>
+        <watt-card data-testid="legal-details-card">
           <watt-card-title>
             <h3>
               {{ t('steps.contactDetails.legalContactSection') }}
@@ -137,7 +137,7 @@ import {
           />
         </watt-card>
         <!-- Technical -->
-        <watt-card>
+        <watt-card data-testid="technical-details-card">
           <watt-card-title>
             <h3>
               {{ t('steps.contactDetails.technicalContactSection') }}

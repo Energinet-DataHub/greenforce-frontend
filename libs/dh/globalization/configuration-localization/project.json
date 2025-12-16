@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:globalization", "type:configuration"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/globalization/configuration-localization"],
       "options": {
         "config": "libs/dh/globalization/configuration-localization/vite.config.mts"

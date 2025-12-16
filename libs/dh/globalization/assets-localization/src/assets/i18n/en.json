@@ -778,6 +778,7 @@
         "cancel": "Cancel change link"
       },
       "create": {
+        "toast": "Price is being attached..",
         "title": "Attach price",
         "close": "Close",
         "back": "Back",
@@ -798,6 +799,7 @@
         "tooltip": "The process takes a few minutes.\n Rejection reasons can be found in business messages."
       },
       "edit": {
+        "toast": "Saving changes..",
         "title": "Edit charge link",
         "factor": "Quantity",
         "startDate": "Start date",
@@ -806,6 +808,7 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "cancel": {
+        "toast": "Canceling price link..",
         "title": "Cancel price link?",
         "cancelWarning": "This action cannot be undone",
         "cancel": "Cancel price link",
@@ -813,6 +816,7 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "stop": {
+        "toast": "Saving changes..",
         "title": "Stop price link",
         "stopDate": "Stop date",
         "save": "Save changes",
@@ -822,15 +826,18 @@
     },
     "processOverview": {
       "columns": {
-        "createdAt": "Time of message",
+        "createdAt": "Registered in DataHub",
         "reasonCode": "Type",
         "state": "State",
         "cutoffDate": "Cut-off date",
         "initiator": "Initiating participant",
         "actions": "Possible actions"
       },
-      "reasonCode": {
+      "processType": {
         "EndOfSupply": "End of supply (BRS-002)"
+      },
+      "reasonCode": {
+        "EndOfSupply": "E20"
       },
       "filters": {
         "created": "Time",
@@ -851,8 +858,10 @@
         "UNKNOWN": "Unknown Step"
       },
       "details": {
+        "notFound": "Process not found",
+        "noSteps": "No steps available for this process",
         "list": {
-          "createdAt": "Time of message",
+          "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",
           "reasonCode": "Reason code",
           "initiator": "Initiating participant"

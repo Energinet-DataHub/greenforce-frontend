@@ -151,7 +151,7 @@
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
       "cache": true
     },
-    "@nx/vite:test": {
+    "@nx/vitest:test": {
       "cache": true,
       "inputs": ["default", "^production"]
     }

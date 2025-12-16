@@ -17,7 +17,6 @@ using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
-using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
@@ -32,7 +31,6 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 public class ChargesClient(
     DataHub.Charges.Client.IChargesClient client,
     IB2CClient ediClient,
-    Clients.MarketParticipant.v1.IMarketParticipantClient_V1 marketParticipantClient_V1,
     IHttpContextAccessor httpContext) : IChargesClient
 {
     public async Task<(IEnumerable<Charge> Charges, int TotalCount)?> GetChargesAsync(
@@ -93,22 +91,15 @@ public class ChargesClient(
        ChargeType type,
        CancellationToken ct = default)
     {
-        var currentUser = httpContext.CreateUserIdentity();
-        var ownerGln = currentUser.ActorNumber.Value;
+        var user = httpContext?.HttpContext?.User;
 
-        if (currentUser.ActorRole == ActorRole.SystemOperator || currentUser.ActorRole == ActorRole.EnergySupplier)
-        {
-            ownerGln = (await marketParticipantClient_V1.ActorGetAsync(ct))
-            .Where(x => x.MarketRole.EicFunction == DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction.SystemOperator).SingleOrDefault()?.ActorNumber.Value;
-        }
-
-        if (string.IsNullOrWhiteSpace(ownerGln))
+        if (user == null)
         {
             return [];
         }
 
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [ownerGln], [type.Type]), ChargeInformationSortProperty.Type, false),
+            new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [user.GetMarketParticipantNumber()], [type.Type]), ChargeInformationSortProperty.Type, false),
             ct);
 
         return await Task.WhenAll(result.Value.Charges.Select(async c => new Charge(c.ChargeIdentifierDto, Resolution.FromName(c.Resolution.ToString()), c.TaxIndicator, c.Periods, await HasAnyPricesAsync(c, ct))));

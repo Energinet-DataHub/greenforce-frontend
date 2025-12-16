@@ -97,7 +97,11 @@ export const graphQLProvider = provideApollo(() => {
     // Handle Angular HttpErrorResponse (what we get from blocked requests)
     if (error.status !== undefined) {
       const status = error.status;
-      return status === 0 || status >= 500;
+
+      // Don't retry status 0 errors (blocked requests, network offline, etc.)
+      // These are unlikely to succeed on retry and cause long delays
+      if (status === 0) return false;
+      return status >= 500;
     }
 
     // Handle other HttpErrorResponse types by name or message
