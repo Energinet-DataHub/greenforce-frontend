@@ -61,7 +61,6 @@ const config = {
       optimizeDeps: {
         include: [
           '@storybook/angular',
-          '@storybook/angular/dist/client',
           '@angular/compiler',
           '@storybook/addon-docs/blocks',
           'tslib',
