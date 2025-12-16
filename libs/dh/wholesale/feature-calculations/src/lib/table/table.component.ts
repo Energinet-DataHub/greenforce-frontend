@@ -29,7 +29,11 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import {
+  WattDataActionsComponent,
+  WattDataFiltersComponent,
+  WattDataTableComponent,
+} from '@energinet/watt/data';
 import { WATT_MENU } from '@energinet/watt/menu';
 
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
@@ -71,6 +75,7 @@ import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capa
     DhPermissionRequiredDirective,
     DhCalculationsFiltersComponent,
     DhCapacitySettlementsUploaderComponent,
+    WattDataActionsComponent,
   ],
   selector: 'dh-calculations-table',
   templateUrl: './table.component.html',

@@ -17,3 +17,4 @@
  */
 //#endregion
 export { WattSearchComponent } from './watt-search.component';
+export { WattSimpleSearchComponent } from './watt-simple-search.component';

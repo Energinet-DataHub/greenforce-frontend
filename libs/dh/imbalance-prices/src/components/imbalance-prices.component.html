@@ -18,11 +18,11 @@ limitations under the License.
   vater
   inset="ml"
   [enableSearch]="false"
+  [enableCount]="false"
   *transloco="let t; prefix: 'imbalancePrices'"
   [error]="query.hasError()"
   [ready]="query.called()"
 >
-  <h3>{{ t("topBarTitle") }}</h3>
   <watt-data-actions>
     <dh-imbalance-prices-uploader
       *dhPermissionRequired="['imbalance-prices:manage']"

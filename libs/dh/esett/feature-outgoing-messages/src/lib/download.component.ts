@@ -18,12 +18,10 @@
 //#endregion
 import { Component, input } from '@angular/core';
 
-import { translate, TranslocoPipe } from '@jsverse/transloco';
-
-import { WattButtonComponent } from '@energinet/watt/button';
+import { translate } from '@jsverse/transloco';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   DownloadEsettExchangeEventsDocument,
@@ -32,12 +30,8 @@ import {
 
 @Component({
   selector: 'dh-outgoing-message-download',
-  imports: [WattButtonComponent, TranslocoPipe],
-  template: `
-    <watt-button icon="download" variant="text" (click)="download()">{{
-      'shared.download' | transloco
-    }}</watt-button>
-  `,
+  imports: [DhDownloadButtonComponent],
+  template: ` <dh-download-button (click)="download()" /> `,
 })
 export class DhOutgoingMessageDownloadComponent {
   private downloadMessagesQuery = lazyQuery(DownloadEsettExchangeEventsDocument);
