@@ -34,17 +34,17 @@ const config = {
   ],
 
   stories: ['../package/**/*.mdx', '../package/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: [getAbsolutePath('@storybook/addon-links'), getAbsolutePath('@storybook/addon-docs')],
+  addons: ['@storybook/addon-links', '@storybook/addon-docs'],
 
   framework: {
-    name: getAbsolutePath('@storybook/angular'),
+    name: '@storybook/angular',
     options: {},
   },
 
   core: {
     disableTelemetry: true,
     builder: {
-      name: getAbsolutePath('@storybook/builder-vite'),
+      name: '@storybook/builder-vite',
       options: {
         viteConfigPath: undefined,
       },
@@ -90,7 +90,3 @@ const config = {
 };
 
 export default config;
-
-function getAbsolutePath(value: string): any {
-  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
-}
