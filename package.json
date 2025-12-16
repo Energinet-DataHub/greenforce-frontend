@@ -113,7 +113,6 @@
     "@angular/language-service": "20.3.6",
     "@babel/core": "7.26.10",
     "@babel/runtime": "7.26.10",
-    "@badeball/cypress-cucumber-preprocessor": "22.2.0",
     "@bahmutov/cypress-esbuild-preprocessor": "2.2.5",
     "@cypress/webpack-dev-server": "5.1.4",
     "@graphql-codegen/cli": "5.0.7",
