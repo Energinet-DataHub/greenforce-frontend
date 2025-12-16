@@ -38,8 +38,8 @@ A. Convert `module.exports`
 
 ```js
 module.exports = {
-    stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-    addons: ['@storybook/addon-essentials']
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  addons: ['@storybook/addon-essentials'],
 };
 ```
 
@@ -47,8 +47,8 @@ module.exports = {
 
 ```js
 export default {
-    stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-    addons: ['@storybook/addon-essentials']
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  addons: ['@storybook/addon-essentials'],
 };
 ```
 
@@ -90,10 +90,10 @@ D. Handle Dynamic Requires in Config Functions
 
 ```js
 module.exports = {
-    viteFinal: async (config) => {
-        const { mergeConfig } = require('vite');
-        return mergeConfig(config, {});
-    }
+  viteFinal: async (config) => {
+    const { mergeConfig } = require('vite');
+    return mergeConfig(config, {});
+  },
 };
 ```
 
@@ -103,9 +103,9 @@ module.exports = {
 import { mergeConfig } from 'vite';
 
 export default {
-    viteFinal: async (config) => {
-        return mergeConfig(config, {});
-    }
+  viteFinal: async (config) => {
+    return mergeConfig(config, {});
+  },
 };
 ```
 
@@ -136,15 +136,15 @@ const path = require('path');
 const { mergeConfig } = require('vite');
 
 module.exports = {
-    stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-    addons: ['@storybook/addon-essentials'],
-    viteFinal: async (config) => {
-        return mergeConfig(config, {
-            resolve: {
-                alias: {}
-            }
-        });
-    }
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  addons: ['@storybook/addon-essentials'],
+  viteFinal: async (config) => {
+    return mergeConfig(config, {
+      resolve: {
+        alias: {},
+      },
+    });
+  },
 };
 ```
 
@@ -155,15 +155,15 @@ import { join } from 'path';
 import { mergeConfig } from 'vite';
 
 export default {
-    stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-    addons: ['@storybook/addon-essentials'],
-    viteFinal: async (config) => {
-        return mergeConfig(config, {
-            resolve: {
-                alias: {}
-            }
-        });
-    }
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  addons: ['@storybook/addon-essentials'],
+  viteFinal: async (config) => {
+    return mergeConfig(config, {
+      resolve: {
+        alias: {},
+      },
+    });
+  },
 };
 ```
 
