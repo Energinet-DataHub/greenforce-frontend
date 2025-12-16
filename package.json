@@ -153,7 +153,7 @@
     "@swc/core": "1.5.7",
     "@swc/helpers": "0.5.11",
     "@testing-library/angular": "17.3.6",
-    "@testing-library/cypress": "10.0.3",
+    "@testing-library/cypress": "10.1.0",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/user-event": "13.5.0",
     "@types/crypto-js": "4.2.2",
