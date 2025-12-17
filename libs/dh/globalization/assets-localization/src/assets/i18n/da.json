@@ -433,6 +433,11 @@
           "TARIFF_TAX": "Ny tarif, afgift",
           "SELECTION": "Ny pris"
         },
+        "toast": {
+          "loading": "Pris oprettes..",
+          "success": "Pris oprettet",
+          "error": "Oprettelse mislykkedes"
+        },
         "close": "Luk",
         "form": {
           "id": "ID",
@@ -457,20 +462,35 @@
       },
       "stop": {
         "title": "Stop prisinformation",
-        "date": "Stopdato",
+        "terminationDate": "Stopdato",
         "submit": "Gem ændringer",
+        "toast": {
+          "loading": "Ændringer gemmes..",
+          "success": "Ændringer gemt",
+          "error": "Operation mislykkedes"
+        },
         "close": "Luk",
         "tooltip": "Processen tager få minutter. Resultat\n vises her, og afvisningsårsager findes\n i forretningsbeskeder."
       },
       "edit": {
         "title": "Rediger prisinformation",
         "submit": "Gem ændringer",
+        "toast": {
+          "loading": "Ændringer gemmes..",
+          "success": "Ændringer gemt",
+          "error": "Operation mislykkedes"
+        },
         "close": "Luk",
         "tooltip": "Processen tager få minutter. Resultat\n vises her, og afvisningsårsager findes\n i forretningsbeskeder."
       },
       "uploadSeries": {
         "title": "Tilføj prisserie",
         "submit": "Tilføj prisserie",
+        "toast": {
+          "loading": "Prisserie tilføjes..",
+          "success": "Prisserie tilføjet",
+          "error": "Tilføjelse mislykkedes"
+        },
         "close": "Luk",
         "hint": "Kun CSV-filer er tilladt",
         "success": "Prisserie klar til indsendelse",

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -36,7 +36,11 @@ import {
   ChargeType,
   CreateChargeDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhMakeFormControl,
+  injectRelativeNavigate,
+  injectToast,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
@@ -168,6 +172,8 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 export default class DhChargesCreate {
   navigate = injectRelativeNavigate();
   createCharge = mutation(CreateChargeDocument);
+  toast = injectToast('charges.actions.create.toast');
+  toastEffect = effect(() => this.toast(this.createCharge.status()));
   dailyResolution: ChargeResolution = 'DAILY';
   hourlyResolution: ChargeResolution = 'HOURLY';
   type = signal<ChargeType | null>(null);
@@ -196,6 +202,8 @@ export default class DhChargesCreate {
   );
 
   save() {
+    if (!this.form().valid) return;
+
     const { resolution, transparentInvoicing, type, validFrom, vat, ...input } =
       this.form().getRawValue();
 
