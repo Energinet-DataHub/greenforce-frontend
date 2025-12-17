@@ -49,16 +49,13 @@ import { dayjs } from '@energinet/watt/date';
     </watt-modal>
   `,
 })
-export class DhStartMoveInComponent extends WattTypedModal<{
-  installationAddress: InstallationAddress;
-}> {
+export class DhStartMoveInComponent extends WattTypedModal<{ meteringPointId: string }> {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly transloco = inject(TranslocoService);
   private readonly initiateMoveIn = mutation(InitiateMoveInDocument);
   private readonly toastService = inject(WattToastService);
 
   readonly modal = viewChild.required(WattModalComponent);
-  meteringPointId = input.required<string>();
 
   private readonly customerTypeInitialValue = 'private';
 
@@ -138,7 +135,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
             id: customerId,
           },
           customerName: customerName ?? '',
-          meteringPointId: this.meteringPointId(),
+          meteringPointId: this.modalData.meteringPointId,
         },
       },
     });
@@ -146,7 +143,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
     if (result.data?.initiateMoveIn.success) {
       this.success();
     } else {
-      this.error()
+      this.error();
     }
   }
 
