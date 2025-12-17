@@ -44,8 +44,8 @@ export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
         __typename: 'ElectricityMarketV2CommercialRelationDto',
         customerId: '111',
         energySupplierId: '2222222222222222',
-        startDate: new Date('2023-01-01T00:00:00Z'),
-        endDate: new Date('2023-12-31T23:59:59Z'),
+        validFrom: new Date('2023-01-01T00:00:00Z'),
+        validTo: new Date('2023-12-31T23:59:59Z'),
         energySupplierPeriods: [
           {
             __typename: 'EnergySupplierPeriodDto',
