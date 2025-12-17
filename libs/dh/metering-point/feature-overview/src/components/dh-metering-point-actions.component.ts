@@ -29,6 +29,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 
 import {
   getPath,
+  ChargeLinksSubPaths,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/routing';
@@ -40,17 +41,16 @@ import {
   ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
-import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
-import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 
 import { InstallationAddress } from '../types';
-import { DhGetMeteringPointForManualCorrectionComponent } from './manual-correction/dh-get-metering-point-for-manual-correction.component';
-import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-correction/dh-simulate-metering-point-manual-correction.component';
-import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correction/dh-execute-metering-point-manual-correction.component';
 import { DhConnectionStateManageComponent } from './connection-state-manage/connection-state-manage';
+import { DhGetMeteringPointForManualCorrectionComponent } from './manual-correction/dh-get-metering-point-for-manual-correction.component';
+import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correction/dh-execute-metering-point-manual-correction.component';
+import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-correction/dh-simulate-metering-point-manual-correction.component';
 
 @Component({
   selector: 'dh-metering-point-actions',
@@ -97,7 +97,7 @@ import { DhConnectionStateManageComponent } from './connection-state-manage/conn
         }
 
         @if (showCreateChargeLinkButton()) {
-          <watt-menu-item (click)="createLink()">
+          <watt-menu-item [routerLink]="createChargeLinkLink">
             {{ t('createChargeLink') }}
           </watt-menu-item>
         }
@@ -125,6 +125,7 @@ export class DhMeteringPointActionsComponent {
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
   getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
+  createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}/${getPath<ChargeLinksSubPaths>('create')}`;
 
   meteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
@@ -209,13 +210,6 @@ export class DhMeteringPointActionsComponent {
     this.modalService.open({
       component: DhStartMoveInComponent,
       data: { meteringPointId: this.meteringPointId() },
-      disableClose: true,
-    });
-  }
-
-  createLink() {
-    this.modalService.open({
-      component: DhMeteringPointCreateChargeLink,
       disableClose: true,
     });
   }

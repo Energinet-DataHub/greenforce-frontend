@@ -29,7 +29,7 @@ public interface IChargesClient
     /// <summary>
     /// Query charge information.
     /// </summary>
-    Task<(IEnumerable<Charge> Charges, int TotalCount)?> GetChargesAsync(
+    Task<IEnumerable<Charge>?> GetChargesAsync(
         int skip,
         int take,
         string? filter,

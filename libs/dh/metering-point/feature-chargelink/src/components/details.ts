@@ -106,7 +106,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 })
 export default class DhChargeLinkDetails {
   query = query(GetChargeLinkHistoryDocument, () => ({
-    variables: { chargeLinkId: this.id(), meteringPointId: this.meteringPointId() },
+    variables: { chargeId: this.id(), meteringPointId: this.meteringPointId() },
   }));
   dataSource = dataSource(() => this.chargeLinkWithHistory()?.history || []);
   chargeLinkWithHistory = computed(() => this.query.data()?.chargeLinkById);
