@@ -161,7 +161,7 @@ export default class DhChargesEdit {
   description = computed(() => this.charge()?.currentPeriod?.description ?? '');
   resolution = computed(() => this.charge()?.resolution);
   type = computed(() => this.charge()?.type);
-  vatClassification = computed(() => this.charge()?.currentPeriod?.vatClassification === 'VAT25');
+  vat = computed(() => this.charge()?.currentPeriod?.vatClassification === 'VAT25');
   transparentInvoicing = computed(() => this.charge()?.currentPeriod?.transparentInvoicing ?? null);
   cutoffDate = computed(() => this.charge()?.currentPeriod?.period.end);
   form = computed(
@@ -171,7 +171,7 @@ export default class DhChargesEdit {
         name: dhMakeFormControl(this.name(), Validators.required),
         description: dhMakeFormControl(this.description(), Validators.required),
         cutoffDate: dhMakeFormControl<Date>(this.cutoffDate(), Validators.required),
-        vat: dhMakeFormControl<boolean>(this.vatClassification(), Validators.required),
+        vat: dhMakeFormControl<boolean>(this.vat(), Validators.required),
         transparentInvoicing: dhMakeFormControl<boolean>(
           { value: this.transparentInvoicing(), disabled: this.type() == 'FEE' },
           Validators.required
