@@ -66,6 +66,17 @@ export const meteringPointPricesRoutes: Routes = [
         loadComponent: () => import('./components/fees'),
         children: detailsRoutes,
       },
+      {
+        path: getPath<ChargeLinksSubPaths>('create'),
+        canActivate: [
+          PermissionGuard(['metering-point:prices-manage']),
+          dhReleaseToggleGuard('PM60-CHARGE-LINKS-UI'),
+        ],
+        loadComponent: () =>
+          import('@energinet-datahub/dh/metering-point/feature-chargelink').then(
+            (m) => m.DhMeteringPointCreateChargeLink
+          ),
+      },
     ],
   },
 ];

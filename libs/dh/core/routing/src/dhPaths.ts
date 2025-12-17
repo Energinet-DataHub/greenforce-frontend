@@ -54,6 +54,7 @@ const meteringPointSubPaths = {
 const chargeLinksSubPaths = {
   tariffAndSubscription: 'tariff-and-subscription',
   fees: 'fees',
+  create: 'create',
 } as const;
 
 const measurementsSubPaths = {
