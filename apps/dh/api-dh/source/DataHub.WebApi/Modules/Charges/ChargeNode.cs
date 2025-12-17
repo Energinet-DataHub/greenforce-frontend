@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Shared;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
@@ -77,6 +78,34 @@ public static partial class ChargeNode
         CancellationToken ct) =>
             await client.CreateChargeAsync(input, ct);
 
+    [Mutation]
+    [Authorize(Roles = new[] { "charges:manage" })]
+    public static async Task<bool> UpdateChargeAsync(
+        IChargesClient client,
+        UpdateChargeInput input,
+        CancellationToken ct) =>
+            await client.UpdateChargeAsync(input, ct);
+
+    [Mutation]
+    [Authorize(Roles = new[] { "charges:manage" })]
+    public static async Task<bool> StopChargeAsync(
+        IChargesClient client,
+        ChargeIdentifierDto id,
+        DateTimeOffset terminationDate,
+        CancellationToken ct) =>
+            await client.StopChargeAsync(id, terminationDate, ct);
+
+    [Mutation]
+    [Authorize(Roles = new[] { "charges:manage" })]
+    public static async Task<bool> AddChargeSeriesAsync(
+        IChargesClient client,
+        ChargeIdentifierDto id,
+        DateTimeOffset start,
+        DateTimeOffset end,
+        List<ChargePointV1> points,
+        CancellationToken ct) =>
+            await client.AddChargeSeriesAsync(id, start, end, points, ct);
+
     public static async Task<IEnumerable<ChargeSeries>> GetSeriesAsync(
         [Parent] Charge charge,
         Interval interval,
@@ -107,7 +136,7 @@ public static partial class ChargeNode
         descriptor.Name("Charge");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.ChargeIdentifierDto).Name("id");
-        descriptor.Field(f => ChargeType.Make(f.ChargeIdentifierDto.Type, f.TaxIndicator)).Name("type");
+        descriptor.Field(f => f.Type);
         descriptor.Field(f => f.ChargeIdentifierDto.Code).Name("code");
         descriptor.Field(f => f.Name()).Name("name");
         descriptor.Field(f => f.DisplayName()).Name("displayName");

@@ -1,0 +1,5 @@
+mutation AddChargeSeries($input: AddChargeSeriesInput!) {
+  addChargeSeries(input: $input) {
+    boolean
+  }
+}
