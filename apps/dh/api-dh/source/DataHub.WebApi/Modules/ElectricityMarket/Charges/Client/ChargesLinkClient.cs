@@ -18,7 +18,7 @@ using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Models;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 
@@ -27,31 +27,31 @@ public class ChargeLinkClient(DataHub.Charges.Client.IChargesClient chargesClien
     public async Task<IEnumerable<ChargeLinkDto>> GetChargeLinksByMeteringPointIdAsync(string meteringPointId, CancellationToken ct = default)
     {
         var result = await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(meteringPointId), ct).ConfigureAwait(false);
-        return result.Value ?? Enumerable.Empty<ChargeLinkDto>();
+        return result.Data ?? Enumerable.Empty<ChargeLinkDto>();
     }
 
     public async Task<bool> StopChargeLinkAsync(ChargeIdentifierDto ident, string meteringPointId, DateTimeOffset stopDate, CancellationToken ct = default) =>
-        (await b2cClient.SendAsync(new StopChargeLinkCommandV1(new StopChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.Type), meteringPointId, stopDate)), ct).ConfigureAwait(false)).IsSuccess;
+        (await b2cClient.SendAsync(new StopChargeLinkCommandV1(new StopChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.TypeDto), meteringPointId, stopDate)), ct).ConfigureAwait(false)).IsSuccess;
 
     public async Task<bool> CancelChargeLinkAsync(ChargeIdentifierDto ident, string meteringPointId, CancellationToken ct = default) =>
-        (await b2cClient.SendAsync(new StopChargeLinkCommandV1(new StopChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.Type), meteringPointId, DateTimeOffset.Now)), ct).ConfigureAwait(false)).IsSuccess;
+        (await b2cClient.SendAsync(new StopChargeLinkCommandV1(new StopChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.TypeDto), meteringPointId, DateTimeOffset.Now)), ct).ConfigureAwait(false)).IsSuccess;
 
     public async Task<bool> EditChargeLinkAsync(ChargeIdentifierDto ident, string meteringPointId, DateTimeOffset newStartDate, int factor, CancellationToken ct = default)
     {
-        var editRequest = new UpsertChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.Type), meteringPointId, newStartDate, factor.ToString());
+        var editRequest = new UpsertChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.TypeDto), meteringPointId, newStartDate, factor.ToString());
         return (await b2cClient.SendAsync(new UpsertChargeLinkCommandV1(editRequest), ct).ConfigureAwait(false)).IsSuccess;
     }
 
     public async Task<bool> CreateChargeLinkAsync(ChargeIdentifierDto ident, string meteringPointId, DateTimeOffset newStartDate, int factor, CancellationToken ct = default)
     {
-        var createRequest = new UpsertChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.Type), meteringPointId, newStartDate, factor.ToString());
+        var createRequest = new UpsertChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.TypeDto), meteringPointId, newStartDate, factor.ToString());
         return (await b2cClient.SendAsync(new UpsertChargeLinkCommandV1(createRequest), ct).ConfigureAwait(false)).IsSuccess;
     }
 
-    private ChargeTypeV1 ToRequestChangeBillingMasterDataChargeType(ChargeType type) => type switch
+    private ChargeTypeV1 ToRequestChangeBillingMasterDataChargeType(ChargeTypeDto type) => type switch
     {
-        ChargeType.Tariff => ChargeTypeV1.Tariff,
-        ChargeType.Subscription => ChargeTypeV1.Subscription,
-        ChargeType.Fee => ChargeTypeV1.Fee,
+        ChargeTypeDto.Tariff => ChargeTypeV1.Tariff,
+        ChargeTypeDto.Subscription => ChargeTypeV1.Subscription,
+        ChargeTypeDto.Fee => ChargeTypeV1.Fee,
     };
 }

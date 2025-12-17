@@ -61,12 +61,12 @@ public class ChargesClient(
                 sortDirection == SortDirection.Desc),
             ct);
 
-        if (result.IsFailure || result.Value == null)
+        if (!result.IsSuccess || result.Data == null)
         {
             return [];
         }
 
-        return await Task.WhenAll(result.Value.Select(c => MapChargeInformationDtoToChargeAsync(c, ct)));
+        return await Task.WhenAll(result.Data.Select(c => MapChargeInformationDtoToChargeAsync(c, ct)));
     }
 
     public async Task<Charge?> GetChargeByIdAsync(
@@ -74,12 +74,12 @@ public class ChargesClient(
         CancellationToken ct = default)
     {
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(id.Code, [id.Owner], [id.Type]), ChargeInformationSortProperty.Type, false),
+            new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(id.Code, [id.Owner], [id.TypeDto]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        return result.IsFailure || result.Value == null
+        return result.IsSuccess || result.Data == null
             ? null
-            : await MapChargeInformationDtoToChargeAsync(result.Value.First(), ct);
+            : await MapChargeInformationDtoToChargeAsync(result.Data.First(), ct);
     }
 
     public async Task<IEnumerable<Charge>> GetChargesByTypeAsync(
@@ -97,12 +97,12 @@ public class ChargesClient(
             new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [user.GetMarketParticipantNumber()], [type.Type]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        if (result.IsFailure || result.Value == null)
+        if (!result.IsSuccess || result.Data == null)
         {
             return [];
         }
 
-        return await Task.WhenAll(result.Value.Select(c => MapChargeInformationDtoToChargeAsync(c, ct)));
+        return await Task.WhenAll(result.Data.Select(c => MapChargeInformationDtoToChargeAsync(c, ct)));
     }
 
     public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
@@ -120,12 +120,12 @@ public class ChargesClient(
                     To: period.End),
                 ct);
 
-            if (result.IsFailure || result.Value == null)
+            if (!result.IsSuccess || result.Data == null)
             {
                 return [];
             }
 
-            var chargeSeries = result.Value;
+            var chargeSeries = result.Data;
             return chargeSeries == null || !chargeSeries.Any()
                 ? []
                 : chargeSeries.Select((s, i) =>
@@ -258,7 +258,7 @@ public class ChargesClient(
             return false;
         }
 
-        var resolution = Resolution.FromName(charge.Resolution.ToString());
+        var resolution = Resolution.FromName(charge.ResolutionDto.ToString());
         var series = await GetChargeSeriesAsync(charge.ChargeIdentifierDto, resolution, new Interval(currentPeriod.StartDate, currentPeriod.EndDate), ct);
         return series.Any();
     }
@@ -268,8 +268,8 @@ public class ChargesClient(
         CancellationToken ct) =>
         new(
             ChargeIdentifierDto: c.ChargeIdentifierDto,
-            Type: ChargeType.Make(c.ChargeIdentifierDto.Type, c.TaxIndicator),
-            Resolution: Resolution.FromName(c.Resolution.ToString()),
+            Type: ChargeType.Make(c.ChargeIdentifierDto.TypeDto, c.TaxIndicator),
+            Resolution: Resolution.FromName(c.ResolutionDto.ToString()),
             TaxIndicator: c.TaxIndicator,
             Periods: c.Periods,
             HasAnyPrices: await HasAnyPricesAsync(c, ct));

@@ -330,7 +330,7 @@ type ChargePeriod {
   description: String!
   period: DateRange!
   transparentInvoicing: Boolean!
-  vatClassification: VatClassification!
+  vatClassification: VatClassificationDto!
   name: String!
 }
 
@@ -1811,7 +1811,7 @@ input CancelSettlementReportInput {
 input ChargeIdentifierDtoSortInput {
   code: SortEnumType
   owner: SortEnumType
-  type: SortEnumType
+  typeDto: SortEnumType
 }
 
 input ChargeLinkDtoSortInput {
@@ -3206,7 +3206,7 @@ enum UserStatus {
   INVITE_EXPIRED
 }
 
-enum VatClassification {
+enum VatClassificationDto {
   NO_VAT
   VAT25
 }
