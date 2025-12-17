@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, effect, inject, input, viewChild, } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, viewChild, } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -25,7 +25,7 @@ import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/
 import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { WattToastService } from '@energinet/watt/toast';
 
-import { InstallationAddress, StartMoveInFormType } from '../types';
+import { StartMoveInFormType } from '../types';
 import { DhStartMoveInFormComponent } from './dh-start-move-in-form.component';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
