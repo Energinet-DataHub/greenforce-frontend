@@ -798,7 +798,11 @@
         "cancel": "Cancel change link"
       },
       "create": {
-        "toast": "Price is being attached..",
+        "toast": {
+          "loading": "Price is being attached..",
+          "success": "Price attached",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Attach price",
         "close": "Close",
         "back": "Back",
@@ -819,7 +823,11 @@
         "tooltip": "The process takes a few minutes.\n Rejection reasons can be found in business messages."
       },
       "edit": {
-        "toast": "Saving changes..",
+        "toast": {
+          "loading": "Saving changes..",
+          "success": "Changes saved",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Edit charge link",
         "factor": "Quantity",
         "startDate": "Start date",
@@ -828,7 +836,11 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "cancel": {
-        "toast": "Canceling price link..",
+        "toast": {
+          "loading": "Canceling price link..",
+          "success": "Price link canceled",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Cancel price link?",
         "cancelWarning": "This action cannot be undone",
         "cancel": "Cancel price link",
@@ -836,7 +848,11 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "stop": {
-        "toast": "Saving changes..",
+        "toast": {
+          "loading": "Saving changes..",
+          "success": "Changes saved",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Stop price link",
         "stopDate": "Stop date",
         "save": "Save changes",

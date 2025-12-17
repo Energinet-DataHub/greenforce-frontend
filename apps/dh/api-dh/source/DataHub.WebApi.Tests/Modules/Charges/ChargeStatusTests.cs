@@ -26,7 +26,7 @@ using Moq;
 using NodaTime;
 using Xunit;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
-using ExternalChargeType = Energinet.DataHub.Charges.Abstractions.Shared.ChargeType;
+using ExternalChargeType = Energinet.DataHub.Charges.Abstractions.Shared.ChargeTypeDto;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.Charges;
@@ -79,13 +79,13 @@ public class ChargeStatusTests
 #pragma warning disable SA1118 // Parameter should not span multiple lines
         server.ChargesClientMock
             .Setup(x => x.GetChargesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<ChargeSortInput>(), It.IsAny<GetChargesQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((
+            .ReturnsAsync(
                 new List<Charge>
                 {
                     new(
                         ChargeIdentifierDto: new ChargeIdentifierDto(
                             Code: "SUB-123",
-                            Type: ExternalChargeType.Subscription,
+                            TypeDto: ExternalChargeType.Subscription,
                             Owner: "Energy Provider A"),
                         Type: ChargeType.Make(ExternalChargeType.Subscription, false),
                         Resolution: Resolution.Daily,
@@ -96,12 +96,12 @@ public class ChargeStatusTests
                                 StartDate: Instant.FromDateTimeOffset(validFrom),
                                 EndDate: validTo == DateTimeOffset.MaxValue ? null : Instant.FromDateTimeOffset(validTo),
                                 TransparentInvoicing: false,
-                                VatClassification: VatClassification.NoVat,
+                                VatClassificationDto: VatClassificationDto.NoVat,
                                 Name: "Standard Period")]),
                     new(
                         ChargeIdentifierDto: new ChargeIdentifierDto(
                             Code: "FEE-456",
-                            Type: ExternalChargeType.Fee,
+                            TypeDto: ExternalChargeType.Fee,
                             Owner: "Grid Company B"),
                         Type: ChargeType.Make(ExternalChargeType.Fee, false),
                         Resolution: Resolution.Daily,
@@ -113,11 +113,10 @@ public class ChargeStatusTests
                                 StartDate: Instant.FromDateTimeOffset(validFrom),
                                 EndDate: validTo == DateTimeOffset.MaxValue ? null : Instant.FromDateTimeOffset(validTo),
                                 TransparentInvoicing: false,
-                                VatClassification: VatClassification.NoVat,
+                                VatClassificationDto: VatClassificationDto.NoVat,
                                 Name: "Standard Period")
                         ]),
-                },
-                2));
+                });
 #pragma warning restore SA1118 // Parameter should not span multiple lines
 
         server.ChargesClientMock

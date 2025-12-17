@@ -39,7 +39,7 @@ public static partial class ChargeNode
         IChargesClient client,
         CancellationToken ct)
     {
-        var result = (await client.GetChargesAsync(0, 1000, filter, new ChargeSortInput(Common.Enums.SortDirection.Desc, null), query, ct)).Value.Charges ?? Enumerable.Empty<Charge>();
+        var result = await client.GetChargesAsync(0, 1000, filter, new ChargeSortInput(Common.Enums.SortDirection.Desc, null), query, ct) ?? [];
 
         result = result.FilterOnActors(query?.ActorNumbers);
         result = result.FilterOnTypes(query?.ChargeTypes);

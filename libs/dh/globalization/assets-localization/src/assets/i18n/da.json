@@ -798,7 +798,11 @@
         "cancel": "Annuller pristilknytning"
       },
       "create": {
-        "toast": "Pris tilknyttes..",
+        "toast": {
+          "loading": "Pris tilknyttes..",
+          "success": "Pris tilknyttet",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Tilknyt pris",
         "close": "Luk",
         "back": "Tilbage",
@@ -819,7 +823,11 @@
         "tooltip": "Processen tager få minutter.\n Afvisningsårsager findes i forretningsbeskeder."
       },
       "edit": {
-        "toast": "Ændringer gemmes..",
+        "toast": {
+          "loading": "Ændringer gemmes..",
+          "success": "Ændringer gemt",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Rediger pristilknytning",
         "factor": "Antal",
         "startDate": "Skæringsdato",
@@ -828,7 +836,11 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "cancel": {
-        "toast": "Pristilknytning annulleres..",
+        "toast": {
+          "loading": "Pristilknytning annulleres..",
+          "success": "Pristilknytning annulleret",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Annuller pristilknytning?",
         "cancelWarning": "Handlingen kan ikke fortrydes",
         "cancel": "Annuller pristilknytning",
@@ -836,7 +848,11 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "stop": {
-        "toast": "Ændringer gemmes..",
+        "toast": {
+          "loading": "Ændringer gemmes..",
+          "success": "Ændringer gemt",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Stop pristilknytning",
         "stopDate": "Stopdato",
         "save": "Gem ændringer",

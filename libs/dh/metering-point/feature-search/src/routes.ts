@@ -17,13 +17,14 @@
  */
 //#endregion
 import {
-  ActivatedRouteSnapshot,
-  CanActivateFn,
-  RedirectFunction,
-  ResolveFn,
   Router,
   Routes,
+  ResolveFn,
+  CanActivateFn,
+  RedirectFunction,
+  ActivatedRouteSnapshot,
 } from '@angular/router';
+
 import { inject } from '@angular/core';
 import { forkJoin, map } from 'rxjs';
 
@@ -32,28 +33,32 @@ import {
   PermissionGuard,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import {
+  getPath,
   BasePaths,
   combinePaths,
-  getPath,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/routing';
-import {
-  DoesInternalMeteringPointIdExistDocument,
-  EicFunction,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { DhSearchComponent } from './components/dh-search.component';
-import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
-import { DhCreateMeteringPoint } from './components/dh-create-metering-point.component';
+import {
+  EicFunction,
+  DoesInternalMeteringPointIdExistDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
+
 import {
   dhMeteringPointTypeParam,
   dhInternalMeteringPointIdParam,
 } from './components/dh-metering-point-params';
+
+import { DhSearchComponent } from './components/dh-search.component';
+import { DhCreateMeteringPoint } from './components/dh-create-metering-point.component';
 import { dhSupportedMeteringPointTypes } from './components/dh-supported-metering-point-types';
+import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
 
 const marketRolesWithDataAccess = [
   EicFunction.EnergySupplier,

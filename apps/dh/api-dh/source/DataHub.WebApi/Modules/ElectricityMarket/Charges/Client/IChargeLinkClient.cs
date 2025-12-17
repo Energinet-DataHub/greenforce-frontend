@@ -31,13 +31,6 @@ public interface IChargeLinkClient
         CancellationToken ct = default);
 
     /// <summary>
-    /// Get the change history for a given charge id.
-    /// </summary>
-    Task<IEnumerable<ChargeLinkHistory>> GetChargeLinkHistoryAsync(
-        long chargeId,
-        CancellationToken ct = default);
-
-    /// <summary>
     /// Stops a charge link at a given date.
     /// </summary>
     Task<bool> StopChargeLinkAsync(
