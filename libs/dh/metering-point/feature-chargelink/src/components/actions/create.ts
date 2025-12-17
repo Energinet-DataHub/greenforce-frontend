@@ -132,7 +132,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
     </watt-modal>
   `,
 })
-export class DhMeteringPointCreateChargeLink {
+export default class DhMeteringPointCreateChargeLink {
   private readonly navigate = inject(DhNavigationService);
   private readonly toast = injectToast('meteringPoint.chargeLinks.create.toast');
   private readonly createChargeLink = mutation(CreateChargeLinkDocument);
