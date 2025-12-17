@@ -49,9 +49,10 @@ export default defineConfig(() => ({
       reportsDirectory: '../../../../coverage/libs/dh/metering-point/feature-move-in',
       provider: 'v8' as const,
     },
-    pool: 'threads',
+    pool: 'forks',
     poolOptions: {
-      threads: {
+      forks: {
+        singleFork: true,
         execArgv: ['--require', mswPolyfillPath],
       },
     },

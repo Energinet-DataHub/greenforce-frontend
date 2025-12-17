@@ -28,9 +28,10 @@ import { resolve } from 'path';
  *
  * export default defineConfig({
  *   test: {
- *     pool: 'threads',
+ *     pool: 'forks',
  *     poolOptions: {
- *       threads: {
+ *       forks: {
+ *         singleFork: true,
  *         execArgv: ['--require', getMswGlobalPolyfillPath()],
  *       },
  *     },
