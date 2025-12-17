@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
@@ -30,13 +30,19 @@ import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  dhMakeFormControl,
+  injectRelativeNavigate,
+  injectToast,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   VatClassification,
   GetChargeByIdDocument,
+  UpdateChargeDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-charges-edit',
@@ -143,16 +149,19 @@ import {
 export default class DhChargesEdit {
   id = input.required<string>();
   navigate = injectRelativeNavigate();
+  updateCharge = mutation(UpdateChargeDocument);
+  toast = injectToast('charges.actions.edit.toast');
+  toastEffect = effect(() => this.toast(this.updateCharge.status()));
   vat25 = VatClassification.Vat25;
   noVat = VatClassification.NoVat;
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.chargeById);
   code = computed(() => this.charge()?.code);
-  name = computed(() => this.charge()?.name);
-  description = computed(() => this.charge()?.currentPeriod?.description);
+  name = computed(() => this.charge()?.name ?? '');
+  description = computed(() => this.charge()?.currentPeriod?.description ?? '');
   resolution = computed(() => this.charge()?.resolution);
   type = computed(() => this.charge()?.type);
-  vatClassification = computed(() => this.charge()?.currentPeriod?.vatClassification);
+  vatClassification = computed(() => this.charge()?.currentPeriod?.vatClassification === 'VAT25');
   transparentInvoicing = computed(() => this.charge()?.currentPeriod?.transparentInvoicing ?? null);
   cutoffDate = computed(() => this.charge()?.currentPeriod?.period.end);
   form = computed(
@@ -162,7 +171,7 @@ export default class DhChargesEdit {
         name: dhMakeFormControl(this.name(), Validators.required),
         description: dhMakeFormControl(this.description(), Validators.required),
         cutoffDate: dhMakeFormControl<Date>(this.cutoffDate(), Validators.required),
-        vat: dhMakeFormControl(this.vatClassification(), Validators.required),
+        vat: dhMakeFormControl<boolean>(this.vatClassification(), Validators.required),
         transparentInvoicing: dhMakeFormControl<boolean>(
           { value: this.transparentInvoicing(), disabled: this.type() == 'FEE' },
           Validators.required
@@ -171,6 +180,25 @@ export default class DhChargesEdit {
   );
 
   save() {
-    console.log(this.form().value, 'saving form');
+    if (!this.form().valid) return;
+
+    const { cutoffDate, description, name, transparentInvoicing, vat } = this.form().getRawValue();
+
+    assertIsDefined(cutoffDate);
+    assertIsDefined(transparentInvoicing);
+    assertIsDefined(vat);
+
+    this.updateCharge.mutate({
+      variables: {
+        input: {
+          id: this.id(),
+          description,
+          name,
+          transparentInvoicing,
+          cutoffDate,
+          vat,
+        },
+      },
+    });
   }
 }

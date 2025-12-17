@@ -1,0 +1,5 @@
+mutation UpdateCharge($input: UpdateChargeInput!) {
+  updateCharge(input: $input) {
+    boolean
+  }
+}

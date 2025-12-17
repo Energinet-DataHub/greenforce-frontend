@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -26,7 +26,14 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
-import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhMakeFormControl,
+  injectRelativeNavigate,
+  injectToast,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { StopChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-charges-stop',
@@ -52,7 +59,10 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
       <form id="stop-charge" [formGroup]="form" (ngSubmit)="save()">
-        <watt-datepicker [label]="t('date')" [formControl]="form.controls.date" />
+        <watt-datepicker
+          [label]="t('terminationDate')"
+          [formControl]="form.controls.terminationDate"
+        />
       </form>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">
@@ -66,12 +76,26 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
   `,
 })
 export default class DhChargesStop {
+  id = input.required<string>();
   navigate = injectRelativeNavigate();
+  stopCharge = mutation(StopChargeDocument);
+  toast = injectToast('charges.actions.stop.toast');
+  toastEffect = effect(() => this.toast(this.stopCharge.status()));
   form = new FormGroup({
-    date: dhMakeFormControl<Date>(null, Validators.required),
+    terminationDate: dhMakeFormControl<Date>(null, Validators.required),
   });
 
   save() {
-    console.log(this.form.value, 'saving form');
+    if (!this.form.valid) return;
+    const { terminationDate } = this.form.getRawValue();
+    assertIsDefined(terminationDate);
+    this.stopCharge.mutate({
+      variables: {
+        input: {
+          id: this.id(),
+          terminationDate,
+        },
+      },
+    });
   }
 }
