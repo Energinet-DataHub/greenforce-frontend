@@ -65,7 +65,7 @@ import {
     VaterStackComponent,
     DhBusinessCustomerDetailsFormComponent,
     DhPrivateCustomerDetailsComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   styles: `
     .sticky-header {
