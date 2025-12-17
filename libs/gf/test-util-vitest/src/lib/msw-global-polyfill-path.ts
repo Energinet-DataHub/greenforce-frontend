@@ -29,12 +29,9 @@ import { resolve } from 'path';
  * export default defineConfig({
  *   test: {
  *     pool: 'forks',
- *     poolOptions: {
- *       forks: {
- *         singleFork: true,
- *         execArgv: ['--require', getMswGlobalPolyfillPath()],
- *       },
- *     },
+ *     execArgv: ['--require', getMswGlobalPolyfillPath()],
+ *     isolate: false,
+ *     maxWorkers: 1,
  *   },
  * });
  * ```
