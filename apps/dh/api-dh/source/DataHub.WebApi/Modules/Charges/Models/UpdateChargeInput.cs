@@ -13,15 +13,13 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Shared;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
+namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public class ResolutionType : EnumType<Resolution>
-{
-    protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
-    {
-        descriptor.Name("ChargeResolution");
-        descriptor.AsLowerCase();
-    }
-}
+public record UpdateChargeInput(
+    ChargeIdentifierDto Id,
+    string Name,
+    string Description,
+    DateTimeOffset CutoffDate,
+    bool Vat,
+    bool TransparentInvoicing);

@@ -26,18 +26,18 @@ import { capitalize } from '@energinet-datahub/dh/shared/util-text';
   name: 'dhChargesPeriod',
 })
 export class DhChargesPeriodPipe implements PipeTransform {
-  transform(input?: WattRange<Date>, resolution: ChargeResolution = 'daily') {
+  transform(input?: WattRange<Date>, resolution?: ChargeResolution) {
     if (!input) return '';
     const start = dayjs(input.start);
     const end = dayjs(input.end).add(1, 'ms');
     switch (resolution) {
-      case 'quarterhourly':
+      case 'QUARTER_HOURLY':
         return `${start.format('HH:mm')} — ${end.format('HH:mm')}`;
-      case 'hourly':
+      case 'HOURLY':
         return `${start.format('HH')} — ${end.format('HH')}`;
-      case 'daily':
+      case 'DAILY':
         return start.format('DD');
-      case 'monthly':
+      case 'MONTHLY':
         return capitalize(start.format('MMMM'));
       default:
         return `${start.format('DD-MM-YYYY HH:mm')} — ${end.format('DD-MM-YYYY HH:mm')}`;

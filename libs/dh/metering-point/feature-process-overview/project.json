@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:metering-point", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/metering-point/feature-process-overview"],
       "options": {
         "config": "libs/dh/metering-point/feature-process-overview/vite.config.mts"

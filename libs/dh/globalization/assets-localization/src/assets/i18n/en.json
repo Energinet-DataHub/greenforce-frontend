@@ -376,11 +376,11 @@
       "TARIFF_TAX": "Tariff, tax"
     },
     "resolutions": {
-      "daily": "Day",
-      "quarterhourly": "Quarter hour",
-      "hourly": "Hour",
-      "monthly": "Month",
-      "unknown": "Unknown"
+      "DAILY": "Day",
+      "QUARTER_HOURLY": "Quarter hour",
+      "HOURLY": "Hour",
+      "MONTHLY": "Month",
+      "UNKNOWN": "Unknown"
     },
     "vatClassifications": {
       "NO_VAT": "Without VAT",
@@ -433,14 +433,19 @@
           "TARIFF_TAX": "New tariff, tax",
           "SELECTION": "New charge"
         },
+        "toast": {
+          "loading": "Creating charge..",
+          "success": "Charge created",
+          "error": "Creation failed"
+        },
         "close": "Close",
         "form": {
           "id": "ID",
           "name": "Name",
           "description": "Description",
           "resolution": "Resolution",
-          "hourly": "Hourly",
-          "daily": "Daily",
+          "HOURLY": "Hourly",
+          "DAILY": "Daily",
           "vat": "VAT",
           "withVat": "With VAT",
           "withoutVat": "Without VAT",
@@ -457,20 +462,35 @@
       },
       "stop": {
         "title": "Stop price",
-        "date": "Stop date",
+        "terminationDate": "Stop date",
         "submit": "Save changes",
+        "toast": {
+          "loading": "Saving changes..",
+          "success": "Changes saved",
+          "error": "Operation failed"
+        },
         "close": "Close",
         "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
       },
       "edit": {
         "title": "Edit price",
         "submit": "Save changes",
+        "toast": {
+          "loading": "Saving changes..",
+          "success": "Changes saved",
+          "error": "Operation failed"
+        },
         "close": "Close",
         "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
       },
       "uploadSeries": {
         "title": "Add charge series",
         "submit": "Add charge series",
+        "toast": {
+          "loading": "Adding charge series..",
+          "success": "Charge series added",
+          "error": "Operation failed"
+        },
         "close": "Close",
         "hint": "File must be in CSV format",
         "success": "Charge series ready for submit",
@@ -530,11 +550,11 @@
     "series": {
       "showHistory": "History",
       "resolution": {
-        "quarterhourly": "Time",
-        "hourly": "Time",
-        "daily": "Date",
-        "monthly": "Month",
-        "unknown": "Date"
+        "QUARTER_HOURLY": "Time",
+        "HOURLY": "Time",
+        "DAILY": "Date",
+        "MONTHLY": "Month",
+        "UNKNOWN": "Date"
       },
       "columns": {
         "price": "Current price",
@@ -778,6 +798,7 @@
         "cancel": "Cancel change link"
       },
       "create": {
+        "toast": "Price is being attached..",
         "title": "Attach price",
         "close": "Close",
         "back": "Back",
@@ -798,6 +819,7 @@
         "tooltip": "The process takes a few minutes.\n Rejection reasons can be found in business messages."
       },
       "edit": {
+        "toast": "Saving changes..",
         "title": "Edit charge link",
         "factor": "Quantity",
         "startDate": "Start date",
@@ -806,6 +828,7 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "cancel": {
+        "toast": "Canceling price link..",
         "title": "Cancel price link?",
         "cancelWarning": "This action cannot be undone",
         "cancel": "Cancel price link",
@@ -813,6 +836,7 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "stop": {
+        "toast": "Saving changes..",
         "title": "Stop price link",
         "stopDate": "Stop date",
         "save": "Save changes",

@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:wholesale", "type:domain"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "config": "libs/dh/wholesale/domain/vite.config.mts"

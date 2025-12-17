@@ -6,7 +6,7 @@
   "tags": ["product:dh", "domain:core", "type:ui"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/core/ui-toolbar-portal"],
       "options": {
         "config": "libs/dh/core/ui-toolbar-portal/vite.config.mts"

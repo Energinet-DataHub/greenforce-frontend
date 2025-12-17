@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:message-archive", "type:shell"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/message-archive/shell"],
       "options": {
         "passWithNoTests": true

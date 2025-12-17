@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:shared", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/feature-authorization"],
       "options": {
         "config": "libs/dh/shared/feature-authorization/vite.config.mts"

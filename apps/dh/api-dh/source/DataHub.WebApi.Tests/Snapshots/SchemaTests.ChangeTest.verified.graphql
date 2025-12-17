@@ -92,6 +92,10 @@ type ActorNameDto {
   value: String!
 }
 
+type AddChargeSeriesPayload {
+  boolean: Boolean
+}
+
 type AddMeteringPointsToAdditionalRecipientPayload {
   boolean: Boolean
   errors: [AddMeteringPointsToAdditionalRecipientError!]
@@ -393,6 +397,14 @@ type ContactDto {
 
 type CreateCalculationPayload {
   uuid: UUID
+}
+
+type CreateChargeLinkPayload {
+  boolean: Boolean
+}
+
+type CreateChargePayload {
+  boolean: Boolean
 }
 
 type CreateDelegationsForMarketParticipantPayload {
@@ -1033,8 +1045,13 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
+  createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
+  updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
+  stopCharge(input: StopChargeInput!): StopChargePayload! @authorize(roles: [ "charges:manage" ])
+  addChargeSeries(input: AddChargeSeriesInput!): AddChargeSeriesPayload! @authorize(roles: [ "charges:manage" ])
   stopChargeLink(input: StopChargeLinkInput!): StopChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   editChargeLink(input: EditChargeLinkInput!): EditChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
+  createChargeLink(input: CreateChargeLinkInput!): CreateChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   cancelChargeLink(input: CancelChargeLinkInput!): CancelChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
@@ -1505,6 +1522,10 @@ type StopChargeLinkPayload {
   boolean: Boolean
 }
 
+type StopChargePayload {
+  boolean: Boolean
+}
+
 type StopDelegationPayload {
   boolean: Boolean
   errors: [StopDelegationError!]
@@ -1513,6 +1534,10 @@ type StopDelegationPayload {
 type Subscription {
   notificationAdded: NotificationDto!
   calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
+}
+
+type UpdateChargePayload {
+  boolean: Boolean
 }
 
 type UpdateMarketParticipantPayload {
@@ -1712,6 +1737,13 @@ input ActorNumberDtoInput {
   value: String!
 }
 
+input AddChargeSeriesInput {
+  id: String!
+  start: DateTime!
+  end: DateTime!
+  points: [ChargePointV1Input!]!
+}
+
 input AddMeteringPointsToAdditionalRecipientInput {
   marketParticipantId: UUID!
   meteringPointIds: [String!]!
@@ -1760,7 +1792,8 @@ input CalculationsQueryInput {
 }
 
 input CancelChargeLinkInput {
-  chargeLinkId: String!
+  chargeId: String!
+  meteringPointId: String!
 }
 
 input CancelMeasurementsReportInput {
@@ -1785,6 +1818,11 @@ input ChargeLinkDtoSortInput {
   chargeLinkId: SortEnumType
   meteringPointId: SortEnumType
   chargeIdentifier: ChargeIdentifierDtoSortInput
+}
+
+input ChargePointV1Input {
+  position: Int!
+  priceAmount: Decimal!
 }
 
 input ChargeSortInput {
@@ -1812,6 +1850,24 @@ input CreateCalculationInput {
   calculationType: StartCalculationType!
   period: PeriodInput!
   gridAreaCodes: [String!]
+}
+
+input CreateChargeInput {
+  code: String!
+  name: String!
+  description: String!
+  type: ChargeType!
+  resolution: ChargeResolution!
+  validFrom: DateTime!
+  vat: Boolean!
+  transparentInvoicing: Boolean!
+}
+
+input CreateChargeLinkInput {
+  chargeId: String!
+  meteringPointId: String!
+  newStartDate: DateTime!
+  factor: Int!
 }
 
 input CreateDelegationsForMarketParticipantInput {
@@ -1877,7 +1933,8 @@ input DismissNotificationInput {
 }
 
 input EditChargeLinkInput {
-  chargeLinkId: String!
+  chargeId: String!
+  meteringPointId: String!
   newStartDate: DateTime!
   factor: Int!
 }
@@ -2173,8 +2230,14 @@ input StartMoveInInput {
   technicalAddress: MoveInInstallationAddressInput!
 }
 
+input StopChargeInput {
+  id: String!
+  terminationDate: DateTime!
+}
+
 input StopChargeLinkInput {
-  chargeLinkId: String!
+  chargeId: String!
+  meteringPointId: String!
   stopDate: DateTime!
 }
 
@@ -2195,6 +2258,15 @@ input StopProcessDelegationDtoInput {
 input UpdateActorUserRolesInput {
   actorId: UUID!
   assignments: UpdateUserRoleAssignmentsDtoInput!
+}
+
+input UpdateChargeInput {
+  id: String!
+  name: String!
+  description: String!
+  cutoffDate: DateTime!
+  vat: Boolean!
+  transparentInvoicing: Boolean!
 }
 
 input UpdateMarketParticipantInput {
@@ -2407,10 +2479,10 @@ enum CalculationTypeQueryParameterV1 {
 }
 
 enum ChargeResolution {
-  quarterhourly
-  hourly
-  daily
-  monthly
+  QUARTER_HOURLY
+  HOURLY
+  DAILY
+  MONTHLY
 }
 
 enum ChargeStatus {

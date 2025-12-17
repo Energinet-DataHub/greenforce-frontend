@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
@@ -40,22 +41,32 @@ public interface IChargeLinkClient
     /// Stops a charge link at a given date.
     /// </summary>
     Task<bool> StopChargeLinkAsync(
-        string chargeLinkId,
-        DateTimeOffset stopDate,
-        CancellationToken ct = default);
+       ChargeIdentifierDto ident,
+       string meteringPointId,
+       DateTimeOffset stopDate,
+       CancellationToken ct = default);
 
     /// <summary>
     /// Cancels a charge link by its id.
     /// </summary>
-    Task<bool> CancelChargeLinkAsync(
-        string chargeLinkId,
-        CancellationToken ct = default);
+    Task<bool> CancelChargeLinkAsync(ChargeIdentifierDto ident, string meteringPointId, CancellationToken ct = default);
 
     /// <summary>
     /// Edits a charge link's start date and factor.
     /// </summary>
     Task<bool> EditChargeLinkAsync(
-        string chargeLinkId,
+        ChargeIdentifierDto ident,
+        string meteringPointId,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Creates a charge link with a start date and factor.
+    /// </summary>
+    Task<bool> CreateChargeLinkAsync(
+        ChargeIdentifierDto ident,
+        string meteringPointId,
         DateTimeOffset newStartDate,
         int factor,
         CancellationToken ct = default);

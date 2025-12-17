@@ -93,7 +93,7 @@ const aggregate = (result: ChargeSeriesResult, step: ParseStep, index: number) =
 
   return result.addPoint({
     position: step.row.data[POSITION],
-    price: step.row.data[PRICE],
+    priceAmount: step.row.data[PRICE],
   });
 };
 

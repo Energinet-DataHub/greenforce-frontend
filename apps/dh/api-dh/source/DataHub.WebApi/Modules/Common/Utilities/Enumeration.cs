@@ -12,11 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
-using NodaTime;
+using HotChocolate.Types.Descriptors;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
+namespace Energinet.DataHub.WebApi.Modules.Common.Utilities;
 
-public record ChargeSeriesPoint(
-    Instant Time,
-    decimal Price);
+public abstract record Enumeration<TEnum>
+{
+    private static INamingConventions namingConvention = new DefaultNamingConventions();
+
+    public abstract string Name { get; init; }
+
+    public sealed override string ToString() => namingConvention.GetEnumValueName(Name);
+
+    public T Cast<T>()
+        where T : Enum => (T)Enum.Parse(typeof(T), Name, true);
+
+    public object Cast(Type enumType) => Enum.Parse(enumType, Name, true);
+}

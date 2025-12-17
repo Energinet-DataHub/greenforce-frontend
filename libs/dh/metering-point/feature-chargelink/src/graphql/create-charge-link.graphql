@@ -1,0 +1,17 @@
+mutation CreateChargeLink(
+  $chargeId: String!
+  $meteringPointId: String!
+  $newStartDate: DateTime!
+  $factor: Int!
+) {
+  createChargeLink(
+    input: {
+      chargeId: $chargeId
+      meteringPointId: $meteringPointId
+      newStartDate: $newStartDate
+      factor: $factor
+    }
+  ) {
+    success: boolean
+  }
+}

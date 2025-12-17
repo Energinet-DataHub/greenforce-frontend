@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -31,8 +31,18 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
-import { ChargeResolution, ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  ChargeResolution,
+  ChargeType,
+  CreateChargeDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  dhMakeFormControl,
+  injectRelativeNavigate,
+  injectToast,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-charges-create',
@@ -80,7 +90,7 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
               maxLength="10"
               size="10"
               [label]="t('id')"
-              [formControl]="form().controls.id"
+              [formControl]="form().controls.code"
             />
             <watt-text-field
               vater
@@ -99,10 +109,10 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
           @if (!form().controls.resolution.disabled) {
             <watt-radio-group [label]="t('resolution')" [formControl]="form().controls.resolution">
               <watt-radio [value]="dailyResolution">
-                {{ t('daily') }}
+                {{ t('DAILY') }}
               </watt-radio>
               <watt-radio [value]="hourlyResolution">
-                {{ t('hourly') }}
+                {{ t('HOURLY') }}
               </watt-radio>
             </watt-radio-group>
           }
@@ -127,7 +137,7 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
               </watt-radio>
             </watt-radio-group>
           }
-          @if (!form().controls.predictablePrice.disabled) {
+          <!-- @if (!form().controls.predictablePrice.disabled) {
             <watt-radio-group
               [label]="t('predictablePrice')"
               [formControl]="form().controls.predictablePrice"
@@ -139,7 +149,7 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
                 {{ t('withoutPredictablePrice') }}
               </watt-radio>
             </watt-radio-group>
-          }
+          } -->
           <!-- datepicker does not support updating formControl -->
           @if (type()) {
             <watt-datepicker [label]="t('validFrom')" [formControl]="form().controls.validFrom" />
@@ -161,13 +171,16 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
 })
 export default class DhChargesCreate {
   navigate = injectRelativeNavigate();
-  dailyResolution: ChargeResolution = 'daily';
-  hourlyResolution: ChargeResolution = 'hourly';
+  createCharge = mutation(CreateChargeDocument);
+  toast = injectToast('charges.actions.create.toast');
+  toastEffect = effect(() => this.toast(this.createCharge.status()));
+  dailyResolution: ChargeResolution = 'DAILY';
+  hourlyResolution: ChargeResolution = 'HOURLY';
   type = signal<ChargeType | null>(null);
   form = computed(
     () =>
       new FormGroup({
-        id: dhMakeFormControl('', Validators.required),
+        code: dhMakeFormControl('', Validators.required),
         type: dhMakeFormControl<ChargeType>(this.type(), Validators.required),
         name: dhMakeFormControl('', Validators.required),
         description: dhMakeFormControl('', Validators.required),
@@ -181,14 +194,36 @@ export default class DhChargesCreate {
           { value: null, disabled: this.type() == 'FEE' },
           Validators.required
         ),
-        predictablePrice: dhMakeFormControl<boolean>(
-          { value: null, disabled: this.type() == 'TARIFF_TAX' },
-          Validators.required
-        ),
+        // predictablePrice: dhMakeFormControl<boolean>(
+        //   { value: null, disabled: this.type() == 'TARIFF_TAX' },
+        //   Validators.required
+        // ),
       })
   );
 
   save() {
-    console.log(this.form().value, 'saving form');
+    if (!this.form().valid) return;
+
+    const { resolution, transparentInvoicing, type, validFrom, vat, ...input } =
+      this.form().getRawValue();
+
+    assertIsDefined(resolution);
+    assertIsDefined(transparentInvoicing);
+    assertIsDefined(type);
+    assertIsDefined(validFrom);
+    assertIsDefined(vat);
+
+    this.createCharge.mutate({
+      variables: {
+        input: {
+          resolution,
+          transparentInvoicing,
+          type,
+          validFrom,
+          vat,
+          ...input,
+        },
+      },
+    });
   }
 }

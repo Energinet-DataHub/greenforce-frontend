@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -25,9 +25,16 @@ import { WattDropZone } from '@energinet/watt/dropzone';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
 import { WATT_MODAL } from '@energinet/watt/modal';
 
-import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
-import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  dhMakeFormControl,
+  injectRelativeNavigate,
+  injectToast,
+} from '@energinet-datahub/dh/shared/ui-util';
+import {
+  AddChargeSeriesDocument,
+  GetChargeByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import {
   parseChargeSeries,
@@ -93,6 +100,9 @@ export default class DhChargesUploadSeries {
   navigate = injectRelativeNavigate();
   id = input.required<string>();
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
+  addChargeSeries = mutation(AddChargeSeriesDocument);
+  toast = injectToast('charges.actions.uploadSeries.toast');
+  toastEffect = effect(() => this.toast(this.addChargeSeries.status()));
   resolution = computed(() => this.query.data()?.chargeById?.resolution);
 
   private validate = async (): Promise<ValidationErrors | null> => {
@@ -110,6 +120,22 @@ export default class DhChargesUploadSeries {
   progress = computed(() => this.chargeSeries()?.progress ?? 0);
 
   save() {
-    console.log(this.chargeSeries(), 'saving charge series');
+    if (!this.file.valid) return;
+    const start = this.chargeSeries()?.first;
+    const end = this.chargeSeries()?.last;
+    const points = this.chargeSeries()?.points;
+    assertIsDefined(start);
+    assertIsDefined(end);
+    assertIsDefined(points);
+    this.addChargeSeries.mutate({
+      variables: {
+        input: {
+          id: this.id(),
+          start: start.toDate(),
+          end: end.toDate(),
+          points,
+        },
+      },
+    });
   }
 }

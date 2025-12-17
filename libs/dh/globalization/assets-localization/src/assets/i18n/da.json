@@ -376,11 +376,11 @@
       "TARIFF_TAX": "Tarif, afgift"
     },
     "resolutions": {
-      "daily": "Dag",
-      "quarterhourly": "Kvarter",
-      "hourly": "Time",
-      "monthly": "Måned",
-      "unknown": "Ukendt"
+      "DAILY": "Dag",
+      "QUARTER_HOURLY": "Kvarter",
+      "HOURLY": "Time",
+      "MONTHLY": "Måned",
+      "UNKNOWN": "Ukendt"
     },
     "vatClassifications": {
       "NO_VAT": "Uden moms",
@@ -433,14 +433,19 @@
           "TARIFF_TAX": "Ny tarif, afgift",
           "SELECTION": "Ny pris"
         },
+        "toast": {
+          "loading": "Pris oprettes..",
+          "success": "Pris oprettet",
+          "error": "Oprettelse mislykkedes"
+        },
         "close": "Luk",
         "form": {
           "id": "ID",
           "name": "Navn",
           "description": "Beskrivelse",
           "resolution": "Opløsning",
-          "hourly": "Time",
-          "daily": "Dag",
+          "HOURLY": "Time",
+          "DAILY": "Dag",
           "vat": "Moms",
           "withVat": "Med moms",
           "withoutVat": "Uden moms",
@@ -457,20 +462,35 @@
       },
       "stop": {
         "title": "Stop prisinformation",
-        "date": "Stopdato",
+        "terminationDate": "Stopdato",
         "submit": "Gem ændringer",
+        "toast": {
+          "loading": "Ændringer gemmes..",
+          "success": "Ændringer gemt",
+          "error": "Operation mislykkedes"
+        },
         "close": "Luk",
         "tooltip": "Processen tager få minutter. Resultat\n vises her, og afvisningsårsager findes\n i forretningsbeskeder."
       },
       "edit": {
         "title": "Rediger prisinformation",
         "submit": "Gem ændringer",
+        "toast": {
+          "loading": "Ændringer gemmes..",
+          "success": "Ændringer gemt",
+          "error": "Operation mislykkedes"
+        },
         "close": "Luk",
         "tooltip": "Processen tager få minutter. Resultat\n vises her, og afvisningsårsager findes\n i forretningsbeskeder."
       },
       "uploadSeries": {
         "title": "Tilføj prisserie",
         "submit": "Tilføj prisserie",
+        "toast": {
+          "loading": "Prisserie tilføjes..",
+          "success": "Prisserie tilføjet",
+          "error": "Tilføjelse mislykkedes"
+        },
         "close": "Luk",
         "hint": "Kun CSV-filer er tilladt",
         "success": "Prisserie klar til indsendelse",
@@ -530,11 +550,11 @@
     "series": {
       "showHistory": "Historik",
       "resolution": {
-        "quarterhourly": "Tidspunkt",
-        "hourly": "Tidspunkt",
-        "daily": "Dato",
-        "monthly": "Måned",
-        "unknown": "Dato"
+        "QUARTER_HOURLY": "Tidspunkt",
+        "HOURLY": "Tidspunkt",
+        "DAILY": "Dato",
+        "MONTHLY": "Måned",
+        "UNKNOWN": "Dato"
       },
       "columns": {
         "price": "Aktuel pris",
@@ -778,6 +798,7 @@
         "cancel": "Annuller pristilknytning"
       },
       "create": {
+        "toast": "Pris tilknyttes..",
         "title": "Tilknyt pris",
         "close": "Luk",
         "back": "Tilbage",
@@ -798,6 +819,7 @@
         "tooltip": "Processen tager få minutter.\n Afvisningsårsager findes i forretningsbeskeder."
       },
       "edit": {
+        "toast": "Ændringer gemmes..",
         "title": "Rediger pristilknytning",
         "factor": "Antal",
         "startDate": "Skæringsdato",
@@ -806,6 +828,7 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "cancel": {
+        "toast": "Pristilknytning annulleres..",
         "title": "Annuller pristilknytning?",
         "cancelWarning": "Handlingen kan ikke fortrydes",
         "cancel": "Annuller pristilknytning",
@@ -813,6 +836,7 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "stop": {
+        "toast": "Ændringer gemmes..",
         "title": "Stop pristilknytning",
         "stopDate": "Stopdato",
         "save": "Gem ændringer",

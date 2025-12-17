@@ -7,7 +7,7 @@
   "tags": ["product:watt"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/watt"],
       "options": {
         "vitestConfig": "libs/watt/vitest.config.mts"

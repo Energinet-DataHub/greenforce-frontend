@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:admin", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "configFile": "libs/dh/admin/feature-user-roles/vite.config.mts"

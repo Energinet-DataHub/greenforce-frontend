@@ -34,10 +34,10 @@ import { dhFormToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/
   imports: [ReactiveFormsModule, WattDatepickerComponent, WattYearField, WattYearMonthField],
   template: `
     @switch (resolution()) {
-      @case ('daily') {
+      @case ('DAILY') {
         <watt-yearmonth-field [formControl]="form.controls.yearMonth" canStepThroughMonths />
       }
-      @case ('monthly') {
+      @case ('MONTHLY') {
         <watt-year-field [formControl]="form.controls.year" canStepThroughYears />
       }
       @default {
@@ -58,11 +58,11 @@ export class DhChargesIntervalField {
   private interval = computed<WattRange<Date>>(() => {
     const value = this.value();
     switch (this.resolution()) {
-      case 'daily': {
+      case 'DAILY': {
         const date = dayjs.tz(value.yearMonth, YEARMONTH_FORMAT, danishTimeZoneIdentifier);
         return { start: date.toDate(), end: date.endOf('month').toDate() };
       }
-      case 'monthly': {
+      case 'MONTHLY': {
         const date = dayjs.tz(value.year, YEAR_FORMAT, danishTimeZoneIdentifier);
         return { start: date.toDate(), end: date.endOf('year').toDate() };
       }

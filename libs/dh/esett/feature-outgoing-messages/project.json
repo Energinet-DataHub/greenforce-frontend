@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:esett", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "configFile": "libs/dh/esett/feature-outgoing-messages/vite.config.mts"

@@ -2,18 +2,18 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 1.20.2 | MIT |
-| [@angular/animations](https://github.com/angular/angular) | 20.3.6 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 20.2.9 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 20.3.6 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 20.3.6 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 20.3.6 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 20.3.6 | MIT |
-| [@angular/material](https://github.com/angular/components) | 20.2.9 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 20.3.6 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 20.3.6 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 20.3.6 | MIT |
-| [@angular/service-worker](https://github.com/angular/angular) | 20.3.6 | MIT |
+  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 2.1.3 | MIT |
+| [@angular/animations](https://github.com/angular/angular) | 20.3.15 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 20.2.14 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 20.3.15 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 20.3.15 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 20.3.15 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 20.3.15 | MIT |
+| [@angular/material](https://github.com/angular/components) | 20.2.14 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 20.3.15 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 20.3.15 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 20.3.15 | MIT |
+| [@angular/service-worker](https://github.com/angular/angular) | 20.3.15 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.13.8 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.0.19 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.21.0 | MIT |
@@ -42,6 +42,6 @@
 | [papaparse](https://github.com/mholt/PapaParse) | 5.5.3 | MIT |
 | [qs](https://github.com/ljharb/qs) | 6.12.1 | BSD-3-Clause |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.2 | Apache-2.0 |
-| [storybook](https://github.com/storybookjs/storybook) | 9.0.10 | MIT |
+| [storybook](https://github.com/storybookjs/storybook) | 10.1.9 | MIT |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
 | [zone.js](https://github.com/angular/angular) | 0.15.0 | MIT |

@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:shared", "type:util"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "config": "libs/dh/shared/util-apollo/vite.config.mts"
