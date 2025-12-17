@@ -61,10 +61,11 @@ import { mswGlobalPolyfillPath } from '@energinet-datahub/gf/test-util-vitest';
 
 export default defineConfig({
   test: {
-    pool: 'threads',
+    pool: 'forks',
     poolOptions: {
-      threads: {
-        execArgv: ['--require', mswGlobalPolyfillPath],
+      forks: {
+        singleFork: true,
+        execArgv: ['--require', mswPolyfillPath],
       },
     },
   },

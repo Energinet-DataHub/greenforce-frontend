@@ -56,9 +56,10 @@ export default defineConfig(() => ({
       reportsDirectory: '../../../coverage/apps/dh/app-dh',
       provider: 'v8' as const,
     },
-    pool: 'threads',
+    pool: 'forks',
     poolOptions: {
-      threads: {
+      forks: {
+        singleFork: true,
         execArgv: ['--require', mswPolyfillPath],
       },
     },
