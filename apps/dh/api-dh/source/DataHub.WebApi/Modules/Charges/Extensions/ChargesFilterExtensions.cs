@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.WebApi.Modules.Charges;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using VatClassification = Energinet.DataHub.Charges.Abstractions.Shared.VatClassification;
