@@ -491,8 +491,8 @@ type ElectricalHeatingDto {
 }
 
 type ElectricityMarketV2CommercialRelationDto {
-  startDate: DateTime!
-  endDate: DateTime!
+  validFrom: DateTime!
+  validTo: DateTime!
   energySupplierId: String!
   customerId: UUID!
   energySupplierPeriods: [EnergySupplierPeriodDto!]!
