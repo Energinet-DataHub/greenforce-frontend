@@ -1,5 +1,0 @@
-mutation StartMoveIn($input: StartMoveInInput!) {
-  startMoveIn(input: $input) {
-    success: boolean
-  }
-}
