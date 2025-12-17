@@ -79,7 +79,7 @@ public class ChargeStatusTests
 #pragma warning disable SA1118 // Parameter should not span multiple lines
         server.ChargesClientMock
             .Setup(x => x.GetChargesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<ChargeSortInput>(), It.IsAny<GetChargesQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((
+            .ReturnsAsync(
                 new List<Charge>
                 {
                     new(
@@ -116,8 +116,7 @@ public class ChargeStatusTests
                                 VatClassification: VatClassification.NoVat,
                                 Name: "Standard Period")
                         ]),
-                },
-                2));
+                });
 #pragma warning restore SA1118 // Parameter should not span multiple lines
 
         server.ChargesClientMock

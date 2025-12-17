@@ -310,7 +310,7 @@ type ChargeLink {
   charge: Charge
   amount: Int!
   currentPeriod: ChargeLinkPeriod
-  id: Long!
+  id: String!
 }
 
 type ChargeLinkHistory {
@@ -322,7 +322,7 @@ type ChargeLinkHistory {
 type ChargeLinkPeriod {
   period: DateRange!
   amount: Int!
-  id: Long!
+  id: Int!
 }
 
 type ChargePeriod {
@@ -1253,7 +1253,7 @@ type Query {
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
-  chargeLinkById(meteringPointId: String! chargeLinkId: Long!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
+  chargeLinkById(meteringPointId: String! chargeId: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1815,7 +1815,6 @@ input ChargeIdentifierDtoSortInput {
 }
 
 input ChargeLinkDtoSortInput {
-  chargeLinkId: SortEnumType
   meteringPointId: SortEnumType
   chargeIdentifier: ChargeIdentifierDtoSortInput
 }
