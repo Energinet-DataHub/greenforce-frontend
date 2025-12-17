@@ -16,13 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  viewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, viewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
