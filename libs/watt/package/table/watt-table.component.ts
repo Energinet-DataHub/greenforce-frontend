@@ -374,31 +374,40 @@ export class WattTableComponent<T> {
 
   // Selectable
   protected filterSelectionBy = (rows: T[]) => rows.filter((row) => this.selection().includes(row));
+
   protected getSelectionState = () => {
-    const filteredData = this.dataSource().filteredData;
+    const filteredData = this.dataSource()?.filteredData || [];
     const filteredSelection = this.filterSelectionBy(filteredData);
     if (!filteredSelection.length) return false;
-    return filteredSelection.length === this.dataSource().filteredData.length ? true : null;
+    return filteredSelection.length === (this.dataSource()?.filteredData || []).length
+      ? true
+      : null;
   };
+
+  // Make Vitest happy.
+  // `columns` is temporarily `undefined` when tests run.
+  protected columnsRemapped = computed(() => this.columns() || {});
 
   // Unique names for special columns
   protected checkboxColumn = '__checkboxColumn__';
   protected expandableColumn = '__expandableColumn__';
 
-  protected hasFooter = computed(() => Object.values(this.columns()).some((c) => c.footer));
-  protected isExpandable = computed(() => Object.values(this.columns()).some((c) => c.expandable));
+  protected hasFooter = computed(() => Object.values(this.columnsRemapped()).some((c) => c.footer));
+  protected isExpandable = computed(() =>
+    Object.values(this.columnsRemapped()).some((c) => c.expandable)
+  );
   protected renderedColumns = computed(() => {
-    const columns = this.displayedColumns() ?? Object.keys(this.columns());
+    const columns = this.displayedColumns() ?? Object.keys(this.columnsRemapped());
     return [
       ...(this.selectable() ? [this.checkboxColumn] : []),
-      ...columns.filter((key) => !this.columns()[key].expandable),
+      ...columns.filter((key) => !this.columnsRemapped()[key].expandable),
       ...(this.isExpandable() ? [this.expandableColumn] : []),
-      ...columns.filter((key) => this.columns()[key].expandable),
+      ...columns.filter((key) => this.columnsRemapped()[key].expandable),
     ];
   });
 
   protected sizing = computed(() => {
-    const columns = this.columns();
+    const columns = this.columnsRemapped();
     return this.renderedColumns()
       .filter((key) => !columns[key]?.expandable)
       .map((key) => {
@@ -474,10 +483,16 @@ export class WattTableComponent<T> {
   constructor() {
     effect(() => {
       const dataSource = this.dataSource();
+
+      // Make Vitest happy.
+      // For some reason required inputs are temporarily `undefined` inside an effect.
+      // Test throws "TypeError: Cannot set properties of undefined (setting 'sort')"
+      if (!dataSource) return;
+
       dataSource.sort = this.sort();
       if (!(dataSource instanceof WattTableDataSource)) return;
       dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
-        const column = this.columns()[sortHeaderId];
+        const column = this.columnsRemapped()[sortHeaderId];
         const value = this.getCellData(column, row);
         if (typeof value === 'string') return value.toLowerCase(); // case insensitive sorting
         if (value instanceof Date) return value.getTime();

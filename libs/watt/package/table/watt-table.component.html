@@ -31,7 +31,9 @@ limitations under the License.
       <th mat-header-cell *matHeaderCellDef class="watt-table-checkbox-cell">
         <watt-checkbox
           [ngModel]="getSelectionState()"
-          (ngModelChange)="$event ? selection.set(dataSource().filteredData) : clearSelection()"
+          (ngModelChange)="
+            $event ? selection.set(dataSource() ? dataSource().filteredData : []) : clearSelection()
+          "
         />
       </th>
       <td mat-cell *matCellDef="let row" class="watt-table-checkbox-cell">
@@ -182,7 +184,7 @@ limitations under the License.
     <ng-container
       *ngTemplateOutlet="
         toolbar.templateRef;
-        context: { $implicit: filterSelectionBy(dataSource().filteredData) }
+        context: { $implicit: filterSelectionBy(dataSource() ? dataSource().filteredData : []) }
       "
     />
   </div>
