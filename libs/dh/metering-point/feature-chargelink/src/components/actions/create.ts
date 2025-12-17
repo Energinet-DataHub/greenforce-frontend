@@ -174,7 +174,7 @@ export default class DhMeteringPointCreateChargeLink {
         chargeId,
         meteringPointId: this.meteringPointId(),
         newStartDate: startDate,
-        factor: parseInt(factor ?? '10'),
+        factor: parseInt(factor ?? '1'),
       },
     });
 
