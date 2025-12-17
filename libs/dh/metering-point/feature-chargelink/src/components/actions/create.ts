@@ -162,8 +162,6 @@ export default class DhMeteringPointCreateChargeLink {
     if (!saved) return this.navigate.navigate('list');
 
     const form = this.form();
-    console.log(form.value);
-    console.log(this.meteringPointId());
     if (form.invalid) return;
 
     assertIsDefined(form.value.startDate);
