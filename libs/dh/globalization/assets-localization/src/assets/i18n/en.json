@@ -433,6 +433,11 @@
           "TARIFF_TAX": "New tariff, tax",
           "SELECTION": "New charge"
         },
+        "toast": {
+          "loading": "Creating charge..",
+          "success": "Charge created",
+          "error": "Creation failed"
+        },
         "close": "Close",
         "form": {
           "id": "ID",
@@ -457,20 +462,35 @@
       },
       "stop": {
         "title": "Stop price",
-        "date": "Stop date",
+        "terminationDate": "Stop date",
         "submit": "Save changes",
+        "toast": {
+          "loading": "Saving changes..",
+          "success": "Changes saved",
+          "error": "Operation failed"
+        },
         "close": "Close",
         "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
       },
       "edit": {
         "title": "Edit price",
         "submit": "Save changes",
+        "toast": {
+          "loading": "Saving changes..",
+          "success": "Changes saved",
+          "error": "Operation failed"
+        },
         "close": "Close",
         "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
       },
       "uploadSeries": {
         "title": "Add charge series",
         "submit": "Add charge series",
+        "toast": {
+          "loading": "Adding charge series..",
+          "success": "Charge series added",
+          "error": "Operation failed"
+        },
         "close": "Close",
         "hint": "File must be in CSV format",
         "success": "Charge series ready for submit",
