@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Enums;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Models;
 
 public record InitiateMoveInInput(
     string MeteringPointId,
-    BusinessReason BusinessReason,
+    BusinessReasonV1 BusinessReason,
     DateTimeOffset StartDate,
-    string CustomerCprOrCVR,
+    CustomerIdentificationV1 CustomerCprOrCvr,
     string CustomerName);

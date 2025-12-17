@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { JsonPipe, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
@@ -65,8 +65,7 @@ import {
     VaterStackComponent,
     DhBusinessCustomerDetailsFormComponent,
     DhPrivateCustomerDetailsComponent,
-    ReactiveFormsModule,
-    JsonPipe,
+    ReactiveFormsModule
   ],
   styles: `
     .sticky-header {

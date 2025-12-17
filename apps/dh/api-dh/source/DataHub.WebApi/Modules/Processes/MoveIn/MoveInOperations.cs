@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Models;
 using HotChocolate.Authorization;
 
@@ -21,7 +23,7 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 public static class MoveInOperations
 {
     [Mutation]
-    [Authorize(Roles = new[] { "move-in:manage" })]
+    [Authorize(Roles = new[] { "metering-point:move-in" })]
     public static async Task<bool> InitiateMoveInAsync(
         InitiateMoveInInput input,
         CancellationToken ct,
@@ -32,23 +34,8 @@ public static class MoveInOperations
                 input.MeteringPointId,
                 input.BusinessReason,
                 input.StartDate,
-                input.CustomerCprOrCVR,
+                input.CustomerCprOrCvr,
                 input.CustomerName));
-
-        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
-
-        return result.IsSuccess;
-    }
-
-    [Mutation]
-    [Authorize(Roles = new[] { "metering-point:connection-state-manage" })]
-    public static async Task<bool> UpdateCustomerDataAsync(
-        RequestChangeCustomerCharacteristicsInput input,
-        CancellationToken ct,
-        [Service] IB2CClient ediB2CClient)
-    {
-        var command = new RequestChangeCustomerCharacteristicsRequestV1(
-            new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
