@@ -17,13 +17,8 @@
  */
 //#endregion
 import { dayjs } from '@energinet/watt/date';
-import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ChargePointV1Input, ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
 import { danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
-
-export type Point = {
-  position: number;
-  price: number;
-};
 
 export type ChargeSeriesParseError = {
   key: string;
@@ -70,7 +65,7 @@ export class ChargeSeriesResult {
   isFatal = false;
 
   /** Array of points parsed from the CSV file. */
-  points: Point[] = [];
+  points: ChargePointV1Input[] = [];
 
   /** Array of errors encountered during parsing. */
   errors: ChargeSeriesParseError[] = [];
@@ -161,7 +156,7 @@ export class ChargeSeriesResult {
   };
 
   /** Adds a point to the result. Chainable. */
-  addPoint = (point: Point) => {
+  addPoint = (point: ChargePointV1Input) => {
     this.points.push(point);
     return this;
   };
