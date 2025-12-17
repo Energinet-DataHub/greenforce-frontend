@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, effect, inject, input, viewChild, } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -29,7 +36,10 @@ import { InstallationAddress, StartMoveInFormType } from '../types';
 import { DhStartMoveInFormComponent } from './dh-start-move-in-form.component';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { BusinessReasonV1, InitiateMoveInDocument, } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  BusinessReasonV1,
+  InitiateMoveInDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { dayjs } from '@energinet/watt/date';
 
 @Component({
