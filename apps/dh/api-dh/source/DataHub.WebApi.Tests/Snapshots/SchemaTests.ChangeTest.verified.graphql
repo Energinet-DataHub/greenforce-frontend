@@ -322,7 +322,6 @@ type ChargeLinkHistory {
 type ChargeLinkPeriod {
   period: DateRange!
   amount: Int!
-  id: Int!
 }
 
 type ChargePeriod {
@@ -1257,7 +1256,7 @@ type Query {
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
-  chargeLinkById(meteringPointId: String! chargeId: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
+  chargeLinkById(id: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1792,8 +1791,7 @@ input CalculationsQueryInput {
 }
 
 input CancelChargeLinkInput {
-  chargeId: String!
-  meteringPointId: String!
+  id: String!
 }
 
 input CancelMeasurementsReportInput {
@@ -1937,8 +1935,7 @@ input DismissNotificationInput {
 }
 
 input EditChargeLinkInput {
-  chargeId: String!
-  meteringPointId: String!
+  id: String!
   newStartDate: DateTime!
   factor: Int!
 }
@@ -2207,8 +2204,7 @@ input StopChargeInput {
 }
 
 input StopChargeLinkInput {
-  chargeId: String!
-  meteringPointId: String!
+  id: String!
   stopDate: DateTime!
 }
 
