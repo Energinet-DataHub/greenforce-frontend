@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -29,13 +29,10 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
-import {
-  StopChargeLinkDocument,
-  GetChargeLinkByIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { StopChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   injectToast,
@@ -90,34 +87,25 @@ import {
 })
 export default class DhMeteringPointStopChargeLink {
   private readonly toast = injectToast('meteringPoint.chargeLinks.stop.toast');
-  private readonly stopChangeLink = mutation(StopChargeLinkDocument);
-  private readonly query = query(GetChargeLinkByIdDocument, () => ({
-    variables: { chargeId: this.id(), meteringPointId: this.meteringPointId() },
-  }));
-  private readonly chargeLink = computed(() => this.query.data()?.chargeLinkById);
+  private readonly stopChargeLink = mutation(StopChargeLinkDocument);
   navigate = injectRelativeNavigate();
   form = new FormGroup({
     stopDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
   id = input.required<string>();
-  meteringPointId = input.required<string>();
 
   async stopLink() {
     assertIsDefined(this.form.controls.stopDate.value);
-    const charge = this.chargeLink()?.charge;
-    assertIsDefined(charge);
-
-    await this.stopChangeLink.mutate({
+    await this.stopChargeLink.mutate({
       variables: {
-        chargeId: charge.id,
-        meteringPointId: this.meteringPointId(),
+        id: this.id(),
         stopDate: this.form.controls.stopDate.value,
       },
     });
   }
 
   constructor() {
-    effect(() => this.toast(this.stopChangeLink.status()));
+    effect(() => this.toast(this.stopChargeLink.status()));
   }
 }

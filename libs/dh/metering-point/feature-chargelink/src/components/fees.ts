@@ -106,7 +106,7 @@ export default class DhMeteringPointChargeLinksFees {
   });
 
   columns: WattTableColumnDef<Charge> = {
-    id: { accessor: 'id' },
+    id: { accessor: (chargeLink) => chargeLink.charge?.code },
     name: { accessor: (chargeLink) => chargeLink.charge?.name ?? '' },
     owner: { accessor: (chargeLink) => chargeLink.charge?.owner?.displayName ?? '' },
     amount: { accessor: 'amount' },
