@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 using NodaTime;
@@ -28,7 +29,7 @@ public interface IChargesClient
     /// <summary>
     /// Query charge information.
     /// </summary>
-    Task<(IEnumerable<Charge> Charges, int TotalCount)?> GetChargesAsync(
+    Task<IEnumerable<Charge>?> GetChargesAsync(
         int skip,
         int take,
         string? filter,
@@ -64,5 +65,30 @@ public interface IChargesClient
     /// </summary>
     Task<bool> CreateChargeAsync(
         CreateChargeInput input,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Update a charge.
+    /// </summary>
+    Task<bool> UpdateChargeAsync(
+        UpdateChargeInput input,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Stop a charge.
+    /// </summary>
+    Task<bool> StopChargeAsync(
+        ChargeIdentifierDto id,
+        DateTimeOffset terminationDate,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Add series to a charge.
+    /// </summary>
+    Task<bool> AddChargeSeriesAsync(
+        ChargeIdentifierDto id,
+        DateTimeOffset start,
+        DateTimeOffset end,
+        List<ChargePointV1> points,
         CancellationToken ct = default);
 }

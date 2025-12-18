@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Shared;
-using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
@@ -40,7 +38,7 @@ public static partial class ChargeLinkOperations
     [Authorize(Roles = new[] { "metering-point:prices" })]
     public static async Task<ChargeLinkDto?> GetChargeLinkByIdAsync(
         string meteringPointId,
-        long chargeLinkId,
+        ChargeIdentifierDto chargeId,
         CancellationToken ct,
         IChargeLinkClient client)
     {
@@ -48,7 +46,7 @@ public static partial class ChargeLinkOperations
             .GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct)
             .ConfigureAwait(false);
 
-        return chargeLinks.FirstOrDefault(cl => cl.ChargeLinkId == chargeLinkId);
+        return chargeLinks.FirstOrDefault(cl => cl.ChargeIdentifier == chargeId);
     }
 
     [Mutation]
@@ -91,11 +89,15 @@ public static partial class ChargeLinkOperations
         IChargeLinkClient client) =>
             await client.CancelChargeLinkAsync(chargeId, meteringPointId, ct).ConfigureAwait(false);
 
-    public static async Task<IEnumerable<ChargeLinkHistory>> GetHistoryAsync(
-        [Parent] ChargeLinkDto chargeLink,
-        CancellationToken ct,
-        IChargeLinkClient client) =>
-            await client.GetChargeLinkHistoryAsync(chargeLink.ChargeLinkId, ct).ConfigureAwait(false);
+    public static IEnumerable<ChargeLinkHistory> GetHistory(
+        [Parent] ChargeLinkDto chargeLink) =>
+            chargeLink.ChargeLinkPeriods
+                .OrderByDescending(x => x.From)
+                .Skip(1)
+                .Select(period => new ChargeLinkHistory(
+                    period.From.ToDateTimeOffset(),
+                    string.Empty,
+                    string.Empty)).ToList();
 
     public static async Task<Charge?> GetChargeAsync(
         [Parent] ChargeLinkDto chargeLink,
@@ -112,6 +114,6 @@ public static partial class ChargeLinkOperations
     {
         descriptor.Name("ChargeLink");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.ChargeLinkId).Name("id");
+        descriptor.Field(f => f.ChargeIdentifier).Name("id");
     }
 }

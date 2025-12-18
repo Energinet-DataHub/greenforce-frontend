@@ -84,7 +84,8 @@ interface VitestConfig {
     };
     pool?: string;
     poolOptions?: {
-      threads?: {
+      forks?: {
+        singleFork?: boolean;
         execArgv?: string[];
       };
     };
@@ -129,9 +130,10 @@ export function vitestAngularConfig(options: VitestAngularConfigOptions): Vitest
   if (enableMsw) {
     baseConfig.test = {
       ...baseConfig.test,
-      pool: 'threads',
+      pool: 'forks',
       poolOptions: {
-        threads: {
+        forks: {
+          singleFork: true,
           execArgv: ['--require', getMswGlobalPolyfillPath()],
         },
       },

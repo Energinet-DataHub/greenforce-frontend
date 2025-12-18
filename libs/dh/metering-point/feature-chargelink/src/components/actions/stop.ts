@@ -92,7 +92,7 @@ export default class DhMeteringPointStopChargeLink {
   private readonly toast = injectToast('meteringPoint.chargeLinks.stop.toast');
   private readonly stopChangeLink = mutation(StopChargeLinkDocument);
   private readonly query = query(GetChargeLinkByIdDocument, () => ({
-    variables: { chargeLinkId: this.id(), meteringPointId: this.meteringPointId() },
+    variables: { chargeId: this.id(), meteringPointId: this.meteringPointId() },
   }));
   private readonly chargeLink = computed(() => this.query.data()?.chargeLinkById);
   navigate = injectRelativeNavigate();

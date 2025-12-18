@@ -20,17 +20,17 @@ import { type FormControl, type FormGroup } from '@angular/forms';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import {
+  BusinessReasonV1,
   GetMeteringPointByIdDocument,
-  MoveInType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type StartMoveInFormType = {
   cutOffDate: FormControl<Date>;
-  moveInType: FormControl<MoveInType | null>;
+  businessReason: FormControl<BusinessReasonV1>;
   customerType: FormControl<'private' | 'business'>;
   privateCustomer?: FormGroup<{
-    name1: FormControl<string>;
-    cpr1: FormControl<string>;
+    name: FormControl<string>;
+    cpr: FormControl<string>;
   }>;
   businessCustomer?: FormGroup<{
     companyName: FormControl<string>;

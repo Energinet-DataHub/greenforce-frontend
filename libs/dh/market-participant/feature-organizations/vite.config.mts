@@ -17,10 +17,10 @@ export default defineConfig({
       reporter: ['html', 'json', 'text-summary'],
       reportsDirectory: '../../../../coverage/feature-organizations',
     },
-    pool: 'vmThreads',
+    pool: 'forks',
     poolOptions: {
-      threads: {
-        singleThread: true,
+      forks: {
+        singleFork: true,
       },
     },
   },

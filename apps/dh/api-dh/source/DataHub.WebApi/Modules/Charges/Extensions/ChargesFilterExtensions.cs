@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.WebApi.Modules.Charges;
 using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
-using VatClassification = Energinet.DataHub.Charges.Abstractions.Shared.VatClassification;
+using VatClassification = Energinet.DataHub.Charges.Abstractions.Shared.VatClassificationDto;
 
 public static class ChagesFilterExtensions
 {
@@ -40,7 +38,7 @@ public static class ChagesFilterExtensions
         if (chargeTypes?.Any() == true)
         {
             return charges.Where(charge =>
-                chargeTypes.Any(type => type == ChargeType.Make(charge.ChargeIdentifierDto.Type, charge.TaxIndicator)));
+                chargeTypes.Any(type => type == ChargeType.Make(charge.ChargeIdentifierDto.TypeDto, charge.TaxIndicator)));
         }
 
         return charges;
@@ -52,12 +50,12 @@ public static class ChagesFilterExtensions
     {
         if (moreOptions?.Any(x => x == "vat-true") == true)
         {
-            charges = charges.Where(charge => charge.GetCurrentPeriod()?.VatClassification == VatClassification.Vat25);
+            charges = charges.Where(charge => charge.GetCurrentPeriod()?.VatClassificationDto == VatClassification.Vat25);
         }
 
         if (moreOptions?.Any(x => x == "vat-false") == true)
         {
-            charges = charges.Where(charge => charge.GetCurrentPeriod()?.VatClassification == VatClassification.NoVat);
+            charges = charges.Where(charge => charge.GetCurrentPeriod()?.VatClassificationDto == VatClassification.NoVat);
         }
 
         return charges;

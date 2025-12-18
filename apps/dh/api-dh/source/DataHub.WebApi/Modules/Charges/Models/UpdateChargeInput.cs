@@ -12,10 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Enums;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 
-public enum MoveInType
-{
-    E65,
-    D29,
-}
+namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
+
+public record UpdateChargeInput(
+    ChargeIdentifierDto Id,
+    string Name,
+    string Description,
+    DateTimeOffset CutoffDate,
+    bool Vat,
+    bool TransparentInvoicing);
