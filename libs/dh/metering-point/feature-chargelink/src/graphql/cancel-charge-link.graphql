@@ -1,5 +1,5 @@
-mutation CancelChargeLink($chargeId: String!, $meteringPointId: String!) {
-  cancelChargeLink(input: { chargeId: $chargeId, meteringPointId: $meteringPointId }) {
+mutation CancelChargeLink($id: String!) {
+  cancelChargeLink(input: { id: $id }) {
     success: boolean
   }
 }

@@ -88,12 +88,11 @@ export default class DhMeteringPointEditChargeLink {
   private readonly edit = mutation(EditChargeLinkDocument);
   navigate = inject(DhNavigationService);
   form = new FormGroup({
-    factor: dhMakeFormControl<number>(null, [Validators.min(1)]),
+    factor: dhMakeFormControl<string>(null, [Validators.min(1)]),
     startDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
   id = input.required<string>();
-  meteringPointId = input.required<string>();
 
   save = async (save: boolean) => {
     if (!save) return this.navigate.navigate('details', this.id());
@@ -105,10 +104,9 @@ export default class DhMeteringPointEditChargeLink {
 
     await this.edit.mutate({
       variables: {
-        chargeId: this.id(),
-        meteringPointId: this.meteringPointId(),
+        id: this.id(),
         newStartDate: this.form.value.startDate,
-        factor: this.form.value.factor,
+        factor: parseInt(this.form.value.factor),
       },
     });
 

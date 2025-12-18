@@ -32,42 +32,37 @@ public static partial class ChargeLinkOperations
         string meteringPointId,
         CancellationToken ct,
         IChargeLinkClient client) =>
-            await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct).ConfigureAwait(false);
+            await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct);
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:prices" })]
     public static async Task<ChargeLinkDto?> GetChargeLinkByIdAsync(
-        string meteringPointId,
-        ChargeIdentifierDto chargeId,
+        ChargeLinkId id,
         CancellationToken ct,
         IChargeLinkClient client)
     {
-        var chargeLinks = await client
-            .GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct)
-            .ConfigureAwait(false);
-
-        return chargeLinks.FirstOrDefault(cl => cl.ChargeIdentifier == chargeId);
+        var chargeLinks = await client.GetChargeLinksByMeteringPointIdAsync(id.MeteringPointId, ct);
+        return chargeLinks.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId);
     }
 
     [Mutation]
     [Authorize(Roles = new[] { "metering-point:prices-manage" })]
     public static async Task<bool> StopChargeLinkAsync(
-        ChargeIdentifierDto chargeId,
-        string meteringPointId,
+        ChargeLinkId id,
         DateTimeOffset stopDate,
         IChargeLinkClient client,
-        CancellationToken ct) => await client.StopChargeLinkAsync(chargeId, meteringPointId, stopDate, ct).ConfigureAwait(false);
+        CancellationToken ct) =>
+            await client.StopChargeLinkAsync(id, stopDate, ct);
 
     [Mutation]
     [Authorize(Roles = new[] { "metering-point:prices-manage" })]
     public static async Task<bool> EditChargeLinkAsync(
-        ChargeIdentifierDto chargeId,
-        string meteringPointId,
+        ChargeLinkId id,
         DateTimeOffset newStartDate,
         int factor,
         CancellationToken ct,
         IChargeLinkClient client) =>
-            await client.EditChargeLinkAsync(chargeId, meteringPointId, newStartDate, factor, ct).ConfigureAwait(false);
+            await client.EditChargeLinkAsync(id, newStartDate, factor, ct);
 
     [Mutation]
     [Authorize(Roles = new[] { "metering-point:prices-manage" })]
@@ -78,16 +73,15 @@ public static partial class ChargeLinkOperations
         int factor,
         CancellationToken ct,
         IChargeLinkClient client) =>
-            await client.EditChargeLinkAsync(chargeId, meteringPointId, newStartDate, factor, ct).ConfigureAwait(false);
+            await client.CreateChargeLinkAsync(chargeId, meteringPointId, newStartDate, factor, ct);
 
     [Mutation]
     [Authorize(Roles = new[] { "metering-point:prices-manage" })]
     public static async Task<bool> CancelChargeLinkAsync(
-        ChargeIdentifierDto chargeId,
-        string meteringPointId,
+        ChargeLinkId id,
         CancellationToken ct,
         IChargeLinkClient client) =>
-            await client.CancelChargeLinkAsync(chargeId, meteringPointId, ct).ConfigureAwait(false);
+            await client.CancelChargeLinkAsync(id, ct);
 
     public static IEnumerable<ChargeLinkHistory> GetHistory(
         [Parent] ChargeLinkDto chargeLink) =>
@@ -102,7 +96,7 @@ public static partial class ChargeLinkOperations
         [Parent] ChargeLinkDto chargeLink,
         IChargesClient client,
         CancellationToken ct) =>
-            await client.GetChargeByIdAsync(chargeLink.ChargeIdentifier, ct).ConfigureAwait(false);
+            await client.GetChargeByIdAsync(chargeLink.ChargeIdentifier, ct);
 
     public static int GetAmount([Parent] ChargeLinkDto chargeLink) => chargeLink.GetCurrentPeriod()?.Factor ?? 1;
 
@@ -113,6 +107,9 @@ public static partial class ChargeLinkOperations
     {
         descriptor.Name("ChargeLink");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.ChargeIdentifier).Name("id");
+        descriptor
+            .Field(f => new ChargeLinkId(f.MeteringPointId, f.ChargeIdentifier))
+            .Type<NonNullType<StringType>>()
+            .Name("id");
     }
 }
