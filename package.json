@@ -98,7 +98,7 @@
     "papaparse": "5.5.3",
     "qs": "6.12.1",
     "rxjs": "7.8.2",
-    "storybook": "10.1.9",
+    "storybook": "10.1.10",
     "tslib": "2.4.0",
     "zone.js": "0.15.0"
   },
