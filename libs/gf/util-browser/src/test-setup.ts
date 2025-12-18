@@ -19,11 +19,10 @@
 import '@angular/compiler';
 import '@analogjs/vitest-angular/setup-zone';
 import '@testing-library/jest-dom/vitest';
-// Vitest setup for Angular testing
-import { getTestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
 
-getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+import { getTestBed } from '@angular/core/testing';
+import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
+
+// Note: This library cannot use setUpTestbed from gf-test-util-staging
+// because gf-test-util-staging depends on gf-util-browser, which would create a circular dependency.
+getTestBed().initTestEnvironment(BrowserTestingModule, platformBrowserTesting());
