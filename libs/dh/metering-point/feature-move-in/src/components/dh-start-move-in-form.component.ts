@@ -28,12 +28,10 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { dayjs } from '@energinet/watt/date';
-import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { DhDropdownTranslatorDirective, dhEnumToWattDropdownOptions, } from '@energinet-datahub/dh/shared/ui-util';
 
-import { MoveInBusinessReason, StartMoveInFormType } from '../types';
+import { StartMoveInFormType } from '../types';
+import { BusinessReasonV1 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-start-move-in-form',
@@ -177,6 +175,8 @@ export class DhStartMoveInFormComponent {
   sevenDaysAgo = dayjs().subtract(7, 'day').toDate();
   sixtyDaysFromNow = dayjs().add(60, 'day').toDate();
 
-  businessReasonDropdownOptions: WattDropdownOptions =
-    dhEnumToWattDropdownOptions(MoveInBusinessReason);
+  businessReasonDropdownOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
+    BusinessReasonV1,
+    ['CHANGE_OF_ENERGY_SUPPLIER']
+  );
 }
