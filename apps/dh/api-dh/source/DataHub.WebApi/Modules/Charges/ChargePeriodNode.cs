@@ -30,7 +30,7 @@ public static partial class ChargePeriodNode
         descriptor.Field(f => f.Description);
         descriptor.Field(f => new Interval(f.StartDate, f.EndDate)).Name("period");
         descriptor.Field(f => f.TransparentInvoicing);
-        descriptor.Field(f => f.VatClassification);
+        descriptor.Field(f => f.VatClassificationDto).Name("vatClassification");
         descriptor.Field(f => f.Name);
     }
 }

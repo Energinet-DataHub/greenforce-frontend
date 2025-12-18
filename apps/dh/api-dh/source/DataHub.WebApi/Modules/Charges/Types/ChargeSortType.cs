@@ -25,7 +25,7 @@ public sealed class ChargeSortType : SortInputType<Charge>
     {
         descriptor.Name("ChargeSortInput");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => ChargeType.Make(f.ChargeIdentifierDto.Type, f.TaxIndicator).Name).Name("type");
+        descriptor.Field(f => ChargeType.Make(f.ChargeIdentifierDto.TypeDto, f.TaxIndicator).Name).Name("type");
         descriptor.Field(f => f.ChargeIdentifierDto.Code).Name("code");
         descriptor.Field(f => f.Name()).Name("name");
     }

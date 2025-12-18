@@ -16,8 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.Charges.Abstractions.Api.Models;
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Tests.Extensions;
@@ -27,7 +25,8 @@ using HotChocolate.Execution;
 using Moq;
 using NodaTime;
 using Xunit;
-using ChargeType = Energinet.DataHub.Charges.Abstractions.Shared.ChargeType;
+using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
+using ExternalChargeType = Energinet.DataHub.Charges.Abstractions.Shared.ChargeTypeDto;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.Charges;
@@ -57,7 +56,7 @@ public class ChargeStatusTests
     public static IEnumerable<object[]> GetTestCases()
     {
         yield return new object[] { "CancelledSameDate", _sameDate, _sameDate, false };
-        yield return new object[] { "Closed", DateTimeOffset.Now.AddDays(-4), DateTimeOffset.Now.AddDays(-4), true };
+        yield return new object[] { "Closed", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(-4), true };
         yield return new object[] { "Current", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(10), true };
         yield return new object[] { "MissingPricesSeriesWithEnd", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(2), false };
     }
@@ -80,14 +79,15 @@ public class ChargeStatusTests
 #pragma warning disable SA1118 // Parameter should not span multiple lines
         server.ChargesClientMock
             .Setup(x => x.GetChargesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<ChargeSortInput>(), It.IsAny<GetChargesQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((
+            .ReturnsAsync(
                 new List<Charge>
                 {
                     new(
                         ChargeIdentifierDto: new ChargeIdentifierDto(
                             Code: "SUB-123",
-                            Type: ChargeType.Subscription,
+                            TypeDto: ExternalChargeType.Subscription,
                             Owner: "Energy Provider A"),
+                        Type: ChargeType.Make(ExternalChargeType.Subscription, false),
                         Resolution: Resolution.Daily,
                         TaxIndicator: false,
                         HasAnyPrices: hasAnyPrices,
@@ -96,13 +96,14 @@ public class ChargeStatusTests
                                 StartDate: Instant.FromDateTimeOffset(validFrom),
                                 EndDate: validTo == DateTimeOffset.MaxValue ? null : Instant.FromDateTimeOffset(validTo),
                                 TransparentInvoicing: false,
-                                VatClassification: VatClassification.NoVat,
+                                VatClassificationDto: VatClassificationDto.NoVat,
                                 Name: "Standard Period")]),
                     new(
                         ChargeIdentifierDto: new ChargeIdentifierDto(
                             Code: "FEE-456",
-                            Type: ChargeType.Fee,
+                            TypeDto: ExternalChargeType.Fee,
                             Owner: "Grid Company B"),
+                        Type: ChargeType.Make(ExternalChargeType.Fee, false),
                         Resolution: Resolution.Daily,
                         TaxIndicator: false,
                         HasAnyPrices: hasAnyPrices,
@@ -112,11 +113,10 @@ public class ChargeStatusTests
                                 StartDate: Instant.FromDateTimeOffset(validFrom),
                                 EndDate: validTo == DateTimeOffset.MaxValue ? null : Instant.FromDateTimeOffset(validTo),
                                 TransparentInvoicing: false,
-                                VatClassification: VatClassification.NoVat,
+                                VatClassificationDto: VatClassificationDto.NoVat,
                                 Name: "Standard Period")
                         ]),
-                },
-                2));
+                });
 #pragma warning restore SA1118 // Parameter should not span multiple lines
 
         server.ChargesClientMock

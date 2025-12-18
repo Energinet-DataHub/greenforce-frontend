@@ -29,6 +29,7 @@ import {
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
 
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { ChargeLinksSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 @Component({
@@ -42,6 +43,7 @@ import { ChargeLinksSubPaths, getPath } from '@energinet-datahub/dh/core/routing
     VaterUtilityDirective,
     WATT_SEGMENTED_BUTTONS,
   ],
+  providers: [DhNavigationService],
   template: `
     <vater-flex
       inset="ml"
@@ -61,6 +63,7 @@ import { ChargeLinksSubPaths, getPath } from '@energinet-datahub/dh/core/routing
         <router-outlet />
       </vater-flex>
     </vater-flex>
+    <router-outlet name="create" />
   `,
 })
 export default class DhMeteringPointChargeLinkPage {

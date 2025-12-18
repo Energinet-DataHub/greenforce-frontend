@@ -18,22 +18,22 @@
 //#endregion
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
+  input,
   model,
   inject,
   effect,
   computed,
   Component,
   ViewEncapsulation,
-  input,
 } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { WATT_MODAL } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
-import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
@@ -48,6 +48,7 @@ import {
   GetChargeByTypeDocument,
   CreateChargeLinkDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 @Component({
   selector: 'dh-metering-point-create-charge-link',
@@ -74,40 +75,48 @@ import {
     }
   `,
   template: `
-    <watt-modal #create size="small" *transloco="let t; prefix: 'meteringPoint.chargeLinks.create'">
+    <watt-modal
+      #create
+      size="small"
+      autoOpen
+      *transloco="let t; prefix: 'meteringPoint.chargeLinks.create'"
+      (closed)="createLink($event)"
+    >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
       <dh-charges-type-selection [(value)]="selectedType">
-        <form
-          vater-stack
-          align="start"
-          scrollable
-          direction="column"
-          gap="s"
-          tabindex="-1"
-          [formGroup]="form"
-        >
-          <watt-dropdown
-            [formControl]="form.controls.chargeId"
-            [options]="chargeOptions()"
-            [label]="t('chargeTypes.' + selectedType())"
-          />
-
-          @if (selectedType() !== 'TARIFF') {
-            <watt-text-field
-              [formControl]="form.controls.factor"
-              [label]="t('factor')"
-              type="number"
+        @if (selectedType()) {
+          <form
+            vater-stack
+            align="start"
+            scrollable
+            direction="column"
+            gap="s"
+            tabindex="-1"
+            [formGroup]="form()"
+          >
+            <watt-dropdown
+              [formControl]="form().controls.chargeId"
+              [options]="chargeOptions()"
+              [label]="t('chargeTypes.' + selectedType())"
             />
-          }
 
-          <watt-datepicker [formControl]="form.controls.startDate" [label]="t('startDate')" />
-        </form>
+            @if (selectedType() !== 'TARIFF') {
+              <watt-text-field
+                [formControl]="form().controls.factor"
+                [label]="t('factor')"
+                type="number"
+              />
+            }
+
+            <watt-datepicker [formControl]="form().controls.startDate" [label]="t('startDate')" />
+          </form>
+        }
       </dh-charges-type-selection>
       <watt-modal-actions>
-        @if (selectedType() === null) {
+        @if (!selectedType()) {
           <watt-button variant="secondary" (click)="create.close(false)">
             {{ t('close') }}
           </watt-button>
@@ -115,7 +124,7 @@ import {
           <watt-button variant="secondary" (click)="selectedType.set(null)">
             {{ t('back') }}
           </watt-button>
-          <watt-button variant="primary" (click)="createLink(); create.close(true)">
+          <watt-button variant="primary" (click)="create.close(true)">
             {{ t('actions.' + selectedType()) }}
           </watt-button>
         }
@@ -123,17 +132,23 @@ import {
     </watt-modal>
   `,
 })
-export class DhMeteringPointCreateChargeLink extends WattTypedModal {
+export default class DhMeteringPointCreateChargeLink {
+  private readonly navigate = inject(DhNavigationService);
   private readonly toast = injectToast('meteringPoint.chargeLinks.create.toast');
   private readonly createChargeLink = mutation(CreateChargeLinkDocument);
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly chargesQuery = lazyQuery(GetChargeByTypeDocument);
 
-  form = this.fb.group({
-    chargeId: this.fb.control<string>('', Validators.required),
-    factor: this.fb.control<number | null>(null, Validators.min(1)),
-    startDate: this.fb.control<Date | null>(null, Validators.required),
-  });
+  form = computed(() =>
+    this.fb.group({
+      chargeId: this.fb.control<string>('', Validators.required),
+      factor: this.fb.control<number | null>(
+        null,
+        this.selectedType() !== 'TARIFF' ? Validators.min(1) : null
+      ),
+      startDate: this.fb.control<Date | null>(null, Validators.required),
+    })
+  );
 
   meteringPointId = input.required<string>();
 
@@ -143,25 +158,28 @@ export class DhMeteringPointCreateChargeLink extends WattTypedModal {
     () => this.chargesQuery.data()?.chargesByType ?? []
   );
 
-  async createLink() {
-    if (this.form.invalid) return;
+  async createLink(saved: boolean) {
+    if (!saved) return this.navigate.navigate('list');
 
-    assertIsDefined(this.form.value.startDate);
-    assertIsDefined(this.form.value.factor);
-    assertIsDefined(this.form.value.chargeId);
+    const form = this.form();
+    if (form.invalid) return;
+
+    assertIsDefined(form.value.startDate);
+    assertIsDefined(form.value.chargeId);
 
     await this.createChargeLink.mutate({
       variables: {
-        chargeId: this.form.value.chargeId,
+        chargeId: form.value.chargeId,
         meteringPointId: this.meteringPointId(),
-        newStartDate: this.form.value.startDate,
-        factor: this.form.value.factor,
+        newStartDate: form.value.startDate,
+        factor: form.value.factor ?? 1,
       },
     });
+
+    this.navigate.navigate('list');
   }
 
   constructor() {
-    super();
     effect(() => {
       const type = this.selectedType();
 
@@ -169,6 +187,7 @@ export class DhMeteringPointCreateChargeLink extends WattTypedModal {
         this.chargesQuery.refetch({ type });
       }
     });
+
     effect(() => this.toast(this.createChargeLink.status()));
   }
 }
