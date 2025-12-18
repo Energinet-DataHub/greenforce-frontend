@@ -118,8 +118,3 @@ export type EnergySupplier = {
 };
 
 export type Contact = ActiveEnergySupplyPeriod['customers'][0];
-
-export enum MoveInBusinessReason {
-  CustomerMoveIn = 'CUSTOMER_MOVE_IN',
-  SecondaryMoveIn = 'SECONDARY_MOVE_IN',
-}
