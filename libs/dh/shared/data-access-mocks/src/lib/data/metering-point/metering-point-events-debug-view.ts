@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { GetMeteringPointResultDtoV1 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointDebugResultDtoV1 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const eventsDebugView: GetMeteringPointResultDtoV1 = {
-  __typename: 'GetMeteringPointResultDtoV1',
+export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
+  __typename: 'GetMeteringPointDebugResultDtoV1',
   meteringPoint: {
-    __typename: 'MeteringPointDtoV1',
+    __typename: 'MeteringPointDebugDtoV1',
     meteringPointId: '111111111111111111',
     meteringPointPeriods: [
       {
@@ -44,8 +44,8 @@ export const eventsDebugView: GetMeteringPointResultDtoV1 = {
         __typename: 'ElectricityMarketV2CommercialRelationDto',
         customerId: '111',
         energySupplierId: '2222222222222222',
-        startDate: new Date('2023-01-01T00:00:00Z'),
-        endDate: new Date('2023-12-31T23:59:59Z'),
+        validFrom: new Date('2023-01-01T00:00:00Z'),
+        validTo: new Date('2023-12-31T23:59:59Z'),
         energySupplierPeriods: [
           {
             __typename: 'EnergySupplierPeriodDto',
