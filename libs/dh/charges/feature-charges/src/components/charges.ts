@@ -27,8 +27,8 @@ import {
 } from '@energinet/watt/vater';
 
 import {
-  WattTableComponent,
   WattTableColumnDef,
+  WattTableComponent,
   WattTableCellDirective,
 } from '@energinet/watt/table';
 
@@ -36,12 +36,13 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { Charge } from '../types';
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 import { DhChargesFilters } from './charges-filters';
 
 @Component({
@@ -61,8 +62,9 @@ import { DhChargesFilters } from './charges-filters';
     WattIconComponent,
     WattTableCellDirective,
     WattTableComponent,
-    DhChargesFilters,
     DhChargesStatus,
+    DhChargesFilters,
+    DhPermissionRequiredDirective,
   ],
   providers: [DhNavigationService],
   template: `
@@ -78,7 +80,11 @@ import { DhChargesFilters } from './charges-filters';
         <vater-stack wrap direction="row" gap="m">
           <dh-charges-filters [filter]="filter" (filterChange)="fetch($event)" />
           <vater-spacer />
-          <watt-button variant="secondary" routerLink="create">
+          <watt-button
+            *dhPermissionRequired="['charges:manage']"
+            variant="secondary"
+            routerLink="create"
+          >
             <watt-icon name="plus" />
             {{ t('createButton') }}
           </watt-button>

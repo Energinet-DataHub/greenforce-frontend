@@ -27,6 +27,7 @@ export const permissions = [
   'calculations:manage',
   'calculations:view',
   'charges:view',
+  'charges:manage',
   'cpr:view',
   'delegation:manage',
   'delegation:view',

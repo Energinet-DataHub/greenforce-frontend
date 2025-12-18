@@ -79,7 +79,7 @@ public class ChargesClient(
             new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(id.Code, [id.Owner], [id.TypeDto]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        return result.IsSuccess || result.Data == null
+        return !result.IsSuccess || result.Data == null
             ? null
             : await MapChargeInformationDtoToChargeAsync(result.Data.First(), ct);
     }
