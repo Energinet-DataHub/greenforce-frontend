@@ -99,7 +99,7 @@
         "@swc/cli": "0.6.0",
         "@swc/core": "1.5.7",
         "@swc/helpers": "0.5.11",
-        "@testing-library/angular": "17.3.6",
+        "@testing-library/angular": "18.1.1",
         "@testing-library/cypress": "10.1.0",
         "@testing-library/jest-dom": "6.6.3",
         "@testing-library/user-event": "13.5.0",
@@ -1295,7 +1295,7 @@
 
     "@szmarczak/http-timer": ["@szmarczak/http-timer@5.0.1", "", { "dependencies": { "defer-to-connect": "^2.0.1" } }, "sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw=="],
 
-    "@testing-library/angular": ["@testing-library/angular@17.3.6", "", { "dependencies": { "tslib": "^2.3.1" }, "peerDependencies": { "@angular/common": ">= 17.0.0", "@angular/core": ">= 17.0.0", "@angular/platform-browser": ">= 17.0.0", "@angular/router": ">= 17.0.0", "@testing-library/dom": "^10.0.0" } }, "sha512-8LxEfNtjhd6iguWus8TQngMwXfw8Y4qPMXeeCqtxbIf7gbhnPA52R8ofiqCMy+p9cD/kMOY9KZAxj18P+5vNHw=="],
+    "@testing-library/angular": ["@testing-library/angular@18.1.1", "", { "dependencies": { "tslib": "^2.3.1" }, "peerDependencies": { "@angular/common": ">= 20.0.0", "@angular/core": ">= 20.0.0", "@angular/platform-browser": ">= 20.0.0", "@angular/router": ">= 20.0.0", "@testing-library/dom": "^10.0.0" } }, "sha512-LbA+W+VeOf7TC7/ZfHLiOLlLyD2cVG3mBdkJapviC2Fd4Bw/Utcaso4bh+5B0cx/fyKyuPgS+L6FnaKGdP9HBA=="],
 
     "@testing-library/cypress": ["@testing-library/cypress@10.1.0", "", { "dependencies": { "@babel/runtime": "^7.14.6", "@testing-library/dom": "^10.1.0" }, "peerDependencies": { "cypress": "^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0" } }, "sha512-tNkNtYRqPQh71xXKuMizr146zlellawUfDth7A/urYU4J66g0VGZ063YsS0gqS79Z58u1G/uo9UxN05qvKXMag=="],
 
