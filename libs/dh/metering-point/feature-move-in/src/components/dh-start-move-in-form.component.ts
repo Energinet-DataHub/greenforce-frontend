@@ -28,7 +28,10 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { dayjs } from '@energinet/watt/date';
-import { DhDropdownTranslatorDirective, dhEnumToWattDropdownOptions, } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import { StartMoveInFormType } from '../types';
 import { BusinessReasonV1 } from '@energinet-datahub/dh/shared/domain/graphql';
