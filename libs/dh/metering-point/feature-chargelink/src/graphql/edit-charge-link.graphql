@@ -1,17 +1,5 @@
-mutation EditChargeLink(
-  $chargeId: String!
-  $meteringPointId: String!
-  $newStartDate: DateTime!
-  $factor: Int!
-) {
-  editChargeLink(
-    input: {
-      chargeId: $chargeId
-      meteringPointId: $meteringPointId
-      newStartDate: $newStartDate
-      factor: $factor
-    }
-  ) {
+mutation EditChargeLink($id: String!, $newStartDate: DateTime!, $factor: Int!) {
+  editChargeLink(input: { id: $id, newStartDate: $newStartDate, factor: $factor }) {
     success: boolean
   }
 }

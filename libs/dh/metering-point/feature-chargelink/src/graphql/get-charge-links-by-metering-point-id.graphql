@@ -7,10 +7,10 @@ query GetChargeLinksByMeteringPointId(
     amount
     currentPeriod {
       period
-      id
     }
     charge {
       id
+      code
       currentPeriod {
         transparentInvoicing
       }

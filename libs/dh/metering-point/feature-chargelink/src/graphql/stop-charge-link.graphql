@@ -1,7 +1,5 @@
-mutation StopChargeLink($chargeId: String!, $meteringPointId: String!, $stopDate: DateTime!) {
-  stopChargeLink(
-    input: { chargeId: $chargeId, stopDate: $stopDate, meteringPointId: $meteringPointId }
-  ) {
+mutation StopChargeLink($id: String!, $stopDate: DateTime!) {
+  stopChargeLink(input: { id: $id, stopDate: $stopDate }) {
     success: boolean
   }
 }
