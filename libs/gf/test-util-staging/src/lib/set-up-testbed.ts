@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 //#endregion
+import { beforeEach } from 'vitest';
+
 import {
   ComponentFixtureAutoDetect,
   getTestBed,
@@ -23,9 +25,9 @@ import {
   TestModuleMetadata,
 } from '@angular/core/testing';
 import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
+  BrowserTestingModule,
+  platformBrowserTesting,
+} from '@angular/platform-browser/testing';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 
 import { gfAngularMaterialTestingProviders } from './angular-material/gf-angular-material-testing.module';
@@ -36,9 +38,30 @@ import { gfRxAngularTestingProviders } from './rx-angular/gf-rx-angular-testing.
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  */
 import 'zone.js/plugins/zone-error';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ANIMATION_MODULE_TYPE } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+
+/**
+ * Disable CSS animations and transitions in tests by injecting a global style.
+ * This is the modern replacement for provideNoopAnimations() which is deprecated in Angular 20.2.
+ */
+function disableAnimationsInTests(): void {
+  const styleId = 'gf-test-disable-animations';
+  if (typeof document !== 'undefined' && !document.getElementById(styleId)) {
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.textContent = `
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+}
 
 function patchTestbed(): void {
   const isUnpatched = testbed.configureTestingModule === realConfigureTestingModule;
@@ -47,12 +70,7 @@ function patchTestbed(): void {
     testbed.configureTestingModule = (moduleDef: TestModuleMetadata): TestBed => {
       realConfigureTestingModule.call(testbed, {
         ...moduleDef,
-        imports: [
-          MatIconTestingModule,
-          NoopAnimationsModule,
-          RouterTestingModule,
-          ...(moduleDef.imports ?? []),
-        ],
+        imports: [MatIconTestingModule, ...(moduleDef.imports ?? [])],
         providers: [
           // Use automatic change detection in tests
           { provide: ComponentFixtureAutoDetect, useValue: true },
@@ -60,6 +78,9 @@ function patchTestbed(): void {
           browserConfigurationProviders,
           gfRxAngularTestingProviders,
           gfAngularMaterialTestingProviders,
+          // Mark as NoopAnimations for Angular Material components that check this token
+          { provide: ANIMATION_MODULE_TYPE, useValue: 'NoopAnimations' },
+          provideRouter([]),
         ],
       });
       return testbed;
@@ -91,11 +112,14 @@ function patchTestbed(): void {
  */
 export function setUpTestbed(): void {
   testbed.resetTestEnvironment();
-  testbed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+  testbed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
     teardown: {
       destroyAfterEach: true,
     },
   });
+
+  // Disable CSS animations in tests
+  disableAnimationsInTests();
 
   patchTestbed();
 }
