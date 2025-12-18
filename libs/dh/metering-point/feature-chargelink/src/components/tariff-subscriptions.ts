@@ -137,7 +137,7 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
 
   columns: WattTableColumnDef<Charge> = {
     type: { accessor: (chargeLink) => chargeLink.charge?.type },
-    id: { accessor: 'id' },
+    id: { accessor: (chargeLink) => chargeLink.charge?.code },
     name: { accessor: (chargeLink) => chargeLink.charge?.name ?? '' },
     owner: { accessor: (chargeLink) => chargeLink.charge?.owner?.displayName ?? '' },
     transparentInvoicing: {
