@@ -43,6 +43,31 @@ import { provideRouter } from '@angular/router';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 /**
+ * Set up localStorage mock for test environments where it may not be available.
+ */
+function setupLocalStorageMock(): void {
+  if (typeof globalThis.localStorage === 'undefined' || !globalThis.localStorage?.getItem) {
+    const store: Record<string, string> = {};
+    globalThis.localStorage = {
+      getItem: (key: string) => store[key] ?? null,
+      setItem: (key: string, value: string) => {
+        store[key] = value;
+      },
+      removeItem: (key: string) => {
+        delete store[key];
+      },
+      clear: () => {
+        Object.keys(store).forEach((key) => delete store[key]);
+      },
+      key: (index: number) => Object.keys(store)[index] ?? null,
+      get length() {
+        return Object.keys(store).length;
+      },
+    };
+  }
+}
+
+/**
  * Disable CSS animations and transitions in tests by injecting a global style.
  * This is the modern replacement for provideNoopAnimations() which is deprecated in Angular 20.2.
  */
@@ -111,6 +136,9 @@ function patchTestbed(): void {
  *
  */
 export function setUpTestbed(): void {
+  // Set up browser API mocks before initializing testbed
+  setupLocalStorageMock();
+
   testbed.resetTestEnvironment();
   testbed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
     teardown: {
