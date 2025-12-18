@@ -24,12 +24,14 @@ using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using NodaTime;
 using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Shared.ChargeIdentifierDto;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
+using EicFunction = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
 public class ChargesClient(
     DataHub.Charges.Client.IChargesClient client,
+    Clients.MarketParticipant.v1.IMarketParticipantClient_V1 markpartClient,
     IB2CClient ediClient,
     IHttpContextAccessor httpContext) : IChargesClient
 {
@@ -93,8 +95,19 @@ public class ChargesClient(
             return [];
         }
 
+        var marketRole = user.GetMarketParticipantMarketRole();
+
+        var ownerGln = user.GetMarketParticipantNumber() ?? string.Empty;
+
+        // If the user is an Energy Supplier, we need to get the System Operator GLN to fetch charges they own
+        if (Enum.Parse<EicFunction>(marketRole) == EicFunction.EnergySupplier)
+        {
+            ownerGln = (await markpartClient.ActorGetAsync(ct))
+                .Single(x => x.MarketRole.EicFunction == EicFunction.SystemOperator)?.ActorNumber.Value ?? string.Empty;
+        }
+
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [user.GetMarketParticipantNumber()], [type.Type]), ChargeInformationSortProperty.Type, false),
+            new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [ownerGln], [type.Type]), ChargeInformationSortProperty.Type, false),
             ct);
 
         if (!result.IsSuccess || result.Data == null)
