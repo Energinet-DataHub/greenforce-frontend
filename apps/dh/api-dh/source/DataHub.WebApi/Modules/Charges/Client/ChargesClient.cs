@@ -31,7 +31,7 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
 public class ChargesClient(
     DataHub.Charges.Client.IChargesClient client,
-    Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.MarketParticipantClient_V1 marketParticipantClient,
+    Clients.MarketParticipant.v1.IMarketParticipantClient_V1 markpartClient,
     IB2CClient ediClient,
     IHttpContextAccessor httpContext) : IChargesClient
 {
@@ -102,7 +102,7 @@ public class ChargesClient(
         // If the user is an Energy Supplier, we need to get the System Operator GLN to fetch charges they own
         if (Enum.Parse<EicFunction>(marketRole) == EicFunction.EnergySupplier)
         {
-            ownerGln = (await marketParticipantClient.ActorGetAsync(ct))
+            ownerGln = (await markpartClient.ActorGetAsync(ct))
                 .Single(x => x.MarketRole.EicFunction == EicFunction.SystemOperator)?.ActorNumber.Value ?? string.Empty;
         }
 
