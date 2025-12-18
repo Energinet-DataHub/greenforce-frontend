@@ -24,10 +24,7 @@ import {
   TestBed,
   TestModuleMetadata,
 } from '@angular/core/testing';
-import {
-  BrowserTestingModule,
-  platformBrowserTesting,
-} from '@angular/platform-browser/testing';
+import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 
 import { gfAngularMaterialTestingProviders } from './angular-material/gf-angular-material-testing.module';
