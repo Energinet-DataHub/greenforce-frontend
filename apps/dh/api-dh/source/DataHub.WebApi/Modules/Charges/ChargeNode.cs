@@ -115,15 +115,13 @@ public static partial class ChargeNode
 
     public static async Task<ActorDto?> GetOwnerAsync(
         [Parent] Charge charge,
-        IMarketParticipantByIdDataLoader dataLoader,
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader,
         CancellationToken ct)
     {
-        if (Guid.TryParse(charge.ChargeIdentifierDto.Owner, out var guid))
-        {
-            return await dataLoader.LoadAsync(guid, ct);
-        }
+        var owner = await dataLoader.LoadAsync((charge.ChargeIdentifierDto.Owner, EicFunction.SystemOperator), ct);
+        owner ??= await dataLoader.LoadAsync((charge.ChargeIdentifierDto.Owner, EicFunction.GridAccessProvider), ct);
 
-        return null;
+        return owner;
     }
 
     public static ChargeInformationPeriodDto? CurrentPeriod([Parent] Charge charge) =>

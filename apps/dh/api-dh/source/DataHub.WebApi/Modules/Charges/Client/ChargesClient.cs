@@ -76,10 +76,10 @@ public class ChargesClient(
         CancellationToken ct = default)
     {
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(id.Code, [id.Owner], [id.TypeDto]), ChargeInformationSortProperty.Type, false),
+            new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(string.Empty, [id.Owner], [id.TypeDto]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        return result.IsSuccess || result.Data == null
+        return !result.IsSuccess || result.Data == null
             ? null
             : await MapChargeInformationDtoToChargeAsync(result.Data.First(), ct);
     }
