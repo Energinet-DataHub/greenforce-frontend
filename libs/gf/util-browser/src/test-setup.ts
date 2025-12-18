@@ -20,6 +20,9 @@ import '@angular/compiler';
 import '@analogjs/vitest-angular/setup-zone';
 import '@testing-library/jest-dom/vitest';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+import { getTestBed } from '@angular/core/testing';
+import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 
-setUpTestbed();
+// Note: This library cannot use setUpTestbed from gf-test-util-staging
+// because gf-test-util-staging depends on gf-util-browser, which would create a circular dependency.
+getTestBed().initTestEnvironment(BrowserTestingModule, platformBrowserTesting());
