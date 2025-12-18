@@ -1015,6 +1015,8 @@
           "customerInformation": "Customer information",
           "private": "Private",
           "business": "Business",
+          "name": "Customer name",
+          "cpr": "CPR",
           "name1": "Customer name 1",
           "cpr1": "CPR 1",
           "name2": "Customer name 2",
@@ -1067,12 +1069,13 @@
           "darReference": "Dar reference",
           "nameAddressProtection": "Name and address protection"
         },
-        "moveInType": {
-          "E65": "Ordinary (E65)",
-          "D29": "Secondary (D29)"
+        "businessReason": {
+          "CUSTOMER_MOVE_IN": "Ordinary (E65)",
+          "SECONDARY_MOVE_IN": "Secondary (D29)"
         }
       },
       "moveInSuccess": "Move-in is now registered",
+      "moveInFail": "Move-in failed",
       "customerDataSuccess": "Customer data update is now registered",
       "save": "Customer move-in",
       "cancel": "Cancel"

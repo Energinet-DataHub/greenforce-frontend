@@ -731,6 +731,10 @@ type InitiateMitIdSignupPayload {
   errors: [InitiateMitIdSignupError!]
 }
 
+type InitiateMoveInPayload {
+  boolean: Boolean
+}
+
 type InstallationAddressDto {
   id: Long!
   streetCode: String
@@ -1087,7 +1091,7 @@ type Mutation {
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
-  startMoveIn(input: StartMoveInInput!): StartMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
+  initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
@@ -1514,10 +1518,6 @@ type SimulateMeteringPointManualCorrectionPayload {
   string: String
 }
 
-type StartMoveInPayload {
-  boolean: Boolean
-}
-
 type StopChargeLinkPayload {
   boolean: Boolean
 }
@@ -1919,6 +1919,11 @@ input CreateUserRoleInput {
   userRole: CreateUserRoleDtoInput!
 }
 
+input CustomerIdentificationInput {
+  id: String
+  type: String
+}
+
 input DeactivateUserInput {
   userId: UUID!
 }
@@ -1996,6 +2001,14 @@ input GridAreaSortInput {
   status: SortEnumType
 }
 
+input InitiateMoveInInput {
+  meteringPointId: String!
+  businessReason: BusinessReasonV1!
+  startDate: DateTime!
+  customerIdentification: CustomerIdentificationInput!
+  customerName: String!
+}
+
 input InvitationUserDetailsDtoInput {
   firstName: String!
   lastName: String!
@@ -2035,30 +2048,6 @@ input MeteringGridAreaImbalanceSortInput {
   gridAreaCode: SortDirection
   documentId: SortDirection
   receivedDateTime: SortDirection
-}
-
-input MoveInContactDetailsInput {
-  name: String!
-  attention: String!
-  phone: String!
-  mobile: String!
-  email: String!
-}
-
-input MoveInInstallationAddressInput {
-  streetName: String!
-  streetCode: String!
-  buildingNumber: String!
-  floor: String!
-  room: String!
-  postCode: String!
-  postBox: String!
-  cityName: String!
-  citySubDivisionName: String!
-  municipalityCode: String!
-  countryCode: String!
-  darReference: String!
-  washInstructions: WashInstructions!
 }
 
 input OrganizationSortInput {
@@ -2210,23 +2199,6 @@ input SendMeasurementsRequestV2Input {
 input SimulateMeteringPointManualCorrectionInput {
   meteringPointId: String!
   json: String!
-}
-
-input StartMoveInInput {
-  cutOffDate: String!
-  moveInType: MoveInType!
-  customerType: String!
-  privateCustomerName1: String!
-  privateCustomerCpr1: String!
-  privateCustomerName2: String!
-  privateCustomerCpr2: String!
-  businessCustomerCompanyName: String!
-  businessCustomerCvr: String!
-  customerIsProtectedAddress: Boolean!
-  legalContactDetails: MoveInContactDetailsInput!
-  legalAddress: MoveInInstallationAddressInput!
-  technicalContactDetails: MoveInContactDetailsInput!
-  technicalAddress: MoveInInstallationAddressInput!
 }
 
 input StopChargeInput {
@@ -2448,6 +2420,12 @@ enum BusinessReason {
   D04
   D05
   D32
+}
+
+enum BusinessReasonV1 {
+  CUSTOMER_MOVE_IN
+  SECONDARY_MOVE_IN
+  CHANGE_OF_ENERGY_SUPPLIER
 }
 
 enum CalculationExecutionType {
@@ -2870,11 +2848,6 @@ enum MeteringPointType {
   TOTAL_CONSUMPTION
   NON_PROFILED_CONSUMPTION
   EXCHANGE
-}
-
-enum MoveInType {
-  E65
-  D29
 }
 
 enum NotificationType {

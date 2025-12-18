@@ -1016,6 +1016,8 @@
           "customerInformation": "Kundeoplysninger",
           "private": "Privat",
           "business": "Erhverv",
+          "name": "Kundenavn",
+          "cpr": "CPR",
           "name1": "Kundenavn 1",
           "cpr1": "CPR 1",
           "name2": "Kundenavn 2",
@@ -1069,12 +1071,13 @@
           "darReference": "DAR-reference",
           "nameAddressProtection": "Navne- og adressebeskyttelse"
         },
-        "moveInType": {
-          "E65": "Almindelig (E65)",
-          "D29": "Sekundær (D29)"
+        "businessReason": {
+          "CUSTOMER_MOVE_IN": "Almindelig (E65)",
+          "SECONDARY_MOVE_IN": "Sekundær (D29)"
         }
       },
-      "moveInSuccess": "Tilflytning er nu registreret",
+      "moveInSuccess": "Tilflytningen er nu registreret",
+      "moveInFail": "Tilflytningen fejlede",
       "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
       "save": "Tilflyt kunde",
       "cancel": "Annuller"

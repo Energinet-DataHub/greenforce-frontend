@@ -209,7 +209,7 @@ export class DhMeteringPointActionsComponent {
   startMoveIn() {
     this.modalService.open({
       component: DhStartMoveInComponent,
-      data: { installationAddress: this.installationAddress() },
+      data: { meteringPointId: this.meteringPointId() },
       disableClose: true,
     });
   }

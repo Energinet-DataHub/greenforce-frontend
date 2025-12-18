@@ -43,4 +43,7 @@ public sealed record SubSystemBaseUrls
 
     [Required]
     public string ElectricityMarketBaseUrl { get; set; } = string.Empty;
+
+    [Required]
+    public string ChangeOfSupplierBaseUrl { get; set; } = string.Empty;
 }

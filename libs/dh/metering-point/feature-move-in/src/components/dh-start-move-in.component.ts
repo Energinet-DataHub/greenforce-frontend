@@ -23,17 +23,17 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  MoveInType,
-  StartMoveInDocument,
-  WashInstructions,
-} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattToastService } from '@energinet/watt/toast';
 
-import { InstallationAddress, StartMoveInFormType } from '../types';
+import { StartMoveInFormType } from '../types';
 import { DhStartMoveInFormComponent } from './dh-start-move-in-form.component';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  BusinessReasonV1,
+  InitiateMoveInDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { dayjs } from '@energinet/watt/date';
 
 @Component({
   selector: 'dh-start-move-in-modal',
@@ -52,12 +52,10 @@ import { WattButtonComponent } from '@energinet/watt/button';
     </watt-modal>
   `,
 })
-export class DhStartMoveInComponent extends WattTypedModal<{
-  installationAddress: InstallationAddress;
-}> {
+export class DhStartMoveInComponent extends WattTypedModal<{ meteringPointId: string }> {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly transloco = inject(TranslocoService);
-  private readonly startMoveInMutation = mutation(StartMoveInDocument);
+  private readonly initiateMoveIn = mutation(InitiateMoveInDocument);
   private readonly toastService = inject(WattToastService);
 
   readonly modal = viewChild.required(WattModalComponent);
@@ -65,13 +63,13 @@ export class DhStartMoveInComponent extends WattTypedModal<{
   private readonly customerTypeInitialValue = 'private';
 
   private privateCustomerForm = this.fb.group({
-    name1: this.fb.control<string>('', Validators.required),
-    cpr1: this.fb.control<string>('', [Validators.required, dhCprValidator()]),
+    name: this.fb.control<string>('', Validators.required),
+    cpr: this.fb.control<string>('', [Validators.required, dhCprValidator()]),
   });
 
   startMoveInForm = this.fb.group<StartMoveInFormType>({
     cutOffDate: this.fb.control(new Date(), Validators.required),
-    moveInType: this.fb.control<MoveInType | null>(null, Validators.required),
+    businessReason: this.fb.control<BusinessReasonV1>('CUSTOMER_MOVE_IN', Validators.required),
     customerType: this.fb.control(this.customerTypeInitialValue),
   });
 
@@ -122,73 +120,33 @@ export class DhStartMoveInComponent extends WattTypedModal<{
       return;
     }
 
-    const { moveInType } = this.startMoveInForm.getRawValue();
+    const isCustomerPrivate = this.startMoveInForm.controls.customerType.value === 'private';
+    const customerId = isCustomerPrivate
+      ? this.startMoveInForm.controls.privateCustomer?.controls.cpr.value
+      : this.startMoveInForm.controls.businessCustomer?.controls.cvr.value;
+    const customerName = isCustomerPrivate
+      ? this.startMoveInForm.controls.privateCustomer?.controls.name.value
+      : this.startMoveInForm.controls.businessCustomer?.controls.companyName.value;
 
-    if (!moveInType) return;
-
-    const result = await this.startMoveInMutation.mutate({
+    const result = await this.initiateMoveIn.mutate({
       variables: {
         input: {
-          cutOffDate: '',
-          moveInType,
-          customerType: '',
-          privateCustomerName1: '',
-          privateCustomerCpr1: '',
-          privateCustomerName2: '',
-          privateCustomerCpr2: '',
-          businessCustomerCompanyName: '',
-          businessCustomerCvr: '',
-          customerIsProtectedAddress: false,
-          legalContactDetails: {
-            name: '',
-            attention: '',
-            phone: '',
-            mobile: '',
-            email: '',
+          businessReason: this.startMoveInForm.controls.businessReason.value,
+          startDate: dayjs().toDate(),
+          customerIdentification: {
+            type: isCustomerPrivate ? 'CPR' : 'CVR',
+            id: customerId,
           },
-          legalAddress: {
-            streetName: '',
-            buildingNumber: '',
-            floor: '',
-            room: '',
-            postCode: '',
-            cityName: '',
-            countryCode: '',
-            streetCode: '',
-            postBox: '',
-            municipalityCode: '',
-            darReference: '',
-            citySubDivisionName: '',
-            washInstructions: WashInstructions.Washable,
-          },
-          technicalContactDetails: {
-            name: '',
-            attention: '',
-            phone: '',
-            mobile: '',
-            email: '',
-          },
-          technicalAddress: {
-            streetName: '',
-            buildingNumber: '',
-            floor: '',
-            room: '',
-            postCode: '',
-            cityName: '',
-            countryCode: '',
-            streetCode: '',
-            postBox: '',
-            municipalityCode: '',
-            darReference: '',
-            citySubDivisionName: '',
-            washInstructions: WashInstructions.Washable,
-          },
+          customerName: customerName ?? '',
+          meteringPointId: this.modalData.meteringPointId,
         },
       },
     });
 
-    if (result.data?.startMoveIn.success) {
+    if (result.data?.initiateMoveIn.success) {
       this.success();
+    } else {
+      this.error();
     }
   }
 
@@ -197,5 +155,12 @@ export class DhStartMoveInComponent extends WattTypedModal<{
 
     this.toastService.open({ type: 'success', message });
     this.modal().close(true);
+  }
+
+  private error() {
+    const message = this.transloco.translate('meteringPoint.moveIn.moveInFail');
+
+    this.toastService.open({ type: 'danger', message });
+    this.modal().close(false);
   }
 }
