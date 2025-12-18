@@ -19,21 +19,21 @@
 import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { mockStartMoveInMutation } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+import { mockInitiateMoveInMutation } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 export function moveInMocks() {
-  return [startMoveInMutation()];
+  return [initiateMoveInMutation()];
 }
 
-function startMoveInMutation() {
-  return mockStartMoveInMutation(async () => {
+function initiateMoveInMutation() {
+  return mockInitiateMoveInMutation(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
-        startMoveIn: {
-          __typename: 'StartMoveInPayload',
+        initiateMoveIn: {
+          __typename: 'InitiateMoveInPayload',
           success: true,
         },
       },

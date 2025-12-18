@@ -20,10 +20,8 @@ import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { MoveInType } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
@@ -36,6 +34,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { StartMoveInFormType } from '../types';
+import { BusinessReasonV1 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-start-move-in-form',
@@ -85,11 +84,11 @@ import { StartMoveInFormType } from '../types';
       <watt-dropdown
         class="moveInType"
         dhDropdownTranslator
-        translateKey="meteringPoint.moveIn.steps.moveInType"
+        translateKey="meteringPoint.moveIn.steps.businessReason"
         [label]="t('moveInType')"
-        [options]="moveInTypeDropdownOptions"
+        [options]="businessReasonDropdownOptions"
         [showResetOption]="false"
-        [formControl]="form.controls.moveInType"
+        [formControl]="form.controls.businessReason"
       />
 
       <vater-stack align="start" gap="s" class="watt-space-stack-l">
@@ -117,26 +116,26 @@ import { StartMoveInFormType } from '../types';
         @if (privateCustomer !== undefined) {
           <watt-text-field
             class="name"
-            [label]="t('name1')"
-            [formControl]="privateCustomer.controls.name1"
+            [label]="t('name')"
+            [formControl]="privateCustomer.controls.name"
           />
 
           <watt-text-field
             class="cpr"
-            [label]="t('cpr1')"
-            [formControl]="privateCustomer.controls.cpr1"
+            [label]="t('cpr')"
+            [formControl]="privateCustomer.controls.cpr"
             maxLength="10"
           >
             <watt-field-error>
-              @if (privateCustomer.controls.cpr1.hasError('containsLetters')) {
+              @if (privateCustomer.controls.cpr.hasError('containsLetters')) {
                 {{ t('cprError.containsLetters') }}
-              } @else if (privateCustomer.controls.cpr1.hasError('containsDash')) {
+              } @else if (privateCustomer.controls.cpr.hasError('containsDash')) {
                 {{ t('cprError.containsDash') }}
-              } @else if (privateCustomer.controls.cpr1.hasError('invalidCprLength')) {
+              } @else if (privateCustomer.controls.cpr.hasError('invalidCprLength')) {
                 {{ t('cprError.invalidCprLength') }}
-              } @else if (privateCustomer.controls.cpr1.hasError('invalidDate')) {
+              } @else if (privateCustomer.controls.cpr.hasError('invalidDate')) {
                 {{ t('cprError.invalidDate') }}
-              } @else if (privateCustomer.controls.cpr1.hasError('allOnes')) {
+              } @else if (privateCustomer.controls.cpr.hasError('allOnes')) {
                 {{ t('cprError.allOnes') }}
               }
             </watt-field-error>
@@ -179,5 +178,8 @@ export class DhStartMoveInFormComponent {
   sevenDaysAgo = dayjs().subtract(7, 'day').toDate();
   sixtyDaysFromNow = dayjs().add(60, 'day').toDate();
 
-  moveInTypeDropdownOptions = dhEnumToWattDropdownOptions(MoveInType);
+  businessReasonDropdownOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
+    BusinessReasonV1,
+    ['CHANGE_OF_ENERGY_SUPPLIER']
+  );
 }

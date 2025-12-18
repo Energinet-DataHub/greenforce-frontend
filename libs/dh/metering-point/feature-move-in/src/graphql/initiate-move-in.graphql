@@ -1,0 +1,5 @@
+mutation InitiateMoveIn($input: InitiateMoveInInput!) {
+  initiateMoveIn(input: $input) {
+    success: boolean
+  }
+}

@@ -20,7 +20,7 @@ import { DestroyRef, Signal, computed, inject, signal } from '@angular/core';
 import { ApolloError, OperationVariables } from '@apollo/client/core';
 import { Apollo } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
-import { catchError, filter, firstValueFrom, map, of, take, tap } from 'rxjs';
+import { catchError, delay, filter, firstValueFrom, map, of, take, tap } from 'rxjs';
 import { MutationOptions as ApolloMutationOptions } from 'apollo-angular/types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { mapGraphQLErrorsToApolloError } from './util/error';
@@ -103,6 +103,7 @@ export function mutation<TResult, TVariables extends OperationVariables>(
               onCompleted?.(result.data, mergedOptions);
             }
           }),
+          delay(0), // Ensure status updates before promise resolves
           take(1), // Complete the observable when result is available
           takeUntilDestroyed(destroyRef) // Or when the component is destroyed
         )
