@@ -17,6 +17,7 @@
  */
 //#endregion
 /// <reference types='vitest' />
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
 
@@ -40,11 +41,8 @@ export default defineConfig(() => ({
       provider: 'v8' as const,
     },
     pool: 'forks',
-    poolOptions: {
-      forks: {
-        singleFork: true,
-      },
-    },
+    isolate: false,
+    maxWorkers: 1,
     server: {
       deps: {
         inline: [/fesm2022/],
