@@ -93,7 +93,6 @@ public static partial class ChargeLinkOperations
         [Parent] ChargeLinkDto chargeLink) =>
             chargeLink.ChargeLinkPeriods
                 .OrderByDescending(x => x.From)
-                .Skip(1)
                 .Select(period => new ChargeLinkHistory(
                     period.From.ToDateTimeOffset(),
                     string.Empty,
