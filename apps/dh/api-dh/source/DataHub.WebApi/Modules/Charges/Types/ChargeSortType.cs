@@ -12,10 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using HotChocolate.Data.Sorting;
-using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
@@ -25,8 +22,8 @@ public sealed class ChargeSortType : SortInputType<Charge>
     {
         descriptor.Name("ChargeSortInput");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => ChargeType.Make(f.ChargeIdentifierDto.TypeDto, f.TaxIndicator).Name).Name("type");
-        descriptor.Field(f => f.ChargeIdentifierDto.Code).Name("code");
-        descriptor.Field(f => f.Name()).Name("name");
+        descriptor.Field(f => f.Name);
+        descriptor.Field(f => f.Id.Code).Name("code");
+        descriptor.Field(f => f.Type.Name).Name("type");
     }
 }
