@@ -2918,6 +2918,12 @@ enum ProcessStepType {
   BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3
   "BRS-002 Request End of Supply - Step 4: Notify cancellation of end of supply (RSM-020)"
   BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4
+  "BRS-004 Creation of metering point - Step 1 - Request creation of metering point (RSM-021)"
+  BRS_004_CREATEMETERINGPOINT_V1_STEP_1
+  "BRS-004 Creation of metering point - Step 2 - Confirm creation of metering point (RSM-021)"
+  BRS_004_CREATEMETERINGPOINT_V1_STEP_2
+  "BRS-004 Creation of metering point - Step 3 - Reject creation of metering point (RSM-021)"
+  BRS_004_CREATEMETERINGPOINT_V1_STEP_3
   """
   Unknown or unmapped step type.
   Used when ProcessManager returns a step we haven't added to this enum yet.

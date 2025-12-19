@@ -43,6 +43,21 @@ public enum ProcessStepType
     BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4,
 
     /// <summary>
+    /// BRS-004 Creation of metering point - Step 1 - Request creation of metering point (RSM-021)
+    /// </summary>
+    BRS_004_CREATEMETERINGPOINT_V1_STEP_1,
+
+    /// <summary>
+    /// BRS-004 Creation of metering point - Step 2 - Confirm creation of metering point (RSM-021)
+    /// </summary>
+    BRS_004_CREATEMETERINGPOINT_V1_STEP_2,
+
+    /// <summary>
+    /// BRS-004 Creation of metering point - Step 3 - Reject creation of metering point (RSM-021)
+    /// </summary>
+    BRS_004_CREATEMETERINGPOINT_V1_STEP_3,
+
+    /// <summary>
     /// Unknown or unmapped step type.
     /// Used when ProcessManager returns a step we haven't added to this enum yet.
     /// </summary>
