@@ -798,6 +798,9 @@
         "cancel": "Annuller pristilknytning"
       },
       "create": {
+        "errors": {
+          "factorMin": "Antal skal være mindst {{ min }}"
+        },
         "toast": {
           "loading": "Pris tilknyttes..",
           "success": "Pris tilknyttet",
@@ -823,6 +826,9 @@
         "tooltip": "Processen tager få minutter.\n Afvisningsårsager findes i forretningsbeskeder."
       },
       "edit": {
+        "errors": {
+          "factorMin": "Antal skal være mindst {{ min }}"
+        },
         "toast": {
           "loading": "Ændringer gemmes..",
           "success": "Ændringer gemt",

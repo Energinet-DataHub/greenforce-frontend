@@ -16,26 +16,28 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-
+import { Component, computed, effect, input, signal, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL } from '@energinet/watt/modal';
 import { WattDropZone } from '@energinet/watt/dropzone';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
-
-import { injectToast, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-
-import {
-  AddChargeSeriesDocument,
-  GetChargeByIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+
+import {
+  injectToast,
+  dhMakeFormControl,
+  injectRelativeNavigate,
+} from '@energinet-datahub/dh/shared/ui-util';
+
+import {
+  GetChargeByIdDocument,
+  AddChargeSeriesDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   parseChargeSeries,
@@ -60,7 +62,7 @@ import {
       autoOpen
       size="small"
       [title]="t('title')"
-      (closed)="save($event)"
+      (closed)="navigate('..')"
     >
       <watt-dropzone
         accept="text/csv"
@@ -90,7 +92,7 @@ import {
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" [disabled]="!file.valid" (click)="modal.close(true)">
+        <watt-button variant="primary" [disabled]="!file.valid" (click)="save()">
           {{ t('submit') }}
         </watt-button>
       </watt-modal-actions>
@@ -98,7 +100,9 @@ import {
   `,
 })
 export default class DhChargesUploadSeries {
-  private readonly navigate = inject(DhNavigationService);
+  private readonly modal = viewChild.required(WattModalComponent);
+
+  navigate = injectRelativeNavigate();
   id = input.required<string>();
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   addChargeSeries = mutation(AddChargeSeriesDocument);
@@ -120,8 +124,7 @@ export default class DhChargesUploadSeries {
   chargeSeries = signal<ChargeSeriesResult | null>(null, { equal: () => false });
   progress = computed(() => this.chargeSeries()?.progress ?? 0);
 
-  async save(saved: boolean) {
-    if (!saved) return this.navigate.navigate('details', this.id());
+  async save() {
     if (!this.file.valid) return;
 
     const start = this.chargeSeries()?.first;
@@ -142,6 +145,6 @@ export default class DhChargesUploadSeries {
       },
     });
 
-    this.navigate.navigate('details', this.id());
+    this.modal().close(true);
   }
 }

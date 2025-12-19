@@ -16,17 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, computed, effect, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WATT_MODAL } from '@energinet/watt/modal';
 import { WATT_RADIO } from '@energinet/watt/radio';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
@@ -68,7 +68,7 @@ import {
       *transloco="let t; prefix: 'charges.actions.edit'"
       autoOpen
       size="small"
-      (closed)="save($event)"
+      (closed)="navigate('..')"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
@@ -80,6 +80,8 @@ import {
         direction="column"
         gap="s"
         align="start"
+        id="edit"
+        (ngSubmit)="save()"
         [formGroup]="form()"
       >
         <vater-stack fill="horizontal" direction="row" gap="m">
@@ -138,7 +140,7 @@ import {
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" (click)="form().valid && modal.close(true)">
+        <watt-button variant="primary" type="submit" formId="edit">
           {{ t('submit') }}
         </watt-button>
       </watt-modal-actions>
@@ -146,7 +148,8 @@ import {
   `,
 })
 export default class DhChargesEdit {
-  private readonly navigate = injectRelativeNavigate();
+  private readonly modal = viewChild.required(WattModalComponent);
+  navigate = injectRelativeNavigate();
   id = input.required<string>();
   updateCharge = mutation(UpdateChargeDocument);
   toast = injectToast('charges.actions.edit.toast');
@@ -178,8 +181,8 @@ export default class DhChargesEdit {
       })
   );
 
-  async save(saved: boolean) {
-    if (!saved) return this.navigate('..');
+  async save() {
+    if (this.form().invalid) return;
 
     const { cutoffDate, description, name, transparentInvoicing, vat } = this.form().getRawValue();
 
@@ -200,6 +203,6 @@ export default class DhChargesEdit {
       },
     });
 
-    return this.navigate('..');
+    this.modal().close(true);
   }
 }

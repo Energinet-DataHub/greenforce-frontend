@@ -798,6 +798,9 @@
         "cancel": "Cancel change link"
       },
       "create": {
+        "errors": {
+          "factorMin": "Quantity must be at least {{ min }}"
+        },
         "toast": {
           "loading": "Price is being attached..",
           "success": "Price attached",
@@ -823,6 +826,9 @@
         "tooltip": "The process takes a few minutes.\n Rejection reasons can be found in business messages."
       },
       "edit": {
+        "errors": {
+          "factorMin": "Quantity must be at least {{ min }}"
+        },
         "toast": {
           "loading": "Saving changes..",
           "success": "Changes saved",

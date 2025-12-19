@@ -16,16 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WATT_RADIO, WattRadioComponent } from '@energinet/watt/radio';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
@@ -68,7 +68,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
       *transloco="let t; prefix: 'charges.actions.create'"
       autoOpen
       size="small"
-      (closed)="save($event)"
+      (closed)="navigate.navigate('list')"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('action.' + (type() ?? 'SELECTION')) }}
@@ -81,6 +81,8 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
           direction="column"
           gap="s"
           align="start"
+          id="create"
+          (ngSubmit)="save()"
           [formGroup]="form()"
         >
           <vater-stack fill="horizontal" direction="row" gap="m">
@@ -159,7 +161,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
           {{ t('close') }}
         </watt-button>
         @if (type()) {
-          <watt-button variant="primary" (click)="form().valid && modal.close(true)">
+          <watt-button variant="primary" type="submit" formId="create">
             {{ t('action.' + type()) }}
           </watt-button>
         }
@@ -168,7 +170,8 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
   `,
 })
 export default class DhChargesCreate {
-  private readonly navigate = inject(DhNavigationService);
+  private readonly modal = viewChild.required(WattModalComponent);
+  navigate = inject(DhNavigationService);
   createCharge = mutation(CreateChargeDocument);
   toast = injectToast('charges.actions.create.toast');
   toastEffect = effect(() => this.toast(this.createCharge.status()));
@@ -199,8 +202,7 @@ export default class DhChargesCreate {
       })
   );
 
-  async save(saved: boolean) {
-    if (!saved) return this.navigate.navigate('list');
+  async save() {
     if (!this.form().valid) return;
 
     const { resolution, transparentInvoicing, type, validFrom, vat, ...input } =
@@ -225,6 +227,6 @@ export default class DhChargesCreate {
       },
     });
 
-    this.navigate.navigate('list');
+    this.modal().close(true);
   }
 }
