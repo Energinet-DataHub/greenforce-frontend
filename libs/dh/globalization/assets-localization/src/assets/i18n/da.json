@@ -382,9 +382,9 @@
       "MONTHLY": "Måned",
       "UNKNOWN": "Ukendt"
     },
-    "vatClassifications": {
-      "NO_VAT": "Uden moms",
-      "VAT25": "Med moms"
+    "vatInclusive": {
+      "false": "Uden moms",
+      "true": "Med moms"
     },
     "charges": {
       "topBarTitle": "Priser",
