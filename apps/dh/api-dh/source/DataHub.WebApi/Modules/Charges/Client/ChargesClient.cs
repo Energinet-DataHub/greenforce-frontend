@@ -260,32 +260,23 @@ public class ChargesClient(
             .OrderByDescending(x => x.StartDate)
             .First();
 
-        var now = DateTimeOffset.Now.ToInstant();
         var interval = new Interval(latestPeriod.StartDate, latestPeriod.EndDate);
-        var chargeSeries = interval.Contains(now)
+        var chargeSeries = interval.Contains(DateTimeOffset.Now.ToInstant())
             ? await GetChargeSeriesAsync(charge.ChargeIdentifierDto, resolution, interval)
             : null;
-
-        var status = interval.Contains(now) switch
-        {
-            _ when interval.Start == interval.End => ChargeStatus.Cancelled,
-            false when now > interval.End => ChargeStatus.Closed,
-            false when now < interval.Start => ChargeStatus.Awaiting,
-            false => ChargeStatus.Invalid,
-            true when chargeSeries?.Count() > 0 => ChargeStatus.Current,
-            true => ChargeStatus.MissingPriceSeries,
-        };
 
         return new(
             Id: charge.ChargeIdentifierDto,
             Type: ChargeType.Make(charge.ChargeIdentifierDto.TypeDto, charge.TaxIndicator),
             Resolution: Resolution.FromName(charge.ResolutionDto.ToString()),
-            Status: status,
+            TaxIndicator: charge.TaxIndicator,
+            HasSeriesAndIsCurrent: chargeSeries?.Count() > 0,
             Name: latestPeriod.Name,
             Description: latestPeriod.Description,
-            TaxIndicator: charge.TaxIndicator,
             TransparentInvoicing: latestPeriod.TransparentInvoicing,
             VatInclusive: latestPeriod.VatClassificationDto == VatClassificationDto.Vat25,
+            ValidFrom: latestPeriod.StartDate.ToDateTimeOffset(),
+            ValidTo: latestPeriod.EndDate?.ToDateTimeOffset(),
             Periods: periods.ToList());
     }
 }

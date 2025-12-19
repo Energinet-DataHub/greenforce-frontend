@@ -20,6 +20,7 @@ using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
 using NodaTime;
+using NodaTime.Extensions;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
@@ -120,6 +121,16 @@ public static partial class ChargeNode
         return owner ?? await dataLoader.LoadAsync((charge.Id.Owner, EicFunction.GridAccessProvider), ct);
     }
 
+    public static ChargeStatus GetStatus([Parent] Charge charge) =>
+        charge.HasSeriesAndIsCurrent switch
+        {
+            _ when charge.ValidFrom == charge.ValidTo => ChargeStatus.Cancelled,
+            _ when DateTimeOffset.Now > charge.ValidTo => ChargeStatus.Closed,
+            _ when DateTimeOffset.Now < charge.ValidFrom => ChargeStatus.Awaiting,
+            false => ChargeStatus.MissingPriceSeries,
+            true => ChargeStatus.Current,
+        };
+
     static partial void Configure(IObjectTypeDescriptor<Charge> descriptor)
     {
         descriptor.Name("Charge");
@@ -132,7 +143,6 @@ public static partial class ChargeNode
         descriptor.Field(f => f.Description);
         descriptor.Field(f => f.Periods);
         descriptor.Field(f => f.Resolution);
-        descriptor.Field(f => f.Status);
         descriptor.Field(f => f.TransparentInvoicing);
         descriptor.Field(f => f.VatInclusive);
     }

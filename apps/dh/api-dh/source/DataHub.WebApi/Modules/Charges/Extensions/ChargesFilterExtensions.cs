@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Modules.Charges;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 public static class ChagesFilterExtensions
@@ -77,13 +78,13 @@ public static class ChagesFilterExtensions
     }
 
     public static IEnumerable<Charge> FilterOnStatuses(
-            this IEnumerable<Charge> charges,
-            ChargeStatus[]? statuses,
-            CancellationToken ct)
+        this IEnumerable<Charge> charges,
+        ChargeStatus[]? statuses,
+        CancellationToken ct)
     {
         if (statuses?.Any() == true)
         {
-            return charges.Where(charge => statuses.Contains(charge.Status));
+            return charges.Where(charge => statuses.Contains(ChargeNode.GetStatus(charge)));
         }
 
         return charges;
