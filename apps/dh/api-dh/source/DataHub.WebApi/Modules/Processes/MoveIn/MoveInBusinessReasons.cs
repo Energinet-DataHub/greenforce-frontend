@@ -16,16 +16,16 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 
 public enum ChangeOfSupplierBusinessReason
 {
-    // Add values matching the external enum
-    MoveIn,
-    MoveOut,
-    SupplierSwitch,
+    CustomerMoveIn,
+    SecondaryMoveIn,
+    ChangeOfEnergySupplier,
 }
 
 public enum ChangeCustomerCharacteristicsBusinessReason
 {
-    // Add values matching the external enum
-    NameChange,
-    AddressChange,
-    Other,
+    ElectricHeating,
+    SecondaryMoveIn,
+    ChangeOfEnergySupplier,
+    UpdateMasterDataConsumer,
+    CustomerMoveIn,
 }

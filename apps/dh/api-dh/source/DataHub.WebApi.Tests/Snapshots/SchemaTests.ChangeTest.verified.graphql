@@ -2506,15 +2506,17 @@ enum CalculationTypeQueryParameterV1 {
 }
 
 enum ChangeCustomerCharacteristicsBusinessReason {
-  NAME_CHANGE
-  ADDRESS_CHANGE
-  OTHER
+  ELECTRIC_HEATING
+  SECONDARY_MOVE_IN
+  CHANGE_OF_ENERGY_SUPPLIER
+  UPDATE_MASTER_DATA_CONSUMER
+  CUSTOMER_MOVE_IN
 }
 
 enum ChangeOfSupplierBusinessReason {
-  MOVE_IN
-  MOVE_OUT
-  SUPPLIER_SWITCH
+  CUSTOMER_MOVE_IN
+  SECONDARY_MOVE_IN
+  CHANGE_OF_ENERGY_SUPPLIER
 }
 
 enum ChargeResolution {
