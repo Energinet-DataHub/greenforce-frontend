@@ -29,7 +29,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
 
 import {
   getPath,
-  ChargeLinksSubPaths,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/routing';
