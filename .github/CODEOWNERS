@@ -1,3 +1,5 @@
+* @Energinet-DataHub/team-ui
+
 /.github/workflows/dh-cd.yml @Energinet-DataHub/TeamFusion
 /.github/CODEOWNERS @Energinet-DataHub/TeamFusion
 /.github/workflows/ci-orchestrator.yml @Energinet-DataHub/TeamFusion
