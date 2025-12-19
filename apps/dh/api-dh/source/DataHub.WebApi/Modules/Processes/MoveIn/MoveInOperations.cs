@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
 using HotChocolate.Authorization;
@@ -25,7 +27,7 @@ public static class MoveInOperations
     [Authorize(Roles = new[] { "metering-point:move-in" })]
     public static async Task<bool> InitiateMoveInAsync(
         string meteringPointId,
-        BusinessReasonV1 businessReason,
+        ChangeOfSupplierBusinessReason businessReason,
         DateTimeOffset startDate,
         CustomerIdentificationInput customerIdentification,
         string customerName,
@@ -41,12 +43,57 @@ public static class MoveInOperations
 
         var customerIdentificationV1 = new CustomerIdentificationV1(customerIdentificationObject);
 
+        // Map to external enum
+        var externalBusinessReason = businessReason switch
+        {
+            ChangeOfSupplierBusinessReason.MoveIn => Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1.CustomerMoveIn,
+            ChangeOfSupplierBusinessReason.MoveOut => Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1.SecondaryMoveIn,
+            ChangeOfSupplierBusinessReason.SupplierSwitch => Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1.ChangeOfEnergySupplier,
+            _ => throw new ArgumentOutOfRangeException(nameof(businessReason)),
+        };
+
         var command = new RequestChangeOfSupplierCommandV1(new RequestChangeOfSupplierRequestV1(
             meteringPointId,
-            businessReason,
+            externalBusinessReason,
             startDate,
             customerIdentificationV1,
             customerName));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        return result.IsSuccess;
+    }
+
+    [Mutation]
+    [Authorize(Roles = new[] { "metering-point:move-in" })]
+    public static async Task<bool> ChangeCustomerCharacteristicsAsync(
+        string meteringPointId,
+        ChangeCustomerCharacteristicsBusinessReason businessReason,
+        DateTimeOffset startDate,
+        CustomerInfoV1 firstCustomer,
+        CustomerInfoV1? secondCustomer,
+        bool electricalHeating,
+        IReadOnlyCollection<UsagePointLocationV1>? usagePointLocations,
+        CancellationToken ct,
+        [Service] IB2CClient ediB2CClient)
+    {
+        // Map to external enum
+        var externalBusinessReason = businessReason switch
+        {
+            ChangeCustomerCharacteristicsBusinessReason.NameChange => Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1.UpdateMasterDataConsumer,
+            ChangeCustomerCharacteristicsBusinessReason.AddressChange => Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1.ElectricHeating,
+            _ => throw new ArgumentOutOfRangeException(nameof(businessReason)),
+        };
+
+        var command = new RequestChangeCustomerCharacteristicsCommandV1(
+            new RequestChangeCustomerCharacteristicsRequestV1(
+                meteringPointId,
+                externalBusinessReason,
+                startDate,
+                firstCustomer,
+                secondCustomer,
+                electricalHeating,
+                usagePointLocations));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
