@@ -154,8 +154,6 @@ export default class DhChargesEdit {
   updateCharge = mutation(UpdateChargeDocument);
   toast = injectToast('charges.actions.edit.toast');
   toastEffect = effect(() => this.toast(this.updateCharge.status()));
-  vat25 = VatClassificationDto.Vat25;
-  noVat = VatClassificationDto.NoVat;
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.chargeById);
   code = computed(() => this.charge()?.code);
