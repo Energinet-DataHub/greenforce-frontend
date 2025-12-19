@@ -870,10 +870,14 @@
         "actions": "Possible actions"
       },
       "processType": {
-        "EndOfSupply": "End of supply (BRS-002)"
+        "EndOfSupply": "End of supply (BRS-002)",
+        "NewMeteringPoint": "Creation of metering point (BRS-004)",
+        "ConnectMeteringPoint": "Connection of new metering point (BRS-008)"
       },
       "reasonCode": {
-        "EndOfSupply": "E20"
+        "EndOfSupply": "E20",
+        "NewMeteringPoint": "E02",
+        "ConnectMeteringPoint": "D15"
       },
       "filters": {
         "created": "Time",
@@ -891,6 +895,9 @@
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Confirm end of supply (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Reject end of supply (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4": "Notify cancellation of end of supply (RSM-020)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Request for creation of metering point (RSM-021)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Confirmation of request for creation of metering point (RSM-021)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
         "UNKNOWN": "Unknown Step"
       },
       "details": {
