@@ -1828,6 +1828,7 @@ input ChargeSortInput {
   name: SortEnumType
   code: SortEnumType
   type: SortEnumType
+  status: SortEnumType
 }
 
 input CreateActorContactDtoInput {
