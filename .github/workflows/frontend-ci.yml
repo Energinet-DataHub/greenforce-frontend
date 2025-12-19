@@ -56,7 +56,7 @@ jobs:
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -68,10 +68,10 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
 
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
@@ -97,7 +97,7 @@ jobs:
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -109,10 +109,10 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
 
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
@@ -128,7 +128,7 @@ jobs:
 
       - name: Upload artifact
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: cypress-e2e
           path: dist/cypress/apps/
@@ -152,7 +152,7 @@ jobs:
           owner: Energinet-DataHub
       # needed for Nx affected command
       - name: Check out source code with current branch Git history
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           token: ${{ steps.generate_token.outputs.token }}
           fetch-depth: 0
@@ -203,7 +203,7 @@ jobs:
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           token: ${{ steps.generate_token.outputs.token }}
           fetch-depth: 0
@@ -216,10 +216,10 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
 
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
@@ -257,7 +257,7 @@ jobs:
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -269,10 +269,10 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
 
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
@@ -302,7 +302,7 @@ jobs:
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -314,10 +314,10 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
 
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
@@ -337,7 +337,7 @@ jobs:
 
       - name: Upload artifact
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: cypress-component-tests
           path: dist/cypress/libs/
