@@ -25,5 +25,6 @@ public sealed class ChargeSortType : SortInputType<Charge>
         descriptor.Field(f => f.Name);
         descriptor.Field(f => f.Id.Code).Name("code");
         descriptor.Field(f => f.Type.Name).Name("type");
+        descriptor.Field(f => f.Status);
     }
 }
