@@ -27,13 +27,14 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 import {
+  injectToast,
   dhMakeFormControl,
   injectRelativeNavigate,
-  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
+
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { StopChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { StopChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-charges-stop',
@@ -52,13 +53,13 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       *transloco="let t; prefix: 'charges.actions.stop'"
       autoOpen
       size="small"
-      (closed)="navigate('..')"
+      (closed)="save($event)"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
-      <form id="stop-charge" [formGroup]="form" (ngSubmit)="save()">
+      <form [formGroup]="form">
         <watt-datepicker
           [label]="t('terminationDate')"
           [formControl]="form.controls.terminationDate"
@@ -68,7 +69,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" formId="stop-charge" type="submit">
+        <watt-button variant="primary" (click)="form.valid && modal.close(true)">
           {{ t('submit') }}
         </watt-button>
       </watt-modal-actions>
@@ -76,8 +77,8 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export default class DhChargesStop {
+  private readonly navigate = injectRelativeNavigate();
   id = input.required<string>();
-  navigate = injectRelativeNavigate();
   stopCharge = mutation(StopChargeDocument);
   toast = injectToast('charges.actions.stop.toast');
   toastEffect = effect(() => this.toast(this.stopCharge.status()));
@@ -85,11 +86,13 @@ export default class DhChargesStop {
     terminationDate: dhMakeFormControl<Date>(null, Validators.required),
   });
 
-  save() {
+  async save(saved: boolean) {
+    if (!saved) return this.navigate('..');
+
     if (!this.form.valid) return;
     const { terminationDate } = this.form.getRawValue();
     assertIsDefined(terminationDate);
-    this.stopCharge.mutate({
+    await this.stopCharge.mutate({
       variables: {
         input: {
           id: this.id(),
@@ -97,5 +100,7 @@ export default class DhChargesStop {
         },
       },
     });
+
+    return this.navigate('..');
   }
 }

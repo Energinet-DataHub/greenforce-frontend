@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -31,14 +31,10 @@ import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { injectToast, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 import { StopChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import {
-  injectToast,
-  dhMakeFormControl,
-  injectRelativeNavigate,
-} from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-metering-point-stop-charge-link',
@@ -65,7 +61,7 @@ import {
       #stop
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.stop'"
-      (closed)="navigate('..')"
+      (closed)="stopLink($event)"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
@@ -78,7 +74,7 @@ import {
         <watt-button variant="secondary" (click)="stop.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" (click)="stopLink(); stop.close(true)">
+        <watt-button variant="primary" (click)="form.valid && stop.close(true)">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -88,14 +84,15 @@ import {
 export default class DhMeteringPointStopChargeLink {
   private readonly toast = injectToast('meteringPoint.chargeLinks.stop.toast');
   private readonly stopChargeLink = mutation(StopChargeLinkDocument);
-  navigate = injectRelativeNavigate();
+  private readonly navigate = inject(DhNavigationService);
   form = new FormGroup({
     stopDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
   id = input.required<string>();
 
-  async stopLink() {
+  async stopLink(saved: boolean) {
+    if (!saved) return this.navigate.navigate('details', this.id());
     assertIsDefined(this.form.controls.stopDate.value);
     await this.stopChargeLink.mutate({
       variables: {
@@ -103,6 +100,8 @@ export default class DhMeteringPointStopChargeLink {
         stopDate: this.form.controls.stopDate.value,
       },
     });
+
+    this.navigate.navigate('details', this.id());
   }
 
   constructor() {
