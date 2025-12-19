@@ -255,6 +255,7 @@ public class ChargesClient(
         CancellationToken ct)
     {
         var resolution = Resolution.FromName(charge.ResolutionDto.ToString());
+        var periods = charge.Periods.Where(x => x.StartDate <= x.EndDate); // Guard against garbage
         var latestPeriod = charge.Periods
             .OrderByDescending(x => x.StartDate)
             .First();
@@ -285,6 +286,6 @@ public class ChargesClient(
             TaxIndicator: charge.TaxIndicator,
             TransparentInvoicing: latestPeriod.TransparentInvoicing,
             VatInclusive: latestPeriod.VatClassificationDto == VatClassificationDto.Vat25,
-            Periods: charge.Periods);
+            Periods: periods.ToList());
     }
 }
