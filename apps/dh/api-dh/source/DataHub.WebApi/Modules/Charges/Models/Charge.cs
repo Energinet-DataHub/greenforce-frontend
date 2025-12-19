@@ -18,9 +18,15 @@ using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 public record Charge(
-    ChargeIdentifierDto ChargeIdentifierDto,
+    ChargeIdentifierDto Id,
     ChargeType Type,
     Resolution Resolution,
+    string Name,
+    string Description,
     bool TaxIndicator,
-    IReadOnlyCollection<ChargeInformationPeriodDto> Periods,
-    bool HasAnyPrices);
+    bool VatInclusive,
+    bool TransparentInvoicing,
+    bool HasSeriesAndIsCurrent,
+    DateTimeOffset ValidFrom,
+    DateTimeOffset? ValidTo,
+    IReadOnlyCollection<ChargeInformationPeriodDto> Periods);

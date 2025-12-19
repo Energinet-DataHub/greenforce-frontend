@@ -77,7 +77,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
               {{ period.description }}
             </watt-description-list-item>
             <watt-description-list-item [label]="t('vatClassification')">
-              {{ 'charges.vatClassifications.' + period.vatClassification | transloco }}
+              {{ 'charges.vatInclusive.' + period.vatInclusive | transloco }}
             </watt-description-list-item>
             <watt-description-list-item [label]="t('transparentInvoicing')">
               {{ period.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}

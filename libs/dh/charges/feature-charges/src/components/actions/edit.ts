@@ -38,7 +38,6 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
-  VatClassificationDto,
   GetChargeByIdDocument,
   UpdateChargeDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -110,10 +109,10 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
           </watt-radio>
         </watt-radio-group>
         <watt-radio-group [label]="t('vat')" [formControl]="form().controls.vat">
-          <watt-radio [value]="vat25">
+          <watt-radio [value]="true">
             {{ t('withVat') }}
           </watt-radio>
-          <watt-radio [value]="noVat">
+          <watt-radio [value]="false">
             {{ t('withoutVat') }}
           </watt-radio>
         </watt-radio-group>
@@ -130,10 +129,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
             </watt-radio>
           </watt-radio-group>
         }
-        <!-- datepicker does not support updating formControl -->
-        @if (cutoffDate()) {
-          <watt-datepicker [label]="t('cutoffDate')" [formControl]="form().controls.cutoffDate" />
-        }
+        <watt-datepicker [label]="t('cutoffDate')" [formControl]="cutoffDate" />
       </form>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">
@@ -152,25 +148,24 @@ export default class DhChargesEdit {
   updateCharge = mutation(UpdateChargeDocument);
   toast = injectToast('charges.actions.edit.toast');
   toastEffect = effect(() => this.toast(this.updateCharge.status()));
-  vat25 = VatClassificationDto.Vat25;
-  noVat = VatClassificationDto.NoVat;
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.chargeById);
   code = computed(() => this.charge()?.code);
   name = computed(() => this.charge()?.name ?? '');
-  description = computed(() => this.charge()?.currentPeriod?.description ?? '');
+  description = computed(() => this.charge()?.description ?? '');
   resolution = computed(() => this.charge()?.resolution);
   type = computed(() => this.charge()?.type);
-  vat = computed(() => this.charge()?.currentPeriod?.vatClassification === 'VAT25');
-  transparentInvoicing = computed(() => this.charge()?.currentPeriod?.transparentInvoicing ?? null);
-  cutoffDate = computed(() => this.charge()?.currentPeriod?.period.end);
+  vat = computed(() => this.charge()?.vatInclusive);
+  transparentInvoicing = computed(() => this.charge()?.transparentInvoicing ?? null);
+  // datepicker does not support updating formControl
+  cutoffDate = dhMakeFormControl<Date>(null, Validators.required);
   form = computed(
     () =>
       new FormGroup({
         id: dhMakeFormControl({ value: this.code(), disabled: true }),
         name: dhMakeFormControl(this.name(), Validators.required),
         description: dhMakeFormControl(this.description(), Validators.required),
-        cutoffDate: dhMakeFormControl<Date>(this.cutoffDate(), Validators.required),
+        cutoffDate: this.cutoffDate,
         vat: dhMakeFormControl<boolean>(this.vat(), Validators.required),
         transparentInvoicing: dhMakeFormControl<boolean>(
           { value: this.transparentInvoicing(), disabled: this.type() == 'FEE' },

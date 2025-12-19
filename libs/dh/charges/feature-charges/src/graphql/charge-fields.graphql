@@ -11,19 +11,15 @@ fragment ChargeFields on Charge {
   resolution
   name
   displayName
+  description
   status
-  currentPeriod {
-    description
-    period
-    transparentInvoicing
-    vatClassification
-    name
-  }
+  vatInclusive
+  transparentInvoicing
   periods {
     description
     period
     transparentInvoicing
-    vatClassification
+    vatInclusive
     isCurrent
     name
   }
