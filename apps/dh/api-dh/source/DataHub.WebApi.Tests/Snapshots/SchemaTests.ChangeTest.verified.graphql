@@ -294,15 +294,17 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 type Charge {
   series(interval: DateRange!): [ChargeSeries!]!
   owner: MarketParticipant
-  currentPeriod: ChargePeriod
   status: ChargeStatus!
   id: String!
-  type: ChargeType!
   code: String!
-  name: String
+  name: String!
+  type: ChargeType!
   displayName: String!
-  resolution: ChargeResolution!
+  description: String!
   periods: [ChargePeriod!]!
+  resolution: ChargeResolution!
+  transparentInvoicing: Boolean!
+  vatInclusive: Boolean!
 }
 
 type ChargeLink {
@@ -325,12 +327,12 @@ type ChargeLinkPeriod {
 }
 
 type ChargePeriod {
-  isCurrent: Boolean!
-  description: String!
   period: DateRange!
-  transparentInvoicing: Boolean!
-  vatClassification: VatClassificationDto!
+  isCurrent: Boolean!
   name: String!
+  description: String!
+  transparentInvoicing: Boolean!
+  vatInclusive: Boolean!
 }
 
 type ChargeSeries {
@@ -1823,9 +1825,9 @@ input ChargePointV1Input {
 }
 
 input ChargeSortInput {
-  type: SortEnumType
-  code: SortEnumType
   name: SortEnumType
+  code: SortEnumType
+  type: SortEnumType
 }
 
 input CreateActorContactDtoInput {
@@ -3179,11 +3181,6 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
-}
-
-enum VatClassificationDto {
-  NO_VAT
-  VAT25
 }
 
 enum WashInstructions {
