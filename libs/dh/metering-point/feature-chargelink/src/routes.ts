@@ -67,7 +67,8 @@ export const meteringPointPricesRoutes: Routes = [
         children: detailsRoutes,
       },
       {
-        path: getPath<ChargeLinksSubPaths>('create'),
+        outlet: 'create',
+        path: 'create',
         canActivate: [
           PermissionGuard(['metering-point:prices-manage']),
           dhReleaseToggleGuard('PM60-CHARGE-LINKS-UI'),

@@ -25,21 +25,24 @@ import {
   computed,
   Component,
   ViewEncapsulation,
+  viewChild,
 } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL } from '@energinet/watt/modal';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
 import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
 
@@ -48,8 +51,6 @@ import {
   GetChargeByTypeDocument,
   CreateChargeLinkDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-
 @Component({
   selector: 'dh-metering-point-create-charge-link',
   imports: [
@@ -64,6 +65,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
     DhChargesTypeSelection,
     WattIconComponent,
     WattTooltipDirective,
+    WattFieldErrorComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: `
@@ -80,7 +82,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
       size="small"
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.create'"
-      (closed)="createLink($event)"
+      (closed)="navigate.navigate('list')"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
@@ -95,7 +97,9 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
             direction="column"
             gap="s"
             tabindex="-1"
+            id="create-charge-link-form"
             [formGroup]="form()"
+            (ngSubmit)="createLink()"
           >
             <watt-dropdown
               [formControl]="form().controls.chargeId"
@@ -104,11 +108,13 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
             />
 
             @if (selectedType() !== 'TARIFF') {
-              <watt-text-field
-                [formControl]="form().controls.factor"
-                [label]="t('factor')"
-                type="number"
-              />
+              <watt-text-field [formControl]="form().controls.factor" [label]="t('factor')">
+                @if (form().controls.factor.errors?.min) {
+                  <watt-field-error>
+                    {{ t('errors.factorMin', { min: form().controls.factor.errors?.min.min }) }}
+                  </watt-field-error>
+                }
+              </watt-text-field>
             }
 
             <watt-datepicker [formControl]="form().controls.startDate" [label]="t('startDate')" />
@@ -124,7 +130,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
           <watt-button variant="secondary" (click)="selectedType.set(null)">
             {{ t('back') }}
           </watt-button>
-          <watt-button variant="primary" (click)="create.close(true)">
+          <watt-button variant="primary" type="submit" formId="create-charge-link-form">
             {{ t('actions.' + selectedType()) }}
           </watt-button>
         }
@@ -133,18 +139,20 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
   `,
 })
 export default class DhMeteringPointCreateChargeLink {
-  private readonly navigate = inject(DhNavigationService);
   private readonly toast = injectToast('meteringPoint.chargeLinks.create.toast');
   private readonly createChargeLink = mutation(CreateChargeLinkDocument);
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly chargesQuery = lazyQuery(GetChargeByTypeDocument);
+  private readonly modal = viewChild.required(WattModalComponent);
+
+  navigate = inject(DhNavigationService);
 
   form = computed(() =>
     this.fb.group({
       chargeId: this.fb.control<string>('', Validators.required),
       factor: this.fb.control<string | null>(
         null,
-        this.selectedType() !== 'TARIFF' ? Validators.min(1) : null
+        this.selectedType() !== 'TARIFF' ? [Validators.required, Validators.min(1)] : null
       ),
       startDate: this.fb.control<Date | null>(null, Validators.required),
     })
@@ -158,10 +166,9 @@ export default class DhMeteringPointCreateChargeLink {
     () => this.chargesQuery.data()?.chargesByType ?? []
   );
 
-  async createLink(saved: boolean) {
-    if (!saved) return this.navigate.navigate('list');
-
+  async createLink() {
     const form = this.form();
+
     if (form.invalid) return;
 
     const { chargeId, startDate, factor } = form.getRawValue();
@@ -178,7 +185,7 @@ export default class DhMeteringPointCreateChargeLink {
       },
     });
 
-    this.navigate.navigate('list');
+    this.modal().close(true);
   }
 
   constructor() {

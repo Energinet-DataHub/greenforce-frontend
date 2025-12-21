@@ -17,23 +17,24 @@
  */
 //#endregion
 
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL } from '@energinet/watt/modal';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -48,6 +49,7 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
     VaterStackComponent,
     WattIconComponent,
     WattTooltipDirective,
+    WattFieldErrorComponent,
   ],
   styles: `
     :host {
@@ -62,21 +64,36 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
       #edit
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
-      (closed)="save($event)"
+      (closed)="navigate.navigate('details', this.id())"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
-      <form vater-stack align="start" direction="column" gap="s" tabindex="-1" [formGroup]="form">
-        <watt-text-field [formControl]="form.controls.factor" [label]="t('factor')" type="number" />
+      <form
+        id="edit"
+        (ngSubmit)="save()"
+        vater-stack
+        align="start"
+        direction="column"
+        gap="s"
+        tabindex="-1"
+        [formGroup]="form"
+      >
+        <watt-text-field [formControl]="form.controls.factor" [label]="t('factor')">
+          @if (form.controls.factor.errors?.min) {
+            <watt-field-error>
+              {{ t('errors.factorMin', { min: form.controls.factor.errors?.min.min }) }}
+            </watt-field-error>
+          }
+        </watt-text-field>
         <watt-datepicker [formControl]="form.controls.startDate" [label]="t('startDate')" />
       </form>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="edit.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" (click)="edit.close(true)">
+        <watt-button variant="primary" type="submit" formId="edit">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -86,17 +103,16 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
 export default class DhMeteringPointEditChargeLink {
   private readonly toast = injectToast('meteringPoint.chargeLinks.edit.toast');
   private readonly edit = mutation(EditChargeLinkDocument);
+  private readonly modal = viewChild.required(WattModalComponent);
   navigate = inject(DhNavigationService);
   form = new FormGroup({
-    factor: dhMakeFormControl<string>(null, [Validators.min(1)]),
+    factor: dhMakeFormControl<string>(null, [Validators.required, Validators.min(1)]),
     startDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
   id = input.required<string>();
 
-  save = async (save: boolean) => {
-    if (!save) return this.navigate.navigate('details', this.id());
-
+  save = async () => {
     if (this.form.invalid) return;
 
     assertIsDefined(this.form.value.startDate);
@@ -110,7 +126,7 @@ export default class DhMeteringPointEditChargeLink {
       },
     });
 
-    this.navigate.navigate('details', this.id());
+    this.modal().close(true);
   };
 
   effect = effect(() => this.toast(this.edit.status()));
