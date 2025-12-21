@@ -40,7 +40,6 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
-  VatClassificationDto,
   UpdateChargeDocument,
   GetChargeByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
