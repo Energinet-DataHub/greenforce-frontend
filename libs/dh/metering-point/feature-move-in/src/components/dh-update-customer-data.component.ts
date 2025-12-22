@@ -477,7 +477,8 @@ export class DhUpdateCustomerDataComponent {
       this.meteringPointId(),
       'UPDATE_MASTER_DATA_CONSUMER',
       dayjs().toDate(),
-      false
+      false,
+      this.isBusinessCustomer()
     );
     const result = await this.requestChangeCustomerCharacteristics.mutate({ variables: { input } });
 
