@@ -36,7 +36,8 @@ import {
   BusinessCustomerFormGroup,
   Contact,
   ContactDetailsFormGroup,
-  ContactDetailsFormType, CustomerCharacteristicsFormType,
+  ContactDetailsFormType,
+  CustomerCharacteristicsFormType,
   PrivateCustomerFormGroup,
 } from '../types';
 import { WATT_CARD } from '@energinet/watt/card';
@@ -48,14 +49,12 @@ import { DhPrivateCustomerDetailsComponent } from './dh-private-customer-details
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  ChangeCustomerCharacteristicsInput,
-  CustomerInfoV1Input,
   CustomerRelationType,
   GetMeteringPointByIdDocument,
   RequestChangeCustomerCharacteristicsDocument,
-  UsagePointLocationV1Input,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dayjs } from '../../../../../watt/package/core/date/dayjs';
+import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-customer-characteristics-mapper';
+import { dayjs } from '@energinet/watt/date';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -456,12 +455,37 @@ export class DhUpdateCustomerDataComponent {
       });
   }
 
-  public updateCustomerData() {
-    if (this.updateCustomerDataForm.valid) {
-      const message = this.translocoService.translate('meteringPoint.moveIn.customerDataSuccess');
-      this.wattToastService.open({ type: 'success', message });
-      this.locationService.back();
+  async updateCustomerData() {
+    if (this.updateCustomerDataForm.invalid) {
+      return;
     }
+    const form = this.updateCustomerDataForm;
+    const input = mapChangeCustomerCharacteristicsFormToRequest(
+      form,
+      this.meteringPointId(),
+      'UPDATE_MASTER_DATA_CONSUMER',
+      dayjs().toDate(),
+      false
+    );
+    const result = await this.requestChangeCustomerCharacteristics.mutate({ variables: { input } });
+
+    if (result.data?.changeCustomerCharacteristics.success) {
+      this.success();
+    } else {
+      this.error();
+    }
+  }
+
+  success() {
+    const message = this.translocoService.translate('meteringPoint.moveIn.customerDataSuccess');
+    this.wattToastService.open({ type: 'success', message });
+    this.locationService.back();
+  }
+
+  error() {
+    const message = this.translocoService.translate('meteringPoint.moveIn.customerDataFail');
+    this.wattToastService.open({ type: 'warning', message });
+    this.locationService.back();
   }
 
   public cancel() {
