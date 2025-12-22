@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.Internal.MeteringPoint.GetMeteringPoint.V1;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Types;
 
-public class ElectricityMarketV2CommercialRelationObjectType : ObjectType<MeteringPointDtoV1.CommercialRelationDto>
+public class ElectricityMarketV2CommercialRelationObjectType : ObjectType<MeteringPointDebugDtoV1.CommercialRelationDto>
 {
-    protected override void Configure(IObjectTypeDescriptor<MeteringPointDtoV1.CommercialRelationDto> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<MeteringPointDebugDtoV1.CommercialRelationDto> descriptor)
     {
         descriptor.Name("ElectricityMarketV2CommercialRelationDto");
     }

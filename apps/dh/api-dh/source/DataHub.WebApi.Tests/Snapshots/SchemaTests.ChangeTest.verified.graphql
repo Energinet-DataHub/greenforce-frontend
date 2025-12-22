@@ -326,7 +326,6 @@ type ChargeLinkHistory {
 type ChargeLinkPeriod {
   period: DateRange!
   amount: Int!
-  id: Int!
 }
 
 type ChargePeriod {
@@ -499,10 +498,10 @@ type ElectricalHeatingDto {
 }
 
 type ElectricityMarketV2CommercialRelationDto {
-  startDate: DateTime!
-  endDate: DateTime!
+  validFrom: DateTime!
+  validTo: DateTime!
   energySupplierId: String!
-  customerId: UUID!
+  customerId: UUID
   energySupplierPeriods: [EnergySupplierPeriodDto!]!
 }
 
@@ -633,8 +632,8 @@ type FilteredUserRolesEdge {
   node: UserRoleDto!
 }
 
-type GetMeteringPointResultDtoV1 {
-  meteringPoint: MeteringPointDtoV1!
+type GetMeteringPointDebugResultDtoV1 {
+  meteringPoint: MeteringPointDebugDtoV1!
   events: [ElectricityMarketV2EventDto!]!
 }
 
@@ -942,6 +941,12 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
+type MeteringPointDebugDtoV1 {
+  meteringPointId: String!
+  meteringPointPeriods: [MeteringPointPeriodDto!]!
+  commercialRelations: [ElectricityMarketV2CommercialRelationDto!]!
+}
+
 type MeteringPointDto {
   meteringPointId: String!
   isChild: Boolean!
@@ -959,12 +964,6 @@ type MeteringPointDto {
   metadataTimeline: [MeteringPointMetadataDto!]!
   commercialRelation: CommercialRelationDto
   commercialRelationTimeline: [CommercialRelationDto!]!
-}
-
-type MeteringPointDtoV1 {
-  meteringPointId: String!
-  meteringPointPeriods: [MeteringPointPeriodDto!]!
-  commercialRelations: [ElectricityMarketV2CommercialRelationDto!]!
 }
 
 type MeteringPointIdentificationDto {
@@ -1262,7 +1261,7 @@ type Query {
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
-  chargeLinkById(meteringPointId: String! chargeId: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
+  chargeLinkById(id: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1271,7 +1270,7 @@ type Query {
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
-  eventsDebugView(meteringPointId: String!): GetMeteringPointResultDtoV1 @authorize(roles: [ "metering-point:search" ])
+  eventsDebugView(meteringPointId: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
   meteringPointExists(internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
@@ -1797,8 +1796,7 @@ input CalculationsQueryInput {
 }
 
 input CancelChargeLinkInput {
-  chargeId: String!
-  meteringPointId: String!
+  id: String!
 }
 
 input CancelMeasurementsReportInput {
@@ -1958,8 +1956,7 @@ input DismissNotificationInput {
 }
 
 input EditChargeLinkInput {
-  chargeId: String!
-  meteringPointId: String!
+  id: String!
   newStartDate: DateTime!
   factor: Int!
 }
@@ -2228,8 +2225,7 @@ input StopChargeInput {
 }
 
 input StopChargeLinkInput {
-  chargeId: String!
-  meteringPointId: String!
+  id: String!
   stopDate: DateTime!
 }
 
@@ -2476,6 +2472,12 @@ enum BusinessReason {
   D04
   D05
   D32
+}
+
+enum BusinessReasonV1 {
+  CUSTOMER_MOVE_IN
+  SECONDARY_MOVE_IN
+  CHANGE_OF_ENERGY_SUPPLIER
 }
 
 enum CalculationExecutionType {
@@ -2986,6 +2988,12 @@ enum ProcessStepType {
   BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3
   "BRS-002 Request End of Supply - Step 4: Notify cancellation of end of supply (RSM-020)"
   BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4
+  "BRS-004 Creation of metering point - Step 1 - Request creation of metering point (RSM-021)"
+  BRS_004_CREATEMETERINGPOINT_V1_STEP_1
+  "BRS-004 Creation of metering point - Step 2 - Confirm creation of metering point (RSM-021)"
+  BRS_004_CREATEMETERINGPOINT_V1_STEP_2
+  "BRS-004 Creation of metering point - Step 3 - Reject creation of metering point (RSM-021)"
+  BRS_004_CREATEMETERINGPOINT_V1_STEP_3
   """
   Unknown or unmapped step type.
   Used when ProcessManager returns a step we haven't added to this enum yet.

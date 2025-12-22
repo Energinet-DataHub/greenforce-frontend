@@ -28,4 +28,10 @@ public enum ChangeCustomerCharacteristicsBusinessReason
     ChangeOfEnergySupplier,
     UpdateMasterDataConsumer,
     CustomerMoveIn,
+========
+public class CustomerIdentificationInput
+{
+    public string? Id { get; set; }
+
+    public string? Type { get; set; }
 }

@@ -19,6 +19,9 @@
 import '@analogjs/vitest-angular/setup-zone';
 import '@testing-library/jest-dom/vitest';
 import '@angular/compiler';
+
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
 // Add polyfill for structuredClone
 if (!globalThis.structuredClone) {
   globalThis.structuredClone = <T>(obj: T): T => {
@@ -26,19 +29,4 @@ if (!globalThis.structuredClone) {
   };
 }
 
-// Initialize Angular testing environment
-beforeAll(async () => {
-  const { getTestBed } = await import('@angular/core/testing');
-  const { BrowserDynamicTestingModule, platformBrowserDynamicTesting } = await import(
-    '@angular/platform-browser-dynamic/testing'
-  );
-
-  getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
-
-  // Setup MSW - temporarily commented out due to Vitest compatibility issue
-  // const { setupMSWServer } = await import('@energinet-datahub/gf/test-util-msw');
-  // const { dhLocalApiEnvironment } = await import('@energinet-datahub/dh/shared/assets');
-  // const { mocks } = await import('@energinet-datahub/dh/shared/data-access-mocks');
-
-  // setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
-});
+setUpTestbed();

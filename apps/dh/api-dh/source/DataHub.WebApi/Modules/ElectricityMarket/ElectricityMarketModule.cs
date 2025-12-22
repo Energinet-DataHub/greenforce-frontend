@@ -18,7 +18,10 @@ using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
+using Energinet.DataHub.WebApi.Modules.Common.Utilities;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
+using HotChocolate.Execution.Configuration;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -37,4 +40,10 @@ public class ElectricityMarketModule : IModule
 
         return services;
     }
+
+    public IRequestExecutorBuilder AddGraphQLConfiguration(IRequestExecutorBuilder builder) =>
+        builder
+            .BindRuntimeType<ChargeLinkId, StringType>()
+            .AddTypeConverter<ChargeLinkId, string>(JsonBase64Converter.Serialize)
+            .AddTypeConverter<string, ChargeLinkId>(JsonBase64Converter.Deserialize<ChargeLinkId>);
 }

@@ -18,34 +18,90 @@ using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Models;
-using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 
-public class ChargeLinkClient(DataHub.Charges.Client.IChargesClient chargesClient, IB2CClient b2cClient) : IChargeLinkClient
+public class ChargeLinkClient(
+    DataHub.Charges.Client.IChargesClient chargesClient,
+    IB2CClient b2cClient) : IChargeLinkClient
 {
-    public async Task<IEnumerable<ChargeLinkDto>> GetChargeLinksByMeteringPointIdAsync(string meteringPointId, CancellationToken ct = default)
+    public async Task<IEnumerable<ChargeLinkDto>> GetChargeLinksByMeteringPointIdAsync(
+        string meteringPointId,
+        CancellationToken ct = default)
     {
-        var result = await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(meteringPointId), ct).ConfigureAwait(false);
+        var result = await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(meteringPointId), ct);
         return result.Data ?? Enumerable.Empty<ChargeLinkDto>();
     }
 
-    public async Task<bool> StopChargeLinkAsync(ChargeIdentifierDto ident, string meteringPointId, DateTimeOffset stopDate, CancellationToken ct = default) =>
-        (await b2cClient.SendAsync(new StopChargeLinkCommandV1(new StopChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.TypeDto), meteringPointId, stopDate)), ct).ConfigureAwait(false)).IsSuccess;
-
-    public async Task<bool> CancelChargeLinkAsync(ChargeIdentifierDto ident, string meteringPointId, CancellationToken ct = default) =>
-        (await b2cClient.SendAsync(new StopChargeLinkCommandV1(new StopChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.TypeDto), meteringPointId, DateTimeOffset.Now)), ct).ConfigureAwait(false)).IsSuccess;
-
-    public async Task<bool> EditChargeLinkAsync(ChargeIdentifierDto ident, string meteringPointId, DateTimeOffset newStartDate, int factor, CancellationToken ct = default)
+    public async Task<bool> StopChargeLinkAsync(
+        ChargeLinkId id,
+        DateTimeOffset stopDate,
+        CancellationToken ct = default)
     {
-        var editRequest = new UpsertChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.TypeDto), meteringPointId, newStartDate, factor.ToString());
-        return (await b2cClient.SendAsync(new UpsertChargeLinkCommandV1(editRequest), ct).ConfigureAwait(false)).IsSuccess;
+        var result = await b2cClient.SendAsync(
+            new StopChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToRequestChangeBillingMasterDataChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                stopDate)),
+            ct);
+
+        return result.IsSuccess;
     }
 
-    public async Task<bool> CreateChargeLinkAsync(ChargeIdentifierDto ident, string meteringPointId, DateTimeOffset newStartDate, int factor, CancellationToken ct = default)
+    public async Task<bool> CancelChargeLinkAsync(ChargeLinkId id, CancellationToken ct = default)
     {
-        var createRequest = new UpsertChargeLinkRequestV1(ident.Code, ident.Owner, ToRequestChangeBillingMasterDataChargeType(ident.TypeDto), meteringPointId, newStartDate, factor.ToString());
-        return (await b2cClient.SendAsync(new UpsertChargeLinkCommandV1(createRequest), ct).ConfigureAwait(false)).IsSuccess;
+        var result = await b2cClient.SendAsync(
+            new StopChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToRequestChangeBillingMasterDataChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                DateTimeOffset.Now)),
+            ct);
+
+        return result.IsSuccess;
+    }
+
+    public async Task<bool> EditChargeLinkAsync(
+        ChargeLinkId id,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default)
+    {
+        var result = await b2cClient.SendAsync(
+            new UpsertChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToRequestChangeBillingMasterDataChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                newStartDate,
+                factor.ToString())),
+            ct);
+
+        return result.IsSuccess;
+    }
+
+    public async Task<bool> CreateChargeLinkAsync(
+        ChargeIdentifierDto chargeId,
+        string meteringPointId,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default)
+    {
+        var result = await b2cClient.SendAsync(
+            new UpsertChargeLinkCommandV1(new(
+                chargeId.Code,
+                chargeId.Owner,
+                ToRequestChangeBillingMasterDataChargeType(chargeId.TypeDto),
+                meteringPointId,
+                newStartDate,
+                factor.ToString())),
+            ct);
+
+        return result.IsSuccess;
     }
 
     private ChargeTypeV1 ToRequestChangeBillingMasterDataChargeType(ChargeTypeDto type) => type switch

@@ -20,7 +20,7 @@ import { Component, computed, effect, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { combineLatest, filter, map } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
@@ -195,7 +195,7 @@ export class DhMeteringPointProcessOverviewTable {
     createdAt: { accessor: 'createdAt' },
     cutoffDate: { accessor: 'cutoffDate' },
     reasonCode: { accessor: 'reasonCode' },
-    state: { accessor: 'state' },
+    state: { accessor: (process) => translate(`shared.states.${process.state}`) },
     initiator: { accessor: (process) => process.initiator?.displayName },
     actions: { accessor: (process) => process.availableActions?.length ?? 0 },
   };

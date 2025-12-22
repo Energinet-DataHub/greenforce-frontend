@@ -11,8 +11,8 @@ query GetMeteringPointEventsDebugView($meteringPointId: String!) {
       commercialRelations {
         customerId
         energySupplierId
-        startDate
-        endDate
+        validFrom
+        validTo
         energySupplierPeriods {
           validFrom
           validTo

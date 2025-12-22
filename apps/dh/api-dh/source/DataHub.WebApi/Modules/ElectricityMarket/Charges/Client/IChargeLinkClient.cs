@@ -34,31 +34,29 @@ public interface IChargeLinkClient
     /// Stops a charge link at a given date.
     /// </summary>
     Task<bool> StopChargeLinkAsync(
-       ChargeIdentifierDto ident,
-       string meteringPointId,
+       ChargeLinkId id,
        DateTimeOffset stopDate,
        CancellationToken ct = default);
 
     /// <summary>
     /// Cancels a charge link by its id.
     /// </summary>
-    Task<bool> CancelChargeLinkAsync(ChargeIdentifierDto ident, string meteringPointId, CancellationToken ct = default);
+    Task<bool> CancelChargeLinkAsync(ChargeLinkId id, CancellationToken ct = default);
 
     /// <summary>
-    /// Edits a charge link's start date and factor.
+    /// Edits a charge link.
     /// </summary>
     Task<bool> EditChargeLinkAsync(
-        ChargeIdentifierDto ident,
-        string meteringPointId,
+        ChargeLinkId id,
         DateTimeOffset newStartDate,
         int factor,
         CancellationToken ct = default);
 
     /// <summary>
-    /// Creates a charge link with a start date and factor.
+    /// Creates a charge link.
     /// </summary>
     Task<bool> CreateChargeLinkAsync(
-        ChargeIdentifierDto ident,
+        ChargeIdentifierDto chargeId,
         string meteringPointId,
         DateTimeOffset newStartDate,
         int factor,

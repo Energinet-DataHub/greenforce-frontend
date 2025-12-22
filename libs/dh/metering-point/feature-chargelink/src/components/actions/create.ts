@@ -142,7 +142,7 @@ export default class DhMeteringPointCreateChargeLink {
   form = computed(() =>
     this.fb.group({
       chargeId: this.fb.control<string>('', Validators.required),
-      factor: this.fb.control<number | null>(
+      factor: this.fb.control<string | null>(
         null,
         this.selectedType() !== 'TARIFF' ? Validators.min(1) : null
       ),
@@ -164,15 +164,17 @@ export default class DhMeteringPointCreateChargeLink {
     const form = this.form();
     if (form.invalid) return;
 
-    assertIsDefined(form.value.startDate);
-    assertIsDefined(form.value.chargeId);
+    const { chargeId, startDate, factor } = form.getRawValue();
+
+    assertIsDefined(chargeId);
+    assertIsDefined(startDate);
 
     await this.createChargeLink.mutate({
       variables: {
-        chargeId: form.value.chargeId,
+        chargeId,
         meteringPointId: this.meteringPointId(),
-        newStartDate: form.value.startDate,
-        factor: form.value.factor ?? 1,
+        newStartDate: startDate,
+        factor: parseInt(factor ?? '1'),
       },
     });
 

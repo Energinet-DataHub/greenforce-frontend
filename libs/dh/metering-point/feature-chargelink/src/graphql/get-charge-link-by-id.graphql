@@ -1,8 +1,9 @@
-query GetChargeLinkById($chargeId: String!, $meteringPointId: String!) {
-  chargeLinkById(chargeId: $chargeId, meteringPointId: $meteringPointId) {
+query GetChargeLinkById($id: String!) {
+  chargeLinkById(id: $id) {
     id
     charge {
       id
+      code
       displayName
     }
   }

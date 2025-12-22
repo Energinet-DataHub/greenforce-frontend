@@ -26,7 +26,7 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetMeteringPointEventsDebugViewDocument,
-  GetMeteringPointResultDtoV1,
+  GetMeteringPointDebugResultDtoV1,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -77,7 +77,7 @@ export class DhMeteringPointEventsComponent {
 
     if (!debugView) return undefined;
 
-    debugView = removeTypename(debugView) as GetMeteringPointResultDtoV1;
+    debugView = removeTypename(debugView) as GetMeteringPointDebugResultDtoV1;
 
     return {
       ...debugView,

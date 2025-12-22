@@ -83,12 +83,9 @@ interface VitestConfig {
       provider: 'v8';
     };
     pool?: string;
-    poolOptions?: {
-      forks?: {
-        singleFork?: boolean;
-        execArgv?: string[];
-      };
-    };
+    execArgv?: string[];
+    isolate?: boolean;
+    maxWorkers?: number;
     server: {
       deps: {
         inline: RegExp[];
@@ -131,12 +128,9 @@ export function vitestAngularConfig(options: VitestAngularConfigOptions): Vitest
     baseConfig.test = {
       ...baseConfig.test,
       pool: 'forks',
-      poolOptions: {
-        forks: {
-          singleFork: true,
-          execArgv: ['--require', getMswGlobalPolyfillPath()],
-        },
-      },
+      execArgv: ['--require', getMswGlobalPolyfillPath()],
+      isolate: false,
+      maxWorkers: 1,
     };
   }
 
