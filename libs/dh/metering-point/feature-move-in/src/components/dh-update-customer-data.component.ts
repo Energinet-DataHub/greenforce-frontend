@@ -94,15 +94,17 @@ import { dayjs } from '@energinet/watt/date';
     }
   `,
   template: `
-    <form [formGroup]="updateCustomerDataForm" *transloco="let t; prefix: 'meteringPoint.moveIn'">
+    <form
+      [formGroup]="updateCustomerDataForm"
+      (ngSubmit)="updateCustomerData()"
+      *transloco="let t; prefix: 'meteringPoint.moveIn'"
+    >
       <watt-card class="sticky-header">
         <vater-stack class="margin-medium" direction="row" justify="space-between">
           <h3>{{ t('updateCustomerData') }}</h3>
           <vater-stack direction="row" gap="m">
             <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }}</watt-button>
-            <watt-button (click)="updateCustomerData()" type="submit">{{
-              t('updateCustomerData')
-            }}</watt-button>
+            <watt-button type="submit">{{ t('updateCustomerData') }}</watt-button>
           </vater-stack>
         </vater-stack>
       </watt-card>
@@ -456,10 +458,18 @@ export class DhUpdateCustomerDataComponent {
   }
 
   async updateCustomerData() {
-    if (this.updateCustomerDataForm.invalid) {
+    const form = this.updateCustomerDataForm;
+    const isCustomerInvalid = this.isBusinessCustomer()
+      ? form.controls.businessCustomerDetails.invalid
+      : form.controls.privateCustomerDetails.invalid;
+    const isRestOfFormInvalid =
+      form.controls.legalContactDetails.invalid ||
+      form.controls.legalAddressDetails.invalid ||
+      form.controls.technicalContactDetails.invalid ||
+      form.controls.technicalAddressDetails.invalid;
+    if (isCustomerInvalid || isRestOfFormInvalid) {
       return;
     }
-    const form = this.updateCustomerDataForm;
     const input = mapChangeCustomerCharacteristicsFormToRequest(
       form,
       this.meteringPointId(),

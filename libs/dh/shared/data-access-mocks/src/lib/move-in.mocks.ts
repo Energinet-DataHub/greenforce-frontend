@@ -25,7 +25,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 export function moveInMocks() {
-  return [initiateMoveInMutation()];
+  return [initiateMoveInMutation(), changeCustomerCharacteristics()];
 }
 
 function initiateMoveInMutation() {
