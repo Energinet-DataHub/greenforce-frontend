@@ -34,7 +34,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { StartMoveInFormType } from '../types';
-import { BusinessReasonV1 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ChangeOfSupplierBusinessReason } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-start-move-in-form',
@@ -179,7 +179,7 @@ export class DhStartMoveInFormComponent {
   sixtyDaysFromNow = dayjs().add(60, 'day').toDate();
 
   businessReasonDropdownOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
-    BusinessReasonV1,
+    ChangeOfSupplierBusinessReason,
     ['CHANGE_OF_ENERGY_SUPPLIER']
   );
 }
