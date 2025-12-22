@@ -14,33 +14,9 @@
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 
-public enum ChangeOfSupplierBusinessReason
-{
-    CustomerMoveIn,
-    SecondaryMoveIn,
-    ChangeOfEnergySupplier,
-}
-
-public enum ChangeCustomerCharacteristicsBusinessReason
-{
-    ElectricHeating,
-    SecondaryMoveIn,
-    ChangeOfEnergySupplier,
-    UpdateMasterDataConsumer,
-    CustomerMoveIn,
-}
-
 public class CustomerIdentificationInput
 {
     public string? Id { get; set; }
 
     public string? Type { get; set; }
 }
-
-using Energinet.DataHub.Charges.Abstractions.Shared;
-
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
-
-public record ChargeLinkId(
-    string MeteringPointId,
-    ChargeIdentifierDto ChargeId);

@@ -2474,12 +2474,6 @@ enum BusinessReason {
   D32
 }
 
-enum BusinessReasonV1 {
-  CUSTOMER_MOVE_IN
-  SECONDARY_MOVE_IN
-  CHANGE_OF_ENERGY_SUPPLIER
-}
-
 enum CalculationExecutionType {
   EXTERNAL
   INTERNAL

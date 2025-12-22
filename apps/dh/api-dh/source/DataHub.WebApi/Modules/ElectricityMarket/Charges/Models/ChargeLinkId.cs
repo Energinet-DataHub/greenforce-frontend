@@ -12,16 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-<<<<<<<< HEAD:apps/dh/api-dh/source/DataHub.WebApi/Modules/Processes/MoveIn/CustomerIdentificationInput.cs
-namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
-
-public class CustomerIdentificationInput
-{
-    public string? Id { get; set; }
-
-    public string? Type { get; set; }
-}
-========
 using Energinet.DataHub.Charges.Abstractions.Shared;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
@@ -29,4 +19,3 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 public record ChargeLinkId(
     string MeteringPointId,
     ChargeIdentifierDto ChargeId);
->>>>>>>> main:apps/dh/api-dh/source/DataHub.WebApi/Modules/ElectricityMarket/Charges/Models/ChargeLinkId.cs
