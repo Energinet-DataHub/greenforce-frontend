@@ -72,7 +72,6 @@ public static class MoveInOperations
     public static async Task<bool> ChangeCustomerCharacteristicsAsync(
         string meteringPointId,
         ChangeCustomerCharacteristicsBusinessReason businessReason,
-        DateTimeOffset startDate,
         CustomerInfoV1 firstCustomer,
         CustomerInfoV1? secondCustomer,
         bool electricalHeating,
@@ -100,7 +99,6 @@ public static class MoveInOperations
             new RequestChangeCustomerCharacteristicsRequestV1(
                 meteringPointId,
                 externalBusinessReason,
-                startDate,
                 firstCustomer,
                 secondCustomer,
                 electricalHeating,

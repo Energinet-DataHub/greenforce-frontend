@@ -1077,6 +1077,7 @@
       "moveInSuccess": "Move-in is now registered",
       "moveInFail": "Move-in failed",
       "customerDataSuccess": "Customer data update is now registered",
+      "customerDataFail": "Customer data update failed",
       "save": "Customer move-in",
       "cancel": "Cancel"
     },

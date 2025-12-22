@@ -1079,6 +1079,7 @@
       "moveInSuccess": "Tilflytningen er nu registreret",
       "moveInFail": "Tilflytningen fejlede",
       "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
+      "customerDataFail": "Kundestamdata opdatering fejlede",
       "save": "Tilflyt kunde",
       "cancel": "Annuller"
     },

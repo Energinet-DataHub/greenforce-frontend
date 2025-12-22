@@ -20,13 +20,13 @@ import { type FormControl, type FormGroup } from '@angular/forms';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import {
-  BusinessReasonV1,
+  ChangeOfSupplierBusinessReason,
   GetMeteringPointByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type StartMoveInFormType = {
   cutOffDate: FormControl<Date>;
-  businessReason: FormControl<BusinessReasonV1>;
+  businessReason: FormControl<ChangeOfSupplierBusinessReason>;
   customerType: FormControl<'private' | 'business'>;
   privateCustomer?: FormGroup<{
     name: FormControl<string>;
@@ -50,7 +50,7 @@ export type ContactDetailsFormGroup = {
   phone: FormControl<string>;
   mobile: FormControl<string>;
   email: FormControl<string>;
-};
+}
 
 export type AddressDetailsFormType = {
   addressSameAsMeteringPoint: FormControl<boolean>;
@@ -102,9 +102,14 @@ export type BusinessCustomerFormGroup = {
   cvr: FormControl<string>;
 };
 
-export type InstallationAddress = NonNullable<
-  MeteringPointDetails['metadata']
->['installationAddress'];
+export type CustomerCharacteristicsFormType = {
+  businessCustomerDetails: FormGroup<BusinessCustomerFormGroup>;
+  privateCustomerDetails: FormGroup<PrivateCustomerFormGroup>;
+  legalContactDetails: FormGroup<ContactDetailsFormType>;
+  legalAddressDetails: FormGroup<AddressDetailsFormType>;
+  technicalContactDetails: FormGroup<ContactDetailsFormType>;
+  technicalAddressDetails: FormGroup<AddressDetailsFormType>;
+};
 
 export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
 
