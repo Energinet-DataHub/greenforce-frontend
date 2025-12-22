@@ -55,7 +55,7 @@ export type ContactDetailsFormGroup = {
 export type AddressDetailsFormType = {
   addressSameAsMeteringPoint: FormControl<boolean>;
   addressGroup: FormGroup<AddressGroup>;
-  nameAddressProtection: FormControl<boolean>;
+  addressProtection: FormControl<boolean>;
 };
 
 export type AddressData = {
@@ -95,11 +95,13 @@ export type PrivateCustomerFormGroup = {
   cpr1: FormControl<string>;
   customerName2: FormControl<string>;
   cpr2: FormControl<string>;
+  nameProtection: FormControl<boolean>;
 };
 
 export type BusinessCustomerFormGroup = {
   companyName: FormControl<string>;
   cvr: FormControl<string>;
+  nameProtection: FormControl<boolean>;
 };
 
 export type CustomerCharacteristicsFormType = {

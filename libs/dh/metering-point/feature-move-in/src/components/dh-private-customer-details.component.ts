@@ -22,6 +22,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 
 @Component({
   selector: 'dh-private-customer-details',
@@ -30,13 +31,14 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
     WattTextFieldComponent,
     TranslocoDirective,
     WattFieldErrorComponent,
+    WattCheckboxComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @let formGroup = privateCustomerFormGroup();
     <ng-container
       [formGroup]="formGroup"
-      *transloco="let t; prefix: 'meteringPoint.moveIn.steps.customerDetails'"
+      *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'"
     >
       <watt-text-field [label]="t('name1')" [formControl]="formGroup.controls.customerName1" />
       <watt-text-field [label]="t('cpr1')" [formControl]="formGroup.controls.cpr1">
@@ -70,6 +72,13 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
           }
         </watt-field-error>
       </watt-text-field>
+      <watt-checkbox
+        [formControl]="formGroup.controls.nameProtection"
+        class="watt-space-stack-l"
+        data-testid="name-protection"
+      >
+        {{ t('nameProtection') }}
+      </watt-checkbox>
     </ng-container>
   `,
 })

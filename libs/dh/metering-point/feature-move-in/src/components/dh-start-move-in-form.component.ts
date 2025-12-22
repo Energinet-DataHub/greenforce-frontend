@@ -71,7 +71,7 @@ import { ChangeOfSupplierBusinessReason } from '@energinet-datahub/dh/shared/dom
 
     <form
       [formGroup]="form"
-      *transloco="let t; prefix: 'meteringPoint.moveIn.steps.customerDetails'"
+      *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'"
     >
       <watt-datepicker
         class="cutOffDate"
@@ -84,7 +84,7 @@ import { ChangeOfSupplierBusinessReason } from '@energinet-datahub/dh/shared/dom
       <watt-dropdown
         class="moveInType"
         dhDropdownTranslator
-        translateKey="meteringPoint.moveIn.steps.businessReason"
+        translateKey="meteringPoint.moveIn.businessReason"
         [label]="t('moveInType')"
         [options]="businessReasonDropdownOptions"
         [showResetOption]="false"

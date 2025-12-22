@@ -113,7 +113,7 @@ import { dayjs } from '@energinet/watt/date';
         <watt-card class="customer-details-card" data-testid="customer-details-card">
           <watt-card-title>
             <h3>
-              {{ t('steps.customerDetails.label') }}
+              {{ t('customerDetails.label') }}
             </h3>
           </watt-card-title>
           @if (isBusinessCustomer()) {
@@ -130,7 +130,7 @@ import { dayjs } from '@energinet/watt/date';
         <watt-card data-testid="legal-details-card">
           <watt-card-title>
             <h3>
-              {{ t('steps.contactDetails.legalContactSection') }}
+              {{ t('contactDetails.legalContactSection') }}
             </h3>
           </watt-card-title>
           <dh-contact-details
@@ -144,7 +144,7 @@ import { dayjs } from '@energinet/watt/date';
         <watt-card data-testid="technical-details-card">
           <watt-card-title>
             <h3>
-              {{ t('steps.contactDetails.technicalContactSection') }}
+              {{ t('contactDetails.technicalContactSection') }}
             </h3>
           </watt-card-title>
           <dh-contact-details
@@ -216,6 +216,7 @@ export class DhUpdateCustomerDataComponent {
     this.formBuilder.group<BusinessCustomerFormGroup>({
       companyName: this.formBuilder.control<string>('', Validators.required),
       cvr: this.formBuilder.control<string>('', [Validators.required, dhCvrValidator()]),
+      nameProtection: this.formBuilder.control<boolean>(false),
     });
 
   privateCustomerDetailsForm: FormGroup<PrivateCustomerFormGroup> =
@@ -224,6 +225,7 @@ export class DhUpdateCustomerDataComponent {
       cpr1: this.formBuilder.control<string>('', [Validators.required, dhCprValidator()]),
       customerName2: this.formBuilder.control<string>(''),
       cpr2: this.formBuilder.control<string>('', dhCprValidator()),
+      nameProtection: this.formBuilder.control<boolean>(false),
     });
 
   legalContactDetailsForm: FormGroup<ContactDetailsFormType> =
@@ -259,7 +261,7 @@ export class DhUpdateCustomerDataComponent {
         postBox: this.formBuilder.control<string>(''),
         darReference: this.formBuilder.control<string>(''),
       }),
-      nameAddressProtection: this.formBuilder.control<boolean>(false),
+      addressProtection: this.formBuilder.control<boolean>(false),
     });
 
   technicalContactDetailsForm: FormGroup<ContactDetailsFormType> =
@@ -295,7 +297,7 @@ export class DhUpdateCustomerDataComponent {
         postBox: this.formBuilder.control<string>(''),
         darReference: this.formBuilder.control<string>(''),
       }),
-      nameAddressProtection: this.formBuilder.control<boolean>(false),
+      addressProtection: this.formBuilder.control<boolean>(false),
     });
 
   // Signals for customer name fields
