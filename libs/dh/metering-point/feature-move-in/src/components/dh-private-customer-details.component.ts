@@ -59,7 +59,11 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
       </watt-text-field>
       <h4>{{ t('customer2') }}</h4>
       <watt-text-field [label]="t('name')" [formControl]="formGroup.controls.customerName2" />
-      <watt-text-field [label]="t('cpr')" [formControl]="formGroup.controls.cpr2" class="watt-space-stack-l">
+      <watt-text-field
+        [label]="t('cpr')"
+        [formControl]="formGroup.controls.cpr2"
+        class="watt-space-stack-l"
+      >
         <watt-field-error>
           @if (formGroup.controls.cpr2.hasError('containsLetters')) {
             {{ t('cprError.containsLetters') }}

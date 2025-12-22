@@ -69,10 +69,7 @@ import { ChangeOfSupplierBusinessReason } from '@energinet-datahub/dh/shared/dom
   template: `
     @let form = startMoveInForm();
 
-    <form
-      [formGroup]="form"
-      *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'"
-    >
+    <form [formGroup]="form" *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'">
       <watt-datepicker
         class="cutOffDate"
         [label]="t('cutOffDate')"

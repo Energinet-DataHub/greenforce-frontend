@@ -143,7 +143,9 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
                   {{ t('municipalityCodeError.containsLetters') }}
                 } @else if (groupControls.municipalityCode.hasError('startsWithZero')) {
                   {{ t('municipalityCodeError.startsWithZero') }}
-                } @else if (groupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')) {
+                } @else if (
+                  groupControls.municipalityCode.hasError('invalidMunicipalityCodeLength')
+                ) {
                   {{ t('municipalityCodeError.invalidMunicipalityCodeLength') }}
                 }
               </watt-field-error>

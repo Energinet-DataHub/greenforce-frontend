@@ -50,7 +50,7 @@ export type ContactDetailsFormGroup = {
   phone: FormControl<string>;
   mobile: FormControl<string>;
   email: FormControl<string>;
-}
+};
 
 export type AddressDetailsFormType = {
   addressSameAsMeteringPoint: FormControl<boolean>;

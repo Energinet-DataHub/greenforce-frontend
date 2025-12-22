@@ -69,7 +69,10 @@ export class DhStartMoveInComponent extends WattTypedModal<{ meteringPointId: st
 
   startMoveInForm = this.fb.group<StartMoveInFormType>({
     cutOffDate: this.fb.control(new Date(), Validators.required),
-    businessReason: this.fb.control<ChangeOfSupplierBusinessReason>('CUSTOMER_MOVE_IN', Validators.required),
+    businessReason: this.fb.control<ChangeOfSupplierBusinessReason>(
+      'CUSTOMER_MOVE_IN',
+      Validators.required
+    ),
     customerType: this.fb.control(this.customerTypeInitialValue),
   });
 

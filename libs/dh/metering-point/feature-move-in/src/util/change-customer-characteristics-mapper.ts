@@ -19,7 +19,9 @@
 import { CustomerCharacteristicsFormType } from '../types';
 import {
   ChangeCustomerCharacteristicsBusinessReason,
-  ChangeCustomerCharacteristicsInput, CustomerInfoV1Input, InputMaybe,
+  ChangeCustomerCharacteristicsInput,
+  CustomerInfoV1Input,
+  InputMaybe,
   UsagePointLocationV1Input,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { FormGroup } from '@angular/forms';
