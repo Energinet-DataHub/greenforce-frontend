@@ -43,7 +43,10 @@ import {
 
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
-import { DhActorStorage, PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 
 import { InstallationAddress } from '../types';
