@@ -29,6 +29,7 @@ public static class MoveInOperations
         DateTimeOffset startDate,
         CustomerIdentificationInput customerIdentification,
         string customerName,
+        string energySupplier,
         CancellationToken ct,
         [Service] IB2CClient ediB2CClient)
     {
@@ -46,6 +47,7 @@ public static class MoveInOperations
             businessReason,
             startDate,
             customerIdentificationV1,
+            energySupplier,
             customerName));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);

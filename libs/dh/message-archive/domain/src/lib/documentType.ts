@@ -20,6 +20,8 @@ import { DocumentType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
   switch (documentType as DocumentType) {
+    case DocumentType.B2CRequestChangeOfSupplier:
+      return 'RSM-001';
     case DocumentType.Acknowledgement:
       return 'RSM-009';
     case DocumentType.SendMeasurements:
@@ -46,6 +48,8 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-019';
     case DocumentType.ReminderOfMissingMeasurements:
       return 'RSM-018';
+    case DocumentType.B2CRequestChangeCustomerCharacteristics:
+      return 'RSM-027';
     case DocumentType.UpdateChargeLinks:
       return 'RSM-030';
     case DocumentType.ConfirmRequestChangeBillingMasterData:
@@ -60,5 +64,11 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-033';
     case DocumentType.RejectRequestChangeOfPriceList:
       return 'RSM-033';
+    case DocumentType.B2CRequestChangeAccountingPointCharacteristics:
+      return 'RSM-???';
+    case DocumentType.B2CRequestChangeOfPriceList:
+      return 'RSM-???';
+    case DocumentType.B2CRequestChangeBillingMasterData:
+      return 'RSM-???';
   }
 };
