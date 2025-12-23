@@ -38,4 +38,9 @@ public enum DocumentType
     RequestChangeOfPriceList,
     ConfirmRequestChangeOfPriceList,
     RejectRequestChangeOfPriceList,
+    B2CRequestChangeAccountingPointCharacteristics,
+    B2CRequestChangeBillingMasterData,
+    B2CRequestChangeOfPriceList,
+    B2CRequestChangeOfSupplier,
+    B2CRequestChangeCustomerCharacteristics,
 }

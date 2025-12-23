@@ -2004,6 +2004,7 @@ input InitiateMoveInInput {
   startDate: DateTime!
   customerIdentification: CustomerIdentificationInput!
   customerName: String!
+  energySupplier: String!
 }
 
 input InvitationUserDetailsDtoInput {
@@ -2558,6 +2559,11 @@ enum DocumentType {
   REQUEST_CHANGE_OF_PRICE_LIST
   CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
+  B2_C_REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS
+  B2_C_REQUEST_CHANGE_BILLING_MASTER_DATA
+  B2_C_REQUEST_CHANGE_OF_PRICE_LIST
+  B2_C_REQUEST_CHANGE_OF_SUPPLIER
+  B2_C_REQUEST_CHANGE_CUSTOMER_CHARACTERISTICS
 }
 
 enum ESettStageComponent {
