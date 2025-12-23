@@ -22,6 +22,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 
 @Component({
   selector: 'dh-private-customer-details',
@@ -30,16 +31,18 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
     WattTextFieldComponent,
     TranslocoDirective,
     WattFieldErrorComponent,
+    WattCheckboxComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @let formGroup = privateCustomerFormGroup();
     <ng-container
       [formGroup]="formGroup"
-      *transloco="let t; prefix: 'meteringPoint.moveIn.steps.customerDetails'"
+      *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'"
     >
-      <watt-text-field [label]="t('name1')" [formControl]="formGroup.controls.customerName1" />
-      <watt-text-field [label]="t('cpr1')" [formControl]="formGroup.controls.cpr1">
+      <h4>{{ t('customer1') }}</h4>
+      <watt-text-field [label]="t('name')" [formControl]="formGroup.controls.customerName1" />
+      <watt-text-field [label]="t('cpr')" [formControl]="formGroup.controls.cpr1" maxLength="10">
         <watt-field-error>
           @if (formGroup.controls.cpr1.hasError('containsLetters')) {
             {{ t('cprError.containsLetters') }}
@@ -54,8 +57,14 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
           }
         </watt-field-error>
       </watt-text-field>
-      <watt-text-field [label]="t('name2')" [formControl]="formGroup.controls.customerName2" />
-      <watt-text-field [label]="t('cpr2')" [formControl]="formGroup.controls.cpr2">
+      <h4>{{ t('customer2') }}</h4>
+      <watt-text-field [label]="t('name')" [formControl]="formGroup.controls.customerName2" />
+      <watt-text-field
+        [label]="t('cpr')"
+        [formControl]="formGroup.controls.cpr2"
+        class="watt-space-stack-l"
+        maxLength="10"
+      >
         <watt-field-error>
           @if (formGroup.controls.cpr2.hasError('containsLetters')) {
             {{ t('cprError.containsLetters') }}
@@ -70,6 +79,13 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
           }
         </watt-field-error>
       </watt-text-field>
+      <watt-checkbox
+        [formControl]="formGroup.controls.nameProtection"
+        class="watt-space-stack-m"
+        data-testid="name-protection"
+      >
+        {{ t('nameProtection') }}
+      </watt-checkbox>
     </ng-container>
   `,
 })

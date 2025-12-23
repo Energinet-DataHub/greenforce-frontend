@@ -17,11 +17,10 @@
  */
 //#endregion
 import { Location } from '@angular/common';
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { Component, computed, DestroyRef, effect, inject, input, signal } from '@angular/core';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DestroyRef } from '@angular/core';
+import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
@@ -38,6 +37,7 @@ import {
   Contact,
   ContactDetailsFormGroup,
   ContactDetailsFormType,
+  CustomerCharacteristicsFormType,
   PrivateCustomerFormGroup,
 } from '../types';
 import { WATT_CARD } from '@energinet/watt/card';
@@ -51,7 +51,10 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import {
   CustomerRelationType,
   GetMeteringPointByIdDocument,
+  RequestChangeCustomerCharacteristicsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-customer-characteristics-mapper';
+import { dayjs } from '@energinet/watt/date';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -91,15 +94,17 @@ import {
     }
   `,
   template: `
-    <form [formGroup]="updateCustomerDataForm" *transloco="let t; prefix: 'meteringPoint.moveIn'">
+    <form
+      [formGroup]="updateCustomerDataForm"
+      (ngSubmit)="updateCustomerData()"
+      *transloco="let t; prefix: 'meteringPoint.moveIn'"
+    >
       <watt-card class="sticky-header">
         <vater-stack class="margin-medium" direction="row" justify="space-between">
           <h3>{{ t('updateCustomerData') }}</h3>
           <vater-stack direction="row" gap="m">
             <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }}</watt-button>
-            <watt-button (click)="updateCustomerData()" type="submit">{{
-              t('updateCustomerData')
-            }}</watt-button>
+            <watt-button type="submit">{{ t('updateCustomerData') }}</watt-button>
           </vater-stack>
         </vater-stack>
       </watt-card>
@@ -108,7 +113,7 @@ import {
         <watt-card class="customer-details-card" data-testid="customer-details-card">
           <watt-card-title>
             <h3>
-              {{ t('steps.customerDetails.label') }}
+              {{ t('customerDetails.label') }}
             </h3>
           </watt-card-title>
           @if (isBusinessCustomer()) {
@@ -125,7 +130,7 @@ import {
         <watt-card data-testid="legal-details-card">
           <watt-card-title>
             <h3>
-              {{ t('steps.contactDetails.legalContactSection') }}
+              {{ t('contactDetails.legalContactSection') }}
             </h3>
           </watt-card-title>
           <dh-contact-details
@@ -139,7 +144,7 @@ import {
         <watt-card data-testid="technical-details-card">
           <watt-card-title>
             <h3>
-              {{ t('steps.contactDetails.technicalContactSection') }}
+              {{ t('contactDetails.technicalContactSection') }}
             </h3>
           </watt-card-title>
           <dh-contact-details
@@ -160,6 +165,9 @@ export class DhUpdateCustomerDataComponent {
   private locationService = inject(Location);
   private actorStorage = inject(DhActorStorage).getSelectedActor();
   private readonly destroyRef = inject(DestroyRef);
+  private readonly requestChangeCustomerCharacteristics = mutation(
+    RequestChangeCustomerCharacteristicsDocument
+  );
 
   isBusinessCustomer = signal<boolean>(false);
   meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
@@ -204,85 +212,93 @@ export class DhUpdateCustomerDataComponent {
       )
   );
 
-  businessCustomerDetailsForm = this.formBuilder.group<BusinessCustomerFormGroup>({
-    companyName: this.formBuilder.control<string>('', Validators.required),
-    cvr: this.formBuilder.control<string>('', [Validators.required, dhCvrValidator()]),
-  });
+  businessCustomerDetailsForm: FormGroup<BusinessCustomerFormGroup> =
+    this.formBuilder.group<BusinessCustomerFormGroup>({
+      companyName: this.formBuilder.control<string>('', Validators.required),
+      cvr: this.formBuilder.control<string>('', [Validators.required, dhCvrValidator()]),
+      nameProtection: this.formBuilder.control<boolean>(false),
+    });
 
-  privateCustomerDetailsForm = this.formBuilder.group<PrivateCustomerFormGroup>({
-    customerName1: this.formBuilder.control<string>('', Validators.required),
-    cpr1: this.formBuilder.control<string>('', [Validators.required, dhCprValidator()]),
-    customerName2: this.formBuilder.control<string>(''),
-    cpr2: this.formBuilder.control<string>('', dhCprValidator()),
-  });
+  privateCustomerDetailsForm: FormGroup<PrivateCustomerFormGroup> =
+    this.formBuilder.group<PrivateCustomerFormGroup>({
+      customerName1: this.formBuilder.control<string>('', Validators.required),
+      cpr1: this.formBuilder.control<string>('', [Validators.required, dhCprValidator()]),
+      customerName2: this.formBuilder.control<string>(''),
+      cpr2: this.formBuilder.control<string>('', dhCprValidator()),
+      nameProtection: this.formBuilder.control<boolean>(false),
+    });
 
-  legalContactDetailsForm = this.formBuilder.group<ContactDetailsFormType>({
-    contactSameAsCustomer: this.formBuilder.control<boolean>(true),
-    contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
-      name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
-      title: this.formBuilder.control<string>(''),
-      phone: this.formBuilder.control<string>('', Validators.required),
-      mobile: this.formBuilder.control<string>('', Validators.required),
-      email: this.formBuilder.control<string>('', [Validators.email, Validators.required]),
-    }),
-  });
+  legalContactDetailsForm: FormGroup<ContactDetailsFormType> =
+    this.formBuilder.group<ContactDetailsFormType>({
+      contactSameAsCustomer: this.formBuilder.control<boolean>(true),
+      contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
+        name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
+        title: this.formBuilder.control<string>(''),
+        phone: this.formBuilder.control<string>('', Validators.required),
+        mobile: this.formBuilder.control<string>('', Validators.required),
+        email: this.formBuilder.control<string>('', [Validators.email, Validators.required]),
+      }),
+    });
 
-  legalAddressDetailsForm = this.formBuilder.group<AddressDetailsFormType>({
-    addressSameAsMeteringPoint: this.formBuilder.control<boolean>(true),
-    addressGroup: this.formBuilder.group({
-      countryCode: this.formBuilder.control<string>('', Validators.required),
-      streetName: this.formBuilder.control<string>('', Validators.required),
-      buildingNumber: this.formBuilder.control<string>('', Validators.required),
-      floor: this.formBuilder.control<string>(''),
-      room: this.formBuilder.control<string>(''),
-      postCode: this.formBuilder.control<string>('', Validators.required),
-      cityName: this.formBuilder.control<string>('', Validators.required),
-      citySubDivisionName: this.formBuilder.control<string>(''),
-      streetCode: this.formBuilder.control<string>('', Validators.required),
-      municipalityCode: this.formBuilder.control<string>('', [
-        dhMunicipalityCodeValidator(),
-        Validators.required,
-      ]),
-      postalDistrict: this.formBuilder.control<string>(''),
-      postBox: this.formBuilder.control<string>(''),
-      darReference: this.formBuilder.control<string>(''),
-    }),
-    nameAddressProtection: this.formBuilder.control<boolean>(false),
-  });
+  legalAddressDetailsForm: FormGroup<AddressDetailsFormType> =
+    this.formBuilder.group<AddressDetailsFormType>({
+      addressSameAsMeteringPoint: this.formBuilder.control<boolean>(true),
+      addressGroup: this.formBuilder.group({
+        countryCode: this.formBuilder.control<string>('', Validators.required),
+        streetName: this.formBuilder.control<string>('', Validators.required),
+        buildingNumber: this.formBuilder.control<string>('', Validators.required),
+        floor: this.formBuilder.control<string>(''),
+        room: this.formBuilder.control<string>(''),
+        postCode: this.formBuilder.control<string>('', Validators.required),
+        cityName: this.formBuilder.control<string>('', Validators.required),
+        citySubDivisionName: this.formBuilder.control<string>(''),
+        streetCode: this.formBuilder.control<string>('', Validators.required),
+        municipalityCode: this.formBuilder.control<string>('', [
+          dhMunicipalityCodeValidator(),
+          Validators.required,
+        ]),
+        postalDistrict: this.formBuilder.control<string>(''),
+        postBox: this.formBuilder.control<string>(''),
+        darReference: this.formBuilder.control<string>(''),
+      }),
+      addressProtection: this.formBuilder.control<boolean>(false),
+    });
 
-  technicalContactDetailsForm = this.formBuilder.group<ContactDetailsFormType>({
-    contactSameAsCustomer: this.formBuilder.control<boolean>(true),
-    contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
-      name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
-      title: this.formBuilder.control<string>(''),
-      phone: this.formBuilder.control<string>('', Validators.required),
-      mobile: this.formBuilder.control<string>('', Validators.required),
-      email: this.formBuilder.control<string>('', [Validators.email, Validators.required]),
-    }),
-  });
+  technicalContactDetailsForm: FormGroup<ContactDetailsFormType> =
+    this.formBuilder.group<ContactDetailsFormType>({
+      contactSameAsCustomer: this.formBuilder.control<boolean>(true),
+      contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
+        name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
+        title: this.formBuilder.control<string>(''),
+        phone: this.formBuilder.control<string>('', Validators.required),
+        mobile: this.formBuilder.control<string>('', Validators.required),
+        email: this.formBuilder.control<string>('', [Validators.email, Validators.required]),
+      }),
+    });
 
-  technicalAddressDetailsForm = this.formBuilder.group<AddressDetailsFormType>({
-    addressSameAsMeteringPoint: this.formBuilder.control<boolean>(true),
-    addressGroup: this.formBuilder.group({
-      countryCode: this.formBuilder.control<string>('', Validators.required),
-      streetName: this.formBuilder.control<string>('', Validators.required),
-      buildingNumber: this.formBuilder.control<string>('', Validators.required),
-      floor: this.formBuilder.control<string>(''),
-      room: this.formBuilder.control<string>(''),
-      postCode: this.formBuilder.control<string>('', Validators.required),
-      cityName: this.formBuilder.control<string>('', Validators.required),
-      citySubDivisionName: this.formBuilder.control<string>(''),
-      streetCode: this.formBuilder.control<string>('', Validators.required),
-      municipalityCode: this.formBuilder.control<string>('', [
-        dhMunicipalityCodeValidator(),
-        Validators.required,
-      ]),
-      postalDistrict: this.formBuilder.control<string>(''),
-      postBox: this.formBuilder.control<string>(''),
-      darReference: this.formBuilder.control<string>(''),
-    }),
-    nameAddressProtection: this.formBuilder.control<boolean>(false),
-  });
+  technicalAddressDetailsForm: FormGroup<AddressDetailsFormType> =
+    this.formBuilder.group<AddressDetailsFormType>({
+      addressSameAsMeteringPoint: this.formBuilder.control<boolean>(true),
+      addressGroup: this.formBuilder.group({
+        countryCode: this.formBuilder.control<string>('', Validators.required),
+        streetName: this.formBuilder.control<string>('', Validators.required),
+        buildingNumber: this.formBuilder.control<string>('', Validators.required),
+        floor: this.formBuilder.control<string>(''),
+        room: this.formBuilder.control<string>(''),
+        postCode: this.formBuilder.control<string>('', Validators.required),
+        cityName: this.formBuilder.control<string>('', Validators.required),
+        citySubDivisionName: this.formBuilder.control<string>(''),
+        streetCode: this.formBuilder.control<string>('', Validators.required),
+        municipalityCode: this.formBuilder.control<string>('', [
+          dhMunicipalityCodeValidator(),
+          Validators.required,
+        ]),
+        postalDistrict: this.formBuilder.control<string>(''),
+        postBox: this.formBuilder.control<string>(''),
+        darReference: this.formBuilder.control<string>(''),
+      }),
+      addressProtection: this.formBuilder.control<boolean>(false),
+    });
 
   // Signals for customer name fields
   private customerName1 = signal(this.privateCustomerDetailsForm.controls.customerName1.value);
@@ -305,7 +321,7 @@ export class DhUpdateCustomerDataComponent {
   );
 
   // Root form group for the entire update customer data form
-  updateCustomerDataForm = this.formBuilder.group({
+  updateCustomerDataForm: FormGroup<CustomerCharacteristicsFormType> = this.formBuilder.group({
     businessCustomerDetails: this.businessCustomerDetailsForm,
     privateCustomerDetails: this.privateCustomerDetailsForm,
     legalContactDetails: this.legalContactDetailsForm,
@@ -443,12 +459,46 @@ export class DhUpdateCustomerDataComponent {
       });
   }
 
-  public updateCustomerData() {
-    if (this.updateCustomerDataForm.valid) {
-      const message = this.translocoService.translate('meteringPoint.moveIn.customerDataSuccess');
-      this.wattToastService.open({ type: 'success', message });
-      this.locationService.back();
+  async updateCustomerData() {
+    const form = this.updateCustomerDataForm;
+    const isCustomerInvalid = this.isBusinessCustomer()
+      ? form.controls.businessCustomerDetails.invalid
+      : form.controls.privateCustomerDetails.invalid;
+    const isRestOfFormInvalid =
+      form.controls.legalContactDetails.invalid ||
+      form.controls.legalAddressDetails.invalid ||
+      form.controls.technicalContactDetails.invalid ||
+      form.controls.technicalAddressDetails.invalid;
+    if (isCustomerInvalid || isRestOfFormInvalid) {
+      return;
     }
+    const input = mapChangeCustomerCharacteristicsFormToRequest(
+      form,
+      this.meteringPointId(),
+      'UPDATE_MASTER_DATA_CONSUMER',
+      dayjs().toDate(),
+      false,
+      this.isBusinessCustomer()
+    );
+    const result = await this.requestChangeCustomerCharacteristics.mutate({ variables: { input } });
+
+    if (result.data?.changeCustomerCharacteristics.success) {
+      this.success();
+    } else {
+      this.error();
+    }
+  }
+
+  success() {
+    const message = this.translocoService.translate('meteringPoint.moveIn.customerDataSuccess');
+    this.wattToastService.open({ type: 'success', message });
+    this.locationService.back();
+  }
+
+  error() {
+    const message = this.translocoService.translate('meteringPoint.moveIn.customerDataFail');
+    this.wattToastService.open({ type: 'warning', message });
+    this.locationService.back();
   }
 
   public cancel() {

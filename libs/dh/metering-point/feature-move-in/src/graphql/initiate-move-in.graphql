@@ -3,3 +3,9 @@ mutation InitiateMoveIn($input: InitiateMoveInInput!) {
     success: boolean
   }
 }
+
+mutation RequestChangeCustomerCharacteristics($input: ChangeCustomerCharacteristicsInput!) {
+  changeCustomerCharacteristics(input: $input) {
+    success: boolean
+  }
+}

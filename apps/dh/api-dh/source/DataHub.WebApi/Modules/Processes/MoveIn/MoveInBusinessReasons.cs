@@ -12,10 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Shared;
+namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
+public enum ChangeOfSupplierBusinessReason
+{
+    CustomerMoveIn,
+    SecondaryMoveIn,
+    ChangeOfEnergySupplier,
+}
 
-public record ChargeLinkId(
-    string MeteringPointId,
-    ChargeIdentifierDto ChargeId);
+public enum ChangeCustomerCharacteristicsBusinessReason
+{
+    ElectricHeating,
+    SecondaryMoveIn,
+    ChangeOfEnergySupplier,
+    UpdateMasterDataConsumer,
+    CustomerMoveIn,
+}
