@@ -156,6 +156,7 @@ import { BusinessReasonV1 } from '@energinet-datahub/dh/shared/domain/graphql';
               [label]="t('cvr')"
               class="cvr"
               [formControl]="businessCustomer.controls.cvr"
+              maxLength="10"
             >
               <watt-field-error>
                 @if (businessCustomer.controls.cvr.hasError('invalidCvrNumber')) {

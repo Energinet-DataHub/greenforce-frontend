@@ -108,7 +108,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{ meteringPointId: st
     const isForeignCompany = this.isForeignCompanyChanged();
     if (isForeignCompany) {
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.disable();
-      this.startMoveInForm.controls.businessCustomer?.controls.cvr.setValue('11111111');
+      this.startMoveInForm.controls.businessCustomer?.controls.cvr.setValue('1111110000');
     } else {
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.enable();
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.reset();
