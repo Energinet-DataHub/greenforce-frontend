@@ -106,7 +106,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
             maxLength="2048"
             [formControl]="form().controls.description"
           />
-          @if (!form().controls.resolution.disabled) {
+          @if (!isResolutionHidden()) {
             <watt-radio-group [label]="t('resolution')" [formControl]="form().controls.resolution">
               <watt-radio [value]="dailyResolution">
                 {{ t('DAILY') }}
@@ -178,6 +178,7 @@ export default class DhChargesCreate {
   dailyResolution: ChargeResolution = 'DAILY';
   hourlyResolution: ChargeResolution = 'HOURLY';
   type = signal<ChargeType | null>(null);
+  isResolutionHidden = computed(() => this.type() !== 'TARIFF' && this.type() !== 'TARIFF_TAX');
   form = computed(
     () =>
       new FormGroup({
@@ -187,7 +188,10 @@ export default class DhChargesCreate {
         description: dhMakeFormControl('', Validators.required),
         validFrom: dhMakeFormControl<Date>(null, Validators.required),
         resolution: dhMakeFormControl<ChargeResolution>(
-          { value: null, disabled: this.type() !== 'TARIFF' && this.type() !== 'TARIFF_TAX' },
+          {
+            value: this.isResolutionHidden() ? 'MONTHLY' : null,
+            disabled: this.isResolutionHidden(),
+          },
           Validators.required
         ),
         vat: dhMakeFormControl<boolean>(null, Validators.required),
@@ -209,7 +213,6 @@ export default class DhChargesCreate {
       this.form().getRawValue();
 
     assertIsDefined(resolution);
-    assertIsDefined(transparentInvoicing);
     assertIsDefined(type);
     assertIsDefined(validFrom);
     assertIsDefined(vat);
