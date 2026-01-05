@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -27,8 +27,9 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
-import { injectRelativeNavigate, injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -54,7 +55,7 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
       #cancel
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.cancel'"
-      (closed)="navigate('..')"
+      (closed)="cancelLink($event)"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
@@ -65,7 +66,7 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
         <watt-button variant="secondary" (click)="cancel.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="secondary" (click)="cancelLink(); cancel.close(true)">
+        <watt-button variant="secondary" (click)="cancel.close(true)">
           {{ t('cancel') }}
         </watt-button>
       </watt-modal-actions>
@@ -75,13 +76,17 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
 export default class DhMeteringPointCancelChargeLink {
   private readonly toast = injectToast('meteringPoint.chargeLinks.cancel.toast');
   private readonly cancel = mutation(CancelChargeLinkDocument);
-  navigate = injectRelativeNavigate();
+  private readonly navigate = inject(DhNavigationService);
   id = input.required<string>();
 
-  async cancelLink() {
+  async cancelLink(saved: boolean) {
+    if (!saved) return this.navigate.navigate('details', this.id());
+
     await this.cancel.mutate({
       variables: { id: this.id() },
     });
+
+    this.navigate.navigate('details', this.id());
   }
 
   constructor() {

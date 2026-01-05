@@ -16,32 +16,33 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, computed, effect, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { WATT_MODAL } from '@energinet/watt/modal';
 import { WATT_RADIO } from '@energinet/watt/radio';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
-import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+
 import {
+  injectToast,
   dhMakeFormControl,
   injectRelativeNavigate,
-  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
-  GetChargeByIdDocument,
   UpdateChargeDocument,
+  GetChargeByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-charges-edit',
@@ -74,13 +75,13 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       </h2>
       <form
         *transloco="let t; prefix: 'charges.actions.create.form'"
-        id="edit-charge"
         vater-stack
         direction="column"
         gap="s"
         align="start"
-        [formGroup]="form()"
+        id="edit"
         (ngSubmit)="save()"
+        [formGroup]="form()"
       >
         <vater-stack fill="horizontal" direction="row" gap="m">
           <watt-text-field
@@ -105,7 +106,9 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         />
         <watt-radio-group readonly [label]="t('resolution')" [value]="resolution()">
           <watt-radio [value]="resolution()">
-            {{ 'charges.resolutions.' + resolution() | transloco }}
+            @if (resolution()) {
+              {{ 'charges.resolutions.' + resolution() | transloco }}
+            }
           </watt-radio>
         </watt-radio-group>
         <watt-radio-group [label]="t('vat')" [formControl]="form().controls.vat">
@@ -135,7 +138,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" formId="edit-charge" type="submit">
+        <watt-button variant="primary" type="submit" formId="edit">
           {{ t('submit') }}
         </watt-button>
       </watt-modal-actions>
@@ -143,8 +146,9 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export default class DhChargesEdit {
-  id = input.required<string>();
+  private readonly modal = viewChild.required(WattModalComponent);
   navigate = injectRelativeNavigate();
+  id = input.required<string>();
   updateCharge = mutation(UpdateChargeDocument);
   toast = injectToast('charges.actions.edit.toast');
   toastEffect = effect(() => this.toast(this.updateCharge.status()));
@@ -174,8 +178,8 @@ export default class DhChargesEdit {
       })
   );
 
-  save() {
-    if (!this.form().valid) return;
+  async save() {
+    if (this.form().invalid) return;
 
     const { cutoffDate, description, name, transparentInvoicing, vat } = this.form().getRawValue();
 
@@ -183,7 +187,7 @@ export default class DhChargesEdit {
     assertIsDefined(transparentInvoicing);
     assertIsDefined(vat);
 
-    this.updateCharge.mutate({
+    await this.updateCharge.mutate({
       variables: {
         input: {
           id: this.id(),
@@ -195,5 +199,7 @@ export default class DhChargesEdit {
         },
       },
     });
+
+    this.modal().close(true);
   }
 }
