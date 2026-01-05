@@ -61,7 +61,7 @@ import { StopChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
       #stop
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.stop'"
-      (closed)="this.navigate.navigate('details', this.id())"
+      (closed)="navigate.navigate('details', this.id())"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
