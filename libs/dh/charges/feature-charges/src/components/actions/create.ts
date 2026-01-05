@@ -209,7 +209,6 @@ export default class DhChargesCreate {
       this.form().getRawValue();
 
     assertIsDefined(resolution);
-    assertIsDefined(transparentInvoicing);
     assertIsDefined(type);
     assertIsDefined(validFrom);
     assertIsDefined(vat);

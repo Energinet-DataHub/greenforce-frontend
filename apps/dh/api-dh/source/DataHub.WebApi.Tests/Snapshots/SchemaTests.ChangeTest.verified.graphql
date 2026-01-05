@@ -1860,7 +1860,7 @@ input CreateChargeInput {
   resolution: ChargeResolution!
   validFrom: DateTime!
   vat: Boolean!
-  transparentInvoicing: Boolean!
+  transparentInvoicing: Boolean
 }
 
 input CreateChargeLinkInput {
