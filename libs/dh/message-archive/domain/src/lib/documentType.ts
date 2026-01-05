@@ -67,7 +67,7 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
     case DocumentType.B2CRequestChangeAccountingPointCharacteristics:
       return 'RSM-???';
     case DocumentType.B2CRequestChangeOfPriceList:
-      return 'RSM-???';
+      return 'RSM-033';
     case DocumentType.B2CRequestChangeBillingMasterData:
       return 'RSM-???';
   }
