@@ -29,7 +29,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
 
 import {
   getPath,
-  ChargeLinksSubPaths,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/routing';
@@ -97,7 +96,9 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
         }
 
         @if (showCreateChargeLinkButton()) {
-          <watt-menu-item [routerLink]="createChargeLinkLink">
+          <watt-menu-item
+            [routerLink]="[createChargeLinkLink, { outlets: { create: ['create'] } }]"
+          >
             {{ t('createChargeLink') }}
           </watt-menu-item>
         }
@@ -125,7 +126,7 @@ export class DhMeteringPointActionsComponent {
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
   getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
-  createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}/${getPath<ChargeLinksSubPaths>('create')}`;
+  createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;
 
   meteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
