@@ -38,9 +38,14 @@ public enum DocumentType
     RequestChangeOfPriceList,
     ConfirmRequestChangeOfPriceList,
     RejectRequestChangeOfPriceList,
+    [GraphQLName("B2C_REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS")]
     B2CRequestChangeAccountingPointCharacteristics,
+    [GraphQLName("B2C_REQUEST_CHANGE_BILLING_MASTER_DATA")]
     B2CRequestChangeBillingMasterData,
+    [GraphQLName("B2C_REQUEST_CHANGE_OF_PRICE_LIST")]
     B2CRequestChangeOfPriceList,
+    [GraphQLName("B2C_REQUEST_CHANGE_OF_SUPPLIER")]
     B2CRequestChangeOfSupplier,
+    [GraphQLName("B2C_REQUEST_CHANGE_CUSTOMER_CHARACTERISTICS")]
     B2CRequestChangeCustomerCharacteristics,
 }
