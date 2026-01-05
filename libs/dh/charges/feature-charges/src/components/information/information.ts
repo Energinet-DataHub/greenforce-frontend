@@ -129,13 +129,13 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
               }
             </watt-description-list-item>
             <watt-description-list-item [label]="t('vat')">
-              @let vatClassification = charge()?.currentPeriod?.vatClassification;
-              @if (vatClassification) {
-                {{ 'charges.vatClassifications.' + vatClassification | transloco }}
+              @let vatInclusive = charge()?.vatInclusive;
+              @if (vatInclusive) {
+                {{ 'charges.vatInclusive.' + vatInclusive | transloco }}
               }
             </watt-description-list-item>
             <watt-description-list-item [label]="t('transparentInvoicing')">
-              @let transparentInvoicing = charge()?.currentPeriod?.transparentInvoicing;
+              @let transparentInvoicing = charge()?.transparentInvoicing;
               {{ transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
             </watt-description-list-item>
           </watt-description-list>

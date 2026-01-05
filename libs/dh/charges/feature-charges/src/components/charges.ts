@@ -121,7 +121,7 @@ export class DhCharges {
     code: { accessor: 'code' },
     name: { accessor: 'name' },
     owner: { accessor: (charge) => charge.owner?.displayName, sort: false },
-    status: { accessor: 'status', sort: false },
+    status: { accessor: 'status' },
   };
 
   filter: GetChargesQueryInput = {

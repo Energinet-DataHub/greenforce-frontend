@@ -83,14 +83,20 @@ public class ChargeStatusTests
                 new List<Charge>
                 {
                     new(
-                        ChargeIdentifierDto: new ChargeIdentifierDto(
+                        Id: new ChargeIdentifierDto(
                             Code: "SUB-123",
                             TypeDto: ExternalChargeType.Subscription,
                             Owner: "Energy Provider A"),
                         Type: ChargeType.Make(ExternalChargeType.Subscription, false),
+                        Name: "Standard Period",
+                        Description: "Period 1",
                         Resolution: Resolution.Daily,
                         TaxIndicator: false,
-                        HasAnyPrices: hasAnyPrices,
+                        VatInclusive: false,
+                        TransparentInvoicing: false,
+                        HasSeriesAndIsCurrent: hasAnyPrices,
+                        ValidFrom: validFrom,
+                        ValidTo: validTo == DateTimeOffset.MaxValue ? null : validTo,
                         Periods: [new(
                                 Description: "Period 1",
                                 StartDate: Instant.FromDateTimeOffset(validFrom),
@@ -99,14 +105,20 @@ public class ChargeStatusTests
                                 VatClassificationDto: VatClassificationDto.NoVat,
                                 Name: "Standard Period")]),
                     new(
-                        ChargeIdentifierDto: new ChargeIdentifierDto(
+                        Id: new ChargeIdentifierDto(
                             Code: "FEE-456",
                             TypeDto: ExternalChargeType.Fee,
                             Owner: "Grid Company B"),
                         Type: ChargeType.Make(ExternalChargeType.Fee, false),
+                        Name: "Standard Period",
+                        Description: "Period 1",
                         Resolution: Resolution.Daily,
                         TaxIndicator: false,
-                        HasAnyPrices: hasAnyPrices,
+                        VatInclusive: false,
+                        TransparentInvoicing: false,
+                        HasSeriesAndIsCurrent: hasAnyPrices,
+                        ValidFrom: validFrom,
+                        ValidTo: validTo == DateTimeOffset.MaxValue ? null : validTo,
                         Periods: [
                             new(
                                 Description: "Period 1",

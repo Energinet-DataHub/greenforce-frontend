@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Buffers.Text;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -20,9 +21,9 @@ namespace Energinet.DataHub.WebApi.Modules.Common.Utilities;
 public static class JsonBase64Converter
 {
     public static string Serialize<T>(T obj) =>
-        Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(obj)));
+        Base64Url.EncodeToString(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(obj)));
 
     public static T Deserialize<T>(string base64) =>
-        JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(Convert.FromBase64String(base64)))
+        JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(Base64Url.DecodeFromChars(base64)))
             ?? throw new ArgumentException("Invalid base64 string", nameof(base64));
 }

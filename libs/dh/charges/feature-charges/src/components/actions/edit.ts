@@ -132,7 +132,6 @@ import {
             </watt-radio>
           </watt-radio-group>
         }
-        <!-- datepicker does not support updating formControl -->
         <watt-datepicker [label]="t('cutoffDate')" [formControl]="cutoffDate" />
       </form>
       <watt-modal-actions>
@@ -157,12 +156,13 @@ export default class DhChargesEdit {
   charge = computed(() => this.query.data()?.chargeById);
   code = computed(() => this.charge()?.code);
   name = computed(() => this.charge()?.name ?? '');
-  description = computed(() => this.charge()?.currentPeriod?.description ?? '');
+  description = computed(() => this.charge()?.description ?? '');
   resolution = computed(() => this.charge()?.resolution);
   type = computed(() => this.charge()?.type);
-  vat = computed(() => this.charge()?.currentPeriod?.vatClassification === 'VAT25');
-  transparentInvoicing = computed(() => this.charge()?.currentPeriod?.transparentInvoicing ?? null);
-  cutoffDate = dhMakeFormControl<Date | null>(null, Validators.required);
+  vat = computed(() => this.charge()?.vatInclusive);
+  transparentInvoicing = computed(() => this.charge()?.transparentInvoicing ?? null);
+  // datepicker does not support updating formControl
+  cutoffDate = dhMakeFormControl<Date>(null, Validators.required);
   form = computed(
     () =>
       new FormGroup({

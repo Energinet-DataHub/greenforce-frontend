@@ -294,15 +294,17 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
 type Charge {
   series(interval: DateRange!): [ChargeSeries!]!
   owner: MarketParticipant
-  currentPeriod: ChargePeriod
   status: ChargeStatus!
   id: String!
-  type: ChargeType!
   code: String!
-  name: String
+  name: String!
+  type: ChargeType!
   displayName: String!
-  resolution: ChargeResolution!
+  description: String!
   periods: [ChargePeriod!]!
+  resolution: ChargeResolution!
+  transparentInvoicing: Boolean!
+  vatInclusive: Boolean!
 }
 
 type ChargeLink {
@@ -325,12 +327,12 @@ type ChargeLinkPeriod {
 }
 
 type ChargePeriod {
-  isCurrent: Boolean!
-  description: String!
   period: DateRange!
-  transparentInvoicing: Boolean!
-  vatClassification: VatClassificationDto!
+  isCurrent: Boolean!
   name: String!
+  description: String!
+  transparentInvoicing: Boolean!
+  vatInclusive: Boolean!
 }
 
 type ChargeSeries {
@@ -1823,9 +1825,10 @@ input ChargePointV1Input {
 }
 
 input ChargeSortInput {
-  type: SortEnumType
-  code: SortEnumType
   name: SortEnumType
+  code: SortEnumType
+  type: SortEnumType
+  status: SortEnumType
 }
 
 input CreateActorContactDtoInput {
@@ -2918,6 +2921,12 @@ enum ProcessStepType {
   BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3
   "BRS-002 Request End of Supply - Step 4: Notify cancellation of end of supply (RSM-020)"
   BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4
+  "BRS-004 Creation of metering point - Step 1 - Request creation of metering point (RSM-021)"
+  BRS_004_CREATEMETERINGPOINT_V1_STEP_1
+  "BRS-004 Creation of metering point - Step 2 - Confirm creation of metering point (RSM-021)"
+  BRS_004_CREATEMETERINGPOINT_V1_STEP_2
+  "BRS-004 Creation of metering point - Step 3 - Reject creation of metering point (RSM-021)"
+  BRS_004_CREATEMETERINGPOINT_V1_STEP_3
   """
   Unknown or unmapped step type.
   Used when ProcessManager returns a step we haven't added to this enum yet.
@@ -3173,11 +3182,6 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
-}
-
-enum VatClassificationDto {
-  NO_VAT
-  VAT25
 }
 
 enum WashInstructions {

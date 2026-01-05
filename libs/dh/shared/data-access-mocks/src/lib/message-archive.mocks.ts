@@ -152,6 +152,8 @@ function getMeteringPointProcessOverview() {
       'ChangeMeteringMethod',
       'ChangeSupplier',
       'ConnectionStatusUpdate',
+      'NewMeteringPoint',
+      'ConnectMeteringPoint',
     ];
 
     const states = [

@@ -11,9 +11,7 @@ query GetChargeLinksByMeteringPointId(
     charge {
       id
       code
-      currentPeriod {
-        transparentInvoicing
-      }
+      transparentInvoicing
       name
       type
       status
