@@ -43,7 +43,7 @@
         "libphonenumber-js": "1.11.9",
         "ngx-mat-select-search": "8.0.4",
         "papaparse": "5.5.3",
-        "qs": "6.12.1",
+        "qs": "6.14.1",
         "rxjs": "7.8.2",
         "storybook": "10.1.10",
         "tslib": "2.4.0",
@@ -3389,7 +3389,7 @@
 
     "pure-rand": ["pure-rand@7.0.1", "", {}, "sha512-oTUZM/NAZS8p7ANR3SHh30kXB+zK2r2BPcEn/awJIbOvq82WoMN4p62AWWp3Hhw50G0xMsw1mhIBLqHw64EcNQ=="],
 
-    "qs": ["qs@6.12.1", "", { "dependencies": { "side-channel": "^1.0.6" } }, "sha512-zWmv4RSuB9r2mYQw3zxQuHWeU+42aKi1wWig/j4ele4ygELZ7PEO6MM7rim9oAQH2A5MWfsAVf/jPvTPgCbvUQ=="],
+    "qs": ["qs@6.14.1", "", { "dependencies": { "side-channel": "^1.1.0" } }, "sha512-4EK3+xJl8Ts67nLYNwqw/dsFVnCf+qR7RgXSK9jEEm9unao3njwMDdmsdvoKBKHzxd7tCYz5e5M+SnMjdtXGQQ=="],
 
     "querystringify": ["querystringify@2.2.0", "", {}, "sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ=="],
 
