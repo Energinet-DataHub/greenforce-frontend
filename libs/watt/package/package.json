@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@energinet/watt",
-  "version": "4.2.9",
+  "version": "4.2.10",
   "license": "Apache-2.0",
   "exports": {
     ".": {
@@ -29,7 +29,7 @@
     "dayjs": "^1.11.13",
     "libphonenumber-js": "^1.11.9",
     "ngx-mat-select-search": "^8.0.4",
-    "qs": "^6.12.1",
+    "qs": "^6.14.1",
     "rxjs": "^7.8.2"
   }
 }
