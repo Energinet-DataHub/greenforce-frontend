@@ -18,6 +18,8 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
 using HotChocolate.Authorization;
+using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1;
+using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 
@@ -42,22 +44,9 @@ public static class MoveInOperations
         };
 
         var customerIdentificationV1 = new CustomerIdentificationV1(customerIdentificationObject);
-
-        // Map to external enum
-        var externalBusinessReason = businessReason switch
-        {
-            ChangeOfSupplierBusinessReason.CustomerMoveIn => Energinet.DataHub.EDI.B2CClient.Abstractions
-                .RequestChangeOfSupplier.V1.Models.BusinessReasonV1.CustomerMoveIn,
-            ChangeOfSupplierBusinessReason.SecondaryMoveIn => Energinet.DataHub.EDI.B2CClient.Abstractions
-                .RequestChangeOfSupplier.V1.Models.BusinessReasonV1.SecondaryMoveIn,
-            ChangeOfSupplierBusinessReason.ChangeOfEnergySupplier => Energinet.DataHub.EDI.B2CClient.Abstractions
-                .RequestChangeOfSupplier.V1.Models.BusinessReasonV1.ChangeOfEnergySupplier,
-            _ => throw new ArgumentOutOfRangeException(nameof(businessReason)),
-        };
-
         var command = new RequestChangeOfSupplierCommandV1(new RequestChangeOfSupplierRequestV1(
             meteringPointId,
-            externalBusinessReason,
+            businessReason,
             startDate,
             customerIdentificationV1,
             customerName));
@@ -80,26 +69,10 @@ public static class MoveInOperations
         CancellationToken ct,
         [Service] IB2CClient ediB2CClient)
     {
-        // Map to external enum
-        var externalBusinessReason = businessReason switch
-        {
-            ChangeCustomerCharacteristicsBusinessReason.ElectricHeating => Energinet.DataHub.EDI.B2CClient.Abstractions
-                .RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1.ElectricHeating,
-            ChangeCustomerCharacteristicsBusinessReason.SecondaryMoveIn => Energinet.DataHub.EDI.B2CClient.Abstractions
-                .RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1.SecondaryMoveIn,
-            ChangeCustomerCharacteristicsBusinessReason.ChangeOfEnergySupplier => Energinet.DataHub.EDI.B2CClient.Abstractions
-                .RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1.ChangeOfEnergySupplier,
-            ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer => Energinet.DataHub.EDI.B2CClient.Abstractions
-                .RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1.UpdateMasterDataConsumer,
-            ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn => Energinet.DataHub.EDI.B2CClient.Abstractions
-                .RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1.CustomerMoveIn,
-            _ => throw new ArgumentOutOfRangeException(nameof(businessReason)),
-        };
-
         var command = new RequestChangeCustomerCharacteristicsCommandV1(
             new RequestChangeCustomerCharacteristicsRequestV1(
                 meteringPointId,
-                externalBusinessReason,
+                businessReason,
                 startDate,
                 firstCustomer,
                 secondCustomer,

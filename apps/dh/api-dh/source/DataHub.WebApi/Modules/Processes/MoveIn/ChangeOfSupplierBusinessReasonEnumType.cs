@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
 
-public enum ChangeOfSupplierBusinessReason
-{
-    CustomerMoveIn,
-    SecondaryMoveIn,
-    ChangeOfEnergySupplier,
-}
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Types;
 
-public enum ChangeCustomerCharacteristicsBusinessReason
+public class ChangeOfSupplierBusinessReasonEnumType : EnumType<BusinessReasonV1>
 {
-    ElectricHeating,
-    SecondaryMoveIn,
-    ChangeOfEnergySupplier,
-    UpdateMasterDataConsumer,
-    CustomerMoveIn,
+    protected override void Configure(IEnumTypeDescriptor<BusinessReasonV1> descriptor)
+    {
+        descriptor.Name("ChangeOfSupplierBusinessReason");
+    }
 }
