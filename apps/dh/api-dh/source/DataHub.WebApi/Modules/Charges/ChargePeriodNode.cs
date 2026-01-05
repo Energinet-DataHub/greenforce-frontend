@@ -13,24 +13,30 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using NodaTime;
+using NodaTime.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
 [ObjectType<ChargeInformationPeriodDto>]
 public static partial class ChargePeriodNode
 {
-    public static bool IsCurrent([Parent] ChargeInformationPeriodDto period) => period.IsCurrent();
+    public static Interval GetPeriod([Parent] ChargeInformationPeriodDto p) =>
+        new Interval(p.StartDate, p.EndDate);
+
+    public static bool IsCurrent([Parent] ChargeInformationPeriodDto p) =>
+        GetPeriod(p).Contains(DateTimeOffset.Now.ToInstant());
 
     static partial void Configure(IObjectTypeDescriptor<ChargeInformationPeriodDto> descriptor)
     {
         descriptor.Name("ChargePeriod");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.Description);
-        descriptor.Field(f => new Interval(f.StartDate, f.EndDate)).Name("period");
-        descriptor.Field(f => f.TransparentInvoicing);
-        descriptor.Field(f => f.VatClassificationDto).Name("vatClassification");
         descriptor.Field(f => f.Name);
+        descriptor.Field(f => f.Description);
+        descriptor.Field(f => f.TransparentInvoicing);
+        descriptor
+            .Field(f => f.VatClassificationDto == VatClassificationDto.Vat25)
+            .Name("vatInclusive");
     }
 }
