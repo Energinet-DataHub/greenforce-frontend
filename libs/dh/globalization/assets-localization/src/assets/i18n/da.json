@@ -905,6 +905,7 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Anmodning om oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
         "UNKNOWN": "Ukendt trin"
       },
       "details": {
