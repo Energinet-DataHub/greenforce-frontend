@@ -291,6 +291,10 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
   steps: [OrchestrationInstanceStep!]!
 }
 
+type ChangeCustomerCharacteristicsPayload {
+  boolean: Boolean
+}
+
 type Charge {
   series(interval: DateRange!): [ChargeSeries!]!
   owner: MarketParticipant
@@ -1093,6 +1097,7 @@ type Mutation {
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
+  changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
@@ -1808,6 +1813,16 @@ input CancelSettlementReportInput {
   id: String!
 }
 
+input ChangeCustomerCharacteristicsInput {
+  meteringPointId: String!
+  businessReason: ChangeCustomerCharacteristicsBusinessReason!
+  startDate: DateTime!
+  firstCustomer: CustomerInfoV1Input!
+  secondCustomer: CustomerInfoV1Input
+  electricalHeating: Boolean!
+  usagePointLocations: [UsagePointLocationV1Input!]
+}
+
 input ChargeIdentifierDtoSortInput {
   code: SortEnumType
   owner: SortEnumType
@@ -1925,6 +1940,12 @@ input CustomerIdentificationInput {
   type: String
 }
 
+input CustomerInfoV1Input {
+  cvrOrCpr: String!
+  customerName: String
+  protectedName: Boolean
+}
+
 input DeactivateUserInput {
   userId: UUID!
 }
@@ -2003,7 +2024,7 @@ input GridAreaSortInput {
 
 input InitiateMoveInInput {
   meteringPointId: String!
-  businessReason: BusinessReasonV1!
+  businessReason: ChangeOfSupplierBusinessReason!
   startDate: DateTime!
   customerIdentification: CustomerIdentificationInput!
   customerName: String!
@@ -2226,6 +2247,21 @@ input StopProcessDelegationDtoInput {
   stopsAt: DateTime
 }
 
+input StreetDetailV1Input {
+  buildingNumber: String
+  streetName: String
+  streetCode: String
+  suiteNumber: String
+  floor: String
+}
+
+input TownDetailV1Input {
+  municipalityCode: String
+  additionalCityName: String
+  cityName: String
+  country: String
+}
+
 input UpdateActorUserRolesInput {
   actorId: UUID!
   assignments: UpdateUserRoleAssignmentsDtoInput!
@@ -2289,6 +2325,21 @@ input UpdateUserRoleInput {
   userRole: UpdateUserRoleDtoInput!
 }
 
+input UsagePointLocationV1Input {
+  addressType: AddressTypeV1!
+  darReference: String
+  attention: String
+  email: String
+  streetDetail: StreetDetailV1Input
+  townDetail: TownDetailV1Input
+  postalCode: String
+  contactName: String
+  phone: String
+  poBox: String
+  mobile: String
+  protectedAddress: Boolean
+}
+
 input UserIdentityUpdateDtoInput {
   firstName: String!
   lastName: String!
@@ -2338,6 +2389,11 @@ enum ActorAuditedChange {
   CONSOLIDATION_COMPLETED
   ADDITIONAL_RECIPIENT_METERING_POINT_ADDED
   ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
+}
+
+enum AddressTypeV1 {
+  TECHNICAL
+  LEGAL
 }
 
 enum AggregatedResolution {
@@ -2422,12 +2478,6 @@ enum BusinessReason {
   D32
 }
 
-enum BusinessReasonV1 {
-  CUSTOMER_MOVE_IN
-  SECONDARY_MOVE_IN
-  CHANGE_OF_ENERGY_SUPPLIER
-}
-
 enum CalculationExecutionType {
   EXTERNAL
   INTERNAL
@@ -2453,6 +2503,20 @@ enum CalculationTypeQueryParameterV1 {
   CAPACITY_SETTLEMENT
   NET_CONSUMPTION
   MISSING_MEASUREMENTS_LOG
+}
+
+enum ChangeCustomerCharacteristicsBusinessReason {
+  ELECTRIC_HEATING
+  SECONDARY_MOVE_IN
+  CHANGE_OF_ENERGY_SUPPLIER
+  UPDATE_MASTER_DATA_CONSUMER
+  CUSTOMER_MOVE_IN
+}
+
+enum ChangeOfSupplierBusinessReason {
+  CUSTOMER_MOVE_IN
+  SECONDARY_MOVE_IN
+  CHANGE_OF_ENERGY_SUPPLIER
 }
 
 enum ChargeResolution {

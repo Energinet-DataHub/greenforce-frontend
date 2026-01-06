@@ -34,7 +34,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { StartMoveInFormType } from '../types';
-import { BusinessReasonV1 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ChangeOfSupplierBusinessReason } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-start-move-in-form',
@@ -69,10 +69,7 @@ import { BusinessReasonV1 } from '@energinet-datahub/dh/shared/domain/graphql';
   template: `
     @let form = startMoveInForm();
 
-    <form
-      [formGroup]="form"
-      *transloco="let t; prefix: 'meteringPoint.moveIn.steps.customerDetails'"
-    >
+    <form [formGroup]="form" *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'">
       <watt-datepicker
         class="cutOffDate"
         [label]="t('cutOffDate')"
@@ -84,7 +81,7 @@ import { BusinessReasonV1 } from '@energinet-datahub/dh/shared/domain/graphql';
       <watt-dropdown
         class="moveInType"
         dhDropdownTranslator
-        translateKey="meteringPoint.moveIn.steps.businessReason"
+        translateKey="meteringPoint.moveIn.businessReason"
         [label]="t('moveInType')"
         [options]="businessReasonDropdownOptions"
         [showResetOption]="false"
@@ -156,6 +153,7 @@ import { BusinessReasonV1 } from '@energinet-datahub/dh/shared/domain/graphql';
               [label]="t('cvr')"
               class="cvr"
               [formControl]="businessCustomer.controls.cvr"
+              maxLength="10"
             >
               <watt-field-error>
                 @if (businessCustomer.controls.cvr.hasError('invalidCvrNumber')) {
@@ -179,7 +177,7 @@ export class DhStartMoveInFormComponent {
   sixtyDaysFromNow = dayjs().add(60, 'day').toDate();
 
   businessReasonDropdownOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
-    BusinessReasonV1,
+    ChangeOfSupplierBusinessReason,
     ['CHANGE_OF_ENERGY_SUPPLIER']
   );
 }

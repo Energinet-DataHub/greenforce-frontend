@@ -1,0 +1,5 @@
+mutation RequestChangeCustomerCharacteristics($input: ChangeCustomerCharacteristicsInput!) {
+  changeCustomerCharacteristics(input: $input) {
+    success: boolean
+  }
+}

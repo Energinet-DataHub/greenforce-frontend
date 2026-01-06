@@ -1022,77 +1022,75 @@
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "updateCustomerData": "Opdater kundestamdata",
-      "steps": {
-        "customerDetails": {
-          "label": "Kundedetaljer",
-          "cutOffDate": "Skæringsdato",
-          "moveInType": "Tilflytningstype",
-          "customerInformation": "Kundeoplysninger",
-          "private": "Privat",
-          "business": "Erhverv",
-          "name": "Kundenavn",
-          "cpr": "CPR",
-          "name1": "Kundenavn 1",
-          "cpr1": "CPR 1",
-          "name2": "Kundenavn 2",
-          "cpr2": "CPR 2",
-          "companyName": "Navn",
-          "cvr": "CVR",
-          "foreignCompany": "Udenlandsk virksomhed",
-          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-          "cprError": {
-            "containsLetters": "Må ikke indeholde bogstaver",
-            "containsDash": "Må ikke indeholde bindestreg",
-            "invalidCprLength": "Skal bestå af 10 cifre",
-            "invalidDate": "Ugyldig dato",
-            "allOnes": "Må ikke bruges"
-          },
-          "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
+      "customerDetails": {
+        "label": "Kundedetaljer",
+        "cutOffDate": "Skæringsdato",
+        "moveInType": "Tilflytningstype",
+        "customerInformation": "Kundeoplysninger",
+        "private": "Privat",
+        "business": "Erhverv",
+        "customer1": "Kunde 1",
+        "customer2": "Kunde 2",
+        "name": "Kundenavn",
+        "cpr": "CPR",
+        "companyName": "Navn",
+        "cvr": "CVR",
+        "foreignCompany": "Udenlandsk virksomhed",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "cprError": {
+          "containsLetters": "Må ikke indeholde bogstaver",
+          "containsDash": "Må ikke indeholde bindestreg",
+          "invalidCprLength": "Skal bestå af 10 cifre",
+          "invalidDate": "Ugyldig dato",
+          "allOnes": "Må ikke bruges"
         },
-        "contactDetails": {
-          "label": "Kontakdetaljer",
-          "legalContactSection": "Juridisk kontakt",
-          "technicalContactSection": "Teknisk kontakt",
-          "contactSameAsCustomer": "Samme som kundenavn",
-          "technicalContactSameAsLegal": "Samme som juridisk kontakt",
-          "contactName": "Kontaktnavn",
-          "attention": "Att.",
-          "phoneNumber": "Telefonnr.",
-          "mobile": "Mobil",
-          "email": "E-mail adresse",
-          "invalidEmail": "Ugyldig e-mail"
+        "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
+        "nameProtection": "Navnebeskyttelse"
+      },
+      "contactDetails": {
+        "label": "Kontakdetaljer",
+        "legalContactSection": "Juridisk kontakt",
+        "technicalContactSection": "Teknisk kontakt",
+        "contactSameAsCustomer": "Samme som kundenavn",
+        "technicalContactSameAsLegal": "Samme som juridisk kontakt",
+        "contactName": "Kontaktnavn",
+        "attention": "Att.",
+        "phoneNumber": "Telefonnr.",
+        "mobile": "Mobil",
+        "email": "E-mail adresse",
+        "invalidEmail": "Ugyldig e-mail"
+      },
+      "addressDetails": {
+        "label": "Adresseoplysninger",
+        "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+        "street": "Vejnavn",
+        "houseNumber": "Husnummer",
+        "floor": "Etage",
+        "door": "Dørbetegnelse",
+        "postalCode": "Postnummer",
+        "city": "Bynavn",
+        "country": "Land",
+        "streetCode": "Vejkode",
+        "citySubdivisionName": "Supplerende bynavn",
+        "postalDistrict": "Postdistrikt",
+        "postBox": "Postboks",
+        "municipalityCode": "Kommunekode",
+        "municipalityCodeError": {
+          "containsLetters": "Må ikke indeholde bogstaver",
+          "startsWithZero": "Må ikke starte med 0",
+          "invalidMunicipalityCodeLength": "Skal bestå af 3 cifre"
         },
-        "addressDetails": {
-          "label": "Adresseoplysninger",
-          "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
-          "street": "Vejnavn",
-          "houseNumber": "Husnummer",
-          "floor": "Etage",
-          "door": "Dørbetegnelse",
-          "postalCode": "Postnummer",
-          "city": "Bynavn",
-          "country": "Land",
-          "streetCode": "Vejkode",
-          "citySubdivisionName": "Supplerende bynavn",
-          "postalDistrict": "Postdistrikt",
-          "postBox": "Postboks",
-          "municipalityCode": "Kommunekode",
-          "municipalityCodeError": {
-            "containsLetters": "Må ikke indeholde bogstaver",
-            "startsWithZero": "Må ikke starte med 0",
-            "invalidMunicipalityCodeLength": "Skal bestå af 3 cifre"
-          },
-          "darReference": "DAR-reference",
-          "nameAddressProtection": "Navne- og adressebeskyttelse"
-        },
-        "businessReason": {
-          "CUSTOMER_MOVE_IN": "Almindelig (E65)",
-          "SECONDARY_MOVE_IN": "Sekundær (D29)"
-        }
+        "darReference": "DAR-reference",
+        "nameAddressProtection": "Navne- og adressebeskyttelse"
+      },
+      "businessReason": {
+        "CUSTOMER_MOVE_IN": "Almindelig (E65)",
+        "SECONDARY_MOVE_IN": "Sekundær (D29)"
       },
       "moveInSuccess": "Tilflytningen er nu registreret",
       "moveInFail": "Tilflytningen fejlede",
       "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
+      "customerDataFail": "Kundestamdata opdatering fejlede",
       "save": "Tilflyt kunde",
       "cancel": "Annuller"
     },
