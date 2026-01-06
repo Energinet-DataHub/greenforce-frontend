@@ -57,7 +57,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
     <ng-container
       [formGroup]="formGroup"
-      *transloco="let t; prefix: 'meteringPoint.moveIn.steps.addressDetails'"
+      *transloco="let t; prefix: 'meteringPoint.moveIn.addressDetails'"
     >
       <vater-flex direction="row" align="center" justify="space-between" gap="xl">
         <vater-flex>
@@ -172,9 +172,9 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
           />
 
           <watt-checkbox
-            [formControl]="formGroup.controls.nameAddressProtection"
+            [formControl]="formGroup.controls.addressProtection"
             class="watt-space-stack-l"
-            data-testid="name-address-protection"
+            data-testid="address-protection"
           >
             {{ t('nameAddressProtection') }}
           </watt-checkbox>
