@@ -16,16 +16,43 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { DhActorConversationCaseListComponent } from './actor-conversation-case-list';
+import { DhActorConversationNewCaseComponent } from './actor-conversation-new-case';
+import { VaterFlexComponent } from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
-  imports: [],
+  imports: [
+    DhActorConversationCaseListComponent,
+    DhActorConversationNewCaseComponent,
+    VaterFlexComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: `
+    .flex-1 {
+      flex: 1;
+    }
+
+    .flex-3 {
+      flex: 3;
+    }
+
+    .padding-m {
+      padding: var(--watt-space-m);
+    }
+  `,
   template: `
-    <h1>ACTOR CONVERSATION WORKS!</h1>
+    <vater-flex direction="row" fill="vertical" gap="m" class="padding-m">
+      <dh-actor-conversation-case-list (createNewCase)="newCaseVisible.set(true)" class="flex-1" />
+      @if (newCaseVisible()) {
+        <dh-actor-conversation-new-case class="flex-3" />
+      } @else {
+        <div class="flex-3"></div>
+      }
+    </vater-flex>
   `,
 })
 export class DhActorConversationShellComponent {
-
+  newCaseVisible = signal(false);
 }
