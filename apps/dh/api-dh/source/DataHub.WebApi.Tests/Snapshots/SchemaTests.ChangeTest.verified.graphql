@@ -1817,8 +1817,11 @@ input ChangeCustomerCharacteristicsInput {
   meteringPointId: String!
   businessReason: ChangeCustomerCharacteristicsBusinessReason!
   startDate: DateTime!
-  firstCustomer: CustomerInfoV1Input!
-  secondCustomer: CustomerInfoV1Input
+  firstCustomerCvrOrCpr: String!
+  firstCustomerName: String
+  secondCustomerCpr: String
+  secondCustomerName: String
+  protectedName: Boolean
   electricalHeating: Boolean!
   usagePointLocations: [UsagePointLocationV1Input!]
 }
@@ -1938,12 +1941,6 @@ input CreateUserRoleInput {
 input CustomerIdentificationInput {
   id: String
   type: String
-}
-
-input CustomerInfoV1Input {
-  cvrOrCpr: String!
-  customerName: String
-  protectedName: Boolean
 }
 
 input DeactivateUserInput {
