@@ -45,6 +45,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { Charge } from '../types';
+import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'dh-metering-point-charge-links-tariff-subscriptions',
   imports: [
@@ -125,7 +126,9 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
   navigation = inject(DhNavigationService);
   dataSource = dataSource(() =>
     (this.query.data()?.chargeLinksByMeteringPointId ?? []).filter(
-      (chargeLink) => chargeLink.charge?.type != ChargeType.Fee
+      (chargeLink) =>
+        chargeLink.charge?.type != ChargeType.Fee &&
+        (this.typeFilterChanged()?.includes(chargeLink.charge?.type) ?? true)
     )
   );
 
@@ -134,6 +137,8 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
   form = new FormGroup({
     chargeTypes: dhMakeFormControl(),
   });
+
+  typeFilterChanged = toSignal(this.form.controls.chargeTypes.valueChanges, { initialValue: null });
 
   columns: WattTableColumnDef<Charge> = {
     type: { accessor: (chargeLink) => chargeLink.charge?.type },
