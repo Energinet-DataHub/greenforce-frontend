@@ -48,6 +48,8 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-019';
     case DocumentType.ReminderOfMissingMeasurements:
       return 'RSM-018';
+    case DocumentType.B2CRequestChangeAccountingPointCharacteristics:
+      return 'RSM-021';
     case DocumentType.B2CRequestChangeCustomerCharacteristics:
       return 'RSM-027';
     case DocumentType.UpdateChargeLinks:
@@ -64,8 +66,6 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-033';
     case DocumentType.RejectRequestChangeOfPriceList:
       return 'RSM-033';
-    case DocumentType.B2CRequestChangeAccountingPointCharacteristics:
-      return 'RSM-???';
     case DocumentType.B2CRequestChangeOfPriceList:
       return 'RSM-033';
     case DocumentType.B2CRequestChangeBillingMasterData:
