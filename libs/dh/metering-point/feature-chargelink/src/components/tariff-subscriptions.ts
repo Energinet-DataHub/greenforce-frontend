@@ -17,7 +17,6 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Component, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -41,6 +40,7 @@ import {
 
 import {
   dhMakeFormControl,
+  dhFormControlToSignal,
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
@@ -138,7 +138,7 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
     chargeTypes: dhMakeFormControl(),
   });
 
-  typeFilterChanged = toSignal(this.form.controls.chargeTypes.valueChanges, { initialValue: null });
+  typeFilterChanged = dhFormControlToSignal(this.form.controls.chargeTypes);
 
   columns: WattTableColumnDef<Charge> = {
     type: { accessor: (chargeLink) => chargeLink.charge?.type },
