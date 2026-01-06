@@ -19,11 +19,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'dh-actor-dialog-shell',
+  selector: 'dh-actor-conversation-shell',
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <h1>ACTOR DIALOG WORKS!</h1>
+    <h1>ACTOR CONVERSATION WORKS!</h1>
   `,
 })
 export class DhActorConversationShellComponent {
