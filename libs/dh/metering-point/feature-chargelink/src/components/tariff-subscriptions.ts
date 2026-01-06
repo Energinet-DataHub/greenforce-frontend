@@ -17,8 +17,8 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, inject, input } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
@@ -40,6 +40,7 @@ import {
 
 import {
   dhMakeFormControl,
+  dhFormControlToSignal,
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
@@ -125,7 +126,9 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
   navigation = inject(DhNavigationService);
   dataSource = dataSource(() =>
     (this.query.data()?.chargeLinksByMeteringPointId ?? []).filter(
-      (chargeLink) => chargeLink.charge?.type != ChargeType.Fee
+      (chargeLink) =>
+        chargeLink.charge?.type != ChargeType.Fee &&
+        (this.typeFilterChanged()?.includes(chargeLink.charge?.type) ?? true)
     )
   );
 
@@ -134,6 +137,8 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
   form = new FormGroup({
     chargeTypes: dhMakeFormControl(),
   });
+
+  typeFilterChanged = dhFormControlToSignal(this.form.controls.chargeTypes);
 
   columns: WattTableColumnDef<Charge> = {
     type: { accessor: (chargeLink) => chargeLink.charge?.type },
