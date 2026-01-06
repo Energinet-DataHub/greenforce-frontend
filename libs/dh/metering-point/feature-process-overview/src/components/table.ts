@@ -163,10 +163,11 @@ type MeteringPointProcess = NonNullable<
   `,
 })
 export class DhMeteringPointProcessOverviewTable {
+  protected readonly navigation = inject(DhNavigationService);
+  private readonly permissionService = inject(PermissionService);
+
   readonly meteringPointId = input.required<string>();
   readonly id = input<string>();
-  protected navigation = inject(DhNavigationService);
-  private readonly permissionService = inject(PermissionService);
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
   protected canPerformActions = toSignal(
