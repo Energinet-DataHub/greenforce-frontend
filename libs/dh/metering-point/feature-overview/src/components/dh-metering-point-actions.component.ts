@@ -42,7 +42,10 @@ import {
 
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 
 import { InstallationAddress } from '../types';
@@ -122,6 +125,7 @@ export class DhMeteringPointActionsComponent {
   private readonly releaseToggleService = inject(DhReleaseToggleService);
   private readonly modalService = inject(WattModalService);
   private readonly permissionService = inject(PermissionService);
+  private readonly actor = inject(DhActorStorage);
 
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
@@ -210,7 +214,10 @@ export class DhMeteringPointActionsComponent {
   startMoveIn() {
     this.modalService.open({
       component: DhStartMoveInComponent,
-      data: { meteringPointId: this.meteringPointId() },
+      data: {
+        meteringPointId: this.meteringPointId(),
+        energySupplier: this.actor.getSelectedActor().gln,
+      },
       disableClose: true,
     });
   }

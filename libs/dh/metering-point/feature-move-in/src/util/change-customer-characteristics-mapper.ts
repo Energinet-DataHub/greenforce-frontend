@@ -20,8 +20,6 @@ import { CustomerCharacteristicsFormType } from '../types';
 import {
   ChangeCustomerCharacteristicsBusinessReason,
   ChangeCustomerCharacteristicsInput,
-  CustomerInfoV1Input,
-  InputMaybe,
   UsagePointLocationV1Input,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { FormGroup } from '@angular/forms';
@@ -41,39 +39,39 @@ export function mapChangeCustomerCharacteristicsFormToRequest(
 
   if (isBusinessCustomer) {
     const controls = form.controls.businessCustomerDetails.controls;
-    const firstCustomer: CustomerInfoV1Input = {
-      customerName: controls.companyName.value,
-      cvrOrCpr: controls.cvr.value,
-      protectedName: controls.nameProtection.value,
-    };
-    const secondCustomer: InputMaybe<CustomerInfoV1Input> = null;
+    const firstCustomerName = controls.companyName.value;
+    const firstCustomerCvrOrCpr = controls.cvr.value;
+    const protectedName = controls.nameProtection.value;
+    const secondCustomerCpr = null;
+    const secondCustomerName = null;
     return {
       meteringPointId,
       businessReason,
       startDate,
-      firstCustomer,
-      secondCustomer,
+      firstCustomerCvrOrCpr,
+      firstCustomerName,
+      secondCustomerCpr,
+      secondCustomerName,
+      protectedName,
       electricalHeating,
       usagePointLocations,
     };
   } else {
     const controls = form.controls.privateCustomerDetails.controls;
-    const firstCustomer: CustomerInfoV1Input = {
-      customerName: controls.customerName1.value,
-      cvrOrCpr: controls.cpr1.value,
-      protectedName: controls.nameProtection.value,
-    };
-    const secondCustomer: InputMaybe<CustomerInfoV1Input> = {
-      customerName: controls.customerName2.value,
-      cvrOrCpr: controls.cpr2.value,
-      protectedName: controls.nameProtection.value,
-    };
+    const firstCustomerName = controls.customerName1.value;
+    const firstCustomerCvrOrCpr = controls.cpr1.value;
+    const protectedName = controls.nameProtection.value;
+    const secondCustomerCpr = controls.cpr2.value;
+    const secondCustomerName = controls.customerName2.value;
     return {
       meteringPointId,
       businessReason,
       startDate,
-      firstCustomer,
-      secondCustomer,
+      firstCustomerCvrOrCpr,
+      firstCustomerName,
+      secondCustomerCpr,
+      secondCustomerName,
+      protectedName,
       electricalHeating,
       usagePointLocations,
     };
