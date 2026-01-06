@@ -115,7 +115,7 @@ export class DhChargesFilters {
 
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
   statusOptions = dhEnumToWattDropdownOptions(ChargeStatus, [ChargeStatus.Invalid]);
-  owners = getActorOptions(this.getActorsWithMarketRoles(), 'actorId');
+  owners = getActorOptions(this.getActorsWithMarketRoles(), 'glnOrEicNumber');
   moreOptions = computed(() => this.getMoreOptions());
 
   form = computed(() => {
