@@ -204,7 +204,14 @@ public class ChargesClient(
                 ChargeId: id.Code,
                 ChargeType: charge.Type.ToRequestChangeOfPriceListChargeType(),
                 ChargeOwnerId: id.Owner,
-                TerminationDate: terminationDate)),
+                TerminationDate: terminationDate,
+                charge.Name,
+                charge.Description,
+                charge.Resolution.CastFromDuration<ResolutionV1>(),
+                charge.VatInclusive ? VatPayerV1.D02 : VatPayerV1.D01,
+                charge.TransparentInvoicing,
+                charge.TaxIndicator,
+                string.Empty)),
             ct);
 
         return result.IsSuccess;
