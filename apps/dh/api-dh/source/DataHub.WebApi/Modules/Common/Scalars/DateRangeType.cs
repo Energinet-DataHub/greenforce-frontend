@@ -74,8 +74,8 @@ public sealed class DateRangeType : AnyType
             null => NullValueNode.Default,
             Interval interval => new ObjectValueNode(new List<ObjectFieldNode>
             {
-                new("start", new StringValueNode(FormatStart(interval.Start))),
-                new("end", new StringValueNode(FormatEnd(interval.End))),
+                new("start", new StringValueNode(FormatStart(interval))),
+                new("end", new StringValueNode(FormatEnd(interval))),
             }),
             _ => throw new SerializationException("Value must be an Interval", this),
         };
@@ -96,8 +96,8 @@ public sealed class DateRangeType : AnyType
         {
             resultValue = new Dictionary<string, object?>
             {
-                { "start", FormatStart(interval.Start) },
-                { "end", interval.HasEnd ? FormatEnd(interval.End) : null },
+                { "start", FormatStart(interval) },
+                { "end", interval.HasEnd ? FormatEnd(interval) : null },
             }.AsReadOnly();
 
             return true;
@@ -134,9 +134,11 @@ public sealed class DateRangeType : AnyType
             _ => null,
         };
 
-    private static string FormatStart(Instant start) =>
-        start.ToString(JsDateFormat, new CultureInfo("en-US"));
+    private static string FormatStart(Interval interval) =>
+        interval.Start.ToString(JsDateFormat, new CultureInfo("en-US"));
 
-    private static string FormatEnd(Instant end) =>
-        end.PlusTicks(-1).ToString(JsDateFormat, new CultureInfo("en-US"));
+    private static string FormatEnd(Interval interval) =>
+        interval.End
+            .PlusTicks(interval.Duration.TotalTicks > 0 ? -1 : 0)
+            .ToString(JsDateFormat, new CultureInfo("en-US"));
 }
