@@ -111,7 +111,9 @@ export class DhChargesFilters {
     'charges.charges.table.moreOptions'
   );
 
-  filter = model<GetChargesQueryInput>({});
+  filter = model<GetChargesQueryInput>({
+    statuses: ['CURRENT'],
+  });
 
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
   statusOptions = dhEnumToWattDropdownOptions(ChargeStatus, [ChargeStatus.Invalid]);

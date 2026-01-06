@@ -30,7 +30,7 @@ import { DhStartMoveInFormComponent } from './dh-start-move-in-form.component';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  BusinessReasonV1,
+  ChangeOfSupplierBusinessReason,
   InitiateMoveInDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dayjs } from '@energinet/watt/date';
@@ -69,7 +69,10 @@ export class DhStartMoveInComponent extends WattTypedModal<{ meteringPointId: st
 
   startMoveInForm = this.fb.group<StartMoveInFormType>({
     cutOffDate: this.fb.control(new Date(), Validators.required),
-    businessReason: this.fb.control<BusinessReasonV1>('CUSTOMER_MOVE_IN', Validators.required),
+    businessReason: this.fb.control<ChangeOfSupplierBusinessReason>(
+      'CUSTOMER_MOVE_IN',
+      Validators.required
+    ),
     customerType: this.fb.control(this.customerTypeInitialValue),
   });
 
@@ -108,7 +111,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{ meteringPointId: st
     const isForeignCompany = this.isForeignCompanyChanged();
     if (isForeignCompany) {
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.disable();
-      this.startMoveInForm.controls.businessCustomer?.controls.cvr.setValue('11111111');
+      this.startMoveInForm.controls.businessCustomer?.controls.cvr.setValue('1111110000');
     } else {
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.enable();
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.reset();
