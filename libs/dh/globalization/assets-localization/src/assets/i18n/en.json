@@ -389,6 +389,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
+        "searchById": "Search by ID",
         "createButton": "New charge",
         "columns": {
           "code": "ID",

@@ -389,6 +389,7 @@
     "charges": {
       "topBarTitle": "Priser",
       "table": {
+        "searchById": "Søg på ID",
         "createButton": "Ny pris",
         "columns": {
           "code": "ID",
