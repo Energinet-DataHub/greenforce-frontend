@@ -255,11 +255,11 @@ public class ChargesClient(
         CancellationToken ct)
     {
         var resolution = Resolution.FromName(charge.ResolutionDto.ToString());
-        var periods = charge.Periods.Where(x => x.StartDate <= x.EndDate); // Guard against garbage
-        var latestPeriod = charge.Periods
-            .OrderByDescending(x => x.StartDate)
-            .First();
+        var periods = charge.Periods
+            .Where(x => x.StartDate <= x.EndDate) // Guard against garbage
+            .OrderByDescending(x => x.StartDate);
 
+        var latestPeriod = periods.First();
         var interval = new Interval(latestPeriod.StartDate, latestPeriod.EndDate);
         var chargeSeries = interval.Contains(DateTimeOffset.Now.ToInstant())
             ? await GetChargeSeriesAsync(charge.ChargeIdentifierDto, resolution, interval)
