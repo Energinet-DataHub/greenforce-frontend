@@ -17,8 +17,9 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Component, inject, input } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
@@ -45,7 +46,6 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { Charge } from '../types';
-import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'dh-metering-point-charge-links-tariff-subscriptions',
   imports: [
