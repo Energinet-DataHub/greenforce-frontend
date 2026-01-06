@@ -17,8 +17,8 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, inject, input } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
@@ -40,6 +40,7 @@ import {
 
 import {
   dhMakeFormControl,
+  dhFormControlToSignal,
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
@@ -102,7 +103,7 @@ import { Charge } from '../types';
         </ng-container>
 
         <ng-container *wattTableCell="columns.transparentInvoicing; let element">
-          @if (element.charge?.currentPeriod?.transparentInvoicing) {
+          @if (element.charge?.transparentInvoicing) {
             <watt-icon name="forward" size="s" [wattTooltip]="t('tooltip.transparentInvoicing')" />
           }
         </ng-container>
@@ -125,7 +126,9 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
   navigation = inject(DhNavigationService);
   dataSource = dataSource(() =>
     (this.query.data()?.chargeLinksByMeteringPointId ?? []).filter(
-      (chargeLink) => chargeLink.charge?.type != ChargeType.Fee
+      (chargeLink) =>
+        chargeLink.charge?.type != ChargeType.Fee &&
+        (this.typeFilterChanged()?.includes(chargeLink.charge?.type) ?? true)
     )
   );
 
@@ -135,6 +138,8 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
     chargeTypes: dhMakeFormControl(),
   });
 
+  typeFilterChanged = dhFormControlToSignal(this.form.controls.chargeTypes);
+
   columns: WattTableColumnDef<Charge> = {
     type: { accessor: (chargeLink) => chargeLink.charge?.type },
     id: { accessor: (chargeLink) => chargeLink.charge?.code },
@@ -142,7 +147,7 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
     owner: { accessor: (chargeLink) => chargeLink.charge?.owner?.displayName ?? '' },
     transparentInvoicing: {
       header: '',
-      accessor: (chargeLink) => chargeLink.charge?.currentPeriod?.transparentInvoicing ?? false,
+      accessor: (chargeLink) => chargeLink.charge?.transparentInvoicing ?? false,
     },
     amount: { accessor: 'amount' },
     period: { accessor: (chargeLink) => chargeLink.currentPeriod?.period },

@@ -111,11 +111,13 @@ export class DhChargesFilters {
     'charges.charges.table.moreOptions'
   );
 
-  filter = model<GetChargesQueryInput>({});
+  filter = model<GetChargesQueryInput>({
+    statuses: ['CURRENT'],
+  });
 
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
   statusOptions = dhEnumToWattDropdownOptions(ChargeStatus, [ChargeStatus.Invalid]);
-  owners = getActorOptions(this.getActorsWithMarketRoles(), 'actorId');
+  owners = getActorOptions(this.getActorsWithMarketRoles(), 'glnOrEicNumber');
   moreOptions = computed(() => this.getMoreOptions());
 
   form = computed(() => {

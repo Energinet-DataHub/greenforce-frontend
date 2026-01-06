@@ -16,26 +16,29 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input, signal } from '@angular/core';
 import { ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { Component, computed, effect, input, signal, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropZone } from '@energinet/watt/dropzone';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
-import { WATT_MODAL } from '@energinet/watt/modal';
 
-import {
-  dhMakeFormControl,
-  injectRelativeNavigate,
-  injectToast,
-} from '@energinet-datahub/dh/shared/ui-util';
-import {
-  AddChargeSeriesDocument,
-  GetChargeByIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+
+import {
+  injectToast,
+  dhMakeFormControl,
+  injectRelativeNavigate,
+} from '@energinet-datahub/dh/shared/ui-util';
+
+import {
+  GetChargeByIdDocument,
+  AddChargeSeriesDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
 import {
   parseChargeSeries,
   ChargeSeriesResult,
@@ -97,6 +100,8 @@ import {
   `,
 })
 export default class DhChargesUploadSeries {
+  private readonly modal = viewChild.required(WattModalComponent);
+
   navigate = injectRelativeNavigate();
   id = input.required<string>();
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
@@ -119,15 +124,17 @@ export default class DhChargesUploadSeries {
   chargeSeries = signal<ChargeSeriesResult | null>(null, { equal: () => false });
   progress = computed(() => this.chargeSeries()?.progress ?? 0);
 
-  save() {
+  async save() {
     if (!this.file.valid) return;
+
     const start = this.chargeSeries()?.first;
     const end = this.chargeSeries()?.last;
     const points = this.chargeSeries()?.points;
     assertIsDefined(start);
     assertIsDefined(end);
     assertIsDefined(points);
-    this.addChargeSeries.mutate({
+
+    await this.addChargeSeries.mutate({
       variables: {
         input: {
           id: this.id(),
@@ -137,5 +144,7 @@ export default class DhChargesUploadSeries {
         },
       },
     });
+
+    this.modal().close(true);
   }
 }

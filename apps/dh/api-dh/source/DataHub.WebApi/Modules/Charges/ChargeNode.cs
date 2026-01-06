@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
-using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
 using NodaTime;
+using NodaTime.Extensions;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
@@ -48,7 +47,7 @@ public static partial class ChargeNode
         result = result.FilterOnStatuses(query?.Statuses, ct);
         result = result.Where(charge =>
             filter is null ||
-            charge.ChargeIdentifierDto.Code.Contains(filter, StringComparison.CurrentCultureIgnoreCase) ||
+            charge.Id.Code.Contains(filter, StringComparison.CurrentCultureIgnoreCase) ||
             charge.Periods.Any(p => p.Name.Contains(filter, StringComparison.CurrentCultureIgnoreCase)));
 
         return result;
@@ -111,34 +110,40 @@ public static partial class ChargeNode
         Interval interval,
         IChargesClient client,
         CancellationToken ct) =>
-            await client.GetChargeSeriesAsync(charge.ChargeIdentifierDto, charge.Resolution, interval, ct);
+            await client.GetChargeSeriesAsync(charge.Id, charge.Resolution, interval, ct);
 
     public static async Task<ActorDto?> GetOwnerAsync(
         [Parent] Charge charge,
         IMarketParticipantByNumberAndRoleDataLoader dataLoader,
         CancellationToken ct)
     {
-        var owner = await dataLoader.LoadAsync((charge.ChargeIdentifierDto.Owner, EicFunction.SystemOperator), ct);
-        owner ??= await dataLoader.LoadAsync((charge.ChargeIdentifierDto.Owner, EicFunction.GridAccessProvider), ct);
-
-        return owner;
+        var owner = await dataLoader.LoadAsync((charge.Id.Owner, EicFunction.SystemOperator), ct);
+        return owner ?? await dataLoader.LoadAsync((charge.Id.Owner, EicFunction.GridAccessProvider), ct);
     }
 
-    public static ChargeInformationPeriodDto? CurrentPeriod([Parent] Charge charge) =>
-        charge.GetCurrentPeriod();
-
-    public static ChargeStatus GetStatus([Parent] Charge charge) => charge.GetChargeStatus();
+    public static ChargeStatus GetStatus([Parent] Charge charge) =>
+        charge.HasSeriesAndIsCurrent switch
+        {
+            _ when charge.ValidFrom == charge.ValidTo => ChargeStatus.Cancelled,
+            _ when DateTimeOffset.Now > charge.ValidTo => ChargeStatus.Closed,
+            _ when DateTimeOffset.Now < charge.ValidFrom => ChargeStatus.Awaiting,
+            false => ChargeStatus.MissingPriceSeries,
+            true => ChargeStatus.Current,
+        };
 
     static partial void Configure(IObjectTypeDescriptor<Charge> descriptor)
     {
         descriptor.Name("Charge");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.ChargeIdentifierDto).Name("id");
+        descriptor.Field(f => f.Id);
+        descriptor.Field(f => f.Id.Code).Name("code");
+        descriptor.Field(f => f.Name);
         descriptor.Field(f => f.Type);
-        descriptor.Field(f => f.ChargeIdentifierDto.Code).Name("code");
-        descriptor.Field(f => f.Name()).Name("name");
-        descriptor.Field(f => f.DisplayName()).Name("displayName");
-        descriptor.Field(f => f.Resolution);
+        descriptor.Field(f => $"{f.Id.Code} - {f.Name}").Name("displayName");
+        descriptor.Field(f => f.Description);
         descriptor.Field(f => f.Periods);
+        descriptor.Field(f => f.Resolution);
+        descriptor.Field(f => f.TransparentInvoicing);
+        descriptor.Field(f => f.VatInclusive);
     }
 }

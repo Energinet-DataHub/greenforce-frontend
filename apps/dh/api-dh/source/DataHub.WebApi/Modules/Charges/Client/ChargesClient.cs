@@ -14,24 +14,23 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using NodaTime;
+using NodaTime.Extensions;
 using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Shared.ChargeIdentifierDto;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
-using EicFunction = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 
 public class ChargesClient(
     DataHub.Charges.Client.IChargesClient client,
-    Clients.MarketParticipant.v1.IMarketParticipantClient_V1 markpartClient,
     IB2CClient ediClient,
     IHttpContextAccessor httpContext) : IChargesClient
 {
@@ -95,27 +94,18 @@ public class ChargesClient(
             return [];
         }
 
-        var marketRole = user.GetMarketParticipantMarketRole();
-
-        var ownerGln = user.GetMarketParticipantNumber() ?? string.Empty;
-
-        // If the user is an Energy Supplier, we need to get the System Operator GLN to fetch charges they own
-        if (Enum.Parse<EicFunction>(marketRole) == EicFunction.EnergySupplier)
-        {
-            ownerGln = (await markpartClient.ActorGetAsync(ct))
-                .Single(x => x.MarketRole.EicFunction == EicFunction.SystemOperator)?.ActorNumber.Value ?? string.Empty;
-        }
-
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [ownerGln], [type.Type]), ChargeInformationSortProperty.Type, false),
+            new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [user.GetMarketParticipantNumber()], [type.Type]), ChargeInformationSortProperty.Type, false),
             ct);
 
-        if (!result.IsSuccess || result.Data == null)
+        if (!result.IsSuccess)
         {
-            return [];
+            throw new GraphQLException(result.DiagnosticMessage);
         }
 
-        return await Task.WhenAll(result.Data.Select(c => MapChargeInformationDtoToChargeAsync(c, ct)));
+        return result.Data == null
+            ? []
+            : await Task.WhenAll(result.Data.Select(c => MapChargeInformationDtoToChargeAsync(c, ct)));
     }
 
     public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
@@ -260,30 +250,33 @@ public class ChargesClient(
                 : start.Plus(period.ToDuration()));
     }
 
-    private async Task<bool> HasAnyPricesAsync(
+    private async Task<Charge> MapChargeInformationDtoToChargeAsync(
         ChargeInformationDto charge,
         CancellationToken ct)
     {
-        // TODO: Fix ChargeExtensions usage here, perhaps by adding CurrentPeriod to Charge record
-        var currentPeriod = ChargeExtensions.GetCurrentPeriod(charge.Periods);
-        if (currentPeriod == null)
-        {
-            return false;
-        }
-
         var resolution = Resolution.FromName(charge.ResolutionDto.ToString());
-        var series = await GetChargeSeriesAsync(charge.ChargeIdentifierDto, resolution, new Interval(currentPeriod.StartDate, currentPeriod.EndDate), ct);
-        return series.Any();
-    }
+        var periods = charge.Periods
+            .Where(x => x.StartDate <= x.EndDate) // Guard against garbage
+            .OrderByDescending(x => x.StartDate);
 
-    private async Task<Charge> MapChargeInformationDtoToChargeAsync(
-        ChargeInformationDto c,
-        CancellationToken ct) =>
-        new(
-            ChargeIdentifierDto: c.ChargeIdentifierDto,
-            Type: ChargeType.Make(c.ChargeIdentifierDto.TypeDto, c.TaxIndicator),
-            Resolution: Resolution.FromName(c.ResolutionDto.ToString()),
-            TaxIndicator: c.TaxIndicator,
-            Periods: c.Periods,
-            HasAnyPrices: await HasAnyPricesAsync(c, ct));
+        var latestPeriod = periods.First();
+        var interval = new Interval(latestPeriod.StartDate, latestPeriod.EndDate);
+        var chargeSeries = interval.Contains(DateTimeOffset.Now.ToInstant())
+            ? await GetChargeSeriesAsync(charge.ChargeIdentifierDto, resolution, interval)
+            : null;
+
+        return new(
+            Id: charge.ChargeIdentifierDto,
+            Type: ChargeType.Make(charge.ChargeIdentifierDto.TypeDto, charge.TaxIndicator),
+            Resolution: Resolution.FromName(charge.ResolutionDto.ToString()),
+            TaxIndicator: charge.TaxIndicator,
+            HasSeriesAndIsCurrent: chargeSeries?.Count() > 0,
+            Name: latestPeriod.Name,
+            Description: latestPeriod.Description,
+            TransparentInvoicing: latestPeriod.TransparentInvoicing,
+            VatInclusive: latestPeriod.VatClassificationDto == VatClassificationDto.Vat25,
+            ValidFrom: latestPeriod.StartDate.ToDateTimeOffset(),
+            ValidTo: latestPeriod.EndDate?.ToDateTimeOffset(),
+            Periods: periods.ToList());
+    }
 }

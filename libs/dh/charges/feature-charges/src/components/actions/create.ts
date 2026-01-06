@@ -16,33 +16,33 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { WATT_MODAL } from '@energinet/watt/modal';
-import { WATT_RADIO, WattRadioComponent } from '@energinet/watt/radio';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
-import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
+import { WATT_RADIO, WattRadioComponent } from '@energinet/watt/radio';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
+
+import { injectToast, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+
 import {
-  ChargeResolution,
   ChargeType,
+  ChargeResolution,
   CreateChargeDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import {
-  dhMakeFormControl,
-  injectRelativeNavigate,
-  injectToast,
-} from '@energinet-datahub/dh/shared/ui-util';
+
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 @Component({
   selector: 'dh-charges-create',
@@ -68,7 +68,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       *transloco="let t; prefix: 'charges.actions.create'"
       autoOpen
       size="small"
-      (closed)="navigate('..')"
+      (closed)="navigate.navigate('list')"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('action.' + (type() ?? 'SELECTION')) }}
@@ -77,13 +77,13 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       <dh-charges-type-selection [(value)]="type">
         <form
           *transloco="let t; prefix: 'charges.actions.create.form'"
-          id="create-charge"
           vater-stack
           direction="column"
           gap="s"
           align="start"
-          [formGroup]="form()"
+          id="create"
           (ngSubmit)="save()"
+          [formGroup]="form()"
         >
           <vater-stack fill="horizontal" direction="row" gap="m">
             <watt-text-field
@@ -106,7 +106,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
             maxLength="2048"
             [formControl]="form().controls.description"
           />
-          @if (!form().controls.resolution.disabled) {
+          @if (!isResolutionHidden()) {
             <watt-radio-group [label]="t('resolution')" [formControl]="form().controls.resolution">
               <watt-radio [value]="dailyResolution">
                 {{ t('DAILY') }}
@@ -161,7 +161,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
           {{ t('close') }}
         </watt-button>
         @if (type()) {
-          <watt-button variant="primary" formId="create-charge" type="submit">
+          <watt-button variant="primary" type="submit" formId="create">
             {{ t('action.' + type()) }}
           </watt-button>
         }
@@ -170,13 +170,15 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export default class DhChargesCreate {
-  navigate = injectRelativeNavigate();
+  private readonly modal = viewChild.required(WattModalComponent);
+  navigate = inject(DhNavigationService);
   createCharge = mutation(CreateChargeDocument);
   toast = injectToast('charges.actions.create.toast');
   toastEffect = effect(() => this.toast(this.createCharge.status()));
   dailyResolution: ChargeResolution = 'DAILY';
   hourlyResolution: ChargeResolution = 'HOURLY';
   type = signal<ChargeType | null>(null);
+  isResolutionHidden = computed(() => this.type() !== 'TARIFF' && this.type() !== 'TARIFF_TAX');
   form = computed(
     () =>
       new FormGroup({
@@ -186,7 +188,10 @@ export default class DhChargesCreate {
         description: dhMakeFormControl('', Validators.required),
         validFrom: dhMakeFormControl<Date>(null, Validators.required),
         resolution: dhMakeFormControl<ChargeResolution>(
-          { value: null, disabled: this.type() !== 'TARIFF' && this.type() !== 'TARIFF_TAX' },
+          {
+            value: this.isResolutionHidden() ? 'MONTHLY' : null,
+            disabled: this.isResolutionHidden(),
+          },
           Validators.required
         ),
         vat: dhMakeFormControl<boolean>(null, Validators.required),
@@ -201,19 +206,18 @@ export default class DhChargesCreate {
       })
   );
 
-  save() {
+  async save() {
     if (!this.form().valid) return;
 
     const { resolution, transparentInvoicing, type, validFrom, vat, ...input } =
       this.form().getRawValue();
 
     assertIsDefined(resolution);
-    assertIsDefined(transparentInvoicing);
     assertIsDefined(type);
     assertIsDefined(validFrom);
     assertIsDefined(vat);
 
-    this.createCharge.mutate({
+    await this.createCharge.mutate({
       variables: {
         input: {
           resolution,
@@ -225,5 +229,7 @@ export default class DhChargesCreate {
         },
       },
     });
+
+    this.modal().close(true);
   }
 }

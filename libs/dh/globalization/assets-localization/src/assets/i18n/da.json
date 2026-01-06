@@ -382,13 +382,14 @@
       "MONTHLY": "Måned",
       "UNKNOWN": "Ukendt"
     },
-    "vatClassifications": {
-      "NO_VAT": "Uden moms",
-      "VAT25": "Med moms"
+    "vatInclusive": {
+      "false": "Uden moms",
+      "true": "Med moms"
     },
     "charges": {
       "topBarTitle": "Priser",
       "table": {
+        "searchById": "Søg på ID",
         "createButton": "Ny pris",
         "columns": {
           "code": "ID",
@@ -798,6 +799,9 @@
         "cancel": "Annuller pristilknytning"
       },
       "create": {
+        "errors": {
+          "factorMin": "Antal skal være mindst {{ min }}"
+        },
         "toast": {
           "loading": "Pris tilknyttes..",
           "success": "Pris tilknyttet",
@@ -823,6 +827,9 @@
         "tooltip": "Processen tager få minutter.\n Afvisningsårsager findes i forretningsbeskeder."
       },
       "edit": {
+        "errors": {
+          "factorMin": "Antal skal være mindst {{ min }}"
+        },
         "toast": {
           "loading": "Ændringer gemmes..",
           "success": "Ændringer gemt",

@@ -17,28 +17,24 @@
  */
 //#endregion
 
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, inject, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { injectToast, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 import { StopChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import {
-  injectToast,
-  dhMakeFormControl,
-  injectRelativeNavigate,
-} from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-metering-point-stop-charge-link',
@@ -65,20 +61,29 @@ import {
       #stop
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.stop'"
-      (closed)="navigate('..')"
+      (closed)="navigate.navigate('details', this.id())"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
-      <form vater-stack align="start" direction="column" gap="s" tabindex="-1" [formGroup]="form">
+      <form
+        (ngSubmit)="stopLink()"
+        id="stop"
+        vater-stack
+        align="start"
+        direction="column"
+        gap="s"
+        tabindex="-1"
+        [formGroup]="form"
+      >
         <watt-datepicker [formControl]="form.controls.stopDate" [label]="t('stopDate')" />
       </form>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="stop.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" (click)="stopLink(); stop.close(true)">
+        <watt-button variant="primary" formId="stop" type="submit">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -88,7 +93,9 @@ import {
 export default class DhMeteringPointStopChargeLink {
   private readonly toast = injectToast('meteringPoint.chargeLinks.stop.toast');
   private readonly stopChargeLink = mutation(StopChargeLinkDocument);
-  navigate = injectRelativeNavigate();
+  private readonly modal = viewChild.required(WattModalComponent);
+
+  navigate = inject(DhNavigationService);
   form = new FormGroup({
     stopDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
@@ -96,13 +103,18 @@ export default class DhMeteringPointStopChargeLink {
   id = input.required<string>();
 
   async stopLink() {
+    if (!this.form.valid) return;
+
     assertIsDefined(this.form.controls.stopDate.value);
+
     await this.stopChargeLink.mutate({
       variables: {
         id: this.id(),
         stopDate: this.form.controls.stopDate.value,
       },
     });
+
+    this.modal().close(true);
   }
 
   constructor() {

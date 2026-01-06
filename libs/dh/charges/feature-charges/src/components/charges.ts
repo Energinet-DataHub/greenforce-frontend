@@ -69,12 +69,13 @@ import { DhChargesFilters } from './charges-filters';
   providers: [DhNavigationService],
   template: `
     <watt-data-table
+      *transloco="let t; prefix: 'charges.charges.table'"
       [enableCount]="false"
       vater
       inset="ml"
       [error]="dataSource.error"
       [ready]="dataSource.called"
-      *transloco="let t; prefix: 'charges.charges.table'"
+      [searchLabel]="t('searchById')"
     >
       <watt-data-filters>
         <vater-stack wrap direction="row" gap="m">
@@ -121,7 +122,7 @@ export class DhCharges {
     code: { accessor: 'code' },
     name: { accessor: 'name' },
     owner: { accessor: (charge) => charge.owner?.displayName, sort: false },
-    status: { accessor: 'status', sort: false },
+    status: { accessor: 'status' },
   };
 
   filter: GetChargesQueryInput = {
