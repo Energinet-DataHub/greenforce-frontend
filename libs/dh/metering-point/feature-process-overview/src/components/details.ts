@@ -77,6 +77,7 @@ import { WattDatePipe } from '@energinet/watt/date';
       <watt-drawer-content>
         <dh-metering-point-process-overview-steps
           [steps]="steps()"
+          [reasonCode]="reasonCode()"
           [loading]="isLoading()"
           [error]="process.error()"
         />
