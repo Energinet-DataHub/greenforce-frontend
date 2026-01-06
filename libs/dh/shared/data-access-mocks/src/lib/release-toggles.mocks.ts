@@ -42,6 +42,7 @@ function getReleaseTogglesQuery() {
           'PM52-CREATE-METERING-POINT-UI',
           'PM58-PRICES-UI',
           'PM60-CHARGE-LINKS-UI',
+          'PM62-ACTOR-CONVERSATION',
         ],
       },
     });
