@@ -202,6 +202,13 @@ export const dhMeteringPointRoutes: Routes = [
                 (m) => m.DhUpdateCustomerDataComponent
               ),
           },
+          {
+            path: getPath<MeteringPointSubPaths>('actor-conversation'),
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-actor-conversation').then(
+                (m) => m.DhActorConversationShellComponent
+              )
+          }
         ],
       },
     ],
