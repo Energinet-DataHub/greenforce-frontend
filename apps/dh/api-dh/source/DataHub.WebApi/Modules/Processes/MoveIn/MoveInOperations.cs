@@ -80,11 +80,13 @@ public static class MoveInOperations
                 businessReason,
                 startDate,
                 firstCustomerCvrOrCpr,
+                firstCustomerCvrOrCpr,
                 firstCustomerName,
                 secondCustomerCpr,
                 secondCustomerName,
                 protectedName,
                 electricalHeating,
+                string.Empty,
                 usagePointLocations));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
