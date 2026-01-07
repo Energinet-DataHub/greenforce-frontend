@@ -16,25 +16,38 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
-  imports: [WATT_CARD],
+  imports: [WATT_CARD, TranslocoDirective, VaterStackComponent, WattButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     style: 'display: flex; flex-direction: column;',
   },
   styles: `
-    .flex-1 {
+    .new-case-card {
       flex: 1;
+      padding: var(--watt-space-ml);
+    }
+
+    .no-margin {
+      margin: 0;
     }
   `,
   template: `
-    <watt-card class="flex-1">
-      <h1>ACTOR CONVERSATION NEW CASE WORKS!</h1>
+    <watt-card class="new-case-card" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+      <vater-stack direction="row" justify="space-between">
+        <h2 class="no-margin">{{ t('newCaseTitle') }}</h2>
+        <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
+      </vater-stack>
     </watt-card>
   `,
 })
-export class DhActorConversationNewCaseComponent {}
+export class DhActorConversationNewCaseComponent {
+  closeNewCase = output();
+}

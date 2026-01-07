@@ -38,15 +38,15 @@ import { VaterFlexComponent } from '@energinet/watt/vater';
       flex: 3;
     }
 
-    .padding-m {
-      padding: var(--watt-space-m);
+    .padding-ml {
+      padding: var(--watt-space-ml);
     }
   `,
   template: `
-    <vater-flex direction="row" fill="vertical" gap="m" class="padding-m">
+    <vater-flex direction="row" fill="vertical" gap="m" class="padding-ml">
       <dh-actor-conversation-case-list (createNewCase)="newCaseVisible.set(true)" class="flex-1" />
       @if (newCaseVisible()) {
-        <dh-actor-conversation-new-case class="flex-3" />
+        <dh-actor-conversation-new-case (closeNewCase)="newCaseVisible.set(false)" class="flex-3" />
       } @else {
         <div class="flex-3"></div>
       }

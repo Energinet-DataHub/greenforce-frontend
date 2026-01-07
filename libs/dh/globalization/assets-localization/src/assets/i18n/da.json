@@ -762,6 +762,11 @@
         "saveError": "Manuel korrigering af målepunkt mislykkedes"
       }
     },
+    "actorConversation":  {
+      "cases": "Sager",
+      "newCaseButton": "Ny sag",
+      "newCaseTitle": "Ny sag"
+    },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
