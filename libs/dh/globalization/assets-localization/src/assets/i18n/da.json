@@ -762,7 +762,7 @@
         "saveError": "Manuel korrigering af målepunkt mislykkedes"
       }
     },
-    "actorConversation":  {
+    "actorConversation": {
       "cases": "Sager",
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag"

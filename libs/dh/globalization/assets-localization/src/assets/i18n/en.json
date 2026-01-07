@@ -762,7 +762,7 @@
         "saveError": "Manual correction of metering point failed"
       }
     },
-    "actorConversation":  {
+    "actorConversation": {
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case"
