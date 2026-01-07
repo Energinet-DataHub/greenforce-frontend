@@ -16,27 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-import { DestroyRef, Directive, OnInit, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroupDirective } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Directive, afterRenderEffect, inject } from '@angular/core';
 
 const filtersKey = 'filters';
-
 @Directive({
   selector: '[formGroup][wattQueryParams]',
 })
-export class WattQueryParamsDirective implements OnInit {
-  private formGroup = inject(FormGroupDirective);
-  private destoryRef = inject(DestroyRef);
+export class WattQueryParamsDirective {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private formGroup = inject(FormGroupDirective);
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  ngOnInit(): void {
-    this.formGroup.valueChanges
-      ?.pipe(takeUntilDestroyed(this.destoryRef))
-      .subscribe((formValues) => {
+  constructor() {
+    afterRenderEffect((onCleanup) => {
+      const subscription = this.formGroup.valueChanges?.subscribe((formValues) => {
         const formValuesClone = structuredClone(formValues);
 
         for (const key in formValuesClone) {
@@ -60,14 +55,19 @@ export class WattQueryParamsDirective implements OnInit {
         });
       });
 
-    if (Object.keys(this.route.snapshot.queryParams).length > 0) {
-      const value = atob(this.route.snapshot.queryParams[filtersKey] ?? '');
-      const decodedFormValues = new TextDecoder().decode(
-        Uint8Array.from(value, (c) => c.charCodeAt(0))
-      );
-      const parsedValue = JSON.parse(decodedFormValues);
+      if (Object.keys(this.route.snapshot.queryParams).length > 0) {
+        const value = atob(this.route.snapshot.queryParams[filtersKey] ?? '');
+        const decodedFormValues = new TextDecoder().decode(
+          Uint8Array.from(value, (c) => c.charCodeAt(0))
+        );
+        const parsedValue = JSON.parse(decodedFormValues);
 
-      this.formGroup.control.patchValue(parsedValue);
-    }
+        this.formGroup.control.patchValue(parsedValue);
+      }
+
+      onCleanup(() => {
+        subscription?.unsubscribe();
+      });
+    });
   }
 }
