@@ -40,7 +40,7 @@ export function mapChangeCustomerCharacteristicsFormToRequest(
   if (isBusinessCustomer) {
     const controls = form.controls.businessCustomerDetails.controls;
     const firstCustomerName = controls.companyName.value;
-    const firstCustomerCpr = null
+    const firstCustomerCpr = null;
     const firstCustomerCvr = controls.cvr.value;
     const protectedName = controls.nameProtection.value;
     const secondCustomerCpr = null;
