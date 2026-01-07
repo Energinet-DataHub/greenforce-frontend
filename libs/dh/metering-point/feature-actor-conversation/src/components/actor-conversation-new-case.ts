@@ -53,6 +53,14 @@ import { ActorConversationCaseType } from '../types';
     .no-margin {
       margin: 0;
     }
+
+    .form-margin-top {
+      margin-top: var(--watt-space-m);
+    }
+
+    .third-width {
+      width: 33%;
+    }
   `,
   template: `
     <watt-card class="new-case-card" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
@@ -61,12 +69,13 @@ import { ActorConversationCaseType } from '../types';
         <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
       </vater-stack>
 
-      <form [formGroup]="newCaseForm">
+      <form [formGroup]="newCaseForm" vater-stack gap="l" align="start" class="form-margin-top">
         <watt-dropdown
           [formControl]="newCaseForm.controls.type"
           [options]="types"
           [label]="t('typeLabel')"
           [showResetOption]="false"
+          class="third-width"
           dhDropdownTranslator
           translateKey="meteringPoint.actorConversation.types"
         />
@@ -77,7 +86,10 @@ import { ActorConversationCaseType } from '../types';
 export class DhActorConversationNewCaseComponent {
   private readonly fb = inject(NonNullableFormBuilder);
   newCaseForm = this.fb.group({
-    type: this.fb.control<ActorConversationCaseType>(ActorConversationCaseType.misc, Validators.required),
+    type: this.fb.control<ActorConversationCaseType>(
+      ActorConversationCaseType.misc,
+      Validators.required
+    ),
   });
   closeNewCase = output();
   types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
