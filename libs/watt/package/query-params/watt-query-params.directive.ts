@@ -20,7 +20,6 @@ import { DestroyRef, Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroupDirective } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import qs from 'qs';
 
 const filtersKey = 'filters';
 
@@ -48,57 +47,27 @@ export class WattQueryParamsDirective implements OnInit {
 
         const hasSetProperties = Object.keys(formValuesClone).length > 0;
 
+        //Todo: Use toBase68 instead of btoa and atop when typescript 5.10 drops.
+        const encodedFormValues = new TextEncoder().encode(JSON.stringify(formValuesClone));
+
+        const base64FormValues = btoa(String.fromCharCode(...encodedFormValues));
+
         this.router.navigate([], {
           replaceUrl: true,
           relativeTo: this.route,
-          queryParams: { [filtersKey]: hasSetProperties ? qs.stringify(formValuesClone) : null },
+          queryParams: { [filtersKey]: hasSetProperties ? base64FormValues : null },
           queryParamsHandling: 'merge',
         });
       });
 
     if (Object.keys(this.route.snapshot.queryParams).length > 0) {
-      const value = qs.parse(this.route.snapshot.queryParams[filtersKey] ?? '', {
-        // Needed because `qs` library has a default value of 20 elements
-        // after which arrays are parsed as objects
-        // See https://github.com/ljharb/qs?tab=readme-ov-file#parsing-arrays
-        arrayLimit: 200,
-        // See https://github.com/ljharb/qs/issues/91#issuecomment-1833694874
-        decoder(
-          str: string,
-          defaultDecoder: qs.defaultDecoder,
-          charset: string,
-          type: 'key' | 'value'
-        ) {
-          // Custom logic not part of the GitHub comment above
-          // Handles "YYYY-MM" dates
-          if (type === 'value' && /\d{4}-\d{2}$/.test(str)) {
-            return defaultDecoder(str, defaultDecoder, charset);
-          }
+      const value = atob(this.route.snapshot.queryParams[filtersKey] ?? '');
+      const decodedFormValues = new TextDecoder().decode(
+        Uint8Array.from(value, (c) => c.charCodeAt(0))
+      );
+      const parsedValue = JSON.parse(decodedFormValues);
 
-          if (
-            type === 'value' &&
-            /^(?:-(?:[1-9](?:\d{0,2}(?:,\d{3})+|\d*))|(?:0|(?:[1-9](?:\d{0,2}(?:,\d{3})+|\d*))))(?:.\d+|)$/.test(
-              str
-            )
-          ) {
-            return parseFloat(str);
-          }
-
-          const keywords: Record<string, boolean | null | undefined> = {
-            true: true,
-            false: false,
-            null: null,
-            undefined: undefined,
-          };
-          if (type === 'value' && str in keywords) {
-            return keywords[str];
-          }
-
-          return defaultDecoder(str, defaultDecoder, charset);
-        },
-      });
-
-      this.formGroup.control.patchValue(value);
+      this.formGroup.control.patchValue(parsedValue);
     }
   }
 }
