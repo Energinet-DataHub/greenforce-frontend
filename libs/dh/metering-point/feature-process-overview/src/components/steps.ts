@@ -70,6 +70,7 @@ type MeteringPointProcessStep = NonNullable<
         *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.details.columns'"
         [dataSource]="dataSource()"
         [columns]="columns"
+        [displayedColumns]="displayedColumns()"
         [resolveHeader]="resolveHeader"
         [loading]="loading()"
         [rowClass]="getRowClass"
@@ -119,6 +120,7 @@ export class DhMeteringPointProcessOverviewSteps {
   private readonly transloco = inject(TranslocoService);
 
   readonly steps = input.required<MeteringPointProcessStep[]>();
+  readonly reasonCode = input<string>();
   readonly loading = input(false);
   readonly error = input<unknown>();
 
@@ -132,6 +134,21 @@ export class DhMeteringPointProcessOverviewSteps {
     actor: { accessor: 'actor', sort: false },
     state: { accessor: 'state', sort: false },
   };
+
+  displayedColumns = computed(() => {
+    const reasonCode = this.reasonCode();
+
+    const allColumns = Object.keys(this.columns);
+
+    if (!reasonCode) {
+      return allColumns;
+    }
+
+    const shortLivedProcessesByReasonCode = ['ConnectMeteringPoint'];
+    const isShortLivedProcess = shortLivedProcessesByReasonCode.includes(reasonCode);
+
+    return allColumns.filter((column) => !(isShortLivedProcess && column === 'dueDate'));
+  });
 
   getRowClass = (step: MeteringPointProcessStep) => {
     return step.state === ProcessStepState.Pending ? 'pending-step' : '';

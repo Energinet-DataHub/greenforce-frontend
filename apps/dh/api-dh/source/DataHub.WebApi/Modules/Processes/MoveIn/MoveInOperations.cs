@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -13,9 +13,13 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
 using HotChocolate.Authorization;
+using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1;
+using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 
@@ -25,10 +29,11 @@ public static class MoveInOperations
     [Authorize(Roles = new[] { "metering-point:move-in" })]
     public static async Task<bool> InitiateMoveInAsync(
         string meteringPointId,
-        BusinessReasonV1 businessReason,
+        ChangeOfSupplierBusinessReason businessReason,
         DateTimeOffset startDate,
         CustomerIdentificationInput customerIdentification,
         string customerName,
+        string energySupplier,
         CancellationToken ct,
         [Service] IB2CClient ediB2CClient)
     {
@@ -40,13 +45,47 @@ public static class MoveInOperations
         };
 
         var customerIdentificationV1 = new CustomerIdentificationV1(customerIdentificationObject);
-
         var command = new RequestChangeOfSupplierCommandV1(new RequestChangeOfSupplierRequestV1(
             meteringPointId,
             businessReason,
             startDate,
             customerIdentificationV1,
+            energySupplier,
             customerName));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        return result.IsSuccess;
+    }
+
+    [Mutation]
+    [Authorize(Roles = new[] { "metering-point:move-in" })]
+    public static async Task<bool> ChangeCustomerCharacteristicsAsync(
+        string meteringPointId,
+        ChangeCustomerCharacteristicsBusinessReason businessReason,
+        DateTimeOffset startDate,
+        string firstCustomerCvrOrCpr,
+        string? firstCustomerName,
+        string? secondCustomerCpr,
+        string? secondCustomerName,
+        bool? protectedName,
+        bool electricalHeating,
+        IReadOnlyCollection<UsagePointLocationV1>? usagePointLocations,
+        CancellationToken ct,
+        [Service] IB2CClient ediB2CClient)
+    {
+        var command = new RequestChangeCustomerCharacteristicsCommandV1(
+            new RequestChangeCustomerCharacteristicsRequestV1(
+                meteringPointId,
+                businessReason,
+                startDate,
+                firstCustomerCvrOrCpr,
+                firstCustomerName,
+                secondCustomerCpr,
+                secondCustomerName,
+                protectedName,
+                electricalHeating,
+                usagePointLocations));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 

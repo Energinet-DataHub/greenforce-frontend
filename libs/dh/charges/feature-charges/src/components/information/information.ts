@@ -35,6 +35,7 @@ import {
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
@@ -88,6 +89,7 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
     DhToolbarPortalComponent,
     DhFeatureFlagDirective,
   ],
+  providers: [DhNavigationService],
   template: `
     <dh-toolbar-portal>
       <watt-breadcrumbs>
@@ -127,13 +129,13 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
               }
             </watt-description-list-item>
             <watt-description-list-item [label]="t('vat')">
-              @let vatClassification = charge()?.currentPeriod?.vatClassification;
-              @if (vatClassification) {
-                {{ 'charges.vatClassifications.' + vatClassification | transloco }}
+              @let vatInclusive = charge()?.vatInclusive;
+              @if (vatInclusive) {
+                {{ 'charges.vatInclusive.' + vatInclusive | transloco }}
               }
             </watt-description-list-item>
             <watt-description-list-item [label]="t('transparentInvoicing')">
-              @let transparentInvoicing = charge()?.currentPeriod?.transparentInvoicing;
+              @let transparentInvoicing = charge()?.transparentInvoicing;
               {{ transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
             </watt-description-list-item>
           </watt-description-list>

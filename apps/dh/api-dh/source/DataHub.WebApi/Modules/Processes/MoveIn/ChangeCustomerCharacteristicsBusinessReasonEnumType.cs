@@ -12,19 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using HotChocolate.Data.Sorting;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Types;
 
-public sealed class ChargeSortType : SortInputType<Charge>
+public class ChangeCustomerCharacteristicsBusinessReasonEnumType : EnumType<BusinessReasonV1>
 {
-    protected override void Configure(ISortInputTypeDescriptor<Charge> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<BusinessReasonV1> descriptor)
     {
-        descriptor.Name("ChargeSortInput");
-        descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.Name);
-        descriptor.Field(f => f.Id.Code).Name("code");
-        descriptor.Field(f => f.Type.Name).Name("type");
-        descriptor.Field(f => ChargeNode.GetStatus(f)).Name("status");
+        descriptor.Name("ChangeCustomerCharacteristicsBusinessReason");
     }
 }

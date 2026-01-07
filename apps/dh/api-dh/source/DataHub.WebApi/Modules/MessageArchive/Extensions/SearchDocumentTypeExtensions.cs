@@ -36,6 +36,11 @@ public static class SearchDocumentTypeExtensions
             DocumentTypeDtoV1.RequestChangeOfPriceList => DocumentType.RequestChangeOfPriceList,
             DocumentTypeDtoV1.ConfirmRequestChangeOfPriceList => DocumentType.ConfirmRequestChangeOfPriceList,
             DocumentTypeDtoV1.RejectRequestChangeOfPriceList => DocumentType.RejectRequestChangeOfPriceList,
+            DocumentTypeDtoV1.B2CRequestChangeAccountingPointCharacteristics => DocumentType.B2CRequestChangeAccountingPointCharacteristics,
+            DocumentTypeDtoV1.B2CRequestChangeOfPriceList => DocumentType.B2CRequestChangeOfPriceList,
+            DocumentTypeDtoV1.B2CRequestChangeBillingMasterData => DocumentType.B2CRequestChangeBillingMasterData,
+            DocumentTypeDtoV1.B2CRequestChangeOfSupplier => DocumentType.B2CRequestChangeOfSupplier,
+            DocumentTypeDtoV1.B2CRequestChangeCustomerCharacteristics => DocumentType.B2CRequestChangeCustomerCharacteristics,
         };
 
     internal static DocumentType ToDocumentType(this MeteringPointDocumentTypeDtoV1 documentType) =>

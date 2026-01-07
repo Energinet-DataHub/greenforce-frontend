@@ -382,13 +382,14 @@
       "MONTHLY": "Month",
       "UNKNOWN": "Unknown"
     },
-    "vatClassifications": {
-      "NO_VAT": "Without VAT",
-      "VAT25": "With VAT"
+    "vatInclusive": {
+      "false": "Without VAT",
+      "true": "With VAT"
     },
     "charges": {
       "topBarTitle": "Prices",
       "table": {
+        "searchById": "Search by ID",
         "createButton": "New charge",
         "columns": {
           "code": "ID",
@@ -801,6 +802,9 @@
         "cancel": "Cancel change link"
       },
       "create": {
+        "errors": {
+          "factorMin": "Quantity must be at least {{ min }}"
+        },
         "toast": {
           "loading": "Price is being attached..",
           "success": "Price attached",
@@ -826,6 +830,9 @@
         "tooltip": "The process takes a few minutes.\n Rejection reasons can be found in business messages."
       },
       "edit": {
+        "errors": {
+          "factorMin": "Quantity must be at least {{ min }}"
+        },
         "toast": {
           "loading": "Saving changes..",
           "success": "Changes saved",
@@ -901,6 +908,7 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Confirmation of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Request for connection of metering point (RSM-021)",
         "UNKNOWN": "Unknown Step"
       },
       "details": {
@@ -1017,76 +1025,74 @@
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
       "updateCustomerData": "Update customer data",
-      "steps": {
-        "customerDetails": {
-          "label": "Customer details",
-          "cutOffDate": "Cut-off date",
-          "moveInType": "Move-in type",
-          "customerInformation": "Customer information",
-          "private": "Private",
-          "business": "Business",
-          "name": "Customer name",
-          "cpr": "CPR",
-          "name1": "Customer name 1",
-          "cpr1": "CPR 1",
-          "name2": "Customer name 2",
-          "cpr2": "CPR 2",
-          "companyName": "Company name",
-          "cvr": "CVR 1",
-          "foreignCompany": "Foreign company",
-          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-          "cprError": {
-            "containsLetters": "Can only contain letters",
-            "containsDash": "Can not contain dashes",
-            "invalidCprLength": "Must be 10 digits long",
-            "invalidDate": "Invalid date",
-            "allOnes": "Can not be used"
-          },
-          "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
+      "customerDetails": {
+        "label": "Customer details",
+        "cutOffDate": "Cut-off date",
+        "moveInType": "Move-in type",
+        "customerInformation": "Customer information",
+        "private": "Private",
+        "business": "Business",
+        "customer1": "Customer 1",
+        "customer2": "Customer 2",
+        "name": "Customer name",
+        "cpr": "CPR",
+        "companyName": "Company name",
+        "cvr": "CVR",
+        "foreignCompany": "Foreign company",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "cprError": {
+          "containsLetters": "Can only contain letters",
+          "containsDash": "Can not contain dashes",
+          "invalidCprLength": "Must be 10 digits long",
+          "invalidDate": "Invalid date",
+          "allOnes": "Can not be used"
         },
-        "contactDetails": {
-          "label": "Contact details",
-          "legalContactSection": "Legal contact",
-          "technicalContactSection": "Technical contact",
-          "contactSameAsCustomer": "Same as customer name",
-          "technicalContactSameAsLegal": "Same as legal contact",
-          "contactName": "Contact name",
-          "attention": "Attn.",
-          "phoneNumber": "Phone number",
-          "mobile": "Mobile",
-          "email": "Email address",
-          "invalidEmail": "Invalid e-mail"
+        "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
+        "nameProtection": "Name protection"
+      },
+      "contactDetails": {
+        "label": "Contact details",
+        "legalContactSection": "Legal contact",
+        "technicalContactSection": "Technical contact",
+        "contactSameAsCustomer": "Same as customer name",
+        "technicalContactSameAsLegal": "Same as legal contact",
+        "contactName": "Contact name",
+        "attention": "Attn.",
+        "phoneNumber": "Phone number",
+        "mobile": "Mobile",
+        "email": "Email address",
+        "invalidEmail": "Invalid e-mail"
+      },
+      "addressDetails": {
+        "addressSameAsMeteringPoint": "Same as metering point address",
+        "street": "Street",
+        "houseNumber": "House number",
+        "floor": "Floor",
+        "door": "Door",
+        "postalCode": "Postal code",
+        "city": "City",
+        "country": "Country",
+        "streetCode": "Street code",
+        "citySubdivisionName": "Additional city name",
+        "postalDistrict": "Postal district",
+        "postBox": "Post box",
+        "municipalityCode": "Municipality code",
+        "municipalityCodeError": {
+          "containsLetters": "Can only contain numbers",
+          "startsWithZero": "Can not start with 0",
+          "invalidMunicipalityCodeLength": "Must be 3 digits long"
         },
-        "addressDetails": {
-          "addressSameAsMeteringPoint": "Same as metering point address",
-          "street": "Street",
-          "houseNumber": "House number",
-          "floor": "Floor",
-          "door": "Door",
-          "postalCode": "Postal code",
-          "city": "City",
-          "country": "Country",
-          "streetCode": "Street code",
-          "citySubdivisionName": "Additional city name",
-          "postalDistrict": "Postal district",
-          "postBox": "Post box",
-          "municipalityCode": "Municipality code",
-          "municipalityCodeError": {
-            "containsLetters": "Can only contain numbers",
-            "startsWithZero": "Can not start with 0",
-            "invalidMunicipalityCodeLength": "Must be 3 digits long"
-          },
-          "darReference": "Dar reference",
-          "nameAddressProtection": "Name and address protection"
-        },
-        "businessReason": {
-          "CUSTOMER_MOVE_IN": "Ordinary (E65)",
-          "SECONDARY_MOVE_IN": "Secondary (D29)"
-        }
+        "darReference": "Dar reference",
+        "nameAddressProtection": "Name and address protection"
+      },
+      "businessReason": {
+        "CUSTOMER_MOVE_IN": "Ordinary (E65)",
+        "SECONDARY_MOVE_IN": "Secondary (D29)"
       },
       "moveInSuccess": "Move-in is now registered",
       "moveInFail": "Move-in failed",
       "customerDataSuccess": "Customer data update is now registered",
+      "customerDataFail": "Customer data update failed",
       "save": "Customer move-in",
       "cancel": "Cancel"
     },

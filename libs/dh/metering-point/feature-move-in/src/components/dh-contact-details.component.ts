@@ -47,7 +47,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
     @let controls = formGroup.controls.contactGroup.controls;
     <ng-container
       [formGroup]="formGroup"
-      *transloco="let t; prefix: 'meteringPoint.moveIn.steps.contactDetails'"
+      *transloco="let t; prefix: 'meteringPoint.moveIn.contactDetails'"
     >
       <vater-flex gap="xl" direction="row">
         <vater-flex align="stretch">

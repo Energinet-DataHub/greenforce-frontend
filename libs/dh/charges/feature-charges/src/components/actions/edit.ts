@@ -16,33 +16,33 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, computed, effect, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { WATT_MODAL } from '@energinet/watt/modal';
 import { WATT_RADIO } from '@energinet/watt/radio';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
-import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+
 import {
+  injectToast,
   dhMakeFormControl,
   injectRelativeNavigate,
-  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
-  VatClassificationDto,
-  GetChargeByIdDocument,
   UpdateChargeDocument,
+  GetChargeByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-charges-edit',
@@ -75,13 +75,13 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       </h2>
       <form
         *transloco="let t; prefix: 'charges.actions.create.form'"
-        id="edit-charge"
         vater-stack
         direction="column"
         gap="s"
         align="start"
-        [formGroup]="form()"
+        id="edit"
         (ngSubmit)="save()"
+        [formGroup]="form()"
       >
         <vater-stack fill="horizontal" direction="row" gap="m">
           <watt-text-field
@@ -106,14 +106,16 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         />
         <watt-radio-group readonly [label]="t('resolution')" [value]="resolution()">
           <watt-radio [value]="resolution()">
-            {{ 'charges.resolutions.' + resolution() | transloco }}
+            @if (resolution()) {
+              {{ 'charges.resolutions.' + resolution() | transloco }}
+            }
           </watt-radio>
         </watt-radio-group>
         <watt-radio-group [label]="t('vat')" [formControl]="form().controls.vat">
-          <watt-radio [value]="vat25">
+          <watt-radio [value]="true">
             {{ t('withVat') }}
           </watt-radio>
-          <watt-radio [value]="noVat">
+          <watt-radio [value]="false">
             {{ t('withoutVat') }}
           </watt-radio>
         </watt-radio-group>
@@ -130,16 +132,13 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
             </watt-radio>
           </watt-radio-group>
         }
-        <!-- datepicker does not support updating formControl -->
-        @if (cutoffDate()) {
-          <watt-datepicker [label]="t('cutoffDate')" [formControl]="form().controls.cutoffDate" />
-        }
+        <watt-datepicker [label]="t('cutoffDate')" [formControl]="cutoffDate" />
       </form>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" formId="edit-charge" type="submit">
+        <watt-button variant="primary" type="submit" formId="edit">
           {{ t('submit') }}
         </watt-button>
       </watt-modal-actions>
@@ -147,30 +146,30 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export default class DhChargesEdit {
-  id = input.required<string>();
+  private readonly modal = viewChild.required(WattModalComponent);
   navigate = injectRelativeNavigate();
+  id = input.required<string>();
   updateCharge = mutation(UpdateChargeDocument);
   toast = injectToast('charges.actions.edit.toast');
   toastEffect = effect(() => this.toast(this.updateCharge.status()));
-  vat25 = VatClassificationDto.Vat25;
-  noVat = VatClassificationDto.NoVat;
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.chargeById);
   code = computed(() => this.charge()?.code);
   name = computed(() => this.charge()?.name ?? '');
-  description = computed(() => this.charge()?.currentPeriod?.description ?? '');
+  description = computed(() => this.charge()?.description ?? '');
   resolution = computed(() => this.charge()?.resolution);
   type = computed(() => this.charge()?.type);
-  vat = computed(() => this.charge()?.currentPeriod?.vatClassification === 'VAT25');
-  transparentInvoicing = computed(() => this.charge()?.currentPeriod?.transparentInvoicing ?? null);
-  cutoffDate = computed(() => this.charge()?.currentPeriod?.period.end);
+  vat = computed(() => this.charge()?.vatInclusive);
+  transparentInvoicing = computed(() => this.charge()?.transparentInvoicing ?? null);
+  // datepicker does not support updating formControl
+  cutoffDate = dhMakeFormControl<Date>(null, Validators.required);
   form = computed(
     () =>
       new FormGroup({
         id: dhMakeFormControl({ value: this.code(), disabled: true }),
         name: dhMakeFormControl(this.name(), Validators.required),
         description: dhMakeFormControl(this.description(), Validators.required),
-        cutoffDate: dhMakeFormControl<Date>(this.cutoffDate(), Validators.required),
+        cutoffDate: this.cutoffDate,
         vat: dhMakeFormControl<boolean>(this.vat(), Validators.required),
         transparentInvoicing: dhMakeFormControl<boolean>(
           { value: this.transparentInvoicing(), disabled: this.type() == 'FEE' },
@@ -179,8 +178,8 @@ export default class DhChargesEdit {
       })
   );
 
-  save() {
-    if (!this.form().valid) return;
+  async save() {
+    if (this.form().invalid) return;
 
     const { cutoffDate, description, name, transparentInvoicing, vat } = this.form().getRawValue();
 
@@ -188,7 +187,7 @@ export default class DhChargesEdit {
     assertIsDefined(transparentInvoicing);
     assertIsDefined(vat);
 
-    this.updateCharge.mutate({
+    await this.updateCharge.mutate({
       variables: {
         input: {
           id: this.id(),
@@ -200,5 +199,7 @@ export default class DhChargesEdit {
         },
       },
     });
+
+    this.modal().close(true);
   }
 }
