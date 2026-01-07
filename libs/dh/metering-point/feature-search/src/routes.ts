@@ -73,7 +73,7 @@ const marketRolesWithActorConversationAccess = [
   EicFunction.GridAccessProvider,
   EicFunction.DataHubAdministrator,
   EicFunction.MeteredDataResponsible,
-  EicFunction.MeterOperator
+  EicFunction.MeterOperator,
 ];
 
 export const dhMeteringPointRoutes: Routes = [
