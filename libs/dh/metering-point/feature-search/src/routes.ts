@@ -207,8 +207,8 @@ export const dhMeteringPointRoutes: Routes = [
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-actor-conversation').then(
                 (m) => m.DhActorConversationShellComponent
-              )
-          }
+              ),
+          },
         ],
       },
     ],
