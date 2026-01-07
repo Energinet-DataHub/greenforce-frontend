@@ -16,15 +16,30 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActorConversationCaseType } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
-  imports: [WATT_CARD, TranslocoDirective, VaterStackComponent, WattButtonComponent],
+  imports: [
+    WATT_CARD,
+    TranslocoDirective,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattDropdownComponent,
+    DhDropdownTranslatorDirective,
+    ReactiveFormsModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     style: 'display: flex; flex-direction: column;',
@@ -45,9 +60,26 @@ import { WattButtonComponent } from '@energinet/watt/button';
         <h2 class="no-margin">{{ t('newCaseTitle') }}</h2>
         <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
       </vater-stack>
+
+      <form [formGroup]="newCaseForm">
+        <watt-dropdown
+          [formControl]="newCaseForm.controls.type"
+          [options]="types"
+          [label]="t('typeLabel')"
+          [showResetOption]="false"
+          dhDropdownTranslator
+          translateKey="meteringPoint.actorConversation.types"
+        />
+      </form>
     </watt-card>
   `,
 })
 export class DhActorConversationNewCaseComponent {
+  private readonly fb = inject(NonNullableFormBuilder);
+  newCaseForm = this.fb.group({
+    type: this.fb.control<ActorConversationCaseType>(ActorConversationCaseType.misc, Validators.required),
+  });
   closeNewCase = output();
+  types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
+  protected readonly translate = translate;
 }

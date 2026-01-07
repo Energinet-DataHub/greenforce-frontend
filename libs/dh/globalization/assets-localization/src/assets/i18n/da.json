@@ -765,7 +765,11 @@
     "actorConversation": {
       "cases": "Sager",
       "newCaseButton": "Ny sag",
-      "newCaseTitle": "Ny sag"
+      "newCaseTitle": "Ny sag",
+      "typeLabel": "Type",
+      "types": {
+        "misc": "Andet"
+      }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
