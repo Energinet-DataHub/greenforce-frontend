@@ -1,7 +1,12 @@
-query DoesInternalMeteringPointIdExist($internalMeteringPointId: Long, $meteringPointId: Long) {
+query DoesInternalMeteringPointIdExist(
+  $internalMeteringPointId: Long
+  $meteringPointId: Long
+  $searchDh2MeteringPoints: Boolean!
+) {
   meteringPointExists(
     internalMeteringPointId: $internalMeteringPointId
     meteringPointId: $meteringPointId
+    searchDh2MeteringPoints: $searchDh2MeteringPoints
   ) {
     id
     meteringPointId

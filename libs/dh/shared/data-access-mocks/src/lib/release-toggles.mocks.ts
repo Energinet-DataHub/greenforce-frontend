@@ -37,11 +37,11 @@ function getReleaseTogglesQuery() {
           'PM31-REPORTS',
           'PM96-SHAREMEASUREDATA',
           'MoveInBrs009',
-          'PM58-PRICES-UI',
           'PM116-PROCESSOVERVIEW',
           'PM52-CREATE-METERING-POINT-UI',
           'PM58-PRICES-UI',
           'PM60-CHARGE-LINKS-UI',
+          'PM120-DH3-METERING-POINTS-UI',
         ],
       },
     });

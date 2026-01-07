@@ -599,7 +599,8 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
-      "noResultFound": "Intet resultat fundet"
+      "noResultFound": "Intet resultat fundet",
+      "searchDh2MeteringPoints": "Søg DataHub 2 målepunkter"
     },
     "tabs": {
       "masterData": {

@@ -30,6 +30,7 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattModalService } from '@energinet/watt/modal';
 import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
@@ -46,15 +47,15 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     VaterStackComponent,
+
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattButtonComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
     WattCopyToClipboardDirective,
-
+    WattCheckboxComponent,
     DhPermissionRequiredDirective,
     DhFeatureFlagDirective,
     DhReleaseToggleDirective,
@@ -75,43 +76,51 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
   `,
   template: `
     <vater-stack fill="vertical" *transloco="let t; prefix: 'meteringPoint.search'">
-      <vater-stack direction="row" align="start" gap="m" class="search-wrapper watt-space-stack-xl">
-        <watt-text-field
-          maxLength="18"
-          [formControl]="searchControl"
-          [placeholder]="t('placeholder')"
-          [autoFocus]="true"
-          (keydown.enter)="onSubmit()"
-          [showErrors]="submitted()"
-        >
-          @if (loading()) {
-            <watt-spinner [diameter]="22" />
-          } @else {
-            <watt-button variant="icon" icon="search" (click)="onSubmit()" />
-          }
-
-          @if (searchControl.hasError('containsLetters')) {
-            <watt-field-error>
-              {{ t('error.containsLetters') }}
-            </watt-field-error>
-          }
-
-          @if (searchControl.hasError('meteringPointIdLength')) {
-            <watt-field-error>
-              {{ t('error.meteringPointIdLength') }}
-            </watt-field-error>
-          }
-        </watt-text-field>
-
-        <ng-content *dhReleaseToggle="'PM52-CREATE-METERING-POINT-UI'">
-          <watt-button
-            *dhPermissionRequired="['metering-point:create']"
-            icon="plus"
-            variant="secondary"
-            (click)="createMeteringPoint()"
+      <vater-stack gap="l" align="stretch" class="search-wrapper watt-space-stack-xl">
+        <vater-stack direction="row" align="start" gap="m">
+          <watt-text-field
+            maxLength="18"
+            [formControl]="searchControl"
+            [placeholder]="t('placeholder')"
+            [autoFocus]="true"
+            (keydown.enter)="onSubmit()"
+            [showErrors]="submitted()"
           >
-            {{ t('createMeteringPoint') }}
-          </watt-button>
+            @if (loading()) {
+              <watt-spinner [diameter]="22" />
+            } @else {
+              <watt-button variant="icon" icon="search" (click)="onSubmit()" />
+            }
+
+            @if (searchControl.hasError('containsLetters')) {
+              <watt-field-error>
+                {{ t('error.containsLetters') }}
+              </watt-field-error>
+            }
+
+            @if (searchControl.hasError('meteringPointIdLength')) {
+              <watt-field-error>
+                {{ t('error.meteringPointIdLength') }}
+              </watt-field-error>
+            }
+          </watt-text-field>
+
+          <ng-content *dhReleaseToggle="'PM52-CREATE-METERING-POINT-UI'">
+            <watt-button
+              *dhPermissionRequired="['metering-point:create']"
+              icon="plus"
+              variant="secondary"
+              (click)="createMeteringPoint()"
+            >
+              {{ t('createMeteringPoint') }}
+            </watt-button>
+          </ng-content>
+        </vater-stack>
+
+        <ng-content *dhReleaseToggle="'PM120-DH3-METERING-POINTS-UI'">
+          <watt-checkbox [formControl]="searchDh2MeteringPoints">
+            {{ t('searchDh2MeteringPoints') }}
+          </watt-checkbox>
         </ng-content>
       </vater-stack>
 
@@ -145,6 +154,7 @@ export class DhSearchComponent {
     validators: [Validators.required, dhMeteringPointIdValidator()],
     nonNullable: true,
   });
+  searchDh2MeteringPoints = new FormControl(true, { nonNullable: true });
 
   private readonly seachControlChange = toSignal(this.searchControl.valueChanges);
 
@@ -181,6 +191,7 @@ export class DhSearchComponent {
     const result = await this.doesMeteringPointExist.query({
       variables: {
         meteringPointId,
+        searchDh2MeteringPoints: this.searchDh2MeteringPoints.value,
       },
     });
 

@@ -599,7 +599,8 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
-      "noResultFound": "No result found"
+      "noResultFound": "No result found",
+      "searchDh2MeteringPoints": "Search DataHub 2 metering points"
     },
     "tabs": {
       "masterData": {
