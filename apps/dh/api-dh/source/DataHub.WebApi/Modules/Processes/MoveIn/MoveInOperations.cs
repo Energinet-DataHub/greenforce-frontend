@@ -33,6 +33,7 @@ public static class MoveInOperations
         DateTimeOffset startDate,
         CustomerIdentificationInput customerIdentification,
         string customerName,
+        string energySupplier,
         CancellationToken ct,
         [Service] IB2CClient ediB2CClient)
     {
@@ -49,6 +50,7 @@ public static class MoveInOperations
             businessReason,
             startDate,
             customerIdentificationV1,
+            energySupplier,
             customerName));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
@@ -62,8 +64,11 @@ public static class MoveInOperations
         string meteringPointId,
         ChangeCustomerCharacteristicsBusinessReason businessReason,
         DateTimeOffset startDate,
-        CustomerInfoV1 firstCustomer,
-        CustomerInfoV1? secondCustomer,
+        string firstCustomerCvrOrCpr,
+        string? firstCustomerName,
+        string? secondCustomerCpr,
+        string? secondCustomerName,
+        bool? protectedName,
         bool electricalHeating,
         IReadOnlyCollection<UsagePointLocationV1>? usagePointLocations,
         CancellationToken ct,
@@ -74,8 +79,11 @@ public static class MoveInOperations
                 meteringPointId,
                 businessReason,
                 startDate,
-                firstCustomer,
-                secondCustomer,
+                firstCustomerCvrOrCpr,
+                firstCustomerName,
+                secondCustomerCpr,
+                secondCustomerName,
+                protectedName,
                 electricalHeating,
                 usagePointLocations));
 

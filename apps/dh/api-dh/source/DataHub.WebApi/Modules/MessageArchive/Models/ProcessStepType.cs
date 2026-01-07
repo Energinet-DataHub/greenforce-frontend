@@ -43,19 +43,29 @@ public enum ProcessStepType
     BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4,
 
     /// <summary>
-    /// BRS-004 Creation of metering point - Step 1 - Request creation of metering point (RSM-021)
+    /// BRS-004 Create metering point - Step 1 - Request creation of metering point (RSM-021)
     /// </summary>
     BRS_004_CREATEMETERINGPOINT_V1_STEP_1,
 
     /// <summary>
-    /// BRS-004 Creation of metering point - Step 2 - Confirm creation of metering point (RSM-021)
+    /// BRS-004 Create metering point - Step 2 - Confirm creation of metering point (RSM-021)
     /// </summary>
     BRS_004_CREATEMETERINGPOINT_V1_STEP_2,
 
     /// <summary>
-    /// BRS-004 Creation of metering point - Step 3 - Reject creation of metering point (RSM-021)
+    /// BRS-004 Create metering point - Step 3 - Reject creation of metering point (RSM-021)
     /// </summary>
     BRS_004_CREATEMETERINGPOINT_V1_STEP_3,
+
+    /// <summary>
+    /// BRS-004 Create metering point - Step 4 - Information about newly created metering point (RSM-022)
+    /// </summary>
+    BRS_004_CREATEMETERINGPOINT_V1_STEP_4,
+
+    /// <summary>
+    /// BRS-008 Connect metering point - Step 1 - Incoming RSM-021
+    /// </summary>
+    BRS_008_CONNECTMETERINGPOINT_V1_STEP_1,
 
     /// <summary>
     /// Unknown or unmapped step type.

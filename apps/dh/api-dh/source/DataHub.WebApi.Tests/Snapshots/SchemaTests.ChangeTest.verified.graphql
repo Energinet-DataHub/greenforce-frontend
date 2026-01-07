@@ -1817,8 +1817,11 @@ input ChangeCustomerCharacteristicsInput {
   meteringPointId: String!
   businessReason: ChangeCustomerCharacteristicsBusinessReason!
   startDate: DateTime!
-  firstCustomer: CustomerInfoV1Input!
-  secondCustomer: CustomerInfoV1Input
+  firstCustomerCvrOrCpr: String!
+  firstCustomerName: String
+  secondCustomerCpr: String
+  secondCustomerName: String
+  protectedName: Boolean
   electricalHeating: Boolean!
   usagePointLocations: [UsagePointLocationV1Input!]
 }
@@ -1940,12 +1943,6 @@ input CustomerIdentificationInput {
   type: String
 }
 
-input CustomerInfoV1Input {
-  cvrOrCpr: String!
-  customerName: String
-  protectedName: Boolean
-}
-
 input DeactivateUserInput {
   userId: UUID!
 }
@@ -2028,6 +2025,7 @@ input InitiateMoveInInput {
   startDate: DateTime!
   customerIdentification: CustomerIdentificationInput!
   customerName: String!
+  energySupplier: String!
 }
 
 input InvitationUserDetailsDtoInput {
@@ -2625,6 +2623,11 @@ enum DocumentType {
   REQUEST_CHANGE_OF_PRICE_LIST
   CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
+  B2C_REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS
+  B2C_REQUEST_CHANGE_BILLING_MASTER_DATA
+  B2C_REQUEST_CHANGE_OF_PRICE_LIST
+  B2C_REQUEST_CHANGE_OF_SUPPLIER
+  B2C_REQUEST_CHANGE_CUSTOMER_CHARACTERISTICS
 }
 
 enum ESettStageComponent {
@@ -2985,12 +2988,16 @@ enum ProcessStepType {
   BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3
   "BRS-002 Request End of Supply - Step 4: Notify cancellation of end of supply (RSM-020)"
   BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4
-  "BRS-004 Creation of metering point - Step 1 - Request creation of metering point (RSM-021)"
+  "BRS-004 Create metering point - Step 1 - Request creation of metering point (RSM-021)"
   BRS_004_CREATEMETERINGPOINT_V1_STEP_1
-  "BRS-004 Creation of metering point - Step 2 - Confirm creation of metering point (RSM-021)"
+  "BRS-004 Create metering point - Step 2 - Confirm creation of metering point (RSM-021)"
   BRS_004_CREATEMETERINGPOINT_V1_STEP_2
-  "BRS-004 Creation of metering point - Step 3 - Reject creation of metering point (RSM-021)"
+  "BRS-004 Create metering point - Step 3 - Reject creation of metering point (RSM-021)"
   BRS_004_CREATEMETERINGPOINT_V1_STEP_3
+  "BRS-004 Create metering point - Step 4 - Information about newly created metering point (RSM-022)"
+  BRS_004_CREATEMETERINGPOINT_V1_STEP_4
+  "BRS-008 Connect metering point - Step 1 - Incoming RSM-021"
+  BRS_008_CONNECTMETERINGPOINT_V1_STEP_1
   """
   Unknown or unmapped step type.
   Used when ProcessManager returns a step we haven't added to this enum yet.
