@@ -25,7 +25,7 @@ export type DhFeatureFlag = {
 
 export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 
-const latestBump = '05-11-2025';
+const latestBump = '08-01-2025';
 
 /**
  * Feature flag example:
@@ -79,6 +79,10 @@ export const dhFeatureFlagsConfig = {
   'microsoft-clarity': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.local],
+  },
+  'search-migrated-metering-points': {
+    created: latestBump,
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 

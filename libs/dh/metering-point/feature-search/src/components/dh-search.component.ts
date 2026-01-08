@@ -117,7 +117,7 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
           </ng-content>
         </vater-stack>
 
-        <ng-content *dhReleaseToggle="'PM120-DH3-METERING-POINTS-UI'">
+        <ng-content *dhFeatureFlag="'search-migrated-metering-points'">
           <watt-checkbox [formControl]="searchMigratedMeteringPoints">
             {{ t('searchMigratedMeteringPoints') }}
           </watt-checkbox>
