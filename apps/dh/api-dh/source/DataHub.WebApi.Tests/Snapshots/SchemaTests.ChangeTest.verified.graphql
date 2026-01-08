@@ -1025,7 +1025,11 @@ type MeteringPointProcess {
 
 type MeteringPointProcessStep {
   actor: MarketParticipant
-  message: ArchivedMessage
+  """
+  Generates the URL for fetching the master data document content.
+  The MessageId on the step contains the ArchivedMessageId (GUID) from ProcessManager.
+  """
+  documentUrl: String
   id: String!
   step: ProcessStepType!
   comment: String
