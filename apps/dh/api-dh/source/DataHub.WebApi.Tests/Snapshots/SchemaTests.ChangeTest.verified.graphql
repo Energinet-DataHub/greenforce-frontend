@@ -1817,7 +1817,8 @@ input ChangeCustomerCharacteristicsInput {
   meteringPointId: String!
   businessReason: ChangeCustomerCharacteristicsBusinessReason!
   startDate: DateTime!
-  firstCustomerCvrOrCpr: String!
+  firstCustomerCpr: String
+  firstCustomerCvr: String
   firstCustomerName: String
   secondCustomerCpr: String
   secondCustomerName: String

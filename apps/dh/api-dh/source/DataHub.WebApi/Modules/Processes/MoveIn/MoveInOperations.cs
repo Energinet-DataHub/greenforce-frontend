@@ -64,7 +64,8 @@ public static class MoveInOperations
         string meteringPointId,
         ChangeCustomerCharacteristicsBusinessReason businessReason,
         DateTimeOffset startDate,
-        string firstCustomerCvrOrCpr,
+        string? firstCustomerCpr,
+        string? firstCustomerCvr,
         string? firstCustomerName,
         string? secondCustomerCpr,
         string? secondCustomerName,
@@ -79,12 +80,14 @@ public static class MoveInOperations
                 meteringPointId,
                 businessReason,
                 startDate,
-                firstCustomerCvrOrCpr,
+                firstCustomerCpr,
+                firstCustomerCvr,
                 firstCustomerName,
                 secondCustomerCpr,
                 secondCustomerName,
                 protectedName,
                 electricalHeating,
+                string.Empty,
                 usagePointLocations));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);

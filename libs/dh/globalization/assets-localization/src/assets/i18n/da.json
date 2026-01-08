@@ -606,6 +606,9 @@
       "masterData": {
         "tabLabel": "Stamdata"
       },
+      "actor-conversation": {
+        "tabLabel": "Aktør dialog"
+      },
       "processes": {
         "tabLabel": "Processer"
       },
