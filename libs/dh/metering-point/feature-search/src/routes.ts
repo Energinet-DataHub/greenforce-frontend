@@ -202,6 +202,17 @@ export const dhMeteringPointRoutes: Routes = [
                 (m) => m.DhUpdateCustomerDataComponent
               ),
           },
+          {
+            path: getPath<MeteringPointSubPaths>('actor-conversation'),
+            canActivate: [
+              PermissionGuard(['metering-point:market-participant-conversation']),
+              dhReleaseToggleGuard('PM62-ACTOR-CONVERSATION'),
+            ],
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-actor-conversation').then(
+                (m) => m.DhActorConversationShellComponent
+              ),
+          },
         ],
       },
     ],

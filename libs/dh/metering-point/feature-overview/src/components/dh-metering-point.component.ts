@@ -184,6 +184,13 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
             [label]="t('masterData.tabLabel')"
             [link]="getLink('master-data')"
           />
+          <ng-container *dhReleaseToggle="'PM62-ACTOR-CONVERSATION'">
+            <watt-link-tab
+              *dhMarketRoleRequired="rolesWithAccess"
+              [label]="t('actor-conversation.tabLabel')"
+              [link]="getLink('actor-conversation')"
+            />
+          </ng-container>
           <ng-container *dhReleaseToggle="'PM116-PROCESSOVERVIEW'">
             <watt-link-tab
               *dhPermissionRequired="['metering-point:process-overview']"
