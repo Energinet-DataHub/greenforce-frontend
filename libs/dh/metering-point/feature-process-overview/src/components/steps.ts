@@ -75,8 +75,8 @@ type MeteringPointProcessStep = NonNullable<
         [loading]="loading()"
         [rowClass]="getRowClass"
       >
-        <ng-container *wattTableCell="columns.message; let process">
-          @if (process.message?.documentUrl; as documentUrl) {
+        <ng-container *wattTableCell="columns.documentUrl; let process">
+          @if (process.documentUrl; as documentUrl) {
             <a href="#" (click)="openRawMessage(documentUrl, $event)">
               <watt-icon size="xs" name="email" />
             </a>
@@ -127,7 +127,7 @@ export class DhMeteringPointProcessOverviewSteps {
   dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
 
   columns: WattTableColumnDef<MeteringPointProcessStep> = {
-    message: { accessor: 'message', sort: false, header: '' },
+    documentUrl: { accessor: 'documentUrl', sort: false, header: '' },
     step: { accessor: 'step', size: '1fr', sort: false },
     completedAt: { accessor: 'completedAt', sort: false },
     dueDate: { accessor: 'dueDate', sort: false },
