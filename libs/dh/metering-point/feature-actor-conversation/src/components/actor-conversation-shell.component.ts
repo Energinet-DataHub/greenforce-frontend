@@ -37,13 +37,9 @@ import { VaterFlexComponent } from '@energinet/watt/vater';
     .flex-3 {
       flex: 3;
     }
-
-    .padding-ml {
-      padding: var(--watt-space-ml);
-    }
   `,
   template: `
-    <vater-flex direction="row" fill="vertical" gap="m" class="padding-ml">
+    <vater-flex direction="row" fill="vertical" gap="m" class="watt-space-inset-m">
       <dh-actor-conversation-case-list (createNewCase)="newCaseVisible.set(true)" class="flex-1" />
       @if (newCaseVisible()) {
         <dh-actor-conversation-new-case (closeNewCase)="newCaseVisible.set(false)" class="flex-3" />
