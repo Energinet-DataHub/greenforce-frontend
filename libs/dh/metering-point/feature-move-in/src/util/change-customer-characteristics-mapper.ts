@@ -40,7 +40,8 @@ export function mapChangeCustomerCharacteristicsFormToRequest(
   if (isBusinessCustomer) {
     const controls = form.controls.businessCustomerDetails.controls;
     const firstCustomerName = controls.companyName.value;
-    const firstCustomerCvrOrCpr = controls.cvr.value;
+    const firstCustomerCpr = null;
+    const firstCustomerCvr = controls.cvr.value;
     const protectedName = controls.nameProtection.value;
     const secondCustomerCpr = null;
     const secondCustomerName = null;
@@ -48,7 +49,8 @@ export function mapChangeCustomerCharacteristicsFormToRequest(
       meteringPointId,
       businessReason,
       startDate,
-      firstCustomerCvrOrCpr,
+      firstCustomerCpr,
+      firstCustomerCvr,
       firstCustomerName,
       secondCustomerCpr,
       secondCustomerName,
@@ -59,7 +61,8 @@ export function mapChangeCustomerCharacteristicsFormToRequest(
   } else {
     const controls = form.controls.privateCustomerDetails.controls;
     const firstCustomerName = controls.customerName1.value;
-    const firstCustomerCvrOrCpr = controls.cpr1.value;
+    const firstCustomerCpr = controls.cpr1.value;
+    const firstCustomerCvr = null;
     const protectedName = controls.nameProtection.value;
     const secondCustomerCpr = controls.cpr2.value;
     const secondCustomerName = controls.customerName2.value;
@@ -67,7 +70,8 @@ export function mapChangeCustomerCharacteristicsFormToRequest(
       meteringPointId,
       businessReason,
       startDate,
-      firstCustomerCvrOrCpr,
+      firstCustomerCpr,
+      firstCustomerCvr,
       firstCustomerName,
       secondCustomerCpr,
       secondCustomerName,

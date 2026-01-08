@@ -606,6 +606,9 @@
       "masterData": {
         "tabLabel": "Master data"
       },
+      "actor-conversation": {
+        "tabLabel": "Actor conversation"
+      },
       "processes": {
         "tabLabel": "Processes"
       },
