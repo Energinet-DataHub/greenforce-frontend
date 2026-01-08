@@ -68,14 +68,6 @@ const marketRolesWithDataAccess = [
   EicFunction.SystemOperator,
 ];
 
-const marketRolesWithActorConversationAccess = [
-  EicFunction.EnergySupplier,
-  EicFunction.GridAccessProvider,
-  EicFunction.DataHubAdministrator,
-  EicFunction.MeteredDataResponsible,
-  EicFunction.MeterOperator,
-];
-
 export const dhMeteringPointRoutes: Routes = [
   {
     path: '',
@@ -213,7 +205,7 @@ export const dhMeteringPointRoutes: Routes = [
           {
             path: getPath<MeteringPointSubPaths>('actor-conversation'),
             canActivate: [
-              MarketRoleGuard(marketRolesWithActorConversationAccess),
+              PermissionGuard(['metering-point:market-participant-conversation']),
               dhReleaseToggleGuard('PM62-ACTOR-CONVERSATION'),
             ],
             loadComponent: () =>
