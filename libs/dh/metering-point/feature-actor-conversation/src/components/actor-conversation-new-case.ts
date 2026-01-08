@@ -29,7 +29,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
     TranslocoDirective,
     VaterStackComponent,
     WattButtonComponent,
-    VaterFlexComponent
+    VaterFlexComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
