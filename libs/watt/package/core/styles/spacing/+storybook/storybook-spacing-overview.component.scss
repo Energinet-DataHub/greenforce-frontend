@@ -23,3 +23,74 @@
 .visual-reference {
   width: 50%;
 }
+
+.inset-box {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-color: red;
+}
+
+.size-text {
+  font-weight: bold;
+}
+
+.small-number {
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.corner-number {
+  position: absolute;
+  top: -6px;
+  left: 2px;
+}
+
+.white-font {
+  color: white;
+}
+
+.inset-squish-box {
+  position: relative;
+  width: 150px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-color: orange;
+}
+
+.inset-stretch-box {
+  position: relative;
+  width: 150px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-color: purple;
+}
+
+.stack-box {
+  position: relative;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: blue;
+}
+
+.inline-box {
+  position: relative;
+  height: 295px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: green;
+}
+
