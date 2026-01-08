@@ -19,33 +19,30 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
-  imports: [WATT_CARD, TranslocoDirective, VaterStackComponent, WattButtonComponent],
+  imports: [
+    WATT_CARD,
+    TranslocoDirective,
+    VaterStackComponent,
+    WattButtonComponent,
+    VaterFlexComponent
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    style: 'display: flex; flex-direction: column;',
-  },
-  styles: `
-    .new-case-card {
-      flex: 1;
-      padding: var(--watt-space-ml);
-    }
-
-    .no-margin {
-      margin: 0;
-    }
-  `,
   template: `
-    <watt-card class="new-case-card" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
-      <vater-stack direction="row" justify="space-between">
-        <h2 class="no-margin">{{ t('newCaseTitle') }}</h2>
-        <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
-      </vater-stack>
-    </watt-card>
+    <vater-flex fill="both">
+      <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+        <watt-card-title>
+          <vater-stack direction="row" justify="space-between">
+            <h3>{{ t('newCaseTitle') }}</h3>
+            <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
+          </vater-stack>
+        </watt-card-title>
+      </watt-card>
+    </vater-flex>
   `,
 })
 export class DhActorConversationNewCaseComponent {
