@@ -100,7 +100,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
         [chipMode]="true"
         [multiple]="true"
         [hideSearch]="true"
-        [options]="moreOptions"
+        [options]="moreOptions()"
         [placeholder]="t('moreOptions')"
       />
     </form>
@@ -137,7 +137,7 @@ export class DhChargesFilters {
     return options;
   });
 
-  moreOptions = this.getMoreOptions();
+  moreOptions = computed(() => this.getMoreOptions());
 
   form = computed(() => {
     const initial = untracked(() => this.filter());
