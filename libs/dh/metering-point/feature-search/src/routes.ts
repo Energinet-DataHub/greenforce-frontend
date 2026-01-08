@@ -274,7 +274,7 @@ function internalIdToMeteringPointIdResolver(): ResolveFn<string> {
     const idParam: string = route.params[dhInternalMeteringPointIdParam];
 
     return query(DoesInternalMeteringPointIdExistDocument, {
-      variables: { internalMeteringPointId: idParam, searchDh2MeteringPoints: true },
+      variables: { internalMeteringPointId: idParam, newMeteringPointsModel: true },
     })
       .result()
       .then((result) => result.data.meteringPointExists.meteringPointId);

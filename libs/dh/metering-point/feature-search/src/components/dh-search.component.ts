@@ -191,7 +191,7 @@ export class DhSearchComponent {
     const result = await this.doesMeteringPointExist.query({
       variables: {
         meteringPointId,
-        searchDh2MeteringPoints: this.searchDh2MeteringPoints.value,
+        newMeteringPointsModel: !this.searchDh2MeteringPoints.value,
       },
     });
 
