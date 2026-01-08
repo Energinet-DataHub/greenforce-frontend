@@ -100,7 +100,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
         [chipMode]="true"
         [multiple]="true"
         [hideSearch]="true"
-        [options]="moreOptions()"
+        [options]="moreOptions"
         [placeholder]="t('moreOptions')"
       />
     </form>
@@ -108,6 +108,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
 })
 export class DhChargesFilters {
   private readonly actorStorage = inject(DhActorStorage);
+  private actorOptions = getActorOptions(this.getActorsWithMarketRoles(), 'glnOrEicNumber');
   private readonly moreOptionsTranslations = translateObjectSignal(
     'charges.charges.table.moreOptions'
   );
@@ -120,8 +121,23 @@ export class DhChargesFilters {
 
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
   statusOptions = dhEnumToWattDropdownOptions(ChargeStatus, [ChargeStatus.Invalid]);
-  owners = getActorOptions(this.getActorsWithMarketRoles(), 'glnOrEicNumber');
-  moreOptions = computed(() => this.getMoreOptions());
+  owners = computed(() => {
+    const options = this.actorOptions();
+
+    if (this.selectedActor.marketRole === EicFunction.GridAccessProvider) {
+      return [
+        ...options,
+        {
+          value: this.selectedActor.gln,
+          displayValue: `${this.selectedActor.gln} • ${this.selectedActor.actorName}`,
+        },
+      ];
+    }
+
+    return options;
+  });
+
+  moreOptions = this.getMoreOptions();
 
   form = computed(() => {
     const initial = untracked(() => this.filter());
@@ -140,17 +156,6 @@ export class DhChargesFilters {
   constructor() {
     effect(() => {
       this.filter.set(this.valuesChanges());
-    });
-
-    effect(() => {
-      const owners = this.owners();
-
-      if (this.selectedActor.marketRole === EicFunction.GridAccessProvider) {
-        owners.push({
-          value: this.selectedActor.gln,
-          displayValue: `${this.selectedActor.gln} • ${this.selectedActor.actorName}`,
-        });
-      }
     });
   }
 
