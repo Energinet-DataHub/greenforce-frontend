@@ -147,7 +147,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 
         <ng-container *transloco="let t; prefix: 'charges.charge.actions'">
           <watt-button
-            [dhPermissionRequired]="['charges:manage']"
+            *dhPermissionRequired="['charges:manage']"
             variant="secondary"
             [wattMenuTriggerFor]="menu"
           >
