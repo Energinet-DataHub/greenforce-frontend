@@ -19,6 +19,7 @@
 import { Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { MutationResult } from 'apollo-angular';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
@@ -32,6 +33,8 @@ import { dayjs } from '@energinet/watt/date';
 import {
   RequestConnectionStateChangeDocument,
   ConnectionState,
+  RequestConnectionStateChangeMutation,
+  GetMeteringPointProcessOverviewDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   dhEnumToWattDropdownOptions,
@@ -132,9 +135,16 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
           validityDate,
         },
       },
+      refetchQueries: ({ data }) => {
+        if (this.isUpdateSuccessful(data)) {
+          return [GetMeteringPointProcessOverviewDocument];
+        }
+
+        return [];
+      },
     });
 
-    if (result.data?.requestConnectionStateChange.success) {
+    if (this.isUpdateSuccessful(result.data)) {
       this.toastService.open({
         message: translate('meteringPoint.changeConnectionState.saveSuccess'),
         type: 'success',
@@ -164,5 +174,11 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
     }
 
     return undefined;
+  }
+
+  private isUpdateSuccessful(
+    mutationResult: MutationResult<RequestConnectionStateChangeMutation>['data']
+  ) {
+    return mutationResult?.requestConnectionStateChange.success;
   }
 }
