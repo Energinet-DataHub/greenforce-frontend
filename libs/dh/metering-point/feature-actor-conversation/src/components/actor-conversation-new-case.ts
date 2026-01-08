@@ -43,10 +43,6 @@ import { ActorConversationCaseType } from '../types';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
-    .form-margin-top {
-      margin-top: var(--watt-space-m);
-    }
-
     .third-width {
       width: 33%;
     }
@@ -60,7 +56,7 @@ import { ActorConversationCaseType } from '../types';
             <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
           </vater-stack>
         </watt-card-title>
-        <form [formGroup]="newCaseForm" vater-stack gap="l" align="start" class="form-margin-top">
+        <form [formGroup]="newCaseForm" vater-stack gap="l" align="start">
           <watt-dropdown
             [formControl]="newCaseForm.controls.type"
             [options]="types"
