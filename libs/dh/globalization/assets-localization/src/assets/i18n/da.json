@@ -600,7 +600,7 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "Intet resultat fundet",
-      "searchDh2MeteringPoints": "Søg DataHub 2 målepunkter"
+      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter"
     },
     "tabs": {
       "masterData": {

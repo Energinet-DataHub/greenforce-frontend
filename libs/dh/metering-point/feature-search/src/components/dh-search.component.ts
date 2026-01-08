@@ -118,8 +118,8 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
         </vater-stack>
 
         <ng-content *dhReleaseToggle="'PM120-DH3-METERING-POINTS-UI'">
-          <watt-checkbox [formControl]="searchDh2MeteringPoints">
-            {{ t('searchDh2MeteringPoints') }}
+          <watt-checkbox [formControl]="searchMigratedMeteringPoints">
+            {{ t('searchMigratedMeteringPoints') }}
           </watt-checkbox>
         </ng-content>
       </vater-stack>
@@ -154,7 +154,7 @@ export class DhSearchComponent {
     validators: [Validators.required, dhMeteringPointIdValidator()],
     nonNullable: true,
   });
-  searchDh2MeteringPoints = new FormControl(true, { nonNullable: true });
+  searchMigratedMeteringPoints = new FormControl(true, { nonNullable: true });
 
   private readonly seachControlChange = toSignal(this.searchControl.valueChanges);
 
@@ -191,7 +191,7 @@ export class DhSearchComponent {
     const result = await this.doesMeteringPointExist.query({
       variables: {
         meteringPointId,
-        newMeteringPointsModel: !this.searchDh2MeteringPoints.value,
+        newMeteringPointsModel: !this.searchMigratedMeteringPoints.value,
       },
     });
 

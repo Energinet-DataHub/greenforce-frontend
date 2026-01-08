@@ -600,7 +600,7 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found",
-      "searchDh2MeteringPoints": "Search DataHub 2 metering points"
+      "searchMigratedMeteringPoints": "Search migrated metering points"
     },
     "tabs": {
       "masterData": {
