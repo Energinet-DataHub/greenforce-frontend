@@ -19,7 +19,7 @@
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import {
@@ -36,24 +36,13 @@ import { ActorConversationCaseType } from '../types';
     TranslocoDirective,
     VaterStackComponent,
     WattButtonComponent,
+    VaterFlexComponent,
     WattDropdownComponent,
     DhDropdownTranslatorDirective,
     ReactiveFormsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    style: 'display: flex; flex-direction: column;',
-  },
   styles: `
-    .new-case-card {
-      flex: 1;
-      padding: var(--watt-space-ml);
-    }
-
-    .no-margin {
-      margin: 0;
-    }
-
     .form-margin-top {
       margin-top: var(--watt-space-m);
     }
@@ -63,24 +52,27 @@ import { ActorConversationCaseType } from '../types';
     }
   `,
   template: `
-    <watt-card class="new-case-card" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
-      <vater-stack direction="row" justify="space-between">
-        <h2 class="no-margin">{{ t('newCaseTitle') }}</h2>
-        <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
-      </vater-stack>
-
-      <form [formGroup]="newCaseForm" vater-stack gap="l" align="start" class="form-margin-top">
-        <watt-dropdown
-          [formControl]="newCaseForm.controls.type"
-          [options]="types"
-          [label]="t('typeLabel')"
-          [showResetOption]="false"
-          class="third-width"
-          dhDropdownTranslator
-          translateKey="meteringPoint.actorConversation.types"
-        />
-      </form>
-    </watt-card>
+    <vater-flex fill="both">
+      <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+        <watt-card-title>
+          <vater-stack direction="row" justify="space-between">
+            <h3>{{ t('newCaseTitle') }}</h3>
+            <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
+          </vater-stack>
+        </watt-card-title>
+        <form [formGroup]="newCaseForm" vater-stack gap="l" align="start" class="form-margin-top">
+          <watt-dropdown
+            [formControl]="newCaseForm.controls.type"
+            [options]="types"
+            [label]="t('typeLabel')"
+            [showResetOption]="false"
+            class="third-width"
+            dhDropdownTranslator
+            translateKey="meteringPoint.actorConversation.types"
+          />
+        </form>
+      </watt-card>
+    </vater-flex>
   `,
 })
 export class DhActorConversationNewCaseComponent {
