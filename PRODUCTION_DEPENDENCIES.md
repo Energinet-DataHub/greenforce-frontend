@@ -40,7 +40,6 @@
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.11.9 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 8.0.4 | MIT |
 | [papaparse](https://github.com/mholt/PapaParse) | 5.5.3 | MIT |
-| [qs](https://github.com/ljharb/qs) | 6.14.1 | BSD-3-Clause |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.2 | Apache-2.0 |
 | [storybook](https://github.com/storybookjs/storybook) | 10.1.10 | MIT |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
