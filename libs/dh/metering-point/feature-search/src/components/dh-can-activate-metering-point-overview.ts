@@ -40,7 +40,7 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
 
   if (dhIsValidInternalId(idParam)) {
     return query(DoesInternalMeteringPointIdExistDocument, {
-      variables: { internalMeteringPointId: idParam },
+      variables: { internalMeteringPointId: idParam, newMeteringPointsModel: false },
     })
       .result()
       .then((result) => {

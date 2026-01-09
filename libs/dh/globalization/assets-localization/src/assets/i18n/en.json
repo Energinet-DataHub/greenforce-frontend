@@ -599,7 +599,8 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
-      "noResultFound": "No result found"
+      "noResultFound": "No result found",
+      "searchMigratedMeteringPoints": "Search migrated metering points"
     },
     "tabs": {
       "masterData": {
@@ -765,7 +766,11 @@
     "marketParticipantConversation": {
       "cases": "Cases",
       "newCaseButton": "New case",
-      "newCaseTitle": "New case"
+      "newCaseTitle": "New case",
+      "typeLabel": "Type",
+      "types": {
+        "misc": "Miscellaneous"
+      }
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",

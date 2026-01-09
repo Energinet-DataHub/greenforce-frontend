@@ -16,3 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+
+export enum ActorConversationCaseType {
+  misc = 'misc',
+}
