@@ -18,5 +18,5 @@
 //#endregion
 
 export enum ActorConversationCaseType {
-  misc = 'misc'
+  misc = 'misc',
 }
