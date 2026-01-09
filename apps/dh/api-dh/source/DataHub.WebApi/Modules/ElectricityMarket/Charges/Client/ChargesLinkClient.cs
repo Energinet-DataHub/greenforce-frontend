@@ -19,6 +19,7 @@ using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 
@@ -39,13 +40,16 @@ public class ChargeLinkClient(
         DateTimeOffset stopDate,
         CancellationToken ct = default)
     {
+        var chargeLink = (await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(id.MeteringPointId), ct)).Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)?.GetCurrentPeriod() ?? throw new InvalidOperationException($"Charge link with id {id} not found.");
+
         var result = await b2cClient.SendAsync(
             new StopChargeLinkCommandV1(new(
                 id.ChargeId.Code,
                 id.ChargeId.Owner,
                 ToRequestChangeBillingMasterDataChargeType(id.ChargeId.TypeDto),
                 id.MeteringPointId,
-                stopDate)),
+                stopDate,
+                chargeLink.Factor.ToString())),
             ct);
 
         return result.IsSuccess;
@@ -53,13 +57,16 @@ public class ChargeLinkClient(
 
     public async Task<bool> CancelChargeLinkAsync(ChargeLinkId id, CancellationToken ct = default)
     {
+        var chargeLink = (await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(id.MeteringPointId), ct)).Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)?.GetCurrentPeriod() ?? throw new InvalidOperationException($"Charge link with id {id} not found.");
+
         var result = await b2cClient.SendAsync(
             new StopChargeLinkCommandV1(new(
                 id.ChargeId.Code,
                 id.ChargeId.Owner,
                 ToRequestChangeBillingMasterDataChargeType(id.ChargeId.TypeDto),
                 id.MeteringPointId,
-                DateTimeOffset.Now)),
+                DateTimeOffset.Now,
+                chargeLink.Factor.ToString())),
             ct);
 
         return result.IsSuccess;

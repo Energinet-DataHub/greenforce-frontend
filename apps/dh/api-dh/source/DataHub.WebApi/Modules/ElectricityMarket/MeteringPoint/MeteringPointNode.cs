@@ -113,6 +113,7 @@ public static partial class MeteringPointNode
     public static async Task<MeteringPointDto> GetMeteringPointExistsAsync(
             long? internalMeteringPointId,
             long? meteringPointId,
+            bool? newMeteringPointsModel,
             CancellationToken ct,
             [Service] IElectricityMarketClient_V1 client,
             [Service] IHttpContextAccessor httpContextAccessor,

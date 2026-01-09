@@ -599,7 +599,8 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
-      "noResultFound": "Intet resultat fundet"
+      "noResultFound": "Intet resultat fundet",
+      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter"
     },
     "tabs": {
       "masterData": {
@@ -765,7 +766,11 @@
     "actorConversation": {
       "cases": "Sager",
       "newCaseButton": "Ny sag",
-      "newCaseTitle": "Ny sag"
+      "newCaseTitle": "Ny sag",
+      "typeLabel": "Type",
+      "types": {
+        "misc": "Andet"
+      }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
