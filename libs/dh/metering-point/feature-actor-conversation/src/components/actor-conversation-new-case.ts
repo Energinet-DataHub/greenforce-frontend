@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
-import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
@@ -81,5 +81,4 @@ export class DhActorConversationNewCaseComponent {
   });
   closeNewCase = output();
   types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
-  protected readonly translate = translate;
 }
