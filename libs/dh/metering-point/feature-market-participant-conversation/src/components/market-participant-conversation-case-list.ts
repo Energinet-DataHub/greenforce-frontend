@@ -21,6 +21,7 @@ import { WATT_CARD } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-market-participant-conversation-case-list',
@@ -30,6 +31,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     VaterStackComponent,
     TranslocoDirective,
     VaterFlexComponent,
+    DhPermissionRequiredDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -38,7 +40,14 @@ import { TranslocoDirective } from '@jsverse/transloco';
         <watt-card-title>
           <vater-stack direction="row" justify="space-between" align="center">
             <h3>{{ t('cases') }}</h3>
-            <watt-button (click)="createNewCase.emit()" icon="plus" variant="text"
+            <watt-button
+              *dhPermissionRequired="[
+                'market-participant-conversation:manage',
+                'market-participant-conversation:admin',
+              ]"
+              (click)="createNewCase.emit()"
+              icon="plus"
+              variant="text"
               >{{ t('newCaseButton') }}
             </watt-button>
           </vater-stack>

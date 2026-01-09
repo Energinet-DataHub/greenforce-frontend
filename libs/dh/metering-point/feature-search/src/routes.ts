@@ -205,7 +205,7 @@ export const dhMeteringPointRoutes: Routes = [
           {
             path: getPath<MeteringPointSubPaths>('actor-conversation'),
             canActivate: [
-              PermissionGuard(['metering-point:market-participant-conversation']),
+              PermissionGuard(['market-participant-conversation:view']),
               dhReleaseToggleGuard('PM62-ACTOR-CONVERSATION'),
             ],
             loadComponent: () =>
