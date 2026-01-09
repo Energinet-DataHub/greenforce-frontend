@@ -256,10 +256,10 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1000',
     amount: 100.0,
-    currentPeriod: {
+    period: {
       __typename: 'ChargeLinkPeriod',
       amount: 100.0,
-      period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+      interval: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     },
     history: [
       {
@@ -281,7 +281,7 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1001',
     amount: 75.5,
-    currentPeriod: null,
+    period: null,
     history: [
       {
         __typename: 'ChargeLinkHistory',
@@ -302,10 +302,10 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1002',
     amount: 50.0,
-    currentPeriod: {
+    period: {
       __typename: 'ChargeLinkPeriod',
       amount: 50.0,
-      period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
+      interval: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
     },
     history: [
       {
@@ -327,10 +327,10 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1003',
     amount: 120.0,
-    currentPeriod: {
+    period: {
       __typename: 'ChargeLinkPeriod',
       amount: 120.0,
-      period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
+      interval: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
     },
     history: [
       {
@@ -352,10 +352,10 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1004',
     amount: 120.0,
-    currentPeriod: {
+    period: {
       __typename: 'ChargeLinkPeriod',
       amount: 120.0,
-      period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
+      interval: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
     },
     history: [
       {

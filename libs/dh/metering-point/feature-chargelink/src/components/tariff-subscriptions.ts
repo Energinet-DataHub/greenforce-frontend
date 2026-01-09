@@ -99,7 +99,7 @@ import { Charge } from '../types';
         </ng-container>
 
         <ng-container *wattTableCell="columns.period; let element">
-          {{ element.currentPeriod?.period | wattDate }}
+          {{ element.period?.interval | wattDate }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.transparentInvoicing; let element">
@@ -108,9 +108,10 @@ import { Charge } from '../types';
           }
         </ng-container>
         <ng-container *wattTableCell="columns.status; let element">
-          @let status = element.charge?.status;
-          @if (status && status === 'CANCELLED') {
-            <dh-charges-status [status]="status" />
+          @if (
+            element.period?.interval?.start?.getTime() === element.period?.interval?.end?.getTime()
+          ) {
+            <dh-charges-status [status]="'CANCELLED'" />
           }
         </ng-container>
       </watt-table>
@@ -150,7 +151,7 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
       accessor: (chargeLink) => chargeLink.charge?.transparentInvoicing ?? false,
     },
     amount: { accessor: 'amount' },
-    period: { accessor: (chargeLink) => chargeLink.currentPeriod?.period },
+    period: { accessor: (chargeLink) => chargeLink.period?.interval },
     status: { header: '', accessor: (charge) => charge.charge?.status },
   };
 
