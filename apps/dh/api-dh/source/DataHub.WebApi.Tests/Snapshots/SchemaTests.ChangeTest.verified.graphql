@@ -1025,7 +1025,11 @@ type MeteringPointProcess {
 
 type MeteringPointProcessStep {
   actor: MarketParticipant
-  message: ArchivedMessage
+  """
+  Generates the URL for fetching the master data document content.
+  The MessageId on the step contains the ArchivedMessageId (GUID) from ProcessManager.
+  """
+  documentUrl: String
   id: String!
   step: ProcessStepType!
   comment: String
@@ -2999,6 +3003,10 @@ enum ProcessStepType {
   BRS_004_CREATEMETERINGPOINT_V1_STEP_4
   "BRS-008 Connect metering point - Step 1 - Incoming RSM-021"
   BRS_008_CONNECTMETERINGPOINT_V1_STEP_1
+  "BRS-008 Connect metering point - Step 2 - Confirm RSM-021"
+  BRS_008_CONNECTMETERINGPOINT_V1_STEP_2
+  "BRS-008 Connect metering point - Step 3 - Reject RSM-021"
+  BRS_008_CONNECTMETERINGPOINT_V1_STEP_3
   """
   Unknown or unmapped step type.
   Used when ProcessManager returns a step we haven't added to this enum yet.
