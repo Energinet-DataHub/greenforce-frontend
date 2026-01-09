@@ -26,6 +26,10 @@
   @include space.inset-m;
 }
 
+.watt-space-inset-ml {
+  @include space.inset-ml;
+}
+
 .watt-space-inset-l {
   @include space.inset-l;
 }

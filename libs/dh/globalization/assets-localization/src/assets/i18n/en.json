@@ -762,6 +762,11 @@
         "saveError": "Manual correction of metering point failed"
       }
     },
+    "actorConversation": {
+      "cases": "Cases",
+      "newCaseButton": "New case",
+      "newCaseTitle": "New case"
+    },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
     "relatedMeteringPointsEmpty": "There are no related metering points",
