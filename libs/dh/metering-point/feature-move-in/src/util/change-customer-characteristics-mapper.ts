@@ -26,10 +26,12 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 function mapUsagePointLocation(
-  addressDetails: CustomerCharacteristicsFormType['legalAddressDetails'] |
-    CustomerCharacteristicsFormType['technicalAddressDetails'],
-  contactDetails: CustomerCharacteristicsFormType['legalContactDetails'] |
-    CustomerCharacteristicsFormType['technicalContactDetails'],
+  addressDetails:
+    | CustomerCharacteristicsFormType['legalAddressDetails']
+    | CustomerCharacteristicsFormType['technicalAddressDetails'],
+  contactDetails:
+    | CustomerCharacteristicsFormType['legalContactDetails']
+    | CustomerCharacteristicsFormType['technicalContactDetails'],
   addressType: AddressTypeV1
 ): UsagePointLocationV1Input {
   const address = addressDetails.getRawValue();
