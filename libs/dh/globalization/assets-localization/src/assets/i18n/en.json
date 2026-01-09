@@ -599,7 +599,8 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
-      "noResultFound": "No result found"
+      "noResultFound": "No result found",
+      "searchMigratedMeteringPoints": "Search migrated metering points"
     },
     "tabs": {
       "masterData": {
