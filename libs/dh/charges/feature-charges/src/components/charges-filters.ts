@@ -108,12 +108,11 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
 })
 export class DhChargesFilters {
   private readonly actorStorage = inject(DhActorStorage);
+  selectedActor = this.actorStorage.getSelectedActor();
   private actorOptions = getActorOptions(this.getActorsWithMarketRoles(), 'glnOrEicNumber');
   private readonly moreOptionsTranslations = translateObjectSignal(
     'charges.charges.table.moreOptions'
   );
-
-  selectedActor = this.actorStorage.getSelectedActor();
 
   filter = model<GetChargesQueryInput>({
     statuses: ['CURRENT'],
