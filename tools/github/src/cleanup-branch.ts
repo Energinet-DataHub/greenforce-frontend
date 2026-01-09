@@ -18,7 +18,7 @@
 //#endregion
 import { execSync } from 'node:child_process';
 import inquirer from 'inquirer';
-// eslint-disable-next-line import/no-restricted-imports
+// eslint-disable-next-line no-restricted-imports
 import dayjs from 'dayjs';
 
 interface BranchInfo {
