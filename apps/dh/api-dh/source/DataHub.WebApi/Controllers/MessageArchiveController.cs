@@ -15,6 +15,7 @@
 using System.Net.Mime;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,15 +45,34 @@ public class MessageArchiveController(IB2CClient b2CClient) : ControllerBase
             return NoContent();
         }
 
-        // Read the full stream into a string
-        string documentContent;
-        using (var reader = new StreamReader(stream, leaveOpen: false))
+        return Ok(await FormatDocumentAsync(stream, cancellationToken));
+    }
+
+    [HttpGet]
+    [Route("MasterDataDocument")]
+    [Produces(MediaTypeNames.Text.Plain)]
+    public async Task<ActionResult<string>> GetMasterDataDocumentByIdAsync(string id, CancellationToken cancellationToken)
+    {
+        if (!Guid.TryParse(id, out var archivedMessageId))
         {
-            documentContent = await reader.ReadToEndAsync(cancellationToken);
+            return BadRequest("Invalid document ID format");
         }
 
-        var formattedDocument = DocumentFormatter.FormatDocumentIfNeeded(documentContent);
+        var query = new MasterDataArchivedMessageStreamQueryV1(archivedMessageId);
+        var stream = await _b2CClient.SendAsync(query, cancellationToken);
 
-        return Ok(formattedDocument);
+        if (stream == null)
+        {
+            return NoContent();
+        }
+
+        return Ok(await FormatDocumentAsync(stream, cancellationToken));
+    }
+
+    private static async Task<string> FormatDocumentAsync(Stream stream, CancellationToken cancellationToken)
+    {
+        using var reader = new StreamReader(stream, leaveOpen: false);
+        var documentContent = await reader.ReadToEndAsync(cancellationToken);
+        return DocumentFormatter.FormatDocumentIfNeeded(documentContent);
     }
 }
