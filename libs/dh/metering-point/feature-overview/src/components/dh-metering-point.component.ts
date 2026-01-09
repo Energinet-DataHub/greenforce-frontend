@@ -188,7 +188,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
             <watt-link-tab
               *dhMarketRoleRequired="rolesWithAccess"
               [label]="t('marketParticipant.tabLabel')"
-              [link]="getLink('actor-conversation')"
+              [link]="getLink('market-participant-conversation')"
             />
           </ng-container>
           <ng-container *dhReleaseToggle="'PM116-PROCESSOVERVIEW'">

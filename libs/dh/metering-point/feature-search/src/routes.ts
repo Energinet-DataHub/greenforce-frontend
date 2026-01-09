@@ -203,7 +203,7 @@ export const dhMeteringPointRoutes: Routes = [
               ),
           },
           {
-            path: getPath<MeteringPointSubPaths>('actor-conversation'),
+            path: getPath<MeteringPointSubPaths>('market-participant-conversation'),
             canActivate: [
               PermissionGuard(['metering-point:market-participant-conversation']),
               dhReleaseToggleGuard('PM62-ACTOR-CONVERSATION'),

@@ -607,7 +607,7 @@
         "tabLabel": "Master data"
       },
       "marketParticipantConversation": {
-        "tabLabel": "Actor conversation"
+        "tabLabel": "Market participant conversation"
       },
       "processes": {
         "tabLabel": "Processes"

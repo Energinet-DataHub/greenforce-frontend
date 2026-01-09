@@ -49,7 +49,7 @@ const meteringPointSubPaths = {
   processOverview: 'process-overview',
   chargeLinks: 'charge-links',
   updateCustomerDetails: 'update-customer-details',
-  marketParticipantConversation: 'actor-conversation',
+  marketParticipantConversation: 'market-participant-conversation',
 } as const;
 
 const chargeLinksSubPaths = {
