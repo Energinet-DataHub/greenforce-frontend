@@ -209,9 +209,9 @@ export const dhMeteringPointRoutes: Routes = [
               dhReleaseToggleGuard('PM62-ACTOR-CONVERSATION'),
             ],
             loadComponent: () =>
-              import('@energinet-datahub/dh/metering-point/feature-market-participant-conversation').then(
-                (m) => m.DhMarketParticipantConversationShellComponent
-              ),
+              import(
+                '@energinet-datahub/dh/metering-point/feature-market-participant-conversation'
+              ).then((m) => m.DhMarketParticipantConversationShellComponent),
           },
         ],
       },

@@ -8,7 +8,9 @@
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/metering-point/feature-market-participant-conversation"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/metering-point/feature-market-participant-conversation"
+      ],
       "options": {
         "config": "libs/dh/metering-point/feature-market-participant-conversation/vite.config.mts"
       }
