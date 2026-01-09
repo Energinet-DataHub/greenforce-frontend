@@ -55,7 +55,8 @@
     "branch": "nx run @energinet-datahub/tools/github:create-branch --skip-nx-cache",
     "pr": "nx run @energinet-datahub/tools/github:create-pr --skip-nx-cache",
     "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)",
-    "review": "gh pr checkout --"
+    "review": "gh pr checkout --",
+    "branch:cleanup": "nx run @energinet-datahub/tools/github:cleanup-branch --skip-nx-cache"
   },
   "dependencies": {
     "@analogjs/vite-plugin-angular": "2.1.3",
