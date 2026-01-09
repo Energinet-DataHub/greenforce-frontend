@@ -766,7 +766,11 @@
     "actorConversation": {
       "cases": "Cases",
       "newCaseButton": "New case",
-      "newCaseTitle": "New case"
+      "newCaseTitle": "New case",
+      "typeLabel": "Type",
+      "types": {
+        "misc": "Miscellaneous"
+      }
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",

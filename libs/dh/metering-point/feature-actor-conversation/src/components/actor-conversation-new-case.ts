@@ -16,11 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActorConversationCaseType } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
@@ -30,8 +37,16 @@ import { WattButtonComponent } from '@energinet/watt/button';
     VaterStackComponent,
     WattButtonComponent,
     VaterFlexComponent,
+    WattDropdownComponent,
+    DhDropdownTranslatorDirective,
+    ReactiveFormsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: `
+    .third-width {
+      width: 33%;
+    }
+  `,
   template: `
     <vater-flex fill="both">
       <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
@@ -41,10 +56,29 @@ import { WattButtonComponent } from '@energinet/watt/button';
             <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
           </vater-stack>
         </watt-card-title>
+        <form [formGroup]="newCaseForm" vater-stack gap="l" align="start">
+          <watt-dropdown
+            [formControl]="newCaseForm.controls.type"
+            [options]="types"
+            [label]="t('typeLabel')"
+            [showResetOption]="false"
+            class="third-width"
+            dhDropdownTranslator
+            translateKey="meteringPoint.actorConversation.types"
+          />
+        </form>
       </watt-card>
     </vater-flex>
   `,
 })
 export class DhActorConversationNewCaseComponent {
+  private readonly fb = inject(NonNullableFormBuilder);
+  newCaseForm = this.fb.group({
+    type: this.fb.control<ActorConversationCaseType>(
+      ActorConversationCaseType.misc,
+      Validators.required
+    ),
+  });
   closeNewCase = output();
+  types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
 }
