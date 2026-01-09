@@ -1,6 +1,6 @@
 import { execSync } from 'node:child_process';
 import inquirer from 'inquirer';
-import { format, subWeeks, subMonths, parseISO } from 'date-fns';
+import dayjs from 'dayjs';
 
 interface BranchInfo {
   name: string;
@@ -21,7 +21,7 @@ function getBranches(): BranchInfo[] {
       const dateString = dateParts.join(' ');
       return {
         name,
-        date: new Date(dateString),
+        date: dayjs(dateString).toDate(),
       };
     })
     .filter(
@@ -67,7 +67,7 @@ async function main() {
         choices: branches.map((b) => ({
           name: b.name,
           value: b.name,
-          short: `${b.name} (last commit: ${format(b.date, 'yyyy-MM-dd')})`,
+          short: `${b.name} (last commit: ${dayjs(b.date).format('YYYY-MM-DD')})`,
         })),
         pageSize: 20, // Show more choices at once (default is 10)
       },
@@ -88,9 +88,9 @@ async function main() {
     ]);
 
     let cutoff: Date;
-    if (age === '1w') cutoff = subWeeks(new Date(), 1);
-    else if (age === '2w') cutoff = subWeeks(new Date(), 2);
-    else cutoff = subMonths(new Date(), 1);
+    if (age === '1w') cutoff = dayjs().subtract(1, 'week').toDate();
+    else if (age === '2w') cutoff = dayjs().subtract(2, 'week').toDate();
+    else cutoff = dayjs().subtract(1, 'month').toDate();
 
     const oldBranches = branches.filter((b) => b.date < cutoff).map((b) => b.name);
 
@@ -103,7 +103,7 @@ async function main() {
       {
         type: 'confirm',
         name: 'confirm',
-        message: `Delete ${oldBranches.length} branches older than ${format(cutoff, 'yyyy-MM-dd')}?`,
+        message: `Delete ${oldBranches.length} branches older than ${dayjs(cutoff).format('YYYY-MM-DD')}?`,
       },
     ]);
 
