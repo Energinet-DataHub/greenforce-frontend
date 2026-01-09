@@ -42,6 +42,7 @@ import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-
 import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-charges-information',
@@ -88,6 +89,7 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
     DhChargesStatus,
     DhToolbarPortalComponent,
     DhFeatureFlagDirective,
+    DhPermissionRequiredDirective,
   ],
   providers: [DhNavigationService],
   template: `
@@ -144,7 +146,11 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
         <vater-spacer />
 
         <ng-container *transloco="let t; prefix: 'charges.charge.actions'">
-          <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
+          <watt-button
+            *dhPermissionRequired="['charges:manage']"
+            variant="secondary"
+            [wattMenuTriggerFor]="menu"
+          >
             {{ t('menu') }}
             <watt-icon name="plus" />
           </watt-button>

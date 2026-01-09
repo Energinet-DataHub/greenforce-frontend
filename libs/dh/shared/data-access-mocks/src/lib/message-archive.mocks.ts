@@ -270,11 +270,7 @@ function getMeteringPointProcessById(apiBase: string) {
               completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24), // 1 day later
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2), // 2 days later
               state: ProcessState.Succeeded,
-              message: {
-                __typename: 'ArchivedMessage' as const,
-                id: '38374f50-f00c-4e2a-aec1-70d391cade06',
-                documentUrl: `${apiBase}/v1/MessageArchive/Document?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
-              },
+              documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
               actor: {
                 __typename: 'MarketParticipant' as const,
                 id: initiators[processIndex % initiators.length].id,
@@ -289,7 +285,7 @@ function getMeteringPointProcessById(apiBase: string) {
               completedAt: null,
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5), // 5 days later
               state: ProcessState.Pending,
-              message: null,
+              documentUrl: null,
               actor: {
                 __typename: 'MarketParticipant' as const,
                 id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
