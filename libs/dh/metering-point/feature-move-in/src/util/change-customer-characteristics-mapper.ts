@@ -16,13 +16,56 @@
  * limitations under the License.
  */
 //#endregion
+import { FormGroup } from '@angular/forms';
 import { CustomerCharacteristicsFormType } from '../types';
 import {
+  AddressTypeV1,
   ChangeCustomerCharacteristicsBusinessReason,
   ChangeCustomerCharacteristicsInput,
   UsagePointLocationV1Input,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { FormGroup } from '@angular/forms';
+
+function mapUsagePointLocation(
+  addressDetails: CustomerCharacteristicsFormType['legalAddressDetails'] |
+    CustomerCharacteristicsFormType['technicalAddressDetails'],
+  contactDetails: CustomerCharacteristicsFormType['legalContactDetails'] |
+    CustomerCharacteristicsFormType['technicalContactDetails'],
+  addressType: AddressTypeV1
+): UsagePointLocationV1Input {
+  const address = addressDetails.getRawValue();
+  const contact = contactDetails.controls.contactGroup.getRawValue();
+
+  const group = address.addressGroup;
+
+  return {
+    addressType,
+    darReference: group.darReference || null,
+    postalCode: group.postCode || null,
+    poBox: group.postBox || null,
+    protectedAddress: address.addressProtection ?? null,
+
+    contactName: contact.name || null,
+    attention: contact.title || null,
+    phone: contact.phone || null,
+    mobile: contact.mobile || null,
+    email: contact.email || null,
+
+    streetDetail: {
+      streetName: group.streetName || null,
+      buildingNumber: group.buildingNumber || null,
+      streetCode: group.streetCode || null,
+      suiteNumber: group.room || null,
+      floor: group.floor || null,
+    },
+
+    townDetail: {
+      municipalityCode: group.municipalityCode || null,
+      additionalCityName: group.citySubDivisionName || null,
+      cityName: group.cityName || null,
+      country: group.countryCode || null,
+    },
+  };
+}
 
 export function mapChangeCustomerCharacteristicsFormToRequest(
   form: FormGroup<CustomerCharacteristicsFormType>,
@@ -33,49 +76,47 @@ export function mapChangeCustomerCharacteristicsFormToRequest(
   isBusinessCustomer: boolean
 ): ChangeCustomerCharacteristicsInput {
   const usagePointLocations: UsagePointLocationV1Input[] = [
-    { addressType: 'LEGAL', ...form.controls.legalAddressDetails.value },
-    { addressType: 'TECHNICAL', ...form.controls.technicalAddressDetails.value },
+    mapUsagePointLocation(
+      form.controls.legalAddressDetails,
+      form.controls.legalContactDetails,
+      AddressTypeV1.LEGAL
+    ),
+    mapUsagePointLocation(
+      form.controls.technicalAddressDetails,
+      form.controls.technicalContactDetails,
+      AddressTypeV1.TECHNICAL
+    ),
   ];
 
   if (isBusinessCustomer) {
     const controls = form.controls.businessCustomerDetails.controls;
-    const firstCustomerName = controls.companyName.value;
-    const firstCustomerCpr = null;
-    const firstCustomerCvr = controls.cvr.value;
-    const protectedName = controls.nameProtection.value;
-    const secondCustomerCpr = null;
-    const secondCustomerName = null;
+
     return {
       meteringPointId,
       businessReason,
       startDate,
-      firstCustomerCpr,
-      firstCustomerCvr,
-      firstCustomerName,
-      secondCustomerCpr,
-      secondCustomerName,
-      protectedName,
+      firstCustomerCpr: null,
+      firstCustomerCvr: controls.cvr.value,
+      firstCustomerName: controls.companyName.value,
+      secondCustomerCpr: null,
+      secondCustomerName: null,
+      protectedName: controls.nameProtection.value,
       electricalHeating,
       usagePointLocations,
     };
   } else {
     const controls = form.controls.privateCustomerDetails.controls;
-    const firstCustomerName = controls.customerName1.value;
-    const firstCustomerCpr = controls.cpr1.value;
-    const firstCustomerCvr = null;
-    const protectedName = controls.nameProtection.value;
-    const secondCustomerCpr = controls.cpr2.value;
-    const secondCustomerName = controls.customerName2.value;
+
     return {
       meteringPointId,
       businessReason,
       startDate,
-      firstCustomerCpr,
-      firstCustomerCvr,
-      firstCustomerName,
-      secondCustomerCpr,
-      secondCustomerName,
-      protectedName,
+      firstCustomerCpr: controls.cpr1.value,
+      firstCustomerCvr: null,
+      firstCustomerName: controls.customerName1.value,
+      secondCustomerCpr: controls.cpr2.value || null,
+      secondCustomerName: controls.customerName2.value || null,
+      protectedName: controls.nameProtection.value,
       electricalHeating,
       usagePointLocations,
     };
