@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhActorConversationShellComponent } from './components/actor-conversation-shell.component';
+export { DhMarketParticipantConversationShellComponent } from './components/market-participant-conversation-shell.component';

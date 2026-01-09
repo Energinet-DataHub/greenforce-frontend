@@ -605,7 +605,7 @@
       "masterData": {
         "tabLabel": "Stamdata"
       },
-      "actor-conversation": {
+      "marketParticipantConversation": {
         "tabLabel": "Aktør dialog"
       },
       "processes": {
@@ -762,7 +762,7 @@
         "saveError": "Manuel korrigering af målepunkt mislykkedes"
       }
     },
-    "actorConversation": {
+    "marketParticipantConversation": {
       "cases": "Sager",
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag"

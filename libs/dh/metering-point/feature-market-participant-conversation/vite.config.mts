@@ -33,7 +33,8 @@ const mswPolyfillPath = resolve(
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh/metering-point/feature-actor-conversation',
+  cacheDir:
+    '../../../../node_modules/.vite/libs/dh/metering-point/feature-market-participant-conversation',
   plugins: [analog(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   resolve: {
     conditions: ['development', 'browser'],
@@ -47,7 +48,8 @@ export default defineConfig(() => ({
     passWithNoTests: true,
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/dh/metering-point/feature-actor-conversation',
+      reportsDirectory:
+        '../../../../coverage/libs/dh/metering-point/feature-market-participant-conversation',
       provider: 'v8' as const,
     },
     pool: 'forks',

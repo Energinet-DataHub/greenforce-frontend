@@ -605,7 +605,7 @@
       "masterData": {
         "tabLabel": "Master data"
       },
-      "actor-conversation": {
+      "marketParticipantConversation": {
         "tabLabel": "Actor conversation"
       },
       "processes": {
@@ -762,7 +762,7 @@
         "saveError": "Manual correction of metering point failed"
       }
     },
-    "actorConversation": {
+    "marketParticipantConversation": {
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case"

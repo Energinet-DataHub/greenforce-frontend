@@ -23,7 +23,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
-  selector: 'dh-actor-conversation-new-case',
+  selector: 'dh-market-participant-conversation-new-case',
   imports: [
     WATT_CARD,
     TranslocoDirective,
@@ -34,7 +34,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <vater-flex fill="both">
-      <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+      <watt-card *transloco="let t; prefix: 'meteringPoint.marketParticipantConversation'">
         <watt-card-title>
           <vater-stack direction="row" justify="space-between">
             <h3>{{ t('newCaseTitle') }}</h3>
@@ -45,6 +45,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
     </vater-flex>
   `,
 })
-export class DhActorConversationNewCaseComponent {
+export class DhMarketParticipantConversationNewCaseComponent {
   closeNewCase = output();
 }

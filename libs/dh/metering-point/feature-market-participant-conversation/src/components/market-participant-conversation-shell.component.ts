@@ -17,15 +17,15 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { DhActorConversationCaseListComponent } from './actor-conversation-case-list';
-import { DhActorConversationNewCaseComponent } from './actor-conversation-new-case';
+import { DhMarketParticipantConversationCaseListComponent } from './market-participant-conversation-case-list';
+import { DhMarketParticipantConversationNewCaseComponent } from './market-participant-conversation-new-case';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 
 @Component({
-  selector: 'dh-actor-conversation-shell',
+  selector: 'dh-market-participant-conversation-shell',
   imports: [
-    DhActorConversationCaseListComponent,
-    DhActorConversationNewCaseComponent,
+    DhMarketParticipantConversationCaseListComponent,
+    DhMarketParticipantConversationNewCaseComponent,
     VaterFlexComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,15 +40,21 @@ import { VaterFlexComponent } from '@energinet/watt/vater';
   `,
   template: `
     <vater-flex direction="row" fill="vertical" gap="m" class="watt-space-inset-m">
-      <dh-actor-conversation-case-list (createNewCase)="newCaseVisible.set(true)" class="flex-1" />
+      <dh-market-participant-conversation-case-list
+        (createNewCase)="newCaseVisible.set(true)"
+        class="flex-1"
+      />
       @if (newCaseVisible()) {
-        <dh-actor-conversation-new-case (closeNewCase)="newCaseVisible.set(false)" class="flex-3" />
+        <dh-market-participant-conversation-new-case
+          (closeNewCase)="newCaseVisible.set(false)"
+          class="flex-3"
+        />
       } @else {
         <div class="flex-3"></div>
       }
     </vater-flex>
   `,
 })
-export class DhActorConversationShellComponent {
+export class DhMarketParticipantConversationShellComponent {
   newCaseVisible = signal(false);
 }
