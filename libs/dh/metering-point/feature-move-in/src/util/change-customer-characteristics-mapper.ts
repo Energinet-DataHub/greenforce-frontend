@@ -81,12 +81,12 @@ export function mapChangeCustomerCharacteristicsFormToRequest(
     mapUsagePointLocation(
       form.controls.legalAddressDetails,
       form.controls.legalContactDetails,
-      AddressTypeV1.LEGAL
+      AddressTypeV1.Legal
     ),
     mapUsagePointLocation(
       form.controls.technicalAddressDetails,
       form.controls.technicalContactDetails,
-      AddressTypeV1.TECHNICAL
+      AddressTypeV1.Technical
     ),
   ];
 
