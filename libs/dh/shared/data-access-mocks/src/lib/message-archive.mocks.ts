@@ -143,18 +143,7 @@ function getMeteringPointProcessOverview() {
     await delay(mswConfig.delay);
 
     // Generate more varied mock data for testing sorting
-    const reasonCodes = [
-      'MoveIn',
-      'BalanceFixing',
-      'WholesaleFixing',
-      'EndOfSupply',
-      'CorrectMasterData',
-      'ChangeMeteringMethod',
-      'ChangeSupplier',
-      'ConnectionStatusUpdate',
-      'NewMeteringPoint',
-      'ConnectMeteringPoint',
-    ];
+    const reasonCodes = ['EndOfSupply', 'NewMeteringPoint', 'ConnectMeteringPoint'];
 
     const states = [
       ProcessState.Pending,
@@ -189,10 +178,6 @@ function getMeteringPointProcessOverview() {
       createdAt.setDate(createdAt.getDate() + daysOffset);
       createdAt.setHours(createdAt.getHours() + hoursOffset);
 
-      // Vary cutoff date - typically a few days after created date
-      const cutoffDate = new Date(createdAt);
-      cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
-
       // Add actions to some processes (not failed/canceled/succeeded ones)
       const currentState = states[index % states.length];
       const hasNoActions =
@@ -200,6 +185,13 @@ function getMeteringPointProcessOverview() {
         currentState === ProcessState.Canceled ||
         currentState === ProcessState.Succeeded;
       const availableActions = hasNoActions ? [] : [actions[index % actions.length]];
+
+      // Vary cutoff date - typically a few days after created date
+      let cutoffDate = null;
+      if (currentState !== ProcessState.Pending) {
+        cutoffDate = new Date(createdAt);
+        cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
+      }
 
       return {
         __typename: 'MeteringPointProcess' as const,
@@ -230,7 +222,7 @@ function getMeteringPointProcessById(apiBase: string) {
     await delay(mswConfig.delay);
 
     const processId = args.variables.id;
-    const reasonCodes = ['MoveIn', 'BalanceFixing', 'WholesaleFixing', 'EndOfSupply'];
+    const reasonCodes = ['EndOfSupply', 'NewMeteringPoint', 'ConnectMeteringPoint'];
     const initiators = [
       { id: '0199ed3d-f1b2-7180-9546-39b5836fb575', displayName: '905495045940594 • Radius' },
       { id: '0199ed3d-f1b2-7180-9546-39b5836fb576', displayName: '5790001330552 • Energinet' },
