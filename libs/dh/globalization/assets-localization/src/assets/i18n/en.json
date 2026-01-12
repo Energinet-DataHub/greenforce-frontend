@@ -895,9 +895,9 @@
         "ConnectMeteringPoint": "Connection of new metering point (BRS-008)"
       },
       "reasonCode": {
-        "EndOfSupply": "E20",
-        "NewMeteringPoint": "E02",
-        "ConnectMeteringPoint": "D15"
+        "EndOfSupply": "End of supply (E20)",
+        "NewMeteringPoint": "New metering point (E02)",
+        "ConnectMeteringPoint": "Connect meteringpoint (D15)"
       },
       "filters": {
         "created": "Time",
