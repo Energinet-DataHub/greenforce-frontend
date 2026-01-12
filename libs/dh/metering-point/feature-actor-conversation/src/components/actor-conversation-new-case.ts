@@ -34,6 +34,7 @@ import {
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActorConversationCaseType, ActorConversationReceiverType } from '../types';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
@@ -48,7 +49,7 @@ import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
     ReactiveFormsModule,
     WattTextFieldComponent,
     WattTextAreaFieldComponent,
-    VaterSpacerComponent,
+    WattIconComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -59,40 +60,52 @@ import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
   template: `
     <form [formGroup]="newCaseForm" vater-flex fill="both">
       <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
-        <watt-card-title>
-          <vater-stack direction="row" justify="space-between">
-            <h3>{{ t('newCaseTitle') }}</h3>
-            <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
+        <vater-flex fill="vertical">
+          <vater-stack align="start">
+            <watt-card-title>
+              <vater-stack direction="row" justify="space-between">
+                <h3>{{ t('newCaseTitle') }}</h3>
+                <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
+              </vater-stack>
+            </watt-card-title>
+            <vater-stack fill="horizontal" gap="m" align="start">
+              <watt-dropdown
+                [formControl]="newCaseForm.controls.type"
+                [options]="types"
+                [label]="t('typeLabel')"
+                [showResetOption]="false"
+                class="third-width"
+                dhDropdownTranslator
+                translateKey="meteringPoint.actorConversation.types"
+              />
+              <watt-dropdown
+                [formControl]="newCaseForm.controls.receiver"
+                [options]="receivers"
+                [label]="t('receiverLabel')"
+                [showResetOption]="false"
+                class="third-width"
+                dhDropdownTranslator
+                translateKey="meteringPoint.actorConversation.receivers"
+              />
+              <watt-text-field
+                [formControl]="newCaseForm.controls.internalNote"
+                class="third-width"
+                [label]="t('internalNoteLabel')"
+              />
+            </vater-stack>
           </vater-stack>
-        </watt-card-title>
-        <watt-dropdown
-          [formControl]="newCaseForm.controls.type"
-          [options]="types"
-          [label]="t('typeLabel')"
-          [showResetOption]="false"
-          class="third-width"
-          dhDropdownTranslator
-          translateKey="meteringPoint.actorConversation.types"
-        />
-        <watt-dropdown
-          [formControl]="newCaseForm.controls.receiver"
-          [options]="receivers"
-          [label]="t('receiverLabel')"
-          [showResetOption]="false"
-          class="third-width"
-          dhDropdownTranslator
-          translateKey="meteringPoint.actorConversation.receivers"
-        />
-        <watt-text-field
-          [formControl]="newCaseForm.controls.internalNote"
-          class="third-width"
-          [label]="t('internalNoteLabel')"
-        />
-        <vater-spacer />
-        <watt-textarea-field
-          [label]="t('tab.masterData.descriptionInputLabel')"
-          [formControl]="newCaseForm.controls.message"
-        />
+          <vater-stack direction="row" align="end" gap="m">
+            <watt-textarea-field
+              [label]="t('messageLabel')"
+              [formControl]="newCaseForm.controls.message"
+              class=""
+            />
+            <watt-button
+              >{{ t('sendButton') }}
+              <watt-icon name="arrowRightAlt" />
+            </watt-button>
+          </vater-stack>
+        </vater-flex>
       </watt-card>
     </form>
   `,

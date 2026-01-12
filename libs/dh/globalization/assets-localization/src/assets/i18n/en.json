@@ -775,7 +775,9 @@
       "receivers": {
         "energinet": "Energinet"
       },
-      "internalNoteLabel": "Internal note"
+      "internalNoteLabel": "Internal note",
+      "messageLabel": "Message",
+      "sendButton": "Send"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
