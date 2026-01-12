@@ -19,7 +19,7 @@
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import {
@@ -29,6 +29,7 @@ import {
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActorConversationCaseType, ActorConversationReceiverType } from '../types';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
@@ -42,6 +43,8 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
     DhDropdownTranslatorDirective,
     ReactiveFormsModule,
     WattTextFieldComponent,
+    WattTextAreaFieldComponent,
+    VaterSpacerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -50,7 +53,7 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
     }
   `,
   template: `
-    <vater-flex fill="both">
+    <form [formGroup]="newCaseForm" vater-flex fill="both">
       <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
         <watt-card-title>
           <vater-stack direction="row" justify="space-between">
@@ -58,33 +61,36 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
             <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
           </vater-stack>
         </watt-card-title>
-        <form [formGroup]="newCaseForm" vater-stack gap="l" align="start">
-          <watt-dropdown
-            [formControl]="newCaseForm.controls.type"
-            [options]="types"
-            [label]="t('typeLabel')"
-            [showResetOption]="false"
-            class="third-width"
-            dhDropdownTranslator
-            translateKey="meteringPoint.actorConversation.types"
-          />
-          <watt-dropdown
-            [formControl]="newCaseForm.controls.receiver"
-            [options]="receivers"
-            [label]="t('receiverLabel')"
-            [showResetOption]="false"
-            class="third-width"
-            dhDropdownTranslator
-            translateKey="meteringPoint.actorConversation.receivers"
-          />
-          <watt-text-field
-            [formControl]="newCaseForm.controls.internalNote"
-            class="third-width"
-            [label]="t('internalNoteLabel')"
-          />
-        </form>
+        <watt-dropdown
+          [formControl]="newCaseForm.controls.type"
+          [options]="types"
+          [label]="t('typeLabel')"
+          [showResetOption]="false"
+          class="third-width"
+          dhDropdownTranslator
+          translateKey="meteringPoint.actorConversation.types"
+        />
+        <watt-dropdown
+          [formControl]="newCaseForm.controls.receiver"
+          [options]="receivers"
+          [label]="t('receiverLabel')"
+          [showResetOption]="false"
+          class="third-width"
+          dhDropdownTranslator
+          translateKey="meteringPoint.actorConversation.receivers"
+        />
+        <watt-text-field
+          [formControl]="newCaseForm.controls.internalNote"
+          class="third-width"
+          [label]="t('internalNoteLabel')"
+        />
+        <vater-spacer />
+        <watt-textarea-field
+          [label]="t('tab.masterData.descriptionInputLabel')"
+          [formControl]="newCaseForm.controls.message"
+        />
       </watt-card>
-    </vater-flex>
+    </form>
   `,
 })
 export class DhActorConversationNewCaseComponent {
@@ -99,6 +105,7 @@ export class DhActorConversationNewCaseComponent {
       Validators.required
     ),
     internalNote: this.fb.control<string | null>(null),
+    message: this.fb.control<string>('', Validators.required),
   });
   closeNewCase = output();
   types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
