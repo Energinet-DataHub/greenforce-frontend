@@ -19,14 +19,13 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 [ObjectType<ChargeSeriesPointDto>]
 public static partial class ChargeSeriesPointNode
 {
-    // point.FromDateTime <= DateTimeOffset.Now && point.ToDateTime > DateTimeOffset.Now;
+    // TODO: Implement when backend supports multiple points
     public static bool IsCurrent([Parent] ChargeSeriesPointDto point) => true;
 
     static partial void Configure(IObjectTypeDescriptor<ChargeSeriesPointDto> descriptor)
     {
         descriptor.Name("ChargeSeriesPoint");
         descriptor.BindFieldsExplicitly();
-        // descriptor.Field(f => f.Time.ToDateTimeOffset());
         descriptor.Field(f => f.Price);
     }
 }
