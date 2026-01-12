@@ -774,7 +774,8 @@
       "receiverLabel": "Receiver",
       "receivers": {
         "energinet": "Energinet"
-      }
+      },
+      "internalNoteLabel": "Internal note"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",

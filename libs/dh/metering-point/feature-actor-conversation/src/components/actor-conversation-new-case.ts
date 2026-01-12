@@ -28,6 +28,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActorConversationCaseType, ActorConversationReceiverType } from '../types';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
@@ -40,6 +41,7 @@ import { ActorConversationCaseType, ActorConversationReceiverType } from '../typ
     WattDropdownComponent,
     DhDropdownTranslatorDirective,
     ReactiveFormsModule,
+    WattTextFieldComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -75,6 +77,7 @@ import { ActorConversationCaseType, ActorConversationReceiverType } from '../typ
             dhDropdownTranslator
             translateKey="meteringPoint.actorConversation.receivers"
           />
+          <watt-text-field [formControl]="newCaseForm.controls.internalNote" class="third-width" [label]="t('internalNoteLabel')"/>
         </form>
       </watt-card>
     </vater-flex>
@@ -91,6 +94,7 @@ export class DhActorConversationNewCaseComponent {
       ActorConversationReceiverType.energinet,
       Validators.required
     ),
+    internalNote: this.fb.control<string | null>(null),
   });
   closeNewCase = output();
   types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
