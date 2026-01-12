@@ -19,11 +19,14 @@
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { VaterFlexComponent, VaterStackComponent, } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import { DhDropdownTranslatorDirective, dhEnumToWattDropdownOptions, } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActorConversationCaseType, ActorConversationReceiverType } from '../types';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
@@ -130,6 +133,6 @@ export class DhActorConversationNewCaseComponent {
     if (this.newCaseForm.invalid) {
       return;
     }
-    this.createCase.emit(this.newCaseForm.controls.message.value)
+    this.createCase.emit(this.newCaseForm.controls.message.value);
   }
 }
