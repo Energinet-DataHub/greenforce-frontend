@@ -29,8 +29,6 @@
 | [@ngrx/operators](https://github.com/ngrx/platform) | 19.0.1 | MIT |
 | [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 5.1.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
-| [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
-| [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 11.0.0 | MIT |
 | [chardet](https://github.com/runk/node-chardet) | 2.1.1 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.13 | MIT |
