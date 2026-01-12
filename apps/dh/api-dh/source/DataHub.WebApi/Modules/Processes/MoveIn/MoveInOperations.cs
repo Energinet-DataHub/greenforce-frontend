@@ -41,17 +41,17 @@ public static class MoveInOperations
         {
             "cpr" => new CprIdentification(customerIdentification.Id ?? string.Empty),
             "cvr" => new CvrIdentification(customerIdentification.Id ?? string.Empty),
-            _ => throw new ArgumentException($"Unknown customer identification type: {customerIdentification.Type}"),
+            _ => throw new ArgumentException(message: $"Unknown customer identification type: {customerIdentification.Type}"),
         };
 
-        var customerIdentificationV1 = new CustomerIdentificationV1(customerIdentificationObject);
-        var command = new RequestChangeOfSupplierCommandV1(new RequestChangeOfSupplierRequestV1(
-            meteringPointId,
-            businessReason,
-            startDate,
-            customerIdentificationV1,
-            energySupplier,
-            customerName));
+        var customerIdentificationV1 = new CustomerIdentificationV1(CvrOrCpr: customerIdentificationObject);
+        var command = new RequestChangeOfSupplierCommandV1(RequestChangeOfSupplierRequest: new RequestChangeOfSupplierRequestV1(
+            MeteringPointId: meteringPointId,
+            BusinessReason: businessReason,
+            StartDate: startDate,
+            CustomerIdentification: customerIdentificationV1,
+            EnergySupplier: energySupplier,
+            CustomerName: customerName));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
@@ -76,19 +76,19 @@ public static class MoveInOperations
         [Service] IB2CClient ediB2CClient)
     {
         var command = new RequestChangeCustomerCharacteristicsCommandV1(
-            new RequestChangeCustomerCharacteristicsRequestV1(
-                meteringPointId,
-                businessReason,
-                startDate,
-                firstCustomerCpr,
-                firstCustomerCvr,
-                firstCustomerName,
-                secondCustomerCpr,
-                secondCustomerName,
-                protectedName,
-                electricalHeating,
-                string.Empty,
-                usagePointLocations));
+            RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV1(
+                MeteringPointId: meteringPointId,
+                BusinessReason: businessReason,
+                StartDate: startDate,
+                FirstCustomerCpr: firstCustomerCpr,
+                FirstCustomerCvr: firstCustomerCvr,
+                FirstCustomerName: firstCustomerName,
+                SecondCustomerCpr: secondCustomerCpr,
+                SecondCustomerName: secondCustomerName,
+                ProtectedName: protectedName,
+                ElectricalHeating: electricalHeating,
+                ProcessId: string.Empty,
+                UsagePointLocations: usagePointLocations));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
