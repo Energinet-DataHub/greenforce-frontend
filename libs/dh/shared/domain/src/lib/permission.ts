@@ -18,6 +18,9 @@
 //#endregion
 // Note: Sorted alphabetically
 export const permissions = [
+  'actor-conversation:view',
+  'actor-conversation:manage',
+  'actor-conversation:admin',
   'actor-credentials:manage',
   'actor-master-data:manage',
   'actors:manage',
@@ -42,7 +45,6 @@ export const permissions = [
   'measurements:manage',
   'metering-point:connection-state-manage',
   'metering-point:create',
-  'metering-point:market-participant-conversation',
   'metering-point:move-in',
   'metering-point:search',
   'metering-point:prices',
