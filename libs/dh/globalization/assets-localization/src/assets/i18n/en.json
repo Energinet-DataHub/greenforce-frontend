@@ -770,6 +770,10 @@
       "typeLabel": "Type",
       "types": {
         "misc": "Miscellaneous"
+      },
+      "receiverLabel": "Receiver",
+      "receivers": {
+        "energinet": "Energinet"
       }
     },
     "relatedMeteringPointsTitle": "Related metering points",

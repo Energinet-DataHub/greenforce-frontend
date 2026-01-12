@@ -22,12 +22,9 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
-import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { DhDropdownTranslatorDirective, dhEnumToWattDropdownOptions, } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActorConversationCaseType } from '../types';
+import { ActorConversationCaseType, ActorConversationReceiverType } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
@@ -66,6 +63,15 @@ import { ActorConversationCaseType } from '../types';
             dhDropdownTranslator
             translateKey="meteringPoint.actorConversation.types"
           />
+          <watt-dropdown
+            [formControl]="newCaseForm.controls.receiver"
+            [options]="receivers"
+            [label]="t('receiverLabel')"
+            [showResetOption]="false"
+            class="third-width"
+            dhDropdownTranslator
+            translateKey="meteringPoint.actorConversation.receivers"
+          />
         </form>
       </watt-card>
     </vater-flex>
@@ -78,7 +84,12 @@ export class DhActorConversationNewCaseComponent {
       ActorConversationCaseType.misc,
       Validators.required
     ),
+    receiver: this.fb.control<ActorConversationReceiverType>(
+      ActorConversationReceiverType.energinet,
+      Validators.required
+    ),
   });
   closeNewCase = output();
   types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
+  receivers = dhEnumToWattDropdownOptions(ActorConversationReceiverType);
 }

@@ -770,6 +770,10 @@
       "typeLabel": "Type",
       "types": {
         "misc": "Andet"
+      },
+      "receiverLabel": "Modtager",
+      "receivers": {
+        "energinet": "Energinet"
       }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
