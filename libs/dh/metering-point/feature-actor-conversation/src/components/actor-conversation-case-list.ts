@@ -38,10 +38,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
         <watt-card-title>
           <vater-stack direction="row" justify="space-between" align="center">
             <h3>{{ t('cases') }}</h3>
-            <watt-button
-              (click)="createNewCase.emit()"
-              icon="plus"
-              variant="text"
+            <watt-button (click)="createNewCase.emit()" icon="plus" variant="text"
               >{{ t('newCaseButton') }}
             </watt-button>
           </vater-stack>
