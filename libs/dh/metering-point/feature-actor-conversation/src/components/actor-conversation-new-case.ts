@@ -77,7 +77,11 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
             dhDropdownTranslator
             translateKey="meteringPoint.actorConversation.receivers"
           />
-          <watt-text-field [formControl]="newCaseForm.controls.internalNote" class="third-width" [label]="t('internalNoteLabel')"/>
+          <watt-text-field
+            [formControl]="newCaseForm.controls.internalNote"
+            class="third-width"
+            [label]="t('internalNoteLabel')"
+          />
         </form>
       </watt-card>
     </vater-flex>
