@@ -897,7 +897,7 @@
       "reasonCode": {
         "EndOfSupply": "End of supply (E20)",
         "NewMeteringPoint": "New metering point (E02)",
-        "ConnectMeteringPoint": "Connect meteringpoint (D15)"
+        "ConnectMeteringPoint": "Connect metering point (D15)"
       },
       "filters": {
         "created": "Time",
