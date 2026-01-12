@@ -44,7 +44,7 @@ const meta: Meta<WattTextAreaFieldComponent> = {
 
 export default meta;
 
-const template = `<watt-textarea-field [label]="label" [required]="required" [placeholder]="placeholder" [formControl]="exampleFormControl" />
+const template = `<watt-textarea-field [label]="label" [required]="required" [placeholder]="placeholder" [formControl]="exampleFormControl" [small]="small" />
                   <p>Value: {{exampleFormControl.value}}</p>`;
 
 const howToUseGuideBasic = `
@@ -117,6 +117,32 @@ export const WithPlaceholder: StoryFn<WattTextAreaFieldComponent> = () => ({
     placeholder: "I'm a placeholder",
   },
   template,
+});
+
+export const Small: StoryFn<WattTextAreaFieldComponent> = () => ({
+  props: {
+    label: 'small',
+    small: true,
+    exampleFormControl: new FormControl(null),
+  },
+  template,
+});
+
+export const WithDifferentResize: StoryFn<WattTextAreaFieldComponent> = () => ({
+  props: {
+    exampleFormControl: new FormControl(null),
+  },
+  template: `<watt-textarea-field [label]="'default (none)'" [placeholder]="placeholder" [formControl]="exampleFormControl">
+            </watt-textarea-field>
+            <watt-textarea-field [label]="'horizontal'" [placeholder]="placeholder" [formControl]="exampleFormControl"
+            [resize]="'horizontal'">
+            </watt-textarea-field>
+            <watt-textarea-field [label]="'vertical'" [placeholder]="placeholder" [formControl]="exampleFormControl"
+            [resize]="'vertical'">
+            </watt-textarea-field>
+            <watt-textarea-field [label]="'both'" [placeholder]="placeholder" [formControl]="exampleFormControl"
+            [resize]="'both'">
+            </watt-textarea-field>`,
 });
 
 export const WithRequired: StoryFn<WattTextAreaFieldComponent> = () => ({
