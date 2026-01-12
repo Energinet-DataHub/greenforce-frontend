@@ -39,10 +39,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
           <vater-stack direction="row" justify="space-between" align="center">
             <h3>{{ t('cases') }}</h3>
             <watt-button
-              *dhPermissionRequired="[
-                'market-participant-conversation:manage',
-                'market-participant-conversation:admin',
-              ]"
               (click)="createNewCase.emit()"
               icon="plus"
               variant="text"

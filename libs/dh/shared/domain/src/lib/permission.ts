@@ -18,7 +18,6 @@
 //#endregion
 // Note: Sorted alphabetically
 export const permissions = [
-  'actor-conversation:view',
   'actor-conversation:manage',
   'actor-conversation:admin',
   'actor-credentials:manage',
