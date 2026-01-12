@@ -151,7 +151,9 @@ export class DhChargesFilters {
     return new FormGroup({
       types: dhMakeFormControl(),
       owners: dhMakeFormControl(
-        this.selectedActor.marketRole === EicFunction.SystemOperator ? [this.selectedActor.gln] : []
+        this.selectedActor.marketRole === EicFunction.SystemOperator
+          ? [this.selectedActor.gln]
+          : null
       ),
       status: dhMakeFormControl(initial.status),
       resolution: dhMakeFormControl<ChargeResolution[]>(),
