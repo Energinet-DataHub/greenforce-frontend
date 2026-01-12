@@ -409,8 +409,7 @@
           "AWAITING": "Afventer",
           "CLOSED": "Lukket",
           "CANCELLED": "Annulleret",
-          "CURRENT": "Aktuel",
-          "MISSING_PRICE_SERIES": "Mangler prisserie"
+          "CURRENT": "Aktuel"
         },
         "moreOptions": {
           "vatInclusiveGroupName": "Moms",
