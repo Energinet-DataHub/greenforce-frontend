@@ -27,7 +27,7 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActorConversationCaseType, ActorConversationReceiverType } from '../types';
+import { ActorConversationCaseType } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
@@ -81,5 +81,4 @@ export class DhActorConversationNewCaseComponent {
   });
   closeNewCase = output();
   types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
-  receivers = dhEnumToWattDropdownOptions(ActorConversationReceiverType);
 }
