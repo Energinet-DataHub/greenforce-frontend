@@ -376,11 +376,10 @@
       "TARIFF_TAX": "Tarif, afgift"
     },
     "resolutions": {
-      "DAILY": "Dag",
       "QUARTER_HOURLY": "Kvarter",
+      "DAILY": "Dag",
       "HOURLY": "Time",
-      "MONTHLY": "Måned",
-      "UNKNOWN": "Ukendt"
+      "MONTHLY": "Måned"
     },
     "vatInclusive": {
       "false": "Uden moms",
@@ -389,19 +388,20 @@
     "charges": {
       "topBarTitle": "Priser",
       "table": {
-        "searchById": "Søg på ID",
         "createButton": "Ny pris",
         "columns": {
           "code": "ID",
           "type": "Type",
           "name": "Navn",
           "owner": "Ejer",
-          "status": "Status"
+          "status": "Status",
+          "resolution": "Tidsopløsning"
         },
         "filters": {
           "chargeType": "Type",
           "owners": "Ejer",
           "status": "Status",
+          "resolution": "Tidsopløsning",
           "vat": "Moms",
           "moreOptions": "Flere filtre"
         },
@@ -413,15 +413,18 @@
           "MISSING_PRICE_SERIES": "Mangler prisserie"
         },
         "moreOptions": {
-          "vatGroupName": "Moms",
-          "withVat": "Med moms",
-          "withoutVat": "Uden moms",
+          "vatInclusiveGroupName": "Moms",
+          "vatInclusive": "Med moms",
+          "not_vatInclusive": "Uden moms",
           "transparentInvoicingGroupName": "Viderefakturering",
-          "withTransparentInvoicing": "Skal viderefaktureres",
-          "withoutTransparentInvoicing": "Skal ikke viderefaktureres",
-          "predictablePriceGroupName": "Forudsigelig pris",
-          "withPredictablePrice": "Forudsigelig pris",
-          "withoutPredictablePrice": "Ikke forudsigelig pris"
+          "transparentInvoicing": "Skal viderefaktureres",
+          "not_transparentInvoicing": "Skal ikke viderefaktureres",
+          "predictablePriceGroupName": "Spotafhængig pris",
+          "predictablePrice": "Spotafhængig pris",
+          "not_predictablePrice": "Ikke spotafhængig pris",
+          "missingPriceSeriesGroupName": "Prisserie",
+          "missingPriceSeries": "Mangler prisserie",
+          "not_missingPriceSeries": "Har prisserie"
         }
       }
     },
