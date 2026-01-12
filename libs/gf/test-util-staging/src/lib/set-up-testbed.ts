@@ -28,7 +28,6 @@ import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 
 import { gfAngularMaterialTestingProviders } from './angular-material/gf-angular-material-testing.module';
-import { gfRxAngularTestingProviders } from './rx-angular/gf-rx-angular-testing.providers';
 
 /*
  * For easier debugging in development mode, you can import the following file
@@ -98,7 +97,6 @@ function patchTestbed(): void {
           { provide: ComponentFixtureAutoDetect, useValue: true },
           ...(moduleDef.providers ?? []),
           browserConfigurationProviders,
-          gfRxAngularTestingProviders,
           gfAngularMaterialTestingProviders,
           // Mark as NoopAnimations for Angular Material components that check this token
           { provide: ANIMATION_MODULE_TYPE, useValue: 'NoopAnimations' },
@@ -127,8 +125,7 @@ function patchTestbed(): void {
  * Disable animations, provide `APP_BASE_HREF` at runtime, and isolate routing
  * from the DOM.
  *
- * Automatically import testing Angular modules for Angular Material and
- * RxAngular.
+ * Automatically import testing Angular modules for Angular Material.
  *
  *
  */

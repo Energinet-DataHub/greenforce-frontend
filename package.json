@@ -86,8 +86,6 @@
     "@ngrx/operators": "19.0.1",
     "@ngxpert/hot-toast": "5.1.1",
     "@popperjs/core": "2.11.8",
-    "@rx-angular/cdk": "17.0.1",
-    "@rx-angular/template": "17.1.0",
     "apollo-angular": "11.0.0",
     "chardet": "2.1.1",
     "dayjs": "1.11.13",
