@@ -16,7 +16,7 @@ watt-textarea-field {
   width: 100%;
   --watt-textarea-min-height: 200px;
 
-  &[small] {
+  &[small="true"] {
     --watt-textarea-min-height: 80px;
   }
 
@@ -28,5 +28,18 @@ watt-textarea-field {
     padding-left: 0;
     background-color: transparent;
     min-height: var(--watt-textarea-min-height);
+  }
+
+  &[resize="none"] textarea {
+    resize: none;
+  }
+  &[resize="horizontal"] textarea {
+    resize: horizontal;
+  }
+  &[resize="vertical"] textarea {
+    resize: vertical;
+  }
+  &[resize="both"] textarea {
+    resize: both;
   }
 }

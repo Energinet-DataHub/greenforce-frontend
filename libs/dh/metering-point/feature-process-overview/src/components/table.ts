@@ -112,10 +112,10 @@ type MeteringPointProcess = NonNullable<
         (rowClick)="navigation.navigate('details', $event.id)"
       >
         <ng-container *wattTableCell="columns.createdAt; let process">
-          {{ process.createdAt | wattDate: 'long' }}
+          {{ process.createdAt | wattDate: 'long' | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.cutoffDate; let process">
-          {{ process.cutoffDate | wattDate: 'long' }}
+          {{ process.cutoffDate | wattDate: 'long' | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.reasonCode; let process">
           {{ t('processType.' + process.reasonCode) }}
