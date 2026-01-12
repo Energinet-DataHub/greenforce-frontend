@@ -28,5 +28,6 @@ watt-textarea-field {
     padding-left: 0;
     background-color: transparent;
     min-height: var(--watt-textarea-min-height);
+    resize: vertical;
   }
 }
