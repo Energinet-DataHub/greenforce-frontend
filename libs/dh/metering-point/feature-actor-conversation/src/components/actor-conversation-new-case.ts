@@ -62,13 +62,15 @@ import { WattIconComponent } from '@energinet/watt/icon';
       <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
         <vater-flex fill="vertical">
           <vater-stack align="start">
-            <watt-card-title>
-              <vater-stack direction="row" justify="space-between">
+            <vater-stack direction="row" fill="horizontal" justify="space-between">
+              <watt-card-title>
                 <h3>{{ t('newCaseTitle') }}</h3>
+              </watt-card-title>
+              <watt-card-title>
                 <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
-              </vater-stack>
-            </watt-card-title>
-            <vater-stack fill="horizontal" gap="m" align="start">
+              </watt-card-title>
+            </vater-stack>
+            <vater-stack fill="horizontal" gap="ml" align="start">
               <watt-dropdown
                 [formControl]="newCaseForm.controls.type"
                 [options]="types"
@@ -101,7 +103,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
               class=""
             />
             <watt-button
-              >{{ t('sendButton') }}
+            >{{ t('sendButton') }}
               <watt-icon name="arrowRightAlt" />
             </watt-button>
           </vater-stack>
