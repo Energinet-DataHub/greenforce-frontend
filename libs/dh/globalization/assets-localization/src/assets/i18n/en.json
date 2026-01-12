@@ -895,9 +895,9 @@
         "ConnectMeteringPoint": "Connection of new metering point (BRS-008)"
       },
       "reasonCode": {
-        "EndOfSupply": "E20",
-        "NewMeteringPoint": "E02",
-        "ConnectMeteringPoint": "D15"
+        "EndOfSupply": "End of supply (E20)",
+        "NewMeteringPoint": "New metering point (E02)",
+        "ConnectMeteringPoint": "Connect metering point (D15)"
       },
       "filters": {
         "created": "Time",
@@ -938,6 +938,14 @@
           "dueDate": "Due date",
           "actor": "Actor",
           "state": "State"
+        },
+        "stepStates": {
+          "pending": "Pending",
+          "running": "Running",
+          "failed": "Failed",
+          "skipped": "Skipped",
+          "canceled": "Canceled",
+          "succeeded": "Received"
         }
       }
     },
