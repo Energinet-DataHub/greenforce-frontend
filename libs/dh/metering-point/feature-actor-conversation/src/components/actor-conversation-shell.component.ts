@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { DhActorConversationCaseListComponent } from './actor-conversation-case-list';
 import { DhActorConversationNewCaseComponent } from './actor-conversation-new-case';
 import { VaterFlexComponent } from '@energinet/watt/vater';
+import { WattToastService } from '@energinet/watt/toast';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -42,7 +43,11 @@ import { VaterFlexComponent } from '@energinet/watt/vater';
     <vater-flex direction="row" fill="vertical" gap="m" class="watt-space-inset-m">
       <dh-actor-conversation-case-list (createNewCase)="newCaseVisible.set(true)" class="flex-1" />
       @if (newCaseVisible()) {
-        <dh-actor-conversation-new-case (closeNewCase)="newCaseVisible.set(false)" class="flex-3" />
+        <dh-actor-conversation-new-case
+          (closeNewCase)="newCaseVisible.set(false)"
+          (createCase)="send($event)"
+          class="flex-3"
+        />
       } @else {
         <div class="flex-3"></div>
       }
@@ -51,4 +56,13 @@ import { VaterFlexComponent } from '@energinet/watt/vater';
 })
 export class DhActorConversationShellComponent {
   newCaseVisible = signal(false);
+  private toastService = inject(WattToastService);
+
+  send(message: string) {
+    this.newCaseVisible.set(false);
+    this.toastService.open({
+      type: 'success',
+      message: message,
+    });
+  }
 }

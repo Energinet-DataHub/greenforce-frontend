@@ -19,18 +19,11 @@
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
 import { TranslocoDirective } from '@jsverse/transloco';
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-} from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent, } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { DhDropdownTranslatorDirective, dhEnumToWattDropdownOptions, } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActorConversationCaseType, ActorConversationReceiverType } from '../types';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
@@ -58,7 +51,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
     }
   `,
   template: `
-    <form [formGroup]="newCaseForm" vater-flex fill="both">
+    <form [formGroup]="newCaseForm" (ngSubmit)="send()" vater-flex fill="both">
       <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
         <vater-flex fill="vertical">
           <vater-stack align="start">
@@ -102,9 +95,9 @@ import { WattIconComponent } from '@energinet/watt/icon';
               [formControl]="newCaseForm.controls.message"
               class=""
             />
-            <watt-button
-            >{{ t('sendButton') }}
-              <watt-icon name="arrowRightAlt" />
+            <watt-button type="submit"
+              >{{ t('sendButton') }}
+              <watt-icon name="send" />
             </watt-button>
           </vater-stack>
         </vater-flex>
@@ -113,7 +106,11 @@ import { WattIconComponent } from '@energinet/watt/icon';
   `,
 })
 export class DhActorConversationNewCaseComponent {
+  closeNewCase = output();
+  createCase = output<string>();
+
   private readonly fb = inject(NonNullableFormBuilder);
+
   newCaseForm = this.fb.group({
     type: this.fb.control<ActorConversationCaseType>(
       ActorConversationCaseType.misc,
@@ -126,7 +123,13 @@ export class DhActorConversationNewCaseComponent {
     internalNote: this.fb.control<string | null>(null),
     message: this.fb.control<string>('', Validators.required),
   });
-  closeNewCase = output();
   types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
   receivers = dhEnumToWattDropdownOptions(ActorConversationReceiverType);
+
+  protected send() {
+    if (this.newCaseForm.invalid) {
+      return;
+    }
+    this.createCase.emit(this.newCaseForm.controls.message.value)
+  }
 }
