@@ -59,6 +59,7 @@ import { DhSearchComponent } from './components/dh-search.component';
 import { DhCreateMeteringPoint } from './components/dh-create-metering-point.component';
 import { dhSupportedMeteringPointTypes } from './components/dh-supported-metering-point-types';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 const marketRolesWithDataAccess = [
   EicFunction.EnergySupplier,
@@ -282,10 +283,16 @@ function meteringPointCreateGuard(): CanActivateFn {
  */
 function internalIdToMeteringPointIdResolver(): ResolveFn<string> {
   return (route: ActivatedRouteSnapshot) => {
+    const environment = inject(dhAppEnvironmentToken);
+
     const idParam: string = route.params[dhInternalMeteringPointIdParam];
 
     return query(DoesInternalMeteringPointIdExistDocument, {
-      variables: { internalMeteringPointId: idParam, newMeteringPointsModel: false },
+      variables: {
+        internalMeteringPointId: idParam,
+        searchMigratedMeteringPoints: true,
+        environment: environment.current,
+      },
     })
       .result()
       .then((result) => result.data.meteringPointExists.meteringPointId);

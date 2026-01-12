@@ -38,6 +38,7 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component';
@@ -146,6 +147,7 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
 export class DhSearchComponent {
   private readonly router = inject(Router);
   private readonly modalService = inject(WattModalService);
+  private readonly environment = inject(dhAppEnvironmentToken);
 
   private readonly doesMeteringPointExist = lazyQuery(DoesInternalMeteringPointIdExistDocument);
   protected submitted = signal(false);
@@ -191,7 +193,8 @@ export class DhSearchComponent {
     const result = await this.doesMeteringPointExist.query({
       variables: {
         meteringPointId,
-        newMeteringPointsModel: !this.searchMigratedMeteringPoints.value,
+        searchMigratedMeteringPoints: this.searchMigratedMeteringPoints.value,
+        environment: this.environment.current,
       },
     });
 

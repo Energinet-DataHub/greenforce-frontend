@@ -1,12 +1,14 @@
 query DoesInternalMeteringPointIdExist(
   $internalMeteringPointId: Long
   $meteringPointId: Long
-  $newMeteringPointsModel: Boolean!
+  $searchMigratedMeteringPoints: Boolean!
+  $environment: String!
 ) {
   meteringPointExists(
     internalMeteringPointId: $internalMeteringPointId
     meteringPointId: $meteringPointId
-    newMeteringPointsModel: $newMeteringPointsModel
+    searchMigratedMeteringPoints: $searchMigratedMeteringPoints
+    environment: $environment
   ) {
     id
     meteringPointId

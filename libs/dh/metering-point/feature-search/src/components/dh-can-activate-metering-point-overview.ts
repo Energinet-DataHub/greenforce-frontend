@@ -23,6 +23,7 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhIsValidInternalId } from '@energinet-datahub/dh/shared/ui-util';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 
@@ -30,6 +31,7 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
   route: ActivatedRouteSnapshot
 ): Promise<UrlTree | boolean> | UrlTree => {
   const router = inject(Router);
+  const environment = inject(dhAppEnvironmentToken);
 
   const searchRoute = router.createUrlTree([
     getPath<BasePaths>('metering-point'),
@@ -40,7 +42,11 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
 
   if (dhIsValidInternalId(idParam)) {
     return query(DoesInternalMeteringPointIdExistDocument, {
-      variables: { internalMeteringPointId: idParam, newMeteringPointsModel: false },
+      variables: {
+        internalMeteringPointId: idParam,
+        searchMigratedMeteringPoints: true,
+        environment: environment.current,
+      },
     })
       .result()
       .then((result) => {
