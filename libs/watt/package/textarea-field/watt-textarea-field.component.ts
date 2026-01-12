@@ -28,11 +28,12 @@ import {
   booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { WattFieldComponent } from '@energinet/watt/field';
 
 @Component({
-  imports: [FormsModule, WattFieldComponent],
+  imports: [CommonModule, FormsModule, WattFieldComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -57,6 +58,8 @@ import { WattFieldComponent } from '@energinet/watt/field';
   </watt-field>`,
   host: {
     '[attr.watt-field-disabled]': 'isDisabled()',
+    '[attr.small]': 'small()',
+    '[attr.resize]': 'resize()'
   },
 })
 export class WattTextAreaFieldComponent implements ControlValueAccessor {
@@ -68,6 +71,7 @@ export class WattTextAreaFieldComponent implements ControlValueAccessor {
   maxLength = input<string | number | null>(null);
   label = input<string>();
   small = input(false, { transform: booleanAttribute });
+  resize = input<'none' | 'horizontal' | 'vertical' | 'both'>('none');
 
   onInput(event: Event) {
     const target = event.target as HTMLTextAreaElement;
