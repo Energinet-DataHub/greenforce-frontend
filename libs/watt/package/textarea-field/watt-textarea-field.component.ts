@@ -59,7 +59,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
   host: {
     '[attr.watt-field-disabled]': 'isDisabled()',
     '[attr.small]': 'small()',
-    '[attr.resize]': 'resize()'
+    '[attr.resize]': 'resize()',
   },
 })
 export class WattTextAreaFieldComponent implements ControlValueAccessor {
