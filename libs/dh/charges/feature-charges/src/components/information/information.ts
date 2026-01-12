@@ -108,7 +108,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
           <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
             {{ charge()?.displayName }}
             @let status = charge()?.status;
-
             @if (status) {
               <dh-charges-status [status]="status" />
             }
