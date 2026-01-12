@@ -99,7 +99,7 @@ type MeteringPointProcessStep = NonNullable<
           </vater-flex>
         </ng-container>
         <ng-container *wattTableCell="columns.completedAt; let process">
-          {{ process.completedAt | wattDate: 'long' }}
+          {{ process.completedAt | wattDate: 'long' | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.dueDate; let process">
           {{ process.dueDate | wattDate: 'long' | dhEmDashFallback }}
@@ -108,7 +108,7 @@ type MeteringPointProcessStep = NonNullable<
           {{ process.actor?.name | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
-          {{ 'shared.states.' + process.state | transloco }}
+          {{ 'meteringPoint.processOverview.details.stepStates.' + process.state | transloco }}
         </ng-container>
       </watt-table>
     </watt-data-table>

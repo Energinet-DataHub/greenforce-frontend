@@ -22,12 +22,13 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActorConversationCaseType } from '../types';
+import { ActorConversationCaseType, ActorConversationReceiverType } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
@@ -40,6 +41,7 @@ import { ActorConversationCaseType } from '../types';
     WattDropdownComponent,
     DhDropdownTranslatorDirective,
     ReactiveFormsModule,
+    WattTextFieldComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -66,6 +68,20 @@ import { ActorConversationCaseType } from '../types';
             dhDropdownTranslator
             translateKey="meteringPoint.actorConversation.types"
           />
+          <watt-dropdown
+            [formControl]="newCaseForm.controls.receiver"
+            [options]="receivers"
+            [label]="t('receiverLabel')"
+            [showResetOption]="false"
+            class="third-width"
+            dhDropdownTranslator
+            translateKey="meteringPoint.actorConversation.receivers"
+          />
+          <watt-text-field
+            [formControl]="newCaseForm.controls.internalNote"
+            class="third-width"
+            [label]="t('internalNoteLabel')"
+          />
         </form>
       </watt-card>
     </vater-flex>
@@ -78,7 +94,13 @@ export class DhActorConversationNewCaseComponent {
       ActorConversationCaseType.misc,
       Validators.required
     ),
+    receiver: this.fb.control<ActorConversationReceiverType>(
+      ActorConversationReceiverType.energinet,
+      Validators.required
+    ),
+    internalNote: this.fb.control<string | null>(null),
   });
   closeNewCase = output();
   types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
+  receivers = dhEnumToWattDropdownOptions(ActorConversationReceiverType);
 }
