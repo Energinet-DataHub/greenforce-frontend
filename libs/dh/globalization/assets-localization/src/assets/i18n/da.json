@@ -938,6 +938,14 @@
           "dueDate": "Forfaldsdato",
           "actor": "Aktør",
           "state": "Status"
+        },
+        "stepStates": {
+          "pending": "Afventende",
+          "running": "Kører",
+          "failed": "Fejlet",
+          "skipped": "Sprunget over",
+          "canceled": "Annulleret",
+          "succeeded": "Modtaget"
         }
       }
     },

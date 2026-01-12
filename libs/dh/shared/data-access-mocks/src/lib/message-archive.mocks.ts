@@ -189,10 +189,6 @@ function getMeteringPointProcessOverview() {
       createdAt.setDate(createdAt.getDate() + daysOffset);
       createdAt.setHours(createdAt.getHours() + hoursOffset);
 
-      // Vary cutoff date - typically a few days after created date
-      const cutoffDate = new Date(createdAt);
-      cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
-
       // Add actions to some processes (not failed/canceled/succeeded ones)
       const currentState = states[index % states.length];
       const hasNoActions =
@@ -200,6 +196,15 @@ function getMeteringPointProcessOverview() {
         currentState === ProcessState.Canceled ||
         currentState === ProcessState.Succeeded;
       const availableActions = hasNoActions ? [] : [actions[index % actions.length]];
+
+      // Vary cutoff date - typically a few days after created date
+      let cutoffDate = null;
+
+      console.log('currentState', currentState);
+      if(currentState != ProcessState.Pending) {
+        cutoffDate = new Date(createdAt);
+        cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
+      }
 
       return {
         __typename: 'MeteringPointProcess' as const,
