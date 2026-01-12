@@ -201,7 +201,7 @@ function getMeteringPointProcessOverview() {
       let cutoffDate = null;
 
       console.log('currentState', currentState);
-      if(currentState != ProcessState.Pending) {
+      if (currentState != ProcessState.Pending) {
         cutoffDate = new Date(createdAt);
         cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
       }
