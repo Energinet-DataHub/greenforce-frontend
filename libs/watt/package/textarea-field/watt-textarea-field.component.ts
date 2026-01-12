@@ -28,12 +28,11 @@ import {
   booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
 import { WattFieldComponent } from '@energinet/watt/field';
 
 @Component({
-  imports: [CommonModule, FormsModule, WattFieldComponent],
+  imports: [FormsModule, WattFieldComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
