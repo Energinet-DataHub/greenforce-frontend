@@ -84,7 +84,9 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
         );
         // Emit entering and leaving events
         this._steps.get(change.selectedIndex)?.entering.emit(change.selectedStep);
-        this._steps.get(change.previouslySelectedIndex)?.leaving.emit(change.previouslySelectedStep);
+        this._steps
+          .get(change.previouslySelectedIndex)
+          ?.leaving.emit(change.previouslySelectedStep);
       });
   }
 

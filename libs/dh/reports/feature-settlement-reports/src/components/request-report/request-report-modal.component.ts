@@ -169,7 +169,8 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
   });
 
   showEnergySupplierDropdown = (() => {
-    const shouldShow = this.modalData.isFas || this.modalData.marketRole === EicFunction.SystemOperator;
+    const shouldShow =
+      this.modalData.isFas || this.modalData.marketRole === EicFunction.SystemOperator;
     if (shouldShow) {
       this.form.addControl(
         'energySupplier',
@@ -180,7 +181,9 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
   })();
 
   calculationTypeOptions = this.getCalculationTypeOptions();
-  gridAreaOptions = toSignal(this.getGridAreaOptions(), { initialValue: [] as WattDropdownOptions });
+  gridAreaOptions = toSignal(this.getGridAreaOptions(), {
+    initialValue: [] as WattDropdownOptions,
+  });
 
   energySupplierOptions = computed(() => [
     {
