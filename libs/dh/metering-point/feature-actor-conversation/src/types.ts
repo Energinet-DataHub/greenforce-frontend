@@ -20,7 +20,3 @@
 export enum ActorConversationCaseType {
   misc = 'misc',
 }
-
-export enum ActorConversationReceiverType {
-  energinet = 'energinet',
-}
