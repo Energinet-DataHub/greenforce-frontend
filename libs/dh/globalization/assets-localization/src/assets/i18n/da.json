@@ -602,11 +602,15 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
-      "noResultFound": "Intet resultat fundet"
+      "noResultFound": "Intet resultat fundet",
+      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter"
     },
     "tabs": {
       "masterData": {
         "tabLabel": "Stamdata"
+      },
+      "actor-conversation": {
+        "tabLabel": "Aktør dialog"
       },
       "processes": {
         "tabLabel": "Processer"
@@ -762,6 +766,20 @@
         "saveError": "Manuel korrigering af målepunkt mislykkedes"
       }
     },
+    "actorConversation": {
+      "cases": "Sager",
+      "newCaseButton": "Ny sag",
+      "newCaseTitle": "Ny sag",
+      "typeLabel": "Type",
+      "types": {
+        "misc": "Andet"
+      },
+      "receiverLabel": "Modtager",
+      "receivers": {
+        "energinet": "Energinet"
+      },
+      "internalNoteLabel": "Intern note"
+    },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
@@ -885,9 +903,9 @@
         "ConnectMeteringPoint": "Tilslutning af nyoprettet målepunkt (BRS-008)"
       },
       "reasonCode": {
-        "EndOfSupply": "E20",
-        "NewMeteringPoint": "E02",
-        "ConnectMeteringPoint": "D15"
+        "EndOfSupply": "Leveranceophør (E20)",
+        "NewMeteringPoint": "Nyt målepunkt (E02)",
+        "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -909,6 +927,8 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
         "UNKNOWN": "Ukendt trin"
       },
       "details": {
@@ -926,6 +946,14 @@
           "dueDate": "Forfaldsdato",
           "actor": "Aktør",
           "state": "Status"
+        },
+        "stepStates": {
+          "pending": "Afventende",
+          "running": "Kører",
+          "failed": "Fejlet",
+          "skipped": "Sprunget over",
+          "canceled": "Annulleret",
+          "succeeded": "Modtaget"
         }
       }
     },

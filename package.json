@@ -55,7 +55,8 @@
     "branch": "nx run @energinet-datahub/tools/github:create-branch --skip-nx-cache",
     "pr": "nx run @energinet-datahub/tools/github:create-pr --skip-nx-cache",
     "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)",
-    "review": "gh pr checkout --"
+    "review": "gh pr checkout --",
+    "branch:cleanup": "nx run @energinet-datahub/tools/github:cleanup-branch --skip-nx-cache"
   },
   "dependencies": {
     "@analogjs/vite-plugin-angular": "2.1.3",
@@ -96,7 +97,6 @@
     "libphonenumber-js": "1.11.9",
     "ngx-mat-select-search": "8.0.4",
     "papaparse": "5.5.3",
-    "qs": "6.14.1",
     "rxjs": "7.8.2",
     "storybook": "10.1.10",
     "tslib": "2.4.0",

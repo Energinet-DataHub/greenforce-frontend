@@ -57,6 +57,8 @@ import { WattFieldComponent } from '@energinet/watt/field';
   </watt-field>`,
   host: {
     '[attr.watt-field-disabled]': 'isDisabled()',
+    '[attr.small]': 'small()',
+    '[attr.resize]': 'resize()',
   },
 })
 export class WattTextAreaFieldComponent implements ControlValueAccessor {
@@ -68,6 +70,7 @@ export class WattTextAreaFieldComponent implements ControlValueAccessor {
   maxLength = input<string | number | null>(null);
   label = input<string>();
   small = input(false, { transform: booleanAttribute });
+  resize = input<'none' | 'horizontal' | 'vertical' | 'both'>('none');
 
   onInput(event: Event) {
     const target = event.target as HTMLTextAreaElement;

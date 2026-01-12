@@ -143,18 +143,7 @@ function getMeteringPointProcessOverview() {
     await delay(mswConfig.delay);
 
     // Generate more varied mock data for testing sorting
-    const reasonCodes = [
-      'MoveIn',
-      'BalanceFixing',
-      'WholesaleFixing',
-      'EndOfSupply',
-      'CorrectMasterData',
-      'ChangeMeteringMethod',
-      'ChangeSupplier',
-      'ConnectionStatusUpdate',
-      'NewMeteringPoint',
-      'ConnectMeteringPoint',
-    ];
+    const reasonCodes = ['EndOfSupply', 'NewMeteringPoint', 'ConnectMeteringPoint'];
 
     const states = [
       ProcessState.Pending,
@@ -189,10 +178,6 @@ function getMeteringPointProcessOverview() {
       createdAt.setDate(createdAt.getDate() + daysOffset);
       createdAt.setHours(createdAt.getHours() + hoursOffset);
 
-      // Vary cutoff date - typically a few days after created date
-      const cutoffDate = new Date(createdAt);
-      cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
-
       // Add actions to some processes (not failed/canceled/succeeded ones)
       const currentState = states[index % states.length];
       const hasNoActions =
@@ -200,6 +185,13 @@ function getMeteringPointProcessOverview() {
         currentState === ProcessState.Canceled ||
         currentState === ProcessState.Succeeded;
       const availableActions = hasNoActions ? [] : [actions[index % actions.length]];
+
+      // Vary cutoff date - typically a few days after created date
+      let cutoffDate = null;
+      if (currentState !== ProcessState.Pending) {
+        cutoffDate = new Date(createdAt);
+        cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
+      }
 
       return {
         __typename: 'MeteringPointProcess' as const,
@@ -230,7 +222,7 @@ function getMeteringPointProcessById(apiBase: string) {
     await delay(mswConfig.delay);
 
     const processId = args.variables.id;
-    const reasonCodes = ['MoveIn', 'BalanceFixing', 'WholesaleFixing', 'EndOfSupply'];
+    const reasonCodes = ['EndOfSupply', 'NewMeteringPoint', 'ConnectMeteringPoint'];
     const initiators = [
       { id: '0199ed3d-f1b2-7180-9546-39b5836fb575', displayName: '905495045940594 • Radius' },
       { id: '0199ed3d-f1b2-7180-9546-39b5836fb576', displayName: '5790001330552 • Energinet' },
@@ -270,11 +262,7 @@ function getMeteringPointProcessById(apiBase: string) {
               completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24), // 1 day later
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2), // 2 days later
               state: ProcessState.Succeeded,
-              message: {
-                __typename: 'ArchivedMessage' as const,
-                id: '38374f50-f00c-4e2a-aec1-70d391cade06',
-                documentUrl: `${apiBase}/v1/MessageArchive/Document?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
-              },
+              documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
               actor: {
                 __typename: 'MarketParticipant' as const,
                 id: initiators[processIndex % initiators.length].id,
@@ -289,7 +277,7 @@ function getMeteringPointProcessById(apiBase: string) {
               completedAt: null,
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5), // 5 days later
               state: ProcessState.Pending,
-              message: null,
+              documentUrl: null,
               actor: {
                 __typename: 'MarketParticipant' as const,
                 id: '0199ed3d-f1b2-7180-9546-39b5836fb576',

@@ -1027,7 +1027,11 @@ type MeteringPointProcess {
 
 type MeteringPointProcessStep {
   actor: MarketParticipant
-  message: ArchivedMessage
+  """
+  Generates the URL for fetching the master data document content.
+  The MessageId on the step contains the ArchivedMessageId (GUID) from ProcessManager.
+  """
+  documentUrl: String
   id: String!
   step: ProcessStepType!
   comment: String
@@ -1277,7 +1281,7 @@ type Query {
   eventsDebugView(meteringPointId: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
-  meteringPointExists(internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPointExists(internalMeteringPointId: Long meteringPointId: Long newMeteringPointsModel: Boolean): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -1819,7 +1823,8 @@ input ChangeCustomerCharacteristicsInput {
   meteringPointId: String!
   businessReason: ChangeCustomerCharacteristicsBusinessReason!
   startDate: DateTime!
-  firstCustomerCvrOrCpr: String!
+  firstCustomerCpr: String
+  firstCustomerCvr: String
   firstCustomerName: String
   secondCustomerCpr: String
   secondCustomerName: String
@@ -3002,6 +3007,10 @@ enum ProcessStepType {
   BRS_004_CREATEMETERINGPOINT_V1_STEP_4
   "BRS-008 Connect metering point - Step 1 - Incoming RSM-021"
   BRS_008_CONNECTMETERINGPOINT_V1_STEP_1
+  "BRS-008 Connect metering point - Step 2 - Confirm RSM-021"
+  BRS_008_CONNECTMETERINGPOINT_V1_STEP_2
+  "BRS-008 Connect metering point - Step 3 - Reject RSM-021"
+  BRS_008_CONNECTMETERINGPOINT_V1_STEP_3
   """
   Unknown or unmapped step type.
   Used when ProcessManager returns a step we haven't added to this enum yet.

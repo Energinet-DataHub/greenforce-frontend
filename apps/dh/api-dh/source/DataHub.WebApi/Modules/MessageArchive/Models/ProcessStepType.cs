@@ -68,6 +68,16 @@ public enum ProcessStepType
     BRS_008_CONNECTMETERINGPOINT_V1_STEP_1,
 
     /// <summary>
+    /// BRS-008 Connect metering point - Step 2 - Confirm RSM-021
+    /// </summary>
+    BRS_008_CONNECTMETERINGPOINT_V1_STEP_2,
+
+    /// <summary>
+    /// BRS-008 Connect metering point - Step 3 - Reject RSM-021
+    /// </summary>
+    BRS_008_CONNECTMETERINGPOINT_V1_STEP_3,
+
+    /// <summary>
     /// Unknown or unmapped step type.
     /// Used when ProcessManager returns a step we haven't added to this enum yet.
     /// </summary>

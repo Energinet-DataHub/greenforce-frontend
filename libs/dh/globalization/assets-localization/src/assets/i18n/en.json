@@ -602,11 +602,15 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
-      "noResultFound": "No result found"
+      "noResultFound": "No result found",
+      "searchMigratedMeteringPoints": "Search migrated metering points"
     },
     "tabs": {
       "masterData": {
         "tabLabel": "Master data"
+      },
+      "actor-conversation": {
+        "tabLabel": "Actor conversation"
       },
       "processes": {
         "tabLabel": "Processes"
@@ -762,6 +766,20 @@
         "saveError": "Manual correction of metering point failed"
       }
     },
+    "actorConversation": {
+      "cases": "Cases",
+      "newCaseButton": "New case",
+      "newCaseTitle": "New case",
+      "typeLabel": "Type",
+      "types": {
+        "misc": "Miscellaneous"
+      },
+      "receiverLabel": "Receiver",
+      "receivers": {
+        "energinet": "Energinet"
+      },
+      "internalNoteLabel": "Internal note"
+    },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
     "relatedMeteringPointsEmpty": "There are no related metering points",
@@ -885,9 +903,9 @@
         "ConnectMeteringPoint": "Connection of new metering point (BRS-008)"
       },
       "reasonCode": {
-        "EndOfSupply": "E20",
-        "NewMeteringPoint": "E02",
-        "ConnectMeteringPoint": "D15"
+        "EndOfSupply": "End of supply (E20)",
+        "NewMeteringPoint": "New metering point (E02)",
+        "ConnectMeteringPoint": "Connect metering point (D15)"
       },
       "filters": {
         "created": "Time",
@@ -909,6 +927,8 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Confirmation of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Request for connection of metering point (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
         "UNKNOWN": "Unknown Step"
       },
       "details": {
@@ -926,6 +946,14 @@
           "dueDate": "Due date",
           "actor": "Actor",
           "state": "State"
+        },
+        "stepStates": {
+          "pending": "Pending",
+          "running": "Running",
+          "failed": "Failed",
+          "skipped": "Skipped",
+          "canceled": "Canceled",
+          "succeeded": "Received"
         }
       }
     },

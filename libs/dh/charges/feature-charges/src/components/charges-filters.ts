@@ -74,13 +74,15 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
         translateKey="charges.chargeTypes"
       />
 
-      <watt-dropdown
-        [formControl]="this.form().controls.owners"
-        [chipMode]="true"
-        [multiple]="true"
-        [options]="owners()"
-        [placeholder]="t('owners')"
-      />
+      @if (selectedActor.marketRole !== 'SystemOperator') {
+        <watt-dropdown
+          [formControl]="this.form().controls.owners"
+          [chipMode]="true"
+          [multiple]="true"
+          [options]="owners()"
+          [placeholder]="t('owners')"
+        />
+      }
 
       <watt-dropdown
         [formControl]="this.form().controls.status"
@@ -116,7 +118,8 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
 })
 export class DhChargesFilters {
   private readonly actorStorage = inject(DhActorStorage);
-  private readonly marketRole = this.actorStorage.getSelectedActor().marketRole;
+  selectedActor = this.actorStorage.getSelectedActor();
+  private actorOptions = getActorOptions(this.getActorsWithMarketRoles(), 'glnOrEicNumber');
   private readonly moreOptionsTranslations = translateObjectSignal(
     'charges.charges.table.moreOptions'
   );
@@ -126,14 +129,30 @@ export class DhChargesFilters {
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
   statusOptions = dhEnumToWattDropdownOptions(ChargeStatus);
   resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolution);
-  owners = getActorOptions(this.getActorsWithMarketRoles(), 'glnOrEicNumber');
   moreOptions = computed(() => this.getMoreOptions());
+  owners = computed(() => {
+    const options = this.actorOptions();
+
+    if (this.selectedActor.marketRole === EicFunction.GridAccessProvider) {
+      return [
+        ...options,
+        {
+          value: this.selectedActor.gln,
+          displayValue: `${this.selectedActor.gln} • ${this.selectedActor.actorName}`,
+        },
+      ];
+    }
+
+    return options;
+  });
 
   form = computed(() => {
     const initial = untracked(() => this.filter());
     return new FormGroup({
       types: dhMakeFormControl(),
-      owners: dhMakeFormControl(),
+      owners: dhMakeFormControl(
+        this.selectedActor.marketRole === EicFunction.SystemOperator ? [this.selectedActor.gln] : []
+      ),
       status: dhMakeFormControl(initial.status),
       resolution: dhMakeFormControl<ChargeResolution[]>(),
       moreOptions: dhMakeFormControl<ChargesQueryInput[] | null>(null),
@@ -166,17 +185,15 @@ export class DhChargesFilters {
       .reduce((acc, next) => (acc === !next ? null : next), null);
 
   private getActorsWithMarketRoles() {
-    switch (this.marketRole) {
+    switch (this.selectedActor.marketRole) {
       case EicFunction.GridAccessProvider:
-        return [EicFunction.SystemOperator, EicFunction.GridAccessProvider];
+        return [EicFunction.SystemOperator];
       case EicFunction.EnergySupplier:
-        return [EicFunction.SystemOperator, EicFunction.EnergySupplier];
+        return [EicFunction.SystemOperator, EicFunction.GridAccessProvider];
       case EicFunction.DataHubAdministrator:
-        return [
-          EicFunction.SystemOperator,
-          EicFunction.GridAccessProvider,
-          EicFunction.EnergySupplier,
-        ];
+        return [EicFunction.SystemOperator, EicFunction.GridAccessProvider];
+      case EicFunction.SystemOperator:
+        return [EicFunction.SystemOperator];
       default:
         return [];
     }

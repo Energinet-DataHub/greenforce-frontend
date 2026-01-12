@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
@@ -29,27 +28,25 @@ public static partial class MeteringPointProcessStepNode
             ? await dataLoader.LoadAsync((step.ActorNumber, role))
             : null;
 
-    public static async Task<ArchivedMessage?> GetMessageAsync(
+    /// <summary>
+    /// Generates the URL for fetching the master data document content.
+    /// The MessageId on the step contains the ArchivedMessageId (GUID) from ProcessManager.
+    /// </summary>
+    public static string? GetDocumentUrl(
         [Parent] MeteringPointProcessStep step,
-        [Service] IArchivedMessageClient client)
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] LinkGenerator linkGenerator)
     {
         if (step.MessageId == null)
         {
             return null;
         }
 
-        var result = await client.GetArchivedMessagesByIdAsync(
-            step.MessageId,
-            includeRelated: false,
-            first: 1,
-            after: null,
-            last: null,
-            before: null,
-            order: null);
-
-        return result.Edges != null && result.Edges.Count > 0
-            ? result.Edges[0].Node
-            : null;
+        return linkGenerator.GetUriByAction(
+            httpContextAccessor.HttpContext!,
+            "GetMasterDataDocumentById",
+            "MessageArchive",
+            new { id = step.MessageId });
     }
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcessStep> descriptor)
