@@ -113,11 +113,7 @@ public class ChargesClient(
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
         Charge charge,
         CancellationToken ct = default)
-        => await GetChargeSeriesAsync(
-            charge.Id,
-            charge.Resolution,
-            new Interval(charge.Periods.First().StartDate, charge.Periods.First().EndDate),
-            ct);
+        => await GetChargeSeriesAsync(charge.Id, charge.Resolution, charge.LatestPeriod.Period, ct);
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
         ChargeIdentifierDto id,
@@ -233,5 +229,8 @@ public class ChargesClient(
             Id: charge.ChargeIdentifierDto,
             Resolution: Resolution.FromName(charge.ResolutionDto.ToString()),
             TaxIndicator: charge.TaxIndicator,
-            Periods: [.. charge.Periods.Where(x => x.StartDate <= x.EndDate).OrderByDescending(x => x.StartDate)]);
+            PeriodDtos: [.. charge.Periods
+                .Where(x => x.StartDate <= x.EndDate)
+                .OrderByDescending(x => x.StartDate)
+                .ThenByDescending(x => x.EndDate)]);
 }

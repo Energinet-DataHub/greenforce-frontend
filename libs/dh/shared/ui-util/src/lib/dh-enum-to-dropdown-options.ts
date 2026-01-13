@@ -16,22 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { WattDropdownOption, WattDropdownOptions } from '@energinet/watt/dropdown';
+import { WattDropdownOptions } from '@energinet/watt/dropdown';
 
 export function dhEnumToWattDropdownOptions<T extends object>(
   enumObj: T,
-  exclude?: string[],
+  exclude?: T[keyof T][],
   disabled?: T[keyof T][]
 ): WattDropdownOptions {
-  return Object.keys(enumObj)
-    .map((key): WattDropdownOption => {
-      const value = Object.values(enumObj)[Object.keys(enumObj).indexOf(key)];
-
-      return {
-        displayValue: key,
-        value,
-        disabled: disabled?.includes(value) ?? false,
-      };
-    })
-    .filter(({ value }) => !exclude?.includes(value));
+  return Object.entries(enumObj)
+    .filter(([, value]) => !exclude?.includes(value))
+    .map(([key, value]) => ({
+      displayValue: key,
+      value,
+      disabled: disabled?.includes(value) ?? false,
+    }));
 }
