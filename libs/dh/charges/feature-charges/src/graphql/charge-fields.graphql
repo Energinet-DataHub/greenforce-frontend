@@ -21,7 +21,7 @@ fragment ChargeFields on Charge {
     period
     transparentInvoicing
     vatInclusive
-    isCurrent
+    status
     name
   }
 }
