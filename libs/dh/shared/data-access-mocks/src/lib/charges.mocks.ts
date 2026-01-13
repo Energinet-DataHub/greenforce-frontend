@@ -35,7 +35,7 @@ import {
   Charge,
   ChargeType,
   ChargeLink,
-  ChargeSeries,
+  ChargeSeriesPoint,
   ChargeStatus,
   ChargeResolution,
   MarketParticipant,
@@ -61,6 +61,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     code: 'CHARGE001',
     status: ChargeStatus.Awaiting,
     resolution: ChargeResolution.QuarterHourly,
+    predictablePrice: false,
     transparentInvoicing: true,
     vatInclusive: false,
     periods: [
@@ -102,6 +103,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE002 • Peak Hours Tariff',
     status: ChargeStatus.Current,
     resolution: ChargeResolution.Hourly,
+    predictablePrice: false,
     transparentInvoicing: false,
     vatInclusive: false,
     periods: [
@@ -143,6 +145,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE003 • Green Energy Plan',
     status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Daily,
+    predictablePrice: false,
     transparentInvoicing: true,
     vatInclusive: false,
     periods: [
@@ -184,6 +187,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE004 • Connection Fee',
     status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Monthly,
+    predictablePrice: false,
     transparentInvoicing: true,
     vatInclusive: false,
     periods: [
@@ -225,6 +229,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE005 • Connection Fee',
     status: ChargeStatus.Current,
     resolution: ChargeResolution.Monthly,
+    predictablePrice: false,
     transparentInvoicing: true,
     vatInclusive: false,
     periods: [
@@ -378,7 +383,7 @@ const chargeLinks: ChargeLink[] = [
 const makeChargeSeriesListMock = (
   interval: WattRange<Date>,
   resolution: ChargeResolution
-): ChargeSeries[] => {
+): ChargeSeriesPoint[] => {
   const start = dayjs(interval.start);
   const end = dayjs(interval.end).add(1, 'ms');
   switch (resolution) {
@@ -401,23 +406,26 @@ const makeChargeSeriesListMock = (
   }
 };
 
-const makeChargeSeriesMock = (period: { start: dayjs.Dayjs; end: dayjs.Dayjs }): ChargeSeries => {
-  const points = makeChargeSeriesPointsMock(period.end);
+const makeChargeSeriesMock = (period: {
+  start: dayjs.Dayjs;
+  end: dayjs.Dayjs;
+}): ChargeSeriesPoint => {
+  const changes = makeChargeSeriesPointChangesMock(period.end);
   return {
-    __typename: 'ChargeSeries' as const,
-    price: points[0].price,
+    __typename: 'ChargeSeriesPoint' as const,
+    price: changes[0].price,
     period: { start: period.start.toDate(), end: period.end.subtract(1, 'ms').toDate() },
-    hasChanged: points.length > 1,
-    points,
+    hasChanged: changes.length > 1,
+    changes,
   };
 };
 
-const makeChargeSeriesPointsMock = (end: dayjs.Dayjs) => {
+const makeChargeSeriesPointChangesMock = (end: dayjs.Dayjs) => {
   const randomInt = ({ max = 5, min = 0 }) => Math.round(Math.random() * (max - min)) + min;
   return Array.from({ length: randomInt({ min: 1 }) })
     .map((_, index) => index)
     .map((i) => ({
-      __typename: 'ChargeSeriesPoint' as const,
+      __typename: 'ChargeSeriesPointChange' as const,
       fromDateTime: new Date(end.year() - i - 1, randomInt({ max: 11 })),
       toDateTime: i === 0 ? new Date(9999, 0) : new Date(end.year() - i, randomInt({ max: 11 })),
       isCurrent: i === 0,

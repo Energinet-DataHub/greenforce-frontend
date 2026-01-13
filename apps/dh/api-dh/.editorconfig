@@ -271,6 +271,9 @@ csharp_space_between_square_brackets = false
 csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = true
 
+# Experimental
+csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = false:suggestion
+
 ###############################
 # .NET Analyzers              #
 ###############################

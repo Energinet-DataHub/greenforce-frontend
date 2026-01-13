@@ -12,10 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Modules.Common.Models;
+
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record GetChargesQuery(
-    ChargeType[]? ChargeTypes,
-    string[]? ActorNumbers,
-    ChargeStatus[]? Statuses,
-    string[]? MoreOptions);
+public record ChargesQuery(
+    ChargeType[]? Types,
+    string[]? Owners,
+    ChargeStatus[]? Status,
+    Resolution[]? Resolution,
+    bool? VatInclusive,
+    bool? TransparentInvoicing,
+    bool? PredictablePrice,
+    bool? MissingPriceSeries);
