@@ -376,11 +376,10 @@
       "TARIFF_TAX": "Tariff, tax"
     },
     "resolutions": {
-      "DAILY": "Day",
       "QUARTER_HOURLY": "Quarter hour",
+      "DAILY": "Day",
       "HOURLY": "Hour",
-      "MONTHLY": "Month",
-      "UNKNOWN": "Unknown"
+      "MONTHLY": "Month"
     },
     "vatInclusive": {
       "false": "Without VAT",
@@ -389,19 +388,20 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
-        "searchById": "Search by ID",
         "createButton": "New charge",
         "columns": {
           "code": "ID",
           "type": "Type",
           "name": "Name",
           "owner": "Owner",
-          "status": "Status"
+          "status": "Status",
+          "resolution": "Resolution"
         },
         "filters": {
           "chargeType": "Type",
           "owners": "Owners",
           "status": "Status",
+          "resolution": "Resolution",
           "vat": "VAT",
           "moreOptions": "More filters"
         },
@@ -409,19 +409,21 @@
           "AWAITING": "Pending",
           "CLOSED": "Closed",
           "CANCELLED": "Cancelled",
-          "CURRENT": "Current",
-          "MISSING_PRICE_SERIES": "Missing price series"
+          "CURRENT": "Current"
         },
         "moreOptions": {
-          "vatGroupName": "VAT",
-          "withVat": "With VAT",
-          "withoutVat": "Without VAT",
+          "vatInclusiveGroupName": "VAT",
+          "vatInclusive": "With VAT",
+          "not_vatInclusive": "Without VAT",
           "transparentInvoicingGroupName": "Transparent Invoicing",
-          "withTransparentInvoicing": "Subject to transparent invoicing",
-          "withoutTransparentInvoicing": "Not subject to transparent invoicing",
+          "transparentInvoicing": "Subject to transparent invoicing",
+          "not_transparentInvoicing": "Not subject to transparent invoicing",
           "predictablePriceGroupName": "Predictable Price",
-          "withPredictablePrice": "Predictable price",
-          "withoutPredictablePrice": "Non-predictable price"
+          "predictablePrice": "Predictable price",
+          "not_predictablePrice": "Non-predictable price",
+          "missingPriceSeriesGroupName": "Price series",
+          "missingPriceSeries": "Missing price series",
+          "not_missingPriceSeries": "Has price series"
         }
       }
     },

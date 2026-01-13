@@ -32,10 +32,10 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
-  ChargeSeries,
   ChargeResolution,
   ChargeSeriesPoint,
   GetChargeSeriesDocument,
+  ChargeSeriesPointChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
@@ -82,9 +82,11 @@ import { DhChargesSeriesDetails } from './series-details';
             [resolution]="resolution()"
             (intervalChange)="query.refetch({ interval: $event })"
           />
-          <watt-slide-toggle [(checked)]="showHistory">
-            {{ t('showHistory') }}
-          </watt-slide-toggle>
+          @if (enableHistoryToggle()) {
+            <watt-slide-toggle [(checked)]="showHistory">
+              {{ t('showHistory') }}
+            </watt-slide-toggle>
+          }
           <vater-spacer />
           <watt-button icon="download" variant="text" (click)="download()">
             {{ 'shared.download' | transloco }}
@@ -117,7 +119,7 @@ import { DhChargesSeriesDetails } from './series-details';
         <ng-container *wattTableCell="columns.history; header: ''; let series">
           @if (showHistory()) {
             <vater-stack scrollable direction="row" gap="ml">
-              @for (point of series.points.filter(isHistoric); track $index) {
+              @for (point of series.changes.filter(isHistoric); track $index) {
                 <span
                   class="watt-on-light--medium-emphasis"
                   style="text-align: right;"
@@ -149,15 +151,16 @@ export class DhChargesSeriesTable {
   charge = computed(() => this.query.data()?.chargeById);
   series = computed(() => this.charge()?.series ?? []);
 
-  activeRow = signal<ChargeSeries | undefined>(undefined);
+  activeRow = signal<ChargeSeriesPoint | undefined>(undefined);
+  enableHistoryToggle = computed(() => this.series().some((point) => point.hasChanged));
   showHistory = signal(false);
-  isHistoric = (point: ChargeSeriesPoint) => !point.isCurrent;
+  isHistoric = (change: ChargeSeriesPointChange) => !change.isCurrent;
 
   dataSource = dataSource(() => this.series());
-  columns: WattTableColumnDef<ChargeSeries> = {
+  columns: WattTableColumnDef<ChargeSeriesPoint> = {
     date: { accessor: null, sort: false },
     price: {
-      accessor: (row) => row.points.find((r) => r.isCurrent)?.price,
+      accessor: (row) => row.changes.find((r) => r.isCurrent)?.price,
       align: 'right',
       size: 'minmax(200px, auto)',
       sort: false,

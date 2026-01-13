@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -20,7 +21,6 @@ using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
 using NodaTime;
-using NodaTime.Extensions;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
@@ -34,24 +34,20 @@ public static partial class ChargeNode
     [Authorize(Roles = new[] { "charges:view" })]
     public static async Task<IEnumerable<Charge>> GetChargesAsync(
         string? filter,
-        GetChargesQuery? query,
+        ChargesQuery? query,
         IChargesClient client,
-        CancellationToken ct)
-    {
-        var result = await client.GetChargesAsync(0, 1000, filter, new ChargeSortInput(Common.Enums.SortDirection.Desc, null), query, ct) ?? [];
-
-        result = result.FilterOnActors(query?.ActorNumbers);
-        result = result.FilterOnTypes(query?.ChargeTypes);
-        result = result.FilterOnVatClassification(query?.MoreOptions);
-        result = result.FilterOnTransparentInvoicing(query?.MoreOptions);
-        result = result.FilterOnStatuses(query?.Statuses, ct);
-        result = result.Where(charge =>
-            filter is null ||
-            charge.Id.Code.Contains(filter, StringComparison.CurrentCultureIgnoreCase) ||
-            charge.Periods.Any(p => p.Name.Contains(filter, StringComparison.CurrentCultureIgnoreCase)));
-
-        return result;
-    }
+        CancellationToken ct) =>
+            await client.GetChargesAsync(
+                filter,
+                query?.Owners,
+                query?.Types,
+                query?.Status,
+                query?.Resolution,
+                query?.VatInclusive,
+                query?.TransparentInvoicing,
+                query?.PredictablePrice,
+                query?.MissingPriceSeries,
+                ct);
 
     [Query]
     [Authorize(Roles = new[] { "charges:view" })]
@@ -105,7 +101,7 @@ public static partial class ChargeNode
         CancellationToken ct) =>
             await client.AddChargeSeriesAsync(id, start, end, points, ct);
 
-    public static async Task<IEnumerable<ChargeSeries>> GetSeriesAsync(
+    public static async Task<IEnumerable<ChargeSeriesPointDto>> GetSeriesAsync(
         [Parent] Charge charge,
         Interval interval,
         IChargesClient client,
@@ -121,29 +117,21 @@ public static partial class ChargeNode
         return owner ?? await dataLoader.LoadAsync((charge.Id.Owner, EicFunction.GridAccessProvider), ct);
     }
 
-    public static ChargeStatus GetStatus([Parent] Charge charge) =>
-        charge.HasSeriesAndIsCurrent switch
-        {
-            _ when charge.ValidFrom == charge.ValidTo => ChargeStatus.Cancelled,
-            _ when DateTimeOffset.Now > charge.ValidTo => ChargeStatus.Closed,
-            _ when DateTimeOffset.Now < charge.ValidFrom => ChargeStatus.Awaiting,
-            false => ChargeStatus.MissingPriceSeries,
-            true => ChargeStatus.Current,
-        };
-
     static partial void Configure(IObjectTypeDescriptor<Charge> descriptor)
     {
         descriptor.Name("Charge");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Id);
-        descriptor.Field(f => f.Id.Code).Name("code");
+        descriptor.Field(f => f.Code);
         descriptor.Field(f => f.Name);
         descriptor.Field(f => f.Type);
-        descriptor.Field(f => $"{f.Id.Code} - {f.Name}").Name("displayName");
+        descriptor.Field(f => $"{f.Code} - {f.Name}").Name("displayName");
         descriptor.Field(f => f.Description);
         descriptor.Field(f => f.Periods);
         descriptor.Field(f => f.Resolution);
-        descriptor.Field(f => f.TransparentInvoicing);
+        descriptor.Field(f => f.Status);
         descriptor.Field(f => f.VatInclusive);
+        descriptor.Field(f => f.TransparentInvoicing);
+        descriptor.Field(f => f.PredictablePrice);
     }
 }

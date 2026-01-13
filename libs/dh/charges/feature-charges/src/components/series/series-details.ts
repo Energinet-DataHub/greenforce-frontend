@@ -21,7 +21,6 @@ import { Component, computed, input, model } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDataTableComponent } from '@energinet/watt/data';
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
@@ -29,11 +28,13 @@ import { WATT_MENU } from '@energinet/watt/menu';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
-  ChargeSeries,
   ChargeResolution,
   ChargeSeriesPoint,
+  ChargeSeriesPointChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/ui-shared';
+import { WattCardComponent } from '@energinet/watt/card';
+import { WattBadgeComponent } from '@energinet/watt/badge';
 
 @Component({
   selector: 'dh-charges-series-details',
@@ -45,9 +46,9 @@ import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/ui-shared';
     WATT_DRAWER,
     WATT_MENU,
     WATT_TABLE,
-    // WattBadgeComponent,
+    WattBadgeComponent,
     WattButtonComponent,
-    WattDataTableComponent,
+    WattCardComponent,
     WattDatePipe,
     DhChargesPeriodPipe,
   ],
@@ -78,47 +79,45 @@ import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/ui-shared';
         }
       </watt-drawer-heading>
       <watt-drawer-content>
-        <watt-data-table [autoSize]="true" [header]="false" [enablePaginator]="false">
+        <watt-card>
           <watt-table
             *transloco="let resolveHeader; prefix: 'charges.series.details.columns'"
             [resolveHeader]="resolveHeader"
             [columns]="columns"
             [dataSource]="dataSource"
           >
-            <!-- <ng-container *wattTableCell="columns.time; let series">
-              {{ series.fromDateTime | wattDate }}
-            </ng-container> -->
             <ng-container *wattTableCell="columns.price; let series">
               {{ series.price | number: '1.6-6' }}
             </ng-container>
-            <!-- <ng-container *wattTableCell="columns.status; let series">
+            <ng-container *wattTableCell="columns.isCurrent; let series">
               @if (series.isCurrent) {
                 <watt-badge type="success">{{ t('details.current') }}</watt-badge>
               }
-            </ng-container> -->
-            <ng-container *wattTableCell="columns.menu">
-              <watt-button variant="icon" [wattMenuTriggerFor]="menu" icon="moreVertical" />
-              <watt-menu #menu>
-                <watt-menu-item>{{ t('details.copyMessage') }}</watt-menu-item>
-                <watt-menu-item>{{ t('details.navigateToMessage') }}</watt-menu-item>
-              </watt-menu>
+            </ng-container>
+            <ng-container *wattTableCell="columns.menu; let series">
+              @if (series.messageId) {
+                <watt-button variant="icon" [wattMenuTriggerFor]="menu" icon="moreVertical" />
+                <watt-menu #menu>
+                  <watt-menu-item>{{ t('details.copyMessage') }}</watt-menu-item>
+                  <watt-menu-item>{{ t('details.navigateToMessage') }}</watt-menu-item>
+                </watt-menu>
+              }
             </ng-container>
           </watt-table>
-        </watt-data-table>
+        </watt-card>
       </watt-drawer-content>
     </watt-drawer>
   `,
 })
 export class DhChargesSeriesDetails {
   readonly resolution = input.required<ChargeResolution>();
-  readonly series = model<ChargeSeries>();
-  protected points = computed(() => this.series()?.points ?? []);
+  readonly series = model<ChargeSeriesPoint>();
+  protected changes = computed(() => this.series()?.changes ?? []);
   protected start = computed(() => this.series()?.period.start);
-  protected dataSource = dataSource(() => this.points());
-  protected columns = {
-    price: { accessor: (row) => row.price },
-    // time: { accessor: (row) => row.fromDateTime },
-    // status: { accessor: (row) => row.fromDateTime, header: '' },
+  protected dataSource = dataSource(() => this.changes());
+  protected columns: WattTableColumnDef<ChargeSeriesPointChange> = {
+    price: { accessor: 'price', size: 'min-content' },
+    isCurrent: { accessor: null, header: '' },
     menu: { accessor: null, header: '' },
-  } satisfies WattTableColumnDef<ChargeSeriesPoint>;
+  };
 }

@@ -23,7 +23,7 @@ namespace Energinet.DataHub.WebApi.Modules.Charges;
 public static partial class ChargePeriodNode
 {
     public static Interval GetPeriod([Parent] ChargeInformationPeriodDto p) =>
-        new Interval(
+        new(
             p.StartDate,
             p.EndDate?.ToDateTimeOffset().Year == DateTimeOffset.MaxValue.Year ? null : p.EndDate);
 
