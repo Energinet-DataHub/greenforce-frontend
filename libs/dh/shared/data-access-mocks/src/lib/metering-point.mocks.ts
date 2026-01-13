@@ -21,7 +21,6 @@ import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
-  mockDoesMeteringPointExistQuery,
   mockDoesInternalMeteringPointIdExistQuery,
   mockGetAggregatedMeasurementsForAllYearsQuery,
   mockGetAggregatedMeasurementsForMonthQuery,
@@ -53,7 +52,6 @@ import { eventsDebugView } from './data/metering-point/metering-point-events-deb
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
   return [
-    doesMeteringPointExist(),
     doesInternalMeteringPointIdExist(),
     getContactCPR(),
     getMeteringPoint(),
@@ -511,39 +509,6 @@ const mockMPs: {
     subType: childMeteringPoint.metadata.subType,
   },
 };
-
-function doesMeteringPointExist() {
-  return mockDoesMeteringPointExistQuery(async ({ variables: { meteringPointId } }) => {
-    await delay(mswConfig.delay);
-
-    if (
-      [parentMeteringPoint.meteringPointId, childMeteringPoint.meteringPointId].includes(
-        meteringPointId
-      )
-    ) {
-      return HttpResponse.json({
-        data: {
-          __typename: 'Query',
-          meteringPoint: {
-            __typename: 'MeteringPointDto',
-            id: mockMPs[meteringPointId].id,
-            meteringPointId: mockMPs[meteringPointId].meteringPointId,
-          },
-        },
-      });
-    }
-
-    return HttpResponse.json({
-      data: null,
-      errors: [
-        {
-          message: 'Metering point not found',
-          path: ['meteringPoint'],
-        },
-      ],
-    });
-  });
-}
 
 function doesInternalMeteringPointIdExist() {
   return mockDoesInternalMeteringPointIdExistQuery(
