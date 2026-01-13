@@ -296,9 +296,8 @@ type ChangeCustomerCharacteristicsPayload {
 }
 
 type Charge {
-  series(interval: DateRange!): [ChargeSeries!]!
+  series(interval: DateRange!): [ChargeSeriesPoint!]!
   owner: MarketParticipant
-  status: ChargeStatus!
   id: String!
   code: String!
   name: String!
@@ -307,8 +306,10 @@ type Charge {
   description: String!
   periods: [ChargePeriod!]!
   resolution: ChargeResolution!
-  transparentInvoicing: Boolean!
+  status: ChargeStatus!
   vatInclusive: Boolean!
+  transparentInvoicing: Boolean!
+  predictablePrice: Boolean!
 }
 
 type ChargeLink {
@@ -339,16 +340,17 @@ type ChargePeriod {
   vatInclusive: Boolean!
 }
 
-type ChargeSeries {
+type ChargeSeriesPoint {
+  price: Decimal!
   hasChanged: Boolean!
-  price: Decimal
   period: DateRange!
-  points: [ChargeSeriesPoint!]!
+  changes: [ChargeSeriesPointChange!]!
 }
 
-type ChargeSeriesPoint {
-  isCurrent: Boolean!
+type ChargeSeriesPointChange {
   price: Decimal!
+  isCurrent: Boolean!
+  messageId: String
 }
 
 "A connection to a list of items."
@@ -1263,7 +1265,7 @@ type ProcessesEdge {
 }
 
 type Query {
-  charges(filter: String query: GetChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
+  charges(filter: String query: ChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
@@ -1854,6 +1856,17 @@ input ChargeSortInput {
   status: SortEnumType
 }
 
+input ChargesQueryInput {
+  types: [ChargeType!]
+  owners: [String!]
+  status: [ChargeStatus!]
+  resolution: [ChargeResolution!]
+  vatInclusive: Boolean
+  transparentInvoicing: Boolean
+  predictablePrice: Boolean
+  missingPriceSeries: Boolean
+}
+
 input CreateActorContactDtoInput {
   name: String!
   category: ContactCategory!
@@ -1992,13 +2005,6 @@ input GetByDayQueryInput {
   date: LocalDate!
   actorNumber: String!
   marketRole: AuthEicFunctionType!
-}
-
-input GetChargesQueryInput {
-  chargeTypes: [ChargeType!]
-  actorNumbers: [String!]
-  statuses: [ChargeStatus!]
-  moreOptions: [String!]
 }
 
 input GetMonthlyAggregateByDateQueryInput {
@@ -2533,8 +2539,6 @@ enum ChargeStatus {
   CURRENT
   AWAITING
   CLOSED
-  MISSING_PRICE_SERIES
-  INVALID
 }
 
 enum ChargeType {

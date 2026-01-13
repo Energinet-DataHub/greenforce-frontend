@@ -23,7 +23,7 @@ import {
 } from '@rx-angular/cdk/render-strategies';
 
 /**
- * Enable RxAngular Template to render in Jest tests.
+ * Enable RxAngular Template to render in Vitest tests.
  */
 export const gfRxAngularTestingProviders = makeEnvironmentProviders([
   {

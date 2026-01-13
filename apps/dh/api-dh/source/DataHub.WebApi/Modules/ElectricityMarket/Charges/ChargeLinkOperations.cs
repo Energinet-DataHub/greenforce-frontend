@@ -15,6 +15,7 @@
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
+using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
