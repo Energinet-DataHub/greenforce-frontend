@@ -100,6 +100,7 @@ export const dhMeteringPointRoutes: Routes = [
         canActivate: [dhCanActivateMeteringPointOverview],
         resolve: {
           meteringPointId: meteringPointIdResolver(),
+          searchMigratedMeteringPoints: searchMigratedMeteringPointsResolver(),
         },
         loadComponent: () => import('@energinet-datahub/dh/metering-point/feature-overview'),
         children: [
@@ -301,5 +302,17 @@ function meteringPointIdResolver(): ResolveFn<string> {
     })
       .result()
       .then((result) => result.data.meteringPointExists.meteringPointId);
+  };
+}
+
+/**
+ * Figures out whether the intention is to search a migrated metering point by looking at a route param.
+ * If the param is not a valid metering point ID, we assume it's an internal ID and thus a migrated metering point.
+ */
+function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
+  return (route: ActivatedRouteSnapshot) => {
+    const idParam: string = route.params[dhExternalOrInternalMeteringPointIdParam];
+
+    return dhIsValidMeteringPointId(idParam) === false;
   };
 }
