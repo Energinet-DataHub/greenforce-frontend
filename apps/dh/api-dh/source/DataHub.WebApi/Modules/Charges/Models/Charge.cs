@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Shared;
-using NodaTime;
 using NodaTime.Extensions;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
@@ -24,29 +23,27 @@ public record Charge(
     ChargeIdentifierDto Id,
     Resolution Resolution,
     bool TaxIndicator,
-    IReadOnlyCollection<ChargeInformationPeriodDto> Periods)
+    IReadOnlyCollection<ChargeInformationPeriodDto> PeriodDtos)
 {
     public string Code => Id.Code;
 
     public ChargeType Type => ChargeType.Make(Id.TypeDto, TaxIndicator);
 
-    public string Name => Periods.First().Name;
+    public IEnumerable<ChargePeriod> Periods => PeriodDtos.Select(p => new ChargePeriod(p));
 
-    public string Description => Periods.First().Description;
+    public ChargePeriod LatestPeriod => Periods.First();
 
-    public bool VatInclusive => Periods.First().VatClassificationDto == VatClassificationDto.Vat25;
+    public string Name => LatestPeriod.Name;
 
-    public bool TransparentInvoicing => Periods.First().TransparentInvoicing;
+    public string Description => LatestPeriod.Description;
 
-    public bool PredictablePrice => false; // TODO: Implement once available in backend
+    public bool VatInclusive => LatestPeriod.VatInclusive;
 
-    public ChargeStatus Status => DateTimeOffset.Now.ToInstant() switch
-    {
-        _ when Periods.First().StartDate == Periods.First().EndDate => ChargeStatus.Cancelled,
-        var now when now > Periods.First().EndDate => ChargeStatus.Closed,
-        var now when now < Periods.First().StartDate => ChargeStatus.Awaiting,
-        _ => ChargeStatus.Current,
-    };
+    public bool TransparentInvoicing => LatestPeriod.TransparentInvoicing;
+
+    public bool PredictablePrice => LatestPeriod.PredictablePrice;
+
+    public ChargeStatus Status => LatestPeriod.Status;
 
     public string FilterText => $"{Code} {Name} {Description}";
 }

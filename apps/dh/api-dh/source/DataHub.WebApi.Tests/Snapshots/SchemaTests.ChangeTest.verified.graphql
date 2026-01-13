@@ -332,12 +332,13 @@ type ChargeLinkPeriod {
 }
 
 type ChargePeriod {
-  period: DateRange!
-  isCurrent: Boolean!
   name: String!
   description: String!
   transparentInvoicing: Boolean!
   vatInclusive: Boolean!
+  predictablePrice: Boolean!
+  period: DateRange!
+  status: ChargeStatus!
 }
 
 type ChargeSeriesPoint {
