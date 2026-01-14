@@ -904,7 +904,10 @@
       "reasonCode": {
         "EndOfSupply": "Leveranceophør (E20)",
         "NewMeteringPoint": "Nyt målepunkt (E02)",
-        "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)"
+        "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)",
+        "UpdateMasterDataConsumer": "Opdatering af kundestamdata (E34)",
+        "CustomerMoveIn": "Tilflytning (E01)",
+        "MoveIn": "Tilflytning (E01)"
       },
       "filters": {
         "created": "Tidspunkt",

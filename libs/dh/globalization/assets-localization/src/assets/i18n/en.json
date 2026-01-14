@@ -904,7 +904,10 @@
       "reasonCode": {
         "EndOfSupply": "End of supply (E20)",
         "NewMeteringPoint": "New metering point (E02)",
-        "ConnectMeteringPoint": "Connect metering point (D15)"
+        "ConnectMeteringPoint": "Connect metering point (D15)",
+        "UpdateMasterDataConsumer": "Update master data consumer (E34)",
+        "CustomerMoveIn": "Customer move-in (E65)",
+        "MoveIn": "Customer move-in (E65)"
       },
       "filters": {
         "created": "Time",
