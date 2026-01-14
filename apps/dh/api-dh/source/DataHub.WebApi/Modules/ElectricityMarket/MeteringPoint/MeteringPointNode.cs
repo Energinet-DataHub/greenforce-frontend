@@ -22,6 +22,7 @@ using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using HotChocolate.Authorization;
 using Microsoft.FeatureManagement;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
@@ -260,11 +261,23 @@ public static partial class MeteringPointNode
             CancellationToken ct,
             [Service] IElectricityMarketClient electricityMarketClient)
     {
-            var result = await electricityMarketClient
-            .SendAsync(new GetMeteringPointQueryV1(meteringPointId), ct)
-            .ConfigureAwait(false);
-            var maybeMeteringPoint = result.Data?.MeteringPoint;
-            // Map to MeteringPointDto
+        var result = await electricityMarketClient
+        .SendAsync(new GetMeteringPointQueryV1(meteringPointId), ct)
+        .ConfigureAwait(false);
+
+        var meteringPoint = result.Data?.MeteringPoint ?? throw new InvalidOperationException("No MeteringPoint was returned");
+
+        // Map to MeteringPointDto
+        var meteringPointResult = new MeteringPointDto
+        {
+            Id = 0,
+            Identification = meteringPoint.MeteringPointId,
+            Metadata = new MeteringPointMetadataDto(), // TODO: cabol - Map to DTO
+            MetadataTimeline = [.. meteringPoint.MeteringPointPeriods.Select(m => m.MapToDto())],
+            CommercialRelation = new CommercialRelationDto(), // TODO: cabol - Map to DTO
+            CommercialRelationTimeline = [.. meteringPoint.CommercialRelations.Select(m => m.MapToDto())],
+        };
+        return meteringPointResult;
     }
 
     private static ElectricalHeatingDto? FindLastElectricalHeatingDto(MeteringPointDto meteringPoint)
