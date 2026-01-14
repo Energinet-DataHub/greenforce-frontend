@@ -196,18 +196,18 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static MeteringPointSubType MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType subType)
+    private static MeteringPointSubType? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType subType)
     {
         return subType switch
         {
             DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Physical => MeteringPointSubType.Physical,
             DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Virtual => MeteringPointSubType.Virtual,
             DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Calculated => MeteringPointSubType.Calculated,
-            DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Unknown => throw new InvalidOperationException("Invalid MeteringPointSubType"),
+            DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Unknown => null,
         };
     }
 
-    private static ConnectionState MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState connectionState)
+    private static ConnectionState? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState connectionState)
     {
         return connectionState switch
         {
@@ -215,7 +215,7 @@ public static class MeteringPointMetadataMapper
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Connected => ConnectionState.Connected,
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Disconnected => ConnectionState.Disconnected,
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.ClosedDown => ConnectionState.ClosedDown,
-            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Unknown => throw new InvalidOperationException("Invalid ConnectionState"),
+            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Unknown => null,
         };
     }
 
@@ -230,27 +230,27 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static ConnectionType MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType connectionType)
+    private static ConnectionType? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType connectionType)
     {
         return connectionType switch
         {
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Direct => ConnectionType.Direct,
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Installation => ConnectionType.Installation,
-            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Unknown => throw new InvalidOperationException("Invalid ConnectionType"),
+            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Unknown => null,
         };
     }
 
-    private static DisconnectionType MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType disconnectionType)
+    private static DisconnectionType? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType disconnectionType)
     {
         return disconnectionType switch
         {
             DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Remote => DisconnectionType.RemoteDisconnection,
             DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Manual => DisconnectionType.ManualDisconnection,
-            DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Unknown => throw new InvalidOperationException("Invalid DisconnectionState"),
+            DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Unknown => null,
         };
     }
 
-    private static Product MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.Product product)
+    private static Product? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.Product product)
     {
         return product switch
         {
@@ -260,7 +260,7 @@ public static class MeteringPointMetadataMapper
             DataHub.ElectricityMarket.Abstractions.Shared.Product.EnergyReactive => Product.EnergyReactive,
             DataHub.ElectricityMarket.Abstractions.Shared.Product.Tariff => Product.Tariff,
             DataHub.ElectricityMarket.Abstractions.Shared.Product.FuelQuantity => Product.FuelQuantity,
-            DataHub.ElectricityMarket.Abstractions.Shared.Product.Unknown => throw new InvalidOperationException("Invalid Product"),
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.Unknown => null,
         };
     }
 
@@ -282,7 +282,7 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static AssetType MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.AssetType assetType)
+    private static AssetType? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.AssetType assetType)
     {
         return assetType switch
         {
@@ -308,7 +308,7 @@ public static class MeteringPointMetadataMapper
             DataHub.ElectricityMarket.Abstractions.Shared.AssetType.CombustionEngineBio => AssetType.CombustionEngineBio,
             DataHub.ElectricityMarket.Abstractions.Shared.AssetType.NoTechnology => AssetType.NoTechnology,
             DataHub.ElectricityMarket.Abstractions.Shared.AssetType.UnknownTechnology => AssetType.UnknownTechnology,
-            DataHub.ElectricityMarket.Abstractions.Shared.AssetType.Unknown => throw new InvalidOperationException("Invalid AssetType"),
+            DataHub.ElectricityMarket.Abstractions.Shared.AssetType.Unknown => null,
         };
     }
 
@@ -328,14 +328,14 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static SettlementMethod MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod settlementMethod)
+    private static SettlementMethod? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod settlementMethod)
     {
         return settlementMethod switch
         {
             DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.FlexSettled => SettlementMethod.FlexSettled,
             DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.Profiled => SettlementMethod.Profiled,
             DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.NonProfiled => SettlementMethod.NonProfiled,
-            DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.Unknown => throw new InvalidOperationException("Invalid SettlementMethod"),
+            DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.Unknown => null,
         };
     }
 
