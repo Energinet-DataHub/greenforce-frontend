@@ -135,20 +135,6 @@ public static partial class MeteringPointNode
 
         var meteringPointExternalID = meteringPointId?.ToString();
 
-        if (meteringPointExternalID != null && environment != AppEnvironment.Prod)
-        {
-            var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
-
-            if (isNewMeteringPointsModelEnabled)
-            {
-                if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
-                {
-                    return await GetMeteringPointWithNewModelAsync(meteringPointExternalID, ct, electricityMarketClient).ConfigureAwait(false);
-                }
-            }
-        }
-
-        // Fallback to old endpoint
         if (meteringPointExternalID == null && internalMeteringPointId.HasValue)
         {
             var resultInternalEndpoint = await electricityMarketClient_V1.MeteringPointExistsInternalAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
@@ -190,6 +176,7 @@ public static partial class MeteringPointNode
             throw new InvalidOperationException("Http context is not available.");
         }
 
+        // New metering points model
         if (environment != AppEnvironment.Prod)
         {
             var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
@@ -203,7 +190,6 @@ public static partial class MeteringPointNode
             }
         }
 
-        // Fallback to old endpoint
         var user = httpContextAccessor.HttpContext.User;
 
         var actorNumber = user.GetMarketParticipantNumber();
