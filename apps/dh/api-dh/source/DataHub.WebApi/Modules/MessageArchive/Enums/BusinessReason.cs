@@ -23,5 +23,5 @@ public enum BusinessReason
     E65,  // Almindelig tilflytning
     D29,  // Sekundær tilflytning
     E34,  // Opdatering af kundestamdata
-    E01,  // Information om stop af leverance (I form af RSM-004)
+    E01,  // Flytning
 }
