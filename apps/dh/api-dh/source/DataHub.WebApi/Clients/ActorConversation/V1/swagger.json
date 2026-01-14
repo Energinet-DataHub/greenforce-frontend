@@ -17,6 +17,7 @@
         ],
         "summary": "Starts a conversation",
         "description": "Example request:\r\n\r\n```  \r\n   {  \r\n      \"meteringPointIdentification\": \"570715000000033841\",  \r\n      \"actorsGlnNumbers\": [ \"5790001330999\", \"5790001330552\"],\r\n      \"conversationMessage\": {  \r\n          \"senderEmail\": \"xx@ddddd.dk\",  \r\n          \"anonymous\": true,  \r\n          \"content\": \"Test message\",  \r\n          \"createdBy\": \"xxxxx\",  \r\n          \"createdTime\": \"yyyy-mm-ddTHH:mi:ssZ\"  \r\n       }    \r\n    }     \r\n ```",
+        "operationId": "CreateConversation",
         "requestBody": {
           "description": "Specifies the new Conversation.",
           "content": {
@@ -64,6 +65,8 @@
   "components": {
     "schemas": {
       "ConversationMessage": {
+        "type": "object",
+        "description": "The Conversation message",
         "required": [
           "senderEmail",
           "anonymous",
@@ -71,7 +74,6 @@
           "createdBy",
           "createdTime"
         ],
-        "type": "object",
         "properties": {
           "senderEmail": {
             "type": "string",
@@ -94,8 +96,7 @@
             "description": "Created time in Utc - yyyy-mm-ddTHH:mi:ssZ.",
             "format": "date-time"
           }
-        },
-        "description": "The Conversation message"
+        }
       },
       "ProblemDetails": {
         "type": "object",
@@ -109,8 +110,8 @@
             "nullable": true
           },
           "status": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
             "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
             "nullable": true
           },
           "detail": {
@@ -124,12 +125,13 @@
         }
       },
       "StartConversationRequest": {
+        "type": "object",
+        "description": "Request for starting a new conversation.",
         "required": [
           "meteringPointIdentification",
           "actorsGlnNumbers",
           "conversationMessage"
         ],
-        "type": "object",
         "properties": {
           "meteringPointIdentification": {
             "type": "string",
@@ -137,16 +139,15 @@
           },
           "actorsGlnNumbers": {
             "type": "array",
+            "description": "GLN Numbers of the actors, thus participants in the conversation. GLN numbers can be atmost 14 characters length and consits of digits only.\r\nThere can be atmost 2 participants",
             "items": {
               "type": "string"
-            },
-            "description": "GLN Numbers of the actors, thus participants in the conversation. GLN numbers can be atmost 14 characters length and consits of digits only.\r\nThere can be atmost 2 participants"
+            }
           },
           "conversationMessage": {
             "$ref": "#/components/schemas/ConversationMessage"
           }
-        },
-        "description": "Request for starting a new conversation."
+        }
       }
     }
   },
