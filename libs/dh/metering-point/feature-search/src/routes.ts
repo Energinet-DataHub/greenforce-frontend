@@ -52,13 +52,15 @@ import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggl
 
 import {
   dhMeteringPointTypeParam,
-  dhInternalMeteringPointIdParam,
+  dhExternalOrInternalMeteringPointIdParam,
 } from './components/dh-metering-point-params';
 
 import { DhSearchComponent } from './components/dh-search.component';
 import { DhCreateMeteringPoint } from './components/dh-create-metering-point.component';
 import { dhSupportedMeteringPointTypes } from './components/dh-supported-metering-point-types';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhIsValidMeteringPointId } from '@energinet-datahub/dh/shared/ui-util';
 
 const marketRolesWithDataAccess = [
   EicFunction.EnergySupplier,
@@ -94,10 +96,11 @@ export const dhMeteringPointRoutes: Routes = [
         component: DhCreateMeteringPoint,
       },
       {
-        path: `:${dhInternalMeteringPointIdParam}`,
+        path: `:${dhExternalOrInternalMeteringPointIdParam}`,
         canActivate: [dhCanActivateMeteringPointOverview],
         resolve: {
-          meteringPointId: internalIdToMeteringPointIdResolver(),
+          meteringPointId: meteringPointIdResolver(),
+          searchMigratedMeteringPoints: searchMigratedMeteringPointsResolver(),
         },
         loadComponent: () => import('@energinet-datahub/dh/metering-point/feature-overview'),
         children: [
@@ -220,7 +223,7 @@ export const dhMeteringPointRoutes: Routes = [
 ];
 
 /**
- * Determines the landing page after navigating to '/metering-point/<internal-id>' URL.
+ * Determines the landing page after navigating to '/metering-point/<external-or-internal-id>' URL.
  *
  * If the user has the market role to access 'master-data' they are redirected to '/master-data'.
  * Otherwise, the user is redirected to '/messages'.
@@ -234,7 +237,7 @@ function redirectToLandingPage(): RedirectFunction {
       marketRolesWithDataAccess.map((role) => permissionService.hasMarketRole(role))
     );
 
-    const internalMeteringPointId = params[dhInternalMeteringPointIdParam];
+    const externalOrInternalMeteringPointId = params[dhExternalOrInternalMeteringPointIdParam];
 
     return hasMarketRoles$.pipe(
       map((hasMarketRoles) => {
@@ -242,7 +245,7 @@ function redirectToLandingPage(): RedirectFunction {
           return router.createUrlTree([
             '/',
             getPath<BasePaths>('metering-point'),
-            internalMeteringPointId,
+            externalOrInternalMeteringPointId,
             getPath<MeteringPointSubPaths>('master-data'),
           ]);
         }
@@ -250,7 +253,7 @@ function redirectToLandingPage(): RedirectFunction {
         return router.createUrlTree([
           '/',
           getPath<BasePaths>('metering-point'),
-          internalMeteringPointId,
+          externalOrInternalMeteringPointId,
           getPath<MeteringPointSubPaths>('messages'),
         ]);
       })
@@ -278,16 +281,38 @@ function meteringPointCreateGuard(): CanActivateFn {
 }
 
 /**
- * Resolves the metering point ID from the internal metering point ID.
+ * Resolves the metering point ID from either external or internal metering point ID.
  */
-function internalIdToMeteringPointIdResolver(): ResolveFn<string> {
+function meteringPointIdResolver(): ResolveFn<string> {
   return (route: ActivatedRouteSnapshot) => {
-    const idParam: string = route.params[dhInternalMeteringPointIdParam];
+    const environment = inject(dhAppEnvironmentToken);
+
+    const idParam: string = route.params[dhExternalOrInternalMeteringPointIdParam];
+
+    if (dhIsValidMeteringPointId(idParam)) {
+      return idParam;
+    }
 
     return query(DoesInternalMeteringPointIdExistDocument, {
-      variables: { internalMeteringPointId: idParam, newMeteringPointsModel: false },
+      variables: {
+        internalMeteringPointId: idParam,
+        searchMigratedMeteringPoints: true,
+        environment: environment.current,
+      },
     })
       .result()
       .then((result) => result.data.meteringPointExists.meteringPointId);
+  };
+}
+
+/**
+ * Figures out whether the intention is to search a migrated metering point by looking at a route param.
+ * If the param is not a valid metering point ID, we assume it's an internal ID and thus a migrated metering point.
+ */
+function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
+  return (route: ActivatedRouteSnapshot) => {
+    const idParam: string = route.params[dhExternalOrInternalMeteringPointIdParam];
+
+    return dhIsValidMeteringPointId(idParam) === false;
   };
 }

@@ -395,11 +395,11 @@ type CommercialRelationDto {
 }
 
 type ContactAddressDto {
-  streetName: String!
+  streetName: String
 }
 
 type ContactDto {
-  name: String!
+  name: String
   address: ContactAddressDto
 }
 
@@ -1282,9 +1282,9 @@ type Query {
   eventsDebugView(meteringPointId: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
-  meteringPointExists(internalMeteringPointId: Long meteringPointId: Long newMeteringPointsModel: Boolean): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPointExists(environment: String! searchMigratedMeteringPoints: Boolean! internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
-  meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPoint(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
