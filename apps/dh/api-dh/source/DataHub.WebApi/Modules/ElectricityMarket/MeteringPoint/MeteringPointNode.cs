@@ -228,7 +228,6 @@ public static partial class MeteringPointNode
 
     [DataLoader]
     public static async Task<long?> GetParentMeteringPointInternalIdAsync(
-        string environment,
         string meteringPointId,
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
@@ -237,7 +236,7 @@ public static partial class MeteringPointNode
         [Service] IElectricityMarketClient electricityMarketClient,
         [Service] IFeatureManagerSnapshot featureManager)
     {
-        var meteringPoint = await GetMeteringPointAsync(meteringPointId, environment, true, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
+        var meteringPoint = await GetMeteringPointAsync(meteringPointId, null, null, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
 
         return meteringPoint?.Id;
     }
