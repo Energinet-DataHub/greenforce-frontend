@@ -272,9 +272,9 @@ public static partial class MeteringPointNode
         {
             Id = 0,
             Identification = meteringPoint.MeteringPointId,
-            Metadata = new MeteringPointMetadataDto(), // TODO: cabol - Map to DTO
+            Metadata = meteringPoint.MeteringPointPeriod.MapToDto(),
             MetadataTimeline = [.. meteringPoint.MeteringPointPeriods.Select(m => m.MapToDto())],
-            CommercialRelation = new CommercialRelationDto(), // TODO: cabol - Map to DTO
+            CommercialRelation = meteringPoint.CommercialRelation?.MapToDto(),
             CommercialRelationTimeline = [.. meteringPoint.CommercialRelations.Select(m => m.MapToDto())],
         };
         return meteringPointResult;
