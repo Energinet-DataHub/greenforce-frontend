@@ -85,7 +85,10 @@ query GetMeteringPointById(
         displayName
       }
       parentMeteringPoint
-      internalMeteringPointParentId
+      internalMeteringPointParentId(
+        environment: $environment
+        searchMigratedMeteringPoints: $searchMigratedMeteringPoints
+      )
       ownedBy
       connectionState
       netSettlementGroup

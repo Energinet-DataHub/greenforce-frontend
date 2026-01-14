@@ -50,6 +50,8 @@ public static partial class MeteringPointMetadataDtoType
     }
 
     public static async Task<long?> GetInternalMeteringPointParentIdAsync(
+        string? environment,
+        bool? searchMigratedMeteringPoints,
         [Parent] MeteringPointMetadataDto meteringPointMetadata,
         IParentMeteringPointInternalIdDataLoader dataLoader)
     {
@@ -58,7 +60,7 @@ public static partial class MeteringPointMetadataDtoType
             return null;
         }
 
-        return await dataLoader.LoadAsync(meteringPointMetadata.ParentMeteringPoint);
+        return (long?)await dataLoader.LoadAsync((meteringPointMetadata.ParentMeteringPoint, environment, searchMigratedMeteringPoints));
     }
 
     static partial void Configure(
