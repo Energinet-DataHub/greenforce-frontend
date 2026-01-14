@@ -703,7 +703,7 @@
         "meteringPointNumber": "Målernr.",
         "settlementMethod": "Afregningsform",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "electricalHeatingTaxStartDate": "Elvarmeafgiftsdato",
+        "electricalHeatingTaxStartDate": "Elvarmedato",
         "powerLimit": "Effektgrænse",
         "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Afbrydelsesart",
