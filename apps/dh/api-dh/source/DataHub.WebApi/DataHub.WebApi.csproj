@@ -57,8 +57,8 @@ limitations under the License.
     <PackageReference Include="Energinet.DataHub.ElectricityMarket.Client" Version="1.40.0" />
     <PackageReference Include="Energinet.DataHub.MarketParticipant.Authorization" Version="3.0.0" />
     <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="11.3.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="8.8.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="2.29.11" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="8.9.0" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="2.33.0" />
     <PackageReference Include="Energinet.DataHub.Reports.Abstractions" Version="5.1.0" />
     <PackageReference Include="Energinet.DataHub.Reports.Client" Version="5.1.0" />
     <PackageReference Include="Energinet.DataHub.RevisionLog.Integration" Version="1.2.0" />
