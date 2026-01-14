@@ -395,11 +395,11 @@ type CommercialRelationDto {
 }
 
 type ContactAddressDto {
-  streetName: String!
+  streetName: String
 }
 
 type ContactDto {
-  name: String!
+  name: String
   address: ContactAddressDto
 }
 
