@@ -899,15 +899,18 @@
       "processType": {
         "EndOfSupply": "Leveranceophør (BRS-002)",
         "NewMeteringPoint": "Oprettelse af målepunkt (BRS-004)",
-        "ConnectMeteringPoint": "Tilslutning af nyoprettet målepunkt (BRS-008)"
+        "ConnectMeteringPoint": "Tilslutning af nyoprettet målepunkt (BRS-008)",
+        "UpdateMasterDataConsumer": "Opdatering af kundestamdata (BRS-015)",
+        "CustomerMoveIn": "Tilflytning (BRS-009)"
       },
       "reasonCode": {
         "EndOfSupply": "Leveranceophør (E20)",
         "NewMeteringPoint": "Nyt målepunkt (E02)",
         "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)",
         "UpdateMasterDataConsumer": "Opdatering af kundestamdata (E34)",
-        "CustomerMoveIn": "Tilflytning (E01)",
-        "MoveIn": "Tilflytning (E01)"
+        "CustomerMoveIn": "Almindelig tilflytning (E65)",
+        "SecondaryMoveIn": "Sekundær tilflytning (D29)",
+        "Move": "Flytning (E01)"
       },
       "filters": {
         "created": "Tidspunkt",

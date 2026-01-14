@@ -899,7 +899,9 @@
       "processType": {
         "EndOfSupply": "End of supply (BRS-002)",
         "NewMeteringPoint": "Creation of metering point (BRS-004)",
-        "ConnectMeteringPoint": "Connection of new metering point (BRS-008)"
+        "ConnectMeteringPoint": "Connection of new metering point (BRS-008)",
+        "UpdateMasterDataConsumer": "Update of customer master data (BRS-015)",
+        "CustomerMoveIn": "Move-in (BRS-009)"
       },
       "reasonCode": {
         "EndOfSupply": "End of supply (E20)",
@@ -907,7 +909,8 @@
         "ConnectMeteringPoint": "Connect metering point (D15)",
         "UpdateMasterDataConsumer": "Update master data consumer (E34)",
         "CustomerMoveIn": "Customer move-in (E65)",
-        "MoveIn": "Customer move-in (E65)"
+        "SecondaryMoveIn": "Secondary move-in (D29)",
+        "Move": "Move (E01)"
       },
       "filters": {
         "created": "Time",
@@ -931,9 +934,9 @@
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Request for connection of metering point (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
-        "BRS_009_MOVEIN_V1_STEP_1": "Request move-in (RSM-001)",
-        "BRS_009_MOVEIN_V1_STEP_2": "Approve move-in request (RSM-001)",
-        "BRS_009_MOVEIN_V1_STEP_3": "Reject move-in request (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_1": "Request Change of Supplier (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_2": "Confirm request Change of Supplier (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_3": "Reject request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_4": "Metering point master data information (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_5": "Customer master data information (RSM-028)",
         "BRS_009_MOVEIN_V1_STEP_6": "Price link information (RSM-031)",
