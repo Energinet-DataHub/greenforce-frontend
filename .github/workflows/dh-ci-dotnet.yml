@@ -34,6 +34,7 @@ jobs:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       release_name_prefix: ui_dotnet
       sbom_root_directory: apps/dh/api-dh
+      dotnet_major_version: '9.0.203'
 
   # Run tests in 'Tests.dll' except TelemetryTests
   dotnet_ci_test_except_telemetry:
@@ -49,6 +50,7 @@ jobs:
       azure_integrationtest_subscription_id: ${{ vars.integration_test_azure_subscription_id }}
       azure_integrationtest_spn_id: ${{ vars.integration_test_azure_spn_id_oidc }}
       azure_keyvault_url: ${{ vars.integration_test_azure_keyvault_url }}
+      dotnet_version: 9.0.203
 
   # Run only TelemetryTests in 'Tests.dll'
   dotnet_ci_test_telemetry:
@@ -64,3 +66,4 @@ jobs:
       azure_integrationtest_subscription_id: ${{ vars.integration_test_azure_subscription_id }}
       azure_integrationtest_spn_id: ${{ vars.integration_test_azure_spn_id_oidc }}
       azure_keyvault_url: ${{ vars.integration_test_azure_keyvault_url }}
+      dotnet_version: 9.0.203
