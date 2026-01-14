@@ -1,0 +1,158 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "ActorConversation | v1",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:7125/"
+    }
+  ],
+  "paths": {
+    "/api/CreateConversation": {
+      "post": {
+        "tags": [
+          "StartConversation"
+        ],
+        "summary": "Starts a conversation",
+        "description": "Example request:\r\n\r\n```  \r\n   {  \r\n      \"meteringPointIdentification\": \"570715000000033841\",  \r\n      \"actorsGlnNumbers\": [ \"5790001330999\", \"5790001330552\"],\r\n      \"conversationMessage\": {  \r\n          \"senderEmail\": \"xx@ddddd.dk\",  \r\n          \"anonymous\": true,  \r\n          \"content\": \"Test message\",  \r\n          \"createdBy\": \"xxxxx\",  \r\n          \"createdTime\": \"yyyy-mm-ddTHH:mi:ssZ\"  \r\n       }    \r\n    }     \r\n ```",
+        "requestBody": {
+          "description": "Specifies the new Conversation.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartConversationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartConversationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Created the specified conversation"
+          },
+          "400": {
+            "description": "The specified conversation does not meet the requirements",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ConversationMessage": {
+        "required": [
+          "senderEmail",
+          "anonymous",
+          "content",
+          "createdBy",
+          "createdTime"
+        ],
+        "type": "object",
+        "properties": {
+          "senderEmail": {
+            "type": "string",
+            "description": "Sender Email"
+          },
+          "anonymous": {
+            "type": "boolean",
+            "description": "Specifies whether the message is anonymous with respect to the Sender information."
+          },
+          "content": {
+            "type": "string",
+            "description": "The message content, thus the body itself.\r\nCan be atmost of 5000 characters."
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "The user that creates the conversation message"
+          },
+          "createdTime": {
+            "type": "string",
+            "description": "Created time in Utc - yyyy-mm-ddTHH:mi:ssZ.",
+            "format": "date-time"
+          }
+        },
+        "description": "The Conversation message"
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "StartConversationRequest": {
+        "required": [
+          "meteringPointIdentification",
+          "actorsGlnNumbers",
+          "conversationMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "meteringPointIdentification": {
+            "type": "string",
+            "description": "MeteringPointIdentification. 18 digits GSRN number consisting of digits only."
+          },
+          "actorsGlnNumbers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "GLN Numbers of the actors, thus participants in the conversation. GLN numbers can be atmost 14 characters length and consits of digits only.\r\nThere can be atmost 2 participants"
+          },
+          "conversationMessage": {
+            "$ref": "#/components/schemas/ConversationMessage"
+          }
+        },
+        "description": "Request for starting a new conversation."
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "StartConversation"
+    }
+  ]
+}
