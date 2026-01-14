@@ -256,7 +256,7 @@ public static partial class MeteringPointNode
         // Map to MeteringPointDto
         var meteringPointResult = new MeteringPointDto
         {
-            Id = 0,
+            Id = MeteringPointMetadataMapper.NextLong(),
             Identification = meteringPoint.MeteringPointId,
             Metadata = meteringPoint.MeteringPointPeriod.MapToDto(),
             MetadataTimeline = [.. meteringPoint.MeteringPointPeriods.Select(m => m.MapToDto())],

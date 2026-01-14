@@ -132,6 +132,12 @@ public static class MeteringPointMetadataMapper
         };
     }
 
+    public static long NextLong()
+    {
+        var random = new Random(Guid.NewGuid().GetHashCode());
+        return random.NextLong(long.MinValue, long.MaxValue);
+    }
+
     private static InstallationAddressDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.InstallationAddressDto installationAddress)
     {
         return new InstallationAddressDto
@@ -365,9 +371,4 @@ public static class MeteringPointMetadataMapper
         return (long)(ulongRand % unsignedRange) + min;
     }
 
-    private static long NextLong()
-    {
-        var random = new Random(Guid.NewGuid().GetHashCode());
-        return random.NextLong(long.MinValue, long.MaxValue);
-    }
 }
