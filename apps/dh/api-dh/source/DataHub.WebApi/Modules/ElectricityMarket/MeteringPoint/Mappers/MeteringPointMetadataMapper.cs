@@ -370,5 +370,4 @@ public static class MeteringPointMetadataMapper
 
         return (long)(ulongRand % unsignedRange) + min;
     }
-
 }
