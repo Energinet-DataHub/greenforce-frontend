@@ -703,7 +703,7 @@
         "meteringPointNumber": "Metering point no.",
         "settlementMethod": "Settlement method",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "electricalHeatingTaxStartDate": "Electrical heating tax start date",
+        "electricalHeatingTaxStartDate": "Electrical Heating Date",
         "powerLimit": "Power limit",
         "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Disconnection type",
