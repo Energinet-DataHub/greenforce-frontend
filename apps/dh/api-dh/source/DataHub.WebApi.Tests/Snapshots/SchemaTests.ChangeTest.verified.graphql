@@ -316,7 +316,7 @@ type ChargeLink {
   history: [ChargeLinkHistory!]!
   charge: Charge
   amount: Int!
-  currentPeriod: ChargeLinkPeriod
+  period: ChargeLinkPeriod
   id: String!
 }
 
@@ -327,7 +327,7 @@ type ChargeLinkHistory {
 }
 
 type ChargeLinkPeriod {
-  period: DateRange!
+  interval: DateRange!
   amount: Int!
 }
 
