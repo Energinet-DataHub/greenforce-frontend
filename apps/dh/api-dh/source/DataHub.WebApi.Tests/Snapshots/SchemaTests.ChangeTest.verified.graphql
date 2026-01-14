@@ -1086,6 +1086,10 @@ type Mutation {
   mergeMarketParticipants(input: MergeMarketParticipantsInput!): MergeMarketParticipantsPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
+  updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
+  updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
+  createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
+  deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
   inviteUser(input: InviteUserInput!): InviteUserPayload!
@@ -1094,10 +1098,6 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
-  updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
-  updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
-  createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
-  deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
@@ -1317,16 +1317,16 @@ type Query {
   permissionById(id: Int!): Permission!
   filteredPermissions(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [PermissionDtoSortInput!]): FilteredPermissionsConnection
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
-  domainExists(email: String!): Boolean!
-  emailExists(email: String!): Boolean!
-  userById(id: UUID!): User!
-  users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
-  userProfile: UserProfile!
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   userRoles(actorId: UUID): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
+  domainExists(email: String!): Boolean!
+  emailExists(email: String!): Boolean!
+  userById(id: UUID!): User!
+  users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
+  userProfile: UserProfile!
   measurementsReports: [MeasurementsReport!]!
   archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentType "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [SearchDocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
@@ -2485,6 +2485,10 @@ enum BusinessReason {
   D04
   D05
   D32
+  E65
+  D29
+  E34
+  E01
 }
 
 enum CalculationExecutionType {
@@ -3012,6 +3016,80 @@ enum ProcessStepType {
   BRS_008_CONNECTMETERINGPOINT_V1_STEP_2
   "BRS-008 Connect metering point - Step 3 - Reject RSM-021"
   BRS_008_CONNECTMETERINGPOINT_V1_STEP_3
+  "BRS-009 Tilflytning (Move-in) Steps"
+  BRS_009_MOVEIN_V1_STEP_1
+  """
+  BRS-009 Tilflytning - Step 2: Godkendelse af anmodning om tilflytning (RSM-001)
+  Approval of move-in request
+  """
+  BRS_009_MOVEIN_V1_STEP_2
+  """
+  BRS-009 Tilflytning - Step 3: Afvisning af anmodning om tilflytning (RSM-001)
+  Rejection of move-in request
+  """
+  BRS_009_MOVEIN_V1_STEP_3
+  """
+  BRS-009 Tilflytning - Step 4: Information om målepunktsstamdata (RSM-022)
+  Metering point master data information
+  """
+  BRS_009_MOVEIN_V1_STEP_4
+  """
+  BRS-009 Tilflytning - Step 5: Information om kundestamdata (RSM-028)
+  Customer master data information to supplier
+  """
+  BRS_009_MOVEIN_V1_STEP_5
+  """
+  BRS-009 Tilflytning - Step 6: Information om pristilknytninger (RSM-031)
+  Price link information
+  """
+  BRS_009_MOVEIN_V1_STEP_6
+  """
+  BRS-009 Tilflytning - Step 7: Anmodning om opdatering af kundestamdata (RSM-027)
+  Request to update customer master data
+  """
+  BRS_009_MOVEIN_V1_STEP_7
+  """
+  BRS-009 Tilflytning - Step 8: Godkendelse af opdatering af kundestamdata (RSM-027)
+  Approval of customer master data update
+  """
+  BRS_009_MOVEIN_V1_STEP_8
+  """
+  BRS-009 Tilflytning - Step 9: Afvisning af opdatering af kundestamdata (RSM-027)
+  Rejection of customer master data update
+  """
+  BRS_009_MOVEIN_V1_STEP_9
+  """
+  BRS-009 Tilflytning - Step 10: Information om tilflytning til netvirksomhed (RSM-004/E65)
+  Move-in information to grid company
+  """
+  BRS_009_MOVEIN_V1_STEP_10
+  """
+  BRS-009 Tilflytning - Step 11: Information om kundestamdata til netvirksomhed (RSM-028/E65)
+  Customer master data to grid company
+  """
+  BRS_009_MOVEIN_V1_STEP_11
+  """
+  BRS-009 Tilflytning - Step 12: Information om stop af leverance (RSM-004/E01)
+  Stop of supply information to previous supplier
+  """
+  BRS_009_MOVEIN_V1_STEP_12
+  "BRS-015 Opdatering af kundestamdata (Update Customer Master Data) Steps"
+  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1
+  """
+  BRS-015 Opdatering af kundestamdata - Step 2: Godkendelse af opdatering af kundestamdata (RSM-027)
+  Approval of customer master data update
+  """
+  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2
+  """
+  BRS-015 Opdatering af kundestamdata - Step 3: Afvisning af opdatering af kundestamdata (RSM-027)
+  Rejection of customer master data update
+  """
+  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3
+  """
+  BRS-015 Opdatering af kundestamdata - Step 4: Information om kundestamdata (RSM-028)
+  Customer master data information forwarded to grid and future suppliers
+  """
+  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4
   """
   Unknown or unmapped step type.
   Used when ProcessManager returns a step we haven't added to this enum yet.
