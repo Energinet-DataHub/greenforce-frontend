@@ -49,7 +49,6 @@ jobs:
       azure_integrationtest_subscription_id: ${{ vars.integration_test_azure_subscription_id }}
       azure_integrationtest_spn_id: ${{ vars.integration_test_azure_spn_id_oidc }}
       azure_keyvault_url: ${{ vars.integration_test_azure_keyvault_url }}
-      dotnet_version: 9.0.203
 
   # Run only TelemetryTests in 'Tests.dll'
   dotnet_ci_test_telemetry:
@@ -65,4 +64,3 @@ jobs:
       azure_integrationtest_subscription_id: ${{ vars.integration_test_azure_subscription_id }}
       azure_integrationtest_spn_id: ${{ vars.integration_test_azure_spn_id_oidc }}
       azure_keyvault_url: ${{ vars.integration_test_azure_keyvault_url }}
-      dotnet_version: 9.0.203
