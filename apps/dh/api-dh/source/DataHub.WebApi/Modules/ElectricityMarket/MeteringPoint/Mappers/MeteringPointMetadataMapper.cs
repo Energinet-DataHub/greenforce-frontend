@@ -22,7 +22,7 @@ public static class MeteringPointMetadataMapper
     {
         return new MeteringPointMetadataDto
         {
-            Id = 0,
+            Id = NextLong(),
             ValidFrom = meteringPoint.ValidFrom,
             ValidTo = meteringPoint.ValidTo,
             ParentMeteringPoint = meteringPoint.ParentMeteringPointId?.ToString(),
@@ -58,7 +58,7 @@ public static class MeteringPointMetadataMapper
     {
         return new CommercialRelationDto
         {
-            Id = 0,
+            Id = NextLong(),
             EnergySupplier = commercialRelation.EnergySupplierId,
             StartDate = commercialRelation.ValidFrom,
             EndDate = commercialRelation.ValidTo,
@@ -73,7 +73,7 @@ public static class MeteringPointMetadataMapper
     {
         return new EnergySupplyPeriodDto
         {
-            Id = 0,
+            Id = NextLong(),
             ValidFrom = energySupplierPeriod.ValidFrom,
             ValidTo = energySupplierPeriod.ValidTo,
             Customers = [.. energySupplierPeriod.Contacts.Select(c => c.MapToDto())],
@@ -84,7 +84,7 @@ public static class MeteringPointMetadataMapper
     {
         return new ElectricalHeatingDto
         {
-            Id = 0,
+            Id = NextLong(),
             ValidFrom = electricalHeatingPeriod.ValidFrom,
             ValidTo = electricalHeatingPeriod.ValidTo,
             IsActive = false, // TODO: We don't have this value from the backend yet
@@ -96,7 +96,7 @@ public static class MeteringPointMetadataMapper
     {
         return new CustomerDto
         {
-            Id = 0,
+            Id = NextLong(),
             Name = contactDto.Name ?? string.Empty,
             Cvr = contactDto.Cvr,
             IsProtectedName = contactDto.IsProtectedName,
@@ -110,7 +110,7 @@ public static class MeteringPointMetadataMapper
     {
         return new CustomerContactDto
         {
-            Id = 0,
+            Id = NextLong(),
             Name = contactDto.Name,
             Email = contactDto.Email,
             IsProtectedAddress = contactDto.IsProtected,
@@ -136,7 +136,7 @@ public static class MeteringPointMetadataMapper
     {
         return new InstallationAddressDto
         {
-            Id = 0,
+            Id = NextLong(),
             StreetCode = installationAddress.StreetCode,
             StreetName = installationAddress.StreetName ?? string.Empty,
             BuildingNumber = installationAddress.BuildingNumber ?? string.Empty,
@@ -342,5 +342,32 @@ public static class MeteringPointMetadataMapper
             DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Secondary => CustomerRelationType.Secondary,
             DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Unknown => throw new InvalidOperationException("Invalid RelationType"),
         };
+    }
+
+    private static long NextLong(this Random random, long min, long max)
+    {
+        if (max <= min)
+        {
+            throw new ArgumentOutOfRangeException("max", "max must be > min!");
+        }
+
+        var unsignedRange = (ulong)(max - min);
+
+        ulong ulongRand;
+        do
+        {
+            var buf = new byte[8];
+            random.NextBytes(buf);
+            ulongRand = (ulong)BitConverter.ToInt64(buf, 0);
+        }
+        while (ulongRand > ulong.MaxValue - (((ulong.MaxValue % unsignedRange) + 1) % unsignedRange));
+
+        return (long)(ulongRand % unsignedRange) + min;
+    }
+
+    private static long NextLong()
+    {
+        var random = new Random(Guid.NewGuid().GetHashCode());
+        return random.NextLong(long.MinValue, long.MaxValue);
     }
 }
