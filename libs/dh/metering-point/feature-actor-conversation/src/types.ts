@@ -17,7 +17,7 @@
  */
 //#endregion
 
-export enum ActorConversationCaseType {
+export enum ActorConversationCaseSubjectType {
   misc = 'misc',
 }
 

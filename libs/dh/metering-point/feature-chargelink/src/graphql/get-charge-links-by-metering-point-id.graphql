@@ -5,8 +5,8 @@ query GetChargeLinksByMeteringPointId(
   chargeLinksByMeteringPointId(order: $order, meteringPointId: $meteringPointId) {
     id
     amount
-    currentPeriod {
-      period
+    period {
+      interval
     }
     charge {
       id

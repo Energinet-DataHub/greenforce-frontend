@@ -144,7 +144,7 @@ export class DhMeteringPointProcessOverviewSteps {
       return allColumns;
     }
 
-    const shortLivedProcessesByReasonCode = ['ConnectMeteringPoint'];
+    const shortLivedProcessesByReasonCode = ['NewMeteringPoint', 'ConnectMeteringPoint'];
     const isShortLivedProcess = shortLivedProcessesByReasonCode.includes(reasonCode);
 
     return allColumns.filter((column) => !(isShortLivedProcess && column === 'dueDate'));

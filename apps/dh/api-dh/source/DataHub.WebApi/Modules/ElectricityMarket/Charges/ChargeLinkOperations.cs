@@ -99,10 +99,10 @@ public static partial class ChargeLinkOperations
         CancellationToken ct) =>
             await client.GetChargeByIdAsync(chargeLink.ChargeIdentifier, ct);
 
-    public static int GetAmount([Parent] ChargeLinkDto chargeLink) => chargeLink.GetCurrentPeriod()?.Factor ?? 1;
+    public static int GetAmount([Parent] ChargeLinkDto chargeLink) => chargeLink.GetPeriod()?.Factor ?? 1;
 
-    public static ChargeLinkPeriodDto? GetCurrentPeriod([Parent] ChargeLinkDto chargeLink) =>
-        chargeLink.GetCurrentPeriod();
+    public static ChargeLinkPeriodDto? GetPeriod([Parent] ChargeLinkDto chargeLink) =>
+        chargeLink.GetPeriod();
 
     static partial void Configure(IObjectTypeDescriptor<ChargeLinkDto> descriptor)
     {
