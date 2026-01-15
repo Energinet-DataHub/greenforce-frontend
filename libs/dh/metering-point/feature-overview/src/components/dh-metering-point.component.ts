@@ -241,8 +241,6 @@ export class DhMeteringPointComponent {
   }));
   meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 
-  hasError = this.meteringPointQuery.hasError;
-  loading = this.meteringPointQuery.loading;
   EicFunction = EicFunction;
 
   commercialRelation = computed(() => this.meteringPoint()?.commercialRelation);
