@@ -769,8 +769,8 @@
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case",
-      "typeLabel": "Type",
-      "types": {
+      "subjectLabel": "Subject",
+      "subjects": {
         "misc": "Miscellaneous"
       },
       "receiverLabel": "Receiver",
