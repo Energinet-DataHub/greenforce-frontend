@@ -20,4 +20,8 @@ public enum BusinessReason
     D04,
     D05,
     D32,
+    E65,  // Almindelig tilflytning
+    D29,  // Sekundær tilflytning
+    E34,  // Opdatering af kundestamdata
+    E01,  // Flytning
 }
