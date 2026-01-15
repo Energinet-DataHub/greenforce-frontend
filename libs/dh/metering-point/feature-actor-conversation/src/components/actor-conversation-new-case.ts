@@ -97,7 +97,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
               class=""
             />
             <watt-button type="submit"
-            >{{ t('sendButton') }}
+              >{{ t('sendButton') }}
               <watt-icon name="send" />
             </watt-button>
           </vater-stack>
