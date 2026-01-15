@@ -56,17 +56,15 @@ import { WattIconComponent } from '@energinet/watt/icon';
   template: `
     <form [formGroup]="newCaseForm" (ngSubmit)="send()" vater-flex fill="both">
       <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
-        <vater-flex fill="vertical">
-          <vater-stack align="start">
-            <vater-stack direction="row" fill="horizontal" justify="space-between">
-              <watt-card-title>
+        <vater-flex fill="vertical" justify="space-between">
+          <vater-stack fill="horizontal" align="start">
+            <watt-card-title>
+              <vater-stack direction="row" fill="horizontal" justify="space-between">
                 <h3>{{ t('newCaseTitle') }}</h3>
-              </watt-card-title>
-              <watt-card-title>
                 <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
-              </watt-card-title>
-            </vater-stack>
-            <vater-stack fill="horizontal" gap="ml" align="start">
+              </vater-stack>
+            </watt-card-title>
+            <vater-stack fill="horizontal" align="start" direction="column" gap="m">
               <watt-dropdown
                 [formControl]="newCaseForm.controls.type"
                 [options]="types"
@@ -99,7 +97,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
               class=""
             />
             <watt-button type="submit"
-              >{{ t('sendButton') }}
+            >{{ t('sendButton') }}
               <watt-icon name="send" />
             </watt-button>
           </vater-stack>
