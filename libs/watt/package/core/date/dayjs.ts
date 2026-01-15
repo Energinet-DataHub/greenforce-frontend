@@ -23,7 +23,7 @@ import duration from 'dayjs/plugin/duration';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 // Force import of plugins in generated .d.ts file by exporting their types
-type __ngPackagrDayjsTypescriptWorkaround =
+type __ngPackagrDayjsTypeScriptWorkaround =
   | typeof utc
   | typeof timezone
   | typeof duration
@@ -34,4 +34,4 @@ dayjs.extend(timezone);
 dayjs.extend(duration);
 dayjs.extend(customParseFormat);
 
-export { dayjs, __ngPackagrDayjsTypescriptWorkaround };
+export { dayjs, __ngPackagrDayjsTypeScriptWorkaround };
