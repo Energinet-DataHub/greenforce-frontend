@@ -226,21 +226,6 @@ public static partial class MeteringPointNode
         return result.IsSuccess;
     }
 
-    [DataLoader]
-    public static async Task<long?> GetParentMeteringPointInternalIdAsync(
-        (string MeteringPointId, string? Environment, bool? SearchMigratedMeteringPoints) query,
-        CancellationToken ct,
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        [Service] IElectricityMarketClient electricityMarketClient,
-        [Service] IFeatureManagerSnapshot featureManager)
-    {
-        var meteringPoint = await GetMeteringPointAsync(query.MeteringPointId, query.Environment, query.SearchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
-
-        return meteringPoint?.Id;
-    }
-
     private static async Task<MeteringPointDto> GetMeteringPointWithNewModelAsync(
             string meteringPointId,
             CancellationToken ct,
