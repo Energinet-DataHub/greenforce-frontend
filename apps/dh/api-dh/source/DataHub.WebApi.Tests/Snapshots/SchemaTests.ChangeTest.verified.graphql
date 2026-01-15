@@ -979,7 +979,7 @@ type MeteringPointMetadataDto {
   gridArea: GridAreaDto
   fromGridArea: GridAreaDto
   toGridArea: GridAreaDto
-  internalMeteringPointParentId: Long
+  internalMeteringPointParentId(environment: String searchMigratedMeteringPoints: Boolean): Long
   id: Long!
   validFrom: DateTime!
   validTo: DateTime!
