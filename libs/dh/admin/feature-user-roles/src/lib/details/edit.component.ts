@@ -31,7 +31,7 @@ import { WattModalComponent, WATT_MODAL } from '@energinet/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet/watt/tabs';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation, getGraphQLErrors } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
 
 import {
@@ -212,8 +212,9 @@ export class DhUserRoleEditComponent {
       return;
     }
 
-    if (result.error?.graphQLErrors || userRoleEditErrors) {
-      this.error(result.error?.graphQLErrors, userRoleEditErrors);
+    const graphQLErrors = getGraphQLErrors(result.error);
+    if (graphQLErrors || userRoleEditErrors) {
+      this.error(graphQLErrors, userRoleEditErrors);
     }
   }
 

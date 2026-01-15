@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, effect, signal, inject, computed, output } from '@angular/core';
+import { Component, input, inject, computed, output } from '@angular/core';
 
-import { Apollo } from 'apollo-angular';
 import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { dayjs, wattFormatDate } from '@energinet/watt/date';
@@ -34,9 +33,10 @@ import { GenerateCSV, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
-import { DhImbalancePrice, DhImbalancePricesForMonth } from '../../types';
+import { DhImbalancePrice } from '../../types';
 import { DhTableDayViewComponent } from './table-day-view/dh-table-day-view.component';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-imbalance-prices-details',
@@ -87,28 +87,31 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 })
 export class DhImbalancePricesDetailsComponent {
   private readonly env = inject(dhAppEnvironmentToken);
-  private readonly apollo = inject(Apollo);
-
   private readonly yearAndMonth = computed(() => {
     const imbalancePrice = this.imbalancePrice();
-
-    if (!imbalancePrice) {
-      return { year: 0, month: 0 };
-    }
 
     const date = dayjs(imbalancePrice.name).tz(danishTimeZoneIdentifier);
 
     return { year: date.get('year'), month: date.get('month') + 1 };
   });
 
-  imbalancePrice = input<DhImbalancePrice>();
+  query = query(GetImbalancePricesMonthOverviewDocument, () => ({
+    variables: {
+      areaCode: this.imbalancePrice().priceAreaCode,
+      year: this.yearAndMonth().year,
+      month: this.yearAndMonth().month,
+    },
+  }));
 
-  url = signal<string>('');
+  imbalancePrice = input.required<DhImbalancePrice>();
+
+  url = computed(
+    () => this.query.data()?.imbalancePricesForMonth[0].imbalancePricesDownloadImbalanceUrl ?? ''
+  );
 
   private generateCSV = GenerateCSV.fromStream(() => this.url());
 
-  imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
-  isLoading = signal(false);
+  imbalancePricesForMonth = computed(() => this.query.data()?.imbalancePricesForMonth ?? []);
   lastUpdated = computed(() => {
     const [firstDay] = this.imbalancePricesForMonth();
 
@@ -116,14 +119,6 @@ export class DhImbalancePricesDetailsComponent {
   });
 
   closed = output<void>();
-
-  constructor() {
-    effect(() => {
-      if (this.imbalancePrice()) {
-        this.fetchData();
-      }
-    });
-  }
 
   onClose(): void {
     this.closed.emit();
@@ -137,36 +132,5 @@ export class DhImbalancePricesDetailsComponent {
       env: translate(`environmentName.${this.env.current}`),
     });
     this.generateCSV.withFileName(`${imbalancePrice} - ${period} - ${envDate}`).generate();
-  }
-
-  private fetchData() {
-    this.isLoading.set(true);
-    this.imbalancePricesForMonth.set([]);
-
-    const imbalancePrice = this.imbalancePrice();
-
-    if (!imbalancePrice) return;
-
-    const { year, month } = this.yearAndMonth();
-
-    return this.apollo
-      .query({
-        query: GetImbalancePricesMonthOverviewDocument,
-        variables: {
-          year,
-          month,
-          areaCode: imbalancePrice.priceAreaCode,
-        },
-      })
-      .subscribe({
-        next: (result) => {
-          this.isLoading.set(result.loading);
-          this.url.set(result.data.imbalancePricesForMonth[0].imbalancePricesDownloadImbalanceUrl);
-          this.imbalancePricesForMonth.set(result.data.imbalancePricesForMonth);
-        },
-        error: () => {
-          this.isLoading.set(false);
-        },
-      });
   }
 }

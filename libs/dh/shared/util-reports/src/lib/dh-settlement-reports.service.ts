@@ -52,8 +52,8 @@ export class DhSettlementReportsService {
   async downloadReportFromNotification(settlementReportId: string) {
     const result = await this.getSettlementReport(settlementReportId);
 
-    if (result.data.settlementReportById) {
-      this.downloadReport(result.data.settlementReportById);
+    if (result.data?.settlementReportById) {
+      this.downloadReport(result.data.settlementReportById as DhSettlementReportPartial);
     }
   }
 

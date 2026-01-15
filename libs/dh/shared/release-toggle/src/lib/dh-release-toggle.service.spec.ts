@@ -21,7 +21,7 @@ import { describe, it, beforeEach, expect, vi } from 'vitest';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideApollo } from 'apollo-angular';
-import { InMemoryCache } from '@apollo/client/core';
+import { InMemoryCache } from "@apollo/client";
 import { HttpLink } from 'apollo-angular/http';
 
 import { DhReleaseToggleService } from './dh-release-toggle.service';

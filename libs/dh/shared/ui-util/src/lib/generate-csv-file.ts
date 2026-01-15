@@ -19,12 +19,12 @@
 import { inject, Signal } from '@angular/core';
 
 import { translate } from '@jsverse/transloco';
-import { OperationVariables } from '@apollo/client/core';
+import { OperationVariables } from '@apollo/client';
 import { wattFormatDate } from '@energinet/watt/date';
 import { WattToastService } from '@energinet/watt/toast';
 import { WattTableDataSource } from '@energinet/watt/table';
 
-import { LazyQueryResult } from '@energinet-datahub/dh/shared/util-apollo';
+import { LazyQueryResult, LazyQueryVariables } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { HttpClient } from '@angular/common/http';
@@ -98,7 +98,13 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
 
     if (this.query !== null && this.selector !== null) {
       if (this.variables === null) throw new Error('No variables defined');
-      data = this.selector((await this.query.query({ variables: this.variables })).data);
+      const options: LazyQueryVariables<TVariables> = {
+        variables: this.variables,
+      };
+      const result = await this.query.query(options);
+      if (result.data) {
+        data = this.selector(result.data);
+      }
     }
 
     if (this.dataSource !== null && this.dataSource.sort) {
@@ -156,7 +162,13 @@ class GenrateFromQueryWithRawResult<TResult, TQueryResult, TVariables extends Op
 
     if (this.query !== null && this.selector !== null) {
       if (this.variables === null) throw new Error('No variables defined');
-      data = this.selector((await this.query.query({ variables: this.variables })).data);
+      const options: LazyQueryVariables<TVariables> = {
+        variables: this.variables,
+      };
+      const result = await this.query.query(options);
+      if (result.data) {
+        data = this.selector(result.data);
+      }
     }
 
     if (!data) return this.showToast('shared.downloadFailed', 'danger');

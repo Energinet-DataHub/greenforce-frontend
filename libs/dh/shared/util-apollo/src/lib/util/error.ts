@@ -16,16 +16,26 @@
  * limitations under the License.
  */
 //#endregion
-import { ApolloError, ApolloQueryResult, NetworkStatus } from '@apollo/client/core';
-import type { GraphQLFormattedError } from 'graphql';
+import { NetworkStatus, ErrorLike } from '@apollo/client';
+import { CombinedGraphQLErrors } from '@apollo/client/errors';
 import { Observable, of } from 'rxjs';
+import type { GraphQLFormattedError } from 'graphql';
+import type { SimpleQueryResult } from '../query';
 
-/** Create an observable of ApolloQueryResult from an ApolloError. */
-export function fromApolloError<T>(error: ApolloError): Observable<ApolloQueryResult<T>> {
-  return of({ error, data: undefined as T, loading: false, networkStatus: NetworkStatus.error });
+/** Create an observable of query result from an error. */
+export function fromApolloError<T>(error: ErrorLike): Observable<SimpleQueryResult<T>> {
+  return of({
+    error,
+    data: undefined,
+    loading: false,
+    networkStatus: NetworkStatus.error,
+  });
 }
 
-/** Map an optional array of GraphQL errors to an ApolloError, or undefined if no errors */
-export function mapGraphQLErrorsToApolloError(errors?: ReadonlyArray<GraphQLFormattedError>) {
-  return errors?.length ? new ApolloError({ graphQLErrors: errors }) : undefined;
+/** Extract GraphQL errors from an ErrorLike object if it's a CombinedGraphQLErrors instance */
+export function getGraphQLErrors(
+  error: ErrorLike | undefined
+): ReadonlyArray<GraphQLFormattedError> | undefined {
+  if (!error) return undefined;
+  return CombinedGraphQLErrors.is(error) ? error.errors : undefined;
 }

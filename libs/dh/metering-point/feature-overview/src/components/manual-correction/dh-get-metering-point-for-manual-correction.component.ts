@@ -53,10 +53,12 @@ export class DhGetMeteringPointForManualCorrectionComponent {
       },
     });
 
-    toFile({
-      data: result.data.meteringPointForManualCorrection,
-      name: `${this.meteringPointId()}.json`,
-      type: 'application/json;charset=utf-8;',
-    });
+    if (result.data) {
+      toFile({
+        data: result.data.meteringPointForManualCorrection,
+        name: `${this.meteringPointId()}.json`,
+        type: 'application/json;charset=utf-8;',
+      });
+    }
   }
 }

@@ -24,7 +24,7 @@ import {
 } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, viewChild, inject } from '@angular/core';
 
-import { MutationResult } from 'apollo-angular';
+import { ApolloLink } from '@apollo/client';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet/watt/toast';
@@ -180,7 +180,7 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhMarketParticip
   }
 
   private isUpdateSuccessful(
-    mutationResult: MutationResult<AddMeteringPointsToAdditionalRecipientMutation>['data']
+    mutationResult: ApolloLink.Result<AddMeteringPointsToAdditionalRecipientMutation>['data']
   ): boolean {
     return !!mutationResult?.addMeteringPointsToAdditionalRecipient.success;
   }

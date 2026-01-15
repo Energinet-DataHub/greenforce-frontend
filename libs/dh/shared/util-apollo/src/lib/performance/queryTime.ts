@@ -17,7 +17,7 @@
  */
 //#endregion
 import { effect, linkedSignal, signal } from '@angular/core';
-import { OperationVariables } from '@apollo/client/core';
+import { OperationVariables } from "@apollo/client";
 import { assert, assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { QueryResult, QueryStatus } from '../query';
 

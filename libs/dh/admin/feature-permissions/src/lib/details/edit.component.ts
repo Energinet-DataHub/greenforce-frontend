@@ -28,7 +28,7 @@ import { WattModalComponent, WATT_MODAL } from '@energinet/watt/modal';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation, getGraphQLErrors } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import {
@@ -163,8 +163,10 @@ export class DhPermissionEditComponent {
       return this.success();
     }
 
-    if (result.error?.graphQLErrors || result.data?.updatePermission.errors) {
-      this.error(result.error?.graphQLErrors, result.data?.updatePermission.errors);
+    const graphQLErrors = getGraphQLErrors(result.error);
+
+    if (graphQLErrors || result.data?.updatePermission.errors) {
+      this.error(graphQLErrors, result.data?.updatePermission.errors);
     }
   }
 

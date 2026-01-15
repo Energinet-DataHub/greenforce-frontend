@@ -118,15 +118,17 @@ export class DhRequestAsModal extends WattTypedModal {
         })
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((result) => {
-          this.modalService.close(true);
-          this.modalService.open({
-            component: DhRequestReportModal,
-            data: {
-              isFas: false,
-              actorId: result.data.marketParticipantById.id,
-              marketRole: result.data.marketParticipantById.marketRole,
-            },
-          });
+          if (result.data) {
+            this.modalService.close(true);
+            this.modalService.open({
+              component: DhRequestReportModal,
+              data: {
+                isFas: false,
+                actorId: result.data.marketParticipantById.id,
+                marketRole: result.data.marketParticipantById.marketRole,
+              },
+            });
+          }
 
           this.submitInProgress.set(false);
         });

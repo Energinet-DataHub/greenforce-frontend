@@ -34,7 +34,7 @@ import {
   NonNullableFormBuilder,
 } from '@angular/forms';
 
-import { MutationResult } from 'apollo-angular';
+import { ApolloLink } from '@apollo/client';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
@@ -153,10 +153,12 @@ export class DhCreateMarketParticipant {
           variables: { cvr: cvrNumber },
         });
 
-        const { hasResult, name } = result.data.searchOrganizationInCVR;
+        if (result.data) {
+          const { hasResult, name } = result.data.searchOrganizationInCVR;
 
-        if (hasResult) {
-          this.newOrganizationForm.controls.companyName.setValue(name);
+          if (hasResult) {
+            this.newOrganizationForm.controls.companyName.setValue(name);
+          }
         }
 
         this.newOrganizationForm.controls.cvrNumber.markAsTouched();
@@ -271,7 +273,7 @@ export class DhCreateMarketParticipant {
   }
 
   private handleCreateMarketParticipentResponse(
-    response: MutationResult<CreateMarketParticipantMutation>
+    response: ApolloLink.Result<CreateMarketParticipantMutation>
   ): void {
     if (response.errors && response.errors.length > 0) {
       this.toastService.open({

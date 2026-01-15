@@ -17,12 +17,7 @@
  */
 //#endregion
 import { Injectable, inject } from '@angular/core';
-import {
-  ApolloLink,
-  Operation,
-  FetchResult,
-  Observable as LinkObservable,
-} from '@apollo/client/core';
+import { ApolloLink, Observable as LinkObservable } from "@apollo/client";
 import { print } from 'graphql';
 import { createClient, Client, Sink } from 'graphql-sse';
 import {
@@ -46,12 +41,12 @@ export class SSELink extends ApolloLink {
     super();
   }
 
-  private fromOperation = (op: Operation) =>
-    new Observable((sink: Sink<FetchResult>) =>
+  private fromOperation = (op: ApolloLink.Operation) =>
+    new Observable((sink: Sink<ApolloLink.Result>) =>
       this.client.subscribe({ ...op, query: print(op.query) }, sink)
     );
 
-  public override request = (op: Operation): LinkObservable<FetchResult> =>
+  public override request = (op: ApolloLink.Operation): LinkObservable<ApolloLink.Result> =>
     new LinkObservable((subscriber) =>
       this.notifier.pipe(switchMap(() => this.fromOperation(op))).subscribe(subscriber)
     );

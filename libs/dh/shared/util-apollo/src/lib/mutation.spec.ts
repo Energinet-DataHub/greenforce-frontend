@@ -53,54 +53,58 @@ describe('mutation', () => {
     })));
 
   it('should set called to true', fakeAsync(() =>
-    TestBed.runInInjectionContext(() => {
+    TestBed.runInInjectionContext(async () => {
       const onCompleted = vi.fn();
       const config = { onCompleted };
       const result = mutation(TEST_MUTATION, config);
-      result.mutate();
+      const mutatePromise = result.mutate();
       tick();
       const op = controller.expectOne(TEST_MUTATION);
       const data = { __typename: 'Mutation' };
       op.flush({ data });
       tick();
+      await mutatePromise;
       expect(result.called()).toBe(true);
     })));
 
   it('should trigger onCompleted', fakeAsync(() =>
-    TestBed.runInInjectionContext(() => {
+    TestBed.runInInjectionContext(async () => {
       const onCompleted = vi.fn();
       const config = { onCompleted };
       const result = mutation(TEST_MUTATION, config);
-      result.mutate();
+      const mutatePromise = result.mutate();
       tick();
       const op = controller.expectOne(TEST_MUTATION);
       const data = { __typename: 'Mutation' };
       op.flush({ data });
       tick();
+      await mutatePromise;
       expect(onCompleted).toHaveBeenCalledWith(data, config);
     })));
 
   it('should trigger onError', fakeAsync(() =>
-    TestBed.runInInjectionContext(() => {
+    TestBed.runInInjectionContext(async () => {
       const onError = vi.fn();
       const result = mutation(TEST_MUTATION, { onError });
-      result.mutate();
+      const mutatePromise = result.mutate();
       tick();
       const op = controller.expectOne(TEST_MUTATION);
       op.flush({ errors: [new GraphQLError('TestError')] });
       tick();
+      await mutatePromise;
       expect(onError).toHaveBeenCalled();
     })));
 
   it('should clear result after reset', fakeAsync(() =>
-    TestBed.runInInjectionContext(() => {
+    TestBed.runInInjectionContext(async () => {
       const result = mutation(TEST_MUTATION);
-      result.mutate();
+      const mutatePromise = result.mutate();
       tick();
       const op = controller.expectOne(TEST_MUTATION);
       const data = { __typename: 'Mutation' };
       op.flush({ data });
       tick();
+      await mutatePromise;
       result.reset();
       expect(result.data()).toBeUndefined();
       expect(result.error()).toBeUndefined();

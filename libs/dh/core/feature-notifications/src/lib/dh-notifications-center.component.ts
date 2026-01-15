@@ -171,22 +171,25 @@ export class DhNotificationsCenterComponent {
   constructor() {
     this.getNotificationsQuery.subscribeToMore({
       document: OnNotificationAddedDocument,
-      updateQuery: (prevQueryResult, { subscriptionData }) => {
-        const incomingNotification = subscriptionData.data.notificationAdded;
+      updateQuery: (_, options) => {
+        // Use options.previousData with complete check for type-safe access (Apollo Client 4)
+        if (!options.complete) return;
+
+        const prev = options.previousData;
+        const incomingNotification = options.subscriptionData.data.notificationAdded;
+        const prevNotifications = prev.notifications ?? [];
 
         if (this.notificationIsAlreadInList(incomingNotification)) {
-          return prevQueryResult;
+          return prev;
         }
 
         if (dayjs(incomingNotification.occurredAt).isAfter(this.initTime)) {
           this.notificationsService.showBanner(incomingNotification);
         }
 
-        const notifications = [...prevQueryResult.notifications, incomingNotification].sort(
-          this.sortById
-        );
+        const notifications = [...prevNotifications, incomingNotification].sort(this.sortById);
 
-        return { ...prevQueryResult, notifications };
+        return { ...prev, notifications };
       },
     });
   }

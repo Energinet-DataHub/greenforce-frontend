@@ -31,7 +31,7 @@ import {
   GetUserRoleWithPermissionsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, getGraphQLErrors } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { WattToastService } from '@energinet/watt/toast';
@@ -98,8 +98,9 @@ export class DhDeactivedUserRoleComponent {
       });
     }
 
-    if (result.error?.graphQLErrors || result.data?.deactivateUserRole.errors) {
-      this.error(result.error?.graphQLErrors, result.data?.deactivateUserRole.errors);
+    const graphQLErrors = getGraphQLErrors(result.error);
+    if (graphQLErrors || result.data?.deactivateUserRole.errors) {
+      this.error(graphQLErrors, result.data?.deactivateUserRole.errors);
     }
   }
 
