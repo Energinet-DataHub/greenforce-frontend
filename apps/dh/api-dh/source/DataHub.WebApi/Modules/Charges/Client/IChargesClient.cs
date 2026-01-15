@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
@@ -29,12 +30,16 @@ public interface IChargesClient
     /// <summary>
     /// Query charge information.
     /// </summary>
-    Task<IEnumerable<Charge>?> GetChargesAsync(
-        int skip,
-        int take,
+    Task<IEnumerable<Charge>> GetChargesAsync(
         string? filter,
-        ChargeSortInput? order,
-        GetChargesQuery? query,
+        string[]? owners,
+        ChargeType[]? types,
+        ChargeStatus[]? status,
+        Resolution[]? resolution,
+        bool? vatInclusive,
+        bool? transparentInvoicing,
+        bool? predictablePrice,
+        bool? missingPriceSeries,
         CancellationToken ct = default);
 
     /// <summary>
@@ -54,7 +59,14 @@ public interface IChargesClient
     /// <summary>
     /// Get charge series for a charge.
     /// </summary>
-    Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
+    Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
+        Charge charge,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Get charge series for a charge.
+    /// </summary>
+    Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
         ChargeIdentifierDto id,
         Resolution resolution,
         Interval interval,

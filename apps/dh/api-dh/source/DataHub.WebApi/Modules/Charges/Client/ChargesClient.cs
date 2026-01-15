@@ -13,16 +13,14 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
-using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
-using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using NodaTime;
-using NodaTime.Extensions;
 using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Shared.ChargeIdentifierDto;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
@@ -34,68 +32,21 @@ public class ChargesClient(
     IB2CClient ediClient,
     IHttpContextAccessor httpContext) : IChargesClient
 {
-    public async Task<IEnumerable<Charge>?> GetChargesAsync(
-        int skip,
-        int take,
+    public async Task<IEnumerable<Charge>> GetChargesAsync(
         string? filter,
-        ChargeSortInput? order,
-        GetChargesQuery? query,
+        string[]? owners,
+        ChargeType[]? types,
+        ChargeStatus[]? status,
+        Resolution[]? resolution,
+        bool? vatInclusive,
+        bool? transparentInvoicing,
+        bool? predictablePrice,
+        bool? missingPriceSeries,
         CancellationToken ct = default)
     {
-        var (sortColumnName, sortDirection) =
-            order switch
-            {
-                { Code: not null } => (ChargeInformationSortProperty.Code, order.Code.Value),
-                { Type: not null } => (ChargeInformationSortProperty.Type, order.Type.Value),
-                _ => (ChargeInformationSortProperty.Type, SortDirection.Desc),
-            };
-
+        var filterDto = new ChargeInformationFilterDto(string.Empty, owners ?? [], types?.Select(c => c.Type) ?? []);
         var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(
-                skip,
-                take,
-                new ChargeInformationFilterDto(
-                    filter ?? string.Empty,
-                    query?.ActorNumbers ?? [],
-                    query?.ChargeTypes?.Select(c => c.Type) ?? []),
-                sortColumnName,
-                sortDirection == SortDirection.Desc),
-            ct);
-
-        if (!result.IsSuccess || result.Data == null)
-        {
-            return [];
-        }
-
-        return await Task.WhenAll(result.Data.Select(c => MapChargeInformationDtoToChargeAsync(c, ct)));
-    }
-
-    public async Task<Charge?> GetChargeByIdAsync(
-        ChargeIdentifierDto id,
-        CancellationToken ct = default)
-    {
-        var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(0, 1, new ChargeInformationFilterDto(id.Code, [id.Owner], [id.TypeDto]), ChargeInformationSortProperty.Type, false),
-            ct);
-
-        return !result.IsSuccess || result.Data == null
-            ? null
-            : await MapChargeInformationDtoToChargeAsync(result.Data.First(), ct);
-    }
-
-    public async Task<IEnumerable<Charge>> GetChargesByTypeAsync(
-       ChargeType type,
-       CancellationToken ct = default)
-    {
-        var user = httpContext?.HttpContext?.User;
-
-        if (user == null)
-        {
-            return [];
-        }
-
-        var result = await client.GetChargeInformationAsync(
-            new ChargeInformationSearchCriteriaDto(0, 10_000, new ChargeInformationFilterDto(string.Empty, [user.GetMarketParticipantNumber()], [type.Type]), ChargeInformationSortProperty.Type, false),
+            new(0, 10000, filterDto, ChargeInformationSortProperty.Type, true),
             ct);
 
         if (!result.IsSuccess)
@@ -103,50 +54,82 @@ public class ChargesClient(
             throw new GraphQLException(result.DiagnosticMessage);
         }
 
-        return result.Data == null
-            ? []
-            : await Task.WhenAll(result.Data.Select(c => MapChargeInformationDtoToChargeAsync(c, ct)));
+        // Map and apply filters
+        var data = result.Data ?? [];
+        var charges = data
+            .Select(MapChargeInformationDtoToCharge)
+            .Where(c => owners?.Contains(c.Id.Owner) ?? true)
+            .Where(c => types?.Contains(c.Type) ?? true)
+            .Where(c => status?.Contains(c.Status) ?? true)
+            .Where(c => resolution?.Contains(c.Resolution) ?? true)
+            .Where(c => vatInclusive.GetValueOrDefault(c.VatInclusive) == c.VatInclusive)
+            .Where(c => transparentInvoicing.GetValueOrDefault(c.TransparentInvoicing) == c.TransparentInvoicing)
+            .Where(c => predictablePrice.GetValueOrDefault(c.PredictablePrice) == c.PredictablePrice)
+            .Where(c => c.FilterText.Contains(filter ?? string.Empty, StringComparison.InvariantCultureIgnoreCase));
+
+        // This filter is expensive since it has to fetch series for each charge,
+        // which is why it is deferred until after applying all other filters.
+        if (missingPriceSeries.HasValue)
+        {
+            // Cancelled charges does not have price series, but they are also not missing.
+            // This means they can just be removed from the result before fetching series.
+            return await charges
+                .ToAsyncEnumerable()
+                .Where(charge => charge.Status != ChargeStatus.Cancelled)
+                .Select(async (charge, ct) => (charge, series: await GetChargeSeriesAsync(charge, ct)))
+                .Where(result => result.series.Any() != missingPriceSeries.Value)
+                .Select(c => c.charge)
+                .ToListAsync(ct);
+        }
+
+        return charges;
     }
 
-    public async Task<IEnumerable<ChargeSeries>> GetChargeSeriesAsync(
+    public async Task<Charge?> GetChargeByIdAsync(ChargeIdentifierDto id, CancellationToken ct = default)
+    {
+        var result = await client.GetChargeInformationAsync(
+            new(0, 1, new(id.Code, [id.Owner], [id.TypeDto]), ChargeInformationSortProperty.Type, false),
+            ct);
+
+        return !result.IsSuccess
+            ? throw new GraphQLException(result.DiagnosticMessage)
+            : result.Data?.Select(MapChargeInformationDtoToCharge).SingleOrDefault(defaultValue: null);
+    }
+
+    public async Task<IEnumerable<Charge>> GetChargesByTypeAsync(ChargeType type, CancellationToken ct = default)
+    {
+        var owner = httpContext?.HttpContext?.User?.GetMarketParticipantNumber();
+        ArgumentNullException.ThrowIfNull(owner);
+
+        var result = await client.GetChargeInformationAsync(
+            new(0, 10_000, new(string.Empty, [owner], [type.Type]), ChargeInformationSortProperty.Type, false),
+            ct);
+
+        return !result.IsSuccess
+            ? throw new GraphQLException(result.DiagnosticMessage)
+            : result.Data?.Select(MapChargeInformationDtoToCharge) ?? [];
+    }
+
+    public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
+        Charge charge,
+        CancellationToken ct = default)
+        => await GetChargeSeriesAsync(charge.Id, charge.Resolution, charge.LatestPeriod.Period, ct);
+
+    public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
         ChargeIdentifierDto id,
         Resolution resolution,
         Interval period,
         CancellationToken ct = default)
     {
-        try
-        {
-            var result = await client.GetChargeSeriesAsync(
-                new ChargeSeriesSearchCriteriaDto(
-                    id,
-                    From: period.Start,
-                    To: period.End),
-                ct);
-
-            if (!result.IsSuccess || result.Data == null)
-            {
-                return [];
-            }
-
-            var chargeSeries = result.Data;
-            return chargeSeries == null || !chargeSeries.Any()
-                ? []
-                : chargeSeries.Select((s, i) =>
-            {
-                var start = PlusResolution(resolution, period, i);
-                var end = PlusResolution(resolution, period, i + 1);
-                return new ChargeSeries(new(start.ToInstant(), end.ToInstant()), s.Points);
-            });
-        }
-        catch
-        {
-            return [];
-        }
+        var result = await client.GetChargeSeriesAsync(new(id, period.Start, period.End), ct);
+        return !result.IsSuccess
+            ? throw new GraphQLException(result.DiagnosticMessage)
+            : result.Data is null
+            ? []
+            : result.Data.Where(p => period.Contains(p.From)).OrderBy(p => p.From); // TODO: Remove `Where`
     }
 
-    public async Task<bool> CreateChargeAsync(
-        CreateChargeInput input,
-        CancellationToken ct = default)
+    public async Task<bool> CreateChargeAsync(CreateChargeInput input, CancellationToken ct = default)
     {
         var result = await ediClient.SendAsync(
             new UpsertChargeInformationCommandV1(new(
@@ -167,12 +150,9 @@ public class ChargesClient(
         return result.IsSuccess;
     }
 
-    public async Task<bool> UpdateChargeAsync(
-        UpdateChargeInput input,
-        CancellationToken ct = default)
+    public async Task<bool> UpdateChargeAsync(UpdateChargeInput input, CancellationToken ct = default)
     {
         var charge = await GetChargeByIdAsync(input.Id, ct) ?? throw new GraphQLException("Charge not found");
-
         var result = await ediClient.SendAsync(
             new UpsertChargeInformationCommandV1(new(
                 ChargeId: input.Id.Code,
@@ -198,20 +178,19 @@ public class ChargesClient(
         CancellationToken ct = default)
     {
         var charge = await GetChargeByIdAsync(id, ct) ?? throw new GraphQLException("Charge not found");
-
         var result = await ediClient.SendAsync(
             new StopChargeInformationCommandV1(new(
                 ChargeId: id.Code,
                 ChargeType: charge.Type.ToRequestChangeOfPriceListChargeType(),
-                ChargeOwnerId: id.Owner,
                 TerminationDate: terminationDate,
-                charge.Name,
-                charge.Description,
-                charge.Resolution.CastFromDuration<ResolutionV1>(),
-                charge.VatInclusive ? VatPayerV1.D02 : VatPayerV1.D01,
-                charge.TransparentInvoicing,
-                charge.TaxIndicator,
-                string.Empty)),
+                ChargeOwnerId: id.Owner,
+                ChargeName: charge.Name,
+                ChargeDescription: charge.Description,
+                Resolution: charge.Resolution.CastFromDuration<ResolutionV1>(),
+                VatPayer: charge.VatInclusive ? VatPayerV1.D02 : VatPayerV1.D01,
+                TransparentInvoicing: charge.TransparentInvoicing,
+                TaxIndicator: charge.TaxIndicator,
+                LocalPricingCategoryType: string.Empty)),
             ct);
 
         return result.IsSuccess;
@@ -225,7 +204,6 @@ public class ChargesClient(
         CancellationToken ct = default)
     {
         var charge = await GetChargeByIdAsync(id, ct) ?? throw new GraphQLException("Charge not found");
-
         var result = await ediClient.SendAsync(
             new UpsertChargeSeriesCommandV1(new(
                 ChargeId: id.Code,
@@ -246,44 +224,13 @@ public class ChargesClient(
         return result.IsSuccess;
     }
 
-    private ZonedDateTime PlusResolution(Resolution resolution, Interval interval, int count)
-    {
-        var zone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
-        var start = interval.Start.InZone(zone);
-        var period = resolution.ToPeriod();
-        return Enumerable.Range(0, count).Aggregate(start, (acc, _) =>
-            period.HasDateComponent
-                ? start.LocalDateTime.Plus(period).InZoneLeniently(zone)
-                : start.Plus(period.ToDuration()));
-    }
-
-    private async Task<Charge> MapChargeInformationDtoToChargeAsync(
-        ChargeInformationDto charge,
-        CancellationToken ct)
-    {
-        var resolution = Resolution.FromName(charge.ResolutionDto.ToString());
-        var periods = charge.Periods
-            .Where(x => x.StartDate <= x.EndDate) // Guard against garbage
-            .OrderByDescending(x => x.StartDate);
-
-        var latestPeriod = periods.First();
-        var interval = new Interval(latestPeriod.StartDate, latestPeriod.EndDate);
-        var chargeSeries = interval.Contains(DateTimeOffset.Now.ToInstant())
-            ? await GetChargeSeriesAsync(charge.ChargeIdentifierDto, resolution, interval)
-            : null;
-
-        return new(
+    private static Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
+        => new(
             Id: charge.ChargeIdentifierDto,
-            Type: ChargeType.Make(charge.ChargeIdentifierDto.TypeDto, charge.TaxIndicator),
             Resolution: Resolution.FromName(charge.ResolutionDto.ToString()),
             TaxIndicator: charge.TaxIndicator,
-            HasSeriesAndIsCurrent: chargeSeries?.Count() > 0,
-            Name: latestPeriod.Name,
-            Description: latestPeriod.Description,
-            TransparentInvoicing: latestPeriod.TransparentInvoicing,
-            VatInclusive: latestPeriod.VatClassificationDto == VatClassificationDto.Vat25,
-            ValidFrom: latestPeriod.StartDate.ToDateTimeOffset(),
-            ValidTo: latestPeriod.EndDate?.ToDateTimeOffset(),
-            Periods: periods.ToList());
-    }
+            PeriodDtos: [.. charge.Periods
+                .Where(x => x.StartDate <= x.EndDate)
+                .OrderByDescending(x => x.StartDate)
+                .ThenByDescending(x => x.EndDate)]);
 }

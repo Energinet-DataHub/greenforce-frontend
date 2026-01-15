@@ -376,11 +376,10 @@
       "TARIFF_TAX": "Tarif, afgift"
     },
     "resolutions": {
-      "DAILY": "Dag",
       "QUARTER_HOURLY": "Kvarter",
+      "DAILY": "Dag",
       "HOURLY": "Time",
-      "MONTHLY": "Måned",
-      "UNKNOWN": "Ukendt"
+      "MONTHLY": "Måned"
     },
     "vatInclusive": {
       "false": "Uden moms",
@@ -389,19 +388,20 @@
     "charges": {
       "topBarTitle": "Priser",
       "table": {
-        "searchById": "Søg på ID",
         "createButton": "Ny pris",
         "columns": {
           "code": "ID",
           "type": "Type",
           "name": "Navn",
           "owner": "Ejer",
-          "status": "Status"
+          "status": "Status",
+          "resolution": "Tidsopløsning"
         },
         "filters": {
           "chargeType": "Type",
           "owners": "Ejer",
           "status": "Status",
+          "resolution": "Tidsopløsning",
           "vat": "Moms",
           "moreOptions": "Flere filtre"
         },
@@ -409,19 +409,21 @@
           "AWAITING": "Afventer",
           "CLOSED": "Lukket",
           "CANCELLED": "Annulleret",
-          "CURRENT": "Aktuel",
-          "MISSING_PRICE_SERIES": "Mangler prisserie"
+          "CURRENT": "Aktuel"
         },
         "moreOptions": {
-          "vatGroupName": "Moms",
-          "withVat": "Med moms",
-          "withoutVat": "Uden moms",
+          "vatInclusiveGroupName": "Moms",
+          "vatInclusive": "Med moms",
+          "not_vatInclusive": "Uden moms",
           "transparentInvoicingGroupName": "Viderefakturering",
-          "withTransparentInvoicing": "Skal viderefaktureres",
-          "withoutTransparentInvoicing": "Skal ikke viderefaktureres",
-          "predictablePriceGroupName": "Forudsigelig pris",
-          "withPredictablePrice": "Forudsigelig pris",
-          "withoutPredictablePrice": "Ikke forudsigelig pris"
+          "transparentInvoicing": "Skal viderefaktureres",
+          "not_transparentInvoicing": "Skal ikke viderefaktureres",
+          "predictablePriceGroupName": "Spotafhængig pris",
+          "predictablePrice": "Spotafhængig pris",
+          "not_predictablePrice": "Ikke spotafhængig pris",
+          "missingPriceSeriesGroupName": "Prisserie",
+          "missingPriceSeries": "Mangler prisserie",
+          "not_missingPriceSeries": "Har prisserie"
         }
       }
     },
@@ -701,7 +703,7 @@
         "meteringPointNumber": "Målernr.",
         "settlementMethod": "Afregningsform",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "electricalHeatingTaxStartDate": "Elvarmeafgiftsdato",
+        "electricalHeatingTaxStartDate": "Elvarmedato",
         "powerLimit": "Effektgrænse",
         "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Afbrydelsesart",
@@ -899,12 +901,18 @@
       "processType": {
         "EndOfSupply": "Leveranceophør (BRS-002)",
         "NewMeteringPoint": "Oprettelse af målepunkt (BRS-004)",
-        "ConnectMeteringPoint": "Tilslutning af nyoprettet målepunkt (BRS-008)"
+        "ConnectMeteringPoint": "Tilslutning af nyoprettet målepunkt (BRS-008)",
+        "UpdateMasterDataConsumer": "Opdatering af kundestamdata (BRS-015)",
+        "CustomerMoveIn": "Tilflytning (BRS-009)"
       },
       "reasonCode": {
         "EndOfSupply": "Leveranceophør (E20)",
         "NewMeteringPoint": "Nyt målepunkt (E02)",
-        "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)"
+        "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)",
+        "UpdateMasterDataConsumer": "Opdatering af kundestamdata (E34)",
+        "CustomerMoveIn": "Almindelig tilflytning (E65)",
+        "SecondaryMoveIn": "Sekundær tilflytning (D29)",
+        "Move": "Flytning (E01)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -925,9 +933,26 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Anmodning om oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Information om nyt målepunkt (RSM-022)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
+        "BRS_009_MOVEIN_V1_STEP_1": "Anmodning om tilflytning (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_2": "Godkendelse af anmodning om tilflytning (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_3": "Afvisning af anmodning om tilflytning (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_4": "Information om målepunktsstamdata (RSM-022)",
+        "BRS_009_MOVEIN_V1_STEP_5": "Information om kundestamdata (RSM-028)",
+        "BRS_009_MOVEIN_V1_STEP_6": "Information om pristilknytninger (RSM-031)",
+        "BRS_009_MOVEIN_V1_STEP_7": "Anmodning om opdatering af kundestamdata (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_10": "Generisk information (RSM-004)",
+        "BRS_009_MOVEIN_V1_STEP_11": "Information om kundestamdata (RSM-028)",
+        "BRS_009_MOVEIN_V1_STEP_12": "Generisk information (RSM-004)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)",
         "UNKNOWN": "Ukendt trin"
       },
       "details": {

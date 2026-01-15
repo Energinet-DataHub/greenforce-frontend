@@ -15,12 +15,13 @@ fragment ChargeFields on Charge {
   status
   vatInclusive
   transparentInvoicing
+  predictablePrice
   periods {
     description
     period
     transparentInvoicing
     vatInclusive
-    isCurrent
+    status
     name
   }
 }

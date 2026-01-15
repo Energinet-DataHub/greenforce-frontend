@@ -296,9 +296,8 @@ type ChangeCustomerCharacteristicsPayload {
 }
 
 type Charge {
-  series(interval: DateRange!): [ChargeSeries!]!
+  series(interval: DateRange!): [ChargeSeriesPoint!]!
   owner: MarketParticipant
-  status: ChargeStatus!
   id: String!
   code: String!
   name: String!
@@ -307,15 +306,17 @@ type Charge {
   description: String!
   periods: [ChargePeriod!]!
   resolution: ChargeResolution!
-  transparentInvoicing: Boolean!
+  status: ChargeStatus!
   vatInclusive: Boolean!
+  transparentInvoicing: Boolean!
+  predictablePrice: Boolean!
 }
 
 type ChargeLink {
   history: [ChargeLinkHistory!]!
   charge: Charge
   amount: Int!
-  currentPeriod: ChargeLinkPeriod
+  period: ChargeLinkPeriod
   id: String!
 }
 
@@ -326,29 +327,31 @@ type ChargeLinkHistory {
 }
 
 type ChargeLinkPeriod {
-  period: DateRange!
+  interval: DateRange!
   amount: Int!
 }
 
 type ChargePeriod {
-  period: DateRange!
-  isCurrent: Boolean!
   name: String!
   description: String!
   transparentInvoicing: Boolean!
   vatInclusive: Boolean!
-}
-
-type ChargeSeries {
-  hasChanged: Boolean!
-  price: Decimal
+  predictablePrice: Boolean!
   period: DateRange!
-  points: [ChargeSeriesPoint!]!
+  status: ChargeStatus!
 }
 
 type ChargeSeriesPoint {
-  isCurrent: Boolean!
   price: Decimal!
+  hasChanged: Boolean!
+  period: DateRange!
+  changes: [ChargeSeriesPointChange!]!
+}
+
+type ChargeSeriesPointChange {
+  price: Decimal!
+  isCurrent: Boolean!
+  messageId: String
 }
 
 "A connection to a list of items."
@@ -392,11 +395,11 @@ type CommercialRelationDto {
 }
 
 type ContactAddressDto {
-  streetName: String!
+  streetName: String
 }
 
 type ContactDto {
-  name: String!
+  name: String
   address: ContactAddressDto
 }
 
@@ -1263,7 +1266,7 @@ type ProcessesEdge {
 }
 
 type Query {
-  charges(filter: String query: GetChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
+  charges(filter: String query: ChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
@@ -1279,9 +1282,9 @@ type Query {
   eventsDebugView(meteringPointId: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
-  meteringPointExists(internalMeteringPointId: Long meteringPointId: Long newMeteringPointsModel: Boolean): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPointExists(environment: String! searchMigratedMeteringPoints: Boolean! internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
-  meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPoint(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -1854,6 +1857,17 @@ input ChargeSortInput {
   status: SortEnumType
 }
 
+input ChargesQueryInput {
+  types: [ChargeType!]
+  owners: [String!]
+  status: [ChargeStatus!]
+  resolution: [ChargeResolution!]
+  vatInclusive: Boolean
+  transparentInvoicing: Boolean
+  predictablePrice: Boolean
+  missingPriceSeries: Boolean
+}
+
 input CreateActorContactDtoInput {
   name: String!
   category: ContactCategory!
@@ -1992,13 +2006,6 @@ input GetByDayQueryInput {
   date: LocalDate!
   actorNumber: String!
   marketRole: AuthEicFunctionType!
-}
-
-input GetChargesQueryInput {
-  chargeTypes: [ChargeType!]
-  actorNumbers: [String!]
-  statuses: [ChargeStatus!]
-  moreOptions: [String!]
 }
 
 input GetMonthlyAggregateByDateQueryInput {
@@ -2478,6 +2485,10 @@ enum BusinessReason {
   D04
   D05
   D32
+  E65
+  D29
+  E34
+  E01
 }
 
 enum CalculationExecutionType {
@@ -2533,8 +2544,6 @@ enum ChargeStatus {
   CURRENT
   AWAITING
   CLOSED
-  MISSING_PRICE_SERIES
-  INVALID
 }
 
 enum ChargeType {
@@ -3007,6 +3016,38 @@ enum ProcessStepType {
   BRS_008_CONNECTMETERINGPOINT_V1_STEP_2
   "BRS-008 Connect metering point - Step 3 - Reject RSM-021"
   BRS_008_CONNECTMETERINGPOINT_V1_STEP_3
+  "BRS-009 Tilflytning - Step 1: Anmodning om tilflytning (RSM-001)"
+  BRS_009_MOVEIN_V1_STEP_1
+  "BRS-009 Tilflytning - Step 2: Godkendelse af anmodning om tilflytning (RSM-001)"
+  BRS_009_MOVEIN_V1_STEP_2
+  "BRS-009 Tilflytning - Step 3: Afvisning af anmodning om tilflytning (RSM-001)"
+  BRS_009_MOVEIN_V1_STEP_3
+  "BRS-009 Tilflytning - Step 4: Information om målepunktsstamdata (RSM-022)"
+  BRS_009_MOVEIN_V1_STEP_4
+  "BRS-009 Tilflytning - Step 5: Information om kundestamdata (RSM-028)"
+  BRS_009_MOVEIN_V1_STEP_5
+  "BRS-009 Tilflytning - Step 6: Information om pristilknytninger (RSM-031)"
+  BRS_009_MOVEIN_V1_STEP_6
+  "BRS-009 Tilflytning - Step 7: Anmodning om opdatering af kundestamdata (RSM-027)"
+  BRS_009_MOVEIN_V1_STEP_7
+  "BRS-009 Tilflytning - Step 8: Godkendelse af opdatering af kundestamdata (RSM-027)"
+  BRS_009_MOVEIN_V1_STEP_8
+  "BRS-009 Tilflytning - Step 9: Afvisning af opdatering af kundestamdata (RSM-027)"
+  BRS_009_MOVEIN_V1_STEP_9
+  "BRS-009 Tilflytning - Step 10: Information om tilflytning til netvirksomhed (RSM-004\/E65)"
+  BRS_009_MOVEIN_V1_STEP_10
+  "BRS-009 Tilflytning - Step 11: Information om kundestamdata til netvirksomhed (RSM-028\/E65)"
+  BRS_009_MOVEIN_V1_STEP_11
+  "BRS-009 Tilflytning - Step 12: Information om stop af leverance (RSM-004\/E01)"
+  BRS_009_MOVEIN_V1_STEP_12
+  "BRS-015 Opdatering af kundestamdata - Step 1: Anmodning om opdatering af kundestamdata (RSM-027)"
+  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1
+  "BRS-015 Opdatering af kundestamdata - Step 2: Godkendelse af opdatering af kundestamdata (RSM-027)"
+  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2
+  "BRS-015 Opdatering af kundestamdata - Step 3: Afvisning af opdatering af kundestamdata (RSM-027)"
+  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3
+  "BRS-015 Opdatering af kundestamdata - Step 4: Information om kundestamdata (RSM-028)"
+  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4
   """
   Unknown or unmapped step type.
   Used when ProcessManager returns a step we haven't added to this enum yet.

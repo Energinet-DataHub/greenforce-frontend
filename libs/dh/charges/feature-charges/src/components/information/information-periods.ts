@@ -22,11 +22,11 @@ import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WATT_CARD } from '@energinet/watt/card';
-import { WattBadgeComponent } from '@energinet/watt/badge';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 
 @Component({
   selector: 'dh-charges-information-periods',
@@ -34,11 +34,10 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
     TranslocoPipe,
     TranslocoDirective,
     VaterStackComponent,
-
     WATT_CARD,
-    WattDatePipe,
-    WattBadgeComponent,
     WATT_DESCRIPTION_LIST,
+    WattDatePipe,
+    DhChargesStatus,
   ],
   styles: `
     @use '@energinet/watt/utils' as watt;
@@ -64,8 +63,8 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
               <h3>
                 {{ period.period | wattDate }}
               </h3>
-              @if (period.isCurrent) {
-                <watt-badge type="success">{{ t('current') }}</watt-badge>
+              @if (period.status === 'CURRENT' || period.status === 'CANCELLED') {
+                <dh-charges-status [status]="period.status" />
               }
             </vater-stack>
           </watt-card-title>

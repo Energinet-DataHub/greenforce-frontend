@@ -84,7 +84,7 @@ import type {
     '[class.watt-chip-mode]': 'chipMode()',
   },
 })
-export class WattDropdownComponent implements ControlValueAccessor, OnInit {
+export class WattDropdownComponent<T = string> implements ControlValueAccessor, OnInit {
   private parentControlDirective = inject(NgControl, { host: true });
   private destroyRef = inject(DestroyRef);
   private validateParent?: ValidatorFn;
@@ -160,7 +160,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * Sets the options for the dropdown.
    * Can be a flat array of options or an array containing both options and option groups.
    */
-  options = model<WattDropdownOptions | WattDropdownGroupedOptions>([]);
+  options = model<WattDropdownOptions<T> | WattDropdownGroupedOptions<T>>([]);
 
   /**
    * Sets support for selecting multiple dropdown options.

@@ -22,25 +22,39 @@ import { inject } from '@angular/core';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhIsValidInternalId } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhIsValidInternalId,
+  dhIsValidMeteringPointId,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
+import { dhExternalOrInternalMeteringPointIdParam } from './dh-metering-point-params';
 
 export const dhCanActivateMeteringPointOverview: CanActivateFn = (
   route: ActivatedRouteSnapshot
 ): Promise<UrlTree | boolean> | UrlTree => {
   const router = inject(Router);
+  const environment = inject(dhAppEnvironmentToken);
 
   const searchRoute = router.createUrlTree([
     getPath<BasePaths>('metering-point'),
     getPath<MeteringPointSubPaths>('search'),
   ]);
 
-  const idParam: string = route.params[dhInternalMeteringPointIdParam];
+  const idParam: string = route.params[dhExternalOrInternalMeteringPointIdParam];
 
-  if (dhIsValidInternalId(idParam)) {
+  const meteringPointId = dhIsValidMeteringPointId(idParam) ? idParam : undefined;
+  const internalMeteringPointId =
+    meteringPointId === undefined && dhIsValidInternalId(idParam) ? idParam : undefined;
+
+  if (!!meteringPointId || !!internalMeteringPointId) {
     return query(DoesInternalMeteringPointIdExistDocument, {
-      variables: { internalMeteringPointId: idParam, newMeteringPointsModel: false },
+      variables: {
+        internalMeteringPointId,
+        meteringPointId,
+        searchMigratedMeteringPoints: meteringPointId === undefined,
+        environment: environment.current,
+      },
     })
       .result()
       .then((result) => {

@@ -6,7 +6,7 @@
     "davidanson.vscode-markdownlint",
     "nrwl.angular-console",
     "esbenp.prettier-vscode",
-    "firsttris.vscode-jest-runner",
+    "vitest.explorer",
     "ms-vsliveshare.vsliveshare",
     "GraphQL.vscode-graphql",
     "ms-vscode.powershell",
