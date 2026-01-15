@@ -343,8 +343,8 @@ public static class MeteringPointMetadataMapper
     {
         return relationType switch
         {
-            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Technical => CustomerRelationType.Contact4,
-            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Juridical => CustomerRelationType.Contact1,
+            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Technical => CustomerRelationType.Contact1,
+            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Juridical => CustomerRelationType.Contact4,
             DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Secondary => CustomerRelationType.Secondary,
             DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Unknown => throw new InvalidOperationException("Invalid RelationType"),
         };
