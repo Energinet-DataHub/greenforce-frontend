@@ -22,33 +22,16 @@ import timezone from 'dayjs/plugin/timezone';
 import duration from 'dayjs/plugin/duration';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 
+// Force import of plugins in generated .d.ts file by exporting their types
+type __ngPackagrDayjsTypescriptWorkaround =
+  | typeof utc
+  | typeof timezone
+  | typeof duration
+  | typeof customParseFormat;
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(duration);
 dayjs.extend(customParseFormat);
 
-declare module 'dayjs' {
-  interface Dayjs {
-    tz(timezone?: string, keepLocalTime?: boolean): dayjs.Dayjs;
-    offsetName(type?: 'short' | 'long'): string | undefined;
-  }
-  interface DayjsTimezone {
-    (date?: dayjs.ConfigType, timezone?: string): dayjs.Dayjs;
-    (date: dayjs.ConfigType, format: string, timezone?: string): dayjs.Dayjs;
-    guess(): string;
-    setDefault(timezone?: string): void;
-  }
-}
-
-declare module 'dayjs' {
-  interface Dayjs {
-    utc(keepLocalTime?: boolean): dayjs.Dayjs;
-    local(): dayjs.Dayjs;
-    isUTC(): boolean;
-    utcOffset(offset: number | string, keepLocalTime?: boolean): dayjs.Dayjs;
-  }
-
-  export function utc(config?: dayjs.ConfigType, format?: string, strict?: boolean): dayjs.Dayjs;
-}
-
-export { dayjs };
+export { dayjs, __ngPackagrDayjsTypescriptWorkaround };
