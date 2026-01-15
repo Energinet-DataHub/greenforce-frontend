@@ -689,7 +689,7 @@
         "upload": "Upload måledata",
         "moveIn": "Tilflyt kunde",
         "createChargeLink": "Tilknyt pris",
-        "changeConnectionStatus": "Ændre tilslutningstatus",
+        "changeConnectionStatus": "Skift tilslutningsstatus",
         "updateCustomerData": "Opdater kundestamdata"
       },
       "details": {
