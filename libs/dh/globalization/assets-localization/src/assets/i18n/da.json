@@ -769,8 +769,8 @@
       "cases": "Sager",
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag",
-      "typeLabel": "Type",
-      "types": {
+      "subjectLabel": "Emne",
+      "subjects": {
         "misc": "Andet"
       },
       "receiverLabel": "Modtager",
