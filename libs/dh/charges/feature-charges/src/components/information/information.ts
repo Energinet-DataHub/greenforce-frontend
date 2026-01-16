@@ -104,43 +104,31 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     </dh-toolbar-portal>
     <div class="page-grid">
       <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
-        <div *transloco="let t; prefix: 'charges.charge'">
-          <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
-            {{ charge()?.displayName }}
-            @let status = charge()?.status;
-            @if (status) {
-              <dh-charges-status [status]="status" />
-            }
-          </h2>
-
-          <watt-description-list variant="inline-flow">
-            <watt-description-list-item [label]="t('type')">
-              @let chargeType = charge()?.type;
-              @if (chargeType) {
-                {{ 'charges.chargeTypes.' + chargeType | transloco }}
-              }
-            </watt-description-list-item>
-            <watt-description-list-item [label]="t('owner')">
-              {{ charge()?.owner?.displayName | dhEmDashFallback }}
-            </watt-description-list-item>
-            <watt-description-list-item [label]="t('resolution')">
-              @let resolution = charge()?.resolution;
-              @if (resolution) {
-                {{ 'charges.resolutions.' + resolution | transloco }}
-              }
-            </watt-description-list-item>
-            <watt-description-list-item [label]="t('vat')">
-              @let vatInclusive = charge()?.vatInclusive;
-              @if (vatInclusive) {
-                {{ 'charges.vatInclusive.' + vatInclusive | transloco }}
-              }
-            </watt-description-list-item>
-            <watt-description-list-item [label]="t('transparentInvoicing')">
-              @let transparentInvoicing = charge()?.transparentInvoicing;
-              {{ transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
-            </watt-description-list-item>
-          </watt-description-list>
-        </div>
+        @if (charge(); as charge) {
+          <div *transloco="let t; prefix: 'charges'">
+            <vater-stack direction="row" gap="m">
+              <h2 [style.margin]="0">{{ charge.displayName }}</h2>
+              <dh-charges-status [status]="charge.status" />
+            </vater-stack>
+            <watt-description-list variant="inline-flow">
+              <watt-description-list-item [label]="t('charge.type')">
+                {{ t('chargeTypes.' + charge.type) }}
+              </watt-description-list-item>
+              <watt-description-list-item [label]="t('charge.owner')">
+                {{ charge.owner?.displayName | dhEmDashFallback }}
+              </watt-description-list-item>
+              <watt-description-list-item [label]="t('charge.resolution')">
+                {{ t('resolutions.' + charge.resolution) }}
+              </watt-description-list-item>
+              <watt-description-list-item [label]="t('charge.vat')">
+                {{ t('vatInclusive.' + charge.vatInclusive) }}
+              </watt-description-list-item>
+              <watt-description-list-item [label]="t('charge.transparentInvoicing')">
+                {{ charge.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
+              </watt-description-list-item>
+            </watt-description-list>
+          </div>
+        }
 
         <vater-spacer />
 
