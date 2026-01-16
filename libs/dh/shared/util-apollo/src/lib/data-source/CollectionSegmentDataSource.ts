@@ -40,7 +40,7 @@ export class CollectionSegmentDataSource<
   constructor(
     document: TypedDocumentNode<TResult, TVariables>,
     private _selector: (data: TResult) => CollectionSegment<TNode> | null | undefined,
-    options?: QueryOptions<TVariables>
+    options?: QueryOptions<TResult, TVariables>
   ) {
     super(document, options);
   }

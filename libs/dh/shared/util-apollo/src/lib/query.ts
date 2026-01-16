@@ -26,14 +26,13 @@ import {
   untracked,
 } from '@angular/core';
 import {
-  ApolloError,
   OperationVariables,
-  SubscribeToMoreOptions as ApolloSubscribeToMoreOptions,
   NetworkStatus,
-  ApolloQueryResult,
   Unmasked,
-} from '@apollo/client/core';
-import { Apollo, WatchQueryOptions } from 'apollo-angular';
+  ObservableQuery,
+  ErrorLike,
+} from '@apollo/client';
+import { Apollo } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import {
   Subject,
@@ -58,7 +57,7 @@ import {
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { fromApolloError, mapGraphQLErrorsToApolloError } from './util/error';
+import { fromApolloError } from './util/error';
 
 export enum QueryStatus {
   Idle,
@@ -69,52 +68,70 @@ export enum QueryStatus {
 
 // Since the `query` function is a wrapper around Apollo's `watchQuery`, the options API is almost
 // exactly the same. This just makes some changes to better align with the `useQuery` hook.
-interface BaseQueryOptions<TVariables extends OperationVariables>
-  extends Omit<WatchQueryOptions<TVariables>, 'query' | 'useInitialLoading' | 'variables'> {
+// Note: We use a type alias and intersection instead of extending Omit to work around TS2312
+// Explicitly omit variables to make them optional and re-add with proper typing
+type BaseQueryOptions<TResult, TVariables extends OperationVariables> = Omit<
+  Apollo.WatchQueryOptions<TResult, TVariables>,
+  'query' | 'useInitialLoading' | 'variables'
+> & {
   // The `nextFetchPolicy` typically also accepts a function. Omitted for simplicity.
-  nextFetchPolicy?: WatchQueryOptions<TVariables>['fetchPolicy'];
-}
+  nextFetchPolicy?: Apollo.WatchQueryOptions<TResult, TVariables>['fetchPolicy'];
+};
 
-interface SkippedQueryOptions<TVariables extends OperationVariables>
-  extends BaseQueryOptions<TVariables> {
+type SkippedQueryOptions<TResult, TVariables extends OperationVariables> = BaseQueryOptions<
+  TResult,
+  TVariables
+> & {
   skip: true;
   variables?: Partial<TVariables>;
-}
+};
 
-interface ImmediateQueryOptions<TVariables extends OperationVariables>
-  extends BaseQueryOptions<TVariables> {
+type ImmediateQueryOptions<TResult, TVariables extends OperationVariables> = BaseQueryOptions<
+  TResult,
+  TVariables
+> & {
   skip?: boolean;
   variables?: TVariables;
-}
+};
 
-export type QueryOptions<TVariables extends OperationVariables> =
-  | SkippedQueryOptions<TVariables>
-  | ImmediateQueryOptions<TVariables>;
+export type QueryOptions<TResult, TVariables extends OperationVariables> =
+  | SkippedQueryOptions<TResult, TVariables>
+  | ImmediateQueryOptions<TResult, TVariables>;
 
 // The `subscribeToMore` function in Apollo's API is badly typed. This attempts to fix that.
 export interface SubscribeToMoreOptions<
   TData,
   TSubscriptionData,
   TSubscriptionVariables extends OperationVariables,
-> extends ApolloSubscribeToMoreOptions<TData, TSubscriptionVariables, TSubscriptionData> {
+> extends ObservableQuery.SubscribeToMoreOptions<TData, TSubscriptionVariables, TSubscriptionData> {
   document: TypedDocumentNode<TSubscriptionData, TSubscriptionVariables>;
+}
+
+// Define a simple result type that works with Apollo Client 4's new type system
+export interface SimpleQueryResult<TResult> {
+  data: TResult | undefined;
+  error: ErrorLike | undefined;
+  loading: boolean;
+  networkStatus: NetworkStatus;
 }
 
 export type QueryResult<TResult, TVariables extends OperationVariables> = {
   data: Signal<TResult | undefined>;
-  error: Signal<ApolloError | undefined>;
+  error: Signal<ErrorLike | undefined>;
   hasError: Signal<boolean>;
   loading: Signal<boolean>;
   networkStatus: Signal<NetworkStatus>;
   status: Signal<QueryStatus>;
   called: Signal<boolean>;
-  result: () => Promise<ApolloQueryResult<TResult>>;
+  result: () => Promise<SimpleQueryResult<TResult>>;
   reset: () => void;
   getDocument: () => TypedDocumentNode<TResult, TVariables>;
-  getOptions: () => QueryOptions<TVariables>;
-  setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
+  getOptions: () => QueryOptions<TResult, TVariables>;
+  setOptions: (
+    options: Partial<QueryOptions<TResult, TVariables>>
+  ) => Promise<SimpleQueryResult<TResult>>;
   variables: Signal<Partial<TVariables>>;
-  refetch: (variables?: Partial<TVariables>) => Promise<ApolloQueryResult<TResult>>;
+  refetch: (variables?: Partial<TVariables>) => Promise<SimpleQueryResult<TResult>>;
   subscribeToMore: <TSubscriptionData, TSubscriptionVariables extends OperationVariables>(
     options: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>
   ) => () => void;
@@ -123,8 +140,8 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
 // Copied from generated types, prevents optional properties from being omitted from type
 type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 
-/** Create an initial ApolloQueryResult object. */
-function makeInitialResult<T>(skip?: boolean): ApolloQueryResult<T> {
+/** Create an initial query result object. */
+function makeInitialResult<T>(skip?: boolean): SimpleQueryResult<T> {
   return {
     data: undefined as T,
     error: undefined,
@@ -143,7 +160,9 @@ function makeReactive<R>(valueOrFunction: R | (() => R)) {
 export function query<TResult, TVariables extends OperationVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
   document: TypedDocumentNode<TResult, TVariables>,
-  options?: QueryOptions<Exact<TVariables>> | (() => QueryOptions<Exact<TVariables>>)
+  options?:
+    | QueryOptions<TResult, Exact<TVariables>>
+    | (() => QueryOptions<TResult, Exact<TVariables>>)
 ): QueryResult<TResult, TVariables> {
   // Inject dependencies
   const client = inject(Apollo);
@@ -160,15 +179,15 @@ export function query<TResult, TVariables extends OperationVariables>(
   // cancelling the previous request. As a workaround, the `valueChanges` is unsubscribed to and
   // a new `watchQuery` (with optionally new variables) is executed each time `refetch` is called.
   const ref$ = options$.pipe(
-    filter((opts): opts is ImmediateQueryOptions<TVariables> => !opts?.skip),
+    filter((opts): opts is ImmediateQueryOptions<TResult, TVariables> => !opts?.skip),
     map((opts) =>
-      client.watchQuery({
+      client.watchQuery<TResult, TVariables>({
         errorPolicy: 'all',
         notifyOnNetworkStatusChange: true,
         ...opts,
         query: document,
         useInitialLoading: true,
-      })
+      } as Apollo.WatchQueryOptions<TResult, TVariables>)
     )
   );
 
@@ -195,11 +214,16 @@ export function query<TResult, TVariables extends OperationVariables>(
     switchMap((ref) =>
       ref.valueChanges.pipe(
         takeUntil(reset$),
-        map(({ errors, error, ...result }) => ({
-          ...result,
-          error: error ?? mapGraphQLErrorsToApolloError(errors),
-        })),
-        catchError((error: ApolloError) => fromApolloError<TResult>(error))
+        map(
+          (result): SimpleQueryResult<TResult> => ({
+            // Apollo Client 4 returns DeepPartial<TResult> in some cases, cast for compatibility
+            data: result.data as TResult | undefined,
+            error: result.error,
+            loading: result.loading,
+            networkStatus: result.networkStatus,
+          })
+        ),
+        catchError((error: ErrorLike) => fromApolloError<TResult>(error))
       )
     ),
     share()
@@ -209,7 +233,7 @@ export function query<TResult, TVariables extends OperationVariables>(
 
   // Signals holding the result values
   const data = signal<TResult | undefined>(initial.data);
-  const error = signal<ApolloError | undefined>(initial.error);
+  const error = signal<ErrorLike | undefined>(initial.error);
   const loading = signal(initial.loading);
   const networkStatus = signal(initial.networkStatus);
   const status = signal(QueryStatus.Idle);
@@ -217,9 +241,9 @@ export function query<TResult, TVariables extends OperationVariables>(
   // Extra signal to track if the query has been called
   const called = signal(false);
 
-  // Gets the current ApolloQueryResult from signal values
-  const toApolloQueryResult = () => ({
-    data: data() as TResult, // Satisfy ApolloQueryResult type, but technically incorrect
+  // Gets the current query result from signal values
+  const toQueryResult = (): SimpleQueryResult<TResult> => ({
+    data: data(),
     error: error(),
     loading: loading(),
     networkStatus: networkStatus(),
@@ -232,7 +256,7 @@ export function query<TResult, TVariables extends OperationVariables>(
         // Wait for the current event loop to finish before attempting to
         // read the current result. This is to allow the query to enter a
         // loading state if result() is called immediately after querying.
-        defer(() => [toApolloQueryResult()]).pipe(
+        defer(() => [toQueryResult()]).pipe(
           subscribeOn(asyncScheduler),
           mergeWith(result$),
           filter((result) => !result.loading),
@@ -264,7 +288,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   return {
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
-    error: error as Signal<ApolloError | undefined>,
+    error: error as Signal<ErrorLike | undefined>,
     hasError: computed(() => error() !== undefined),
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
@@ -283,8 +307,8 @@ export function query<TResult, TVariables extends OperationVariables>(
       called.set(false);
     },
     getDocument: () => document,
-    getOptions: () => optionsSignal() ?? {},
-    setOptions: (newOptions: Partial<QueryOptions<TVariables>>) => {
+    getOptions: () => (optionsSignal() ?? {}) as QueryOptions<TResult, TVariables>,
+    setOptions: (newOptions: Partial<QueryOptions<TResult, TVariables>>) => {
       optionsSignal.update((prevOptions) => ({
         ...prevOptions,
         skip: false,
@@ -295,12 +319,15 @@ export function query<TResult, TVariables extends OperationVariables>(
     },
     variables: computed(() => optionsSignal()?.variables ?? ({} as TVariables)),
     refetch: (newVariables?: Partial<TVariables>) => {
-      optionsSignal.update((prevOptions) => ({
-        ...prevOptions,
-        skip: false,
-        fetchPolicy: prevOptions?.nextFetchPolicy ?? 'network-only',
-        variables: { ...prevOptions?.variables, ...newVariables } as TVariables,
-      }));
+      optionsSignal.update(
+        (prevOptions) =>
+          ({
+            ...prevOptions,
+            skip: false,
+            fetchPolicy: prevOptions?.nextFetchPolicy ?? 'network-only',
+            variables: { ...prevOptions?.variables, ...newVariables } as TVariables,
+          }) as QueryOptions<TResult, Exact<TVariables>>
+      );
       return result();
     },
     subscribeToMore<TSubscriptionData, TSubscriptionVariables extends OperationVariables>({
@@ -313,7 +340,11 @@ export function query<TResult, TVariables extends OperationVariables>(
       // Create an observable that immediately makes a GraphQL subscription, but then
       // waits for the ref to be ready before attempting to merge the data into the cache.
       const subscription = client
-        .subscribe({ query, variables, context })
+        .subscribe<TSubscriptionData, TSubscriptionVariables>({
+          query,
+          variables,
+          context,
+        } as Apollo.SubscribeOptions<TSubscriptionData, TSubscriptionVariables>)
         .pipe(
           map(({ data }) => data as Unmasked<TSubscriptionData>),
           exists(), // The data should generally be available, but types says otherwise

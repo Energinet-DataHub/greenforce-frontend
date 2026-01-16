@@ -112,7 +112,7 @@ const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
             // prettier-ignore
             const lines = [
               `export class ${name}DataSource extends ${pageable.kind}DataSource<${queryType}, ${variablesType}, ${nodeType}> {`,
-                `constructor(options?: QueryOptions<${variablesType}>) {`,
+                `constructor(options?: QueryOptions<${nodeType}, ${variablesType}>) {`,
                   `super(Types.${name}Document, data => data.${selector}, options);`,
                 `}`,
               `}`,

@@ -16,14 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { DestroyRef, Signal, computed, inject, signal } from '@angular/core';
-import { ApolloError, OperationVariables } from '@apollo/client/core';
+import { Signal, computed, inject, signal } from '@angular/core';
+import { OperationVariables, ErrorLike } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
-import { catchError, delay, filter, firstValueFrom, map, of, take, tap } from 'rxjs';
-import { MutationOptions as ApolloMutationOptions } from 'apollo-angular/types';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { mapGraphQLErrorsToApolloError } from './util/error';
+import { firstValueFrom, map, catchError, of } from 'rxjs';
 
 export enum MutationStatus {
   Idle,
@@ -33,11 +30,16 @@ export enum MutationStatus {
 }
 
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`
-export interface MutationOptions<TResult, TVariables>
-  extends Omit<ApolloMutationOptions<TResult, TVariables>, 'mutation'> {
+// Note: We use a type alias and intersection instead of extending Omit to work around TS2312
+// Make variables optional since they can be passed at mutation call time
+export type MutationOptions<TResult, TVariables extends OperationVariables> = Omit<
+  Apollo.MutateOptions<TResult, TVariables>,
+  'mutation' | 'variables'
+> & {
+  variables?: TVariables;
   onCompleted?: (data: TResult, clientOptions?: MutationOptions<TResult, TVariables>) => void;
-  onError?: (error: ApolloError, clientOptions?: MutationOptions<TResult, TVariables>) => void;
-}
+  onError?: (error: ErrorLike, clientOptions?: MutationOptions<TResult, TVariables>) => void;
+};
 
 /** Signal-based wrapper around Apollo's `mutate` function, made to align with `useMutation`. */
 export function mutation<TResult, TVariables extends OperationVariables>(
@@ -50,11 +52,10 @@ export function mutation<TResult, TVariables extends OperationVariables>(
 
   // Inject dependencies
   const client = inject(Apollo);
-  const destroyRef = inject(DestroyRef);
 
   // Signals holding the result values
   const data = signal<TResult | undefined>(undefined);
-  const error = signal<ApolloError | undefined>(undefined);
+  const error = signal<ErrorLike | undefined>(undefined);
   const loading = signal(false);
   const called = signal(false);
   const status = signal(MutationStatus.Idle);
@@ -62,7 +63,7 @@ export function mutation<TResult, TVariables extends OperationVariables>(
   return {
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
-    error: error as Signal<ApolloError | undefined>,
+    error: error as Signal<ErrorLike | undefined>,
     loading: loading as Signal<boolean>,
     hasError: computed(() => error() !== undefined),
     status: status as Signal<MutationStatus>,
@@ -74,40 +75,44 @@ export function mutation<TResult, TVariables extends OperationVariables>(
       called.set(false);
       status.set(MutationStatus.Idle);
     },
-    mutate(options?: Partial<MutationOptions<TResult, TVariables>>) {
+    async mutate(options?: Partial<MutationOptions<TResult, TVariables>>) {
       const mergedOptions = { ...parentOptions, ...options };
       const { onCompleted, onError, ...mutationOptions } = mergedOptions;
       status.set(MutationStatus.Loading);
-      return firstValueFrom(
-        client.mutate({ ...mutationOptions, mutation: document, useMutationLoading: true }).pipe(
-          // The MutationResult type is different from QueryResult in several ways
-          map(({ errors, ...result }) => ({
-            ...result,
-            error: mapGraphQLErrorsToApolloError(errors),
-          })),
-          catchError((error: ApolloError) => of({ error, data: undefined, loading: false })),
-          tap((result) => {
-            data.set(result.data ?? undefined);
-            error.set(result.error);
-            loading.set(result.loading ?? false); // should always be defined by useMutationLoading
-            called.set(true);
-          }),
-          // Since this observable returns a promise, it should only emit the final result
-          filter((result) => !result.loading),
-          tap((result) => {
-            if (result.error) {
-              status.set(MutationStatus.Error);
-              onError?.(result.error, mergedOptions);
-            } else if (result.data) {
-              status.set(MutationStatus.Resolved);
-              onCompleted?.(result.data, mergedOptions);
-            }
-          }),
-          delay(0), // Ensure status updates before promise resolves
-          take(1), // Complete the observable when result is available
-          takeUntilDestroyed(destroyRef) // Or when the component is destroyed
-        )
+      loading.set(true);
+
+      const result = await firstValueFrom(
+        client
+          .mutate<TResult, TVariables>({
+            ...mutationOptions,
+            mutation: document,
+            // Use 'all' error policy to receive errors in the result instead of throwing
+            errorPolicy: mutationOptions.errorPolicy ?? 'all',
+          } as Apollo.MutateOptions<TResult, TVariables>)
+          .pipe(
+            map((result) => ({
+              data: result.data,
+              error: result.error,
+            })),
+            // Handle CombinedGraphQLErrors (thrown by Apollo Client 4.x for GraphQL errors)
+            catchError((err: ErrorLike) => of({ data: undefined, error: err }))
+          )
       );
+
+      data.set(result.data ?? undefined);
+      error.set(result.error);
+      loading.set(false);
+      called.set(true);
+
+      if (result.error) {
+        status.set(MutationStatus.Error);
+        onError?.(result.error, mergedOptions as MutationOptions<TResult, TVariables>);
+      } else if (result.data) {
+        status.set(MutationStatus.Resolved);
+        onCompleted?.(result.data, mergedOptions as MutationOptions<TResult, TVariables>);
+      }
+
+      return { data: result.data, error: result.error, loading: false };
     },
   };
 }

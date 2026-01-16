@@ -138,7 +138,7 @@ export abstract class ApolloDataSource<
 
   constructor(
     document: TypedDocumentNode<TResult, TVariables>,
-    options?: QueryOptions<TVariables>
+    options?: QueryOptions<TResult, TVariables>
   ) {
     super();
 
@@ -252,7 +252,7 @@ export abstract class ApolloDataSource<
       map((opts) => ({ ...opts, variables: { ...this.firstPage(paginator), ...opts.variables } })),
       mergeWith(pageChange),
       map((opts) => ({ ...opts, fetchPolicy: 'cache-and-network' })),
-      map((opts) => opts as QueryOptions<TVariables>)
+      map((opts) => opts as QueryOptions<TResult, TVariables>)
     );
 
     this._subscription?.unsubscribe();
