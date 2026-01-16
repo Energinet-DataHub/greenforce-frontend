@@ -26,7 +26,7 @@ import {
   dhIsValidInternalId,
   dhIsValidMeteringPointId,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhExternalOrInternalMeteringPointIdParam } from './dh-metering-point-params';
 
@@ -44,10 +44,16 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
   const idParam: string = route.params[dhExternalOrInternalMeteringPointIdParam];
 
   const meteringPointId = dhIsValidMeteringPointId(idParam) ? idParam : undefined;
+
+  if (meteringPointId && environment.current === DhAppEnvironment.prod) {
+    // In production, only internal IDs are allowed in the URL
+    return searchRoute;
+  }
+
   const internalMeteringPointId =
     meteringPointId === undefined && dhIsValidInternalId(idParam) ? idParam : undefined;
 
-  if (!!meteringPointId || !!internalMeteringPointId) {
+  if (meteringPointId || internalMeteringPointId) {
     return query(DoesInternalMeteringPointIdExistDocument, {
       variables: {
         internalMeteringPointId,
