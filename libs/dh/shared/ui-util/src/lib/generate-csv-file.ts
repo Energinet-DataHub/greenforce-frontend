@@ -32,6 +32,7 @@ import { HttpClient } from '@angular/common/http';
 import { toFile } from './stream-to-file';
 /* eslint-disable sonarjs/no-identical-functions */
 /* eslint-disable sonarjs/no-duplicate-string */
+/* eslint-disable sonarjs/cognitive-complexity */
 export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVariables> {
   private env = inject(dhAppEnvironmentToken);
   private toastService = inject(WattToastService);
