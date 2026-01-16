@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Injectable, inject } from '@angular/core';
-import { ApolloLink, Observable as LinkObservable } from "@apollo/client";
+import { ApolloLink, Observable as LinkObservable } from '@apollo/client';
 import { print } from 'graphql';
 import { createClient, Client, Sink } from 'graphql-sse';
 import {
