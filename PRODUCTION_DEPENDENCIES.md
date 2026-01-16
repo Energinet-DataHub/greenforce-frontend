@@ -14,7 +14,7 @@
 | [@angular/platform-browser](https://github.com/angular/angular) | 20.3.15 | MIT |
 | [@angular/router](https://github.com/angular/angular) | 20.3.15 | MIT |
 | [@angular/service-worker](https://github.com/angular/angular) | 20.3.15 | MIT |
-| [@apollo/client](https://github.com/apollographql/apollo-client) | 3.13.8 | MIT |
+| [@apollo/client](https://github.com/apollographql/apollo-client) | 4.0.13 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.0.19 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.21.0 | MIT |
 | [@jsverse/transloco](https://github.com/jsverse/transloco) | 7.6.1 | MIT |
@@ -31,7 +31,7 @@
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
-| [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 11.0.0 | MIT |
+| [apollo-angular](https://github.com/the-guild-org/apollo-angular) | 13.0.0 | MIT |
 | [chardet](https://github.com/runk/node-chardet) | 2.1.1 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.13 | MIT |
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.4 | MIT |
