@@ -28,7 +28,7 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActorConversationCaseType, ActorConversationReceiverType } from '../types';
+import { ActorConversationCaseSubjectType, ActorConversationReceiverType } from '../types';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattIconComponent } from '@energinet/watt/icon';
 
@@ -66,13 +66,14 @@ import { WattIconComponent } from '@energinet/watt/icon';
             </watt-card-title>
             <vater-stack fill="horizontal" align="start" direction="column" gap="m">
               <watt-dropdown
-                [formControl]="newCaseForm.controls.type"
-                [options]="types"
-                [label]="t('typeLabel')"
+                [formControl]="newCaseForm.controls.subject"
+                [options]="subjects"
+                [label]="t('subjectLabel')"
                 [showResetOption]="false"
                 class="third-width"
                 dhDropdownTranslator
-                translateKey="meteringPoint.actorConversation.types"
+                translateKey="meteringPoint.actorConversation.subjects"
+                data-testid="actor-conversation-subject-dropdown"
               />
               <watt-dropdown
                 [formControl]="newCaseForm.controls.receiver"
@@ -82,11 +83,13 @@ import { WattIconComponent } from '@energinet/watt/icon';
                 class="third-width"
                 dhDropdownTranslator
                 translateKey="meteringPoint.actorConversation.receivers"
+                data-testid="actor-conversation-receiver-dropdown"
               />
               <watt-text-field
                 [formControl]="newCaseForm.controls.internalNote"
-                class="third-width"
                 [label]="t('internalNoteLabel')"
+                class="third-width"
+                data-testid="actor-conversation-internal-note-input"
               />
             </vater-stack>
           </vater-stack>
@@ -94,7 +97,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
             <watt-textarea-field
               [label]="t('messageLabel')"
               [formControl]="newCaseForm.controls.message"
-              class=""
+              data-testid="actor-conversation-message-textarea"
             />
             <watt-button type="submit"
               >{{ t('sendButton') }}
@@ -113,8 +116,8 @@ export class DhActorConversationNewCaseComponent {
   private readonly fb = inject(NonNullableFormBuilder);
 
   newCaseForm = this.fb.group({
-    type: this.fb.control<ActorConversationCaseType>(
-      ActorConversationCaseType.misc,
+    subject: this.fb.control<ActorConversationCaseSubjectType>(
+      ActorConversationCaseSubjectType.misc,
       Validators.required
     ),
     receiver: this.fb.control<ActorConversationReceiverType>(
@@ -124,7 +127,7 @@ export class DhActorConversationNewCaseComponent {
     internalNote: this.fb.control<string | null>(null),
     message: this.fb.control<string>('', Validators.required),
   });
-  types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
+  subjects = dhEnumToWattDropdownOptions(ActorConversationCaseSubjectType);
   receivers = dhEnumToWattDropdownOptions(ActorConversationReceiverType);
 
   protected send() {

@@ -20,17 +20,18 @@ import dayjs from 'dayjs'; // eslint-disable-line no-restricted-imports
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import duration from 'dayjs/plugin/duration';
-import 'dayjs/plugin/customParseFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 
-// Required for the packaging process to register these modules as "side effectful"
-import 'dayjs/plugin/utc';
-import 'dayjs/plugin/timezone';
-import 'dayjs/plugin/duration';
+// Force import of plugins in generated .d.ts file by exporting their types
+type __ngPackagrDayjsTypeScriptWorkaround =
+  | typeof utc
+  | typeof timezone
+  | typeof duration
+  | typeof customParseFormat;
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(duration);
 dayjs.extend(customParseFormat);
 
-export { dayjs };
+export { dayjs, __ngPackagrDayjsTypeScriptWorkaround };

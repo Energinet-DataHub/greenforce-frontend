@@ -689,7 +689,7 @@
         "upload": "Upload måledata",
         "moveIn": "Tilflyt kunde",
         "createChargeLink": "Tilknyt pris",
-        "changeConnectionStatus": "Ændr tilslutningstatus",
+        "changeConnectionStatus": "Ændre tilslutningsstatus",
         "updateCustomerData": "Opdater kundestamdata"
       },
       "details": {
@@ -769,8 +769,8 @@
       "cases": "Sager",
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag",
-      "typeLabel": "Type",
-      "types": {
+      "subjectLabel": "Emne",
+      "subjects": {
         "misc": "Andet"
       },
       "receiverLabel": "Modtager",

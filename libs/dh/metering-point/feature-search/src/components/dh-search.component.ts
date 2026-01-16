@@ -160,7 +160,7 @@ export class DhSearchComponent {
     validators: [Validators.required, dhMeteringPointIdValidator()],
     nonNullable: true,
   });
-  searchMigratedMeteringPoints = new FormControl(true, { nonNullable: true });
+  searchMigratedMeteringPoints = new FormControl(false, { nonNullable: true });
 
   private readonly seachControlChange = toSignal(this.searchControl.valueChanges);
 

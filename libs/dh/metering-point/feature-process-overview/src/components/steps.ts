@@ -132,7 +132,7 @@ export class DhMeteringPointProcessOverviewSteps {
     completedAt: { accessor: 'completedAt', sort: false },
     dueDate: { accessor: 'dueDate', sort: false },
     actor: { accessor: 'actor', sort: false },
-    state: { accessor: 'state', sort: false },
+    //state: { accessor: 'state', sort: false }, // Temporarily hidden until the backend/EDI supports more states
   };
 
   displayedColumns = computed(() => {
