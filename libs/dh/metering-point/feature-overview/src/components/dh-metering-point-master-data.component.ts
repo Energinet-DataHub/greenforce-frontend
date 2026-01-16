@@ -135,15 +135,18 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
         <dh-metering-point-highlights [meteringPointDetails]="meteringPoint()" />
         <div class="page-grid" [class.page-grid__child-view]="meteringPoint()?.isChild">
           <dh-metering-point-details [meteringPoint]="meteringPoint()" />
-          <dh-customer-overview
-            *dhCanSee="'customer-overview-card'; meteringPoint: meteringPoint()"
-            [meteringPoint]="meteringPoint()"
-          />
 
-          <dh-energy-supplier
-            *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
-            [energySupplier]="energySupplier()"
-          />
+          @if (meteringPoint()?.isChild === false) {
+            <dh-customer-overview
+              *dhCanSee="'customer-overview-card'; meteringPoint: meteringPoint()"
+              [meteringPoint]="meteringPoint()"
+            />
+
+            <dh-energy-supplier
+              *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
+              [energySupplier]="energySupplier()"
+            />
+          }
 
           @defer (on idle) {
             <dh-related-metering-points [meteringPointId]="meteringPointId()" />

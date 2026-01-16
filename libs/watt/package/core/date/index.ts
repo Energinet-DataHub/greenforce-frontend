@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export { dayjs } from './dayjs';
+export { dayjs, __ngPackagrDayjsTypeScriptWorkaround } from './dayjs';
 export { danishDatetimeProviders } from './watt-danish-datetime.providers';
 export { WattDateAdapter, WattSupportedLocales } from './watt-date-adapter';
 export { type WattRange, type WattDateRange } from './watt-date-range';

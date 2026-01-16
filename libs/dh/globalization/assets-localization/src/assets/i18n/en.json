@@ -769,15 +769,17 @@
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case",
-      "typeLabel": "Type",
-      "types": {
+      "subjectLabel": "Subject",
+      "subjects": {
         "misc": "Miscellaneous"
       },
       "receiverLabel": "Receiver",
       "receivers": {
         "energinet": "Energinet"
       },
-      "internalNoteLabel": "Internal note"
+      "internalNoteLabel": "Internal note",
+      "messageLabel": "Message",
+      "sendButton": "Send"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",

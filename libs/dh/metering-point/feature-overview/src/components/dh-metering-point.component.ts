@@ -190,6 +190,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               *dhMarketRoleRequired="rolesWithAccess"
               [label]="t('actor-conversation.tabLabel')"
               [link]="getLink('actor-conversation')"
+              data-testid="actor-conversation-tab"
             />
           </ng-container>
           <ng-container *dhReleaseToggle="'PM116-PROCESSOVERVIEW'">
@@ -241,8 +242,6 @@ export class DhMeteringPointComponent {
   }));
   meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 
-  hasError = this.meteringPointQuery.hasError;
-  loading = this.meteringPointQuery.loading;
   EicFunction = EicFunction;
 
   commercialRelation = computed(() => this.meteringPoint()?.commercialRelation);

@@ -12,8 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ElectricityMarket.Client;
+using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Microsoft.FeatureManagement;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Types;
 
@@ -50,15 +53,24 @@ public static partial class MeteringPointMetadataDtoType
     }
 
     public static async Task<long?> GetInternalMeteringPointParentIdAsync(
+        string? environment,
+        bool? searchMigratedMeteringPoints,
         [Parent] MeteringPointMetadataDto meteringPointMetadata,
-        IParentMeteringPointInternalIdDataLoader dataLoader)
+        CancellationToken ct,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IElectricityMarketClient electricityMarketClient,
+        [Service] IFeatureManagerSnapshot featureManager)
     {
         if (meteringPointMetadata.ParentMeteringPoint == null)
         {
             return null;
         }
 
-        return await dataLoader.LoadAsync(meteringPointMetadata.ParentMeteringPoint);
+        var meteringPoint = await MeteringPointNode.GetMeteringPointAsync(meteringPointMetadata.ParentMeteringPoint, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
+
+        return meteringPoint?.Id;
     }
 
     static partial void Configure(

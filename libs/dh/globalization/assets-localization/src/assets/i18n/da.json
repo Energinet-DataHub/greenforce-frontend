@@ -769,15 +769,17 @@
       "cases": "Sager",
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag",
-      "typeLabel": "Type",
-      "types": {
+      "subjectLabel": "Emne",
+      "subjects": {
         "misc": "Andet"
       },
       "receiverLabel": "Modtager",
       "receivers": {
         "energinet": "Energinet"
       },
-      "internalNoteLabel": "Intern note"
+      "internalNoteLabel": "Intern note",
+      "messageLabel": "Besked",
+      "sendButton": "Send"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
