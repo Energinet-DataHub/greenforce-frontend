@@ -102,10 +102,10 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         </watt-breadcrumb>
       </watt-breadcrumbs>
     </dh-toolbar-portal>
-    <div class="page-grid">
+    <div class="page-grid" *transloco="let t; prefix: 'charges'">
       <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
         @if (charge(); as charge) {
-          <div *transloco="let t; prefix: 'charges'">
+          <div>
             <vater-stack direction="row" gap="m">
               <h2 [style.margin]="0">{{ charge.displayName }}</h2>
               <dh-charges-status [status]="charge.status" />
@@ -132,24 +132,20 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 
         <vater-spacer />
 
-        <ng-container *transloco="let t; prefix: 'charges.charge.actions'">
-          <watt-button
-            *dhPermissionRequired="['charges:manage']"
-            variant="secondary"
-            [wattMenuTriggerFor]="menu"
-          >
-            {{ t('menu') }}
+        <ng-container *dhPermissionRequired="['charges:manage']">
+          <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
+            {{ t('charge.actions.menu') }}
             <watt-icon name="plus" />
           </watt-button>
           <watt-menu #menu>
             <watt-menu-item [routerLink]="[{ outlets: { actions: ['edit'] } }]">
-              {{ t('edit') }}
+              {{ t('charge.actions.edit') }}
             </watt-menu-item>
             <watt-menu-item [routerLink]="[{ outlets: { actions: ['stop'] } }]">
-              {{ t('stop') }}
+              {{ t('charge.actions.stop') }}
             </watt-menu-item>
             <watt-menu-item [routerLink]="[{ outlets: { actions: ['upload-series'] } }]">
-              {{ t('uploadSeries') }}
+              {{ t('charge.actions.uploadSeries') }}
             </watt-menu-item>
           </watt-menu>
         </ng-container>
