@@ -376,11 +376,10 @@
       "TARIFF_TAX": "Tariff, tax"
     },
     "resolutions": {
-      "DAILY": "Day",
       "QUARTER_HOURLY": "Quarter hour",
+      "DAILY": "Day",
       "HOURLY": "Hour",
-      "MONTHLY": "Month",
-      "UNKNOWN": "Unknown"
+      "MONTHLY": "Month"
     },
     "vatInclusive": {
       "false": "Without VAT",
@@ -389,19 +388,20 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
-        "searchById": "Search by ID",
         "createButton": "New charge",
         "columns": {
           "code": "ID",
           "type": "Type",
           "name": "Name",
           "owner": "Owner",
-          "status": "Status"
+          "status": "Status",
+          "resolution": "Resolution"
         },
         "filters": {
           "chargeType": "Type",
           "owners": "Owners",
           "status": "Status",
+          "resolution": "Resolution",
           "vat": "VAT",
           "moreOptions": "More filters"
         },
@@ -409,19 +409,21 @@
           "AWAITING": "Pending",
           "CLOSED": "Closed",
           "CANCELLED": "Cancelled",
-          "CURRENT": "Current",
-          "MISSING_PRICE_SERIES": "Missing price series"
+          "CURRENT": "Current"
         },
         "moreOptions": {
-          "vatGroupName": "VAT",
-          "withVat": "With VAT",
-          "withoutVat": "Without VAT",
+          "vatInclusiveGroupName": "VAT",
+          "vatInclusive": "With VAT",
+          "not_vatInclusive": "Without VAT",
           "transparentInvoicingGroupName": "Transparent Invoicing",
-          "withTransparentInvoicing": "Subject to transparent invoicing",
-          "withoutTransparentInvoicing": "Not subject to transparent invoicing",
+          "transparentInvoicing": "Subject to transparent invoicing",
+          "not_transparentInvoicing": "Not subject to transparent invoicing",
           "predictablePriceGroupName": "Predictable Price",
-          "withPredictablePrice": "Predictable price",
-          "withoutPredictablePrice": "Non-predictable price"
+          "predictablePrice": "Predictable price",
+          "not_predictablePrice": "Non-predictable price",
+          "missingPriceSeriesGroupName": "Price series",
+          "missingPriceSeries": "Missing price series",
+          "not_missingPriceSeries": "Has price series"
         }
       }
     },
@@ -701,7 +703,7 @@
         "meteringPointNumber": "Metering point no.",
         "settlementMethod": "Settlement method",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "electricalHeatingTaxStartDate": "Electrical heating tax start date",
+        "electricalHeatingTaxStartDate": "Electrical heating date",
         "powerLimit": "Power limit",
         "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Disconnection type",
@@ -767,15 +769,17 @@
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case",
-      "typeLabel": "Type",
-      "types": {
+      "subjectLabel": "Subject",
+      "subjects": {
         "misc": "Miscellaneous"
       },
       "receiverLabel": "Receiver",
       "receivers": {
         "energinet": "Energinet"
       },
-      "internalNoteLabel": "Internal note"
+      "internalNoteLabel": "Internal note",
+      "messageLabel": "Message",
+      "sendButton": "Send"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
@@ -897,12 +901,18 @@
       "processType": {
         "EndOfSupply": "End of supply (BRS-002)",
         "NewMeteringPoint": "Creation of metering point (BRS-004)",
-        "ConnectMeteringPoint": "Connection of new metering point (BRS-008)"
+        "ConnectMeteringPoint": "Connection of new metering point (BRS-008)",
+        "UpdateMasterDataConsumer": "Update of customer master data (BRS-015)",
+        "CustomerMoveIn": "Move-in (BRS-009)"
       },
       "reasonCode": {
         "EndOfSupply": "End of supply (E20)",
         "NewMeteringPoint": "New metering point (E02)",
-        "ConnectMeteringPoint": "Connect metering point (D15)"
+        "ConnectMeteringPoint": "Connect metering point (D15)",
+        "UpdateMasterDataConsumer": "Update master data consumer (E34)",
+        "CustomerMoveIn": "Customer move-in (E65)",
+        "SecondaryMoveIn": "Secondary move-in (D29)",
+        "Move": "Move (E01)"
       },
       "filters": {
         "created": "Time",
@@ -923,9 +933,26 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Confirmation of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Notification of new metering point (RSM-022)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Request for connection of metering point (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
+        "BRS_009_MOVEIN_V1_STEP_1": "Request Change of Supplier (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_2": "Confirm request Change of Supplier (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_3": "Reject request Change of Supplier (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_4": "Metering point master data information (RSM-022)",
+        "BRS_009_MOVEIN_V1_STEP_5": "Customer master data information (RSM-028)",
+        "BRS_009_MOVEIN_V1_STEP_6": "Price link information (RSM-031)",
+        "BRS_009_MOVEIN_V1_STEP_7": "Request update customer master data (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_8": "Approve update customer master data (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_9": "Reject update customer master data (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_10": "Generic Notification (RSM-004)",
+        "BRS_009_MOVEIN_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
+        "BRS_009_MOVEIN_V1_STEP_12": "Generic Notification (RSM-004)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)",
         "UNKNOWN": "Unknown Step"
       },
       "details": {

@@ -19,8 +19,17 @@ fragment CustomerContact on CustomerContactDto {
   room
 }
 
-query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
-  meteringPoint(meteringPointId: $meteringPointId) {
+query GetMeteringPointById(
+  $meteringPointId: String!
+  $actorGln: String!
+  $environment: String
+  $searchMigratedMeteringPoints: Boolean
+) {
+  meteringPoint(
+    meteringPointId: $meteringPointId
+    environment: $environment
+    searchMigratedMeteringPoints: $searchMigratedMeteringPoints
+  ) {
     id
     isChild
     meteringPointId
@@ -76,7 +85,10 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
         displayName
       }
       parentMeteringPoint
-      internalMeteringPointParentId
+      internalMeteringPointParentId(
+        environment: $environment
+        searchMigratedMeteringPoints: $searchMigratedMeteringPoints
+      )
       ownedBy
       connectionState
       netSettlementGroup

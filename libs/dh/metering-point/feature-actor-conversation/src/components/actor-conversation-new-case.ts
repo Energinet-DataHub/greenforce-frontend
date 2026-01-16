@@ -28,7 +28,9 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActorConversationCaseType, ActorConversationReceiverType } from '../types';
+import { ActorConversationCaseSubjectType, ActorConversationReceiverType } from '../types';
+import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
@@ -42,6 +44,8 @@ import { ActorConversationCaseType, ActorConversationReceiverType } from '../typ
     DhDropdownTranslatorDirective,
     ReactiveFormsModule,
     WattTextFieldComponent,
+    WattTextAreaFieldComponent,
+    WattIconComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -50,48 +54,70 @@ import { ActorConversationCaseType, ActorConversationReceiverType } from '../typ
     }
   `,
   template: `
-    <vater-flex fill="both">
+    <form [formGroup]="newCaseForm" (ngSubmit)="send()" vater-flex fill="both">
       <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
-        <watt-card-title>
-          <vater-stack direction="row" justify="space-between">
-            <h3>{{ t('newCaseTitle') }}</h3>
-            <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
+        <vater-flex fill="vertical" justify="space-between">
+          <vater-stack fill="horizontal" align="start">
+            <watt-card-title>
+              <vater-stack direction="row" fill="horizontal" justify="space-between">
+                <h3>{{ t('newCaseTitle') }}</h3>
+                <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
+              </vater-stack>
+            </watt-card-title>
+            <vater-stack fill="horizontal" align="start" direction="column" gap="m">
+              <watt-dropdown
+                [formControl]="newCaseForm.controls.subject"
+                [options]="subjects"
+                [label]="t('subjectLabel')"
+                [showResetOption]="false"
+                class="third-width"
+                dhDropdownTranslator
+                translateKey="meteringPoint.actorConversation.subjects"
+                data-testid="actor-conversation-subject-dropdown"
+              />
+              <watt-dropdown
+                [formControl]="newCaseForm.controls.receiver"
+                [options]="receivers"
+                [label]="t('receiverLabel')"
+                [showResetOption]="false"
+                class="third-width"
+                dhDropdownTranslator
+                translateKey="meteringPoint.actorConversation.receivers"
+                data-testid="actor-conversation-receiver-dropdown"
+              />
+              <watt-text-field
+                [formControl]="newCaseForm.controls.internalNote"
+                [label]="t('internalNoteLabel')"
+                class="third-width"
+                data-testid="actor-conversation-internal-note-input"
+              />
+            </vater-stack>
           </vater-stack>
-        </watt-card-title>
-        <form [formGroup]="newCaseForm" vater-stack gap="l" align="start">
-          <watt-dropdown
-            [formControl]="newCaseForm.controls.type"
-            [options]="types"
-            [label]="t('typeLabel')"
-            [showResetOption]="false"
-            class="third-width"
-            dhDropdownTranslator
-            translateKey="meteringPoint.actorConversation.types"
-          />
-          <watt-dropdown
-            [formControl]="newCaseForm.controls.receiver"
-            [options]="receivers"
-            [label]="t('receiverLabel')"
-            [showResetOption]="false"
-            class="third-width"
-            dhDropdownTranslator
-            translateKey="meteringPoint.actorConversation.receivers"
-          />
-          <watt-text-field
-            [formControl]="newCaseForm.controls.internalNote"
-            class="third-width"
-            [label]="t('internalNoteLabel')"
-          />
-        </form>
+          <vater-stack direction="row" align="end" gap="m">
+            <watt-textarea-field
+              [label]="t('messageLabel')"
+              [formControl]="newCaseForm.controls.message"
+              data-testid="actor-conversation-message-textarea"
+            />
+            <watt-button type="submit"
+              >{{ t('sendButton') }}
+              <watt-icon name="send" />
+            </watt-button>
+          </vater-stack>
+        </vater-flex>
       </watt-card>
-    </vater-flex>
+    </form>
   `,
 })
 export class DhActorConversationNewCaseComponent {
+  closeNewCase = output();
+  createCase = output<string>();
+
   private readonly fb = inject(NonNullableFormBuilder);
+
   newCaseForm = this.fb.group({
-    type: this.fb.control<ActorConversationCaseType>(
-      ActorConversationCaseType.misc,
+    subject: this.fb.control<ActorConversationCaseSubjectType>(
+      ActorConversationCaseSubjectType.misc,
       Validators.required
     ),
     receiver: this.fb.control<ActorConversationReceiverType>(
@@ -99,8 +125,15 @@ export class DhActorConversationNewCaseComponent {
       Validators.required
     ),
     internalNote: this.fb.control<string | null>(null),
+    message: this.fb.control<string>('', Validators.required),
   });
-  closeNewCase = output();
-  types = dhEnumToWattDropdownOptions(ActorConversationCaseType);
+  subjects = dhEnumToWattDropdownOptions(ActorConversationCaseSubjectType);
   receivers = dhEnumToWattDropdownOptions(ActorConversationReceiverType);
+
+  protected send() {
+    if (this.newCaseForm.invalid) {
+      return;
+    }
+    this.createCase.emit(this.newCaseForm.controls.message.value);
+  }
 }

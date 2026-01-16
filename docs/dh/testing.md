@@ -86,26 +86,11 @@ async function setup() {
 };
 ```
 
-### Debugging Jest tests
+### Debugging Vitest tests
 
-You can use [Jest Preview](https://github.com/nvh95/jest-preview) to visually debug Jest tests in a browser.
+You can debug Vitest tests using the Vitest VS Code extension or by using `console.log` statements.
 
-In order to do that, you need to:
-
-1. Start the Jest Preview Server by running `bun jest-preview` in a Terminal. A new page will open in the browser where failing tests can be previewed.
-2. Add `debug()` to the test you want to debug.
-
-```ts
-import { debug } from 'jest-preview';
-
-describe('AppComponent', () => {
-  it('should work as expected', () => {
-    // ...
-    debug();
-    // ...
-  });
-});
-```
+For UI-based debugging, the Vitest extension provides an integrated test explorer and debugging experience directly in VS Code.
 
 ## E2E Testing
 

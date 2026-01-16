@@ -59,7 +59,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     <watt-drawer
       autoOpen
       [loading]="query.loading()"
-      size="small"
+      size="normal"
       [key]="id()"
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.details'"
       (closed)="navigation.navigate('list')"
@@ -68,14 +68,16 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         <vater-stack direction="row">
           <h1>{{ chargeLinkWithHistory()?.charge?.displayName }}</h1>
           <vater-spacer />
-          <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
-            <watt-button variant="icon" [wattMenuTriggerFor]="actions" icon="moreVertical" />
-            <watt-menu #actions>
-              <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
-              <watt-menu-item [routerLink]="['stop']">{{ t('stop') }}</watt-menu-item>
-              <watt-menu-item [routerLink]="['cancel']">{{ t('cancel') }}</watt-menu-item>
-            </watt-menu>
-          </ng-container>
+          @if (!chargeLinkWithHistory()?.period?.interval?.end) {
+            <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
+              <watt-button variant="icon" [wattMenuTriggerFor]="actions" icon="moreVertical" />
+              <watt-menu #actions>
+                <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
+                <watt-menu-item [routerLink]="['stop']">{{ t('stop') }}</watt-menu-item>
+                <watt-menu-item [routerLink]="['cancel']">{{ t('cancel') }}</watt-menu-item>
+              </watt-menu>
+            </ng-container>
+          }
         </vater-stack>
       </watt-drawer-heading>
 
@@ -115,7 +117,7 @@ export default class DhChargeLinkDetails {
 
   columns = {
     submittedAt: { accessor: (row) => row.submittedAt },
-    description: { accessor: (row) => row.description },
+    description: { size: '1fr', accessor: (row) => row.description },
     menu: { accessor: null, header: '' },
   } satisfies WattTableColumnDef<History>;
 }

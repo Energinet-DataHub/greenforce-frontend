@@ -39,7 +39,7 @@ import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/wat
 import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { Charge } from '../types';
@@ -75,11 +75,10 @@ import { DhChargesFilters } from './charges-filters';
       inset="ml"
       [error]="dataSource.error"
       [ready]="dataSource.called"
-      [searchLabel]="t('searchById')"
     >
       <watt-data-filters>
         <vater-stack wrap direction="row" gap="m">
-          <dh-charges-filters [filter]="filter" (filterChange)="fetch($event)" />
+          <dh-charges-filters (filterChange)="fetch($event)" />
           <vater-spacer />
           <watt-button
             *dhPermissionRequired="['charges:manage']"
@@ -107,6 +106,9 @@ import { DhChargesFilters } from './charges-filters';
         <ng-container *wattTableCell="columns.status; let element">
           <dh-charges-status [status]="element.status" />
         </ng-container>
+        <ng-container *wattTableCell="columns.resolution; let element">
+          {{ 'charges.resolutions.' + element.resolution | transloco }}
+        </ng-container>
       </watt-table>
     </watt-data-table>
     <router-outlet />
@@ -122,14 +124,11 @@ export class DhCharges {
     code: { accessor: 'code' },
     name: { accessor: 'name' },
     owner: { accessor: (charge) => charge.owner?.displayName, sort: false },
+    resolution: { accessor: 'resolution' },
     status: { accessor: 'status' },
   };
 
-  filter: GetChargesQueryInput = {
-    statuses: [ChargeStatus.Current, ChargeStatus.MissingPriceSeries],
-  };
-
-  fetch = (query: GetChargesQueryInput) => this.dataSource.refetch({ query });
+  fetch = (query: ChargesQueryInput) => this.dataSource.refetch({ query });
 
   selection = () => {
     return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());

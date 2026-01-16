@@ -14,19 +14,36 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Shared;
-using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
+using NodaTime.Extensions;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
+
+namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 public record Charge(
     ChargeIdentifierDto Id,
-    ChargeType Type,
     Resolution Resolution,
-    string Name,
-    string Description,
     bool TaxIndicator,
-    bool VatInclusive,
-    bool TransparentInvoicing,
-    bool HasSeriesAndIsCurrent,
-    DateTimeOffset ValidFrom,
-    DateTimeOffset? ValidTo,
-    IReadOnlyCollection<ChargeInformationPeriodDto> Periods);
+    IReadOnlyCollection<ChargeInformationPeriodDto> PeriodDtos)
+{
+    public string Code => Id.Code;
+
+    public ChargeType Type => ChargeType.Make(Id.TypeDto, TaxIndicator);
+
+    public IEnumerable<ChargePeriod> Periods => PeriodDtos.Select(p => new ChargePeriod(p));
+
+    public ChargePeriod LatestPeriod => Periods.First();
+
+    public string Name => LatestPeriod.Name;
+
+    public string Description => LatestPeriod.Description;
+
+    public bool VatInclusive => LatestPeriod.VatInclusive;
+
+    public bool TransparentInvoicing => LatestPeriod.TransparentInvoicing;
+
+    public bool PredictablePrice => LatestPeriod.PredictablePrice;
+
+    public ChargeStatus Status => LatestPeriod.Status;
+
+    public string FilterText => $"{Code} {Name} {Description}";
+}

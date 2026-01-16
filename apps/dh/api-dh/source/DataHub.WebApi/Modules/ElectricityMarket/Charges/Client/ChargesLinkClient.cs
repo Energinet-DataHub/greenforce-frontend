@@ -40,7 +40,7 @@ public class ChargeLinkClient(
         DateTimeOffset stopDate,
         CancellationToken ct = default)
     {
-        var chargeLink = (await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(id.MeteringPointId), ct)).Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)?.GetCurrentPeriod() ?? throw new InvalidOperationException($"Charge link with id {id} not found.");
+        var chargeLink = (await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(id.MeteringPointId), ct)).Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)?.GetPeriod() ?? throw new InvalidOperationException($"Charge link with id {id} not found.");
 
         var result = await b2cClient.SendAsync(
             new StopChargeLinkCommandV1(new(
@@ -57,7 +57,7 @@ public class ChargeLinkClient(
 
     public async Task<bool> CancelChargeLinkAsync(ChargeLinkId id, CancellationToken ct = default)
     {
-        var chargeLink = (await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(id.MeteringPointId), ct)).Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)?.GetCurrentPeriod() ?? throw new InvalidOperationException($"Charge link with id {id} not found.");
+        var chargeLink = (await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(id.MeteringPointId), ct)).Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)?.GetPeriod() ?? throw new InvalidOperationException($"Charge link with id {id} not found.");
 
         var result = await b2cClient.SendAsync(
             new StopChargeLinkCommandV1(new(
@@ -65,7 +65,7 @@ public class ChargeLinkClient(
                 id.ChargeId.Owner,
                 ToRequestChangeBillingMasterDataChargeType(id.ChargeId.TypeDto),
                 id.MeteringPointId,
-                DateTimeOffset.Now,
+                chargeLink.From.ToDateTimeOffset(),
                 chargeLink.Factor.ToString())),
             ct);
 

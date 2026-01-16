@@ -9,6 +9,6 @@
     "types": [],
     "lib": ["dom", "ES2023"]
   },
-  "exclude": ["src/test-setup.ts", "**/*.spec.ts", "jest.config.ts"],
+  "exclude": ["src/test-setup.ts", "**/*.spec.ts", "vite.config.mts"],
   "include": ["**/*.ts"]
 }

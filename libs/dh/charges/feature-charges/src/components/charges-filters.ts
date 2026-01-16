@@ -26,7 +26,8 @@ import {
   ChargeType,
   EicFunction,
   ChargeStatus,
-  GetChargesQueryInput,
+  ChargeResolution,
+  ChargesQueryInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
@@ -37,7 +38,6 @@ import {
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { capitalize } from '@energinet-datahub/dh/shared/util-text';
 
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
@@ -65,7 +65,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
       *transloco="let t; prefix: 'charges.charges.table.filters'"
     >
       <watt-dropdown
-        [formControl]="this.form().controls.chargeTypes"
+        [formControl]="this.form().controls.types"
         [chipMode]="true"
         [multiple]="true"
         [options]="chargeTypeOptions"
@@ -76,7 +76,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
 
       @if (selectedActor.marketRole !== 'SystemOperator') {
         <watt-dropdown
-          [formControl]="this.form().controls.actorNumbers"
+          [formControl]="this.form().controls.owners"
           [chipMode]="true"
           [multiple]="true"
           [options]="owners()"
@@ -85,13 +85,23 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
       }
 
       <watt-dropdown
-        [formControl]="this.form().controls.statuses"
+        [formControl]="this.form().controls.status"
         [chipMode]="true"
         [multiple]="true"
         [options]="statusOptions"
         [placeholder]="t('status')"
         dhDropdownTranslator
         translateKey="charges.charges.table.chargeStatus"
+      />
+
+      <watt-dropdown
+        [formControl]="this.form().controls.resolution"
+        [chipMode]="true"
+        [multiple]="true"
+        [options]="resolutionOptions"
+        [placeholder]="t('resolution')"
+        dhDropdownTranslator
+        translateKey="charges.resolutions"
       />
 
       <watt-dropdown
@@ -114,12 +124,12 @@ export class DhChargesFilters {
     'charges.charges.table.moreOptions'
   );
 
-  filter = model<GetChargesQueryInput>({
-    statuses: ['CURRENT'],
-  });
+  filter = model<ChargesQueryInput>({ status: [ChargeStatus.Current] });
 
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
-  statusOptions = dhEnumToWattDropdownOptions(ChargeStatus, [ChargeStatus.Invalid]);
+  statusOptions = dhEnumToWattDropdownOptions(ChargeStatus);
+  resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolution, ['QUARTER_HOURLY']);
+  moreOptions = computed(() => this.getMoreOptions());
   owners = computed(() => {
     const options = this.actorOptions();
 
@@ -136,17 +146,18 @@ export class DhChargesFilters {
     return options;
   });
 
-  moreOptions = computed(() => this.getMoreOptions());
-
   form = computed(() => {
     const initial = untracked(() => this.filter());
     return new FormGroup({
-      chargeTypes: dhMakeFormControl(),
-      actorNumbers: dhMakeFormControl(
-        this.selectedActor.marketRole === EicFunction.SystemOperator ? [this.selectedActor.gln] : []
+      types: dhMakeFormControl(),
+      owners: dhMakeFormControl(
+        this.selectedActor.marketRole === EicFunction.SystemOperator
+          ? [this.selectedActor.gln]
+          : null
       ),
-      statuses: dhMakeFormControl(initial.statuses),
-      moreOptions: dhMakeFormControl<string[] | null>(null),
+      status: dhMakeFormControl(initial.status),
+      resolution: dhMakeFormControl<ChargeResolution[]>(),
+      moreOptions: dhMakeFormControl<ChargesQueryInput[] | null>(null),
     });
   });
 
@@ -154,9 +165,26 @@ export class DhChargesFilters {
 
   constructor() {
     effect(() => {
-      this.filter.set(this.valuesChanges());
+      this.filter.set({
+        status: this.valuesChanges().status,
+        owners: this.valuesChanges().owners,
+        types: this.valuesChanges().types,
+        resolution: this.valuesChanges().resolution,
+        vatInclusive: this.getOptionFilter((o) => o.vatInclusive),
+        transparentInvoicing: this.getOptionFilter((o) => o.transparentInvoicing),
+        predictablePrice: this.getOptionFilter((o) => o.predictablePrice),
+        missingPriceSeries: this.getOptionFilter((o) => o.missingPriceSeries),
+      });
     });
   }
+
+  // Gets the boolean value for an option filter defined in `moreOptions`. When both
+  // `true` and `false` exists for the same filter, then `null` is returned instead.
+  private getOptionFilter = (selector: (input: ChargesQueryInput) => boolean | null | undefined) =>
+    this.valuesChanges()
+      .moreOptions?.map(selector)
+      .filter((x) => x !== undefined)
+      .reduce((acc, next) => (acc === !next ? null : next), null);
 
   private getActorsWithMarketRoles() {
     switch (this.selectedActor.marketRole) {
@@ -173,25 +201,28 @@ export class DhChargesFilters {
     }
   }
 
-  private getMoreOptions(): WattDropdownOptionGroup[] {
+  private getMoreOptions() {
     return [
-      this.createGroupOption('vat'),
+      this.createGroupOption('vatInclusive'),
       this.createGroupOption('transparentInvoicing'),
       this.createGroupOption('predictablePrice'),
+      this.createGroupOption('missingPriceSeries'),
     ];
   }
 
-  private createGroupOption(name: string): WattDropdownOptionGroup {
+  private createGroupOption(
+    name: keyof ChargesQueryInput
+  ): WattDropdownOptionGroup<ChargesQueryInput> {
     return {
       label: this.moreOptionsTranslations()[`${name}GroupName`],
       options: [
         {
-          value: `${name}-true`,
-          displayValue: this.moreOptionsTranslations()[`with${capitalize(name)}`],
+          value: { [name]: true },
+          displayValue: this.moreOptionsTranslations()[name],
         },
         {
-          value: `${name}-false`,
-          displayValue: this.moreOptionsTranslations()[`without${capitalize(name)}`],
+          value: { [name]: false },
+          displayValue: this.moreOptionsTranslations()[`not_${name}`],
         },
       ],
     };

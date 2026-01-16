@@ -9,6 +9,9 @@ query GetChargeLinkHistory($id: String!) {
         displayName
       }
     }
+    period {
+      interval
+    }
     history {
       submittedAt
       description
