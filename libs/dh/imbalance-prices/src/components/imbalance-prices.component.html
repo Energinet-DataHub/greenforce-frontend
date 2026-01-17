@@ -64,7 +64,6 @@ limitations under the License.
     </ng-container>
   </watt-table>
 </watt-data-table>
-@let details = this.activeRow();
-@if (details) {
+@if (activeRow(); as details) {
   <dh-imbalance-prices-details [imbalancePrice]="details" (closed)="onClose()" />
 }
