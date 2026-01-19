@@ -1882,6 +1882,9 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("powerLimitKw", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double? PowerLimitKw { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("powerLimitAmp", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? PowerLimitAmp { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("meterNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? MeterNumber { get; set; } = default!;
 
