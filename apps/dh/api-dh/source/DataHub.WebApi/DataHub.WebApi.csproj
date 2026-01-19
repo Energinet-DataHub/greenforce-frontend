@@ -34,15 +34,12 @@ limitations under the License.
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
-  <Target Name="NSwagActorConversation" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Debug' AND !Exists('Clients/ActorConversation/V1/ActorConversationClient.cs')">
-    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/ActorConversation/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/ActorConversation/V1/ActorConversationClient.cs" />
-  </Target>
-
   <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/ESettExchange/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/ESettExchange/V1/ESettExchangeClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/ESettExchange/V1/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/ImbalancePrices/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/ImbalancePrices/V1/ImbalancePricesClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/ImbalancePrices/V1/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/MarketParticipant/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/MarketParticipant/V1/MarketParticipantClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/MarketParticipant/V1/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/ElectricityMarket/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/ElectricityMarket/V1/ElectricityMarketClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/ElectricityMarket/V1/swagger.json')" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/ActorConversation/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/ActorConversation/V1/ActorConversationClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/ActorConversation/V1/swagger.json')" />
   </Target>
 
   <Target Name="SwaggerGen" AfterTargets="PostBuildEvent">
@@ -111,9 +108,5 @@ limitations under the License.
     <_ContentIncludedByDefault Remove="Clients\EDI\B2CWebApi\V1\swagger.json" />
     <_ContentIncludedByDefault Remove="Clients\EDI\B2CWebApi\V3\nswag.json" />
     <_ContentIncludedByDefault Remove="Clients\EDI\B2CWebApi\V3\swagger.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Modules\ActorConversation\Types\" />
   </ItemGroup>
 </Project>

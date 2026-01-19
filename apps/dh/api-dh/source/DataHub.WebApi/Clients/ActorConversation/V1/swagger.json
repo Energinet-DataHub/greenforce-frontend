@@ -6,17 +6,37 @@
   },
   "servers": [
     {
-      "url": "https://localhost:7125/"
+      "url": "http://app-api-actcon-d-we-001.azurewebsites.net/"
     }
   ],
   "paths": {
+    "/api/health": {
+      "get": {
+        "tags": [
+          "ActorConversation"
+        ],
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/CreateConversation": {
       "post": {
         "tags": [
           "StartConversation"
         ],
         "summary": "Starts a conversation",
-        "description": "Example request:\r\n\r\n```  \r\n   {  \r\n      \"meteringPointIdentification\": \"570715000000033841\",  \r\n      \"actorsGlnNumbers\": [ \"5790001330999\", \"5790001330552\"],\r\n      \"conversationMessage\": {  \r\n          \"senderEmail\": \"xx@ddddd.dk\",  \r\n          \"anonymous\": true,  \r\n          \"content\": \"Test message\",  \r\n          \"createdBy\": \"xxxxx\",  \r\n          \"createdTime\": \"yyyy-mm-ddTHH:mi:ssZ\"  \r\n       }    \r\n    }     \r\n ```",
+        "description": "Example request:\n\n```  \n   {  \n      \"meteringPointIdentification\": \"570715000000033841\",  \n      \"actorsGlnNumbers\": [ \"5790001330999\", \"5790001330552\"],\n      \"conversationMessage\": {  \n          \"senderEmail\": \"xx@ddddd.dk\",  \n          \"anonymous\": true,  \n          \"content\": \"Test message\",  \n          \"createdBy\": \"xxxxx\",  \n          \"createdTime\": \"yyyy-mm-ddTHH:mi:ssZ\"  \n       }    \n    }     \n ```",
         "operationId": "CreateConversation",
         "requestBody": {
           "description": "Specifies the new Conversation.",
@@ -35,8 +55,28 @@
           "required": true
         },
         "responses": {
-          "204": {
-            "description": "Created the specified conversation"
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
           },
           "400": {
             "description": "The specified conversation does not meet the requirements",
@@ -85,7 +125,7 @@
           },
           "content": {
             "type": "string",
-            "description": "The message content, thus the body itself.\r\nCan be atmost of 5000 characters."
+            "description": "The message content, thus the body itself.\nCan be atmost of 5000 characters."
           },
           "createdBy": {
             "type": "string",
@@ -139,7 +179,7 @@
           },
           "actorsGlnNumbers": {
             "type": "array",
-            "description": "GLN Numbers of the actors, thus participants in the conversation. GLN numbers can be atmost 14 characters length and consits of digits only.\r\nThere can be atmost 2 participants",
+            "description": "GLN Numbers of the actors, thus participants in the conversation. GLN numbers can be atmost 14 characters length and consits of digits only.\nThere can be atmost 2 participants",
             "items": {
               "type": "string"
             }
@@ -152,6 +192,9 @@
     }
   },
   "tags": [
+    {
+      "name": "ActorConversation"
+    },
     {
       "name": "StartConversation"
     }
