@@ -25,10 +25,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   dhCprValidator,
-  dhCvrValidator,
   dhMunicipalityCodeValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
 import { WattToastService } from '@energinet/watt/toast';
+import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
 
 import {
   AddressData,
@@ -215,7 +215,7 @@ export class DhUpdateCustomerDataComponent {
   businessCustomerDetailsForm: FormGroup<BusinessCustomerFormGroup> =
     this.formBuilder.group<BusinessCustomerFormGroup>({
       companyName: this.formBuilder.control<string>('', Validators.required),
-      cvr: this.formBuilder.control<string>('', [Validators.required, dhCvrValidator()]),
+      cvr: this.formBuilder.control<string>('', [Validators.required, dhMoveInCvrValidator()]),
       nameProtection: this.formBuilder.control<boolean>(false),
     });
 
