@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Shared;
-using NodaTime.Extensions;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
