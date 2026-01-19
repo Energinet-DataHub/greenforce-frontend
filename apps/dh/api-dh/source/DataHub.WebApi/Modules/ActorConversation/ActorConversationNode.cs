@@ -21,7 +21,7 @@ public static class ActorConversationNode
 {
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task CreateConversationAsync(
+    public static async Task<bool> CreateConversationAsync(
         [Service] IActorConversationClient_V1 client,
         string meteringPointIdentification,
         string conversationMessageContent,
@@ -41,5 +41,7 @@ public static class ActorConversationNode
             },
         },
          ct);
+
+        return true;
     }
 }
