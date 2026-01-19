@@ -22,7 +22,7 @@ import { DhActorConversationNewCaseComponent } from './actor-conversation-new-ca
 import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { CreateConversationDocument, } from '@energinet-datahub/dh/shared/domain/graphql';
+import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
