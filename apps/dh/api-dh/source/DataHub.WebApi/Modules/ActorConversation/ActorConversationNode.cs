@@ -21,11 +21,10 @@ public static class ActorConversationNode
 {
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task CreateConversationAsync(
-        StartConversationRequest request,
-        CancellationToken ct,
-        [Service] IActorConversationClient_V1 client)
+    public static string CreateConversation(
+        string request,
+        CancellationToken ct)
     {
-        await client.ApiCreateConversationAsync(request, ct);
+        return "Hello World";
     }
 }

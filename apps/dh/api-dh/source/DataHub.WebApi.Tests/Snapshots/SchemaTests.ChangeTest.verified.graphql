@@ -415,6 +415,10 @@ type CreateChargePayload {
   boolean: Boolean
 }
 
+type CreateConversationPayload {
+  string: String
+}
+
 type CreateDelegationsForMarketParticipantPayload {
   boolean: Boolean
   errors: [CreateDelegationsForMarketParticipantError!]
@@ -1061,6 +1065,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
+  createConversation(input: CreateConversationInput!): CreateConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
   stopCharge(input: StopChargeInput!): StopChargePayload! @authorize(roles: [ "charges:manage" ])
@@ -1905,6 +1910,10 @@ input CreateChargeLinkInput {
   meteringPointId: String!
   newStartDate: DateTime!
   factor: Int!
+}
+
+input CreateConversationInput {
+  request: String!
 }
 
 input CreateDelegationsForMarketParticipantInput {

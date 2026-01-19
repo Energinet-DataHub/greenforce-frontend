@@ -1,0 +1,5 @@
+mutation CreateConversation($request: String!) {
+  createConversation(input: { request: $request }) {
+    string: string
+  }
+}
