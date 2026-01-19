@@ -135,7 +135,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         <ng-container *dhPermissionRequired="['charges:manage']">
           <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
             {{ t('charge.actions.menu') }}
-            <watt-icon name="plus" />
+            <watt-icon name="moreVertical" />
           </watt-button>
           <watt-menu #menu>
             <watt-menu-item [routerLink]="[{ outlets: { actions: ['edit'] } }]">
