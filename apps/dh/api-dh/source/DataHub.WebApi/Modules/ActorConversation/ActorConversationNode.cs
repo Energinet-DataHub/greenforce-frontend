@@ -24,16 +24,21 @@ public static class ActorConversationNode
     public static async Task CreateConversationAsync(
         [Service] IActorConversationClient_V1 client,
         string meteringPointIdentification,
-        List<string> actorsGlnNumbers,
-        ConversationMessage conversationMessage,
+        string conversationMessageContent,
         CancellationToken ct)
     {
         await client.ApiCreateConversationAsync(
          new StartConversationRequest
         {
             MeteringPointIdentification = meteringPointIdentification,
-            ActorsGlnNumbers = actorsGlnNumbers,
-            ConversationMessage = conversationMessage,
+            ActorsGlnNumbers = new List<string>(["222222222222222222"]),
+            ConversationMessage =
+            {
+                Content = conversationMessageContent,
+                Anonymous = false,
+                CreatedBy = "xxxx",
+                CreatedTime = DateTimeOffset.UtcNow,
+            },
         },
          ct);
     }

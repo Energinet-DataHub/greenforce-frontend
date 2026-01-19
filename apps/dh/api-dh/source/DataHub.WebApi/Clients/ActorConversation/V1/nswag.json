@@ -1,9 +1,9 @@
 {
-  "runtime": "Net80",
+  "runtime": "Net90",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "swagger.json",
+      "url": "https://app-api-actcon-d-we-001.azurewebsites.net/openapi/v1.json",
       "output": "swagger.json",
       "newLineBehavior": "Auto"
     }

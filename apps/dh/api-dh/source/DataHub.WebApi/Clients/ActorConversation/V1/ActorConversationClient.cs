@@ -35,24 +35,24 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <remarks>
         /// Example request:
         /// <br/>
-        /// <br/>```  
-        /// <br/>   {  
-        /// <br/>      "meteringPointIdentification": "570715000000033841",  
+        /// <br/>```
+        /// <br/>   {
+        /// <br/>      "meteringPointIdentification": "570715000000033841",
         /// <br/>      "actorsGlnNumbers": [ "5790001330999", "5790001330552"],
-        /// <br/>      "conversationMessage": {  
-        /// <br/>          "senderEmail": "xx@ddddd.dk",  
-        /// <br/>          "anonymous": true,  
-        /// <br/>          "content": "Test message",  
-        /// <br/>          "createdBy": "xxxxx",  
-        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"  
-        /// <br/>       }    
-        /// <br/>    }     
+        /// <br/>      "conversationMessage": {
+        /// <br/>          "senderEmail": "xx@ddddd.dk",
+        /// <br/>          "anonymous": true,
+        /// <br/>          "content": "Test message",
+        /// <br/>          "createdBy": "xxxxx",
+        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"
+        /// <br/>       }
+        /// <br/>    }
         /// <br/> ```
         /// </remarks>
         /// <param name="body">Specifies the new Conversation.</param>
-        /// <returns>Created the specified conversation</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiCreateConversationAsync(StartConversationRequest body);
+        System.Threading.Tasks.Task<System.Guid> ApiCreateConversationAsync(StartConversationRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -61,24 +61,24 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <remarks>
         /// Example request:
         /// <br/>
-        /// <br/>```  
-        /// <br/>   {  
-        /// <br/>      "meteringPointIdentification": "570715000000033841",  
+        /// <br/>```
+        /// <br/>   {
+        /// <br/>      "meteringPointIdentification": "570715000000033841",
         /// <br/>      "actorsGlnNumbers": [ "5790001330999", "5790001330552"],
-        /// <br/>      "conversationMessage": {  
-        /// <br/>          "senderEmail": "xx@ddddd.dk",  
-        /// <br/>          "anonymous": true,  
-        /// <br/>          "content": "Test message",  
-        /// <br/>          "createdBy": "xxxxx",  
-        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"  
-        /// <br/>       }    
-        /// <br/>    }     
+        /// <br/>      "conversationMessage": {
+        /// <br/>          "senderEmail": "xx@ddddd.dk",
+        /// <br/>          "anonymous": true,
+        /// <br/>          "content": "Test message",
+        /// <br/>          "createdBy": "xxxxx",
+        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"
+        /// <br/>       }
+        /// <br/>    }
         /// <br/> ```
         /// </remarks>
         /// <param name="body">Specifies the new Conversation.</param>
-        /// <returns>Created the specified conversation</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiCreateConversationAsync(StartConversationRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Guid> ApiCreateConversationAsync(StartConversationRequest body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -97,7 +97,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         public ActorConversationClient_V1(System.Net.Http.HttpClient httpClient)
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
-            BaseUrl = "https://localhost:7125/";
+            BaseUrl = "http://localhost:8080/";
             _httpClient = httpClient;
             Initialize();
         }
@@ -136,24 +136,24 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <remarks>
         /// Example request:
         /// <br/>
-        /// <br/>```  
-        /// <br/>   {  
-        /// <br/>      "meteringPointIdentification": "570715000000033841",  
+        /// <br/>```
+        /// <br/>   {
+        /// <br/>      "meteringPointIdentification": "570715000000033841",
         /// <br/>      "actorsGlnNumbers": [ "5790001330999", "5790001330552"],
-        /// <br/>      "conversationMessage": {  
-        /// <br/>          "senderEmail": "xx@ddddd.dk",  
-        /// <br/>          "anonymous": true,  
-        /// <br/>          "content": "Test message",  
-        /// <br/>          "createdBy": "xxxxx",  
-        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"  
-        /// <br/>       }    
-        /// <br/>    }     
+        /// <br/>      "conversationMessage": {
+        /// <br/>          "senderEmail": "xx@ddddd.dk",
+        /// <br/>          "anonymous": true,
+        /// <br/>          "content": "Test message",
+        /// <br/>          "createdBy": "xxxxx",
+        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"
+        /// <br/>       }
+        /// <br/>    }
         /// <br/> ```
         /// </remarks>
         /// <param name="body">Specifies the new Conversation.</param>
-        /// <returns>Created the specified conversation</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ApiCreateConversationAsync(StartConversationRequest body)
+        public virtual System.Threading.Tasks.Task<System.Guid> ApiCreateConversationAsync(StartConversationRequest body)
         {
             return ApiCreateConversationAsync(body, System.Threading.CancellationToken.None);
         }
@@ -165,24 +165,24 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <remarks>
         /// Example request:
         /// <br/>
-        /// <br/>```  
-        /// <br/>   {  
-        /// <br/>      "meteringPointIdentification": "570715000000033841",  
+        /// <br/>```
+        /// <br/>   {
+        /// <br/>      "meteringPointIdentification": "570715000000033841",
         /// <br/>      "actorsGlnNumbers": [ "5790001330999", "5790001330552"],
-        /// <br/>      "conversationMessage": {  
-        /// <br/>          "senderEmail": "xx@ddddd.dk",  
-        /// <br/>          "anonymous": true,  
-        /// <br/>          "content": "Test message",  
-        /// <br/>          "createdBy": "xxxxx",  
-        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"  
-        /// <br/>       }    
-        /// <br/>    }     
+        /// <br/>      "conversationMessage": {
+        /// <br/>          "senderEmail": "xx@ddddd.dk",
+        /// <br/>          "anonymous": true,
+        /// <br/>          "content": "Test message",
+        /// <br/>          "createdBy": "xxxxx",
+        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"
+        /// <br/>       }
+        /// <br/>    }
         /// <br/> ```
         /// </remarks>
         /// <param name="body">Specifies the new Conversation.</param>
-        /// <returns>Created the specified conversation</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ApiCreateConversationAsync(StartConversationRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> ApiCreateConversationAsync(StartConversationRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -198,6 +198,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
@@ -227,9 +228,14 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 204)
+                        if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Guid>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)
@@ -333,7 +339,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -345,7 +351,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }

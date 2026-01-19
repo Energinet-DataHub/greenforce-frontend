@@ -6,30 +6,10 @@
   },
   "servers": [
     {
-      "url": "http://app-api-actcon-d-we-001.azurewebsites.net/"
+      "url": "https://app-api-actcon-d-we-001.azurewebsites.net/"
     }
   ],
   "paths": {
-    "/api/health": {
-      "get": {
-        "tags": [
-          "ActorConversation"
-        ],
-        "operationId": "health",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/CreateConversation": {
       "post": {
         "tags": [
@@ -192,9 +172,6 @@
     }
   },
   "tags": [
-    {
-      "name": "ActorConversation"
-    },
     {
       "name": "StartConversation"
     }
