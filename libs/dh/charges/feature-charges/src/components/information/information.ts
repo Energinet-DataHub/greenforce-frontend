@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 //#endregione';
-import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+
+import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WATT_MENU } from '@energinet/watt/menu';
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
@@ -93,42 +94,53 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   providers: [DhNavigationService],
   template: `
     <dh-toolbar-portal>
-      <watt-breadcrumbs *transloco="let t; prefix: 'charges.charge'">
-        <watt-breadcrumb [routerLink]="parentUrl">
-          {{ t('breadcrumb') }}
-        </watt-breadcrumb>
-        <watt-breadcrumb>
-          {{ charge()?.displayName }}
-        </watt-breadcrumb>
+      <watt-breadcrumbs>
+        @for (breadcrumb of breadcrumbs(); track $index) {
+          <watt-breadcrumb [routerLink]="breadcrumb.url">
+            {{ breadcrumb.label }}
+          </watt-breadcrumb>
+        }
       </watt-breadcrumbs>
     </dh-toolbar-portal>
     <div class="page-grid">
       <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
-        @if (charge(); as charge) {
-          <div *transloco="let t; prefix: 'charges'">
-            <header vater-stack direction="row" gap="m">
-              <h2 style="margin: 0">{{ charge.displayName }}</h2>
-              <dh-charges-status [status]="charge.status" />
-            </header>
-            <watt-description-list variant="inline-flow">
-              <watt-description-list-item [label]="t('charge.type')">
-                {{ t('chargeTypes.' + charge.type) }}
-              </watt-description-list-item>
-              <watt-description-list-item [label]="t('charge.owner')">
-                {{ charge.owner?.displayName | dhEmDashFallback }}
-              </watt-description-list-item>
-              <watt-description-list-item [label]="t('charge.resolution')">
-                {{ t('resolutions.' + charge.resolution) }}
-              </watt-description-list-item>
-              <watt-description-list-item [label]="t('charge.vat')">
-                {{ t('vatInclusive.' + charge.vatInclusive) }}
-              </watt-description-list-item>
-              <watt-description-list-item [label]="t('charge.transparentInvoicing')">
-                {{ charge.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
-              </watt-description-list-item>
-            </watt-description-list>
-          </div>
-        }
+        <div *transloco="let t; prefix: 'charges.charge'">
+          <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
+            {{ charge()?.displayName }}
+            @let status = charge()?.status;
+            @if (status) {
+              <dh-charges-status [status]="status" />
+            }
+          </h2>
+
+          <watt-description-list variant="inline-flow">
+            <watt-description-list-item [label]="t('type')">
+              @let chargeType = charge()?.type;
+              @if (chargeType) {
+                {{ 'charges.chargeTypes.' + chargeType | transloco }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('owner')">
+              {{ charge()?.owner?.displayName | dhEmDashFallback }}
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('resolution')">
+              @let resolution = charge()?.resolution;
+              @if (resolution) {
+                {{ 'charges.resolutions.' + resolution | transloco }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('vat')">
+              @let vatInclusive = charge()?.vatInclusive;
+              @if (vatInclusive) {
+                {{ 'charges.vatInclusive.' + vatInclusive | transloco }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('transparentInvoicing')">
+              @let transparentInvoicing = charge()?.transparentInvoicing;
+              {{ transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
+            </watt-description-list-item>
+          </watt-description-list>
+        </div>
 
         <vater-spacer />
 
@@ -173,14 +185,27 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 })
 export class DhChargesInformation {
   private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
   readonly id = input.required<string>();
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.chargeById);
   resolution = computed(() => this.charge()?.resolution ?? 'unknown');
   getLink = (path: ChargesSubPaths, ...paths: string[]) => [getPath(path), ...paths].join('/');
-  parentUrl = this.router.createUrlTree([getPath<BasePaths>('charges')], {
-    // Preserve filters when navigating back to list view
-    queryParams: this.route.snapshot.queryParams,
-  });
+
+  breadcrumbLabel = translateSignal('charges.charge.breadcrumb');
+  breadcrumbs = computed(() => [
+    {
+      label: this.breadcrumbLabel(),
+      url: this.router.createUrlTree([getPath<BasePaths>('charges')]).toString(),
+    },
+    {
+      label: this.charge()?.displayName,
+      url: this.router
+        .createUrlTree([
+          getPath<BasePaths>('charges'),
+          this.id(),
+          getPath<ChargesSubPaths>('prices'),
+        ])
+        .toString(),
+    },
+  ]);
 }
