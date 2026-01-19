@@ -121,7 +121,8 @@ public class ChargesClient(
         Interval period,
         CancellationToken ct = default)
     {
-        var result = await client.GetChargeSeriesAsync(new(id, period.Start, period.End), ct);
+        var end = period.HasEnd ? period.End : Instant.MaxValue;
+        var result = await client.GetChargeSeriesAsync(new(id, period.Start, end), ct);
         return !result.IsSuccess
             ? throw new GraphQLException(result.DiagnosticMessage)
             : result.Data is null
