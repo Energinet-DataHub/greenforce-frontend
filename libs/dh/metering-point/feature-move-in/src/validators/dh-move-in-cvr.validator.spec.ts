@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-﻿import { FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('@energinet-datahub/dh/shared/environments', () => ({

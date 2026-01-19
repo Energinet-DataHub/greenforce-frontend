@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-﻿import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { environment } from '@energinet-datahub/dh/shared/environments';
 
