@@ -102,14 +102,14 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         </watt-breadcrumb>
       </watt-breadcrumbs>
     </dh-toolbar-portal>
-    <div class="page-grid" *transloco="let t; prefix: 'charges'">
+    <div class="page-grid">
       <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
         @if (charge(); as charge) {
-          <div>
-            <vater-stack direction="row" gap="m">
-              <h2 [style.margin]="0">{{ charge.displayName }}</h2>
+          <div *transloco="let t; prefix: 'charges'">
+            <header vater-stack direction="row" gap="m">
+              <h2 style="margin: 0">{{ charge.displayName }}</h2>
               <dh-charges-status [status]="charge.status" />
-            </vater-stack>
+            </header>
             <watt-description-list variant="inline-flow">
               <watt-description-list-item [label]="t('charge.type')">
                 {{ t('chargeTypes.' + charge.type) }}
@@ -132,20 +132,24 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 
         <vater-spacer />
 
-        <ng-container *dhPermissionRequired="['charges:manage']">
-          <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
-            {{ t('charge.actions.menu') }}
+        <ng-container *transloco="let t; prefix: 'charges.charge.actions'">
+          <watt-button
+            *dhPermissionRequired="['charges:manage']"
+            variant="secondary"
+            [wattMenuTriggerFor]="menu"
+          >
+            {{ t('menu') }}
             <watt-icon name="plus" />
           </watt-button>
           <watt-menu #menu>
             <watt-menu-item [routerLink]="[{ outlets: { actions: ['edit'] } }]">
-              {{ t('charge.actions.edit') }}
+              {{ t('edit') }}
             </watt-menu-item>
             <watt-menu-item [routerLink]="[{ outlets: { actions: ['stop'] } }]">
-              {{ t('charge.actions.stop') }}
+              {{ t('stop') }}
             </watt-menu-item>
             <watt-menu-item [routerLink]="[{ outlets: { actions: ['upload-series'] } }]">
-              {{ t('charge.actions.uploadSeries') }}
+              {{ t('uploadSeries') }}
             </watt-menu-item>
           </watt-menu>
         </ng-container>
