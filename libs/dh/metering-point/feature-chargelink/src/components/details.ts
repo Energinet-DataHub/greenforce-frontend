@@ -69,17 +69,19 @@ import { WattIconComponent } from '@energinet/watt/icon';
       <watt-drawer-heading>
         <vater-stack align="start" gap="m">
           <h1 vater fill="horizontal">{{ chargeLinkWithHistory()?.charge?.displayName }}</h1>
-          <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
-            <watt-button variant="secondary" [wattMenuTriggerFor]="actions">
-              {{ t('actions') }}
-              <watt-icon name="moreVertical" />
-            </watt-button>
-            <watt-menu #actions>
-              <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
-              <watt-menu-item [routerLink]="['stop']">{{ t('stop') }}</watt-menu-item>
-              <watt-menu-item [routerLink]="['cancel']">{{ t('cancel') }}</watt-menu-item>
-            </watt-menu>
-          </ng-container>
+          @if (!chargeLinkWithHistory()?.period?.interval?.end) {
+            <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
+              <watt-button variant="secondary" [wattMenuTriggerFor]="actions">
+                {{ t('actions') }}
+                <watt-icon name="moreVertical" />
+              </watt-button>
+              <watt-menu #actions>
+                <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
+                <watt-menu-item [routerLink]="['stop']">{{ t('stop') }}</watt-menu-item>
+                <watt-menu-item [routerLink]="['cancel']">{{ t('cancel') }}</watt-menu-item>
+              </watt-menu>
+            </ng-container>
+          }
         </vater-stack>
       </watt-drawer-heading>
 
