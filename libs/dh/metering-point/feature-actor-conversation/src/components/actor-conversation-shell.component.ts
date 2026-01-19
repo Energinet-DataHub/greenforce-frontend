@@ -64,11 +64,17 @@ export class DhActorConversationShellComponent {
   async send(message: string) {
     const result = await this.createConversationMutation.mutate({
       variables: {
-        request: 'something',
+        meteringPointIdentification: '571313000000000000',
+        conversationMessageContent: message,
       },
     });
-    console.log(result);
     this.newCaseVisible.set(false);
+    if (result.error) {
+      this.toastService.open({
+        type: 'danger',
+        message: 'Error',
+      });
+    }
     this.toastService.open({
       type: 'success',
       message: message,

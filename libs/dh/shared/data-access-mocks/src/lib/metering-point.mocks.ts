@@ -640,7 +640,7 @@ function createConversation() {
         __typename: 'Mutation',
         createConversation: {
           __typename: 'CreateConversationPayload',
-          string: 'success',
+          boolean: true
         },
       },
     });

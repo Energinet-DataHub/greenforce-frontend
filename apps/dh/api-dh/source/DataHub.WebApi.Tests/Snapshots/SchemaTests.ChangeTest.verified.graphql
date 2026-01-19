@@ -416,7 +416,7 @@ type CreateChargePayload {
 }
 
 type CreateConversationPayload {
-  string: String
+  boolean: Boolean
 }
 
 type CreateDelegationsForMarketParticipantPayload {
@@ -1913,7 +1913,8 @@ input CreateChargeLinkInput {
 }
 
 input CreateConversationInput {
-  request: String!
+  meteringPointIdentification: String!
+  conversationMessageContent: String!
 }
 
 input CreateDelegationsForMarketParticipantInput {
