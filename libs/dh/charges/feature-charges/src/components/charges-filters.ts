@@ -206,12 +206,13 @@ export class DhChargesFilters {
       this.createGroupOption('vatInclusive'),
       this.createGroupOption('transparentInvoicing'),
       this.createGroupOption('predictablePrice'),
-      this.createGroupOption('missingPriceSeries'),
+      this.createGroupOption('missingPriceSeries', { noInvertedOption: true }),
     ];
   }
 
   private createGroupOption(
-    name: keyof ChargesQueryInput
+    name: keyof ChargesQueryInput,
+    { noInvertedOption = false } = {}
   ): WattDropdownOptionGroup<ChargesQueryInput> {
     return {
       label: this.moreOptionsTranslations()[`${name}GroupName`],
@@ -220,10 +221,14 @@ export class DhChargesFilters {
           value: { [name]: true },
           displayValue: this.moreOptionsTranslations()[name],
         },
-        {
-          value: { [name]: false },
-          displayValue: this.moreOptionsTranslations()[`not_${name}`],
-        },
+        ...(noInvertedOption
+          ? []
+          : [
+              {
+                value: { [name]: false },
+                displayValue: this.moreOptionsTranslations()[`not_${name}`],
+              },
+            ]),
       ],
     };
   }

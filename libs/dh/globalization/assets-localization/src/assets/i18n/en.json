@@ -817,9 +817,10 @@
         },
         "copyMessage": "Copy message ID",
         "navigateToMessage": "Go to message",
-        "edit": "Edit change link",
-        "stop": "Stop change link",
-        "cancel": "Cancel change link"
+        "actions": "Actions",
+        "edit": "Edit charge link",
+        "stop": "Stop charge link",
+        "cancel": "Cancel charge link"
       },
       "create": {
         "errors": {

@@ -107,7 +107,7 @@ import {
               [label]="t('chargeTypes.' + selectedType())"
             />
 
-            @if (selectedType() !== 'TARIFF') {
+            @if (selectedType() !== 'TARIFF' && selectedType() !== 'TARIFF_TAX') {
               <watt-text-field [formControl]="form().controls.factor" [label]="t('factor')">
                 @if (form().controls.factor.errors?.min) {
                   <watt-field-error>
