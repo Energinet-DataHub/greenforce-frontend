@@ -74,10 +74,11 @@ export class DhActorConversationShellComponent {
         type: 'danger',
         message: 'Error',
       });
+    } else {
+      this.toastService.open({
+        type: 'success',
+        message: message,
+      });
     }
-    this.toastService.open({
-      type: 'success',
-      message: message,
-    });
   }
 }

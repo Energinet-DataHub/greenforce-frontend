@@ -28,6 +28,7 @@
     "designsystem:build": "nx run watt:build-storybook",
     "designsystem:start": "nx run watt:storybook",
     "designsystem:package": "nx run watt:package",
+    "domain:generate": "nx run dh-shared-domain:generate",
     "graph": "nx graph",
     "e2e": "nx run-many --target=e2e",
     "format": "nx format:write --sort-root-tsconfig-paths",
