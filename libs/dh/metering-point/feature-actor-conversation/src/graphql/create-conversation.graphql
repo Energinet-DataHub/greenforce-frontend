@@ -1,0 +1,13 @@
+mutation CreateConversation(
+  $meteringPointIdentification: String!
+  $conversationMessageContent: String!
+) {
+  createConversation(
+    input: {
+      meteringPointIdentification: $meteringPointIdentification
+      conversationMessageContent: $conversationMessageContent
+    }
+  ) {
+    boolean: boolean
+  }
+}
