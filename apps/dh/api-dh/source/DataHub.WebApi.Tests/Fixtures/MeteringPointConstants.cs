@@ -93,12 +93,12 @@ public static class MeteringPointConstants
     public static readonly DateTimeOffset _heatingValidFrom = DateTimeOffset.Parse("2024-11-01T00:00:00Z");
     public static readonly DateTimeOffset _heatingValidTo = DateTimeOffset.Parse("2025-03-31T23:59:59Z");
 
-    public static readonly Guid _parentId = Guid.Parse("11111111-1111-1111-1111-111111111111");
-    public static readonly Guid _installationDarReference = Guid.Parse("22222222-2222-2222-2222-222222222222");
-    public static readonly Guid _powerPlantGsrn = Guid.Parse("33333333-3333-3333-3333-333333333333");
-    public static readonly Guid _orchestrationInstanceId = Guid.Parse("44444444-4444-4444-4444-444444444444");
-    public static readonly Guid _legalDarReference = Guid.Parse("55555555-5555-5555-5555-555555555555");
-    public static readonly Guid _technicalDarReference = Guid.Parse("66666666-6666-6666-6666-666666666666");
+    public static readonly Guid ParentId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+    public static readonly Guid InstallationDarReference = Guid.Parse("22222222-2222-2222-2222-222222222222");
+    public static readonly Guid PowerPlantGsrn = Guid.Parse("33333333-3333-3333-3333-333333333333");
+    public static readonly Guid OrchestrationInstanceId = Guid.Parse("44444444-4444-4444-4444-444444444444");
+    public static readonly Guid LegalDarReference = Guid.Parse("55555555-5555-5555-5555-555555555555");
+    public static readonly Guid TechnicalDarReference = Guid.Parse("66666666-6666-6666-6666-666666666666");
 
     public static MeteringPointDtoV1.ContactAddressDto CreateLegalContactAddress()
         => new(
@@ -114,7 +114,7 @@ public static class MeteringPointConstants
             LegalContactPostalCode,
             LegalContactCityName,
             LegalContactAdditionalCityName,
-            _legalDarReference,
+            LegalDarReference,
             LegalContactCountryCode,
             LegalContactFloor,
             LegalContactRoom,
@@ -135,7 +135,7 @@ public static class MeteringPointConstants
             TechnicalContactPostalCode,
             TechnicalContactCityName,
             TechnicalContactAdditionalCityName,
-            _technicalDarReference,
+            TechnicalDarReference,
             TechnicalContactCountryCode,
             TechnicalContactFloor,
             TechnicalContactRoom,
