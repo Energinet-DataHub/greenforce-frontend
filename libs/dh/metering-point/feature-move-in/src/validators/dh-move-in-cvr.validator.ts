@@ -16,17 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  inject,
-  Injector,
-  runInInjectionContext,
-} from '@angular/core';
+import { inject, Injector, runInInjectionContext } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import {
-  DhAppEnvironment,
-  dhAppEnvironmentToken,
-} from '@energinet-datahub/dh/shared/environments';
+import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
 

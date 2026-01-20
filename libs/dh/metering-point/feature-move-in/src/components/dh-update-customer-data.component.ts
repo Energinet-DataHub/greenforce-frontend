@@ -17,7 +17,16 @@
  */
 //#endregion
 import { Location } from '@angular/common';
-import { Component, computed, DestroyRef, effect, inject, Injector, input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  Injector,
+  input,
+  signal,
+} from '@angular/core';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
