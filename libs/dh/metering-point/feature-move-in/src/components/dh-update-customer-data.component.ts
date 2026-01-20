@@ -17,7 +17,16 @@
  */
 //#endregion
 import { Location } from '@angular/common';
-import { Component, computed, DestroyRef, effect, inject, input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  Injector,
+  input,
+  signal,
+} from '@angular/core';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -160,6 +169,7 @@ import { dayjs } from '@energinet/watt/date';
 })
 export class DhUpdateCustomerDataComponent {
   private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly injector = inject(Injector);
   private readonly translocoService = inject(TranslocoService);
   private readonly wattToastService = inject(WattToastService);
   private locationService = inject(Location);
@@ -215,7 +225,10 @@ export class DhUpdateCustomerDataComponent {
   businessCustomerDetailsForm: FormGroup<BusinessCustomerFormGroup> =
     this.formBuilder.group<BusinessCustomerFormGroup>({
       companyName: this.formBuilder.control<string>('', Validators.required),
-      cvr: this.formBuilder.control<string>('', [Validators.required, dhMoveInCvrValidator()]),
+      cvr: this.formBuilder.control<string>('', [
+        Validators.required,
+        dhMoveInCvrValidator(this.injector),
+      ]),
       nameProtection: this.formBuilder.control<boolean>(false),
     });
 
