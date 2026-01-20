@@ -45,9 +45,9 @@ public class MeteringPointMapperTests
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.AssetType.NoTechnology, AssetType.NoTechnology)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.AssetType.UnknownTechnology, AssetType.UnknownTechnology)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.AssetType.Unknown, null)]
-    public void MapToDto_AssetTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.AssetType source, AssetType? expected)
+    public void MapToDto_AssetTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.AssetType actual, AssetType? expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Theory]
@@ -56,27 +56,27 @@ public class MeteringPointMapperTests
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.New, ConnectionState.New)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.ClosedDown, ConnectionState.ClosedDown)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Unknown, null)]
-    public void MapToDto_ConnectionStateMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState source, ConnectionState? expected)
+    public void MapToDto_ConnectionStateMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState actual, ConnectionState? expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Theory]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Direct, ConnectionType.Direct)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Installation, ConnectionType.Installation)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Unknown, null)]
-    public void MapToDto_ConnectionTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType source, ConnectionType? expected)
+    public void MapToDto_ConnectionTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType actual, ConnectionType? expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Theory]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Remote, DisconnectionType.RemoteDisconnection)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Manual, DisconnectionType.ManualDisconnection)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Unknown, null)]
-    public void MapToDto_DisconnectionTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType source, DisconnectionType? expected)
+    public void MapToDto_DisconnectionTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType actual, DisconnectionType? expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Theory]
@@ -90,9 +90,9 @@ public class MeteringPointMapperTests
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.Tonne, MeteringPointMeasureUnit.Tonne)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.MVAr, MeteringPointMeasureUnit.MVAr)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.DanishTariffCode, MeteringPointMeasureUnit.DanishTariffCode)]
-    public void MapToDto_EnergyUnitMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit source, MeteringPointMeasureUnit expected)
+    public void MapToDto_EnergyUnitMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit actual, MeteringPointMeasureUnit expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Fact]
@@ -106,9 +106,9 @@ public class MeteringPointMapperTests
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Virtual, MeteringPointSubType.Virtual)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Calculated, MeteringPointSubType.Calculated)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Unknown, null)]
-    public void MapToDto_MeteringPointSubTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType source, MeteringPointSubType? expected)
+    public void MapToDto_MeteringPointSubTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType actual, MeteringPointSubType? expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Theory]
@@ -141,9 +141,9 @@ public class MeteringPointMapperTests
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointType.ActualConsumption, MeteringPointType.ActualConsumption)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointType.ActualProduction, MeteringPointType.ActualProduction)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointType.InternalUse, MeteringPointType.InternalUse)]
-    public void MapToDto_MeteringPointTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointType source, MeteringPointType expected)
+    public void MapToDto_MeteringPointTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointType actual, MeteringPointType expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Fact]
@@ -160,18 +160,18 @@ public class MeteringPointMapperTests
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.Product.Tariff, Product.Tariff)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.Product.FuelQuantity, Product.FuelQuantity)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.Product.Unknown, null)]
-    public void MapToDto_ProductMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.Product source, Product? expected)
+    public void MapToDto_ProductMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.Product actual, Product? expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Theory]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Technical, CustomerRelationType.Contact1)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Juridical, CustomerRelationType.Contact4)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Secondary, CustomerRelationType.Secondary)]
-    public void MapToDto_RelationTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.RelationType source, CustomerRelationType expected)
+    public void MapToDto_RelationTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.RelationType actual, CustomerRelationType expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Fact]
@@ -190,9 +190,9 @@ public class MeteringPointMapperTests
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.SettlementGroup.NinetyNine, 99)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.SettlementGroup.None, 0)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.SettlementGroup.Unknown, null)]
-    public void MapToDto_SettlementGroupMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.SettlementGroup source, int? expected)
+    public void MapToDto_SettlementGroupMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.SettlementGroup actual, int? expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Theory]
@@ -200,18 +200,18 @@ public class MeteringPointMapperTests
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.Profiled, SettlementMethod.Profiled)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.NonProfiled, SettlementMethod.NonProfiled)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.Unknown, null)]
-    public void MapToDto_SettlementMethodMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod source, SettlementMethod? expected)
+    public void MapToDto_SettlementMethodMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod actual, SettlementMethod? expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Theory]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.TimeResolution.QuarterHourly, "PT15M")]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.TimeResolution.Hourly, "PT1H")]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.TimeResolution.Monthly, "P1M")]
-    public void MapToDto_TimeResolutionMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.TimeResolution source, string expected)
+    public void MapToDto_TimeResolutionMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.TimeResolution actual, string expected)
     {
-        Assert.Equal(expected, source.MapToDto());
+        Assert.Equal(expected, actual.MapToDto());
     }
 
     [Fact]
