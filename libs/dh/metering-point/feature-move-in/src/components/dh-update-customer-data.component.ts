@@ -182,7 +182,11 @@ export class DhUpdateCustomerDataComponent {
 
   isBusinessCustomer = signal<boolean>(false);
   meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId(), actorGln: this.actorStorage.gln },
+    variables: {
+      meteringPointId: this.meteringPointId(),
+      actorGln: this.actorStorage.gln,
+      searchMigratedMeteringPoints: false
+    },
   }));
 
   meteringPointId = input.required<string>();
