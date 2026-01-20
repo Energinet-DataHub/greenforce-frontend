@@ -16,24 +16,37 @@
  * limitations under the License.
  */
 //#endregion
+import {
+  inject,
+  Injector,
+  runInInjectionContext,
+} from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
+import {
+  DhAppEnvironment,
+  dhAppEnvironmentToken,
+} from '@energinet-datahub/dh/shared/environments';
+
 import { dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
-import { environment } from '@energinet-datahub/dh/shared/environments';
 
 const MOVE_IN_TEST_CVRS = new Set(['11111111', '22222222']);
 
-export function dhMoveInCvrValidator(): ValidatorFn {
-  const baseValidator = dhCvrValidator();
+export function dhMoveInCvrValidator(injector: Injector): ValidatorFn {
+  return runInInjectionContext(injector, () => {
+    const appEnv = inject(dhAppEnvironmentToken).current;
+    const baseValidator = dhCvrValidator();
 
-  return (control: AbstractControl): ValidationErrors | null => {
-    const value = String(control.value ?? '');
+    const bypassAllowed = appEnv !== DhAppEnvironment.prod;
 
-    // Allow test CVR numbers in non-production environments,
-    // but ONLY for feature-move-in components.
-    if (!environment.production && MOVE_IN_TEST_CVRS.has(value)) {
-      return null;
-    }
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = String(control.value ?? '');
 
-    return baseValidator(control);
-  };
+      if (bypassAllowed && MOVE_IN_TEST_CVRS.has(value)) {
+        return null;
+      }
+
+      return baseValidator(control);
+    };
+  });
 }

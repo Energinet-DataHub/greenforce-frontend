@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, effect, inject, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  viewChild,
+  Injector,
+} from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -58,6 +65,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
   energySupplier: string;
 }> {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly injector = inject(Injector);
   private readonly transloco = inject(TranslocoService);
   private readonly initiateMoveIn = mutation(InitiateMoveInDocument);
   private readonly toastService = inject(WattToastService);
@@ -101,7 +109,10 @@ export class DhStartMoveInComponent extends WattTypedModal<{
         'businessCustomer',
         this.fb.group({
           companyName: this.fb.control<string>('', Validators.required),
-          cvr: this.fb.control<string>('', [Validators.required, dhMoveInCvrValidator()]),
+          cvr: this.fb.control<string>('', [
+            Validators.required,
+            dhMoveInCvrValidator(this.injector),
+          ]),
           isForeignCompany: this.isForeignCompanyFormControl,
         })
       );
