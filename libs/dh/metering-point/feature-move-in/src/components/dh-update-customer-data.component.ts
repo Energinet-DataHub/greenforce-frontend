@@ -440,8 +440,7 @@ export class DhUpdateCustomerDataComponent {
         return;
       }
 
-      const customers =
-        meteringPoint.commercialRelation?.activeEnergySupplyPeriod?.customers ?? [];
+      const customers = meteringPoint.commercialRelation?.activeEnergySupplyPeriod?.customers ?? [];
       const customer = customers[0];
 
       untracked(() => {
