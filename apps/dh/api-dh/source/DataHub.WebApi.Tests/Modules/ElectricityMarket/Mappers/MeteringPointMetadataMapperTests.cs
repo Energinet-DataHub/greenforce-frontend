@@ -157,7 +157,6 @@ public class MeteringPointMetadataMapperTests
         // Assert
         var legalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == Clients.ElectricityMarket.v1.CustomerRelationType.Contact4);
         var technicalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == Clients.ElectricityMarket.v1.CustomerRelationType.Contact1);
-        var electricalHeatingPeriodResult = commercialRelationResult.ActiveElectricalHeatingPeriods;
 
         // CommercialRelation
         Assert.Multiple(
@@ -165,8 +164,8 @@ public class MeteringPointMetadataMapperTests
             () => Assert.True(commercialRelationResult.Id > 0),
             () => Assert.Equal(_validFrom, commercialRelationResult.StartDate),
             () => Assert.Equal(_validTo, commercialRelationResult.EndDate),
-            // EnergySupplyPeriod
             () => Assert.Equal(EnergySupplierId, commercialRelationResult.EnergySupplier),
+            // EnergySupplyPeriod
             () => Assert.NotNull(commercialRelationResult.ActiveEnergySupplyPeriod),
             () => Assert.True(commercialRelationResult.ActiveEnergySupplyPeriod!.Id > 0),
             () => Assert.Equal(_energySupplierValidFrom, commercialRelationResult.ActiveEnergySupplyPeriod!.ValidFrom),
@@ -227,11 +226,11 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(TechnicalContactPoBox, technicalCustomerResult.TechnicalContact!.PostBox),
             () => Assert.Equal(TechnicalContactMunicipalityCode, technicalCustomerResult.TechnicalContact!.MunicipalityCode),
             // ElectricalHeatingPeriod
-            () => Assert.NotNull(electricalHeatingPeriodResult),
-            () => Assert.True(electricalHeatingPeriodResult!.Id > 0),
-            () => Assert.Equal(_heatingValidFrom, electricalHeatingPeriodResult!.ValidFrom),
-            () => Assert.Equal(_heatingValidTo, electricalHeatingPeriodResult!.ValidTo),
-            () => Assert.False(electricalHeatingPeriodResult!.IsActive),
-            () => Assert.Null(electricalHeatingPeriodResult!.TransactionType));
+            () => Assert.NotNull(commercialRelationResult.ActiveElectricalHeatingPeriods),
+            () => Assert.True(commercialRelationResult.ActiveElectricalHeatingPeriods!.Id > 0),
+            () => Assert.Equal(_heatingValidFrom, commercialRelationResult.ActiveElectricalHeatingPeriods!.ValidFrom),
+            () => Assert.Equal(_heatingValidTo, commercialRelationResult.ActiveElectricalHeatingPeriods!.ValidTo),
+            () => Assert.False(commercialRelationResult.ActiveElectricalHeatingPeriods!.IsActive),
+            () => Assert.Null(commercialRelationResult.ActiveElectricalHeatingPeriods!.TransactionType));
     }
 }
