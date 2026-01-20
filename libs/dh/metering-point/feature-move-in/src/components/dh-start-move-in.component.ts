@@ -22,7 +22,8 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
-import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
 import { WattToastService } from '@energinet/watt/toast';
 
 import { StartMoveInFormType } from '../types';
@@ -100,7 +101,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
         'businessCustomer',
         this.fb.group({
           companyName: this.fb.control<string>('', Validators.required),
-          cvr: this.fb.control<string>('', [Validators.required, dhCvrValidator()]),
+          cvr: this.fb.control<string>('', [Validators.required, dhMoveInCvrValidator()]),
           isForeignCompany: this.isForeignCompanyFormControl,
         })
       );

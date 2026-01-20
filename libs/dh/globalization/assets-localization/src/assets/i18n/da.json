@@ -395,13 +395,13 @@
           "name": "Navn",
           "owner": "Ejer",
           "status": "Status",
-          "resolution": "Tidsopløsning"
+          "resolution": "Prisopløsning"
         },
         "filters": {
           "chargeType": "Type",
           "owners": "Ejer",
           "status": "Status",
-          "resolution": "Tidsopløsning",
+          "resolution": "Prisopløsning",
           "vat": "Moms",
           "moreOptions": "Flere filtre"
         },
@@ -446,7 +446,7 @@
           "id": "ID",
           "name": "Navn",
           "description": "Beskrivelse",
-          "resolution": "Opløsning",
+          "resolution": "Prisopløsning",
           "HOURLY": "Time",
           "DAILY": "Dag",
           "vat": "Moms",
@@ -516,7 +516,7 @@
     "charge": {
       "type": "Type",
       "owner": "Ejer",
-      "resolution": "Tidsopløsning",
+      "resolution": "Prisopløsning",
       "transparentInvoicing": "Viderefakturering",
       "vat": "Moms",
       "tabs": {
@@ -579,7 +579,7 @@
           "gln": "GLN",
           "type": "Type",
           "id": "Id",
-          "resolution": "Tidsopløsning",
+          "resolution": "Prisopløsning",
           "from": "Fra",
           "to": "Til"
         }
@@ -609,7 +609,7 @@
         "tabLabel": "Stamdata"
       },
       "actor-conversation": {
-        "tabLabel": "Aktør dialog"
+        "tabLabel": "Aktørdialog"
       },
       "processes": {
         "tabLabel": "Processer"
@@ -705,7 +705,8 @@
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Elvarmedato",
         "powerLimit": "Effektgrænse",
-        "powerLimitValue": "{{ value }} kW",
+        "powerLimitValueKw": "{{ value }} kW",
+        "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Afbrydelsesart",
         "gridArea": "Netområde",
         "fromGridArea": "Fra netområde",
@@ -816,6 +817,7 @@
         },
         "copyMessage": "Kopier besked-ID",
         "navigateToMessage": "Gå til besked",
+        "actions": "Handlinger",
         "edit": "Rediger pristilknytning",
         "stop": "Stop pristilknytning",
         "cancel": "Annuller pristilknytning"
