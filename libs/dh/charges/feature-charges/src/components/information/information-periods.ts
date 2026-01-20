@@ -40,7 +40,7 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
     DhChargesStatus,
   ],
   template: `
-    <vater-stack gap="m" align="start" *transloco="let t; prefix: 'charges.priceInformation'">
+    <vater-stack gap="m" align="stretch" *transloco="let t; prefix: 'charges.priceInformation'">
       @for (period of chargeInformationPeriods(); track period) {
         <watt-card [style.maxWidth.px]="900">
           <watt-card-title>
