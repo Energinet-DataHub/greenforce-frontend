@@ -287,9 +287,10 @@ function getMarketParticipantUserGetUserAuditLogs() {
 }
 
 function getUserRoleAuditLogs() {
-  return mockGetUserRoleAuditLogsQuery(async () => {
+  return mockGetUserRoleAuditLogsQuery(async ({ variables }) => {
     await delay(mswConfig.delay);
-    return HttpResponse.json({ data: getUserRoleAuditLogsMock });
+    const data = getUserRoleAuditLogsMock.find((r) => r.userRoleById.id === variables.id);
+    return data ? HttpResponse.json({ data }) : HttpResponse.json(null, { status: 404 });
   });
 }
 
