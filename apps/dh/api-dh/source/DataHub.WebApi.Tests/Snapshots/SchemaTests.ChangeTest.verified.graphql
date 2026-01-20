@@ -1002,6 +1002,7 @@ type MeteringPointMetadataDto {
   environmentalFriendly: Boolean
   capacity: String
   powerLimitKw: Float
+  powerLimitAmp: Int
   meterNumber: String
   netSettlementGroup: Int
   scheduledMeterReadingMonth: Int

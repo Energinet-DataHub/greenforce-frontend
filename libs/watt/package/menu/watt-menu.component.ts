@@ -61,6 +61,10 @@ import { MatMenu, MatMenuModule } from '@angular/material/menu';
   `,
   styles: [
     `
+      watt-menu {
+        display: contents;
+      }
+
       :root {
         --watt-menu-padding-block: var(--watt-space-s);
         --watt-menu-padding-inline: var(--watt-space-m);
