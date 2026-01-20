@@ -92,7 +92,13 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    public static CustomerDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactDto contactDto)
+    public static long NextLong()
+    {
+        var random = new Random(Guid.NewGuid().GetHashCode());
+        return random.NextLong(1000000, long.MaxValue);
+    }
+
+    private static CustomerDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactDto contactDto)
     {
         return new CustomerDto
         {
@@ -106,7 +112,7 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    public static CustomerContactDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactAddressDto contactDto)
+    private static CustomerContactDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactAddressDto contactDto)
     {
         return new CustomerContactDto
         {
@@ -130,12 +136,6 @@ public static class MeteringPointMetadataMapper
             PostBox = contactDto.PoBox,
             MunicipalityCode = contactDto.MunicipalityCode,
         };
-    }
-
-    public static long NextLong()
-    {
-        var random = new Random(Guid.NewGuid().GetHashCode());
-        return random.NextLong(1000000, long.MaxValue);
     }
 
     private static InstallationAddressDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.InstallationAddressDto installationAddress)
@@ -344,7 +344,7 @@ public static class MeteringPointMetadataMapper
         return relationType switch
         {
             DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Technical => CustomerRelationType.Contact1,
-            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Juridical => CustomerRelationType.Contact4,
+            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Juridical => CustomerRelationType.Contact1,
             DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Secondary => CustomerRelationType.Secondary,
             DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Unknown => throw new InvalidOperationException("Invalid RelationType"),
         };
