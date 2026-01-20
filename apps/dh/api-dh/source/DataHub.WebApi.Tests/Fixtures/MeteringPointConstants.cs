@@ -13,16 +13,18 @@
 // limitations under the License.
 
 using System;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Shared;
 
-namespace Energinet.DataHub.WebApi.Tests.Modules.ElectricityMarket.Mappers;
+namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 
 public static class MeteringPointConstants
 {
     public const string CompanyName = "Test Company A/S";
     public const string CompanyCvr = "12345678";
-    public const string SecondaryCompanyName = "Secondary Contact Ltd";
-    public const string SecondaryCompanyCvr = "87654321";
-    public const string EnergySupplierGln = "5790001234567";
+    public const string CompanyNameTwo = "Secondary Contact Ltd";
+    public const string CompanyCvrTwo = "87654321";
+    public const string EnergySupplierId = "5790001234567";
 
     public const string GridAreaCode = "543";
     public const string MeterNumber = "12345678";
@@ -64,6 +66,7 @@ public static class MeteringPointConstants
     public const string LegalContactRoom = "201";
     public const string LegalContactPoBox = "PO Box 100";
     public const string LegalContactMunicipalityCode = "751";
+    public const bool LegalContactIsProtected = false;
 
     public const string TechnicalContactName = "Jane Smith";
     public const string TechnicalContactEmail = "jane.smith@example.com";
@@ -79,7 +82,9 @@ public static class MeteringPointConstants
     public const string TechnicalContactCountryCode = "DK";
     public const string TechnicalContactFloor = "1";
     public const string TechnicalContactRoom = "101";
+    public const string TechnicalContactPoBox = "PO Box 101";
     public const string TechnicalContactMunicipalityCode = "461";
+    public const bool TechnicalContactIsProtected = true;
 
     public static readonly DateTimeOffset _validFrom = DateTimeOffset.Parse("2024-01-01T00:00:00Z");
     public static readonly DateTimeOffset _validTo = DateTimeOffset.Parse("2024-12-31T23:59:59Z");
@@ -94,4 +99,55 @@ public static class MeteringPointConstants
     public static readonly Guid _orchestrationInstanceId = Guid.Parse("44444444-4444-4444-4444-444444444444");
     public static readonly Guid _legalDarReference = Guid.Parse("55555555-5555-5555-5555-555555555555");
     public static readonly Guid _technicalDarReference = Guid.Parse("66666666-6666-6666-6666-666666666666");
+
+    public static MeteringPointDtoV1.ContactAddressDto CreateLegalContactAddress()
+        => new(
+            LegalContactName,
+            LegalContactEmail,
+            LegalContactIsProtected,
+            LegalContactPhone,
+            LegalContactMobile,
+            LegalContactAttention,
+            LegalContactStreetCode,
+            LegalContactStreetName,
+            LegalContactBuildingNumber,
+            LegalContactPostalCode,
+            LegalContactCityName,
+            LegalContactAdditionalCityName,
+            _legalDarReference,
+            LegalContactCountryCode,
+            LegalContactFloor,
+            LegalContactRoom,
+            LegalContactPoBox,
+            LegalContactMunicipalityCode);
+
+    public static MeteringPointDtoV1.ContactAddressDto CreateTechnicalContactAddress()
+        => new(
+            TechnicalContactName,
+            TechnicalContactEmail,
+            TechnicalContactIsProtected,
+            TechnicalContactPhone,
+            TechnicalContactMobile,
+            TechnicalContactAttention,
+            TechnicalContactStreetCode,
+            TechnicalContactStreetName,
+            TechnicalContactBuildingNumber,
+            TechnicalContactPostalCode,
+            TechnicalContactCityName,
+            TechnicalContactAdditionalCityName,
+            _technicalDarReference,
+            TechnicalContactCountryCode,
+            TechnicalContactFloor,
+            TechnicalContactRoom,
+            TechnicalContactPoBox,
+            TechnicalContactMunicipalityCode);
+
+    public static MeteringPointDtoV1.ContactDto CreateContact(
+        string name,
+        string cvr,
+        bool isProtectedName,
+        RelationType relationType,
+        MeteringPointDtoV1.ContactAddressDto? legalContact,
+        MeteringPointDtoV1.ContactAddressDto? technicalContact)
+        => new(name, cvr, isProtectedName, relationType, legalContact, technicalContact);
 }

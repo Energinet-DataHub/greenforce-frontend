@@ -17,7 +17,7 @@ using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.Ge
 using Energinet.DataHub.ElectricityMarket.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Xunit;
-using static Energinet.DataHub.WebApi.Tests.Modules.ElectricityMarket.Mappers.MeteringPointConstants;
+using static Energinet.DataHub.WebApi.Tests.Fixtures.MeteringPointConstants;
 using AnnualDate = Energinet.DataHub.ElectricityMarket.Abstractions.Shared.AnnualDate;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.ElectricityMarket.Mappers;
@@ -31,44 +31,44 @@ public class MeteringPointMetadataMapperTests
         var settlementDate = new AnnualDate(SettlementDateMonth, SettlementDateDay);
 
         var meteringPointPeriod = new MeteringPointDtoV1.MeteringPointPeriodDto(
-            _validFrom,
-            _validTo,
-            MeteringPointType.Consumption,
-            MeteringPointSubType.Physical,
-            ConnectionState.Connected,
-            ConnectionType.Direct,
-            DisconnectionType.Remote,
-            TimeResolution.QuarterHourly,
-            GridAreaCode,
-            _parentId.ToString(),
-            MeterNumber,
-            SettlementMethod.FlexSettled,
-            Product.EnergyActive,
-            true,
-            AssetType.WindTurbines,
-            AssetCapacity,
-            EnergyUnit.KWh,
-            PowerLimitKw,
-            PowerLimitAmperes,
-            SettlementGroup.Six,
-            settlementDate,
-            FromGridAreaCode,
-            ToGridAreaCode,
-            _powerPlantGsrn.ToString(),
+            ValidFrom: _validFrom,
+            ValidTo: _validTo,
+            Type: MeteringPointType.Consumption,
+            SubType: MeteringPointSubType.Physical,
+            ConnectionState: ConnectionState.Connected,
+            ConnectionType: ConnectionType.Direct,
+            DisconnectionType: DisconnectionType.Remote,
+            TimeResolution: TimeResolution.QuarterHourly,
+            GridAreaId: GridAreaCode,
+            ParentMeteringPointId: _parentId.ToString(),
+            MeterId: MeterNumber,
+            SettlementMethod: SettlementMethod.FlexSettled,
+            Product: Product.EnergyActive,
+            ProductObligation: true,
+            AssetType: AssetType.WindTurbines,
+            AssetCapacity: AssetCapacity,
+            EnergyUnit: EnergyUnit.KWh,
+            PowerLimitKw: PowerLimitKw,
+            PowerLimitAmperes: PowerLimitAmperes,
+            SettlementGroup: SettlementGroup.Six,
+            SettlementDate: settlementDate,
+            FromGridAreaId: FromGridAreaCode,
+            ToGridAreaId: ToGridAreaCode,
+            PowerPlantGsrn: _powerPlantGsrn.ToString(),
             new MeteringPointDtoV1.InstallationAddressDto(
-                InstallationStreetCode,
-                InstallationStreetName,
-                InstallationBuildingNumber,
-                InstallationCityName,
-                InstallationAdditionalCityName,
-                _installationDarReference,
-                true,
-                InstallationFloor,
-                InstallationRoom,
-                InstallationPostalCode,
-                InstallationMunicipalityCode,
-                InstallationCountryCode,
-                InstallationRemarks));
+                StreetCode: InstallationStreetCode,
+                StreetName: InstallationStreetName,
+                BuildingNumber: InstallationBuildingNumber,
+                CityName: InstallationCityName,
+                AdditionalCityName: InstallationAdditionalCityName,
+                DarReference: _installationDarReference,
+                IsActualAddress: true,
+                Floor: InstallationFloor,
+                SuiteNumber: InstallationRoom,
+                PostalCode: InstallationPostalCode,
+                MunicipalityCode: InstallationMunicipalityCode,
+                CountryCode: InstallationCountryCode,
+                Remarks: InstallationRemarks));
 
         // Act
         var result = meteringPointPeriod.MapToDto();
@@ -127,15 +127,16 @@ public class MeteringPointMetadataMapperTests
     public void MapToDto_CommercialRelation_MapsAllProperties()
     {
         // Arrange
-        var legalContact = CreateLegalContactAddress();
-        var technicalContact = CreateTechnicalContactAddress(isProtected: false, additionalCityName: null, postOfficeBox: null);
-        var contact = CreateContact(CompanyName, CompanyCvr, false, RelationType.Juridical, legalContact, technicalContact);
+        var legalContactAddress = CreateLegalContactAddress();
+        var technicalContactAddress = CreateTechnicalContactAddress();
+        var legalContact = CreateContact(CompanyName, CompanyCvr, false, RelationType.Juridical, legalContactAddress, null);
+        var technicalContact = CreateContact(CompanyNameTwo, CompanyCvrTwo, true, RelationType.Technical, null, technicalContactAddress);
 
         var energySupplierPeriod = new MeteringPointDtoV1.EnergySupplierPeriodDto(
             _energySupplierValidFrom,
             _energySupplierValidTo,
             _orchestrationInstanceId,
-            [contact]);
+            [legalContact, technicalContact]);
 
         var electricalHeatingPeriod = new MeteringPointDtoV1.ElectricalHeatingPeriodDto(
             _heatingValidFrom,
@@ -144,241 +145,93 @@ public class MeteringPointMetadataMapperTests
         var commercialRelation = new MeteringPointDtoV1.CommercialRelationDto(
             _validFrom,
             _validTo,
-            EnergySupplierGln,
+            EnergySupplierId,
             energySupplierPeriod,
             electricalHeatingPeriod,
             [energySupplierPeriod],
             [electricalHeatingPeriod]);
 
         // Act
-        var result = commercialRelation.MapToDto();
+        var commercialRelationResult = commercialRelation.MapToDto();
 
         // Assert
-        var customer = result.ActiveEnergySupplyPeriod!.Customers.First();
+        var legalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == Clients.ElectricityMarket.v1.CustomerRelationType.Contact4);
+        var technicalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == Clients.ElectricityMarket.v1.CustomerRelationType.Contact1);
+        var electricalHeatingPeriodResult = commercialRelationResult.ActiveElectricalHeatingPeriods;
+
+        // CommercialRelation
         Assert.Multiple(
-            () => Assert.NotNull(result),
-            () => Assert.True(result.Id > 0),
-            () => Assert.Equal(EnergySupplierGln, result.EnergySupplier),
-            () => Assert.Equal(_validFrom, result.StartDate),
-            () => Assert.Equal(_validTo, result.EndDate),
-            () => Assert.NotNull(result.ActiveEnergySupplyPeriod),
-            () => Assert.True(result.ActiveEnergySupplyPeriod!.Id > 0),
-            () => Assert.Equal(_energySupplierValidFrom, result.ActiveEnergySupplyPeriod!.ValidFrom),
-            () => Assert.Equal(_energySupplierValidTo, result.ActiveEnergySupplyPeriod!.ValidTo),
-            () => Assert.Single(result.ActiveEnergySupplyPeriod!.Customers),
-            () => Assert.NotNull(customer),
-            () => Assert.True(customer.Id > 0),
-            () => Assert.Equal(CompanyName, customer.Name),
-            () => Assert.Equal(CompanyCvr, customer.Cvr),
-            () => Assert.False(customer.IsProtectedName),
-            () => Assert.Equal(Clients.ElectricityMarket.v1.CustomerRelationType.Contact1, customer.RelationType),
-            () => Assert.NotNull(customer.LegalContact),
-            () => Assert.True(customer.LegalContact!.Id > 0),
-            () => Assert.Equal(LegalContactName, customer.LegalContact!.Name),
-            () => Assert.Equal(LegalContactEmail, customer.LegalContact!.Email),
-            () => Assert.False(customer.LegalContact!.IsProtectedAddress),
-            () => Assert.Equal(LegalContactPhone, customer.LegalContact!.Phone),
-            () => Assert.Equal(LegalContactMobile, customer.LegalContact!.Mobile),
-            () => Assert.Equal(LegalContactAttention, customer.LegalContact!.Attention),
-            () => Assert.Equal(LegalContactStreetCode, customer.LegalContact!.StreetCode),
-            () => Assert.Equal(LegalContactStreetName, customer.LegalContact!.StreetName),
-            () => Assert.Equal(LegalContactBuildingNumber, customer.LegalContact!.BuildingNumber),
-            () => Assert.Equal(LegalContactPostalCode, customer.LegalContact!.PostCode),
-            () => Assert.Equal(LegalContactCityName, customer.LegalContact!.CityName),
-            () => Assert.Equal(LegalContactAdditionalCityName, customer.LegalContact!.CitySubDivisionName),
-            () => Assert.Equal(_legalDarReference, customer.LegalContact!.DarReference),
-            () => Assert.Equal(LegalContactCountryCode, customer.LegalContact!.CountryCode),
-            () => Assert.Equal(LegalContactFloor, customer.LegalContact!.Floor),
-            () => Assert.Equal(LegalContactRoom, customer.LegalContact!.Room),
-            () => Assert.Equal(LegalContactPoBox, customer.LegalContact!.PostBox),
-            () => Assert.Equal(LegalContactMunicipalityCode, customer.LegalContact!.MunicipalityCode),
-            () => Assert.NotNull(customer.TechnicalContact),
-            () => Assert.True(customer.TechnicalContact!.Id > 0),
-            () => Assert.Equal(TechnicalContactName, customer.TechnicalContact!.Name),
-            () => Assert.Equal(TechnicalContactEmail, customer.TechnicalContact!.Email),
-            () => Assert.False(customer.TechnicalContact!.IsProtectedAddress),
-            () => Assert.Equal(TechnicalContactPhone, customer.TechnicalContact!.Phone),
-            () => Assert.Equal(TechnicalContactMobile, customer.TechnicalContact!.Mobile),
-            () => Assert.Equal(TechnicalContactAttention, customer.TechnicalContact!.Attention),
-            () => Assert.Equal(TechnicalContactStreetCode, customer.TechnicalContact!.StreetCode),
-            () => Assert.Equal(TechnicalContactStreetName, customer.TechnicalContact!.StreetName),
-            () => Assert.Equal(TechnicalContactBuildingNumber, customer.TechnicalContact!.BuildingNumber),
-            () => Assert.Equal(TechnicalContactPostalCode, customer.TechnicalContact!.PostCode),
-            () => Assert.Equal(TechnicalContactCityName, customer.TechnicalContact!.CityName),
-            () => Assert.Null(customer.TechnicalContact!.CitySubDivisionName),
-            () => Assert.Equal(_technicalDarReference, customer.TechnicalContact!.DarReference),
-            () => Assert.Equal(TechnicalContactCountryCode, customer.TechnicalContact!.CountryCode),
-            () => Assert.Equal(TechnicalContactFloor, customer.TechnicalContact!.Floor),
-            () => Assert.Equal(TechnicalContactRoom, customer.TechnicalContact!.Room),
-            () => Assert.Null(customer.TechnicalContact!.PostBox),
-            () => Assert.Equal(TechnicalContactMunicipalityCode, customer.TechnicalContact!.MunicipalityCode),
-            () => Assert.NotNull(result.ActiveElectricalHeatingPeriods),
-            () => Assert.True(result.ActiveElectricalHeatingPeriods!.Id > 0),
-            () => Assert.Equal(_heatingValidFrom, result.ActiveElectricalHeatingPeriods!.ValidFrom),
-            () => Assert.Equal(_heatingValidTo, result.ActiveElectricalHeatingPeriods!.ValidTo),
-            () => Assert.False(result.ActiveElectricalHeatingPeriods!.IsActive),
-            () => Assert.Null(result.ActiveElectricalHeatingPeriods!.TransactionType),
-            () => Assert.Single(result.EnergySupplyPeriodTimeline),
-            () => Assert.Equal(_energySupplierValidFrom, result.EnergySupplyPeriodTimeline.First().ValidFrom),
-            () => Assert.Equal(_energySupplierValidTo, result.EnergySupplyPeriodTimeline.First().ValidTo),
-            () => Assert.Single(result.ElectricalHeatingPeriods),
-            () => Assert.Equal(_heatingValidFrom, result.ElectricalHeatingPeriods.First().ValidFrom),
-            () => Assert.Equal(_heatingValidTo, result.ElectricalHeatingPeriods.First().ValidTo));
+            () => Assert.NotNull(commercialRelationResult),
+            () => Assert.True(commercialRelationResult.Id > 0),
+            () => Assert.Equal(_validFrom, commercialRelationResult.StartDate),
+            () => Assert.Equal(_validTo, commercialRelationResult.EndDate),
+            // EnergySupplyPeriod
+            () => Assert.Equal(EnergySupplierId, commercialRelationResult.EnergySupplier),
+            () => Assert.NotNull(commercialRelationResult.ActiveEnergySupplyPeriod),
+            () => Assert.True(commercialRelationResult.ActiveEnergySupplyPeriod!.Id > 0),
+            () => Assert.Equal(_energySupplierValidFrom, commercialRelationResult.ActiveEnergySupplyPeriod!.ValidFrom),
+            () => Assert.Equal(_energySupplierValidTo, commercialRelationResult.ActiveEnergySupplyPeriod!.ValidTo),
+            () => Assert.Equal(2, commercialRelationResult.ActiveEnergySupplyPeriod.Customers.Count),
+            // Legal contact
+            () => Assert.Null(legalCustomerResult.TechnicalContact),
+            () => Assert.NotNull(legalCustomerResult.LegalContact),
+            () => Assert.True(legalCustomerResult.Id > 0),
+            () => Assert.Equal(CompanyName, legalCustomerResult.Name),
+            () => Assert.Equal(CompanyCvr, legalCustomerResult.Cvr),
+            () => Assert.False(legalCustomerResult.IsProtectedName),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.CustomerRelationType.Contact4, legalCustomerResult.RelationType),
+            () => Assert.True(legalCustomerResult.LegalContact!.Id > 0),
+            () => Assert.Equal(LegalContactName, legalCustomerResult.LegalContact!.Name),
+            () => Assert.Equal(LegalContactEmail, legalCustomerResult.LegalContact!.Email),
+            () => Assert.False(legalCustomerResult.LegalContact!.IsProtectedAddress),
+            () => Assert.Equal(LegalContactPhone, legalCustomerResult.LegalContact!.Phone),
+            () => Assert.Equal(LegalContactMobile, legalCustomerResult.LegalContact!.Mobile),
+            () => Assert.Equal(LegalContactAttention, legalCustomerResult.LegalContact!.Attention),
+            () => Assert.Equal(LegalContactStreetCode, legalCustomerResult.LegalContact!.StreetCode),
+            () => Assert.Equal(LegalContactStreetName, legalCustomerResult.LegalContact!.StreetName),
+            () => Assert.Equal(LegalContactBuildingNumber, legalCustomerResult.LegalContact!.BuildingNumber),
+            () => Assert.Equal(LegalContactPostalCode, legalCustomerResult.LegalContact!.PostCode),
+            () => Assert.Equal(LegalContactCityName, legalCustomerResult.LegalContact!.CityName),
+            () => Assert.Equal(LegalContactAdditionalCityName, legalCustomerResult.LegalContact!.CitySubDivisionName),
+            () => Assert.Equal(_legalDarReference, legalCustomerResult.LegalContact!.DarReference),
+            () => Assert.Equal(LegalContactCountryCode, legalCustomerResult.LegalContact!.CountryCode),
+            () => Assert.Equal(LegalContactFloor, legalCustomerResult.LegalContact!.Floor),
+            () => Assert.Equal(LegalContactRoom, legalCustomerResult.LegalContact!.Room),
+            () => Assert.Equal(LegalContactPoBox, legalCustomerResult.LegalContact!.PostBox),
+            () => Assert.Equal(LegalContactMunicipalityCode, legalCustomerResult.LegalContact!.MunicipalityCode),
+            // Technical contact
+            () => Assert.Null(technicalCustomerResult.LegalContact),
+            () => Assert.NotNull(technicalCustomerResult.TechnicalContact),
+            () => Assert.True(technicalCustomerResult.Id > 0),
+            () => Assert.Equal(CompanyNameTwo, technicalCustomerResult.Name),
+            () => Assert.Equal(CompanyCvrTwo, technicalCustomerResult.Cvr),
+            () => Assert.True(technicalCustomerResult.IsProtectedName),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.CustomerRelationType.Contact1, technicalCustomerResult.RelationType),
+            () => Assert.True(technicalCustomerResult.TechnicalContact!.Id > 0),
+            () => Assert.Equal(TechnicalContactName, technicalCustomerResult.TechnicalContact!.Name),
+            () => Assert.Equal(TechnicalContactEmail, technicalCustomerResult.TechnicalContact!.Email),
+            () => Assert.True(technicalCustomerResult.TechnicalContact!.IsProtectedAddress),
+            () => Assert.Equal(TechnicalContactPhone, technicalCustomerResult.TechnicalContact!.Phone),
+            () => Assert.Equal(TechnicalContactMobile, technicalCustomerResult.TechnicalContact!.Mobile),
+            () => Assert.Equal(TechnicalContactAttention, technicalCustomerResult.TechnicalContact!.Attention),
+            () => Assert.Equal(TechnicalContactStreetCode, technicalCustomerResult.TechnicalContact!.StreetCode),
+            () => Assert.Equal(TechnicalContactStreetName, technicalCustomerResult.TechnicalContact!.StreetName),
+            () => Assert.Equal(TechnicalContactBuildingNumber, technicalCustomerResult.TechnicalContact!.BuildingNumber),
+            () => Assert.Equal(TechnicalContactPostalCode, technicalCustomerResult.TechnicalContact!.PostCode),
+            () => Assert.Equal(TechnicalContactCityName, technicalCustomerResult.TechnicalContact!.CityName),
+            () => Assert.Equal(TechnicalContactAdditionalCityName, technicalCustomerResult.TechnicalContact!.CitySubDivisionName),
+            () => Assert.Equal(_technicalDarReference, technicalCustomerResult.TechnicalContact!.DarReference),
+            () => Assert.Equal(TechnicalContactCountryCode, technicalCustomerResult.TechnicalContact!.CountryCode),
+            () => Assert.Equal(TechnicalContactFloor, technicalCustomerResult.TechnicalContact!.Floor),
+            () => Assert.Equal(TechnicalContactRoom, technicalCustomerResult.TechnicalContact!.Room),
+            () => Assert.Equal(TechnicalContactPoBox, technicalCustomerResult.TechnicalContact!.PostBox),
+            () => Assert.Equal(TechnicalContactMunicipalityCode, technicalCustomerResult.TechnicalContact!.MunicipalityCode),
+            // ElectricalHeatingPeriod
+            () => Assert.NotNull(electricalHeatingPeriodResult),
+            () => Assert.True(electricalHeatingPeriodResult!.Id > 0),
+            () => Assert.Equal(_heatingValidFrom, electricalHeatingPeriodResult!.ValidFrom),
+            () => Assert.Equal(_heatingValidTo, electricalHeatingPeriodResult!.ValidTo),
+            () => Assert.False(electricalHeatingPeriodResult!.IsActive),
+            () => Assert.Null(electricalHeatingPeriodResult!.TransactionType));
     }
-
-    [Fact]
-    public void MapToDto_EnergySupplierPeriod_MapsAllProperties()
-    {
-        // Arrange
-        var legalContact = CreateLegalContactAddress();
-        var technicalContact = CreateTechnicalContactAddress(isProtected: true);
-
-        var contact1 = CreateContact(CompanyName, CompanyCvr, false, RelationType.Juridical, legalContact, technicalContact);
-        var contact2 = CreateContact(SecondaryCompanyName, SecondaryCompanyCvr, true, RelationType.Technical, null, technicalContact);
-
-        var energySupplierPeriod = new MeteringPointDtoV1.EnergySupplierPeriodDto(
-            _energySupplierValidFrom,
-            _energySupplierValidTo,
-            _orchestrationInstanceId,
-            [contact1, contact2]);
-
-        // Act
-        var result = energySupplierPeriod.MapToDto();
-
-        // Assert
-        var customer1 = result.Customers.First();
-        var customer2 = result.Customers.Skip(1).First();
-        Assert.Multiple(
-            () => Assert.NotNull(result),
-            () => Assert.True(result.Id > 0),
-            () => Assert.Equal(_energySupplierValidFrom, result.ValidFrom),
-            () => Assert.Equal(_energySupplierValidTo, result.ValidTo),
-            () => Assert.Equal(2, result.Customers.Count),
-            () => Assert.NotNull(customer1),
-            () => Assert.True(customer1.Id > 0),
-            () => Assert.Equal(CompanyName, customer1.Name),
-            () => Assert.Equal(CompanyCvr, customer1.Cvr),
-            () => Assert.False(customer1.IsProtectedName),
-            () => Assert.Equal(Clients.ElectricityMarket.v1.CustomerRelationType.Contact1, customer1.RelationType),
-            () => Assert.NotNull(customer1.LegalContact),
-            () => Assert.True(customer1.LegalContact!.Id > 0),
-            () => Assert.Equal(LegalContactName, customer1.LegalContact!.Name),
-            () => Assert.Equal(LegalContactEmail, customer1.LegalContact!.Email),
-            () => Assert.False(customer1.LegalContact!.IsProtectedAddress),
-            () => Assert.Equal(LegalContactPhone, customer1.LegalContact!.Phone),
-            () => Assert.Equal(LegalContactMobile, customer1.LegalContact!.Mobile),
-            () => Assert.Equal(LegalContactAttention, customer1.LegalContact!.Attention),
-            () => Assert.Equal(LegalContactStreetCode, customer1.LegalContact!.StreetCode),
-            () => Assert.Equal(LegalContactStreetName, customer1.LegalContact!.StreetName),
-            () => Assert.Equal(LegalContactBuildingNumber, customer1.LegalContact!.BuildingNumber),
-            () => Assert.Equal(LegalContactPostalCode, customer1.LegalContact!.PostCode),
-            () => Assert.Equal(LegalContactCityName, customer1.LegalContact!.CityName),
-            () => Assert.Equal(LegalContactAdditionalCityName, customer1.LegalContact!.CitySubDivisionName),
-            () => Assert.Equal(_legalDarReference, customer1.LegalContact!.DarReference),
-            () => Assert.Equal(LegalContactCountryCode, customer1.LegalContact!.CountryCode),
-            () => Assert.Equal(LegalContactFloor, customer1.LegalContact!.Floor),
-            () => Assert.Equal(LegalContactRoom, customer1.LegalContact!.Room),
-            () => Assert.Equal(LegalContactPoBox, customer1.LegalContact!.PostBox),
-            () => Assert.Equal(LegalContactMunicipalityCode, customer1.LegalContact!.MunicipalityCode),
-            () => Assert.NotNull(customer1.TechnicalContact),
-            () => Assert.True(customer1.TechnicalContact!.Id > 0),
-            () => Assert.Equal(TechnicalContactName, customer1.TechnicalContact!.Name),
-            () => Assert.Equal(TechnicalContactEmail, customer1.TechnicalContact!.Email),
-            () => Assert.True(customer1.TechnicalContact!.IsProtectedAddress),
-            () => Assert.Equal(TechnicalContactPhone, customer1.TechnicalContact!.Phone),
-            () => Assert.Equal(TechnicalContactMobile, customer1.TechnicalContact!.Mobile),
-            () => Assert.Equal(TechnicalContactAttention, customer1.TechnicalContact!.Attention),
-            () => Assert.Equal(TechnicalContactStreetCode, customer1.TechnicalContact!.StreetCode),
-            () => Assert.Equal(TechnicalContactStreetName, customer1.TechnicalContact!.StreetName),
-            () => Assert.Equal(TechnicalContactBuildingNumber, customer1.TechnicalContact!.BuildingNumber),
-            () => Assert.Equal(TechnicalContactPostalCode, customer1.TechnicalContact!.PostCode),
-            () => Assert.Equal(TechnicalContactCityName, customer1.TechnicalContact!.CityName),
-            () => Assert.Equal(TechnicalContactAdditionalCityName, customer1.TechnicalContact!.CitySubDivisionName),
-            () => Assert.Equal(_technicalDarReference, customer1.TechnicalContact!.DarReference),
-            () => Assert.Equal(TechnicalContactCountryCode, customer1.TechnicalContact!.CountryCode),
-            () => Assert.Equal(TechnicalContactFloor, customer1.TechnicalContact!.Floor),
-            () => Assert.Equal(TechnicalContactRoom, customer1.TechnicalContact!.Room),
-            () => Assert.Null(customer1.TechnicalContact!.PostBox),
-            () => Assert.Equal(TechnicalContactMunicipalityCode, customer1.TechnicalContact!.MunicipalityCode),
-            () => Assert.NotNull(customer2),
-            () => Assert.True(customer2.Id > 0),
-            () => Assert.Equal(SecondaryCompanyName, customer2.Name),
-            () => Assert.Equal(SecondaryCompanyCvr, customer2.Cvr),
-            () => Assert.True(customer2.IsProtectedName),
-            () => Assert.Equal(Clients.ElectricityMarket.v1.CustomerRelationType.Contact1, customer2.RelationType),
-            () => Assert.Null(customer2.LegalContact),
-            () => Assert.NotNull(customer2.TechnicalContact));
-    }
-
-    [Fact]
-    public void MapToDto_ElectricalHeatingPeriod_MapsAllProperties()
-    {
-        // Arrange
-        var electricalHeatingPeriod = new MeteringPointDtoV1.ElectricalHeatingPeriodDto(
-            _heatingValidFrom,
-            _heatingValidTo);
-
-        // Act
-        var result = electricalHeatingPeriod.MapToDto();
-
-        // Assert
-        Assert.Multiple(
-            () => Assert.NotNull(result),
-            () => Assert.True(result.Id > 0),
-            () => Assert.Equal(_heatingValidFrom, result.ValidFrom),
-            () => Assert.Equal(_heatingValidTo, result.ValidTo),
-            () => Assert.False(result.IsActive),
-            () => Assert.Null(result.TransactionType));
-    }
-
-    private static MeteringPointDtoV1.ContactAddressDto CreateLegalContactAddress()
-        => new(
-            LegalContactName,
-            LegalContactEmail,
-            false,
-            LegalContactPhone,
-            LegalContactMobile,
-            LegalContactAttention,
-            LegalContactStreetCode,
-            LegalContactStreetName,
-            LegalContactBuildingNumber,
-            LegalContactPostalCode,
-            LegalContactCityName,
-            LegalContactAdditionalCityName,
-            _legalDarReference,
-            LegalContactCountryCode,
-            LegalContactFloor,
-            LegalContactRoom,
-            LegalContactPoBox,
-            LegalContactMunicipalityCode);
-
-    private static MeteringPointDtoV1.ContactAddressDto CreateTechnicalContactAddress(bool isProtected = false, string? additionalCityName = TechnicalContactAdditionalCityName, string? postOfficeBox = null)
-        => new(
-            TechnicalContactName,
-            TechnicalContactEmail,
-            isProtected,
-            TechnicalContactPhone,
-            TechnicalContactMobile,
-            TechnicalContactAttention,
-            TechnicalContactStreetCode,
-            TechnicalContactStreetName,
-            TechnicalContactBuildingNumber,
-            TechnicalContactPostalCode,
-            TechnicalContactCityName,
-            additionalCityName,
-            _technicalDarReference,
-            TechnicalContactCountryCode,
-            TechnicalContactFloor,
-            TechnicalContactRoom,
-            postOfficeBox,
-            TechnicalContactMunicipalityCode);
-
-    private static MeteringPointDtoV1.ContactDto CreateContact(
-        string name,
-        string cvr,
-        bool isProtectedName,
-        RelationType relationType,
-        MeteringPointDtoV1.ContactAddressDto? legalContact,
-        MeteringPointDtoV1.ContactAddressDto? technicalContact)
-        => new(name, cvr, isProtectedName, relationType, legalContact, technicalContact);
 }
