@@ -17,7 +17,7 @@ using HotChocolate.Authorization;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
-public static class ActorConversationNode
+public static class ActorConversationOperations
 {
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
