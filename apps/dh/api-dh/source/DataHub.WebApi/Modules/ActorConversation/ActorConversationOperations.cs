@@ -34,6 +34,7 @@ public static class ActorConversationOperations
             ActorsGlnNumbers = new List<string>(["222222222222222222"]),
             ConversationMessage =
             {
+                SenderEmail = "test@test.dk",
                 Content = conversationMessageContent,
                 Anonymous = false,
                 CreatedBy = "xxxx",
