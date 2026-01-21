@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ElectricityMarket.Abstractions.Features.Internal.MeteringPoint.GetMeteringPoint.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPointDebug.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
@@ -46,7 +46,7 @@ public static class ElectricityMarketDebug
 
     [Query]
     [Authorize(Roles = ["metering-point:search"])]
-    public static async Task<GetMeteringPointDebugResultDtoV1Temp?> GetEventsDebugViewAsync(
+    public static async Task<GetMeteringPointDebugResultDtoV1?> GetEventsDebugViewAsync(
         string meteringPointId,
         CancellationToken ct,
         [Service] IElectricityMarketClient electricityMarketClient)
@@ -65,10 +65,6 @@ public static class ElectricityMarketDebug
             return null;
         }
 
-        return new GetMeteringPointDebugResultDtoV1Temp(MeteringPointJson: "json", Events: meteringPointResult.Data.Events);
+        return meteringPointResult.Data;
     }
-
-    public record GetMeteringPointDebugResultDtoV1Temp(
-        string MeteringPointJson,
-        IReadOnlyCollection<GetMeteringPointDebugResultDtoV1.EventDto> Events);
 }

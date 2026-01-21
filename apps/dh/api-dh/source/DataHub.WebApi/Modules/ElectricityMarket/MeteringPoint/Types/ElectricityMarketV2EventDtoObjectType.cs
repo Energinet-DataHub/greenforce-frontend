@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System.Text.Json;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Features.Internal.MeteringPoint.GetMeteringPoint.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPointDebug.V1;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Types;
 

@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { GetMeteringPointDebugResultDtoV1Temp } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointDebugResultDtoV1 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const eventsDebugView: GetMeteringPointDebugResultDtoV1Temp = {
-  __typename: 'GetMeteringPointDebugResultDtoV1Temp',
+export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
+  __typename: 'GetMeteringPointDebugResultDtoV1',
   meteringPointJson: `{
     "meteringPointId": "111111111111111111",
     "meteringPointPeriods": [
