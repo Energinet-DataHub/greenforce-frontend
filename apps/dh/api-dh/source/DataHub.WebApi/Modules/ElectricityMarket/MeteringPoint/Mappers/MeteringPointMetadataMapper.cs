@@ -17,7 +17,7 @@ using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 
 /// <summary>
-/// Maps EM1 and EM2 `MeteringPoint` models (DTOs) to a common `MeteringPoint` representation used by the BFF and UI.
+/// Exposes methods to map EM1 and EM2 `MeteringPoint` models (DTOs) to a common `MeteringPoint` representation used by the BFF and UI.
 /// </summary>
 public static class MeteringPointMetadataMapper
 {
