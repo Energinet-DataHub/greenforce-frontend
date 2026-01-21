@@ -16,47 +16,42 @@
  * limitations under the License.
  */
 //#endregion
-import { GetMeteringPointDebugResultDtoV1 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointDebugResultDtoV1Temp } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
-  __typename: 'GetMeteringPointDebugResultDtoV1',
-  meteringPoint: {
-    __typename: 'MeteringPointDebugDtoV1',
-    meteringPointId: '111111111111111111',
-    meteringPointPeriods: [
+export const eventsDebugView: GetMeteringPointDebugResultDtoV1Temp = {
+  __typename: 'GetMeteringPointDebugResultDtoV1Temp',
+  meteringPointJson: `{
+    "meteringPointId": "111111111111111111",
+    "meteringPointPeriods": [
       {
-        __typename: 'MeteringPointPeriodDto',
-        validFrom: new Date('2023-01-01T00:00:00Z'),
-        validTo: new Date('2023-12-31T23:59:59Z'),
-        type: 'Consumption',
-        connectionState: 'Connected',
+        "validFrom": "2023-01-01T00:00:00.000Z",
+        "validTo": "2023-12-31T23:59:59.000Z",
+        "type": "Consumption",
+        "connectionState": "Connected"
       },
       {
-        __typename: 'MeteringPointPeriodDto',
-        validFrom: new Date('2023-01-01T00:00:00Z'),
-        validTo: new Date('2023-12-31T23:59:59Z'),
-        type: 'Consumption',
-        connectionState: 'Connected',
-      },
+        "validFrom": "2023-01-01T00:00:00.000Z",
+        "validTo": "2023-12-31T23:59:59.000Z",
+        "type": "Consumption",
+        "connectionState": "Connected"
+      }
     ],
-    commercialRelations: [
+    "commercialRelations": [
       {
-        __typename: 'ElectricityMarketV2CommercialRelationDto',
-        customerId: '111',
-        energySupplierId: '2222222222222222',
-        validFrom: new Date('2023-01-01T00:00:00Z'),
-        validTo: new Date('2023-12-31T23:59:59Z'),
-        energySupplierPeriods: [
+        "customerId": "111",
+        "energySupplierId": "2222222222222222",
+        "validFrom": "2023-01-01T00:00:00.000Z",
+        "validTo": "2023-12-31T23:59:59.000Z",
+        "energySupplierPeriods": [
           {
-            __typename: 'EnergySupplierPeriodDto',
-            validFrom: new Date('2023-01-01T00:00:00Z'),
-            validTo: new Date('2023-12-31T23:59:59Z'),
-            contacts: [],
-          },
-        ],
-      },
-    ],
-  },
+            "validFrom": "2023-01-01T00:00:00.000Z",
+            "validTo": "2023-12-31T23:59:59.000Z",
+            "contacts": []
+          }
+        ]
+      }
+    ]
+  }`,
   events: [
     {
       __typename: 'ElectricityMarketV2EventDto',

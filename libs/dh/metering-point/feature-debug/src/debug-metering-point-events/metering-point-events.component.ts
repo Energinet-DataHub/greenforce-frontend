@@ -26,7 +26,7 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetMeteringPointEventsDebugViewDocument,
-  GetMeteringPointDebugResultDtoV1,
+  GetMeteringPointDebugResultDtoV1Temp,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -58,7 +58,7 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
       <dh-result [loading]="query.loading()" [hasError]="query.hasError()">
         @if (debugViewV2()) {
           <h1>Metering Point</h1>
-          <pre>{{ debugViewV2()!.meteringPoint | json }}</pre>
+          <pre>{{ debugViewV2()!.meteringPointJson }}</pre>
 
           <h1>Events</h1>
           <pre>{{ debugViewV2()!.events | json }}</pre>
@@ -77,12 +77,12 @@ export class DhMeteringPointEventsComponent {
 
     if (!debugView) return undefined;
 
-    debugView = removeTypename(debugView) as GetMeteringPointDebugResultDtoV1;
-
     return {
-      ...debugView,
+      meteringPointJson: debugView.meteringPointJson,
       events: debugView?.events.map((e) => ({
-        ...e,
+        id: e.id,
+        type: e.type,
+        timestamp: e.timestamp,
         data: safeJsonParse(e.jsonData),
         jsonData: undefined,
       })),

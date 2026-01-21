@@ -46,7 +46,7 @@ public static class ElectricityMarketDebug
 
     [Query]
     [Authorize(Roles = ["metering-point:search"])]
-    public static async Task<GetMeteringPointDebugResultDtoV1?> GetEventsDebugViewAsync(
+    public static async Task<GetMeteringPointDebugResultDtoV1Temp?> GetEventsDebugViewAsync(
         string meteringPointId,
         CancellationToken ct,
         [Service] IElectricityMarketClient electricityMarketClient)
@@ -65,6 +65,10 @@ public static class ElectricityMarketDebug
             return null;
         }
 
-        return meteringPointResult.Data;
+        return new GetMeteringPointDebugResultDtoV1Temp(MeteringPointJson: "json", Events: meteringPointResult.Data.Events);
     }
+
+    public record GetMeteringPointDebugResultDtoV1Temp(
+        string MeteringPointJson,
+        IReadOnlyCollection<GetMeteringPointDebugResultDtoV1.EventDto> Events);
 }
