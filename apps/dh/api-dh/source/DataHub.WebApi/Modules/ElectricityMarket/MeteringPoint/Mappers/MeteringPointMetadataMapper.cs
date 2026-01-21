@@ -44,6 +44,7 @@ public static class MeteringPointMetadataMapper
             EnvironmentalFriendly = null,
             Capacity = meteringPoint.AssetCapacity.ToString(),
             PowerLimitKw = (double?)meteringPoint.PowerLimitKw,
+            PowerLimitAmp = meteringPoint.PowerLimitAmperes,
             MeterNumber = meteringPoint.MeterId,
             NetSettlementGroup = meteringPoint.SettlementGroup?.MapToDto(),
             ScheduledMeterReadingMonth = null,
@@ -90,6 +91,7 @@ public static class MeteringPointMetadataMapper
             SettlementMethod = meteringPoint.SettlementMethod?.MapToDto(),
             InstallationAddress = meteringPoint.InstallationAddress?.MapToDto(),
             ManuallyHandled = meteringPoint.ManuallyHandled,
+            PowerLimitAmp = meteringPoint.PowerLimitAmp,
         };
     }
 
@@ -280,7 +282,7 @@ public static class MeteringPointMetadataMapper
     {
         return new InstallationAddressDto
         {
-            Id = NextLong(),
+            Id = installationAddress.Id,
             StreetCode = installationAddress.StreetCode,
             StreetName = installationAddress.StreetName,
             BuildingNumber = installationAddress.BuildingNumber,
