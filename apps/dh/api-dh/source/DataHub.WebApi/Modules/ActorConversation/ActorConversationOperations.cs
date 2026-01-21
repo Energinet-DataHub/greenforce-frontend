@@ -27,18 +27,20 @@ public static class ActorConversationOperations
         string conversationMessageContent,
         CancellationToken ct)
     {
-        await client.ApiCreateConversationAsync(
+        await client.ApiStartConversationAsync(
          new StartConversationRequest
         {
+            Subject = ConversationSubject.QuestionForEnerginet,
             MeteringPointIdentification = meteringPointIdentification,
-            ActorsGlnNumbers = new List<string>(["222222222222222222"]),
+            GlnNumberForReceivers = new List<string>(["22222222222222"]),
+            InternalNote = "Internal note example",
             ConversationMessage =
             {
                 SenderEmail = "test@test.dk",
-                Content = conversationMessageContent,
+                SenderGlnNumber = "12345678910111",
                 Anonymous = false,
+                Content = conversationMessageContent,
                 CreatedBy = "xxxx",
-                CreatedTime = DateTimeOffset.UtcNow,
             },
         },
          ct);
