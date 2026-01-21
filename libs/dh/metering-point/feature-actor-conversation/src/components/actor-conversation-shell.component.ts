@@ -19,7 +19,11 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { DhActorConversationCaseListComponent } from './actor-conversation-case-list';
 import { DhActorConversationNewCaseComponent } from './actor-conversation-new-case';
-import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
