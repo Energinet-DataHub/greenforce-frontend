@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 
@@ -52,6 +52,42 @@ public static class MeteringPointTypeMapper
             DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointType.ActualProduction => MeteringPointType.ActualProduction,
             DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointType.InternalUse => MeteringPointType.InternalUse,
             DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointType.Unknown => throw new InvalidOperationException("Invalid MeteringPointType"),
+        };
+    }
+
+    public static MeteringPointType MapToDto(this Clients.ElectricityMarket.v1.MeteringPointType type)
+    {
+        return type switch
+        {
+            Clients.ElectricityMarket.v1.MeteringPointType.Consumption => MeteringPointType.Consumption,
+            Clients.ElectricityMarket.v1.MeteringPointType.Production => MeteringPointType.Production,
+            Clients.ElectricityMarket.v1.MeteringPointType.Exchange => MeteringPointType.Exchange,
+            Clients.ElectricityMarket.v1.MeteringPointType.VEProduction => MeteringPointType.VEProduction,
+            Clients.ElectricityMarket.v1.MeteringPointType.Analysis => MeteringPointType.Analysis,
+            Clients.ElectricityMarket.v1.MeteringPointType.NotUsed => MeteringPointType.NotUsed,
+            Clients.ElectricityMarket.v1.MeteringPointType.SurplusProductionGroup6 => MeteringPointType.SurplusProductionGroup6,
+            Clients.ElectricityMarket.v1.MeteringPointType.NetProduction => MeteringPointType.NetProduction,
+            Clients.ElectricityMarket.v1.MeteringPointType.SupplyToGrid => MeteringPointType.SupplyToGrid,
+            Clients.ElectricityMarket.v1.MeteringPointType.ConsumptionFromGrid => MeteringPointType.ConsumptionFromGrid,
+            Clients.ElectricityMarket.v1.MeteringPointType.WholesaleServicesOrInformation => MeteringPointType.WholesaleServicesOrInformation,
+            Clients.ElectricityMarket.v1.MeteringPointType.OwnProduction => MeteringPointType.OwnProduction,
+            Clients.ElectricityMarket.v1.MeteringPointType.NetFromGrid => MeteringPointType.NetFromGrid,
+            Clients.ElectricityMarket.v1.MeteringPointType.NetToGrid => MeteringPointType.NetToGrid,
+            Clients.ElectricityMarket.v1.MeteringPointType.TotalConsumption => MeteringPointType.TotalConsumption,
+            Clients.ElectricityMarket.v1.MeteringPointType.NetLossCorrection => MeteringPointType.NetLossCorrection,
+            Clients.ElectricityMarket.v1.MeteringPointType.ElectricalHeating => MeteringPointType.ElectricalHeating,
+            Clients.ElectricityMarket.v1.MeteringPointType.NetConsumption => MeteringPointType.NetConsumption,
+            Clients.ElectricityMarket.v1.MeteringPointType.OtherConsumption => MeteringPointType.OtherConsumption,
+            Clients.ElectricityMarket.v1.MeteringPointType.OtherProduction => MeteringPointType.OtherProduction,
+            Clients.ElectricityMarket.v1.MeteringPointType.CapacitySettlement => MeteringPointType.CapacitySettlement,
+            Clients.ElectricityMarket.v1.MeteringPointType.ExchangeReactiveEnergy => MeteringPointType.ExchangeReactiveEnergy,
+            Clients.ElectricityMarket.v1.MeteringPointType.CollectiveNetProduction => MeteringPointType.CollectiveNetProduction,
+            Clients.ElectricityMarket.v1.MeteringPointType.CollectiveNetConsumption => MeteringPointType.CollectiveNetConsumption,
+            Clients.ElectricityMarket.v1.MeteringPointType.ActivatedDownregulation => MeteringPointType.ActivatedDownregulation,
+            Clients.ElectricityMarket.v1.MeteringPointType.ActivatedUpregulation => MeteringPointType.ActivatedUpregulation,
+            Clients.ElectricityMarket.v1.MeteringPointType.ActualConsumption => MeteringPointType.ActualConsumption,
+            Clients.ElectricityMarket.v1.MeteringPointType.ActualProduction => MeteringPointType.ActualProduction,
+            Clients.ElectricityMarket.v1.MeteringPointType.InternalUse => MeteringPointType.InternalUse,
         };
     }
 }

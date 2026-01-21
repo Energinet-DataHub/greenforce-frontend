@@ -13,7 +13,7 @@
 // limitations under the License.
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
-public class MeteringPointPresentationDto
+public class MeteringPointDto
 {
     public long Id { get; set; }
 

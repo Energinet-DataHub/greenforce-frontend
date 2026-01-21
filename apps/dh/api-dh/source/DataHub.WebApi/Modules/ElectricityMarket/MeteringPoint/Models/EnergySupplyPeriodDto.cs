@@ -17,9 +17,9 @@ public class EnergySupplyPeriodDto
 {
     public long Id { get; set; }
 
-    public System.DateTimeOffset ValidFrom { get; set; }
+    public DateTimeOffset ValidFrom { get; set; }
 
-    public System.DateTimeOffset ValidTo { get; set; }
+    public DateTimeOffset ValidTo { get; set; }
 
-    public System.Collections.Generic.ICollection<CustomerDto> Customers { get; set; } = default!;
+    public ICollection<CustomerDto> Customers { get; set; } = default!;
 }

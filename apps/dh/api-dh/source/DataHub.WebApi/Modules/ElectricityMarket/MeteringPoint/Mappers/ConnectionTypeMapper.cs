@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 
@@ -25,6 +25,15 @@ public static class ConnectionTypeMapper
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Direct => ConnectionType.Direct,
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Installation => ConnectionType.Installation,
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Unknown => null,
+        };
+    }
+
+    public static ConnectionType? MapToDto(this Clients.ElectricityMarket.v1.ConnectionType connectionType)
+    {
+        return connectionType switch
+        {
+            Clients.ElectricityMarket.v1.ConnectionType.Direct => ConnectionType.Direct,
+            Clients.ElectricityMarket.v1.ConnectionType.Installation => ConnectionType.Installation,
         };
     }
 }

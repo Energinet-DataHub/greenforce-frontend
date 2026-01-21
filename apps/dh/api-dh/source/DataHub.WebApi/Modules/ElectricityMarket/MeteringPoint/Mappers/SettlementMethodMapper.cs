@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 
@@ -26,6 +26,16 @@ public static class SettlementMethodMapper
             DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.Profiled => SettlementMethod.Profiled,
             DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.NonProfiled => SettlementMethod.NonProfiled,
             DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.Unknown => null,
+        };
+    }
+
+    public static SettlementMethod? MapToDto(this Clients.ElectricityMarket.v1.SettlementMethod settlementMethod)
+    {
+        return settlementMethod switch
+        {
+            Clients.ElectricityMarket.v1.SettlementMethod.FlexSettled => SettlementMethod.FlexSettled,
+            Clients.ElectricityMarket.v1.SettlementMethod.Profiled => SettlementMethod.Profiled,
+            Clients.ElectricityMarket.v1.SettlementMethod.NonProfiled => SettlementMethod.NonProfiled,
         };
     }
 }

@@ -115,7 +115,7 @@ public static partial class MeteringPointNode
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<MeteringPointDto> GetMeteringPointExistsAsync(
+    public static async Task<Models.MeteringPointDto> GetMeteringPointExistsAsync(
             string environment,
             bool searchMigratedMeteringPoints,
             long? internalMeteringPointId,
@@ -160,7 +160,7 @@ public static partial class MeteringPointNode
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<MeteringPointDto> GetMeteringPointAsync(
+    public static async Task<Models.MeteringPointDto> GetMeteringPointAsync(
         string meteringPointId,
         string? environment,
         bool? searchMigratedMeteringPoints,
@@ -204,7 +204,16 @@ public static partial class MeteringPointNode
         if ((signature.Result == SignatureResult.Valid || signature.Result == SignatureResult.NoContent) && signature.Signature != null)
         {
             var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature.Signature);
-            return await authClient.MeteringPointAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+            var meteringPointDto = await authClient.MeteringPointAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+            var meteringPointResult = new Models.MeteringPointDto
+            {
+                Id = MeteringPointMetadataMapper.NextLong(),
+                Identification = meteringPointDto.Identification,
+                Metadata = meteringPointDto.Metadata.MapToDto(),
+                MetadataTimeline = [.. meteringPointDto.MetadataTimeline.Select(m => m.MapToDto())],
+                CommercialRelation = meteringPointDto.CommercialRelation?.MapToDto(),
+                CommercialRelationTimeline = [.. meteringPointDto.CommercialRelationTimeline.Select(m => m.MapToDto())],
+            };
         }
 
         throw new InvalidOperationException("User is not authorized to access the requested metering point.");
@@ -226,7 +235,7 @@ public static partial class MeteringPointNode
         return result.IsSuccess;
     }
 
-    private static async Task<MeteringPointDto> GetMeteringPointWithNewModelAsync(
+    private static async Task<Models.MeteringPointDto> GetMeteringPointWithNewModelAsync(
             string meteringPointId,
             CancellationToken ct,
             [Service] IElectricityMarketClient electricityMarketClient)
@@ -238,7 +247,7 @@ public static partial class MeteringPointNode
         var meteringPoint = result.Data?.MeteringPoint ?? throw new InvalidOperationException("No MeteringPoint was returned");
 
         // Map to MeteringPointDto
-        var meteringPointResult = new MeteringPointDto
+        var meteringPointResult = new Models.MeteringPointDto
         {
             Id = MeteringPointMetadataMapper.NextLong(),
             Identification = meteringPoint.MeteringPointId,

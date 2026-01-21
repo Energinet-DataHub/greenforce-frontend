@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 
@@ -26,7 +26,19 @@ public static class ConnectionStateMapper
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Connected => ConnectionState.Connected,
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Disconnected => ConnectionState.Disconnected,
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.ClosedDown => ConnectionState.ClosedDown,
-            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Unknown => null,
+            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Unknown => null, // TODO: cabol - Should this map to NotUsed?
+        };
+    }
+
+    public static ConnectionState? MapToDto(this Clients.ElectricityMarket.v1.ConnectionState connectionState)
+    {
+        return connectionState switch
+        {
+            Clients.ElectricityMarket.v1.ConnectionState.NotUsed => ConnectionState.NotUsed,
+            Clients.ElectricityMarket.v1.ConnectionState.New => ConnectionState.New,
+            Clients.ElectricityMarket.v1.ConnectionState.Connected => ConnectionState.Connected,
+            Clients.ElectricityMarket.v1.ConnectionState.Disconnected => ConnectionState.Disconnected,
+            Clients.ElectricityMarket.v1.ConnectionState.ClosedDown => ConnectionState.ClosedDown,
         };
     }
 }

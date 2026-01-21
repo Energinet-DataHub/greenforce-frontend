@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 
@@ -25,6 +25,15 @@ public static class DisconnectionTypeMapper
             DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Remote => DisconnectionType.RemoteDisconnection,
             DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Manual => DisconnectionType.ManualDisconnection,
             DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Unknown => null,
+        };
+    }
+
+    public static DisconnectionType? MapToDto(this Clients.ElectricityMarket.v1.DisconnectionType disconnectionType)
+    {
+        return disconnectionType switch
+        {
+            Clients.ElectricityMarket.v1.DisconnectionType.RemoteDisconnection => DisconnectionType.RemoteDisconnection,
+            Clients.ElectricityMarket.v1.DisconnectionType.ManualDisconnection => DisconnectionType.ManualDisconnection,
         };
     }
 }

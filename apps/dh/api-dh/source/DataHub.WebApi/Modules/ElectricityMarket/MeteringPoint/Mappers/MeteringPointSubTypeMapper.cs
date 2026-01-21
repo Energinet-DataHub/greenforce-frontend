@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 
@@ -26,6 +26,16 @@ public static class MeteringPointSubTypeMapper
             DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Virtual => MeteringPointSubType.Virtual,
             DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Calculated => MeteringPointSubType.Calculated,
             DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Unknown => null,
+        };
+    }
+
+    public static MeteringPointSubType? MapToDto(this Clients.ElectricityMarket.v1.MeteringPointSubType subType)
+    {
+        return subType switch
+        {
+            Clients.ElectricityMarket.v1.MeteringPointSubType.Physical => MeteringPointSubType.Physical,
+            Clients.ElectricityMarket.v1.MeteringPointSubType.Virtual => MeteringPointSubType.Virtual,
+            Clients.ElectricityMarket.v1.MeteringPointSubType.Calculated => MeteringPointSubType.Calculated,
         };
     }
 }
