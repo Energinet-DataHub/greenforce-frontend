@@ -18,14 +18,14 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappe
 
 public static class ConnectionStateMapper
 {
-    public static ConnectionState? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState connectionState)
+    public static Clients.ElectricityMarket.v1.ConnectionState? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState connectionState)
     {
         return connectionState switch
         {
-            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.New => ConnectionState.New,
-            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Connected => ConnectionState.Connected,
-            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Disconnected => ConnectionState.Disconnected,
-            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.ClosedDown => ConnectionState.ClosedDown,
+            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.New => Clients.ElectricityMarket.v1.ConnectionState.New,
+            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Connected => Clients.ElectricityMarket.v1.ConnectionState.Connected,
+            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Disconnected => Clients.ElectricityMarket.v1.ConnectionState.Disconnected,
+            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.ClosedDown => Clients.ElectricityMarket.v1.ConnectionState.ClosedDown,
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Unknown => null, // TODO: cabol - Should this map to NotUsed?
         };
     }

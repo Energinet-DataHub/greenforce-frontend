@@ -18,16 +18,16 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappe
 
 public static class ProductMapper
 {
-    public static Product? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.Product product)
+    public static Clients.ElectricityMarket.v1.Product? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.Product product)
     {
         return product switch
         {
-            DataHub.ElectricityMarket.Abstractions.Shared.Product.PowerActive => Product.PowerActive,
-            DataHub.ElectricityMarket.Abstractions.Shared.Product.PowerReactive => Product.PowerReactive,
-            DataHub.ElectricityMarket.Abstractions.Shared.Product.EnergyActive => Product.EnergyActive,
-            DataHub.ElectricityMarket.Abstractions.Shared.Product.EnergyReactive => Product.EnergyReactive,
-            DataHub.ElectricityMarket.Abstractions.Shared.Product.Tariff => Product.Tariff,
-            DataHub.ElectricityMarket.Abstractions.Shared.Product.FuelQuantity => Product.FuelQuantity,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.PowerActive => Clients.ElectricityMarket.v1.Product.PowerActive,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.PowerReactive => Clients.ElectricityMarket.v1.Product.PowerReactive,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.EnergyActive => Clients.ElectricityMarket.v1.Product.EnergyActive,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.EnergyReactive => Clients.ElectricityMarket.v1.Product.EnergyReactive,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.Tariff => Clients.ElectricityMarket.v1.Product.Tariff,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.FuelQuantity => Clients.ElectricityMarket.v1.Product.FuelQuantity,
             DataHub.ElectricityMarket.Abstractions.Shared.Product.Unknown => null,
         };
     }

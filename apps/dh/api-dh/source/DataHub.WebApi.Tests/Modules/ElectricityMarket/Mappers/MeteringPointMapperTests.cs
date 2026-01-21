@@ -13,8 +13,8 @@
 // limitations under the License.
 
 using System;
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.ElectricityMarket.Mappers;

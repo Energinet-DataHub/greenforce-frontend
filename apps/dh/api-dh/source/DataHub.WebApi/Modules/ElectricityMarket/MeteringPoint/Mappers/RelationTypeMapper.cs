@@ -18,13 +18,13 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappe
 
 public static class RelationTypeMapper
 {
-    public static CustomerRelationType MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.RelationType relationType)
+    public static Clients.ElectricityMarket.v1.CustomerRelationType MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.RelationType relationType)
     {
         return relationType switch
         {
-            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Technical => CustomerRelationType.Contact1,
-            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Juridical => CustomerRelationType.Contact4,
-            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Secondary => CustomerRelationType.Secondary,
+            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Technical => Clients.ElectricityMarket.v1.CustomerRelationType.Contact1,
+            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Juridical => Clients.ElectricityMarket.v1.CustomerRelationType.Contact4,
+            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Secondary => Clients.ElectricityMarket.v1.CustomerRelationType.Secondary,
             DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Unknown => throw new InvalidOperationException("Invalid RelationType"),
         };
     }

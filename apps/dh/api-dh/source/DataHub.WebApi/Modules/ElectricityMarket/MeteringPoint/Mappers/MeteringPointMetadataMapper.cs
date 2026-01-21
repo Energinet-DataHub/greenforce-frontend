@@ -21,9 +21,9 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappe
 /// </summary>
 public static class MeteringPointMetadataMapper
 {
-    public static MeteringPointMetadataDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.MeteringPointPeriodDto meteringPoint)
+    public static Clients.ElectricityMarket.v1.MeteringPointMetadataDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.MeteringPointPeriodDto meteringPoint)
     {
-        return new MeteringPointMetadataDto
+        return new Clients.ElectricityMarket.v1.MeteringPointMetadataDto
         {
             Id = NextLong(),
             ValidFrom = meteringPoint.ValidFrom,
@@ -47,7 +47,7 @@ public static class MeteringPointMetadataMapper
             MeterNumber = meteringPoint.MeterId,
             NetSettlementGroup = meteringPoint.SettlementGroup?.MapToDto(),
             ScheduledMeterReadingMonth = null,
-            ScheduledMeterReadingDate = meteringPoint.SettlementDate is not null ? new AnnualDate { Month = meteringPoint.SettlementDate.Month, Day = meteringPoint.SettlementDate.Day } : null,
+            ScheduledMeterReadingDate = meteringPoint.SettlementDate is not null ? new Clients.ElectricityMarket.v1.AnnualDate { Month = meteringPoint.SettlementDate.Month, Day = meteringPoint.SettlementDate.Day } : null,
             FromGridAreaCode = meteringPoint.FromGridAreaId,
             ToGridAreaCode = meteringPoint.ToGridAreaId,
             PowerPlantGsrn = meteringPoint.PowerPlantGsrn?.ToString(),
@@ -93,9 +93,9 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    public static CommercialRelationDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.CommercialRelationDto commercialRelation)
+    public static Clients.ElectricityMarket.v1.CommercialRelationDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.CommercialRelationDto commercialRelation)
     {
-        return new CommercialRelationDto
+        return new Clients.ElectricityMarket.v1.CommercialRelationDto
         {
             Id = NextLong(),
             EnergySupplier = commercialRelation.EnergySupplierId,
@@ -129,9 +129,9 @@ public static class MeteringPointMetadataMapper
         return random.NextLong(1000000, long.MaxValue);
     }
 
-    private static EnergySupplyPeriodDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.EnergySupplierPeriodDto energySupplierPeriod)
+    private static Clients.ElectricityMarket.v1.EnergySupplyPeriodDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.EnergySupplierPeriodDto energySupplierPeriod)
     {
-        return new EnergySupplyPeriodDto
+        return new Clients.ElectricityMarket.v1.EnergySupplyPeriodDto
         {
             Id = NextLong(),
             ValidFrom = energySupplierPeriod.ValidFrom,
@@ -151,9 +151,9 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static ElectricalHeatingDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ElectricalHeatingPeriodDto electricalHeatingPeriod)
+    private static Clients.ElectricityMarket.v1.ElectricalHeatingDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ElectricalHeatingPeriodDto electricalHeatingPeriod)
     {
-        return new ElectricalHeatingDto
+        return new Clients.ElectricityMarket.v1.ElectricalHeatingDto
         {
             Id = NextLong(),
             ValidFrom = electricalHeatingPeriod.ValidFrom,
@@ -175,9 +175,9 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static CustomerDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactDto contactDto)
+    private static Clients.ElectricityMarket.v1.CustomerDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactDto contactDto)
     {
-        return new CustomerDto
+        return new Clients.ElectricityMarket.v1.CustomerDto
         {
             Id = NextLong(),
             Name = contactDto.Name ?? string.Empty,
@@ -203,9 +203,9 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static CustomerContactDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactAddressDto contactDto)
+    private static Clients.ElectricityMarket.v1.CustomerContactDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactAddressDto contactDto)
     {
-        return new CustomerContactDto
+        return new Clients.ElectricityMarket.v1.CustomerContactDto
         {
             Id = NextLong(),
             Name = contactDto.Name,
@@ -255,9 +255,9 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static InstallationAddressDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.InstallationAddressDto installationAddress)
+    private static Clients.ElectricityMarket.v1.InstallationAddressDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.InstallationAddressDto installationAddress)
     {
-        return new InstallationAddressDto
+        return new Clients.ElectricityMarket.v1.InstallationAddressDto
         {
             Id = NextLong(),
             StreetCode = installationAddress.StreetCode,
@@ -266,7 +266,7 @@ public static class MeteringPointMetadataMapper
             CityName = installationAddress.CityName ?? string.Empty,
             CitySubDivisionName = installationAddress.AdditionalCityName,
             DarReference = installationAddress.DarReference,
-            WashInstructions = installationAddress.IsActualAddress == true ? WashInstructions.Washable : WashInstructions.NotWashable,
+            WashInstructions = installationAddress.IsActualAddress == true ? Clients.ElectricityMarket.v1.WashInstructions.Washable : Clients.ElectricityMarket.v1.WashInstructions.NotWashable,
             CountryCode = installationAddress.CountryCode ?? string.Empty,
             Floor = installationAddress.Floor,
             Room = installationAddress.SuiteNumber,

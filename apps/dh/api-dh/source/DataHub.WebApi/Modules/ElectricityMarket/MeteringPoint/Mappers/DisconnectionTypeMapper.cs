@@ -18,12 +18,12 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappe
 
 public static class DisconnectionTypeMapper
 {
-    public static DisconnectionType? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType disconnectionType)
+    public static Clients.ElectricityMarket.v1.DisconnectionType? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType disconnectionType)
     {
         return disconnectionType switch
         {
-            DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Remote => DisconnectionType.RemoteDisconnection,
-            DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Manual => DisconnectionType.ManualDisconnection,
+            DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Remote => Clients.ElectricityMarket.v1.DisconnectionType.RemoteDisconnection,
+            DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Manual => Clients.ElectricityMarket.v1.DisconnectionType.ManualDisconnection,
             DataHub.ElectricityMarket.Abstractions.Shared.DisconnectionType.Unknown => null,
         };
     }

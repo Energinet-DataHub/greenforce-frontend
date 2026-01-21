@@ -80,18 +80,18 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(_validFrom, result.ValidFrom),
             () => Assert.Equal(_validTo, result.ValidTo),
             () => Assert.Equal(ParentId.ToString(), result.ParentMeteringPoint),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.MeteringPointType.Consumption, result.Type),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.MeteringPointSubType.Physical, result.SubType),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.ConnectionState.Connected, result.ConnectionState),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.MeteringPointType.Consumption, result.Type),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.MeteringPointSubType.Physical, result.SubType),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.ConnectionState.Connected, result.ConnectionState),
             () => Assert.Equal(QuarterHourlyResolution, result.Resolution),
             () => Assert.Equal(GridAreaCode, result.GridAreaCode),
             () => Assert.Empty(result.OwnedBy),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.ConnectionType.Direct, result.ConnectionType),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.DisconnectionType.RemoteDisconnection, result.DisconnectionType),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.Product.EnergyActive, result.Product),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.ConnectionType.Direct, result.ConnectionType),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.DisconnectionType.RemoteDisconnection, result.DisconnectionType),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.Product.EnergyActive, result.Product),
             () => Assert.True(result.ProductObligation),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.MeteringPointMeasureUnit.KWh, result.MeasureUnit),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.AssetType.WindTurbines, result.AssetType),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.KWh, result.MeasureUnit),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.AssetType.WindTurbines, result.AssetType),
             () => Assert.Null(result.EnvironmentalFriendly),
             () => Assert.Equal(AssetCapacity.ToString(), result.Capacity),
             () => Assert.Equal((double)PowerLimitKw, result.PowerLimitKw),
@@ -104,7 +104,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(FromGridAreaCode, result.FromGridAreaCode),
             () => Assert.Equal(ToGridAreaCode, result.ToGridAreaCode),
             () => Assert.Equal(PowerPlantGsrn.ToString(), result.PowerPlantGsrn),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.SettlementMethod.FlexSettled, result.SettlementMethod),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.SettlementMethod.FlexSettled, result.SettlementMethod),
             () => Assert.False(result.ManuallyHandled),
             () => Assert.NotNull(result.InstallationAddress),
             () => Assert.True(result.InstallationAddress!.Id > 0),
@@ -114,7 +114,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(InstallationCityName, result.InstallationAddress!.CityName),
             () => Assert.Equal(InstallationAdditionalCityName, result.InstallationAddress!.CitySubDivisionName),
             () => Assert.Equal(InstallationDarReference, result.InstallationAddress!.DarReference),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.WashInstructions.Washable, result.InstallationAddress!.WashInstructions),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.WashInstructions.Washable, result.InstallationAddress!.WashInstructions),
             () => Assert.Equal(InstallationCountryCode, result.InstallationAddress!.CountryCode),
             () => Assert.Equal(InstallationFloor, result.InstallationAddress!.Floor),
             () => Assert.Equal(InstallationRoom, result.InstallationAddress!.Room),
@@ -155,8 +155,8 @@ public class MeteringPointMetadataMapperTests
         var commercialRelationResult = commercialRelation.MapToDto();
 
         // Assert
-        var legalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact4);
-        var technicalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact1);
+        var legalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == Clients.ElectricityMarket.v1.CustomerRelationType.Contact4);
+        var technicalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == Clients.ElectricityMarket.v1.CustomerRelationType.Contact1);
 
         // CommercialRelation
         Assert.Multiple(
@@ -178,7 +178,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(CompanyName, legalCustomerResult.Name),
             () => Assert.Equal(CompanyCvr, legalCustomerResult.Cvr),
             () => Assert.False(legalCustomerResult.IsProtectedName),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact4, legalCustomerResult.RelationType),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.CustomerRelationType.Contact4, legalCustomerResult.RelationType),
             () => Assert.True(legalCustomerResult.LegalContact!.Id > 0),
             () => Assert.Equal(LegalContactName, legalCustomerResult.LegalContact!.Name),
             () => Assert.Equal(LegalContactEmail, legalCustomerResult.LegalContact!.Email),
@@ -205,7 +205,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(CompanyNameTwo, technicalCustomerResult.Name),
             () => Assert.Equal(CompanyCvrTwo, technicalCustomerResult.Cvr),
             () => Assert.True(technicalCustomerResult.IsProtectedName),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact1, technicalCustomerResult.RelationType),
+            () => Assert.Equal(Clients.ElectricityMarket.v1.CustomerRelationType.Contact1, technicalCustomerResult.RelationType),
             () => Assert.True(technicalCustomerResult.TechnicalContact!.Id > 0),
             () => Assert.Equal(TechnicalContactName, technicalCustomerResult.TechnicalContact!.Name),
             () => Assert.Equal(TechnicalContactEmail, technicalCustomerResult.TechnicalContact!.Email),

@@ -18,13 +18,13 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappe
 
 public static class SettlementMethodMapper
 {
-    public static SettlementMethod? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod settlementMethod)
+    public static Clients.ElectricityMarket.v1.SettlementMethod? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod settlementMethod)
     {
         return settlementMethod switch
         {
-            DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.FlexSettled => SettlementMethod.FlexSettled,
-            DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.Profiled => SettlementMethod.Profiled,
-            DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.NonProfiled => SettlementMethod.NonProfiled,
+            DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.FlexSettled => Clients.ElectricityMarket.v1.SettlementMethod.FlexSettled,
+            DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.Profiled => Clients.ElectricityMarket.v1.SettlementMethod.Profiled,
+            DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.NonProfiled => Clients.ElectricityMarket.v1.SettlementMethod.NonProfiled,
             DataHub.ElectricityMarket.Abstractions.Shared.SettlementMethod.Unknown => null,
         };
     }
