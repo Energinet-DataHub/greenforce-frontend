@@ -25,7 +25,7 @@ export enum ActorConversationCaseSubjectType {
   customerMasterData = 'customerMasterData',
   measurements = 'measurements',
   meteringPointMasterData = 'meteringPointMasterData',
-  priceAssociation = 'priceAssociation',
+  chargeLink = 'chargeLink',
 }
 
 export enum ActorConversationReceiverType {
