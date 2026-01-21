@@ -196,7 +196,13 @@
     "selectedValues": "{{count}} selected",
     "calculationType": "Calculation type",
     "all": "All",
-    "downloadNameParams": "'{{ env }}' environment - {{ datetime }}"
+    "downloadNameParams": "'{{ env }}' environment - {{ datetime }}",
+    "terminology": {
+      "customerMasterData": "Customer master data",
+      "measurements": "Measurements",
+      "meteringPointMasterData": "Metering point master data",
+      "chargeLink": "Charge link"
+    }
   },
   "clipboard": {
     "success": "Copied",
@@ -772,7 +778,14 @@
       "newCaseTitle": "New case",
       "subjectLabel": "Subject",
       "subjects": {
-        "misc": "Miscellaneous"
+        "misc": "Miscellaneous",
+        "disconnectionOrReconnection": "Disconnection/Reconnection",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "incorrectMoveInOrSupplierSwitch": "Incorrect move-in/supplier switch",
+        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
+        "measurements": "{{ shared.terminology.measurements }}",
+        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
+        "priceAssociation": "{{ shared.terminology.chargeLink }}"
       },
       "receiverLabel": "Receiver",
       "receivers": {
