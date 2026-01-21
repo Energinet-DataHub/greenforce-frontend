@@ -627,7 +627,7 @@
         "tabLabel": "Messages"
       },
       "measurements": {
-        "tabLabel": "Measurements"
+        "tabLabel": "{{ meteringPoint.overview.shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Failed measurements"
@@ -2265,7 +2265,7 @@
     "topBarTitle": "Reports",
     "tabs": {
       "settlementReports": "Settlement reports",
-      "measurementsReports": "Measurements",
+      "measurementsReports": "{{ meteringPoint.overview.shared.terminology.measurements }}",
       "imbalancePrices": "Imbalance prices"
     },
     "settlements": {
@@ -2351,7 +2351,7 @@
       }
     },
     "measurementsReports": {
-      "title": "{{ reports.tabs.measurementsReports }}",
+      "title": "{{ meteringPoint.overview.shared.terminology.measurements }}",
       "emptyMessage": "There are no measurements reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
