@@ -19,10 +19,12 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { DhActorConversationCaseListComponent } from './actor-conversation-case-list';
 import { DhActorConversationNewCaseComponent } from './actor-conversation-new-case';
-import { VaterFlexComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
+import { WATT_CARD } from '@energinet/watt/card';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -30,6 +32,10 @@ import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/
     DhActorConversationCaseListComponent,
     DhActorConversationNewCaseComponent,
     VaterFlexComponent,
+    WattEmptyStateComponent,
+    WATT_CARD,
+    VaterStackComponent,
+    VaterUtilityDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -39,6 +45,12 @@ import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/
 
     .flex-3 {
       flex: 3;
+    }
+
+    .flex-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   `,
   template: `
@@ -51,7 +63,11 @@ import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/
           class="flex-3"
         />
       } @else {
-        <div class="flex-3"></div>
+        <vater-stack class="flex-3" justify="center">
+          <watt-card vater fill="both" class="flex-card">
+            <watt-empty-state icon="feedback" title="Ingen sag valgt" />
+          </watt-card>
+        </vater-stack>
       }
     </vater-flex>
   `,
