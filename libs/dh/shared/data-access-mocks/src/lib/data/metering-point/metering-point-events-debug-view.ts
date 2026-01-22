@@ -58,7 +58,7 @@ export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
       id: 'event-1',
       type: 'MeteringPointCreatedEventV1',
       timestamp: new Date('2023-01-01T12:00:00Z'),
-      jsonData:
+      dataJson:
         '{ "id": "111111111", "type": "Consumption", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "New" }',
     },
     {
@@ -66,7 +66,7 @@ export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
       id: 'event-2',
       type: 'MoveInInitiatedEventV1',
       timestamp: new Date('2023-01-04T07:00:00Z'),
-      jsonData:
+      dataJson:
         '{ "customerId": "111", "validityDate": "2023-01-04T00:00:00Z", "energySupplierId": "2222222222222222" }',
     },
     {
@@ -74,7 +74,7 @@ export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
       id: 'event-3',
       type: 'MeteringPointConnectedEventV1',
       timestamp: new Date('2023-01-01T12:00:00Z'),
-      jsonData:
+      dataJson:
         '{ "id": "111111111", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "Connected" }',
     },
   ],

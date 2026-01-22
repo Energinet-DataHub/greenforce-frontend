@@ -498,10 +498,10 @@ type ElectricalHeatingDto {
 }
 
 type ElectricityMarketV2EventDto {
-  jsonData: String!
   id: UUID!
   timestamp: DateTime!
   type: String!
+  dataJson: String!
 }
 
 type EnergySupplyPeriodDto {

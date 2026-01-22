@@ -19,19 +19,8 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Types
 
 public class ElectricityMarketV2EventDtoObjectType : ObjectType<GetMeteringPointDebugResultDtoV1.EventDto>
 {
-    private static readonly JsonSerializerOptions _serializerOptions = new(JsonSerializerDefaults.Web)
-    {
-        WriteIndented = true,
-    };
-
     protected override void Configure(IObjectTypeDescriptor<GetMeteringPointDebugResultDtoV1.EventDto> descriptor)
     {
         descriptor.Name("ElectricityMarketV2EventDto");
-
-        descriptor
-            .Field(e => JsonSerializer.Serialize(
-                e.Data,
-                _serializerOptions))
-            .Name("jsonData");
     }
 }

@@ -5,7 +5,7 @@ query GetMeteringPointEventsDebugView($meteringPointId: String!) {
       id
       timestamp
       type
-      jsonData
+      dataJson
     }
   }
 }

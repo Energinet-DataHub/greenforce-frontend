@@ -82,7 +82,7 @@ export class DhMeteringPointEventsComponent {
         id: e.id,
         type: e.type,
         timestamp: e.timestamp,
-        data: tryJsonParse(e.jsonData),
+        data: tryJsonParse(e.dataJson),
         jsonData: undefined,
       })),
     };
