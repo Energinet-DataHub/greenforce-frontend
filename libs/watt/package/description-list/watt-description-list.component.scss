@@ -78,7 +78,7 @@ watt-description-list {
     dl {
       display: grid;
       gap: var(--watt-space-m) var(--watt-space-l);
-      grid-template-columns: max-content max-content;
+      grid-template-columns: max-content auto;
 
       dd {
         margin: 0;
