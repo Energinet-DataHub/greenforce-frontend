@@ -83,7 +83,7 @@ import { WattEmptyStateCooperationComponent } from './icons/cooperation';
           <watt-empty-state-power />
         </watt-icon>
       }
-      @case ('cooperation') {
+      @case ('custom-cooperation') {
         <watt-icon [size]="iconSize()" class="watt-space-stack-l">
           <watt-empty-state-cooperation />
         </watt-icon>
@@ -110,7 +110,7 @@ import { WattEmptyStateCooperationComponent } from './icons/cooperation';
 })
 export class WattEmptyStateComponent {
   icon = input<
-    WattIcon | 'custom-power' | 'custom-explore' | 'custom-no-results' | 'cooperation'
+    WattIcon | 'custom-power' | 'custom-explore' | 'custom-no-results' | 'custom-cooperation'
   >();
   size = input<'small' | 'large'>('large');
   title = input('');
