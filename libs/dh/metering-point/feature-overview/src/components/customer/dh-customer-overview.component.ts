@@ -105,8 +105,8 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
       <ng-container *dhCanSee="'contact-details'; meteringPoint: meteringPoint()">
         @if (showContactDetails()) {
           <a (click)="$event.preventDefault(); openContactDetails()" class="watt-link-s">{{
-              t('showContactDetailsLink')
-            }}</a>
+            t('showContactDetailsLink')
+          }}</a>
         }
       </ng-container>
     </watt-card>
