@@ -89,8 +89,9 @@ export class DataHubAppComponent implements OnInit {
         this.authService.instance.setActiveAccount(data.account);
 
         // After successful auth at top level, redirect to wrapper for iframe experience
+        // Use replace() to avoid creating browser history entries
         if (!this.iframeService.isInIframe()) {
-          window.location.href = '/';
+          window.location.replace('/');
           return;
         }
       }

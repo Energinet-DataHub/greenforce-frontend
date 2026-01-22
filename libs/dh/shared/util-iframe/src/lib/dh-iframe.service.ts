@@ -30,13 +30,14 @@ export class DhIframeService {
 
   /**
    * Breaks out of the iframe by navigating the top window.
+   * Uses location.replace() to avoid creating browser history entries.
    * Used for authentication flows that require redirect.
    */
   breakOutOfIframe(url: string): void {
     if (this.isInIframe() && window.top) {
-      window.top.location.href = url;
+      window.top.location.replace(url);
     } else {
-      window.location.href = url;
+      window.location.replace(url);
     }
   }
 }
