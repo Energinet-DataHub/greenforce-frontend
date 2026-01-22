@@ -123,7 +123,9 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
   minDate = this.findMinDate();
 
   form = new FormGroup({
-    state: dhMakeFormControl<ElectricityMarketViewConnectionState>(this.modalData.currentConnectionState),
+    state: dhMakeFormControl<ElectricityMarketViewConnectionState>(
+      this.modalData.currentConnectionState
+    ),
     validityDate: dhMakeFormControl<Date>(this.today, Validators.required),
   });
 
