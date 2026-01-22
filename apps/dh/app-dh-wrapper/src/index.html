@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -42,8 +42,8 @@ limitations under the License.
     <iframe id="app-frame" src="app.html"></iframe>
     <script>
       // Sync page title from iframe
-      window.addEventListener('message', (event) => {
-        if (event.origin === window.location.origin && event.data.type === 'TITLE_UPDATE') {
+      window.addEventListener("message", (event) => {
+        if (event.origin === window.location.origin && event.data.type === "TITLE_UPDATE") {
           document.title = event.data.title;
         }
       });
