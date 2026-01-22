@@ -77,11 +77,10 @@ export class DhMeteringPointEventsComponent {
     return {
       meteringPointJson: debugView.meteringPointJson,
       events: debugView?.events.map((e) => ({
-        id: e.id,
-        type: e.type,
-        timestamp: e.timestamp,
+        ...e,
         data: tryJsonParse(e.dataJson),
-        jsonData: undefined,
+        dataJson: undefined,
+        __typename: undefined,
       })),
     };
   });
