@@ -135,7 +135,9 @@ export class DhCustomerOverviewComponent {
       return unique;
     }
 
-    return unique.filter((x) => x.legalContact || x.relationType === CustomerRelationType.Secondary);
+    return unique.filter(
+      (x) => x.legalContact || x.relationType === CustomerRelationType.Secondary
+    );
   });
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 
