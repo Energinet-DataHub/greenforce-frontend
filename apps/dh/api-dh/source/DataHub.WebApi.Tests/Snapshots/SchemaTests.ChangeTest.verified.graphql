@@ -1064,6 +1064,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
+  resetMitId: ResetMitIdPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
@@ -1448,6 +1449,11 @@ type ResendWaitingEsettExchangeMessagesPayload {
   boolean: Boolean
 }
 
+type ResetMitIdPayload {
+  boolean: Boolean
+  errors: [ResetMitIdError!]
+}
+
 type ResetTwoFactorAuthenticationPayload {
   boolean: Boolean
   errors: [ResetTwoFactorAuthenticationError!]
@@ -1688,6 +1694,8 @@ union ReInviteUserError = ApiError
 union RemoveMeteringPointsFromAdditionalRecipientError = ApiError
 
 union RequestClientSecretCredentialsError = ApiError
+
+union ResetMitIdError = ApiError
 
 union ResetTwoFactorAuthenticationError = ApiError
 
