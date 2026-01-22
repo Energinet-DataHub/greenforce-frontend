@@ -42,7 +42,7 @@ import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/
     }
   `,
   template: `
-    <vater-flex direction="row" fill="vertical" gap="m" class="watt-space-inset-m">
+    <vater-flex direction="row" fill="vertical" gap="m">
       <dh-actor-conversation-case-list (createNewCase)="newCaseVisible.set(true)" class="flex-1" />
       @if (newCaseVisible()) {
         <dh-actor-conversation-new-case
