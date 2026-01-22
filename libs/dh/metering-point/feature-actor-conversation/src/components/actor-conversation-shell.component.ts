@@ -21,8 +21,6 @@ import { DhActorConversationCaseListComponent } from './actor-conversation-case-
 import { DhActorConversationNewCaseComponent } from './actor-conversation-new-case';
 import {
   VaterFlexComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
 } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -41,8 +39,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
     VaterFlexComponent,
     WattEmptyStateComponent,
     WATT_CARD,
-    VaterStackComponent,
-    VaterUtilityDirective,
     WattButtonComponent,
     TranslocoDirective,
   ],
@@ -54,12 +50,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
     .flex-3 {
       flex: 3;
-    }
-
-    .flex-card {
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
   `,
   template: `
@@ -80,22 +70,18 @@ import { TranslocoDirective } from '@jsverse/transloco';
           />
         }
         @case (ActorConversationState.noCases) {
-          <vater-stack class="flex-3" justify="center">
-            <watt-card vater fill="both" class="flex-card">
-              <watt-empty-state icon="cooperation" [title]="t('emptyState.noCases')">
-                <watt-button variant="secondary" (click)="newCaseVisible.set(true)">
-                  {{ t('newCaseButton') }}
-                </watt-button>
-              </watt-empty-state>
-            </watt-card>
-          </vater-stack>
+          <watt-card class="flex-3">
+            <watt-empty-state icon="custom-cooperation" [title]="t('emptyState.noCases')">
+              <watt-button variant="secondary" (click)="newCaseVisible.set(true)">
+                {{ t('newCaseButton') }}
+              </watt-button>
+            </watt-empty-state>
+          </watt-card>
         }
         @case (ActorConversationState.noCaseSelected) {
-          <vater-stack class="flex-3" justify="center">
-            <watt-card vater fill="both" class="flex-card">
-              <watt-empty-state icon="cooperation" [title]="t('emptyState.noCaseSelected')" />
-            </watt-card>
-          </vater-stack>
+          <watt-card class="flex-3">
+            <watt-empty-state icon="custom-cooperation" [title]="t('emptyState.noCaseSelected')" />
+          </watt-card>
         }
         @case (ActorConversationState.caseSelected) {
           <h1>TO BE IMPLEMENTED</h1>
