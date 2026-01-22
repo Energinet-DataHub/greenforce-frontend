@@ -95,6 +95,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Null(result.EnvironmentalFriendly),
             () => Assert.Equal(AssetCapacity.ToString(), result.Capacity),
             () => Assert.Equal((double)PowerLimitKw, result.PowerLimitKw),
+            () => Assert.Equal(PowerLimitAmperes, result.PowerLimitAmp),
             () => Assert.Equal(MeterNumber, result.MeterNumber),
             () => Assert.Equal(SettlementGroupNumber, result.NetSettlementGroup),
             () => Assert.Null(result.ScheduledMeterReadingMonth),
