@@ -35,6 +35,7 @@ import {
   ConnectionState,
   RequestConnectionStateChangeMutation,
   GetMeteringPointProcessOverviewDocument,
+  ElectricityMarketViewConnectionState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
@@ -111,7 +112,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
   `,
 })
 export class DhConnectionStateManageComponent extends WattTypedModal<{
-  currentConnectionState: ConnectionState;
+  currentConnectionState: ElectricityMarketViewConnectionState;
   currentCreatedDate: Date;
   meteringPointId: string;
 }> {
@@ -122,7 +123,7 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
   minDate = this.findMinDate();
 
   form = new FormGroup({
-    state: dhMakeFormControl<ConnectionState>(this.modalData.currentConnectionState),
+    state: dhMakeFormControl<ElectricityMarketViewConnectionState>(this.modalData.currentConnectionState),
     validityDate: dhMakeFormControl<Date>(this.today, Validators.required),
   });
 
@@ -173,7 +174,7 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
   }
 
   private statesToExclude(): ConnectionState[] | undefined {
-    if (this.modalData.currentConnectionState === ConnectionState.New) {
+    if (this.modalData.currentConnectionState === ElectricityMarketViewConnectionState.New) {
       return [ConnectionState.NotUsed, ConnectionState.ClosedDown, ConnectionState.Disconnected];
     }
 
