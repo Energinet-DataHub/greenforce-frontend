@@ -37,13 +37,30 @@ limitations under the License.
         display: block;
       }
     </style>
+    <script>
+      // Check if this is an auth redirect from Azure B2C
+      // B2C returns: code, state, error, error_description as query params
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var isAuthRedirect =
+          params.has("code") || params.has("error") || params.has("state");
+
+        if (isAuthRedirect) {
+          // Pass through to app.html to handle the auth callback
+          window.location.replace("app.html" + window.location.search);
+        }
+      })();
+    </script>
   </head>
   <body>
-    <iframe id="app-frame" src="app.html"></iframe>
+    <iframe id="app-frame" src="app.html" title="DataHub Application"></iframe>
     <script>
       // Sync page title from iframe
-      window.addEventListener("message", (event) => {
-        if (event.origin === window.location.origin && event.data.type === "TITLE_UPDATE") {
+      window.addEventListener("message", function (event) {
+        if (
+          event.origin === window.location.origin &&
+          event.data.type === "TITLE_UPDATE"
+        ) {
           document.title = event.data.title;
         }
       });

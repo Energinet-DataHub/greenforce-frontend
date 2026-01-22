@@ -24,13 +24,13 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TranslocoPipe } from '@jsverse/transloco';
 
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhIframeService } from '@energinet-datahub/dh/shared/util-iframe';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterStackComponent } from '@energinet/watt/vater';
 
@@ -117,8 +117,8 @@ import { VaterStackComponent } from '@energinet/watt/vater';
   `,
 })
 export class DhCoreLoginComponent implements AfterViewInit {
-  private activatedRoute = inject(ActivatedRoute);
   private config = inject(dhB2CEnvironmentToken);
+  private iframeService = inject(DhIframeService);
 
   progressBarValue = signal(0);
   showProgressBar = signal(false);
@@ -145,16 +145,19 @@ export class DhCoreLoginComponent implements AfterViewInit {
   }
 
   async login() {
+    // If in iframe, break out to top-level for redirect auth
+    if (this.iframeService.isInIframe()) {
+      this.iframeService.breakOutOfIframe('app.html');
+      return;
+    }
+
     const instance = MSALInstanceFactory({
       ...this.config,
     });
 
-    const redirectTo = this.activatedRoute.snapshot.queryParams['dhRedirectTo'];
-
     await instance.initialize();
     await instance.loginRedirect({
       scopes: [this.config.scopeUri],
-      redirectStartPage: redirectTo,
     });
   }
 }

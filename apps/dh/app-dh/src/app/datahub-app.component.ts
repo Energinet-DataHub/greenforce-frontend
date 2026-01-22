@@ -27,6 +27,9 @@ import { TranslocoService } from '@jsverse/transloco';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
+import { DhIframeService } from '@energinet-datahub/dh/shared/util-iframe';
+
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   CookieInformationService,
   CookieInformationCulture,
@@ -59,6 +62,7 @@ export class DataHubAppComponent implements OnInit {
   private readonly transloco = inject(TranslocoService);
   private readonly appInsights = inject(DhApplicationInsights);
   private readonly authService = inject(MsalService);
+  private readonly iframeService = inject(DhIframeService);
 
   ngOnInit(): void {
     // Initialize cookie information
@@ -83,6 +87,12 @@ export class DataHubAppComponent implements OnInit {
     this.authService.handleRedirectObservable().subscribe((data) => {
       if (data) {
         this.authService.instance.setActiveAccount(data.account);
+
+        // After successful auth at top level, redirect to wrapper for iframe experience
+        if (!this.iframeService.isInIframe()) {
+          window.location.href = '/';
+          return;
+        }
       }
 
       // Needed to make sure the `dhRedirectTo` query is not set again on page refresh

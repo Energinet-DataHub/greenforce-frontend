@@ -32,7 +32,7 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
     auth: {
       clientId: config.clientId,
       authority: config.authority,
-      redirectUri: '/app.html',
+      redirectUri: '/',
       postLogoutRedirectUri: '/',
       navigateToLoginRequestUrl: true,
       knownAuthorities: config.knownAuthorities,

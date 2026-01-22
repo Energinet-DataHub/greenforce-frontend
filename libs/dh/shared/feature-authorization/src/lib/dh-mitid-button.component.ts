@@ -17,10 +17,10 @@
  */
 //#endregion
 import { Component, inject, input, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
+import { DhIframeService } from '@energinet-datahub/dh/shared/util-iframe';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { InitiateMitIdSignupDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -78,8 +78,8 @@ import { InitiateMitIdSignupDocument } from '@energinet-datahub/dh/shared/domain
   `,
 })
 export class DhMitIDButtonComponent {
-  private activatedRoute = inject(ActivatedRoute);
   private config = inject(dhB2CEnvironmentToken);
+  private iframeService = inject(DhIframeService);
   private initiateMitIdSignupMutation = mutation(InitiateMitIdSignupDocument);
 
   isLoading = signal(false);
@@ -99,17 +99,20 @@ export class DhMitIDButtonComponent {
   }
 
   private async redirectToMitID() {
+    // If in iframe, break out to top-level for redirect auth
+    if (this.iframeService.isInIframe()) {
+      this.iframeService.breakOutOfIframe('app.html');
+      return;
+    }
+
     const instance = MSALInstanceFactory({
       ...this.config,
       authority: this.config.mitIdFlowUri,
     });
 
-    const redirectTo = this.activatedRoute.snapshot.queryParams['dhRedirectTo'];
-
     await instance.initialize();
     await instance.loginRedirect({
       scopes: [this.config.scopeUri],
-      redirectStartPage: redirectTo,
     });
   }
 }
