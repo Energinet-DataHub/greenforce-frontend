@@ -97,4 +97,13 @@ public static class UserOperations
         await client.UserInitiateMitidSignupAsync();
         return true;
     }
+
+    [Mutation]
+    [Error(typeof(ApiException))]
+    public static async Task<bool> ResetMitIdAsync(
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.UserResetMitidAsync();
+        return true;
+    }
 }
