@@ -781,7 +781,7 @@
       "internalNoteLabel": "Intern note",
       "messageLabel": "Besked",
       "sendButton": "Send",
-      "emptyState":  {
+      "emptyState": {
         "noCases": "Der er ingen sager på målepunktet",
         "noCaseSelected": "Ingen sag valgt"
       }

@@ -23,7 +23,8 @@ import {
   WattEmptyStateExploreComponent,
   WattEmptyStateNoResultsComponent,
   WattEmptyStatePowerComponent,
-  WattEmptyStateNotFoundComponent, WattEmptyStateCooperationComponent,
+  WattEmptyStateNotFoundComponent,
+  WattEmptyStateCooperationComponent,
 } from '../../empty-state';
 import { WattFlagComponent } from '../flags';
 

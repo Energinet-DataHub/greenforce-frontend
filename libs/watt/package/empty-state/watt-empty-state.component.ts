@@ -109,7 +109,9 @@ import { WattEmptyStateCooperationComponent } from './icons/cooperation';
   `,
 })
 export class WattEmptyStateComponent {
-  icon = input<WattIcon | 'custom-power' | 'custom-explore' | 'custom-no-results' | 'cooperation'>();
+  icon = input<
+    WattIcon | 'custom-power' | 'custom-explore' | 'custom-no-results' | 'cooperation'
+  >();
   size = input<'small' | 'large'>('large');
   title = input('');
   message = input('');

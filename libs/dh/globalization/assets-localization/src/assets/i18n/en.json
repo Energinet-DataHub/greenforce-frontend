@@ -781,7 +781,7 @@
       "internalNoteLabel": "Internal note",
       "messageLabel": "Message",
       "sendButton": "Send",
-      "emptyState":  {
+      "emptyState": {
         "noCases": "No cases found",
         "noCaseSelected": "No case selected"
       }
