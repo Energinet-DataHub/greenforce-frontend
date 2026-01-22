@@ -39,14 +39,22 @@ limitations under the License.
     </style>
     <script>
       // Check if this is an auth redirect from Azure B2C
-      // B2C returns: code, state, error, error_description as query params
+      // B2C can return auth response in query params OR hash fragment
       (function () {
-        var params = new URLSearchParams(window.location.search);
-        var isAuthRedirect = params.has("code") || params.has("error") || params.has("state");
+        var queryParams = new URLSearchParams(window.location.search);
+        var hashParams = new URLSearchParams(window.location.hash.substring(1));
 
-        if (isAuthRedirect) {
-          // Pass through to app.html to handle the auth callback
+        var isQueryAuthRedirect =
+          queryParams.has("code") || queryParams.has("error") || queryParams.has("state");
+        var isHashAuthRedirect =
+          hashParams.has("code") || hashParams.has("error") || hashParams.has("state");
+
+        if (isQueryAuthRedirect) {
+          // Pass through query params to app.html
           window.location.replace("app.html" + window.location.search);
+        } else if (isHashAuthRedirect) {
+          // Pass through hash fragment to app.html
+          window.location.replace("app.html" + window.location.hash);
         }
       })();
     </script>
@@ -56,7 +64,10 @@ limitations under the License.
     <script>
       // Sync page title from iframe
       window.addEventListener("message", function (event) {
-        if (event.origin === window.location.origin && event.data.type === "TITLE_UPDATE") {
+        if (
+          event.origin === window.location.origin &&
+          event.data.type === "TITLE_UPDATE"
+        ) {
           document.title = event.data.title;
         }
       });
