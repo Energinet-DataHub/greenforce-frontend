@@ -22,6 +22,6 @@ public class ElectricityMarketViewAssetTypeEnumType : EnumType<AssetType>
     protected override void Configure(IEnumTypeDescriptor<AssetType> descriptor)
     {
         descriptor.Name("ElectricityMarketViewAssetType");
-        descriptor.AsUpperCase();
+        descriptor.AsIsCase();
     }
 }

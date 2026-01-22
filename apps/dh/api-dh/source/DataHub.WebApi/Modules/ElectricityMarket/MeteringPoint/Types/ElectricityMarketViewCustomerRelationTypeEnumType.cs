@@ -22,6 +22,6 @@ public class ElectricityMarketViewCustomerRelationTypeEnumType : EnumType<Custom
     protected override void Configure(IEnumTypeDescriptor<CustomerRelationType> descriptor)
     {
         descriptor.Name("ElectricityMarketViewCustomerRelationType");
-        descriptor.AsUpperCase();
+        descriptor.AsIsCase();
     }
 }

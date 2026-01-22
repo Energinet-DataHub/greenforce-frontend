@@ -22,6 +22,6 @@ public class ElectricityMarketViewConnectionTypeEnumType : EnumType<ConnectionTy
     protected override void Configure(IEnumTypeDescriptor<ConnectionType> descriptor)
     {
         descriptor.Name("ElectricityMarketViewConnectionType");
-        descriptor.AsUpperCase();
+        descriptor.AsIsCase();
     }
 }

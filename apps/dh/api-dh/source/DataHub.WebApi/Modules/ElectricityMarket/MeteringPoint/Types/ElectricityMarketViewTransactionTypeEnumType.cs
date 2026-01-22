@@ -22,6 +22,6 @@ public class ElectricityMarketViewTransactionTypeEnumType : EnumType<Transaction
     protected override void Configure(IEnumTypeDescriptor<TransactionType> descriptor)
     {
         descriptor.Name("ElectricityMarketViewTransactionType");
-        descriptor.AsUpperCase();
+        descriptor.AsIsCase();
     }
 }
