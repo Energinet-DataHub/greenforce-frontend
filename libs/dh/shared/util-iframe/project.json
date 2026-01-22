@@ -1,0 +1,13 @@
+{
+  "name": "dh-shared-util-iframe",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/shared/util-iframe/src",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:shared", "type:util"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

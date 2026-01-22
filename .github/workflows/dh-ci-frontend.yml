@@ -58,6 +58,9 @@ jobs:
       - name: Production build
         run: bun run nx build ${{ env.APP_NAME }}
 
+      - name: Build wrapper
+        run: bun run nx build app-dh-wrapper
+
       - name: Optimize i18n assets
         run: bun run i18n:optimize:${{ env.APP_NAME }}
 
@@ -73,6 +76,8 @@ jobs:
           mkdir -p ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
           cp ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/3rdpartylicenses.txt ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
           cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/browser/* ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
+          mv ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}/index.html ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}/app.html
+          cp ${{ github.workspace }}/dist/apps/dh/app-dh-wrapper/index.html ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}/
           cp -R ${{ github.workspace }}/apps/dh/e2e-dh ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
 
       - name: Generate SBOM for node_modules

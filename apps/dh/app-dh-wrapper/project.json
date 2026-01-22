@@ -1,0 +1,18 @@
+{
+  "name": "app-dh-wrapper",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/dh/app-dh-wrapper/src",
+  "tags": ["product:dh", "type:app"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "mkdir -p dist/apps/dh/app-dh-wrapper",
+          "cp apps/dh/app-dh-wrapper/src/index.html dist/apps/dh/app-dh-wrapper/"
+        ]
+      }
+    }
+  }
+}

@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { WattShellComponent } from '@energinet/watt/shell';
 import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
@@ -30,6 +30,7 @@ import {
   DhSelectedActorComponent,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhNotificationsCenterComponent } from '@energinet-datahub/dh/core/feature-notifications';
+import { DhIframeService } from '@energinet-datahub/dh/shared/util-iframe';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
 import { WattPortalOutlet } from '@energinet/watt/portal';
@@ -53,10 +54,18 @@ import { WattPortalOutlet } from '@energinet/watt/portal';
 export class DhCoreShellComponent {
   private readonly dhTopBarService = inject(DhTopBarService);
   private readonly inactivityDetection = inject(DhInactivityDetectionService);
+  private readonly iframeService = inject(DhIframeService);
+  private readonly transloco = inject(TranslocoService);
 
   titleTranslationKey = this.dhTopBarService.titleTranslationKey;
 
   constructor() {
     this.inactivityDetection.trackInactivity();
+
+    effect(() => {
+      const key = this.titleTranslationKey();
+      const title = this.transloco.translate(key);
+      this.iframeService.updateTitle(title);
+    });
   }
 }

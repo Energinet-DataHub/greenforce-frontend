@@ -93,7 +93,7 @@ import { VaterStackComponent } from '@energinet/watt/vater';
   ],
   template: `
     <div class="container">
-      <img src="/assets/logo-dark.svg" class="logo" alt="DataHub logo" />
+      <img src="assets/logo-dark.svg" class="logo" alt="DataHub logo" />
 
       <vater-stack gap="l">
         @if (!showProgressBar()) {
