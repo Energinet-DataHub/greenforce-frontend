@@ -38,11 +38,7 @@ import { MeteringPointDetails } from '../types';
     @use '@energinet/watt/utils' as watt;
 
     :host {
-      width: 100%;
-      display: block;
-    }
-    .highlights-container {
-      padding: var(--watt-space-ml) var(--watt-space-ml) 0;
+      display: contents;
     }
 
     .watt-chip-label__custom {
@@ -59,6 +55,7 @@ import { MeteringPointDetails } from '../types';
     @if (hasHighlights()) {
       <div
         *transloco="let t; prefix: 'meteringPoint.overview.highlights'"
+        fill="horizontal"
         vater-stack
         wrap
         direction="row"

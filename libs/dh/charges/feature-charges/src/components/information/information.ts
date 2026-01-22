@@ -30,6 +30,7 @@ import {
   VaterStackComponent,
   VaterSpacerComponent,
   VaterUtilityDirective,
+  VaterFlexComponent,
 } from '@energinet/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -46,28 +47,10 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 @Component({
   selector: 'dh-charges-information',
   styles: `
-    @use '@energinet/watt/utils' as watt;
-
-    :host {
-      display: block;
-      height: 100%;
-    }
-
-    .page-grid {
-      display: grid;
-      grid-template-rows: auto 1fr;
-      height: 100%;
-    }
-
     .page-header {
       background-color: var(--watt-color-neutral-white);
       border-bottom: 1px solid var(--watt-color-neutral-grey-300);
       padding: var(--watt-space-m) var(--watt-space-ml);
-    }
-
-    .page-tabs {
-      position: relative;
-      overflow: auto;
     }
   `,
   imports: [
@@ -75,6 +58,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
+    VaterFlexComponent,
     VaterStackComponent,
     VaterSpacerComponent,
     VaterUtilityDirective,
@@ -102,10 +86,10 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         </watt-breadcrumb>
       </watt-breadcrumbs>
     </dh-toolbar-portal>
-    <div class="page-grid" *transloco="let t; prefix: 'charges'">
-      <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
+    <vater-flex fill="vertical" *transloco="let t; prefix: 'charges'">
+      <vater-stack class="page-header" direction="row" gap="m" wrap align="end">
         @if (charge(); as charge) {
-          <div>
+          <header>
             <vater-stack direction="row" gap="m">
               <h2 [style.margin]="0">{{ charge.displayName }}</h2>
               <dh-charges-status [status]="charge.status" />
@@ -127,7 +111,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
                 {{ charge.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
               </watt-description-list-item>
             </watt-description-list>
-          </div>
+          </header>
         }
 
         <vater-spacer />
@@ -149,20 +133,23 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
             </watt-menu-item>
           </watt-menu>
         </ng-container>
-      </div>
+      </vater-stack>
 
-      <div class="page-tabs" *transloco="let t; prefix: 'charges.charge.tabs'">
-        <watt-link-tabs vater inset="0">
-          <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices', resolution())" />
-          <watt-link-tab [label]="t('informationLabel')" [link]="getLink('information')" />
-          <watt-link-tab
-            *dhFeatureFlag="'charges-history'"
-            [label]="t('historyLabel')"
-            [link]="getLink('history')"
-          />
-        </watt-link-tabs>
-      </div>
-    </div>
+      <watt-link-tabs
+        vater
+        scrollable
+        fill="vertical"
+        *transloco="let t; prefix: 'charges.charge.tabs'"
+      >
+        <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices', resolution())" />
+        <watt-link-tab [label]="t('informationLabel')" [link]="getLink('information')" />
+        <watt-link-tab
+          *dhFeatureFlag="'charges-history'"
+          [label]="t('historyLabel')"
+          [link]="getLink('history')"
+        />
+      </watt-link-tabs>
+    </vater-flex>
     <router-outlet name="actions" />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

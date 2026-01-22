@@ -41,7 +41,6 @@ import {
   ChangeOfSupplierBusinessReason,
   InitiateMoveInDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dayjs } from '@energinet/watt/date';
 
 @Component({
   selector: 'dh-start-move-in-modal',
@@ -150,7 +149,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
       variables: {
         input: {
           businessReason: this.startMoveInForm.controls.businessReason.value,
-          startDate: dayjs().toDate(),
+          startDate: this.startMoveInForm.controls.cutOffDate.value,
           customerIdentification: {
             type: isCustomerPrivate ? 'CPR' : 'CVR',
             id: customerId,
