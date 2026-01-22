@@ -196,7 +196,13 @@
     "selectedValues": "{{count}} valgt(e)",
     "calculationType": "Beregningstype",
     "all": "Alle",
-    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}"
+    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}",
+    "terminology": {
+      "customerMasterData": "Kundestamdata",
+      "measurements": "Måledata",
+      "meteringPointMasterData": "Målepunktsstamdata",
+      "chargeLink": "Pristilknytning"
+    }
   },
   "clipboard": {
     "success": "Kopieret",
@@ -621,7 +627,7 @@
         "tabLabel": "Beskeder"
       },
       "measurements": {
-        "tabLabel": "Måledata"
+        "tabLabel": "{{ meteringPoint.overview.shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Fejlede måledata"
@@ -772,7 +778,14 @@
       "newCaseTitle": "Ny sag",
       "subjectLabel": "Emne",
       "subjects": {
-        "misc": "Andet"
+        "misc": "Ad hoc spørgsmål",
+        "disconnectionOrReconnection": "Afbrydelse/Gentilslutning",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "incorrectMoveInOrSupplierSwitch": "Fejlaftig flytning/leverandørskifte",
+        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
+        "measurements": "{{ shared.terminology.measurements }}",
+        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
+        "chargeLink": "{{ shared.terminology.chargeLink }}"
       },
       "receiverLabel": "Modtager",
       "receivers": {
@@ -2254,7 +2267,7 @@
     "topBarTitle": "Rapporter",
     "tabs": {
       "settlementReports": "Afregningsrapporter",
-      "measurementsReports": "Måledata",
+      "measurementsReports": "{{ meteringPoint.overview.shared.terminology.measurements }}",
       "imbalancePrices": "Ubalancepriser"
     },
     "settlements": {
