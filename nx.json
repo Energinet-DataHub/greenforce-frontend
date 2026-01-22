@@ -1,7 +1,4 @@
 {
-  "tui": {
-    "enabled": false
-  },
   "tasksRunnerOptions": {
     "default": {
       "options": {
