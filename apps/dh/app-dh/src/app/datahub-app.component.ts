@@ -91,15 +91,27 @@ export class DataHubAppComponent implements OnInit {
         // After successful auth at top level, redirect to wrapper for iframe experience
         // Use replace() to avoid creating browser history entries
         if (!this.iframeService.isInIframe()) {
-          window.location.replace('/');
+          globalThis.location.replace('/');
           return;
         }
       }
 
+      const hasAccounts = this.authService.instance.getAllAccounts().length > 0;
+
+      // When in iframe, authentication should already be validated by wrapper
+      // If no accounts, request re-authentication from parent
+      if (this.iframeService.isInIframe()) {
+        if (!hasAccounts) {
+          this.iframeService.requestAuthentication();
+        }
+        return;
+      }
+
+      // When at top level (not in iframe), handle login navigation
       // Needed to make sure the `dhRedirectTo` query is not set again on page refresh
       const isRedirectToSet = !!this.activatedRoute.snapshot.queryParams[dhRedirectToParam];
 
-      if (!data && !isRedirectToSet && this.authService.instance.getAllAccounts().length === 0) {
+      if (!data && !isRedirectToSet && !hasAccounts) {
         this.router.navigate([loginRoute], {
           queryParams: { [dhRedirectToParam]: this.getRedirectTo() },
         });

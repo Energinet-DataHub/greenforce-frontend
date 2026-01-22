@@ -72,8 +72,13 @@ export function MSALInterceptorConfigFactory(
   const protectedResourceMap = new Map<string, Array<string> | null>();
   protectedResourceMap.set(`${api.apiBase}/*`, [config.scopeUri]);
 
+  // Use InteractionType.None when in iframe to prevent redirect errors
+  // Authentication is handled by the wrapper before showing the iframe
+  const isInIframe = globalThis.self !== globalThis.top;
+  const interactionType = isInIframe ? InteractionType.None : InteractionType.Redirect;
+
   return {
-    interactionType: InteractionType.Redirect,
+    interactionType,
     protectedResourceMap,
     authRequest: (msalService, req, originalAuthRequest) => {
       if (!originalAuthRequest.account?.idTokenClaims) return originalAuthRequest;
@@ -91,8 +96,13 @@ export function MSALInterceptorConfigFactory(
 }
 
 export function MSALGuardConfigFactory(config: DhB2CEnvironment): MsalGuardConfiguration {
+  // Use InteractionType.None when in iframe to prevent redirect errors
+  // Authentication is handled by the wrapper before showing the iframe
+  const isInIframe = globalThis.self !== globalThis.top;
+  const interactionType = isInIframe ? InteractionType.None : InteractionType.Redirect;
+
   return {
-    interactionType: InteractionType.Redirect,
+    interactionType,
     authRequest: { scopes: [config.scopeUri] },
   };
 }

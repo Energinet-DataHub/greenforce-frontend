@@ -20,11 +20,11 @@ import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class DhIframeService {
-  readonly isInIframe = signal(window.self !== window.top);
+  readonly isInIframe = signal(globalThis.self !== globalThis.top);
 
   updateTitle(title: string): void {
     if (this.isInIframe()) {
-      window.parent.postMessage({ type: 'TITLE_UPDATE', title }, window.location.origin);
+      globalThis.parent.postMessage({ type: 'TITLE_UPDATE', title }, globalThis.location.origin);
     }
   }
 
@@ -34,10 +34,23 @@ export class DhIframeService {
    * Used for authentication flows that require redirect.
    */
   breakOutOfIframe(url: string): void {
-    if (this.isInIframe() && window.top) {
-      window.top.location.replace(url);
+    if (this.isInIframe() && globalThis.top) {
+      globalThis.top.location.replace(url);
     } else {
-      window.location.replace(url);
+      globalThis.location.replace(url);
+    }
+  }
+
+  /**
+   * Notifies the parent wrapper that authentication is required.
+   * The wrapper will redirect to full-page login.
+   */
+  requestAuthentication(): void {
+    if (this.isInIframe()) {
+      globalThis.parent.postMessage({ type: 'AUTH_REQUIRED' }, globalThis.location.origin);
+    } else {
+      // If not in iframe, redirect directly to app.html for login
+      globalThis.location.replace('app.html');
     }
   }
 }

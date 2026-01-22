@@ -99,9 +99,10 @@ export class DhMitIDButtonComponent {
   }
 
   private async redirectToMitID() {
-    // If in iframe, break out to top-level for redirect auth
+    // If in iframe, request authentication from parent wrapper
+    // This shouldn't normally happen as wrapper checks auth before showing iframe
     if (this.iframeService.isInIframe()) {
-      this.iframeService.breakOutOfIframe('app.html');
+      this.iframeService.requestAuthentication();
       return;
     }
 
