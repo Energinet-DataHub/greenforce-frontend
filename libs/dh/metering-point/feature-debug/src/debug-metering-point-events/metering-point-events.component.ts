@@ -72,7 +72,7 @@ export class DhMeteringPointEventsComponent {
   query = lazyQuery(GetMeteringPointEventsDebugViewDocument);
 
   debugViewV2 = computed(() => {
-    let debugView = this.query.data()?.eventsDebugView;
+    const debugView = this.query.data()?.eventsDebugView;
 
     if (!debugView) return undefined;
 
@@ -118,26 +118,4 @@ function safeJsonParse(str: string): unknown {
     console.error('Failed to parse JSON:', str, error);
     return str;
   }
-}
-
-function removeTypename(obj: unknown): unknown {
-  if (obj instanceof Date) {
-    return obj; // Preserve Date objects
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.map(removeTypename);
-  }
-
-  if (obj && typeof obj === 'object') {
-    const result: Record<string, unknown> = {};
-    for (const [key, value] of Object.entries(obj)) {
-      if (key !== '__typename') {
-        result[key] = removeTypename(value);
-      }
-    }
-    return result;
-  }
-
-  return obj;
 }
