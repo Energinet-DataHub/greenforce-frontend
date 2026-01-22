@@ -43,7 +43,10 @@ limitations under the License.
         align-items: center;
         justify-content: center;
         height: 100%;
-        font-family: system-ui, -apple-system, sans-serif;
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
         color: #666;
       }
     </style>
@@ -60,32 +63,32 @@ limitations under the License.
         var hashParams = new URLSearchParams(window.location.hash.substring(1));
 
         var isQueryAuthRedirect =
-          queryParams.has('code') || queryParams.has('error') || queryParams.has('state');
+          queryParams.has("code") || queryParams.has("error") || queryParams.has("state");
         var isHashAuthRedirect =
-          hashParams.has('code') || hashParams.has('error') || hashParams.has('state');
+          hashParams.has("code") || hashParams.has("error") || hashParams.has("state");
 
         // If this is an auth redirect, pass it to app.html for processing
         if (isQueryAuthRedirect) {
-          window.location.replace('app.html' + window.location.search);
+          window.location.replace("app.html" + window.location.search);
           return;
         }
         if (isHashAuthRedirect) {
-          window.location.replace('app.html' + window.location.hash);
+          window.location.replace("app.html" + window.location.hash);
           return;
         }
 
         // Load B2C configuration
         var b2cConfig;
         try {
-          var response = await fetch('dh-b2c-environment.json');
+          var response = await fetch("dh-b2c-environment.json");
           if (!response.ok) {
-            response = await fetch('dh-b2c-environment.local.json');
+            response = await fetch("dh-b2c-environment.local.json");
           }
           b2cConfig = await response.json();
         } catch (e) {
-          console.error('Failed to load B2C config:', e);
+          console.error("Failed to load B2C config:", e);
           // Redirect to app.html as fallback
-          window.location.replace('app.html');
+          window.location.replace("app.html");
           return;
         }
 
@@ -95,10 +98,10 @@ limitations under the License.
             clientId: b2cConfig.clientId,
             authority: b2cConfig.authority,
             knownAuthorities: b2cConfig.knownAuthorities,
-            redirectUri: '/',
+            redirectUri: "/",
           },
           cache: {
-            cacheLocation: 'sessionStorage',
+            cacheLocation: "sessionStorage",
           },
         };
 
@@ -113,32 +116,32 @@ limitations under the License.
           if (accounts.length === 0) {
             // Not authenticated - redirect to app.html for login
             // This will be a full-page login, not in iframe
-            window.location.replace('app.html');
+            window.location.replace("app.html");
             return;
           }
 
           // User is authenticated - show the iframe
-          document.getElementById('loading').style.display = 'none';
-          var iframe = document.getElementById('app-frame');
-          iframe.src = 'app.html';
-          iframe.style.display = 'block';
+          document.getElementById("loading").style.display = "none";
+          var iframe = document.getElementById("app-frame");
+          iframe.src = "app.html";
+          iframe.style.display = "block";
         } catch (e) {
-          console.error('MSAL error:', e);
+          console.error("MSAL error:", e);
           // Redirect to app.html as fallback
-          window.location.replace('app.html');
+          window.location.replace("app.html");
         }
       })();
 
       // Sync page title from iframe
-      window.addEventListener('message', function (event) {
-        if (event.origin === window.location.origin && event.data.type === 'TITLE_UPDATE') {
+      window.addEventListener("message", function (event) {
+        if (event.origin === window.location.origin && event.data.type === "TITLE_UPDATE") {
           document.title = event.data.title;
         }
 
         // Handle re-authentication requests from iframe
-        if (event.origin === window.location.origin && event.data.type === 'AUTH_REQUIRED') {
+        if (event.origin === window.location.origin && event.data.type === "AUTH_REQUIRED") {
           // Break out to app.html for re-authentication
-          window.location.replace('app.html');
+          window.location.replace("app.html");
         }
       });
     </script>
