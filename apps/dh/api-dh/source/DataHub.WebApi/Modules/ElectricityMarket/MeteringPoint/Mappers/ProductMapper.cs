@@ -1,0 +1,47 @@
+// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
+
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
+
+public static class ProductMapper
+{
+    public static Clients.ElectricityMarket.v1.Product? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.Product product)
+    {
+        return product switch
+        {
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.PowerActive => Clients.ElectricityMarket.v1.Product.PowerActive,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.PowerReactive => Clients.ElectricityMarket.v1.Product.PowerReactive,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.EnergyActive => Clients.ElectricityMarket.v1.Product.EnergyActive,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.EnergyReactive => Clients.ElectricityMarket.v1.Product.EnergyReactive,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.Tariff => Clients.ElectricityMarket.v1.Product.Tariff,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.FuelQuantity => Clients.ElectricityMarket.v1.Product.FuelQuantity,
+            DataHub.ElectricityMarket.Abstractions.Shared.Product.Unknown => null,
+        };
+    }
+
+    public static Product? MapToDto(this Clients.ElectricityMarket.v1.Product product)
+    {
+        return product switch
+        {
+            Clients.ElectricityMarket.v1.Product.PowerActive => Product.PowerActive,
+            Clients.ElectricityMarket.v1.Product.PowerReactive => Product.PowerReactive,
+            Clients.ElectricityMarket.v1.Product.EnergyActive => Product.EnergyActive,
+            Clients.ElectricityMarket.v1.Product.EnergyReactive => Product.EnergyReactive,
+            Clients.ElectricityMarket.v1.Product.Tariff => Product.Tariff,
+            Clients.ElectricityMarket.v1.Product.FuelQuantity => Product.FuelQuantity,
+        };
+    }
+}

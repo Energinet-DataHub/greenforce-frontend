@@ -96,6 +96,8 @@ import { DhChargesFilters } from './charges-filters';
         [dataSource]="dataSource"
         [columns]="columns"
         [resolveHeader]="resolveHeader"
+        sortBy="type"
+        sortDirection="asc"
         [activeRow]="selection()"
         [loading]="dataSource.loading"
         (rowClick)="navigation.navigate('id', $event.id, 'prices', $event.resolution)"

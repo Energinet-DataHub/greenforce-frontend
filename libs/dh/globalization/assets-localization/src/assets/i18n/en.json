@@ -705,7 +705,8 @@
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Electrical heating date",
         "powerLimit": "Power limit",
-        "powerLimitValue": "{{ value }} kW",
+        "powerLimitValueKw": "{{ value }} kW",
+        "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Disconnection type",
         "gridArea": "Grid area",
         "fromGridArea": "From grid area",
@@ -816,9 +817,10 @@
         },
         "copyMessage": "Copy message ID",
         "navigateToMessage": "Go to message",
-        "edit": "Edit change link",
-        "stop": "Stop change link",
-        "cancel": "Cancel change link"
+        "actions": "Actions",
+        "edit": "Edit charge link",
+        "stop": "Stop charge link",
+        "cancel": "Cancel charge link"
       },
       "create": {
         "errors": {

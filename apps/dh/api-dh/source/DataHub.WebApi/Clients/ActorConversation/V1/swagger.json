@@ -1,0 +1,179 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "ActorConversation | v1",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://app-api-actcon-d-we-001.azurewebsites.net/"
+    }
+  ],
+  "paths": {
+    "/api/CreateConversation": {
+      "post": {
+        "tags": [
+          "StartConversation"
+        ],
+        "summary": "Starts a conversation",
+        "description": "Example request:\n\n```  \n   {  \n      \"meteringPointIdentification\": \"570715000000033841\",  \n      \"actorsGlnNumbers\": [ \"5790001330999\", \"5790001330552\"],\n      \"conversationMessage\": {  \n          \"senderEmail\": \"xx@ddddd.dk\",  \n          \"anonymous\": true,  \n          \"content\": \"Test message\",  \n          \"createdBy\": \"xxxxx\",  \n          \"createdTime\": \"yyyy-mm-ddTHH:mi:ssZ\"  \n       }    \n    }     \n ```",
+        "operationId": "CreateConversation",
+        "requestBody": {
+          "description": "Specifies the new Conversation.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartConversationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartConversationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified conversation does not meet the requirements",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ConversationMessage": {
+        "type": "object",
+        "description": "The Conversation message",
+        "required": [
+          "senderEmail",
+          "anonymous",
+          "content",
+          "createdBy",
+          "createdTime"
+        ],
+        "properties": {
+          "senderEmail": {
+            "type": "string",
+            "description": "Sender Email"
+          },
+          "anonymous": {
+            "type": "boolean",
+            "description": "Specifies whether the message is anonymous with respect to the Sender information."
+          },
+          "content": {
+            "type": "string",
+            "description": "The message content, thus the body itself.\nCan be atmost of 5000 characters."
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "The user that creates the conversation message"
+          },
+          "createdTime": {
+            "type": "string",
+            "description": "Created time in Utc - yyyy-mm-ddTHH:mi:ssZ.",
+            "format": "date-time"
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "StartConversationRequest": {
+        "type": "object",
+        "description": "Request for starting a new conversation.",
+        "required": [
+          "meteringPointIdentification",
+          "actorsGlnNumbers",
+          "conversationMessage"
+        ],
+        "properties": {
+          "meteringPointIdentification": {
+            "type": "string",
+            "description": "MeteringPointIdentification. 18 digits GSRN number consisting of digits only."
+          },
+          "actorsGlnNumbers": {
+            "type": "array",
+            "description": "GLN Numbers of the actors, thus participants in the conversation. GLN numbers can be atmost 14 characters length and consits of digits only.\nThere can be atmost 2 participants",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conversationMessage": {
+            "$ref": "#/components/schemas/ConversationMessage"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "StartConversation"
+    }
+  ]
+}

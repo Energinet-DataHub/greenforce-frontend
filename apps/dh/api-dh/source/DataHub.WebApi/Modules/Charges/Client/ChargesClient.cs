@@ -65,7 +65,12 @@ public class ChargesClient(
             .Where(c => vatInclusive.GetValueOrDefault(c.VatInclusive) == c.VatInclusive)
             .Where(c => transparentInvoicing.GetValueOrDefault(c.TransparentInvoicing) == c.TransparentInvoicing)
             .Where(c => predictablePrice.GetValueOrDefault(c.PredictablePrice) == c.PredictablePrice)
-            .Where(c => c.FilterText.Contains(filter ?? string.Empty, StringComparison.InvariantCultureIgnoreCase));
+            .Where(c => c.FilterText.Contains(filter ?? string.Empty, StringComparison.InvariantCultureIgnoreCase))
+            .OrderBy(c => c.Type.Name)
+            .ThenBy(c => c.Id.Owner)
+            .ThenBy(c => c.LatestPeriod.Period.Start)
+            .ThenBy(c => c.Code)
+            .ToList();
 
         // This filter is expensive since it has to fetch series for each charge,
         // which is why it is deferred until after applying all other filters.
@@ -121,7 +126,8 @@ public class ChargesClient(
         Interval period,
         CancellationToken ct = default)
     {
-        var result = await client.GetChargeSeriesAsync(new(id, period.Start, period.End), ct);
+        var end = period.HasEnd ? period.End : Instant.MaxValue;
+        var result = await client.GetChargeSeriesAsync(new(id, period.Start, end), ct);
         return !result.IsSuccess
             ? throw new GraphQLException(result.DiagnosticMessage)
             : result.Data is null

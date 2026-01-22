@@ -21,6 +21,8 @@ import { DhActorConversationCaseListComponent } from './actor-conversation-case-
 import { DhActorConversationNewCaseComponent } from './actor-conversation-new-case';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -57,12 +59,26 @@ import { WattToastService } from '@energinet/watt/toast';
 export class DhActorConversationShellComponent {
   newCaseVisible = signal(false);
   private toastService = inject(WattToastService);
+  createConversationMutation = mutation(CreateConversationDocument);
 
-  send(message: string) {
-    this.newCaseVisible.set(false);
-    this.toastService.open({
-      type: 'success',
-      message: message,
+  async send(message: string) {
+    const result = await this.createConversationMutation.mutate({
+      variables: {
+        meteringPointIdentification: '571313000000000000',
+        conversationMessageContent: message,
+      },
     });
+    this.newCaseVisible.set(false);
+    if (result.error) {
+      this.toastService.open({
+        type: 'danger',
+        message: 'Error',
+      });
+    } else {
+      this.toastService.open({
+        type: 'success',
+        message: message,
+      });
+    }
   }
 }
