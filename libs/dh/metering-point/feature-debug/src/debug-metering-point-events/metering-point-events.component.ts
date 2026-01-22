@@ -82,7 +82,7 @@ export class DhMeteringPointEventsComponent {
         id: e.id,
         type: e.type,
         timestamp: e.timestamp,
-        data: safeJsonParse(e.jsonData),
+        data: tryJsonParse(e.jsonData),
         jsonData: undefined,
       })),
     };
@@ -111,7 +111,7 @@ export class DhMeteringPointEventsComponent {
   }
 }
 
-function safeJsonParse(str: string): unknown {
+function tryJsonParse(str: string): unknown {
   try {
     return JSON.parse(str);
   } catch (error) {
