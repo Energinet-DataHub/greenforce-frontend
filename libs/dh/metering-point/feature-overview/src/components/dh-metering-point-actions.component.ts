@@ -36,7 +36,7 @@ import {
 import {
   EicFunction,
   ConnectionState,
-  MeteringPointSubType,
+  ElectricityMarketViewMeteringPointSubType,
   ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -127,14 +127,14 @@ export class DhMeteringPointActionsComponent {
   private readonly permissionService = inject(PermissionService);
   private readonly actor = inject(DhActorStorage);
 
-  isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
+  isCalculatedMeteringPoint = computed(() => this.subType() === ElectricityMarketViewMeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
   getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
   createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;
 
   meteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
-  subType = input<MeteringPointSubType | null>();
+  subType = input<ElectricityMarketViewMeteringPointSubType | null>();
   connectionState = input<ConnectionState | null>();
   createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();

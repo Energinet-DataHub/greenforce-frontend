@@ -18,12 +18,12 @@
 //#endregion
 import {
   MeteringPointIdentificationDto,
-  MeteringPointsGroupByPackageNumber,
+  ElectricityMarketViewMeteringPointsGroupByPackageNumber,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const meteringPointsByGridAreaCode: MeteringPointsGroupByPackageNumber[] = [
+export const meteringPointsByGridAreaCode: ElectricityMarketViewMeteringPointsGroupByPackageNumber[] = [
   {
-    __typename: 'MeteringPointsGroupByPackageNumber',
+    __typename: 'ElectricityMarketViewMeteringPointsGroupByPackageNumber',
     packageNumber: '1',
     meteringPoints: [
       {
@@ -37,7 +37,7 @@ export const meteringPointsByGridAreaCode: MeteringPointsGroupByPackageNumber[] 
     ],
   },
   {
-    __typename: 'MeteringPointsGroupByPackageNumber',
+    __typename: 'ElectricityMarketViewMeteringPointsGroupByPackageNumber',
     packageNumber: '2',
     meteringPoints: [
       {

@@ -39,11 +39,11 @@ import { WattFieldErrorComponent, WattFieldComponent } from '@energinet/watt/fie
 import { dayjs } from '@energinet/watt/date';
 
 import {
-  AssetType,
-  ConnectionType,
-  DisconnectionType,
-  MeteringPointSubType,
-  Product,
+  ElectricityMarketViewAssetType,
+  ElectricityMarketViewConnectionType,
+  ElectricityMarketViewDisconnectionType,
+  ElectricityMarketViewMeteringPointSubType,
+  ElectricityMarketViewProduct,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { getGridAreaOptionsForPeriod } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -117,15 +117,15 @@ export class DhCreateMeteringPoint {
     details: new FormGroup({
       validityDate: dhMakeFormControl<Date | null>(this.today, Validators.required),
       meteringPointId: dhMakeFormControl('', [Validators.required, dhMeteringPointIdValidator()]),
-      subType: dhMakeFormControl<MeteringPointSubType>(
-        MeteringPointSubType.Physical,
+      subType: dhMakeFormControl<ElectricityMarketViewMeteringPointSubType>(
+        ElectricityMarketViewMeteringPointSubType.Physical,
         Validators.required
       ),
       meteringPointNumber: dhMakeFormControl('', Validators.required),
       powerLimitKw: dhMakeFormControl(''),
       powerLimitAmpere: dhMakeFormControl(''),
-      disconnectionType: dhMakeFormControl<DisconnectionType>(
-        DisconnectionType.RemoteDisconnection,
+      disconnectionType: dhMakeFormControl<ElectricityMarketViewDisconnectionType>(
+        ElectricityMarketViewDisconnectionType.RemoteDisconnection,
         Validators.required
       ),
       gridArea: dhMakeFormControl('', Validators.required),
@@ -152,8 +152,8 @@ export class DhCreateMeteringPoint {
       netSettlementGroup: dhMakeFormControl<'0' | '3'>('0', Validators.required),
       capacity: dhMakeFormControl(''),
       gsrnNumber: dhMakeFormControl(''),
-      connectionType: dhMakeFormControl<ConnectionType>(ConnectionType.Direct),
-      assetType: dhMakeFormControl<AssetType>(),
+      connectionType: dhMakeFormControl<ElectricityMarketViewConnectionType>(ElectricityMarketViewConnectionType.Direct),
+      assetType: dhMakeFormControl<ElectricityMarketViewAssetType>(),
     }),
     other: new FormGroup({
       resolution: dhMakeFormControl<'quarterHourly' | 'hourly'>(
@@ -168,13 +168,13 @@ export class DhCreateMeteringPoint {
     initialValue: [],
   });
 
-  MeteringPointSubType = MeteringPointSubType;
-  DisconnectionType = DisconnectionType;
-  ConnectionType = ConnectionType;
-  Product = Product;
+  MeteringPointSubType = ElectricityMarketViewMeteringPointSubType;
+  DisconnectionType = ElectricityMarketViewDisconnectionType;
+  ConnectionType = ElectricityMarketViewConnectionType;
+  Product = ElectricityMarketViewProduct;
 
   countryOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(CountryCode);
-  assetTypeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(AssetType);
+  assetTypeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(ElectricityMarketViewAssetType);
 
   subTypeChanged = toSignal(this.form.controls.details.controls.subType.valueChanges);
   netSettlementGroupChanged = toSignal(
@@ -189,7 +189,7 @@ export class DhCreateMeteringPoint {
 
     const detailsControls = this.form.controls.details.controls;
 
-    if (subType !== MeteringPointSubType.Physical) {
+    if (subType !== ElectricityMarketViewMeteringPointSubType.Physical) {
       detailsControls.meteringPointNumber.reset();
       detailsControls.meteringPointNumber.removeValidators(Validators.required);
     } else {

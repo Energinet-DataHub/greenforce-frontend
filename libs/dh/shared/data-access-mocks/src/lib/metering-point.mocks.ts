@@ -38,7 +38,7 @@ import {
 import {
   ConnectionState,
   ElectricityMarketMeteringPointType,
-  MeteringPointSubType,
+  ElectricityMarketViewMeteringPointSubType,
   Quality,
   Resolution,
   Unit,
@@ -472,10 +472,10 @@ function getMeasurementPoints() {
       data: {
         __typename: 'Query',
         meteringPoint: {
-          __typename: 'MeteringPointDto',
+          __typename: 'ElectricityMarketViewMeteringPointDto',
           id: mockMPs[meteringPointId].id,
           metadata: {
-            __typename: 'MeteringPointMetadataDto',
+            __typename: 'ElectricityMarketViewMeteringPointMetadataDto',
             id: mockMPs[meteringPointId].metadataId,
             subType: mockMPs[meteringPointId].subType,
           },
@@ -495,7 +495,7 @@ const mockMPs: {
     id: string;
     meteringPointId: string;
     metadataId: string;
-    subType: MeteringPointSubType | undefined | null;
+    subType: ElectricityMarketViewMeteringPointSubType | undefined | null;
   };
 } = {
   [parentMeteringPoint.meteringPointId]: {
@@ -539,7 +539,7 @@ function doesInternalMeteringPointIdExist() {
           data: {
             __typename: 'Query',
             meteringPointExists: {
-              __typename: 'MeteringPointDto',
+              __typename: 'ElectricityMarketViewMeteringPointDto',
               id: params['id'],
               meteringPointId: params['meteringPointId'],
             },

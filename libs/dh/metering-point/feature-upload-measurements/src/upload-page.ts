@@ -42,7 +42,7 @@ import { WattFileField } from '@energinet/watt/file-field';
 
 import {
   GetMeteringPointUploadMetadataByIdDocument,
-  MeteringPointSubType,
+  ElectricityMarketViewMeteringPointSubType,
   SendMeasurementsResolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -203,7 +203,7 @@ export class DhUploadMeasurementsPage {
   meteringPointResolution = computed(() => this.metadata()?.resolution);
 
   preventCalculatedSubTypeEffect = effect(() => {
-    if (this.metadata()?.subType === MeteringPointSubType.Calculated) {
+    if (this.metadata()?.subType === ElectricityMarketViewMeteringPointSubType.Calculated) {
       this.navigate('..');
     }
   });
