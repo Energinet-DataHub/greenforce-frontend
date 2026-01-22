@@ -16,18 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, viewChild } from '@angular/core';
-import { RxPush } from '@rx-angular/template/push';
-import { delay, distinctUntilChanged, map, tap, Observable, ReplaySubject } from 'rxjs';
+import { Component, signal, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { delay, distinctUntilChanged, map, tap, ReplaySubject } from 'rxjs';
 
 import { WattButtonComponent } from '../../button';
 import { WattDrawerComponent, WATT_DRAWER } from '../watt-drawer.component';
 
 @Component({
-  imports: [WattButtonComponent, WATT_DRAWER, RxPush],
+  imports: [WattButtonComponent, WATT_DRAWER],
   selector: 'watt-storybook-drawer-loading',
   template: `
-    <watt-drawer #drawer size="small" [loading]="loading">
+    <watt-drawer #drawer size="small" [loading]="loading()">
       <watt-drawer-topbar>
         @if (drawer.isOpen()) {
           <span>Top bar</span>
@@ -40,7 +40,7 @@ import { WattDrawerComponent, WATT_DRAWER } from '../watt-drawer.component';
       </watt-drawer-actions>
 
       @if (drawer.isOpen()) {
-        <watt-drawer-content>{{ content$ | push }}</watt-drawer-content>
+        <watt-drawer-content>{{ content() }}</watt-drawer-content>
       }
     </watt-drawer>
     <watt-button (click)="open('first')">Open first</watt-button>
@@ -52,23 +52,23 @@ import { WattDrawerComponent, WATT_DRAWER } from '../watt-drawer.component';
 export class WattStorybookDrawerLoadingComponent {
   private id$ = new ReplaySubject<string>(1);
 
-  content$: Observable<string>;
-  loading = false;
+  loading = signal(false);
 
   drawer = viewChild.required(WattDrawerComponent);
 
-  constructor() {
-    this.content$ = this.id$.pipe(
+  content = toSignal(
+    this.id$.pipe(
       distinctUntilChanged<string>(),
       tap(() => {
         // Avoid `ExpressionChangedAfterItHasBeenCheckedError` in the wrapping component
-        setTimeout(() => (this.loading = true));
+        setTimeout(() => this.loading.set(true));
       }),
       delay(1000),
-      tap(() => (this.loading = false)),
+      tap(() => this.loading.set(false)),
       map((id) => `This is the ${id} drawer`)
-    );
-  }
+    ),
+    { initialValue: '' }
+  );
 
   open(id: string) {
     this.drawer().open();

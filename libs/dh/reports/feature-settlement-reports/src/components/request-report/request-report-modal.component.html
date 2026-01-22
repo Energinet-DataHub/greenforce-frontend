@@ -40,7 +40,7 @@ limitations under the License.
           }
         </watt-datepicker>
 
-        @if (showMonthlySumCheckbox$ | push) {
+        @if (showMonthlySumCheckbox()) {
           <watt-checkbox
             [formControl]="form.controls.includeMonthlySum"
             data-testid="settlementreport.includeMonthlySum"
@@ -56,17 +56,17 @@ limitations under the License.
           sortDirection="asc"
           [label]="t('gridArea')"
           [formControl]="form.controls.gridAreas"
-          [options]="gridAreaOptions$ | push"
+          [options]="gridAreaOptions()"
           data-testid="settlementreport.gridAreas"
         >
-          @if (multipleGridAreasSelected$ | push) {
+          @if (multipleGridAreasSelected()) {
             <watt-field-hint>
               {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
             </watt-field-hint>
           }
         </watt-dropdown>
 
-        @if (multipleGridAreasSelected$ | push) {
+        @if (multipleGridAreasSelected()) {
           <watt-checkbox
             [formControl]="form.controls.combineResultsInOneFile"
             data-testid="settlementreport.combineResultsInOneFile"
@@ -83,7 +83,7 @@ limitations under the License.
         </watt-checkbox>
       </div>
 
-      @if ((showEnergySupplierDropdown$ | push) && form.controls.energySupplier) {
+      @if (showEnergySupplierDropdown && form.controls.energySupplier) {
         <div class="items-group">
           <watt-dropdown
             [label]="t('energySupplier')"

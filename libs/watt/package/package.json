@@ -25,7 +25,6 @@
     "@maskito/kit": "^2.5.0",
     "@maskito/phone": "^2.5.0",
     "@popperjs/core": "^2.11.8",
-    "@rx-angular/template": "^17.1.0",
     "dayjs": "^1.11.13",
     "libphonenumber-js": "^1.11.9",
     "ngx-mat-select-search": "^8.0.4",

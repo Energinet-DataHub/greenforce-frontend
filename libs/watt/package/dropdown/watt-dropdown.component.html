@@ -77,7 +77,7 @@ limitations under the License.
     }
 
     @if (hasGroups()) {
-      @for (item of filteredGroupedOptions$ | push; track item) {
+      @for (item of filteredGroupedOptions(); track item) {
         @if ("options" in item) {
           <mat-optgroup [label]="item.label" [disabled]="item.disabled">
             @for (option of item.options; track option) {
@@ -93,7 +93,7 @@ limitations under the License.
         }
       }
     } @else {
-      @for (option of filteredOptions$ | push; track option) {
+      @for (option of filteredOptions(); track option) {
         <mat-option
           [value]="option.value"
           [disabled]="option.disabled"
