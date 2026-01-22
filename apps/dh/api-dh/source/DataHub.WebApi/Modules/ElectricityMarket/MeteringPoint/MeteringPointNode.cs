@@ -214,6 +214,7 @@ public static partial class MeteringPointNode
                 CommercialRelation = meteringPointDto.CommercialRelation?.MapToDto(),
                 CommercialRelationTimeline = [.. meteringPointDto.CommercialRelationTimeline.Select(m => m.MapToDto())],
             };
+            return meteringPointResult;
         }
 
         throw new InvalidOperationException("User is not authorized to access the requested metering point.");
