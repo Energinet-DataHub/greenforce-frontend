@@ -123,16 +123,20 @@ export class DhCustomerOverviewComponent {
   contacts = computed(
     () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
-  uniqueContacts = computed(() =>
-    this.contacts()
-      .reduce((foundValues: Contact[], nextContact) => {
-        if (!foundValues.some((contact) => contact.id === nextContact.id)) {
-          foundValues.push(nextContact);
-        }
-        return foundValues;
-      }, [])
-      .filter((x) => x.legalContact || x.relationType === CustomerRelationType.Secondary)
-  );
+  uniqueContacts = computed(() => {
+    const unique = this.contacts().reduce((foundValues: Contact[], nextContact) => {
+      if (!foundValues.some((contact) => contact.id === nextContact.id)) {
+        foundValues.push(nextContact);
+      }
+      return foundValues;
+    }, []);
+
+    if (this.isEnergySupplierResponsible()) {
+      return unique;
+    }
+
+    return unique.filter((x) => x.legalContact || x.relationType === CustomerRelationType.Secondary);
+  });
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 
   showContactDetails = computed(() => this.contacts().length > 0);
