@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { DhActorConversationCaseListComponent } from './actor-conversation-case-list';
 import { DhActorConversationNewCaseComponent } from './actor-conversation-new-case';
 import {
@@ -29,6 +29,9 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
+import { ActorConversationState } from '../types';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -40,6 +43,8 @@ import { WATT_CARD } from '@energinet/watt/card';
     WATT_CARD,
     VaterStackComponent,
     VaterUtilityDirective,
+    WattButtonComponent,
+    TranslocoDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -58,28 +63,63 @@ import { WATT_CARD } from '@energinet/watt/card';
     }
   `,
   template: `
-    <vater-flex direction="row" fill="vertical" gap="m" class="watt-space-inset-m">
+    <vater-flex
+      direction="row"
+      fill="vertical"
+      gap="m"
+      class="watt-space-inset-m"
+      *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+    >
       <dh-actor-conversation-case-list (createNewCase)="newCaseVisible.set(true)" class="flex-1" />
-      @if (newCaseVisible()) {
-        <dh-actor-conversation-new-case
-          (closeNewCase)="newCaseVisible.set(false)"
-          (createCase)="send($event)"
-          class="flex-3"
-        />
-      } @else {
-        <vater-stack class="flex-3" justify="center">
-          <watt-card vater fill="both" class="flex-card">
-            <watt-empty-state icon="cooperation" title="Ingen sag valgt" />
-          </watt-card>
-        </vater-stack>
+      @switch (state()) {
+        @case (ActorConversationState.NewCaseOpen) {
+          <dh-actor-conversation-new-case
+            (closeNewCase)="newCaseVisible.set(false)"
+            (createCase)="send($event)"
+            class="flex-3"
+          />
+        }
+        @case (ActorConversationState.noCases) {
+          <vater-stack class="flex-3" justify="center">
+            <watt-card vater fill="both" class="flex-card">
+              <watt-empty-state icon="cooperation" [title]="t('emptyState.noCases')">
+                <watt-button variant="secondary" (click)="newCaseVisible.set(true)">
+                  {{ t('newCaseButton') }}
+                </watt-button>
+              </watt-empty-state>
+            </watt-card>
+          </vater-stack>
+        }
+        @case (ActorConversationState.noCaseSelected) {
+          <vater-stack class="flex-3" justify="center">
+            <watt-card vater fill="both" class="flex-card">
+              <watt-empty-state icon="cooperation" [title]="t('emptyState.noCaseSelected')" />
+            </watt-card>
+          </vater-stack>
+        }
+        @case (ActorConversationState.CaseSelected) {
+          <h1>TO BE IMPLEMENTED</h1>
+        }
       }
     </vater-flex>
   `,
 })
 export class DhActorConversationShellComponent {
   newCaseVisible = signal(false);
-  private toastService = inject(WattToastService);
+  cases = signal([]);
+  selectedCase = signal(null);
+  state = computed<ActorConversationState>(() => {
+    if (this.newCaseVisible()) {
+      return ActorConversationState.NewCaseOpen;
+    } else if (this.cases().length === 0) {
+      return ActorConversationState.noCases;
+    } else if (this.selectedCase() === null) {
+      return ActorConversationState.noCaseSelected;
+    }
+    return ActorConversationState.CaseSelected;
+  });
   createConversationMutation = mutation(CreateConversationDocument);
+  private toastService = inject(WattToastService);
 
   async send(message: string) {
     const result = await this.createConversationMutation.mutate({
@@ -101,4 +141,6 @@ export class DhActorConversationShellComponent {
       });
     }
   }
+
+  protected readonly ActorConversationState = ActorConversationState;
 }
