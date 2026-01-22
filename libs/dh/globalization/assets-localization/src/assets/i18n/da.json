@@ -627,7 +627,7 @@
         "tabLabel": "Beskeder"
       },
       "measurements": {
-        "tabLabel": "{{ meteringPoint.overview.shared.terminology.measurements }}"
+        "tabLabel": "{{ shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Fejlede måledata"
@@ -2267,7 +2267,7 @@
     "topBarTitle": "Rapporter",
     "tabs": {
       "settlementReports": "Afregningsrapporter",
-      "measurementsReports": "{{ meteringPoint.overview.shared.terminology.measurements }}",
+      "measurementsReports": "{{ shared.terminology.measurements }}",
       "imbalancePrices": "Ubalancepriser"
     },
     "settlements": {
