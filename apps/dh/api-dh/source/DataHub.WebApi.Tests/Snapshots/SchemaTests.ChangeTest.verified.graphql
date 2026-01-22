@@ -2732,71 +2732,71 @@ enum ElectricityMarketV2MeteringPointType {
 }
 
 enum ElectricityMarketViewAssetType {
-  SteamTurbineWithBackPressureMode
-  GasTurbine
-  CombinedCycle
-  CombustionEngineGas
-  SteamTurbineWithCondensationSteam
-  Boiler
-  StirlingEngine
-  PermanentConnectedElectricalEnergyStorageFacilities
-  TemporarilyConnectedElectricalEnergyStorageFacilities
-  FuelCells
-  PhotoVoltaicCells
-  WindTurbines
-  HydroelectricPower
-  WavePower
-  MixedProduction
-  ProductionWithElectricalEnergyStorageFacilities
-  PowerToX
-  RegenerativeDemandFacility
-  CombustionEngineDiesel
-  CombustionEngineBio
-  NoTechnology
-  UnknownTechnology
+  STEAMTURBINEWITHBACKPRESSUREMODE
+  GASTURBINE
+  COMBINEDCYCLE
+  COMBUSTIONENGINEGAS
+  STEAMTURBINEWITHCONDENSATIONSTEAM
+  BOILER
+  STIRLINGENGINE
+  PERMANENTCONNECTEDELECTRICALENERGYSTORAGEFACILITIES
+  TEMPORARILYCONNECTEDELECTRICALENERGYSTORAGEFACILITIES
+  FUELCELLS
+  PHOTOVOLTAICCELLS
+  WINDTURBINES
+  HYDROELECTRICPOWER
+  WAVEPOWER
+  MIXEDPRODUCTION
+  PRODUCTIONWITHELECTRICALENERGYSTORAGEFACILITIES
+  POWERTOX
+  REGENERATIVEDEMANDFACILITY
+  COMBUSTIONENGINEDIESEL
+  COMBUSTIONENGINEBIO
+  NOTECHNOLOGY
+  UNKNOWNTECHNOLOGY
 }
 
 enum ElectricityMarketViewConnectionState {
-  NotUsed
-  ClosedDown
-  New
-  Connected
-  Disconnected
+  NOTUSED
+  CLOSEDDOWN
+  NEW
+  CONNECTED
+  DISCONNECTED
 }
 
 enum ElectricityMarketViewConnectionType {
-  Direct
-  Installation
+  DIRECT
+  INSTALLATION
 }
 
 enum ElectricityMarketViewCustomerRelationType {
-  Contact1
-  Contact4
-  Secondary
+  CONTACT1
+  CONTACT4
+  SECONDARY
 }
 
 enum ElectricityMarketViewDisconnectionType {
-  RemoteDisconnection
-  ManualDisconnection
+  REMOTEDISCONNECTION
+  MANUALDISCONNECTION
 }
 
 enum ElectricityMarketViewMeteringPointMeasureUnit {
-  Ampere
+  AMPERE
   STK
-  KVArh
-  KWh
+  KVARH
+  KWH
   KW
   MW
-  MWh
-  Tonne
-  MVAr
-  DanishTariffCode
+  MWH
+  TONNE
+  MVAR
+  DANISHTARIFFCODE
 }
 
 enum ElectricityMarketViewMeteringPointSubType {
-  Physical
-  Virtual
-  Calculated
+  PHYSICAL
+  VIRTUAL
+  CALCULATED
 }
 
 enum ElectricityMarketViewMeteringPointType {
@@ -2832,91 +2832,91 @@ enum ElectricityMarketViewMeteringPointType {
 }
 
 enum ElectricityMarketViewProduct {
-  Tariff
-  FuelQuantity
-  PowerActive
-  PowerReactive
-  EnergyActive
-  EnergyReactive
+  TARIFF
+  FUELQUANTITY
+  POWERACTIVE
+  POWERREACTIVE
+  ENERGYACTIVE
+  ENERGYREACTIVE
 }
 
 enum ElectricityMarketViewSettlementMethod {
-  FlexSettled
-  Profiled
-  NonProfiled
+  FLEXSETTLED
+  PROFILED
+  NONPROFILED
 }
 
 enum ElectricityMarketViewTransactionType {
-  ChangeSupplier
-  EndSupply
-  IncorrectSupplierChange
-  MasterDataSent
-  AttachChild
-  DettachChild
-  EnergiSupplierMoveIn
-  EnergiSupplierMoveOut
-  TransactionTypeIncMove
-  IncorrectMoveIn
-  ElectricalHeatingOn
-  ElectricalHeatingOff
-  ChangeSupplierShort
-  ManualChangeSupplier
-  ManualCorrections
-  CreateMeteringPoint
-  CreateSpecialMeteringPoint
-  RegisterMeterIdentifier
-  AddedByDataMigration
-  DeliveryTermination
-  SendingHistoricalAnnualConsumptionToElectricitySupplier
-  ManualWebPasswordGeneration
-  ManualUpdateOfWebAccessCode
-  MaintenanceOfSettlementMasterData
-  GridAccessProviderMoveIn
-  GridAccessProviderMoveOut
-  SendingCustomerMasterData
-  RequestForMasterData
-  RequestForMasterDataNotOwner
-  RequestForMeasurementData
-  RequestForSettlementMasterData
-  SubmitExpectedAnnualConsumptionEnergySupplier
-  SubmitExpectedAnnualConsumptionGridAccessProvider
-  SubmitCounterReadingEnergySupplier
-  SubmitCounterReadingGridAccessProvider
-  RequestForServiceFromGridAccessProvider
-  Unsubscribe
-  StopTariff
-  DismantlingOfMeter
-  UpdateSpecialMeteringPoint
-  UpdateHistoricMeteringPoint
-  ChangeMeter
-  ChangeInPurchaseObligation
-  DisplayingCumulativeDataNotOwner
-  ViewingMoves
-  DisplayingMeasurementPoint
-  DisplayingMeasurementPointNotOwner
-  DisplayingMeasurementDataNotOwner
-  InterruptionAndReopeningOfMeasurementPoint
-  ConnectingMeasuringPoint
-  ChangeBalanceResponsiblePartyConsumption
-  ChangeBalanceResponsiblePartyProduction
-  MergerOfNetworkAreas
-  MassCorrection
-  ChangeOfPaymentMethod
-  DecommissioningMeasuringPoint
-  CancellationOfConsumptionStatementMarketProcess
-  CancellationOfConsumptionStatementReadingDate
-  ConsumptionStatementMeasuringPoint
-  HistoricalTransactionCorrection
-  StartCancellationOfSupplierChange
-  ConsumptionStatementCancelsNotMarketProcess
-  ConsumptionStatementCancelsMarketProcess
-  CreateHistoricalMeteringPoint
-  EmptyTransaction
+  CHANGESUPPLIER
+  ENDSUPPLY
+  INCORRECTSUPPLIERCHANGE
+  MASTERDATASENT
+  ATTACHCHILD
+  DETTACHCHILD
+  ENERGISUPPLIERMOVEIN
+  ENERGISUPPLIERMOVEOUT
+  TRANSACTIONTYPEINCMOVE
+  INCORRECTMOVEIN
+  ELECTRICALHEATINGON
+  ELECTRICALHEATINGOFF
+  CHANGESUPPLIERSHORT
+  MANUALCHANGESUPPLIER
+  MANUALCORRECTIONS
+  CREATEMETERINGPOINT
+  CREATESPECIALMETERINGPOINT
+  REGISTERMETERIDENTIFIER
+  ADDEDBYDATAMIGRATION
+  DELIVERYTERMINATION
+  SENDINGHISTORICALANNUALCONSUMPTIONTOELECTRICITYSUPPLIER
+  MANUALWEBPASSWORDGENERATION
+  MANUALUPDATEOFWEBACCESSCODE
+  MAINTENANCEOFSETTLEMENTMASTERDATA
+  GRIDACCESSPROVIDERMOVEIN
+  GRIDACCESSPROVIDERMOVEOUT
+  SENDINGCUSTOMERMASTERDATA
+  REQUESTFORMASTERDATA
+  REQUESTFORMASTERDATANOTOWNER
+  REQUESTFORMEASUREMENTDATA
+  REQUESTFORSETTLEMENTMASTERDATA
+  SUBMITEXPECTEDANNUALCONSUMPTIONENERGYSUPPLIER
+  SUBMITEXPECTEDANNUALCONSUMPTIONGRIDACCESSPROVIDER
+  SUBMITCOUNTERREADINGENERGYSUPPLIER
+  SUBMITCOUNTERREADINGGRIDACCESSPROVIDER
+  REQUESTFORSERVICEFROMGRIDACCESSPROVIDER
+  UNSUBSCRIBE
+  STOPTARIFF
+  DISMANTLINGOFMETER
+  UPDATESPECIALMETERINGPOINT
+  UPDATEHISTORICMETERINGPOINT
+  CHANGEMETER
+  CHANGEINPURCHASEOBLIGATION
+  DISPLAYINGCUMULATIVEDATANOTOWNER
+  VIEWINGMOVES
+  DISPLAYINGMEASUREMENTPOINT
+  DISPLAYINGMEASUREMENTPOINTNOTOWNER
+  DISPLAYINGMEASUREMENTDATANOTOWNER
+  INTERRUPTIONANDREOPENINGOFMEASUREMENTPOINT
+  CONNECTINGMEASURINGPOINT
+  CHANGEBALANCERESPONSIBLEPARTYCONSUMPTION
+  CHANGEBALANCERESPONSIBLEPARTYPRODUCTION
+  MERGEROFNETWORKAREAS
+  MASSCORRECTION
+  CHANGEOFPAYMENTMETHOD
+  DECOMMISSIONINGMEASURINGPOINT
+  CANCELLATIONOFCONSUMPTIONSTATEMENTMARKETPROCESS
+  CANCELLATIONOFCONSUMPTIONSTATEMENTREADINGDATE
+  CONSUMPTIONSTATEMENTMEASURINGPOINT
+  HISTORICALTRANSACTIONCORRECTION
+  STARTCANCELLATIONOFSUPPLIERCHANGE
+  CONSUMPTIONSTATEMENTCANCELSNOTMARKETPROCESS
+  CONSUMPTIONSTATEMENTCANCELSMARKETPROCESS
+  CREATEHISTORICALMETERINGPOINT
+  EMPTYTRANSACTION
 }
 
 enum ElectricityMarketViewWashInstructions {
-  Washable
-  NotWashable
+  WASHABLE
+  NOTWASHABLE
 }
 
 enum EsettTimeSeriesType {
