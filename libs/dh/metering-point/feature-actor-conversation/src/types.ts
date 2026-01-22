@@ -28,6 +28,6 @@ export enum ActorConversationReceiverType {
 export enum ActorConversationState {
   noCases = 'noCases',
   noCaseSelected = 'noCaseSelected',
-  CaseSelected = 'caseSelected',
-  NewCaseOpen = 'newCaseOpen',
+  caseSelected = 'caseSelected',
+  newCaseOpen = 'newCaseOpen',
 }

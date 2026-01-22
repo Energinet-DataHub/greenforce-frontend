@@ -72,7 +72,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     >
       <dh-actor-conversation-case-list (createNewCase)="newCaseVisible.set(true)" class="flex-1" />
       @switch (state()) {
-        @case (ActorConversationState.NewCaseOpen) {
+        @case (ActorConversationState.newCaseOpen) {
           <dh-actor-conversation-new-case
             (closeNewCase)="newCaseVisible.set(false)"
             (createCase)="send($event)"
@@ -97,7 +97,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
             </watt-card>
           </vater-stack>
         }
-        @case (ActorConversationState.CaseSelected) {
+        @case (ActorConversationState.caseSelected) {
           <h1>TO BE IMPLEMENTED</h1>
         }
       }
@@ -110,13 +110,13 @@ export class DhActorConversationShellComponent {
   selectedCase = signal(null);
   state = computed<ActorConversationState>(() => {
     if (this.newCaseVisible()) {
-      return ActorConversationState.NewCaseOpen;
+      return ActorConversationState.newCaseOpen;
     } else if (this.cases().length === 0) {
       return ActorConversationState.noCases;
     } else if (this.selectedCase() === null) {
       return ActorConversationState.noCaseSelected;
     }
-    return ActorConversationState.CaseSelected;
+    return ActorConversationState.caseSelected;
   });
   createConversationMutation = mutation(CreateConversationDocument);
   private toastService = inject(WattToastService);
