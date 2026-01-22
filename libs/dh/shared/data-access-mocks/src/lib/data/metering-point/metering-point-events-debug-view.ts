@@ -20,50 +20,45 @@ import { GetMeteringPointDebugResultDtoV1 } from '@energinet-datahub/dh/shared/d
 
 export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
   __typename: 'GetMeteringPointDebugResultDtoV1',
-  meteringPoint: {
-    __typename: 'MeteringPointDebugDtoV1',
-    meteringPointId: '111111111111111111',
-    meteringPointPeriods: [
+  meteringPointJson: `{
+    "meteringPointId": "111111111111111111",
+    "meteringPointPeriods": [
       {
-        __typename: 'MeteringPointPeriodDto',
-        validFrom: new Date('2023-01-01T00:00:00Z'),
-        validTo: new Date('2023-12-31T23:59:59Z'),
-        type: 'Consumption',
-        connectionState: 'Connected',
+        "validFrom": "2023-01-01T00:00:00.000Z",
+        "validTo": "2023-12-31T23:59:59.000Z",
+        "type": "Consumption",
+        "connectionState": "Connected"
       },
       {
-        __typename: 'MeteringPointPeriodDto',
-        validFrom: new Date('2023-01-01T00:00:00Z'),
-        validTo: new Date('2023-12-31T23:59:59Z'),
-        type: 'Consumption',
-        connectionState: 'Connected',
-      },
+        "validFrom": "2023-01-01T00:00:00.000Z",
+        "validTo": "2023-12-31T23:59:59.000Z",
+        "type": "Consumption",
+        "connectionState": "Connected"
+      }
     ],
-    commercialRelations: [
+    "commercialRelations": [
       {
-        __typename: 'ElectricityMarketV2CommercialRelationDto',
-        customerId: '111',
-        energySupplierId: '2222222222222222',
-        validFrom: new Date('2023-01-01T00:00:00Z'),
-        validTo: new Date('2023-12-31T23:59:59Z'),
-        energySupplierPeriods: [
+        "customerId": "111",
+        "energySupplierId": "2222222222222222",
+        "validFrom": "2023-01-01T00:00:00.000Z",
+        "validTo": "2023-12-31T23:59:59.000Z",
+        "energySupplierPeriods": [
           {
-            __typename: 'EnergySupplierPeriodDto',
-            validFrom: new Date('2023-01-01T00:00:00Z'),
-            validTo: new Date('2023-12-31T23:59:59Z'),
-            contacts: [],
-          },
-        ],
-      },
-    ],
-  },
+            "validFrom": "2023-01-01T00:00:00.000Z",
+            "validTo": "2023-12-31T23:59:59.000Z",
+            "contacts": []
+          }
+        ]
+      }
+    ]
+  }`,
   events: [
     {
       __typename: 'ElectricityMarketV2EventDto',
       id: 'event-1',
       type: 'MeteringPointCreatedEventV1',
       timestamp: new Date('2023-01-01T12:00:00Z'),
-      jsonData:
+      dataJson:
         '{ "id": "111111111", "type": "Consumption", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "New" }',
     },
     {
@@ -71,7 +66,7 @@ export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
       id: 'event-2',
       type: 'MoveInInitiatedEventV1',
       timestamp: new Date('2023-01-04T07:00:00Z'),
-      jsonData:
+      dataJson:
         '{ "customerId": "111", "validityDate": "2023-01-04T00:00:00Z", "energySupplierId": "2222222222222222" }',
     },
     {
@@ -79,7 +74,7 @@ export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
       id: 'event-3',
       type: 'MeteringPointConnectedEventV1',
       timestamp: new Date('2023-01-01T12:00:00Z'),
-      jsonData:
+      dataJson:
         '{ "id": "111111111", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "Connected" }',
     },
   ],
