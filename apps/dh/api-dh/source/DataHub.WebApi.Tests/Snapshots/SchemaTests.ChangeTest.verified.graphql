@@ -598,11 +598,6 @@ type ElectricityMarketViewMeteringPointMetadataDto {
   manuallyHandled: Boolean!
 }
 
-type ElectricityMarketViewMeteringPointsGroupByPackageNumber {
-  packageNumber: String!
-  meteringPoints: [MeteringPointIdentificationDto!]!
-}
-
 type EnergySupplierPeriodDto {
   validFrom: DateTime!
   validTo: DateTime!
@@ -1050,6 +1045,11 @@ type MeteringPointProcessStep {
   dueDate: DateTime
   state: ProcessState!
   messageId: String
+}
+
+type MeteringPointsGroupByPackageNumber {
+  packageNumber: String!
+  meteringPoints: [MeteringPointIdentificationDto!]!
 }
 
 type MissingMeasurementsLogCalculation implements Calculation & OrchestrationInstance {
