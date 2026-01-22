@@ -17,7 +17,7 @@ using HotChocolate.Authorization;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
-public static class ActorConversationNode
+public static class ActorConversationOperations
 {
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
@@ -27,17 +27,20 @@ public static class ActorConversationNode
         string conversationMessageContent,
         CancellationToken ct)
     {
-        await client.ApiCreateConversationAsync(
+        await client.ApiStartConversationAsync(
          new StartConversationRequest
         {
+            Subject = ConversationSubject.QuestionForEnerginet,
             MeteringPointIdentification = meteringPointIdentification,
-            ActorsGlnNumbers = new List<string>(["222222222222222222"]),
+            GlnNumberForReceivers = new List<string>(["22222222222222"]),
+            InternalNote = "Internal note example",
             ConversationMessage =
             {
-                Content = conversationMessageContent,
+                SenderEmail = "test@test.dk",
+                SenderGlnNumber = "12345678910111",
                 Anonymous = false,
+                Content = conversationMessageContent,
                 CreatedBy = "xxxx",
-                CreatedTime = DateTimeOffset.UtcNow,
             },
         },
          ct);
