@@ -150,7 +150,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
       variables: {
         input: {
           businessReason: this.startMoveInForm.controls.businessReason.value,
-          startDate: dayjs().toDate(),
+          startDate: this.startMoveInForm.controls.cutOffDate.value,
           customerIdentification: {
             type: isCustomerPrivate ? 'CPR' : 'CVR',
             id: customerId,
