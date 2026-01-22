@@ -22,6 +22,6 @@ public class ElectricityMarketViewWashInstructionsEnumType : EnumType<WashInstru
     protected override void Configure(IEnumTypeDescriptor<WashInstructions> descriptor)
     {
         descriptor.Name("ElectricityMarketViewWashInstructions");
-        descriptor.AsIsCase();
+        descriptor.AsUpperCase();
     }
 }

@@ -22,6 +22,6 @@ public class ElectricityMarketViewSettlementMethodEnumType : EnumType<Settlement
     protected override void Configure(IEnumTypeDescriptor<SettlementMethod> descriptor)
     {
         descriptor.Name("ElectricityMarketViewSettlementMethod");
-        descriptor.AsIsCase();
+        descriptor.AsUpperCase();
     }
 }

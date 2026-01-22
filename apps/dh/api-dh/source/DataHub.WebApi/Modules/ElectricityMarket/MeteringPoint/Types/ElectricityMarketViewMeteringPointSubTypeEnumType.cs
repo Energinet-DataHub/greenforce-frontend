@@ -22,6 +22,6 @@ public class ElectricityMarketViewMeteringPointSubTypeEnumType : EnumType<Meteri
     protected override void Configure(IEnumTypeDescriptor<MeteringPointSubType> descriptor)
     {
         descriptor.Name("ElectricityMarketViewMeteringPointSubType");
-        descriptor.AsIsCase();
+        descriptor.AsUpperCase();
     }
 }

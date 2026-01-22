@@ -22,6 +22,6 @@ public class ElectricityMarketViewDisconnectionTypeEnumType : EnumType<Disconnec
     protected override void Configure(IEnumTypeDescriptor<DisconnectionType> descriptor)
     {
         descriptor.Name("ElectricityMarketViewDisconnectionType");
-        descriptor.AsIsCase();
+        descriptor.AsUpperCase();
     }
 }

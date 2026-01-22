@@ -22,6 +22,6 @@ public class ElectricityMarketViewProductEnumType : EnumType<Product>
     protected override void Configure(IEnumTypeDescriptor<Product> descriptor)
     {
         descriptor.Name("ElectricityMarketViewProduct");
-        descriptor.AsIsCase();
+        descriptor.AsUpperCase();
     }
 }

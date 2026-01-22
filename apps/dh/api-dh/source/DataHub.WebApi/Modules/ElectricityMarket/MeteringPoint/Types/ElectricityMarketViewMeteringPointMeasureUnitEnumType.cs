@@ -22,6 +22,6 @@ public class ElectricityMarketViewMeteringPointMeasureUnitEnumType : EnumType<Me
     protected override void Configure(IEnumTypeDescriptor<MeteringPointMeasureUnit> descriptor)
     {
         descriptor.Name("ElectricityMarketViewMeteringPointMeasureUnit");
-        descriptor.AsIsCase();
+        descriptor.AsUpperCase();
     }
 }
