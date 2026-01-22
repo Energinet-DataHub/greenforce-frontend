@@ -64,10 +64,7 @@ limitations under the License.
     <script>
       // Sync page title from iframe
       window.addEventListener("message", function (event) {
-        if (
-          event.origin === window.location.origin &&
-          event.data.type === "TITLE_UPDATE"
-        ) {
+        if (event.origin === window.location.origin && event.data.type === "TITLE_UPDATE") {
           document.title = event.data.title;
         }
       });
