@@ -41,7 +41,6 @@ import {
   ChangeOfSupplierBusinessReason,
   InitiateMoveInDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dayjs } from '@energinet/watt/date';
 
 @Component({
   selector: 'dh-start-move-in-modal',
