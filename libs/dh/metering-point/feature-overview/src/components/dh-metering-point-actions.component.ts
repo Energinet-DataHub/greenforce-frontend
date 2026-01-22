@@ -127,7 +127,9 @@ export class DhMeteringPointActionsComponent {
   private readonly permissionService = inject(PermissionService);
   private readonly actor = inject(DhActorStorage);
 
-  isCalculatedMeteringPoint = computed(() => this.subType() === ElectricityMarketViewMeteringPointSubType.Calculated);
+  isCalculatedMeteringPoint = computed(
+    () => this.subType() === ElectricityMarketViewMeteringPointSubType.Calculated
+  );
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
   getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
   createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;

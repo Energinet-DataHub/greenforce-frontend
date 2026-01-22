@@ -230,7 +230,9 @@ export class DhUpdateCustomerDataComponent {
         return foundContacts;
       }, [])
       .filter(
-        (contact) => contact.legalContact || contact.relationType === ElectricityMarketViewCustomerRelationType.Secondary
+        (contact) =>
+          contact.legalContact ||
+          contact.relationType === ElectricityMarketViewCustomerRelationType.Secondary
       )
   );
 

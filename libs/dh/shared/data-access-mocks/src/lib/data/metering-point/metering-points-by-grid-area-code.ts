@@ -21,37 +21,38 @@ import {
   ElectricityMarketViewMeteringPointsGroupByPackageNumber,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const meteringPointsByGridAreaCode: ElectricityMarketViewMeteringPointsGroupByPackageNumber[] = [
-  {
-    __typename: 'ElectricityMarketViewMeteringPointsGroupByPackageNumber',
-    packageNumber: '1',
-    meteringPoints: [
-      {
-        __typename: 'MeteringPointIdentificationDto',
-        identification: '111111111111111111',
-      } as MeteringPointIdentificationDto,
-      {
-        __typename: 'MeteringPointIdentificationDto',
-        identification: '222222222222222222',
-      } as MeteringPointIdentificationDto,
-    ],
-  },
-  {
-    __typename: 'ElectricityMarketViewMeteringPointsGroupByPackageNumber',
-    packageNumber: '2',
-    meteringPoints: [
-      {
-        __typename: 'MeteringPointIdentificationDto',
-        identification: '333333333333333333',
-      } as MeteringPointIdentificationDto,
-      {
-        __typename: 'MeteringPointIdentificationDto',
-        identification: '444444444444444444',
-      } as MeteringPointIdentificationDto,
-      {
-        __typename: 'MeteringPointIdentificationDto',
-        identification: '555555555555555555',
-      } as MeteringPointIdentificationDto,
-    ],
-  },
-];
+export const meteringPointsByGridAreaCode: ElectricityMarketViewMeteringPointsGroupByPackageNumber[] =
+  [
+    {
+      __typename: 'ElectricityMarketViewMeteringPointsGroupByPackageNumber',
+      packageNumber: '1',
+      meteringPoints: [
+        {
+          __typename: 'MeteringPointIdentificationDto',
+          identification: '111111111111111111',
+        } as MeteringPointIdentificationDto,
+        {
+          __typename: 'MeteringPointIdentificationDto',
+          identification: '222222222222222222',
+        } as MeteringPointIdentificationDto,
+      ],
+    },
+    {
+      __typename: 'ElectricityMarketViewMeteringPointsGroupByPackageNumber',
+      packageNumber: '2',
+      meteringPoints: [
+        {
+          __typename: 'MeteringPointIdentificationDto',
+          identification: '333333333333333333',
+        } as MeteringPointIdentificationDto,
+        {
+          __typename: 'MeteringPointIdentificationDto',
+          identification: '444444444444444444',
+        } as MeteringPointIdentificationDto,
+        {
+          __typename: 'MeteringPointIdentificationDto',
+          identification: '555555555555555555',
+        } as MeteringPointIdentificationDto,
+      ],
+    },
+  ];

@@ -107,7 +107,9 @@ export class DhUploadMeasurementsService {
     }
   };
 
-  private mapMeasurementUnit(unit: ElectricityMarketViewMeteringPointMeasureUnit): SendMeasurementsMeasurementUnit {
+  private mapMeasurementUnit(
+    unit: ElectricityMarketViewMeteringPointMeasureUnit
+  ): SendMeasurementsMeasurementUnit {
     switch (unit) {
       case ElectricityMarketViewMeteringPointMeasureUnit.KvArh:
         return SendMeasurementsMeasurementUnit.KiloVoltAmpereReactiveHour;

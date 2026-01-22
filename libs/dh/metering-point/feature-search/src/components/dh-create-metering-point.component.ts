@@ -152,7 +152,9 @@ export class DhCreateMeteringPoint {
       netSettlementGroup: dhMakeFormControl<'0' | '3'>('0', Validators.required),
       capacity: dhMakeFormControl(''),
       gsrnNumber: dhMakeFormControl(''),
-      connectionType: dhMakeFormControl<ElectricityMarketViewConnectionType>(ElectricityMarketViewConnectionType.Direct),
+      connectionType: dhMakeFormControl<ElectricityMarketViewConnectionType>(
+        ElectricityMarketViewConnectionType.Direct
+      ),
       assetType: dhMakeFormControl<ElectricityMarketViewAssetType>(),
     }),
     other: new FormGroup({
@@ -174,7 +176,9 @@ export class DhCreateMeteringPoint {
   Product = ElectricityMarketViewProduct;
 
   countryOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(CountryCode);
-  assetTypeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(ElectricityMarketViewAssetType);
+  assetTypeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
+    ElectricityMarketViewAssetType
+  );
 
   subTypeChanged = toSignal(this.form.controls.details.controls.subType.valueChanges);
   netSettlementGroupChanged = toSignal(

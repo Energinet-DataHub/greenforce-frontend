@@ -57,5 +57,7 @@ import { ElectricityMarketViewWashInstructions } from '@energinet-datahub/dh/sha
 export class DhActualAddressComponent {
   washInstructions = input<ElectricityMarketViewWashInstructions | null>();
 
-  isActualAddress = computed(() => this.washInstructions() === ElectricityMarketViewWashInstructions.Washable);
+  isActualAddress = computed(
+    () => this.washInstructions() === ElectricityMarketViewWashInstructions.Washable
+  );
 }
