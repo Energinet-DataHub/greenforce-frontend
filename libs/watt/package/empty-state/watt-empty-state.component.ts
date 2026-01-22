@@ -21,6 +21,7 @@ import { WattIcon, WattIconComponent, WattIconSize } from '@energinet/watt/icon'
 import { WattEmptyStateExploreComponent } from './icons/explore';
 import { WattEmptyStateNoResultsComponent } from './icons/no-results';
 import { WattEmptyStatePowerComponent } from './icons/power';
+import { WattEmptyStateCooperationComponent } from './icons/cooperation';
 
 /**
  * Usage:
@@ -34,6 +35,7 @@ import { WattEmptyStatePowerComponent } from './icons/power';
     WattEmptyStateNoResultsComponent,
     WattEmptyStatePowerComponent,
     WattIconComponent,
+    WattEmptyStateCooperationComponent,
   ],
   styles: `
     @use '@energinet/watt/utils' as watt;
@@ -81,6 +83,11 @@ import { WattEmptyStatePowerComponent } from './icons/power';
           <watt-empty-state-power />
         </watt-icon>
       }
+      @case ('cooperation') {
+        <watt-icon [size]="iconSize()" class="watt-space-stack-l">
+          <watt-empty-state-cooperation />
+        </watt-icon>
+      }
       @default {
         <watt-icon [name]="name" [size]="iconSize()" class="watt-space-stack-l" />
       }
@@ -102,7 +109,7 @@ import { WattEmptyStatePowerComponent } from './icons/power';
   `,
 })
 export class WattEmptyStateComponent {
-  icon = input<WattIcon | 'custom-power' | 'custom-explore' | 'custom-no-results'>();
+  icon = input<WattIcon | 'custom-power' | 'custom-explore' | 'custom-no-results' | 'cooperation'>();
   size = input<'small' | 'large'>('large');
   title = input('');
   message = input('');
