@@ -69,7 +69,7 @@ import { WATT_CARD } from '@energinet/watt/card';
       } @else {
         <vater-stack class="flex-3" justify="center">
           <watt-card vater fill="both" class="flex-card">
-            <watt-empty-state icon="feedback" title="Ingen sag valgt" />
+            <watt-empty-state icon="cooperation" title="Ingen sag valgt" />
           </watt-card>
         </vater-stack>
       }
