@@ -19,10 +19,10 @@ using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using HotChocolate.Authorization;
 using Microsoft.FeatureManagement;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
@@ -73,7 +73,7 @@ public static partial class MeteringPointNode
 
     [Query]
     [Authorize(Roles = new[] { "cpr:view" })]
-    public static async Task<CPRResponse> GetMeteringPointContactCprAsync(
+    public static async Task<Clients.ElectricityMarket.v1.CPRResponse> GetMeteringPointContactCprAsync(
         string meteringPointId,
         long contactId,
         CancellationToken ct,
@@ -101,7 +101,7 @@ public static partial class MeteringPointNode
 
         if ((signature.Result == SignatureResult.Valid || signature.Result == SignatureResult.NoContent) && signature.Signature != null)
         {
-            var request = new ContactCprRequestDto
+            var request = new Clients.ElectricityMarket.v1.ContactCprRequestDto
             {
                 ActorGln = actorNumber,
                 MarketRole = Enum.Parse<EicFunction>(user.GetMarketParticipantMarketRole()),
@@ -121,7 +121,7 @@ public static partial class MeteringPointNode
             long? internalMeteringPointId,
             long? meteringPointId,
             CancellationToken ct,
-            [Service] IElectricityMarketClient_V1 electricityMarketClient_V1,
+            [Service] Clients.ElectricityMarket.v1.IElectricityMarketClient_V1 electricityMarketClient_V1,
             [Service] IHttpContextAccessor httpContextAccessor,
             [Service] IRequestAuthorization requestAuthorization,
             [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
@@ -152,10 +152,10 @@ public static partial class MeteringPointNode
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
+    public static async Task<Clients.ElectricityMarket.v1.RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
             string meteringPointId,
             CancellationToken ct,
-            [Service] IElectricityMarketClient_V1 client) =>
+            [Service] Clients.ElectricityMarket.v1.IElectricityMarketClient_V1 client) =>
                 await client.MeteringPointRelatedAsync(meteringPointId, ct).ConfigureAwait(false);
 
     [Query]
@@ -204,7 +204,16 @@ public static partial class MeteringPointNode
         if ((signature.Result == SignatureResult.Valid || signature.Result == SignatureResult.NoContent) && signature.Signature != null)
         {
             var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature.Signature);
-            return await authClient.MeteringPointAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+            var meteringPointDto = await authClient.MeteringPointAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+            var meteringPointResult = new MeteringPointDto
+            {
+                Id = MeteringPointMetadataMapper.NextLong(),
+                Identification = meteringPointDto.Identification,
+                Metadata = meteringPointDto.Metadata.MapToDto(),
+                MetadataTimeline = [.. meteringPointDto.MetadataTimeline.Select(m => m.MapToDto())],
+                CommercialRelation = meteringPointDto.CommercialRelation?.MapToDto(),
+                CommercialRelationTimeline = [.. meteringPointDto.CommercialRelationTimeline.Select(m => m.MapToDto())],
+            };
         }
 
         throw new InvalidOperationException("User is not authorized to access the requested metering point.");
