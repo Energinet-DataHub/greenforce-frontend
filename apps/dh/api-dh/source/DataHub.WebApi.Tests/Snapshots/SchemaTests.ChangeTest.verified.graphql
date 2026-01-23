@@ -1336,7 +1336,7 @@ type RelatedMeteringPointDto {
   id: Long!
   identification: String!
   type: ElectricityMarketMeteringPointType!
-  connectionState: ConnectionState!
+  connectionState: ElectricityMarketConnectionStateType!
   createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
@@ -2511,14 +2511,6 @@ enum ChargeType {
   FEE
 }
 
-enum ConnectionState {
-  NOT_USED
-  CLOSED_DOWN
-  NEW
-  CONNECTED
-  DISCONNECTED
-}
-
 enum ContactCategory {
   DEFAULT
   CHARGES
@@ -2628,6 +2620,14 @@ enum ElectricityEicFunctionType {
   SerialEnergyTrader
   Delegated
   ItSupplier
+}
+
+enum ElectricityMarketConnectionStateType {
+  NotUsed
+  ClosedDown
+  New
+  Connected
+  Disconnected
 }
 
 enum ElectricityMarketMeteringPointType {
