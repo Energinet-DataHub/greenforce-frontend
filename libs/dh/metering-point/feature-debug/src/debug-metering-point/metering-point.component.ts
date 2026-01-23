@@ -22,7 +22,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { VaterFlexComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattCardComponent } from '@energinet/watt/card';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointDebugViewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -38,8 +39,10 @@ import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-
     DhPermissionRequiredDirective,
     DhMeteringPointsMasterDataUploaderComponent,
     VaterFlexComponent,
+    VaterUtilityDirective,
     WattTextFieldComponent,
     DhResultComponent,
+    WattCardComponent,
   ],
   styles: `
     textarea {
@@ -65,25 +68,33 @@ import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-
       display: block;
       height: 100%;
       width: 100%;
-      padding: var(--watt-space-ml);
     }
   `,
   template: `
-    <vater-flex autoSize fill="both" gap="l">
-      <ng-container *dhFeatureFlag="'metering-points-master-data-upload'">
-        <dh-metering-points-master-data-uploader *dhPermissionRequired="['fas']" />
-      </ng-container>
+    <div vater inset="ml">
+      <watt-card vater fill="vertical">
+        <vater-flex autoSize fill="both" gap="m">
+          <ng-container *dhFeatureFlag="'metering-points-master-data-upload'">
+            <dh-metering-points-master-data-uploader *dhPermissionRequired="['fas']" />
+          </ng-container>
 
-      <watt-text-field
-        label="MeteringPointId"
-        [formControl]="meteringPointIdFormControl"
-        [maxLength]="18"
-      />
+          <watt-text-field
+            label="MeteringPointId"
+            [formControl]="meteringPointIdFormControl"
+            [maxLength]="18"
+          />
 
-      <dh-result [loading]="query.loading()" [hasError]="query.hasError()">
-        <textarea spellcheck="false" wrap="off">{{ debugView() }}</textarea>
-      </dh-result>
-    </vater-flex>
+          <dh-result
+            vater
+            fill="vertical"
+            [loading]="query.loading()"
+            [hasError]="query.hasError()"
+          >
+            <textarea spellcheck="false" wrap="off">{{ debugView() }}</textarea>
+          </dh-result>
+        </vater-flex>
+      </watt-card>
+    </div>
   `,
 })
 export class DhMeteringPointComponent {
