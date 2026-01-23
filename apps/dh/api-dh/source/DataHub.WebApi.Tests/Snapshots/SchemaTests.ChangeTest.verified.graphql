@@ -394,15 +394,6 @@ type CommercialRelationDto {
   electricalHeatingPeriods: [ElectricalHeatingDto!]!
 }
 
-type ContactAddressDto {
-  streetName: String
-}
-
-type ContactDto {
-  name: String
-  address: ContactAddressDto
-}
-
 type CreateCalculationPayload {
   uuid: UUID
 }
@@ -506,25 +497,11 @@ type ElectricalHeatingDto {
   transactionType: TransactionType
 }
 
-type ElectricityMarketV2CommercialRelationDto {
-  validFrom: DateTime!
-  validTo: DateTime!
-  energySupplierId: String!
-  customerId: UUID
-  energySupplierPeriods: [EnergySupplierPeriodDto!]!
-}
-
 type ElectricityMarketV2EventDto {
-  jsonData: String!
   id: UUID!
   timestamp: DateTime!
   type: String!
-}
-
-type EnergySupplierPeriodDto {
-  validFrom: DateTime!
-  validTo: DateTime!
-  contacts: [ContactDto!]!
+  dataJson: String!
 }
 
 type EnergySupplyPeriodDto {
@@ -642,7 +619,7 @@ type FilteredUserRolesEdge {
 }
 
 type GetMeteringPointDebugResultDtoV1 {
-  meteringPoint: MeteringPointDebugDtoV1!
+  meteringPointJson: String!
   events: [ElectricityMarketV2EventDto!]!
 }
 
@@ -950,12 +927,6 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
-type MeteringPointDebugDtoV1 {
-  meteringPointId: String!
-  meteringPointPeriods: [MeteringPointPeriodDto!]!
-  commercialRelations: [ElectricityMarketV2CommercialRelationDto!]!
-}
-
 type MeteringPointDto {
   meteringPointId: String!
   isChild: Boolean!
@@ -1011,13 +982,6 @@ type MeteringPointMetadataDto {
   settlementMethod: SettlementMethod
   installationAddress: InstallationAddressDto
   manuallyHandled: Boolean!
-}
-
-type MeteringPointPeriodDto {
-  validFrom: DateTime!
-  validTo: DateTime!
-  type: ElectricityMarketV2MeteringPointType!
-  connectionState: ElectricityMarketV2ConnectionState!
 }
 
 type MeteringPointProcess {
@@ -1100,6 +1064,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
+  resetMitId: ResetMitIdPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
@@ -1484,6 +1449,11 @@ type ResendWaitingEsettExchangeMessagesPayload {
   boolean: Boolean
 }
 
+type ResetMitIdPayload {
+  boolean: Boolean
+  errors: [ResetMitIdError!]
+}
+
 type ResetTwoFactorAuthenticationPayload {
   boolean: Boolean
   errors: [ResetTwoFactorAuthenticationError!]
@@ -1724,6 +1694,8 @@ union ReInviteUserError = ApiError
 union RemoveMeteringPointsFromAdditionalRecipientError = ApiError
 
 union RequestClientSecretCredentialsError = ApiError
+
+union ResetMitIdError = ApiError
 
 union ResetTwoFactorAuthenticationError = ApiError
 

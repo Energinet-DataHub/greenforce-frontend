@@ -1,0 +1,8 @@
+mutation ResetMitId {
+  resetMitId {
+    success: boolean
+    errors {
+      ...Errors
+    }
+  }
+}

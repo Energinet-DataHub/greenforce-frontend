@@ -196,7 +196,13 @@
     "selectedValues": "{{count}} selected",
     "calculationType": "Calculation type",
     "all": "All",
-    "downloadNameParams": "'{{ env }}' environment - {{ datetime }}"
+    "downloadNameParams": "'{{ env }}' environment - {{ datetime }}",
+    "terminology": {
+      "customerMasterData": "Customer master data",
+      "measurements": "Measurements",
+      "meteringPointMasterData": "Metering point master data",
+      "chargeLink": "Charge link"
+    }
   },
   "clipboard": {
     "success": "Copied",
@@ -621,7 +627,7 @@
         "tabLabel": "Messages"
       },
       "measurements": {
-        "tabLabel": "Measurements"
+        "tabLabel": "{{ meteringPoint.overview.shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Failed measurements"
@@ -772,7 +778,14 @@
       "newCaseTitle": "New case",
       "subjectLabel": "Subject",
       "subjects": {
-        "misc": "Miscellaneous"
+        "misc": "Miscellaneous",
+        "disconnectionOrReconnection": "Disconnection/Reconnection",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "incorrectMoveInOrSupplierSwitch": "Incorrect move-in/supplier switch",
+        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
+        "measurements": "{{ shared.terminology.measurements }}",
+        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
+        "priceAssociation": "{{ shared.terminology.chargeLink }}"
       },
       "receiverLabel": "Receiver",
       "receivers": {
@@ -2256,7 +2269,7 @@
     "topBarTitle": "Reports",
     "tabs": {
       "settlementReports": "Settlement reports",
-      "measurementsReports": "Measurements",
+      "measurementsReports": "{{ shared.terminology.measurements }}",
       "imbalancePrices": "Imbalance prices"
     },
     "settlements": {
@@ -2342,7 +2355,7 @@
       }
     },
     "measurementsReports": {
-      "title": "{{ reports.tabs.measurementsReports }}",
+      "title": "{{ shared.terminology.measurements }}",
       "emptyMessage": "There are no measurements reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",

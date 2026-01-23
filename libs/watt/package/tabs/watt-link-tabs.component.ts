@@ -34,12 +34,15 @@ import { WattLinkTabComponent } from './watt-link-tab.component';
       .mat-mdc-tab-header {
         box-shadow: var(--watt-bottom-box-shadow);
         background-color: var(--watt-color-neutral-white);
+        z-index: 2;
       }
 
       .mat-mdc-tab-nav-panel {
         display: block;
         position: relative;
         height: 100%;
+        overflow: auto;
+        padding: var(--watt-space-ml);
       }
 
       .mat-mdc-tab-links,

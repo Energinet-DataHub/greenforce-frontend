@@ -12,27 +12,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 
 public static class EnergyUnitMapper
 {
-    public static MeteringPointMeasureUnit MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit energyUnit)
+    public static Clients.ElectricityMarket.v1.MeteringPointMeasureUnit MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit energyUnit)
     {
         return energyUnit switch
         {
-            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.Ampere => MeteringPointMeasureUnit.Ampere,
-            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.Stk => MeteringPointMeasureUnit.STK,
-            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.KVArh => MeteringPointMeasureUnit.KVArh,
-            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.KWh => MeteringPointMeasureUnit.KWh,
-            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.KW => MeteringPointMeasureUnit.KW,
-            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.MW => MeteringPointMeasureUnit.MW,
-            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.MWh => MeteringPointMeasureUnit.MWh,
-            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.Tonne => MeteringPointMeasureUnit.Tonne,
-            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.MVAr => MeteringPointMeasureUnit.MVAr,
-            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.DanishTariffCode => MeteringPointMeasureUnit.DanishTariffCode,
+            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.Ampere => Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.Ampere,
+            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.Stk => Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.STK,
+            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.KVArh => Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.KVArh,
+            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.KWh => Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.KWh,
+            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.KW => Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.KW,
+            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.MW => Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.MW,
+            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.MWh => Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.MWh,
+            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.Tonne => Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.Tonne,
+            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.MVAr => Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.MVAr,
+            DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.DanishTariffCode => Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.DanishTariffCode,
             DataHub.ElectricityMarket.Abstractions.Shared.EnergyUnit.Unknown => throw new InvalidOperationException("Invalid EnergyUnit"),
+        };
+    }
+
+    public static MeteringPointMeasureUnit MapToDto(this Clients.ElectricityMarket.v1.MeteringPointMeasureUnit energyUnit)
+    {
+        return energyUnit switch
+        {
+            Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.Ampere => MeteringPointMeasureUnit.Ampere,
+            Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.STK => MeteringPointMeasureUnit.STK,
+            Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.KVArh => MeteringPointMeasureUnit.KVArh,
+            Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.KWh => MeteringPointMeasureUnit.KWh,
+            Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.KW => MeteringPointMeasureUnit.KW,
+            Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.MW => MeteringPointMeasureUnit.MW,
+            Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.MWh => MeteringPointMeasureUnit.MWh,
+            Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.Tonne => MeteringPointMeasureUnit.Tonne,
+            Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.MVAr => MeteringPointMeasureUnit.MVAr,
+            Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.DanishTariffCode => MeteringPointMeasureUnit.DanishTariffCode,
         };
     }
 }

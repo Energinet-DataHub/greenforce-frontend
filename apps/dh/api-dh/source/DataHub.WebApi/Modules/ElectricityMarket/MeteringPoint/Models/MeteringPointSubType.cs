@@ -11,15 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
-using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPointDebug.V1;
-
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Types;
-
-public class ElectricityMarketV2EventDtoObjectType : ObjectType<GetMeteringPointDebugResultDtoV1.EventDto>
+public enum MeteringPointSubType
 {
-    protected override void Configure(IObjectTypeDescriptor<GetMeteringPointDebugResultDtoV1.EventDto> descriptor)
-    {
-        descriptor.Name("ElectricityMarketV2EventDto");
-    }
+    Physical = 0,
+    Virtual = 1,
+    Calculated = 2,
 }

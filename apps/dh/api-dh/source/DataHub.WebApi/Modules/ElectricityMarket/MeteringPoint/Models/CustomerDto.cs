@@ -11,15 +11,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
-using Energinet.DataHub.ElectricityMarket.Abstractions.Features.Internal.MeteringPoint.GetMeteringPoint.V1;
-
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Types;
-
-public class ElectricityMarketV2CommercialRelationObjectType : ObjectType<MeteringPointDebugDtoV1.CommercialRelationDto>
+public class CustomerDto
 {
-    protected override void Configure(IObjectTypeDescriptor<MeteringPointDebugDtoV1.CommercialRelationDto> descriptor)
-    {
-        descriptor.Name("ElectricityMarketV2CommercialRelationDto");
-    }
+    public long Id { get; set; }
+
+    public string Name { get; set; } = default!;
+
+    public string? Cvr { get; set; }
+
+    public bool IsProtectedName { get; set; }
+
+    public CustomerRelationType RelationType { get; set; }
+
+    public CustomerContactDto? LegalContact { get; set; }
+
+    public CustomerContactDto? TechnicalContact { get; set; }
 }
