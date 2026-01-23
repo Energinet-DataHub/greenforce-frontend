@@ -780,7 +780,11 @@
       },
       "internalNoteLabel": "Internal note",
       "messageLabel": "Message",
-      "sendButton": "Send"
+      "sendButton": "Send",
+      "emptyState": {
+        "noCases": "No cases found",
+        "noCaseSelected": "No case selected"
+      }
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",

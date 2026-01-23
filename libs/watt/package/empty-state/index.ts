@@ -21,3 +21,4 @@ export { WattEmptyStateExploreComponent } from './icons/explore';
 export { WattEmptyStateNoResultsComponent } from './icons/no-results';
 export { WattEmptyStatePowerComponent } from './icons/power';
 export { WattEmptyStateNotFoundComponent } from './icons/not-found';
+export { WattEmptyStateCooperationComponent } from './icons/cooperation';
