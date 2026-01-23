@@ -32,7 +32,6 @@ import { dayjs } from '@energinet/watt/date';
 
 import {
   RequestConnectionStateChangeDocument,
-  ElectricityMarketConnectionStateType,
   RequestConnectionStateChangeMutation,
   GetMeteringPointProcessOverviewDocument,
   ElectricityMarketViewConnectionState,
@@ -130,7 +129,7 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
   });
 
   stateControlOptions = dhEnumToWattDropdownOptions(
-    ElectricityMarketConnectionStateType,
+    ElectricityMarketViewConnectionState,
     this.statesToExclude()
   );
   loading = this.mutation.loading;
@@ -178,12 +177,12 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
     return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
   }
 
-  private statesToExclude(): ElectricityMarketConnectionStateType[] | undefined {
-    if (this.modalData.currentConnectionState === ElectricityMarketConnectionStateType.New) {
+  private statesToExclude(): ElectricityMarketViewConnectionState[] | undefined {
+    if (this.modalData.currentConnectionState === ElectricityMarketViewConnectionState.New) {
       return [
-        ElectricityMarketConnectionStateType.NotUsed,
-        ElectricityMarketConnectionStateType.ClosedDown,
-        ElectricityMarketConnectionStateType.Disconnected,
+        ElectricityMarketViewConnectionState.NotUsed,
+        ElectricityMarketViewConnectionState.ClosedDown,
+        ElectricityMarketViewConnectionState.Disconnected,
       ];
     }
 
