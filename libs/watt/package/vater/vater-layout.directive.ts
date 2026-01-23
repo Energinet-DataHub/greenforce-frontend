@@ -16,53 +16,25 @@
  * limitations under the License.
  */
 //#endregion
-import { booleanAttribute, computed, Directive, input } from '@angular/core';
-import { Align, Direction, Justify, Spacing } from './types';
+import { computed, Directive, input } from '@angular/core';
+import { Spacing } from './types';
 
 @Directive({
   host: {
     '[class]': 'class()',
-    '[class.vater-wrap]': 'wrap()',
-    '[attr.align]': 'null',
-    '[attr.direction]': 'null',
     '[attr.gap]': 'null',
-    '[attr.justify]': 'null',
     '[attr.offset]': 'null',
-    '[attr.wrap]': 'null',
   },
 })
 export class VaterLayoutDirective {
-  /** Cross axis alignment of the flex items. */
-  align = input<Align>();
-
-  /** Direction of the flex items. Defaults to `column`. */
-  direction = input<Direction>('column');
-
-  /** Spacing between the flex items. */
+  /** Spacing between items. */
   gap = input<Spacing>();
 
-  /** Main axis alignment of the flex items. */
-  justify = input<Justify>();
-
-  /** Offset to apply along the main axis. */
+  /** Offset to apply along the main axis (or both axes for grids). */
   offset = input<Spacing>();
 
-  /** Whether the flex items should wrap. */
-  wrap = input(false, { transform: booleanAttribute });
-
   // Computed class names
-  protected alignClass = computed(() => this.align() && `vater-align-${this.align()}`);
-  protected directionClass = computed(() => this.direction() && `vater-${this.direction()}`);
   protected gapClass = computed(() => this.gap() && `vater-gap-${this.gap()}`);
-  protected justifyClass = computed(() => this.justify() && `vater-justify-${this.justify()}`);
   protected offsetClass = computed(() => this.offset() && `vater-offset-${this.offset()}`);
-  protected class = computed(() =>
-    [
-      this.alignClass(),
-      this.directionClass(),
-      this.gapClass(),
-      this.justifyClass(),
-      this.offsetClass(),
-    ].filter(Boolean)
-  );
+  protected class = computed(() => [this.gapClass(), this.offsetClass()].filter(Boolean));
 }

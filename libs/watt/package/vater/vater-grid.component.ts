@@ -16,19 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation } from '@angular/core';
-import { VaterFlexboxDirective } from './vater-flexbox.directive';
-import { VaterLayoutDirective } from './vater-layout.directive';
+import { Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { VaterUtilityDirective } from './vater-utility.directive';
+import { VaterLayoutDirective } from './vater-layout.directive';
 
 @Component({
-  selector: 'vater-stack, [vater-stack]',
+  selector: 'vater-grid, [vater-grid]',
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [
-    {
-      directive: VaterFlexboxDirective,
-      inputs: ['align', 'direction', 'justify', 'wrap'],
-    },
     {
       directive: VaterLayoutDirective,
       inputs: ['gap', 'offset'],
@@ -38,13 +33,24 @@ import { VaterUtilityDirective } from './vater-utility.directive';
       inputs: ['center', 'fill', 'inset', 'scrollable'],
     },
   ],
+  host: {
+    '[style.gridTemplateColumns]': 'templateColumns()',
+    '[style.gridTemplateRows]': 'templateRows()',
+  },
   styles: `
-    vater-stack,
-    [vater-stack] {
-      display: flex;
-      line-height: normal;
+    vater-grid,
+    [vater-grid] {
+      display: grid;
     }
   `,
   template: `<ng-content />`,
 })
-export class VaterStackComponent {}
+export class VaterGridComponent {
+  columns = input<string | number>(1);
+  rows = input<string | number>(1);
+
+  protected templateColumns = computed(() => this.makeTrackList(this.columns()));
+  protected templateRows = computed(() => this.makeTrackList(this.rows()));
+  private makeTrackList = (input: string | number) =>
+    typeof input === 'string' ? input : '1fr '.repeat(input).trim();
+}

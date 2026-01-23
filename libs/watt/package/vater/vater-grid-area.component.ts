@@ -16,35 +16,34 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation } from '@angular/core';
-import { VaterFlexboxDirective } from './vater-flexbox.directive';
-import { VaterLayoutDirective } from './vater-layout.directive';
+import { Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { VaterUtilityDirective } from './vater-utility.directive';
+import { VaterLayoutDirective } from './vater-layout.directive';
 
 @Component({
-  selector: 'vater-stack, [vater-stack]',
+  selector: 'vater-grid-area, [vater-grid-area]',
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [
-    {
-      directive: VaterFlexboxDirective,
-      inputs: ['align', 'direction', 'justify', 'wrap'],
-    },
     {
       directive: VaterLayoutDirective,
       inputs: ['gap', 'offset'],
     },
     {
       directive: VaterUtilityDirective,
-      inputs: ['center', 'fill', 'inset', 'scrollable'],
+      inputs: ['scrollable'],
     },
   ],
-  styles: `
-    vater-stack,
-    [vater-stack] {
-      display: flex;
-      line-height: normal;
-    }
-  `,
+  host: {
+    '[class]': 'class()',
+    '[style.gridColumn]': 'column()',
+    '[style.gridRow]': 'row()',
+  },
   template: `<ng-content />`,
 })
-export class VaterStackComponent {}
+export class VaterGridAreaComponent {
+  name = input('');
+  column = input<string | number>();
+  row = input<string | number>();
+  subgrid = input<'columns' | 'rows' | 'both'>();
+  class = computed(() => this.subgrid() && `vater-subgrid-${this.subgrid()}`);
+}
