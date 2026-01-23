@@ -297,66 +297,66 @@
     "SUM_OF_MONTH": "Månedssum"
   },
   "meteringPointSubType": {
-    "PHYSICAL": "Fysisk",
-    "VIRTUAL": "Virtuel",
-    "CALCULATED": "Beregnet"
+    "Physical": "Fysisk",
+    "Virtual": "Virtuel",
+    "Calculated": "Beregnet"
   },
   "settlementMethod": {
-    "FLEX_SETTLED": "Flexafregnet",
-    "PROFILED": "Skabelonafregnet",
-    "NON_PROFILED": "Timeafregnet"
+    "FlexSettled": "Flexafregnet",
+    "Profiled": "Skabelonafregnet",
+    "NonProfiled": "Timeafregnet"
   },
   "disconnectionType": {
-    "REMOTE_DISCONNECTION": "Fjernafbrydelig",
-    "MANUAL_DISCONNECTION": "Manuel afbrydelig"
+    "RemoteDisconnection": "Fjernafbrydelig",
+    "ManualDisconnection": "Manuel afbrydelig"
   },
   "assetType": {
-    "STEAM_TURBINE_WITH_BACK_PRESSURE_MODE": "Dampturbine med modtryksdrift",
-    "GAS_TURBINE": "Gasturbine",
-    "COMBINED_CYCLE": "Combined cycle",
-    "COMBUSTION_ENGINE_GAS": "Forbrændingsmotor Gas",
-    "STEAM_TURBINE_WITH_CONDENSATION_STEAM": "Dampturbine med kondens/damp",
-    "BOILER": "Kedel",
-    "STIRLING_ENGINE": "Stirlingmotor",
-    "PERMANENT_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Permanent tilsluttede elektriske energilageranlæg",
-    "TEMPORARILY_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Temporært tilsluttede elektriske energilageranlæg",
-    "FUEL_CELLS": "Brændselsceller",
-    "PHOTO_VOLTAIC_CELLS": "Solceller",
-    "WIND_TURBINES": "Vindmøller",
-    "HYDROELECTRIC_POWER": "Vandkraft",
-    "WAVE_POWER": "Bølgekraft",
-    "MIXED_PRODUCTION": "Blandet produktion ",
-    "PRODUCTION_WITH_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Produktion med elektriske energilageranlæg",
-    "POWER_TO_X": "Power-to-X",
-    "REGENERATIVE_DEMAND_FACILITY": "Regenerative forbrugsanlæg",
-    "COMBUSTION_ENGINE_DIESEL": "Forbrændingsmotor Dieselmotor",
-    "COMBUSTION_ENGINE_BIO": "Bioforbrændingsmotor",
-    "NO_TECHNOLOGY": "Ingen teknologi",
-    "UNKNOWN_TECHNOLOGY": "Ukendt teknologi"
+    "SteamTurbineWithBackPressureMode": "Dampturbine med modtryksdrift",
+    "GasTurbine": "Gasturbine",
+    "CombinedCycle": "Combined cycle",
+    "CombustionEngineGas": "Forbrændingsmotor Gas",
+    "SteamTurbineWithCondensationSteam": "Dampturbine med kondens/damp",
+    "Boiler": "Kedel",
+    "StirlingEngine": "Stirlingmotor",
+    "PermanentConnectedElectricalEnergyStorageFacilities": "Permanent tilsluttede elektriske energilageranlæg",
+    "TemporarilyConnectedElectricalEnergyStorageFacilities": "Temporært tilsluttede elektriske energilageranlæg",
+    "FuelCells": "Brændselsceller",
+    "PhotoVoltaicCells": "Solceller",
+    "WindTurbines": "Vindmøller",
+    "HydroelectricPower": "Vandkraft",
+    "WavePower": "Bølgekraft",
+    "MixedProduction": "Blandet produktion ",
+    "ProductionWithElectricalEnergyStorageFacilities": "Produktion med elektriske energilageranlæg",
+    "PowerToX": "Power-to-X",
+    "RegenerativeDemandFacility": "Regenerative forbrugsanlæg",
+    "CombustionEngineDiesel": "Forbrændingsmotor Dieselmotor",
+    "CombustionEngineBio": "Bioforbrændingsmotor",
+    "NoTechnology": "Ingen teknologi",
+    "UnknownTechnology": "Ukendt teknologi"
   },
   "connectionType": {
-    "DIRECT": "Direkte tilsluttet",
-    "INSTALLATION": "Installationstilsluttet"
+    "Direct": "Direkte tilsluttet",
+    "Installation": "Installationstilsluttet"
   },
   "measureUnit": {
-    "AMPERE": "A",
+    "Ampere": "A",
     "STK": "stk",
-    "KV_ARH": "kVArh",
-    "K_WH": "kWh",
+    "KVArh": "kVArh",
+    "KWh": "kWh",
     "KW": "kW",
     "MW": "MW",
-    "M_WH": "MWh",
-    "TONNE": "t",
-    "MV_AR": "MVAr",
-    "DANISH_TARIFF_CODE": "Tarifkode"
+    "MWh": "MWh",
+    "Tonne": "t",
+    "MVAr": "MVAr",
+    "DanishTariffCode": "Tarifkode"
   },
   "product": {
-    "TARIFF": "Tarif",
-    "FUEL_QUANTITY": "Brændselsmængde",
-    "POWER_ACTIVE": "Aktiv effekt",
-    "POWER_REACTIVE": "Reaktiv effekt",
-    "ENERGY_ACTIVE": "Aktiv energi",
-    "ENERGY_REACTIVE": "Reaktiv energi"
+    "Tariff": "Tarif",
+    "FuelQuantity": "Brændselsmængde",
+    "PowerActive": "Aktiv effekt",
+    "PowerReactive": "Reaktiv effekt",
+    "EnergyActive": "Aktiv energi",
+    "EnergyReactive": "Reaktiv energi"
   },
   "resolution": {
     "PT15M": "Kvarter",

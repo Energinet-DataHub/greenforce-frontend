@@ -297,66 +297,66 @@
     "SUM_OF_MONTH": "Sum by month"
   },
   "meteringPointSubType": {
-    "PHYSICAL": "Physical",
-    "VIRTUAL": "Virtual",
-    "CALCULATED": "Calculated"
+    "Physical": "Physical",
+    "Virtual": "Virtual",
+    "Calculated": "Calculated"
   },
   "settlementMethod": {
-    "FLEX_SETTLED": "Flex settled",
-    "PROFILED": "Profiled",
-    "NON_PROFILED": "Non profiled"
+    "FlexSettled": "Flex settled",
+    "Profiled": "Profiled",
+    "NonProfiled": "Non profiled"
   },
   "disconnectionType": {
-    "REMOTE_DISCONNECTION": "Remote disconnection",
-    "MANUAL_DISCONNECTION": "Manual disconnection"
+    "RemoteDisconnection": "Remote disconnection",
+    "ManualDisconnection": "Manual disconnection"
   },
   "assetType": {
-    "STEAM_TURBINE_WITH_BACK_PRESSURE_MODE": "Steam turbine with back-pressure mode",
-    "GAS_TURBINE": "Gas turbine",
-    "COMBINED_CYCLE": "Combined cycle",
-    "COMBUSTION_ENGINE_GAS": "Combustion engine gas",
-    "STEAM_TURBINE_WITH_CONDENSATION_STEAM": "Steam turbine with condensation / steam",
-    "BOILER": "Boiler",
-    "STIRLING_ENGINE": "Stirling engine",
-    "PERMANENT_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Permanent connected electrical energy storage facilities",
-    "TEMPORARILY_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Temporarily connected electrical energy storage facilities",
-    "FUEL_CELLS": "Fuel Cells",
-    "PHOTO_VOLTAIC_CELLS": "Photo voltaic cells",
-    "WIND_TURBINES": "Wind turbines",
-    "HYDROELECTRIC_POWER": "Hydroelectric power",
-    "WAVE_POWER": "Wave power",
-    "MIXED_PRODUCTION": "Mixed production ",
-    "PRODUCTION_WITH_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Production with electrical energy storage facilities",
-    "POWER_TO_X": "Power-to-X",
-    "REGENERATIVE_DEMAND_FACILITY": "Regenerative demand facility",
-    "COMBUSTION_ENGINE_DIESEL": "Combustion engine – diesel",
-    "COMBUSTION_ENGINE_BIO": "Combustion engine - bio",
-    "NO_TECHNOLOGY": "No technology",
-    "UNKNOWN_TECHNOLOGY": "Unknown technology"
+    "SteamTurbineWithBackPressureMode": "Steam turbine with back-pressure mode",
+    "GasTurbine": "Gas turbine",
+    "CombinedCycle": "Combined cycle",
+    "CombustionEngineGas": "Combustion engine gas",
+    "SteamTurbineWithCondensationSteam": "Steam turbine with condensation / steam",
+    "Boiler": "Boiler",
+    "StirlingEngine": "Stirling engine",
+    "PermanentConnectedElectricalEnergyStorageFacilities": "Permanent connected electrical energy storage facilities",
+    "TemporarilyConnectedElectricalEnergyStorageFacilities": "Temporarily connected electrical energy storage facilities",
+    "FuelCells": "Fuel Cells",
+    "PhotoVoltaicCells": "Photo voltaic cells",
+    "WindTurbines": "Wind turbines",
+    "HydroelectricPower": "Hydroelectric power",
+    "WavePower": "Wave power",
+    "MixedProduction": "Mixed production ",
+    "ProductionWithElectricalEnergyStorageFacilities": "Production with electrical energy storage facilities",
+    "PowerToX": "Power-to-X",
+    "RegenerativeDemandFacility": "Regenerative demand facility",
+    "CombustionEngineDiesel": "Combustion engine – diesel",
+    "CombustionEngineBio": "Combustion engine - bio",
+    "NoTechnology": "No technology",
+    "UnknownTechnology": "Unknown technology"
   },
   "connectionType": {
-    "DIRECT": "Direct",
-    "INSTALLATION": "Installation"
+    "Direct": "Direct",
+    "Installation": "Installation"
   },
   "measureUnit": {
-    "AMPERE": "A",
+    "Ampere": "A",
     "STK": "stk",
-    "KV_ARH": "kVArh",
-    "K_WH": "kWh",
+    "KVArh": "kVArh",
+    "KWh": "kWh",
     "KW": "kW",
     "MW": "MW",
-    "M_WH": "MWh",
-    "TONNE": "t",
-    "MV_AR": "MVAr",
-    "DANISH_TARIFF_CODE": "Tariff code"
+    "MWh": "MWh",
+    "Tonne": "t",
+    "MVAr": "MVAr",
+    "DanishTariffCode": "Tariff code"
   },
   "product": {
-    "TARIFF": "Tariff",
-    "FUEL_QUANTITY": "Fuel quantity",
-    "POWER_ACTIVE": "Power active ",
-    "POWER_REACTIVE": "Power reactive",
-    "ENERGY_ACTIVE": "Energy active",
-    "ENERGY_REACTIVE": "Energy reactive"
+    "Tariff": "Tariff",
+    "FuelQuantity": "Fuel quantity",
+    "PowerActive": "Power active ",
+    "PowerReactive": "Power reactive",
+    "EnergyActive": "Energy active",
+    "EnergyReactive": "Energy reactive"
   },
   "resolution": {
     "PT15M": "Quarter hour",
