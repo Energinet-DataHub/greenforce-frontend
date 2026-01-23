@@ -20,7 +20,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { DhActorConversationCaseListComponent } from './actor-conversation-case-list';
 import { DhActorConversationNewCaseComponent } from './actor-conversation-new-case';
 import {
-  VaterFlexComponent,
+  VaterFlexComponent, VaterStackComponent, VaterUtilityDirective,
 } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -41,6 +41,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
     WATT_CARD,
     WattButtonComponent,
     TranslocoDirective,
+    VaterStackComponent,
+    VaterUtilityDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -61,32 +63,42 @@ import { TranslocoDirective } from '@jsverse/transloco';
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <dh-actor-conversation-case-list (createNewCase)="newCaseVisible.set(true)" class="flex-1" />
-      @switch (state()) {
-        @case (ActorConversationState.newCaseOpen) {
-          <dh-actor-conversation-new-case
-            (closeNewCase)="newCaseVisible.set(false)"
-            (createCase)="send($event)"
-            class="flex-3"
-          />
-        }
-        @case (ActorConversationState.noCases) {
-          <watt-card class="flex-3">
-            <watt-empty-state icon="custom-cooperation" [title]="t('emptyState.noCases')">
-              <watt-button variant="secondary" (click)="newCaseVisible.set(true)">
-                {{ t('newCaseButton') }}
-              </watt-button>
-            </watt-empty-state>
-          </watt-card>
-        }
-        @case (ActorConversationState.noCaseSelected) {
-          <watt-card class="flex-3">
-            <watt-empty-state icon="custom-cooperation" [title]="t('emptyState.noCaseSelected')" />
-          </watt-card>
-        }
-        @case (ActorConversationState.caseSelected) {
-          <h1>TO BE IMPLEMENTED</h1>
-        }
-      }
+      <watt-card class="flex-3">
+        <vater-stack fill="vertical">
+          @switch (state()) {
+            @case (ActorConversationState.newCaseOpen) {
+              <dh-actor-conversation-new-case
+                vater
+                fill="both"
+                (closeNewCase)="newCaseVisible.set(false)"
+                (createCase)="send($event)"
+              />
+            }
+            @case (ActorConversationState.noCases) {
+              <watt-empty-state
+                vater
+                center
+                icon="custom-cooperation"
+                [title]="t('emptyState.noCases')"
+              >
+                <watt-button variant="secondary" (click)="newCaseVisible.set(true)">
+                  {{ t('newCaseButton') }}
+                </watt-button>
+              </watt-empty-state>
+            }
+            @case (ActorConversationState.noCaseSelected) {
+              <watt-empty-state
+                vater
+                center
+                icon="custom-cooperation"
+                [title]="t('emptyState.noCaseSelected')" />
+            }
+            @case (ActorConversationState.caseSelected) {
+              <h1>TO BE IMPLEMENTED</h1>
+            }
+          }
+        </vater-stack>
+      </watt-card>
     </vater-flex>
   `,
 })
