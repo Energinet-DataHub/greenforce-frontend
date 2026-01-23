@@ -20,7 +20,9 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { DhActorConversationCaseListComponent } from './actor-conversation-case-list';
 import { DhActorConversationNewCaseComponent } from './actor-conversation-new-case';
 import {
-  VaterFlexComponent, VaterStackComponent, VaterUtilityDirective,
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
 } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -91,7 +93,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
                 vater
                 center
                 icon="custom-cooperation"
-                [title]="t('emptyState.noCaseSelected')" />
+                [title]="t('emptyState.noCaseSelected')"
+              />
             }
             @case (ActorConversationState.caseSelected) {
               <h1>TO BE IMPLEMENTED</h1>

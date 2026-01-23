@@ -18,7 +18,11 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { VaterSpacerComponent, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import {
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
@@ -103,7 +107,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
           data-testid="actor-conversation-message-textarea"
         />
         <watt-button type="submit"
-        >{{ t('sendButton') }}
+          >{{ t('sendButton') }}
           <watt-icon name="send" />
         </watt-button>
       </vater-stack>
