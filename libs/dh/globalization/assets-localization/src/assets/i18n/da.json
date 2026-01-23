@@ -304,7 +304,7 @@
   "settlementMethod": {
     "FlexSettled": "Flexafregnet",
     "Profiled": "Skabelonafregnet",
-    "NonProfiled": "Timeafregnet"
+    "NON_PROFILED": "Timeafregnet"
   },
   "disconnectionType": {
     "RemoteDisconnection": "Fjernafbrydelig",
@@ -684,11 +684,11 @@
         "startDateLabel": "Startdato"
       },
       "status": {
-        "CLOSED_DOWN": "Nedlagt",
-        "NEW": "Ny",
-        "CONNECTED": "Tilsluttet",
-        "DISCONNECTED": "Afbrudt",
-        "UNKNOWN": "Ukendt"
+        "ClosedDown": "Nedlagt",
+        "New": "Ny",
+        "Connected": "Tilsluttet",
+        "Disconnected": "Afbrudt",
+        "Unknown": "Ukendt"
       },
       "actions": {
         "actionsButton": "Handlinger",

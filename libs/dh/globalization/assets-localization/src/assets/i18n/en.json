@@ -684,11 +684,11 @@
         "startDateLabel": "Start date"
       },
       "status": {
-        "CLOSED_DOWN": "Closed down",
-        "NEW": "New",
-        "CONNECTED": "Connected",
-        "DISCONNECTED": "Disconnected",
-        "UNKNOWN": "Unknown"
+        "ClosedDown": "Closed down",
+        "New": "New",
+        "Connected": "Connected",
+        "Disconnected": "Disconnected",
+        "Unknown": "Unknown"
       },
       "actions": {
         "actionsButton": "Actions",
