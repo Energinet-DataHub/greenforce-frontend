@@ -19,6 +19,13 @@
 
 export enum ActorConversationCaseSubjectType {
   misc = 'misc',
+  disconnectionOrReconnection = 'disconnectionOrReconnection',
+  electricalHeating = 'electricalHeating',
+  incorrectMoveInOrSupplierSwitch = 'incorrectMoveInOrSupplierSwitch',
+  customerMasterData = 'customerMasterData',
+  measurements = 'measurements',
+  meteringPointMasterData = 'meteringPointMasterData',
+  chargeLink = 'chargeLink',
 }
 
 export enum ActorConversationReceiverType {

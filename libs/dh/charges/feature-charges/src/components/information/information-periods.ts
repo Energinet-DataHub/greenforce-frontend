@@ -39,25 +39,10 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
     WattDatePipe,
     DhChargesStatus,
   ],
-  styles: `
-    @use '@energinet/watt/utils' as watt;
-    :host {
-      @include watt.media('>=Large') {
-        watt-card {
-          width: 75%;
-        }
-      }
-    }
-  `,
   template: `
-    <vater-stack
-      gap="m"
-      align="start"
-      inset="ml"
-      *transloco="let t; prefix: 'charges.priceInformation'"
-    >
+    <vater-stack gap="m" align="stretch" *transloco="let t; prefix: 'charges.priceInformation'">
       @for (period of chargeInformationPeriods(); track period) {
-        <watt-card>
+        <watt-card [style.maxWidth.px]="900">
           <watt-card-title>
             <vater-stack gap="m" align="center" direction="row">
               <h3>

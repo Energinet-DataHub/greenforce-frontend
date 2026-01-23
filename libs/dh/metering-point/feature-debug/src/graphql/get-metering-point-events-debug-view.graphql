@@ -1,35 +1,11 @@
 query GetMeteringPointEventsDebugView($meteringPointId: String!) {
   eventsDebugView(meteringPointId: $meteringPointId) {
-    meteringPoint {
-      meteringPointId
-      meteringPointPeriods {
-        validFrom
-        validTo
-        type
-        connectionState
-      }
-      commercialRelations {
-        customerId
-        energySupplierId
-        validFrom
-        validTo
-        energySupplierPeriods {
-          validFrom
-          validTo
-          contacts {
-            name
-            address {
-              streetName
-            }
-          }
-        }
-      }
-    }
+    meteringPointJson
     events {
       id
       timestamp
       type
-      jsonData
+      dataJson
     }
   }
 }
