@@ -23,6 +23,10 @@ import { VaterSpacerComponent } from './vater-spacer.component';
 import { VaterStackComponent } from './vater-stack.component';
 import { VaterUtilityDirective } from './vater-utility.directive';
 
+// Must be exposed for ng-packagr to work
+export { VaterLayoutDirective } from './vater-layout.directive';
+export { VaterFlexboxDirective } from './vater-flexbox.directive';
+
 export {
   VaterFlexComponent,
   VaterGridAreaComponent,
