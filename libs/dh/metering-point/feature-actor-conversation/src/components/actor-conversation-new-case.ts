@@ -17,9 +17,12 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
-import { WATT_CARD } from '@energinet/watt/card';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import {
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
@@ -35,17 +38,17 @@ import { WattIconComponent } from '@energinet/watt/icon';
 @Component({
   selector: 'dh-actor-conversation-new-case',
   imports: [
-    WATT_CARD,
     TranslocoDirective,
     VaterStackComponent,
     WattButtonComponent,
-    VaterFlexComponent,
     WattDropdownComponent,
     DhDropdownTranslatorDirective,
     ReactiveFormsModule,
     WattTextFieldComponent,
     WattTextAreaFieldComponent,
     WattIconComponent,
+    VaterUtilityDirective,
+    VaterSpacerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -54,58 +57,60 @@ import { WattIconComponent } from '@energinet/watt/icon';
     }
   `,
   template: `
-    <form [formGroup]="newCaseForm" (ngSubmit)="send()" vater-flex fill="both">
-      <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
-        <vater-flex fill="vertical" justify="space-between">
-          <vater-stack fill="horizontal" align="start">
-            <watt-card-title>
-              <vater-stack direction="row" fill="horizontal" justify="space-between">
-                <h3>{{ t('newCaseTitle') }}</h3>
-                <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
-              </vater-stack>
-            </watt-card-title>
-            <vater-stack fill="horizontal" align="start" direction="column" gap="m">
-              <watt-dropdown
-                [formControl]="newCaseForm.controls.subject"
-                [options]="subjects"
-                [label]="t('subjectLabel')"
-                [showResetOption]="false"
-                class="third-width"
-                dhDropdownTranslator
-                translateKey="meteringPoint.actorConversation.subjects"
-                data-testid="actor-conversation-subject-dropdown"
-              />
-              <watt-dropdown
-                [formControl]="newCaseForm.controls.receiver"
-                [options]="receivers"
-                [label]="t('receiverLabel')"
-                [showResetOption]="false"
-                class="third-width"
-                dhDropdownTranslator
-                translateKey="meteringPoint.actorConversation.receivers"
-                data-testid="actor-conversation-receiver-dropdown"
-              />
-              <watt-text-field
-                [formControl]="newCaseForm.controls.internalNote"
-                [label]="t('internalNoteLabel')"
-                class="third-width"
-                data-testid="actor-conversation-internal-note-input"
-              />
-            </vater-stack>
-          </vater-stack>
-          <vater-stack direction="row" align="end" gap="m">
-            <watt-textarea-field
-              [label]="t('messageLabel')"
-              [formControl]="newCaseForm.controls.message"
-              data-testid="actor-conversation-message-textarea"
-            />
-            <watt-button type="submit"
-              >{{ t('sendButton') }}
-              <watt-icon name="send" />
-            </watt-button>
-          </vater-stack>
-        </vater-flex>
-      </watt-card>
+    <form
+      [formGroup]="newCaseForm"
+      (ngSubmit)="send()"
+      vater-stack
+      fill="both"
+      align="start"
+      *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+    >
+      <watt-card-title vater fill="horizontal">
+        <vater-stack direction="row" fill="horizontal" justify="space-between">
+          <h3>{{ t('newCaseTitle') }}</h3>
+          <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
+        </vater-stack>
+      </watt-card-title>
+      <vater-stack align="start" fill="horizontal" gap="ml" offset="m">
+        <watt-dropdown
+          [formControl]="newCaseForm.controls.subject"
+          [options]="subjects"
+          [label]="t('subjectLabel')"
+          [showResetOption]="false"
+          class="third-width"
+          dhDropdownTranslator
+          translateKey="meteringPoint.actorConversation.subjects"
+          data-testid="actor-conversation-subject-dropdown"
+        />
+        <watt-dropdown
+          [formControl]="newCaseForm.controls.receiver"
+          [options]="receivers"
+          [label]="t('receiverLabel')"
+          [showResetOption]="false"
+          class="third-width"
+          dhDropdownTranslator
+          translateKey="meteringPoint.actorConversation.receivers"
+          data-testid="actor-conversation-receiver-dropdown"
+        />
+        <watt-text-field
+          [formControl]="newCaseForm.controls.internalNote"
+          [label]="t('internalNoteLabel')"
+          class="third-width"
+          data-testid="actor-conversation-internal-note-input"
+        />
+      </vater-stack>
+      <vater-spacer />
+      <vater-stack fill="horizontal" align="end">
+        <watt-textarea-field
+          [label]="t('messageLabel')"
+          [formControl]="newCaseForm.controls.message"
+          data-testid="actor-conversation-message-textarea"
+        />
+        <watt-button type="submit"
+          >{{ t('sendButton') }}
+          <watt-icon name="send" />
+        </watt-button>
+      </vater-stack>
     </form>
   `,
 })
