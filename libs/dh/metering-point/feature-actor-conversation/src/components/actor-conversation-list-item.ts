@@ -56,9 +56,16 @@ import { TranslocoDirective } from '@jsverse/transloco';
     .no-margin {
       margin: 0;
     }
+
+    .unread-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--watt-color-primary);
+    }
   `,
   template: `
-    <div style="display: flow"></div>
+    <div class="unread-indicator"></div>
     <vater-flex
       align="start"
       gap="xs"
@@ -73,7 +80,9 @@ import { TranslocoDirective } from '@jsverse/transloco';
       </vater-stack>
       <vater-stack fill="horizontal" direction="row" justify="space-between">
         <span class="light-text font-size-s">{{ case().id }}</span>
-        <span class="light-text font-size-s">{{ case().lastUpdatedDate | date: 'dd-MM-yyyy' }}</span>
+        <span class="light-text font-size-s">{{
+            case().lastUpdatedDate | date: 'dd-MM-yyyy'
+          }}</span>
       </vater-stack>
     </vater-flex>
     <hr class="watt-divider no-margin" />
