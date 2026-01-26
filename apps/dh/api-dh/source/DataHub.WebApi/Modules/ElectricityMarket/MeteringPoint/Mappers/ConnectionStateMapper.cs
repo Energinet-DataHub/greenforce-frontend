@@ -26,7 +26,7 @@ public static class ConnectionStateMapper
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Connected => ConnectionState.Connected,
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Disconnected => ConnectionState.Disconnected,
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.ClosedDown => ConnectionState.ClosedDown,
-            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Unknown => null, // TODO: cabol - Should this map to NotUsed?
+            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionState.Unknown => null,
         };
     }
 
