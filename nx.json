@@ -107,7 +107,7 @@
         }
       ],
       "inputs": ["default", "^production"],
-      "cache": false
+      "cache": true
     },
     "build-storybook": {
       "inputs": [
