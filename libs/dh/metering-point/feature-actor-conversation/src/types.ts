@@ -31,3 +31,10 @@ export enum ActorConversationCaseSubjectType {
 export enum ActorConversationReceiverType {
   energinet = 'energinet',
 }
+
+export enum ActorConversationState {
+  noCases = 'noCases',
+  noCaseSelected = 'noCaseSelected',
+  caseSelected = 'caseSelected',
+  newCaseOpen = 'newCaseOpen',
+}
