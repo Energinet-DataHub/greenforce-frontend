@@ -192,7 +192,6 @@ export class DhUploadMeasurementsPage {
   private measurements = inject(DhUploadMeasurementsService);
   private transloco = inject(TranslocoService);
   private meteringPointQuery = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
-    fetchPolicy: 'cache-only',
     variables: {
       meteringPointId: this.meteringPointId(),
     },
