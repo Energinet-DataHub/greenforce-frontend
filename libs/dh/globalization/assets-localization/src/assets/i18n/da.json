@@ -436,11 +436,11 @@
     "actions": {
       "create": {
         "action": {
-          "SUBSCRIPTION": "Nyt abonnement",
-          "FEE": "Nyt gebyr",
-          "TARIFF": "Ny tarif",
-          "TARIFF_TAX": "Ny tarif, afgift",
-          "SELECTION": "Ny pris"
+          "SUBSCRIPTION": "Opret abonnement",
+          "FEE": "Opret gebyr",
+          "TARIFF": "Opret tarif",
+          "TARIFF_TAX": "Opret tarif, afgift",
+          "SELECTION": "Opret pris"
         },
         "toast": {
           "loading": "Pris oprettes..",
