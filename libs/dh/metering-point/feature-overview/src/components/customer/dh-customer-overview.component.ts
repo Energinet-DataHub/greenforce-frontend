@@ -129,8 +129,8 @@ export class DhCustomerOverviewComponent {
         !foundValues.some((contact) => contact.id === nextContact.id)
           ? [...foundValues, nextContact]
           : foundValues,
-      [],
-    ),
+      []
+    )
   );
 
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
