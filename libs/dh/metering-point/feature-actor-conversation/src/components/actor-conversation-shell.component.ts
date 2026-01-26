@@ -61,7 +61,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
       direction="row"
       fill="vertical"
       gap="m"
-      class="watt-space-inset-m"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <dh-actor-conversation-case-list (createNewCase)="newCaseVisible.set(true)" class="flex-1" />
