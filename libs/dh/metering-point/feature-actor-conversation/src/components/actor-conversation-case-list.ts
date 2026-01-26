@@ -16,11 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
+import { ActorConversationCaseSubjectType, Case } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-case-list',
@@ -30,6 +32,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     VaterStackComponent,
     TranslocoDirective,
     VaterFlexComponent,
+    DhActorConversationListItemComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -48,10 +51,27 @@ import { TranslocoDirective } from '@jsverse/transloco';
           </vater-stack>
         </watt-card-title>
         <hr class="watt-divider" />
+        @for (caseItem of cases(); track caseItem.id) {
+          <dh-actor-conversation-list-item [case]="caseItem" />
+        }
       </watt-card>
     </vater-flex>
   `,
 })
 export class DhActorConversationCaseListComponent {
+  cases = input<Case[]>([
+    {
+      id: '1',
+      subject: ActorConversationCaseSubjectType.misc,
+      lastUpdatedDate: new Date(),
+      closed: false
+    },
+    {
+      id: '2',
+      subject: ActorConversationCaseSubjectType.customerMasterData,
+      lastUpdatedDate: new Date(),
+      closed: true
+    }
+  ]);
   createNewCase = output();
 }

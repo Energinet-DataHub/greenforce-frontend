@@ -38,3 +38,11 @@ export enum ActorConversationState {
   caseSelected = 'caseSelected',
   newCaseOpen = 'newCaseOpen',
 }
+
+export interface Case {
+  id: string;
+  subject: ActorConversationCaseSubjectType;
+  closed: boolean;
+  lastUpdatedDate: Date;
+}
+
