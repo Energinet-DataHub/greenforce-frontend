@@ -394,7 +394,7 @@
     "charges": {
       "topBarTitle": "Priser",
       "table": {
-        "createButton": "Ny pris",
+        "createButton": "Opret pris",
         "columns": {
           "code": "ID",
           "type": "Type",
