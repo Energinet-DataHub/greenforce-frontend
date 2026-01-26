@@ -71,34 +71,32 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
 
       <div vater-flex gap="m" direction="row" class="watt-space-stack-m">
         @for (contact of uniqueContacts(); track contact.id) {
-          @if (contact.cvr) {
-            <div vater-flex gap="s" class="contact">
-              <h5>{{ contact.name !== '' ? contact.name : contact.legalContact?.name }}</h5>
+          <div vater-flex gap="s" class="contact">
+            @if (contact.isProtectedName) {
+              <dh-customer-protected />
+            }
 
-              {{ t('cvr', { cvrValue: contact.cvr }) }}
-            </div>
-          } @else {
-            <ng-container *dhCanSee="'private-customer-overview'; meteringPoint: meteringPoint()">
-              <div vater-flex gap="s" class="contact">
-                @if (contact.isProtectedName) {
-                  <dh-customer-protected />
+            <!-- Always show name -->
+            <h5>{{ contact.name !== '' ? contact.name : contact.legalContact?.name }}</h5>
+
+            <!-- CPR button ONLY when:
+                 - current energy supplier is responsible
+                 - customer is CPR (meaning no CVR)
+                 - permissions allow it
+            -->
+            @if (shouldShowCprButton(contact)) {
+              <ng-container *dhPermissionRequired="['cpr:view']">
+                @let localMeteringPoint = meteringPoint();
+                @if (localMeteringPoint) {
+                  <dh-customer-cpr
+                    *dhCanSee="'cpr'; meteringPoint: meteringPoint()"
+                    [meteringPointId]="localMeteringPoint.meteringPointId"
+                    [contactId]="contact.id"
+                  />
                 }
-
-                <h5>{{ contact.name }}</h5>
-
-                <ng-container *dhPermissionRequired="['cpr:view']">
-                  @let localMeteringPoint = meteringPoint();
-                  @if (localMeteringPoint) {
-                    <dh-customer-cpr
-                      *dhCanSee="'cpr'; meteringPoint: meteringPoint()"
-                      [meteringPointId]="localMeteringPoint.meteringPointId"
-                      [contactId]="contact.id"
-                    />
-                  }
-                </ng-container>
-              </div>
-            </ng-container>
-          }
+              </ng-container>
+            }
+          </div>
         } @empty {
           {{ null | dhEmDashFallback }}
         }
@@ -120,22 +118,48 @@ export class DhCustomerOverviewComponent {
   EicFunction = EicFunction;
 
   meteringPoint = input.required<MeteringPointDetails | undefined>();
+
   contacts = computed(
     () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
-  uniqueContacts = computed(() =>
-    this.contacts()
-      .reduce((foundValues: Contact[], nextContact) => {
-        if (!foundValues.some((contact) => contact.id === nextContact.id)) {
-          foundValues.push(nextContact);
-        }
-        return foundValues;
-      }, [])
-      .filter((x) => x.legalContact || x.relationType === CustomerRelationType.Secondary)
-  );
-  isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
+
+  isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier ?? false);
+
+  uniqueContacts = computed(() => {
+    const unique = this.contacts().reduce((foundValues: Contact[], nextContact) => {
+      if (!foundValues.some((contact) => contact.id === nextContact.id)) {
+        foundValues.push(nextContact);
+      }
+      return foundValues;
+    }, []);
+
+    // Energy supplier responsible: show first contact only (no filtering)
+    if (this.isEnergySupplierResponsible()) {
+      return unique.slice(0, 1);
+    }
+
+    // Others: preserve the original filtering rule, but still only show first
+    const filtered = unique.filter(
+      (x) => x.legalContact || x.relationType === CustomerRelationType.Secondary
+    );
+
+    return filtered.slice(0, 1);
+  });
 
   showContactDetails = computed(() => this.contacts().length > 0);
+
+  /**
+   * CPR button rule:
+   * - ONLY for CPR customers (no CVR)
+   * - ONLY when current energy supplier is responsible
+   * - NEVER show CPR button for CVR customers
+   */
+  shouldShowCprButton(contact: Contact): boolean {
+    const isCvrCustomer = !!contact.cvr;
+    const isCprCustomer = !isCvrCustomer;
+
+    return this.isEnergySupplierResponsible() && isCprCustomer;
+  }
 
   openContactDetails(): void {
     this.modalService.open({
