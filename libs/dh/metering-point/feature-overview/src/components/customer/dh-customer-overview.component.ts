@@ -124,12 +124,13 @@ export class DhCustomerOverviewComponent {
     () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
   uniqueContacts = computed(() =>
-    this.contacts().reduce((foundValues: Contact[], nextContact) => {
-      if (!foundValues.some((contact) => contact.id === nextContact.id)) {
-        foundValues.push(nextContact);
-      }
-      return foundValues;
-    }, [])
+    this.contacts().reduce(
+      (foundValues: Contact[], nextContact) =>
+        !foundValues.some((contact) => contact.id === nextContact.id)
+          ? [...foundValues, nextContact]
+          : foundValues,
+      [],
+    ),
   );
 
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
