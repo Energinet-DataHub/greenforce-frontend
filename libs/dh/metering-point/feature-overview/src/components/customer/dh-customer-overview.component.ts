@@ -124,23 +124,26 @@ export class DhCustomerOverviewComponent {
     () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
   uniqueContacts = computed(() =>
-    this.contacts()
-      .reduce((foundValues: Contact[], nextContact) => {
-        if (!foundValues.some((contact) => contact.id === nextContact.id)) {
-          foundValues.push(nextContact);
-        }
-        return foundValues;
-      }, [])
-      .filter((x) => x.legalContact || x.relationType === CustomerRelationType.Secondary)
+    this.contacts().reduce((foundValues: Contact[], nextContact) => {
+      if (!foundValues.some((contact) => contact.id === nextContact.id)) {
+        foundValues.push(nextContact);
+      }
+      return foundValues;
+    }, [])
   );
+
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 
   showContactDetails = computed(() => this.contacts().length > 0);
 
   openContactDetails(): void {
+    const activeSupplierCustomers = this.contacts().filter(
+      (c) => c.relationType === CustomerRelationType.Secondary || c.legalContact
+    );
+
     this.modalService.open({
       component: DhCustomerContactDetailsComponent,
-      data: this.contacts(),
+      data: activeSupplierCustomers,
     });
   }
 }
