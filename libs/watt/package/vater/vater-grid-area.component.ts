@@ -41,9 +41,21 @@ import { VaterLayoutDirective } from './vater-layout.directive';
   template: `<ng-content />`,
 })
 export class VaterGridAreaComponent {
+  /** Optional input for providing a descriptive name. Unused by the component. */
   name = input('');
+
+  /** Specify the grid areas size and location within a grid column (`grid-column`). */
   column = input<string | number>();
+
+  /** Specify the grid areas size and location within a grid row (`grid-row`). */
   row = input<string | number>();
+
+  /**
+   * Whether the grid area should also be a grid and inherit track sizing
+   * for `columns`, `rows` or `both` from the parent grid.
+   */
   subgrid = input<'columns' | 'rows' | 'both'>();
-  class = computed(() => this.subgrid() && `vater-subgrid-${this.subgrid()}`);
+
+  // Computed class name
+  protected class = computed(() => this.subgrid() && `vater-subgrid-${this.subgrid()}`);
 }

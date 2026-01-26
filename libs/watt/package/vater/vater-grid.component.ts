@@ -46,9 +46,13 @@ import { VaterLayoutDirective } from './vater-layout.directive';
   template: `<ng-content />`,
 })
 export class VaterGridComponent {
+  /** Column template (`grid-template-columns`) or number of equal sized columns. */
   columns = input<string | number>(1);
+
+  /** Row template (`grid-template-rows`) or number of equal sized rows. */
   rows = input<string | number>(1);
 
+  // Computed templates
   protected templateColumns = computed(() => this.makeTrackList(this.columns()));
   protected templateRows = computed(() => this.makeTrackList(this.rows()));
   private makeTrackList = (input: string | number) =>
