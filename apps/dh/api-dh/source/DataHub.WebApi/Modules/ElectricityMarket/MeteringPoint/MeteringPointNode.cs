@@ -207,7 +207,7 @@ public static partial class MeteringPointNode
             var meteringPointDto = await authClient.MeteringPointAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
             var meteringPointResult = new MeteringPointDto
             {
-                Id = MeteringPointMetadataMapper.NextLong(),
+                Id = meteringPointDto.Id,
                 Identification = meteringPointDto.Identification,
                 Metadata = meteringPointDto.Metadata.MapToDto(),
                 MetadataTimeline = [.. meteringPointDto.MetadataTimeline.Select(m => m.MapToDto())],
