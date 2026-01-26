@@ -2999,6 +2999,8 @@ enum ProcessStepType {
   BRS_008_CONNECTMETERINGPOINT_V1_STEP_2
   "BRS-008 Connect metering point - Step 3 - Reject RSM-021"
   BRS_008_CONNECTMETERINGPOINT_V1_STEP_3
+  "BRS-008 Connect metering point - Step 4 - Udgående RSM-022"
+  BRS_008_CONNECTMETERINGPOINT_V1_STEP_4
   "BRS-009 Tilflytning - Step 1: Anmodning om tilflytning (RSM-001)"
   BRS_009_MOVEIN_V1_STEP_1
   "BRS-009 Tilflytning - Step 2: Godkendelse af anmodning om tilflytning (RSM-001)"

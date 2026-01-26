@@ -78,6 +78,11 @@ public enum ProcessStepType
     BRS_008_CONNECTMETERINGPOINT_V1_STEP_3,
 
     /// <summary>
+    /// BRS-008 Connect metering point - Step 4 - Udgående RSM-022
+    /// </summary>
+    BRS_008_CONNECTMETERINGPOINT_V1_STEP_4,
+
+    /// <summary>
     /// BRS-009 Tilflytning - Step 1: Anmodning om tilflytning (RSM-001)
     /// </summary>
     BRS_009_MOVEIN_V1_STEP_1,
