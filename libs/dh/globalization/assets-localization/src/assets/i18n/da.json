@@ -394,7 +394,7 @@
     "charges": {
       "topBarTitle": "Priser",
       "table": {
-        "createButton": "Ny pris",
+        "createButton": "Opret pris",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -436,11 +436,11 @@
     "actions": {
       "create": {
         "action": {
-          "SUBSCRIPTION": "Nyt abonnement",
-          "FEE": "Nyt gebyr",
-          "TARIFF": "Ny tarif",
-          "TARIFF_TAX": "Ny tarif, afgift",
-          "SELECTION": "Ny pris"
+          "SUBSCRIPTION": "Opret abonnement",
+          "FEE": "Opret gebyr",
+          "TARIFF": "Opret tarif",
+          "TARIFF_TAX": "Opret tarif, afgift",
+          "SELECTION": "Opret pris"
         },
         "toast": {
           "loading": "Pris oprettes..",
@@ -793,7 +793,11 @@
       },
       "internalNoteLabel": "Intern note",
       "messageLabel": "Besked",
-      "sendButton": "Send"
+      "sendButton": "Send",
+      "emptyState": {
+        "noCases": "Der er ingen sager på målepunktet",
+        "noCaseSelected": "Ingen sag valgt"
+      }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
@@ -1040,14 +1044,13 @@
         "UNEXPECTED_MEASUREMENT": "Filen har for mange positioner. Fejl fundet nær række {{row}}."
       },
       "units": {
-        "K_WH": "kWh",
-        "K_W": "kW",
+        "KWh": "kWh",
+        "KW": "kW",
         "MW": "MW",
-        "M_WH": "MWh",
-        "TONNE": "Tonne",
-        "K_V_ARH": "kVArh",
-        "KV_ARH": "kVArh",
-        "MV_AR": "MVAr"
+        "MWh": "MWh",
+        "Tonne": "t",
+        "KVArh": "kVArh",
+        "MVAr": "MVAr"
       },
       "sum": "Sum",
       "qualities": {
