@@ -1050,7 +1050,7 @@
         "MWh": "MWh",
         "Tonne": "t",
         "KVArh": "kVArh",
-        "MVAr": "MVAr",
+        "MVAr": "MVAr"
       },
       "sum": "Sum",
       "qualities": {
