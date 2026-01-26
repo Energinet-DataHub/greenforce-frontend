@@ -109,8 +109,4 @@ limitations under the License.
     <_ContentIncludedByDefault Remove="Clients\EDI\B2CWebApi\V3\nswag.json" />
     <_ContentIncludedByDefault Remove="Clients\EDI\B2CWebApi\V3\swagger.json" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="appsettings.json" />
-  </ItemGroup>
 </Project>
