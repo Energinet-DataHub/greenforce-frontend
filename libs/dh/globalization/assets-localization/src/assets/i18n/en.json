@@ -1044,14 +1044,13 @@
         "UNEXPECTED_MEASUREMENT": "File has unexpected measurements. Error found near row {{row}}."
       },
       "units": {
-        "K_WH": "kWh",
-        "K_W": "kW",
+        "KWh": "kWh",
+        "KW": "kW",
         "MW": "MW",
-        "M_WH": "MWh",
-        "TONNE": "Tonne",
-        "K_V_ARH": "kVArh",
-        "KV_ARH": "kVArh",
-        "MV_AR": "MVAr"
+        "MWh": "MWh",
+        "Tonne": "t",
+        "KVArh": "kVArh",
+        "MVAr": "MVAr",
       },
       "sum": "Sum",
       "qualities": {
