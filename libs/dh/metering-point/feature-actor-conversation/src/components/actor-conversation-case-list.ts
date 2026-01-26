@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
 import { ActorConversationCaseSubjectType, Case } from '../types';
@@ -33,12 +33,22 @@ import { ActorConversationCaseSubjectType, Case } from '../types';
     TranslocoDirective,
     VaterFlexComponent,
     DhActorConversationListItemComponent,
+    VaterUtilityDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: `
+    .no-padding {
+      padding: 0;
+    }
+
+    .no-margin {
+      margin: 0;
+    }
+  `,
   template: `
     <vater-flex fill="vertical">
-      <watt-card *transloco="let t; prefix: 'meteringPoint.actorConversation'">
-        <watt-card-title>
+      <watt-card class="no-padding" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+        <watt-card-title vater class="watt-space-inset-m no-margin">
           <vater-stack direction="row" justify="space-between" align="center">
             <h3>{{ t('cases') }}</h3>
             <watt-button
@@ -50,9 +60,13 @@ import { ActorConversationCaseSubjectType, Case } from '../types';
             </watt-button>
           </vater-stack>
         </watt-card-title>
-        <hr class="watt-divider" />
+        <hr class="watt-divider no-margin" />
         @for (caseItem of cases(); track caseItem.id) {
-          <dh-actor-conversation-list-item [case]="caseItem" />
+          <dh-actor-conversation-list-item
+            [case]="caseItem"
+            [selected]="selectedCaseId() === caseItem.id"
+            (click)="selectCase(caseItem.id)"
+          />
         }
       </watt-card>
     </vater-flex>
@@ -64,14 +78,19 @@ export class DhActorConversationCaseListComponent {
       id: '1',
       subject: ActorConversationCaseSubjectType.misc,
       lastUpdatedDate: new Date(),
-      closed: false
+      closed: false,
     },
     {
       id: '2',
       subject: ActorConversationCaseSubjectType.customerMasterData,
       lastUpdatedDate: new Date(),
-      closed: true
-    }
+      closed: true,
+    },
   ]);
+  selectedCaseId = signal<string | undefined>(undefined);
   createNewCase = output();
+
+  selectCase(caseId: string) {
+    this.selectedCaseId.set(caseId);
+  }
 }

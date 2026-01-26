@@ -24,8 +24,30 @@ import { VaterStackComponent } from '@energinet/watt/vater';
   selector: 'dh-actor-conversation-list-item',
   imports: [VaterStackComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.selected]': 'selected()',
+    '[style.display]': '"block"',
+    '[style.cursor]': '"pointer"',
+  },
+  styles: `
+    :host(.selected) {
+      background-color: var(--watt-color-primary-ultralight);
+    }
+
+    :host(:hover) {
+      background-color: var(--watt-color-neutral-grey-100);
+    }
+
+    :host(.selected:hover) {
+      background-color: var(--watt-color-primary-light);
+    }
+
+    .no-margin {
+      margin: 0;
+    }
+  `,
   template: `
-    <vater-stack direction="column" align="start">
+    <vater-stack direction="column" align="start" class="watt-space-inset-xs">
       <div class=""></div>
       <vater-stack>
         <span>{{ case().subject }}</span>
@@ -36,9 +58,10 @@ import { VaterStackComponent } from '@energinet/watt/vater';
         <span>{{case().lastUpdatedDate}}</span>
       </vater-stack>
     </vater-stack>
+    <hr class="watt-divider no-margin">
   `,
 })
 export class DhActorConversationListItemComponent {
   case = input.required<Case>();
-  selectedCaseId = input<string>();
+  selected = input<boolean>(false);
 }
