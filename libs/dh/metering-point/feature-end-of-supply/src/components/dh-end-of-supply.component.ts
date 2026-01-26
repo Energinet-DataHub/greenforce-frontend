@@ -28,11 +28,7 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattFieldHintComponent } from '@energinet/watt/field';
 import { WattToastService } from '@energinet/watt/toast';
 
-import {
-  BasePaths,
-  getPath,
-  MeteringPointSubPaths,
-} from '@energinet-datahub/dh/core/routing';
+import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-end-of-supply',
