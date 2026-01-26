@@ -61,6 +61,22 @@
     height: 100%;
   }
 
+  vater-grid-area,
+  [vater-grid-area] {
+    &.vater-fill-horizontal {
+      grid-column: 1 / -1;
+    }
+
+    &.vater-fill-vertical {
+      grid-row: 1 / -1;
+    }
+
+    &.vater-fill-both {
+      grid-row: 1 / -1;
+      grid-column: 1 / -1;
+    }
+  }
+
   :not(vater-stack, [vater-stack], vater-flex, [vater-flex]) {
     &.vater-fill-vertical,
     &.vater-fill-horizontal,

@@ -30,7 +30,7 @@ import { VaterLayoutDirective } from './vater-layout.directive';
     },
     {
       directive: VaterUtilityDirective,
-      inputs: ['scrollable'],
+      inputs: ['fill', 'scrollable'],
     },
   ],
   host: {
