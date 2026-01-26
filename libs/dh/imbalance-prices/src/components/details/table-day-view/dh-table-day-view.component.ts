@@ -97,7 +97,9 @@ export class DhTableDayViewComponent {
     return data.map((day) => ({
       ...day,
       timeFrom: dayjs(day.timestamp).format('HH:mm'),
-      timeTo: dayjs(new Date('2026-01-01T' + dayjs(day.timestamp).format('HH:mm'))).add(resolutionInMinutes, 'minute').format('HH:mm'),
+      timeTo: dayjs(new Date('2026-01-01T' + dayjs(day.timestamp).format('HH:mm')))
+        .add(resolutionInMinutes, 'minute')
+        .format('HH:mm'),
     }));
   }
 
