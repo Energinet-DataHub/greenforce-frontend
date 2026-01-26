@@ -696,7 +696,8 @@
         "moveIn": "Tilflyt kunde",
         "createChargeLink": "Tilknyt pris",
         "changeConnectionStatus": "Ændre tilslutningsstatus",
-        "updateCustomerData": "Opdater kundestamdata"
+        "updateCustomerData": "Opdater kundestamdata",
+        "endOfSupply": "Leveranceophør"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -1254,6 +1255,18 @@
       "cancel": "Annuller",
       "save": "Gem ændringer",
       "saveSuccess": "Tilslutningsstatus opdateres"
+    },
+    "endOfSupply": {
+      "modalTitle": "Start leveranceophør",
+      "dateLabel": "Angiv skæringsdato",
+      "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
+      "consequencesInfo": "Her skal stå en tekst...",
+      "confirmCheckbox": "Jeg er indforstået med konsekvenserne",
+      "cancel": "Annuller",
+      "submit": "Start leveranceophør",
+      "submitSuccess": "Leveranceophør indsendt.",
+      "submitSuccessAction": "Se status under processer",
+      "submitError": "Leveranceophør kunne ikke indsendes"
     }
   },
   "messageArchive": {
