@@ -27,6 +27,8 @@ import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattFieldHintComponent } from '@energinet/watt/field';
 import { WattToastService } from '@energinet/watt/toast';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { dayjs } from '@energinet/watt/date';
 
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 
@@ -42,14 +44,11 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
     WattDatepickerComponent,
     WattCheckboxComponent,
     WattFieldHintComponent,
+    VaterStackComponent,
   ],
   styles: `
     :host {
       display: block;
-    }
-
-    .consequences-info {
-      margin: var(--watt-space-m) 0;
     }
   `,
   template: `
@@ -58,21 +57,23 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
       [title]="t('modalTitle')"
       size="small"
     >
-      <form [formGroup]="form">
-        <watt-datepicker
-          [label]="t('dateLabel')"
-          [min]="minDate"
-          [max]="maxDate"
-          [formControl]="form.controls.cutOffDate"
-        >
-          <watt-field-hint>{{ t('dateHint') }}</watt-field-hint>
-        </watt-datepicker>
+      <form id="end-of-supply-form" [formGroup]="form" (ngSubmit)="submit()">
+        <vater-stack direction="column" gap="m" align="start">
+          <watt-datepicker
+            [label]="t('dateLabel')"
+            [min]="minDate"
+            [max]="maxDate"
+            [formControl]="form.controls.cutOffDate"
+          >
+            <watt-field-hint>{{ t('dateHint') }}</watt-field-hint>
+          </watt-datepicker>
 
-        <p class="consequences-info">{{ t('consequencesInfo') }}</p>
+          <p>{{ t('consequencesInfo') }}</p>
 
-        <watt-checkbox [formControl]="form.controls.confirm">
-          {{ t('confirmCheckbox') }}
-        </watt-checkbox>
+          <watt-checkbox [formControl]="form.controls.confirm">
+            {{ t('confirmCheckbox') }}
+          </watt-checkbox>
+        </vater-stack>
       </form>
 
       <watt-modal-actions>
@@ -80,7 +81,7 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
           {{ t('cancel') }}
         </watt-button>
 
-        <watt-button (click)="submit()">
+        <watt-button type="submit" formId="end-of-supply-form">
           {{ t('submit') }}
         </watt-button>
       </watt-modal-actions>
@@ -95,8 +96,8 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
 
   readonly modal = viewChild.required(WattModalComponent);
 
-  readonly minDate = this.addDays(new Date(), 3);
-  readonly maxDate = this.addDays(new Date(), 60);
+  readonly minDate = dayjs().add(3, 'day').toDate();
+  readonly maxDate = dayjs().add(60, 'day').toDate();
 
   readonly form = this.fb.group({
     cutOffDate: this.fb.control<Date | null>(null, Validators.required),
@@ -104,9 +105,6 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
   });
 
   submit() {
-    this.form.markAllAsTouched();
-    this.form.controls.confirm.markAsDirty();
-
     if (this.form.invalid) return;
 
     this.toastService.open({
@@ -124,11 +122,5 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
     });
 
     this.modal().close(true);
-  }
-
-  private addDays(date: Date, days: number): Date {
-    const result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
   }
 }
