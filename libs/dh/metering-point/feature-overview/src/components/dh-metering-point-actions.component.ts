@@ -42,11 +42,13 @@ import {
 
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
+import { DhEndOfSupplyComponent } from '@energinet-datahub/dh/metering-point/feature-end-of-supply';
 
 import { InstallationAddress } from '../types';
 import { DhConnectionStateManageComponent } from './connection-state-manage/connection-state-manage';
@@ -112,6 +114,12 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
           <dh-execute-metering-point-manual-correction [meteringPointId]="meteringPointId()" />
         }
 
+        @if (showEndOfSupplyButton()) {
+          <watt-menu-item (click)="startEndOfSupply()">
+            {{ t('endOfSupply') }}
+          </watt-menu-item>
+        }
+
         @if (showConnectionStateManageButton()) {
           <watt-menu-item (click)="connectionStateManage()">
             {{ t('changeConnectionStatus') }}
@@ -123,6 +131,7 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
 })
 export class DhMeteringPointActionsComponent {
   private readonly releaseToggleService = inject(DhReleaseToggleService);
+  private readonly featureFlagsService = inject(DhFeatureFlagsService);
   private readonly modalService = inject(WattModalService);
   private readonly permissionService = inject(PermissionService);
   private readonly actor = inject(DhActorStorage);
@@ -169,6 +178,11 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
+  private readonly hasEnergySupplierRole = toSignal(
+    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
+    { initialValue: false }
+  );
+
   showMeasurementsUploadButton = computed(() => {
     return (
       this.hasMessurementsManagePermission() &&
@@ -202,13 +216,18 @@ export class DhMeteringPointActionsComponent {
   );
   showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
 
+  showEndOfSupplyButton = computed(
+    () => this.hasEnergySupplierRole() && this.featureFlagsService.isEnabled('end-of-supply')
+  );
+
   showActionsButton = computed(() => {
     return (
       this.showMeasurementsUploadButton() ||
       this.showMoveInButton() ||
       this.showCreateChargeLinkButton() ||
       this.showManualCorrectionButtons() ||
-      this.showConnectionStateManageButton()
+      this.showConnectionStateManageButton() ||
+      this.showEndOfSupplyButton()
     );
   });
 
@@ -220,6 +239,15 @@ export class DhMeteringPointActionsComponent {
         energySupplier: this.actor.getSelectedActor().gln,
       },
       disableClose: true,
+    });
+  }
+
+  startEndOfSupply() {
+    this.modalService.open({
+      component: DhEndOfSupplyComponent,
+      data: {
+        meteringPointId: this.meteringPointId(),
+      },
     });
   }
 

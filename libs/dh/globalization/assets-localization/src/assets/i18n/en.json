@@ -394,7 +394,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
-        "createButton": "New charge",
+        "createButton": "Create charge",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -436,11 +436,11 @@
     "actions": {
       "create": {
         "action": {
-          "SUBSCRIPTION": "New subscription",
-          "FEE": "New fee",
-          "TARIFF": "New tariff",
-          "TARIFF_TAX": "New tariff, tax",
-          "SELECTION": "New charge"
+          "SUBSCRIPTION": "Create subscription",
+          "FEE": "Create fee",
+          "TARIFF": "Create tariff",
+          "TARIFF_TAX": "Create tariff, tax",
+          "SELECTION": "Create charge"
         },
         "toast": {
           "loading": "Creating charge..",
@@ -696,7 +696,8 @@
         "moveIn": "Customer move-in",
         "createChargeLink": "Attach price",
         "changeConnectionStatus": "Change connection status",
-        "updateCustomerData": "Update customer data"
+        "updateCustomerData": "Update customer data",
+        "endOfSupply": "End of supply"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -778,10 +779,10 @@
       "newCaseTitle": "New case",
       "subjectLabel": "Subject",
       "subjects": {
-        "misc": "Miscellaneous",
-        "disconnectionOrReconnection": "Disconnection/Reconnection",
+        "misc": "Ad hoc question",
+        "disconnectionOrReconnection": "Disconnect/Reconnect",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Incorrect move-in/supplier switch",
+        "incorrectMoveInOrSupplierSwitch": "Incorrect move/switch of supplier",
         "customerMasterData": "{{ shared.terminology.customerMasterData }}",
         "measurements": "{{ shared.terminology.measurements }}",
         "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
@@ -793,7 +794,11 @@
       },
       "internalNoteLabel": "Internal note",
       "messageLabel": "Message",
-      "sendButton": "Send"
+      "sendButton": "Send",
+      "emptyState": {
+        "noCases": "No cases found",
+        "noCaseSelected": "No case selected"
+      }
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
@@ -1248,6 +1253,18 @@
       "cancel": "Cancel",
       "save": "Save changes",
       "saveSuccess": "Connection status is being updated"
+    },
+    "endOfSupply": {
+      "modalTitle": "Start end of supply",
+      "dateLabel": "Specify cut-off date",
+      "dateHint": "The cut-off date must be between 3 days from today and 60 days ahead.",
+      "consequencesInfo": "Here should be a text...",
+      "confirmCheckbox": "I understand the consequences",
+      "cancel": "Cancel",
+      "submit": "Start end of supply",
+      "submitSuccess": "End of supply submitted.",
+      "submitSuccessAction": "See status under processes",
+      "submitError": "End of supply could not be submitted"
     }
   },
   "messageArchive": {

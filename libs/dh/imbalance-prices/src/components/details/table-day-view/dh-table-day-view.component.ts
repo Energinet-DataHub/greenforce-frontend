@@ -22,7 +22,7 @@ import { Component, input, effect, ChangeDetectionStrategy } from '@angular/core
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattBadgeComponent } from '@energinet/watt/badge';
-import { WattDatePipe, dayjs } from '@energinet/watt/date';
+import { dayjs } from '@energinet/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
 import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../../../types';
@@ -53,8 +53,7 @@ import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../..
       [hideColumnHeaders]="true"
     >
       <ng-container *wattTableCell="columns['period']; let entry">
-        {{ entry.timestampFrom | wattDate: 'time' }} -
-        {{ entry.timestampTo | wattDate: 'time' }}
+        {{ entry.timeFrom }} - {{ entry.timeTo }}
       </ng-container>
 
       <ng-container *wattTableCell="columns['price']; let entry">
@@ -68,7 +67,7 @@ import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../..
       </ng-container>
     </watt-table>
   `,
-  imports: [DecimalPipe, TranslocoDirective, WattBadgeComponent, WATT_TABLE, WattDatePipe],
+  imports: [DecimalPipe, TranslocoDirective, WattBadgeComponent, WATT_TABLE],
 })
 export class DhTableDayViewComponent {
   columns: WattTableColumnDef<DhImbalancePricesForDayProcessed> = {
@@ -97,8 +96,10 @@ export class DhTableDayViewComponent {
 
     return data.map((day) => ({
       ...day,
-      timestampFrom: day.timestamp,
-      timestampTo: dayjs(day.timestamp).add(resolutionInMinutes, 'minutes').toDate(),
+      timeFrom: dayjs(day.timestamp).format('HH:mm'),
+      timeTo: dayjs(new Date('2026-01-01T' + dayjs(day.timestamp).format('HH:mm')))
+        .add(resolutionInMinutes, 'minute')
+        .format('HH:mm'),
     }));
   }
 

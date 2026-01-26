@@ -24,6 +24,7 @@ import {
   WattEmptyStateNoResultsComponent,
   WattEmptyStatePowerComponent,
   WattEmptyStateNotFoundComponent,
+  WattEmptyStateCooperationComponent,
 } from '../../empty-state';
 import { WattFlagComponent } from '../flags';
 
@@ -49,6 +50,7 @@ interface IconGroup {
     WattEmptyStateNotFoundComponent,
     WattFlagComponent,
     WattIconComponent,
+    WattEmptyStateCooperationComponent,
   ],
 })
 export class StorybookIconOverviewComponent {

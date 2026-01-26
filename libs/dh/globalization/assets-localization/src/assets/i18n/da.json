@@ -394,7 +394,7 @@
     "charges": {
       "topBarTitle": "Priser",
       "table": {
-        "createButton": "Ny pris",
+        "createButton": "Opret pris",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -436,11 +436,11 @@
     "actions": {
       "create": {
         "action": {
-          "SUBSCRIPTION": "Nyt abonnement",
-          "FEE": "Nyt gebyr",
-          "TARIFF": "Ny tarif",
-          "TARIFF_TAX": "Ny tarif, afgift",
-          "SELECTION": "Ny pris"
+          "SUBSCRIPTION": "Opret abonnement",
+          "FEE": "Opret gebyr",
+          "TARIFF": "Opret tarif",
+          "TARIFF_TAX": "Opret tarif, afgift",
+          "SELECTION": "Opret pris"
         },
         "toast": {
           "loading": "Pris oprettes..",
@@ -696,7 +696,8 @@
         "moveIn": "Tilflyt kunde",
         "createChargeLink": "Tilknyt pris",
         "changeConnectionStatus": "Ændre tilslutningsstatus",
-        "updateCustomerData": "Opdater kundestamdata"
+        "updateCustomerData": "Opdater kundestamdata",
+        "endOfSupply": "Leveranceophør"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -793,7 +794,11 @@
       },
       "internalNoteLabel": "Intern note",
       "messageLabel": "Besked",
-      "sendButton": "Send"
+      "sendButton": "Send",
+      "emptyState": {
+        "noCases": "Der er ingen sager på målepunktet",
+        "noCaseSelected": "Ingen sag valgt"
+      }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
@@ -1250,6 +1255,18 @@
       "cancel": "Annuller",
       "save": "Gem ændringer",
       "saveSuccess": "Tilslutningsstatus opdateres"
+    },
+    "endOfSupply": {
+      "modalTitle": "Start leveranceophør",
+      "dateLabel": "Angiv skæringsdato",
+      "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
+      "consequencesInfo": "Her skal stå en tekst...",
+      "confirmCheckbox": "Jeg er indforstået med konsekvenserne",
+      "cancel": "Annuller",
+      "submit": "Start leveranceophør",
+      "submitSuccess": "Leveranceophør indsendt.",
+      "submitSuccessAction": "Se status under processer",
+      "submitError": "Leveranceophør kunne ikke indsendes"
     }
   },
   "messageArchive": {
