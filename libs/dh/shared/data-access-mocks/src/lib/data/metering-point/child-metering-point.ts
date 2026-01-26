@@ -77,6 +77,7 @@ const metadata: ElectricityMarketViewMeteringPointMetadataDto = {
   capacity: '100',
   powerLimitKw: 100,
   powerPlantGsrn: '1234567890',
+  powerLimitAmp: 50,
   productObligation: true,
   scheduledMeterReadingDate: {
     __typename: 'ElectricityMarketViewAnnualDate',

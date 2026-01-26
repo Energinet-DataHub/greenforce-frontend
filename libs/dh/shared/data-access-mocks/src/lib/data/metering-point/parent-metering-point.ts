@@ -184,6 +184,7 @@ const metadata: ElectricityMarketViewMeteringPointMetadataDto = {
   capacity: '100',
   powerLimitKw: 100,
   powerPlantGsrn: '1234567890',
+  powerLimitAmp: 50,
   installationAddress: {
     __typename: 'ElectricityMarketViewInstallationAddressDto',
     id: '1',
