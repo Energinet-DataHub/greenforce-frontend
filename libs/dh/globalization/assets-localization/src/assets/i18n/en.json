@@ -697,7 +697,7 @@
         "createChargeLink": "Attach price",
         "changeConnectionStatus": "Change connection status",
         "updateCustomerData": "Update customer data",
-        "endOfSupply": "Start end of supply"
+        "endOfSupply": "End of supply"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -1255,7 +1255,6 @@
       "saveSuccess": "Connection status is being updated"
     },
     "endOfSupply": {
-      "menuItem": "Start end of supply",
       "modalTitle": "Start end of supply",
       "dateLabel": "Specify cut-off date",
       "dateHint": "The cut-off date must be between 3 days from today and 60 days ahead.",

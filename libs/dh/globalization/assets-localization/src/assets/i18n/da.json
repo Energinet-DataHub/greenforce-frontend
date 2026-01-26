@@ -697,7 +697,7 @@
         "createChargeLink": "Tilknyt pris",
         "changeConnectionStatus": "Ændre tilslutningsstatus",
         "updateCustomerData": "Opdater kundestamdata",
-        "endOfSupply": "Start leveranceophør"
+        "endOfSupply": "Leveranceophør"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -1257,7 +1257,6 @@
       "saveSuccess": "Tilslutningsstatus opdateres"
     },
     "endOfSupply": {
-      "menuItem": "Start leveranceophør",
       "modalTitle": "Start leveranceophør",
       "dateLabel": "Angiv skæringsdato",
       "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
