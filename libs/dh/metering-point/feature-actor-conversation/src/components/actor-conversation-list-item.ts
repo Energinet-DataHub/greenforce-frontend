@@ -49,23 +49,31 @@ import { TranslocoDirective } from '@jsverse/transloco';
       color: var(--watt-color-neutral-grey-600);
     }
 
+    .inset-stretch-inverted {
+      padding: var(--watt-space-m) var(--watt-space-ml);
+    }
+
     .no-margin {
       margin: 0;
     }
   `,
   template: `
+    <div style="display: flow"></div>
     <vater-flex
       align="start"
-      class="watt-space-inset-squish-ml"
+      gap="xs"
+      class="inset-stretch-inverted"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
-      <vater-stack fill="horizontal" direction="row">
+      <vater-stack fill="horizontal" direction="row" justify="space-between">
         <h5 class="no-margin">{{ t('subjects.' + case().subject) }}</h5>
-        <span>{{ case().closed }}</span>
+        @if (case().closed) {
+          <span>{{ t('closed') }}</span>
+        }
       </vater-stack>
       <vater-stack fill="horizontal" direction="row" justify="space-between">
-        <span class="light-text">{{ case().id }}</span>
-        <span class="light-text">{{ case().lastUpdatedDate | date: 'dd-MM-yyyy' }}</span>
+        <span class="light-text font-size-s">{{ case().id }}</span>
+        <span class="light-text font-size-s">{{ case().lastUpdatedDate | date: 'dd-MM-yyyy' }}</span>
       </vater-stack>
     </vater-flex>
     <hr class="watt-divider no-margin" />

@@ -797,7 +797,8 @@
       "emptyState": {
         "noCases": "No cases found",
         "noCaseSelected": "No case selected"
-      }
+      },
+      "closed": "Closed"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
