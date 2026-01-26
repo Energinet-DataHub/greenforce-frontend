@@ -30,6 +30,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     '[class.selected]': 'selected()',
     '[style.display]': '"block"',
     '[style.cursor]': '"pointer"',
+    '[style.position]': '"relative"',
   },
   styles: `
     :host(.selected) {
@@ -58,6 +59,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
     }
 
     .unread-indicator {
+      position: absolute;
+      top: calc(var(--watt-space-m) + var(--watt-space-ml) / 2);
+      left: var(--watt-space-s);
+      transform: translateY(-50%);
       width: 8px;
       height: 8px;
       border-radius: 50%;
@@ -65,7 +70,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
     }
   `,
   template: `
-    <div class="unread-indicator"></div>
     <vater-flex
       align="start"
       gap="xs"
@@ -73,6 +77,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <vater-stack fill="horizontal" direction="row" justify="space-between">
+        <div class="unread-indicator"></div>
         <h5 class="no-margin">{{ t('subjects.' + case().subject) }}</h5>
         @if (case().closed) {
           <span>{{ t('closed') }}</span>
