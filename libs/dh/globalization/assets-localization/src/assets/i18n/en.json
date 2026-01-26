@@ -394,7 +394,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
-        "createButton": "New charge",
+        "createButton": "Create charge",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -436,11 +436,11 @@
     "actions": {
       "create": {
         "action": {
-          "SUBSCRIPTION": "New subscription",
-          "FEE": "New fee",
-          "TARIFF": "New tariff",
-          "TARIFF_TAX": "New tariff, tax",
-          "SELECTION": "New charge"
+          "SUBSCRIPTION": "Create subscription",
+          "FEE": "Create fee",
+          "TARIFF": "Create tariff",
+          "TARIFF_TAX": "Create tariff, tax",
+          "SELECTION": "Create charge"
         },
         "toast": {
           "loading": "Creating charge..",
