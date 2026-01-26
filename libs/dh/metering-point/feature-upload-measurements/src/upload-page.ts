@@ -52,6 +52,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { MeasureDataResult } from './models/measure-data-result';
 import { DhUploadMeasurementsSummaryTable } from './summary-table';
@@ -186,14 +187,20 @@ import { DhUploadMeasurementsService } from './upload-service';
   `,
 })
 export class DhUploadMeasurementsPage {
-  readonly meteringPointId = input.required<string>();
-
   private navigate = injectRelativeNavigate();
   private measurements = inject(DhUploadMeasurementsService);
   private transloco = inject(TranslocoService);
+  private environment = inject(dhAppEnvironmentToken);
+
+  readonly meteringPointId = input.required<string>();
+  readonly searchMigratedMeteringPoints = input.required<boolean>();
+
   private meteringPointQuery = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
+    fetchPolicy: 'cache-only',
     variables: {
       meteringPointId: this.meteringPointId(),
+      environment: this.environment.current,
+      searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
     },
   }));
 
