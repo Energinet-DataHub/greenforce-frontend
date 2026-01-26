@@ -696,7 +696,8 @@
         "moveIn": "Customer move-in",
         "createChargeLink": "Attach price",
         "changeConnectionStatus": "Change connection status",
-        "updateCustomerData": "Update customer data"
+        "updateCustomerData": "Update customer data",
+        "endOfSupply": "Start end of supply"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -1248,6 +1249,19 @@
       "cancel": "Cancel",
       "save": "Save changes",
       "saveSuccess": "Connection status is being updated"
+    },
+    "endOfSupply": {
+      "menuItem": "Start end of supply",
+      "modalTitle": "Start end of supply",
+      "dateLabel": "Specify cut-off date",
+      "dateHint": "The cut-off date must be between 3 days from today and 60 days ahead.",
+      "consequencesInfo": "Here should be a text...",
+      "confirmCheckbox": "I understand the consequences",
+      "cancel": "Cancel",
+      "submit": "Start end of supply",
+      "submitSuccess": "End of supply submitted.",
+      "submitSuccessAction": "See status under processes",
+      "submitError": "End of supply could not be submitted"
     }
   },
   "messageArchive": {
