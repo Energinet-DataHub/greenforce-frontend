@@ -75,13 +75,13 @@ import { ActorConversationCaseSubjectType, Case } from '../types';
 export class DhActorConversationCaseListComponent {
   cases = input<Case[]>([
     {
-      id: '1',
+      id: '00001',
       subject: ActorConversationCaseSubjectType.misc,
       lastUpdatedDate: new Date(),
       closed: false,
     },
     {
-      id: '2',
+      id: '00002',
       subject: ActorConversationCaseSubjectType.customerMasterData,
       lastUpdatedDate: new Date(),
       closed: true,

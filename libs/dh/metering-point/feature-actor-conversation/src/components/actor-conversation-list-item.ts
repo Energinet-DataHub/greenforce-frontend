@@ -18,11 +18,13 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Case } from '../types';
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { DatePipe } from '@angular/common';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
   selector: 'dh-actor-conversation-list-item',
-  imports: [VaterStackComponent],
+  imports: [VaterStackComponent, DatePipe, VaterFlexComponent, TranslocoDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.selected]': 'selected()',
@@ -39,7 +41,12 @@ import { VaterStackComponent } from '@energinet/watt/vater';
     }
 
     :host(.selected:hover) {
-      background-color: var(--watt-color-primary-light);
+      background-color: var(--watt-color-primary-ultralight);
+    }
+
+    .light-text {
+      font-weight: 400;
+      color: var(--watt-color-neutral-grey-600);
     }
 
     .no-margin {
@@ -47,18 +54,21 @@ import { VaterStackComponent } from '@energinet/watt/vater';
     }
   `,
   template: `
-    <vater-stack direction="column" align="start" class="watt-space-inset-xs">
-      <div class=""></div>
-      <vater-stack>
-        <span>{{ case().subject }}</span>
-        <span>{{ case().id }}</span>
-      </vater-stack>
-      <vater-stack>
+    <vater-flex
+      align="start"
+      class="watt-space-inset-squish-ml"
+      *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+    >
+      <vater-stack fill="horizontal" direction="row">
+        <h5 class="no-margin">{{ t('subjects.' + case().subject) }}</h5>
         <span>{{ case().closed }}</span>
-        <span>{{case().lastUpdatedDate}}</span>
       </vater-stack>
-    </vater-stack>
-    <hr class="watt-divider no-margin">
+      <vater-stack fill="horizontal" direction="row" justify="space-between">
+        <span class="light-text">{{ case().id }}</span>
+        <span class="light-text">{{ case().lastUpdatedDate | date: 'dd-MM-yyyy' }}</span>
+      </vater-stack>
+    </vater-flex>
+    <hr class="watt-divider no-margin" />
   `,
 })
 export class DhActorConversationListItemComponent {
