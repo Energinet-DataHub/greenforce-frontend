@@ -778,10 +778,10 @@
       "newCaseTitle": "New case",
       "subjectLabel": "Subject",
       "subjects": {
-        "misc": "Miscellaneous",
-        "disconnectionOrReconnection": "Disconnection/Reconnection",
+        "misc": "Ad hoc question",
+        "disconnectionOrReconnection": "Disconnect/Reconnect",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Incorrect move-in/supplier switch",
+        "incorrectMoveInOrSupplierSwitch": "Incorrect move/switch of supplier",
         "customerMasterData": "{{ shared.terminology.customerMasterData }}",
         "measurements": "{{ shared.terminology.measurements }}",
         "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
