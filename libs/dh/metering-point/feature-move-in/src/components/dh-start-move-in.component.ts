@@ -16,13 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, effect, inject, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  viewChild,
+  Injector,
+} from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
-import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
 import { WattToastService } from '@energinet/watt/toast';
 
 import { StartMoveInFormType } from '../types';
@@ -33,7 +41,6 @@ import {
   ChangeOfSupplierBusinessReason,
   InitiateMoveInDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dayjs } from '@energinet/watt/date';
 
 @Component({
   selector: 'dh-start-move-in-modal',
@@ -57,6 +64,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
   energySupplier: string;
 }> {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly injector = inject(Injector);
   private readonly transloco = inject(TranslocoService);
   private readonly initiateMoveIn = mutation(InitiateMoveInDocument);
   private readonly toastService = inject(WattToastService);
@@ -100,7 +108,10 @@ export class DhStartMoveInComponent extends WattTypedModal<{
         'businessCustomer',
         this.fb.group({
           companyName: this.fb.control<string>('', Validators.required),
-          cvr: this.fb.control<string>('', [Validators.required, dhCvrValidator()]),
+          cvr: this.fb.control<string>('', [
+            Validators.required,
+            dhMoveInCvrValidator(this.injector),
+          ]),
           isForeignCompany: this.isForeignCompanyFormControl,
         })
       );
@@ -138,7 +149,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
       variables: {
         input: {
           businessReason: this.startMoveInForm.controls.businessReason.value,
-          startDate: dayjs().toDate(),
+          startDate: this.startMoveInForm.controls.cutOffDate.value,
           customerIdentification: {
             type: isCustomerPrivate ? 'CPR' : 'CVR',
             id: customerId,

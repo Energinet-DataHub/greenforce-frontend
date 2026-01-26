@@ -39,6 +39,7 @@ limitations under the License.
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/ImbalancePrices/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/ImbalancePrices/V1/ImbalancePricesClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/ImbalancePrices/V1/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/MarketParticipant/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/MarketParticipant/V1/MarketParticipantClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/MarketParticipant/V1/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/ElectricityMarket/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/ElectricityMarket/V1/ElectricityMarketClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/ElectricityMarket/V1/swagger.json')" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net90) run Clients/ActorConversation/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/ActorConversation/V1/ActorConversationClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/ActorConversation/V1/swagger.json')" />
   </Target>
 
   <Target Name="SwaggerGen" AfterTargets="PostBuildEvent">
@@ -54,7 +55,7 @@ limitations under the License.
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Client" Version="1.26.0" />
     <PackageReference Include="Energinet.DataHub.EDI.B2CClient" Version="0.5.13" />
-    <PackageReference Include="Energinet.DataHub.ElectricityMarket.Client" Version="1.45.0" />
+    <PackageReference Include="Energinet.DataHub.ElectricityMarket.Client" Version="1.51.0" />
     <PackageReference Include="Energinet.DataHub.MarketParticipant.Authorization" Version="3.0.0" />
     <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="11.3.0" />
     <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="8.9.0" />
@@ -107,5 +108,9 @@ limitations under the License.
     <_ContentIncludedByDefault Remove="Clients\EDI\B2CWebApi\V1\swagger.json" />
     <_ContentIncludedByDefault Remove="Clients\EDI\B2CWebApi\V3\nswag.json" />
     <_ContentIncludedByDefault Remove="Clients\EDI\B2CWebApi\V3\swagger.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.json" />
   </ItemGroup>
 </Project>

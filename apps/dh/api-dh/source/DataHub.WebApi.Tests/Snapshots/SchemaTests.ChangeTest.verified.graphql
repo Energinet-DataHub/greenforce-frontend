@@ -394,15 +394,6 @@ type CommercialRelationDto {
   electricalHeatingPeriods: [ElectricalHeatingDto!]!
 }
 
-type ContactAddressDto {
-  streetName: String
-}
-
-type ContactDto {
-  name: String
-  address: ContactAddressDto
-}
-
 type CreateCalculationPayload {
   uuid: UUID
 }
@@ -412,6 +403,10 @@ type CreateChargeLinkPayload {
 }
 
 type CreateChargePayload {
+  boolean: Boolean
+}
+
+type CreateConversationPayload {
   boolean: Boolean
 }
 
@@ -502,25 +497,11 @@ type ElectricalHeatingDto {
   transactionType: TransactionType
 }
 
-type ElectricityMarketV2CommercialRelationDto {
-  validFrom: DateTime!
-  validTo: DateTime!
-  energySupplierId: String!
-  customerId: UUID
-  energySupplierPeriods: [EnergySupplierPeriodDto!]!
-}
-
 type ElectricityMarketV2EventDto {
-  jsonData: String!
   id: UUID!
   timestamp: DateTime!
   type: String!
-}
-
-type EnergySupplierPeriodDto {
-  validFrom: DateTime!
-  validTo: DateTime!
-  contacts: [ContactDto!]!
+  dataJson: String!
 }
 
 type EnergySupplyPeriodDto {
@@ -638,7 +619,7 @@ type FilteredUserRolesEdge {
 }
 
 type GetMeteringPointDebugResultDtoV1 {
-  meteringPoint: MeteringPointDebugDtoV1!
+  meteringPointJson: String!
   events: [ElectricityMarketV2EventDto!]!
 }
 
@@ -946,12 +927,6 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
-type MeteringPointDebugDtoV1 {
-  meteringPointId: String!
-  meteringPointPeriods: [MeteringPointPeriodDto!]!
-  commercialRelations: [ElectricityMarketV2CommercialRelationDto!]!
-}
-
 type MeteringPointDto {
   meteringPointId: String!
   isChild: Boolean!
@@ -998,6 +973,7 @@ type MeteringPointMetadataDto {
   environmentalFriendly: Boolean
   capacity: String
   powerLimitKw: Float
+  powerLimitAmp: Int
   meterNumber: String
   netSettlementGroup: Int
   scheduledMeterReadingMonth: Int
@@ -1006,13 +982,6 @@ type MeteringPointMetadataDto {
   settlementMethod: SettlementMethod
   installationAddress: InstallationAddressDto
   manuallyHandled: Boolean!
-}
-
-type MeteringPointPeriodDto {
-  validFrom: DateTime!
-  validTo: DateTime!
-  type: ElectricityMarketV2MeteringPointType!
-  connectionState: ElectricityMarketV2ConnectionState!
 }
 
 type MeteringPointProcess {
@@ -1061,6 +1030,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
+  createConversation(input: CreateConversationInput!): CreateConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
   stopCharge(input: StopChargeInput!): StopChargePayload! @authorize(roles: [ "charges:manage" ])
@@ -1094,6 +1064,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
+  resetMitId: ResetMitIdPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
@@ -1478,6 +1449,11 @@ type ResendWaitingEsettExchangeMessagesPayload {
   boolean: Boolean
 }
 
+type ResetMitIdPayload {
+  boolean: Boolean
+  errors: [ResetMitIdError!]
+}
+
 type ResetTwoFactorAuthenticationPayload {
   boolean: Boolean
   errors: [ResetTwoFactorAuthenticationError!]
@@ -1719,6 +1695,8 @@ union RemoveMeteringPointsFromAdditionalRecipientError = ApiError
 
 union RequestClientSecretCredentialsError = ApiError
 
+union ResetMitIdError = ApiError
+
 union ResetTwoFactorAuthenticationError = ApiError
 
 union StopDelegationError = ApiError
@@ -1905,6 +1883,11 @@ input CreateChargeLinkInput {
   meteringPointId: String!
   newStartDate: DateTime!
   factor: Int!
+}
+
+input CreateConversationInput {
+  meteringPointIdentification: String!
+  conversationMessageContent: String!
 }
 
 input CreateDelegationsForMarketParticipantInput {

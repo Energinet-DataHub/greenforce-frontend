@@ -196,7 +196,13 @@
     "selectedValues": "{{count}} valgt(e)",
     "calculationType": "Beregningstype",
     "all": "Alle",
-    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}"
+    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}",
+    "terminology": {
+      "customerMasterData": "Kundestamdata",
+      "measurements": "Måledata",
+      "meteringPointMasterData": "Målepunktsstamdata",
+      "chargeLink": "Pristilknytning"
+    }
   },
   "clipboard": {
     "success": "Kopieret",
@@ -395,13 +401,13 @@
           "name": "Navn",
           "owner": "Ejer",
           "status": "Status",
-          "resolution": "Tidsopløsning"
+          "resolution": "Prisopløsning"
         },
         "filters": {
           "chargeType": "Type",
           "owners": "Ejer",
           "status": "Status",
-          "resolution": "Tidsopløsning",
+          "resolution": "Prisopløsning",
           "vat": "Moms",
           "moreOptions": "Flere filtre"
         },
@@ -446,7 +452,7 @@
           "id": "ID",
           "name": "Navn",
           "description": "Beskrivelse",
-          "resolution": "Opløsning",
+          "resolution": "Prisopløsning",
           "HOURLY": "Time",
           "DAILY": "Dag",
           "vat": "Moms",
@@ -516,7 +522,7 @@
     "charge": {
       "type": "Type",
       "owner": "Ejer",
-      "resolution": "Tidsopløsning",
+      "resolution": "Prisopløsning",
       "transparentInvoicing": "Viderefakturering",
       "vat": "Moms",
       "tabs": {
@@ -579,7 +585,7 @@
           "gln": "GLN",
           "type": "Type",
           "id": "Id",
-          "resolution": "Tidsopløsning",
+          "resolution": "Prisopløsning",
           "from": "Fra",
           "to": "Til"
         }
@@ -609,7 +615,7 @@
         "tabLabel": "Stamdata"
       },
       "actor-conversation": {
-        "tabLabel": "Aktør dialog"
+        "tabLabel": "Aktørdialog"
       },
       "processes": {
         "tabLabel": "Processer"
@@ -621,7 +627,7 @@
         "tabLabel": "Beskeder"
       },
       "measurements": {
-        "tabLabel": "Måledata"
+        "tabLabel": "{{ shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Fejlede måledata"
@@ -689,7 +695,7 @@
         "upload": "Upload måledata",
         "moveIn": "Tilflyt kunde",
         "createChargeLink": "Tilknyt pris",
-        "changeConnectionStatus": "Ændr tilslutningstatus",
+        "changeConnectionStatus": "Ændre tilslutningsstatus",
         "updateCustomerData": "Opdater kundestamdata"
       },
       "details": {
@@ -705,7 +711,8 @@
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Elvarmedato",
         "powerLimit": "Effektgrænse",
-        "powerLimitValue": "{{ value }} kW",
+        "powerLimitValueKw": "{{ value }} kW",
+        "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Afbrydelsesart",
         "gridArea": "Netområde",
         "fromGridArea": "Fra netområde",
@@ -771,7 +778,14 @@
       "newCaseTitle": "Ny sag",
       "subjectLabel": "Emne",
       "subjects": {
-        "misc": "Andet"
+        "misc": "Ad hoc spørgsmål",
+        "disconnectionOrReconnection": "Afbrydelse/Gentilslutning",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "incorrectMoveInOrSupplierSwitch": "Fejlaftig flytning/leverandørskifte",
+        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
+        "measurements": "{{ shared.terminology.measurements }}",
+        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
+        "chargeLink": "{{ shared.terminology.chargeLink }}"
       },
       "receiverLabel": "Modtager",
       "receivers": {
@@ -816,6 +830,7 @@
         },
         "copyMessage": "Kopier besked-ID",
         "navigateToMessage": "Gå til besked",
+        "actions": "Handlinger",
         "edit": "Rediger pristilknytning",
         "stop": "Stop pristilknytning",
         "cancel": "Annuller pristilknytning"
@@ -2252,7 +2267,7 @@
     "topBarTitle": "Rapporter",
     "tabs": {
       "settlementReports": "Afregningsrapporter",
-      "measurementsReports": "Måledata",
+      "measurementsReports": "{{ shared.terminology.measurements }}",
       "imbalancePrices": "Ubalancepriser"
     },
     "settlements": {

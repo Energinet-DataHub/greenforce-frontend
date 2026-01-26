@@ -37,6 +37,7 @@ import {
   GetMeteringPointProcessOverviewDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
+  DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
@@ -55,6 +56,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
     WattDatepickerComponent,
     WattIconComponent,
     WattTooltipDirective,
+    DhDropdownTranslatorDirective,
   ],
   styles: `
     form {
@@ -77,6 +79,8 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
           [formControl]="form.controls.state"
           [showResetOption]="false"
           [options]="stateControlOptions"
+          dhDropdownTranslator
+          translateKey="meteringPoint.overview.status"
         />
 
         @if (!isCurrentStatusSameAsNew) {

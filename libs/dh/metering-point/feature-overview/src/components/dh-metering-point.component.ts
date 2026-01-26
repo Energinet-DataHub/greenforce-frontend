@@ -185,14 +185,6 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
             [label]="t('masterData.tabLabel')"
             [link]="getLink('master-data')"
           />
-          <ng-container *dhReleaseToggle="'PM62-ACTOR-CONVERSATION'">
-            <watt-link-tab
-              *dhMarketRoleRequired="rolesWithAccess"
-              [label]="t('actor-conversation.tabLabel')"
-              [link]="getLink('actor-conversation')"
-              data-testid="actor-conversation-tab"
-            />
-          </ng-container>
           <ng-container *dhReleaseToggle="'PM116-PROCESSOVERVIEW'">
             <watt-link-tab
               *dhPermissionRequired="['metering-point:process-overview']"
@@ -218,6 +210,14 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
             [label]="t('failedMeasurements.tabLabel')"
             [link]="getLink('failed-measurements')"
           />
+          <ng-container *dhReleaseToggle="'PM62-ACTOR-CONVERSATION'">
+            <watt-link-tab
+              *dhMarketRoleRequired="rolesWithAccess"
+              [label]="t('actor-conversation.tabLabel')"
+              [link]="getLink('actor-conversation')"
+              data-testid="actor-conversation-tab"
+            />
+          </ng-container>
         </watt-link-tabs>
       </div>
     </div>
