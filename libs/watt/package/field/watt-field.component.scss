@@ -56,7 +56,7 @@ form.ng-submitted watt-field:has(.ng-invalid),
     }
   }
 
-  &:has(watt-field-error, watt-field-warning) {
+  &.watt-field--show-errors:has(watt-field-error, watt-field-warning) {
     padding-bottom: 0;
   }
 
