@@ -107,12 +107,10 @@ public class MeteringPointArchivedMessageClient(
             SearchDocumentType.RequestMeasurements => MeteringPointDocumentTypeDtoV1.RequestMeasurements,
             SearchDocumentType.RejectRequestMeasurements => MeteringPointDocumentTypeDtoV1.RejectRequestMeasurements,
             SearchDocumentType.UpdateChargeLinks => MeteringPointDocumentTypeDtoV1.UpdateChargeLinks,
-            SearchDocumentType.ConfirmRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1
-                .ConfirmRequestChangeBillingMasterData,
-            SearchDocumentType.RejectRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1
-                .RejectRequestChangeBillingMasterData,
-            SearchDocumentType.NotifyBillingMasterData => MeteringPointDocumentTypeDtoV1
-                .NotifyBillingMasterData,
+            SearchDocumentType.B2CUpdateChargeLinks => MeteringPointDocumentTypeDtoV1.B2CUpdateChargeLinks,
+            SearchDocumentType.ConfirmRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1.ConfirmRequestChangeBillingMasterData,
+            SearchDocumentType.RejectRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1.RejectRequestChangeBillingMasterData,
+            SearchDocumentType.NotifyBillingMasterData => MeteringPointDocumentTypeDtoV1.NotifyBillingMasterData,
             _ => throw new ArgumentOutOfRangeException(nameof(searchDocumentType), $"Unsupported document type: {searchDocumentType}"),
         };
 

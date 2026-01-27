@@ -24,4 +24,5 @@ public enum MeteringPointDocumentType
     ConfirmRequestChangeBillingMasterData = 5,
     RejectRequestChangeBillingMasterData = 6,
     NotifyBillingMasterData = 7,
+    B2CUpdateChargeLinks = 8,
 }

@@ -24,9 +24,9 @@ public enum SearchDocumentType
     B2CRequestAggregatedMeasureData = 5,
     RequestWholesaleSettlement = 6,
     B2CRequestWholesaleSettlement = 7,
-    Acknowledgement = 8,
     ReminderOfMissingMeasurements = 9,
     RequestChangeOfPriceList = 10,
     ConfirmRequestChangeOfPriceList = 11,
     RejectRequestChangeOfPriceList = 12,
+    B2CRequestChangeOfPriceList = 13,
 }

@@ -127,16 +127,15 @@ public class ArchivedMessageClient(
         {
             SearchDocumentType.NotifyAggregatedMeasureData => DocumentTypeDtoV1.NotifyAggregatedMeasureData,
             SearchDocumentType.NotifyWholesaleServices => DocumentTypeDtoV1.NotifyWholesaleServices,
-            SearchDocumentType.RejectRequestAggregatedMeasureData => DocumentTypeDtoV1
-                .RejectRequestAggregatedMeasureData,
+            SearchDocumentType.RejectRequestAggregatedMeasureData => DocumentTypeDtoV1.RejectRequestAggregatedMeasureData,
             SearchDocumentType.RejectRequestWholesaleSettlement => DocumentTypeDtoV1.RejectRequestWholesaleSettlement,
             SearchDocumentType.RequestAggregatedMeasureData => DocumentTypeDtoV1.RequestAggregatedMeasureData,
             SearchDocumentType.B2CRequestAggregatedMeasureData => DocumentTypeDtoV1.B2CRequestAggregatedMeasureData,
             SearchDocumentType.RequestWholesaleSettlement => DocumentTypeDtoV1.RequestWholesaleSettlement,
             SearchDocumentType.B2CRequestWholesaleSettlement => DocumentTypeDtoV1.B2CRequestWholesaleSettlement,
-            SearchDocumentType.Acknowledgement => DocumentTypeDtoV1.Acknowledgement,
             SearchDocumentType.ReminderOfMissingMeasurements => DocumentTypeDtoV1.ReminderOfMissingMeasurements,
             SearchDocumentType.RequestChangeOfPriceList => DocumentTypeDtoV1.RequestChangeOfPriceList,
+            SearchDocumentType.B2CRequestChangeOfPriceList => DocumentTypeDtoV1.B2CRequestChangeOfPriceList,
             SearchDocumentType.ConfirmRequestChangeOfPriceList => DocumentTypeDtoV1.ConfirmRequestChangeOfPriceList,
             SearchDocumentType.RejectRequestChangeOfPriceList => DocumentTypeDtoV1.RejectRequestChangeOfPriceList,
             _ => throw new ArgumentOutOfRangeException(nameof(searchDocumentType), $"Unsupported document type: {searchDocumentType}"),
