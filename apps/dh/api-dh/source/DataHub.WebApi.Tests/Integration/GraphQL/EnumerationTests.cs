@@ -16,7 +16,6 @@ using System;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
-using Energinet.DataHub.WebApi.Modules.Common.Types;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Xunit;
 using ChargeResolution = Energinet.DataHub.Charges.Abstractions.Shared.ResolutionDto;
