@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ActivatedRouteSnapshot, CanActivateFn, Router, UrlTree } from '@angular/router';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { inject } from '@angular/core';
 
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
@@ -30,9 +30,9 @@ import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/s
 
 import { dhExternalOrInternalMeteringPointIdParam } from './dh-metering-point-params';
 
-export const dhCanActivateMeteringPointOverview: CanActivateFn = (
-  route: ActivatedRouteSnapshot
-): Promise<UrlTree | boolean> | UrlTree => {
+export const dhCanActivateMeteringPointOverview: CanActivateFn = ():
+  | Promise<UrlTree | boolean>
+  | UrlTree => {
   const router = inject(Router);
   const environment = inject(dhAppEnvironmentToken);
 
