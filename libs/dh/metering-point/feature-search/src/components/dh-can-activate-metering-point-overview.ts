@@ -26,7 +26,7 @@ import {
   dhIsValidInternalId,
   dhIsValidMeteringPointId,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhExternalOrInternalMeteringPointIdParam } from './dh-metering-point-params';
 
