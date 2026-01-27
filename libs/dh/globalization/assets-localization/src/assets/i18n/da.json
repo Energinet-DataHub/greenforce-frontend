@@ -957,6 +957,7 @@
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_1": "Anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Godkendelse af anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Afvisning af anmodning om tilflytning (RSM-001)",
