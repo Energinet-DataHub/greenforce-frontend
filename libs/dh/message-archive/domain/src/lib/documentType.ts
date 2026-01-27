@@ -70,5 +70,7 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-033';
     case DocumentType.B2CRequestChangeBillingMasterData:
       return 'RSM-030';
+    case DocumentType.NotifyPriceList:
+      return 'RSM-034';
   }
 };
