@@ -41,7 +41,8 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
     getPath<MeteringPointSubPaths>('search'),
   ]);
 
-  const idParam: string = route.params[dhExternalOrInternalMeteringPointIdParam];
+  const navigation = router.currentNavigation();
+  const idParam: string = navigation?.extras.state?.[dhExternalOrInternalMeteringPointIdParam];
 
   const meteringPointId = dhIsValidMeteringPointId(idParam) ? idParam : undefined;
 

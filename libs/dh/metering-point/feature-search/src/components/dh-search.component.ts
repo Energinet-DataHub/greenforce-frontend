@@ -45,6 +45,7 @@ import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/s
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component';
+import { dhExternalOrInternalMeteringPointIdParam } from './dh-metering-point-params';
 
 @Component({
   selector: 'dh-search',
@@ -211,14 +212,17 @@ export class DhSearchComponent {
         this.environment.current === DhAppEnvironment.preprod ||
         this.searchMigratedMeteringPoints.value === false
       ) {
-        return this.router.navigate([
-          '/',
-          getPath('metering-point'),
-          result.data.meteringPointExists.meteringPointId,
-        ]);
+        return this.router.navigate(['/', getPath('metering-point'), 'view'], {
+          state: {
+            [dhExternalOrInternalMeteringPointIdParam]:
+              result.data.meteringPointExists.meteringPointId,
+          },
+        });
       }
     }
 
-    this.router.navigate(['/', getPath('metering-point'), result.data.meteringPointExists.id]);
+    this.router.navigate(['/', getPath('metering-point'), 'view'], {
+      state: { [dhExternalOrInternalMeteringPointIdParam]: result.data.meteringPointExists.id },
+    });
   }
 }
