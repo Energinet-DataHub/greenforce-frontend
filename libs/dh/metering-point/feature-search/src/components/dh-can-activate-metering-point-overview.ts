@@ -42,14 +42,19 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = ():
   ]);
 
   const navigation = router.currentNavigation();
-  const idParam: string = navigation?.extras.state?.[dhExternalOrInternalMeteringPointIdParam];
+  const idParamInState: string | undefined =
+    navigation?.extras.state?.[dhExternalOrInternalMeteringPointIdParam];
+  const idParamInSS = sessionStorage.getItem(dhExternalOrInternalMeteringPointIdParam);
 
-  const meteringPointId = dhIsValidMeteringPointId(idParam) ? idParam : undefined;
+  const idParam = idParamInState ?? idParamInSS;
 
-  if (meteringPointId && environment.current === DhAppEnvironment.prod) {
-    // In production, only internal IDs are allowed in the URL
+  if (idParam) {
+    sessionStorage.setItem(dhExternalOrInternalMeteringPointIdParam, idParam);
+  } else {
     return searchRoute;
   }
+
+  const meteringPointId = dhIsValidMeteringPointId(idParam) ? idParam : undefined;
 
   const internalMeteringPointId =
     meteringPointId === undefined && dhIsValidInternalId(idParam) ? idParam : undefined;

@@ -76,6 +76,14 @@ export const dhMeteringPointRoutes: Routes = [
     canActivate: [
       PermissionGuard(['metering-point:search'], getPath<BasePaths>('message-archive')),
     ],
+    canDeactivate: [
+      () => {
+        // Remove metering point ID from session storage when leaving metering point routes
+        sessionStorage.removeItem(dhExternalOrInternalMeteringPointIdParam);
+
+        return true;
+      },
+    ],
     children: [
       {
         path: '',
@@ -286,11 +294,9 @@ function meteringPointCreateGuard(): CanActivateFn {
 function meteringPointIdResolver(): ResolveFn<string> {
   return () => {
     const environment = inject(dhAppEnvironmentToken);
-    const navigation = inject(Router).currentNavigation();
+    const idParam = findIdParam();
 
-    const idParam: string = navigation?.extras.state?.[dhExternalOrInternalMeteringPointIdParam];
-
-    if (dhIsValidMeteringPointId(idParam)) {
+    if (idParam && dhIsValidMeteringPointId(idParam)) {
       return idParam;
     }
 
@@ -312,10 +318,18 @@ function meteringPointIdResolver(): ResolveFn<string> {
  */
 function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
   return () => {
-    const navigation = inject(Router).currentNavigation();
+    const idParam = findIdParam();
 
-    const idParam: string = navigation?.extras.state?.[dhExternalOrInternalMeteringPointIdParam];
-
-    return dhIsValidMeteringPointId(idParam) === false;
+    return !!idParam && dhIsValidMeteringPointId(idParam) === false;
   };
+}
+
+function findIdParam(): string | null {
+  const navigation = inject(Router).currentNavigation();
+
+  const idParamInState: string | undefined =
+    navigation?.extras.state?.[dhExternalOrInternalMeteringPointIdParam];
+  const idParamInSS = sessionStorage.getItem(dhExternalOrInternalMeteringPointIdParam);
+
+  return idParamInState ?? idParamInSS;
 }
