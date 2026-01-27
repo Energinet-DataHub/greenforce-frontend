@@ -23,7 +23,6 @@ public static class SearchDocumentTypeExtensions
     internal static DocumentType ToDocumentType(this DocumentTypeDtoV1 documentType) =>
         documentType switch
         {
-            DocumentTypeDtoV1.Acknowledgement => DocumentType.Acknowledgement,
             DocumentTypeDtoV1.B2CRequestAggregatedMeasureData => DocumentType.B2CRequestAggregatedMeasureData,
             DocumentTypeDtoV1.B2CRequestWholesaleSettlement => DocumentType.B2CRequestWholesaleSettlement,
             DocumentTypeDtoV1.NotifyAggregatedMeasureData => DocumentType.NotifyAggregatedMeasureData,
@@ -36,11 +35,8 @@ public static class SearchDocumentTypeExtensions
             DocumentTypeDtoV1.RequestChangeOfPriceList => DocumentType.RequestChangeOfPriceList,
             DocumentTypeDtoV1.ConfirmRequestChangeOfPriceList => DocumentType.ConfirmRequestChangeOfPriceList,
             DocumentTypeDtoV1.RejectRequestChangeOfPriceList => DocumentType.RejectRequestChangeOfPriceList,
-            DocumentTypeDtoV1.B2CRequestChangeAccountingPointCharacteristics => DocumentType.B2CRequestChangeAccountingPointCharacteristics,
             DocumentTypeDtoV1.B2CRequestChangeOfPriceList => DocumentType.B2CRequestChangeOfPriceList,
-            DocumentTypeDtoV1.B2CRequestChangeBillingMasterData => DocumentType.B2CRequestChangeBillingMasterData,
-            DocumentTypeDtoV1.B2CRequestChangeOfSupplier => DocumentType.B2CRequestChangeOfSupplier,
-            DocumentTypeDtoV1.B2CRequestChangeCustomerCharacteristics => DocumentType.B2CRequestChangeCustomerCharacteristics,
+            DocumentTypeDtoV1.NotifyPriceList => DocumentType.NotifyPriceList,
         };
 
     internal static DocumentType ToDocumentType(this MeteringPointDocumentTypeDtoV1 documentType) =>
@@ -51,6 +47,7 @@ public static class SearchDocumentTypeExtensions
             MeteringPointDocumentTypeDtoV1.RequestMeasurements => DocumentType.RequestMeasurements,
             MeteringPointDocumentTypeDtoV1.RejectRequestMeasurements => DocumentType.RejectRequestMeasurements,
             MeteringPointDocumentTypeDtoV1.UpdateChargeLinks => DocumentType.UpdateChargeLinks,
+            MeteringPointDocumentTypeDtoV1.B2CUpdateChargeLinks => DocumentType.B2CUpdateChargeLinks,
             MeteringPointDocumentTypeDtoV1.ConfirmRequestChangeBillingMasterData => DocumentType.ConfirmRequestChangeBillingMasterData,
             MeteringPointDocumentTypeDtoV1.RejectRequestChangeBillingMasterData => DocumentType.RejectRequestChangeBillingMasterData,
             MeteringPointDocumentTypeDtoV1.NotifyBillingMasterData => DocumentType.NotifyBillingMasterData,
