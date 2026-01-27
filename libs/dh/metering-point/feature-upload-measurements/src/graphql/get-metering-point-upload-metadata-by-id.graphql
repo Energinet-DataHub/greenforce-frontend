@@ -1,5 +1,13 @@
-query GetMeteringPointUploadMetadataById($meteringPointId: String!) {
-  meteringPoint(meteringPointId: $meteringPointId) {
+query GetMeteringPointUploadMetadataById(
+  $meteringPointId: String!
+  $environment: String
+  $searchMigratedMeteringPoints: Boolean
+) {
+  meteringPoint(
+    meteringPointId: $meteringPointId
+    environment: $environment
+    searchMigratedMeteringPoints: $searchMigratedMeteringPoints
+  ) {
     id
     metadata {
       id
