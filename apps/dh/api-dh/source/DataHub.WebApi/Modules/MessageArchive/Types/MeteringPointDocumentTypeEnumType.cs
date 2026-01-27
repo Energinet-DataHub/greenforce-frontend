@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
 
-public enum MeteringPointDocumentType
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
+
+public class MeteringPointDocumentTypeEnumType : EnumType<MeteringPointDocumentTypeDtoV1>
 {
-    Acknowledgement = 0,
-    SendMeasurements = 1,
-    RequestMeasurements = 2,
-    RejectRequestMeasurements = 3,
-    UpdateChargeLinks = 4,
-    ConfirmRequestChangeBillingMasterData = 5,
-    RejectRequestChangeBillingMasterData = 6,
-    NotifyBillingMasterData = 7,
+    protected override void Configure(IEnumTypeDescriptor<MeteringPointDocumentTypeDtoV1> descriptor)
+    {
+        descriptor.Name("MeteringPointDocumentType");
+    }
 }
