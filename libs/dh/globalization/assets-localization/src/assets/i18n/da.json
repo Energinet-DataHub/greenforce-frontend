@@ -785,7 +785,8 @@
         "customerMasterData": "{{ shared.terminology.customerMasterData }}",
         "measurements": "{{ shared.terminology.measurements }}",
         "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "chargeLink": "{{ shared.terminology.chargeLink }}"
+        "chargeLink": "{{ shared.terminology.chargeLink }}",
+        "newCase": "Ny sag"
       },
       "receiverLabel": "Modtager",
       "receivers": {

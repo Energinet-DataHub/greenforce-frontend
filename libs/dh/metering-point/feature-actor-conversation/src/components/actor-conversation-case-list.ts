@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
@@ -56,16 +56,19 @@ import { ActorConversationCaseSubjectType, Case } from '../types';
               icon="plus"
               variant="text"
               data-testid="new-case-button"
-              >{{ t('newCaseButton') }}
+            >{{ t('newCaseButton') }}
             </watt-button>
           </vater-stack>
         </watt-card-title>
         <hr class="watt-divider no-margin" />
+        @if (newCaseVisible()) {
+          <dh-actor-conversation-list-item [case]="newCase" [selected]="newCaseVisible()" />
+        }
         @for (caseItem of cases(); track caseItem.id) {
           <dh-actor-conversation-list-item
             [case]="caseItem"
             [selected]="selectedCaseId() === caseItem.id"
-            (click)="selectCase(caseItem.id)"
+            (click)="selectCase.emit(caseItem.id)"
           />
         }
       </watt-card>
@@ -73,24 +76,16 @@ import { ActorConversationCaseSubjectType, Case } from '../types';
   `,
 })
 export class DhActorConversationCaseListComponent {
-  cases = input<Case[]>([
-    {
-      id: '00001',
-      subject: ActorConversationCaseSubjectType.misc,
-      lastUpdatedDate: new Date(),
-      closed: false,
-    },
-    {
-      id: '00002',
-      subject: ActorConversationCaseSubjectType.customerMasterData,
-      lastUpdatedDate: new Date(),
-      closed: true,
-    },
-  ]);
-  selectedCaseId = signal<string | undefined>(undefined);
+  cases = input<Case[]>([]);
+  newCaseVisible = input<boolean>(false);
+  selectedCaseId = input<string | undefined>(undefined);
   createNewCase = output();
+  selectCase = output<string | undefined>();
 
-  selectCase(caseId: string) {
-    this.selectedCaseId.set(caseId);
+  newCase: Case = {
+    closed: false,
+    lastUpdatedDate: undefined,
+    id: undefined,
+    subject: ActorConversationCaseSubjectType.newCase,
   }
 }

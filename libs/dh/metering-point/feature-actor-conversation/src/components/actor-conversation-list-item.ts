@@ -58,6 +58,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
       margin: 0;
     }
 
+    .min-height-line-height-xs {
+      line-height: 22px;
+    }
+
     .unread-indicator {
       position: absolute;
       top: calc(var(--watt-space-m) + var(--watt-space-ml) / 2);
@@ -77,17 +81,24 @@ import { TranslocoDirective } from '@jsverse/transloco';
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <vater-stack fill="horizontal" direction="row" justify="space-between">
-        <div class="unread-indicator"></div>
+        @if (case().unread) {
+          <div class="unread-indicator"></div>
+        }
         <h5 class="no-margin">{{ t('subjects.' + case().subject) }}</h5>
         @if (case().closed) {
           <span>{{ t('closed') }}</span>
         }
       </vater-stack>
-      <vater-stack fill="horizontal" direction="row" justify="space-between">
+      <vater-stack
+        fill="horizontal"
+        direction="row"
+        justify="space-between"
+        class="min-height-line-height-xs"
+      >
         <span class="light-text font-size-s">{{ case().id }}</span>
         <span class="light-text font-size-s">{{
-            case().lastUpdatedDate | date: 'dd-MM-yyyy'
-          }}</span>
+          case().lastUpdatedDate | date: 'dd-MM-yyyy'
+        }}</span>
       </vater-stack>
     </vater-flex>
     <hr class="watt-divider no-margin" />

@@ -29,7 +29,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState } from '../types';
+import { ActorConversationCaseSubjectType, ActorConversationState } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -63,7 +63,14 @@ import { TranslocoDirective } from '@jsverse/transloco';
       gap="m"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
-      <dh-actor-conversation-case-list (createNewCase)="newCaseVisible.set(true)" class="flex-1" />
+      <dh-actor-conversation-case-list
+        [cases]="cases()"
+        [newCaseVisible]="newCaseVisible()"
+        [selectedCaseId]="selectedCaseId()"
+        (createNewCase)="newCase()"
+        (selectCase)="selectCase($event)"
+        class="flex-1"
+      />
       <watt-card class="flex-3">
         <vater-stack fill="vertical">
           @switch (state()) {
@@ -105,15 +112,30 @@ import { TranslocoDirective } from '@jsverse/transloco';
   `,
 })
 export class DhActorConversationShellComponent {
+  protected readonly ActorConversationState = ActorConversationState;
   newCaseVisible = signal(false);
-  cases = signal([]);
-  selectedCase = signal(null);
+  cases = signal([
+    {
+      id: '00001',
+      subject: ActorConversationCaseSubjectType.misc,
+      lastUpdatedDate: new Date(),
+      closed: false,
+      unread: true,
+    },
+    {
+      id: '00002',
+      subject: ActorConversationCaseSubjectType.customerMasterData,
+      lastUpdatedDate: new Date(),
+      closed: true,
+    },
+  ]);
+  selectedCaseId = signal<string | undefined>(undefined);
   state = computed<ActorConversationState>(() => {
     if (this.newCaseVisible()) {
       return ActorConversationState.newCaseOpen;
     } else if (this.cases().length === 0) {
       return ActorConversationState.noCases;
-    } else if (this.selectedCase() === null) {
+    } else if (this.selectedCaseId() === undefined) {
       return ActorConversationState.noCaseSelected;
     }
     return ActorConversationState.caseSelected;
@@ -142,5 +164,13 @@ export class DhActorConversationShellComponent {
     }
   }
 
-  protected readonly ActorConversationState = ActorConversationState;
+  newCase() {
+    this.newCaseVisible.set(true);
+    this.selectedCaseId.set(undefined);
+  }
+
+  selectCase(caseId?: string): void {
+    this.newCaseVisible.set(false);
+    this.selectedCaseId.set(caseId);
+  }
 }

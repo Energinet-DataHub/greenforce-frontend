@@ -26,6 +26,7 @@ export enum ActorConversationCaseSubjectType {
   measurements = 'measurements',
   meteringPointMasterData = 'meteringPointMasterData',
   chargeLink = 'chargeLink',
+  newCase = 'newCase',
 }
 
 export enum ActorConversationReceiverType {
@@ -40,9 +41,10 @@ export enum ActorConversationState {
 }
 
 export interface Case {
-  id: string;
-  subject: ActorConversationCaseSubjectType;
+  id?: string;
+  subject?: ActorConversationCaseSubjectType;
   closed: boolean;
-  lastUpdatedDate: Date;
+  lastUpdatedDate?: Date;
+  unread?: boolean
 }
 
