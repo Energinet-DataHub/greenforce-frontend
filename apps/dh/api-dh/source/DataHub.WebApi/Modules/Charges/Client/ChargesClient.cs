@@ -144,7 +144,7 @@ public class ChargesClient(
                 ChargeType: input.Type.ToRequestChangeOfPriceListChargeType(),
                 ChargeName: input.Name,
                 ChargeDescription: input.Description,
-                Resolution: input.Resolution.CastFromDuration<ResolutionV1>(),
+                Resolution: input.Resolution.CastDurationTo<ResolutionV1>(),
                 Start: input.ValidFrom,
                 End: null,
                 VatPayer: input.Vat ? VatPayerV1.D02 : VatPayerV1.D01,
@@ -166,7 +166,7 @@ public class ChargesClient(
                 ChargeType: charge.Type.ToRequestChangeOfPriceListChargeType(),
                 ChargeName: input.Name,
                 ChargeDescription: input.Description,
-                Resolution: charge.Resolution.CastFromDuration<ResolutionV1>(),
+                Resolution: charge.Resolution.CastDurationTo<ResolutionV1>(),
                 Start: input.CutoffDate,
                 End: null,
                 VatPayer: input.Vat ? VatPayerV1.D02 : VatPayerV1.D01,
@@ -192,7 +192,7 @@ public class ChargesClient(
                 ChargeOwnerId: id.Owner,
                 ChargeName: charge.Name,
                 ChargeDescription: charge.Description,
-                Resolution: charge.Resolution.CastFromDuration<ResolutionV1>(),
+                Resolution: charge.Resolution.CastDurationTo<ResolutionV1>(),
                 VatPayer: charge.VatInclusive ? VatPayerV1.D02 : VatPayerV1.D01,
                 TransparentInvoicing: charge.TransparentInvoicing,
                 TaxIndicator: charge.TaxIndicator,
@@ -220,7 +220,7 @@ public class ChargesClient(
                 Points:
                 [
                     new(
-                        Resolution: charge.Resolution.CastFromDuration<ResolutionV1>(),
+                        Resolution: charge.Resolution.CastDurationTo<ResolutionV1>(),
                         Start: start,
                         End: end,
                         Points: points),
@@ -233,7 +233,7 @@ public class ChargesClient(
     private static Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
         => new(
             Id: charge.ChargeIdentifierDto,
-            Resolution: Resolution.FromName(charge.ResolutionDto.ToString()),
+            Resolution: Resolution.FromName(charge.ResolutionDto),
             TaxIndicator: charge.TaxIndicator,
             PeriodDtos: [.. charge.Periods
                 .Where(x => x.StartDate <= x.EndDate)
