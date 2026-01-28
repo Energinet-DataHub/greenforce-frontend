@@ -133,7 +133,7 @@ export class DhCustomerOverviewComponent {
         }
         return foundValues;
       }, [])
-      .filter((x) => x.relationType === CustomerRelationType.Contact4)
+      .filter((x) => x.relationType === CustomerRelationType.Contact4 && x.name !== '')
   );
 
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
