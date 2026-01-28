@@ -1,11 +1,23 @@
 mutation CreateConversation(
-  $meteringPointIdentification: String!
-  $conversationMessageContent: String!
+  $subject: ConversationSubject!,
+  $meteringPointIdentification: String!,
+  $actorName: String!,
+  $userName: String!,
+  $internalNote: String,
+  $content: String!,
+  $anonymous: Boolean!,
+  $receiver: ActorType!
 ) {
   createConversation(
     input: {
-      meteringPointIdentification: $meteringPointIdentification
-      conversationMessageContent: $conversationMessageContent
+      subject: $subject,
+      meteringPointIdentification: $meteringPointIdentification,
+      actorName: $actorName,
+      userName: $userName,
+      internalNote: $internalNote,
+      content: $content,
+      anonymous: $anonymous,
+      receiver: $receiver,
     }
   ) {
     boolean: boolean

@@ -1886,8 +1886,14 @@ input CreateChargeLinkInput {
 }
 
 input CreateConversationInput {
+  subject: ConversationSubject!
   meteringPointIdentification: String!
-  conversationMessageContent: String!
+  actorName: String!
+  userName: String!
+  internalNote: String
+  content: String!
+  anonymous: Boolean!
+  receiver: ActorType!
 }
 
 input CreateDelegationsForMarketParticipantInput {
@@ -2383,6 +2389,12 @@ enum ActorAuditedChange {
   ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
 }
 
+enum ActorType {
+  ENERGY_SUPPLIER
+  ENERGINET
+  GRID_ACCESS_PROVIDER
+}
+
 enum AddressTypeV1 {
   TECHNICAL
   LEGAL
@@ -2565,6 +2577,11 @@ enum ContactCategory {
   NOTIFICATION
   RECON
   REMINDER
+}
+
+"Conversation subjects"
+enum ConversationSubject {
+  QUESTION_FOR_ENERGINET
 }
 
 enum CustomerRelationType {
