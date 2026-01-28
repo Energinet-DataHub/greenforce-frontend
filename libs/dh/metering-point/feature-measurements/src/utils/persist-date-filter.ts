@@ -21,12 +21,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { dayjs } from '@energinet/watt/date';
 
 export function persistDateFilter() {
+  const initialDate = dayjs().subtract(1, 'day');
   const router = inject(Router);
   const route = inject(ActivatedRoute);
   const filter = route.snapshot.queryParams.filter
     ? dayjs(route.snapshot.queryParams.filter)
-    : dayjs().subtract(1, 'day');
-  const date = signal(filter.isValid() ? filter : dayjs().subtract(1, 'day'));
+    : initialDate;
+  const date = signal(filter.isValid() ? filter : initialDate);
   effect(() => {
     router.navigate([], {
       replaceUrl: true,
