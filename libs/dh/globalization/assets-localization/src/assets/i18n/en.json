@@ -1339,8 +1339,10 @@
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
       "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)",
+      "B2C_REQUEST_CHANGE_OF_PRICE_LIST": "UI: Request change of price list (RSM-033)",
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Confirm request change of price list (RSM-033)",
-      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)"
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)",
+      "NOTIFY_PRICE_LIST": "Notify price list (RSM-034)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",

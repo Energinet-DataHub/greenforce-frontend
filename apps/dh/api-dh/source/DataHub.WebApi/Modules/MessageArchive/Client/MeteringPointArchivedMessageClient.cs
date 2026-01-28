@@ -15,11 +15,10 @@
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
-using SearchDocumentType = Energinet.DataHub.WebApi.Modules.MessageArchive.Enums.MeteringPointDocumentType;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 
@@ -35,7 +34,7 @@ public class MeteringPointArchivedMessageClient(
         string meteringPointId,
         Guid? senderId,
         Guid? receiverId,
-        SearchDocumentType? documentType,
+        MeteringPointDocumentTypeDtoV1? documentType,
         int? first,
         string? after,
         int? last,
@@ -56,7 +55,7 @@ public class MeteringPointArchivedMessageClient(
                     new MessageCreationPeriodDtoV1(created.Start.ToDateTimeOffset(), created.End.ToDateTimeOffset()),
                     Sender: sender,
                     Receiver: receiver,
-                    DocumentTypes: documentType != null ? [MapDocumentType(documentType)] : Enum.GetValues<MeteringPointDocumentTypeDtoV1>()),
+                    DocumentTypes: documentType != null ? [documentType.Value] : Enum.GetValues<MeteringPointDocumentTypeDtoV1>()),
                 new SearchMeteringPointArchivedMessagesPaginationDtoV1(
                     Cursor: cursor,
                     PageSize: pageSize,
@@ -74,7 +73,7 @@ public class MeteringPointArchivedMessageClient(
                     message.Id.ToString(),
                     message.MessageId.ToString(),
                     message.CursorValue,
-                    message.DocumentType.ToDocumentType(),
+                    DocumentType.FromName(message.DocumentType),
                     message.CreatedAt,
                     message.Sender.ActorNumber,
                     message.Sender.ActorRole.ToString(),
@@ -98,23 +97,6 @@ public class MeteringPointArchivedMessageClient(
             archivedMessageSearchCommand.SearchArchivedMessage.Pagination.Cursor is null,
             archivedMessageSearchCommand.SearchArchivedMessage.Pagination.PageSize);
     }
-
-    private MeteringPointDocumentTypeDtoV1 MapDocumentType(SearchDocumentType? searchDocumentType) =>
-        searchDocumentType switch
-        {
-            SearchDocumentType.Acknowledgement => MeteringPointDocumentTypeDtoV1.Acknowledgement,
-            SearchDocumentType.SendMeasurements => MeteringPointDocumentTypeDtoV1.SendMeasurements,
-            SearchDocumentType.RequestMeasurements => MeteringPointDocumentTypeDtoV1.RequestMeasurements,
-            SearchDocumentType.RejectRequestMeasurements => MeteringPointDocumentTypeDtoV1.RejectRequestMeasurements,
-            SearchDocumentType.UpdateChargeLinks => MeteringPointDocumentTypeDtoV1.UpdateChargeLinks,
-            SearchDocumentType.ConfirmRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1
-                .ConfirmRequestChangeBillingMasterData,
-            SearchDocumentType.RejectRequestChangeBillingMasterData => MeteringPointDocumentTypeDtoV1
-                .RejectRequestChangeBillingMasterData,
-            SearchDocumentType.NotifyBillingMasterData => MeteringPointDocumentTypeDtoV1
-                .NotifyBillingMasterData,
-            _ => throw new ArgumentOutOfRangeException(nameof(searchDocumentType), $"Unsupported document type: {searchDocumentType}"),
-        };
 
     private (FieldToSortByDtoV1 Field,
         Energinet.DataHub.WebApi.Modules.Common.Enums.SortDirection Direction) GetSorting(

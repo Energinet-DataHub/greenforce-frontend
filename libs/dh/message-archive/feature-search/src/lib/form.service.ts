@@ -20,12 +20,12 @@ import { computed, Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { dayjs, WattRange } from '@energinet/watt/date';
 import {
+  ArchivedMessageDocumentType,
   BusinessReason,
   GetArchivedMessagesQueryVariables,
   GetMarketParticipantsDocument,
   GetSelectedMarketParticipantDocument,
   EicFunction,
-  SearchDocumentType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   dhEnumToWattDropdownOptions,
@@ -50,7 +50,7 @@ export class DhMessageArchiveSearchFormService {
   );
   private form = new FormGroup({
     includeRelated: dhMakeFormControl<boolean>(null),
-    documentTypes: dhMakeFormControl<SearchDocumentType[]>(),
+    documentTypes: dhMakeFormControl<ArchivedMessageDocumentType[]>(),
     businessReasons: dhMakeFormControl<BusinessReason[]>(),
     senderId: dhMakeFormControl<string>(),
     receiverId: dhMakeFormControl<string>(),
@@ -62,9 +62,7 @@ export class DhMessageArchiveSearchFormService {
 
   root = this.form;
   controls = this.form.controls;
-  documentTypeOptions = dhEnumToWattDropdownOptions(SearchDocumentType, [
-    SearchDocumentType.Acknowledgement, // This should never be shown in the UI, since the corresponding messages does not exist via this api
-  ]);
+  documentTypeOptions = dhEnumToWattDropdownOptions(ArchivedMessageDocumentType);
   businessReasonOptions = dhEnumToWattDropdownOptions(BusinessReason);
   actorOptions = computed(() =>
     this.marketParticipants().map((actor) => ({
