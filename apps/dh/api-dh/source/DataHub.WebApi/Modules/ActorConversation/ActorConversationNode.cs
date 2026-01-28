@@ -30,9 +30,14 @@ public static class ActorConversationNode
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        ConversationSubject subject,
         string meteringPointIdentification,
-        string conversationMessageContent,
+        string actorName,
         string userName,
+        string? internalNote,
+        string content,
+        bool anonymous,
+        ActorType receiver,
         CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
@@ -40,14 +45,15 @@ public static class ActorConversationNode
         var user = httpContextAccessor.HttpContext.User;
         var actorNumber = user.GetMarketParticipantNumber();
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
+        var userId = user.GetUserId();
 
         var authRequest = new CreateActorConversationRequest
         {
-            ActorName = "Green Energy Supplier",
+            ActorName = actorName,
             ActorNumber = actorNumber,
             MarketRole = marketRole,
             MeteringPointId = meteringPointIdentification,
-            UserId = user.GetUserId(),
+            UserId = userId,
             UserName = userName,
         };
 
@@ -63,18 +69,16 @@ public static class ActorConversationNode
         await authClient.ApiStartConversationAsync(
          new StartConversationRequest
         {
-            Subject = ConversationSubject.QuestionForEnerginet,
+            Subject = subject,
+            ReceiverActorType = receiver,
             MeteringPointIdentification = meteringPointIdentification,
-            GlnNumberForReceivers = new List<string>(["22222222222222"]),
-            InternalNote = "Internal note example",
-            ConversationMessage =
-            {
-                SenderEmail = "test@test.dk",
-                SenderGlnNumber = "12345678910111",
-                Anonymous = false,
-                Content = conversationMessageContent,
-                CreatedBy = "xxxx",
-            },
+            SenderActorNumber = actorNumber,
+            SenderActorName = actorName,
+            SenderUserId = userId.ToString(),
+            SenderUserName = userName,
+            InternalNote = internalNote,
+            Content = content,
+            Anonymous = anonymous,
         },
          ct);
 
