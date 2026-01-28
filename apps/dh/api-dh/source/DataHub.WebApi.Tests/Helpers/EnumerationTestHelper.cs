@@ -37,7 +37,12 @@ public static class EnumerationTestHelper
             }
             catch (Exception)
             {
-                Assert.Fail($"Unable to make {typeof(T).FullName} instance from {type.FullName} with name {name}");
+                Assert.Fail($"""
+
+                    Unable to make "{typeof(T).Name}" instance from "{type.Name}" with name "{name}".
+                    Did you forget to add "{name}" to "{typeof(T).Name}"?
+
+                """);
             }
         }
     }
@@ -56,7 +61,12 @@ public static class EnumerationTestHelper
             }
             catch (Exception)
             {
-                Assert.Fail($"Unable to cast {option.Name} to {type.FullName}");
+                Assert.Fail($"""
+
+                    Unable to cast "{option.Name}" to "{type.Name}".
+                    Has there been any changes to "{type.Name}"?
+
+                """);
             }
         }
     }
