@@ -25,6 +25,6 @@ public class MeteringPointDocumentTypeEnumType : EnumType<MeteringPointDocumentT
 
         descriptor
             .Value(MeteringPointDocumentTypeDtoV1.B2CUpdateChargeLinks)
-            .Name(DocumentType.BUpdateChargeLinks.GraphQLName);
+            .Name(DocumentType.B2CUpdateChargeLinks.GraphQLName);
     }
 }
