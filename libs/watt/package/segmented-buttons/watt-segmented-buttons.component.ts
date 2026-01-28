@@ -96,7 +96,7 @@ import { WattSegmentedButtonComponent } from './watt-segmented-button.component'
       @for (segmentedButton of segmentedButtonElements(); track segmentedButton) {
         <mat-button-toggle
           [routerLink]="segmentedButton.link()"
-          [queryParamsHandling]="'merge'"
+          queryParamsHandling="merge"
           routerLinkActive="mat-button-toggle-checked"
           [disableRipple]="true"
           [value]="segmentedButton.value()"
