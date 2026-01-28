@@ -169,12 +169,11 @@ export class DhMeasurementsMonthComponent {
     showOnlyChangedValues: this.fb.control(false),
   });
 
-  month = dhFormControlToSignal(this.form.controls.yearMonth);
-  filterEffect = effect(() =>
-    this.dateFilter.update((d) =>
-      d.year(dayjs(this.month()).year()).month(dayjs(this.month()).month())
-    )
-  );
+  yearMonth = dhFormControlToSignal(this.form.controls.yearMonth);
+  filterEffect = effect(() => {
+    const yearMonth = dayjs(this.yearMonth());
+    this.dateFilter.update((d) => d.year(yearMonth.year()).month(yearMonth.month()));
+  });
 
   meteringPointId = input.required<string>();
   query = lazyQuery(GetAggregatedMeasurementsForMonthDocument);
