@@ -34,12 +34,5 @@ public class ArchivedMessageDocumentTypeEnumType : EnumType<DocumentTypeDtoV1>
         descriptor
             .Value(DocumentTypeDtoV1.B2CRequestChangeOfPriceList)
             .Name(DocumentType.B2CRequestChangeOfPriceList.GraphQLName);
-
-        // Metering point document types, will be removed in the future
-        descriptor.Ignore(DocumentTypeDtoV1.Acknowledgement);
-        descriptor.Ignore(DocumentTypeDtoV1.B2CRequestChangeAccountingPointCharacteristics);
-        descriptor.Ignore(DocumentTypeDtoV1.B2CRequestChangeBillingMasterData);
-        descriptor.Ignore(DocumentTypeDtoV1.B2CRequestChangeCustomerCharacteristics);
-        descriptor.Ignore(DocumentTypeDtoV1.B2CRequestChangeOfSupplier);
     }
 }
