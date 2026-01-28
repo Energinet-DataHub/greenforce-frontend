@@ -136,7 +136,7 @@ const dhWhoCanSeeWhatMap: {
     meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   'contact-details': {
-    marketRoles: [EicFunction.GridAccessProvider, ...shouldAllwaysShowFor],
+    marketRoles: [EicFunction.GridAccessProvider, EicFunction.DataHubAdministrator],
     meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   'actual-address': {
