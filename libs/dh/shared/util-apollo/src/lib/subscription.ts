@@ -17,18 +17,16 @@
  */
 //#endregion
 import { DestroyRef, inject, Signal, signal } from '@angular/core';
-import { ApolloError, OperationVariables } from '@apollo/client/core';
+import { OperationVariables, ErrorLike } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { catchError, map, of, tap } from 'rxjs';
-import { SubscriptionOptionsAlone as ApolloSubscriptionOptions } from 'apollo-angular/types';
-import { mapGraphQLErrorsToApolloError } from './util/error';
 
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`
-export interface SubscriptionOptions<TResult, TVariables> extends ApolloSubscriptionOptions {
+export interface SubscriptionOptions<TResult, TVariables> {
   variables?: TVariables;
   onData?: (data: TResult) => void;
-  onError?: (error: ApolloError) => void;
+  onError?: (error: ErrorLike) => void;
   onCompleted?: () => void;
 }
 
@@ -46,13 +44,19 @@ export function subscription<TResult, TVariables extends OperationVariables>(
 
   // Signals holding the result values
   const data = signal<TResult | undefined>(undefined);
-  const error = signal<ApolloError | undefined>(undefined);
+  const error = signal<ErrorLike | undefined>(undefined);
 
   const subscription = client
-    .subscribe({ query: document, ...options })
+    .subscribe<TResult, TVariables>({
+      query: document,
+      variables: options?.variables,
+    } as Apollo.SubscribeOptions<TResult, TVariables>)
     .pipe(
-      map(({ errors, data }) => ({ data, error: mapGraphQLErrorsToApolloError(errors) })),
-      catchError((error: ApolloError) => of({ error, data: undefined })),
+      map(({ error, data }) => ({
+        data: data as TResult | undefined,
+        error: error as ErrorLike | undefined,
+      })),
+      catchError((error: ErrorLike) => of({ error, data: undefined })),
       tap((result) => {
         data.set(result.data ?? undefined);
         error.set(result.error);
@@ -76,7 +80,7 @@ export function subscription<TResult, TVariables extends OperationVariables>(
   return {
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
-    error: error as Signal<ApolloError | undefined>,
+    error: error as Signal<ErrorLike | undefined>,
     unsubscribe: () => subscription.unsubscribe(),
   };
 }

@@ -301,7 +301,7 @@ function meteringPointIdResolver(): ResolveFn<string> {
       },
     })
       .result()
-      .then((result) => result.data.meteringPointExists.meteringPointId);
+      .then((result) => result.data?.meteringPointExists.meteringPointId ?? '');
   };
 }
 

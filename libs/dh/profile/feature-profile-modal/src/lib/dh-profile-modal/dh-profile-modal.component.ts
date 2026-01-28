@@ -18,7 +18,7 @@
 //#endregion
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 import { Component, computed, effect, inject, viewChild } from '@angular/core';
-import { MutationResult } from 'apollo-angular';
+import { ApolloLink } from '@apollo/client';
 import {
   FormControl,
   FormGroup,
@@ -145,7 +145,7 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
     this.handleUpdateUserProfileResponse(response);
   }
 
-  private handleUpdateUserProfileResponse(response: MutationResult<UpdateUserProfileMutation>) {
+  private handleUpdateUserProfileResponse(response: ApolloLink.Result<UpdateUserProfileMutation>) {
     if (
       response.data?.updateUserProfile?.errors &&
       response.data?.updateUserProfile?.errors.length > 0

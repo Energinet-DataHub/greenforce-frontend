@@ -41,7 +41,7 @@ import {
 
 import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation, getGraphQLErrors } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhUserRolesContainerComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
@@ -181,8 +181,9 @@ export class DhEditUserComponent {
       this.showSuccessToast();
     }
 
-    if (result.error) {
-      this.showErrorToast(result.error.graphQLErrors);
+    const graphQLErrors = getGraphQLErrors(result.error);
+    if (graphQLErrors) {
+      this.showErrorToast(graphQLErrors);
     }
   }
 
@@ -206,9 +207,9 @@ export class DhEditUserComponent {
     this.close();
   }
 
-  private showErrorToast(errors: readonly GraphQLFormattedError[]) {
+  private showErrorToast(errors: readonly GraphQLFormattedError[] | undefined) {
     const message =
-      errors.length > 0
+      errors && errors.length > 0
         ? parseGraphQLErrorResponse(errors)
         : this.transloco.translate('admin.userManagement.editUser.saveError');
 

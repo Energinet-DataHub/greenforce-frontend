@@ -121,17 +121,27 @@ export class DhCalculationsTableComponent {
   constructor() {
     this.dataSource.subscribeToMore({
       document: OnCalculationUpdatedDocument,
-      updateQuery: (prev, options) => ({
-        ...prev,
-        calculations: prev.calculations && {
-          ...prev.calculations,
-          nodes: prev.calculations?.nodes?.map((c) =>
-            c.id === options.subscriptionData.data.calculationUpdated.id
-              ? options.subscriptionData.data.calculationUpdated
-              : c
-          ),
-        },
-      }),
+      updateQuery: (_, options) => {
+        // Use options.previousData with complete check for type-safe access (Apollo Client 4)
+        if (!options.complete) return;
+
+        const prev = options.previousData;
+        const calculations = prev.calculations;
+        if (!calculations?.nodes) return;
+
+        const updatedCalculation = options.subscriptionData.data?.calculationUpdated;
+        if (!updatedCalculation) return;
+
+        return {
+          ...prev,
+          calculations: {
+            ...calculations,
+            nodes: calculations.nodes.map((c) =>
+              c?.id === updatedCalculation.id ? updatedCalculation : c
+            ),
+          },
+        };
+      },
     });
   }
 }

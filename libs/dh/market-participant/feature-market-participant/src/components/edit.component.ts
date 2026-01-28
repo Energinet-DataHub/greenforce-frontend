@@ -20,7 +20,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 
-import { MutationResult } from 'apollo-angular';
+import { ApolloLink } from '@apollo/client';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -198,7 +198,7 @@ export class DhEditMarketParticipantComponent {
   }
 
   private isUpdateSuccessful(
-    mutationResult: MutationResult<UpdateMarketParticipantMutation>['data']
+    mutationResult: ApolloLink.Result<UpdateMarketParticipantMutation>['data']
   ): boolean {
     return !mutationResult?.updateMarketParticipant.errors?.length;
   }

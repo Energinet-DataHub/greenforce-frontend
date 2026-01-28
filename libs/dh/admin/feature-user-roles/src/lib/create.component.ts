@@ -64,7 +64,7 @@ import {
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation, getGraphQLErrors } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
@@ -263,8 +263,9 @@ export class DhCreateUserRoleComponent extends WattTypedModal {
       this.success();
     }
 
-    if (result.error?.graphQLErrors || result.data?.createUserRole.errors) {
-      this.error(result.error?.graphQLErrors, result.data?.createUserRole.errors);
+    const graphQLErrors = getGraphQLErrors(result.error);
+    if (graphQLErrors || result.data?.createUserRole.errors) {
+      this.error(graphQLErrors, result.data?.createUserRole.errors);
     }
   }
 

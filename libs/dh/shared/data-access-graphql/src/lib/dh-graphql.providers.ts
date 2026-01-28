@@ -19,10 +19,11 @@
 import { inject } from '@angular/core';
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache, ApolloLink, Operation, split } from '@apollo/client/core';
+import { InMemoryCache, ApolloLink, ApolloClient, ErrorLike } from '@apollo/client';
 import { RetryLink } from '@apollo/client/link/retry';
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { ServerError } from '@apollo/client/errors';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
@@ -32,17 +33,16 @@ import introspection from '@energinet-datahub/dh/shared/domain/graphql/introspec
 
 import { errorHandler } from './error-handler';
 import DhSseLink from './dh-sse-link';
-import { HttpErrorResponse } from '@angular/common/http';
 
 declare const ngDevMode: boolean;
 
-function isSubscriptionQuery(operation: Operation) {
+function isSubscriptionQuery(operation: ApolloLink.Operation) {
   const definition = getMainDefinition(operation.query);
   return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
 }
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-export const graphQLProvider = provideApollo(() => {
+export const graphQLProvider = provideApollo((): ApolloClient.Options => {
   const httpLink = inject(HttpLink);
   const sseLink = inject(DhSseLink);
   const dhApiEnvironment = inject(dhApiEnvironmentToken);
@@ -62,7 +62,7 @@ export const graphQLProvider = provideApollo(() => {
     },
     attempts: {
       max: 10, // Maximum retry attempts
-      retryIf: (error, operation) => {
+      retryIf: (error: ErrorLike, operation) => {
         if (!error) return false;
 
         const shouldRetry = determineIfShouldRetry(error);
@@ -93,10 +93,10 @@ export const graphQLProvider = provideApollo(() => {
     },
   });
 
-  function determineIfShouldRetry(error: HttpErrorResponse): boolean {
-    // Handle Angular HttpErrorResponse (what we get from blocked requests)
-    if (error.status !== undefined) {
-      const status = error.status;
+  function determineIfShouldRetry(error: ErrorLike): boolean {
+    // Use Apollo's ServerError.is() for reliable error type identification
+    if (ServerError.is(error)) {
+      const status = error.statusCode;
 
       // Don't retry status 0 errors (blocked requests, network offline, etc.)
       // These are unlikely to succeed on retry and cause long delays
@@ -104,22 +104,25 @@ export const graphQLProvider = provideApollo(() => {
       return status >= 500;
     }
 
-    // Handle other HttpErrorResponse types by name or message
-    return error.name === 'HttpErrorResponse' || error.message?.includes('Http failure');
+    // Handle other error types by name or message
+    const errorAny = error as { name?: string; message?: string };
+    return (
+      errorAny.name === 'HttpErrorResponse' || errorAny.message?.includes('Http failure') || false
+    );
   }
 
-  function getErrorMessage(error: HttpErrorResponse): string {
-    if (error.message) return error.message;
-    if (error.status !== undefined)
-      return `HTTP ${error.status}: ${error.statusText || 'Unknown Error'}`;
+  function getErrorMessage(error: ErrorLike): string {
+    if (ServerError.is(error)) {
+      if (error.message) return error.message;
+      return `HTTP ${error.statusCode}: Unknown Error`;
+    }
+    const errorAny = error as { message?: string };
+    if (errorAny.message) return errorAny.message;
     return JSON.stringify(error);
   }
 
   return {
     defaultOptions: {
-      query: {
-        notifyOnNetworkStatusChange: true,
-      },
       watchQuery: {
         notifyOnNetworkStatusChange: true,
       },
@@ -176,11 +179,11 @@ export const graphQLProvider = provideApollo(() => {
     link: ApolloLink.from([
       retryLink,
       errorHandler(dhApplicationInsights),
-      split(
+      ApolloLink.split(
         isSubscriptionQuery,
         sseLink.create(`${dhApiEnvironment.apiBase}/graphql?ngsw-bypass=true`),
         httpLink.create({
-          uri: (operation: Operation) => {
+          uri: (operation: ApolloLink.Operation) => {
             return `${dhApiEnvironment.apiBase}/graphql?${operation.operationName}`;
           },
         })

@@ -18,7 +18,7 @@
 //#endregion
 import { Component, effect, inject, input, viewChild } from '@angular/core';
 import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
-import { MutationResult } from 'apollo-angular';
+import { ApolloLink } from '@apollo/client';
 
 import {
   WATT_TABLE,
@@ -169,7 +169,7 @@ export class DhMeteringPointIdsOverview {
   }
 
   private isUpdateSuccessful(
-    mutationResult: MutationResult<RemoveMeteringPointsFromAdditionalRecipientMutation>['data']
+    mutationResult: ApolloLink.Result<RemoveMeteringPointsFromAdditionalRecipientMutation>['data']
   ): boolean {
     return !!mutationResult?.removeMeteringPointsFromAdditionalRecipient.success;
   }

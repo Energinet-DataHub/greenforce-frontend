@@ -68,10 +68,10 @@ export const injectExistingCalculationValidator = (): AsyncValidatorFn => {
     if (!period) return null;
 
     return query.refetch({ calculationType, period }).then((result) => {
-      const calculation = result.data.latestCalculation;
+      const calculation = result.data?.latestCalculation;
       switch (calculation?.__typename) {
         case 'WholesaleAndEnergyCalculation':
-          if (!calculation.period.end) return null; // Cannot actually be an open interval
+          if (!calculation.period?.end) return null; // Cannot actually be an open interval
           return {
             existingCalculation: {
               type: calculationType,
@@ -80,6 +80,7 @@ export const injectExistingCalculationValidator = (): AsyncValidatorFn => {
             },
           };
         case 'CapacitySettlementCalculation':
+          if (!calculation.yearMonth) return null;
           return {
             existingCalculation: {
               type: calculationType,

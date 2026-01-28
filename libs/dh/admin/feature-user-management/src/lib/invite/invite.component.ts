@@ -44,7 +44,12 @@ import { WattValidationMessageComponent } from '@energinet/watt/validation-messa
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
 import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
-import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  lazyQuery,
+  mutation,
+  query,
+  getGraphQLErrors,
+} from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import {
@@ -186,7 +191,7 @@ export class DhInviteUserComponent extends WattTypedModal {
     effect(() => {
       const emailChanged = this.emailChanged();
 
-      if (this.baseInfo.controls.email.invalid) return;
+      if (this.baseInfo.controls.email.invalid || !emailChanged) return;
 
       this.doesEmailExist.query({ variables: { email: emailChanged } });
     });
@@ -216,8 +221,9 @@ export class DhInviteUserComponent extends WattTypedModal {
       this.onInviteSuccess(email);
     }
 
-    if (result.error?.graphQLErrors || result.data?.inviteUser.errors) {
-      this.onInviteError(result.error?.graphQLErrors, result.data?.inviteUser.errors);
+    const graphQLErrors = getGraphQLErrors(result.error);
+    if (graphQLErrors || result.data?.inviteUser.errors) {
+      this.onInviteError(graphQLErrors, result.data?.inviteUser.errors);
     }
   }
 

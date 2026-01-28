@@ -20,7 +20,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { gql } from 'apollo-angular';
 import { ApolloTestingController, ApolloTestingModule } from 'apollo-angular/testing';
 import { query } from './query';
-import { ApolloError, NetworkStatus } from '@apollo/client/core';
+import { NetworkStatus } from '@apollo/client';
 import { GraphQLError } from 'graphql';
 import { vi } from 'vitest';
 
@@ -95,7 +95,7 @@ describe('query', () => {
       op.flush({ errors: [new GraphQLError('TestError')] });
       tick();
       expect(result.data()).toBeUndefined();
-      expect(result.error()).toBeInstanceOf(ApolloError);
+      expect(result.error()).toBeDefined();
       expect(result.hasError()).toBe(true);
       expect(result.loading()).toBe(false);
       expect(result.networkStatus()).toBe(NetworkStatus.error);
@@ -146,7 +146,7 @@ describe('query', () => {
       op.flush({ errors: [new GraphQLError('TestError')] });
       tick();
 
-      expect(result.error()).toBeInstanceOf(ApolloError);
+      expect(result.error()).toBeDefined();
       expect(result.hasError()).toBe(true);
       expect(result.loading()).toBe(false);
 

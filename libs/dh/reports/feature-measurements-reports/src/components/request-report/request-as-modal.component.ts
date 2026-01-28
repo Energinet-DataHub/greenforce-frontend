@@ -119,11 +119,13 @@ export class DhRequestAsModal extends WattTypedModal {
         })
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((result) => {
-          this.openModal({
-            isFas: false,
-            actorId: result.data.marketParticipantById.id,
-            marketRole: result.data.marketParticipantById.marketRole,
-          });
+          if (result.data) {
+            this.openModal({
+              isFas: false,
+              actorId: result.data.marketParticipantById.id,
+              marketRole: result.data.marketParticipantById.marketRole,
+            });
+          }
         });
     }
   }

@@ -24,3 +24,4 @@ export * from './lib/data-source/CollectionSegmentDataSource';
 export * from './lib/data-source/ConnectionDataSource';
 export * from './lib/performance/queryTime';
 export * from './lib/util/types';
+export { getGraphQLErrors } from './lib/util/error';

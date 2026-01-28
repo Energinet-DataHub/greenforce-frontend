@@ -19,7 +19,7 @@
 import { Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
-import { MutationResult } from 'apollo-angular';
+import { ApolloLink } from '@apollo/client';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
@@ -181,7 +181,7 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
   }
 
   private isUpdateSuccessful(
-    mutationResult: MutationResult<RequestConnectionStateChangeMutation>['data']
+    mutationResult: ApolloLink.Result<RequestConnectionStateChangeMutation>['data']
   ) {
     return mutationResult?.requestConnectionStateChange.success;
   }

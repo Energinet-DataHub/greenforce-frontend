@@ -36,7 +36,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { MutationResult } from 'apollo-angular';
+import { ApolloLink } from '@apollo/client';
 import { debounceTime, distinctUntilChanged, Observable, switchMap, tap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -401,7 +401,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   }
 
   private isUpdateSuccessful(
-    mutationResult: MutationResult<RequestMeasurementsReportMutation>['data']
+    mutationResult: ApolloLink.Result<RequestMeasurementsReportMutation>['data']
   ): boolean {
     return !!mutationResult?.requestMeasurementsReport.boolean;
   }

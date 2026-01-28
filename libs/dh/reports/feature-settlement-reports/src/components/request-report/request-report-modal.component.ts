@@ -45,7 +45,8 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { Apollo, MutationResult } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
+import { ApolloLink } from '@apollo/client';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -220,7 +221,13 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
     this.getCalculationByGridAreas()
       ?.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: ({ settlementReportGridAreaCalculationsForPeriod }) => {
+        next: (result) => {
+          if (!result) {
+            this.submitInProgress.set(false);
+            return;
+          }
+
+          const { settlementReportGridAreaCalculationsForPeriod } = result;
           // If there are no calculations for all of the selected grid areas
           if (settlementReportGridAreaCalculationsForPeriod.length === 0) {
             this.noCalculationsFound.set(true);
@@ -447,6 +454,8 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
         map((result) => {
           const dataCopy = structuredClone(result.data);
 
+          if (!dataCopy) return null;
+
           return {
             ...dataCopy,
             settlementReportGridAreaCalculationsForPeriod:
@@ -491,7 +500,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
   }
 
   private isUpdateSuccessful(
-    mutationResult: MutationResult<RequestSettlementReportMutation>['data']
+    mutationResult: ApolloLink.Result<RequestSettlementReportMutation>['data']
   ): boolean {
     return !!mutationResult?.requestSettlementReport.boolean;
   }

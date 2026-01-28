@@ -20,7 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { MutationResult } from 'apollo-angular';
+import { ApolloLink } from '@apollo/client';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet/watt/toast';
@@ -146,7 +146,7 @@ export class DhOrganizationEditModalComponent {
       .then((response) => this.handleEditOrganizationResponse(response));
   }
 
-  private handleEditOrganizationResponse(response: MutationResult<UpdateOrganizationMutation>) {
+  private handleEditOrganizationResponse(response: ApolloLink.Result<UpdateOrganizationMutation>) {
     if (
       response.data?.updateOrganization?.errors &&
       response.data?.updateOrganization?.errors.length > 0
