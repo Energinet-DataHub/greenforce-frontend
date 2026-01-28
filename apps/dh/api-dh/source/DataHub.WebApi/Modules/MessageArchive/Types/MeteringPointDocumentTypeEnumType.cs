@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 
@@ -21,5 +22,9 @@ public class MeteringPointDocumentTypeEnumType : EnumType<MeteringPointDocumentT
     protected override void Configure(IEnumTypeDescriptor<MeteringPointDocumentTypeDtoV1> descriptor)
     {
         descriptor.Name("MeteringPointDocumentType");
+
+        descriptor
+            .Value(MeteringPointDocumentTypeDtoV1.B2CUpdateChargeLinks)
+            .Name(DocumentType.BUpdateChargeLinks.GraphQLName);
     }
 }

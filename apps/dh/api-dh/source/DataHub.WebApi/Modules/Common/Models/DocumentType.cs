@@ -46,6 +46,9 @@ public record DocumentType : Enumeration<DocumentType>
     public static readonly DocumentType RejectRequestChangeBillingMasterData = new();
     public static readonly DocumentType NotifyBillingMasterData = new();
 
+    public static readonly DocumentType B2CUpdateChargeLinks =
+        new() { GraphQLName = "B2C_UPDATE_CHARGE_LINKS" };
+
     public static readonly DocumentType B2CRequestChangeAccountingPointCharacteristics =
         new() { GraphQLName = "B2C_REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS" };
 
