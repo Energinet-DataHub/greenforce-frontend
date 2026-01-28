@@ -27,6 +27,9 @@ import {
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideServiceWorker } from '@angular/service-worker';
 
+// POC: HiddenLocationStrategy is enabled via dhCoreShellProviders
+// It hides route URLs from the browser address bar by storing them in History.state
+
 import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 import {
   dhApiEnvironmentToken,
