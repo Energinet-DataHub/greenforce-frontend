@@ -21,6 +21,8 @@ import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { VaterStackComponent } from './vater-stack.component';
 import { VaterFlexComponent } from './vater-flex.component';
 import { VaterSpacerComponent } from './vater-spacer.component';
+import { VaterGridComponent } from './vater-grid.component';
+import { VaterGridAreaComponent } from './vater-grid-area.component';
 
 const meta: Meta = {
   /* 👇 The title prop is optional.
@@ -30,7 +32,13 @@ const meta: Meta = {
   title: 'Components/Vater',
   decorators: [
     moduleMetadata({
-      imports: [VaterStackComponent, VaterFlexComponent, VaterSpacerComponent],
+      imports: [
+        VaterGridComponent,
+        VaterGridAreaComponent,
+        VaterStackComponent,
+        VaterFlexComponent,
+        VaterSpacerComponent,
+      ],
     }),
   ],
 };
@@ -38,8 +46,7 @@ const meta: Meta = {
 export default meta;
 
 export const Stack: StoryObj<VaterStackComponent> = {
-  render: (args) => ({
-    props: args,
+  render: () => ({
     template: `
       <vater-flex direction="row" gap="m" style="height: 400px; padding-top: var(--watt-space-l)">
         <vater-stack gap="s" style="width: 50%; padding: var(--watt-space-s); border: 1px dashed var(--watt-color-neutral-grey-500)">
@@ -62,8 +69,7 @@ export const Stack: StoryObj<VaterStackComponent> = {
 };
 
 export const Flex: StoryObj<VaterFlexComponent> = {
-  render: (args) => ({
-    props: args,
+  render: () => ({
     template: `
       <vater-flex direction="row" gap="m" style="height: 400px; padding-top: var(--watt-space-l)">
         <vater-flex gap="s" style="width: 50%; padding: var(--watt-space-s); border: 1px dashed var(--watt-color-neutral-grey-500)">
@@ -86,8 +92,7 @@ export const Flex: StoryObj<VaterFlexComponent> = {
 };
 
 export const Spacer: StoryObj<VaterFlexComponent> = {
-  render: (args) => ({
-    props: args,
+  render: () => ({
     template: `
       <vater-flex direction="row" gap="m" style="height: 400px; padding-top: var(--watt-space-l)">
         <vater-flex gap="s" style="width: 50%; padding: var(--watt-space-s); border: 1px dashed var(--watt-color-neutral-grey-500)">
@@ -107,6 +112,20 @@ export const Spacer: StoryObj<VaterFlexComponent> = {
           <div style="background-color: var(--watt-color-primary-ultralight); min-width: 60px;"></div>
         </vater-flex>
       </vater-flex>
+    `,
+  }),
+};
+
+export const Grid: StoryObj<VaterGridComponent> = {
+  render: () => ({
+    template: `
+      <vater-grid columns="1fr 3fr" [rows]="2" gap="m" style="height: 400px;">
+        <vater-grid-area fill="vertical">
+          <div style="background-color: var(--watt-color-data-1); height: 100%;"></div>
+        </vater-grid-area>
+        <div style="background-color: var(--watt-color-data-2);"></div>
+        <div style="background-color: var(--watt-color-data-3);"></div>
+      </vater-grid>
     `,
   }),
 };
