@@ -34,6 +34,7 @@ import { MsalService } from '@azure/msal-angular';
 import { WattModalService } from '@energinet/watt/modal';
 
 import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
+import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
 
 enum ActivityState {
   Inactive,
@@ -47,6 +48,7 @@ export class DhInactivityDetectionService {
   private readonly ngZone = inject(NgZone);
   private readonly modalService = inject(WattModalService);
   private readonly msal = inject(MsalService);
+  private readonly hiddenLocationStrategy = injectHiddenLocationStrategy();
 
   private readonly secondsUntilWarning = 115 * 60;
 
@@ -104,6 +106,7 @@ export class DhInactivityDetectionService {
   }
 
   private logout() {
+    this.hiddenLocationStrategy.clearSession();
     this.msal.logoutRedirect({
       postLogoutRedirectUri: this.location.path(),
     });
