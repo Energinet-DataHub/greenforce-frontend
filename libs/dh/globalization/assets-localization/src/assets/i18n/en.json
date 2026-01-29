@@ -696,7 +696,8 @@
         "moveIn": "Customer move-in",
         "createChargeLink": "Attach price",
         "changeConnectionStatus": "Change connection status",
-        "updateCustomerData": "Update customer data"
+        "updateCustomerData": "Update customer data",
+        "endOfSupply": "End of supply"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -956,6 +957,7 @@
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Request for connection of metering point (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Notification of connection of metering point (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_1": "Request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Confirm request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Reject request Change of Supplier (RSM-001)",
@@ -1251,6 +1253,18 @@
       "cancel": "Cancel",
       "save": "Save changes",
       "saveSuccess": "Connection status is being updated"
+    },
+    "endOfSupply": {
+      "modalTitle": "Start end of supply",
+      "dateLabel": "Specify cut-off date",
+      "dateHint": "The cut-off date must be between 3 days from today and 60 days ahead.",
+      "consequencesInfo": "Here should be a text...",
+      "confirmCheckbox": "I understand the consequences",
+      "cancel": "Cancel",
+      "submit": "Start end of supply",
+      "submitSuccess": "End of supply submitted.",
+      "submitSuccessAction": "See status under processes",
+      "submitError": "End of supply could not be submitted"
     }
   },
   "messageArchive": {
@@ -1324,8 +1338,10 @@
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
       "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)",
+      "B2C_REQUEST_CHANGE_OF_PRICE_LIST": "UI: Request change of price list (RSM-033)",
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Confirm request change of price list (RSM-033)",
-      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)"
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)",
+      "NOTIFY_PRICE_LIST": "Notify price list (RSM-034)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
@@ -2797,6 +2813,9 @@
         },
         "editRole": "Edit user role",
         "disable": "Deactivate",
+        "resetMitID": "Reset MitID connection",
+        "resetMitIDError": "Something went wrong. MitID connection may not have been reset. Please try again",
+        "resetMitIDSuccess": "MitID connection has been reset. The user can link MitID again at next login.",
         "reset2fa": "Reset two-factor authentication",
         "reset2faError": "Something went wrong. Two-factor authentication may not have been reset. Please try again",
         "reset2faSuccess": "Two-factor authentication has been reset. The user can re-configure two-factor authentication at next login. The login must be done within 24 hours.",

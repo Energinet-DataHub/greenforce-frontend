@@ -12,22 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 
-public class SearchDocumentTypeEnumType : EnumType<SearchDocumentType>
+public class MeteringPointDocumentTypeEnumType : EnumType<MeteringPointDocumentTypeDtoV1>
 {
-    protected override void Configure(IEnumTypeDescriptor<SearchDocumentType> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<MeteringPointDocumentTypeDtoV1> descriptor)
     {
-        descriptor.Name("SearchDocumentType");
+        descriptor.Name("MeteringPointDocumentType");
 
         descriptor
-            .Value(SearchDocumentType.B2CRequestAggregatedMeasureData)
-            .Name("B2C_REQUEST_AGGREGATED_MEASURE_DATA");
-
-        descriptor
-            .Value(SearchDocumentType.B2CRequestWholesaleSettlement)
-            .Name("B2C_REQUEST_WHOLESALE_SETTLEMENT");
+            .Value(MeteringPointDocumentTypeDtoV1.B2CUpdateChargeLinks)
+            .Name(DocumentType.B2CUpdateChargeLinks.GraphQLName);
     }
 }

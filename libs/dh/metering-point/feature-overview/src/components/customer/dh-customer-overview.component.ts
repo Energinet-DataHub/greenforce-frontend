@@ -123,9 +123,11 @@ export class DhCustomerOverviewComponent {
   EicFunction = EicFunction;
 
   meteringPoint = input.required<MeteringPointDetails | undefined>();
+
   contacts = computed(
     () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
+
   uniqueContacts = computed(() =>
     this.contacts()
       .reduce((foundValues: Contact[], nextContact) => {
@@ -134,11 +136,9 @@ export class DhCustomerOverviewComponent {
         }
         return foundValues;
       }, [])
-      .filter(
-        (x) =>
-          x.legalContact || x.relationType === ElectricityMarketViewCustomerRelationType.Secondary
-      )
+      .filter((x) => x.relationType === ElectricityMarketViewCustomerRelationType.Contact4 && x.name !== '')
   );
+
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 
   showContactDetails = computed(() => this.contacts().length > 0);

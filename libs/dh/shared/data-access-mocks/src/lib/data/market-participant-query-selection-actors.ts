@@ -48,5 +48,13 @@ export const marketParticipantQuerySelection: GetSelectionMarketParticipantsQuer
       organizationName: 'Mosaic Energy',
       marketRole: EicFunction.GridAccessProvider,
     },
+    {
+      __typename: 'SelectionActorDto',
+      id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb2',
+      gln: '5790000555588',
+      actorName: 'Test Actor 6',
+      organizationName: 'Test Organization 1',
+      marketRole: EicFunction.EnergySupplier,
+    },
   ],
 };

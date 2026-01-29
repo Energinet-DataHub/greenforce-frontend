@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using System;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Xunit;
@@ -25,22 +27,46 @@ public class EnumerationTests
 {
     [Theory]
     [InlineData(typeof(ChargeResolution))]
-    public void ResolutionFromNameTests(Type type) =>
-        EnumerationTestHelper.TestEnumerationFrom(type, Resolution.FromName);
+    public void FromName_WithValidResolutionName_ReturnsResolution(Type type)
+        => EnumerationTestHelper.TestFromName<Resolution>(type);
 
     [Theory]
     [InlineData(typeof(RequestChangeOfPriceListResolution))]
-    public void ResolutionFromDurationTests(Type type) =>
-        EnumerationTestHelper.TestEnumerationFrom(type, Resolution.FromDuration);
+    public void FromDuration_WithValidDuration_ReturnsResolution(Type type)
+        => EnumerationTestHelper.TestCustomFrom(type, Resolution.FromDuration);
 
     [Theory]
     [InlineData(typeof(ChargeResolution))]
-    public void ResolutionCastTests(Type type) =>
-        EnumerationTestHelper.TestEnumerationCast<Resolution>(type, r => r.Cast(type));
+    public void Cast_ToChargeResolution_ReturnsMatchingEnumValue(Type type)
+        => EnumerationTestHelper.TestCast<Resolution>(type);
 
-    [Fact]
-    public void RequestChangeOfPriceListResolutionCastFromDurationTests() =>
-        EnumerationTestHelper.TestEnumerationCast<Resolution>(
-            typeof(RequestChangeOfPriceListResolution),
-            r => r.CastFromDuration<RequestChangeOfPriceListResolution>());
+    [Theory]
+    [InlineData(typeof(RequestChangeOfPriceListResolution))]
+    public void CastDurationTo_ToRequestChangeOfPriceListResolution_ReturnsMatchingEnumValue(Type type)
+        => EnumerationTestHelper.TestCustomCast<Resolution>(
+            type,
+            r => r.CastDurationTo<RequestChangeOfPriceListResolution>());
+
+    [Theory]
+    [InlineData(typeof(DocumentTypeDtoV1))]
+    [InlineData(typeof(MeteringPointDocumentTypeDtoV1))]
+    public void FromName_WithValidDocumentTypeName_ReturnsDocumentType(Type type)
+        => EnumerationTestHelper.TestFromName<DocumentType>(type);
+
+    [Theory]
+    [InlineData("InvalidName")]
+    [InlineData("")]
+    public void FromName_WithInvalidName_ThrowsInvalidOperationException(string invalidName)
+        => Assert.Throws<InvalidOperationException>(() => DocumentType.FromName(invalidName));
+
+    [Theory]
+    [InlineData("InvalidDuration")]
+    [InlineData("")]
+    public void FromDuration_WithInvalidDuration_ThrowsInvalidOperationException(string invalidDuration)
+        => Assert.Throws<InvalidOperationException>(() => Resolution.FromDuration(invalidDuration));
+
+    [Theory]
+    [InlineData(typeof(ChargeResolution))]
+    public void Cast_WithIncompatibleEnumType_ThrowsArgumentException(Type type)
+        => Assert.Throws<ArgumentException>(() => DocumentType.RequestMeasurements.Cast(type));
 }

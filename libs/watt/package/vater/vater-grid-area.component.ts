@@ -16,44 +16,46 @@
  * limitations under the License.
  */
 //#endregion
-import { booleanAttribute, Component, input, ViewEncapsulation } from '@angular/core';
+import { Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { VaterUtilityDirective } from './vater-utility.directive';
-import { VaterFlexboxDirective } from './vater-flexbox.directive';
 import { VaterLayoutDirective } from './vater-layout.directive';
 
 @Component({
-  selector: 'vater-flex, [vater-flex]',
+  selector: 'vater-grid-area, [vater-grid-area]',
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [
-    {
-      directive: VaterFlexboxDirective,
-      inputs: ['align', 'direction', 'justify', 'wrap'],
-    },
     {
       directive: VaterLayoutDirective,
       inputs: ['gap', 'offset'],
     },
     {
       directive: VaterUtilityDirective,
-      inputs: ['center', 'fill', 'inset', 'scrollable'],
+      inputs: ['fill', 'scrollable'],
     },
   ],
-  host: { '[class.vater-flex-auto]': 'autoSize()' },
-  styles: `
-    vater-flex,
-    [vater-flex] {
-      display: flex;
-      line-height: normal;
-    }
-  `,
+  host: {
+    '[class]': 'class()',
+    '[style.gridColumn]': 'column()',
+    '[style.gridRow]': 'row()',
+  },
   template: `<ng-content />`,
 })
-export class VaterFlexComponent {
+export class VaterGridAreaComponent {
+  /** Optional input for providing a descriptive name. Unused by the component. */
+  name = input('');
+
+  /** Specify the grid areas size and location within a grid column (`grid-column`). */
+  column = input<string | number>();
+
+  /** Specify the grid areas size and location within a grid row (`grid-row`). */
+  row = input<string | number>();
+
   /**
-   * When set, sizes the flex items according to their width or height properties.
-   * @see https://drafts.csswg.org/css-flexbox-1/#flex-common
-   * @remarks
-   * Prefer setting `fill` on flex items over using `autoSize`.
+   * Whether the grid area should also be a grid and inherit track sizing
+   * for `columns`, `rows` or `both` from the parent grid.
    */
-  autoSize = input(false, { transform: booleanAttribute });
+  subgrid = input<'columns' | 'rows' | 'both'>();
+
+  // Computed class name
+  protected class = computed(() => this.subgrid() && `vater-subgrid-${this.subgrid()}`);
 }
