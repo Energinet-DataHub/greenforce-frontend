@@ -26,10 +26,11 @@ import {
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { NgTemplateOutlet } from '@angular/common';
 import { CdkStepper, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { filter, switchMap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
@@ -52,12 +53,17 @@ import { WattStepperStepComponent } from './watt-stepper-step.component';
   ],
 })
 export class WattStepperComponent extends MatStepper {
-  private stepperSelectionChange = toSignal(this.selectionChange.asObservable());
+  stepper = viewChild.required(MatStepper);
+  private stepperSelectionChange = toSignal(
+    toObservable(this.stepper).pipe(
+      filter(Boolean),
+      switchMap((stepper) => stepper.selectionChange)
+    )
+  );
 
   completed = output<void>();
   isCompleting = input(false);
   wattSteps = contentChildren(WattStepperStepComponent, { descendants: true });
-  stepper = viewChild.required(MatStepper);
   onFirstStep = computed(() => (this.stepperSelectionChange()?.selectedIndex ?? 0) === 0);
   onLastStep = computed(
     () =>
