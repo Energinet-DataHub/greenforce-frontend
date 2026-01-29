@@ -132,20 +132,20 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
                 <span
                   *transloco="let t; prefix: 'meteringPoint.overview.status'"
                   class="watt-text-m watt-on-light--high-emphasis"
-                  [class.closed-down-state]="meteringPoint.connectionState === 'ClosedDown'"
+                  [class.closed-down-state]="meteringPoint.connectionState === 'CLOSED_DOWN'"
                 >
                   {{ t(meteringPoint.connectionState) }}
                 </span>
                 <br />
                 <span class="watt-text-s watt-on-light--medium-emphasis">
                   @switch (meteringPoint.connectionState) {
-                    @case ('New') {
+                    @case ('NEW') {
                       {{ meteringPoint.createdDate | wattDate }}
                     }
-                    @case ('Connected') {
+                    @case ('CONNECTED') {
                       {{ meteringPoint.connectionDate | wattDate }}
                     }
-                    @case ('ClosedDown') {
+                    @case ('CLOSED_DOWN') {
                       {{ meteringPoint.closedDownDate | wattDate }}
                     }
                     @default {

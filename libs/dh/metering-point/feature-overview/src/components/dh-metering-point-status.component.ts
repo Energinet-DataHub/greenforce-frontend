@@ -37,18 +37,18 @@ import { ElectricityMarketViewConnectionState } from '@energinet-datahub/dh/shar
 
       @switch (statusView) {
         @case (null) {
-          <watt-badge type="skeleton">{{ t('Unknown') }}</watt-badge>
+          <watt-badge type="skeleton">{{ t('UNKNOWN') }}</watt-badge>
         }
-        @case ('ClosedDown') {
+        @case ('CLOSED_DOWN') {
           <watt-badge type="neutral">{{ t(statusView) }}</watt-badge>
         }
-        @case ('New') {
+        @case ('NEW') {
           <watt-badge type="info">{{ t(statusView) }}</watt-badge>
         }
-        @case ('Connected') {
+        @case ('CONNECTED') {
           <watt-badge type="success">{{ t(statusView) }}</watt-badge>
         }
-        @case ('Disconnected') {
+        @case ('DISCONNECTED') {
           <watt-badge type="danger">{{ t(statusView) }}</watt-badge>
         }
       }

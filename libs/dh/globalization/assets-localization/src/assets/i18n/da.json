@@ -297,66 +297,66 @@
     "SUM_OF_MONTH": "Månedssum"
   },
   "meteringPointSubType": {
-    "Physical": "Fysisk",
-    "Virtual": "Virtuel",
-    "Calculated": "Beregnet"
+    "PHYSICAL": "Fysisk",
+    "VIRTUAL": "Virtuel",
+    "CALCULATED": "Beregnet"
   },
   "settlementMethod": {
-    "FlexSettled": "Flexafregnet",
-    "Profiled": "Skabelonafregnet",
+    "FLEX_SETTLED": "Flexafregnet",
+    "PROFILED": "Skabelonafregnet",
     "NON_PROFILED": "Timeafregnet"
   },
   "disconnectionType": {
-    "RemoteDisconnection": "Fjernafbrydelig",
-    "ManualDisconnection": "Manuel afbrydelig"
+    "REMOTE_DISCONNECTION": "Fjernafbrydelig",
+    "MANUAL_DISCONNECTION": "Manuel afbrydelig"
   },
   "assetType": {
-    "SteamTurbineWithBackPressureMode": "Dampturbine med modtryksdrift",
-    "GasTurbine": "Gasturbine",
-    "CombinedCycle": "Combined cycle",
-    "CombustionEngineGas": "Forbrændingsmotor Gas",
-    "SteamTurbineWithCondensationSteam": "Dampturbine med kondens/damp",
-    "Boiler": "Kedel",
-    "StirlingEngine": "Stirlingmotor",
-    "PermanentConnectedElectricalEnergyStorageFacilities": "Permanent tilsluttede elektriske energilageranlæg",
-    "TemporarilyConnectedElectricalEnergyStorageFacilities": "Temporært tilsluttede elektriske energilageranlæg",
-    "FuelCells": "Brændselsceller",
-    "PhotoVoltaicCells": "Solceller",
-    "WindTurbines": "Vindmøller",
-    "HydroelectricPower": "Vandkraft",
-    "WavePower": "Bølgekraft",
-    "MixedProduction": "Blandet produktion ",
-    "ProductionWithElectricalEnergyStorageFacilities": "Produktion med elektriske energilageranlæg",
-    "PowerToX": "Power-to-X",
-    "RegenerativeDemandFacility": "Regenerative forbrugsanlæg",
-    "CombustionEngineDiesel": "Forbrændingsmotor Dieselmotor",
-    "CombustionEngineBio": "Bioforbrændingsmotor",
-    "NoTechnology": "Ingen teknologi",
-    "UnknownTechnology": "Ukendt teknologi"
+    "STEAM_TURBINE_WITH_BACK_PRESSURE_MODE": "Dampturbine med modtryksdrift",
+    "GAS_TURBINE": "Gasturbine",
+    "COMBINED_CYCLE": "Combined cycle",
+    "COMBUSTION_ENGINE_GAS": "Forbrændingsmotor Gas",
+    "STEAM_TURBINE_WITH_CONDENSATION_STEAM": "Dampturbine med kondens/damp",
+    "BOILER": "Kedel",
+    "STIRLING_ENGINE": "Stirlingmotor",
+    "PERMANENT_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Permanent tilsluttede elektriske energilageranlæg",
+    "TEMPORARILY_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Temporært tilsluttede elektriske energilageranlæg",
+    "FUEL_CELLS": "Brændselsceller",
+    "PHOTO_VOLTAIC_CELLS": "Solceller",
+    "WIND_TURBINES": "Vindmøller",
+    "HYDROELECTRIC_POWER": "Vandkraft",
+    "WAVE_POWER": "Bølgekraft",
+    "MIXED_PRODUCTION": "Blandet produktion ",
+    "PRODUCTION_WITH_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Produktion med elektriske energilageranlæg",
+    "POWER_TO_X": "Power-to-X",
+    "REGENERATIVE_DEMAND_FACILITY": "Regenerative forbrugsanlæg",
+    "COMBUSTION_ENGINE_DIESEL": "Forbrændingsmotor Dieselmotor",
+    "COMBUSTION_ENGINE_BIO": "Bioforbrændingsmotor",
+    "NO_TECHNOLOGY": "Ingen teknologi",
+    "UNKNOWN_TECHNOLOGY": "Ukendt teknologi"
   },
   "connectionType": {
-    "Direct": "Direkte tilsluttet",
-    "Installation": "Installationstilsluttet"
+    "DIRECT": "Direkte tilsluttet",
+    "INSTALLATION": "Installationstilsluttet"
   },
   "measureUnit": {
-    "Ampere": "A",
+    "AMPERE": "A",
     "STK": "stk",
-    "KVArh": "kVArh",
-    "KWh": "kWh",
+    "KV_ARH": "kVArh",
+    "K_WH": "kWh",
     "KW": "kW",
     "MW": "MW",
-    "MWh": "MWh",
-    "Tonne": "t",
-    "MVAr": "MVAr",
-    "DanishTariffCode": "Tarifkode"
+    "M_WH": "MWh",
+    "TONNE": "t",
+    "MV_AR": "MVAr",
+    "DANISH_TARIFF_CODE": "Tarifkode"
   },
   "product": {
-    "Tariff": "Tarif",
-    "FuelQuantity": "Brændselsmængde",
-    "PowerActive": "Aktiv effekt",
-    "PowerReactive": "Reaktiv effekt",
-    "EnergyActive": "Aktiv energi",
-    "EnergyReactive": "Reaktiv energi"
+    "TARIFF": "Tarif",
+    "FUEL_QUANTITY": "Brændselsmængde",
+    "POWER_ACTIVE": "Aktiv effekt",
+    "POWER_REACTIVE": "Reaktiv effekt",
+    "ENERGY_ACTIVE": "Aktiv energi",
+    "ENERGY_REACTIVE": "Reaktiv energi"
   },
   "resolution": {
     "PT15M": "Kvarter",
@@ -684,11 +684,11 @@
         "startDateLabel": "Startdato"
       },
       "status": {
-        "ClosedDown": "Nedlagt",
-        "New": "Ny",
-        "Connected": "Tilsluttet",
-        "Disconnected": "Afbrudt",
-        "Unknown": "Ukendt"
+        "CLOSED_DOWN": "Nedlagt",
+        "NEW": "Ny",
+        "CONNECTED": "Tilsluttet",
+        "DISCONNECTED": "Afbrudt",
+        "UNKNOWN": "Ukendt"
       },
       "actions": {
         "actionsButton": "Handlinger",
@@ -1046,13 +1046,14 @@
         "UNEXPECTED_MEASUREMENT": "Filen har for mange positioner. Fejl fundet nær række {{row}}."
       },
       "units": {
-        "KWh": "kWh",
-        "KW": "kW",
+        "K_WH": "kWh",
+        "K_W": "kW",
         "MW": "MW",
-        "MWh": "MWh",
-        "Tonne": "t",
-        "KVArh": "kVArh",
-        "MVAr": "MVAr"
+        "M_WH": "MWh",
+        "TONNE": "Tonne",
+        "K_V_ARH": "kVArh",
+        "KV_ARH": "kVArh",
+        "MV_AR": "MVAr"
       },
       "sum": "Sum",
       "qualities": {
