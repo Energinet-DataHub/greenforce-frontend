@@ -26,7 +26,7 @@ export enum ActorConversationConversationSubjectType {
   measurements = 'measurements',
   meteringPointMasterData = 'meteringPointMasterData',
   chargeLink = 'chargeLink',
-  newConversation = 'newConversation',
+  newConversation = 'newCase',
 }
 
 export enum ActorConversationReceiverType {
