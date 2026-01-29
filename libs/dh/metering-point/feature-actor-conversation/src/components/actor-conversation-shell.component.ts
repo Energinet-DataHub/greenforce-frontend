@@ -32,6 +32,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
 import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
+import { DhActorConversationSelectedConversationComponent } from './actor-conversation-selected-conversation.component';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -45,6 +46,7 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
+    DhActorConversationSelectedConversationComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -107,7 +109,7 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
               />
             }
             @case (ActorConversationState.conversationSelected) {
-              <h1>TO BE IMPLEMENTED</h1>
+              <dh-actor-conversation-selected-conversation vater fill="both" />
             }
           }
         </vater-stack>
