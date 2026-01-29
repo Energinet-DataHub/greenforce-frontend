@@ -107,6 +107,7 @@ export abstract class WattPickerBase implements OnInit, AfterViewInit, ControlVa
   required = input<boolean, BooleanInput>(false, { transform: coerceBooleanProperty });
 
   disabledInput = input<boolean, BooleanInput>(false, {
+    // eslint-disable-next-line @angular-eslint/no-input-rename
     alias: 'disabled',
     transform: coerceBooleanProperty,
   });
