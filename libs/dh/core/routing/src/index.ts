@@ -20,4 +20,5 @@ export * from './dhPaths';
 export {
   HiddenLocationStrategy,
   provideHiddenLocationStrategy,
+  injectHiddenLocationStrategy,
 } from './lib/hidden-location-strategy';

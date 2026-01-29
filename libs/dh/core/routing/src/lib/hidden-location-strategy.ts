@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, Injectable, OnDestroy, Provider } from '@angular/core';
+import { inject, Injectable, OnDestroy, Provider, assertInInjectionContext } from '@angular/core';
 import {
   APP_BASE_HREF,
   DOCUMENT,
@@ -35,6 +35,25 @@ const HIDDEN_URL_KEY = '__hiddenUrl';
  * Key used to store the hash portion of the URL in the history state object.
  */
 const HIDDEN_HASH_KEY = '__hiddenHash';
+
+/**
+ * Key used to store the session ID in the history state object.
+ */
+const SESSION_ID_KEY = '__sessionId';
+
+/**
+ * Key used to store the session ID in sessionStorage.
+ */
+const SESSION_STORAGE_KEY = 'dh_routing_session_id';
+
+/**
+ * Generates a random session ID using crypto API.
+ */
+function generateSessionId(): string {
+  const array = new Uint8Array(16);
+  crypto.getRandomValues(array);
+  return Array.from(array, (byte) => byte.toString(16).padStart(2, '0')).join('');
+}
 
 /**
  * Normalizes query parameters by prepending with `?` if needed.
@@ -104,6 +123,7 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
   private readonly baseHref: string;
   private readonly removeListenerFns: Array<() => void> = [];
   private readonly document = inject(DOCUMENT);
+  private sessionId: string;
 
   constructor() {
     super();
@@ -113,8 +133,67 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
     this.baseHref =
       href ?? this.platformLocation.getBaseHrefFromDOM() ?? this.document.location?.origin ?? '';
 
+    // Initialize or retrieve session ID
+    this.sessionId = this.initializeSessionId();
+
     // Initialize the hidden URL from current browser state if not already set
     this.initializeHiddenUrl();
+  }
+
+  /**
+   * Initializes the session ID from sessionStorage or creates a new one.
+   * @returns The current session ID.
+   */
+  private initializeSessionId(): string {
+    const existingSessionId = sessionStorage.getItem(SESSION_STORAGE_KEY);
+    if (existingSessionId) {
+      return existingSessionId;
+    }
+
+    const newSessionId = generateSessionId();
+    sessionStorage.setItem(SESSION_STORAGE_KEY, newSessionId);
+    return newSessionId;
+  }
+
+  /**
+   * Clears the current session, causing all existing history entries to become invalid.
+   * Call this method on logout to prevent back navigation to authenticated routes.
+   *
+   * @usageNotes
+   *
+   * ```typescript
+   * import { LocationStrategy } from '@angular/common';
+   * import { HiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
+   *
+   * @Injectable({ providedIn: 'root' })
+   * export class AuthService {
+   *   private locationStrategy = inject(LocationStrategy) as HiddenLocationStrategy;
+   *
+   *   logout(): void {
+   *     // Clear the session to invalidate history entries
+   *     this.locationStrategy.clearSession();
+   *     // Perform other logout logic...
+   *   }
+   * }
+   * ```
+   */
+  clearSession(): void {
+    sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    // Generate a new session ID for any subsequent navigations
+    this.sessionId = generateSessionId();
+    sessionStorage.setItem(SESSION_STORAGE_KEY, this.sessionId);
+  }
+
+  /**
+   * Validates that the given state has a matching session ID.
+   * @param state The history state to validate.
+   * @returns True if the session ID matches, false otherwise.
+   */
+  private isValidSession(state: Record<string, unknown> | null): boolean {
+    if (!state || typeof state[SESSION_ID_KEY] !== 'string') {
+      return false;
+    }
+    return state[SESSION_ID_KEY] === this.sessionId;
   }
 
   /**
@@ -124,8 +203,12 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
   private initializeHiddenUrl(): void {
     const currentState = this.platformLocation.getState() as Record<string, unknown> | null;
 
-    // If we already have a hidden URL in state, we're good
-    if (currentState && typeof currentState[HIDDEN_URL_KEY] === 'string') {
+    // If we already have a hidden URL in state with a valid session, we're good
+    if (
+      currentState &&
+      typeof currentState[HIDDEN_URL_KEY] === 'string' &&
+      this.isValidSession(currentState)
+    ) {
       return;
     }
 
@@ -137,6 +220,7 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
       ...(currentState || {}),
       [HIDDEN_URL_KEY]: currentPath,
       [HIDDEN_HASH_KEY]: this.platformLocation.hash || '',
+      [SESSION_ID_KEY]: this.sessionId,
     };
 
     // Replace the current state with our hidden URL state, showing only base href
@@ -152,12 +236,38 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
 
   /**
    * Registers a callback to be called when the browser's popstate event is fired.
+   * If the session ID doesn't match, redirects to root.
    * @param fn The callback function to invoke on popstate events.
    */
   onPopState(fn: LocationChangeListener): void {
+    const wrappedFn: LocationChangeListener = (event) => {
+      const state = this.platformLocation.getState() as Record<string, unknown> | null;
+
+      // Check if the session ID matches
+      if (!this.isValidSession(state)) {
+        // Invalid session - redirect to root
+        const newState = {
+          [HIDDEN_URL_KEY]: '/',
+          [HIDDEN_HASH_KEY]: '',
+          [SESSION_ID_KEY]: this.sessionId,
+        };
+        this.platformLocation.replaceState(newState, '', this.baseHref || '/');
+
+        // Call the listener with the modified state to trigger navigation to root
+        fn({
+          type: event.type,
+          state: newState,
+        });
+        return;
+      }
+
+      // Valid session - proceed normally
+      fn(event);
+    };
+
     this.removeListenerFns.push(
-      this.platformLocation.onPopState(fn),
-      this.platformLocation.onHashChange(fn)
+      this.platformLocation.onPopState(wrappedFn),
+      this.platformLocation.onHashChange(wrappedFn)
     );
   }
 
@@ -225,6 +335,7 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
       ...(state as Record<string, unknown> | null),
       [HIDDEN_URL_KEY]: fullUrl,
       [HIDDEN_HASH_KEY]: hash,
+      [SESSION_ID_KEY]: this.sessionId,
     };
 
     // Push state but keep the visible URL as the base href
@@ -250,6 +361,7 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
       ...(state as Record<string, unknown> | null),
       [HIDDEN_URL_KEY]: fullUrl,
       [HIDDEN_HASH_KEY]: hash,
+      [SESSION_ID_KEY]: this.sessionId,
     };
 
     // Replace state but keep the visible URL as the base href
@@ -312,4 +424,48 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
  */
 export function provideHiddenLocationStrategy(): Provider {
   return { provide: LocationStrategy, useClass: HiddenLocationStrategy };
+}
+
+/**
+ * Injects the HiddenLocationStrategy instance.
+ *
+ * This is a convenience function that provides typed access to the HiddenLocationStrategy,
+ * including the `clearSession()` method, without needing to cast from LocationStrategy.
+ *
+ * @usageNotes
+ *
+ * Use this in services or components that need to clear the session (e.g., on logout):
+ *
+ * ```typescript
+ * import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
+ *
+ * @Injectable({ providedIn: 'root' })
+ * export class AuthService {
+ *   private hiddenLocationStrategy = injectHiddenLocationStrategy();
+ *
+ *   logout(): void {
+ *     // Clear the session to invalidate history entries
+ *     this.hiddenLocationStrategy.clearSession();
+ *     // Perform other logout logic...
+ *   }
+ * }
+ * ```
+ *
+ * @returns The HiddenLocationStrategy instance.
+ * @throws Error if called outside of an injection context.
+ *
+ * @publicApi
+ */
+export function injectHiddenLocationStrategy(): HiddenLocationStrategy {
+  assertInInjectionContext(injectHiddenLocationStrategy);
+  const locationStrategy = inject(LocationStrategy);
+
+  if (!(locationStrategy instanceof HiddenLocationStrategy)) {
+    throw new Error(
+      'injectHiddenLocationStrategy() requires HiddenLocationStrategy to be provided. ' +
+        'Make sure to use provideHiddenLocationStrategy() in your application providers.'
+    );
+  }
+
+  return locationStrategy;
 }
