@@ -26,7 +26,7 @@ public static class ActorConversationNode
 {
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task<bool> CreateConversationAsync(
+    public static async Task<string> CreateConversationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
@@ -66,7 +66,7 @@ public static class ActorConversationNode
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
-        await authClient.ApiStartConversationAsync(
+        var response = await authClient.ApiStartConversationAsync(
          new StartConversationRequest
         {
             Subject = subject,
@@ -82,6 +82,6 @@ public static class ActorConversationNode
         },
          ct);
 
-        return true;
+        return response.ConversationId.ToString();
     }
 }

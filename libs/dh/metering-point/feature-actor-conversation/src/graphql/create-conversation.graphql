@@ -20,6 +20,6 @@ mutation CreateConversation(
       receiver: $receiver
     }
   ) {
-    boolean: boolean
+    string
   }
 }

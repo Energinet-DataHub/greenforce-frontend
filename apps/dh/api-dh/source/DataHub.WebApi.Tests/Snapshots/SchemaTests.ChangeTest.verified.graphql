@@ -407,7 +407,7 @@ type CreateChargePayload {
 }
 
 type CreateConversationPayload {
-  boolean: Boolean
+  string: String
 }
 
 type CreateDelegationsForMarketParticipantPayload {
