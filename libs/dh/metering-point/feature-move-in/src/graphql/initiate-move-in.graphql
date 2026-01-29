@@ -1,5 +1,5 @@
 mutation InitiateMoveIn($input: InitiateMoveInInput!) {
   initiateMoveIn(input: $input) {
-    boolean
+    success: boolean
   }
 }
