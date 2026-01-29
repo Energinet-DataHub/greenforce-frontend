@@ -17,8 +17,6 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DhActorConversationCaseListComponent } from './actor-conversation-case-list';
-import { DhActorConversationNewCaseComponent } from './actor-conversation-new-case';
 import {
   VaterFlexComponent,
   VaterStackComponent,
@@ -29,15 +27,17 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationCaseSubjectType, ActorConversationState } from '../types';
+import { ActorConversationConversationSubjectType, ActorConversationState } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { DhActorConversationListComponent } from './actor-conversation-list';
+import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
   imports: [
-    DhActorConversationCaseListComponent,
-    DhActorConversationNewCaseComponent,
+    DhActorConversationListComponent,
+    DhActorConversationNewConversationComponent,
     VaterFlexComponent,
     WattEmptyStateComponent,
     WATT_CARD,
@@ -67,38 +67,38 @@ import { TranslocoDirective } from '@jsverse/transloco';
       fill="vertical"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
-      <dh-actor-conversation-case-list
-        [cases]="cases()"
-        [newCaseVisible]="newCaseVisible()"
-        [selectedCaseId]="selectedCaseId()"
-        (createNewCase)="newCase()"
-        (selectCase)="selectCase($event)"
+      <dh-actor-conversation-list
+        [conversations]="conversations()"
+        [newConversationVisible]="newConversationVisible()"
+        [selectedConversationId]="selectedConversationId()"
+        (createNewConversation)="newConversation()"
+        (selectConversation)="selectConversation($event)"
         class="flex-1"
       />
       <watt-card class="flex-3 no-border-radius-left">
         <vater-stack fill="vertical">
           @switch (state()) {
-            @case (ActorConversationState.newCaseOpen) {
-              <dh-actor-conversation-new-case
+            @case (ActorConversationState.newConversationOpen) {
+              <dh-actor-conversation-new-conversation
                 vater
                 fill="both"
-                (closeNewCase)="newCaseVisible.set(false)"
-                (createCase)="send($event)"
+                (closeNewConversation)="newConversationVisible.set(false)"
+                (createConversation)="send($event)"
               />
             }
-            @case (ActorConversationState.noCases) {
+            @case (ActorConversationState.noConversations) {
               <watt-empty-state
                 vater
                 center
                 icon="custom-cooperation"
                 [title]="t('emptyState.noCases')"
               >
-                <watt-button variant="secondary" (click)="newCaseVisible.set(true)">
+                <watt-button variant="secondary" (click)="newConversationVisible.set(true)">
                   {{ t('newCaseButton') }}
                 </watt-button>
               </watt-empty-state>
             }
-            @case (ActorConversationState.noCaseSelected) {
+            @case (ActorConversationState.noConversationSelected) {
               <watt-empty-state
                 vater
                 center
@@ -106,7 +106,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
                 [title]="t('emptyState.noCaseSelected')"
               />
             }
-            @case (ActorConversationState.caseSelected) {
+            @case (ActorConversationState.conversationSelected) {
               <h1>TO BE IMPLEMENTED</h1>
             }
           }
@@ -117,32 +117,32 @@ import { TranslocoDirective } from '@jsverse/transloco';
 })
 export class DhActorConversationShellComponent {
   protected readonly ActorConversationState = ActorConversationState;
-  newCaseVisible = signal(false);
-  cases = signal([
+  newConversationVisible = signal(false);
+  conversations = signal([
     {
       id: '00001',
-      subject: ActorConversationCaseSubjectType.misc,
+      subject: ActorConversationConversationSubjectType.misc,
       lastUpdatedDate: new Date(),
       closed: false,
       unread: true,
     },
     {
       id: '00002',
-      subject: ActorConversationCaseSubjectType.customerMasterData,
+      subject: ActorConversationConversationSubjectType.customerMasterData,
       lastUpdatedDate: new Date(),
       closed: true,
     },
   ]);
-  selectedCaseId = signal<string | undefined>(undefined);
+  selectedConversationId = signal<string | undefined>(undefined);
   state = computed<ActorConversationState>(() => {
-    if (this.newCaseVisible()) {
-      return ActorConversationState.newCaseOpen;
-    } else if (this.cases().length === 0) {
-      return ActorConversationState.noCases;
-    } else if (this.selectedCaseId() === undefined) {
-      return ActorConversationState.noCaseSelected;
+    if (this.newConversationVisible()) {
+      return ActorConversationState.newConversationOpen;
+    } else if (this.conversations().length === 0) {
+      return ActorConversationState.noConversations;
+    } else if (this.selectedConversationId() === undefined) {
+      return ActorConversationState.noConversationSelected;
     }
-    return ActorConversationState.caseSelected;
+    return ActorConversationState.conversationSelected;
   });
   createConversationMutation = mutation(CreateConversationDocument);
   private toastService = inject(WattToastService);
@@ -154,7 +154,7 @@ export class DhActorConversationShellComponent {
         conversationMessageContent: message,
       },
     });
-    this.newCaseVisible.set(false);
+    this.newConversationVisible.set(false);
     if (result.error) {
       this.toastService.open({
         type: 'danger',
@@ -168,13 +168,13 @@ export class DhActorConversationShellComponent {
     }
   }
 
-  newCase() {
-    this.newCaseVisible.set(true);
-    this.selectedCaseId.set(undefined);
+  newConversation() {
+    this.newConversationVisible.set(true);
+    this.selectedConversationId.set(undefined);
   }
 
-  selectCase(caseId?: string): void {
-    this.newCaseVisible.set(false);
-    this.selectedCaseId.set(caseId);
+  selectConversation(conversationId?: string): void {
+    this.newConversationVisible.set(false);
+    this.selectedConversationId.set(conversationId);
   }
 }

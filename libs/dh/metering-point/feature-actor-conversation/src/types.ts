@@ -17,7 +17,7 @@
  */
 //#endregion
 
-export enum ActorConversationCaseSubjectType {
+export enum ActorConversationConversationSubjectType {
   misc = 'misc',
   disconnectionOrReconnection = 'disconnectionOrReconnection',
   electricalHeating = 'electricalHeating',
@@ -26,7 +26,7 @@ export enum ActorConversationCaseSubjectType {
   measurements = 'measurements',
   meteringPointMasterData = 'meteringPointMasterData',
   chargeLink = 'chargeLink',
-  newCase = 'newCase',
+  newConversation = 'newConversation',
 }
 
 export enum ActorConversationReceiverType {
@@ -34,15 +34,15 @@ export enum ActorConversationReceiverType {
 }
 
 export enum ActorConversationState {
-  noCases = 'noCases',
-  noCaseSelected = 'noCaseSelected',
-  caseSelected = 'caseSelected',
-  newCaseOpen = 'newCaseOpen',
+  noConversations = 'noConversations',
+  noConversationSelected = 'noConversationSelected',
+  conversationSelected = 'conversationSelected',
+  newConversationOpen = 'newConversationOpen',
 }
 
-export interface Case {
+export interface Conversation {
   id?: string;
-  subject?: ActorConversationCaseSubjectType;
+  subject?: ActorConversationConversationSubjectType;
   closed: boolean;
   lastUpdatedDate?: Date;
   unread?: boolean

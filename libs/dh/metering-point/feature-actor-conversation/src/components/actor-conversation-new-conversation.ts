@@ -31,12 +31,12 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActorConversationCaseSubjectType, ActorConversationReceiverType } from '../types';
+import { ActorConversationConversationSubjectType, ActorConversationReceiverType } from '../types';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
-  selector: 'dh-actor-conversation-new-case',
+  selector: 'dh-actor-conversation-new-conversation',
   imports: [
     TranslocoDirective,
     VaterStackComponent,
@@ -58,7 +58,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
   `,
   template: `
     <form
-      [formGroup]="newCaseForm"
+      [formGroup]="newConversationForm"
       (ngSubmit)="send()"
       vater-stack
       fill="both"
@@ -68,12 +68,12 @@ import { WattIconComponent } from '@energinet/watt/icon';
       <watt-card-title vater fill="horizontal">
         <vater-stack direction="row" fill="horizontal" justify="space-between">
           <h3>{{ t('newCaseTitle') }}</h3>
-          <watt-button (click)="closeNewCase.emit()" variant="icon" icon="close" />
+          <watt-button (click)="closeNewConversation.emit()" variant="icon" icon="close" />
         </vater-stack>
       </watt-card-title>
       <vater-stack align="start" fill="horizontal" gap="ml" offset="m">
         <watt-dropdown
-          [formControl]="newCaseForm.controls.subject"
+          [formControl]="newConversationForm.controls.subject"
           [options]="subjects"
           [label]="t('subjectLabel')"
           [showResetOption]="false"
@@ -83,7 +83,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
           data-testid="actor-conversation-subject-dropdown"
         />
         <watt-dropdown
-          [formControl]="newCaseForm.controls.receiver"
+          [formControl]="newConversationForm.controls.receiver"
           [options]="receivers"
           [label]="t('receiverLabel')"
           [showResetOption]="false"
@@ -93,7 +93,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
           data-testid="actor-conversation-receiver-dropdown"
         />
         <watt-text-field
-          [formControl]="newCaseForm.controls.internalNote"
+          [formControl]="newConversationForm.controls.internalNote"
           [label]="t('internalNoteLabel')"
           class="third-width"
           data-testid="actor-conversation-internal-note-input"
@@ -103,26 +103,26 @@ import { WattIconComponent } from '@energinet/watt/icon';
       <vater-stack fill="horizontal" align="end">
         <watt-textarea-field
           [label]="t('messageLabel')"
-          [formControl]="newCaseForm.controls.message"
+          [formControl]="newConversationForm.controls.message"
           data-testid="actor-conversation-message-textarea"
         />
         <watt-button type="submit"
-          >{{ t('sendButton') }}
+        >{{ t('sendButton') }}
           <watt-icon name="send" />
         </watt-button>
       </vater-stack>
     </form>
   `,
 })
-export class DhActorConversationNewCaseComponent {
-  closeNewCase = output();
-  createCase = output<string>();
+export class DhActorConversationNewConversationComponent {
+  closeNewConversation = output();
+  createConversation = output<string>();
 
   private readonly fb = inject(NonNullableFormBuilder);
 
-  newCaseForm = this.fb.group({
-    subject: this.fb.control<ActorConversationCaseSubjectType>(
-      ActorConversationCaseSubjectType.misc,
+  newConversationForm = this.fb.group({
+    subject: this.fb.control<ActorConversationConversationSubjectType>(
+      ActorConversationConversationSubjectType.misc,
       Validators.required
     ),
     receiver: this.fb.control<ActorConversationReceiverType>(
@@ -132,13 +132,13 @@ export class DhActorConversationNewCaseComponent {
     internalNote: this.fb.control<string | null>(null),
     message: this.fb.control<string>('', Validators.required),
   });
-  subjects = dhEnumToWattDropdownOptions(ActorConversationCaseSubjectType);
+  subjects = dhEnumToWattDropdownOptions(ActorConversationConversationSubjectType);
   receivers = dhEnumToWattDropdownOptions(ActorConversationReceiverType);
 
   protected send() {
-    if (this.newCaseForm.invalid) {
+    if (this.newConversationForm.invalid) {
       return;
     }
-    this.createCase.emit(this.newCaseForm.controls.message.value);
+    this.createConversation.emit(this.newConversationForm.controls.message.value);
   }
 }

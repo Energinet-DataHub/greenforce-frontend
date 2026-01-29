@@ -22,10 +22,10 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
-import { ActorConversationCaseSubjectType, Case } from '../types';
+import { ActorConversationConversationSubjectType, Conversation } from '../types';
 
 @Component({
-  selector: 'dh-actor-conversation-case-list',
+  selector: 'dh-actor-conversation-list',
   imports: [
     WATT_CARD,
     WattButtonComponent,
@@ -53,45 +53,47 @@ import { ActorConversationCaseSubjectType, Case } from '../types';
   `,
   template: `
     <vater-flex fill="vertical">
-      <watt-card class="no-padding no-right-border-radius" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+      <watt-card class="no-padding no-right-border-radius"
+                 *transloco="let t; prefix: 'meteringPoint.actorConversation'">
         <watt-card-title vater class="watt-space-inset-m no-margin">
           <vater-stack direction="row" justify="space-between" align="center">
             <h3>{{ t('cases') }}</h3>
             <watt-button
-              (click)="createNewCase.emit()"
+              (click)="createNewConversation.emit()"
               icon="plus"
               variant="text"
-              data-testid="new-case-button"
+              data-testid="new-conversation-button"
             >{{ t('newCaseButton') }}
             </watt-button>
           </vater-stack>
         </watt-card-title>
         <hr class="watt-divider no-margin" />
-        @if (newCaseVisible()) {
-          <dh-actor-conversation-list-item [case]="newCase" [selected]="newCaseVisible()" />
+        @if (newConversationVisible()) {
+          <dh-actor-conversation-list-item [conversation]="newConversation"
+                                           [selected]="newConversationVisible()" />
         }
-        @for (caseItem of cases(); track caseItem.id) {
+        @for (conversationItem of conversations(); track conversationItem.id) {
           <dh-actor-conversation-list-item
-            [case]="caseItem"
-            [selected]="selectedCaseId() === caseItem.id"
-            (click)="selectCase.emit(caseItem.id)"
+            [conversation]="conversationItem"
+            [selected]="selectedConversationId() === conversationItem.id"
+            (click)="selectConversation.emit(conversationItem.id)"
           />
         }
       </watt-card>
     </vater-flex>
   `,
 })
-export class DhActorConversationCaseListComponent {
-  cases = input<Case[]>([]);
-  newCaseVisible = input<boolean>(false);
-  selectedCaseId = input<string | undefined>(undefined);
-  createNewCase = output();
-  selectCase = output<string | undefined>();
+export class DhActorConversationListComponent {
+  conversations = input<Conversation[]>([]);
+  newConversationVisible = input<boolean>(false);
+  selectedConversationId = input<string | undefined>(undefined);
+  createNewConversation = output();
+  selectConversation = output<string | undefined>();
 
-  newCase: Case = {
+  newConversation: Conversation = {
     closed: false,
     lastUpdatedDate: undefined,
     id: undefined,
-    subject: ActorConversationCaseSubjectType.newCase,
+    subject: ActorConversationConversationSubjectType.newConversation,
   }
 }

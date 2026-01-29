@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { Case } from '../types';
+import { Conversation } from '../types';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { DatePipe } from '@angular/common';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -81,11 +81,11 @@ import { TranslocoDirective } from '@jsverse/transloco';
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <vater-stack fill="horizontal" direction="row" justify="space-between">
-        @if (case().unread) {
+        @if (conversation().unread) {
           <div class="unread-indicator"></div>
         }
-        <h5 class="no-margin">{{ t('subjects.' + case().subject) }}</h5>
-        @if (case().closed) {
+        <h5 class="no-margin">{{ t('subjects.' + conversation().subject) }}</h5>
+        @if (conversation().closed) {
           <span>{{ t('closed') }}</span>
         }
       </vater-stack>
@@ -95,16 +95,16 @@ import { TranslocoDirective } from '@jsverse/transloco';
         justify="space-between"
         class="min-height-line-height-xs"
       >
-        <span class="light-text font-size-s">{{ case().id }}</span>
+        <span class="light-text font-size-s">{{ conversation().id }}</span>
         <span class="light-text font-size-s">{{
-          case().lastUpdatedDate | date: 'dd-MM-yyyy'
-        }}</span>
+            conversation().lastUpdatedDate | date: 'dd-MM-yyyy'
+          }}</span>
       </vater-stack>
     </vater-flex>
     <hr class="watt-divider no-margin" />
   `,
 })
 export class DhActorConversationListItemComponent {
-  case = input.required<Case>();
+  conversation = input.required<Conversation>();
   selected = input<boolean>(false);
 }
