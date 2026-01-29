@@ -17,32 +17,32 @@
  */
 //#endregion
 import {
-  Input,
-  OnInit,
   Signal,
+  OnInit,
   inject,
+  signal,
   Directive,
-  OnDestroy,
   ElementRef,
   DestroyRef,
-  HostBinding,
   AfterViewInit,
   ChangeDetectorRef,
   input,
+  computed,
 } from '@angular/core';
 
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
-import { Subject } from 'rxjs';
-
 import { WattDateRange } from '@energinet/watt/core/date';
 
 import { WattPickerValue } from './watt-picker-value';
-@Directive()
-export abstract class WattPickerBase
-  implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
-{
+
+@Directive({
+  host: {
+    '[attr.watt-field-disabled]': 'disabled()',
+  },
+})
+export abstract class WattPickerBase implements OnInit, AfterViewInit, ControlValueAccessor {
   protected destroyRef = inject(DestroyRef);
   protected changeDetectionRef = inject(ChangeDetectorRef);
   protected ngControl = inject(NgControl, { optional: true });
@@ -58,28 +58,18 @@ export abstract class WattPickerBase
 
   initialValue: WattPickerValue = null;
 
-  focused = false;
+  focused = signal(false);
 
   controlType = 'mat-date-range-input'; // We keep the controlType of Material Date Range Input as is, to keep some styling.
-
-  stateChanges = new Subject<void>();
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   userAriaDescribedBy = input<string>(undefined, { alias: 'aria-describedby' });
 
-  get placeholder(): string {
-    return this._placeholder;
-  }
+  placeholder = signal<string>('');
 
-  set placeholder(value: string) {
-    this._placeholder = value;
-    this.stateChanges.next();
-  }
+  protected abstract initPlaceholder(): void;
 
-  protected abstract _placeholder: string;
-
-  @Input()
-  get value(): WattDateRange | null {
+  value = computed<WattDateRange | null>(() => {
     if (this.ngControl?.valid) {
       const {
         value: { start, end },
@@ -89,81 +79,55 @@ export abstract class WattPickerBase
     }
 
     return null;
-  }
+  });
 
-  set value(value: WattPickerValue) {
+  protected setValue(value: WattPickerValue) {
     const input = this.input();
     const startInput = this.startInput();
     const endInput = this.endInput();
 
-    const inputNotToBeInTheDocument = !this.range ? !input : !startInput;
+    const inputNotToBeInTheDocument = !this.range() ? !input : !startInput;
 
     if (inputNotToBeInTheDocument) {
       this.initialValue = value;
       return;
     }
 
-    if (this.range) {
+    if (this.range()) {
       if (!startInput || !endInput) return;
       this.setRangeValue(value as WattDateRange, startInput.nativeElement, endInput.nativeElement);
     } else {
       if (!input) return;
       this.setSingleValue(value as Exclude<WattPickerValue, WattDateRange>, input.nativeElement);
     }
-
-    this.stateChanges.next();
   }
 
-  @Input()
-  set range(range: boolean) {
-    this._range = coerceBooleanProperty(range);
-  }
-  get range(): boolean {
-    return this._range;
-  }
+  range = input<boolean, BooleanInput>(false, { transform: coerceBooleanProperty });
 
-  private _range = false;
+  required = input<boolean, BooleanInput>(false, { transform: coerceBooleanProperty });
 
-  @Input()
-  get required(): boolean {
-    return this._required;
-  }
+  disabledInput = input<boolean, BooleanInput>(false, {
+    alias: 'disabled',
+    transform: coerceBooleanProperty,
+  });
+  protected disabledState = signal(false);
+  disabled = computed(() => this.disabledInput() || this.disabledState());
 
-  set required(value: BooleanInput) {
-    this._required = coerceBooleanProperty(value);
-    this.stateChanges.next();
-  }
-
-  private _required = false;
-
-  @HostBinding('attr.watt-field-disabled')
-  @Input()
-  get disabled(): boolean {
-    return this._disabled;
-  }
-
-  set disabled(value: BooleanInput) {
-    this._disabled = coerceBooleanProperty(value);
-    this.stateChanges.next();
-  }
-
-  private _disabled = false;
-
-  get empty() {
-    if (this.range) {
+  empty = computed(() => {
+    if (this.range()) {
       return !this.ngControl?.value?.start && !this.ngControl?.value?.end;
     } else {
       return this.ngControl?.value?.length === 0;
     }
-  }
+  });
 
-  get errorState(): boolean {
+  errorState = computed(() => {
     return !!this.ngControl?.invalid && !!this.ngControl?.touched;
-  }
+  });
 
-  get shouldLabelFloat() {
-    return this.focused || !this.empty;
-  }
+  shouldLabelFloat = computed(() => {
+    return this.focused() || !this.empty();
+  });
 
   /**
    *
@@ -184,20 +148,16 @@ export abstract class WattPickerBase
     this.control = this.ngControl?.control as FormControl;
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     if (this.initialValue) {
       this.writeValue(this.initialValue);
     }
 
-    if (this.range) {
+    if (this.range()) {
       this.initRangeInput();
     } else {
       this.initSingleInput();
     }
-  }
-
-  ngOnDestroy(): void {
-    this.stateChanges.complete();
   }
 
   protected abstract initRangeInput(): void;
@@ -224,7 +184,7 @@ export abstract class WattPickerBase
   }
 
   writeValue(value: WattPickerValue): void {
-    this.value = value;
+    this.setValue(value);
   }
 
   registerOnChange(onChangeFn: (value: string | WattDateRange) => void): void {
@@ -236,14 +196,13 @@ export abstract class WattPickerBase
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.disabledState.set(isDisabled);
     this.changeDetectionRef.detectChanges();
   }
 
   onFocusIn() {
-    if (!this.focused) {
-      this.focused = true;
-      this.stateChanges.next();
+    if (!this.focused()) {
+      this.focused.set(true);
     }
   }
 
@@ -253,9 +212,8 @@ export abstract class WattPickerBase
     const isChild = overlay?.contains(event.relatedTarget as Element);
 
     if (!this.elementRef.nativeElement.contains(event.relatedTarget as Element) && !isChild) {
-      this.focused = false;
+      this.focused.set(false);
       this.markParentControlAsTouched();
-      this.stateChanges.next();
     }
   }
 

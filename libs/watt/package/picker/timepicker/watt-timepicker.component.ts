@@ -22,10 +22,11 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  HostBinding,
   ViewEncapsulation,
+  computed,
   inject,
   input,
+  signal,
   viewChild,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
@@ -80,6 +81,9 @@ function minutesToTime(value: number): string {
   styleUrls: ['./watt-timepicker.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: WattTimepickerComponent }],
   encapsulation: ViewEncapsulation.None,
+  host: {
+    '[attr.aria-owns]': 'ariaOwns()',
+  },
   imports: [
     MatDatepickerModule,
     MatInputModule,
@@ -112,32 +116,36 @@ export class WattTimepickerComponent extends WattPickerBase {
    * the slider overlay (since the DOM hierarchy cannot be used).
    * @ignore
    */
-  @HostBinding('attr.aria-owns')
-  get ariaOwns() {
+  ariaOwns = computed(() => {
     // Only range input has slider
-    return this.range && this.sliderOpen ? this.sliderId : undefined;
-  }
+    return this.range() && this.sliderOpen() ? this.sliderId : undefined;
+  });
+
   hoursMinutesPlaceholder = 'HH:MM';
   rangeSeparator = ' - ';
   rangePlaceholder =
     this.hoursMinutesPlaceholder + this.rangeSeparator + this.hoursMinutesPlaceholder;
-  protected _placeholder = this.hoursMinutesPlaceholder;
+
+  protected override initPlaceholder() {
+    this.placeholder.set(this.hoursMinutesPlaceholder);
+  }
 
   /**
    * Whether the slider is open.
    * @ignore
    */
-  sliderOpen = false;
+  sliderOpen = signal(false);
 
   sliderSteps = [...Array(quartersInADay).keys()].map((x) => x * 15).concat(minutesInADay - 1);
 
   sliderChange$ = new Subject<WattSliderValue>();
 
   get sliderValue(): WattSliderValue {
-    if (this.value?.start && this.value?.end) {
+    const value = this.value();
+    if (value?.start && value?.end) {
       return {
-        min: timeToMinutes(this.value.start),
-        max: timeToMinutes(this.value.end),
+        min: timeToMinutes(value.start),
+        max: timeToMinutes(value.end),
       };
     }
 
@@ -150,7 +158,7 @@ export class WattTimepickerComponent extends WattPickerBase {
    * @ignore
    */
   toggleSlider() {
-    this.sliderOpen = !this.sliderOpen;
+    this.sliderOpen.update((open) => !open);
   }
 
   /**
@@ -159,7 +167,7 @@ export class WattTimepickerComponent extends WattPickerBase {
    */
   override onFocusOut(event: FocusEvent) {
     super.onFocusOut(event);
-    if (!this.focused) this.sliderOpen = false;
+    if (!this.focused()) this.sliderOpen.set(false);
   }
 
   inputMask = maskitoTimeOptionsGenerator({ mode: 'HH:MM' });

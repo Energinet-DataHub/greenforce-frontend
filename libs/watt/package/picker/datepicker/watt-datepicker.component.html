@@ -15,9 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-field [control]="control" [label]="label()">
-  @if (range) {
+  @if (range()) {
     <mat-date-range-input
-      [disabled]="disabled"
+      [disabled]="disabled()"
       [rangePicker]="rangeDatepicker"
       [min]="min() ?? null"
       [max]="max() ?? null"
@@ -46,18 +46,18 @@ limitations under the License.
         [hidden]="true"
       />
     </mat-date-range-input>
-    <input #actualInput class="mask-input" [disabled]="disabled" />
+    <input #actualInput class="mask-input" [disabled]="disabled()" />
     <watt-placeholder-mask
       [primaryInputElement]="actualInput"
       [mask]="rangeInputMask()"
-      [placeholder]="rangePlaceholder"
+      [placeholder]="rangePlaceholder()"
       (maskApplied)="rangeInputChanged($event)"
     />
 
     <watt-button
       variant="icon"
       icon="date"
-      [disabled]="disabled"
+      [disabled]="disabled()"
       [attr.aria-pressed]="false"
       (click)="rangeDatepicker.open()"
       (focusin)="onFocusIn()"
@@ -81,18 +81,18 @@ limitations under the License.
       #dateInput
       autocomplete="off"
       spellcheck="false"
-      [disabled]="disabled"
+      [disabled]="disabled()"
       [min]="min()"
       [max]="max()"
       [matDatepicker]="singleDatepicker"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
     />
-    <input #actualInput class="mask-input" [disabled]="disabled" />
+    <input #actualInput class="mask-input" [disabled]="disabled()" />
     <watt-placeholder-mask
       [primaryInputElement]="actualInput"
       [mask]="inputMask()"
-      [placeholder]="placeholder"
+      [placeholder]="placeholder()"
       (maskApplied)="inputChanged($event)"
     />
 
@@ -100,7 +100,7 @@ limitations under the License.
       wattSuffix
       variant="icon"
       icon="date"
-      [disabled]="disabled"
+      [disabled]="disabled()"
       (click)="singleDatepicker.open()"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
@@ -121,7 +121,7 @@ limitations under the License.
   <ng-content ngProjectAs="watt-field-warning" select="watt-field-warning" />
 </watt-field>
 
-@if (!range && canStepThroughDays()) {
+@if (!range() && canStepThroughDays()) {
   <span
     class="watt-datepicker-single__step-through"
     [class.watt-datepicker-single__has-label]="!!label()"
@@ -130,13 +130,13 @@ limitations under the License.
       variant="icon"
       icon="left"
       (click)="prevDay()"
-      [disabled]="disabled || isPrevDayButtonDisabled()"
+      [disabled]="disabled() || isPrevDayButtonDisabled()"
     />
     <watt-button
       variant="icon"
       icon="right"
       (click)="nextDay()"
-      [disabled]="disabled || isNextDayButtonDisabled()"
+      [disabled]="disabled() || isNextDayButtonDisabled()"
     />
   </span>
 }
