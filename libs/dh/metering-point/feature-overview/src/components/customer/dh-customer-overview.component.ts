@@ -136,7 +136,10 @@ export class DhCustomerOverviewComponent {
         }
         return foundValues;
       }, [])
-      .filter((x) => x.relationType === ElectricityMarketViewCustomerRelationType.Contact4 && x.name !== '')
+      .filter(
+        (x) =>
+          x.relationType === ElectricityMarketViewCustomerRelationType.Contact4 && x.name !== ''
+      )
   );
 
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
