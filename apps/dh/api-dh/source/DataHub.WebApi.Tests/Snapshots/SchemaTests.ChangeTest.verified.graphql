@@ -2791,35 +2791,35 @@ enum ElectricityMarketViewMeteringPointSubType {
 }
 
 enum ElectricityMarketViewMeteringPointType {
-  CONSUMPTION
-  PRODUCTION
-  EXCHANGE
-  VE_PRODUCTION
-  ANALYSIS
-  NOT_USED
-  SURPLUS_PRODUCTION_GROUP6
-  NET_PRODUCTION
-  SUPPLY_TO_GRID
-  CONSUMPTION_FROM_GRID
-  WHOLESALE_SERVICES_OR_INFORMATION
-  OWN_PRODUCTION
-  NET_FROM_GRID
-  NET_TO_GRID
-  TOTAL_CONSUMPTION
-  NET_LOSS_CORRECTION
-  ELECTRICAL_HEATING
-  NET_CONSUMPTION
-  OTHER_CONSUMPTION
-  OTHER_PRODUCTION
-  CAPACITY_SETTLEMENT
-  EXCHANGE_REACTIVE_ENERGY
-  COLLECTIVE_NET_PRODUCTION
-  COLLECTIVE_NET_CONSUMPTION
-  ACTIVATED_DOWNREGULATION
-  ACTIVATED_UPREGULATION
-  ACTUAL_CONSUMPTION
-  ACTUAL_PRODUCTION
-  INTERNAL_USE
+  Consumption
+  Production
+  Exchange
+  VEProduction
+  Analysis
+  NotUsed
+  SurplusProductionGroup6
+  NetProduction
+  SupplyToGrid
+  ConsumptionFromGrid
+  WholesaleServicesOrInformation
+  OwnProduction
+  NetFromGrid
+  NetToGrid
+  TotalConsumption
+  NetLossCorrection
+  ElectricalHeating
+  NetConsumption
+  OtherConsumption
+  OtherProduction
+  CapacitySettlement
+  ExchangeReactiveEnergy
+  CollectiveNetProduction
+  CollectiveNetConsumption
+  ActivatedDownregulation
+  ActivatedUpregulation
+  ActualConsumption
+  ActualProduction
+  InternalUse
 }
 
 enum ElectricityMarketViewProduct {
