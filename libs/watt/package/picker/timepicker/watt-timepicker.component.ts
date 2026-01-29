@@ -141,7 +141,7 @@ export class WattTimepickerComponent extends WattPickerBase {
   sliderChange$ = new Subject<WattSliderValue>();
 
   get sliderValue(): WattSliderValue {
-    const value = this.value();
+    const value = this.control?.value;
     if (value?.start && value?.end) {
       return {
         min: timeToMinutes(value.start),
