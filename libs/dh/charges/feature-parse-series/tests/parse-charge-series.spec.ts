@@ -360,4 +360,59 @@ describe(parseChargeSeries, () => {
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
+
+  it('should parse monthly resolution with first entry starting mid-month', async () => {
+    const csv = [
+      'Position,Periode,Pris',
+      '1,15.1.2025 0.00,100',
+      '2,1.2.2025 0.00,100',
+      '3,1.3.2025 0.00,100',
+      '4,1.4.2025 0.00,100',
+      '5,1.5.2025 0.00,100',
+    ].join('\n');
+
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
+    const result = await lastValueFrom(stream);
+    expect(makeReadable(result)).toMatchSnapshot();
+  });
+
+  it('should parse monthly resolution with first entry on last day of month', async () => {
+    const csv = [
+      'Position,Periode,Pris',
+      '1,31.1.2025 0.00,100',
+      '2,1.2.2025 0.00,100',
+      '3,1.3.2025 0.00,100',
+      '4,1.4.2025 0.00,100',
+    ].join('\n');
+
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
+    const result = await lastValueFrom(stream);
+    expect(makeReadable(result)).toMatchSnapshot();
+  });
+
+  it('should error when second entry in monthly resolution is not on first of month', async () => {
+    const csv = [
+      'Position,Periode,Pris',
+      '1,15.1.2025 0.00,100',
+      '2,15.2.2025 0.00,100',
+      '3,1.3.2025 0.00,100',
+    ].join('\n');
+
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
+    const result = await lastValueFrom(stream);
+    expect(makeReadable(result)).toMatchSnapshot();
+  });
+
+  it('should error when third entry in monthly resolution is not on first of month', async () => {
+    const csv = [
+      'Position,Periode,Pris',
+      '1,15.1.2025 0.00,100',
+      '2,1.2.2025 0.00,100',
+      '3,15.3.2025 0.00,100',
+    ].join('\n');
+
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
+    const result = await lastValueFrom(stream);
+    expect(makeReadable(result)).toMatchSnapshot();
+  });
 });

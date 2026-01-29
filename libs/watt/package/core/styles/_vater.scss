@@ -61,6 +61,22 @@
     height: 100%;
   }
 
+  vater-grid-area,
+  [vater-grid-area] {
+    &.vater-fill-horizontal {
+      grid-column: 1 / -1;
+    }
+
+    &.vater-fill-vertical {
+      grid-row: 1 / -1;
+    }
+
+    &.vater-fill-both {
+      grid-row: 1 / -1;
+      grid-column: 1 / -1;
+    }
+  }
+
   :not(vater-stack, [vater-stack], vater-flex, [vater-flex]) {
     &.vater-fill-vertical,
     &.vater-fill-horizontal,
@@ -131,6 +147,8 @@
   }
 
   .vater-offset-xs {
+    padding: var(--watt-space-xs);
+
     &.vater-column {
       padding: var(--watt-space-xs) 0;
     }
@@ -141,6 +159,8 @@
   }
 
   .vater-offset-s {
+    padding: var(--watt-space-s);
+
     &.vater-column {
       padding: var(--watt-space-s) 0;
     }
@@ -151,6 +171,8 @@
   }
 
   .vater-offset-m {
+    padding: var(--watt-space-m);
+
     &.vater-column {
       padding: var(--watt-space-m) 0;
     }
@@ -161,6 +183,8 @@
   }
 
   .vater-offset-ml {
+    padding: var(--watt-space-ml);
+
     &.vater-column {
       padding: var(--watt-space-ml) 0;
     }
@@ -171,6 +195,8 @@
   }
 
   .vater-offset-l {
+    padding: var(--watt-space-l);
+
     &.vater-column {
       padding: var(--watt-space-l) 0;
     }
@@ -181,6 +207,8 @@
   }
 
   .vater-offset-xl {
+    padding: var(--watt-space-xl);
+
     &.vater-column {
       padding: var(--watt-space-xl) 0;
     }
@@ -260,5 +288,21 @@
 
   .vater-justify-space-evenly {
     justify-content: space-evenly;
+  }
+
+  .vater-subgrid-columns {
+    display: grid;
+    grid-template-columns: subgrid;
+  }
+
+  .vater-subgrid-rows {
+    display: grid;
+    grid-template-rows: subgrid;
+  }
+
+  .vater-subgrid-both {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-template-rows: subgrid;
   }
 }
