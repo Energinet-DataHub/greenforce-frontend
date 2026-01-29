@@ -2642,11 +2642,11 @@ enum ElectricityEicFunctionType {
 }
 
 enum ElectricityMarketConnectionStateType {
-  NotUsed
-  ClosedDown
-  New
-  Connected
-  Disconnected
+  NOT_USED
+  CLOSED_DOWN
+  NEW
+  CONNECTED
+  DISCONNECTED
 }
 
 enum ElectricityMarketMeteringPointType {
