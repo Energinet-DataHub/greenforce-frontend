@@ -1,4 +1,6 @@
 //#region License
+import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
+
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -16,21 +18,13 @@
  * limitations under the License.
  */
 //#endregion
-
-export enum ActorConversationCaseSubjectType {
-  misc = 'misc',
-  disconnectionOrReconnection = 'disconnectionOrReconnection',
-  electricalHeating = 'electricalHeating',
-  incorrectMoveInOrSupplierSwitch = 'incorrectMoveInOrSupplierSwitch',
-  customerMasterData = 'customerMasterData',
-  measurements = 'measurements',
-  meteringPointMasterData = 'meteringPointMasterData',
-  chargeLink = 'chargeLink',
-}
-
-export enum ActorConversationReceiverType {
-  energinet = 'energinet',
-}
+export type createConversationFormValue = {
+  subject: ConversationSubject;
+  content: string;
+  anonymous: boolean;
+  receiver: ActorType;
+  internalNote?: string;
+};
 
 export enum ActorConversationState {
   noCases = 'noCases',

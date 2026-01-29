@@ -31,9 +31,10 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActorConversationCaseSubjectType, ActorConversationReceiverType } from '../types';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattIconComponent } from '@energinet/watt/icon';
+import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
+import { createConversationFormValue } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
@@ -59,7 +60,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
   template: `
     <form
       [formGroup]="newCaseForm"
-      (ngSubmit)="send()"
+      (ngSubmit)="create()"
       vater-stack
       fill="both"
       align="start"
@@ -116,29 +117,34 @@ import { WattIconComponent } from '@energinet/watt/icon';
 })
 export class DhActorConversationNewCaseComponent {
   closeNewCase = output();
-  createCase = output<string>();
+  createCase = output<createConversationFormValue>();
 
   private readonly fb = inject(NonNullableFormBuilder);
 
   newCaseForm = this.fb.group({
-    subject: this.fb.control<ActorConversationCaseSubjectType>(
-      ActorConversationCaseSubjectType.misc,
+    subject: this.fb.control<ConversationSubject>(
+      ConversationSubject.QuestionForEnerginet,
       Validators.required
     ),
-    receiver: this.fb.control<ActorConversationReceiverType>(
-      ActorConversationReceiverType.energinet,
-      Validators.required
-    ),
-    internalNote: this.fb.control<string | null>(null),
+    receiver: this.fb.control<ActorType>(ActorType.Energinet, Validators.required),
+    internalNote: this.fb.control<string | undefined>(undefined),
     message: this.fb.control<string>('', Validators.required),
   });
-  subjects = dhEnumToWattDropdownOptions(ActorConversationCaseSubjectType);
-  receivers = dhEnumToWattDropdownOptions(ActorConversationReceiverType);
+  subjects = dhEnumToWattDropdownOptions(ConversationSubject);
+  receivers = dhEnumToWattDropdownOptions(ActorType);
 
-  protected send() {
+  protected create() {
     if (this.newCaseForm.invalid) {
       return;
     }
-    this.createCase.emit(this.newCaseForm.controls.message.value);
+    this.createCase.emit(
+      {
+        subject: this.newCaseForm.controls.subject.value,
+        content: this.newCaseForm.controls.message.value,
+        anonymous: false, //TODO: Implement when anonymous messaging is supported
+        receiver: this.newCaseForm.controls.receiver.value,
+        internalNote: this.newCaseForm.controls.internalNote.value
+      }
+    );
   }
 }
