@@ -55,6 +55,10 @@ import { DhActorConversationSelectedConversationComponent } from './actor-conver
       border-bottom-left-radius: 0;
     }
 
+    .no-padding {
+      padding: 0;
+    }
+
     .flex-1 {
       flex: 1;
     }
@@ -77,13 +81,14 @@ import { DhActorConversationSelectedConversationComponent } from './actor-conver
         (selectConversation)="selectConversation($event)"
         class="flex-1"
       />
-      <watt-card class="flex-3 no-border-radius-left">
+      <watt-card class="flex-3 no-padding no-border-radius-left">
         <vater-stack fill="vertical">
           @switch (state()) {
             @case (ActorConversationState.newConversationOpen) {
               <dh-actor-conversation-new-conversation
                 vater
                 fill="both"
+                class="watt-space-inset-m"
                 (closeNewConversation)="newConversationVisible.set(false)"
                 (createConversation)="send($event)"
               />
