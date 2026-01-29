@@ -59,7 +59,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     }
 
     .min-height-line-height-xs {
-      line-height: 22px;
+      min-height: 22px;
     }
 
     .unread-indicator {

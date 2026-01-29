@@ -48,6 +48,11 @@ import { TranslocoDirective } from '@jsverse/transloco';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
+    .no-border-radius-left {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
     .flex-1 {
       flex: 1;
     }
@@ -60,7 +65,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
     <vater-flex
       direction="row"
       fill="vertical"
-      gap="m"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <dh-actor-conversation-case-list
@@ -71,7 +75,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
         (selectCase)="selectCase($event)"
         class="flex-1"
       />
-      <watt-card class="flex-3">
+      <watt-card class="flex-3 no-border-radius-left">
         <vater-stack fill="vertical">
           @switch (state()) {
             @case (ActorConversationState.newCaseOpen) {

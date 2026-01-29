@@ -41,13 +41,19 @@ import { ActorConversationCaseSubjectType, Case } from '../types';
       padding: 0;
     }
 
+    .no-right-border-radius {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 0 !important;
+    }
+
     .no-margin {
       margin: 0;
     }
   `,
   template: `
     <vater-flex fill="vertical">
-      <watt-card class="no-padding" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+      <watt-card class="no-padding no-right-border-radius" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
         <watt-card-title vater class="watt-space-inset-m no-margin">
           <vater-stack direction="row" justify="space-between" align="center">
             <h3>{{ t('cases') }}</h3>
