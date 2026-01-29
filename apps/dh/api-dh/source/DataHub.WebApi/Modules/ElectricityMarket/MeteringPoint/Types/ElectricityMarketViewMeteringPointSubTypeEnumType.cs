@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Types;
@@ -22,6 +21,5 @@ public class ElectricityMarketViewMeteringPointSubTypeEnumType : EnumType<Meteri
     protected override void Configure(IEnumTypeDescriptor<MeteringPointSubType> descriptor)
     {
         descriptor.Name("ElectricityMarketViewMeteringPointSubType");
-        descriptor.AsIsCase();
     }
 }
