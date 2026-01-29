@@ -26,7 +26,8 @@ import {
   ChargeType,
   EicFunction,
   ChargeStatus,
-  GetChargesQueryInput,
+  ChargeResolution,
+  ChargesQueryInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
@@ -37,7 +38,6 @@ import {
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { capitalize } from '@energinet-datahub/dh/shared/util-text';
 
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
@@ -65,7 +65,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
       *transloco="let t; prefix: 'charges.charges.table.filters'"
     >
       <watt-dropdown
-        [formControl]="this.form().controls.chargeTypes"
+        [formControl]="this.form().controls.types"
         [chipMode]="true"
         [multiple]="true"
         [options]="chargeTypeOptions"
@@ -74,22 +74,34 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
         translateKey="charges.chargeTypes"
       />
 
-      <watt-dropdown
-        [formControl]="this.form().controls.actorNumbers"
-        [chipMode]="true"
-        [multiple]="true"
-        [options]="owners()"
-        [placeholder]="t('owners')"
-      />
+      @if (selectedActor.marketRole !== 'SystemOperator') {
+        <watt-dropdown
+          [formControl]="this.form().controls.owners"
+          [chipMode]="true"
+          [multiple]="true"
+          [options]="owners()"
+          [placeholder]="t('owners')"
+        />
+      }
 
       <watt-dropdown
-        [formControl]="this.form().controls.statuses"
+        [formControl]="this.form().controls.status"
         [chipMode]="true"
         [multiple]="true"
         [options]="statusOptions"
         [placeholder]="t('status')"
         dhDropdownTranslator
         translateKey="charges.charges.table.chargeStatus"
+      />
+
+      <watt-dropdown
+        [formControl]="this.form().controls.resolution"
+        [chipMode]="true"
+        [multiple]="true"
+        [options]="resolutionOptions"
+        [placeholder]="t('resolution')"
+        dhDropdownTranslator
+        translateKey="charges.resolutions"
       />
 
       <watt-dropdown
@@ -106,25 +118,46 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
 })
 export class DhChargesFilters {
   private readonly actorStorage = inject(DhActorStorage);
-  private readonly marketRole = this.actorStorage.getSelectedActor().marketRole;
+  selectedActor = this.actorStorage.getSelectedActor();
+  private actorOptions = getActorOptions(this.getActorsWithMarketRoles(), 'glnOrEicNumber');
   private readonly moreOptionsTranslations = translateObjectSignal(
     'charges.charges.table.moreOptions'
   );
 
-  filter = model<GetChargesQueryInput>({});
+  filter = model<ChargesQueryInput>({ status: [ChargeStatus.Current] });
 
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
-  statusOptions = dhEnumToWattDropdownOptions(ChargeStatus, [ChargeStatus.Invalid]);
-  owners = getActorOptions(this.getActorsWithMarketRoles(), 'actorId');
+  statusOptions = dhEnumToWattDropdownOptions(ChargeStatus);
+  resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolution, ['QUARTER_HOURLY']);
   moreOptions = computed(() => this.getMoreOptions());
+  owners = computed(() => {
+    const options = this.actorOptions();
+
+    if (this.selectedActor.marketRole === EicFunction.GridAccessProvider) {
+      return [
+        ...options,
+        {
+          value: this.selectedActor.gln,
+          displayValue: `${this.selectedActor.gln} • ${this.selectedActor.actorName}`,
+        },
+      ];
+    }
+
+    return options;
+  });
 
   form = computed(() => {
     const initial = untracked(() => this.filter());
     return new FormGroup({
-      chargeTypes: dhMakeFormControl(),
-      actorNumbers: dhMakeFormControl(),
-      statuses: dhMakeFormControl(initial.statuses),
-      moreOptions: dhMakeFormControl<string[] | null>(null),
+      types: dhMakeFormControl(),
+      owners: dhMakeFormControl(
+        this.selectedActor.marketRole === EicFunction.SystemOperator
+          ? [this.selectedActor.gln]
+          : null
+      ),
+      status: dhMakeFormControl(initial.status),
+      resolution: dhMakeFormControl<ChargeResolution[]>(),
+      moreOptions: dhMakeFormControl<ChargesQueryInput[] | null>(null),
     });
   });
 
@@ -132,47 +165,70 @@ export class DhChargesFilters {
 
   constructor() {
     effect(() => {
-      this.filter.set(this.valuesChanges());
+      this.filter.set({
+        status: this.valuesChanges().status,
+        owners: this.valuesChanges().owners,
+        types: this.valuesChanges().types,
+        resolution: this.valuesChanges().resolution,
+        vatInclusive: this.getOptionFilter((o) => o.vatInclusive),
+        transparentInvoicing: this.getOptionFilter((o) => o.transparentInvoicing),
+        predictablePrice: this.getOptionFilter((o) => o.predictablePrice),
+        missingPriceSeries: this.getOptionFilter((o) => o.missingPriceSeries),
+      });
     });
   }
 
+  // Gets the boolean value for an option filter defined in `moreOptions`. When both
+  // `true` and `false` exists for the same filter, then `null` is returned instead.
+  private getOptionFilter = (selector: (input: ChargesQueryInput) => boolean | null | undefined) =>
+    this.valuesChanges()
+      .moreOptions?.map(selector)
+      .filter((x) => x !== undefined)
+      .reduce((acc, next) => (acc === !next ? null : next), null);
+
   private getActorsWithMarketRoles() {
-    switch (this.marketRole) {
+    switch (this.selectedActor.marketRole) {
       case EicFunction.GridAccessProvider:
-        return [EicFunction.SystemOperator, EicFunction.GridAccessProvider];
+        return [EicFunction.SystemOperator];
       case EicFunction.EnergySupplier:
-        return [EicFunction.SystemOperator, EicFunction.EnergySupplier];
+        return [EicFunction.SystemOperator, EicFunction.GridAccessProvider];
       case EicFunction.DataHubAdministrator:
-        return [
-          EicFunction.SystemOperator,
-          EicFunction.GridAccessProvider,
-          EicFunction.EnergySupplier,
-        ];
+        return [EicFunction.SystemOperator, EicFunction.GridAccessProvider];
+      case EicFunction.SystemOperator:
+        return [EicFunction.SystemOperator];
       default:
         return [];
     }
   }
 
-  private getMoreOptions(): WattDropdownOptionGroup[] {
+  private getMoreOptions() {
     return [
-      this.createGroupOption('vat'),
+      this.createGroupOption('vatInclusive'),
       this.createGroupOption('transparentInvoicing'),
       this.createGroupOption('predictablePrice'),
+      this.createGroupOption('missingPriceSeries', { noInvertedOption: true }),
     ];
   }
 
-  private createGroupOption(name: string): WattDropdownOptionGroup {
+  private createGroupOption(
+    name: keyof ChargesQueryInput,
+    { noInvertedOption = false } = {}
+  ): WattDropdownOptionGroup<ChargesQueryInput> {
     return {
       label: this.moreOptionsTranslations()[`${name}GroupName`],
       options: [
         {
-          value: `${name}-true`,
-          displayValue: this.moreOptionsTranslations()[`with${capitalize(name)}`],
+          value: { [name]: true },
+          displayValue: this.moreOptionsTranslations()[name],
         },
-        {
-          value: `${name}-false`,
-          displayValue: this.moreOptionsTranslations()[`without${capitalize(name)}`],
-        },
+        ...(noInvertedOption
+          ? []
+          : [
+              {
+                value: { [name]: false },
+                displayValue: this.moreOptionsTranslations()[`not_${name}`],
+              },
+            ]),
       ],
     };
   }

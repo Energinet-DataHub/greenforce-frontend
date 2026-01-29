@@ -53,7 +53,7 @@ limitations under the License.
       <watt-tab [label]="t('tab.roles')">
         @let id = user()?.id;
         @if (id) {
-          <dh-user-roles
+          <dh-user-roles-container
             [id]="id"
             [selectMode]="true"
             (updateUserRoles)="onSelectedUserRolesChanged($event)"

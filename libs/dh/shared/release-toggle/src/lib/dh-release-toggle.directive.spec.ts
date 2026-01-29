@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { render, screen } from '@testing-library/angular';
 import '@testing-library/jest-dom/vitest';
 
@@ -73,11 +73,11 @@ describe('DhReleaseToggleDirective', () => {
 
   describe('String toggle expressions', () => {
     @Component({
-      template: `<p *dhReleaseToggle="toggleName">{{ '${CONTENT_TEXT.FEATURE}' }}</p>`,
+      template: `<p *dhReleaseToggle="toggleName()">{{ '${CONTENT_TEXT.FEATURE}' }}</p>`,
       imports: [DhReleaseToggleDirective],
     })
     class SingleToggleComponent {
-      toggleName: string = TOGGLE_NAMES.RELEASE_TOGGLE;
+      toggleName = input(TOGGLE_NAMES.RELEASE_TOGGLE);
     }
 
     it('should show content when toggle is enabled', async () => {
@@ -122,7 +122,7 @@ describe('DhReleaseToggleDirective', () => {
       mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.BETA_RELEASES]);
       mockReleaseToggleService.isEnabled.mockReturnValue(true);
 
-      rerender({ componentProperties: { toggleName: TOGGLE_NAMES.BETA_RELEASES } });
+      rerender({ inputs: { toggleName: TOGGLE_NAMES.BETA_RELEASES } });
 
       expect(screen.getByRole('paragraph')).toBeInTheDocument();
       expect(screen.getByRole('paragraph')).toHaveTextContent(CONTENT_TEXT.FEATURE);
@@ -286,7 +286,9 @@ describe('DhReleaseToggleDirective', () => {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
       });
 
-      expect(screen.getByRole('heading', { name: CONTENT_TEXT.COMBINED_FEATURES })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: CONTENT_TEXT.COMBINED_FEATURES })
+      ).toBeInTheDocument();
       expect(screen.getByRole('paragraph')).toBeInTheDocument();
       expect(screen.getByRole('paragraph')).toHaveTextContent(CONTENT_TEXT.COMBINED_DESCRIPTION);
       expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
@@ -382,11 +384,11 @@ describe('DhReleaseToggleDirective', () => {
 
   describe('Expression type switching', () => {
     @Component({
-      template: `<span *dhReleaseToggle="expression">{{ '${CONTENT_TEXT.DYNAMIC}' }}</span>`,
+      template: `<span *dhReleaseToggle="expression()">{{ '${CONTENT_TEXT.DYNAMIC}' }}</span>`,
       imports: [DhReleaseToggleDirective],
     })
     class DynamicExpressionComponent {
-      expression: ToggleExpression = '';
+      expression = input<ToggleExpression>('');
     }
 
     it('should update when expression format changes', async () => {
@@ -396,7 +398,7 @@ describe('DhReleaseToggleDirective', () => {
 
       const { rerender } = await render(DynamicExpressionComponent, {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
-        componentProperties: { expression: TOGGLE_NAMES.INITIAL_TOGGLE },
+        inputs: { expression: TOGGLE_NAMES.INITIAL_TOGGLE },
       });
 
       expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
@@ -408,24 +410,24 @@ describe('DhReleaseToggleDirective', () => {
       ]);
 
       rerender({
-        componentProperties: { expression: [TOGGLE_NAMES.TOGGLE_1, TOGGLE_NAMES.TOGGLE_2] },
+        inputs: { expression: [TOGGLE_NAMES.TOGGLE_1, TOGGLE_NAMES.TOGGLE_2] },
       });
       expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
 
       mockReleaseToggleService.toggles.mockReturnValue([]);
       mockReleaseToggleService.isEnabled.mockReturnValue(false);
-      rerender({ componentProperties: { expression: `!${TOGGLE_NAMES.DISABLED_RELEASE}` } });
+      rerender({ inputs: { expression: `!${TOGGLE_NAMES.DISABLED_RELEASE}` } });
       expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
     });
   });
 
   describe('Invalid input handling', () => {
     @Component({
-      template: `<div *dhReleaseToggle="expression">{{ '${CONTENT_TEXT.GENERIC}' }}</div>`,
+      template: `<div *dhReleaseToggle="expression()">{{ '${CONTENT_TEXT.GENERIC}' }}</div>`,
       imports: [DhReleaseToggleDirective],
     })
     class EdgeCaseComponent {
-      expression: ToggleExpression = '';
+      expression = input<ToggleExpression>('');
     }
 
     it('should hide content for empty expression', async () => {
@@ -433,7 +435,7 @@ describe('DhReleaseToggleDirective', () => {
 
       await render(EdgeCaseComponent, {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
-        componentProperties: { expression: '' },
+        inputs: { expression: '' },
       });
 
       expect(screen.queryByText(CONTENT_TEXT.GENERIC)).not.toBeInTheDocument();
@@ -449,7 +451,7 @@ describe('DhReleaseToggleDirective', () => {
 
       await render(EdgeCaseComponent, {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
-        componentProperties: { expression: complexToggle },
+        inputs: { expression: complexToggle },
       });
 
       expect(screen.getByText(CONTENT_TEXT.GENERIC)).toBeInTheDocument();

@@ -54,6 +54,7 @@ export const WattIconMap = {
   toggleOn: 'toggle_on',
   toggleOff: 'toggle_off',
   personCheck: 'person_check',
+  send: 'send',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',
@@ -76,6 +77,7 @@ export const WattIconMap = {
   fileUpload: 'upload',
   print: 'print',
   preview: 'preview',
+  attachFile: 'attach_file',
   // Other
   power: 'power',
   location: 'location_on',

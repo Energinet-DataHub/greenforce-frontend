@@ -24,10 +24,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  GetMeteringPointEventsDebugViewDocument,
-  GetMeteringPointResultDtoV1,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointEventsDebugViewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
@@ -58,7 +55,7 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
       <dh-result [loading]="query.loading()" [hasError]="query.hasError()">
         @if (debugViewV2()) {
           <h1>Metering Point</h1>
-          <pre>{{ debugViewV2()!.meteringPoint | json }}</pre>
+          <pre>{{ debugViewV2()!.meteringPointJson }}</pre>
 
           <h1>Events</h1>
           <pre>{{ debugViewV2()!.events | json }}</pre>
@@ -73,18 +70,17 @@ export class DhMeteringPointEventsComponent {
   query = lazyQuery(GetMeteringPointEventsDebugViewDocument);
 
   debugViewV2 = computed(() => {
-    let debugView = this.query.data()?.eventsDebugView;
+    const debugView = this.query.data()?.eventsDebugView;
 
     if (!debugView) return undefined;
 
-    debugView = removeTypename(debugView) as GetMeteringPointResultDtoV1;
-
     return {
-      ...debugView,
+      meteringPointJson: debugView.meteringPointJson,
       events: debugView?.events.map((e) => ({
         ...e,
-        data: safeJsonParse(e.jsonData),
-        jsonData: undefined,
+        data: tryJsonParse(e.dataJson),
+        dataJson: undefined,
+        __typename: undefined,
       })),
     };
   });
@@ -112,33 +108,11 @@ export class DhMeteringPointEventsComponent {
   }
 }
 
-function safeJsonParse(str: string): unknown {
+function tryJsonParse(str: string): unknown {
   try {
     return JSON.parse(str);
   } catch (error) {
     console.error('Failed to parse JSON:', str, error);
     return str;
   }
-}
-
-function removeTypename(obj: unknown): unknown {
-  if (obj instanceof Date) {
-    return obj; // Preserve Date objects
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.map(removeTypename);
-  }
-
-  if (obj && typeof obj === 'object') {
-    const result: Record<string, unknown> = {};
-    for (const [key, value] of Object.entries(obj)) {
-      if (key !== '__typename') {
-        result[key] = removeTypename(value);
-      }
-    }
-    return result;
-  }
-
-  return obj;
 }

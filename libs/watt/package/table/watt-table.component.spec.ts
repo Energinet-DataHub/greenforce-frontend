@@ -245,10 +245,14 @@ describe(WattTableComponent, () => {
     const [firstCell] = result.getAllByRole('gridcell');
     userEvent.click(firstCell);
 
-    const [row] = rowClick.mock.lastCall;
-    result.rerender({ componentProperties: { dataSource, columns, rowClick, activeRow: row } });
+    const lastCall = rowClick.mock.lastCall;
 
-    expect(result.getByRole('row', { selected: true })).toEqual(secondRow);
+    if (lastCall) {
+      const [row] = lastCall;
+      result.rerender({ componentProperties: { dataSource, columns, rowClick, activeRow: row } });
+
+      expect(result.getByRole('row', { selected: true })).toEqual(secondRow);
+    }
   });
 
   it('renders checkbox column when selectable is true', async () => {

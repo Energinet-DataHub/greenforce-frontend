@@ -40,17 +40,21 @@ import {
   ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
-import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
-import { DhMeteringPointCreateChargeLink } from '@energinet-datahub/dh/metering-point/feature-chargelink';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
+import { DhEndOfSupplyComponent } from '@energinet-datahub/dh/metering-point/feature-end-of-supply';
 
 import { InstallationAddress } from '../types';
-import { DhGetMeteringPointForManualCorrectionComponent } from './manual-correction/dh-get-metering-point-for-manual-correction.component';
-import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-correction/dh-simulate-metering-point-manual-correction.component';
-import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correction/dh-execute-metering-point-manual-correction.component';
 import { DhConnectionStateManageComponent } from './connection-state-manage/connection-state-manage';
+import { DhGetMeteringPointForManualCorrectionComponent } from './manual-correction/dh-get-metering-point-for-manual-correction.component';
+import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correction/dh-execute-metering-point-manual-correction.component';
+import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-correction/dh-simulate-metering-point-manual-correction.component';
 
 @Component({
   selector: 'dh-metering-point-actions',
@@ -97,7 +101,9 @@ import { DhConnectionStateManageComponent } from './connection-state-manage/conn
         }
 
         @if (showCreateChargeLinkButton()) {
-          <watt-menu-item (click)="createLink()">
+          <watt-menu-item
+            [routerLink]="[createChargeLinkLink, { outlets: { create: ['create'] } }]"
+          >
             {{ t('createChargeLink') }}
           </watt-menu-item>
         }
@@ -106,6 +112,12 @@ import { DhConnectionStateManageComponent } from './connection-state-manage/conn
           <dh-get-metering-point-for-manual-correction [meteringPointId]="meteringPointId()" />
           <dh-simulate-metering-point-manual-correction [meteringPointId]="meteringPointId()" />
           <dh-execute-metering-point-manual-correction [meteringPointId]="meteringPointId()" />
+        }
+
+        @if (showEndOfSupplyButton()) {
+          <watt-menu-item (click)="startEndOfSupply()">
+            {{ t('endOfSupply') }}
+          </watt-menu-item>
         }
 
         @if (showConnectionStateManageButton()) {
@@ -119,12 +131,15 @@ import { DhConnectionStateManageComponent } from './connection-state-manage/conn
 })
 export class DhMeteringPointActionsComponent {
   private readonly releaseToggleService = inject(DhReleaseToggleService);
+  private readonly featureFlagsService = inject(DhFeatureFlagsService);
   private readonly modalService = inject(WattModalService);
   private readonly permissionService = inject(PermissionService);
+  private readonly actor = inject(DhActorStorage);
 
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
   getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
+  createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;
 
   meteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
@@ -163,6 +178,11 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
+  private readonly hasEnergySupplierRole = toSignal(
+    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
+    { initialValue: false }
+  );
+
   showMeasurementsUploadButton = computed(() => {
     return (
       this.hasMessurementsManagePermission() &&
@@ -176,7 +196,8 @@ export class DhMeteringPointActionsComponent {
     return (
       this.hasMeteringPointMoveInPermission() &&
       this.releaseToggleService.isEnabled('MoveInBrs009') &&
-      this.connectionState() === ConnectionState.Connected &&
+      (this.connectionState() === ConnectionState.New ||
+        this.connectionState() === ConnectionState.Connected) &&
       (this.type() === ElectricityMarketMeteringPointType.Consumption ||
         this.type() === ElectricityMarketMeteringPointType.Production)
     );
@@ -195,28 +216,38 @@ export class DhMeteringPointActionsComponent {
   );
   showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
 
+  showEndOfSupplyButton = computed(
+    () => this.hasEnergySupplierRole() && this.featureFlagsService.isEnabled('end-of-supply')
+  );
+
   showActionsButton = computed(() => {
     return (
       this.showMeasurementsUploadButton() ||
       this.showMoveInButton() ||
       this.showCreateChargeLinkButton() ||
       this.showManualCorrectionButtons() ||
-      this.showConnectionStateManageButton()
+      this.showConnectionStateManageButton() ||
+      this.showEndOfSupplyButton()
     );
   });
 
   startMoveIn() {
     this.modalService.open({
       component: DhStartMoveInComponent,
-      data: { installationAddress: this.installationAddress() },
+      data: {
+        meteringPointId: this.meteringPointId(),
+        energySupplier: this.actor.getSelectedActor().gln,
+      },
       disableClose: true,
     });
   }
 
-  createLink() {
+  startEndOfSupply() {
     this.modalService.open({
-      component: DhMeteringPointCreateChargeLink,
-      disableClose: true,
+      component: DhEndOfSupplyComponent,
+      data: {
+        meteringPointId: this.meteringPointId(),
+      },
     });
   }
 

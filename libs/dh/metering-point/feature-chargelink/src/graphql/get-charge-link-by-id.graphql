@@ -1,0 +1,10 @@
+query GetChargeLinkById($id: String!) {
+  chargeLinkById(id: $id) {
+    id
+    charge {
+      id
+      code
+      displayName
+    }
+  }
+}

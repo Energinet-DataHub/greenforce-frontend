@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Shared;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
-using Energinet.DataHub.WebApi.Modules.Charges.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using HotChocolate.Authorization;
@@ -34,24 +34,20 @@ public static partial class ChargeNode
     [Authorize(Roles = new[] { "charges:view" })]
     public static async Task<IEnumerable<Charge>> GetChargesAsync(
         string? filter,
-        GetChargesQuery? query,
+        ChargesQuery? query,
         IChargesClient client,
-        CancellationToken ct)
-    {
-        var result = (await client.GetChargesAsync(0, 1000, filter, new ChargeSortInput(Common.Enums.SortDirection.Desc, null), query, ct)).Value.Charges ?? Enumerable.Empty<Charge>();
-
-        result = result.FilterOnActors(query?.ActorNumbers);
-        result = result.FilterOnTypes(query?.ChargeTypes);
-        result = result.FilterOnVatClassification(query?.MoreOptions);
-        result = result.FilterOnTransparentInvoicing(query?.MoreOptions);
-        result = result.FilterOnStatuses(query?.Statuses, ct);
-        result = result.Where(charge =>
-            filter is null ||
-            charge.ChargeIdentifierDto.Code.Contains(filter, StringComparison.CurrentCultureIgnoreCase) ||
-            charge.Periods.Any(p => p.Name.Contains(filter, StringComparison.CurrentCultureIgnoreCase)));
-
-        return result;
-    }
+        CancellationToken ct) =>
+            await client.GetChargesAsync(
+                filter,
+                query?.Owners,
+                query?.Types,
+                query?.Status,
+                query?.Resolution,
+                query?.VatInclusive,
+                query?.TransparentInvoicing,
+                query?.PredictablePrice,
+                query?.MissingPriceSeries,
+                ct);
 
     [Query]
     [Authorize(Roles = new[] { "charges:view" })]
@@ -69,41 +65,73 @@ public static partial class ChargeNode
         CancellationToken ct) =>
             await client.GetChargesByTypeAsync(type, ct);
 
-    public static async Task<IEnumerable<ChargeSeries>> GetSeriesAsync(
+    [Mutation]
+    [Authorize(Roles = new[] { "charges:manage" })]
+    public static async Task<bool> CreateChargeAsync(
+        IChargesClient client,
+        CreateChargeInput input,
+        CancellationToken ct) =>
+            await client.CreateChargeAsync(input, ct);
+
+    [Mutation]
+    [Authorize(Roles = new[] { "charges:manage" })]
+    public static async Task<bool> UpdateChargeAsync(
+        IChargesClient client,
+        UpdateChargeInput input,
+        CancellationToken ct) =>
+            await client.UpdateChargeAsync(input, ct);
+
+    [Mutation]
+    [Authorize(Roles = new[] { "charges:manage" })]
+    public static async Task<bool> StopChargeAsync(
+        IChargesClient client,
+        ChargeIdentifierDto id,
+        DateTimeOffset terminationDate,
+        CancellationToken ct) =>
+            await client.StopChargeAsync(id, terminationDate, ct);
+
+    [Mutation]
+    [Authorize(Roles = new[] { "charges:manage" })]
+    public static async Task<bool> AddChargeSeriesAsync(
+        IChargesClient client,
+        ChargeIdentifierDto id,
+        DateTimeOffset start,
+        DateTimeOffset end,
+        List<ChargePointV1> points,
+        CancellationToken ct) =>
+            await client.AddChargeSeriesAsync(id, start, end, points, ct);
+
+    public static async Task<IEnumerable<ChargeSeriesPointDto>> GetSeriesAsync(
         [Parent] Charge charge,
         Interval interval,
         IChargesClient client,
         CancellationToken ct) =>
-            await client.GetChargeSeriesAsync(charge.ChargeIdentifierDto, charge.Resolution, interval, ct);
+            await client.GetChargeSeriesAsync(charge.Id, charge.Resolution, interval, ct);
 
     public static async Task<ActorDto?> GetOwnerAsync(
         [Parent] Charge charge,
-        IMarketParticipantByIdDataLoader dataLoader,
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader,
         CancellationToken ct)
     {
-        if (Guid.TryParse(charge.ChargeIdentifierDto.Owner, out var guid))
-        {
-            return await dataLoader.LoadAsync(guid, ct);
-        }
-
-        return null;
+        var owner = await dataLoader.LoadAsync((charge.Id.Owner, EicFunction.SystemOperator), ct);
+        return owner ?? await dataLoader.LoadAsync((charge.Id.Owner, EicFunction.GridAccessProvider), ct);
     }
-
-    public static ChargeInformationPeriodDto? CurrentPeriod([Parent] Charge charge) =>
-        charge.GetCurrentPeriod();
-
-    public static ChargeStatus GetStatus([Parent] Charge charge) => charge.GetChargeStatus();
 
     static partial void Configure(IObjectTypeDescriptor<Charge> descriptor)
     {
         descriptor.Name("Charge");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.ChargeIdentifierDto).Name("id");
-        descriptor.Field(f => ChargeType.Make(f.ChargeIdentifierDto.Type, f.TaxIndicator)).Name("type");
-        descriptor.Field(f => f.ChargeIdentifierDto.Code).Name("code");
-        descriptor.Field(f => f.Name()).Name("name");
-        descriptor.Field(f => f.DisplayName()).Name("displayName");
-        descriptor.Field(f => f.Resolution);
+        descriptor.Field(f => f.Id);
+        descriptor.Field(f => f.Code);
+        descriptor.Field(f => f.Name);
+        descriptor.Field(f => f.Type);
+        descriptor.Field(f => $"{f.Code} - {f.Name}").Name("displayName");
+        descriptor.Field(f => f.Description);
         descriptor.Field(f => f.Periods);
+        descriptor.Field(f => f.Resolution);
+        descriptor.Field(f => f.Status);
+        descriptor.Field(f => f.VatInclusive);
+        descriptor.Field(f => f.TransparentInvoicing);
+        descriptor.Field(f => f.PredictablePrice);
     }
 }

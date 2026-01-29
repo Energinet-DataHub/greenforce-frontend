@@ -3,7 +3,7 @@ query GetCharges(
   $before: String
   $first: Int
   $last: Int
-  $query: GetChargesQueryInput
+  $query: ChargesQueryInput
   $order: [ChargeSortInput!]
   $filter: String
 ) {

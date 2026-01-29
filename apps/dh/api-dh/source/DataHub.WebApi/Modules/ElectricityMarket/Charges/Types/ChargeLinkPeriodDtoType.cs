@@ -24,8 +24,7 @@ public static partial class ChargeLinkPeriodDtoType
     {
         descriptor.Name("ChargeLinkPeriod");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => new Interval(f.From, f.To)).Name("period");
+        descriptor.Field(f => new Interval(f.From, f.To)).Name("interval");
         descriptor.Field(f => f.Factor).Name("amount");
-        descriptor.Field(f => f.ChargeLinkPeriodId).Name("id");
     }
 }

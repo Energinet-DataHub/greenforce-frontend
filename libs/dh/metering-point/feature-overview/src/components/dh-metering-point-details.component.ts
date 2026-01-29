@@ -146,8 +146,20 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
             <watt-description-list-item [label]="t('powerLimit')">
               @if (meteringPointDetails()?.powerLimitKw) {
                 {{
-                  t('powerLimitValue', {
+                  t('powerLimitValueKw', {
                     value: meteringPointDetails()?.powerLimitKw | number: '1.1',
+                  })
+                }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
+
+            <watt-description-list-item [label]="t('powerLimit')">
+              @if (meteringPointDetails()?.powerLimitAmp) {
+                {{
+                  t('powerLimitValueAmpere', {
+                    value: meteringPointDetails()?.powerLimitAmp | number: '1',
                   })
                 }}
               } @else {

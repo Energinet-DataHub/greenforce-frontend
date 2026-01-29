@@ -196,7 +196,13 @@
     "selectedValues": "{{count}} valgt(e)",
     "calculationType": "Beregningstype",
     "all": "Alle",
-    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}"
+    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}",
+    "terminology": {
+      "customerMasterData": "Kundestamdata",
+      "measurements": "Måledata",
+      "meteringPointMasterData": "Målepunktsstamdata",
+      "chargeLink": "Pristilknytning"
+    }
   },
   "clipboard": {
     "success": "Kopieret",
@@ -376,31 +382,32 @@
       "TARIFF_TAX": "Tarif, afgift"
     },
     "resolutions": {
-      "daily": "Dag",
-      "quarterhourly": "Kvarter",
-      "hourly": "Time",
-      "monthly": "Måned",
-      "unknown": "Ukendt"
+      "QUARTER_HOURLY": "Kvarter",
+      "DAILY": "Dag",
+      "HOURLY": "Time",
+      "MONTHLY": "Måned"
     },
-    "vatClassifications": {
-      "NO_VAT": "Uden moms",
-      "VAT25": "Med moms"
+    "vatInclusive": {
+      "false": "Uden moms",
+      "true": "Med moms"
     },
     "charges": {
       "topBarTitle": "Priser",
       "table": {
-        "createButton": "Ny pris",
+        "createButton": "Opret pris",
         "columns": {
           "code": "ID",
           "type": "Type",
           "name": "Navn",
           "owner": "Ejer",
-          "status": "Status"
+          "status": "Status",
+          "resolution": "Prisopløsning"
         },
         "filters": {
           "chargeType": "Type",
           "owners": "Ejer",
           "status": "Status",
+          "resolution": "Prisopløsning",
           "vat": "Moms",
           "moreOptions": "Flere filtre"
         },
@@ -408,39 +415,46 @@
           "AWAITING": "Afventer",
           "CLOSED": "Lukket",
           "CANCELLED": "Annulleret",
-          "CURRENT": "Aktuel",
-          "MISSING_PRICE_SERIES": "Mangler prisserie"
+          "CURRENT": "Aktuel"
         },
         "moreOptions": {
-          "vatGroupName": "Moms",
-          "withVat": "Med moms",
-          "withoutVat": "Uden moms",
+          "vatInclusiveGroupName": "Moms",
+          "vatInclusive": "Med moms",
+          "not_vatInclusive": "Uden moms",
           "transparentInvoicingGroupName": "Viderefakturering",
-          "withTransparentInvoicing": "Skal viderefaktureres",
-          "withoutTransparentInvoicing": "Skal ikke viderefaktureres",
-          "predictablePriceGroupName": "Forudsigelig pris",
-          "withPredictablePrice": "Forudsigelig pris",
-          "withoutPredictablePrice": "Ikke forudsigelig pris"
+          "transparentInvoicing": "Skal viderefaktureres",
+          "not_transparentInvoicing": "Skal ikke viderefaktureres",
+          "predictablePriceGroupName": "Spotafhængig pris",
+          "predictablePrice": "Spotafhængig pris",
+          "not_predictablePrice": "Ikke spotafhængig pris",
+          "missingPriceSeriesGroupName": "Prisserie",
+          "missingPriceSeries": "Mangler prisserie",
+          "not_missingPriceSeries": "Har prisserie"
         }
       }
     },
     "actions": {
       "create": {
         "action": {
-          "SUBSCRIPTION": "Nyt abonnement",
-          "FEE": "Nyt gebyr",
-          "TARIFF": "Ny tarif",
-          "TARIFF_TAX": "Ny tarif, afgift",
-          "SELECTION": "Ny pris"
+          "SUBSCRIPTION": "Opret abonnement",
+          "FEE": "Opret gebyr",
+          "TARIFF": "Opret tarif",
+          "TARIFF_TAX": "Opret tarif, afgift",
+          "SELECTION": "Opret pris"
+        },
+        "toast": {
+          "loading": "Pris oprettes..",
+          "success": "Pris oprettet",
+          "error": "Oprettelse mislykkedes"
         },
         "close": "Luk",
         "form": {
           "id": "ID",
           "name": "Navn",
           "description": "Beskrivelse",
-          "resolution": "Opløsning",
-          "hourly": "Time",
-          "daily": "Dag",
+          "resolution": "Prisopløsning",
+          "HOURLY": "Time",
+          "DAILY": "Dag",
           "vat": "Moms",
           "withVat": "Med moms",
           "withoutVat": "Uden moms",
@@ -457,20 +471,35 @@
       },
       "stop": {
         "title": "Stop prisinformation",
-        "date": "Stopdato",
+        "terminationDate": "Stopdato",
         "submit": "Gem ændringer",
+        "toast": {
+          "loading": "Ændringer gemmes..",
+          "success": "Ændringer gemt",
+          "error": "Operation mislykkedes"
+        },
         "close": "Luk",
         "tooltip": "Processen tager få minutter. Resultat\n vises her, og afvisningsårsager findes\n i forretningsbeskeder."
       },
       "edit": {
         "title": "Rediger prisinformation",
         "submit": "Gem ændringer",
+        "toast": {
+          "loading": "Ændringer gemmes..",
+          "success": "Ændringer gemt",
+          "error": "Operation mislykkedes"
+        },
         "close": "Luk",
         "tooltip": "Processen tager få minutter. Resultat\n vises her, og afvisningsårsager findes\n i forretningsbeskeder."
       },
       "uploadSeries": {
         "title": "Tilføj prisserie",
         "submit": "Tilføj prisserie",
+        "toast": {
+          "loading": "Prisserie tilføjes..",
+          "success": "Prisserie tilføjet",
+          "error": "Tilføjelse mislykkedes"
+        },
         "close": "Luk",
         "hint": "Kun CSV-filer er tilladt",
         "success": "Prisserie klar til indsendelse",
@@ -493,7 +522,7 @@
     "charge": {
       "type": "Type",
       "owner": "Ejer",
-      "resolution": "Tidsopløsning",
+      "resolution": "Prisopløsning",
       "transparentInvoicing": "Viderefakturering",
       "vat": "Moms",
       "tabs": {
@@ -530,11 +559,11 @@
     "series": {
       "showHistory": "Historik",
       "resolution": {
-        "quarterhourly": "Tidspunkt",
-        "hourly": "Tidspunkt",
-        "daily": "Dato",
-        "monthly": "Måned",
-        "unknown": "Dato"
+        "QUARTER_HOURLY": "Tidspunkt",
+        "HOURLY": "Tidspunkt",
+        "DAILY": "Dato",
+        "MONTHLY": "Måned",
+        "UNKNOWN": "Dato"
       },
       "columns": {
         "price": "Aktuel pris",
@@ -556,7 +585,7 @@
           "gln": "GLN",
           "type": "Type",
           "id": "Id",
-          "resolution": "Tidsopløsning",
+          "resolution": "Prisopløsning",
           "from": "Fra",
           "to": "Til"
         }
@@ -578,14 +607,18 @@
         "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
-      "noResultFound": "Intet resultat fundet"
+      "noResultFound": "Intet resultat fundet",
+      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter"
     },
     "tabs": {
       "masterData": {
         "tabLabel": "Stamdata"
       },
+      "actor-conversation": {
+        "tabLabel": "Aktørdialog"
+      },
       "processes": {
-        "tabLabel": "Procesoverblik"
+        "tabLabel": "Processer"
       },
       "chargelinks": {
         "tabLabel": "Pristilknytninger"
@@ -594,7 +627,7 @@
         "tabLabel": "Beskeder"
       },
       "measurements": {
-        "tabLabel": "Måledata"
+        "tabLabel": "{{ shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Fejlede måledata"
@@ -662,8 +695,9 @@
         "upload": "Upload måledata",
         "moveIn": "Tilflyt kunde",
         "createChargeLink": "Tilknyt pris",
-        "changeConnectionStatus": "Ændr tilslutningstatus",
-        "updateCustomerData": "Opdater kundestamdata"
+        "changeConnectionStatus": "Ændre tilslutningsstatus",
+        "updateCustomerData": "Opdater kundestamdata",
+        "endOfSupply": "Leveranceophør"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -676,9 +710,10 @@
         "meteringPointNumber": "Målernr.",
         "settlementMethod": "Afregningsform",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "electricalHeatingTaxStartDate": "Elvarmeafgiftsdato",
+        "electricalHeatingTaxStartDate": "Elvarmedato",
         "powerLimit": "Effektgrænse",
-        "powerLimitValue": "{{ value }} kW",
+        "powerLimitValueKw": "{{ value }} kW",
+        "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Afbrydelsesart",
         "gridArea": "Netområde",
         "fromGridArea": "Fra netområde",
@@ -738,6 +773,33 @@
         "saveError": "Manuel korrigering af målepunkt mislykkedes"
       }
     },
+    "actorConversation": {
+      "cases": "Sager",
+      "newCaseButton": "Ny sag",
+      "newCaseTitle": "Ny sag",
+      "subjectLabel": "Emne",
+      "subjects": {
+        "misc": "Ad hoc spørgsmål",
+        "disconnectionOrReconnection": "Afbrydelse/Gentilslutning",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "incorrectMoveInOrSupplierSwitch": "Fejlaftig flytning/leverandørskifte",
+        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
+        "measurements": "{{ shared.terminology.measurements }}",
+        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
+        "chargeLink": "{{ shared.terminology.chargeLink }}"
+      },
+      "receiverLabel": "Modtager",
+      "receivers": {
+        "energinet": "Energinet"
+      },
+      "internalNoteLabel": "Intern note",
+      "messageLabel": "Besked",
+      "sendButton": "Send",
+      "emptyState": {
+        "noCases": "Der er ingen sager på målepunktet",
+        "noCaseSelected": "Ingen sag valgt"
+      }
+    },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
@@ -773,11 +835,20 @@
         },
         "copyMessage": "Kopier besked-ID",
         "navigateToMessage": "Gå til besked",
+        "actions": "Handlinger",
         "edit": "Rediger pristilknytning",
         "stop": "Stop pristilknytning",
         "cancel": "Annuller pristilknytning"
       },
       "create": {
+        "errors": {
+          "factorMin": "Antal skal være mindst {{ min }}"
+        },
+        "toast": {
+          "loading": "Pris tilknyttes..",
+          "success": "Pris tilknyttet",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Tilknyt pris",
         "close": "Luk",
         "back": "Tilbage",
@@ -798,6 +869,14 @@
         "tooltip": "Processen tager få minutter.\n Afvisningsårsager findes i forretningsbeskeder."
       },
       "edit": {
+        "errors": {
+          "factorMin": "Antal skal være mindst {{ min }}"
+        },
+        "toast": {
+          "loading": "Ændringer gemmes..",
+          "success": "Ændringer gemt",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Rediger pristilknytning",
         "factor": "Antal",
         "startDate": "Skæringsdato",
@@ -806,6 +885,11 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "cancel": {
+        "toast": {
+          "loading": "Pristilknytning annulleres..",
+          "success": "Pristilknytning annulleret",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Annuller pristilknytning?",
         "cancelWarning": "Handlingen kan ikke fortrydes",
         "cancel": "Annuller pristilknytning",
@@ -813,6 +897,11 @@
         "tooltip": "{{ meteringPoint.chargeLinks.shared.tooltip }}"
       },
       "stop": {
+        "toast": {
+          "loading": "Ændringer gemmes..",
+          "success": "Ændringer gemt",
+          "error": "{{shared.error.title}}"
+        },
         "title": "Stop pristilknytning",
         "stopDate": "Stopdato",
         "save": "Gem ændringer",
@@ -829,8 +918,21 @@
         "initiator": "Initierende aktør",
         "actions": "Mulige handlinger"
       },
+      "processType": {
+        "EndOfSupply": "Leveranceophør (BRS-002)",
+        "NewMeteringPoint": "Oprettelse af målepunkt (BRS-004)",
+        "ConnectMeteringPoint": "Tilslutning af nyoprettet målepunkt (BRS-008)",
+        "UpdateMasterDataConsumer": "Opdatering af kundestamdata (BRS-015)",
+        "CustomerMoveIn": "Tilflytning (BRS-009)"
+      },
       "reasonCode": {
-        "EndOfSupply": "Leveranceophør (BRS-002)"
+        "EndOfSupply": "Leveranceophør (E20)",
+        "NewMeteringPoint": "Nyt målepunkt (E02)",
+        "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)",
+        "UpdateMasterDataConsumer": "Opdatering af kundestamdata (E34)",
+        "CustomerMoveIn": "Almindelig tilflytning (E65)",
+        "SecondaryMoveIn": "Sekundær tilflytning (D29)",
+        "Move": "Flytning (E01)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -848,9 +950,35 @@
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Anmodning om oprettelse af målepunkt (RSM-021)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Information om nyt målepunkt (RSM-022)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)",
+        "BRS_009_MOVEIN_V1_STEP_1": "Anmodning om tilflytning (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_2": "Godkendelse af anmodning om tilflytning (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_3": "Afvisning af anmodning om tilflytning (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_4": "Information om målepunktsstamdata (RSM-022)",
+        "BRS_009_MOVEIN_V1_STEP_5": "Information om kundestamdata (RSM-028)",
+        "BRS_009_MOVEIN_V1_STEP_6": "Information om pristilknytninger (RSM-031)",
+        "BRS_009_MOVEIN_V1_STEP_7": "Anmodning om opdatering af kundestamdata (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_10": "Generisk information (RSM-004)",
+        "BRS_009_MOVEIN_V1_STEP_11": "Information om kundestamdata (RSM-028)",
+        "BRS_009_MOVEIN_V1_STEP_12": "Generisk information (RSM-004)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)",
         "UNKNOWN": "Ukendt trin"
       },
       "details": {
+        "notFound": "Process ikke fundet",
+        "noSteps": "Ingen trin tilgængelige for denne process",
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
@@ -863,6 +991,14 @@
           "dueDate": "Forfaldsdato",
           "actor": "Aktør",
           "state": "Status"
+        },
+        "stepStates": {
+          "pending": "Afventende",
+          "running": "Kører",
+          "failed": "Fejlet",
+          "skipped": "Sprunget over",
+          "canceled": "Annulleret",
+          "succeeded": "Modtaget"
         }
       }
     },
@@ -963,74 +1099,75 @@
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "updateCustomerData": "Opdater kundestamdata",
-      "steps": {
-        "customerDetails": {
-          "label": "Kundedetaljer",
-          "cutOffDate": "Skæringsdato",
-          "moveInType": "Tilflytningstype",
-          "customerInformation": "Kundeoplysninger",
-          "private": "Privat",
-          "business": "Erhverv",
-          "name1": "Kundenavn 1",
-          "cpr1": "CPR 1",
-          "name2": "Kundenavn 2",
-          "cpr2": "CPR 2",
-          "companyName": "Navn",
-          "cvr": "CVR",
-          "foreignCompany": "Udenlandsk virksomhed",
-          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-          "cprError": {
-            "containsLetters": "Må ikke indeholde bogstaver",
-            "containsDash": "Må ikke indeholde bindestreg",
-            "invalidCprLength": "Skal bestå af 10 cifre",
-            "invalidDate": "Ugyldig dato",
-            "allOnes": "Må ikke bruges"
-          },
-          "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}"
+      "customerDetails": {
+        "label": "Kundedetaljer",
+        "cutOffDate": "Skæringsdato",
+        "moveInType": "Tilflytningstype",
+        "customerInformation": "Kundeoplysninger",
+        "private": "Privat",
+        "business": "Erhverv",
+        "customer1": "Kunde 1",
+        "customer2": "Kunde 2",
+        "name": "Kundenavn",
+        "cpr": "CPR",
+        "companyName": "Navn",
+        "cvr": "CVR",
+        "foreignCompany": "Udenlandsk virksomhed",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "cprError": {
+          "containsLetters": "Må ikke indeholde bogstaver",
+          "containsDash": "Må ikke indeholde bindestreg",
+          "invalidCprLength": "Skal bestå af 10 cifre",
+          "invalidDate": "Ugyldig dato",
+          "allOnes": "Må ikke bruges"
         },
-        "contactDetails": {
-          "label": "Kontakdetaljer",
-          "legalContactSection": "Juridisk kontakt",
-          "technicalContactSection": "Teknisk kontakt",
-          "contactSameAsCustomer": "Samme som kundenavn",
-          "technicalContactSameAsLegal": "Samme som juridisk kontakt",
-          "contactName": "Kontaktnavn",
-          "attention": "Att.",
-          "phoneNumber": "Telefonnr.",
-          "mobile": "Mobil",
-          "email": "E-mail adresse",
-          "invalidEmail": "Ugyldig e-mail"
-        },
-        "addressDetails": {
-          "label": "Adresseoplysninger",
-          "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
-          "street": "Vejnavn",
-          "houseNumber": "Husnummer",
-          "floor": "Etage",
-          "door": "Dørbetegnelse",
-          "postalCode": "Postnummer",
-          "city": "Bynavn",
-          "country": "Land",
-          "streetCode": "Vejkode",
-          "citySubdivisionName": "Supplerende bynavn",
-          "postalDistrict": "Postdistrikt",
-          "postBox": "Postboks",
-          "municipalityCode": "Kommunekode",
-          "municipalityCodeError": {
-            "containsLetters": "Må ikke indeholde bogstaver",
-            "startsWithZero": "Må ikke starte med 0",
-            "invalidMunicipalityCodeLength": "Skal bestå af 3 cifre"
-          },
-          "darReference": "DAR-reference",
-          "nameAddressProtection": "Navne- og adressebeskyttelse"
-        },
-        "moveInType": {
-          "E65": "Almindelig (E65)",
-          "D29": "Sekundær (D29)"
-        }
+        "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
+        "nameProtection": "Navnebeskyttelse"
       },
-      "moveInSuccess": "Tilflytning er nu registreret",
+      "contactDetails": {
+        "label": "Kontakdetaljer",
+        "legalContactSection": "Juridisk kontakt",
+        "technicalContactSection": "Teknisk kontakt",
+        "contactSameAsCustomer": "Samme som kundenavn",
+        "technicalContactSameAsLegal": "Samme som juridisk kontakt",
+        "contactName": "Kontaktnavn",
+        "attention": "Att.",
+        "phoneNumber": "Telefonnr.",
+        "mobile": "Mobil",
+        "email": "E-mail adresse",
+        "invalidEmail": "Ugyldig e-mail"
+      },
+      "addressDetails": {
+        "label": "Adresseoplysninger",
+        "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+        "street": "Vejnavn",
+        "houseNumber": "Husnummer",
+        "floor": "Etage",
+        "door": "Dørbetegnelse",
+        "postalCode": "Postnummer",
+        "city": "Bynavn",
+        "country": "Land",
+        "streetCode": "Vejkode",
+        "citySubdivisionName": "Supplerende bynavn",
+        "postalDistrict": "Postdistrikt",
+        "postBox": "Postboks",
+        "municipalityCode": "Kommunekode",
+        "municipalityCodeError": {
+          "containsLetters": "Må ikke indeholde bogstaver",
+          "startsWithZero": "Må ikke starte med 0",
+          "invalidMunicipalityCodeLength": "Skal bestå af 3 cifre"
+        },
+        "darReference": "DAR-reference",
+        "nameAddressProtection": "Navne- og adressebeskyttelse"
+      },
+      "businessReason": {
+        "CUSTOMER_MOVE_IN": "Almindelig (E65)",
+        "SECONDARY_MOVE_IN": "Sekundær (D29)"
+      },
+      "moveInSuccess": "Tilflytningen er nu registreret",
+      "moveInFail": "Tilflytningen fejlede",
       "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
+      "customerDataFail": "Kundestamdata opdatering fejlede",
       "save": "Tilflyt kunde",
       "cancel": "Annuller"
     },
@@ -1119,6 +1256,18 @@
       "cancel": "Annuller",
       "save": "Gem ændringer",
       "saveSuccess": "Tilslutningsstatus opdateres"
+    },
+    "endOfSupply": {
+      "modalTitle": "Start leveranceophør",
+      "dateLabel": "Angiv skæringsdato",
+      "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
+      "consequencesInfo": "Her skal stå en tekst...",
+      "confirmCheckbox": "Jeg er indforstået med konsekvenserne",
+      "cancel": "Annuller",
+      "submit": "Start leveranceophør",
+      "submitSuccess": "Leveranceophør indsendt.",
+      "submitSuccessAction": "Se status under processer",
+      "submitError": "Leveranceophør kunne ikke indsendes"
     }
   },
   "messageArchive": {
@@ -1190,8 +1339,10 @@
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af opdatering af pristilknytninger (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Information om pristilknytninger (RSM-031)",
       "REQUEST_CHANGE_OF_PRICE_LIST": "Anmodning om opdatering af priser (RSM-033)",
+      "B2C_REQUEST_CHANGE_OF_PRICE_LIST": "UI: Anmodning om opdatering af priser (RSM-033)",
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Godkendelse af opdatering af priser (RSM-033)",
-      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af opdatering af priser (RSM-033)"
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af opdatering af priser (RSM-033)",
+      "NOTIFY_PRICE_LIST": "Information om priser (RSM-034)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -2133,7 +2284,7 @@
     "topBarTitle": "Rapporter",
     "tabs": {
       "settlementReports": "Afregningsrapporter",
-      "measurementsReports": "Måledata",
+      "measurementsReports": "{{ shared.terminology.measurements }}",
       "imbalancePrices": "Ubalancepriser"
     },
     "settlements": {
@@ -2663,6 +2814,9 @@
         },
         "editRole": "Rediger brugerrolle",
         "disable": "Deaktiver",
+        "resetMitID": "Nulstil MitID tilknytning",
+        "resetMitIDError": "Noget gik galt. MitID tilknytning blev muligvis ikke nulstillet. Prøv igen.",
+        "resetMitIDSuccess": "MitID tilknytning nulstillet. Brugeren kan knytte MitID igen ved næste login.",
         "reset2fa": "Nulstil tofaktorgodkendelse",
         "reset2faError": "Noget gik galt. Tofaktorgodkendelse blev muligvis ikke nulstillet. Prøv igen.",
         "reset2faSuccess": "Tofaktorgodkendelse nulstillet. Brugeren skal opsætte tofaktorgodkendelse inden for 24 timer.",

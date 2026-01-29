@@ -3,9 +3,9 @@
     "node": "22.17.1"
   },
   "dependencies": {
-    "@nx/cypress": "21.6.5",
-    "@testing-library/cypress": "10.0.3",
-    "cypress": "14.5.4",
+    "@nx/cypress": "22.2.3",
+    "@testing-library/cypress": "10.1.0",
+    "cypress": "15.6.0",
     "typescript": "5.9.3",
     "vite": "7.1.11"
   },

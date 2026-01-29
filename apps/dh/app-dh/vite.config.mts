@@ -17,6 +17,7 @@
  */
 //#endregion
 /// <reference types='vitest' />
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import analog from '@analogjs/vite-plugin-angular';
 import { resolve } from 'path';
@@ -56,12 +57,10 @@ export default defineConfig(() => ({
       reportsDirectory: '../../../coverage/apps/dh/app-dh',
       provider: 'v8' as const,
     },
-    pool: 'threads',
-    poolOptions: {
-      threads: {
-        execArgv: ['--require', mswPolyfillPath],
-      },
-    },
+    pool: 'forks',
+    execArgv: ['--require', mswPolyfillPath],
+    isolate: false,
+    maxWorkers: 1,
     server: {
       deps: {
         inline: [/fesm2022/],

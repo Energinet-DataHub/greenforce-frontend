@@ -1,5 +1,5 @@
-query GetChargeLinkHistory($meteringPointId: String!, $chargeLinkId: Long!) {
-  chargeLinkById(meteringPointId: $meteringPointId, chargeLinkId: $chargeLinkId) {
+query GetChargeLinkHistory($id: String!) {
+  chargeLinkById(id: $id) {
     id
     charge {
       id
@@ -8,6 +8,9 @@ query GetChargeLinkHistory($meteringPointId: String!, $chargeLinkId: Long!) {
         id
         displayName
       }
+    }
+    period {
+      interval
     }
     history {
       submittedAt

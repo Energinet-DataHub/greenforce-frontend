@@ -29,6 +29,7 @@ import {
 import { WATT_CARD } from '@energinet/watt/card';
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
 import {
   DhActorStorage,
@@ -42,16 +43,16 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.component';
-import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
 @Component({
   selector: 'dh-metering-point',
@@ -209,6 +210,14 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
             [label]="t('failedMeasurements.tabLabel')"
             [link]="getLink('failed-measurements')"
           />
+          <ng-container *dhReleaseToggle="'PM62-ACTOR-CONVERSATION'">
+            <watt-link-tab
+              *dhMarketRoleRequired="rolesWithAccess"
+              [label]="t('actor-conversation.tabLabel')"
+              [link]="getLink('actor-conversation')"
+              data-testid="actor-conversation-tab"
+            />
+          </ng-container>
         </watt-link-tabs>
       </div>
     </div>
@@ -217,20 +226,22 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 export class DhMeteringPointComponent {
   private readonly router = inject(Router);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
+  private readonly environment = inject(dhAppEnvironmentToken);
 
   meteringPointId = input.required<string>();
   internalMeteringPointId = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
       actorGln: this.actor.gln,
+      searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
+      environment: this.environment.current,
     },
   }));
   meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 
-  hasError = this.meteringPointQuery.hasError;
-  loading = this.meteringPointQuery.loading;
   EicFunction = EicFunction;
 
   commercialRelation = computed(() => this.meteringPoint()?.commercialRelation);

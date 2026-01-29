@@ -15,8 +15,7 @@
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
@@ -39,7 +38,7 @@ public class ArchivedMessageClient(
         Interval created,
         Guid? senderId,
         Guid? receiverId,
-        SearchDocumentType[]? documentTypes,
+        DocumentTypeDtoV1[]? documentTypes,
         BusinessReason[]? businessReasons,
         int? first,
         string? after,
@@ -69,7 +68,7 @@ public class ArchivedMessageClient(
                     SenderRole: sender?.ActorRole,
                     ReceiverNumber: receiver?.ActorNumber,
                     ReceiverRole: receiver?.ActorRole,
-                    DocumentTypes: documentTypes?.Select(MapDocumentType).ToArray() ?? Enum.GetValues<DocumentTypeDtoV1>(),
+                    DocumentTypes: documentTypes?.ToArray() ?? Enum.GetValues<DocumentTypeDtoV1>(),
                     BusinessReasons: businessReasons == null || !businessReasons.Any() ? null : businessReasons.Select(x => x.ToString()).ToArray()),
                 new SearchArchivedMessagesPaginationDtoV1(
                     Cursor: searchCursor,
@@ -121,26 +120,6 @@ public class ArchivedMessageClient(
 
         return await InternalArchivedMessageSearchAsync(archivedMessageSearchCommand, cancellationToken);
     }
-
-    private DocumentTypeDtoV1 MapDocumentType(SearchDocumentType searchDocumentType) =>
-        searchDocumentType switch
-        {
-            SearchDocumentType.NotifyAggregatedMeasureData => DocumentTypeDtoV1.NotifyAggregatedMeasureData,
-            SearchDocumentType.NotifyWholesaleServices => DocumentTypeDtoV1.NotifyWholesaleServices,
-            SearchDocumentType.RejectRequestAggregatedMeasureData => DocumentTypeDtoV1
-                .RejectRequestAggregatedMeasureData,
-            SearchDocumentType.RejectRequestWholesaleSettlement => DocumentTypeDtoV1.RejectRequestWholesaleSettlement,
-            SearchDocumentType.RequestAggregatedMeasureData => DocumentTypeDtoV1.RequestAggregatedMeasureData,
-            SearchDocumentType.B2CRequestAggregatedMeasureData => DocumentTypeDtoV1.B2CRequestAggregatedMeasureData,
-            SearchDocumentType.RequestWholesaleSettlement => DocumentTypeDtoV1.RequestWholesaleSettlement,
-            SearchDocumentType.B2CRequestWholesaleSettlement => DocumentTypeDtoV1.B2CRequestWholesaleSettlement,
-            SearchDocumentType.Acknowledgement => DocumentTypeDtoV1.Acknowledgement,
-            SearchDocumentType.ReminderOfMissingMeasurements => DocumentTypeDtoV1.ReminderOfMissingMeasurements,
-            SearchDocumentType.RequestChangeOfPriceList => DocumentTypeDtoV1.RequestChangeOfPriceList,
-            SearchDocumentType.ConfirmRequestChangeOfPriceList => DocumentTypeDtoV1.ConfirmRequestChangeOfPriceList,
-            SearchDocumentType.RejectRequestChangeOfPriceList => DocumentTypeDtoV1.RejectRequestChangeOfPriceList,
-            _ => throw new ArgumentOutOfRangeException(nameof(searchDocumentType), $"Unsupported document type: {searchDocumentType}"),
-        };
 
     private async Task<Connection<ArchivedMessage>> InternalArchivedMessageSearchAsync(
         SearchArchivedMessageCommandV1 archivedMessageSearchCommand,
@@ -235,7 +214,7 @@ public class ArchivedMessageClient(
             message.Id,
             message.MessageId ?? message.Id,
             message.RecordId,
-            message.DocumentTypeDtoV1.ToDocumentType(),
+            DocumentType.FromName(message.DocumentTypeDtoV1),
             message.CreatedAt,
             message.SenderNumber,
             message.SenderRole.ToString(),

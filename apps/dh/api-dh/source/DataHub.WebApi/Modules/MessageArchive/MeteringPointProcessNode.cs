@@ -31,8 +31,6 @@ namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 public static partial class MeteringPointProcessNode
 {
     [Query]
-    [UsePaging]
-    [UseSorting(typeof(MeteringPointProcessSortType))]
     public static async Task<IEnumerable<MeteringPointProcess>> GetMeteringPointProcessOverviewAsync(
         string meteringPointId,
         Interval created,
@@ -93,7 +91,7 @@ public static partial class MeteringPointProcessNode
             ActorNumber: step.Actor?.ActorNumber.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
             State: MapStepStateToProcessState(step.Lifecycle.State),
-            MessageId: step.MessageId ?? "a7d4c835d67c4d0d88345e27d33c538b")); // MessageId which exists on test001
+            MessageId: step.ArchivedMessageId?.ToString()));
     }
 
     public static IEnumerable<WorkflowAction> GetAvailableActions(

@@ -5,15 +5,13 @@ query GetChargeLinksByMeteringPointId(
   chargeLinksByMeteringPointId(order: $order, meteringPointId: $meteringPointId) {
     id
     amount
-    currentPeriod {
-      period
-      id
+    period {
+      interval
     }
     charge {
       id
-      currentPeriod {
-        transparentInvoicing
-      }
+      code
+      transparentInvoicing
       name
       type
       status

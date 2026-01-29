@@ -146,6 +146,14 @@ dotnet_naming_symbols.constant_fields.applicable_kinds            = field
 dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
 dotnet_naming_symbols.constant_fields.required_modifiers          = const
 
+# Use PascalCase for static readonly fields
+dotnet_naming_rule.static_readonly_fields_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.static_readonly_fields_should_be_pascal_case.symbols  = static_readonly_fields
+dotnet_naming_rule.static_readonly_fields_should_be_pascal_case.style    = pascal_case_style
+dotnet_naming_symbols.static_readonly_fields.applicable_kinds            = field
+dotnet_naming_symbols.static_readonly_fields.applicable_accessibilities  = *
+dotnet_naming_symbols.static_readonly_fields.required_modifiers          = static, readonly
+
 # Instance fields are camelCase and start with _
 dotnet_naming_rule.instance_fields_should_be_camel_case.severity = suggestion
 dotnet_naming_rule.instance_fields_should_be_camel_case.symbols = instance_fields
@@ -270,6 +278,9 @@ csharp_space_between_square_brackets = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = true
+
+# Experimental
+csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = false:suggestion
 
 ###############################
 # .NET Analyzers              #

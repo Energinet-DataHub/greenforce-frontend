@@ -20,11 +20,14 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { VaterUtilityDirective } from '@energinet/watt/vater';
+import {
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 
 import {
-  WattTableComponent,
   WattTableColumnDef,
+  WattTableComponent,
   WattTableCellDirective,
 } from '@energinet/watt/table';
 
@@ -36,12 +39,13 @@ import {
   WattDataTableComponent,
 } from '@energinet/watt/data';
 
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { ChargeStatus, GetChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { ChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { Charge } from '../types';
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 import { DhChargesFilters } from './charges-filters';
 
 @Component({
@@ -52,7 +56,7 @@ import { DhChargesFilters } from './charges-filters';
     RouterOutlet,
     TranslocoDirective,
     TranslocoPipe,
-    TranslocoDirective,
+    VaterStackComponent,
     VaterUtilityDirective,
     WattButtonComponent,
     WattDataFiltersComponent,
@@ -60,26 +64,34 @@ import { DhChargesFilters } from './charges-filters';
     WattIconComponent,
     WattTableCellDirective,
     WattTableComponent,
+    DhChargesStatus,
     DhChargesFilters,
+    DhPermissionRequiredDirective,
     DhChargesStatus,
     WattDataActionsComponent,
   ],
   providers: [DhNavigationService],
   template: `
     <watt-data-table
+      *transloco="let t; prefix: 'charges.charges.table'"
       [enableCount]="false"
       vater
       inset="ml"
       [error]="dataSource.error"
       [ready]="dataSource.called"
-      *transloco="let t; prefix: 'charges.charges.table'"
     >
       <watt-data-filters>
-        <dh-charges-filters [filter]="filter" (filterChange)="fetch($event)" />
+        <vater-stack wrap direction="row" gap="m">
+          <dh-charges-filters (filterChange)="fetch($event)" />
+        </vater-stack>
       </watt-data-filters>
 
       <watt-data-actions>
-        <watt-button variant="secondary" routerLink="create">
+        <watt-button
+          *dhPermissionRequired="['charges:manage']"
+          variant="secondary"
+          routerLink="create"
+        >
           <watt-icon name="plus" />
           {{ t('createButton') }}
         </watt-button>
@@ -90,6 +102,8 @@ import { DhChargesFilters } from './charges-filters';
         [dataSource]="dataSource"
         [columns]="columns"
         [resolveHeader]="resolveHeader"
+        sortBy="type"
+        sortDirection="asc"
         [activeRow]="selection()"
         [loading]="dataSource.loading"
         (rowClick)="navigation.navigate('id', $event.id, 'prices', $event.resolution)"
@@ -99,6 +113,9 @@ import { DhChargesFilters } from './charges-filters';
         </ng-container>
         <ng-container *wattTableCell="columns.status; let element">
           <dh-charges-status [status]="element.status" />
+        </ng-container>
+        <ng-container *wattTableCell="columns.resolution; let element">
+          {{ 'charges.resolutions.' + element.resolution | transloco }}
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -115,14 +132,11 @@ export class DhCharges {
     code: { accessor: 'code' },
     name: { accessor: 'name' },
     owner: { accessor: (charge) => charge.owner?.displayName, sort: false },
-    status: { accessor: 'status', sort: false },
+    resolution: { accessor: 'resolution' },
+    status: { accessor: 'status' },
   };
 
-  filter: GetChargesQueryInput = {
-    statuses: [ChargeStatus.Current, ChargeStatus.MissingPriceSeries],
-  };
-
-  fetch = (query: GetChargesQueryInput) => this.dataSource.refetch({ query });
+  fetch = (query: ChargesQueryInput) => this.dataSource.refetch({ query });
 
   selection = () => {
     return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());

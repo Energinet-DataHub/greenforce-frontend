@@ -1,7 +1,5 @@
-mutation EditChargeLink($chargeLinkId: String!, $newStartDate: DateTime!, $factor: Int!) {
-  editChargeLink(
-    input: { chargeLinkId: $chargeLinkId, newStartDate: $newStartDate, factor: $factor }
-  ) {
+mutation EditChargeLink($id: String!, $newStartDate: DateTime!, $factor: Int!) {
+  editChargeLink(input: { id: $id, newStartDate: $newStartDate, factor: $factor }) {
     success: boolean
   }
 }

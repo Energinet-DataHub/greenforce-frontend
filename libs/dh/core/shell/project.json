@@ -6,7 +6,7 @@
   "tags": ["product:dh", "domain:core", "type:shell"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/core/shell"],
       "options": {
         "config": "libs/dh/core/shell/vite.config.mts"

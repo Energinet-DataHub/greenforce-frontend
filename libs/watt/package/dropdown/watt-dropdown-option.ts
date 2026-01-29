@@ -16,17 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-export interface WattDropdownOption {
-  value: string;
+export interface WattDropdownOption<T = string> {
+  value: T;
   displayValue: string;
   disabled?: boolean;
 }
 
-export interface WattDropdownOptionGroup {
+export interface WattDropdownOptionGroup<T = string> {
   label: string;
-  options: WattDropdownOption[];
+  options: WattDropdownOption<T>[];
   disabled?: boolean;
 }
 
-export type WattDropdownOptions = WattDropdownOption[];
-export type WattDropdownGroupedOptions = WattDropdownOptionGroup[];
+export type WattDropdownOptions<T = string> = WattDropdownOption<T>[];
+export type WattDropdownGroupedOptions<T = string> = WattDropdownOptionGroup<T>[];

@@ -75,7 +75,7 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
         </ng-container>
 
         <ng-container *wattTableCell="columns.date; let element">
-          {{ element.currentPeriod?.period | wattDate }}
+          {{ element.period?.interval | wattDate }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.status; let element">
@@ -106,11 +106,11 @@ export default class DhMeteringPointChargeLinksFees {
   });
 
   columns: WattTableColumnDef<Charge> = {
-    id: { accessor: 'id' },
+    id: { accessor: (chargeLink) => chargeLink.charge?.code },
     name: { accessor: (chargeLink) => chargeLink.charge?.name ?? '' },
     owner: { accessor: (chargeLink) => chargeLink.charge?.owner?.displayName ?? '' },
     amount: { accessor: 'amount' },
-    date: { accessor: (chargeLink) => chargeLink.currentPeriod?.period },
+    date: { accessor: (chargeLink) => chargeLink.period?.interval },
     status: { header: '', accessor: (chargeLink) => chargeLink.charge?.status },
   };
 

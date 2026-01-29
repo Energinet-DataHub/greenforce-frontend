@@ -18,11 +18,10 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 
 public static class ChargeLinkExtensions
 {
-    public static ChargeLinkPeriodDto? GetCurrentPeriod(this ChargeLinkDto chargeLink)
+    public static ChargeLinkPeriodDto? GetPeriod(this ChargeLinkDto chargeLink)
     {
         return chargeLink.ChargeLinkPeriods
-            .Where(IsCurrent)
-            .OrderBy(p => p.From)
+            .OrderByDescending(p => p.From)
             .FirstOrDefault();
     }
 

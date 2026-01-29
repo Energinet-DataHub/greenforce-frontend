@@ -26,7 +26,7 @@ import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataTableComponent } from '@energinet/watt/data';
-import { VaterStackComponent, VaterSpacerComponent } from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -34,6 +34,8 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetChargeLinkHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { History } from '../types';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
   selector: 'dh-charge-link-details',
@@ -45,12 +47,15 @@ import { History } from '../types';
     WATT_MENU,
     WATT_TABLE,
     WATT_DRAWER,
+    WattDataTableComponent,
     WattDatePipe,
     WattButtonComponent,
-    WattDataTableComponent,
+    WattIconComponent,
 
     VaterStackComponent,
-    VaterSpacerComponent,
+    VaterUtilityDirective,
+
+    DhPermissionRequiredDirective,
   ],
   template: `
     <watt-drawer
@@ -62,15 +67,21 @@ import { History } from '../types';
       (closed)="navigation.navigate('list')"
     >
       <watt-drawer-heading>
-        <vater-stack direction="row">
-          <h1>{{ chargeLinkWithHistory()?.charge?.displayName }}</h1>
-          <vater-spacer />
-          <watt-button variant="icon" [wattMenuTriggerFor]="actions" icon="moreVertical" />
-          <watt-menu #actions>
-            <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
-            <watt-menu-item [routerLink]="['stop']">{{ t('stop') }}</watt-menu-item>
-            <watt-menu-item [routerLink]="['cancel']">{{ t('cancel') }}</watt-menu-item>
-          </watt-menu>
+        <vater-stack align="start" gap="m">
+          <h1 vater fill="horizontal">{{ chargeLinkWithHistory()?.charge?.displayName }}</h1>
+          @if (!chargeLinkWithHistory()?.period?.interval?.end) {
+            <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
+              <watt-button variant="secondary" [wattMenuTriggerFor]="actions">
+                {{ t('actions') }}
+                <watt-icon name="moreVertical" />
+              </watt-button>
+              <watt-menu #actions>
+                <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
+                <watt-menu-item [routerLink]="['stop']">{{ t('stop') }}</watt-menu-item>
+                <watt-menu-item [routerLink]="['cancel']">{{ t('cancel') }}</watt-menu-item>
+              </watt-menu>
+            </ng-container>
+          }
         </vater-stack>
       </watt-drawer-heading>
 
@@ -101,17 +112,16 @@ import { History } from '../types';
 })
 export default class DhChargeLinkDetails {
   query = query(GetChargeLinkHistoryDocument, () => ({
-    variables: { chargeLinkId: this.id(), meteringPointId: this.meteringPointId() },
+    variables: { id: this.id() },
   }));
   dataSource = dataSource(() => this.chargeLinkWithHistory()?.history || []);
   chargeLinkWithHistory = computed(() => this.query.data()?.chargeLinkById);
   navigation = inject(DhNavigationService);
   id = input.required<string>();
-  meteringPointId = input.required<string>();
 
   columns = {
     submittedAt: { accessor: (row) => row.submittedAt },
     description: { accessor: (row) => row.description },
-    menu: { accessor: null, header: '' },
+    menu: { accessor: null, header: '', size: 'min-content' },
   } satisfies WattTableColumnDef<History>;
 }

@@ -7,7 +7,7 @@
   "tags": ["product:gf", "domain:globalization", "type:data-access"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/globalization/data-access-localization"],
       "options": {
         "config": "libs/gf/globalization/data-access-localization/vite.config.mts"

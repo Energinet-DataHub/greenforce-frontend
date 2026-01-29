@@ -19,11 +19,13 @@
 import { Component, computed, inject, input } from '@angular/core';
 
 import { WATT_CARD } from '@energinet/watt/card';
+import { VaterStackComponent } from '@energinet/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { EnergySupplier } from './../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
@@ -32,7 +34,6 @@ import { DhCustomerOverviewComponent } from './customer/dh-customer-overview.com
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
 import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-points.component';
-import { VaterStackComponent } from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-metering-point-master-data',
@@ -51,16 +52,10 @@ import { VaterStackComponent } from '@energinet/watt/vater';
   styles: `
     @use '@energinet/watt/utils' as watt;
 
-    :host {
-      display: block;
-      height: 100%;
-    }
-
     .page-grid {
       display: grid;
       width: 100%;
       gap: var(--watt-space-ml);
-      padding: var(--watt-space-ml);
 
       @include watt.media('>=Large') {
         grid-template-columns: 1fr 1fr;
@@ -130,19 +125,22 @@ import { VaterStackComponent } from '@energinet/watt/vater';
   `,
   template: `
     <dh-result [hasError]="query.hasError()" [loading]="query.loading()">
-      <vater-stack direction="column">
+      <vater-stack direction="column" gap="ml">
         <dh-metering-point-highlights [meteringPointDetails]="meteringPoint()" />
         <div class="page-grid" [class.page-grid__child-view]="meteringPoint()?.isChild">
           <dh-metering-point-details [meteringPoint]="meteringPoint()" />
-          <dh-customer-overview
-            *dhCanSee="'customer-overview-card'; meteringPoint: meteringPoint()"
-            [meteringPoint]="meteringPoint()"
-          />
 
-          <dh-energy-supplier
-            *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
-            [energySupplier]="energySupplier()"
-          />
+          @if (meteringPoint()?.isChild === false) {
+            <dh-customer-overview
+              *dhCanSee="'customer-overview-card'; meteringPoint: meteringPoint()"
+              [meteringPoint]="meteringPoint()"
+            />
+
+            <dh-energy-supplier
+              *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
+              [energySupplier]="energySupplier()"
+            />
+          }
 
           @defer (on idle) {
             <dh-related-metering-points [meteringPointId]="meteringPointId()" />
@@ -153,12 +151,20 @@ import { VaterStackComponent } from '@energinet/watt/vater';
   `,
 })
 export class DhMeteringPointMasterDataComponent {
-  private actor = inject(DhActorStorage).getSelectedActor();
-  query = query(GetMeteringPointByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor.gln },
-  }));
+  private readonly actor = inject(DhActorStorage).getSelectedActor();
+  private readonly environment = inject(dhAppEnvironmentToken);
 
   meteringPointId = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
+
+  query = query(GetMeteringPointByIdDocument, () => ({
+    variables: {
+      meteringPointId: this.meteringPointId(),
+      actorGln: this.actor.gln,
+      searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
+      environment: this.environment.current,
+    },
+  }));
 
   meteringPoint = computed(() => this.query.data()?.meteringPoint);
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);

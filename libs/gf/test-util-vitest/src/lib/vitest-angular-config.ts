@@ -83,11 +83,9 @@ interface VitestConfig {
       provider: 'v8';
     };
     pool?: string;
-    poolOptions?: {
-      threads?: {
-        execArgv?: string[];
-      };
-    };
+    execArgv?: string[];
+    isolate?: boolean;
+    maxWorkers?: number;
     server: {
       deps: {
         inline: RegExp[];
@@ -129,12 +127,10 @@ export function vitestAngularConfig(options: VitestAngularConfigOptions): Vitest
   if (enableMsw) {
     baseConfig.test = {
       ...baseConfig.test,
-      pool: 'threads',
-      poolOptions: {
-        threads: {
-          execArgv: ['--require', getMswGlobalPolyfillPath()],
-        },
-      },
+      pool: 'forks',
+      execArgv: ['--require', getMswGlobalPolyfillPath()],
+      isolate: false,
+      maxWorkers: 1,
     };
   }
 

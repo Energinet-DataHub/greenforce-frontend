@@ -35,7 +35,7 @@ import {
   Charge,
   ChargeType,
   ChargeLink,
-  ChargeSeries,
+  ChargeSeriesPoint,
   ChargeStatus,
   ChargeResolution,
   MarketParticipant,
@@ -48,6 +48,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     __typename: 'Charge',
     id: '1',
     name: 'Grid Fee',
+    description: 'current period',
     displayName: 'CHARGE001 • Grid Fee',
     owner: {
       __typename: 'MarketParticipant',
@@ -59,42 +60,39 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     type: ChargeType.Fee,
     code: 'CHARGE001',
     status: ChargeStatus.Awaiting,
-    resolution: ChargeResolution.Quarterhourly,
-    currentPeriod: {
-      __typename: 'ChargePeriod',
-      name: 'Period 2022',
-      description: 'current period',
-      period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-      isCurrent: true,
-      transparentInvoicing: true,
-      vatClassification: 'NO_VAT',
-    },
+    resolution: ChargeResolution.QuarterHourly,
+    predictablePrice: false,
+    transparentInvoicing: true,
+    vatInclusive: false,
     periods: [
       {
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'Initial period',
         period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-        isCurrent: false,
+        status: 'CLOSED',
         transparentInvoicing: true,
-        vatClassification: 'NO_VAT',
+        vatInclusive: false,
+        predictablePrice: false,
       },
       {
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'current period',
         period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-        isCurrent: true,
+        status: 'CURRENT',
         transparentInvoicing: true,
-        vatClassification: 'NO_VAT',
+        vatInclusive: false,
+        predictablePrice: false,
       },
     ],
-    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Quarterhourly) : [],
+    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.QuarterHourly) : [],
   },
   {
     __typename: 'Charge',
     id: '2',
     name: 'Peak Hours Tariff',
+    description: 'current period',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-2',
@@ -107,33 +105,29 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE002 • Peak Hours Tariff',
     status: ChargeStatus.Current,
     resolution: ChargeResolution.Hourly,
-    currentPeriod: {
-      __typename: 'ChargePeriod',
-      name: 'Period 2022',
-      description: 'current period',
-      period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-      isCurrent: true,
-      transparentInvoicing: false,
-      vatClassification: 'NO_VAT',
-    },
+    predictablePrice: false,
+    transparentInvoicing: false,
+    vatInclusive: false,
     periods: [
       {
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'Initial period',
         period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-        isCurrent: false,
+        status: 'CLOSED',
         transparentInvoicing: true,
-        vatClassification: 'NO_VAT',
+        vatInclusive: false,
+        predictablePrice: false,
       },
       {
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'current period',
         period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-        isCurrent: true,
+        status: 'CURRENT',
         transparentInvoicing: false,
-        vatClassification: 'NO_VAT',
+        vatInclusive: false,
+        predictablePrice: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Hourly) : [],
@@ -142,6 +136,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     __typename: 'Charge',
     id: '3',
     name: 'Green Energy Plan',
+    description: 'current period',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-3',
@@ -154,33 +149,29 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE003 • Green Energy Plan',
     status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Daily,
-    currentPeriod: {
-      __typename: 'ChargePeriod',
-      name: 'Period 2022',
-      description: 'current period',
-      period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-      isCurrent: true,
-      transparentInvoicing: true,
-      vatClassification: 'NO_VAT',
-    },
+    predictablePrice: false,
+    transparentInvoicing: true,
+    vatInclusive: false,
     periods: [
       {
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'Initial period',
         period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-        isCurrent: false,
+        status: 'CLOSED',
         transparentInvoicing: true,
-        vatClassification: 'NO_VAT',
+        vatInclusive: false,
+        predictablePrice: false,
       },
       {
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'current period',
         period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-        isCurrent: true,
+        status: 'CURRENT',
         transparentInvoicing: true,
-        vatClassification: 'NO_VAT',
+        vatInclusive: false,
+        predictablePrice: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Daily) : [],
@@ -189,6 +180,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     __typename: 'Charge',
     id: '4',
     name: 'Connection Fee',
+    description: 'current period',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-4',
@@ -201,33 +193,29 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE004 • Connection Fee',
     status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Monthly,
-    currentPeriod: {
-      __typename: 'ChargePeriod',
-      name: 'Period 2022',
-      description: 'current period',
-      period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-      isCurrent: true,
-      transparentInvoicing: true,
-      vatClassification: 'NO_VAT',
-    },
+    predictablePrice: false,
+    transparentInvoicing: true,
+    vatInclusive: false,
     periods: [
       {
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'Initial period',
         period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-        isCurrent: false,
+        status: 'CLOSED',
         transparentInvoicing: true,
-        vatClassification: 'NO_VAT',
+        vatInclusive: false,
+        predictablePrice: false,
       },
       {
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'current period',
         period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-        isCurrent: true,
+        status: 'CURRENT',
         transparentInvoicing: true,
-        vatClassification: 'NO_VAT',
+        vatInclusive: false,
+        predictablePrice: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Monthly) : [],
@@ -236,6 +224,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     __typename: 'Charge',
     id: '5',
     name: 'Connection Fee',
+    description: 'current period',
     owner: {
       __typename: 'MarketParticipant',
       id: 'owner-5',
@@ -248,33 +237,29 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE005 • Connection Fee',
     status: ChargeStatus.Current,
     resolution: ChargeResolution.Monthly,
-    currentPeriod: {
-      __typename: 'ChargePeriod',
-      name: 'Period 2022',
-      description: 'current period',
-      period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-      isCurrent: true,
-      transparentInvoicing: true,
-      vatClassification: 'NO_VAT',
-    },
+    predictablePrice: false,
+    transparentInvoicing: true,
+    vatInclusive: false,
     periods: [
       {
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'Initial period',
         period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-        isCurrent: false,
+        status: 'CLOSED',
         transparentInvoicing: true,
-        vatClassification: 'NO_VAT',
+        vatInclusive: false,
+        predictablePrice: false,
       },
       {
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'current period',
         period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
-        isCurrent: true,
+        status: 'CURRENT',
         transparentInvoicing: true,
-        vatClassification: 'NO_VAT',
+        vatInclusive: false,
+        predictablePrice: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Monthly) : [],
@@ -286,11 +271,10 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1000',
     amount: 100.0,
-    currentPeriod: {
+    period: {
       __typename: 'ChargeLinkPeriod',
       amount: 100.0,
-      period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
-      id: 'clp-1000',
+      interval: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     },
     history: [
       {
@@ -312,7 +296,7 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1001',
     amount: 75.5,
-    currentPeriod: null,
+    period: null,
     history: [
       {
         __typename: 'ChargeLinkHistory',
@@ -333,11 +317,10 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1002',
     amount: 50.0,
-    currentPeriod: {
+    period: {
       __typename: 'ChargeLinkPeriod',
       amount: 50.0,
-      period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
-      id: 'clp-1002',
+      interval: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
     },
     history: [
       {
@@ -359,11 +342,10 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1003',
     amount: 120.0,
-    currentPeriod: {
+    period: {
       __typename: 'ChargeLinkPeriod',
       amount: 120.0,
-      period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
-      id: 'clp-1003',
+      interval: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
     },
     history: [
       {
@@ -385,11 +367,10 @@ const chargeLinks: ChargeLink[] = [
     __typename: 'ChargeLink',
     id: '1004',
     amount: 120.0,
-    currentPeriod: {
+    period: {
       __typename: 'ChargeLinkPeriod',
       amount: 120.0,
-      period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
-      id: 'clp-1004',
+      interval: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
     },
     history: [
       {
@@ -412,11 +393,11 @@ const chargeLinks: ChargeLink[] = [
 const makeChargeSeriesListMock = (
   interval: WattRange<Date>,
   resolution: ChargeResolution
-): ChargeSeries[] => {
+): ChargeSeriesPoint[] => {
   const start = dayjs(interval.start);
   const end = dayjs(interval.end).add(1, 'ms');
   switch (resolution) {
-    case ChargeResolution.Quarterhourly:
+    case ChargeResolution.QuarterHourly:
       return Array.from({ length: end.diff(interval.start, 'm') / 15 })
         .map((_, i) => ({ start: start.add(i * 15, 'm'), end: start.add((i + 1) * 15, 'm') }))
         .map(makeChargeSeriesMock);
@@ -435,23 +416,26 @@ const makeChargeSeriesListMock = (
   }
 };
 
-const makeChargeSeriesMock = (period: { start: dayjs.Dayjs; end: dayjs.Dayjs }): ChargeSeries => {
-  const points = makeChargeSeriesPointsMock(period.end);
+const makeChargeSeriesMock = (period: {
+  start: dayjs.Dayjs;
+  end: dayjs.Dayjs;
+}): ChargeSeriesPoint => {
+  const changes = makeChargeSeriesPointChangesMock(period.end);
   return {
-    __typename: 'ChargeSeries' as const,
-    price: points[0].price,
+    __typename: 'ChargeSeriesPoint' as const,
+    price: changes[0].price,
     period: { start: period.start.toDate(), end: period.end.subtract(1, 'ms').toDate() },
-    hasChanged: points.length > 1,
-    points,
+    hasChanged: changes.length > 1,
+    changes,
   };
 };
 
-const makeChargeSeriesPointsMock = (end: dayjs.Dayjs) => {
+const makeChargeSeriesPointChangesMock = (end: dayjs.Dayjs) => {
   const randomInt = ({ max = 5, min = 0 }) => Math.round(Math.random() * (max - min)) + min;
   return Array.from({ length: randomInt({ min: 1 }) })
     .map((_, index) => index)
     .map((i) => ({
-      __typename: 'ChargeSeriesPoint' as const,
+      __typename: 'ChargeSeriesPointChange' as const,
       fromDateTime: new Date(end.year() - i - 1, randomInt({ max: 11 })),
       toDateTime: i === 0 ? new Date(9999, 0) : new Date(end.year() - i, randomInt({ max: 11 })),
       isCurrent: i === 0,
@@ -523,9 +507,9 @@ function getChargesByMeteringPointId() {
 }
 
 function getChargeLinkById() {
-  return mockGetChargeLinkHistoryQuery(async ({ variables: { chargeLinkId } }) => {
+  return mockGetChargeLinkHistoryQuery(async ({ variables: { id } }) => {
     await delay(mswConfig.delay);
-    const chargeLink = chargeLinks.find((cl) => cl.id === chargeLinkId) || null;
+    const chargeLink = chargeLinks.find((cl) => cl.id === id) || null;
     return HttpResponse.json({
       data: {
         __typename: 'Query',

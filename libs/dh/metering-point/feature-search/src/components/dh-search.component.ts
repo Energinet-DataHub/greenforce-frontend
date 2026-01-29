@@ -30,13 +30,18 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattModalService } from '@energinet/watt/modal';
 import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import {
+  DhReleaseToggleDirective,
+  DhReleaseToggleService,
+} from '@energinet-datahub/dh/shared/release-toggle';
+import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component';
@@ -46,15 +51,15 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     VaterStackComponent,
+
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattButtonComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
     WattCopyToClipboardDirective,
-
+    WattCheckboxComponent,
     DhPermissionRequiredDirective,
     DhFeatureFlagDirective,
     DhReleaseToggleDirective,
@@ -75,43 +80,51 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
   `,
   template: `
     <vater-stack fill="vertical" *transloco="let t; prefix: 'meteringPoint.search'">
-      <vater-stack direction="row" align="start" gap="m" class="search-wrapper watt-space-stack-xl">
-        <watt-text-field
-          maxLength="18"
-          [formControl]="searchControl"
-          [placeholder]="t('placeholder')"
-          [autoFocus]="true"
-          (keydown.enter)="onSubmit()"
-          [showErrors]="submitted()"
-        >
-          @if (loading()) {
-            <watt-spinner [diameter]="22" />
-          } @else {
-            <watt-button variant="icon" icon="search" (click)="onSubmit()" />
-          }
-
-          @if (searchControl.hasError('containsLetters')) {
-            <watt-field-error>
-              {{ t('error.containsLetters') }}
-            </watt-field-error>
-          }
-
-          @if (searchControl.hasError('meteringPointIdLength')) {
-            <watt-field-error>
-              {{ t('error.meteringPointIdLength') }}
-            </watt-field-error>
-          }
-        </watt-text-field>
-
-        <ng-content *dhReleaseToggle="'PM52-CREATE-METERING-POINT-UI'">
-          <watt-button
-            *dhPermissionRequired="['metering-point:create']"
-            icon="plus"
-            variant="secondary"
-            (click)="createMeteringPoint()"
+      <vater-stack gap="l" align="stretch" class="search-wrapper watt-space-stack-xl">
+        <vater-stack direction="row" align="start" gap="m">
+          <watt-text-field
+            maxLength="18"
+            [formControl]="searchControl"
+            [placeholder]="t('placeholder')"
+            [autoFocus]="true"
+            (keydown.enter)="onSubmit()"
+            [showErrors]="submitted()"
           >
-            {{ t('createMeteringPoint') }}
-          </watt-button>
+            @if (loading()) {
+              <watt-spinner [diameter]="22" />
+            } @else {
+              <watt-button variant="icon" icon="search" (click)="onSubmit()" />
+            }
+
+            @if (searchControl.hasError('containsLetters')) {
+              <watt-field-error>
+                {{ t('error.containsLetters') }}
+              </watt-field-error>
+            }
+
+            @if (searchControl.hasError('meteringPointIdLength')) {
+              <watt-field-error>
+                {{ t('error.meteringPointIdLength') }}
+              </watt-field-error>
+            }
+          </watt-text-field>
+
+          <ng-content *dhReleaseToggle="'PM52-CREATE-METERING-POINT-UI'">
+            <watt-button
+              *dhPermissionRequired="['metering-point:create']"
+              icon="plus"
+              variant="secondary"
+              (click)="createMeteringPoint()"
+            >
+              {{ t('createMeteringPoint') }}
+            </watt-button>
+          </ng-content>
+        </vater-stack>
+
+        <ng-content *dhFeatureFlag="'search-migrated-metering-points'">
+          <watt-checkbox [formControl]="searchMigratedMeteringPoints">
+            {{ t('searchMigratedMeteringPoints') }}
+          </watt-checkbox>
         </ng-content>
       </vater-stack>
 
@@ -137,6 +150,8 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
 export class DhSearchComponent {
   private readonly router = inject(Router);
   private readonly modalService = inject(WattModalService);
+  private readonly releaseToggleService = inject(DhReleaseToggleService);
+  private readonly environment = inject(dhAppEnvironmentToken);
 
   private readonly doesMeteringPointExist = lazyQuery(DoesInternalMeteringPointIdExistDocument);
   protected submitted = signal(false);
@@ -145,6 +160,7 @@ export class DhSearchComponent {
     validators: [Validators.required, dhMeteringPointIdValidator()],
     nonNullable: true,
   });
+  searchMigratedMeteringPoints = new FormControl(false, { nonNullable: true });
 
   private readonly seachControlChange = toSignal(this.searchControl.valueChanges);
 
@@ -181,11 +197,26 @@ export class DhSearchComponent {
     const result = await this.doesMeteringPointExist.query({
       variables: {
         meteringPointId,
+        searchMigratedMeteringPoints: this.searchMigratedMeteringPoints.value,
+        environment: this.environment.current,
       },
     });
 
     if (!result.data) {
       return this.meteringPointNotFound.set(true);
+    }
+
+    if (this.releaseToggleService.isEnabled('PM120-DH3-METERING-POINTS-UI')) {
+      if (
+        this.environment.current === DhAppEnvironment.preprod ||
+        this.searchMigratedMeteringPoints.value === false
+      ) {
+        return this.router.navigate([
+          '/',
+          getPath('metering-point'),
+          result.data.meteringPointExists.meteringPointId,
+        ]);
+      }
     }
 
     this.router.navigate(['/', getPath('metering-point'), result.data.meteringPointExists.id]);

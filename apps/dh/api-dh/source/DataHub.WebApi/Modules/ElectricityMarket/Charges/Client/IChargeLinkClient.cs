@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
@@ -30,32 +31,33 @@ public interface IChargeLinkClient
         CancellationToken ct = default);
 
     /// <summary>
-    /// Get the change history for a given charge id.
-    /// </summary>
-    Task<IEnumerable<ChargeLinkHistory>> GetChargeLinkHistoryAsync(
-        long chargeId,
-        CancellationToken ct = default);
-
-    /// <summary>
     /// Stops a charge link at a given date.
     /// </summary>
     Task<bool> StopChargeLinkAsync(
-        string chargeLinkId,
-        DateTimeOffset stopDate,
-        CancellationToken ct = default);
+       ChargeLinkId id,
+       DateTimeOffset stopDate,
+       CancellationToken ct = default);
 
     /// <summary>
     /// Cancels a charge link by its id.
     /// </summary>
-    Task<bool> CancelChargeLinkAsync(
-        string chargeLinkId,
+    Task<bool> CancelChargeLinkAsync(ChargeLinkId id, CancellationToken ct = default);
+
+    /// <summary>
+    /// Edits a charge link.
+    /// </summary>
+    Task<bool> EditChargeLinkAsync(
+        ChargeLinkId id,
+        DateTimeOffset newStartDate,
+        int factor,
         CancellationToken ct = default);
 
     /// <summary>
-    /// Edits a charge link's start date and factor.
+    /// Creates a charge link.
     /// </summary>
-    Task<bool> EditChargeLinkAsync(
-        string chargeLinkId,
+    Task<bool> CreateChargeLinkAsync(
+        ChargeIdentifierDto chargeId,
+        string meteringPointId,
         DateTimeOffset newStartDate,
         int factor,
         CancellationToken ct = default);

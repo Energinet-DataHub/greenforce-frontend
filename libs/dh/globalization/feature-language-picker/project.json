@@ -7,7 +7,7 @@
   "tags": ["product:dh", "domain:globalization", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/globalization/feature-language-picker"],
       "options": {
         "configFile": "libs/dh/globalization/feature-language-picker/vite.config.mts"

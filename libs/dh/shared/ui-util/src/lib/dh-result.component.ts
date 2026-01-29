@@ -32,8 +32,6 @@ type Variant = 'normal' | 'compact';
   styles: `
     :host {
       display: block;
-      height: 100%;
-      width: 100%;
     }
 
     h4 {

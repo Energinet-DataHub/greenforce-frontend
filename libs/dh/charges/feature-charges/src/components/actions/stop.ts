@@ -16,17 +16,25 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, effect, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
-import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  injectToast,
+  dhMakeFormControl,
+  injectRelativeNavigate,
+} from '@energinet-datahub/dh/shared/ui-util';
+
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { StopChargeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-charges-stop',
@@ -51,14 +59,17 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
         {{ t('title') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
-      <form id="stop-charge" [formGroup]="form" (ngSubmit)="save()">
-        <watt-datepicker [label]="t('date')" [formControl]="form.controls.date" />
+      <form id="stop" [formGroup]="form" (ngSubmit)="save()">
+        <watt-datepicker
+          [label]="t('terminationDate')"
+          [formControl]="form.controls.terminationDate"
+        />
       </form>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" formId="stop-charge" type="submit">
+        <watt-button variant="primary" type="submit" formId="stop">
           {{ t('submit') }}
         </watt-button>
       </watt-modal-actions>
@@ -66,12 +77,29 @@ import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh
   `,
 })
 export default class DhChargesStop {
+  private readonly modal = viewChild.required(WattModalComponent);
   navigate = injectRelativeNavigate();
+  id = input.required<string>();
+  stopCharge = mutation(StopChargeDocument);
+  toast = injectToast('charges.actions.stop.toast');
+  toastEffect = effect(() => this.toast(this.stopCharge.status()));
   form = new FormGroup({
-    date: dhMakeFormControl<Date>(null, Validators.required),
+    terminationDate: dhMakeFormControl<Date>(null, Validators.required),
   });
 
-  save() {
-    console.log(this.form.value, 'saving form');
+  async save() {
+    if (!this.form.valid) return;
+    const { terminationDate } = this.form.getRawValue();
+    assertIsDefined(terminationDate);
+    await this.stopCharge.mutate({
+      variables: {
+        input: {
+          id: this.id(),
+          terminationDate,
+        },
+      },
+    });
+
+    this.modal().close(true);
   }
 }

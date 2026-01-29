@@ -18,6 +18,7 @@
 //#endregion
 import { booleanAttribute, Component, input, ViewEncapsulation } from '@angular/core';
 import { VaterUtilityDirective } from './vater-utility.directive';
+import { VaterFlexboxDirective } from './vater-flexbox.directive';
 import { VaterLayoutDirective } from './vater-layout.directive';
 
 @Component({
@@ -25,8 +26,12 @@ import { VaterLayoutDirective } from './vater-layout.directive';
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [
     {
+      directive: VaterFlexboxDirective,
+      inputs: ['align', 'direction', 'justify', 'wrap'],
+    },
+    {
       directive: VaterLayoutDirective,
-      inputs: ['align', 'direction', 'justify', 'wrap', 'gap', 'offset'],
+      inputs: ['gap', 'offset'],
     },
     {
       directive: VaterUtilityDirective,

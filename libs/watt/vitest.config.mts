@@ -17,12 +17,13 @@
  */
 //#endregion
 /// <reference types="vitest" />
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import analog from '@analogjs/vite-plugin-angular';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
-export default defineConfig(() => ({
+export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/libs/watt',
   plugins: [analog(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
@@ -43,19 +44,9 @@ export default defineConfig(() => ({
       provider: 'v8',
     },
     pool: 'forks',
-    testTimeout: 10000,
-    environmentOptions: {
-      jsdom: {
-        resources: 'usable',
-      },
-    },
-    server: {
-      deps: {
-        inline: ['@angular/material', '@angular/cdk', 'ngx-mat-select-search', '@energinet/watt'],
-      },
-    },
+    testTimeout: 10_000,
   },
   define: {
     'import.meta.vitest': undefined,
   },
-}));
+});

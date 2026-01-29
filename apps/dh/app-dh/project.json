@@ -170,7 +170,7 @@
           "target": "generate"
         }
       ],
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/apps/dh/app-dh"],
       "options": {
         "config": "apps/dh/app-dh/vite.config.mts"

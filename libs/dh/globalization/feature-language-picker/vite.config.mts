@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
@@ -17,11 +18,8 @@ export default defineConfig({
       reporter: ['html', 'json', 'text-summary'],
       reportsDirectory: '../../../../coverage/feature-language-picker',
     },
-    pool: 'vmThreads',
-    poolOptions: {
-      threads: {
-        singleThread: true,
-      },
-    },
+    pool: 'forks',
+    isolate: false,
+    maxWorkers: 1,
   },
 });

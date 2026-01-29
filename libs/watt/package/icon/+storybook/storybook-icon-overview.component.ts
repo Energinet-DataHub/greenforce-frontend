@@ -24,6 +24,7 @@ import {
   WattEmptyStateNoResultsComponent,
   WattEmptyStatePowerComponent,
   WattEmptyStateNotFoundComponent,
+  WattEmptyStateCooperationComponent,
 } from '../../empty-state';
 import { WattFlagComponent } from '../flags';
 
@@ -49,6 +50,7 @@ interface IconGroup {
     WattEmptyStateNotFoundComponent,
     WattFlagComponent,
     WattIconComponent,
+    WattEmptyStateCooperationComponent,
   ],
 })
 export class StorybookIconOverviewComponent {
@@ -89,6 +91,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Close', icon: 'close' },
         { name: 'Cancel', icon: 'cancel' },
         { name: 'Checkmark', icon: 'checkmark' },
+        { name: 'Send', icon: 'send' },
       ],
     },
     {
@@ -144,6 +147,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Download', icon: 'download' },
         { name: 'Print', icon: 'print' },
         { name: 'Preview', icon: 'preview' },
+        { name: 'AttachFile', icon: 'attachFile' },
       ],
     },
     {

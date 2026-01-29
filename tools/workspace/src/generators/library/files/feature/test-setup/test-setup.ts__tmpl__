@@ -1,4 +1,5 @@
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
 
 import {
   setUpTestbed,
@@ -9,7 +10,6 @@ import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
 import { <%= product %>LocalApiEnvironment } from '@energinet-datahub/<%= product %>/shared/assets';
 import { mocks } from '@energinet-datahub/<%= product %>/shared/data-access-mocks';
 
-setupZoneTestEnv();
 setupMSWServer(<%= product %>LocalApiEnvironment.apiBase, mocks);
 addDomMatchers();
 setUpTestbed();

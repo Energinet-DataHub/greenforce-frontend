@@ -54,9 +54,6 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
             {{ t(_status) }}
           </watt-badge>
         }
-        @case ('MISSING_PRICE_SERIES') {
-          <watt-badge type="warning">{{ t(_status) }}</watt-badge>
-        }
         @default {
           {{ _status | dhEmDashFallback }}
         }

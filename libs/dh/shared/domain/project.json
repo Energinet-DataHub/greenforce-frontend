@@ -8,7 +8,7 @@
   "implicitDependencies": ["api-dh"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/domain"],
       "options": {
         "config": "libs/dh/shared/domain/vite.config.mts"
@@ -45,7 +45,6 @@
     },
     "watch-generate": {
       "executor": "nx:run-commands",
-      "cache": true,
       "continuous": true,
       "inputs": [
         "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql",

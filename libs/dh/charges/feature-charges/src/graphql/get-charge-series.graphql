@@ -5,9 +5,10 @@ query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
       period
       price
       hasChanged
-      points {
+      changes {
         isCurrent
         price
+        messageId
       }
     }
   }

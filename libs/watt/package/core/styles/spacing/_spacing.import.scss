@@ -28,6 +28,10 @@
   padding: var(--watt-space-m);
 }
 
+@mixin inset-ml {
+  padding: var(--watt-space-ml);
+}
+
 @mixin inset-l {
   padding: var(--watt-space-l);
 }
@@ -79,6 +83,10 @@
   margin: 0 0 var(--watt-space-m) 0;
 }
 
+@mixin stack-ml {
+  margin: 0 0 var(--watt-space-ml) 0;
+}
+
 @mixin stack-l {
   margin: 0 0 var(--watt-space-l) 0;
 }
@@ -102,6 +110,10 @@
 
 @mixin inline-m {
   margin: 0 var(--watt-space-m) 0 0;
+}
+
+@mixin inline-ml {
+  margin: 0 var(--watt-space-ml) 0 0;
 }
 
 @mixin inline-l {

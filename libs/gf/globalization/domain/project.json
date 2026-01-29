@@ -7,7 +7,7 @@
   "tags": ["product:gf", "domain:globalization", "type:domain"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/globalization/domain"],
       "options": {
         "config": "libs/gf/globalization/domain/vite.config.mts"

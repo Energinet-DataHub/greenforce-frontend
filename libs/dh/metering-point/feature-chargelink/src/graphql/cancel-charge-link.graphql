@@ -1,5 +1,5 @@
-mutation CancelChargeLink($chargeLinkId: String!) {
-  cancelChargeLink(input: { chargeLinkId: $chargeLinkId }) {
+mutation CancelChargeLink($id: String!) {
+  cancelChargeLink(input: { id: $id }) {
     success: boolean
   }
 }

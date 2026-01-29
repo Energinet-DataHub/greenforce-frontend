@@ -20,19 +20,6 @@ import '@analogjs/vitest-angular/setup-zone';
 import '@angular/compiler';
 import '@testing-library/jest-dom/vitest';
 
-// Add polyfill for structuredClone
-if (!globalThis.structuredClone) {
-  globalThis.structuredClone = <T>(obj: T): T => {
-    return JSON.parse(JSON.stringify(obj));
-  };
-}
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-// Initialize Angular testing environment
-beforeAll(async () => {
-  const { getTestBed } = await import('@angular/core/testing');
-  const { BrowserDynamicTestingModule, platformBrowserDynamicTesting } = await import(
-    '@angular/platform-browser-dynamic/testing'
-  );
-
-  getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
-});
+setUpTestbed();

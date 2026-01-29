@@ -20,6 +20,8 @@ import { DocumentType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
   switch (documentType as DocumentType) {
+    case DocumentType.B2CRequestChangeOfSupplier:
+      return 'RSM-001';
     case DocumentType.Acknowledgement:
       return 'RSM-009';
     case DocumentType.SendMeasurements:
@@ -27,38 +29,38 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
     case DocumentType.NotifyAggregatedMeasureData:
       return 'RSM-014';
     case DocumentType.RequestMeasurements:
-      return 'RSM-015';
     case DocumentType.RejectRequestMeasurements:
       return 'RSM-015';
     case DocumentType.RejectRequestAggregatedMeasureData:
-      return 'RSM-016';
     case DocumentType.RequestAggregatedMeasureData:
-      return 'RSM-016';
     case DocumentType.B2CRequestAggregatedMeasureData:
       return 'RSM-016';
     case DocumentType.RejectRequestWholesaleSettlement:
-      return 'RSM-017';
     case DocumentType.RequestWholesaleSettlement:
-      return 'RSM-017';
     case DocumentType.B2CRequestWholesaleSettlement:
       return 'RSM-017';
-    case DocumentType.NotifyWholesaleServices:
-      return 'RSM-019';
     case DocumentType.ReminderOfMissingMeasurements:
       return 'RSM-018';
+    case DocumentType.NotifyWholesaleServices:
+      return 'RSM-019';
+    case DocumentType.B2CRequestChangeAccountingPointCharacteristics:
+      return 'RSM-021';
+    case DocumentType.B2CRequestChangeCustomerCharacteristics:
+      return 'RSM-027';
+    case DocumentType.B2CUpdateChargeLinks:
     case DocumentType.UpdateChargeLinks:
-      return 'RSM-030';
     case DocumentType.ConfirmRequestChangeBillingMasterData:
-      return 'RSM-030';
     case DocumentType.RejectRequestChangeBillingMasterData:
+    case DocumentType.B2CRequestChangeBillingMasterData:
       return 'RSM-030';
     case DocumentType.NotifyBillingMasterData:
       return 'RSM-031';
     case DocumentType.RequestChangeOfPriceList:
-      return 'RSM-033';
     case DocumentType.ConfirmRequestChangeOfPriceList:
-      return 'RSM-033';
     case DocumentType.RejectRequestChangeOfPriceList:
+    case DocumentType.B2CRequestChangeOfPriceList:
       return 'RSM-033';
+    case DocumentType.NotifyPriceList:
+      return 'RSM-034';
   }
 };

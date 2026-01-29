@@ -20,6 +20,4 @@ public enum ChargeStatus
     Current = 2,
     Awaiting = 3,
     Closed = 4,
-    MissingPriceSeries = 5,
-    Invalid = 6,
 }

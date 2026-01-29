@@ -12,26 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Text.Json;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPointDebug.V1;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Types;
 
-public class ElectricityMarketV2EventDtoObjectType : ObjectType<GetMeteringPointResultDtoV1.EventDto>
+public class ElectricityMarketV2EventDtoObjectType : ObjectType<GetMeteringPointDebugResultDtoV1.EventDto>
 {
-    private static readonly JsonSerializerOptions _serializerOptions = new(JsonSerializerDefaults.Web)
-    {
-        WriteIndented = true,
-    };
-
-    protected override void Configure(IObjectTypeDescriptor<GetMeteringPointResultDtoV1.EventDto> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<GetMeteringPointDebugResultDtoV1.EventDto> descriptor)
     {
         descriptor.Name("ElectricityMarketV2EventDto");
-
-        descriptor
-            .Field(e => JsonSerializer.Serialize(
-                e.Data,
-                _serializerOptions))
-            .Name("jsonData");
     }
 }
