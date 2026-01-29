@@ -20,10 +20,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import {
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import {
   WattTableColumnDef,
