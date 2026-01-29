@@ -688,7 +688,8 @@
         "NEW": "New",
         "CONNECTED": "Connected",
         "DISCONNECTED": "Disconnected",
-        "UNKNOWN": "Unknown"   },
+        "UNKNOWN": "Unknown"
+      },
       "actions": {
         "actionsButton": "Actions",
         "upload": "Upload measurements",
@@ -1052,7 +1053,7 @@
         "TONNE": "Tonne",
         "K_V_ARH": "kVArh",
         "KV_ARH": "kVArh",
-        "MV_AR": "MVAr",
+        "MV_AR": "MVAr"
       },
       "sum": "Sum",
       "qualities": {
