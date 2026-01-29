@@ -137,14 +137,12 @@ export class DhActorConversationNewCaseComponent {
     if (this.newCaseForm.invalid) {
       return;
     }
-    this.createCase.emit(
-      {
-        subject: this.newCaseForm.controls.subject.value,
-        content: this.newCaseForm.controls.message.value,
-        anonymous: false, //TODO: Implement when anonymous messaging is supported
-        receiver: this.newCaseForm.controls.receiver.value,
-        internalNote: this.newCaseForm.controls.internalNote.value
-      }
-    );
+    this.createCase.emit({
+      subject: this.newCaseForm.controls.subject.value,
+      content: this.newCaseForm.controls.message.value,
+      anonymous: false, //TODO: Implement when anonymous messaging is supported
+      receiver: this.newCaseForm.controls.receiver.value,
+      internalNote: this.newCaseForm.controls.internalNote.value,
+    });
   }
 }
