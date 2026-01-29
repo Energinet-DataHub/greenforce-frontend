@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Types;
 
@@ -22,6 +21,5 @@ public class ConnectionStateEnumType : EnumType<ConnectionState>
     protected override void Configure(IEnumTypeDescriptor<ConnectionState> descriptor)
     {
         descriptor.Name("ElectricityMarketConnectionStateType");
-        descriptor.AsIsCase();
     }
 }
