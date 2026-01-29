@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://app-api-actcon-d-we-001.azurewebsites.net/"
+      "url": "http://app-api-actcon-d-we-002.azurewebsites.net/"
     }
   ],
   "paths": {

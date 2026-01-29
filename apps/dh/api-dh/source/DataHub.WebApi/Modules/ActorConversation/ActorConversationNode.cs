@@ -84,4 +84,132 @@ public static class ActorConversationNode
 
         return response.ConversationId.ToString();
     }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:actor-conversation"])]
+    public static async Task CloseConversationAsync(
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        Guid conversationId,
+        string meteringPointIdentification,
+        string userName,
+        CancellationToken ct)
+    {
+        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
+
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
+        var userId = user.GetUserId();
+
+        // TODO: Will be replaced with the CloseActorConversationRequest when implemented
+        var authRequest = new CreateActorConversationRequest
+        {
+            ActorName = string.Empty,
+            ActorNumber = actorNumber,
+            MarketRole = marketRole,
+            MeteringPointId = meteringPointIdentification,
+            UserId = userId,
+            UserName = userName,
+        };
+
+        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
+
+        if (signature.Signature == null || (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        {
+            throw new InvalidOperationException("User is not authorized to access the requested conversation.");
+        }
+
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
+
+        await authClient.ApiCloseConversationAsync(
+            new CloseConversationRequest
+            {
+                ConversationId = conversationId,
+                SenderActorNumber = actorNumber,
+                SenderUserId = userId.ToString(),
+                SenderUserName = userName,
+            },
+            ct);
+    }
+
+    [Query]
+    [Authorize(Roles = ["metering-point:actor-conversation"])]
+    public static async Task<ConversationDto> GetConversationAsync(
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        Guid conversationId,
+        string meteringPointIdentification,
+        CancellationToken ct)
+    {
+        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
+
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
+        var userId = user.GetUserId();
+
+        // TODO: Will be replaced with the GetActorConversationRequest when implemented
+        var authRequest = new CreateActorConversationRequest
+        {
+            ActorName = string.Empty,
+            ActorNumber = actorNumber,
+            MarketRole = marketRole,
+            MeteringPointId = meteringPointIdentification,
+            UserId = userId,
+            UserName = string.Empty,
+        };
+
+        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
+
+        if (signature.Signature == null || (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        {
+            throw new InvalidOperationException("User is not authorized to access the requested conversation.");
+        }
+
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
+
+        return await authClient.ApiGetConversationApiGetConversationAsync(conversationId, ct);
+    }
+
+    [Query]
+    [Authorize(Roles = ["metering-point:actor-conversation"])]
+    public static async Task<ConversationsDto> GetConversationsForMeteringPointAsync(
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        string meteringPointIdentification,
+        CancellationToken ct)
+    {
+        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
+
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
+        var userId = user.GetUserId();
+
+        // TODO: Will be replaced with the ActorConversationsRequest when implemented
+        var authRequest = new CreateActorConversationRequest
+        {
+            ActorName = string.Empty,
+            ActorNumber = actorNumber,
+            MarketRole = marketRole,
+            MeteringPointId = meteringPointIdentification,
+            UserId = userId,
+            UserName = string.Empty,
+        };
+
+        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
+
+        if (signature.Signature == null || (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        {
+            throw new InvalidOperationException("User is not authorized to access conversations for the requested metering point.");
+        }
+
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
+
+        return await authClient.ApiGetConversationsAsync(meteringPointIdentification, ct);
+    }
 }
