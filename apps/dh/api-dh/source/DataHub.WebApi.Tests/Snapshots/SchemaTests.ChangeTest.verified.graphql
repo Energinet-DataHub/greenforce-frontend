@@ -374,6 +374,10 @@ type ChargesEdge {
   node: Charge!
 }
 
+type CloseConversationPayload {
+  boolean: Boolean
+}
+
 "Information about the offset pagination."
 type CollectionSegmentInfo {
   "Indicates whether more items exist following the set defined by the clients arguments."
@@ -392,6 +396,58 @@ type CommercialRelationDto {
   energySupplyPeriodTimeline: [EnergySupplyPeriodDto!]!
   activeElectricalHeatingPeriods: ElectricalHeatingDto
   electricalHeatingPeriods: [ElectricalHeatingDto!]!
+}
+
+"Conversation"
+type Conversation {
+  "Display Id of the conversation"
+  displayId: String!
+  "MeteringPoint identification"
+  meteringPointIdentification: String!
+  "Internal note from the creator"
+  internalNote: String
+  subject: ConversationSubject!
+  "true for conversations that are closed. false otherwise."
+  closed: Boolean!
+  "Messages associated with a conversation"
+  messages: [ConversationMessage!]!
+}
+
+"Conversation info"
+type ConversationInfo {
+  "Display id of the conversation"
+  displayId: String!
+  "Conversation id"
+  conversationId: UUID!
+  "MeteringPoint Identification"
+  meteringPointIdentification: String!
+  "Specifies whether the conversation has been read or not"
+  read: Boolean!
+  subject: ConversationSubject!
+  "Conversation is closed or not"
+  closed: Boolean!
+  "Last updated time of the conversation"
+  lastUpdated: DateTime!
+}
+
+"Conversation message"
+type ConversationMessage {
+  "Sender user name"
+  senderUserName: String
+  "Sendor actor name"
+  senderActorName: String
+  senderType: ActorType!
+  "Message content"
+  content: String!
+  messageType: Int!
+  "Created time"
+  createdTime: DateTime!
+}
+
+"Conversations"
+type Conversations {
+  "List of Conversations"
+  conversations: [ConversationInfo!]!
 }
 
 type CreateCalculationPayload {
@@ -1031,6 +1087,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 
 type Mutation {
   createConversation(input: CreateConversationInput!): CreateConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  closeConversation(input: CloseConversationInput!): CloseConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
   stopCharge(input: StopChargeInput!): StopChargePayload! @authorize(roles: [ "charges:manage" ])
@@ -1237,6 +1294,8 @@ type ProcessesEdge {
 }
 
 type Query {
+  conversation(conversationId: UUID! meteringPointIdentification: String!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
+  conversationsForMeteringPoint(meteringPointIdentification: String!): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
   charges(filter: String query: ChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
@@ -1844,6 +1903,12 @@ input ChargesQueryInput {
   transparentInvoicing: Boolean
   predictablePrice: Boolean
   missingPriceSeries: Boolean
+}
+
+input CloseConversationInput {
+  conversationId: UUID!
+  meteringPointIdentification: String!
+  userName: String!
 }
 
 input CreateActorContactDtoInput {

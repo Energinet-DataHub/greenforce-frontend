@@ -59,7 +59,8 @@ public static class ActorConversationNode
 
         var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
 
-        if (signature.Signature == null || (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        if (signature.Signature == null ||
+            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
         {
             throw new InvalidOperationException("User is not authorized to access the requested metering point.");
         }
@@ -67,27 +68,27 @@ public static class ActorConversationNode
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
         var response = await authClient.ApiStartConversationAsync(
-         new StartConversationRequest
-        {
-            Subject = subject,
-            ReceiverActorType = receiver,
-            MeteringPointIdentification = meteringPointIdentification,
-            SenderActorNumber = actorNumber,
-            SenderActorName = actorName,
-            SenderUserId = userId.ToString(),
-            SenderUserName = userName,
-            InternalNote = internalNote,
-            Content = content,
-            Anonymous = anonymous,
-        },
-         ct);
+            new StartConversationRequest
+            {
+                Subject = subject,
+                ReceiverActorType = receiver,
+                MeteringPointIdentification = meteringPointIdentification,
+                SenderActorNumber = actorNumber,
+                SenderActorName = actorName,
+                SenderUserId = userId.ToString(),
+                SenderUserName = userName,
+                InternalNote = internalNote,
+                Content = content,
+                Anonymous = anonymous,
+            },
+            ct);
 
         return response.ConversationId.ToString();
     }
 
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task CloseConversationAsync(
+    public static async Task<bool> CloseConversationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
@@ -116,22 +117,31 @@ public static class ActorConversationNode
 
         var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
 
-        if (signature.Signature == null || (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        if (signature.Signature == null ||
+            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
         {
             throw new InvalidOperationException("User is not authorized to access the requested conversation.");
         }
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
-        await authClient.ApiCloseConversationAsync(
-            new CloseConversationRequest
-            {
-                ConversationId = conversationId,
-                SenderActorNumber = actorNumber,
-                SenderUserId = userId.ToString(),
-                SenderUserName = userName,
-            },
-            ct);
+        try
+        {
+            await authClient.ApiCloseConversationAsync(
+                new CloseConversationRequest
+                {
+                    ConversationId = conversationId,
+                    SenderActorNumber = actorNumber,
+                    SenderUserId = userId.ToString(),
+                    SenderUserName = userName,
+                },
+                ct);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     [Query]
@@ -164,7 +174,8 @@ public static class ActorConversationNode
 
         var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
 
-        if (signature.Signature == null || (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        if (signature.Signature == null ||
+            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
         {
             throw new InvalidOperationException("User is not authorized to access the requested conversation.");
         }
@@ -203,9 +214,11 @@ public static class ActorConversationNode
 
         var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
 
-        if (signature.Signature == null || (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        if (signature.Signature == null ||
+            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
         {
-            throw new InvalidOperationException("User is not authorized to access conversations for the requested metering point.");
+            throw new InvalidOperationException(
+                "User is not authorized to access conversations for the requested metering point.");
         }
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
