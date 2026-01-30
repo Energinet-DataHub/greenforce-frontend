@@ -229,19 +229,13 @@ public static partial class MeteringPointNode
     }
 
     [Mutation]
+    [Authorize(Policy = nameof(EicFunction.EnergySupplier))]
     public static async Task<bool> RequestEndOfSupplyAsync(
         string meteringPointId,
         DateTimeOffset terminationDate,
-        CancellationToken ct,
-        [Service] IB2CClient ediB2CClient,
-        [Service] IHttpContextAccessor httpContextAccessor)
+        IB2CClient ediB2CClient,
+        CancellationToken ct)
     {
-        var marketRole = httpContextAccessor.HttpContext!.User.GetMarketParticipantMarketRole();
-        if (marketRole != nameof(EicFunction.EnergySupplier))
-        {
-            throw new InvalidOperationException("Only energy suppliers can request end of supply.");
-        }
-
         var command = new RequestEndOfSupplyCommandV1(
             new RequestEndOfSupplyV1(
                 MeteringPointId: meteringPointId,
