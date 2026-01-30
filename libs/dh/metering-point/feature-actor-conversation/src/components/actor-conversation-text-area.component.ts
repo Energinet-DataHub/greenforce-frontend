@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -46,7 +46,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
         [small]="small()"
         data-testid="actor-conversation-message-textarea"
       />
-      <watt-button type="submit">
+      <watt-button type="submit" (click)="send.emit()">
         {{ t('sendButton') }}
         <watt-icon name="send" />
       </watt-button>
@@ -56,4 +56,5 @@ import { TranslocoDirective } from '@jsverse/transloco';
 export class DhActorConversationTextAreaComponent {
   control = input.required<FormControl<string>>();
   small = input<boolean>(false);
+  send = output();
 }

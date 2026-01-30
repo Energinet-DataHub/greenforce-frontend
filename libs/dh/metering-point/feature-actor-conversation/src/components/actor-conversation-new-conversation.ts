@@ -98,7 +98,12 @@ import { DhActorConversationTextAreaComponent } from './actor-conversation-text-
         />
       </vater-stack>
       <vater-spacer />
-      <dh-actor-conversation-text-area vater fill="horizontal" [control]="newConversationForm.controls.message" />
+      <dh-actor-conversation-text-area
+        vater
+        fill="horizontal"
+        [control]="newConversationForm.controls.message"
+        (send)="send()"
+      />
     </form>
   `,
 })
