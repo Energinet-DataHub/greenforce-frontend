@@ -1043,6 +1043,7 @@ type Mutation {
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
+  requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1395,6 +1396,10 @@ type RequestClientSecretCredentialsPayload {
 }
 
 type RequestConnectionStateChangePayload {
+  boolean: Boolean
+}
+
+type RequestEndOfSupplyPayload {
   boolean: Boolean
 }
 
@@ -2125,6 +2130,11 @@ input RequestClientSecretCredentialsInput {
 input RequestConnectionStateChangeInput {
   meteringPointId: String!
   validityDate: DateTime!
+}
+
+input RequestEndOfSupplyInput {
+  meteringPointId: String!
+  terminationDate: DateTime!
 }
 
 input RequestInput @oneOf {

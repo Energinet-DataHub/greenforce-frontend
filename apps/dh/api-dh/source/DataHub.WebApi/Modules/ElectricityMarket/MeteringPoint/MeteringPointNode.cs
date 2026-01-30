@@ -14,6 +14,8 @@
 
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Models;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
@@ -234,6 +236,21 @@ public static partial class MeteringPointNode
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
         return result.IsSuccess;
+    }
+
+    [Mutation]
+    [Authorize(Policy = nameof(EicFunction.EnergySupplier))]
+    public static async Task<bool> RequestEndOfSupplyAsync(
+        string meteringPointId,
+        DateTimeOffset terminationDate,
+        IB2CClient ediB2CClient,
+        CancellationToken ct)
+    {
+        var command = new RequestEndOfSupplyCommandV1(new(meteringPointId, terminationDate));
+        var result = await ediB2CClient.SendAsync(command, ct);
+        return result.IsSuccess
+            ? true
+            : throw new GraphQLException("Command RequestEndOfSupply failed");
     }
 
     private static async Task<MeteringPointDto> GetMeteringPointWithNewModelAsync(
