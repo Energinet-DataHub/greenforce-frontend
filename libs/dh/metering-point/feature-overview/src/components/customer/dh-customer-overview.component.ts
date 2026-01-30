@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet/watt/card';
@@ -80,16 +80,18 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
               <h5>{{ contact.name !== '' ? contact.name : contact.legalContact?.name }}</h5>
               {{ t('cvr', { cvrValue: contact.cvr }) }}
             } @else {
-              <h5>{{ contact.name }}</h5>
-              <ng-container *dhPermissionRequired="['cpr:view']">
-                @let localMeteringPoint = meteringPoint();
-                @if (localMeteringPoint) {
-                  <dh-customer-cpr
-                    *dhCanSee="'cpr'; meteringPoint: localMeteringPoint"
-                    [meteringPointId]="localMeteringPoint.meteringPointId"
-                    [contactId]="contact.id"
-                  />
-                }
+              <ng-container *dhCanSee="'private-customer-overview'; meteringPoint: meteringPoint()">
+                <h5>{{ contact.name }}</h5>
+                <ng-container *dhPermissionRequired="['cpr:view']">
+                  @let localMeteringPoint = meteringPoint();
+                  @if (localMeteringPoint) {
+                    <dh-customer-cpr
+                      *dhCanSee="'cpr'; meteringPoint: localMeteringPoint"
+                      [meteringPointId]="localMeteringPoint.meteringPointId"
+                      [contactId]="contact.id"
+                    />
+                  }
+                </ng-container>
               </ng-container>
             }
           </div>

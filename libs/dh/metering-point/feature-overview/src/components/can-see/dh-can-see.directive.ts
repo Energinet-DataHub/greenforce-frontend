@@ -38,6 +38,7 @@ export type PropertyName =
   | 'energy-supplier-card'
   | 'energy-supplier-name'
   | 'customer-overview-card'
+  | 'private-customer-overview'
   | 'cpr'
   | 'contact-details'
   | 'actual-address'
@@ -124,6 +125,10 @@ const dhWhoCanSeeWhatMap: {
   },
   'customer-overview-card': {
     marketRoles: AllMarketRoles,
+    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
+  },
+  'private-customer-overview': {
+    marketRoles: [EicFunction.GridAccessProvider, ...shouldAllwaysShowFor],
     meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   cpr: {
