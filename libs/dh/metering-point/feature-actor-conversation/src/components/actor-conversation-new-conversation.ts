@@ -32,8 +32,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActorConversationConversationSubjectType, ActorConversationReceiverType } from '../types';
-import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
-import { WattIconComponent } from '@energinet/watt/icon';
+import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -45,10 +44,9 @@ import { WattIconComponent } from '@energinet/watt/icon';
     DhDropdownTranslatorDirective,
     ReactiveFormsModule,
     WattTextFieldComponent,
-    WattTextAreaFieldComponent,
-    WattIconComponent,
     VaterUtilityDirective,
     VaterSpacerComponent,
+    DhActorConversationTextAreaComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -100,17 +98,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
         />
       </vater-stack>
       <vater-spacer />
-      <vater-stack fill="horizontal" align="end">
-        <watt-textarea-field
-          [label]="t('messageLabel')"
-          [formControl]="newConversationForm.controls.message"
-          data-testid="actor-conversation-message-textarea"
-        />
-        <watt-button type="submit"
-        >{{ t('sendButton') }}
-          <watt-icon name="send" />
-        </watt-button>
-      </vater-stack>
+      <dh-actor-conversation-text-area vater fill="horizontal" [control]="newConversationForm.controls.message" />
     </form>
   `,
 })
