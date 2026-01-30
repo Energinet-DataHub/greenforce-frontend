@@ -28,7 +28,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetMeasurementPointsDocument,
-  MeteringPointSubType,
+  ElectricityMarketViewMeteringPointSubType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Quality } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDataTableComponent } from '@energinet/watt/data';
@@ -191,7 +191,7 @@ export class DhMeasurementsDayDetailsComponent {
   displayedColumns = computed(() => {
     const columns = Object.keys(this.columns);
 
-    if (this.subType() === MeteringPointSubType.Calculated) {
+    if (this.subType() === ElectricityMarketViewMeteringPointSubType.Calculated) {
       return columns.filter((column) => column !== 'registrationTime');
     }
 
@@ -201,7 +201,7 @@ export class DhMeasurementsDayDetailsComponent {
   sortBy = computed(() => {
     if (this.query.data()?.measurementPoints.length === 0) return '';
 
-    if (this.subType() === MeteringPointSubType.Calculated) {
+    if (this.subType() === ElectricityMarketViewMeteringPointSubType.Calculated) {
       return 'registeredInDataHub';
     }
 

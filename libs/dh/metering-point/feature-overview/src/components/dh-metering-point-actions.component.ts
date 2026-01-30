@@ -35,8 +35,8 @@ import {
 
 import {
   EicFunction,
-  ConnectionState,
-  MeteringPointSubType,
+  ElectricityMarketViewConnectionState,
+  ElectricityMarketViewMeteringPointSubType,
   ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -136,15 +136,17 @@ export class DhMeteringPointActionsComponent {
   private readonly permissionService = inject(PermissionService);
   private readonly actor = inject(DhActorStorage);
 
-  isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
+  isCalculatedMeteringPoint = computed(
+    () => this.subType() === ElectricityMarketViewMeteringPointSubType.Calculated
+  );
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
   getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
   createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;
 
   meteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
-  subType = input<MeteringPointSubType | null>();
-  connectionState = input<ConnectionState | null>();
+  subType = input<ElectricityMarketViewMeteringPointSubType | null>();
+  connectionState = input<ElectricityMarketViewConnectionState | null>();
   createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();
 
@@ -196,8 +198,8 @@ export class DhMeteringPointActionsComponent {
     return (
       this.hasMeteringPointMoveInPermission() &&
       this.releaseToggleService.isEnabled('MoveInBrs009') &&
-      (this.connectionState() === ConnectionState.New ||
-        this.connectionState() === ConnectionState.Connected) &&
+      (this.connectionState() === ElectricityMarketViewConnectionState.New ||
+        this.connectionState() === ElectricityMarketViewConnectionState.Connected) &&
       (this.type() === ElectricityMarketMeteringPointType.Consumption ||
         this.type() === ElectricityMarketMeteringPointType.Production)
     );
@@ -212,7 +214,8 @@ export class DhMeteringPointActionsComponent {
 
   showConnectionStateManageButton = computed(
     () =>
-      this.hasConnectionStateManagePermission() && this.connectionState() === ConnectionState.New
+      this.hasConnectionStateManagePermission() &&
+      this.connectionState() === ElectricityMarketViewConnectionState.New
   );
   showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
 

@@ -36,9 +36,9 @@ import {
   mockCreateConversationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
-  ConnectionState,
+  ElectricityMarketConnectionStateType,
   ElectricityMarketMeteringPointType,
-  MeteringPointSubType,
+  ElectricityMarketViewMeteringPointSubType,
   Quality,
   Resolution,
   Unit,
@@ -81,7 +81,7 @@ function getRelatedMeteringPoints() {
           current: {
             __typename: 'RelatedMeteringPointDto',
             id: '4444444',
-            connectionState: ConnectionState.Connected,
+            connectionState: ElectricityMarketConnectionStateType.Connected,
             identification: '444444444444444444',
             type: ElectricityMarketMeteringPointType.ElectricalHeating,
             createdDate: new Date('2021-01-01'),
@@ -91,7 +91,7 @@ function getRelatedMeteringPoints() {
           parent: {
             __typename: 'RelatedMeteringPointDto',
             id: '2222222',
-            connectionState: ConnectionState.Connected,
+            connectionState: ElectricityMarketConnectionStateType.Connected,
             identification: '222222222222222222',
             type: ElectricityMarketMeteringPointType.Consumption,
             createdDate: new Date('2021-01-01'),
@@ -102,7 +102,7 @@ function getRelatedMeteringPoints() {
             {
               __typename: 'RelatedMeteringPointDto',
               id: '3',
-              connectionState: ConnectionState.Connected,
+              connectionState: ElectricityMarketConnectionStateType.Connected,
               identification: '333333333333333333',
               type: ElectricityMarketMeteringPointType.Exchange,
               createdDate: new Date('2022-01-01'),
@@ -114,7 +114,7 @@ function getRelatedMeteringPoints() {
             {
               __typename: 'RelatedMeteringPointDto',
               id: '4',
-              connectionState: ConnectionState.New,
+              connectionState: ElectricityMarketConnectionStateType.New,
               identification: '444444444444441111',
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2022-01-01'),
@@ -126,7 +126,7 @@ function getRelatedMeteringPoints() {
             {
               __typename: 'RelatedMeteringPointDto',
               id: '5',
-              connectionState: ConnectionState.ClosedDown,
+              connectionState: ElectricityMarketConnectionStateType.ClosedDown,
               identification: '555555555555555555',
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2021-01-01'),
@@ -138,7 +138,7 @@ function getRelatedMeteringPoints() {
             {
               __typename: 'RelatedMeteringPointDto',
               id: '6',
-              connectionState: ConnectionState.Disconnected,
+              connectionState: ElectricityMarketConnectionStateType.Disconnected,
               identification: '666666666666666666',
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2022-01-01'),
@@ -472,10 +472,10 @@ function getMeasurementPoints() {
       data: {
         __typename: 'Query',
         meteringPoint: {
-          __typename: 'MeteringPointDto',
+          __typename: 'ElectricityMarketViewMeteringPointDto',
           id: mockMPs[meteringPointId].id,
           metadata: {
-            __typename: 'MeteringPointMetadataDto',
+            __typename: 'ElectricityMarketViewMeteringPointMetadataDto',
             id: mockMPs[meteringPointId].metadataId,
             subType: mockMPs[meteringPointId].subType,
           },
@@ -495,7 +495,7 @@ const mockMPs: {
     id: string;
     meteringPointId: string;
     metadataId: string;
-    subType: MeteringPointSubType | undefined | null;
+    subType: ElectricityMarketViewMeteringPointSubType | undefined | null;
   };
 } = {
   [parentMeteringPoint.meteringPointId]: {
@@ -539,7 +539,7 @@ function doesInternalMeteringPointIdExist() {
           data: {
             __typename: 'Query',
             meteringPointExists: {
-              __typename: 'MeteringPointDto',
+              __typename: 'ElectricityMarketViewMeteringPointDto',
               id: params['id'],
               meteringPointId: params['meteringPointId'],
             },
