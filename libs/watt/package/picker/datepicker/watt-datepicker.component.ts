@@ -23,7 +23,6 @@ import {
   inject,
   computed,
   Component,
-  LOCALE_ID,
   viewChild,
   ElementRef,
   linkedSignal,
@@ -96,7 +95,6 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
   private localeService = inject(WattLocaleService);
-  private locale = inject<WattSupportedLocales>(LOCALE_ID);
 
   max = input<Date>();
   min = input<Date>();
@@ -119,11 +117,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
 
   rangeSeparator = ' - ';
 
-  rangePlaceholder = signal(this.getRangePlaceholder());
-
-  protected override initPlaceholder() {
-    this.placeholder.set(this.getPlaceholderByLocale(this.locale));
-  }
+  rangePlaceholder = signal('');
 
   inputMask = computed(() =>
     maskitoDateOptionsGenerator({
@@ -143,9 +137,8 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     })
   );
 
-  getPlaceholderByLocale(locale: WattSupportedLocales): string {
-    return locale === 'da' ? 'dd-mm-åååå' : 'dd-mm-yyyy';
-  }
+  getPlaceholderByLocale = (locale: WattSupportedLocales) =>
+    locale === 'da' ? 'dd-mm-åååå' : 'dd-mm-yyyy';
 
   getRangePlaceholder(): string {
     return this.placeholder() + this.rangeSeparator + this.placeholder();

@@ -65,9 +65,7 @@ export abstract class WattPickerBase implements OnInit, AfterViewInit, ControlVa
   // eslint-disable-next-line @angular-eslint/no-input-rename
   userAriaDescribedBy = input<string>(undefined, { alias: 'aria-describedby' });
 
-  placeholder = signal<string>('');
-
-  protected abstract initPlaceholder(): void;
+  placeholder = signal('');
 
   get value(): WattDateRange | null {
     if (this.ngControl?.valid) {
@@ -139,7 +137,6 @@ export abstract class WattPickerBase implements OnInit, AfterViewInit, ControlVa
   constructor(id: string) {
     this.id = id;
     this.elementRef.nativeElement.setAttribute('id', id);
-    this.initPlaceholder();
 
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
