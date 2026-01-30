@@ -20,7 +20,9 @@ using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
 using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
 using Energinet.DataHub.EDI.B2CClient.Extensions.DependencyInjection;
 using Energinet.DataHub.MarketParticipant.Authorization.Extensions;
+using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.WebApi;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Options;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -93,7 +95,10 @@ services.AddJwtBearerAuthenticationForWebApp(configuration);
 
 services
     .AddAuthorizationBuilder()
-    .AddPolicy("fas", policy => policy.RequireClaim("multitenancy", "true"));
+    .AddPolicy("fas", policy => policy.RequireClaim("multitenancy", "true"))
+    .AddPolicy(nameof(EicFunction.EnergySupplier), policy =>
+        policy.RequireAssertion(context =>
+            context.User.GetMarketParticipantMarketRole() == nameof(EicFunction.EnergySupplier)));
 
 if (environment.IsDevelopment())
 {
