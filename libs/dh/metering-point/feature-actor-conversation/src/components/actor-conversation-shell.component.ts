@@ -29,7 +29,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState, createConversationFormValue } from '../types';
+import { ActorConversationState, CreateConversationFormValue } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -121,7 +121,7 @@ export class DhActorConversationShellComponent {
   createConversationMutation = mutation(CreateConversationDocument);
   private toastService = inject(WattToastService);
 
-  async createConversation(formValue: createConversationFormValue) {
+  async createConversation(formValue: CreateConversationFormValue) {
     const meteringPointIdentification = '571313131313131313'; // TODO: Get from context
     const actorName = 'Testnet & CO'; // TODO: Get from context
     const userName = 'Test Testesen'; // TODO: Get from context
