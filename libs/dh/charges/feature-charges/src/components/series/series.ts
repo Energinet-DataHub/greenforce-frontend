@@ -18,15 +18,14 @@
 //#endregion
 import { DecimalPipe } from '@angular/common';
 import { input, signal, computed, Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import {
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
+  WattDataTableComponent,
+  WattDataFiltersComponent,
+  WattDataActionsComponent,
+} from '@energinet/watt/data';
 import { dayjs } from '@energinet/watt/core/date';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
@@ -38,7 +37,11 @@ import {
   ChargeSeriesPointChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhCircleComponent,
+  DhDownloadButtonComponent,
+  GenerateCSV,
+} from '@energinet-datahub/dh/shared/ui-util';
 import {
   DhChargesIntervalField,
   DhChargesPeriodPipe,
@@ -52,12 +55,10 @@ import { DhChargesSeriesDetails } from './series-details';
   imports: [
     DecimalPipe,
     TranslocoDirective,
-    TranslocoPipe,
-    VaterSpacerComponent,
     VaterStackComponent,
     VaterUtilityDirective,
     WATT_TABLE,
-    WattButtonComponent,
+    WattDataActionsComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSlideToggleComponent,
@@ -65,6 +66,7 @@ import { DhChargesSeriesDetails } from './series-details';
     DhChargesIntervalField,
     DhChargesPeriodPipe,
     DhChargesSeriesDetails,
+    DhDownloadButtonComponent,
   ],
   template: `
     <watt-data-table
@@ -87,12 +89,12 @@ import { DhChargesSeriesDetails } from './series-details';
               {{ t('showHistory') }}
             </watt-slide-toggle>
           }
-          <vater-spacer />
-          <watt-button icon="download" variant="text" (click)="download()">
-            {{ 'shared.download' | transloco }}
-          </watt-button>
         </vater-stack>
       </watt-data-filters>
+
+      <watt-data-actions>
+        <dh-download-button (click)="download()" />
+      </watt-data-actions>
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'charges.series.columns'"

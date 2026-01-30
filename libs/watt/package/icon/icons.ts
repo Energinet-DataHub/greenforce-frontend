@@ -71,8 +71,8 @@ export const WattIconMap = {
   feedback: 'feedback',
   // Files
   save: 'save_alt',
-  upload: 'cloud_upload',
-  download: 'cloud_download',
+  upload: 'upload',
+  download: 'save_alt',
   fileDownload: 'download',
   fileUpload: 'upload',
   print: 'print',

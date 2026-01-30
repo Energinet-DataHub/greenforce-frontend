@@ -29,7 +29,11 @@ import {
   WattTableColumnDef,
   WattTableComponent,
 } from '@energinet/watt/table';
-import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
+import {
+  WattDataTableComponent,
+  WattDataFiltersComponent,
+  WattDataActionsComponent,
+} from '@energinet/watt/data';
 
 import {
   GetArchivedMessagesQueryVariables,
@@ -57,6 +61,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
     WattDataTableComponent,
     WattDataFiltersComponent,
     DhMessageArchiveSearchFiltersComponent,
+    WattDataActionsComponent,
   ],
   template: `
     <watt-data-table
@@ -66,12 +71,14 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
       [searchLabel]="t('searchById')"
       [error]="dataSource.error"
       [ready]="dataSource.called"
+      [enableCount]="false"
       (clear)="reset()"
     >
-      <h3>{{ t('results') }}</h3>
-      <watt-button variant="secondary" icon="plus" (click)="onNewSearch()">
-        {{ t('new') }}
-      </watt-button>
+      <watt-data-actions>
+        <watt-button variant="secondary" icon="plus" (click)="onNewSearch()">
+          {{ t('new') }}
+        </watt-button>
+      </watt-data-actions>
 
       @if (dataSource.called) {
         <watt-data-filters>

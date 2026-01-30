@@ -21,7 +21,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   VaterFlexComponent,
-  VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
@@ -44,7 +43,6 @@ import { DhOverview } from './overview/overview.component';
     VaterStackComponent,
     VaterFlexComponent,
     VaterUtilityDirective,
-    VaterSpacerComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
     DhNewReportRequest,
@@ -80,12 +78,7 @@ import { DhOverview } from './overview/overview.component';
           </vater-stack>
         } @else {
           <vater-flex fill="vertical" gap="ml">
-            <vater-stack direction="row" gap="s">
-              <h3>{{ t('title') }}</h3>
-              <span class="watt-chip-label">{{ totalCount() }}</span>
-
-              <vater-spacer />
-
+            <vater-stack direction="row" gap="s" justify="end">
               <dh-new-report-request />
             </vater-stack>
 

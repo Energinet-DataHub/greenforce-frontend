@@ -20,11 +20,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import {
-  VaterStackComponent,
-  VaterSpacerComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import {
   WattTableColumnDef,
@@ -34,7 +30,11 @@ import {
 
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
+import {
+  WattDataActionsComponent,
+  WattDataFiltersComponent,
+  WattDataTableComponent,
+} from '@energinet/watt/data';
 
 import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
@@ -53,7 +53,6 @@ import { DhChargesFilters } from './charges-filters';
     RouterOutlet,
     TranslocoDirective,
     TranslocoPipe,
-    VaterSpacerComponent,
     VaterStackComponent,
     VaterUtilityDirective,
     WattButtonComponent,
@@ -65,6 +64,8 @@ import { DhChargesFilters } from './charges-filters';
     DhChargesStatus,
     DhChargesFilters,
     DhPermissionRequiredDirective,
+    DhChargesStatus,
+    WattDataActionsComponent,
   ],
   providers: [DhNavigationService],
   template: `
@@ -79,17 +80,19 @@ import { DhChargesFilters } from './charges-filters';
       <watt-data-filters>
         <vater-stack wrap direction="row" gap="m">
           <dh-charges-filters (filterChange)="fetch($event)" />
-          <vater-spacer />
-          <watt-button
-            *dhPermissionRequired="['charges:manage']"
-            variant="secondary"
-            routerLink="create"
-          >
-            <watt-icon name="plus" />
-            {{ t('createButton') }}
-          </watt-button>
         </vater-stack>
       </watt-data-filters>
+
+      <watt-data-actions>
+        <watt-button
+          *dhPermissionRequired="['charges:manage']"
+          variant="secondary"
+          routerLink="create"
+        >
+          <watt-icon name="plus" />
+          {{ t('createButton') }}
+        </watt-button>
+      </watt-data-actions>
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'charges.charges.table.columns'"
