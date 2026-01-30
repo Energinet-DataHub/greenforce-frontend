@@ -16,20 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattModalService } from '@energinet/watt/modal';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 
-import { CustomerRelationType, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { CustomerRelationType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { Contact, MeteringPointDetails } from '../../types';
-import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
+import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerProtectedComponent } from './dh-customer-protected.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
 
@@ -71,34 +71,30 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
 
       <div vater-flex gap="m" direction="row" class="watt-space-stack-m">
         @for (contact of uniqueContacts(); track contact.id) {
-          @if (contact.cvr) {
+          <ng-container *dhCanSee="'private-customer-overview'; meteringPoint: meteringPoint()">
             <div vater-flex gap="s" class="contact">
-              <h5>{{ contact.name !== '' ? contact.name : contact.legalContact?.name }}</h5>
+              @if (contact.isProtectedName) {
+                <dh-customer-protected />
+              }
 
-              {{ t('cvr', { cvrValue: contact.cvr }) }}
-            </div>
-          } @else {
-            <ng-container *dhCanSee="'private-customer-overview'; meteringPoint: meteringPoint()">
-              <div vater-flex gap="s" class="contact">
-                @if (contact.isProtectedName) {
-                  <dh-customer-protected />
-                }
-
+              @if (contact.cvr) {
+                <h5>{{ contact.name !== '' ? contact.name : contact.legalContact?.name }}</h5>
+                {{ t('cvr', { cvrValue: contact.cvr }) }}
+              } @else {
                 <h5>{{ contact.name }}</h5>
-
                 <ng-container *dhPermissionRequired="['cpr:view']">
                   @let localMeteringPoint = meteringPoint();
                   @if (localMeteringPoint) {
                     <dh-customer-cpr
-                      *dhCanSee="'cpr'; meteringPoint: meteringPoint()"
+                      *dhCanSee="'cpr'; meteringPoint: localMeteringPoint"
                       [meteringPointId]="localMeteringPoint.meteringPointId"
                       [contactId]="contact.id"
                     />
                   }
                 </ng-container>
-              </div>
-            </ng-container>
-          }
+              }
+            </div>
+          </ng-container>
         } @empty {
           {{ null | dhEmDashFallback }}
         }
@@ -116,8 +112,6 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
 })
 export class DhCustomerOverviewComponent {
   private modalService = inject(WattModalService);
-
-  EicFunction = EicFunction;
 
   meteringPoint = input.required<MeteringPointDetails | undefined>();
 

@@ -128,7 +128,7 @@ const dhWhoCanSeeWhatMap: {
     meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   'private-customer-overview': {
-    marketRoles: [EicFunction.GridAccessProvider, ...shouldAllwaysShowFor],
+    marketRoles: AllMarketRoles,
     meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   cpr: {
