@@ -114,11 +114,6 @@ type AddressDto {
   country: String!
 }
 
-type AnnualDate {
-  month: Int!
-  day: Int!
-}
-
 type ApiError implements Error {
   message: String!
   apiErrors: [ApiErrorDescriptor!]!
@@ -382,18 +377,6 @@ type CollectionSegmentInfo {
   hasPreviousPage: Boolean!
 }
 
-type CommercialRelationDto {
-  energySupplierName: ActorNameDto
-  id: Long!
-  energySupplier: String!
-  startDate: DateTime!
-  endDate: DateTime!
-  activeEnergySupplyPeriod: EnergySupplyPeriodDto
-  energySupplyPeriodTimeline: [EnergySupplyPeriodDto!]!
-  activeElectricalHeatingPeriods: ElectricalHeatingDto
-  electricalHeatingPeriods: [ElectricalHeatingDto!]!
-}
-
 type CreateCalculationPayload {
   uuid: UUID
 }
@@ -423,38 +406,6 @@ type CreateMarketParticipantPayload {
 type CreateUserRolePayload {
   boolean: Boolean
   errors: [CreateUserRoleError!]
-}
-
-type CustomerContactDto {
-  id: Long!
-  name: String
-  email: String
-  isProtectedAddress: Boolean!
-  phone: String
-  mobile: String
-  attention: String
-  streetCode: String
-  streetName: String
-  buildingNumber: String
-  postCode: String
-  cityName: String
-  citySubDivisionName: String
-  darReference: UUID
-  countryCode: String
-  floor: String
-  room: String
-  postBox: String
-  municipalityCode: String
-}
-
-type CustomerDto {
-  id: Long!
-  name: String!
-  cvr: String
-  isProtectedName: Boolean!
-  relationType: CustomerRelationType!
-  legalContact: CustomerContactDto
-  technicalContact: CustomerContactDto
 }
 
 type DeactivateUserPayload {
@@ -489,14 +440,6 @@ type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance
   steps: [OrchestrationInstanceStep!]!
 }
 
-type ElectricalHeatingDto {
-  id: Long!
-  validFrom: DateTime!
-  validTo: DateTime!
-  isActive: Boolean!
-  transactionType: TransactionType
-}
-
 type ElectricityMarketV2EventDto {
   id: UUID!
   timestamp: DateTime!
@@ -504,11 +447,138 @@ type ElectricityMarketV2EventDto {
   dataJson: String!
 }
 
-type EnergySupplyPeriodDto {
+type ElectricityMarketViewAnnualDate {
+  month: Int!
+  day: Int!
+}
+
+type ElectricityMarketViewCommercialRelationDto {
+  energySupplierName: ActorNameDto
+  id: Long!
+  energySupplier: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  activeEnergySupplyPeriod: ElectricityMarketViewEnergySupplyPeriodDto
+  energySupplyPeriodTimeline: [ElectricityMarketViewEnergySupplyPeriodDto!]!
+  activeElectricalHeatingPeriods: ElectricityMarketViewElectricalHeatingDto
+  electricalHeatingPeriods: [ElectricityMarketViewElectricalHeatingDto!]!
+}
+
+type ElectricityMarketViewCustomerContactDto {
+  id: Long!
+  name: String
+  email: String
+  isProtectedAddress: Boolean!
+  phone: String
+  mobile: String
+  attention: String
+  streetCode: String
+  streetName: String
+  buildingNumber: String
+  postCode: String
+  cityName: String
+  citySubDivisionName: String
+  darReference: UUID
+  countryCode: String
+  floor: String
+  room: String
+  postBox: String
+  municipalityCode: String
+}
+
+type ElectricityMarketViewCustomerDto {
+  id: Long!
+  name: String!
+  cvr: String
+  isProtectedName: Boolean!
+  relationType: ElectricityMarketViewCustomerRelationType!
+  legalContact: ElectricityMarketViewCustomerContactDto
+  technicalContact: ElectricityMarketViewCustomerContactDto
+}
+
+type ElectricityMarketViewElectricalHeatingDto {
   id: Long!
   validFrom: DateTime!
   validTo: DateTime!
-  customers: [CustomerDto!]!
+  isActive: Boolean!
+  transactionType: ElectricityMarketViewTransactionType
+}
+
+type ElectricityMarketViewEnergySupplyPeriodDto {
+  id: Long!
+  validFrom: DateTime!
+  validTo: DateTime!
+  customers: [ElectricityMarketViewCustomerDto!]!
+}
+
+type ElectricityMarketViewInstallationAddressDto {
+  id: Long!
+  streetCode: String
+  streetName: String!
+  buildingNumber: String!
+  cityName: String!
+  citySubDivisionName: String
+  darReference: UUID
+  washInstructions: ElectricityMarketViewWashInstructions
+  countryCode: String!
+  floor: String
+  room: String
+  postCode: String!
+  municipalityCode: String
+  locationDescription: String
+}
+
+type ElectricityMarketViewMeteringPointDto {
+  meteringPointId: String!
+  isChild: Boolean!
+  isEnergySupplier(energySupplierActorGln: String!): Boolean!
+  isGridAccessProvider(gridAccessProviderActorGln: String!): Boolean!
+  electricalHeatingStartDate: DateTime
+  hadElectricalHeating: Boolean!
+  haveElectricalHeating: Boolean!
+  createdDate: DateTime
+  connectionDate: DateTime
+  closedDownDate: DateTime
+  id: Long!
+  identification: String!
+  metadata: ElectricityMarketViewMeteringPointMetadataDto!
+  metadataTimeline: [ElectricityMarketViewMeteringPointMetadataDto!]!
+  commercialRelation: ElectricityMarketViewCommercialRelationDto
+  commercialRelationTimeline: [ElectricityMarketViewCommercialRelationDto!]!
+}
+
+type ElectricityMarketViewMeteringPointMetadataDto {
+  gridArea: GridAreaDto
+  fromGridArea: GridAreaDto
+  toGridArea: GridAreaDto
+  internalMeteringPointParentId(environment: String searchMigratedMeteringPoints: Boolean): Long
+  id: Long!
+  validFrom: DateTime!
+  validTo: DateTime!
+  parentMeteringPoint: String
+  type: ElectricityMarketViewMeteringPointType!
+  subType: ElectricityMarketViewMeteringPointSubType
+  connectionState: ElectricityMarketViewConnectionState
+  resolution: String!
+  ownedBy: String!
+  connectionType: ElectricityMarketViewConnectionType
+  disconnectionType: ElectricityMarketViewDisconnectionType
+  product: ElectricityMarketViewProduct
+  productObligation: Boolean
+  measureUnit: ElectricityMarketViewMeteringPointMeasureUnit!
+  assetType: ElectricityMarketViewAssetType
+  environmentalFriendly: Boolean
+  capacity: String
+  powerLimitKw: Float
+  powerLimitAmp: Int
+  meterNumber: String
+  netSettlementGroup: Int
+  scheduledMeterReadingMonth: Int
+  scheduledMeterReadingDate: ElectricityMarketViewAnnualDate
+  powerPlantGsrn: String
+  settlementMethod: ElectricityMarketViewSettlementMethod
+  installationAddress: ElectricityMarketViewInstallationAddressDto
+  manuallyHandled: Boolean!
 }
 
 "A segment of a collection."
@@ -724,23 +794,6 @@ type InitiateMoveInPayload {
   boolean: Boolean
 }
 
-type InstallationAddressDto {
-  id: Long!
-  streetCode: String
-  streetName: String!
-  buildingNumber: String!
-  cityName: String!
-  citySubDivisionName: String
-  darReference: UUID
-  washInstructions: WashInstructions
-  countryCode: String!
-  floor: String
-  room: String
-  postCode: String!
-  municipalityCode: String
-  locationDescription: String
-}
-
 type InviteUserPayload {
   boolean: Boolean
   errors: [InviteUserError!]
@@ -927,61 +980,8 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
-type MeteringPointDto {
-  meteringPointId: String!
-  isChild: Boolean!
-  isEnergySupplier(energySupplierActorGln: String!): Boolean!
-  isGridAccessProvider(gridAccessProviderActorGln: String!): Boolean!
-  electricalHeatingStartDate: DateTime
-  hadElectricalHeating: Boolean!
-  haveElectricalHeating: Boolean!
-  createdDate: DateTime
-  connectionDate: DateTime
-  closedDownDate: DateTime
-  id: Long!
-  identification: String!
-  metadata: MeteringPointMetadataDto!
-  metadataTimeline: [MeteringPointMetadataDto!]!
-  commercialRelation: CommercialRelationDto
-  commercialRelationTimeline: [CommercialRelationDto!]!
-}
-
 type MeteringPointIdentificationDto {
   identification: String!
-}
-
-type MeteringPointMetadataDto {
-  gridArea: GridAreaDto
-  fromGridArea: GridAreaDto
-  toGridArea: GridAreaDto
-  internalMeteringPointParentId(environment: String searchMigratedMeteringPoints: Boolean): Long
-  id: Long!
-  validFrom: DateTime!
-  validTo: DateTime!
-  parentMeteringPoint: String
-  type: ElectricityMarketMeteringPointType!
-  subType: MeteringPointSubType
-  connectionState: ConnectionState
-  resolution: String!
-  ownedBy: String!
-  connectionType: ConnectionType
-  disconnectionType: DisconnectionType
-  product: Product
-  productObligation: Boolean
-  measureUnit: MeteringPointMeasureUnit!
-  assetType: AssetType
-  environmentalFriendly: Boolean
-  capacity: String
-  powerLimitKw: Float
-  powerLimitAmp: Int
-  meterNumber: String
-  netSettlementGroup: Int
-  scheduledMeterReadingMonth: Int
-  scheduledMeterReadingDate: AnnualDate
-  powerPlantGsrn: String
-  settlementMethod: SettlementMethod
-  installationAddress: InstallationAddressDto
-  manuallyHandled: Boolean!
 }
 
 type MeteringPointProcess {
@@ -1253,9 +1253,9 @@ type Query {
   eventsDebugView(meteringPointId: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
-  meteringPointExists(environment: String! searchMigratedMeteringPoints: Boolean! internalMeteringPointId: Long meteringPointId: Long): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPointExists(environment: String! searchMigratedMeteringPoints: Boolean! internalMeteringPointId: Long meteringPointId: Long): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
-  meteringPoint(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPoint(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -1336,7 +1336,7 @@ type RelatedMeteringPointDto {
   id: Long!
   identification: String!
   type: ElectricityMarketMeteringPointType!
-  connectionState: ConnectionState!
+  connectionState: ElectricityMarketConnectionStateType!
   createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
@@ -2423,31 +2423,6 @@ enum ArchivedMessageDocumentType {
   NOTIFY_PRICE_LIST
 }
 
-enum AssetType {
-  STEAM_TURBINE_WITH_BACK_PRESSURE_MODE
-  GAS_TURBINE
-  COMBINED_CYCLE
-  COMBUSTION_ENGINE_GAS
-  STEAM_TURBINE_WITH_CONDENSATION_STEAM
-  BOILER
-  STIRLING_ENGINE
-  PERMANENT_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES
-  TEMPORARILY_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES
-  FUEL_CELLS
-  PHOTO_VOLTAIC_CELLS
-  WIND_TURBINES
-  HYDROELECTRIC_POWER
-  WAVE_POWER
-  MIXED_PRODUCTION
-  PRODUCTION_WITH_ELECTRICAL_ENERGY_STORAGE_FACILITIES
-  POWER_TO_X
-  REGENERATIVE_DEMAND_FACILITY
-  COMBUSTION_ENGINE_DIESEL
-  COMBUSTION_ENGINE_BIO
-  NO_TECHNOLOGY
-  UNKNOWN_TECHNOLOGY
-}
-
 enum AuthEicFunctionType {
   BalanceResponsibleParty
   BillingAgent
@@ -2554,19 +2529,6 @@ enum ChargeType {
   FEE
 }
 
-enum ConnectionState {
-  NOT_USED
-  CLOSED_DOWN
-  NEW
-  CONNECTED
-  DISCONNECTED
-}
-
-enum ConnectionType {
-  DIRECT
-  INSTALLATION
-}
-
 enum ContactCategory {
   DEFAULT
   CHARGES
@@ -2585,12 +2547,6 @@ enum ContactCategory {
   REMINDER
 }
 
-enum CustomerRelationType {
-  CONTACT1
-  CONTACT4
-  SECONDARY
-}
-
 enum DelegatedProcess {
   REQUEST_ENERGY_RESULTS
   RECEIVE_ENERGY_RESULTS
@@ -2600,11 +2556,6 @@ enum DelegatedProcess {
   RECEIVE_METERING_POINT_DATA
   SEND_METERING_POINT_DATA
   RECEIVE_GAP_LOG
-}
-
-enum DisconnectionType {
-  REMOTE_DISCONNECTION
-  MANUAL_DISCONNECTION
 }
 
 enum DocumentStatus {
@@ -2691,6 +2642,14 @@ enum ElectricityEicFunctionType {
   ItSupplier
 }
 
+enum ElectricityMarketConnectionStateType {
+  NOT_USED
+  CLOSED_DOWN
+  NEW
+  CONNECTED
+  DISCONNECTED
+}
+
 enum ElectricityMarketMeteringPointType {
   Consumption
   Production
@@ -2762,6 +2721,194 @@ enum ElectricityMarketV2MeteringPointType {
   ActualConsumption
   ActualProduction
   InternalUse
+}
+
+enum ElectricityMarketViewAssetType {
+  STEAM_TURBINE_WITH_BACK_PRESSURE_MODE
+  GAS_TURBINE
+  COMBINED_CYCLE
+  COMBUSTION_ENGINE_GAS
+  STEAM_TURBINE_WITH_CONDENSATION_STEAM
+  BOILER
+  STIRLING_ENGINE
+  PERMANENT_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES
+  TEMPORARILY_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES
+  FUEL_CELLS
+  PHOTO_VOLTAIC_CELLS
+  WIND_TURBINES
+  HYDROELECTRIC_POWER
+  WAVE_POWER
+  MIXED_PRODUCTION
+  PRODUCTION_WITH_ELECTRICAL_ENERGY_STORAGE_FACILITIES
+  POWER_TO_X
+  REGENERATIVE_DEMAND_FACILITY
+  COMBUSTION_ENGINE_DIESEL
+  COMBUSTION_ENGINE_BIO
+  NO_TECHNOLOGY
+  UNKNOWN_TECHNOLOGY
+}
+
+enum ElectricityMarketViewConnectionState {
+  NOT_USED
+  CLOSED_DOWN
+  NEW
+  CONNECTED
+  DISCONNECTED
+}
+
+enum ElectricityMarketViewConnectionType {
+  DIRECT
+  INSTALLATION
+}
+
+enum ElectricityMarketViewCustomerRelationType {
+  CONTACT1
+  CONTACT4
+  SECONDARY
+}
+
+enum ElectricityMarketViewDisconnectionType {
+  REMOTE_DISCONNECTION
+  MANUAL_DISCONNECTION
+}
+
+enum ElectricityMarketViewMeteringPointMeasureUnit {
+  AMPERE
+  STK
+  KV_ARH
+  K_WH
+  KW
+  MW
+  M_WH
+  TONNE
+  MV_AR
+  DANISH_TARIFF_CODE
+}
+
+enum ElectricityMarketViewMeteringPointSubType {
+  PHYSICAL
+  VIRTUAL
+  CALCULATED
+}
+
+enum ElectricityMarketViewMeteringPointType {
+  Consumption
+  Production
+  Exchange
+  VEProduction
+  Analysis
+  NotUsed
+  SurplusProductionGroup6
+  NetProduction
+  SupplyToGrid
+  ConsumptionFromGrid
+  WholesaleServicesOrInformation
+  OwnProduction
+  NetFromGrid
+  NetToGrid
+  TotalConsumption
+  NetLossCorrection
+  ElectricalHeating
+  NetConsumption
+  OtherConsumption
+  OtherProduction
+  CapacitySettlement
+  ExchangeReactiveEnergy
+  CollectiveNetProduction
+  CollectiveNetConsumption
+  ActivatedDownregulation
+  ActivatedUpregulation
+  ActualConsumption
+  ActualProduction
+  InternalUse
+}
+
+enum ElectricityMarketViewProduct {
+  TARIFF
+  FUEL_QUANTITY
+  POWER_ACTIVE
+  POWER_REACTIVE
+  ENERGY_ACTIVE
+  ENERGY_REACTIVE
+}
+
+enum ElectricityMarketViewSettlementMethod {
+  FLEX_SETTLED
+  PROFILED
+  NON_PROFILED
+}
+
+enum ElectricityMarketViewTransactionType {
+  CHANGE_SUPPLIER
+  END_SUPPLY
+  INCORRECT_SUPPLIER_CHANGE
+  MASTER_DATA_SENT
+  ATTACH_CHILD
+  DETTACH_CHILD
+  ENERGI_SUPPLIER_MOVE_IN
+  ENERGI_SUPPLIER_MOVE_OUT
+  TRANSACTION_TYPE_INC_MOVE
+  INCORRECT_MOVE_IN
+  ELECTRICAL_HEATING_ON
+  ELECTRICAL_HEATING_OFF
+  CHANGE_SUPPLIER_SHORT
+  MANUAL_CHANGE_SUPPLIER
+  MANUAL_CORRECTIONS
+  CREATE_METERING_POINT
+  CREATE_SPECIAL_METERING_POINT
+  REGISTER_METER_IDENTIFIER
+  ADDED_BY_DATA_MIGRATION
+  DELIVERY_TERMINATION
+  SENDING_HISTORICAL_ANNUAL_CONSUMPTION_TO_ELECTRICITY_SUPPLIER
+  MANUAL_WEB_PASSWORD_GENERATION
+  MANUAL_UPDATE_OF_WEB_ACCESS_CODE
+  MAINTENANCE_OF_SETTLEMENT_MASTER_DATA
+  GRID_ACCESS_PROVIDER_MOVE_IN
+  GRID_ACCESS_PROVIDER_MOVE_OUT
+  SENDING_CUSTOMER_MASTER_DATA
+  REQUEST_FOR_MASTER_DATA
+  REQUEST_FOR_MASTER_DATA_NOT_OWNER
+  REQUEST_FOR_MEASUREMENT_DATA
+  REQUEST_FOR_SETTLEMENT_MASTER_DATA
+  SUBMIT_EXPECTED_ANNUAL_CONSUMPTION_ENERGY_SUPPLIER
+  SUBMIT_EXPECTED_ANNUAL_CONSUMPTION_GRID_ACCESS_PROVIDER
+  SUBMIT_COUNTER_READING_ENERGY_SUPPLIER
+  SUBMIT_COUNTER_READING_GRID_ACCESS_PROVIDER
+  REQUEST_FOR_SERVICE_FROM_GRID_ACCESS_PROVIDER
+  UNSUBSCRIBE
+  STOP_TARIFF
+  DISMANTLING_OF_METER
+  UPDATE_SPECIAL_METERING_POINT
+  UPDATE_HISTORIC_METERING_POINT
+  CHANGE_METER
+  CHANGE_IN_PURCHASE_OBLIGATION
+  DISPLAYING_CUMULATIVE_DATA_NOT_OWNER
+  VIEWING_MOVES
+  DISPLAYING_MEASUREMENT_POINT
+  DISPLAYING_MEASUREMENT_POINT_NOT_OWNER
+  DISPLAYING_MEASUREMENT_DATA_NOT_OWNER
+  INTERRUPTION_AND_REOPENING_OF_MEASUREMENT_POINT
+  CONNECTING_MEASURING_POINT
+  CHANGE_BALANCE_RESPONSIBLE_PARTY_CONSUMPTION
+  CHANGE_BALANCE_RESPONSIBLE_PARTY_PRODUCTION
+  MERGER_OF_NETWORK_AREAS
+  MASS_CORRECTION
+  CHANGE_OF_PAYMENT_METHOD
+  DECOMMISSIONING_MEASURING_POINT
+  CANCELLATION_OF_CONSUMPTION_STATEMENT_MARKET_PROCESS
+  CANCELLATION_OF_CONSUMPTION_STATEMENT_READING_DATE
+  CONSUMPTION_STATEMENT_MEASURING_POINT
+  HISTORICAL_TRANSACTION_CORRECTION
+  START_CANCELLATION_OF_SUPPLIER_CHANGE
+  CONSUMPTION_STATEMENT_CANCELS_NOT_MARKET_PROCESS
+  CONSUMPTION_STATEMENT_CANCELS_MARKET_PROCESS
+  CREATE_HISTORICAL_METERING_POINT
+  EMPTY_TRANSACTION
+}
+
+enum ElectricityMarketViewWashInstructions {
+  WASHABLE
+  NOT_WASHABLE
 }
 
 enum EsettTimeSeriesType {
@@ -2906,25 +3053,6 @@ enum MeteringPointDocumentType {
   NOTIFY_BILLING_MASTER_DATA
 }
 
-enum MeteringPointMeasureUnit {
-  AMPERE
-  STK
-  KV_ARH
-  K_WH
-  KW
-  MW
-  M_WH
-  TONNE
-  MV_AR
-  DANISH_TARIFF_CODE
-}
-
-enum MeteringPointSubType {
-  PHYSICAL
-  VIRTUAL
-  CALCULATED
-}
-
 enum MeteringPointType {
   ALL
   PRODUCTION
@@ -3061,15 +3189,6 @@ enum ProcessStepType {
   UNKNOWN
 }
 
-enum Product {
-  TARIFF
-  FUEL_QUANTITY
-  POWER_ACTIVE
-  POWER_REACTIVE
-  ENERGY_ACTIVE
-  ENERGY_REACTIVE
-}
-
 enum Quality {
   MISSING
   ESTIMATED
@@ -3134,12 +3253,6 @@ enum SendMeasurementsResolution {
   QUARTER_HOURLY
 }
 
-enum SettlementMethod {
-  FLEX_SETTLED
-  PROFILED
-  NON_PROFILED
-}
-
 enum SettlementReportMarketRole {
   GRID_ACCESS_PROVIDER
   ENERGY_SUPPLIER
@@ -3172,74 +3285,6 @@ enum StartCalculationType {
   SECOND_CORRECTION_SETTLEMENT
   THIRD_CORRECTION_SETTLEMENT
   CAPACITY_SETTLEMENT
-}
-
-enum TransactionType {
-  CHANGE_SUPPLIER
-  END_SUPPLY
-  INCORRECT_SUPPLIER_CHANGE
-  MASTER_DATA_SENT
-  ATTACH_CHILD
-  DETTACH_CHILD
-  ENERGI_SUPPLIER_MOVE_IN
-  ENERGI_SUPPLIER_MOVE_OUT
-  TRANSACTION_TYPE_INC_MOVE
-  INCORRECT_MOVE_IN
-  ELECTRICAL_HEATING_ON
-  ELECTRICAL_HEATING_OFF
-  CHANGE_SUPPLIER_SHORT
-  MANUAL_CHANGE_SUPPLIER
-  MANUAL_CORRECTIONS
-  CREATE_METERING_POINT
-  CREATE_SPECIAL_METERING_POINT
-  REGISTER_METER_IDENTIFIER
-  ADDED_BY_DATA_MIGRATION
-  DELIVERY_TERMINATION
-  SENDING_HISTORICAL_ANNUAL_CONSUMPTION_TO_ELECTRICITY_SUPPLIER
-  MANUAL_WEB_PASSWORD_GENERATION
-  MANUAL_UPDATE_OF_WEB_ACCESS_CODE
-  MAINTENANCE_OF_SETTLEMENT_MASTER_DATA
-  GRID_ACCESS_PROVIDER_MOVE_IN
-  GRID_ACCESS_PROVIDER_MOVE_OUT
-  SENDING_CUSTOMER_MASTER_DATA
-  REQUEST_FOR_MASTER_DATA
-  REQUEST_FOR_MASTER_DATA_NOT_OWNER
-  REQUEST_FOR_MEASUREMENT_DATA
-  REQUEST_FOR_SETTLEMENT_MASTER_DATA
-  SUBMIT_EXPECTED_ANNUAL_CONSUMPTION_ENERGY_SUPPLIER
-  SUBMIT_EXPECTED_ANNUAL_CONSUMPTION_GRID_ACCESS_PROVIDER
-  SUBMIT_COUNTER_READING_ENERGY_SUPPLIER
-  SUBMIT_COUNTER_READING_GRID_ACCESS_PROVIDER
-  REQUEST_FOR_SERVICE_FROM_GRID_ACCESS_PROVIDER
-  UNSUBSCRIBE
-  STOP_TARIFF
-  DISMANTLING_OF_METER
-  UPDATE_SPECIAL_METERING_POINT
-  UPDATE_HISTORIC_METERING_POINT
-  CHANGE_METER
-  CHANGE_IN_PURCHASE_OBLIGATION
-  DISPLAYING_CUMULATIVE_DATA_NOT_OWNER
-  VIEWING_MOVES
-  DISPLAYING_MEASUREMENT_POINT
-  DISPLAYING_MEASUREMENT_POINT_NOT_OWNER
-  DISPLAYING_MEASUREMENT_DATA_NOT_OWNER
-  INTERRUPTION_AND_REOPENING_OF_MEASUREMENT_POINT
-  CONNECTING_MEASURING_POINT
-  CHANGE_BALANCE_RESPONSIBLE_PARTY_CONSUMPTION
-  CHANGE_BALANCE_RESPONSIBLE_PARTY_PRODUCTION
-  MERGER_OF_NETWORK_AREAS
-  MASS_CORRECTION
-  CHANGE_OF_PAYMENT_METHOD
-  DECOMMISSIONING_MEASURING_POINT
-  CANCELLATION_OF_CONSUMPTION_STATEMENT_MARKET_PROCESS
-  CANCELLATION_OF_CONSUMPTION_STATEMENT_READING_DATE
-  CONSUMPTION_STATEMENT_MEASURING_POINT
-  HISTORICAL_TRANSACTION_CORRECTION
-  START_CANCELLATION_OF_SUPPLIER_CHANGE
-  CONSUMPTION_STATEMENT_CANCELS_NOT_MARKET_PROCESS
-  CONSUMPTION_STATEMENT_CANCELS_MARKET_PROCESS
-  CREATE_HISTORICAL_METERING_POINT
-  EMPTY_TRANSACTION
 }
 
 enum Unit {
@@ -3293,11 +3338,6 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
-}
-
-enum WashInstructions {
-  WASHABLE
-  NOT_WASHABLE
 }
 
 enum WorkflowAction {

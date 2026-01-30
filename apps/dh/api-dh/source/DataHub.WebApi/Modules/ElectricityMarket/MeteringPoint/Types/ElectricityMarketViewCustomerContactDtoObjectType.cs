@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant;
-using MarketParticipant_EicFunction = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Types;
 
-[ObjectType<Models.CommercialRelationDto>]
-public static partial class CommercialRelationDtoType
+public class ElectricityMarketViewCustomerContactDtoObjectType : ObjectType<CustomerContactDto>
 {
-    public static async Task<ActorNameDto?> GetEnergySupplierNameAsync(
-        [Parent] Models.CommercialRelationDto commercialRelation,
-        IMarketParticipantNameByMarketRoleDataLoader dataLoader) =>
-        await dataLoader.LoadAsync((commercialRelation?.EnergySupplier ?? string.Empty, MarketParticipant_EicFunction.EnergySupplier));
+    protected override void Configure(IObjectTypeDescriptor<CustomerContactDto> descriptor)
+    {
+        descriptor.Name("ElectricityMarketViewCustomerContactDto");
+    }
 }
