@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ActivatedRouteSnapshot, CanActivateFn, Router, UrlTree } from '@angular/router';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { inject } from '@angular/core';
 
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
@@ -26,13 +26,13 @@ import {
   dhIsValidInternalId,
   dhIsValidMeteringPointId,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhExternalOrInternalMeteringPointIdParam } from './dh-metering-point-params';
 
-export const dhCanActivateMeteringPointOverview: CanActivateFn = (
-  route: ActivatedRouteSnapshot
-): Promise<UrlTree | boolean> | UrlTree => {
+export const dhCanActivateMeteringPointOverview: CanActivateFn = ():
+  | Promise<UrlTree | boolean>
+  | UrlTree => {
   const router = inject(Router);
   const environment = inject(dhAppEnvironmentToken);
 
@@ -41,14 +41,20 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
     getPath<MeteringPointSubPaths>('search'),
   ]);
 
-  const idParam: string = route.params[dhExternalOrInternalMeteringPointIdParam];
+  const navigation = router.currentNavigation();
+  const idParamInState: string | undefined =
+    navigation?.extras.state?.[dhExternalOrInternalMeteringPointIdParam];
+  const idParamInSS = sessionStorage.getItem(dhExternalOrInternalMeteringPointIdParam);
 
-  const meteringPointId = dhIsValidMeteringPointId(idParam) ? idParam : undefined;
+  const idParam = idParamInState ?? idParamInSS;
 
-  if (meteringPointId && environment.current === DhAppEnvironment.prod) {
-    // In production, only internal IDs are allowed in the URL
+  if (idParam) {
+    sessionStorage.setItem(dhExternalOrInternalMeteringPointIdParam, idParam);
+  } else {
     return searchRoute;
   }
+
+  const meteringPointId = dhIsValidMeteringPointId(idParam) ? idParam : undefined;
 
   const internalMeteringPointId =
     meteringPointId === undefined && dhIsValidInternalId(idParam) ? idParam : undefined;
