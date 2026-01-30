@@ -1340,6 +1340,7 @@ type RelatedMeteringPointDto {
   createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
+  disconnectionDate: DateTime
 }
 
 type RelatedMeteringPointsDto {
