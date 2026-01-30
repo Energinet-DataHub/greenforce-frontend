@@ -3142,6 +3142,8 @@ enum ProcessStepType {
   BRS_004_CREATEMETERINGPOINT_V1_STEP_3
   "BRS-004 Create metering point - Step 4 - Information about newly created metering point (RSM-022)"
   BRS_004_CREATEMETERINGPOINT_V1_STEP_4
+  "BRS-004 Create metering point - Step 5 - Notification of charge links (RSM-031)"
+  BRS_004_CREATEMETERINGPOINT_V1_STEP_5
   "BRS-008 Connect metering point - Step 1 - Incoming RSM-021"
   BRS_008_CONNECTMETERINGPOINT_V1_STEP_1
   "BRS-008 Connect metering point - Step 2 - Confirm RSM-021"
