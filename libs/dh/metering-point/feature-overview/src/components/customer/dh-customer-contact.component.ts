@@ -21,7 +21,7 @@ import { Component, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { CustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ElectricityMarketViewCustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   WattDescriptionListComponent,
@@ -100,5 +100,5 @@ import { DhAddressComponent } from '../address/dh-address.component';
   `,
 })
 export class DhCustomerContactComponent {
-  contact = input.required<CustomerContactDto>();
+  contact = input.required<ElectricityMarketViewCustomerContactDto>();
 }

@@ -24,8 +24,8 @@ import { WattModalService } from '@energinet/watt/modal';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { CustomerRelationType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { ElectricityMarketViewCustomerRelationType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { Contact, MeteringPointDetails } from '../../types';
 import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
@@ -127,7 +127,10 @@ export class DhCustomerOverviewComponent {
         }
         return foundValues;
       }, [])
-      .filter((x) => x.relationType === CustomerRelationType.Contact4 && x.name !== '')
+      .filter(
+        (x) =>
+          x.relationType === ElectricityMarketViewCustomerRelationType.Contact4 && x.name !== ''
+      )
   );
 
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
