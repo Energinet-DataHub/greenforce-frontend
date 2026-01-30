@@ -14,6 +14,8 @@
 
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Models;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
@@ -220,6 +222,30 @@ public static partial class MeteringPointNode
     {
         var command = new RequestConnectMeteringPointCommandV1(
             new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        return result.IsSuccess;
+    }
+
+    [Mutation]
+    public static async Task<bool> RequestEndOfSupplyAsync(
+        string meteringPointId,
+        DateTimeOffset terminationDate,
+        CancellationToken ct,
+        [Service] IB2CClient ediB2CClient,
+        [Service] IHttpContextAccessor httpContextAccessor)
+    {
+        var marketRole = httpContextAccessor.HttpContext!.User.GetMarketParticipantMarketRole();
+        if (marketRole != nameof(EicFunction.EnergySupplier))
+        {
+            throw new InvalidOperationException("Only energy suppliers can request end of supply.");
+        }
+
+        var command = new RequestEndOfSupplyCommandV1(
+            new RequestEndOfSupplyV1(
+                MeteringPointId: meteringPointId,
+                TerminationDate: terminationDate));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 

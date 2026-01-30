@@ -33,6 +33,7 @@ import {
   mockGetRelatedMeteringPointsByIdQuery,
   mockGetMeteringPointEventsDebugViewQuery,
   mockRequestConnectionStateChangeMutation,
+  mockRequestEndOfSupplyMutation,
   mockCreateConversationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
@@ -65,6 +66,7 @@ export function meteringPointMocks(apiBase: string) {
     getRelatedMeteringPoints(),
     getMeteringPointEventsDebugView(),
     requestConnectionStateChange(),
+    requestEndOfSupply(),
     createConversation(),
   ];
 }
@@ -624,6 +626,22 @@ function requestConnectionStateChange() {
         __typename: 'Mutation',
         requestConnectionStateChange: {
           __typename: 'RequestConnectionStateChangePayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function requestEndOfSupply() {
+  return mockRequestEndOfSupplyMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        requestEndOfSupply: {
+          __typename: 'RequestEndOfSupplyPayload',
           success: true,
         },
       },
