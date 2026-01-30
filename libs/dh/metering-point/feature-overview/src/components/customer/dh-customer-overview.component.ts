@@ -71,30 +71,28 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
 
       <div vater-flex gap="m" direction="row" class="watt-space-stack-m">
         @for (contact of uniqueContacts(); track contact.id) {
-          <ng-container *dhCanSee="'private-customer-overview'; meteringPoint: meteringPoint()">
-            <div vater-flex gap="s" class="contact">
-              @if (contact.isProtectedName) {
-                <dh-customer-protected />
-              }
+          <div vater-flex gap="s" class="contact">
+            @if (contact.isProtectedName) {
+              <dh-customer-protected />
+            }
 
-              @if (contact.cvr) {
-                <h5>{{ contact.name !== '' ? contact.name : contact.legalContact?.name }}</h5>
-                {{ t('cvr', { cvrValue: contact.cvr }) }}
-              } @else {
-                <h5>{{ contact.name }}</h5>
-                <ng-container *dhPermissionRequired="['cpr:view']">
-                  @let localMeteringPoint = meteringPoint();
-                  @if (localMeteringPoint) {
-                    <dh-customer-cpr
-                      *dhCanSee="'cpr'; meteringPoint: localMeteringPoint"
-                      [meteringPointId]="localMeteringPoint.meteringPointId"
-                      [contactId]="contact.id"
-                    />
-                  }
-                </ng-container>
-              }
-            </div>
-          </ng-container>
+            @if (contact.cvr) {
+              <h5>{{ contact.name !== '' ? contact.name : contact.legalContact?.name }}</h5>
+              {{ t('cvr', { cvrValue: contact.cvr }) }}
+            } @else {
+              <h5>{{ contact.name }}</h5>
+              <ng-container *dhPermissionRequired="['cpr:view']">
+                @let localMeteringPoint = meteringPoint();
+                @if (localMeteringPoint) {
+                  <dh-customer-cpr
+                    *dhCanSee="'cpr'; meteringPoint: localMeteringPoint"
+                    [meteringPointId]="localMeteringPoint.meteringPointId"
+                    [contactId]="contact.id"
+                  />
+                }
+              </ng-container>
+            }
+          </div>
         } @empty {
           {{ null | dhEmDashFallback }}
         }
