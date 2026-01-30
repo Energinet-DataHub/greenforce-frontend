@@ -139,6 +139,7 @@ export abstract class WattPickerBase implements OnInit, AfterViewInit, ControlVa
   constructor(id: string) {
     this.id = id;
     this.elementRef.nativeElement.setAttribute('id', id);
+    this.initPlaceholder();
 
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
