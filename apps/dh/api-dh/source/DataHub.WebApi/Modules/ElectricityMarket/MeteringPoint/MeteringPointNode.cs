@@ -236,14 +236,11 @@ public static partial class MeteringPointNode
         IB2CClient ediB2CClient,
         CancellationToken ct)
     {
-        var command = new RequestEndOfSupplyCommandV1(
-            new RequestEndOfSupplyV1(
-                MeteringPointId: meteringPointId,
-                TerminationDate: terminationDate));
-
-        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
-
-        return result.IsSuccess;
+        var command = new RequestEndOfSupplyCommandV1(new(meteringPointId, terminationDate));
+        var result = await ediB2CClient.SendAsync(command, ct);
+        return result.IsSuccess
+            ? true
+            : throw new GraphQLException("Command RequestEndOfSupply failed");
     }
 
     private static async Task<MeteringPointDto> GetMeteringPointWithNewModelAsync(

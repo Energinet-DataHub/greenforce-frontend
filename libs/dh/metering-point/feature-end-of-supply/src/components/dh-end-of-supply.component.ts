@@ -20,7 +20,6 @@ import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
-import { MutationResult } from 'apollo-angular';
 
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -34,10 +33,10 @@ import { dayjs } from '@energinet/watt/date';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import {
   RequestEndOfSupplyDocument,
-  RequestEndOfSupplyMutation,
   GetMeteringPointProcessOverviewDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-end-of-supply',
@@ -116,50 +115,37 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
     if (this.form.invalid) return;
 
     const { cutOffDate } = this.form.getRawValue();
+    assertIsDefined(cutOffDate);
 
-    if (cutOffDate === null) return;
-
-    const result = await this.requestEndOfSupply.mutate({
+    await this.requestEndOfSupply.mutate({
+      refetchQueries: [GetMeteringPointProcessOverviewDocument],
       variables: {
         input: {
           meteringPointId: this.modalData.meteringPointId,
           terminationDate: cutOffDate,
         },
       },
-      refetchQueries: ({ data }) => {
-        if (this.isSuccess(data)) {
-          return [GetMeteringPointProcessOverviewDocument];
-        }
-
-        return [];
+      onError: () => {
+        this.toastService.open({
+          type: 'danger',
+          message: translate('meteringPoint.endOfSupply.submitError'),
+        })
       },
+      onCompleted: () => {
+        this.toastService.open({
+          type: 'success',
+          message: translate('meteringPoint.endOfSupply.submitSuccess'),
+          actionLabel: translate('meteringPoint.endOfSupply.submitSuccessAction'),
+          action: (ref) => {
+            this.router.navigate([
+              getPath<BasePaths>('metering-point'),
+              this.modalData.meteringPointId,
+              getPath<MeteringPointSubPaths>('process-overview'),
+            ]);
+            ref.dismiss();
+          },
+        });
+      }
     });
-
-    if (this.isSuccess(result.data)) {
-      this.toastService.open({
-        type: 'success',
-        message: translate('meteringPoint.endOfSupply.submitSuccess'),
-        actionLabel: translate('meteringPoint.endOfSupply.submitSuccessAction'),
-        action: (ref) => {
-          this.router.navigate([
-            getPath<BasePaths>('metering-point'),
-            this.modalData.meteringPointId,
-            getPath<MeteringPointSubPaths>('process-overview'),
-          ]);
-          ref.dismiss();
-        },
-      });
-
-      this.modal().close(true);
-    } else {
-      this.toastService.open({
-        type: 'danger',
-        message: translate('meteringPoint.endOfSupply.submitError'),
-      });
-    }
-  }
-
-  private isSuccess(data: MutationResult<RequestEndOfSupplyMutation>['data']) {
-    return data?.requestEndOfSupply.success;
   }
 }
