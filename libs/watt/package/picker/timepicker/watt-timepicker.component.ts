@@ -125,11 +125,6 @@ export class WattTimepickerComponent extends WattPickerBase {
   rangeSeparator = ' - ';
   rangePlaceholder =
     this.hoursMinutesPlaceholder + this.rangeSeparator + this.hoursMinutesPlaceholder;
-
-  protected override initPlaceholder() {
-    this.placeholder.set(this.hoursMinutesPlaceholder);
-  }
-
   /**
    * Whether the slider is open.
    * @ignore
@@ -176,6 +171,7 @@ export class WattTimepickerComponent extends WattPickerBase {
 
   constructor() {
     super(`watt-timepicker-${WattTimepickerComponent.nextId++}`);
+    this.placeholder.set(this.hoursMinutesPlaceholder);
   }
 
   protected initSingleInput() {
