@@ -69,7 +69,7 @@ export abstract class WattPickerBase implements OnInit, AfterViewInit, ControlVa
 
   protected abstract initPlaceholder(): void;
 
-  value = computed<WattDateRange | null>(() => {
+  get value(): WattDateRange | null {
     if (this.ngControl?.valid) {
       const {
         value: { start, end },
@@ -79,7 +79,7 @@ export abstract class WattPickerBase implements OnInit, AfterViewInit, ControlVa
     }
 
     return null;
-  });
+  }
 
   protected setValue(value: WattPickerValue) {
     const input = this.input();
@@ -114,20 +114,20 @@ export abstract class WattPickerBase implements OnInit, AfterViewInit, ControlVa
   protected disabledState = signal(false);
   disabled = computed(() => this.disabledInput() || this.disabledState());
 
-  empty = computed(() => {
+  get empty(): boolean {
     if (this.range()) {
       return !this.ngControl?.value?.start && !this.ngControl?.value?.end;
     } else {
       return this.ngControl?.value?.length === 0;
     }
-  });
+  }
 
-  errorState = computed(() => {
+  get errorState(): boolean {
     return !!this.ngControl?.invalid && !!this.ngControl?.touched;
-  });
+  }
 
   shouldLabelFloat = computed(() => {
-    return this.focused() || !this.empty();
+    return this.focused() || !this.empty;
   });
 
   /**
