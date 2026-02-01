@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ public static class ActorConversationNode
             throw new InvalidOperationException("User is not authorized to access the requested metering point.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
 
         var response = await authClient.ApiStartConversationAsync(
             new StartConversationRequest
@@ -123,7 +123,7 @@ public static class ActorConversationNode
             throw new InvalidOperationException("User is not authorized to access the requested conversation.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
 
         try
         {
@@ -180,7 +180,7 @@ public static class ActorConversationNode
             throw new InvalidOperationException("User is not authorized to access the requested conversation.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
 
         return await authClient.ApiGetConversationApiGetConversationAsync(conversationId, ct);
     }
@@ -221,7 +221,7 @@ public static class ActorConversationNode
                 "User is not authorized to access conversations for the requested metering point.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
 
         return await authClient.ApiGetConversationsAsync(meteringPointIdentification, ct);
     }
