@@ -1,4 +1,4 @@
-﻿﻿// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -23,8 +23,32 @@ using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
-public static class ActorConversationNode
+[ObjectType<ConversationDto>]
+public static partial class ActorConversationNode
 {
+    #region Computed fields on conversation
+
+    public static string MeteringPointIdentification([Parent] ConversationDto conversation) =>
+        conversation.MeteringPointIdentification;
+
+    public static object DisplayId([Parent] ConversationDto conversation) =>
+        conversation.DisplayId;
+
+    public static string? InternalNote([Parent] ConversationDto conversation) =>
+        conversation.InternalNote;
+
+    public static ConversationSubject Subject([Parent] ConversationDto conversation) =>
+        conversation.Subject;
+
+    public static bool Closed([Parent] ConversationDto conversation) =>
+        conversation.Closed;
+
+    public static ICollection<ConversationMessageDto> Messages(
+        [Parent] ConversationDto conversation) =>
+        conversation.Messages;
+
+    #endregion
+
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<string> CreateConversationAsync(
@@ -218,5 +242,13 @@ public static class ActorConversationNode
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
         return await authClient.ApiGetConversationsAsync(meteringPointIdentification, ct);
+    }
+
+    static partial void Configure(
+        IObjectTypeDescriptor<ConversationDto> descriptor)
+    {
+        descriptor.Name("Conversations");
+
+        descriptor.Ignore(f => f.AdditionalProperties);
     }
 }

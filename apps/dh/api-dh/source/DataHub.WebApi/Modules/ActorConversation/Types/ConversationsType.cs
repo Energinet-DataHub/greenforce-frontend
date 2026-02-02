@@ -16,9 +16,11 @@ using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
-public sealed class ConversationsType : ObjectType<ConversationsDto>
+[ObjectType<ConversationsDto>]
+public static partial class ConversationsType
 {
-    protected override void Configure(IObjectTypeDescriptor<ConversationsDto> descriptor)
+    static partial void Configure(
+        IObjectTypeDescriptor<ConversationsDto> descriptor)
     {
         descriptor.Name("Conversations");
 
