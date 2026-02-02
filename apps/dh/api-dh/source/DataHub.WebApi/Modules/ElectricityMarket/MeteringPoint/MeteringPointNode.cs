@@ -21,6 +21,7 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRe
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using HotChocolate.Authorization;
@@ -126,7 +127,8 @@ public static partial class MeteringPointNode
             [Service] IRequestAuthorization requestAuthorization,
             [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
             [Service] IElectricityMarketClient electricityMarketClient,
-            [Service] IFeatureManagerSnapshot featureManager)
+            [Service] IFeatureManagerSnapshot featureManager,
+            [Service] IIdentifierEncoder identifierEncoder)
     {
         if (internalMeteringPointId == null && meteringPointId == null)
         {
@@ -147,7 +149,7 @@ public static partial class MeteringPointNode
             throw new InvalidOperationException("Could not resolve metering point external ID.");
         }
 
-        return await GetMeteringPointAsync(meteringPointExternalID, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
+        return await GetMeteringPointAsync(meteringPointExternalID, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager, identifierEncoder);
     }
 
     [Query]
@@ -169,7 +171,8 @@ public static partial class MeteringPointNode
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
         [Service] IElectricityMarketClient electricityMarketClient,
-        [Service] IFeatureManagerSnapshot featureManager)
+        [Service] IFeatureManagerSnapshot featureManager,
+        [Service] IIdentifierEncoder identifierEncoder)
     {
         if (httpContextAccessor.HttpContext == null)
         {
@@ -185,7 +188,7 @@ public static partial class MeteringPointNode
             {
                 if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
                 {
-                    return await GetMeteringPointWithNewModelAsync(meteringPointId, ct, electricityMarketClient).ConfigureAwait(false);
+                    return await GetMeteringPointWithNewModelAsync(meteringPointId, ct, electricityMarketClient, identifierEncoder).ConfigureAwait(false);
                 }
             }
         }
@@ -207,7 +210,7 @@ public static partial class MeteringPointNode
             var meteringPointDto = await authClient.MeteringPointAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
             var meteringPointResult = new MeteringPointDto
             {
-                Id = meteringPointDto.Id,
+                Id = meteringPointDto.Id.ToString(),
                 Identification = meteringPointDto.Identification,
                 Metadata = meteringPointDto.Metadata.MapToDto(),
                 MetadataTimeline = [.. meteringPointDto.MetadataTimeline.Select(m => m.MapToDto())],
@@ -239,7 +242,8 @@ public static partial class MeteringPointNode
     private static async Task<MeteringPointDto> GetMeteringPointWithNewModelAsync(
             string meteringPointId,
             CancellationToken ct,
-            [Service] IElectricityMarketClient electricityMarketClient)
+            [Service] IElectricityMarketClient electricityMarketClient,
+            [Service] IIdentifierEncoder identiferEncoder)
     {
         var result = await electricityMarketClient
         .SendAsync(new GetMeteringPointQueryV1(meteringPointId), ct)
@@ -250,7 +254,7 @@ public static partial class MeteringPointNode
         // Map to MeteringPointDto
         var meteringPointResult = new MeteringPointDto
         {
-            Id = MeteringPointMetadataMapper.NextLong(),
+            Id = identiferEncoder.Encode(meteringPoint.MeteringPointId),
             Identification = meteringPoint.MeteringPointId,
             Metadata = meteringPoint.MeteringPointPeriod.MapToDto(),
             MetadataTimeline = [.. meteringPoint.MeteringPointPeriods.Select(m => m.MapToDto())],

@@ -11,19 +11,23 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
-public class MeteringPointDto
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
+
+// TODO: cabol - Better comments
+
+/// <summary>
+/// Used to encode and decode IDs
+/// </summary>
+public interface IIdentifierEncoder
 {
-    public string Id { get; set; } = default!;
+    /// <summary>
+    /// Encode ID
+    /// </summary>
+    string Encode(string id);
 
-    public string Identification { get; set; } = default!;
-
-    public MeteringPointMetadataDto Metadata { get; set; } = default!;
-
-    public ICollection<MeteringPointMetadataDto> MetadataTimeline { get; set; } = default!;
-
-    public CommercialRelationDto? CommercialRelation { get; set; }
-
-    public ICollection<CommercialRelationDto> CommercialRelationTimeline { get; set; } = default!;
+    /// <summary>
+    /// Decode ID
+    /// </summary>
+    string Decode(string id);
 }
