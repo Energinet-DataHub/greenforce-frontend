@@ -1,4 +1,4 @@
-// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRe
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 using HotChocolate.Authorization;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
 
@@ -30,14 +31,7 @@ public static class ActorConversationNode
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        ConversationSubject subject,
-        string meteringPointIdentification,
-        string actorName,
-        string userName,
-        string? internalNote,
-        string content,
-        bool anonymous,
-        ActorType receiver,
+        StartConversationInputType input,
         CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
@@ -49,12 +43,12 @@ public static class ActorConversationNode
 
         var authRequest = new CreateActorConversationRequest
         {
-            ActorName = actorName,
+            ActorName = input.ActorName,
             ActorNumber = actorNumber,
             MarketRole = marketRole,
-            MeteringPointId = meteringPointIdentification,
+            MeteringPointId = input.MeteringPointIdentification,
             UserId = userId,
-            UserName = userName,
+            UserName = input.UserName,
         };
 
         var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
@@ -70,16 +64,16 @@ public static class ActorConversationNode
         var response = await authClient.ApiStartConversationAsync(
             new StartConversationRequest
             {
-                Subject = subject,
-                ReceiverActorType = receiver,
-                MeteringPointIdentification = meteringPointIdentification,
+                Subject = input.Subject,
+                ReceiverActorType = input.Receiver,
+                MeteringPointIdentification = input.MeteringPointIdentification,
                 SenderActorNumber = actorNumber,
-                SenderActorName = actorName,
+                SenderActorName = input.ActorName,
                 SenderUserId = userId.ToString(),
-                SenderUserName = userName,
-                InternalNote = internalNote,
-                Content = content,
-                Anonymous = anonymous,
+                SenderUserName = input.UserName,
+                InternalNote = input.InternalNote,
+                Content = input.Content,
+                Anonymous = input.Anonymous,
             },
             ct);
 
