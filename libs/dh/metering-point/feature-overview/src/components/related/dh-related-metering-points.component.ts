@@ -148,6 +148,9 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
                     @case ('CLOSED_DOWN') {
                       {{ meteringPoint.closedDownDate | wattDate }}
                     }
+                    @case ('DISCONNECTED') {
+                      {{ meteringPoint.disconnectionDate | wattDate }}
+                    }
                     @default {
                       {{ meteringPoint.createdDate | wattDate }}
                     }

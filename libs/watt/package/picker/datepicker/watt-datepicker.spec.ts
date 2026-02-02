@@ -107,7 +107,7 @@ describe(WattDatepickerComponent, () => {
       ).componentInstance;
 
       // Danish locale uses 'åååå' instead of 'yyyy'
-      expect(datepickerComponent.placeholder).toBe('dd-mm-åååå');
+      expect(datepickerComponent.placeholder()).toBe('dd-mm-åååå');
     });
 
     it('can set an initial date', async () => {
@@ -307,7 +307,7 @@ describe(WattDatepickerComponent, () => {
         (de) => de.componentInstance instanceof WattDatepickerComponent
       ).componentInstance;
 
-      expect(component.rangePlaceholder).toBe('dd-mm-åååå - dd-mm-åååå');
+      expect(component.rangePlaceholder()).toBe('dd-mm-åååå - dd-mm-åååå');
     });
 
     it('can set an initial date range', async () => {
