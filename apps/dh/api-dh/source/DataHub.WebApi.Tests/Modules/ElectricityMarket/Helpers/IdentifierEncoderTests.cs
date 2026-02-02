@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Xunit;
 
@@ -69,5 +70,14 @@ public class IdentifierEncoderTests
 
         // Assert
         Assert.True(result.Length >= 10);
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    public void Encode_EmptyString_Throws(string input)
+    {
+        // Act/Assert
+        Assert.Throws<ArgumentException>(() => _sut.Encode(input));
     }
 }
