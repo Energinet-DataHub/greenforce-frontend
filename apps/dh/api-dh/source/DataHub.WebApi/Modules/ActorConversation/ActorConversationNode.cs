@@ -31,8 +31,8 @@ public static partial class ActorConversationNode
     public static string MeteringPointIdentification([Parent] ConversationDto conversation) =>
         conversation.MeteringPointIdentification;
 
-    public static object DisplayId([Parent] ConversationDto conversation) =>
-        conversation.DisplayId;
+    public static string DisplayId([Parent] ConversationDto conversation) =>
+        conversation.DisplayId.ToString()!;
 
     public static string? InternalNote([Parent] ConversationDto conversation) =>
         conversation.InternalNote;
@@ -247,7 +247,7 @@ public static partial class ActorConversationNode
     static partial void Configure(
         IObjectTypeDescriptor<ConversationDto> descriptor)
     {
-        descriptor.Name("Conversations");
+        descriptor.Name("Conversation");
 
         descriptor.Ignore(f => f.AdditionalProperties);
     }

@@ -400,23 +400,16 @@ type CommercialRelationDto {
 
 "Conversation"
 type Conversation {
-  "Display Id of the conversation"
-  displayId: String!
-  "MeteringPoint identification"
   meteringPointIdentification: String!
-  "Internal note from the creator"
+  displayId: String!
   internalNote: String
   subject: ConversationSubject!
-  "true for conversations that are closed. false otherwise."
   closed: Boolean!
-  "Messages associated with a conversation"
   messages: [ConversationMessage!]!
 }
 
 "Conversation info"
 type ConversationInfo {
-  "Display id of the conversation"
-  displayId: String!
   "Conversation id"
   conversationId: UUID!
   "MeteringPoint Identification"
@@ -1951,14 +1944,7 @@ input CreateChargeLinkInput {
 }
 
 input CreateConversationInput {
-  subject: ConversationSubject!
-  meteringPointIdentification: String!
-  actorName: String!
-  userName: String!
-  internalNote: String
-  content: String!
-  anonymous: Boolean!
-  receiver: ActorType!
+  input: StartConversationInputTypeInput!
 }
 
 input CreateDelegationsForMarketParticipantInput {
@@ -2284,6 +2270,17 @@ input SendMeasurementsRequestV2Input {
 input SimulateMeteringPointManualCorrectionInput {
   meteringPointId: String!
   json: String!
+}
+
+input StartConversationInputTypeInput {
+  subject: ConversationSubject!
+  meteringPointIdentification: String!
+  actorName: String!
+  userName: String!
+  internalNote: String
+  content: String!
+  anonymous: Boolean!
+  receiver: ActorType!
 }
 
 input StopChargeInput {

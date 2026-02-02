@@ -22,7 +22,7 @@ public static partial class ConversationMessageDtoType
     static partial void Configure(
         IObjectTypeDescriptor<ConversationMessageDto> descriptor)
     {
-        descriptor.Name("Conversations");
+        descriptor.Name("ConversationMessage");
 
         descriptor.Ignore(f => f.AdditionalProperties);
     }
