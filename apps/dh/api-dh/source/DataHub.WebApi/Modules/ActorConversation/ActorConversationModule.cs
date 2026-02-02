@@ -15,8 +15,6 @@
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
-using HotChocolate.Execution.Configuration;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
@@ -29,11 +27,4 @@ public class ActorConversationModule : IModule
             .AddClient<IActorConversationClient_V1>(
                 baseUrls => baseUrls.ActorConversationBaseUrl,
                 (baseUrl, client) => new ActorConversationClient_V1(client) { BaseUrl = baseUrl });
-
-    public IRequestExecutorBuilder AddGraphQLConfiguration(IRequestExecutorBuilder builder) =>
-        builder
-            .AddType<ConversationType>()
-            .AddType<ConversationsType>()
-            .AddType<ConversationInfoType>()
-            .AddType<ConversationMessageType>();
 }
