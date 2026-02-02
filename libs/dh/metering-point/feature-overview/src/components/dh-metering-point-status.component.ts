@@ -20,7 +20,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattBadgeComponent } from '@energinet/watt/badge';
-import { ConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ElectricityMarketViewConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-status',
@@ -56,5 +56,5 @@ import { ConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
   `,
 })
 export class DhMeteringPointStatusComponent {
-  status = input<ConnectionState | null>();
+  status = input<ElectricityMarketViewConnectionState | null>();
 }
