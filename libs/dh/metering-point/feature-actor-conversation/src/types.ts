@@ -19,7 +19,7 @@
 //#region License
 import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type CreateConversationFormValue = {
+export type StartConversationFormValue = {
   subject: ConversationSubject;
   content: string;
   anonymous: boolean;

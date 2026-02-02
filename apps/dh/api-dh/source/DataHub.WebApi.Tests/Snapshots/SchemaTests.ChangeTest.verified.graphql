@@ -455,10 +455,6 @@ type CreateChargePayload {
   boolean: Boolean
 }
 
-type CreateConversationPayload {
-  string: String
-}
-
 type CreateDelegationsForMarketParticipantPayload {
   boolean: Boolean
   errors: [CreateDelegationsForMarketParticipantError!]
@@ -1079,7 +1075,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
-  createConversation(input: CreateConversationInput!): CreateConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  startConversation(input: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   closeConversation(input: CloseConversationInput!): CloseConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
@@ -1559,6 +1555,10 @@ type SimulateMeteringPointManualCorrectionPayload {
   string: String
 }
 
+type StartConversationPayload {
+  string: String
+}
+
 type StopChargeLinkPayload {
   boolean: Boolean
 }
@@ -1943,10 +1943,6 @@ input CreateChargeLinkInput {
   factor: Int!
 }
 
-input CreateConversationInput {
-  input: StartConversationInputTypeInput!
-}
-
 input CreateDelegationsForMarketParticipantInput {
   delegations: CreateProcessDelegationsInput!
 }
@@ -2270,6 +2266,10 @@ input SendMeasurementsRequestV2Input {
 input SimulateMeteringPointManualCorrectionInput {
   meteringPointId: String!
   json: String!
+}
+
+input StartConversationInput {
+  startConversationInput: StartConversationInputTypeInput!
 }
 
 input StartConversationInputTypeInput {

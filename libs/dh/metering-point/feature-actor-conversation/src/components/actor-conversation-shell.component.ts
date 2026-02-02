@@ -26,10 +26,10 @@ import {
 } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { StartConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState, CreateConversationFormValue } from '../types';
+import { ActorConversationState, StartConversationFormValue } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -118,15 +118,15 @@ export class DhActorConversationShellComponent {
     }
     return ActorConversationState.caseSelected;
   });
-  createConversationMutation = mutation(CreateConversationDocument);
+  startConversationMutation = mutation(StartConversationDocument);
   private toastService = inject(WattToastService);
 
-  async createConversation(formValue: CreateConversationFormValue) {
+  async createConversation(formValue: StartConversationFormValue) {
     const meteringPointIdentification = '571313131313131313'; // TODO: Get from context
     const actorName = 'Testnet & CO'; // TODO: Get from context
     const userName = 'Test Testesen'; // TODO: Get from context
 
-    const result = await this.createConversationMutation.mutate({
+    const result = await this.startConversationMutation.mutate({
       variables: {
         subject: formValue.subject,
         meteringPointIdentification: meteringPointIdentification,

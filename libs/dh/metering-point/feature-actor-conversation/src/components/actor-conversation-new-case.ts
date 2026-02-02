@@ -34,7 +34,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
-import { CreateConversationFormValue } from '../types';
+import { StartConversationFormValue } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-new-case',
@@ -117,7 +117,7 @@ import { CreateConversationFormValue } from '../types';
 })
 export class DhActorConversationNewCaseComponent {
   closeNewCase = output();
-  createCase = output<CreateConversationFormValue>();
+  createCase = output<StartConversationFormValue>();
 
   private readonly fb = inject(NonNullableFormBuilder);
 

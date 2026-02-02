@@ -51,11 +51,11 @@ public static partial class ActorConversationNode
 
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task<string> CreateConversationAsync(
+    public static async Task<string> StartConversationAsync(
         IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        StartConversationInputType input,
+        StartConversationInputType startConversationInput,
         CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
@@ -67,12 +67,12 @@ public static partial class ActorConversationNode
 
         var authRequest = new CreateActorConversationRequest
         {
-            ActorName = input.ActorName,
+            ActorName = startConversationInput.ActorName,
             ActorNumber = actorNumber,
             MarketRole = marketRole,
-            MeteringPointId = input.MeteringPointIdentification,
+            MeteringPointId = startConversationInput.MeteringPointIdentification,
             UserId = userId,
-            UserName = input.UserName,
+            UserName = startConversationInput.UserName,
         };
 
         var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
@@ -88,16 +88,16 @@ public static partial class ActorConversationNode
         var response = await authClient.ApiStartConversationAsync(
             new StartConversationRequest
             {
-                Subject = input.Subject,
-                ReceiverActorType = input.Receiver,
-                MeteringPointIdentification = input.MeteringPointIdentification,
+                Subject = startConversationInput.Subject,
+                ReceiverActorType = startConversationInput.Receiver,
+                MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
                 SenderActorNumber = actorNumber,
-                SenderActorName = input.ActorName,
+                SenderActorName = startConversationInput.ActorName,
                 SenderUserId = userId.ToString(),
-                SenderUserName = input.UserName,
-                InternalNote = input.InternalNote,
-                Content = input.Content,
-                Anonymous = input.Anonymous,
+                SenderUserName = startConversationInput.UserName,
+                InternalNote = startConversationInput.InternalNote,
+                Content = startConversationInput.Content,
+                Anonymous = startConversationInput.Anonymous,
             },
             ct);
 
