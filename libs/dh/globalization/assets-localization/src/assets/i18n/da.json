@@ -1262,7 +1262,7 @@
       "modalTitle": "Start leveranceophør",
       "dateLabel": "Angiv skæringsdato",
       "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
-      "consequencesInfo": "Her skal stå en tekst...",
+      "consequencesInfo": "Vær opmærksom på, at når du starter et leveranceophør anmoder du om at slukke strømmen på målepunktet.",
       "confirmCheckbox": "Jeg er indforstået med konsekvenserne",
       "cancel": "Annuller",
       "submit": "Start leveranceophør",

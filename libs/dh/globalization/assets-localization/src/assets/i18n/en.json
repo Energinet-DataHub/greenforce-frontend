@@ -1260,7 +1260,7 @@
       "modalTitle": "Start end of supply",
       "dateLabel": "Specify cut-off date",
       "dateHint": "The cut-off date must be between 3 days from today and 60 days ahead.",
-      "consequencesInfo": "Here should be a text...",
+      "consequencesInfo": "Please note that when you initiate an end of supply, you are requesting to disconnect the electricity at the metering point.",
       "confirmCheckbox": "I understand the consequences",
       "cancel": "Cancel",
       "submit": "Start end of supply",
