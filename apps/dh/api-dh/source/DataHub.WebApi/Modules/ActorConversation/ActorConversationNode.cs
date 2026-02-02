@@ -28,7 +28,7 @@ public static class ActorConversationNode
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<string> CreateConversationAsync(
-        [Service] IHttpContextAccessor httpContextAccessor,
+        IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
         StartConversationInputType input,
