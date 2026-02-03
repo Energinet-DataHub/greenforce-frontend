@@ -134,7 +134,7 @@ public static partial class MeteringPointNode
             throw new ArgumentException("Either internalMeteringPointId or meteringPointId must be provided.");
         }
 
-        var meteringPointExternalID = meteringPointId?.ToString();
+        var meteringPointExternalID = meteringPointId;
 
         if (meteringPointExternalID == null && (!string.IsNullOrWhiteSpace(internalMeteringPointId)))
         {

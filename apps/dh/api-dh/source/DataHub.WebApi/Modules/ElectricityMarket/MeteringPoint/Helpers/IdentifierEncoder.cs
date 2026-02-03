@@ -18,7 +18,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpe
 
 public static class IdentifierEncoder
 {
-    public static SqidsEncoder<char> Encoder { get; set; } = new(new SqidsOptions
+    private static SqidsEncoder<char> Encoder { get; } = new(new SqidsOptions
     {
         Alphabet = "n1uB3d0X7o2PrNTl8gC4fDQ5ZYmVbMIpRiWShKO6eqHyLJvEjAwxkUFGatcz9s", // Changing the alphabet will break the decoding of IDs!
         MinLength = 10,
@@ -35,6 +35,7 @@ public static class IdentifierEncoder
     public static string EncodeMeteringPointId(string meteringPointId, string extraData)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(meteringPointId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(extraData);
 
         var encodedId = (meteringPointId + extraData).ToCharArray();
         return Encoder.Encode(encodedId);
