@@ -25,13 +25,14 @@ import {
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  GetConversationsDocument,
   GetSelectionMarketParticipantsDocument,
   StartConversationDocument,
   UserProfileDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState, StartConversationFormValue } from '../types';
+import { ActorConversationState, StartConversationFormValue, Conversation } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
@@ -138,21 +139,25 @@ export class DhActorConversationShellComponent {
 
   protected readonly ActorConversationState = ActorConversationState;
   newConversationVisible = signal(false);
-  conversations = signal([
-    // {
-    //   id: '00001',
-    //   subject: ConversationSubject.QuestionForEnerginet,
-    //   lastUpdatedDate: new Date(),
-    //   closed: false,
-    //   unread: true,
-    // },
-    // {
-    //   id: '00002',
-    //   subject: ConversationSubject.QuestionForEnerginet,
-    //   lastUpdatedDate: new Date(),
-    //   closed: true,
-    // },
-  ]);
+
+  conversationsQuery = query(GetConversationsDocument, () => ({
+    variables: {
+      meteringPointIdentification: this.meteringPointId(),
+    },
+  }));
+
+  conversations = computed<Conversation[]>(() => {
+    return (
+      this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []
+    ).map((conversation) => ({
+      id: conversation.conversationId,
+      subject: conversation.subject,
+      closed: conversation.closed,
+      unread: !conversation.read,
+      lastUpdatedDate: conversation.lastUpdated ? new Date(conversation.lastUpdated) : undefined,
+    }));
+  });
+
   selectedConversationId = signal<string | undefined>(undefined);
   state = computed<ActorConversationState>(() => {
     if (this.newConversationVisible()) {
@@ -164,6 +169,7 @@ export class DhActorConversationShellComponent {
     }
     return ActorConversationState.conversationSelected;
   });
+
   startConversationMutation = mutation(StartConversationDocument);
   private toastService = inject(WattToastService);
 
