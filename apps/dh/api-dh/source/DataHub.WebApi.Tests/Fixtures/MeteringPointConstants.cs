@@ -38,6 +38,7 @@ public static class MeteringPointConstants
     public const decimal AssetCapacity = 100;
     public const decimal PowerLimitKw = 50.5m;
     public const int PowerLimitAmperes = 25;
+    public const string OwnedBy = "OwnedByThis";
 
     public const string InstallationStreetCode = "1234";
     public const string InstallationStreetName = "Main Street";
@@ -101,7 +102,7 @@ public static class MeteringPointConstants
     public static readonly Guid LegalDarReference = Guid.Parse("55555555-5555-5555-5555-555555555555");
     public static readonly Guid TechnicalDarReference = Guid.Parse("66666666-6666-6666-6666-666666666666");
 
-    public static MeteringPointDtoV1.ContactAddressDto CreateLegalContactAddress()
+    public static MeteringPointDtoV1.ContactAddressDto CreateLegalContactAddressEm2()
         => new(
             LegalContactName,
             LegalContactEmail,
@@ -122,7 +123,7 @@ public static class MeteringPointConstants
             LegalContactPoBox,
             LegalContactMunicipalityCode);
 
-    public static MeteringPointDtoV1.ContactAddressDto CreateTechnicalContactAddress()
+    public static MeteringPointDtoV1.ContactAddressDto CreateTechnicalContactAddressEm2()
         => new(
             TechnicalContactName,
             TechnicalContactEmail,
@@ -143,7 +144,7 @@ public static class MeteringPointConstants
             TechnicalContactPoBox,
             TechnicalContactMunicipalityCode);
 
-    public static MeteringPointDtoV1.ContactDto CreateContact(
+    public static MeteringPointDtoV1.ContactDto CreateContactEm2(
         string name,
         string cvr,
         bool isProtectedName,
@@ -151,4 +152,70 @@ public static class MeteringPointConstants
         MeteringPointDtoV1.ContactAddressDto? legalContact,
         MeteringPointDtoV1.ContactAddressDto? technicalContact)
         => new(name, cvr, isProtectedName, relationType, legalContact, technicalContact);
+
+    public static Clients.ElectricityMarket.v1.CustomerContactDto CreateLegalContactAddressEm1()
+        => new()
+        {
+            Id = 33333333,
+            Name = LegalContactName,
+            Email = LegalContactEmail,
+            IsProtectedAddress = LegalContactIsProtected,
+            Phone = LegalContactPhone,
+            Mobile = LegalContactMobile,
+            Attention = LegalContactAttention,
+            StreetCode = LegalContactStreetCode,
+            StreetName = LegalContactStreetName,
+            BuildingNumber = LegalContactBuildingNumber,
+            PostCode = LegalContactPostalCode,
+            CityName = LegalContactCityName,
+            CitySubDivisionName = LegalContactAdditionalCityName,
+            DarReference = LegalDarReference,
+            CountryCode = LegalContactCountryCode,
+            Floor = LegalContactFloor,
+            Room = LegalContactRoom,
+            PostBox = LegalContactPoBox,
+            MunicipalityCode = LegalContactMunicipalityCode,
+        };
+
+    public static Clients.ElectricityMarket.v1.CustomerContactDto CreateTechnicalContactAddressEm1()
+        => new()
+        {
+            Id = 33334444,
+            Name = TechnicalContactName,
+            Email = TechnicalContactEmail,
+            IsProtectedAddress = TechnicalContactIsProtected,
+            Phone = TechnicalContactPhone,
+            Mobile = TechnicalContactMobile,
+            Attention = TechnicalContactAttention,
+            StreetCode = TechnicalContactStreetCode,
+            StreetName = TechnicalContactStreetName,
+            BuildingNumber = TechnicalContactBuildingNumber,
+            PostCode = TechnicalContactPostalCode,
+            CityName = TechnicalContactCityName,
+            CitySubDivisionName = TechnicalContactAdditionalCityName,
+            DarReference = TechnicalDarReference,
+            CountryCode = TechnicalContactCountryCode,
+            Floor = TechnicalContactFloor,
+            Room = TechnicalContactRoom,
+            PostBox = TechnicalContactPoBox,
+            MunicipalityCode = TechnicalContactMunicipalityCode,
+        };
+
+    public static Clients.ElectricityMarket.v1.CustomerDto CreateContactEm1(
+        string name,
+        string cvr,
+        bool isProtectedName,
+        Clients.ElectricityMarket.v1.CustomerRelationType relationType,
+        Clients.ElectricityMarket.v1.CustomerContactDto? legalContact,
+        Clients.ElectricityMarket.v1.CustomerContactDto? technicalContact)
+        => new()
+        {
+            Id = 33335555,
+            Name = name,
+            Cvr = cvr,
+            IsProtectedName = isProtectedName,
+            RelationType = relationType,
+            LegalContact = legalContact,
+            TechnicalContact = technicalContact,
+        };
 }
