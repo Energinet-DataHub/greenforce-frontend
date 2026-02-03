@@ -66,7 +66,7 @@ import { Conversation } from '../types';
           <vater-stack direction="row" gap="s">
             <h3 class="no-margin">{{ t('subjects.' + conversation().subject) }}</h3>
             @if (conversation().closed) {
-              <watt-badge type="neutral">Afsluttet</watt-badge>
+              <watt-badge type="neutral">{{ t('closed') }}</watt-badge>
             }
           </vater-stack>
           <vater-stack direction="row" gap="m">
@@ -75,20 +75,22 @@ import { Conversation } from '../types';
               <span class="watt-text-s">{{ conversation().id }}</span>
             </vater-stack>
             <vater-stack direction="row" gap="xs">
-              <label>Intern note</label>
+              <label>{{ t('internalNoteLabel') }}</label>
               <span class="watt-text-s">{{ conversation().internalNote }}</span>
             </vater-stack>
           </vater-stack>
         </vater-stack>
 
         <vater-stack direction="row" gap="m">
-          <watt-button [disabled]="conversation().closed" variant="secondary">Afslut sag</watt-button>
+          <watt-button [disabled]="conversation().closed" variant="secondary">{{
+            t('closeCaseButton')
+          }}</watt-button>
           <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
             <watt-icon name="moreVertical" />
           </watt-button>
           <watt-menu #menu>
-            <watt-menu-item> Intern note</watt-menu-item>
-            <watt-menu-item> Marker som ulæst</watt-menu-item>
+            <watt-menu-item>{{ t('internalNoteLabel') }}</watt-menu-item>
+            <watt-menu-item>{{ t('markAsUnreadButton') }}</watt-menu-item>
           </watt-menu>
         </vater-stack>
       </vater-stack>

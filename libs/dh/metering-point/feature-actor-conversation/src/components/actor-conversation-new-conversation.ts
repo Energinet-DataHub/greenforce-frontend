@@ -93,7 +93,7 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
         />
         <watt-text-field
           [formControl]="newConversationForm.controls.internalNote"
-          [label]="t('internalNoteLabel')"
+          [label]="t('internalNoteLabelWithDisclaimer')"
           class="third-width"
           data-testid="actor-conversation-internal-note-input"
         />
