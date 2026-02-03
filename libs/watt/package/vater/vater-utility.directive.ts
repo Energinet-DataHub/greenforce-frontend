@@ -26,6 +26,7 @@ import { Fill, Inset } from './types';
     '[class]': 'class()',
     '[class.vater-center]': 'center()',
     '[class.vater-scrollable]': 'scrollable()',
+    '[class.vater-fragment]': 'fragment()',
     '[attr.center]': 'null',
     '[attr.fill]': 'null',
     '[attr.inset]': 'null',
@@ -44,6 +45,9 @@ export class VaterUtilityDirective {
 
   /** Make the element scrollable. */
   scrollable = input(false, { transform: booleanAttribute });
+
+  /** Replace this element with its children (display: contents). */
+  fragment = input(false, { transform: booleanAttribute });
 
   // Computed class names
   protected fillClass = computed(() => this.fill() && `vater-fill-${this.fill()}`);
