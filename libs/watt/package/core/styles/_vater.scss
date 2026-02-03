@@ -273,6 +273,11 @@
   .vater-gap-dividers {
     gap: 1px;
 
+    // TODO: Add support for dividers for
+    // .vater-subgrid-columns
+    // .vater-subgrid-rows
+    // .vater-subgrid-both
+
     & > *,
     & > .vater-fragment > * {
       box-shadow:
