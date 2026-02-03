@@ -779,10 +779,10 @@
       "newCaseTitle": "Ny sag",
       "subjectLabel": "Emne",
       "subjects": {
-        "misc": "Ad hoc spørgsmål",
+        "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
         "disconnectionOrReconnection": "Afbrydelse/Gentilslutning",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Fejlaftig flytning/leverandørskifte",
+        "incorrectMoveInOrSupplierSwitch": "Fejlagtig flytning/leverandørskifte",
         "customerMasterData": "{{ shared.terminology.customerMasterData }}",
         "measurements": "{{ shared.terminology.measurements }}",
         "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
@@ -790,7 +790,9 @@
       },
       "receiverLabel": "Modtager",
       "receivers": {
-        "energinet": "Energinet"
+        "ENERGY_SUPPLIER": "Elleverandør",
+        "ENERGINET": "Energinet",
+        "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
       "internalNoteLabel": "Intern note",
       "messageLabel": "Besked",

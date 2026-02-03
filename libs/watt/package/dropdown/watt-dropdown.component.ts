@@ -41,8 +41,6 @@ import {
   ControlValueAccessor,
 } from '@angular/forms';
 
-import { NgClass } from '@angular/common';
-
 import { RxPush } from '@rx-angular/template/push';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -69,7 +67,6 @@ import type {
   encapsulation: ViewEncapsulation.None,
   imports: [
     RxPush,
-    NgClass,
     MatSelectModule,
     MatOptionModule,
     ReactiveFormsModule,
