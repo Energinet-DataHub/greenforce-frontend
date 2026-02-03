@@ -119,8 +119,8 @@ public static partial class MeteringPointNode
     public static async Task<MeteringPointDto> GetMeteringPointExistsAsync(
             string environment,
             bool searchMigratedMeteringPoints,
-            long? internalMeteringPointId,
-            long? meteringPointId,
+            string? internalMeteringPointId,
+            string? meteringPointId,
             CancellationToken ct,
             [Service] Clients.ElectricityMarket.v1.IElectricityMarketClient_V1 electricityMarketClient_V1,
             [Service] IHttpContextAccessor httpContextAccessor,
@@ -136,11 +136,17 @@ public static partial class MeteringPointNode
 
         var meteringPointExternalID = meteringPointId?.ToString();
 
-        if (meteringPointExternalID == null && internalMeteringPointId.HasValue)
+        if (meteringPointExternalID == null && (!string.IsNullOrWhiteSpace(internalMeteringPointId)))
         {
-            var resultInternalEndpoint = await electricityMarketClient_V1.MeteringPointExistsInternalAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
-
-            meteringPointExternalID = resultInternalEndpoint.ExternalIdentification;
+            if (long.TryParse(internalMeteringPointId, out var internalMeteringPointIdForEm1))
+            {
+                var resultInternalEndpoint = await electricityMarketClient_V1.MeteringPointExistsInternalAsync(internalMeteringPointIdForEm1, ct).ConfigureAwait(false);
+                meteringPointExternalID = resultInternalEndpoint.ExternalIdentification;
+            }
+            else
+            {
+                meteringPointExternalID = IdentifierEncoder.DecodeMeteringPointId(internalMeteringPointId);
+            }
         }
 
         if (meteringPointExternalID == null)
