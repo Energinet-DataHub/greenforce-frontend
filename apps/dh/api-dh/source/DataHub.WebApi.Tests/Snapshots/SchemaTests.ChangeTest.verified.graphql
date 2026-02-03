@@ -381,18 +381,6 @@ type CollectionSegmentInfo {
   hasPreviousPage: Boolean!
 }
 
-type CommercialRelationDto {
-  energySupplierName: ActorNameDto
-  id: Long!
-  energySupplier: String!
-  startDate: DateTime!
-  endDate: DateTime!
-  activeEnergySupplyPeriod: EnergySupplyPeriodDto
-  energySupplyPeriodTimeline: [EnergySupplyPeriodDto!]!
-  activeElectricalHeatingPeriods: ElectricalHeatingDto
-  electricalHeatingPeriods: [ElectricalHeatingDto!]!
-}
-
 "Conversation"
 type Conversation {
   meteringPointIdentification: String!
@@ -2646,12 +2634,6 @@ enum ContactCategory {
 "Conversation subjects"
 enum ConversationSubject {
   QUESTION_FOR_ENERGINET
-}
-
-enum CustomerRelationType {
-  CONTACT1
-  CONTACT4
-  SECONDARY
 }
 
 enum DelegatedProcess {
