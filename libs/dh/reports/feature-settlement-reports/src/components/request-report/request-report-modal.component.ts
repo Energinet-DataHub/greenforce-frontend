@@ -194,7 +194,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
     ...this.actorOptions(),
   ]);
 
-  showMonthlySumCheckbox$ = this.shouldShowMonthlySumCheckbox();
+  showMonthlySumCheckbox_unused$ = this.shouldShowMonthlySumCheckbox();
 
   multipleGridAreasSelected$: Observable<boolean> = this.form.controls.gridAreas.valueChanges.pipe(
     map((gridAreas) => (gridAreas?.length ? gridAreas.length > 1 : false)),
