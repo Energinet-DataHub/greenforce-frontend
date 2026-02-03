@@ -173,25 +173,27 @@ export class DhUpdateCustomerDataComponent {
   private readonly injector = inject(Injector);
   private readonly translocoService = inject(TranslocoService);
   private readonly wattToastService = inject(WattToastService);
-  private locationService = inject(Location);
-  private actorStorage = inject(DhActorStorage).getSelectedActor();
+  private readonly locationService = inject(Location);
+  private readonly actorStorage = inject(DhActorStorage).getSelectedActor();
   private readonly destroyRef = inject(DestroyRef);
+
   private readonly requestChangeCustomerCharacteristics = mutation(
     RequestChangeCustomerCharacteristicsDocument
   );
+
+  meteringPointId = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
 
   isBusinessCustomer = signal<boolean>(false);
   meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
       actorGln: this.actorStorage.gln,
-      searchMigratedMeteringPoints: false,
+      searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
     },
   }));
 
-  meteringPointId = input.required<string>();
   meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
-
   installationAddress = computed(() => this.meteringPoint()?.metadata?.installationAddress);
 
   hasValidInstallationAddress = computed(() => {
