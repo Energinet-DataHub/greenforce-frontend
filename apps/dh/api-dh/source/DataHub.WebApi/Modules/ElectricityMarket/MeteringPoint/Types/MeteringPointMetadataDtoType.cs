@@ -62,15 +62,14 @@ public static partial class MeteringPointMetadataDtoType
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
         [Service] IElectricityMarketClient electricityMarketClient,
-        [Service] IFeatureManagerSnapshot featureManager,
-        [Service] IIdentifierEncoder identifierEncoder)
+        [Service] IFeatureManagerSnapshot featureManager)
     {
         if (meteringPointMetadata.ParentMeteringPoint == null)
         {
             return null;
         }
 
-        var meteringPoint = await MeteringPointNode.GetMeteringPointAsync(meteringPointMetadata.ParentMeteringPoint, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager, identifierEncoder);
+        var meteringPoint = await MeteringPointNode.GetMeteringPointAsync(meteringPointMetadata.ParentMeteringPoint, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
 
         return meteringPoint?.Id;
     }

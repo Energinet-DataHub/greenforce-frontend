@@ -16,7 +16,7 @@ using Sqids;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 
-public class IdentifierEncoder : IIdentifierEncoder
+public static class IdentifierEncoder
 {
     public static SqidsEncoder<char> Encoder { get; set; } = new(new SqidsOptions
     {
@@ -24,16 +24,37 @@ public class IdentifierEncoder : IIdentifierEncoder
         MinLength = 10,
     });
 
-    public string Encode(string id)
+    public static string EncodeMeteringPointId(string meteringPointId)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(id);
-        var encodedId = id.ToCharArray();
+        ArgumentException.ThrowIfNullOrWhiteSpace(meteringPointId);
+
+        var encodedId = meteringPointId.ToCharArray();
         return Encoder.Encode(encodedId);
     }
 
-    public string Decode(string id)
+    public static string EncodeMeteringPointId(string meteringPointId, string extraData)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(id);
-        return string.Concat(Encoder.Decode(id));
+        ArgumentException.ThrowIfNullOrWhiteSpace(meteringPointId);
+
+        var encodedId = (meteringPointId + extraData).ToCharArray();
+        return Encoder.Encode(encodedId);
+    }
+
+    public static string EncodeMeteringPointId(string meteringPointId, DateTimeOffset from, DateTimeOffset to)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(meteringPointId);
+
+        var fromString = from.UtcDateTime.ToString("O");
+        var toString = to.UtcDateTime.ToString("O");
+
+        var encodedId = $"{meteringPointId}{fromString}{toString}".ToCharArray();
+        return Encoder.Encode(encodedId);
+    }
+
+    public static string DecodeMeteringPointId(string meteringPointId)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(meteringPointId);
+
+        return string.Concat(Encoder.Decode(meteringPointId));
     }
 }

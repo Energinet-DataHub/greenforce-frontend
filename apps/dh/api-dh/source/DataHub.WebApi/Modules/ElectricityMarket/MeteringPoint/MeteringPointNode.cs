@@ -127,8 +127,7 @@ public static partial class MeteringPointNode
             [Service] IRequestAuthorization requestAuthorization,
             [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
             [Service] IElectricityMarketClient electricityMarketClient,
-            [Service] IFeatureManagerSnapshot featureManager,
-            [Service] IIdentifierEncoder identifierEncoder)
+            [Service] IFeatureManagerSnapshot featureManager)
     {
         if (internalMeteringPointId == null && meteringPointId == null)
         {
@@ -149,7 +148,7 @@ public static partial class MeteringPointNode
             throw new InvalidOperationException("Could not resolve metering point external ID.");
         }
 
-        return await GetMeteringPointAsync(meteringPointExternalID, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager, identifierEncoder);
+        return await GetMeteringPointAsync(meteringPointExternalID, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
     }
 
     [Query]
@@ -171,8 +170,7 @@ public static partial class MeteringPointNode
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
         [Service] IElectricityMarketClient electricityMarketClient,
-        [Service] IFeatureManagerSnapshot featureManager,
-        [Service] IIdentifierEncoder identifierEncoder)
+        [Service] IFeatureManagerSnapshot featureManager)
     {
         if (httpContextAccessor.HttpContext == null)
         {
@@ -188,7 +186,7 @@ public static partial class MeteringPointNode
             {
                 if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
                 {
-                    return await GetMeteringPointWithNewModelAsync(meteringPointId, ct, electricityMarketClient, identifierEncoder).ConfigureAwait(false);
+                    return await GetMeteringPointWithNewModelAsync(meteringPointId, ct, electricityMarketClient).ConfigureAwait(false);
                 }
             }
         }
@@ -242,8 +240,7 @@ public static partial class MeteringPointNode
     private static async Task<MeteringPointDto> GetMeteringPointWithNewModelAsync(
             string meteringPointId,
             CancellationToken ct,
-            [Service] IElectricityMarketClient electricityMarketClient,
-            [Service] IIdentifierEncoder identiferEncoder)
+            [Service] IElectricityMarketClient electricityMarketClient)
     {
         var result = await electricityMarketClient
         .SendAsync(new GetMeteringPointQueryV1(meteringPointId), ct)
@@ -254,12 +251,12 @@ public static partial class MeteringPointNode
         // Map to MeteringPointDto
         var meteringPointResult = new MeteringPointDto
         {
-            Id = identiferEncoder.Encode(meteringPoint.MeteringPointId),
+            Id = IdentifierEncoder.EncodeMeteringPointId(meteringPoint.MeteringPointId),
             Identification = meteringPoint.MeteringPointId,
-            Metadata = meteringPoint.MeteringPointPeriod.MapToDto(),
-            MetadataTimeline = [.. meteringPoint.MeteringPointPeriods.Select(m => m.MapToDto())],
-            CommercialRelation = meteringPoint.CommercialRelation?.MapToDto(),
-            CommercialRelationTimeline = [.. meteringPoint.CommercialRelations.Select(m => m.MapToDto())],
+            Metadata = meteringPoint.MeteringPointPeriod.MapToDto(meteringPoint.MeteringPointId),
+            MetadataTimeline = [.. meteringPoint.MeteringPointPeriods.Select(m => m.MapToDto(meteringPoint.MeteringPointId))],
+            CommercialRelation = meteringPoint.CommercialRelation?.MapToDto(meteringPoint.MeteringPointId),
+            CommercialRelationTimeline = [.. meteringPoint.CommercialRelations.Select(m => m.MapToDto(meteringPoint.MeteringPointId))],
         };
         return meteringPointResult;
     }

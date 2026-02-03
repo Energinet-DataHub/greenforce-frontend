@@ -20,6 +20,7 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 
 public static class MeteringPointConstants
 {
+    public const string MeteringPointId = "571313115100001072";
     public const string CompanyName = "Test Company A/S";
     public const string CompanyCvr = "12345678";
     public const string CompanyNameTwo = "Secondary Contact Ltd";

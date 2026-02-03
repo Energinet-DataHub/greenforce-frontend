@@ -20,8 +20,6 @@ namespace Energinet.DataHub.WebApi.Tests.Modules.ElectricityMarket.Helpers;
 
 public class IdentifierEncoderTests
 {
-    private readonly IdentifierEncoder _sut = new();
-
     [Theory]
     [InlineData("a", "XGBsWeVprB")]
     [InlineData("test", "uVPWetpbdHMl")]
@@ -31,10 +29,10 @@ public class IdentifierEncoderTests
     [InlineData("UPPERCASE", "bkQ9s4IcEJh4cFc0gcGS8Urj0lm")]
     [InlineData("MixedCase123", "Ks5SA6tnpvOs5bIES46i7aCKEAqVCthMH")]
     [InlineData("571313115100001072", "uNWOprH3fIs5qwaHZlCFDdcOwnZfsgmAfmqf")]
-    public void Decode_KnownEncodedValue_ReturnsExpectedString(string expected, string encoded)
+    public void DecodeMeteringPointId_KnownEncodedValue_ReturnsExpectedString(string expected, string encoded)
     {
         // Act
-        var result = _sut.Decode(encoded);
+        var result = IdentifierEncoder.DecodeMeteringPointId(encoded);
 
         // Assert
         Assert.Equal(expected, result);
@@ -49,35 +47,68 @@ public class IdentifierEncoderTests
     [InlineData("UPPERCASE")]
     [InlineData("MixedCase123")]
     [InlineData("571313115100001072")]
-    public void Encode_Decode_RoundTrip_ReturnsOriginalValue(string input)
+    public void EncodeMeteringPointId_DecodeMeteringPointId_RoundTrip_ReturnsOriginalValue(string input)
     {
         // Act
-        var encoded = _sut.Encode(input);
-        var decoded = _sut.Decode(encoded);
+        var encoded = IdentifierEncoder.EncodeMeteringPointId(input);
+        var decoded = IdentifierEncoder.DecodeMeteringPointId(encoded);
 
         // Assert
         Assert.Equal(input, decoded);
     }
 
     [Fact]
-    public void Encode_NonEmptyString_ReturnsAtLeastMinLength()
+    public void EncodeMeteringPointId_NonEmptyString_ReturnsAtLeastMinLength()
     {
         // Arrange
-        const string input = "a";
+        var input = "a";
 
         // Act
-        var result = _sut.Encode(input);
+        var result = IdentifierEncoder.EncodeMeteringPointId(input);
 
         // Assert
         Assert.True(result.Length >= 10);
     }
 
+    [Fact]
+    public void EncodeMeteringPointId_WithDateTimeOffsets_DecodeMeteringPointId_RoundTrip_ReturnsExpectedString()
+    {
+        // Arrange
+        var input = "571313115100001072";
+        var fromDate = new DateTimeOffset(2005, 3, 2, 22, 4, 0, TimeSpan.Zero);
+        var toDate = new DateTimeOffset(2005, 3, 3, 22, 4, 0, TimeSpan.Zero);
+
+        // Act
+        var encoded = IdentifierEncoder.EncodeMeteringPointId(input, fromDate, toDate);
+        var decoded = IdentifierEncoder.DecodeMeteringPointId(encoded);
+
+        // Assert
+        var fromString = fromDate.UtcDateTime.ToString("O");
+        var toString = toDate.UtcDateTime.ToString("O");
+        Assert.Equal(input + fromString + toString, decoded);
+    }
+
+    [Fact]
+    public void EncodeMeteringPointId_WithExtraData_DecodeMeteringPointId_RoundTrip_ReturnsExpectedString()
+    {
+        // Arrange
+        var input = "571313115100001072";
+        var extraData = "Cus1";
+
+        // Act
+        var encoded = IdentifierEncoder.EncodeMeteringPointId(input, extraData);
+        var decoded = IdentifierEncoder.DecodeMeteringPointId(encoded);
+
+        // Assert
+        Assert.Equal(input + extraData, decoded);
+    }
+
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
-    public void Encode_EmptyString_Throws(string input)
+    public void EncodeMeteringPointId_EmptyString_Throws(string input)
     {
         // Act/Assert
-        Assert.Throws<ArgumentException>(() => _sut.Encode(input));
+        Assert.Throws<ArgumentException>(() => IdentifierEncoder.EncodeMeteringPointId(input));
     }
 }
