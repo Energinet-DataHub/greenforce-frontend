@@ -26,10 +26,10 @@ import {
 } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { StartConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState } from '../types';
+import { ActorConversationState, StartConversationFormValue } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -72,7 +72,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
                 vater
                 fill="both"
                 (closeNewCase)="newCaseVisible.set(false)"
-                (createCase)="send($event)"
+                (createCase)="createConversation($event)"
               />
             }
             @case (ActorConversationState.noCases) {
@@ -118,14 +118,24 @@ export class DhActorConversationShellComponent {
     }
     return ActorConversationState.caseSelected;
   });
-  createConversationMutation = mutation(CreateConversationDocument);
+  startConversationMutation = mutation(StartConversationDocument);
   private toastService = inject(WattToastService);
 
-  async send(message: string) {
-    const result = await this.createConversationMutation.mutate({
+  async createConversation(formValue: StartConversationFormValue) {
+    const meteringPointIdentification = '571313131313131313'; // TODO: Get from context
+    const actorName = 'Testnet & CO'; // TODO: Get from context
+    const userName = 'Test Testesen'; // TODO: Get from context
+
+    const result = await this.startConversationMutation.mutate({
       variables: {
-        meteringPointIdentification: '571313000000000000',
-        conversationMessageContent: message,
+        subject: formValue.subject,
+        meteringPointIdentification: meteringPointIdentification,
+        actorName: actorName,
+        userName: userName,
+        internalNote: formValue.internalNote,
+        content: formValue.content,
+        anonymous: formValue.anonymous,
+        receiver: formValue.receiver,
       },
     });
     this.newCaseVisible.set(false);
@@ -137,7 +147,7 @@ export class DhActorConversationShellComponent {
     } else {
       this.toastService.open({
         type: 'success',
-        message: message,
+        message: formValue.content,
       });
     }
   }

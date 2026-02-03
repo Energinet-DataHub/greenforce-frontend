@@ -369,12 +369,61 @@ type ChargesEdge {
   node: Charge!
 }
 
+type CloseConversationPayload {
+  boolean: Boolean
+}
+
 "Information about the offset pagination."
 type CollectionSegmentInfo {
   "Indicates whether more items exist following the set defined by the clients arguments."
   hasNextPage: Boolean!
   "Indicates whether more items exist prior the set defined by the clients arguments."
   hasPreviousPage: Boolean!
+}
+
+"Conversation"
+type Conversation {
+  meteringPointIdentification: String!
+  displayId: String!
+  internalNote: String
+  subject: ConversationSubject!
+  closed: Boolean!
+  messages: [ConversationMessage!]!
+}
+
+"Conversation info"
+type ConversationInfo {
+  "Conversation id"
+  conversationId: UUID!
+  "MeteringPoint Identification"
+  meteringPointIdentification: String!
+  "Specifies whether the conversation has been read or not"
+  read: Boolean!
+  subject: ConversationSubject!
+  "Conversation is closed or not"
+  closed: Boolean!
+  "Last updated time of the conversation"
+  lastUpdated: DateTime!
+}
+
+"Conversation message"
+type ConversationMessage {
+  "Sender user name"
+  senderUserName: String
+  "Sendor actor name"
+  senderActorName: String
+  senderType: ActorType!
+  "Message content"
+  content: String!
+  messageType: Int!
+  "Created time"
+  createdTime: DateTime!
+}
+
+"Conversations"
+type Conversations {
+  "List of Conversations"
+  conversations: [ConversationInfo!]!
 }
 
 type CreateCalculationPayload {
@@ -386,10 +435,6 @@ type CreateChargeLinkPayload {
 }
 
 type CreateChargePayload {
-  boolean: Boolean
-}
-
-type CreateConversationPayload {
   boolean: Boolean
 }
 
@@ -1030,7 +1075,8 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
-  createConversation(input: CreateConversationInput!): CreateConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  startConversation(input: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  closeConversation(input: CloseConversationInput!): CloseConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
   stopCharge(input: StopChargeInput!): StopChargePayload! @authorize(roles: [ "charges:manage" ])
@@ -1238,6 +1284,8 @@ type ProcessesEdge {
 }
 
 type Query {
+  conversation(conversationId: UUID! meteringPointIdentification: String!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
+  conversationsForMeteringPoint(meteringPointIdentification: String!): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
   charges(filter: String query: ChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
@@ -1510,6 +1558,10 @@ type SettlementReport {
 }
 
 type SimulateMeteringPointManualCorrectionPayload {
+  string: String
+}
+
+type StartConversationPayload {
   string: String
 }
 
@@ -1852,6 +1904,12 @@ input ChargesQueryInput {
   missingPriceSeries: Boolean
 }
 
+input CloseConversationInput {
+  conversationId: UUID!
+  meteringPointIdentification: String!
+  userName: String!
+}
+
 input CreateActorContactDtoInput {
   name: String!
   category: ContactCategory!
@@ -1889,11 +1947,6 @@ input CreateChargeLinkInput {
   meteringPointId: String!
   newStartDate: DateTime!
   factor: Int!
-}
-
-input CreateConversationInput {
-  meteringPointIdentification: String!
-  conversationMessageContent: String!
 }
 
 input CreateDelegationsForMarketParticipantInput {
@@ -2226,6 +2279,21 @@ input SimulateMeteringPointManualCorrectionInput {
   json: String!
 }
 
+input StartConversationInput {
+  startConversationInput: StartConversationInputTypeInput!
+}
+
+input StartConversationInputTypeInput {
+  subject: ConversationSubject!
+  meteringPointIdentification: String!
+  actorName: String!
+  userName: String!
+  internalNote: String
+  content: String!
+  anonymous: Boolean!
+  receiver: ActorType!
+}
+
 input StopChargeInput {
   id: String!
   terminationDate: DateTime!
@@ -2394,6 +2462,12 @@ enum ActorAuditedChange {
   ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
 }
 
+enum ActorType {
+  ENERGY_SUPPLIER
+  ENERGINET
+  GRID_ACCESS_PROVIDER
+}
+
 enum AddressTypeV1 {
   TECHNICAL
   LEGAL
@@ -2555,6 +2629,11 @@ enum ContactCategory {
   NOTIFICATION
   RECON
   REMINDER
+}
+
+"Conversation subjects"
+enum ConversationSubject {
+  QUESTION_FOR_ENERGINET
 }
 
 enum DelegatedProcess {

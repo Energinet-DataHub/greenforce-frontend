@@ -779,7 +779,7 @@
       "newCaseTitle": "New case",
       "subjectLabel": "Subject",
       "subjects": {
-        "misc": "Ad hoc question",
+        "QUESTION_FOR_ENERGINET": "Ad hoc question",
         "disconnectionOrReconnection": "Disconnect/Reconnect",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "incorrectMoveInOrSupplierSwitch": "Incorrect move/switch of supplier",
@@ -790,7 +790,9 @@
       },
       "receiverLabel": "Receiver",
       "receivers": {
-        "energinet": "Energinet"
+        "ENERGY_SUPPLIER": "Energy supplier",
+        "ENERGINET": "Energinet",
+        "GRID_ACCESS_PROVIDER": "Grid access provider"
       },
       "internalNoteLabel": "Internal note",
       "messageLabel": "Message",
