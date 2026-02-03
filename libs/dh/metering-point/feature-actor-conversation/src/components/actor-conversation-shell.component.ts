@@ -174,6 +174,7 @@ export class DhActorConversationShellComponent {
   private toastService = inject(WattToastService);
 
   async startConversation(formValue: StartConversationFormValue) {
+    // TODO: MASEP Remove when the API takes actorId and UserId
     const actorName = this.selectedMarketParticipant()?.actorName ?? '';
     const userName =
       (this.userProfile()?.firstName ?? '') + ' ' + (this.userProfile()?.lastName ?? '');
