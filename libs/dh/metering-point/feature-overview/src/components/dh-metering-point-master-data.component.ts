@@ -124,7 +124,7 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
     }
   `,
   template: `
-    <dh-result [hasError]="query.hasError()" [loading]="query.loading()">
+    <dh-result [loading]="query.loading()">
       <vater-stack direction="column" gap="ml">
         <dh-metering-point-highlights [meteringPointDetails]="meteringPoint()" />
         <div class="page-grid" [class.page-grid__child-view]="meteringPoint()?.isChild">
