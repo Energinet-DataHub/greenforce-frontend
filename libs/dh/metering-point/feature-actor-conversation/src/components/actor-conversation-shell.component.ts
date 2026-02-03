@@ -147,15 +147,15 @@ export class DhActorConversationShellComponent {
   }));
 
   conversations = computed<Conversation[]>(() => {
-    return (
-      this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []
-    ).map((conversation) => ({
-      id: conversation.conversationId,
-      subject: conversation.subject,
-      closed: conversation.closed,
-      unread: !conversation.read,
-      lastUpdatedDate: conversation.lastUpdated ? new Date(conversation.lastUpdated) : undefined,
-    }));
+    return (this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []).map(
+      (conversation) => ({
+        id: conversation.conversationId,
+        subject: conversation.subject,
+        closed: conversation.closed,
+        unread: !conversation.read,
+        lastUpdatedDate: conversation.lastUpdated ? new Date(conversation.lastUpdated) : undefined,
+      })
+    );
   });
 
   selectedConversationId = signal<string | undefined>(undefined);

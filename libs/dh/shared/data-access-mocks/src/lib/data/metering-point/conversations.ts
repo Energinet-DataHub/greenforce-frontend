@@ -45,7 +45,7 @@ export const conversations: ConversationInfo[] = [
     read: false,
     lastUpdated: new Date(),
     subject: 'QUESTION_FOR_ENERGINET',
-    meteringPointIdentification: '222222222222222222'
+    meteringPointIdentification: '222222222222222222',
   },
   {
     __typename: 'ConversationInfo',
@@ -54,7 +54,7 @@ export const conversations: ConversationInfo[] = [
     read: true,
     lastUpdated: new Date(),
     subject: 'QUESTION_FOR_ENERGINET',
-    meteringPointIdentification: '222222222222222222'
+    meteringPointIdentification: '222222222222222222',
   },
   {
     __typename: 'ConversationInfo',
@@ -63,6 +63,6 @@ export const conversations: ConversationInfo[] = [
     read: true,
     lastUpdated: new Date(),
     subject: 'QUESTION_FOR_ENERGINET',
-    meteringPointIdentification: '222222222222222222'
+    meteringPointIdentification: '222222222222222222',
   },
 ];

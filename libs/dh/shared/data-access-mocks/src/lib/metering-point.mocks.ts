@@ -636,7 +636,6 @@ function getConversations() {
   });
 }
 
-
 function requestConnectionStateChange() {
   return mockRequestConnectionStateChangeMutation(async () => {
     await delay(mswConfig.delay);
