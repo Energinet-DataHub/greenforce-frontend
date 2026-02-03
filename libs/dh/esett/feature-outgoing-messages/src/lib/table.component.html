@@ -21,44 +21,45 @@ limitations under the License.
   [searchLabel]="t('filters.documentId')"
   [error]="dataSource.error"
   [ready]="dataSource.called"
+  [enableCount]="false"
   #wattDataTable
 >
-  <h3>{{ t("tabHeading") }}</h3>
-
-  <span class="watt-chip-label">
-    @if (gridAreaCount() === 1) {
-      {{ t("countGridAreas.singular", { gridAreaCount: gridAreaCount() }) }}
-    } @else {
-      {{ t("countGridAreas.plural", { gridAreaCount: gridAreaCount() }) }}
-    }
-  </span>
-
-  <div class="health-icons">
-    @for (status of serviceStatus(); track status) {
-      @if (status.isReady) {
-        <watt-icon name="success" [title]="t('status.' + status.component)" />
+  <vater-stack direction="row" class="watt-space-stack-m">
+    <span class="watt-chip-label">
+      @if (gridAreaCount() === 1) {
+        {{ t("countGridAreas.singular", { gridAreaCount: gridAreaCount() }) }}
       } @else {
-        <watt-icon name="danger" [title]="t('status.' + status.component)" />
+        {{ t("countGridAreas.plural", { gridAreaCount: gridAreaCount() }) }}
       }
-    }
-  </div>
+    </span>
 
-  @let waitingForExternalResponse = statusReport();
-
-  @if (waitingForExternalResponse > 0) {
-    <vater-stack direction="row" gap="s" class="resend-container">
-      <span class="watt-chip-label">
-        @if (waitingForExternalResponse === 1) {
-          {{ t("messagesNotSent.singular", { number: waitingForExternalResponse }) }}
+    <div class="health-icons">
+      @for (status of serviceStatus(); track status) {
+        @if (status.isReady) {
+          <watt-icon name="success" [title]="t('status.' + status.component)" />
         } @else {
-          {{ t("messagesNotSent.plural", { number: waitingForExternalResponse }) }}
+          <watt-icon name="danger" [title]="t('status.' + status.component)" />
         }
-      </span>
-      <watt-button variant="secondary" icon="arrowRightAlt" (click)="resend()">{{
-        t("resendMessages")
-      }}</watt-button>
-    </vater-stack>
-  }
+      }
+    </div>
+
+    @let waitingForExternalResponse = statusReport();
+
+    @if (waitingForExternalResponse > 0) {
+      <vater-stack direction="row" gap="s" class="resend-container">
+        <span class="watt-chip-label">
+          @if (waitingForExternalResponse === 1) {
+            {{ t("messagesNotSent.singular", { number: waitingForExternalResponse }) }}
+          } @else {
+            {{ t("messagesNotSent.plural", { number: waitingForExternalResponse }) }}
+          }
+        </span>
+        <watt-button variant="secondary" icon="arrowRightAlt" (click)="resend()">{{
+          t("resendMessages")
+        }}</watt-button>
+      </vater-stack>
+    }
+  </vater-stack>
 
   <watt-data-filters>
     <dh-outgoing-messages-filters (filter)="fetch($event)" (resetFilters)="wattDataTable.reset()" />

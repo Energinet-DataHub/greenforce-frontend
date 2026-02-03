@@ -789,14 +789,15 @@
         "priceAssociation": "{{ shared.terminology.chargeLink }}",
         "newCase": "New case"
       },
-      "receiverLabel": "Receiver",
+      "receiverLabel": "To",
       "receivers": {
         "ENERGY_SUPPLIER": "Energy supplier",
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Grid access provider"
       },
-      "internalNoteLabel": "Internal note",
+      "internalNoteLabel": "Internal note (not enclosed)",
       "messageLabel": "Message",
+      "messagePlaceholder": "Write a message",
       "sendButton": "Send",
       "emptyState": {
         "noCases": "No cases found",
@@ -1322,8 +1323,7 @@
       "created": "Sent",
       "messageId": "Message ID",
       "receiver": "Receiver",
-      "sender": "Sender",
-      "download": "Download"
+      "sender": "Sender"
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Rejection (RSM-009)",
@@ -1686,8 +1686,7 @@
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
-        "reset": "{{ shared.form.reset }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
       },
       "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {
@@ -2463,6 +2462,7 @@
       "search": "Search by ID",
       "new": "New calculation",
       "scheduledCalculationTooltip": "The actual time may differ from the scheduled time",
+      "actionsButton": "Actions",
       "capacitySettlements": {
         "uploadButton": "Upload file for capacity settlements",
         "uploadInProgress": "Upload in progress",
@@ -3189,7 +3189,6 @@
         "period": "Calculation period"
       },
       "table": {
-        "headline": "Processes",
         "searchLabel": "Search by ID",
         "columns": {
           "id": "Id",

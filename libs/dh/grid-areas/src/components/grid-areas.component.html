@@ -21,9 +21,8 @@ limitations under the License.
   [searchLabel]="t('searchLabel')"
   [error]="dataSource.error"
   [ready]="dataSource.called"
+  [enableCount]="false"
 >
-  <h3>{{ t("topBarTitle") }}</h3>
-
   <watt-data-filters>
     <vater-stack direction="row" gap="m" align="start">
       <watt-dropdown
@@ -46,13 +45,13 @@ limitations under the License.
         [(ngModel)]="selectedGridAreaStatuses"
         [placeholder]="t('statusTypePlaceholder')"
       />
+
+      <dh-reset-filters-button (click)="resetFilters()" />
     </vater-stack>
   </watt-data-filters>
 
   <watt-data-actions>
-    <watt-button icon="download" variant="text" (click)="download()">{{
-      "shared.download" | transloco
-    }}</watt-button>
+    <dh-download-button (click)="download()" />
   </watt-data-actions>
 
   <watt-table

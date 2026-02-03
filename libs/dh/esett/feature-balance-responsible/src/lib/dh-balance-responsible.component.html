@@ -19,17 +19,14 @@ limitations under the License.
   vater
   inset="ml"
   [enableSearch]="false"
+  [enableCount]="false"
   [error]="dataSource.error"
   [ready]="dataSource.called"
   #wattDataTable
 >
-  <h3>{{ t("tabHeading") }}</h3>
-
   <watt-data-actions>
     <vater-stack direction="row" gap="s">
-      <watt-button icon="download" variant="text" [loading]="isDownloading()" (click)="download()"
-        >{{ "shared.download" | transloco }}
-      </watt-button>
+      <dh-download-button [loading]="isDownloading()" (click)="download()" />
 
       <dh-balance-responsible-importer [uploadUrl]="importUrl()" />
     </vater-stack>

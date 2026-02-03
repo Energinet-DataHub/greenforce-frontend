@@ -16,26 +16,29 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import {
   VaterFlexComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  ConversationSubject,
+  GetConversationsDocument,
+  GetSelectionMarketParticipantsDocument,
   StartConversationDocument,
+  UserProfileDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState, StartConversationFormValue } from '../types';
+import { ActorConversationState, StartConversationFormValue, Conversation } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
 import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
 import { DhActorConversationSelectedConversationComponent } from './actor-conversation-selected-conversation.component';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -126,23 +129,42 @@ import { DhActorConversationSelectedConversationComponent } from './actor-conver
   `,
 })
 export class DhActorConversationShellComponent {
+  private readonly userProfileQuery = query(UserProfileDocument, { returnPartialData: true });
+  userProfile = computed(() => this.userProfileQuery.data()?.userProfile);
+
+  private selectionMarketParticipantQuery = query(GetSelectionMarketParticipantsDocument);
+  private memberOfMarketParticipants = computed(
+    () => this.selectionMarketParticipantQuery.data()?.selectionMarketParticipants || []
+  );
+  private readonly actorStorage = inject(DhActorStorage);
+  selectedMarketParticipant = computed(() =>
+    this.memberOfMarketParticipants().find(
+      (participant) => participant.id === this.actorStorage.getSelectedActorId()
+    )
+  );
+  meteringPointId = input.required<string>();
+
   protected readonly ActorConversationState = ActorConversationState;
   newConversationVisible = signal(false);
-  conversations = signal([
-    {
-      id: '00001',
-      subject: ConversationSubject.QuestionForEnerginet,
-      lastUpdatedDate: new Date(),
-      closed: false,
-      unread: true,
+
+  conversationsQuery = query(GetConversationsDocument, () => ({
+    variables: {
+      meteringPointIdentification: this.meteringPointId(),
     },
-    {
-      id: '00002',
-      subject: ConversationSubject.QuestionForEnerginet,
-      lastUpdatedDate: new Date(),
-      closed: true,
-    },
-  ]);
+  }));
+
+  conversations = computed<Conversation[]>(() => {
+    return (
+      this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []
+    ).map((conversation) => ({
+      id: conversation.conversationId,
+      subject: conversation.subject,
+      closed: conversation.closed,
+      unread: !conversation.read,
+      lastUpdatedDate: conversation.lastUpdated ? new Date(conversation.lastUpdated) : undefined,
+    }));
+  });
+
   selectedConversationId = signal<string | undefined>(undefined);
   state = computed<ActorConversationState>(() => {
     if (this.newConversationVisible()) {
@@ -154,18 +176,20 @@ export class DhActorConversationShellComponent {
     }
     return ActorConversationState.conversationSelected;
   });
+
   startConversationMutation = mutation(StartConversationDocument);
   private toastService = inject(WattToastService);
 
   async startConversation(formValue: StartConversationFormValue) {
-    const meteringPointIdentification = '571313131313131313'; // TODO: Get from context
-    const actorName = 'Testnet & CO'; // TODO: Get from context
-    const userName = 'Test Testesen'; // TODO: Get from context
+    // TODO: MASEP Remove when the API takes actorId and UserId
+    const actorName = this.selectedMarketParticipant()?.actorName ?? '';
+    const userName =
+      (this.userProfile()?.firstName ?? '') + ' ' + (this.userProfile()?.lastName ?? '');
 
     const result = await this.startConversationMutation.mutate({
       variables: {
         subject: formValue.subject,
-        meteringPointIdentification: meteringPointIdentification,
+        meteringPointIdentification: this.meteringPointId(),
         actorName: actorName,
         userName: userName,
         internalNote: formValue.internalNote,

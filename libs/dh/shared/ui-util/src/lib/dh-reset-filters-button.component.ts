@@ -16,15 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
-  selector: 'watt-data-filters',
-  styles: `
-    :host {
-      width: 100%;
-    }
+  selector: 'dh-reset-filters-button',
+  template: `
+    <watt-button size="small" variant="secondary" icon="close" type="reset">
+      @if (alternateText()) {
+        {{ alternateText() }}
+      } @else {
+        {{ 'shared.form.reset' | transloco }}
+      }
+    </watt-button>
   `,
-  template: `<ng-content />`,
+  imports: [WattButtonComponent, TranslocoPipe],
 })
-export class WattDataFiltersComponent {}
+export class DhResetFiltersButtonComponent {
+  alternateText = input<string>();
+}
