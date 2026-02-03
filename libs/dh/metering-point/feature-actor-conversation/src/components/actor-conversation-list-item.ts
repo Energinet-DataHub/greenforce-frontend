@@ -19,12 +19,19 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Conversation } from '../types';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
-import { DatePipe } from '@angular/common';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { DhCircleComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { WattDatePipe } from '@energinet/watt/date';
 
 @Component({
   selector: 'dh-actor-conversation-list-item',
-  imports: [VaterStackComponent, DatePipe, VaterFlexComponent, TranslocoDirective],
+  imports: [
+    VaterStackComponent,
+    VaterFlexComponent,
+    TranslocoDirective,
+    DhCircleComponent,
+    WattDatePipe,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.selected]': 'selected()',
@@ -45,11 +52,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
       background-color: var(--watt-color-primary-ultralight);
     }
 
-    .light-text {
-      font-weight: 400;
-      color: var(--watt-color-neutral-grey-600);
-    }
-
     .inset-stretch-inverted {
       padding: var(--watt-space-m) var(--watt-space-ml);
     }
@@ -64,13 +66,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
     .unread-indicator {
       position: absolute;
-      top: calc(var(--watt-space-m) + var(--watt-space-ml) / 2);
       left: var(--watt-space-s);
-      transform: translateY(-50%);
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: var(--watt-color-primary);
+      color: var(--watt-color-primary);
     }
   `,
   template: `
@@ -82,7 +79,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     >
       <vater-stack fill="horizontal" direction="row" justify="space-between">
         @if (conversation().unread) {
-          <div class="unread-indicator"></div>
+          <dh-circle class="unread-indicator" />
         }
         <h5 class="no-margin">{{ t('subjects.' + conversation().subject) }}</h5>
         @if (conversation().closed) {
@@ -95,9 +92,11 @@ import { TranslocoDirective } from '@jsverse/transloco';
         justify="space-between"
         class="min-height-line-height-xs"
       >
-        <span class="light-text font-size-s">{{ conversation().id }}</span>
-        <span class="light-text font-size-s">{{
-          conversation().lastUpdatedDate | date: 'dd-MM-yyyy'
+        <span class="watt-text-m watt-on-light--low-emphasis font-size-s">{{
+          conversation().id
+        }}</span>
+        <span class="watt-text-m watt-on-light--low-emphasis font-size-s">{{
+          conversation().lastUpdatedDate | wattDate: 'short'
         }}</span>
       </vater-stack>
     </vater-flex>
