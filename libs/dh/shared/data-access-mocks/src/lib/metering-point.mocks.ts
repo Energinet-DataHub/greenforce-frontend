@@ -33,7 +33,8 @@ import {
   mockGetRelatedMeteringPointsByIdQuery,
   mockGetMeteringPointEventsDebugViewQuery,
   mockRequestConnectionStateChangeMutation,
-  mockCreateConversationMutation,
+  mockRequestEndOfSupplyMutation,
+  mockStartConversationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -65,6 +66,7 @@ export function meteringPointMocks(apiBase: string) {
     getRelatedMeteringPoints(),
     getMeteringPointEventsDebugView(),
     requestConnectionStateChange(),
+    requestEndOfSupply(),
     createConversation(),
   ];
 }
@@ -631,16 +633,32 @@ function requestConnectionStateChange() {
   });
 }
 
-function createConversation() {
-  return mockCreateConversationMutation(async () => {
+function requestEndOfSupply() {
+  return mockRequestEndOfSupplyMutation(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
-        createConversation: {
-          __typename: 'CreateConversationPayload',
-          boolean: true,
+        requestEndOfSupply: {
+          __typename: 'RequestEndOfSupplyPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function createConversation() {
+  return mockStartConversationMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        startConversation: {
+          __typename: 'StartConversationPayload',
+          string: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
         },
       },
     });

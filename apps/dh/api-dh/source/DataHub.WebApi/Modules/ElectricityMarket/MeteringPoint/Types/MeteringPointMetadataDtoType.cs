@@ -64,7 +64,7 @@ public static partial class MeteringPointMetadataDtoType
         [Service] IElectricityMarketClient electricityMarketClient,
         [Service] IFeatureManagerSnapshot featureManager)
     {
-        if (meteringPointMetadata.ParentMeteringPoint == null)
+        if (string.IsNullOrEmpty(meteringPointMetadata.ParentMeteringPoint))
         {
             return null;
         }
