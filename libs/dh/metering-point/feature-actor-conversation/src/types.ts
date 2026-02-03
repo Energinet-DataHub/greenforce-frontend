@@ -40,4 +40,3 @@ export type StartConversationFormValue = {
   receiver: ActorType;
   internalNote?: string;
 };
-

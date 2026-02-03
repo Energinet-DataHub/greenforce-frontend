@@ -109,8 +109,8 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
           [formControl]="newConversationForm.controls.message"
           data-testid="actor-conversation-message-textarea"
         />
-        <watt-button type="submit">
-          {{ t('sendButton') }}
+        <watt-button type="submit"
+          >{{ t('sendButton') }}
           <watt-icon name="send" />
         </watt-button>
       </vater-stack>

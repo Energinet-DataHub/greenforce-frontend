@@ -97,8 +97,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
       >
         <span class="light-text font-size-s">{{ conversation().id }}</span>
         <span class="light-text font-size-s">{{
-            conversation().lastUpdatedDate | date: 'dd-MM-yyyy'
-          }}</span>
+          conversation().lastUpdatedDate | date: 'dd-MM-yyyy'
+        }}</span>
       </vater-stack>
     </vater-flex>
     <hr class="watt-divider no-margin" />

@@ -19,7 +19,11 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
 import { Conversation } from '../types';
