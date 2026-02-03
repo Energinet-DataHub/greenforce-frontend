@@ -18,6 +18,7 @@
 //#endregion
 const meteringPointIdPattern = /^\d{18}$/;
 const digitsOnlyPattern = /^\d+$/;
+const encodedIdPattern = /^[a-zA-Z0-9]{10,}$/;
 
 export function dhIsValidMeteringPointId(maybeMeteringPointId: string): boolean {
   return meteringPointIdPattern.test(maybeMeteringPointId);
@@ -28,5 +29,6 @@ export function dhContainsLetters(maybeMeteringPointId: string): boolean {
 }
 
 export function dhIsValidInternalId(maybeInternalId: string): boolean {
-  return digitsOnlyPattern.test(maybeInternalId);
+  // Accept Em1 internal IDs (digits only) or Em2 encoded IDs (alphanumeric, min 10 chars)
+  return digitsOnlyPattern.test(maybeInternalId) || encodedIdPattern.test(maybeInternalId);
 }
