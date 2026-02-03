@@ -35,7 +35,7 @@ import { VaterUtilityDirective } from './vater-utility.directive';
     },
     {
       directive: VaterUtilityDirective,
-      inputs: ['center', 'fill', 'inset', 'scrollable'],
+      inputs: ['center', 'fill', 'inset', 'scrollable', 'sticky'],
     },
   ],
   styles: `

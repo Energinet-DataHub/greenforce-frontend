@@ -150,6 +150,30 @@
     inset: var(--watt-space-xl);
   }
 
+  .vater-sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .vater-sticky-right {
+    position: sticky;
+    right: 0;
+    z-index: 1;
+  }
+
+  .vater-sticky-bottom {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+  }
+
+  .vater-sticky-left {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+  }
+
   .vater-offset-xs {
     padding: var(--watt-space-xs);
 

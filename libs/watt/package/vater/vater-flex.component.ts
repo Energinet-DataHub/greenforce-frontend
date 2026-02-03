@@ -35,7 +35,7 @@ import { VaterLayoutDirective } from './vater-layout.directive';
     },
     {
       directive: VaterUtilityDirective,
-      inputs: ['center', 'fill', 'inset', 'scrollable'],
+      inputs: ['center', 'fill', 'inset', 'scrollable', 'sticky'],
     },
   ],
   host: { '[class.vater-flex-auto]': 'autoSize()' },

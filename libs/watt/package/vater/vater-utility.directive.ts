@@ -17,7 +17,7 @@
  */
 //#endregion
 import { booleanAttribute, computed, Directive, input } from '@angular/core';
-import { Fill, Inset } from './types';
+import { Anchor, Fill, Inset } from './types';
 
 /* eslint-disable @angular-eslint/no-input-rename */
 @Directive({
@@ -31,6 +31,7 @@ import { Fill, Inset } from './types';
     '[attr.fill]': 'null',
     '[attr.inset]': 'null',
     '[attr.scrollable]': 'null',
+    '[attr.sticky]': 'null',
   },
 })
 export class VaterUtilityDirective {
@@ -46,11 +47,17 @@ export class VaterUtilityDirective {
   /** Make the element scrollable. */
   scrollable = input(false, { transform: booleanAttribute });
 
+  /** Make the element sticky. */
+  sticky = input<Anchor>();
+
   /** Replace this element with its children (display: contents). */
   fragment = input(false, { transform: booleanAttribute });
 
   // Computed class names
   protected fillClass = computed(() => this.fill() && `vater-fill-${this.fill()}`);
   protected insetClass = computed(() => this.inset() && `vater-inset-${this.inset()}`);
-  protected class = computed(() => [this.fillClass(), this.insetClass()].filter(Boolean));
+  protected stickyClass = computed(() => this.sticky() && `vater-sticky-${this.sticky()}`);
+  protected class = computed(() =>
+    [this.fillClass(), this.insetClass(), this.stickyClass()].filter(Boolean)
+  );
 }
