@@ -28,7 +28,7 @@ import { Spacing } from './types';
 })
 export class VaterLayoutDirective {
   /** Spacing between items. */
-  gap = input<Spacing>();
+  gap = input<Spacing | 'dividers'>();
 
   /** Offset to apply along the main axis (or both axes for grids). */
   offset = input<Spacing>();

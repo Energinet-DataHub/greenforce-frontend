@@ -270,6 +270,31 @@
     gap: var(--watt-space-xl);
   }
 
+  .vater-gap-dividers {
+    gap: 1px;
+
+    & > *,
+    & > .vater-fragment > * {
+      box-shadow:
+        0px 1px 0px 0px var(--watt-color-neutral-grey-300),
+        1px 0px 0px 0px var(--watt-color-neutral-grey-300);
+    }
+
+    &.vater-column {
+      & > *,
+      & > .vater-fragment > * {
+        box-shadow: 0px 1px 0px 0px var(--watt-color-neutral-grey-300);
+      }
+    }
+
+    &.vater-row {
+      & > *,
+      & > .vater-fragment > * {
+        box-shadow: 1px 0px 0px 0px var(--watt-color-neutral-grey-300);
+      }
+    }
+  }
+
   .vater-flex-auto > * {
     flex: auto;
   }
