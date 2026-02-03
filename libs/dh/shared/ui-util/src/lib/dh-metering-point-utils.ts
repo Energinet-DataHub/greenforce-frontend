@@ -28,7 +28,10 @@ export function dhContainsLetters(maybeMeteringPointId: string): boolean {
   return /[a-zA-Z]/.test(maybeMeteringPointId);
 }
 
-export function dhIsValidInternalId(maybeInternalId: string): boolean {
-  // Accept Em1 internal IDs (digits only) or Em2 encoded IDs (alphanumeric, min 10 chars)
-  return digitsOnlyPattern.test(maybeInternalId) || encodedIdPattern.test(maybeInternalId);
+export function dhIsEM1InternalId(maybeInternalId: string): boolean {
+  return digitsOnlyPattern.test(maybeInternalId);
+}
+
+export function dhIsEM2EncodedId(maybeInternalId: string): boolean {
+  return encodedIdPattern.test(maybeInternalId);
 }
