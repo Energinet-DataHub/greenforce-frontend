@@ -71,4 +71,9 @@ public static class HttpContextUserExtensions
             user.AddIdentity(new ClaimsIdentity(new[] { claim }));
         }
     }
+
+    public static string GetUserName(this ClaimsPrincipal user)
+    {
+        return user.Claims.First(c => c is { Type: ClaimTypes.Name }).Value;
+    }
 }
