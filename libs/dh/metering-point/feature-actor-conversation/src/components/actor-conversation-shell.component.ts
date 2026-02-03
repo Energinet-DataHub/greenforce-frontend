@@ -24,10 +24,13 @@ import {
 } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { CreateConversationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ConversationSubject,
+  StartConversationDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationConversationSubjectType, ActorConversationState } from '../types';
+import { ActorConversationState, StartConversationFormValue } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
@@ -90,7 +93,7 @@ import { DhActorConversationSelectedConversationComponent } from './actor-conver
                 fill="both"
                 class="watt-space-inset-m"
                 (closeNewConversation)="newConversationVisible.set(false)"
-                (createConversation)="send($event)"
+                (startConversation)="startConversation($event)"
               />
             }
             @case (ActorConversationState.noConversations) {
@@ -128,14 +131,14 @@ export class DhActorConversationShellComponent {
   conversations = signal([
     {
       id: '00001',
-      subject: ActorConversationConversationSubjectType.misc,
+      subject: ConversationSubject.QuestionForEnerginet,
       lastUpdatedDate: new Date(),
       closed: false,
       unread: true,
     },
     {
       id: '00002',
-      subject: ActorConversationConversationSubjectType.customerMasterData,
+      subject: ConversationSubject.QuestionForEnerginet,
       lastUpdatedDate: new Date(),
       closed: true,
     },
@@ -151,10 +154,10 @@ export class DhActorConversationShellComponent {
     }
     return ActorConversationState.conversationSelected;
   });
-  createConversationMutation = mutation(CreateConversationDocument);
+  startConversationMutation = mutation(StartConversationDocument);
   private toastService = inject(WattToastService);
 
-  async createConversation(formValue: StartConversationFormValue) {
+  async startConversation(formValue: StartConversationFormValue) {
     const meteringPointIdentification = '571313131313131313'; // TODO: Get from context
     const actorName = 'Testnet & CO'; // TODO: Get from context
     const userName = 'Test Testesen'; // TODO: Get from context

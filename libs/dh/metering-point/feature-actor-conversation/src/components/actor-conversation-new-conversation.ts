@@ -31,8 +31,9 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActorConversationConversationSubjectType, ActorConversationReceiverType } from '../types';
 import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
+import { StartConversationFormValue } from '../types';
+import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -109,29 +110,35 @@ import { DhActorConversationTextAreaComponent } from './actor-conversation-text-
 })
 export class DhActorConversationNewConversationComponent {
   closeNewConversation = output();
-  createConversation = output<string>();
+  startConversation = output<StartConversationFormValue>();
 
   private readonly fb = inject(NonNullableFormBuilder);
 
   newConversationForm = this.fb.group({
-    subject: this.fb.control<ActorConversationConversationSubjectType>(
-      ActorConversationConversationSubjectType.misc,
+    subject: this.fb.control<ConversationSubject>(
+      ConversationSubject.QuestionForEnerginet,
       Validators.required
     ),
-    receiver: this.fb.control<ActorConversationReceiverType>(
-      ActorConversationReceiverType.energinet,
-      Validators.required
-    ),
+    receiver: this.fb.control<ActorType>(ActorType.Energinet, Validators.required),
     internalNote: this.fb.control<string | null>(null),
     message: this.fb.control<string>('', Validators.required),
   });
-  subjects = dhEnumToWattDropdownOptions(ActorConversationConversationSubjectType);
-  receivers = dhEnumToWattDropdownOptions(ActorConversationReceiverType);
+  subjects = dhEnumToWattDropdownOptions(ConversationSubject);
+  receivers = dhEnumToWattDropdownOptions(ActorType);
 
   protected send() {
     if (this.newConversationForm.invalid) {
       return;
     }
-    this.createConversation.emit(this.newConversationForm.controls.message.value);
+
+    const formControls = this.newConversationForm.controls;
+    const formValues: StartConversationFormValue = {
+      subject: formControls.subject.value,
+      content: formControls.message.value,
+      anonymous: false,
+      receiver: formControls.receiver.value,
+      internalNote: formControls.internalNote.value ?? undefined,
+    };
+    this.startConversation.emit(formValues);
   }
 }
