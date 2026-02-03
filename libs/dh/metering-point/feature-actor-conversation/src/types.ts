@@ -45,6 +45,5 @@ export interface Conversation {
   subject?: ActorConversationConversationSubjectType;
   closed: boolean;
   lastUpdatedDate?: Date;
-  unread?: boolean
+  unread?: boolean;
 }
-

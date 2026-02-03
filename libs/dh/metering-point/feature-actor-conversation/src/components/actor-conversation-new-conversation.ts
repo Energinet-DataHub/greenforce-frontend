@@ -107,7 +107,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
           data-testid="actor-conversation-message-textarea"
         />
         <watt-button type="submit"
-        >{{ t('sendButton') }}
+          >{{ t('sendButton') }}
           <watt-icon name="send" />
         </watt-button>
       </vater-stack>
