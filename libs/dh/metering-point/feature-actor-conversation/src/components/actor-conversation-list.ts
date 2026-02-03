@@ -54,6 +54,12 @@ import { Conversation } from '../types';
     .no-margin {
       margin: 0;
     }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
   `,
   template: `
     <vater-flex fill="vertical">
@@ -74,19 +80,25 @@ import { Conversation } from '../types';
           </vater-stack>
         </watt-card-title>
         <hr class="watt-divider no-margin" />
-        @if (newConversationVisible()) {
-          <dh-actor-conversation-list-item
-            [conversation]="newConversation"
-            [selected]="newConversationVisible()"
-          />
-        }
-        @for (conversationItem of conversations(); track conversationItem.id) {
-          <dh-actor-conversation-list-item
-            [conversation]="conversationItem"
-            [selected]="selectedConversationId() === conversationItem.id"
-            (click)="selectConversation.emit(conversationItem.id)"
-          />
-        }
+        <ul>
+          @if (newConversationVisible()) {
+            <li>
+              <dh-actor-conversation-list-item
+                [conversation]="newConversation"
+                [selected]="newConversationVisible()"
+              />
+            </li>
+          }
+          @for (conversationItem of conversations(); track conversationItem.id) {
+            <li>
+              <dh-actor-conversation-list-item
+                [conversation]="conversationItem"
+                [selected]="selectedConversationId() === conversationItem.id"
+                (click)="selectConversation.emit(conversationItem.id)"
+              />
+            </li>
+          }
+        </ul>
       </watt-card>
     </vater-flex>
   `,
