@@ -12,21 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
+using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
-public enum SearchDocumentType
+namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
+
+[ObjectType<ConversationMessageDto>]
+public static partial class ConversationMessageDtoType
 {
-    NotifyAggregatedMeasureData = 0,
-    NotifyWholesaleServices = 1,
-    RejectRequestAggregatedMeasureData = 2,
-    RejectRequestWholesaleSettlement = 3,
-    RequestAggregatedMeasureData = 4,
-    B2CRequestAggregatedMeasureData = 5,
-    RequestWholesaleSettlement = 6,
-    B2CRequestWholesaleSettlement = 7,
-    Acknowledgement = 8,
-    ReminderOfMissingMeasurements = 9,
-    RequestChangeOfPriceList = 10,
-    ConfirmRequestChangeOfPriceList = 11,
-    RejectRequestChangeOfPriceList = 12,
+    static partial void Configure(
+        IObjectTypeDescriptor<ConversationMessageDto> descriptor)
+    {
+        descriptor.Name("ConversationMessage");
+
+        descriptor.Ignore(f => f.AdditionalProperties);
+    }
 }

@@ -35,18 +35,20 @@ import {
 
 import {
   EicFunction,
-  ConnectionState,
-  MeteringPointSubType,
+  ElectricityMarketViewConnectionState,
+  ElectricityMarketViewMeteringPointSubType,
   ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
+import { DhEndOfSupplyComponent } from '@energinet-datahub/dh/metering-point/feature-end-of-supply';
 
 import { InstallationAddress } from '../types';
 import { DhConnectionStateManageComponent } from './connection-state-manage/connection-state-manage';
@@ -112,6 +114,12 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
           <dh-execute-metering-point-manual-correction [meteringPointId]="meteringPointId()" />
         }
 
+        @if (showEndOfSupplyButton()) {
+          <watt-menu-item (click)="startEndOfSupply()">
+            {{ t('endOfSupply') }}
+          </watt-menu-item>
+        }
+
         @if (showConnectionStateManageButton()) {
           <watt-menu-item (click)="connectionStateManage()">
             {{ t('changeConnectionStatus') }}
@@ -123,19 +131,22 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
 })
 export class DhMeteringPointActionsComponent {
   private readonly releaseToggleService = inject(DhReleaseToggleService);
+  private readonly featureFlagsService = inject(DhFeatureFlagsService);
   private readonly modalService = inject(WattModalService);
   private readonly permissionService = inject(PermissionService);
   private readonly actor = inject(DhActorStorage);
 
-  isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
+  isCalculatedMeteringPoint = computed(
+    () => this.subType() === ElectricityMarketViewMeteringPointSubType.Calculated
+  );
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
   getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
   createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;
 
   meteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
-  subType = input<MeteringPointSubType | null>();
-  connectionState = input<ConnectionState | null>();
+  subType = input<ElectricityMarketViewMeteringPointSubType | null>();
+  connectionState = input<ElectricityMarketViewConnectionState | null>();
   createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();
 
@@ -169,6 +180,11 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
+  private readonly hasEnergySupplierRole = toSignal(
+    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
+    { initialValue: false }
+  );
+
   showMeasurementsUploadButton = computed(() => {
     return (
       this.hasMessurementsManagePermission() &&
@@ -182,8 +198,8 @@ export class DhMeteringPointActionsComponent {
     return (
       this.hasMeteringPointMoveInPermission() &&
       this.releaseToggleService.isEnabled('MoveInBrs009') &&
-      (this.connectionState() === ConnectionState.New ||
-        this.connectionState() === ConnectionState.Connected) &&
+      (this.connectionState() === ElectricityMarketViewConnectionState.New ||
+        this.connectionState() === ElectricityMarketViewConnectionState.Connected) &&
       (this.type() === ElectricityMarketMeteringPointType.Consumption ||
         this.type() === ElectricityMarketMeteringPointType.Production)
     );
@@ -198,9 +214,14 @@ export class DhMeteringPointActionsComponent {
 
   showConnectionStateManageButton = computed(
     () =>
-      this.hasConnectionStateManagePermission() && this.connectionState() === ConnectionState.New
+      this.hasConnectionStateManagePermission() &&
+      this.connectionState() === ElectricityMarketViewConnectionState.New
   );
   showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
+
+  showEndOfSupplyButton = computed(
+    () => this.hasEnergySupplierRole() && this.featureFlagsService.isEnabled('end-of-supply')
+  );
 
   showActionsButton = computed(() => {
     return (
@@ -208,7 +229,8 @@ export class DhMeteringPointActionsComponent {
       this.showMoveInButton() ||
       this.showCreateChargeLinkButton() ||
       this.showManualCorrectionButtons() ||
-      this.showConnectionStateManageButton()
+      this.showConnectionStateManageButton() ||
+      this.showEndOfSupplyButton()
     );
   });
 
@@ -220,6 +242,15 @@ export class DhMeteringPointActionsComponent {
         energySupplier: this.actor.getSelectedActor().gln,
       },
       disableClose: true,
+    });
+  }
+
+  startEndOfSupply() {
+    this.modalService.open({
+      component: DhEndOfSupplyComponent,
+      data: {
+        meteringPointId: this.meteringPointId(),
+      },
     });
   }
 

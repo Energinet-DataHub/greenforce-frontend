@@ -17,16 +17,21 @@
  */
 //#endregion
 import { Component, ViewEncapsulation } from '@angular/core';
-import { VaterUtilityDirective } from './vater-utility.directive';
+import { VaterFlexboxDirective } from './vater-flexbox.directive';
 import { VaterLayoutDirective } from './vater-layout.directive';
+import { VaterUtilityDirective } from './vater-utility.directive';
 
 @Component({
   selector: 'vater-stack, [vater-stack]',
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [
     {
+      directive: VaterFlexboxDirective,
+      inputs: ['align', 'direction', 'justify', 'wrap'],
+    },
+    {
       directive: VaterLayoutDirective,
-      inputs: ['align', 'direction', 'justify', 'wrap', 'gap', 'offset'],
+      inputs: ['gap', 'offset'],
     },
     {
       directive: VaterUtilityDirective,

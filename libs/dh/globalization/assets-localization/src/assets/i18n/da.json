@@ -394,7 +394,7 @@
     "charges": {
       "topBarTitle": "Priser",
       "table": {
-        "createButton": "Ny pris",
+        "createButton": "Opret pris",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -436,11 +436,11 @@
     "actions": {
       "create": {
         "action": {
-          "SUBSCRIPTION": "Nyt abonnement",
-          "FEE": "Nyt gebyr",
-          "TARIFF": "Ny tarif",
-          "TARIFF_TAX": "Ny tarif, afgift",
-          "SELECTION": "Ny pris"
+          "SUBSCRIPTION": "Opret abonnement",
+          "FEE": "Opret gebyr",
+          "TARIFF": "Opret tarif",
+          "TARIFF_TAX": "Opret tarif, afgift",
+          "SELECTION": "Opret pris"
         },
         "toast": {
           "loading": "Pris oprettes..",
@@ -696,7 +696,8 @@
         "moveIn": "Tilflyt kunde",
         "createChargeLink": "Tilknyt pris",
         "changeConnectionStatus": "Ændre tilslutningsstatus",
-        "updateCustomerData": "Opdater kundestamdata"
+        "updateCustomerData": "Opdater kundestamdata",
+        "endOfSupply": "Leveranceophør"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -778,7 +779,7 @@
       "newCaseTitle": "Ny sag",
       "subjectLabel": "Emne",
       "subjects": {
-        "misc": "Ad hoc spørgsmål",
+        "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
         "disconnectionOrReconnection": "Afbrydelse/Gentilslutning",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "incorrectMoveInOrSupplierSwitch": "Fejlaftig flytning/leverandørskifte",
@@ -790,7 +791,9 @@
       },
       "receiverLabel": "Modtager",
       "receivers": {
-        "energinet": "Energinet"
+        "ENERGY_SUPPLIER": "Elleverandør",
+        "ENERGINET": "Energinet",
+        "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
       "internalNoteLabel": "Intern note",
       "messageLabel": "Besked",
@@ -955,9 +958,11 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Information om nyt målepunkt (RSM-022)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Information om pristilknytning (RSM-031)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_1": "Anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Godkendelse af anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Afvisning af anmodning om tilflytning (RSM-001)",
@@ -1256,6 +1261,18 @@
       "cancel": "Annuller",
       "save": "Gem ændringer",
       "saveSuccess": "Tilslutningsstatus opdateres"
+    },
+    "endOfSupply": {
+      "modalTitle": "Start leveranceophør",
+      "dateLabel": "Angiv skæringsdato",
+      "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
+      "consequencesInfo": "Her skal stå en tekst...",
+      "confirmCheckbox": "Jeg er indforstået med konsekvenserne",
+      "cancel": "Annuller",
+      "submit": "Start leveranceophør",
+      "submitSuccess": "Leveranceophør indsendt.",
+      "submitSuccessAction": "Se status under processer",
+      "submitError": "Leveranceophør kunne ikke indsendes"
     }
   },
   "messageArchive": {
@@ -1329,8 +1346,10 @@
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af opdatering af pristilknytninger (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Information om pristilknytninger (RSM-031)",
       "REQUEST_CHANGE_OF_PRICE_LIST": "Anmodning om opdatering af priser (RSM-033)",
+      "B2C_REQUEST_CHANGE_OF_PRICE_LIST": "UI: Anmodning om opdatering af priser (RSM-033)",
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Godkendelse af opdatering af priser (RSM-033)",
-      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af opdatering af priser (RSM-033)"
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af opdatering af priser (RSM-033)",
+      "NOTIFY_PRICE_LIST": "Information om priser (RSM-034)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -2802,6 +2821,9 @@
         },
         "editRole": "Rediger brugerrolle",
         "disable": "Deaktiver",
+        "resetMitID": "Nulstil MitID tilknytning",
+        "resetMitIDError": "Noget gik galt. MitID tilknytning blev muligvis ikke nulstillet. Prøv igen.",
+        "resetMitIDSuccess": "MitID tilknytning nulstillet. Brugeren kan knytte MitID igen ved næste login.",
         "reset2fa": "Nulstil tofaktorgodkendelse",
         "reset2faError": "Noget gik galt. Tofaktorgodkendelse blev muligvis ikke nulstillet. Prøv igen.",
         "reset2faSuccess": "Tofaktorgodkendelse nulstillet. Brugeren skal opsætte tofaktorgodkendelse inden for 24 timer.",

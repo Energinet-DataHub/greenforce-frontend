@@ -59,7 +59,7 @@ import { DhPrivateCustomerDetailsComponent } from './dh-private-customer-details
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  CustomerRelationType,
+  ElectricityMarketViewCustomerRelationType,
   GetMeteringPointByIdDocument,
   RequestChangeCustomerCharacteristicsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -230,7 +230,9 @@ export class DhUpdateCustomerDataComponent {
         return foundContacts;
       }, [])
       .filter(
-        (contact) => contact.legalContact || contact.relationType === CustomerRelationType.Secondary
+        (contact) =>
+          contact.legalContact ||
+          contact.relationType === ElectricityMarketViewCustomerRelationType.Secondary
       )
   );
 

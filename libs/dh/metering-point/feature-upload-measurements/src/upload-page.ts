@@ -42,7 +42,7 @@ import { WattFileField } from '@energinet/watt/file-field';
 
 import {
   GetMeteringPointUploadMetadataByIdDocument,
-  MeteringPointSubType,
+  ElectricityMarketViewMeteringPointSubType,
   SendMeasurementsResolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -50,6 +50,7 @@ import {
   dhMakeFormControl,
   injectRelativeNavigate,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
@@ -124,6 +125,7 @@ import { DhUploadMeasurementsService } from './upload-service';
             [formControl]="resolution"
             [options]="resolutionOptions()"
             [showResetOption]="false"
+            data-testid="metering-point-upload-measurements-resolution"
           >
             @if (resolution.disabled) {
               <watt-field-hint>
@@ -187,14 +189,18 @@ import { DhUploadMeasurementsService } from './upload-service';
 })
 export class DhUploadMeasurementsPage {
   readonly meteringPointId = input.required<string>();
+  readonly searchMigratedMeteringPoints = input.required<boolean>();
 
   private navigate = injectRelativeNavigate();
   private measurements = inject(DhUploadMeasurementsService);
   private transloco = inject(TranslocoService);
+  private environment = inject(dhAppEnvironmentToken);
   private meteringPointQuery = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
     fetchPolicy: 'cache-only',
     variables: {
       meteringPointId: this.meteringPointId(),
+      environment: this.environment.current,
+      searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
     },
   }));
 
@@ -203,7 +209,7 @@ export class DhUploadMeasurementsPage {
   meteringPointResolution = computed(() => this.metadata()?.resolution);
 
   preventCalculatedSubTypeEffect = effect(() => {
-    if (this.metadata()?.subType === MeteringPointSubType.Calculated) {
+    if (this.metadata()?.subType === ElectricityMarketViewMeteringPointSubType.Calculated) {
       this.navigate('..');
     }
   });

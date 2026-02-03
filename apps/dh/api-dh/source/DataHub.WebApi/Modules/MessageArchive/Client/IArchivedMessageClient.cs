@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
+using BusinessReason = Energinet.DataHub.WebApi.Modules.MessageArchive.Enums.BusinessReason;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 
@@ -31,7 +32,7 @@ public interface IArchivedMessageClient
         Interval created,
         Guid? senderId,
         Guid? receiverId,
-        SearchDocumentType[]? documentTypes,
+        DocumentTypeDtoV1[]? documentTypes,
         BusinessReason[]? businessReasons,
         int? first,
         string? after,

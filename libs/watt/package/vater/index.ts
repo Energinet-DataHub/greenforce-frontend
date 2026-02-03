@@ -16,8 +16,31 @@
  * limitations under the License.
  */
 //#endregion
-export { VaterFlexComponent } from './vater-flex.component';
-export { VaterSpacerComponent } from './vater-spacer.component';
-export { VaterStackComponent } from './vater-stack.component';
+import { VaterFlexComponent } from './vater-flex.component';
+import { VaterGridAreaComponent } from './vater-grid-area.component';
+import { VaterGridComponent } from './vater-grid.component';
+import { VaterSpacerComponent } from './vater-spacer.component';
+import { VaterStackComponent } from './vater-stack.component';
+import { VaterUtilityDirective } from './vater-utility.directive';
+
+// Must be exposed for ng-packagr to work
 export { VaterLayoutDirective } from './vater-layout.directive';
-export { VaterUtilityDirective } from './vater-utility.directive';
+export { VaterFlexboxDirective } from './vater-flexbox.directive';
+
+export {
+  VaterFlexComponent,
+  VaterGridAreaComponent,
+  VaterGridComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+};
+
+export const VATER = [
+  VaterFlexComponent,
+  VaterGridAreaComponent,
+  VaterGridComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+] as const;

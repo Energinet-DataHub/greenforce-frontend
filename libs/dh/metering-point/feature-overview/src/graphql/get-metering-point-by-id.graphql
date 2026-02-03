@@ -1,4 +1,4 @@
-fragment CustomerContact on CustomerContactDto {
+fragment CustomerContact on ElectricityMarketViewCustomerContactDto {
   id
   phone
   email
