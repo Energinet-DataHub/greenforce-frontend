@@ -52,11 +52,6 @@ import { WattDatePipe } from '@energinet/watt/date';
       background-color: var(--watt-color-primary-ultralight);
     }
 
-    .light-text {
-      font-weight: 400;
-      color: var(--watt-color-neutral-grey-600);
-    }
-
     .inset-stretch-inverted {
       padding: var(--watt-space-m) var(--watt-space-ml);
     }
@@ -97,8 +92,8 @@ import { WattDatePipe } from '@energinet/watt/date';
         justify="space-between"
         class="min-height-line-height-xs"
       >
-        <span class="light-text font-size-s">{{ conversation().id }}</span>
-        <span class="light-text font-size-s">{{
+        <span class="watt-text-m watt-on-light--low-emphasis font-size-s">{{ conversation().id }}</span>
+        <span class="watt-text-m watt-on-light--low-emphasis font-size-s">{{
           conversation().lastUpdatedDate | wattDate: 'short'
         }}</span>
       </vater-stack>
