@@ -52,12 +52,13 @@ _Note: Since this is an [Nx] workspace, the Nx CLI should be used over the Angul
 
 The application is deployed to the following environments:
 
-| Development 001       | Development 002       | Test 001                | Test 002                | PreProd               | Prod            |
-|-----------------------|-----------------------|-------------------------|-------------------------|-----------------------|-----------------|
-| [dev_001][dh-dev_001] | [dev_002][dh-dev_002] | [test_001][dh-test_001] | [test_002][dh-test_002] | [preprod][dh-preprod] | [prod][dh-prod] |
+| Development 001       | Development 002       | Development 003       | Test 001                | Test 002                | PreProd               | Prod            |
+|-----------------------|-----------------------|-----------------------|-------------------------|-------------------------|-----------------------|-----------------|
+| [dev_001][dh-dev_001] | [dev_002][dh-dev_002] | [dev_003][dh-dev_003] | [test_001][dh-test_001] | [test_002][dh-test_002] | [preprod][dh-preprod] | [prod][dh-prod] |
 
 [dh-dev_001]: https://dev.datahub3.dk
 [dh-dev_002]: https://dev002.datahub3.dk
+[dh-dev_003]: https://dev003.datahub3.dk
 [dh-test_001]: https://test.datahub3.dk
 [dh-test_002]: https://test002.datahub3.dk
 [dh-preprod]: https://preprod.datahub3.dk
