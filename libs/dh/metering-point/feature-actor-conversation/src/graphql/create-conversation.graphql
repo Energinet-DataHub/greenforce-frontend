@@ -11,13 +11,13 @@ mutation StartConversation(
   startConversation(
     input: {
       startConversationInput: {
-        subject: $subject,
-        meteringPointIdentification: $meteringPointIdentification,
-        actorName: $actorName,
-        userName: $userName,
-        internalNote: $internalNote,
-        content: $content,
-        anonymous: $anonymous,
+        subject: $subject
+        meteringPointIdentification: $meteringPointIdentification
+        actorName: $actorName
+        userName: $userName
+        internalNote: $internalNote
+        content: $content
+        anonymous: $anonymous
         receiver: $receiver
       }
     }
