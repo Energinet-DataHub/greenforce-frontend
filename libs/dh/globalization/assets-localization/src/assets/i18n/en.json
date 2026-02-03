@@ -779,7 +779,7 @@
       "newCaseTitle": "New case",
       "subjectLabel": "Subject",
       "subjects": {
-        "misc": "Ad hoc question",
+        "QUESTION_FOR_ENERGINET": "Ad hoc question",
         "disconnectionOrReconnection": "Disconnect/Reconnect",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "incorrectMoveInOrSupplierSwitch": "Incorrect move/switch of supplier",
@@ -790,7 +790,9 @@
       },
       "receiverLabel": "Receiver",
       "receivers": {
-        "energinet": "Energinet"
+        "ENERGY_SUPPLIER": "Energy supplier",
+        "ENERGINET": "Energinet",
+        "GRID_ACCESS_PROVIDER": "Grid access provider"
       },
       "internalNoteLabel": "Internal note",
       "messageLabel": "Message",
@@ -954,6 +956,7 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Confirmation of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Notification of new metering point (RSM-022)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Notification of charge links (RSM-031)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Request for connection of metering point (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
@@ -1339,8 +1342,10 @@
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
       "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)",
+      "B2C_REQUEST_CHANGE_OF_PRICE_LIST": "UI: Request change of price list (RSM-033)",
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Confirm request change of price list (RSM-033)",
-      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)"
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)",
+      "NOTIFY_PRICE_LIST": "Notify price list (RSM-034)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",

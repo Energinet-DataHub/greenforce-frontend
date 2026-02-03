@@ -1,13 +1,27 @@
-mutation CreateConversation(
+mutation StartConversation(
+  $subject: ConversationSubject!
   $meteringPointIdentification: String!
-  $conversationMessageContent: String!
+  $actorName: String!
+  $userName: String!
+  $internalNote: String
+  $content: String!
+  $anonymous: Boolean!
+  $receiver: ActorType!
 ) {
-  createConversation(
+  startConversation(
     input: {
-      meteringPointIdentification: $meteringPointIdentification
-      conversationMessageContent: $conversationMessageContent
+      startConversationInput: {
+        subject: $subject
+        meteringPointIdentification: $meteringPointIdentification
+        actorName: $actorName
+        userName: $userName
+        internalNote: $internalNote
+        content: $content
+        anonymous: $anonymous
+        receiver: $receiver
+      }
     }
   ) {
-    boolean: boolean
+    string
   }
 }

@@ -6,6 +6,7 @@ fragment RelatedMeteringPoint on RelatedMeteringPointDto {
   createdDate
   connectionDate
   closedDownDate
+  disconnectionDate
 }
 
 query GetRelatedMeteringPointsById($meteringPointId: String!) {
