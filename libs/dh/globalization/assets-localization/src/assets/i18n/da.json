@@ -789,14 +789,15 @@
         "chargeLink": "{{ shared.terminology.chargeLink }}",
         "newCase": "Ny sag"
       },
-      "receiverLabel": "Modtager",
+      "receiverLabel": "Til",
       "receivers": {
         "ENERGY_SUPPLIER": "Elleverandør",
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
-      "internalNoteLabel": "Intern note",
+      "internalNoteLabel": "Intern note (medsendes ikke)",
       "messageLabel": "Besked",
+      "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send",
       "emptyState": {
         "noCases": "Der er ingen sager på målepunktet",

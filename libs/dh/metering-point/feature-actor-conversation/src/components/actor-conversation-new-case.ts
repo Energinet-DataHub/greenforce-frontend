@@ -104,6 +104,7 @@ import { StartConversationFormValue } from '../types';
       <vater-stack fill="horizontal" align="end">
         <watt-textarea-field
           [label]="t('messageLabel')"
+          [placeholder]="t('messagePlaceholder')"
           [formControl]="newCaseForm.controls.message"
           data-testid="actor-conversation-message-textarea"
         />
