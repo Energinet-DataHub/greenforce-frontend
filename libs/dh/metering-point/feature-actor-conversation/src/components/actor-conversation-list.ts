@@ -22,7 +22,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
-import { ActorConversationConversationSubjectType, Conversation } from '../types';
+import { Conversation } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-list',
@@ -53,8 +53,10 @@ import { ActorConversationConversationSubjectType, Conversation } from '../types
   `,
   template: `
     <vater-flex fill="vertical">
-      <watt-card class="no-padding no-right-border-radius"
-                 *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+      <watt-card
+        class="no-padding no-right-border-radius"
+        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+      >
         <watt-card-title vater class="watt-space-inset-m no-margin">
           <vater-stack direction="row" justify="space-between" align="center">
             <h3>{{ t('cases') }}</h3>
@@ -63,14 +65,16 @@ import { ActorConversationConversationSubjectType, Conversation } from '../types
               icon="plus"
               variant="text"
               data-testid="new-conversation-button"
-            >{{ t('newCaseButton') }}
+              >{{ t('newCaseButton') }}
             </watt-button>
           </vater-stack>
         </watt-card-title>
         <hr class="watt-divider no-margin" />
         @if (newConversationVisible()) {
-          <dh-actor-conversation-list-item [conversation]="newConversation"
-                                           [selected]="newConversationVisible()" />
+          <dh-actor-conversation-list-item
+            [conversation]="newConversation"
+            [selected]="newConversationVisible()"
+          />
         }
         @for (conversationItem of conversations(); track conversationItem.id) {
           <dh-actor-conversation-list-item
@@ -94,6 +98,6 @@ export class DhActorConversationListComponent {
     closed: false,
     lastUpdatedDate: undefined,
     id: undefined,
-    subject: ActorConversationConversationSubjectType.newConversation,
-  }
+    subject: 'newCase',
+  };
 }

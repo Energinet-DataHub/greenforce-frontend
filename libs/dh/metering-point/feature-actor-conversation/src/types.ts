@@ -16,22 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-
-export enum ActorConversationConversationSubjectType {
-  misc = 'misc',
-  disconnectionOrReconnection = 'disconnectionOrReconnection',
-  electricalHeating = 'electricalHeating',
-  incorrectMoveInOrSupplierSwitch = 'incorrectMoveInOrSupplierSwitch',
-  customerMasterData = 'customerMasterData',
-  measurements = 'measurements',
-  meteringPointMasterData = 'meteringPointMasterData',
-  chargeLink = 'chargeLink',
-  newConversation = 'newCase',
-}
-
-export enum ActorConversationReceiverType {
-  energinet = 'energinet',
-}
+import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export enum ActorConversationState {
   noConversations = 'noConversations',
@@ -42,9 +27,17 @@ export enum ActorConversationState {
 
 export interface Conversation {
   id?: string;
-  subject?: ActorConversationConversationSubjectType;
+  subject?: ConversationSubject | 'newCase';
   closed: boolean;
   lastUpdatedDate?: Date;
-  unread?: boolean
+  unread?: boolean;
 }
+
+export type StartConversationFormValue = {
+  subject: ConversationSubject;
+  content: string;
+  anonymous: boolean;
+  receiver: ActorType;
+  internalNote?: string;
+};
 
