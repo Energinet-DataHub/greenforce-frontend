@@ -36,6 +36,8 @@ import { VaterLayoutDirective } from './vater-layout.directive';
   host: {
     '[style.gridTemplateColumns]': 'templateColumns()',
     '[style.gridTemplateRows]': 'templateRows()',
+    '[style.gridAutoColumns]': 'autoColumns()',
+    '[style.gridAutoRows]': 'autoRows()',
   },
   styles: `
     vater-grid,
@@ -51,6 +53,12 @@ export class VaterGridComponent {
 
   /** Row template (`grid-template-rows`) or number of equal sized rows. */
   rows = input<string | number>(1);
+
+  /** Column template for implicitly-created columns (`grid-auto-columns`). */
+  autoColumns = input<string>();
+
+  /** Row template for implicitly-created rows (`grid-auto-rows`). */
+  autoRows = input<string>();
 
   // Computed templates
   protected templateColumns = computed(() => this.makeTrackList(this.columns()));
