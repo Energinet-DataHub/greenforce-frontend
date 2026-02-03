@@ -34,7 +34,7 @@ import {
   mockGetMeteringPointEventsDebugViewQuery,
   mockRequestConnectionStateChangeMutation,
   mockRequestEndOfSupplyMutation,
-  mockCreateConversationMutation,
+  mockStartConversationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -650,14 +650,14 @@ function requestEndOfSupply() {
 }
 
 function createConversation() {
-  return mockCreateConversationMutation(async () => {
+  return mockStartConversationMutation(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
-        createConversation: {
-          __typename: 'CreateConversationPayload',
+        startConversation: {
+          __typename: 'StartConversationPayload',
           string: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
         },
       },
