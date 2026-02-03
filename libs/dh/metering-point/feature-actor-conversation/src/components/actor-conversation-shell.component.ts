@@ -16,17 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import {
   VaterFlexComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  ConversationSubject,
+  GetSelectionMarketParticipantsDocument,
   StartConversationDocument,
+  UserProfileDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
@@ -35,6 +36,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
 import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -119,22 +121,37 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
   `,
 })
 export class DhActorConversationShellComponent {
+  private readonly userProfileQuery = query(UserProfileDocument, { returnPartialData: true });
+  userProfile = computed(() => this.userProfileQuery.data()?.userProfile);
+
+  private selectionMarketParticipantQuery = query(GetSelectionMarketParticipantsDocument);
+  private memberOfMarketParticipants = computed(
+    () => this.selectionMarketParticipantQuery.data()?.selectionMarketParticipants || []
+  );
+  private readonly actorStorage = inject(DhActorStorage);
+  selectedMarketParticipant = computed(() =>
+    this.memberOfMarketParticipants().find(
+      (participant) => participant.id === this.actorStorage.getSelectedActorId()
+    )
+  );
+  meteringPointId = input.required<string>();
+
   protected readonly ActorConversationState = ActorConversationState;
   newConversationVisible = signal(false);
   conversations = signal([
-    {
-      id: '00001',
-      subject: ConversationSubject.QuestionForEnerginet,
-      lastUpdatedDate: new Date(),
-      closed: false,
-      unread: true,
-    },
-    {
-      id: '00002',
-      subject: ConversationSubject.QuestionForEnerginet,
-      lastUpdatedDate: new Date(),
-      closed: true,
-    },
+    // {
+    //   id: '00001',
+    //   subject: ConversationSubject.QuestionForEnerginet,
+    //   lastUpdatedDate: new Date(),
+    //   closed: false,
+    //   unread: true,
+    // },
+    // {
+    //   id: '00002',
+    //   subject: ConversationSubject.QuestionForEnerginet,
+    //   lastUpdatedDate: new Date(),
+    //   closed: true,
+    // },
   ]);
   selectedConversationId = signal<string | undefined>(undefined);
   state = computed<ActorConversationState>(() => {
@@ -151,14 +168,13 @@ export class DhActorConversationShellComponent {
   private toastService = inject(WattToastService);
 
   async startConversation(formValue: StartConversationFormValue) {
-    const meteringPointIdentification = '571313131313131313'; // TODO: Get from context
-    const actorName = 'Testnet & CO'; // TODO: Get from context
-    const userName = 'Test Testesen'; // TODO: Get from context
+    const actorName = this.selectedMarketParticipant()?.actorName ?? '';
+    const userName = (this.userProfile()?.firstName ?? '') + ' ' + (this.userProfile()?.lastName ?? '');
 
     const result = await this.startConversationMutation.mutate({
       variables: {
         subject: formValue.subject,
-        meteringPointIdentification: meteringPointIdentification,
+        meteringPointIdentification: this.meteringPointId(),
         actorName: actorName,
         userName: userName,
         internalNote: formValue.internalNote,
