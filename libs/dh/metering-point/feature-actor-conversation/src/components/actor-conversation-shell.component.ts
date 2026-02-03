@@ -17,11 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import {
-  VaterFlexComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VATER } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -39,15 +35,13 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
 @Component({
   selector: 'dh-actor-conversation-shell',
   imports: [
+    TranslocoDirective,
+    VATER,
+    WATT_CARD,
+    WattEmptyStateComponent,
+    WattButtonComponent,
     DhActorConversationListComponent,
     DhActorConversationNewConversationComponent,
-    VaterFlexComponent,
-    WattEmptyStateComponent,
-    WATT_CARD,
-    WattButtonComponent,
-    TranslocoDirective,
-    VaterStackComponent,
-    VaterUtilityDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -55,19 +49,11 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
-
-    .flex-1 {
-      flex: 1;
-    }
-
-    .flex-3 {
-      flex: 3;
-    }
   `,
   template: `
-    <vater-flex
-      direction="row"
+    <vater-grid
       fill="vertical"
+      columns="1fr 3fr"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <dh-actor-conversation-list
@@ -76,9 +62,8 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
         [selectedConversationId]="selectedConversationId()"
         (createNewConversation)="newConversation()"
         (selectConversation)="selectConversation($event)"
-        class="flex-1"
       />
-      <watt-card class="flex-3 no-border-radius-left">
+      <watt-card class="no-border-radius-left">
         <vater-stack fill="vertical">
           @switch (state()) {
             @case (ActorConversationState.newConversationOpen) {
@@ -115,7 +100,7 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
           }
         </vater-stack>
       </watt-card>
-    </vater-flex>
+    </vater-grid>
   `,
 })
 export class DhActorConversationShellComponent {
