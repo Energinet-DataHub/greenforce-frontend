@@ -214,7 +214,7 @@ export class DhSearchComponent {
         return this.router.navigate([
           '/',
           getPath('metering-point'),
-          result.data.meteringPointExists.meteringPointId,
+          result.data.meteringPointExists.id,
         ]);
       }
     }

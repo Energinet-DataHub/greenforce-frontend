@@ -58,7 +58,7 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
       variables: {
         internalMeteringPointId,
         meteringPointId,
-        searchMigratedMeteringPoints: meteringPointId === undefined,
+        searchMigratedMeteringPoints: meteringPointId !== undefined,
         environment: environment.current,
       },
     })
