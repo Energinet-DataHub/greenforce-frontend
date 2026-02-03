@@ -65,24 +65,6 @@ import { Conversation } from '../types';
             />
           </li>
         }
-        <li>
-          <dh-actor-conversation-list-item
-            [conversation]="newConversation"
-            [selected]="newConversationVisible()"
-          />
-        </li>
-        <li>
-          <dh-actor-conversation-list-item
-            [conversation]="newConversation"
-            [selected]="newConversationVisible()"
-          />
-        </li>
-        <li>
-          <dh-actor-conversation-list-item
-            [conversation]="newConversation"
-            [selected]="newConversationVisible()"
-          />
-        </li>
         @for (conversationItem of conversations(); track conversationItem.id) {
           <li>
             <dh-actor-conversation-list-item
