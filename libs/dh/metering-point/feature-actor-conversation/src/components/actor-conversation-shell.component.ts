@@ -170,7 +170,8 @@ export class DhActorConversationShellComponent {
   async startConversation(formValue: StartConversationFormValue) {
     // TODO: MASEP Remove when the API takes actorId and UserId
     const actorName = this.selectedMarketParticipant()?.actorName ?? '';
-    const userName = (this.userProfile()?.firstName ?? '') + ' ' + (this.userProfile()?.lastName ?? '');
+    const userName =
+      (this.userProfile()?.firstName ?? '') + ' ' + (this.userProfile()?.lastName ?? '');
 
     const result = await this.startConversationMutation.mutate({
       variables: {
