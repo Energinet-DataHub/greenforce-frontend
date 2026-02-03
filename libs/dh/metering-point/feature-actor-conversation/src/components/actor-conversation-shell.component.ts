@@ -25,6 +25,7 @@ import {
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  GetConversationDocument,
   GetConversationsDocument,
   GetSelectionMarketParticipantsDocument,
   StartConversationDocument,
@@ -39,6 +40,7 @@ import { DhActorConversationListComponent } from './actor-conversation-list';
 import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
 import { DhActorConversationSelectedConversationComponent } from './actor-conversation-selected-conversation.component';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -53,6 +55,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
     VaterStackComponent,
     VaterUtilityDirective,
     DhActorConversationSelectedConversationComponent,
+    WattSpinnerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -120,7 +123,15 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
               />
             }
             @case (ActorConversationState.conversationSelected) {
-              <dh-actor-conversation-selected-conversation vater fill="both" />
+              @if (conversation(); as conversation) {
+                <dh-actor-conversation-selected-conversation
+                  vater
+                  fill="both"
+                  [conversation]="conversation"
+                />
+              } @else {
+                <watt-spinner vater center />
+              }
             }
           }
         </vater-stack>
@@ -154,18 +165,29 @@ export class DhActorConversationShellComponent {
   }));
 
   conversations = computed<Conversation[]>(() => {
-    return (
-      this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []
-    ).map((conversation) => ({
-      id: conversation.conversationId,
-      subject: conversation.subject,
-      closed: conversation.closed,
-      unread: !conversation.read,
-      lastUpdatedDate: conversation.lastUpdated ? new Date(conversation.lastUpdated) : undefined,
-    }));
+    return (this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []).map(
+      (conversation) => ({
+        id: conversation.conversationId,
+        subject: conversation.subject,
+        closed: conversation.closed,
+        unread: !conversation.read,
+        lastUpdatedDate: conversation.lastUpdated ? new Date(conversation.lastUpdated) : undefined,
+      })
+    );
   });
 
   selectedConversationId = signal<string | undefined>(undefined);
+
+  conversationQuery = query(GetConversationDocument, () => ({
+    variables: {
+      conversationId: this.selectedConversationId() ?? '',
+      meteringPointId: this.meteringPointId(),
+    },
+    skip: this.selectedConversationId() === undefined,
+  }));
+
+  conversation = computed(() => this.conversationQuery.data()?.conversation);
+
   state = computed<ActorConversationState>(() => {
     if (this.newConversationVisible()) {
       return ActorConversationState.newConversationOpen;

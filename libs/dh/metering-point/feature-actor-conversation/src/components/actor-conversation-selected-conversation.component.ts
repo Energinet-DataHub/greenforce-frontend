@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattBadgeComponent } from '@energinet/watt/badge';
@@ -24,6 +24,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattMenuComponent, WattMenuItemComponent, WattMenuTriggerDirective } from '@energinet/watt/menu';
 import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
 import { NonNullableFormBuilder } from '@angular/forms';
+import { Conversation } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-selected-conversation',
@@ -107,4 +108,5 @@ import { NonNullableFormBuilder } from '@angular/forms';
 export class DhActorConversationSelectedConversationComponent {
   private readonly fb = inject(NonNullableFormBuilder);
   formControl = this.fb.control('');
+  conversation = input.required<Conversation>()
 }
