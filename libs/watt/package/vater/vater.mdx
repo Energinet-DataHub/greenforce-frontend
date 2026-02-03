@@ -41,8 +41,8 @@ overflow to fit the available space. They will never expand beyond their origina
   code={`
 <!-- Horizontally align two buttons with a small gap -->
 <vater-stack direction="row" gap="s">
-  <watt-button>Ok</watt-button>
-  <watt-button>Close</watt-button>
+    <watt-button>Ok</watt-button>
+    <watt-button>Close</watt-button>
 </vater-stack>
   `}
 />
@@ -63,11 +63,11 @@ which can be used to distribute the flex items according to their width or heigh
   code={`
 <!-- Button on top with a card stretched to fill the remaining height -->
 <vater-flex gap="m">
-  <watt-button>Log out</watt-button>
-  <watt-card vater fill="vertical">
-    <h3>Heading</h3>
-    <p>Content</p>
-  </watt-card>
+    <watt-button>Log out</watt-button>
+    <watt-card vater fill="vertical">
+      <h3>Heading</h3>
+      <p>Content</p>
+    </watt-card>
 </vater-flex>
   `}
 />
@@ -86,10 +86,48 @@ inserting space between items, enabling you to easily fine-tune the alignment of
   code={`
 <!-- Container with a left aligned title and a right aligned log out button -->
 <vater-flex>
-  <h1>Dashboard</h1>
-  <vater-spacer />
-  <watt-button>Log out</watt-button>
+    <h1>Dashboard</h1>
+    <vater-spacer />
+    <watt-button>Log out</watt-button>
 </vater-flex>
+  `}
+/>
+
+
+## Grid
+
+> As a rule of thumb, use `vater-grid` for two-dimensional layouts or when the layout is a bit more
+> complicated, but can be declared **explicitly**. While `vater-grid` _can_ handle creating rows
+> or columns implicitly, this is usually a better fit for flexbox (`vater-stack` or `vater-flex`).
+
+For more advanced layouts and tighter control, the `vater-grid` and `vater-grid-area` components
+exists. Do prefer using `vater-stack` and `vater-flex` for simple, one-dimensional layouts.
+However, occassionally designs may call for two-dimensional layouts and/or more complicated
+track sizing which can be hard to achieve with the other layout components. This is where
+`vater-grid` (and sometimes `vater-grid-area`) should be used.
+
+<Story of={VaterStories.Grid} />
+<Source
+  language='html'
+  dark={true}
+  code={`
+<!-- Grid with menu on the left and items on the right -->
+<vater-grid columns="1fr 3fr" [rows]="2" gap="m">
+    <vater-grid-area fill="vertical">
+      <watt-card vater fill="vertical">
+        <h3>Menu</h3>
+        <p>Content</p>
+      </watt-card>
+    </vater-grid-area>
+    <watt-card>
+      <h3>Item 1</h3>
+      <p>Content</p>
+    </watt-card>
+    <watt-card>
+      <h3>Item 2</h3>
+      <p>Content</p>
+    </watt-card>
+</vater-grid>
   `}
 />
 
@@ -107,13 +145,13 @@ for CSS utilities.
   code={`
 <!-- Card positioned to fill the entire view minus a medium margin -->
 <watt-card vater inset="m">
-  <!-- The fill utility is available on vater-flex and vater-stack by default -->
-  <vater-flex fill="horizontal">
-    <h1>Results</h1>
-    <vater-spacer />
-    <watt-search label="Search" />
-  </vater-flex>
-  <watt-table />
+    <!-- The fill utility is available on vater-flex and vater-stack by default -->
+    <vater-flex fill="horizontal">
+      <h1>Results</h1>
+      <vater-spacer />
+      <watt-search label="Search" />
+    </vater-flex>
+    <watt-table />
 </watt-card>
   `}
 />

@@ -153,7 +153,7 @@ export const graphQLProvider = provideApollo(() => {
             },
             meteringPointExists(_, { args, toReference }) {
               return toReference({
-                __typename: 'MeteringPointDto',
+                __typename: 'ElectricityMarketViewMeteringPointDto',
                 id: args?.internalMeteringPointId,
               });
             },

@@ -22,7 +22,6 @@ import {
   computed,
   Component,
   viewChild,
-  afterRenderEffect,
   ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
@@ -32,6 +31,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
+import { WATT_MENU } from '@energinet/watt/menu';
 import { WATT_TABS } from '@energinet/watt/tabs';
 import { WATT_MODAL } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -39,12 +39,13 @@ import { WattToastService, WattToastType } from '@energinet/watt/toast';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet/watt/drawer';
 
 import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
   UserStatus,
   GetUsersDocument,
   Reset2faDocument,
+  ResetMitIdDocument,
   ReInviteUserDocument,
   GetUserDetailsDocument,
   GetUserAuditLogsDocument,
@@ -69,6 +70,7 @@ import { DhUserMasterDataComponent } from './tabs/master-data.component';
     MatMenuModule,
     TranslocoDirective,
     WATT_TABS,
+    WATT_MENU,
     WATT_MODAL,
     WATT_DRAWER,
     WattButtonComponent,
@@ -91,7 +93,7 @@ export class DhUserDetailsComponent {
   // Router param
   id = input.required<string>();
 
-  selectedUserQuery = lazyQuery(GetUserDetailsDocument);
+  selectedUserQuery = query(GetUserDetailsDocument, () => ({ variables: { id: this.id() } }));
 
   selectedUser = computed(() => this.selectedUserQuery.data()?.userById);
   isLoading = computed(() => this.selectedUserQuery.loading());
@@ -99,21 +101,18 @@ export class DhUserDetailsComponent {
   UserStatus = UserStatus;
 
   reInviteUserMutation = mutation(ReInviteUserDocument, {
-    refetchQueries: [GetUsersDocument, GetUserAuditLogsDocument],
+    refetchQueries: [GetUsersDocument, GetUserAuditLogsDocument, GetUserDetailsDocument],
   });
 
   reset2faMutation = mutation(Reset2faDocument, {
-    refetchQueries: [GetUsersDocument, GetUserAuditLogsDocument],
+    refetchQueries: [GetUsersDocument, GetUserAuditLogsDocument, GetUserDetailsDocument],
+  });
+
+  resetMitIDMutation = mutation(ResetMitIdDocument, {
+    refetchQueries: [GetUsersDocument, GetUserAuditLogsDocument, GetUserDetailsDocument],
   });
 
   isReinviting = this.reInviteUserMutation.loading;
-
-  constructor() {
-    afterRenderEffect(() => {
-      this.selectedUserQuery.refetch({ id: this.id() });
-      this.drawer().open();
-    });
-  }
 
   onClose(): void {
     this.navigation.navigate('list');
@@ -142,6 +141,16 @@ export class DhUserDetailsComponent {
           : this.showToast('success', 'reset2faSuccess'),
       onError: () => this.showToast('danger', 'reset2faError'),
     });
+
+  resetMitID = () => {
+    this.resetMitIDMutation.mutate({
+      onCompleted: (data) =>
+        data.resetMitId.errors
+          ? this.showToast('danger', 'resetMitIDError')
+          : this.showToast('success', 'resetMitIDSuccess'),
+      onError: () => this.showToast('danger', 'resetMitIDError'),
+    });
+  };
 
   private showToast(type: WattToastType, label: string): void {
     this.toastService.open({

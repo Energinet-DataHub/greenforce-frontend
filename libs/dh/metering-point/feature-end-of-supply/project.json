@@ -1,0 +1,20 @@
+{
+  "name": "dh-metering-point-feature-end-of-supply",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/metering-point/feature-end-of-supply/src",
+  "prefix": "dh",
+  "projectType": "library",
+  "tags": ["product:dh", "domain:metering-point", "type:feature"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/metering-point/feature-end-of-supply"],
+      "options": {
+        "config": "libs/dh/metering-point/feature-end-of-supply/vite.config.mts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

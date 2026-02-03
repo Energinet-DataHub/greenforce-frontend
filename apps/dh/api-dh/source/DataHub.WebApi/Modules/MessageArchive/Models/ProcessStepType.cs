@@ -63,6 +63,11 @@ public enum ProcessStepType
     BRS_004_CREATEMETERINGPOINT_V1_STEP_4,
 
     /// <summary>
+    /// BRS-004 Create metering point - Step 5 - Notification of charge links (RSM-031)
+    /// </summary>
+    BRS_004_CREATEMETERINGPOINT_V1_STEP_5,
+
+    /// <summary>
     /// BRS-008 Connect metering point - Step 1 - Incoming RSM-021
     /// </summary>
     BRS_008_CONNECTMETERINGPOINT_V1_STEP_1,
@@ -76,6 +81,11 @@ public enum ProcessStepType
     /// BRS-008 Connect metering point - Step 3 - Reject RSM-021
     /// </summary>
     BRS_008_CONNECTMETERINGPOINT_V1_STEP_3,
+
+    /// <summary>
+    /// BRS-008 Connect metering point - Step 4 - Udgående RSM-022
+    /// </summary>
+    BRS_008_CONNECTMETERINGPOINT_V1_STEP_4,
 
     /// <summary>
     /// BRS-009 Tilflytning - Step 1: Anmodning om tilflytning (RSM-001)

@@ -147,11 +147,21 @@ export class DhActorConversationShellComponent {
   createConversationMutation = mutation(CreateConversationDocument);
   private toastService = inject(WattToastService);
 
-  async send(message: string) {
-    const result = await this.createConversationMutation.mutate({
+  async createConversation(formValue: StartConversationFormValue) {
+    const meteringPointIdentification = '571313131313131313'; // TODO: Get from context
+    const actorName = 'Testnet & CO'; // TODO: Get from context
+    const userName = 'Test Testesen'; // TODO: Get from context
+
+    const result = await this.startConversationMutation.mutate({
       variables: {
-        meteringPointIdentification: '571313000000000000',
-        conversationMessageContent: message,
+        subject: formValue.subject,
+        meteringPointIdentification: meteringPointIdentification,
+        actorName: actorName,
+        userName: userName,
+        internalNote: formValue.internalNote,
+        content: formValue.content,
+        anonymous: formValue.anonymous,
+        receiver: formValue.receiver,
       },
     });
     this.newConversationVisible.set(false);
@@ -163,7 +173,7 @@ export class DhActorConversationShellComponent {
     } else {
       this.toastService.open({
         type: 'success',
-        message: message,
+        message: formValue.content,
       });
     }
   }
