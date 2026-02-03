@@ -31,9 +31,7 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  StartConversationFormValue,
-} from '../types';
+import { StartConversationFormValue } from '../types';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
