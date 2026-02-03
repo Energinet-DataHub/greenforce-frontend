@@ -786,7 +786,8 @@
         "customerMasterData": "{{ shared.terminology.customerMasterData }}",
         "measurements": "{{ shared.terminology.measurements }}",
         "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "priceAssociation": "{{ shared.terminology.chargeLink }}"
+        "priceAssociation": "{{ shared.terminology.chargeLink }}",
+        "newCase": "New case"
       },
       "receiverLabel": "Receiver",
       "receivers": {
@@ -800,7 +801,8 @@
       "emptyState": {
         "noCases": "No cases found",
         "noCaseSelected": "No case selected"
-      }
+      },
+      "closed": "Closed"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
