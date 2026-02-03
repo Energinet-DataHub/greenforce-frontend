@@ -24,6 +24,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattMenuComponent, WattMenuItemComponent, WattMenuTriggerDirective } from '@energinet/watt/menu';
 import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
 import { NonNullableFormBuilder } from '@angular/forms';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { Conversation } from '../types';
 
 @Component({
@@ -40,6 +41,7 @@ import { Conversation } from '../types';
     DhActorConversationTextAreaComponent,
     VaterUtilityDirective,
     VaterFlexComponent,
+    TranslocoDirective,
   ],
   styles: `
     .no-margin {
@@ -47,7 +49,7 @@ import { Conversation } from '../types';
     }
   `,
   template: `
-    <vater-stack fill="both">
+    <vater-stack fill="both" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
       <!-- Header -->
       <vater-stack
         direction="row"
@@ -57,28 +59,30 @@ import { Conversation } from '../types';
       >
         <vater-stack gap="s" align="start">
           <vater-stack direction="row" gap="xs">
-            <span class="watt-text-s">Sort Strøm</span>
+            <span class="watt-text-s">Sort Strøm(MOCK)</span>
             <watt-icon name="right" size="xs" />
-            <span class="watt-text-s">Netvirksomhed</span>
+            <span class="watt-text-s">Netvirksomhed(MOCK)</span>
           </vater-stack>
           <vater-stack direction="row" gap="s">
-            <h3 class="no-margin">Måledata</h3>
-            <watt-badge type="neutral">Afsluttet</watt-badge>
+            <h3 class="no-margin">{{ t('subjects.' + conversation().subject) }}</h3>
+            @if (conversation().closed) {
+              <watt-badge type="neutral">Afsluttet</watt-badge>
+            }
           </vater-stack>
           <vater-stack direction="row" gap="m">
             <vater-stack direction="row" gap="xs">
               <label>ID</label>
-              <span class="watt-text-s">521532</span>
+              <span class="watt-text-s">{{ conversation().id }}</span>
             </vater-stack>
             <vater-stack direction="row" gap="xs">
               <label>Intern note</label>
-              <span class="watt-text-s">CS00123645</span>
+              <span class="watt-text-s">{{ conversation().internalNote }}</span>
             </vater-stack>
           </vater-stack>
         </vater-stack>
 
         <vater-stack direction="row" gap="m">
-          <watt-button [disabled]="true" variant="secondary">Afslut sag</watt-button>
+          <watt-button [disabled]="conversation().closed" variant="secondary">Afslut sag</watt-button>
           <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
             <watt-icon name="moreVertical" />
           </watt-button>
@@ -108,5 +112,5 @@ import { Conversation } from '../types';
 export class DhActorConversationSelectedConversationComponent {
   private readonly fb = inject(NonNullableFormBuilder);
   formControl = this.fb.control('');
-  conversation = input.required<Conversation>()
+  conversation = input.required<Conversation>();
 }

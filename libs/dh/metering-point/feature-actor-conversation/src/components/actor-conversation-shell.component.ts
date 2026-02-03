@@ -33,7 +33,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState, StartConversationFormValue, Conversation } from '../types';
+import { ActorConversationState, StartConversationFormValue, ListConversation, Conversation } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
@@ -164,7 +164,7 @@ export class DhActorConversationShellComponent {
     },
   }));
 
-  conversations = computed<Conversation[]>(() => {
+  conversations = computed<ListConversation[]>(() => {
     return (this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []).map(
       (conversation) => ({
         id: conversation.conversationId,
@@ -186,7 +186,21 @@ export class DhActorConversationShellComponent {
     skip: this.selectedConversationId() === undefined,
   }));
 
-  conversation = computed(() => this.conversationQuery.data()?.conversation);
+  conversation = computed<Conversation | undefined>(() => {
+    const conversation = this.conversationQuery.data()?.conversation;
+
+    if (!conversation) {
+      return undefined;
+    }
+
+    return {
+      id: conversation.displayId,
+      internalNote: conversation.internalNote ?? undefined,
+      subject: conversation.subject,
+      closed: conversation.closed,
+      messages: conversation.messages,
+    };
+  });
 
   state = computed<ActorConversationState>(() => {
     if (this.newConversationVisible()) {

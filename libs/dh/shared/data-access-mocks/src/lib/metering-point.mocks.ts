@@ -648,7 +648,7 @@ function getConversation() {
         conversation: {
           __typename: 'Conversation',
           displayId: '00001',
-          internalNote: undefined,
+          internalNote: 'CS00123645',
           subject: 'QUESTION_FOR_ENERGINET',
           closed: false,
           messages: [],
