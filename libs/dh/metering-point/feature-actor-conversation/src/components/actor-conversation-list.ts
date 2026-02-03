@@ -17,90 +17,83 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { WATT_CARD } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
-import {
-  VaterFlexComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VATER } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
 import { Conversation } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-list',
-  imports: [
-    WATT_CARD,
-    WattButtonComponent,
-    VaterStackComponent,
-    TranslocoDirective,
-    VaterFlexComponent,
-    DhActorConversationListItemComponent,
-    VaterUtilityDirective,
-  ],
+  imports: [TranslocoDirective, VATER, WattButtonComponent, DhActorConversationListItemComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
-    .no-padding {
-      padding: 0;
-    }
-
-    .no-right-border-radius {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      border-right: 0 !important;
-    }
-
-    .no-margin {
-      margin: 0;
-    }
-
-    ul {
+    .cases {
       list-style: none;
-      padding: 0;
-      margin: 0;
     }
   `,
   template: `
-    <vater-flex fill="vertical">
-      <watt-card
-        class="no-padding no-right-border-radius"
-        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+    <vater-grid
+      gap="dividers"
+      autoRows="1fr"
+      *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+    >
+      <vater-stack
+        [style.backgroundColor]="'var(--bg-card)'"
+        sticky="top"
+        direction="row"
+        justify="space-between"
+        align="center"
+        offset="ml"
       >
-        <watt-card-title vater class="watt-space-inset-m no-margin">
-          <vater-stack direction="row" justify="space-between" align="center">
-            <h3>{{ t('cases') }}</h3>
-            <watt-button
-              (click)="createNewConversation.emit()"
-              icon="plus"
-              variant="text"
-              data-testid="new-conversation-button"
-              >{{ t('newCaseButton') }}
-            </watt-button>
-          </vater-stack>
-        </watt-card-title>
-        <hr class="watt-divider no-margin" />
-        <ul>
-          @if (newConversationVisible()) {
-            <li>
-              <dh-actor-conversation-list-item
-                [conversation]="newConversation"
-                [selected]="newConversationVisible()"
-              />
-            </li>
-          }
-          @for (conversationItem of conversations(); track conversationItem.id) {
-            <li>
-              <dh-actor-conversation-list-item
-                [conversation]="conversationItem"
-                [selected]="selectedConversationId() === conversationItem.id"
-                (click)="selectConversation.emit(conversationItem.id)"
-              />
-            </li>
-          }
-        </ul>
-      </watt-card>
-    </vater-flex>
+        <h3>{{ t('cases') }}</h3>
+        <watt-button
+          (click)="createNewConversation.emit()"
+          icon="plus"
+          variant="text"
+          data-testid="new-conversation-button"
+        >
+          {{ t('newCaseButton') }}
+        </watt-button>
+      </vater-stack>
+      <ul vater fragment class="cases">
+        @if (newConversationVisible()) {
+          <li>
+            <dh-actor-conversation-list-item
+              [conversation]="newConversation"
+              [selected]="newConversationVisible()"
+            />
+          </li>
+        }
+        <li>
+          <dh-actor-conversation-list-item
+            [conversation]="newConversation"
+            [selected]="newConversationVisible()"
+          />
+        </li>
+        <li>
+          <dh-actor-conversation-list-item
+            [conversation]="newConversation"
+            [selected]="newConversationVisible()"
+          />
+        </li>
+        <li>
+          <dh-actor-conversation-list-item
+            [conversation]="newConversation"
+            [selected]="newConversationVisible()"
+          />
+        </li>
+        @for (conversationItem of conversations(); track conversationItem.id) {
+          <li>
+            <dh-actor-conversation-list-item
+              [conversation]="conversationItem"
+              [selected]="selectedConversationId() === conversationItem.id"
+              (click)="selectConversation.emit(conversationItem.id)"
+            />
+          </li>
+        }
+      </ul>
+    </vater-grid>
   `,
 })
 export class DhActorConversationListComponent {

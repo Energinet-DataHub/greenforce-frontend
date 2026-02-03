@@ -44,26 +44,24 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
     DhActorConversationNewConversationComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: `
-    .no-border-radius-left {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-  `,
   template: `
-    <vater-grid
-      fill="vertical"
-      columns="1fr 3fr"
-      *transloco="let t; prefix: 'meteringPoint.actorConversation'"
-    >
-      <dh-actor-conversation-list
-        [conversations]="conversations()"
-        [newConversationVisible]="newConversationVisible()"
-        [selectedConversationId]="selectedConversationId()"
-        (createNewConversation)="newConversation()"
-        (selectConversation)="selectConversation($event)"
-      />
-      <watt-card class="no-border-radius-left">
+    <!-- TODO: FIX [style.position]="'relative'" -->
+    <watt-card vater scrollable fill="vertical" [style.position]="'relative'">
+      <vater-grid
+        inset="0"
+        columns="1fr 3fr"
+        gap="dividers"
+        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+      >
+        <dh-actor-conversation-list
+          vater
+          scrollable
+          [conversations]="conversations()"
+          [newConversationVisible]="newConversationVisible()"
+          [selectedConversationId]="selectedConversationId()"
+          (createNewConversation)="newConversation()"
+          (selectConversation)="selectConversation($event)"
+        />
         <vater-stack fill="vertical">
           @switch (state()) {
             @case (ActorConversationState.newConversationOpen) {
@@ -99,8 +97,8 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
             }
           }
         </vater-stack>
-      </watt-card>
-    </vater-grid>
+      </vater-grid>
+    </watt-card>
   `,
 })
 export class DhActorConversationShellComponent {
