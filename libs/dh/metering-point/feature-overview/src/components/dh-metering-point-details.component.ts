@@ -159,7 +159,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
               @if (meteringPointDetails()?.powerLimitAmp) {
                 {{
                   t('powerLimitValueAmpere', {
-                    value: meteringPointDetails()?.powerLimitAmp | number: '1',
+                    value: meteringPointDetails()?.powerLimitAmp | number: '1.0-0',
                   })
                 }}
               } @else {

@@ -17,32 +17,32 @@
  */
 //#endregion
 import {
-  AssetType,
-  CommercialRelationDto,
-  ConnectionState,
-  ConnectionType,
-  CustomerRelationType,
-  DisconnectionType,
+  ElectricityMarketViewAssetType,
+  ElectricityMarketViewCommercialRelationDto,
+  ElectricityMarketViewConnectionState,
+  ElectricityMarketViewConnectionType,
+  ElectricityMarketViewCustomerRelationType,
+  ElectricityMarketViewDisconnectionType,
   ElectricityMarketMeteringPointType,
   GridAreaDto,
-  MeteringPointDto,
-  MeteringPointMeasureUnit,
-  MeteringPointMetadataDto,
-  MeteringPointSubType,
-  Product,
-  SettlementMethod,
-  TransactionType,
-  WashInstructions,
+  ElectricityMarketViewMeteringPointDto,
+  ElectricityMarketViewMeteringPointMeasureUnit,
+  ElectricityMarketViewMeteringPointMetadataDto,
+  ElectricityMarketViewMeteringPointSubType,
+  ElectricityMarketViewProduct,
+  ElectricityMarketViewSettlementMethod,
+  ElectricityMarketViewTransactionType,
+  ElectricityMarketViewWashInstructions,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { parentMeteringPoint } from './parent-metering-point';
 
-const metadata: MeteringPointMetadataDto = {
-  __typename: 'MeteringPointMetadataDto',
+const metadata: ElectricityMarketViewMeteringPointMetadataDto = {
+  __typename: 'ElectricityMarketViewMeteringPointMetadataDto',
   id: '444444411',
   internalMeteringPointParentId: '2222222',
   parentMeteringPoint: '222222222222222222',
   manuallyHandled: true,
-  measureUnit: MeteringPointMeasureUnit.KWh,
+  measureUnit: ElectricityMarketViewMeteringPointMeasureUnit.KWh,
   gridArea: {
     __typename: 'GridAreaDto',
     id: '1',
@@ -52,12 +52,12 @@ const metadata: MeteringPointMetadataDto = {
   validFrom: new Date('2021-01-01'),
   validTo: new Date('2024-01-01'),
   type: ElectricityMarketMeteringPointType.ElectricalHeating,
-  subType: MeteringPointSubType.Physical,
-  connectionState: ConnectionState.New,
+  subType: ElectricityMarketViewMeteringPointSubType.Physical,
+  connectionState: ElectricityMarketViewConnectionState.New,
   netSettlementGroup: 6,
-  assetType: AssetType.CombustionEngineDiesel,
-  connectionType: ConnectionType.Installation,
-  disconnectionType: DisconnectionType.RemoteDisconnection,
+  assetType: ElectricityMarketViewAssetType.CombustionEngineDiesel,
+  connectionType: ElectricityMarketViewConnectionType.Installation,
+  disconnectionType: ElectricityMarketViewDisconnectionType.RemoteDisconnection,
   fromGridArea: {
     __typename: 'GridAreaDto',
     id: '2',
@@ -65,7 +65,7 @@ const metadata: MeteringPointMetadataDto = {
   } as GridAreaDto,
   environmentalFriendly: true,
   meterNumber: '123456789',
-  product: Product.FuelQuantity,
+  product: ElectricityMarketViewProduct.FuelQuantity,
   resolution: 'PT15M',
   scheduledMeterReadingMonth: 1,
   toGridArea: {
@@ -73,25 +73,26 @@ const metadata: MeteringPointMetadataDto = {
     id: '3',
     displayName: '003',
   } as GridAreaDto,
-  settlementMethod: SettlementMethod.FlexSettled,
+  settlementMethod: ElectricityMarketViewSettlementMethod.FlexSettled,
   capacity: '100',
   powerLimitKw: 100,
   powerPlantGsrn: '1234567890',
+  powerLimitAmp: 50,
   productObligation: true,
   scheduledMeterReadingDate: {
-    __typename: 'AnnualDate',
+    __typename: 'ElectricityMarketViewAnnualDate',
     month: 1,
     day: 1,
   },
   installationAddress: {
-    __typename: 'InstallationAddressDto',
+    __typename: 'ElectricityMarketViewInstallationAddressDto',
     id: '1',
     buildingNumber: '4',
     cityName: 'City',
     postCode: '5000',
     countryCode: 'DK',
     darReference: '123456789',
-    washInstructions: WashInstructions.Washable,
+    washInstructions: ElectricityMarketViewWashInstructions.Washable,
     floor: '3',
     locationDescription: 'Location',
     municipalityCode: '123',
@@ -102,8 +103,8 @@ const metadata: MeteringPointMetadataDto = {
   },
 };
 
-const commercialRelation: CommercialRelationDto = {
-  __typename: 'CommercialRelationDto',
+const commercialRelation: ElectricityMarketViewCommercialRelationDto = {
+  __typename: 'ElectricityMarketViewCommercialRelationDto',
   energySupplier: '222222222222222222',
   energySupplierName: {
     __typename: 'ActorNameDto',
@@ -114,30 +115,30 @@ const commercialRelation: CommercialRelationDto = {
   startDate: new Date('2023-01-01'),
   endDate: new Date('2024-01-01'),
   activeElectricalHeatingPeriods: {
-    __typename: 'ElectricalHeatingDto',
+    __typename: 'ElectricityMarketViewElectricalHeatingDto',
     id: '1',
     validFrom: new Date('2021-01-01'),
     validTo: new Date('2024-01-01'),
     isActive: true,
-    transactionType: TransactionType.ChangeInPurchaseObligation,
+    transactionType: ElectricityMarketViewTransactionType.ChangeInPurchaseObligation,
   },
   electricalHeatingPeriods: [],
   activeEnergySupplyPeriod: {
-    __typename: 'EnergySupplyPeriodDto',
+    __typename: 'ElectricityMarketViewEnergySupplyPeriodDto',
     id: '1',
     validFrom: new Date('2023-01-01'),
     validTo: new Date('2024-01-01'),
     customers: [
       {
-        __typename: 'CustomerDto',
+        __typename: 'ElectricityMarketViewCustomerDto',
         id: '1',
         isProtectedName: true,
         cvr: null,
         name: 'Hr name',
         technicalContact: null,
-        relationType: CustomerRelationType.Contact4,
+        relationType: ElectricityMarketViewCustomerRelationType.Contact4,
         legalContact: {
-          __typename: 'CustomerContactDto',
+          __typename: 'ElectricityMarketViewCustomerContactDto',
           id: '1',
           cityName: 'Hr City',
           darReference: '123456789',
@@ -160,15 +161,15 @@ const commercialRelation: CommercialRelationDto = {
         },
       },
       {
-        __typename: 'CustomerDto',
+        __typename: 'ElectricityMarketViewCustomerDto',
         id: '2',
         isProtectedName: false,
         cvr: '12345678',
         name: 'Fru Name',
         legalContact: null,
-        relationType: CustomerRelationType.Contact1,
+        relationType: ElectricityMarketViewCustomerRelationType.Contact1,
         technicalContact: {
-          __typename: 'CustomerContactDto',
+          __typename: 'ElectricityMarketViewCustomerContactDto',
           id: '2',
           cityName: 'Fru City',
           darReference: '987654321',
@@ -194,8 +195,8 @@ const commercialRelation: CommercialRelationDto = {
   },
 };
 
-export const childMeteringPoint: MeteringPointDto = {
-  __typename: 'MeteringPointDto',
+export const childMeteringPoint: ElectricityMarketViewMeteringPointDto = {
+  __typename: 'ElectricityMarketViewMeteringPointDto',
   id: '4444444',
   isChild: true,
   isEnergySupplier: true,
