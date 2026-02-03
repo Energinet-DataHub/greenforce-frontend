@@ -38,7 +38,7 @@ import {
 } from '@energinet/watt/data';
 
 import { WattButtonComponent } from '@energinet/watt/button';
-import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import { DhUserRolesFilterComponent } from './filter.component';
@@ -64,26 +64,28 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
     DhUserRolesFilterComponent,
     DhUserRolesDownloadComponent,
     DhPermissionRequiredDirective,
+    VaterStackComponent,
   ],
-  template: `<watt-data-table
+  template: ` <watt-data-table
     *transloco="let t; prefix: 'admin.userManagement.tabs.roles'"
     vater
     inset="ml"
     [searchLabel]="'shared.search' | transloco"
     [error]="dataSource.error"
     [ready]="dataSource.called"
+    [enableCount]="false"
   >
-    <h3>{{ t('tabLabel') }}</h3>
-
     <watt-data-actions>
-      <dh-user-roles-download [variables]="variables()" />
-      <watt-button
-        *dhPermissionRequired="['user-roles:manage']"
-        icon="plus"
-        variant="secondary"
-        (click)="create()"
-        >{{ t('createuserrole') }}
-      </watt-button>
+      <vater-stack direction="row" gap="m">
+        <dh-user-roles-download [variables]="variables()" />
+        <watt-button
+          *dhPermissionRequired="['user-roles:manage']"
+          icon="plus"
+          variant="secondary"
+          (click)="create()"
+          >{{ t('createuserrole') }}
+        </watt-button>
+      </vater-stack>
     </watt-data-actions>
 
     <watt-data-filters>

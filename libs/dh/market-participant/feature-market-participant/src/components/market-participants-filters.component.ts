@@ -16,25 +16,24 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, output, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import {
-  MarketParticipantStatus,
   EicFunction,
   GetPaginatedMarketParticipantsQueryVariables,
+  MarketParticipantStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
+  DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -44,12 +43,13 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    VaterSpacerComponent,
+
     VaterStackComponent,
-    WattButtonComponent,
+
     WattDropdownComponent,
     WattQueryParamsDirective,
     DhDropdownTranslatorDirective,
+    DhResetFiltersButtonComponent,
   ],
   selector: 'dh-market-participants-filters',
   styles: [
@@ -90,10 +90,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
         [placeholder]="t('marketRole')"
       />
 
-      <vater-spacer />
-      <watt-button variant="text" icon="undo" type="reset">
-        {{ t('reset') }}
-      </watt-button>
+      <dh-reset-filters-button />
     </form>
   `,
 })
