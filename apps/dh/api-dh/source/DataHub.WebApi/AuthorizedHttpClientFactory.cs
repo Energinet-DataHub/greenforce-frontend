@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System.Text.Json;
+using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.Extensions.Options;
@@ -55,6 +56,21 @@ public class AuthorizedHttpClientFactory
         client.DefaultRequestHeaders.Add("Signature", signatureBase64);
         client.BaseAddress = new(_baseUrls.Value.ElectricityMarketBaseUrl);
         return new ElectricityMarketClient_V1(_baseUrls.Value.ElectricityMarketBaseUrl, client);
+    }
+
+    public ActorConversationClient_V1 CreateActorConversationClientWithSignature(
+        MarketParticipant.Authorization.Model.Signature signature,
+        Guid userId,
+        string actorNumber)
+    {
+        var signatureBase64 = ConvertSignatureToBase64(signature);
+        var client = _httpClientFactory.CreateClient();
+        SetAuthorizationHeader(client);
+        client.DefaultRequestHeaders.Add("Signature", signatureBase64);
+        client.DefaultRequestHeaders.Add("UserId", userId.ToString()); // We always send userId as part of request
+        client.DefaultRequestHeaders.Add("ActorNumber", actorNumber); // We always send ActorNumber as part of request
+        client.BaseAddress = new(_baseUrls.Value.ActorConversationBaseUrl);
+        return new ActorConversationClient_V1(client);
     }
 
     private static string ConvertSignatureToBase64(MarketParticipant.Authorization.Model.Signature signature)

@@ -18,7 +18,7 @@ limitations under the License.
   mat-table
   matSort
   role="treegrid"
-  [ngClass]="{ 'watt-table-has-selection': getSelectionState() !== false }"
+  [class]="{ 'watt-table-has-selection': getSelectionState() !== false }"
   [matSortActive]="sortBy()"
   [matSortDirection]="sortDirection()"
   [matSortDisableClear]="!sortClear()"
@@ -144,7 +144,7 @@ limitations under the License.
     *matRowDef="let row; columns: renderedColumns()"
     [attr.aria-selected]="row === activeRow()"
     [class]="getRowClass(row)"
-    [ngClass]="{
+    [class]="{
       'watt-table-highlight-row': !disabled() && !suppressRowHoverHighlight(),
       'watt-table-clickable-row': !disabled() && rowClick$.observed,
       'watt-table-active-row': isActiveRow(row),

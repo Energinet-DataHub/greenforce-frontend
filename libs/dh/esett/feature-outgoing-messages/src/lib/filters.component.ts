@@ -37,6 +37,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
@@ -63,6 +64,10 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
       :host {
         display: block;
       }
+
+      .auto-margin-left {
+        margin-left: auto;
+      }
     `,
   ],
   imports: [
@@ -77,6 +82,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
     WattDropdownComponent,
     WattQueryParamsDirective,
     DhDropdownTranslatorDirective,
+    DhResetFiltersButtonComponent,
   ],
   template: `
     <form
@@ -134,22 +140,19 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
         translateKey="eSett.outgoingMessages.shared.documentStatus"
       />
 
-      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.period">{{
-        t('period')
-      }}</watt-date-range-chip>
+      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.period"
+        >{{ t('period') }}
+      </watt-date-range-chip>
 
-      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.created">{{
-        t('created')
-      }}</watt-date-range-chip>
+      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.created"
+        >{{ t('created') }}
+      </watt-date-range-chip>
 
-      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.latestDispatch">{{
-        t('latestDispatch')
-      }}</watt-date-range-chip>
+      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.latestDispatch"
+        >{{ t('latestDispatch') }}
+      </watt-date-range-chip>
 
-      <vater-spacer />
-      <watt-button variant="text" icon="undo" (click)="reset()">
-        {{ t('reset') }}
-      </watt-button>
+      <dh-reset-filters-button class="auto-margin-left" (click)="reset()" />
     </form>
   `,
 })

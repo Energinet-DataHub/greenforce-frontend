@@ -181,16 +181,13 @@ public static partial class MeteringPointNode
         }
 
         // New metering points model
-        if (environment != AppEnvironment.Prod)
-        {
-            var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
+        var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
 
-            if (isNewMeteringPointsModelEnabled)
+        if (isNewMeteringPointsModelEnabled)
+        {
+            if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
             {
-                if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
-                {
-                    return await GetMeteringPointWithNewModelAsync(meteringPointId, ct, electricityMarketClient).ConfigureAwait(false);
-                }
+                return await GetMeteringPointWithNewModelAsync(meteringPointId, ct, electricityMarketClient).ConfigureAwait(false);
             }
         }
 

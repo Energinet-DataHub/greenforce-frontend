@@ -22,12 +22,10 @@ import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco
 
 import { VaterUtilityDirective } from '@energinet/watt/vater';
 
-import { WATT_CARD } from '@energinet/watt/card';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/watt/data';
 
-import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetPaginatedOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -54,13 +52,12 @@ import { Organization } from './types';
     TranslocoPipe,
     TranslocoDirective,
 
-    WATT_CARD,
     WATT_TABLE,
-    WattButtonComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
 
     VaterUtilityDirective,
+    DhDownloadButtonComponent,
   ],
   template: `
     <watt-data-table
@@ -70,13 +67,10 @@ import { Organization } from './types';
       [searchLabel]="'shared.search' | transloco"
       [error]="dataSource.error"
       [ready]="dataSource.called"
+      [enableCount]="false"
     >
-      <h3>{{ t('organizations') }}</h3>
-
       <watt-data-actions>
-        <watt-button icon="download" variant="text" (click)="download()">{{
-          'shared.download' | transloco
-        }}</watt-button>
+        <dh-download-button (click)="download()" />
       </watt-data-actions>
 
       <watt-table

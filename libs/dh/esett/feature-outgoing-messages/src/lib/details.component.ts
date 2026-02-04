@@ -24,7 +24,6 @@ import { of } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { WATT_TABS } from '@energinet/watt/tabs';
-import { WATT_CARD } from '@energinet/watt/card';
 import { WattModalService } from '@energinet/watt/modal';
 import { WattToastService } from '@energinet/watt/toast';
 import { WattCodeComponent } from '@energinet/watt/code';
@@ -46,7 +45,12 @@ import {
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhEmDashFallbackPipe, emDash, toFile } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDownloadButtonComponent,
+  DhEmDashFallbackPipe,
+  emDash,
+  toFile,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhResolveModalComponent } from './resolve.componet';
 import { DhOutgoingMessageStatusBadgeComponent } from './status.component';
@@ -76,7 +80,6 @@ import { DhOutgoingMessageStatusBadgeComponent } from './status.component';
     VaterStackComponent,
 
     WATT_TABS,
-    WATT_CARD,
     WATT_DRAWER,
     WattDatePipe,
     WattCodeComponent,
@@ -87,6 +90,7 @@ import { DhOutgoingMessageStatusBadgeComponent } from './status.component';
 
     DhEmDashFallbackPipe,
     DhOutgoingMessageStatusBadgeComponent,
+    DhDownloadButtonComponent,
   ],
 })
 export class DhOutgoingMessageDetailsComponent {

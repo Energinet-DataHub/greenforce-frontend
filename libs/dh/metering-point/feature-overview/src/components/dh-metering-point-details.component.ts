@@ -238,7 +238,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
                 @if (meteringPointDetails()?.capacity) {
                   {{
                     t('powerPlantCapacityValue', {
-                      value: meteringPointDetails()?.capacity | number: '1.1',
+                      value: meteringPointDetails()?.capacity,
                     })
                   }}
                 } @else {

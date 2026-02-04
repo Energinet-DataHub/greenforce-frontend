@@ -779,26 +779,31 @@
       "newCaseTitle": "Ny sag",
       "subjectLabel": "Emne",
       "subjects": {
-        "misc": "Ad hoc spørgsmål",
+        "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
         "disconnectionOrReconnection": "Afbrydelse/Gentilslutning",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Fejlaftig flytning/leverandørskifte",
+        "incorrectMoveInOrSupplierSwitch": "Fejlagtig flytning/leverandørskifte",
         "customerMasterData": "{{ shared.terminology.customerMasterData }}",
         "measurements": "{{ shared.terminology.measurements }}",
         "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "chargeLink": "{{ shared.terminology.chargeLink }}"
+        "chargeLink": "{{ shared.terminology.chargeLink }}",
+        "newCase": "Ny sag"
       },
-      "receiverLabel": "Modtager",
+      "receiverLabel": "Til",
       "receivers": {
-        "energinet": "Energinet"
+        "ENERGY_SUPPLIER": "Elleverandør",
+        "ENERGINET": "Energinet",
+        "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
-      "internalNoteLabel": "Intern note",
+      "internalNoteLabel": "Intern note (medsendes ikke)",
       "messageLabel": "Besked",
+      "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send",
       "emptyState": {
         "noCases": "Der er ingen sager på målepunktet",
         "noCaseSelected": "Ingen sag valgt"
-      }
+      },
+      "closed": "Afsluttet"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
@@ -1273,7 +1278,6 @@
   "messageArchive": {
     "topBarTitle": "Fremsøg forretningsbeskeder",
     "new": "Ny søgning",
-    "results": "Resultater",
     "searchById": "Søg på ID",
     "refetching": "Henter forretningsbeskeder...",
     "drawer": {
@@ -1319,8 +1323,7 @@
       "created": "Sendt",
       "messageId": "Besked ID",
       "sender": "Afsender",
-      "receiver": "Modtager",
-      "download": "Download"
+      "receiver": "Modtager"
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
@@ -1683,8 +1686,7 @@
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
-        "reset": "{{ shared.form.reset }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
       },
       "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {
@@ -2460,6 +2462,7 @@
       "search": "Søg på ID",
       "new": "Ny beregning",
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
+      "actionsButton": "Handlinger",
       "capacitySettlements": {
         "uploadButton": "Upload fil til effektbetaling",
         "uploadInProgress": "Upload i gang",
@@ -3186,7 +3189,6 @@
         "period": "Beregningsperiode"
       },
       "table": {
-        "headline": "Processer",
         "searchLabel": "Søg på ID",
         "columns": {
           "id": "Id",

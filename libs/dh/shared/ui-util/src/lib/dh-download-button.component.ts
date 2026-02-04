@@ -16,28 +16,25 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-
-import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
-  selector: 'dh-tab-data-general-error',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'dh-download-button',
   template: `
-    <watt-empty-state
-      icon="custom-power"
-      [title]="'shared.error.title' | transloco"
-      [message]="'shared.error.message' | transloco"
-    >
-      <watt-button (click)="reload.emit()" variant="primary">{{
-        'shared.error.button' | transloco
-      }}</watt-button>
-    </watt-empty-state>
+    <watt-button icon="download" variant="secondary" [disabled]="disabled()" [loading]="loading()">
+      @if (alternateText()) {
+        {{ alternateText() }}
+      } @else {
+        {{ 'shared.download' | transloco }}
+      }
+    </watt-button>
   `,
-  imports: [TranslocoPipe, WattButtonComponent, WattEmptyStateComponent],
+  imports: [TranslocoPipe, WattButtonComponent],
 })
-export class DhTabDataGeneralErrorComponent {
-  @Output() reload = new EventEmitter<void>();
+export class DhDownloadButtonComponent {
+  loading = input<boolean>(false);
+  alternateText = input<string | undefined>(undefined);
+  disabled = input<boolean>(false);
 }
