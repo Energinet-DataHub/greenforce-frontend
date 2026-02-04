@@ -2221,7 +2221,6 @@ input RequestSettlementReportInput {
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
   preventLargeTextFiles: Boolean!
-  includeMonthlySums: Boolean!
   includeBasisData: Boolean!
   energySupplier: String
   csvLanguage: String

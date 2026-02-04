@@ -2352,7 +2352,6 @@
         "includeBasisData": "Include basis data",
         "allowLargeTextFiles": "Allow large files",
         "period": "Calculation period",
-        "includeMonthlySum": "Include monthly sum",
         "useApi": "Request report via new solution",
         "energySupplier": "Energy supplier",
         "gridArea": "Grid area",
