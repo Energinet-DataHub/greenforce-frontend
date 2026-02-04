@@ -36,6 +36,7 @@ import {
   mockRequestEndOfSupplyMutation,
   mockStartConversationMutation,
   mockGetConversationsQuery,
+  mockGetConversationQuery,
   mockCloseConversationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
@@ -72,6 +73,7 @@ export function meteringPointMocks(apiBase: string) {
     requestEndOfSupply(),
     createConversation(),
     getConversations(),
+    getConversation(),
     closeConversation(),
   ];
 }
@@ -93,6 +95,7 @@ function getRelatedMeteringPoints() {
             type: ElectricityMarketMeteringPointType.ElectricalHeating,
             createdDate: new Date('2021-01-01'),
             connectionDate: new Date('2021-01-01'),
+            disconnectionDate: null,
             closedDownDate: null,
           },
           parent: {
@@ -103,6 +106,7 @@ function getRelatedMeteringPoints() {
             type: ElectricityMarketMeteringPointType.Consumption,
             createdDate: new Date('2021-01-01'),
             connectionDate: new Date('2021-01-01'),
+            disconnectionDate: null,
             closedDownDate: null,
           },
           relatedMeteringPoints: [
@@ -114,6 +118,7 @@ function getRelatedMeteringPoints() {
               type: ElectricityMarketMeteringPointType.Exchange,
               createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2024-01-01'),
+              disconnectionDate: null,
               closedDownDate: null,
             },
           ],
@@ -126,6 +131,7 @@ function getRelatedMeteringPoints() {
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2024-01-01'),
+              disconnectionDate: null,
               closedDownDate: null,
             },
           ],
@@ -138,6 +144,7 @@ function getRelatedMeteringPoints() {
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2021-01-01'),
               connectionDate: new Date('2021-01-01'),
+              disconnectionDate: null,
               closedDownDate: new Date('2021-11-01'),
             },
           ],
@@ -150,6 +157,7 @@ function getRelatedMeteringPoints() {
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2022-01-01'),
+              disconnectionDate: new Date('2022-10-01'),
               closedDownDate: null,
             },
           ],
@@ -632,6 +640,36 @@ function getConversations() {
         conversationsForMeteringPoint: {
           __typename: 'Conversations',
           conversations: conversations,
+        },
+      },
+    });
+  });
+}
+
+function getConversation() {
+  return mockGetConversationQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        conversation: {
+          __typename: 'Conversation',
+          displayId: '00001',
+          internalNote: 'CS00123645',
+          subject: 'QUESTION_FOR_ENERGINET',
+          closed: false,
+          messages: [
+            {
+              __typename: 'ConversationMessage',
+              senderUserName: 'Test Testesen',
+              senderActorName: 'Test Company',
+              senderType: 'ENERGY_SUPPLIER',
+              content: 'Hej, her er et spørgsmål',
+              messageType: 0,
+              createdTime: new Date(),
+            },
+          ],
         },
       },
     });
