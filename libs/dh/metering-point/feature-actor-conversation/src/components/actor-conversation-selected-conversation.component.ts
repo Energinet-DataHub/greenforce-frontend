@@ -109,7 +109,7 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
       <hr class="watt-divider no-margin" />
 
       <!-- Content -->
-      <vater-stack fill="both">
+      <vater-stack fill="both" class="watt-space-inset-ml">
         <!-- Messages will go here -->
         @for (message of conversation().messages; track message) {
           <span>{{ message | json }}</span>

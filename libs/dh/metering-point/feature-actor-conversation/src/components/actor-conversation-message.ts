@@ -29,7 +29,7 @@ import { WattDatePipe } from '@energinet/watt/date';
     .message-container {
       background-color: var(--watt-color-primary-ultralight);
       border-radius: var(--watt-radius-m);
-      border: 1px solid var(--watt-color-neutral-grey-400);
+      border: 1px solid var(--watt-color-neutral-grey-300);
     }
 
     .no-margin {
