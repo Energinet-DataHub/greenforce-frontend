@@ -35,6 +35,7 @@ import { NonNullableFormBuilder } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ConversationDetail } from '../types';
 import { JsonPipe } from '@angular/common';
+import { DhActorConversationMessageComponent } from './actor-conversation-message';
 
 @Component({
   selector: 'dh-actor-conversation-selected-conversation',
@@ -52,6 +53,7 @@ import { JsonPipe } from '@angular/common';
     VaterFlexComponent,
     TranslocoDirective,
     JsonPipe,
+    DhActorConversationMessageComponent,
   ],
   styles: `
     .no-margin {
@@ -111,6 +113,7 @@ import { JsonPipe } from '@angular/common';
         <!-- Messages will go here -->
         @for (message of conversation().messages; track message) {
           <span>{{ message | json }}</span>
+          <dh-actor-conversation-message />
         }
       </vater-flex>
       <vater-stack fill="horizontal" class="watt-space-inset-ml">
