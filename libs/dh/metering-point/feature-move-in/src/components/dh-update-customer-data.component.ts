@@ -261,9 +261,9 @@ export class DhUpdateCustomerDataComponent {
       contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
         name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
         title: this.formBuilder.control<string>(''),
-        phone: this.formBuilder.control<string>('', Validators.required),
-        mobile: this.formBuilder.control<string>('', Validators.required),
-        email: this.formBuilder.control<string>('', [Validators.email, Validators.required]),
+        phone: this.formBuilder.control<string>(''),
+        mobile: this.formBuilder.control<string>(''),
+        email: this.formBuilder.control<string>('', Validators.email),
       }),
     });
 
@@ -297,9 +297,9 @@ export class DhUpdateCustomerDataComponent {
       contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
         name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
         title: this.formBuilder.control<string>(''),
-        phone: this.formBuilder.control<string>('', Validators.required),
-        mobile: this.formBuilder.control<string>('', Validators.required),
-        email: this.formBuilder.control<string>('', [Validators.email, Validators.required]),
+        phone: this.formBuilder.control<string>(''),
+        mobile: this.formBuilder.control<string>(''),
+        email: this.formBuilder.control<string>('', Validators.email),
       }),
     });
 
