@@ -733,7 +733,7 @@ function closeConversation() {
         __typename: 'Mutation',
         closeConversation: {
           __typename: 'CloseConversationPayload',
-          boolean: true
+          boolean: true,
         },
       },
     });
