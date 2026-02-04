@@ -85,9 +85,8 @@ function getRelatedMeteringPoints() {
           __typename: 'RelatedMeteringPointsDto',
           current: {
             __typename: 'RelatedMeteringPointDto',
-            id: '4444444',
+            id: '444444444444444444',
             connectionState: ElectricityMarketConnectionStateType.Connected,
-            identification: '444444444444444444',
             type: ElectricityMarketMeteringPointType.ElectricalHeating,
             createdDate: new Date('2021-01-01'),
             connectionDate: new Date('2021-01-01'),
@@ -95,9 +94,8 @@ function getRelatedMeteringPoints() {
           },
           parent: {
             __typename: 'RelatedMeteringPointDto',
-            id: '2222222',
+            id: '222222222222222222',
             connectionState: ElectricityMarketConnectionStateType.Connected,
-            identification: '222222222222222222',
             type: ElectricityMarketMeteringPointType.Consumption,
             createdDate: new Date('2021-01-01'),
             connectionDate: new Date('2021-01-01'),
@@ -106,9 +104,8 @@ function getRelatedMeteringPoints() {
           relatedMeteringPoints: [
             {
               __typename: 'RelatedMeteringPointDto',
-              id: '3',
+              id: '333333333333333333',
               connectionState: ElectricityMarketConnectionStateType.Connected,
-              identification: '333333333333333333',
               type: ElectricityMarketMeteringPointType.Exchange,
               createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2024-01-01'),
@@ -118,9 +115,8 @@ function getRelatedMeteringPoints() {
           relatedByGsrn: [
             {
               __typename: 'RelatedMeteringPointDto',
-              id: '4',
+              id: '444444444444441111',
               connectionState: ElectricityMarketConnectionStateType.New,
-              identification: '444444444444441111',
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2024-01-01'),
@@ -130,9 +126,8 @@ function getRelatedMeteringPoints() {
           historicalMeteringPoints: [
             {
               __typename: 'RelatedMeteringPointDto',
-              id: '5',
+              id: '555555555555555555',
               connectionState: ElectricityMarketConnectionStateType.ClosedDown,
-              identification: '555555555555555555',
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2021-01-01'),
               connectionDate: new Date('2021-01-01'),
@@ -142,9 +137,8 @@ function getRelatedMeteringPoints() {
           historicalMeteringPointsByGsrn: [
             {
               __typename: 'RelatedMeteringPointDto',
-              id: '6',
+              id: '666666666666666666',
               connectionState: ElectricityMarketConnectionStateType.Disconnected,
-              identification: '666666666666666666',
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2022-01-01'),
