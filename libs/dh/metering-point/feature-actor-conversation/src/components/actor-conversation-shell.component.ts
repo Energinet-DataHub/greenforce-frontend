@@ -17,15 +17,12 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import {
-  VaterFlexComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective, } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   CloseConversationDocument,
+  CloseConversationMutation,
   GetConversationDocument,
   GetConversationsDocument,
   GetSelectionMarketParticipantsDocument,
@@ -34,12 +31,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import {
-  ActorConversationState,
-  StartConversationFormValue,
-  Conversation,
-  ConversationDetail,
-} from '../types';
+import { ActorConversationState, Conversation, ConversationDetail, StartConversationFormValue, } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
@@ -47,6 +39,7 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
 import { DhActorConversationSelectedConversationComponent } from './actor-conversation-selected-conversation.component';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { MutationResult } from 'apollo-angular';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -259,22 +252,32 @@ export class DhActorConversationShellComponent {
   }
 
   async closeConversation(conversationId: string) {
-    const result = await this.closeConversationMutation.mutate({
+    await this.closeConversationMutation.mutate({
       variables: {
         conversationId,
         meteringPointIdentification: this.meteringPointId(),
         userName:
           (this.userProfile()?.firstName ?? '') + ' ' + (this.userProfile()?.lastName ?? ''),
       },
+      refetchQueries: ({ data }) => {
+        if (this.isCloseSuccessful(data)) {
+          return [GetConversationDocument];
+        }
+        return [];
+      },
+      onError: () => {
+        this.toastService.open({
+          type: 'danger',
+          message: this.transloco.translate(
+            'meteringPoint.actorConversation.conversationCloseError'
+          ),
+        });
+      },
     });
-    if (result.error) {
-      this.toastService.open({
-        type: 'danger',
-        message: this.transloco.translate('meteringPoint.actorConversation.conversationCloseError'),
-      });
-    } else {
-      await this.conversationQuery.refetch();
-    }
+  }
+
+  private isCloseSuccessful(mutationResult: MutationResult<CloseConversationMutation>['data']) {
+    return mutationResult?.closeConversation.boolean;
   }
 
   newConversation() {
