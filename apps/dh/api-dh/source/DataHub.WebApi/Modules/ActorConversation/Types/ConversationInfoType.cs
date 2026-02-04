@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+﻿﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -23,6 +23,10 @@ public static partial class ConversationInfoDtoType
         IObjectTypeDescriptor<ConversationInfoDto> descriptor)
     {
         descriptor.Name("ConversationInfo");
+
+        descriptor
+            .Field(f => f.ConversationId)
+            .Name("id");
 
         descriptor.Ignore(f => f.AdditionalProperties);
     }

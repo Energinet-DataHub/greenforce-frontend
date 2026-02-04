@@ -394,7 +394,7 @@ type Conversation {
 "Conversation info"
 type ConversationInfo {
   "Conversation id"
-  conversationId: UUID!
+  id: UUID!
   "MeteringPoint Identification"
   meteringPointIdentification: String!
   "Specifies whether the conversation has been read or not"

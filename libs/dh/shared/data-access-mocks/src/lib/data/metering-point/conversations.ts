@@ -40,7 +40,7 @@ import { ConversationInfo } from '@energinet-datahub/dh/shared/domain/graphql';
 export const conversations: ConversationInfo[] = [
   {
     __typename: 'ConversationInfo',
-    conversationId: '00001',
+    id: '00001',
     closed: false,
     read: false,
     lastUpdated: new Date(),
@@ -49,7 +49,7 @@ export const conversations: ConversationInfo[] = [
   },
   {
     __typename: 'ConversationInfo',
-    conversationId: '00002',
+    id: '00002',
     closed: false,
     read: true,
     lastUpdated: new Date(),
@@ -58,7 +58,7 @@ export const conversations: ConversationInfo[] = [
   },
   {
     __typename: 'ConversationInfo',
-    conversationId: '00003',
+    id: '00003',
     closed: true,
     read: true,
     lastUpdated: new Date(),
