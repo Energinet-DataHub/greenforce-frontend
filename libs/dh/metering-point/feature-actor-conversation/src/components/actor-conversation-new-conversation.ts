@@ -103,7 +103,6 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
         vater
         fill="horizontal"
         [control]="newConversationForm.controls.message"
-        (send)="send()"
       />
     </form>
   `,
