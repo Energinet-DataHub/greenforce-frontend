@@ -35,16 +35,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
-import {
-  Observable,
-  combineLatest,
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  of,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { Observable, debounceTime, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -83,7 +74,6 @@ import { WattValidationMessageComponent } from '@energinet/watt/validation-messa
 
 import { DhSelectCalculationModal } from './select-calculation-modal.component';
 import { startDateAndEndDateHaveSameMonthValidator } from '../util/start-date-and-end-date-have-same-month.validator';
-import { isPeriodOneFullMonth } from '../util/is-period-one-full-month';
 
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 
@@ -92,7 +82,6 @@ type DhFormType = FormGroup<{
   includeBasisData: FormControl<boolean>;
   allowLargeTextFiles: FormControl<boolean>;
   period: FormControl<WattRange<Date> | null>;
-  includeMonthlySum: FormControl<boolean>;
   energySupplier?: FormControl<string | null>;
   gridAreas: FormControl<string[] | null>;
   combineResultsInOneFile: FormControl<boolean>;
@@ -160,7 +149,6 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
       Validators.required,
       startDateAndEndDateHaveSameMonthValidator(),
     ]),
-    includeMonthlySum: new FormControl<boolean>(false, { nonNullable: true }),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     combineResultsInOneFile: new FormControl<boolean>(false, { nonNullable: true }),
     calculationType: new FormControl<string>('', {
@@ -193,8 +181,6 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
     },
     ...this.actorOptions(),
   ]);
-
-  showMonthlySumCheckbox_unused$ = this.shouldShowMonthlySumCheckbox();
 
   multipleGridAreasSelected$: Observable<boolean> = this.form.controls.gridAreas.valueChanges.pipe(
     map((gridAreas) => (gridAreas?.length ? gridAreas.length > 1 : false)),
@@ -285,7 +271,6 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
       calculationType,
       includeBasisData,
       period,
-      includeMonthlySum,
       gridAreas,
       energySupplier,
       combineResultsInOneFile,
@@ -307,7 +292,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
               start: period.start,
               end: period.end ? period.end : null,
             },
-            includeMonthlySums: includeMonthlySum,
+            includeMonthlySums: false,
             gridAreasWithCalculations: this.getGridAreasWithCalculations(
               gridAreas,
               calculationType === CalculationType.BalanceFixing
@@ -459,35 +444,6 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
           };
         })
       );
-  }
-
-  private shouldShowMonthlySumCheckbox(): Observable<boolean> {
-    return combineLatest([
-      this.form.controls.calculationType.valueChanges,
-      this.form.controls.period.valueChanges,
-    ]).pipe(
-      map(([calculationType, period]) => {
-        if (calculationType == null || period == null) {
-          return false;
-        }
-
-        const isSpecificCalculationType = (
-          [
-            CalculationType.WholesaleFixing,
-            CalculationType.FirstCorrectionSettlement,
-            CalculationType.SecondCorrectionSettlement,
-            CalculationType.ThirdCorrectionSettlement,
-          ] as string[]
-        ).includes(calculationType);
-
-        return isSpecificCalculationType && isPeriodOneFullMonth(period);
-      }),
-      tap((shouldShow) => {
-        if (!shouldShow) {
-          this.form.controls.includeMonthlySum.setValue(false);
-        }
-      })
-    );
   }
 
   private isUpdateSuccessful(
