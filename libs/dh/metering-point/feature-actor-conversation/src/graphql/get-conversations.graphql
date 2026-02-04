@@ -2,7 +2,6 @@ query GetConversations($meteringPointIdentification: String!) {
   conversationsForMeteringPoint(meteringPointIdentification: $meteringPointIdentification) {
     conversations {
       id
-      meteringPointIdentification
       read
       subject
       closed
