@@ -40,12 +40,3 @@ export type StartConversationFormValue = {
   receiver: ActorType;
   internalNote?: string;
 };
-
-export type ConversationMessage = {
-  id: string;
-  sender: string;
-  senderText: string;
-  createdAt: Date;
-  message: string;
-  isCurrentUser: boolean;
-};
