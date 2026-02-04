@@ -94,7 +94,7 @@ import { JsonPipe } from '@angular/common';
         <vater-stack direction="row" gap="m">
           <watt-button
             [disabled]="conversation().closed"
-            (click)="closeConversation.emit(conversation()?.id)"
+            (click)="closeConversation.emit(conversation().id)"
             variant="secondary"
             >{{ t('closeCaseButton') }}</watt-button
           >
