@@ -29,5 +29,6 @@ public static partial class ConversationInfoDtoType
             .Name("id");
 
         descriptor.Ignore(f => f.AdditionalProperties);
+        descriptor.Ignore(f => f.MeteringPointIdentification);
     }
 }
