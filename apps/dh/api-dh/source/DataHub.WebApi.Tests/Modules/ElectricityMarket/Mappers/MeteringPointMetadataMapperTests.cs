@@ -313,7 +313,6 @@ public class MeteringPointMetadataMapperTests
         var customer1 = periods[0].Customers.First();
         var customer2 = periods[1].Customers.First();
 
-        // Customer IDs should be unique across different energy supplier periods
         Assert.Multiple(
             () => Assert.NotNull(customer1.Id),
             () => Assert.NotNull(customer2.Id),
