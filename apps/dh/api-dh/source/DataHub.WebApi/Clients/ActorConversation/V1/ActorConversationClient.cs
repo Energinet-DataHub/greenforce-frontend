@@ -907,6 +907,8 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         public string? InternalNote { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("subject", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ConversationSubject Subject { get; set; } = default!;
 
         /// <summary>
@@ -960,6 +962,8 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         public bool Read { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("subject", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ConversationSubject Subject { get; set; } = default!;
 
         /// <summary>
@@ -1012,6 +1016,8 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         public string? SenderActorName { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("senderType", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ActorType SenderType { get; set; } = default!;
 
         /// <summary>
@@ -1022,7 +1028,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         public string Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("messageType", Required = Newtonsoft.Json.Required.Always)]
-        public int MessageType { get; set; } = default!;
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public MessageType MessageType { get; set; } = default!;
 
         /// <summary>
         /// Created time
@@ -1078,6 +1086,21 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
 
     }
 
+    /// <summary>
+    /// Message type
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum MessageType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"UserMessage")]
+        UserMessage = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"ClosingMessage")]
+        ClosingMessage = 1,
+
+    }
+
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ProblemDetails
     {
@@ -1111,9 +1134,13 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     public partial class StartConversationRequest
     {
         [Newtonsoft.Json.JsonProperty("subject", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ConversationSubject Subject { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("receiverActorType", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ActorType ReceiverActorType { get; set; } = default!;
 
         /// <summary>
