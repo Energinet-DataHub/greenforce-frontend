@@ -119,7 +119,6 @@ import { WattDataIntlService } from './watt-data-intl.service';
               </vater-stack>
               <ng-content select="watt-data-actions" />
             </vater-stack>
-
           </vater-stack>
         }
         <!-- Filters -->
