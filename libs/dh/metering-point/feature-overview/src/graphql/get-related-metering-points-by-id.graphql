@@ -9,11 +9,15 @@ fragment RelatedMeteringPoint on RelatedMeteringPointDto {
 }
 
 query GetRelatedMeteringPointsById(
-  $meteringPointId: String!,
+  $meteringPointId: String!
   $environment: String
   $searchMigratedMeteringPoints: Boolean
 ) {
-  relatedMeteringPoints(meteringPointId: $meteringPointId, environment: $environment, searchMigratedMeteringPoints: $searchMigratedMeteringPoints) {
+  relatedMeteringPoints(
+    meteringPointId: $meteringPointId
+    environment: $environment
+    searchMigratedMeteringPoints: $searchMigratedMeteringPoints
+  ) {
     parent {
       ...RelatedMeteringPoint
     }
