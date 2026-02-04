@@ -394,9 +394,7 @@ type Conversation {
 "Conversation info"
 type ConversationInfo {
   "Conversation id"
-  conversationId: UUID!
-  "MeteringPoint Identification"
-  meteringPointIdentification: String!
+  id: UUID!
   "Specifies whether the conversation has been read or not"
   read: Boolean!
   subject: ConversationSubject!
@@ -499,7 +497,7 @@ type ElectricityMarketViewAnnualDate {
 
 type ElectricityMarketViewCommercialRelationDto {
   energySupplierName: ActorNameDto
-  id: Long!
+  id: String!
   energySupplier: String!
   startDate: DateTime!
   endDate: DateTime!
@@ -510,7 +508,7 @@ type ElectricityMarketViewCommercialRelationDto {
 }
 
 type ElectricityMarketViewCustomerContactDto {
-  id: Long!
+  id: String!
   name: String
   email: String
   isProtectedAddress: Boolean!
@@ -532,7 +530,7 @@ type ElectricityMarketViewCustomerContactDto {
 }
 
 type ElectricityMarketViewCustomerDto {
-  id: Long!
+  id: String!
   name: String!
   cvr: String
   isProtectedName: Boolean!
@@ -542,7 +540,7 @@ type ElectricityMarketViewCustomerDto {
 }
 
 type ElectricityMarketViewElectricalHeatingDto {
-  id: Long!
+  id: String!
   validFrom: DateTime!
   validTo: DateTime!
   isActive: Boolean!
@@ -550,14 +548,14 @@ type ElectricityMarketViewElectricalHeatingDto {
 }
 
 type ElectricityMarketViewEnergySupplyPeriodDto {
-  id: Long!
+  id: String!
   validFrom: DateTime!
   validTo: DateTime!
   customers: [ElectricityMarketViewCustomerDto!]!
 }
 
 type ElectricityMarketViewInstallationAddressDto {
-  id: Long!
+  id: String!
   streetCode: String
   streetName: String!
   buildingNumber: String!
@@ -584,7 +582,7 @@ type ElectricityMarketViewMeteringPointDto {
   createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
-  id: Long!
+  id: String!
   identification: String!
   metadata: ElectricityMarketViewMeteringPointMetadataDto!
   metadataTimeline: [ElectricityMarketViewMeteringPointMetadataDto!]!
@@ -596,8 +594,8 @@ type ElectricityMarketViewMeteringPointMetadataDto {
   gridArea: GridAreaDto
   fromGridArea: GridAreaDto
   toGridArea: GridAreaDto
-  internalMeteringPointParentId(environment: String searchMigratedMeteringPoints: Boolean): Long
-  id: Long!
+  internalMeteringPointParentId(environment: String searchMigratedMeteringPoints: Boolean): String
+  id: String!
   validFrom: DateTime!
   validTo: DateTime!
   parentMeteringPoint: String
@@ -1302,7 +1300,7 @@ type Query {
   eventsDebugView(meteringPointId: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
-  meteringPointExists(environment: String! searchMigratedMeteringPoints: Boolean! internalMeteringPointId: Long meteringPointId: Long): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPointExists(environment: String! searchMigratedMeteringPoints: Boolean! internalMeteringPointId: String meteringPointId: String): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -2223,7 +2221,6 @@ input RequestSettlementReportInput {
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
   preventLargeTextFiles: Boolean!
-  includeMonthlySums: Boolean!
   includeBasisData: Boolean!
   energySupplier: String
   csvLanguage: String

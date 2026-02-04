@@ -711,7 +711,8 @@
         "settlementMethod": "Afregningsform",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Elvarmedato",
-        "powerLimit": "Effektgrænse",
+        "powerLimitKw": "Effektgrænse kW",
+        "powerLimitA": "Effektgrænse A",
         "powerLimitValueKw": "{{ value }} kW",
         "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Afbrydelsesart",
@@ -2085,10 +2086,10 @@
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
       "status": {
-        "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 2, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
+        "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 3, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
         "CONVERTER": "Status bliver rød hvis NBS-beskeder ikke kan dannes, fordi der enten er en fejl i konverteringen eller netområdet i beskeden ikke har en netvirksomhed tilknyttet.",
-        "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til BizTalk, fordi der enten ikke er forbindelse, BizTalk ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
-        "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra BizTalk, fordi der enten ikke er forbindelse, BizTalk/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
+        "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til Servicebus/eSett, fordi der enten ikke er forbindelse, fordi servicebus/eSett ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
+        "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra Servicebus, fordi der enten ikke er forbindelse, Servicebus/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
       },
       "fileName": "DataHub eSett udgående beskeder - {{ shared.downloadNameParams }}",
       "shared": {
@@ -2353,7 +2354,6 @@
         "includeBasisData": "Inkluder datagrundlag",
         "allowLargeTextFiles": "Tillad store filer",
         "period": "Beregningsperiode",
-        "includeMonthlySum": "Inkluder månedssummer",
         "useApi": "Bestil rapport via. ny løsning",
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",

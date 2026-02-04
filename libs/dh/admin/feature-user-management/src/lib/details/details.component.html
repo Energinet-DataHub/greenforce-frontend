@@ -70,7 +70,7 @@ limitations under the License.
       <watt-button variant="icon" icon="moreVertical" [wattMenuTriggerFor]="menu">
         <watt-menu #menu>
           <watt-menu-item (click)="resetUser2Fa()">{{ t("reset2fa") }}</watt-menu-item>
-          <watt-menu-item *dhPermissionRequired="['fas']" (click)="resetMitID()">
+          <watt-menu-item *dhPermissionRequired="['users:manage']" (click)="resetMitID()">
             {{ t("resetMitID") }}
           </watt-menu-item>
         </watt-menu>

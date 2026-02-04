@@ -173,25 +173,27 @@ export class DhUpdateCustomerDataComponent {
   private readonly injector = inject(Injector);
   private readonly translocoService = inject(TranslocoService);
   private readonly wattToastService = inject(WattToastService);
-  private locationService = inject(Location);
-  private actorStorage = inject(DhActorStorage).getSelectedActor();
+  private readonly locationService = inject(Location);
+  private readonly actorStorage = inject(DhActorStorage).getSelectedActor();
   private readonly destroyRef = inject(DestroyRef);
+
   private readonly requestChangeCustomerCharacteristics = mutation(
     RequestChangeCustomerCharacteristicsDocument
   );
+
+  meteringPointId = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
 
   isBusinessCustomer = signal<boolean>(false);
   meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
       actorGln: this.actorStorage.gln,
-      searchMigratedMeteringPoints: false,
+      searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
     },
   }));
 
-  meteringPointId = input.required<string>();
   meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
-
   installationAddress = computed(() => this.meteringPoint()?.metadata?.installationAddress);
 
   hasValidInstallationAddress = computed(() => {
@@ -261,9 +263,9 @@ export class DhUpdateCustomerDataComponent {
       contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
         name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
         title: this.formBuilder.control<string>(''),
-        phone: this.formBuilder.control<string>('', Validators.required),
-        mobile: this.formBuilder.control<string>('', Validators.required),
-        email: this.formBuilder.control<string>('', [Validators.email, Validators.required]),
+        phone: this.formBuilder.control<string>(''),
+        mobile: this.formBuilder.control<string>(''),
+        email: this.formBuilder.control<string>('', Validators.email),
       }),
     });
 
@@ -297,9 +299,9 @@ export class DhUpdateCustomerDataComponent {
       contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
         name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
         title: this.formBuilder.control<string>(''),
-        phone: this.formBuilder.control<string>('', Validators.required),
-        mobile: this.formBuilder.control<string>('', Validators.required),
-        email: this.formBuilder.control<string>('', [Validators.email, Validators.required]),
+        phone: this.formBuilder.control<string>(''),
+        mobile: this.formBuilder.control<string>(''),
+        email: this.formBuilder.control<string>('', Validators.email),
       }),
     });
 

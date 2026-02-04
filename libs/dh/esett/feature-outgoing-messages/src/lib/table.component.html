@@ -21,10 +21,10 @@ limitations under the License.
   [searchLabel]="t('filters.documentId')"
   [error]="dataSource.error"
   [ready]="dataSource.called"
-  [enableCount]="false"
+  [enableCount]="true"
   #wattDataTable
 >
-  <vater-stack direction="row" class="watt-space-stack-m">
+  <vater-stack direction="row">
     <span class="watt-chip-label">
       @if (gridAreaCount() === 1) {
         {{ t("countGridAreas.singular", { gridAreaCount: gridAreaCount() }) }}
