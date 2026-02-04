@@ -23,6 +23,7 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRe
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using HotChocolate.Authorization;
@@ -120,8 +121,8 @@ public static partial class MeteringPointNode
     public static async Task<MeteringPointDto> GetMeteringPointExistsAsync(
             string environment,
             bool searchMigratedMeteringPoints,
-            long? internalMeteringPointId,
-            long? meteringPointId,
+            string? internalMeteringPointId,
+            string? meteringPointId,
             CancellationToken ct,
             [Service] Clients.ElectricityMarket.v1.IElectricityMarketClient_V1 electricityMarketClient_V1,
             [Service] IHttpContextAccessor httpContextAccessor,
@@ -135,13 +136,19 @@ public static partial class MeteringPointNode
             throw new ArgumentException("Either internalMeteringPointId or meteringPointId must be provided.");
         }
 
-        var meteringPointExternalID = meteringPointId?.ToString();
+        var meteringPointExternalID = meteringPointId;
 
-        if (meteringPointExternalID == null && internalMeteringPointId.HasValue)
+        if (meteringPointExternalID == null && (!string.IsNullOrWhiteSpace(internalMeteringPointId)))
         {
-            var resultInternalEndpoint = await electricityMarketClient_V1.MeteringPointExistsInternalAsync(internalMeteringPointId.Value, ct).ConfigureAwait(false);
-
-            meteringPointExternalID = resultInternalEndpoint.ExternalIdentification;
+            if (long.TryParse(internalMeteringPointId, out var internalMeteringPointIdForEm1))
+            {
+                var resultInternalEndpoint = await electricityMarketClient_V1.MeteringPointExistsInternalAsync(internalMeteringPointIdForEm1, ct).ConfigureAwait(false);
+                meteringPointExternalID = resultInternalEndpoint.ExternalIdentification;
+            }
+            else
+            {
+                meteringPointExternalID = IdentifierEncoder.DecodeMeteringPointId(internalMeteringPointId);
+            }
         }
 
         if (meteringPointExternalID == null)
@@ -206,7 +213,7 @@ public static partial class MeteringPointNode
             var meteringPointDto = await authClient.MeteringPointAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
             var meteringPointResult = new MeteringPointDto
             {
-                Id = meteringPointDto.Id,
+                Id = meteringPointDto.Id.ToString(),
                 Identification = meteringPointDto.Identification,
                 Metadata = meteringPointDto.Metadata.MapToDto(),
                 MetadataTimeline = [.. meteringPointDto.MetadataTimeline.Select(m => m.MapToDto())],
@@ -264,12 +271,12 @@ public static partial class MeteringPointNode
         // Map to MeteringPointDto
         var meteringPointResult = new MeteringPointDto
         {
-            Id = MeteringPointMetadataMapper.NextLong(),
+            Id = IdentifierEncoder.EncodeMeteringPointId(meteringPoint.MeteringPointId),
             Identification = meteringPoint.MeteringPointId,
-            Metadata = meteringPoint.MeteringPointPeriod.MapToDto(),
-            MetadataTimeline = [.. meteringPoint.MeteringPointPeriods.Select(m => m.MapToDto())],
-            CommercialRelation = meteringPoint.CommercialRelation?.MapToDto(),
-            CommercialRelationTimeline = [.. meteringPoint.CommercialRelations.Select(m => m.MapToDto())],
+            Metadata = meteringPoint.MeteringPointPeriod.MapToDto(meteringPoint.MeteringPointId),
+            MetadataTimeline = [.. meteringPoint.MeteringPointPeriods.Select(m => m.MapToDto(meteringPoint.MeteringPointId))],
+            CommercialRelation = meteringPoint.CommercialRelation?.MapToDto(meteringPoint.MeteringPointId),
+            CommercialRelationTimeline = [.. meteringPoint.CommercialRelations.Select(m => m.MapToDto(meteringPoint.MeteringPointId))],
         };
         return meteringPointResult;
     }
