@@ -639,7 +639,7 @@ function getConversations() {
 }
 
 function getConversation() {
-  return mockGetConversationQuery(async ({ variables: { conversationId, meteringPointId } }) => {
+  return mockGetConversationQuery(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
