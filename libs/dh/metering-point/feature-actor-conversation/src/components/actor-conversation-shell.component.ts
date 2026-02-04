@@ -44,6 +44,11 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
     DhActorConversationNewConversationComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: `
+    :host {
+      --case-min-row-height: 82px;
+    }
+  `,
   template: `
     <watt-card vater contain scrollable fill="vertical">
       <vater-grid inset="0" columns="minmax(min-content, 1fr) 3fr" gap="dividers">
