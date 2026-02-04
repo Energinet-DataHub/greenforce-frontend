@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattDatePipe } from '@energinet/watt/date';
 
@@ -25,21 +25,39 @@ import { WattDatePipe } from '@energinet/watt/date';
   imports: [VaterStackComponent, WattDatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  styles: `
+    .message-container {
+      background-color: var(--watt-color-primary-ultralight);
+      border-radius: var(--watt-radius-m);
+      border: 1px solid var(--watt-color-neutral-grey-400);
+    }
+
+    .no-margin {
+      margin: 0;
+    }
+  `,
+  host: {
+    '[style.align-self]': 'messageAlignment()',
+  },
   template: `
-    <vater-stack>
-      <vater-stack>
+    <vater-stack class="message-container">
+      <vater-stack fill="horizontal" align="start" class="watt-space-inset-m">
         <vater-stack direction="row" justify="space-between" fill="horizontal">
           <span>Netvirsomhed</span>
           <span>{{ date | wattDate: 'short' }}</span>
         </vater-stack>
         <span>Den Grønne Strøm, Niels Pedersen</span>
       </vater-stack>
-      <span>Vi har haft problemer med at hjemtage måledata på dette målepunkt. Vi forsøger igen kl.
+      <hr class="watt-divider no-margin" />
+      <span class="watt-space-inset-m"
+        >Vi har haft problemer med at hjemtage måledata på dette målepunkt. Vi forsøger igen kl.
         09</span
       >
     </vater-stack>
   `,
 })
 export class DhActorConversationMessageComponent {
+  isOwnMessage = input(false);
+  messageAlignment = computed(() => (this.isOwnMessage() ? 'end' : 'start'));
   date = new Date();
 }
