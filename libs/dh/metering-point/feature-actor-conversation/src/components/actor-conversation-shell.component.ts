@@ -25,6 +25,8 @@ import {
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  CloseConversationDocument,
+  CloseConversationMutation,
   GetConversationDocument,
   GetConversationsDocument,
   GetSelectionMarketParticipantsDocument,
@@ -35,17 +37,18 @@ import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
 import {
   ActorConversationState,
-  StartConversationFormValue,
   Conversation,
   ConversationDetail,
+  StartConversationFormValue,
 } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
 import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
 import { DhActorConversationSelectedConversationComponent } from './actor-conversation-selected-conversation.component';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { MutationResult } from 'apollo-angular';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -133,6 +136,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
                   vater
                   fill="both"
                   [conversation]="conversation"
+                  (closeConversation)="closeConversation($event)"
                 />
               } @else {
                 <watt-spinner vater center />
@@ -159,6 +163,7 @@ export class DhActorConversationShellComponent {
     )
   );
   meteringPointId = input.required<string>();
+  private transloco = inject(TranslocoService);
 
   protected readonly ActorConversationState = ActorConversationState;
   newConversationVisible = signal(false);
@@ -219,6 +224,8 @@ export class DhActorConversationShellComponent {
   });
 
   startConversationMutation = mutation(StartConversationDocument);
+  closeConversationMutation = mutation(CloseConversationDocument);
+
   private toastService = inject(WattToastService);
 
   async startConversation(formValue: StartConversationFormValue) {
@@ -251,6 +258,35 @@ export class DhActorConversationShellComponent {
         message: formValue.content,
       });
     }
+  }
+
+  async closeConversation(conversationId: string) {
+    await this.closeConversationMutation.mutate({
+      variables: {
+        conversationId,
+        meteringPointIdentification: this.meteringPointId(),
+        userName:
+          (this.userProfile()?.firstName ?? '') + ' ' + (this.userProfile()?.lastName ?? ''),
+      },
+      refetchQueries: ({ data }) => {
+        if (this.isCloseSuccessful(data)) {
+          return [GetConversationDocument];
+        }
+        return [];
+      },
+      onError: () => {
+        this.toastService.open({
+          type: 'danger',
+          message: this.transloco.translate(
+            'meteringPoint.actorConversation.conversationCloseError'
+          ),
+        });
+      },
+    });
+  }
+
+  private isCloseSuccessful(mutationResult: MutationResult<CloseConversationMutation>['data']) {
+    return mutationResult?.closeConversation.boolean;
   }
 
   newConversation() {

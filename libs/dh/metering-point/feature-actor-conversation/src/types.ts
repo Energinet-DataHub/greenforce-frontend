@@ -38,7 +38,7 @@ export interface Conversation {
 }
 
 export interface ConversationDetail {
-  id?: string;
+  id: string;
   subject: ConversationSubject;
   closed: boolean;
   internalNote?: string;
