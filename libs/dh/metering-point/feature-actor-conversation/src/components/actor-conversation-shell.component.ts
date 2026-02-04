@@ -17,7 +17,11 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective, } from '@energinet/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -31,7 +35,12 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState, Conversation, ConversationDetail, StartConversationFormValue, } from '../types';
+import {
+  ActorConversationState,
+  Conversation,
+  ConversationDetail,
+  StartConversationFormValue,
+} from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
