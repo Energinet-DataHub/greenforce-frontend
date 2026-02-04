@@ -395,7 +395,7 @@ public static partial class MeteringPointNode
     private static RelatedMeteringPointDto ToDto(GetRelatedMeteringPointsResultDtoV1.MeteringPointData meteringPointData)
     {
         return new RelatedMeteringPointDto(
-            Id: meteringPointData.Id,
+            Id: meteringPointData.MeteringPointId,
             Type: meteringPointData.Type.MapToDto(),
             ConnectionState: meteringPointData.ConnectionState.MapToDto() ?? ConnectionState.NotUsed,
             CreatedDate: meteringPointData.CreatedDate,
