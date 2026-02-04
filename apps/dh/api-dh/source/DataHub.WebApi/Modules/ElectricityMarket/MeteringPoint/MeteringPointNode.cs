@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Core.App.Common.Calendar;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Commands;
@@ -27,6 +28,7 @@ using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using HotChocolate.Authorization;
 using Microsoft.FeatureManagement;
+using NodaTime;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
 
@@ -251,6 +253,30 @@ public static partial class MeteringPointNode
         return result.IsSuccess
             ? true
             : throw new GraphQLException("Command RequestEndOfSupply failed");
+    }
+
+    [Query]
+    public static List<DateTimeOffset> GetDisabledDatesForEndOfSupply(
+        [Service] DataHubCalendar calendar)
+    {
+        var start = calendar.GetDateRelativeToCurrentDate(3);
+        var end = calendar.GetDateRelativeToCurrentDate(60);
+        var workingDays = calendar.GetWorkingDaysInPeriod(start, end).ToHashSet();
+
+        var disabledDates = new List<DateTimeOffset>();
+        var current = start;
+
+        while (current <= end)
+        {
+            if (!workingDays.Contains(current))
+            {
+                disabledDates.Add(current.ToDateTimeOffset());
+            }
+
+            current = current.Plus(Duration.FromDays(1));
+        }
+
+        return disabledDates;
     }
 
     private static async Task<MeteringPointDto> GetMeteringPointWithNewModelAsync(

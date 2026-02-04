@@ -102,6 +102,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   rangeMonthOnlyMode = input(false);
   startAt = input<Date | null>(null);
   dateClass = input<MatCalendarCellClassFunction<Date>>(() => '');
+  dateFilter = input<((date: Date | null) => boolean) | undefined>();
   canStepThroughDays = input(false, { transform: booleanAttribute });
 
   matEndDate = viewChild<MatEndDate<Date | null>>(MatEndDate);

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
@@ -34,8 +34,9 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
 import {
   RequestEndOfSupplyDocument,
   GetMeteringPointProcessOverviewDocument,
+  GetDisabledDatesForEndOfSupplyDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
@@ -69,12 +70,11 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
             [label]="t('dateLabel')"
             [min]="minDate"
             [max]="maxDate"
+            [dateFilter]="dateFilter()"
             [formControl]="form.controls.cutOffDate"
           >
             <watt-field-hint>{{ t('dateHint') }}</watt-field-hint>
           </watt-datepicker>
-
-          <p>{{ t('consequencesInfo') }}</p>
 
           <watt-checkbox [formControl]="form.controls.confirm">
             {{ t('confirmCheckbox') }}
@@ -99,12 +99,24 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
   private readonly toastService = inject(WattToastService);
   private readonly router = inject(Router);
   private readonly requestEndOfSupply = mutation(RequestEndOfSupplyDocument);
+  private readonly disabledDatesQuery = query(GetDisabledDatesForEndOfSupplyDocument);
 
   readonly modal = viewChild.required(WattModalComponent);
 
   readonly minDate = dayjs().add(3, 'day').toDate();
   readonly maxDate = dayjs().add(60, 'day').toDate();
   readonly loading = this.requestEndOfSupply.loading;
+
+  readonly dateFilter = computed(() => {
+    const disabledDates = this.disabledDatesQuery.data()?.disabledDatesForEndOfSupply;
+    if (!disabledDates?.length) return undefined;
+
+    const disabledSet = new Set(disabledDates.map((d) => dayjs(d).format('YYYY-MM-DD')));
+    return (date: Date | null) => {
+      if (!date) return true;
+      return !disabledSet.has(dayjs(date).format('YYYY-MM-DD'));
+    };
+  });
 
   readonly form = this.fb.group({
     cutOffDate: this.fb.control<Date | null>(null, Validators.required),
