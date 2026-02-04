@@ -36,6 +36,7 @@ import {
   mockRequestEndOfSupplyMutation,
   mockStartConversationMutation,
   mockGetConversationsQuery,
+  mockGetConversationQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -71,6 +72,7 @@ export function meteringPointMocks(apiBase: string) {
     requestEndOfSupply(),
     createConversation(),
     getConversations(),
+    getConversation(),
   ];
 }
 
@@ -636,6 +638,36 @@ function getConversations() {
         conversationsForMeteringPoint: {
           __typename: 'Conversations',
           conversations: conversations,
+        },
+      },
+    });
+  });
+}
+
+function getConversation() {
+  return mockGetConversationQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        conversation: {
+          __typename: 'Conversation',
+          displayId: '00001',
+          internalNote: 'CS00123645',
+          subject: 'QUESTION_FOR_ENERGINET',
+          closed: false,
+          messages: [
+            {
+              __typename: 'ConversationMessage',
+              senderUserName: 'Test Testesen',
+              senderActorName: 'Test Company',
+              senderType: 'ENERGY_SUPPLIER',
+              content: 'Hej, her er et spørgsmål',
+              messageType: 0,
+              createdTime: new Date(),
+            },
+          ],
         },
       },
     });

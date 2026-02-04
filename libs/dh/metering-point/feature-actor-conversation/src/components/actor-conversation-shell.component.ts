@@ -25,6 +25,7 @@ import {
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  GetConversationDocument,
   GetConversationsDocument,
   GetSelectionMarketParticipantsDocument,
   StartConversationDocument,
@@ -32,12 +33,19 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState, StartConversationFormValue, Conversation } from '../types';
+import {
+  ActorConversationState,
+  StartConversationFormValue,
+  Conversation,
+  ConversationDetail,
+} from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
 import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
+import { DhActorConversationSelectedConversationComponent } from './actor-conversation-selected-conversation.component';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -51,12 +59,18 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
+    DhActorConversationSelectedConversationComponent,
+    WattSpinnerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .no-border-radius-left {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+    }
+
+    .no-padding {
+      padding: 0;
     }
 
     .flex-1 {
@@ -81,13 +95,14 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
         (selectConversation)="selectConversation($event)"
         class="flex-1"
       />
-      <watt-card class="flex-3 no-border-radius-left">
+      <watt-card class="flex-3 no-padding no-border-radius-left">
         <vater-stack fill="vertical">
           @switch (state()) {
             @case (ActorConversationState.newConversationOpen) {
               <dh-actor-conversation-new-conversation
                 vater
                 fill="both"
+                class="watt-space-inset-m"
                 (closeNewConversation)="newConversationVisible.set(false)"
                 (startConversation)="startConversation($event)"
               />
@@ -113,7 +128,15 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
               />
             }
             @case (ActorConversationState.conversationSelected) {
-              <h1>TO BE IMPLEMENTED</h1>
+              @if (conversation(); as conversation) {
+                <dh-actor-conversation-selected-conversation
+                  vater
+                  fill="both"
+                  [conversation]="conversation"
+                />
+              } @else {
+                <watt-spinner vater center />
+              }
             }
           }
         </vater-stack>
@@ -159,6 +182,31 @@ export class DhActorConversationShellComponent {
   });
 
   selectedConversationId = signal<string | undefined>(undefined);
+
+  conversationQuery = query(GetConversationDocument, () => ({
+    variables: {
+      conversationId: this.selectedConversationId() ?? '',
+      meteringPointId: this.meteringPointId(),
+    },
+    skip: this.selectedConversationId() === undefined,
+  }));
+
+  conversation = computed<ConversationDetail | undefined>(() => {
+    const conversation = this.conversationQuery.data()?.conversation;
+
+    if (!conversation) {
+      return undefined;
+    }
+
+    return {
+      id: conversation.displayId,
+      internalNote: conversation.internalNote ?? undefined,
+      subject: conversation.subject,
+      closed: conversation.closed,
+      messages: conversation.messages,
+    };
+  });
+
   state = computed<ActorConversationState>(() => {
     if (this.newConversationVisible()) {
       return ActorConversationState.newConversationOpen;

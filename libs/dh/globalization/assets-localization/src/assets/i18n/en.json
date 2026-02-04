@@ -796,7 +796,8 @@
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Grid access provider"
       },
-      "internalNoteLabel": "Internal note (not enclosed)",
+      "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
+      "internalNoteLabel": "Internal note",
       "messageLabel": "Message",
       "messagePlaceholder": "Write a message",
       "sendButton": "Send",
@@ -804,7 +805,9 @@
         "noCases": "No cases found",
         "noCaseSelected": "No case selected"
       },
-      "closed": "Closed"
+      "closed": "Closed",
+      "closeCaseButton": "Close case",
+      "markAsUnreadButton": "Mark as unread"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
