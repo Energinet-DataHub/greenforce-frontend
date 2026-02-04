@@ -236,6 +236,91 @@ public class MeteringPointMetadataMapperTests
     }
 
     [Fact]
+    public void MapToDto_EnergySupplierPeriod_Em2_GeneratesUniqueIdsForCustomerAndContacts()
+    {
+        // Arrange
+        var legalContactAddress = CreateLegalContactAddressEm2();
+        var technicalContactAddress = CreateTechnicalContactAddressEm2();
+        var contact = CreateContactEm2(CompanyName, CompanyCvr, false, RelationType.Juridical, legalContactAddress, technicalContactAddress);
+
+        var energySupplierPeriod = new MeteringPointDtoV1.EnergySupplierPeriodDto(
+            _energySupplierValidFrom,
+            _energySupplierValidTo,
+            OrchestrationInstanceId,
+            [contact]);
+
+        var commercialRelation = new MeteringPointDtoV1.CommercialRelationDto(
+            _validFrom,
+            _validTo,
+            EnergySupplierId,
+            energySupplierPeriod,
+            null,
+            [energySupplierPeriod],
+            []);
+
+        // Act
+        var result = commercialRelation.MapToDto(MeteringPointId);
+
+        // Assert
+        var customer = result.ActiveEnergySupplyPeriod!.Customers.First();
+        var customerId = customer.Id;
+        var legalContactId = customer.LegalContact?.Id;
+        var technicalContactId = customer.TechnicalContact?.Id;
+
+        Assert.Multiple(
+            () => Assert.NotNull(customerId),
+            () => Assert.NotNull(legalContactId),
+            () => Assert.NotNull(technicalContactId),
+            () => Assert.NotEqual(customerId, legalContactId),
+            () => Assert.NotEqual(customerId, technicalContactId),
+            () => Assert.NotEqual(legalContactId, technicalContactId));
+    }
+
+    [Fact]
+    public void MapToDto_MultipleEnergySupplierPeriods_Em2_GeneratesUniqueIdsAcrossPeriods()
+    {
+        // Arrange
+        var legalContactAddress = CreateLegalContactAddressEm2();
+        var technicalContactAddress = CreateTechnicalContactAddressEm2();
+
+        var contact1 = CreateContactEm2(CompanyName, CompanyCvr, false, RelationType.Juridical, legalContactAddress, null);
+        var energySupplierPeriod1 = new MeteringPointDtoV1.EnergySupplierPeriodDto(
+            _energySupplierValidFrom,
+            _energySupplierValidTo,
+            OrchestrationInstanceId,
+            [contact1]);
+
+        var contact2 = CreateContactEm2(CompanyNameTwo, CompanyCvrTwo, true, RelationType.Technical, null, technicalContactAddress);
+        var energySupplierPeriod2 = new MeteringPointDtoV1.EnergySupplierPeriodDto(
+            _validFrom,
+            _validTo,
+            OrchestrationInstanceId,
+            [contact2]);
+
+        var commercialRelation = new MeteringPointDtoV1.CommercialRelationDto(
+            _validFrom,
+            _validTo,
+            EnergySupplierId,
+            energySupplierPeriod1,
+            null,
+            [energySupplierPeriod1, energySupplierPeriod2],
+            []);
+
+        // Act
+        var result = commercialRelation.MapToDto(MeteringPointId);
+
+        var periods = result.EnergySupplyPeriodTimeline.ToList();
+        var customer1 = periods[0].Customers.First();
+        var customer2 = periods[1].Customers.First();
+
+        // Customer IDs should be unique across different energy supplier periods
+        Assert.Multiple(
+            () => Assert.NotNull(customer1.Id),
+            () => Assert.NotNull(customer2.Id),
+            () => Assert.NotEqual(customer1.Id, customer2.Id));
+    }
+
+    [Fact]
     public void MapToDto_MeteringPointDto_Em1_MapsAllProperties()
     {
         // Arrange

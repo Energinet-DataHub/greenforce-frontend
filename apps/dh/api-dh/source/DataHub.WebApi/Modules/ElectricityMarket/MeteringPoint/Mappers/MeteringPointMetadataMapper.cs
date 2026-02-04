@@ -128,12 +128,13 @@ public static class MeteringPointMetadataMapper
 
     private static EnergySupplyPeriodDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.EnergySupplierPeriodDto energySupplierPeriod, string meteringPointId)
     {
+        var encodedId = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, energySupplierPeriod.ValidFrom, energySupplierPeriod.ValidTo);
         return new EnergySupplyPeriodDto
         {
-            Id = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, energySupplierPeriod.ValidFrom, energySupplierPeriod.ValidTo),
+            Id = encodedId,
             ValidFrom = energySupplierPeriod.ValidFrom,
             ValidTo = energySupplierPeriod.ValidTo,
-            Customers = [.. energySupplierPeriod.Contacts.Select((c, index) => c.MapToDto(meteringPointId, index + 1))],
+            Customers = [.. energySupplierPeriod.Contacts.Select((c, index) => c.MapToDto(encodedId, index + 1))],
         };
     }
 
@@ -181,8 +182,8 @@ public static class MeteringPointMetadataMapper
             Cvr = contactDto.Cvr,
             IsProtectedName = contactDto.IsProtectedName,
             RelationType = contactDto.RelationType.MapToDto(),
-            LegalContact = contactDto.LegalContact?.MapToDto(meteringPointId, index),
-            TechnicalContact = contactDto.TechnicalContact?.MapToDto(meteringPointId, index),
+            LegalContact = contactDto.LegalContact?.MapToDto(meteringPointId, $"legal-{index}"),
+            TechnicalContact = contactDto.TechnicalContact?.MapToDto(meteringPointId, $"technical-{index}"),
         };
     }
 
@@ -200,7 +201,7 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static CustomerContactDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactAddressDto contactDto, string meteringPointId, int index)
+    private static CustomerContactDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactAddressDto contactDto, string meteringPointId, string index)
     {
         return new CustomerContactDto
         {
