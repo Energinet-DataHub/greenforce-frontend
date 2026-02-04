@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, forwardRef, input } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
@@ -27,12 +28,20 @@ import { TranslocoDirective } from '@jsverse/transloco';
 @Component({
   selector: 'dh-actor-conversation-text-area',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DhActorConversationTextAreaComponent),
+      multi: true,
+    },
+  ],
   imports: [
     VaterStackComponent,
     WattButtonComponent,
     WattIconComponent,
     WattTextAreaFieldComponent,
     TranslocoDirective,
+    ReactiveFormsModule,
   ],
   template: `
     <vater-stack
@@ -42,8 +51,9 @@ import { TranslocoDirective } from '@jsverse/transloco';
     >
       <watt-textarea-field
         [label]="t('messageLabel')"
-        [formControl]="control()"
+        [formControl]="internalControl"
         [small]="small()"
+        (blur)="onTouched()"
         data-testid="actor-conversation-message-textarea"
       />
       <watt-button type="submit">
@@ -53,7 +63,39 @@ import { TranslocoDirective } from '@jsverse/transloco';
     </vater-stack>
   `,
 })
-export class DhActorConversationTextAreaComponent {
-  control = input.required<FormControl<string>>();
+export class DhActorConversationTextAreaComponent implements ControlValueAccessor {
   small = input<boolean>(false);
+
+  internalControl = new FormControl<string | null>(null);
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onChange: (value: string | null) => void = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onTouched: () => void = () => {};
+
+  constructor() {
+    this.internalControl.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      this.onChange(value);
+    });
+  }
+
+  writeValue(value: string | null): void {
+    this.internalControl.setValue(value, { emitEvent: false });
+  }
+
+  registerOnChange(fn: (value: string | null) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.internalControl.disable({ emitEvent: false });
+    } else {
+      this.internalControl.enable({ emitEvent: false });
+    }
+  }
 }
