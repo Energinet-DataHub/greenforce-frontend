@@ -35,6 +35,7 @@ import {
   mockRequestConnectionStateChangeMutation,
   mockRequestEndOfSupplyMutation,
   mockStartConversationMutation,
+  mockGetConversationsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -50,6 +51,7 @@ import { measurementPoints } from './data/metering-point/measurements-points';
 import { meteringPointsByGridAreaCode } from './data/metering-point/metering-points-by-grid-area-code';
 import { childMeteringPoint } from './data/metering-point/child-metering-point';
 import { eventsDebugView } from './data/metering-point/metering-point-events-debug-view';
+import { conversations } from './data/metering-point/conversations';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
@@ -68,6 +70,7 @@ export function meteringPointMocks(apiBase: string) {
     requestConnectionStateChange(),
     requestEndOfSupply(),
     createConversation(),
+    getConversations(),
   ];
 }
 
@@ -612,6 +615,22 @@ function getMeteringPointEventsDebugView() {
       data: {
         __typename: 'Query',
         eventsDebugView: eventsDebugView,
+      },
+    });
+  });
+}
+
+function getConversations() {
+  return mockGetConversationsQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        conversationsForMeteringPoint: {
+          __typename: 'Conversations',
+          conversations: conversations,
+        },
       },
     });
   });
