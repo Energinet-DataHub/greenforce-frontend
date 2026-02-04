@@ -22,12 +22,23 @@ import { VATER } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
 import { Conversation } from '../types';
+import { WattHeadingComponent } from '@energinet/watt/heading';
 
 @Component({
   selector: 'dh-actor-conversation-list',
-  imports: [TranslocoDirective, VATER, WattButtonComponent, DhActorConversationListItemComponent],
+  imports: [
+    TranslocoDirective,
+    VATER,
+    WattButtonComponent,
+    WattHeadingComponent,
+    DhActorConversationListItemComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
+    .new-case {
+      background-color: var(--bg-card);
+    }
+
     .cases {
       list-style: none;
     }
@@ -35,18 +46,18 @@ import { Conversation } from '../types';
   template: `
     <vater-grid
       gap="dividers"
-      autoRows="1fr"
+      autoRows="minmax(var(--case-min-row-height), 1fr)"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <vater-stack
-        [style.backgroundColor]="'var(--bg-card)'"
         sticky="top"
         direction="row"
         justify="space-between"
         align="center"
         offset="ml"
+        class="new-case"
       >
-        <h3>{{ t('cases') }}</h3>
+        <h3 watt-heading>{{ t('cases') }}</h3>
         <watt-button
           (click)="createNewConversation.emit()"
           icon="plus"
