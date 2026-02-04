@@ -111,6 +111,10 @@
     display: contents;
   }
 
+  .vater-contain {
+    contain: content;
+  }
+
   .vater-wrap {
     flex-wrap: wrap;
   }

@@ -27,6 +27,7 @@ import { Anchor, Fill, Inset } from './types';
     '[class.vater-center]': 'center()',
     '[class.vater-scrollable]': 'scrollable()',
     '[class.vater-fragment]': 'fragment()',
+    '[class.vater-contain]': 'contain()',
     '[attr.center]': 'null',
     '[attr.fill]': 'null',
     '[attr.inset]': 'null',
@@ -52,6 +53,9 @@ export class VaterUtilityDirective {
 
   /** Replace this element with its children (display: contents). */
   fragment = input(false, { transform: booleanAttribute });
+
+  /** Make the element contain (TODO: Better comment). */
+  contain = input(false, { transform: booleanAttribute });
 
   // Computed class names
   protected fillClass = computed(() => this.fill() && `vater-fill-${this.fill()}`);
