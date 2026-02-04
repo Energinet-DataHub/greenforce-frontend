@@ -36,8 +36,8 @@ import { WATT_CARD } from '@energinet/watt/card';
 import {
   ActorConversationState,
   StartConversationFormValue,
-  ListConversation,
   Conversation,
+  ConversationDetail,
 } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -169,7 +169,7 @@ export class DhActorConversationShellComponent {
     },
   }));
 
-  conversations = computed<ListConversation[]>(() => {
+  conversations = computed<Conversation[]>(() => {
     return (this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []).map(
       (conversation) => ({
         id: conversation.id,
@@ -191,7 +191,7 @@ export class DhActorConversationShellComponent {
     skip: this.selectedConversationId() === undefined,
   }));
 
-  conversation = computed<Conversation | undefined>(() => {
+  conversation = computed<ConversationDetail | undefined>(() => {
     const conversation = this.conversationQuery.data()?.conversation;
 
     if (!conversation) {

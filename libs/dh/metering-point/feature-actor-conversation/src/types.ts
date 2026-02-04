@@ -29,7 +29,7 @@ export enum ActorConversationState {
   newConversationOpen = 'newConversationOpen',
 }
 
-export interface ListConversation {
+export interface Conversation {
   id?: string;
   subject?: ConversationSubject | 'newCase';
   closed: boolean;
@@ -37,7 +37,7 @@ export interface ListConversation {
   unread?: boolean;
 }
 
-export interface Conversation {
+export interface ConversationDetail {
   id?: string;
   subject: ConversationSubject;
   closed: boolean;

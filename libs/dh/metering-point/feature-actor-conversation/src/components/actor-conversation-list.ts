@@ -26,7 +26,7 @@ import {
 } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
-import { ListConversation } from '../types';
+import { Conversation } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-list',
@@ -104,13 +104,13 @@ import { ListConversation } from '../types';
   `,
 })
 export class DhActorConversationListComponent {
-  conversations = input<ListConversation[]>([]);
+  conversations = input<Conversation[]>([]);
   newConversationVisible = input<boolean>(false);
   selectedConversationId = input<string | undefined>(undefined);
   createNewConversation = output();
   selectConversation = output<string | undefined>();
 
-  newConversation: ListConversation = {
+  newConversation: Conversation = {
     closed: false,
     lastUpdatedDate: undefined,
     id: undefined,

@@ -33,7 +33,7 @@ import {
 import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { Conversation } from '../types';
+import { ConversationDetail } from '../types';
 import { JsonPipe } from '@angular/common';
 
 @Component({
@@ -127,5 +127,5 @@ import { JsonPipe } from '@angular/common';
 export class DhActorConversationSelectedConversationComponent {
   private readonly fb = inject(NonNullableFormBuilder);
   formControl = this.fb.control('');
-  conversation = input.required<Conversation>();
+  conversation = input.required<ConversationDetail>();
 }
