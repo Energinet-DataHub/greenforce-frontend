@@ -651,7 +651,17 @@ function getConversation() {
           internalNote: 'CS00123645',
           subject: 'QUESTION_FOR_ENERGINET',
           closed: false,
-          messages: [],
+          messages: [
+            {
+              __typename: 'ConversationMessage',
+              senderUserName: 'Test Testesen',
+              senderActorName: 'Test Company',
+              senderType: 'ENERGY_SUPPLIER',
+              content: 'Hej, her er et spørgsmål',
+              messageType: 0,
+              createdTime: new Date(),
+            },
+          ],
         },
       },
     });
