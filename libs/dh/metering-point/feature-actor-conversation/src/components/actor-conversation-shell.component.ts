@@ -45,14 +45,8 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <!-- TODO: FIX [style.position]="'relative'" -->
-    <watt-card vater scrollable fill="vertical" [style.position]="'relative'">
-      <vater-grid
-        inset="0"
-        columns="1fr 3fr"
-        gap="dividers"
-        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
-      >
+    <watt-card vater contain scrollable fill="vertical">
+      <vater-grid inset="0" columns="minmax(min-content, 1fr) 3fr" gap="dividers">
         <dh-actor-conversation-list
           vater
           scrollable
@@ -62,7 +56,7 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
           (createNewConversation)="newConversation()"
           (selectConversation)="selectConversation($event)"
         />
-        <vater-stack fill="vertical">
+        <vater-stack scrollable *transloco="let t; prefix: 'meteringPoint.actorConversation'">
           @switch (state()) {
             @case (ActorConversationState.newConversationOpen) {
               <dh-actor-conversation-new-conversation
