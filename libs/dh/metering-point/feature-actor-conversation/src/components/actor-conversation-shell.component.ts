@@ -25,6 +25,7 @@ import {
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  CloseConversationDocument,
   GetConversationDocument,
   GetConversationsDocument,
   GetSelectionMarketParticipantsDocument,
@@ -219,6 +220,8 @@ export class DhActorConversationShellComponent {
   });
 
   startConversationMutation = mutation(StartConversationDocument);
+  closeConversationMutation = mutation(CloseConversationDocument);
+
   private toastService = inject(WattToastService);
 
   async startConversation(formValue: StartConversationFormValue) {
@@ -249,6 +252,28 @@ export class DhActorConversationShellComponent {
       this.toastService.open({
         type: 'success',
         message: formValue.content,
+      });
+    }
+  }
+
+  async closeConversation(conversationId: string) {
+    const result = await this.closeConversationMutation.mutate({
+      variables: {
+        conversationId,
+        meteringPointIdentification: this.meteringPointId(),
+        userName:
+          (this.userProfile()?.firstName ?? '') + ' ' + (this.userProfile()?.lastName ?? ''),
+      },
+    });
+    if (result.error) {
+      this.toastService.open({
+        type: 'danger',
+        message: 'Error',
+      });
+    } else {
+      this.toastService.open({
+        type: 'success',
+        message: 'Conversation closed successfully',
       });
     }
   }
