@@ -807,7 +807,8 @@
       },
       "closed": "Closed",
       "closeCaseButton": "Close case",
-      "markAsUnreadButton": "Mark as unread"
+      "markAsUnreadButton": "Mark as unread",
+      "conversationCloseError": "An error occurred trying to close the case"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
