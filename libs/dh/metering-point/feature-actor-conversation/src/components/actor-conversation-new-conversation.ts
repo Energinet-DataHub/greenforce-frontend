@@ -18,13 +18,10 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import {
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VATER } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import {
   DhDropdownTranslatorDirective,
@@ -39,46 +36,42 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
   imports: [
+    ReactiveFormsModule,
     TranslocoDirective,
-    VaterStackComponent,
+    VATER,
     WattButtonComponent,
     WattDropdownComponent,
-    DhDropdownTranslatorDirective,
-    ReactiveFormsModule,
+    WattHeadingComponent,
     WattTextFieldComponent,
     WattTextAreaFieldComponent,
     WattIconComponent,
-    VaterUtilityDirective,
-    VaterSpacerComponent,
+    DhDropdownTranslatorDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: `
-    .third-width {
-      width: 33%;
-    }
-  `,
   template: `
     <form
       [formGroup]="newConversationForm"
       (ngSubmit)="send()"
-      vater-stack
-      fill="both"
-      align="start"
+      vater-grid
+      rows="minmax(var(--case-min-row-height), auto) 1fr"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
-      <watt-card-title vater fill="horizontal">
-        <vater-stack direction="row" fill="horizontal" justify="space-between">
-          <h3>{{ t('newCaseTitle') }}</h3>
-          <watt-button (click)="closeNewConversation.emit()" variant="icon" icon="close" />
-        </vater-stack>
-      </watt-card-title>
-      <vater-stack align="start" fill="horizontal" gap="ml" offset="m">
+      <vater-stack
+        direction="row"
+        fill="horizontal"
+        align="center"
+        offset="m"
+        justify="space-between"
+      >
+        <h3 watt-heading>{{ t('newCaseTitle') }}</h3>
+        <watt-button (click)="closeNewConversation.emit()" variant="icon" icon="close" />
+      </vater-stack>
+      <vater-grid [rows]="5" columns="1fr 2fr" flow="column" offset="m" gap="m" justify="end">
         <watt-dropdown
           [formControl]="newConversationForm.controls.subject"
           [options]="subjects"
           [label]="t('subjectLabel')"
           [showResetOption]="false"
-          class="third-width"
           dhDropdownTranslator
           translateKey="meteringPoint.actorConversation.subjects"
           data-testid="actor-conversation-subject-dropdown"
@@ -88,7 +81,6 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
           [options]="receivers"
           [label]="t('receiverLabel')"
           [showResetOption]="false"
-          class="third-width"
           dhDropdownTranslator
           translateKey="meteringPoint.actorConversation.receivers"
           data-testid="actor-conversation-receiver-dropdown"
@@ -96,22 +88,22 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
         <watt-text-field
           [formControl]="newConversationForm.controls.internalNote"
           [label]="t('internalNoteLabel')"
-          class="third-width"
           data-testid="actor-conversation-internal-note-input"
         />
-      </vater-stack>
-      <vater-spacer />
-      <vater-stack fill="horizontal" align="end">
-        <watt-textarea-field
-          [label]="t('messageLabel')"
-          [formControl]="newConversationForm.controls.message"
-          data-testid="actor-conversation-message-textarea"
-        />
-        <watt-button type="submit"
-          >{{ t('sendButton') }}
-          <watt-icon name="send" />
-        </watt-button>
-      </vater-stack>
+        <vater-grid-area row="4" fill="horizontal">
+          <watt-textarea-field
+            [label]="t('messageLabel')"
+            [formControl]="newConversationForm.controls.message"
+            data-testid="actor-conversation-message-textarea"
+          />
+        </vater-grid-area>
+        <vater-grid-area row="5" column="2">
+          <watt-button type="submit">
+            {{ t('sendButton') }}
+            <watt-icon name="send" />
+          </watt-button>
+        </vater-grid-area>
+      </vater-grid>
     </form>
   `,
 })
