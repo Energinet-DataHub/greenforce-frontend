@@ -54,7 +54,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
         direction="row"
         justify="space-between"
         align="center"
-        offset="ml"
+        offset="m"
         class="new-case"
       >
         <h3 watt-heading>{{ t('cases') }}</h3>
