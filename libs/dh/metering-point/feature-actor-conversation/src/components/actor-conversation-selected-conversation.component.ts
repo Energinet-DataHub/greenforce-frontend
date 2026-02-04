@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
 import {
   VaterFlexComponent,
@@ -92,7 +92,7 @@ import { JsonPipe } from '@angular/common';
         </vater-stack>
 
         <vater-stack direction="row" gap="m">
-          <watt-button [disabled]="conversation().closed" variant="secondary">{{
+          <watt-button [disabled]="conversation().closed" (click)="closeConversation.emit(conversation()?.id)" variant="secondary">{{
             t('closeCaseButton')
           }}</watt-button>
           <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
@@ -128,4 +128,5 @@ export class DhActorConversationSelectedConversationComponent {
   private readonly fb = inject(NonNullableFormBuilder);
   formControl = this.fb.control('');
   conversation = input.required<ConversationDetail>();
+  closeConversation = output<string>();
 }

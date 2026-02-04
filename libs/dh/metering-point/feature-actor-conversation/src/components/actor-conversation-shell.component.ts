@@ -134,6 +134,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
                   vater
                   fill="both"
                   [conversation]="conversation"
+                  (closeConversation)="closeConversation($event)"
                 />
               } @else {
                 <watt-spinner vater center />
@@ -275,6 +276,7 @@ export class DhActorConversationShellComponent {
         type: 'success',
         message: 'Conversation closed successfully',
       });
+      await this.conversationQuery.refetch();
     }
   }
 
