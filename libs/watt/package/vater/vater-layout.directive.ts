@@ -17,13 +17,15 @@
  */
 //#endregion
 import { computed, Directive, input } from '@angular/core';
-import { Spacing } from './types';
+import { Align, Justify, Spacing } from './types';
 
 @Directive({
   host: {
     '[class]': 'class()',
     '[attr.gap]': 'null',
     '[attr.offset]': 'null',
+    '[attr.justify]': 'null',
+    '[attr.align]': 'null',
   },
 })
 export class VaterLayoutDirective {
@@ -33,8 +35,18 @@ export class VaterLayoutDirective {
   /** Offset to apply along the main axis (or both axes for grids). */
   offset = input<Spacing>();
 
+  /** Main axis alignment of the child items. */
+  justify = input<Justify>();
+
+  /** Cross axis alignment of the flex items. */
+  align = input<Align>();
+
   // Computed class names
   protected gapClass = computed(() => this.gap() && `vater-gap-${this.gap()}`);
   protected offsetClass = computed(() => this.offset() && `vater-offset-${this.offset()}`);
-  protected class = computed(() => [this.gapClass(), this.offsetClass()].filter(Boolean));
+  protected justifyClass = computed(() => this.justify() && `vater-justify-${this.justify()}`);
+  protected alignClass = computed(() => this.align() && `vater-align-${this.align()}`);
+  protected class = computed(() =>
+    [this.gapClass(), this.offsetClass(), this.justifyClass(), this.alignClass()].filter(Boolean)
+  );
 }

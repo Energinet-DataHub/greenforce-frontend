@@ -17,36 +17,23 @@
  */
 //#endregion
 import { booleanAttribute, computed, Directive, input } from '@angular/core';
-import { Align, Direction, Justify } from './types';
+import { Direction } from './types';
 
 @Directive({
   host: {
     '[class]': 'class()',
     '[class.vater-wrap]': 'wrap()',
-    '[attr.align]': 'null',
     '[attr.direction]': 'null',
-    '[attr.justify]': 'null',
     '[attr.wrap]': 'null',
   },
 })
 export class VaterFlexboxDirective {
-  /** Cross axis alignment of the flex items. */
-  align = input<Align>();
-
   /** Direction of the flex items. Defaults to `column`. */
   direction = input<Direction>('column');
-
-  /** Main axis alignment of the flex items. */
-  justify = input<Justify>();
 
   /** Whether the flex items should wrap. */
   wrap = input(false, { transform: booleanAttribute });
 
   // Computed class names
-  protected alignClass = computed(() => this.align() && `vater-align-${this.align()}`);
-  protected directionClass = computed(() => this.direction() && `vater-${this.direction()}`);
-  protected justifyClass = computed(() => this.justify() && `vater-justify-${this.justify()}`);
-  protected class = computed(() =>
-    [this.alignClass(), this.directionClass(), this.justifyClass()].filter(Boolean)
-  );
+  protected class = computed(() => this.direction() && `vater-${this.direction()}`);
 }
