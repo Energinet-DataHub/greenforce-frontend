@@ -796,7 +796,8 @@
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
-      "internalNoteLabel": "Intern note (medsendes ikke)",
+      "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
+      "internalNoteLabel": "Intern note",
       "messageLabel": "Besked",
       "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send",
@@ -804,7 +805,9 @@
         "noCases": "Der er ingen sager på målepunktet",
         "noCaseSelected": "Ingen sag valgt"
       },
-      "closed": "Afsluttet"
+      "closed": "Afsluttet",
+      "closeCaseButton": "Afslut sag",
+      "markAsUnreadButton": "Marker som ulæst"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
