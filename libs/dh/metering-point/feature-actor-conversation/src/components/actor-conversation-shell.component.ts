@@ -41,7 +41,7 @@ import {
   ConversationDetail,
 } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
 import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
 import { DhActorConversationSelectedConversationComponent } from './actor-conversation-selected-conversation.component';
@@ -161,6 +161,7 @@ export class DhActorConversationShellComponent {
     )
   );
   meteringPointId = input.required<string>();
+  private transloco = inject(TranslocoService);
 
   protected readonly ActorConversationState = ActorConversationState;
   newConversationVisible = signal(false);
@@ -269,13 +270,9 @@ export class DhActorConversationShellComponent {
     if (result.error) {
       this.toastService.open({
         type: 'danger',
-        message: 'Error',
+        message: this.transloco.translate('meteringPoint.actorConversation.conversationCloseError'),
       });
     } else {
-      this.toastService.open({
-        type: 'success',
-        message: 'Conversation closed successfully',
-      });
       await this.conversationQuery.refetch();
     }
   }
