@@ -292,7 +292,6 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
               start: period.start,
               end: period.end ? period.end : null,
             },
-            includeMonthlySums: false,
             gridAreasWithCalculations: this.getGridAreasWithCalculations(
               gridAreas,
               calculationType === CalculationType.BalanceFixing

@@ -23,7 +23,6 @@ public record RequestSettlementReportInput(
     RequestSettlementReportGridAreaInput[] GridAreasWithCalculations,
     bool CombineResultInASingleFile,
     bool PreventLargeTextFiles,
-    bool IncludeMonthlySums,
     bool IncludeBasisData,
     string? EnergySupplier,
     string? CsvLanguage,
