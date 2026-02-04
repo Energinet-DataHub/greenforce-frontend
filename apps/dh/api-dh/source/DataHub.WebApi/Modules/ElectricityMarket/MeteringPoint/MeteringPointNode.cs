@@ -401,7 +401,7 @@ public static partial class MeteringPointNode
             CreatedDate: meteringPointData.CreatedDate,
             ConnectionDate: meteringPointData.ConnectionDate,
             ClosedDownDate: meteringPointData.ClosedDownDate,
-            DisconnectionDate: null);
+            DisconnectionDate: meteringPointData.DisconnectionDate);
     }
 
     private static RelatedMeteringPointDto ToDto(Clients.ElectricityMarket.v1.RelatedMeteringPointDto meteringPointData)
