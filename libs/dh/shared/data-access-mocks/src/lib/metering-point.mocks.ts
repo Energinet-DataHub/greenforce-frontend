@@ -72,7 +72,7 @@ export function meteringPointMocks(apiBase: string) {
     requestEndOfSupply(),
     createConversation(),
     getConversations(),
-    getConversation()
+    getConversation(),
   ];
 }
 
@@ -667,7 +667,6 @@ function getConversation() {
     });
   });
 }
-
 
 function requestConnectionStateChange() {
   return mockRequestConnectionStateChangeMutation(async () => {

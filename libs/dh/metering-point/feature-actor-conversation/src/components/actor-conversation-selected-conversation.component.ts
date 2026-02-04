@@ -18,10 +18,18 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 import { WattBadgeComponent } from '@energinet/watt/badge';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattMenuComponent, WattMenuItemComponent, WattMenuTriggerDirective } from '@energinet/watt/menu';
+import {
+  WattMenuComponent,
+  WattMenuItemComponent,
+  WattMenuTriggerDirective,
+} from '@energinet/watt/menu';
 import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
