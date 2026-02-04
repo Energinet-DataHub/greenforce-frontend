@@ -167,7 +167,7 @@ export class DhActorConversationShellComponent {
   conversations = computed<ListConversation[]>(() => {
     return (this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []).map(
       (conversation) => ({
-        id: conversation.conversationId,
+        id: conversation.id,
         subject: conversation.subject,
         closed: conversation.closed,
         unread: !conversation.read,

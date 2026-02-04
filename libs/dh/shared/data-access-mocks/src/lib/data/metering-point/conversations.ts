@@ -1,6 +1,4 @@
 //#region License
-import { ConversationInfo } from '@energinet-datahub/dh/shared/domain/graphql';
-
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -18,33 +16,32 @@ import { ConversationInfo } from '@energinet-datahub/dh/shared/domain/graphql';
  * limitations under the License.
  */
 //#endregion
+//#region License
+import { ConversationInfo } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const conversations: ConversationInfo[] = [
   {
     __typename: 'ConversationInfo',
-    conversationId: '00001',
+    id: '00001',
     closed: false,
     read: false,
     lastUpdated: new Date(),
     subject: 'QUESTION_FOR_ENERGINET',
-    meteringPointIdentification: '222222222222222222'
   },
   {
     __typename: 'ConversationInfo',
-    conversationId: '00002',
+    id: '00002',
     closed: false,
     read: true,
     lastUpdated: new Date(),
     subject: 'QUESTION_FOR_ENERGINET',
-    meteringPointIdentification: '222222222222222222'
   },
   {
     __typename: 'ConversationInfo',
-    conversationId: '00003',
+    id: '00003',
     closed: true,
     read: true,
     lastUpdated: new Date(),
     subject: 'QUESTION_FOR_ENERGINET',
-    meteringPointIdentification: '222222222222222222'
   },
 ];
