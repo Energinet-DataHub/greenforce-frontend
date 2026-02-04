@@ -413,7 +413,7 @@ type ConversationMessage {
   senderType: ActorType!
   "Message content"
   content: String!
-  messageType: Int!
+  messageType: MessageType!
   "Created time"
   createdTime: DateTime!
 }
@@ -3119,6 +3119,12 @@ enum MeasurementsReportStatusType {
   ERROR
   COMPLETED
   CANCELED
+}
+
+"Message type"
+enum MessageType {
+  USER_MESSAGE
+  CLOSING_MESSAGE
 }
 
 enum MeteringGridImbalanceValuesToInclude {

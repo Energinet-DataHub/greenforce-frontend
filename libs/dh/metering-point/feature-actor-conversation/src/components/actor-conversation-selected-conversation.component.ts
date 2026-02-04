@@ -95,7 +95,7 @@ import { JsonPipe } from '@angular/common';
         <vater-stack direction="row" gap="m">
           <watt-button
             [disabled]="conversation().closed"
-            (click)="closeConversation.emit(conversation().id)"
+            (click)="closeConversation.emit()"
             variant="secondary"
             >{{ t('closeCaseButton') }}</watt-button
           >
@@ -132,5 +132,5 @@ export class DhActorConversationSelectedConversationComponent {
   private readonly fb = inject(NonNullableFormBuilder);
   formControl = this.fb.control('');
   conversation = input.required<ConversationDetail>();
-  closeConversation = output<string>();
+  closeConversation = output();
 }

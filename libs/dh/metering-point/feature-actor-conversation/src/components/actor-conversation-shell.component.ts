@@ -136,7 +136,7 @@ import { MutationResult } from 'apollo-angular';
                   vater
                   fill="both"
                   [conversation]="conversation"
-                  (closeConversation)="closeConversation($event)"
+                  (closeConversation)="closeConversation()"
                 />
               } @else {
                 <watt-spinner vater center />
@@ -260,7 +260,13 @@ export class DhActorConversationShellComponent {
     }
   }
 
-  async closeConversation(conversationId: string) {
+  async closeConversation() {
+    const conversationId = this.selectedConversationId();
+
+    if (!conversationId) {
+      return;
+    }
+
     await this.closeConversationMutation.mutate({
       variables: {
         conversationId,
