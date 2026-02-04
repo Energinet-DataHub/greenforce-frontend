@@ -66,7 +66,7 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
         <h3 watt-heading>{{ t('newCaseTitle') }}</h3>
         <watt-button (click)="closeNewConversation.emit()" variant="icon" icon="close" />
       </vater-stack>
-      <vater-grid [rows]="5" columns="1fr 2fr" flow="column" offset="m" gap="m" justify="end">
+      <vater-grid columns="1fr 2fr" flow="column" offset="m" gap="m" justify="end">
         <watt-dropdown
           [formControl]="newConversationForm.controls.subject"
           [options]="subjects"
