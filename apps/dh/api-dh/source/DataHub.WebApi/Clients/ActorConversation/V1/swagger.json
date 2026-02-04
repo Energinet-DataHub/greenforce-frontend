@@ -255,6 +255,7 @@
   "components": {
     "schemas": {
       "ActorType": {
+        "type": "string",
         "enum": [
           "EnergySupplier",
           "Energinet",
@@ -432,14 +433,19 @@
         }
       },
       "ConversationSubject": {
+        "type": "string",
         "description": "Conversation subjects",
         "enum": [
           "QuestionForEnerginet"
         ]
       },
       "MessageType": {
-        "type": "integer",
-        "description": "Message type"
+        "type": "string",
+        "description": "Message type",
+        "enum": [
+          "UserMessage",
+          "ClosingMessage"
+        ]
       },
       "ProblemDetails": {
         "type": "object",
