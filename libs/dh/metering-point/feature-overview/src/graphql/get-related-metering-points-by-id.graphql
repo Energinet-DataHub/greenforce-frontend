@@ -1,6 +1,6 @@
 fragment RelatedMeteringPoint on RelatedMeteringPointDto {
-  id
-  idForUrl
+  internalId
+  meteringPointIdentification
   type
   connectionState
   createdDate
@@ -10,12 +10,12 @@ fragment RelatedMeteringPoint on RelatedMeteringPointDto {
 }
 
 query GetRelatedMeteringPointsById(
-  $meteringPointId: String!
+  $meteringPointIdentification: String!
   $environment: String
   $searchMigratedMeteringPoints: Boolean
 ) {
   relatedMeteringPoints(
-    meteringPointId: $meteringPointId
+    meteringPointId: $meteringPointIdentification
     environment: $environment
     searchMigratedMeteringPoints: $searchMigratedMeteringPoints
   ) {

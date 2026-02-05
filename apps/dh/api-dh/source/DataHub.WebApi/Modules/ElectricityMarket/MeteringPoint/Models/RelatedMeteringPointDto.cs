@@ -15,8 +15,8 @@
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
 public record RelatedMeteringPointDto(
-    string Id,
-    string IdForUrl,
+    string InternalId,
+    string MeteringPointIdentification,
     MeteringPointType Type,
     ConnectionState ConnectionState,
     DateTimeOffset? CreatedDate,

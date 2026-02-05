@@ -117,15 +117,15 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
         [emptyText]="'meteringPoint.relatedMeteringPointsEmpty' | transloco"
       >
         <div class="grid-container">
-          @for (meteringPoint of relatedMeteringPointsList(); track meteringPoint.id) {
-            <div class="grid-row" [routerLink]="getLink('master-data', meteringPoint.idForUrl)">
+          @for (meteringPoint of relatedMeteringPointsList(); track meteringPoint.meteringPointIdentification) {
+            <div class="grid-row" [routerLink]="getLink('master-data', meteringPoint.internalId)">
               <div class="grid-cell">
                 <span class="watt-text-m watt-on-light--high-emphasis">
                   {{ 'meteringPointType.' + meteringPoint.type | transloco }}
                 </span>
                 <br />
                 <span class="watt-text-s watt-on-light--medium-emphasis">
-                  {{ meteringPoint.id }}
+                  {{ meteringPoint.meteringPointIdentification }}
                 </span>
               </div>
 
@@ -160,7 +160,7 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
               </div>
 
               <div class="grid-cell">
-                @if (meteringPointId() === meteringPoint.id) {
+                @if (meteringPointIdentification() === meteringPoint.meteringPointIdentification) {
                   <span class="dh-one-time-badge watt-label watt-space-inset-squish-xs">
                     {{ 'meteringPoint.selectedRelatedMeteringPoint' | transloco }}
                   </span>
@@ -178,12 +178,12 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 export class DhRelatedMeteringPointsComponent {
   private readonly environment = inject(dhAppEnvironmentToken);
 
-  meteringPointId = input.required<string>();
+  meteringPointIdentification = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
   query = query(GetRelatedMeteringPointsByIdDocument, () => ({
     variables: {
-      meteringPointId: this.meteringPointId(),
+      meteringPointIdentification: this.meteringPointIdentification(),
       environment: this.environment.current,
       searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
     },

@@ -395,8 +395,8 @@ public static partial class MeteringPointNode
     private static RelatedMeteringPointDto ToDto(GetRelatedMeteringPointsResultDtoV1.MeteringPointData meteringPointData)
     {
         return new RelatedMeteringPointDto(
-            Id: meteringPointData.MeteringPointId,
-            IdForUrl: IdentifierEncoder.EncodeMeteringPointId(meteringPointData.MeteringPointId),
+            InternalId: IdentifierEncoder.EncodeMeteringPointId(meteringPointData.MeteringPointId),
+            MeteringPointIdentification: meteringPointData.MeteringPointId,
             Type: meteringPointData.Type.MapToDto(),
             ConnectionState: meteringPointData.ConnectionState.MapToDto() ?? ConnectionState.NotUsed,
             CreatedDate: meteringPointData.CreatedDate,
@@ -408,8 +408,8 @@ public static partial class MeteringPointNode
     private static RelatedMeteringPointDto ToDto(Clients.ElectricityMarket.v1.RelatedMeteringPointDto meteringPointData)
     {
         return new RelatedMeteringPointDto(
-            Id: meteringPointData.Identification,
-            IdForUrl: meteringPointData.Id.ToString(),
+            InternalId: meteringPointData.Id.ToString(),
+            MeteringPointIdentification: meteringPointData.Identification,
             Type: meteringPointData.Type.MapToDto(),
             ConnectionState: meteringPointData.ConnectionState.MapToDto() ?? ConnectionState.NotUsed,
             CreatedDate: meteringPointData.CreatedDate,
