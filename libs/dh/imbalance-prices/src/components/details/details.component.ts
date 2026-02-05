@@ -32,6 +32,7 @@ import {
   GenerateCSV,
   DhEmDashFallbackPipe,
   DhDownloadButtonComponent,
+  DhResultComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -52,6 +53,7 @@ import { DhTableDayViewComponent } from './table-day-view/dh-table-day-view.comp
     WattSpinnerComponent,
     DhDownloadButtonComponent,
     DhEmDashFallbackPipe,
+    DhResultComponent,
     DhStatusBadgeComponent,
     DhTableDayViewComponent,
   ],
@@ -78,36 +80,34 @@ import { DhTableDayViewComponent } from './table-day-view/dh-table-day-view.comp
       </watt-drawer-actions>
 
       <watt-drawer-content>
-        <watt-description-list variant="inline-flow">
-          <watt-description-list-item [label]="t('priceAreaLabel')">
-            {{ imbalancePrice().priceAreaCode | dhEmDashFallback }}
-          </watt-description-list-item>
-          <watt-description-list-item [label]="t('updatedLabel')">
-            {{ lastUpdated() | wattDate: 'short' | dhEmDashFallback }}
-          </watt-description-list-item>
-        </watt-description-list>
+        <vater-flex fill="vertical">
+          <watt-description-list variant="inline-flow">
+            <watt-description-list-item [label]="t('priceAreaLabel')">
+              {{ imbalancePrice().priceAreaCode | dhEmDashFallback }}
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('updatedLabel')">
+              {{ lastUpdated() | wattDate: 'short' | dhEmDashFallback }}
+            </watt-description-list-item>
+          </watt-description-list>
 
-        <p class="watt-on-light--medium-emphasis">{{ t('pricesNote') }}</p>
+          <p class="watt-on-light--medium-emphasis">{{ t('pricesNote') }}</p>
 
-        @if (query.loading()) {
-          <vater-flex direction="row" justify="center">
-            <watt-spinner />
-          </vater-flex>
-        } @else {
-          @for (day of imbalancePricesForMonth(); track day.timeStamp) {
-            <watt-expandable-card variant="solid" togglePosition="before">
-              <watt-expandable-card-title vater fill="horizontal">
-                <vater-stack direction="row" fill="horizontal" justify="space-between">
-                  {{ day.timeStamp | wattDate: 'short' }}
-                  @if (day.status !== 'COMPLETE') {
-                    <dh-status-badge [status]="day.status" />
-                  }
-                </vater-stack>
-              </watt-expandable-card-title>
-              <dh-table-day-view [data]="day.imbalancePrices" />
-            </watt-expandable-card>
-          }
-        }
+          <dh-result vater fill="vertical" [query]="query">
+            @for (day of imbalancePricesForMonth(); track day.timeStamp) {
+              <watt-expandable-card variant="solid" togglePosition="before">
+                <watt-expandable-card-title vater fill="horizontal">
+                  <vater-stack direction="row" fill="horizontal" justify="space-between">
+                    {{ day.timeStamp | wattDate: 'short' }}
+                    @if (day.status !== 'COMPLETE') {
+                      <dh-status-badge [status]="day.status" />
+                    }
+                  </vater-stack>
+                </watt-expandable-card-title>
+                <dh-table-day-view [data]="day.imbalancePrices" />
+              </watt-expandable-card>
+            }
+          </dh-result>
+        </vater-flex>
       </watt-drawer-content>
     </watt-drawer>
   `,

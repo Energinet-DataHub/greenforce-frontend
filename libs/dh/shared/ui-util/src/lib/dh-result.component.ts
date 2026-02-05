@@ -24,6 +24,8 @@ import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 
+import { QueryResult } from '@energinet-datahub/dh/shared/util-apollo';
+
 type Variant = 'normal' | 'compact';
 
 @Component({
@@ -40,7 +42,7 @@ type Variant = 'normal' | 'compact';
     }
   `,
   template: `
-    @if (!loading() && !hasError() && !empty()) {
+    @if (!showSpinner() && !showError() && !empty()) {
       <ng-content />
     } @else {
       <vater-stack
@@ -50,33 +52,33 @@ type Variant = 'normal' | 'compact';
       >
         @if (variant() === 'compact') {
           <vater-stack class="watt-text-s" direction="row" fill="horizontal" gap="m" align="start">
-            @if (loading()) {
+            @if (showSpinner()) {
               <div>{{ loadingText() }}</div>
               <watt-spinner [diameter]="loadingSpinnerDiameter()" />
             }
 
-            @if (empty() && !loading() && !hasError()) {
+            @if (empty() && !showSpinner() && !showError()) {
               <div>{{ emptyText() }}</div>
             }
 
-            @if (hasError() && !loading()) {
+            @if (showError() && !showSpinner()) {
               <div>{{ 'shared.error.message' | transloco }}</div>
             }
           </vater-stack>
         }
 
-        @if (loading() && variant() === 'normal') {
+        @if (showSpinner() && variant() === 'normal') {
           <watt-spinner />
         }
 
-        @if (hasError() && !loading() && variant() === 'normal') {
+        @if (showError() && !showSpinner() && variant() === 'normal') {
           <watt-empty-state
             icon="custom-power"
             [title]="'shared.error.title' | transloco"
             [message]="'shared.error.message' | transloco"
           />
         }
-        @if (empty() && !loading() && !hasError() && variant() === 'normal') {
+        @if (empty() && !showSpinner() && !showError() && variant() === 'normal') {
           <ng-content select="h4[dh-result-empty-title]">
             <h4>{{ 'shared.empty.title' | transloco }}</h4>
           </ng-content>
@@ -86,12 +88,17 @@ type Variant = 'normal' | 'compact';
   `,
 })
 export class DhResultComponent {
-  loading = input<boolean>(false);
-  hasError = input<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  query = input<QueryResult<any, any>>();
+  loading = input<boolean>();
+  hasError = input<boolean>();
   empty = input<boolean>(false);
   emptyText = input<string>();
   loadingText = input<string>();
   variant = input<Variant>('normal');
+
+  showSpinner = computed(() => this.loading() ?? this.query()?.loading() ?? false);
+  showError = computed(() => this.hasError() ?? this.query()?.hasError() ?? false);
 
   loadingSpinnerDiameter = computed(() => {
     if (this.variant() == 'compact') return 24;
