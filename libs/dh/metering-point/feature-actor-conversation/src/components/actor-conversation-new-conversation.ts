@@ -18,22 +18,15 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import {
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VaterSpacerComponent, VaterStackComponent, VaterUtilityDirective, } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { DhDropdownTranslatorDirective, dhEnumToWattDropdownOptions, } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
 import { MessageFormValue, StartConversationFormValue } from '../types';
 import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -47,7 +40,7 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
     WattTextFieldComponent,
     VaterUtilityDirective,
     VaterSpacerComponent,
-    DhActorConversationTextAreaComponent,
+    DhActorConversationMessageFormComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -120,9 +113,8 @@ export class DhActorConversationNewConversationComponent {
     ),
     receiver: this.fb.control<ActorType>(ActorType.Energinet, Validators.required),
     internalNote: this.fb.control<string | null>(null),
-    message: this.fb.control<MessageFormValue>(
-      { message: '', anonymous: false },
-      (control) => (control.value.message ? null : { required: true })
+    message: this.fb.control<MessageFormValue>({ message: '', anonymous: false }, (control) =>
+      control.value.message ? null : { required: true }
     ),
   });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);

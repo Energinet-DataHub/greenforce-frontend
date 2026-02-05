@@ -30,11 +30,11 @@ import {
   WattMenuItemComponent,
   WattMenuTriggerDirective,
 } from '@energinet/watt/menu';
-import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { MessageFormValue, ConversationDetail } from '../types';
 import { JsonPipe } from '@angular/common';
+import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 
 @Component({
   selector: 'dh-actor-conversation-selected-conversation',
@@ -47,12 +47,12 @@ import { JsonPipe } from '@angular/common';
     WattMenuComponent,
     WattMenuItemComponent,
     WattMenuTriggerDirective,
-    DhActorConversationTextAreaComponent,
     VaterUtilityDirective,
     VaterFlexComponent,
     TranslocoDirective,
     JsonPipe,
     ReactiveFormsModule,
+    DhActorConversationMessageFormComponent,
   ],
   styles: `
     .no-margin {
