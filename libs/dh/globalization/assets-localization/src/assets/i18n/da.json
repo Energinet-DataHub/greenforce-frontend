@@ -809,7 +809,9 @@
       "closed": "Afsluttet",
       "closeCaseButton": "Afslut sag",
       "markAsUnreadButton": "Marker som ulæst",
-      "conversationCloseError": "Der opstod en fejl under afslutning af sagen"
+      "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
+      "anonymousCheckbox": "Send anonymt",
+      "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",

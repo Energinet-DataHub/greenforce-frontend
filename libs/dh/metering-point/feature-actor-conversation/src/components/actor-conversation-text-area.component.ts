@@ -29,6 +29,8 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
 @Component({
   selector: 'dh-actor-conversation-text-area',
@@ -47,7 +49,14 @@ import { TranslocoDirective } from '@jsverse/transloco';
     WattTextAreaFieldComponent,
     TranslocoDirective,
     ReactiveFormsModule,
+    WattCheckboxComponent,
+    WattTooltipDirective,
   ],
+  styles: `
+    .info-icon-color {
+      color: var(--watt-color-neutral-black);
+    }
+  `,
   template: `
     <vater-stack
       fill="horizontal"
@@ -61,10 +70,20 @@ import { TranslocoDirective } from '@jsverse/transloco';
         (blur)="onTouched()"
         data-testid="actor-conversation-message-textarea"
       />
-      <watt-button type="submit">
-        {{ t('sendButton') }}
-        <watt-icon name="send" />
-      </watt-button>
+      <vater-stack direction="row" gap="s">
+        <watt-checkbox>
+          {{ t('anonymousCheckbox') }}
+        </watt-checkbox>
+        <watt-icon
+          name="info"
+          class="info-icon-color"
+          [wattTooltip]="t('anonymousTooltip')"
+        />
+        <watt-button type="submit">
+          {{ t('sendButton') }}
+          <watt-icon name="send" />
+        </watt-button>
+      </vater-stack>
     </vater-stack>
   `,
 })

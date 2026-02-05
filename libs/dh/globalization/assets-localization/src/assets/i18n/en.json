@@ -809,7 +809,9 @@
       "closed": "Closed",
       "closeCaseButton": "Close case",
       "markAsUnreadButton": "Mark as unread",
-      "conversationCloseError": "An error occurred trying to close the case"
+      "conversationCloseError": "An error occurred trying to close the case",
+      "anonymousCheckbox": "Send anonymously",
+      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
