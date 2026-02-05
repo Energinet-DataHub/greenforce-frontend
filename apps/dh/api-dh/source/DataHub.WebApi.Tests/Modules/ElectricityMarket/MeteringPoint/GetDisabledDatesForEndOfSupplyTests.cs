@@ -215,6 +215,24 @@ public class GetDisabledDatesForEndOfSupplyTests
     }
 
     [Fact]
+    public void AscensionAndWhitMonday_AreDisabled()
+    {
+        // Arrange - set clock so Ascension Day and Whit Monday fall within the window
+        // Easter 2025: April 20 → Ascension Day: May 29, day after: May 30, Whit Monday: June 9
+        // Clock at May 1, so days 3-60 = May 4 - Jun 30
+        var calendar = CreateCalendar(new LocalDate(2025, 5, 1));
+
+        // Act
+        var result = MeteringPointNode.GetDisabledDatesForEndOfSupply(calendar).ToList();
+        var disabledLocalDates = result.Select(ToLocalDate).ToList();
+
+        // Assert
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 5, 29), "Ascension Day (Kristi Himmelfartsdag)");
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 5, 30), "Day after Ascension Day");
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 6, 9), "Whit Monday (2. Pinsedag)");
+    }
+
+    [Fact]
     public void ConstitutionDay_IsDisabled()
     {
         // Arrange - set clock so June 5 (Constitution Day) falls within the window
@@ -227,6 +245,22 @@ public class GetDisabledDatesForEndOfSupplyTests
 
         // Assert
         disabledLocalDates.Should().Contain(new LocalDate(2025, 6, 5), "Constitution Day (Grundlovsdag)");
+    }
+
+    [Fact]
+    public void BoundaryDates_AreIncludedInRange()
+    {
+        // Arrange - pick a date where day 3 (Saturday) and day 60 are within range
+        // Jan 15 (Wednesday) + 3 = Jan 18 (Saturday), + 60 = Mar 16 (Sunday)
+        var calendar = CreateCalendar(new LocalDate(2025, 1, 15));
+
+        // Act
+        var result = MeteringPointNode.GetDisabledDatesForEndOfSupply(calendar).ToList();
+        var disabledLocalDates = result.Select(ToLocalDate).ToList();
+
+        // Assert - day 3 (Saturday) and day 60 (Sunday) should both be disabled
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 1, 18), "day 3 boundary (Saturday)");
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 3, 16), "day 60 boundary (Sunday)");
     }
 
     [Fact]
@@ -324,12 +358,7 @@ public class GetDisabledDatesForEndOfSupplyTests
         }
 
         // Whit Monday (Easter + 50)
-        if (date == easterSunday.PlusDays(50))
-        {
-            return true;
-        }
-
-        return false;
+        return date == easterSunday.PlusDays(50);
     }
 
     private static LocalDate CalculateEasterSunday(int year)
@@ -367,7 +396,7 @@ public class GetDisabledDatesForEndOfSupplyTests
         else
         {
             month = 4;
-            day = (d + e) - 9;
+            day = d + e - 9;
         }
 
         if (d == 29 && e == 6)
