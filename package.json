@@ -166,7 +166,6 @@
     "@types/node": "22.17.1",
     "@types/papaparse": "5.3.16",
     "@types/vimeo__player": "2.16.3",
-    "@typescript-eslint/typescript-estree": "8.18.0",
     "@typescript-eslint/utils": "7.18.0",
     "@vitest/coverage-v8": "4.0.16",
     "@vitest/ui": "4.0.16",
