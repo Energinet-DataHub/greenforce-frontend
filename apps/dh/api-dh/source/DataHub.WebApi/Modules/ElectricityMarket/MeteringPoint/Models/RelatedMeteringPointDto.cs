@@ -22,7 +22,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Model
 /// show in the URL, to avoid saving the real metering point id in the browser history.
 /// </param>
 /// <param name="MeteringPointIdentification">
-/// The metering point GSRN id.
+/// The metering point GSRN id, eg. 57XXXXXXXXXXXXXXXX.
 /// </param>
 /// <param name="Type"></param>
 /// <param name="ConnectionState"></param>
