@@ -32,7 +32,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
-import { StartConversationFormValue } from '../types';
+import { MessageFormValue, StartConversationFormValue } from '../types';
 import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -120,7 +120,10 @@ export class DhActorConversationNewConversationComponent {
     ),
     receiver: this.fb.control<ActorType>(ActorType.Energinet, Validators.required),
     internalNote: this.fb.control<string | null>(null),
-    message: this.fb.control<string>('', Validators.required),
+    message: this.fb.control<MessageFormValue>(
+      { message: '', anonymous: false },
+      (control) => (control.value.message ? null : { required: true })
+    ),
   });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
   receivers = dhEnumToWattDropdownOptions(ActorType);
@@ -133,8 +136,8 @@ export class DhActorConversationNewConversationComponent {
     const formControls = this.newConversationForm.controls;
     const formValues: StartConversationFormValue = {
       subject: formControls.subject.value,
-      content: formControls.message.value,
-      anonymous: false,
+      content: formControls.message.value.message as string,
+      anonymous: formControls.message.value.anonymous as boolean,
       receiver: formControls.receiver.value,
       internalNote: formControls.internalNote.value ?? undefined,
     };

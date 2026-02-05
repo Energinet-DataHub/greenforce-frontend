@@ -45,6 +45,11 @@ export interface ConversationDetail {
   messages?: ConversationMessage[];
 }
 
+export interface MessageFormValue {
+  message: string | null;
+  anonymous: boolean | null;
+}
+
 export type StartConversationFormValue = {
   subject: ConversationSubject;
   content: string;
