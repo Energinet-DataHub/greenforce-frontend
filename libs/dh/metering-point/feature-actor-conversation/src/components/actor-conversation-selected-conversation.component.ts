@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
 import {
   VaterFlexComponent,
@@ -31,7 +31,7 @@ import {
   WattMenuTriggerDirective,
 } from '@energinet/watt/menu';
 import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
-import { NonNullableFormBuilder } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ConversationDetail } from '../types';
 import { JsonPipe } from '@angular/common';
@@ -52,6 +52,7 @@ import { JsonPipe } from '@angular/common';
     VaterFlexComponent,
     TranslocoDirective,
     JsonPipe,
+    ReactiveFormsModule,
   ],
   styles: `
     .no-margin {
@@ -92,9 +93,12 @@ import { JsonPipe } from '@angular/common';
         </vater-stack>
 
         <vater-stack direction="row" gap="m">
-          <watt-button [disabled]="conversation().closed" variant="secondary">{{
-            t('closeCaseButton')
-          }}</watt-button>
+          <watt-button
+            [disabled]="conversation().closed"
+            (click)="closeConversation.emit(conversation().id)"
+            variant="secondary"
+            >{{ t('closeCaseButton') }}</watt-button
+          >
           <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
             <watt-icon name="moreVertical" />
           </watt-button>
@@ -118,7 +122,7 @@ import { JsonPipe } from '@angular/common';
           vater
           fill="horizontal"
           [small]="true"
-          [control]="formControl"
+          [formControl]="formControl"
         />
       </vater-stack>
     </vater-stack>
@@ -128,4 +132,5 @@ export class DhActorConversationSelectedConversationComponent {
   private readonly fb = inject(NonNullableFormBuilder);
   formControl = this.fb.control('');
   conversation = input.required<ConversationDetail>();
+  closeConversation = output<string>();
 }

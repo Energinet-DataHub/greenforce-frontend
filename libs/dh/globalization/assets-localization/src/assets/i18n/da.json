@@ -808,7 +808,8 @@
       },
       "closed": "Afsluttet",
       "closeCaseButton": "Afslut sag",
-      "markAsUnreadButton": "Marker som ulæst"
+      "markAsUnreadButton": "Marker som ulæst",
+      "conversationCloseError": "Der opstod en fejl under afslutning af sagen"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
