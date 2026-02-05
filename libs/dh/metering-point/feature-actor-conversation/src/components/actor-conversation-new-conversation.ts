@@ -102,7 +102,7 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
       <dh-actor-conversation-text-area
         vater
         fill="horizontal"
-        [control]="newConversationForm.controls.message"
+        [formControl]="newConversationForm.controls.message"
       />
     </form>
   `,
