@@ -31,9 +31,8 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
 import { StartConversationFormValue } from '../types';
-import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
-import { WattIconComponent } from '@energinet/watt/icon';
 import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -46,10 +45,9 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
     DhDropdownTranslatorDirective,
     ReactiveFormsModule,
     WattTextFieldComponent,
-    WattTextAreaFieldComponent,
-    WattIconComponent,
     VaterUtilityDirective,
     VaterSpacerComponent,
+    DhActorConversationTextAreaComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -95,23 +93,17 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
         />
         <watt-text-field
           [formControl]="newConversationForm.controls.internalNote"
-          [label]="t('internalNoteLabel')"
+          [label]="t('internalNoteLabelWithDisclaimer')"
           class="third-width"
           data-testid="actor-conversation-internal-note-input"
         />
       </vater-stack>
       <vater-spacer />
-      <vater-stack fill="horizontal" align="end">
-        <watt-textarea-field
-          [label]="t('messageLabel')"
-          [formControl]="newConversationForm.controls.message"
-          data-testid="actor-conversation-message-textarea"
-        />
-        <watt-button type="submit"
-          >{{ t('sendButton') }}
-          <watt-icon name="send" />
-        </watt-button>
-      </vater-stack>
+      <dh-actor-conversation-text-area
+        vater
+        fill="horizontal"
+        [formControl]="newConversationForm.controls.message"
+      />
     </form>
   `,
 })

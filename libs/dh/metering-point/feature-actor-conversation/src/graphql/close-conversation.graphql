@@ -1,0 +1,15 @@
+mutation CloseConversation(
+  $conversationId: UUID!
+  $meteringPointIdentification: String!
+  $userName: String!
+) {
+  closeConversation(
+    input: {
+      conversationId: $conversationId
+      meteringPointIdentification: $meteringPointIdentification
+      userName: $userName
+    }
+  ) {
+    boolean
+  }
+}

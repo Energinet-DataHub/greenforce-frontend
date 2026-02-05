@@ -711,7 +711,8 @@
         "settlementMethod": "Settlement method",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Electrical heating date",
-        "powerLimit": "Power limit",
+        "powerLimitKw": "Power limit kW",
+        "powerLimitA": "Power limit A",
         "powerLimitValueKw": "{{ value }} kW",
         "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Disconnection type",
@@ -795,7 +796,8 @@
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Grid access provider"
       },
-      "internalNoteLabel": "Internal note (not enclosed)",
+      "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
+      "internalNoteLabel": "Internal note",
       "messageLabel": "Message",
       "messagePlaceholder": "Write a message",
       "sendButton": "Send",
@@ -803,7 +805,10 @@
         "noCases": "No cases found",
         "noCaseSelected": "No case selected"
       },
-      "closed": "Closed"
+      "closed": "Closed",
+      "closeCaseButton": "Close case",
+      "markAsUnreadButton": "Mark as unread",
+      "conversationCloseError": "An error occurred trying to close the case"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
@@ -2351,7 +2356,6 @@
         "includeBasisData": "Include basis data",
         "allowLargeTextFiles": "Allow large files",
         "period": "Calculation period",
-        "includeMonthlySum": "Include monthly sum",
         "useApi": "Request report via new solution",
         "energySupplier": "Energy supplier",
         "gridArea": "Grid area",

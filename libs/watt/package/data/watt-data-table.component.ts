@@ -119,11 +119,10 @@ import { WattDataIntlService } from './watt-data-intl.service';
               </vater-stack>
               <ng-content select="watt-data-actions" />
             </vater-stack>
-
-            <!-- Filters -->
-            <ng-content select="watt-data-filters" />
           </vater-stack>
         }
+        <!-- Filters -->
+        <ng-content select="watt-data-filters" />
         <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
           @if (

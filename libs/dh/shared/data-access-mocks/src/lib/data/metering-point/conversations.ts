@@ -16,5 +16,32 @@
  * limitations under the License.
  */
 //#endregion
-export const dhMeteringPointTypeParam = 'type';
-export const dhInternalMeteringPointIdParam = 'internalMeteringPointId';
+//#region License
+import { ConversationInfo } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export const conversations: ConversationInfo[] = [
+  {
+    __typename: 'ConversationInfo',
+    id: '00001',
+    closed: false,
+    read: false,
+    lastUpdated: new Date(),
+    subject: 'QUESTION_FOR_ENERGINET',
+  },
+  {
+    __typename: 'ConversationInfo',
+    id: '00002',
+    closed: false,
+    read: true,
+    lastUpdated: new Date(),
+    subject: 'QUESTION_FOR_ENERGINET',
+  },
+  {
+    __typename: 'ConversationInfo',
+    id: '00003',
+    closed: true,
+    read: true,
+    lastUpdated: new Date(),
+    subject: 'QUESTION_FOR_ENERGINET',
+  },
+];

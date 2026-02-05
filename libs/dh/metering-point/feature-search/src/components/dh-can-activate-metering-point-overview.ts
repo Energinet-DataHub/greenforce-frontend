@@ -23,12 +23,13 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  dhIsValidInternalId,
   dhIsValidMeteringPointId,
+  dhIsEM1InternalId,
+  dhIsEM2EncodedId,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { dhExternalOrInternalMeteringPointIdParam } from './dh-metering-point-params';
+import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 
 export const dhCanActivateMeteringPointOverview: CanActivateFn = (
   route: ActivatedRouteSnapshot
@@ -41,24 +42,21 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
     getPath<MeteringPointSubPaths>('search'),
   ]);
 
-  const idParam: string = route.params[dhExternalOrInternalMeteringPointIdParam];
+  const idParam: string = route.params[dhInternalMeteringPointIdParam];
 
-  const meteringPointId = dhIsValidMeteringPointId(idParam) ? idParam : undefined;
-
-  if (meteringPointId && environment.current === DhAppEnvironment.prod) {
-    // In production, only internal IDs are allowed in the URL
+  if (dhIsValidMeteringPointId(idParam)) {
+    // Only internal IDs are allowed in the URL
     return searchRoute;
   }
 
-  const internalMeteringPointId =
-    meteringPointId === undefined && dhIsValidInternalId(idParam) ? idParam : undefined;
+  const isEM1Id = dhIsEM1InternalId(idParam);
+  const isEM2Id = dhIsEM2EncodedId(idParam);
 
-  if (meteringPointId || internalMeteringPointId) {
+  if (isEM1Id || isEM2Id) {
     return query(DoesInternalMeteringPointIdExistDocument, {
       variables: {
-        internalMeteringPointId,
-        meteringPointId,
-        searchMigratedMeteringPoints: meteringPointId === undefined,
+        internalMeteringPointId: idParam,
+        searchMigratedMeteringPoints: isEM1Id,
         environment: environment.current,
       },
     })
