@@ -76,11 +76,7 @@ import { MessageFormValue } from '../types';
         <watt-checkbox [formControl]="form.controls.anonymous">
           {{ t('anonymousCheckbox') }}
         </watt-checkbox>
-        <watt-icon
-          name="info"
-          class="info-icon-color"
-          [wattTooltip]="t('anonymousTooltip')"
-        />
+        <watt-icon name="info" class="info-icon-color" [wattTooltip]="t('anonymousTooltip')" />
         <watt-button type="submit">
           {{ t('sendButton') }}
           <watt-icon name="send" />
