@@ -31,7 +31,7 @@ import {
   WattMenuTriggerDirective,
 } from '@energinet/watt/menu';
 import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
-import { NonNullableFormBuilder } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ConversationDetail } from '../types';
 import { JsonPipe } from '@angular/common';
@@ -52,6 +52,7 @@ import { JsonPipe } from '@angular/common';
     VaterFlexComponent,
     TranslocoDirective,
     JsonPipe,
+    ReactiveFormsModule,
   ],
   styles: `
     .no-margin {
@@ -121,7 +122,7 @@ import { JsonPipe } from '@angular/common';
           vater
           fill="horizontal"
           [small]="true"
-          [control]="formControl"
+          [formControl]="formControl"
         />
       </vater-stack>
     </vater-stack>
