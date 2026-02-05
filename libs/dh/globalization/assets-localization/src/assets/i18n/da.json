@@ -2316,8 +2316,9 @@
         "title": "Er du sikker på, at du vil afbryde denne rapport?",
         "confirm": "Afbryd rapport",
         "cancel": "Fortryd",
-        "requestSuccess": "Afregningsrapport afbrudt.",
-        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
+        "loading": "Afbryder afregningsrapport...",
+        "success": "Afregningsrapport afbrudt.",
+        "error": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
       },
       "columns": {
         "startedAt": "Bestilt",

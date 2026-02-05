@@ -16,37 +16,41 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, DestroyRef, inject, input } from '@angular/core';
-import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { Component, effect, inject, input } from '@angular/core';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattModalService } from '@energinet/watt/modal';
-import { DhCancelReportRequestModal } from '../request-report/cancel-report-request-modal.component';
-import { Apollo } from 'apollo-angular';
+
+import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   CancelSettlementReportDocument,
   GetSettlementReportsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WattToastService } from '@energinet/watt/toast';
+
+import { DhCancelReportRequestModal } from '../request-report/cancel-report-request-modal.component';
 
 @Component({
   selector: 'dh-cancel-report-request',
-  template: `<ng-container *transloco="let t; prefix: 'reports.settlementReports.cancelReport'">
-    <watt-button size="small" variant="text" icon="close" (click)="openCancelModal($event)">
-      {{ t('baseName') }}
-    </watt-button>
-  </ng-container>`,
+  template: `
+    <ng-container *transloco="let t; prefix: 'reports.settlementReports.cancelReport'">
+      <watt-button size="small" variant="text" icon="close" (click)="openCancelModal($event)">
+        {{ t('baseName') }}
+      </watt-button>
+    </ng-container>
+  `,
   imports: [TranslocoDirective, WattButtonComponent],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhCancelReportRequest {
-  reportId = input<string>();
-
-  private readonly toastService = inject(WattToastService);
   private readonly modalService = inject(WattModalService);
-  private readonly apollo = inject(Apollo);
-  private readonly destroyRef = inject(DestroyRef);
+
+  readonly reportId = input<string>();
+
+  cancelSettlementReport = mutation(CancelSettlementReportDocument);
+  toast = injectToast('reports.settlementReports.cancelReport');
+  toastEffect = effect(() => this.toast(this.cancelSettlementReport.status()));
 
   openCancelModal(event: Event) {
     // Stop the row click event from propagating
@@ -57,40 +61,14 @@ export class DhCancelReportRequest {
       component: DhCancelReportRequestModal,
       onClosed: (isSuccess) => {
         const id = this.reportId();
-        if (isSuccess && id) {
-          this.apollo
-            .mutate({
-              mutation: CancelSettlementReportDocument,
-              variables: {
-                input: { id },
-              },
-              refetchQueries: [GetSettlementReportsDocument],
-            })
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe({
-              next: () => {
-                this.showSuccessNotification();
-              },
-              error: () => {
-                this.showErrorNotification();
-              },
-            });
+        if (id && isSuccess) {
+          this.cancelSettlementReport.mutate({
+            // refetchQueries: [{ query: GetSettlementReportsDocument }],
+            refetchQueries: [GetSettlementReportsDocument],
+            variables: { input: { id } },
+          });
         }
       },
-    });
-  }
-
-  private showSuccessNotification(): void {
-    this.toastService.open({
-      message: translate('reports.settlementReports.cancelReport.requestSuccess'),
-      type: 'success',
-    });
-  }
-
-  private showErrorNotification(): void {
-    this.toastService.open({
-      message: translate('reports.settlementReports.cancelReport.requestError'),
-      type: 'danger',
     });
   }
 }
