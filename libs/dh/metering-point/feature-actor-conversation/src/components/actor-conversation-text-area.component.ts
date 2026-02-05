@@ -54,7 +54,7 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
   ],
   styles: `
     .info-icon-color {
-      color: var(--watt-color-neutral-black);
+      color: var(--watt-text-color);
     }
   `,
   template: `
