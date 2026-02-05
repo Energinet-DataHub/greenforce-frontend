@@ -396,6 +396,7 @@ public static partial class MeteringPointNode
     {
         return new RelatedMeteringPointDto(
             Id: meteringPointData.MeteringPointId,
+            IdForUrl: IdentifierEncoder.EncodeMeteringPointId(meteringPointData.MeteringPointId),
             Type: meteringPointData.Type.MapToDto(),
             ConnectionState: meteringPointData.ConnectionState.MapToDto() ?? ConnectionState.NotUsed,
             CreatedDate: meteringPointData.CreatedDate,
@@ -408,6 +409,7 @@ public static partial class MeteringPointNode
     {
         return new RelatedMeteringPointDto(
             Id: meteringPointData.Identification,
+            IdForUrl: meteringPointData.Id.ToString(),
             Type: meteringPointData.Type.MapToDto(),
             ConnectionState: meteringPointData.ConnectionState.MapToDto() ?? ConnectionState.NotUsed,
             CreatedDate: meteringPointData.CreatedDate,

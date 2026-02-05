@@ -118,7 +118,7 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
       >
         <div class="grid-container">
           @for (meteringPoint of relatedMeteringPointsList(); track meteringPoint.id) {
-            <div class="grid-row" [routerLink]="getLink('master-data', meteringPoint.id)">
+            <div class="grid-row" [routerLink]="getLink('master-data', meteringPoint.idForUrl)">
               <div class="grid-cell">
                 <span class="watt-text-m watt-on-light--high-emphasis">
                   {{ 'meteringPointType.' + meteringPoint.type | transloco }}

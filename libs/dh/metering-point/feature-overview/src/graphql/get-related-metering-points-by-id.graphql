@@ -1,5 +1,6 @@
 fragment RelatedMeteringPoint on RelatedMeteringPointDto {
   id
+  idForUrl
   type
   connectionState
   createdDate

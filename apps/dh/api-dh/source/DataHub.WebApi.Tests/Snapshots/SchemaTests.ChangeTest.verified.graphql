@@ -1381,6 +1381,7 @@ type ReadinessStatusDto {
 
 type RelatedMeteringPointDto {
   id: String!
+  idForUrl: String!
   type: ElectricityMarketViewMeteringPointType!
   connectionState: ElectricityMarketViewConnectionState!
   createdDate: DateTime
