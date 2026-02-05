@@ -424,9 +424,9 @@
           "transparentInvoicingGroupName": "Viderefakturering",
           "transparentInvoicing": "Skal viderefaktureres",
           "not_transparentInvoicing": "Skal ikke viderefaktureres",
-          "predictablePriceGroupName": "Spotafhængig pris",
-          "predictablePrice": "Spotafhængig pris",
-          "not_predictablePrice": "Ikke spotafhængig pris",
+          "spotDependingPriceGroupName": "Spotafhængig pris",
+          "spotDependingPrice": "Spotafhængig pris",
+          "not_spotDependingPrice": "Ikke spotafhængig pris",
           "missingPriceSeriesGroupName": "Prisserie",
           "missingPriceSeries": "Mangler prisserie",
           "not_missingPriceSeries": "Har prisserie"
@@ -461,9 +461,9 @@
           "transparentInvoicing": "Viderefakturering",
           "withTransparentInvoicing": "Ja",
           "withoutTransparentInvoicing": "Nej",
-          "predictablePrice": "Forudsigelig pris",
-          "withPredictablePrice": "Ja",
-          "withoutPredictablePrice": "Nej",
+          "spotDependingPrice": "Spotafhængig pris",
+          "withSpotDependingPrice": "Ja",
+          "withoutSpotDependingPrice": "Nej",
           "validFrom": "Gyldig fra",
           "cutoffDate": "Skæringsdato"
         },
@@ -524,6 +524,7 @@
       "owner": "Ejer",
       "resolution": "Prisopløsning",
       "transparentInvoicing": "Viderefakturering",
+      "spotDependingPrice": "Spotafhængig pris",
       "vat": "Moms",
       "tabs": {
         "pricesLabel": "Priser",

@@ -304,7 +304,7 @@ type Charge {
   status: ChargeStatus!
   vatInclusive: Boolean!
   transparentInvoicing: Boolean!
-  predictablePrice: Boolean!
+  spotDependingPrice: Boolean!
 }
 
 type ChargeLink {
@@ -331,7 +331,6 @@ type ChargePeriod {
   description: String!
   transparentInvoicing: Boolean!
   vatInclusive: Boolean!
-  predictablePrice: Boolean!
   period: DateRange!
   status: ChargeStatus!
 }
@@ -1789,7 +1788,7 @@ input AddChargeSeriesInput {
   id: String!
   start: DateTime!
   end: DateTime!
-  points: [ChargePointV1Input!]!
+  points: [ChargePointV2Input!]!
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
@@ -1880,7 +1879,7 @@ input ChargeLinkDtoSortInput {
   chargeIdentifier: ChargeIdentifierDtoSortInput
 }
 
-input ChargePointV1Input {
+input ChargePointV2Input {
   position: Int!
   priceAmount: Decimal!
 }
@@ -1899,7 +1898,7 @@ input ChargesQueryInput {
   resolution: [ChargeResolution!]
   vatInclusive: Boolean
   transparentInvoicing: Boolean
-  predictablePrice: Boolean
+  spotDependingPrice: Boolean
   missingPriceSeries: Boolean
 }
 
@@ -1939,6 +1938,7 @@ input CreateChargeInput {
   validFrom: DateTime!
   vat: Boolean!
   transparentInvoicing: Boolean
+  spotDependingPrice: Boolean!
 }
 
 input CreateChargeLinkInput {

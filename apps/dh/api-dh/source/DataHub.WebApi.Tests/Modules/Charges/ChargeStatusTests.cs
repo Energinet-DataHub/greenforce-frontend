@@ -49,6 +49,7 @@ public class ChargeStatusTests
             new("SUB-123", "Energy Provider A", ExternalChargeType.Subscription),
             Resolution.Daily,
             false,
+            false,
             [new("Period 1", "Standard Period", VatClassificationDto.NoVat, false, startDate, endDate)]);
 
         charge.Status.Should().Be(expectedStatus);
