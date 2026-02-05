@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Core.App.Common.Calendar;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Commands;
@@ -29,6 +30,7 @@ using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using HotChocolate.Authorization;
 using Microsoft.FeatureManagement;
+using NodaTime;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
 
@@ -276,6 +278,25 @@ public static partial class MeteringPointNode
         return result.IsSuccess
             ? true
             : throw new GraphQLException("Command RequestEndOfSupply failed");
+    }
+
+    [Query]
+    public static IEnumerable<DateTimeOffset> GetDisabledDatesForEndOfSupply(
+        [Service] DataHubCalendar calendar)
+    {
+        var firstPossibleWorkingDay = 3;
+        var lastPossibleWorkingDay = 60;
+
+        var start = calendar.GetDateRelativeToCurrentDate(firstPossibleWorkingDay);
+        var end = calendar.GetDateRelativeToCurrentDate(lastPossibleWorkingDay);
+        var workingDays = calendar.GetWorkingDaysInPeriod(start, end);
+        var allDays = Enumerable
+            .Range(firstPossibleWorkingDay, lastPossibleWorkingDay - firstPossibleWorkingDay + 1)
+            .Select(calendar.GetDateRelativeToCurrentDate);
+
+        return allDays
+            .Except(workingDays)
+            .Select(date => date.ToDateTimeOffset());
     }
 
     private static async Task<MeteringPointDto> GetMeteringPointWithNewModelAsync(

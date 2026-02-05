@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 using NodaTime;
@@ -38,7 +38,7 @@ public interface IChargesClient
         Resolution[]? resolution,
         bool? vatInclusive,
         bool? transparentInvoicing,
-        bool? predictablePrice,
+        bool? spotDependingPrice,
         bool? missingPriceSeries,
         CancellationToken ct = default);
 
@@ -101,6 +101,6 @@ public interface IChargesClient
         ChargeIdentifierDto id,
         DateTimeOffset start,
         DateTimeOffset end,
-        List<ChargePointV1> points,
+        List<ChargePointV2> points,
         CancellationToken ct = default);
 }
