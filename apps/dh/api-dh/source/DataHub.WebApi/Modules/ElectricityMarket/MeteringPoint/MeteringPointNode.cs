@@ -386,7 +386,6 @@ public static partial class MeteringPointNode
 
         var data = result.Data;
 
-        // Map to MeteringPointDto
         return new RelatedMeteringPointsDto(
             Current: ToDto(data.Current),
             Parent: data.Parent is not null ? ToDto(data.Parent) : null,
@@ -403,7 +402,6 @@ public static partial class MeteringPointNode
     {
         var result = await em1Client.MeteringPointRelatedAsync(meteringPointId, ct).ConfigureAwait(false);
 
-        // Map to MeteringPointDto
         return new RelatedMeteringPointsDto(
             Current: ToDto(result.Current),
             Parent: result.Parent is not null ? ToDto(result.Parent) : null,
