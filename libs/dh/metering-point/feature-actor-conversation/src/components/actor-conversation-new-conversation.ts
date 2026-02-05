@@ -18,11 +18,18 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { VaterSpacerComponent, VaterStackComponent, VaterUtilityDirective, } from '@energinet/watt/vater';
+import {
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import { DhDropdownTranslatorDirective, dhEnumToWattDropdownOptions, } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageFormValue, StartConversationFormValue } from '../types';
 import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
