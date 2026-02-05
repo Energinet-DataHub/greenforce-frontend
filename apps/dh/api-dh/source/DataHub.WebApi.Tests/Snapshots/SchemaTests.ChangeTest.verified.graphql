@@ -1300,7 +1300,7 @@ type Query {
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
   meteringPointExists(environment: String! searchMigratedMeteringPoints: Boolean! internalMeteringPointId: String meteringPointId: String): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
-  relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
+  relatedMeteringPoints(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   disabledDatesForEndOfSupply: [DateTime!]!
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -1380,10 +1380,10 @@ type ReadinessStatusDto {
 }
 
 type RelatedMeteringPointDto {
-  id: Long!
-  identification: String!
-  type: ElectricityMarketMeteringPointType!
-  connectionState: ElectricityMarketConnectionStateType!
+  internalId: String!
+  meteringPointIdentification: String!
+  type: ElectricityMarketViewMeteringPointType!
+  connectionState: ElectricityMarketViewConnectionState!
   createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
