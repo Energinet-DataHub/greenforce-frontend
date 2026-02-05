@@ -111,11 +111,7 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
     const disabledDates = this.disabledDatesQuery.data()?.disabledDatesForEndOfSupply;
     if (!disabledDates?.length) return undefined;
 
-    const disabledSet = new Set(disabledDates.map((d) => dayjs(d).format('YYYY-MM-DD')));
-    return (date: Date | null) => {
-      if (!date) return true;
-      return !disabledSet.has(dayjs(date).format('YYYY-MM-DD'));
-    };
+    return (date: Date | null) => !disabledDates.some((d) => dayjs(d).isSame(date, 'day'));
   });
 
   readonly form = this.fb.group({

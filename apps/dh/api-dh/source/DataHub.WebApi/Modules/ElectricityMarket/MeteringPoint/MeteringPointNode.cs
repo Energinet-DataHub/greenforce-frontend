@@ -253,27 +253,22 @@ public static partial class MeteringPointNode
     }
 
     [Query]
-    public static List<DateTimeOffset> GetDisabledDatesForEndOfSupply(
+    public static IEnumerable<DateTimeOffset> GetDisabledDatesForEndOfSupply(
         [Service] DataHubCalendar calendar)
     {
-        var start = calendar.GetDateRelativeToCurrentDate(3);
-        var end = calendar.GetDateRelativeToCurrentDate(60);
-        var workingDays = calendar.GetWorkingDaysInPeriod(start, end).ToHashSet();
+        var firstPossibleWorkingDay = 3;
+        var lastPossibleWorkingDay = 60;
 
-        var disabledDates = new List<DateTimeOffset>();
-        var current = start;
+        var start = calendar.GetDateRelativeToCurrentDate(firstPossibleWorkingDay);
+        var end = calendar.GetDateRelativeToCurrentDate(lastPossibleWorkingDay);
+        var workingDays = calendar.GetWorkingDaysInPeriod(start, end);
+        var allDays = Enumerable
+            .Range(firstPossibleWorkingDay, lastPossibleWorkingDay - firstPossibleWorkingDay + 1)
+            .Select(calendar.GetDateRelativeToCurrentDate);
 
-        while (current <= end)
-        {
-            if (!workingDays.Contains(current))
-            {
-                disabledDates.Add(current.ToDateTimeOffset());
-            }
-
-            current = current.Plus(Duration.FromDays(1));
-        }
-
-        return disabledDates;
+        return allDays
+            .Except(workingDays)
+            .Select(date => date.ToDateTimeOffset());
     }
 
     private static async Task<MeteringPointDto> GetMeteringPointWithNewModelAsync(
