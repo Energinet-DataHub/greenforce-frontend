@@ -120,9 +120,8 @@ export class DhActorConversationNewConversationComponent {
     ),
     receiver: this.fb.control<ActorType>(ActorType.Energinet, Validators.required),
     internalNote: this.fb.control<string | null>(null),
-    message: this.fb.control<MessageFormValue>(
-      { message: '', anonymous: false },
-      (control) => (control.value.message ? null : { required: true })
+    message: this.fb.control<MessageFormValue>({ message: '', anonymous: false }, (control) =>
+      control.value.message ? null : { required: true }
     ),
   });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
