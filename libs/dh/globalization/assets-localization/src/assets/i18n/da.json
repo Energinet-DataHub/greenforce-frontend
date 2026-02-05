@@ -461,7 +461,7 @@
           "transparentInvoicing": "Viderefakturering",
           "withTransparentInvoicing": "Ja",
           "withoutTransparentInvoicing": "Nej",
-          "spotDependingPrice": "Forudsigelig pris",
+          "spotDependingPrice": "Spotafhængig pris",
           "withSpotDependingPrice": "Ja",
           "withoutSpotDependingPrice": "Nej",
           "validFrom": "Gyldig fra",
