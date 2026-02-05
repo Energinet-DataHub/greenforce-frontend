@@ -23,12 +23,13 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  dhIsValidInternalId,
   dhIsValidMeteringPointId,
+  dhIsEM1InternalId,
+  dhIsEM2EncodedId,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { dhExternalOrInternalMeteringPointIdParam } from './dh-metering-point-params';
+import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 
 export const dhCanActivateMeteringPointOverview: CanActivateFn = ():
   | Promise<UrlTree | boolean>
@@ -41,30 +42,21 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = ():
     getPath<MeteringPointSubPaths>('search'),
   ]);
 
-  const navigation = router.currentNavigation();
-  const idParamInState: string | undefined =
-    navigation?.extras.state?.[dhExternalOrInternalMeteringPointIdParam];
-  const idParamInSS = sessionStorage.getItem(dhExternalOrInternalMeteringPointIdParam);
+  const idParam = findIdParam();
 
-  const idParam = idParamInState ?? idParamInSS;
-
-  if (idParam) {
-    sessionStorage.setItem(dhExternalOrInternalMeteringPointIdParam, idParam);
-  } else {
+  if (dhIsValidMeteringPointId(idParam)) {
+    // Only internal IDs are allowed in the URL
     return searchRoute;
   }
 
-  const meteringPointId = dhIsValidMeteringPointId(idParam) ? idParam : undefined;
+  const isEM1Id = dhIsEM1InternalId(idParam);
+  const isEM2Id = dhIsEM2EncodedId(idParam);
 
-  const internalMeteringPointId =
-    meteringPointId === undefined && dhIsValidInternalId(idParam) ? idParam : undefined;
-
-  if (meteringPointId || internalMeteringPointId) {
+  if (isEM1Id || isEM2Id) {
     return query(DoesInternalMeteringPointIdExistDocument, {
       variables: {
-        internalMeteringPointId,
-        meteringPointId,
-        searchMigratedMeteringPoints: meteringPointId === undefined,
+        internalMeteringPointId: idParam,
+        searchMigratedMeteringPoints: isEM1Id,
         environment: environment.current,
       },
     })
@@ -80,3 +72,13 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = ():
 
   return searchRoute;
 };
+
+function findIdParam(): string {
+  const navigation = inject(Router).currentNavigation();
+
+  const idParamInState: string | undefined =
+    navigation?.extras.state?.[dhInternalMeteringPointIdParam];
+  const idParamInSS = sessionStorage.getItem(dhInternalMeteringPointIdParam);
+
+  return idParamInState ?? idParamInSS ?? '';
+}

@@ -15,6 +15,7 @@
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using Microsoft.FeatureManagement;
 
@@ -52,7 +53,7 @@ public static partial class MeteringPointMetadataDtoType
         return await dataLoader.LoadAsync(meteringPointMetadata.ToGridAreaCode);
     }
 
-    public static async Task<long?> GetInternalMeteringPointParentIdAsync(
+    public static async Task<string?> GetInternalMeteringPointParentIdAsync(
         string? environment,
         bool? searchMigratedMeteringPoints,
         [Parent] MeteringPointMetadataDto meteringPointMetadata,
@@ -63,7 +64,7 @@ public static partial class MeteringPointMetadataDtoType
         [Service] IElectricityMarketClient electricityMarketClient,
         [Service] IFeatureManagerSnapshot featureManager)
     {
-        if (meteringPointMetadata.ParentMeteringPoint == null)
+        if (string.IsNullOrEmpty(meteringPointMetadata.ParentMeteringPoint))
         {
             return null;
         }

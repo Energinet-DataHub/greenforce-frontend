@@ -66,9 +66,8 @@ import { DhPermissionsDownloadComponent } from './download.component';
       [searchLabel]="'shared.search' | transloco"
       [error]="dataSource.error"
       [ready]="dataSource.called"
+      [enableCount]="false"
     >
-      <h3>{{ t('headline') }}</h3>
-
       <watt-data-actions>
         <dh-permissions-download [permissions]="dataSource.filteredData" [url]="url()" />
       </watt-data-actions>

@@ -711,7 +711,8 @@
         "settlementMethod": "Afregningsform",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Elvarmedato",
-        "powerLimit": "Effektgrænse",
+        "powerLimitKw": "Effektgrænse kW",
+        "powerLimitA": "Effektgrænse A",
         "powerLimitValueKw": "{{ value }} kW",
         "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Afbrydelsesart",
@@ -786,21 +787,28 @@
         "customerMasterData": "{{ shared.terminology.customerMasterData }}",
         "measurements": "{{ shared.terminology.measurements }}",
         "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "chargeLink": "{{ shared.terminology.chargeLink }}"
+        "chargeLink": "{{ shared.terminology.chargeLink }}",
+        "newCase": "Ny sag"
       },
-      "receiverLabel": "Modtager",
+      "receiverLabel": "Til",
       "receivers": {
         "ENERGY_SUPPLIER": "Elleverandør",
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
+      "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
       "internalNoteLabel": "Intern note",
       "messageLabel": "Besked",
+      "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send",
       "emptyState": {
         "noCases": "Der er ingen sager på målepunktet",
         "noCaseSelected": "Ingen sag valgt"
-      }
+      },
+      "closed": "Afsluttet",
+      "closeCaseButton": "Afslut sag",
+      "markAsUnreadButton": "Marker som ulæst",
+      "conversationCloseError": "Der opstod en fejl under afslutning af sagen"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
@@ -1276,7 +1284,6 @@
   "messageArchive": {
     "topBarTitle": "Fremsøg forretningsbeskeder",
     "new": "Ny søgning",
-    "results": "Resultater",
     "searchById": "Søg på ID",
     "refetching": "Henter forretningsbeskeder...",
     "drawer": {
@@ -1322,8 +1329,7 @@
       "created": "Sendt",
       "messageId": "Besked ID",
       "sender": "Afsender",
-      "receiver": "Modtager",
-      "download": "Download"
+      "receiver": "Modtager"
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
@@ -1686,8 +1692,7 @@
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
-        "reset": "{{ shared.form.reset }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
       },
       "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {
@@ -2085,10 +2090,10 @@
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
       "status": {
-        "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 2, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
+        "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 3, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
         "CONVERTER": "Status bliver rød hvis NBS-beskeder ikke kan dannes, fordi der enten er en fejl i konverteringen eller netområdet i beskeden ikke har en netvirksomhed tilknyttet.",
-        "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til BizTalk, fordi der enten ikke er forbindelse, BizTalk ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
-        "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra BizTalk, fordi der enten ikke er forbindelse, BizTalk/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
+        "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til Servicebus/eSett, fordi der enten ikke er forbindelse, fordi servicebus/eSett ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
+        "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra Servicebus, fordi der enten ikke er forbindelse, Servicebus/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
       },
       "fileName": "DataHub eSett udgående beskeder - {{ shared.downloadNameParams }}",
       "shared": {
@@ -2353,7 +2358,6 @@
         "includeBasisData": "Inkluder datagrundlag",
         "allowLargeTextFiles": "Tillad store filer",
         "period": "Beregningsperiode",
-        "includeMonthlySum": "Inkluder månedssummer",
         "useApi": "Bestil rapport via. ny løsning",
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",
@@ -2463,6 +2467,7 @@
       "search": "Søg på ID",
       "new": "Ny beregning",
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
+      "actionsButton": "Handlinger",
       "capacitySettlements": {
         "uploadButton": "Upload fil til effektbetaling",
         "uploadInProgress": "Upload i gang",
@@ -3189,7 +3194,6 @@
         "period": "Beregningsperiode"
       },
       "table": {
-        "headline": "Processer",
         "searchLabel": "Søg på ID",
         "columns": {
           "id": "Id",

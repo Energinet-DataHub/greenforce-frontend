@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
@@ -21,11 +22,11 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappe
 /// </summary>
 public static class MeteringPointMetadataMapper
 {
-    public static MeteringPointMetadataDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.MeteringPointPeriodDto meteringPoint)
+    public static MeteringPointMetadataDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.MeteringPointPeriodDto meteringPoint, string meteringPointId)
     {
         return new MeteringPointMetadataDto
         {
-            Id = NextLong(),
+            Id = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, meteringPoint.ValidFrom, meteringPoint.ValidTo),
             ValidFrom = meteringPoint.ValidFrom,
             ValidTo = meteringPoint.ValidTo,
             ParentMeteringPoint = meteringPoint.ParentMeteringPointId?.ToString(),
@@ -53,7 +54,7 @@ public static class MeteringPointMetadataMapper
             ToGridAreaCode = meteringPoint.ToGridAreaId,
             PowerPlantGsrn = meteringPoint.PowerPlantGsrn?.ToString(),
             SettlementMethod = meteringPoint.SettlementMethod?.MapToDto(),
-            InstallationAddress = meteringPoint.InstallationAddress?.MapToDto(),
+            InstallationAddress = meteringPoint.InstallationAddress?.MapToDto(meteringPointId),
             ManuallyHandled = false,
         };
     }
@@ -62,7 +63,7 @@ public static class MeteringPointMetadataMapper
     {
         return new MeteringPointMetadataDto
         {
-            Id = meteringPoint.Id,
+            Id = meteringPoint.Id.ToString(),
             ValidFrom = meteringPoint.ValidFrom,
             ValidTo = meteringPoint.ValidTo,
             ParentMeteringPoint = meteringPoint.ParentMeteringPoint,
@@ -95,18 +96,18 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    public static CommercialRelationDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.CommercialRelationDto commercialRelation)
+    public static CommercialRelationDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.CommercialRelationDto commercialRelation, string meteringPointId)
     {
         return new CommercialRelationDto
         {
-            Id = NextLong(),
+            Id = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, commercialRelation.ValidFrom, commercialRelation.ValidTo),
             EnergySupplier = commercialRelation.EnergySupplierId,
             StartDate = commercialRelation.ValidFrom,
             EndDate = commercialRelation.ValidTo,
-            ActiveEnergySupplyPeriod = commercialRelation.ActiveEnergySupplyPeriod?.MapToDto(),
-            EnergySupplyPeriodTimeline = [.. commercialRelation.EnergySupplierPeriods.Select(e => e.MapToDto())],
-            ActiveElectricalHeatingPeriods = commercialRelation.ActiveElectricalHeatingPeriod?.MapToDto(),
-            ElectricalHeatingPeriods = [.. commercialRelation.ElectricalHeatingPeriods.Select(e => e.MapToDto())],
+            ActiveEnergySupplyPeriod = commercialRelation.ActiveEnergySupplyPeriod?.MapToDto(meteringPointId),
+            EnergySupplyPeriodTimeline = [.. commercialRelation.EnergySupplierPeriods.Select(e => e.MapToDto(meteringPointId))],
+            ActiveElectricalHeatingPeriods = commercialRelation.ActiveElectricalHeatingPeriod?.MapToDto(meteringPointId),
+            ElectricalHeatingPeriods = [.. commercialRelation.ElectricalHeatingPeriods.Select(e => e.MapToDto(meteringPointId))],
         };
     }
 
@@ -114,7 +115,7 @@ public static class MeteringPointMetadataMapper
     {
         return new CommercialRelationDto
         {
-            Id = commercialRelation.Id,
+            Id = commercialRelation.Id.ToString(),
             EnergySupplier = commercialRelation.EnergySupplier,
             StartDate = commercialRelation.StartDate,
             EndDate = commercialRelation.EndDate,
@@ -125,20 +126,15 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    public static long NextLong()
+    private static EnergySupplyPeriodDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.EnergySupplierPeriodDto energySupplierPeriod, string meteringPointId)
     {
-        var random = new Random(Guid.NewGuid().GetHashCode());
-        return random.NextLong(1000000, long.MaxValue);
-    }
-
-    private static EnergySupplyPeriodDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.EnergySupplierPeriodDto energySupplierPeriod)
-    {
+        var encodedId = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, energySupplierPeriod.ValidFrom, energySupplierPeriod.ValidTo);
         return new EnergySupplyPeriodDto
         {
-            Id = NextLong(),
+            Id = encodedId,
             ValidFrom = energySupplierPeriod.ValidFrom,
             ValidTo = energySupplierPeriod.ValidTo,
-            Customers = [.. energySupplierPeriod.Contacts.Select(c => c.MapToDto())],
+            Customers = [.. energySupplierPeriod.Contacts.Select((c, index) => c.MapToDto(encodedId, index + 1))],
         };
     }
 
@@ -146,18 +142,18 @@ public static class MeteringPointMetadataMapper
     {
         return new EnergySupplyPeriodDto
         {
-            Id = energySupplierPeriod.Id,
+            Id = energySupplierPeriod.Id.ToString(),
             ValidFrom = energySupplierPeriod.ValidFrom,
             ValidTo = energySupplierPeriod.ValidTo,
             Customers = [.. energySupplierPeriod.Customers.Select(c => c.MapToDto())],
         };
     }
 
-    private static ElectricalHeatingDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ElectricalHeatingPeriodDto electricalHeatingPeriod)
+    private static ElectricalHeatingDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ElectricalHeatingPeriodDto electricalHeatingPeriod, string meteringPointId)
     {
         return new ElectricalHeatingDto
         {
-            Id = NextLong(),
+            Id = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, electricalHeatingPeriod.ValidFrom, electricalHeatingPeriod.ValidTo),
             ValidFrom = electricalHeatingPeriod.ValidFrom,
             ValidTo = electricalHeatingPeriod.ValidTo,
             IsActive = false, // TODO: We don't have this value from the backend yet
@@ -169,7 +165,7 @@ public static class MeteringPointMetadataMapper
     {
         return new ElectricalHeatingDto
         {
-            Id = electricalHeatingPeriod.Id,
+            Id = electricalHeatingPeriod.Id.ToString(),
             ValidFrom = electricalHeatingPeriod.ValidFrom,
             ValidTo = electricalHeatingPeriod.ValidTo,
             IsActive = electricalHeatingPeriod.IsActive,
@@ -177,17 +173,17 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static CustomerDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactDto contactDto)
+    private static CustomerDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactDto contactDto, string meteringPointId, int index)
     {
         return new CustomerDto
         {
-            Id = NextLong(),
+            Id = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, "Cus" + index),
             Name = contactDto.Name ?? string.Empty,
             Cvr = contactDto.Cvr,
             IsProtectedName = contactDto.IsProtectedName,
             RelationType = contactDto.RelationType.MapToDto(),
-            LegalContact = contactDto.LegalContact?.MapToDto(),
-            TechnicalContact = contactDto.TechnicalContact?.MapToDto(),
+            LegalContact = contactDto.LegalContact?.MapToDto(meteringPointId, $"legal-{index}"),
+            TechnicalContact = contactDto.TechnicalContact?.MapToDto(meteringPointId, $"technical-{index}"),
         };
     }
 
@@ -195,7 +191,7 @@ public static class MeteringPointMetadataMapper
     {
         return new CustomerDto
         {
-            Id = customerDto.Id,
+            Id = customerDto.Id.ToString(),
             Name = customerDto.Name,
             Cvr = customerDto.Cvr,
             IsProtectedName = customerDto.IsProtectedName,
@@ -205,11 +201,11 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static CustomerContactDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactAddressDto contactDto)
+    private static CustomerContactDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactAddressDto contactDto, string meteringPointId, string index)
     {
         return new CustomerContactDto
         {
-            Id = NextLong(),
+            Id = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, "CusCon" + index),
             Name = contactDto.Name,
             Email = contactDto.Email,
             IsProtectedAddress = contactDto.IsProtected,
@@ -235,7 +231,7 @@ public static class MeteringPointMetadataMapper
     {
         return new CustomerContactDto
         {
-            Id = customerContactDto.Id,
+            Id = customerContactDto.Id.ToString(),
             Name = customerContactDto.Name,
             Email = customerContactDto.Email,
             IsProtectedAddress = customerContactDto.IsProtectedAddress,
@@ -257,11 +253,11 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static InstallationAddressDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.InstallationAddressDto installationAddress)
+    private static InstallationAddressDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.InstallationAddressDto installationAddress, string meteringPointId)
     {
         return new InstallationAddressDto
         {
-            Id = NextLong(),
+            Id = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, "InsAdr"),
             StreetCode = installationAddress.StreetCode,
             StreetName = installationAddress.StreetName ?? string.Empty,
             BuildingNumber = installationAddress.BuildingNumber ?? string.Empty,
@@ -282,7 +278,7 @@ public static class MeteringPointMetadataMapper
     {
         return new InstallationAddressDto
         {
-            Id = installationAddress.Id,
+            Id = installationAddress.Id.ToString(),
             StreetCode = installationAddress.StreetCode,
             StreetName = installationAddress.StreetName,
             BuildingNumber = installationAddress.BuildingNumber,
@@ -297,26 +293,5 @@ public static class MeteringPointMetadataMapper
             MunicipalityCode = installationAddress.MunicipalityCode,
             LocationDescription = installationAddress.LocationDescription,
         };
-    }
-
-    private static long NextLong(this Random random, long min, long max)
-    {
-        if (max <= min)
-        {
-            throw new ArgumentOutOfRangeException("max", "max must be > min!");
-        }
-
-        var unsignedRange = (ulong)(max - min);
-
-        ulong ulongRand;
-        do
-        {
-            var buf = new byte[8];
-            random.NextBytes(buf);
-            ulongRand = (ulong)BitConverter.ToInt64(buf, 0);
-        }
-        while (ulongRand > ulong.MaxValue - (((ulong.MaxValue % unsignedRange) + 1) % unsignedRange));
-
-        return (long)(ulongRand % unsignedRange) + min;
     }
 }

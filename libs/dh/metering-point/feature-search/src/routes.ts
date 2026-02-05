@@ -50,11 +50,11 @@ import {
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
-import { dhIsValidMeteringPointId } from '@energinet-datahub/dh/shared/ui-util';
+import { dhIsEM1InternalId } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   dhMeteringPointTypeParam,
-  dhExternalOrInternalMeteringPointIdParam,
+  dhInternalMeteringPointIdParam,
 } from './components/dh-metering-point-params';
 
 import { DhSearchComponent } from './components/dh-search.component';
@@ -79,7 +79,7 @@ export const dhMeteringPointRoutes: Routes = [
     canDeactivate: [
       () => {
         // Remove metering point ID from session storage when leaving metering point routes
-        sessionStorage.removeItem(dhExternalOrInternalMeteringPointIdParam);
+        sessionStorage.removeItem(dhInternalMeteringPointIdParam);
 
         return true;
       },
@@ -287,23 +287,21 @@ function meteringPointCreateGuard(): CanActivateFn {
 }
 
 /**
- * Resolves the metering point ID from either external or internal metering point ID in `History.state` property.
+ * Resolves the external metering point ID from internal metering point ID in `History.state` property.
  * See https://angular.dev/api/router/NavigationExtras
  * And https://angular.dev/api/router/RouterLink#preserving-navigation-history
  */
 function meteringPointIdResolver(): ResolveFn<string> {
   return () => {
     const environment = inject(dhAppEnvironmentToken);
-    const idParam = findIdParam();
 
-    if (idParam && dhIsValidMeteringPointId(idParam)) {
-      return idParam;
-    }
+    const idParam = findIdParam();
+    const isEM1Id = dhIsEM1InternalId(idParam);
 
     return query(DoesInternalMeteringPointIdExistDocument, {
       variables: {
         internalMeteringPointId: idParam,
-        searchMigratedMeteringPoints: true,
+        searchMigratedMeteringPoints: isEM1Id,
         environment: environment.current,
       },
     })
@@ -314,22 +312,22 @@ function meteringPointIdResolver(): ResolveFn<string> {
 
 /**
  * Figures out whether the intention is to search a migrated metering point by looking for a `History.state` param.
- * If the param is not a valid metering point ID, we assume it's an internal ID and thus a migrated metering point.
+ * If the param is a valid EM1 internal ID, we assume a migrated metering point.
  */
 function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
   return () => {
     const idParam = findIdParam();
 
-    return !!idParam && dhIsValidMeteringPointId(idParam) === false;
+    return dhIsEM1InternalId(idParam);
   };
 }
 
-function findIdParam(): string | null {
+function findIdParam(): string {
   const navigation = inject(Router).currentNavigation();
 
   const idParamInState: string | undefined =
-    navigation?.extras.state?.[dhExternalOrInternalMeteringPointIdParam];
-  const idParamInSS = sessionStorage.getItem(dhExternalOrInternalMeteringPointIdParam);
+    navigation?.extras.state?.[dhInternalMeteringPointIdParam];
+  const idParamInSS = sessionStorage.getItem(dhInternalMeteringPointIdParam);
 
-  return idParamInState ?? idParamInSS;
+  return idParamInState ?? idParamInSS ?? '';
 }

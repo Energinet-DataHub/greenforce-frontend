@@ -133,12 +133,14 @@ public class SettlementReportsClient(
             input.EnergySupplier,
             input.CsvLanguage);
 
+        var includeMonthlySums = false;
+
         await client.RequestAsync(
             new SettlementReportRequestDto(
                 !input.CombineResultInASingleFile,
                 input.PreventLargeTextFiles,
                 input.IncludeBasisData,
-                input.IncludeMonthlySums,
+                includeMonthlySums,
                 requestFilter,
                 requestAsActor?.ActorNumber.Value,
                 input.RequestAsMarketRole),
