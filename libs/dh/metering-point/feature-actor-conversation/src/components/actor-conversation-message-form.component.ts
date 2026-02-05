@@ -35,12 +35,12 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { MessageFormValue } from '../types';
 
 @Component({
-  selector: 'dh-actor-conversation-text-area',
+  selector: 'dh-actor-conversation-message-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DhActorConversationTextAreaComponent),
+      useExisting: forwardRef(() => DhActorConversationMessageFormComponent),
       multi: true,
     },
   ],
@@ -89,7 +89,7 @@ import { MessageFormValue } from '../types';
     </vater-stack>
   `,
 })
-export class DhActorConversationTextAreaComponent implements ControlValueAccessor {
+export class DhActorConversationMessageFormComponent implements ControlValueAccessor {
   small = input<boolean>(false);
 
   form = new FormGroup({

@@ -99,7 +99,7 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
         />
       </vater-stack>
       <vater-spacer />
-      <dh-actor-conversation-text-area
+      <dh-actor-conversation-message-form
         vater
         fill="horizontal"
         [formControl]="newConversationForm.controls.message"

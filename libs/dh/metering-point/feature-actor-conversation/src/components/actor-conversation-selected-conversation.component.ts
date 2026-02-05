@@ -118,7 +118,7 @@ import { JsonPipe } from '@angular/common';
         }
       </vater-flex>
       <vater-stack fill="horizontal" class="watt-space-inset-ml">
-        <dh-actor-conversation-text-area
+        <dh-actor-conversation-message-form
           vater
           fill="horizontal"
           [small]="true"
