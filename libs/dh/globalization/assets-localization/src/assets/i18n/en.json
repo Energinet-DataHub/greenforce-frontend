@@ -461,9 +461,9 @@
           "transparentInvoicing": "Transparent invoicing",
           "withTransparentInvoicing": "Yes",
           "withoutTransparentInvoicing": "No",
-          "spotDependingPrince": "Spot depending price",
-          "withSpotDependingPrince": "Yes",
-          "withoutSpotDependingPrince": "No",
+          "spotDependingPrice": "Spot depending price",
+          "withSpotDependingPrice": "Yes",
+          "withoutSpotDependingPrice": "No",
           "validFrom": "Valid From",
           "cutoffDate": "Cut-off Date"
         },
