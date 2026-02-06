@@ -15,25 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//#endregion
-import { onError } from '@apollo/client/link/error';
 import { GraphQLFormattedError } from 'graphql';
-import { SeverityLevel } from '@microsoft/applicationinsights-web';
 
-import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
-
-export const errorHandler = (logger: DhApplicationInsights) =>
-  onError(({ graphQLErrors }) => {
-    if (graphQLErrors) {
-      graphQLErrors.map(({ message, extensions }) => {
-        logger.trackException(
-          new Error(extensions ? (extensions['details'] as string) || message : message),
-          SeverityLevel.Error
-        );
-      });
-    }
-  });
-
+//#endregion
 export const parseGraphQLErrorResponse = (errorResponse: readonly GraphQLFormattedError[]) => {
   return errorResponse.map((x) => x.message).join(' ');
 };
