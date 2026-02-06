@@ -809,7 +809,9 @@
       "closed": "Afsluttet",
       "closeCaseButton": "Afslut sag",
       "markAsUnreadButton": "Marker som ulæst",
-      "conversationCloseError": "Der opstod en fejl under afslutning af sagen"
+      "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
+      "anonymousCheckbox": "Send anonymt",
+      "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
@@ -2922,7 +2924,8 @@
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret",
               "USER_LOGIN_FEDERATION_REQUESTED": "<b>{{ auditedBy }}</b> har anmodet om at knytte MitID til brugeren",
-              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> har succesfuldt knyttet MitID til brugeren"
+              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> har succesfuldt knyttet MitID til brugeren",
+              "USER_LOGIN_FEDERATION_RESET": "<b>{{ auditedBy }}</b> har nulstillet MitID for brugeren"
             }
           }
         },
