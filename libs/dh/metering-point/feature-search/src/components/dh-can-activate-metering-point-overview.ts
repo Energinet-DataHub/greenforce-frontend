@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ActivatedRouteSnapshot, CanActivateFn, Router, UrlTree } from '@angular/router';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { inject } from '@angular/core';
 
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
@@ -31,9 +31,9 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 
 import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 
-export const dhCanActivateMeteringPointOverview: CanActivateFn = (
-  route: ActivatedRouteSnapshot
-): Promise<UrlTree | boolean> | UrlTree => {
+export const dhCanActivateMeteringPointOverview: CanActivateFn = ():
+  | Promise<UrlTree | boolean>
+  | UrlTree => {
   const router = inject(Router);
   const environment = inject(dhAppEnvironmentToken);
 
@@ -42,7 +42,7 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
     getPath<MeteringPointSubPaths>('search'),
   ]);
 
-  const idParam: string = route.params[dhInternalMeteringPointIdParam];
+  const idParam = findIdParam();
 
   if (dhIsValidMeteringPointId(idParam)) {
     // Only internal IDs are allowed in the URL
@@ -72,3 +72,13 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
 
   return searchRoute;
 };
+
+function findIdParam(): string {
+  const navigation = inject(Router).currentNavigation();
+
+  const idParamInState: string | undefined =
+    navigation?.extras.state?.[dhInternalMeteringPointIdParam];
+  const idParamInSS = sessionStorage.getItem(dhInternalMeteringPointIdParam);
+
+  return idParamInState ?? idParamInSS ?? '';
+}

@@ -24,8 +24,8 @@ import {
   RedirectFunction,
   ActivatedRouteSnapshot,
 } from '@angular/router';
-
 import { inject } from '@angular/core';
+
 import { forkJoin, map } from 'rxjs';
 
 import {
@@ -76,6 +76,14 @@ export const dhMeteringPointRoutes: Routes = [
     canActivate: [
       PermissionGuard(['metering-point:search'], getPath<BasePaths>('message-archive')),
     ],
+    canDeactivate: [
+      () => {
+        // Remove metering point ID from session storage when leaving metering point routes
+        sessionStorage.removeItem(dhInternalMeteringPointIdParam);
+
+        return true;
+      },
+    ],
     children: [
       {
         path: '',
@@ -96,7 +104,7 @@ export const dhMeteringPointRoutes: Routes = [
         component: DhCreateMeteringPoint,
       },
       {
-        path: `:${dhInternalMeteringPointIdParam}`,
+        path: `view`,
         canActivate: [dhCanActivateMeteringPointOverview],
         resolve: {
           meteringPointId: meteringPointIdResolver(),
@@ -223,13 +231,13 @@ export const dhMeteringPointRoutes: Routes = [
 ];
 
 /**
- * Determines the landing page after navigating to '/metering-point/<external-or-internal-id>' URL.
+ * Determines the landing page after navigating to '/metering-point/view' URL.
  *
- * If the user has the market role to access 'master-data' they are redirected to '/master-data'.
- * Otherwise, the user is redirected to '/messages'.
+ * If the user has the market role to access 'master-data' they are redirected to '../master-data'.
+ * Otherwise, the user is redirected to '../messages'.
  */
 function redirectToLandingPage(): RedirectFunction {
-  return ({ params }) => {
+  return () => {
     const router = inject(Router);
     const permissionService = inject(PermissionService);
 
@@ -237,15 +245,13 @@ function redirectToLandingPage(): RedirectFunction {
       marketRolesWithDataAccess.map((role) => permissionService.hasMarketRole(role))
     );
 
-    const internalMeteringPointId = params[dhInternalMeteringPointIdParam];
-
     return hasMarketRoles$.pipe(
       map((hasMarketRoles) => {
         if (hasMarketRoles.includes(true)) {
           return router.createUrlTree([
             '/',
             getPath<BasePaths>('metering-point'),
-            internalMeteringPointId,
+            'view',
             getPath<MeteringPointSubPaths>('master-data'),
           ]);
         }
@@ -253,7 +259,7 @@ function redirectToLandingPage(): RedirectFunction {
         return router.createUrlTree([
           '/',
           getPath<BasePaths>('metering-point'),
-          internalMeteringPointId,
+          'view',
           getPath<MeteringPointSubPaths>('messages'),
         ]);
       })
@@ -281,13 +287,15 @@ function meteringPointCreateGuard(): CanActivateFn {
 }
 
 /**
- * Resolves the external metering point ID from internal metering point ID.
+ * Resolves the external metering point ID from internal metering point ID in `History.state` property.
+ * See https://angular.dev/api/router/NavigationExtras
+ * And https://angular.dev/api/router/RouterLink#preserving-navigation-history
  */
 function meteringPointIdResolver(): ResolveFn<string> {
-  return (route: ActivatedRouteSnapshot) => {
+  return () => {
     const environment = inject(dhAppEnvironmentToken);
 
-    const idParam: string = route.params[dhInternalMeteringPointIdParam];
+    const idParam = findIdParam();
     const isEM1Id = dhIsEM1InternalId(idParam);
 
     return query(DoesInternalMeteringPointIdExistDocument, {
@@ -303,13 +311,23 @@ function meteringPointIdResolver(): ResolveFn<string> {
 }
 
 /**
- * Figures out whether the intention is to search a migrated metering point by looking at a route param.
+ * Figures out whether the intention is to search a migrated metering point by looking for a `History.state` param.
  * If the param is a valid EM1 internal ID, we assume a migrated metering point.
  */
 function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
-  return (route: ActivatedRouteSnapshot) => {
-    const idParam: string = route.params[dhInternalMeteringPointIdParam];
+  return () => {
+    const idParam = findIdParam();
 
     return dhIsEM1InternalId(idParam);
   };
+}
+
+function findIdParam(): string {
+  const navigation = inject(Router).currentNavigation();
+
+  const idParamInState: string | undefined =
+    navigation?.extras.state?.[dhInternalMeteringPointIdParam];
+  const idParamInSS = sessionStorage.getItem(dhInternalMeteringPointIdParam);
+
+  return idParamInState ?? idParamInSS ?? '';
 }
