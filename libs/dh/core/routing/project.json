@@ -4,5 +4,18 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/core/routing/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:core", "type:configuration"]
+  "tags": ["product:dh", "domain:core", "type:configuration"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/core/routing"],
+      "options": {
+        "config": "libs/dh/core/routing/vite.config.mts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
 }

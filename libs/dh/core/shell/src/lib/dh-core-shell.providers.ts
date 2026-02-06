@@ -45,6 +45,7 @@ import {
   environment,
 } from '@energinet-datahub/dh/shared/environments';
 import { dhLanguageServiceInitializer } from '@energinet-datahub/dh/globalization/feature-language-picker';
+import { provideHiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { highlightWorkerProvider } from '@energinet-datahub/dh/shared/feature-highlight';
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
@@ -106,6 +107,9 @@ const msalProviders = [
 ];
 
 export const dhCoreShellProviders = [
+  // POC: HiddenLocationStrategy - hides route URLs from the browser address bar
+  // by storing them in History.state instead. The browser will always show the base URL.
+  provideHiddenLocationStrategy(),
   FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   microsoftClarityProviders,
