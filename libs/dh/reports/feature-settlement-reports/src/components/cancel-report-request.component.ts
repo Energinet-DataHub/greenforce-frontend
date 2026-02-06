@@ -29,13 +29,13 @@ import {
   GetSettlementReportsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhCancelReportRequestModal } from '../request-report/cancel-report-request-modal.component';
+import { DhCancelReportRequestModal } from './request-report/cancel-report-request-modal.component';
 
 @Component({
   selector: 'dh-cancel-report-request',
   template: `
     <ng-container *transloco="let t; prefix: 'reports.settlementReports.cancelReport'">
-      <watt-button size="small" variant="text" icon="close" (click)="openCancelModal($event)">
+      <watt-button size="small" variant="text" icon="close" (click)="openCancelModal()">
         {{ t('baseName') }}
       </watt-button>
     </ng-container>
@@ -52,18 +52,13 @@ export class DhCancelReportRequest {
   toast = injectToast('reports.settlementReports.cancelReport');
   toastEffect = effect(() => this.toast(this.cancelSettlementReport.status()));
 
-  openCancelModal(event: Event) {
-    // Stop the row click event from propagating
-    // so the drawer doesn't open
-    event.stopPropagation();
-
+  openCancelModal() {
     this.modalService.open({
       component: DhCancelReportRequestModal,
       onClosed: (isSuccess) => {
         const id = this.reportId();
         if (id && isSuccess) {
           this.cancelSettlementReport.mutate({
-            // refetchQueries: [{ query: GetSettlementReportsDocument }],
             refetchQueries: [GetSettlementReportsDocument],
             variables: { input: { id } },
           });
