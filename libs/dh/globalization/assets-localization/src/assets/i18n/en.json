@@ -2317,8 +2317,9 @@
         "title": "Are you sure you want to cancel the report?",
         "confirm": "Cancel report",
         "cancel": "Close",
-        "requestSuccess": "Settlement report has been canceled.",
-        "requestError": "Something went wrong. Settlement report was not canceled. Please try again."
+        "loading": "Cancelling settlement report...",
+        "success": "Settlement report has been canceled.",
+        "error": "Something went wrong. Settlement report was not canceled. Please try again."
       },
       "columns": {
         "startedAt": "Started",
