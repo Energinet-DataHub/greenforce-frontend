@@ -21,6 +21,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,
   FormControl,
+  FormGroup,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -29,14 +30,17 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
+import { MessageFormValue } from '../types';
 
 @Component({
-  selector: 'dh-actor-conversation-text-area',
+  selector: 'dh-actor-conversation-message-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DhActorConversationTextAreaComponent),
+      useExisting: forwardRef(() => DhActorConversationMessageFormComponent),
       multi: true,
     },
   ],
@@ -47,7 +51,14 @@ import { TranslocoDirective } from '@jsverse/transloco';
     WattTextAreaFieldComponent,
     TranslocoDirective,
     ReactiveFormsModule,
+    WattCheckboxComponent,
+    WattTooltipDirective,
   ],
+  styles: `
+    .info-icon-color {
+      color: var(--watt-text-color);
+    }
+  `,
   template: `
     <vater-stack
       fill="horizontal"
@@ -56,39 +67,58 @@ import { TranslocoDirective } from '@jsverse/transloco';
     >
       <watt-textarea-field
         [label]="t('messageLabel')"
-        [formControl]="internalControl"
+        [formControl]="form.controls.message"
         [small]="small()"
         (blur)="onTouched()"
         data-testid="actor-conversation-message-textarea"
       />
-      <watt-button type="submit">
-        {{ t('sendButton') }}
-        <watt-icon name="send" />
-      </watt-button>
+      <vater-stack direction="row" gap="s">
+        <watt-checkbox [formControl]="form.controls.anonymous">
+          {{ t('anonymousCheckbox') }}
+        </watt-checkbox>
+        <watt-icon name="info" class="info-icon-color" [wattTooltip]="t('anonymousTooltip')" />
+        <watt-button type="submit">
+          {{ t('sendButton') }}
+          <watt-icon name="send" />
+        </watt-button>
+      </vater-stack>
     </vater-stack>
   `,
 })
-export class DhActorConversationTextAreaComponent implements ControlValueAccessor {
+export class DhActorConversationMessageFormComponent implements ControlValueAccessor {
   small = input<boolean>(false);
 
-  internalControl = new FormControl<string | null>(null);
+  form = new FormGroup({
+    message: new FormControl<string | null>(null),
+    anonymous: new FormControl<boolean>(false),
+  });
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange: (value: string | null) => void = () => {};
+  onChange: (value: MessageFormValue) => void = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched: () => void = () => {};
 
   constructor() {
-    this.internalControl.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
-      this.onChange(value);
+    this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      this.onChange(value as MessageFormValue);
     });
   }
 
-  writeValue(value: string | null): void {
-    this.internalControl.setValue(value, { emitEvent: false });
+  writeValue(value: MessageFormValue | null): void {
+    if (value) {
+      this.form.setValue(
+        {
+          message: value.message,
+          anonymous: value.anonymous ?? false,
+        },
+        { emitEvent: false }
+      );
+    } else {
+      this.form.reset({ message: null, anonymous: false }, { emitEvent: false });
+    }
   }
 
-  registerOnChange(fn: (value: string | null) => void): void {
+  registerOnChange(fn: (value: MessageFormValue) => void): void {
     this.onChange = fn;
   }
 
@@ -98,9 +128,9 @@ export class DhActorConversationTextAreaComponent implements ControlValueAccesso
 
   setDisabledState?(isDisabled: boolean): void {
     if (isDisabled) {
-      this.internalControl.disable({ emitEvent: false });
+      this.form.disable({ emitEvent: false });
     } else {
-      this.internalControl.enable({ emitEvent: false });
+      this.form.enable({ emitEvent: false });
     }
   }
 }
