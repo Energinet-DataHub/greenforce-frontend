@@ -78,6 +78,7 @@ import { DhCancelReportRequest } from './cancel-report-request.component';
         [displayedColumns]="displayedColumns()"
         [resolveHeader]="resolveHeader"
         [activeRow]="activeRow()"
+        [loading]="settlementReports.loading()"
         (rowClick)="activeRow.set($event)"
       >
         <ng-container *wattTableCell="columns['startedAt']; let entry">
