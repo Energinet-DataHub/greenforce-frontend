@@ -167,7 +167,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         public ActorConversationClient_V1(System.Net.Http.HttpClient httpClient)
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
-            BaseUrl = "https://app-api-actcon-d-we-002.azurewebsites.net/";
+            BaseUrl = "http://app-api-actcon-d-we-001.azurewebsites.net/";
             _httpClient = httpClient;
             Initialize();
         }
