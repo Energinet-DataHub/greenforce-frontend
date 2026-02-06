@@ -98,9 +98,8 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
             [disabled]="conversation().closed"
             (click)="closeConversation.emit(conversation().id)"
             variant="secondary"
-          >{{ t('closeCaseButton') }}
-          </watt-button
-          >
+            >{{ t('closeCaseButton') }}
+          </watt-button>
           <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
             <watt-icon name="moreVertical" />
           </watt-button>
@@ -119,7 +118,12 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
           <span>{{ message | json }}</span>
         }
       </vater-flex>
-      <form vater-stack fill="horizontal" class="watt-space-inset-ml" (ngSubmit)="sendMessage.emit(formControl.value)">
+      <form
+        vater-stack
+        fill="horizontal"
+        class="watt-space-inset-ml"
+        (ngSubmit)="sendMessage.emit(formControl.value)"
+      >
         <dh-actor-conversation-message-form
           vater
           fill="horizontal"

@@ -8,10 +8,10 @@ mutation SendActorConversationMessage(
   sendActorConversationMessage(
     input: {
       sendActorConversationMessageInputType: {
-        meteringPointIdentification: $meteringPointIdentification,
-        anonymous: $anonymous,
-        content: $content,
-        actorId: $actorId,
+        meteringPointIdentification: $meteringPointIdentification
+        anonymous: $anonymous
+        content: $content
+        actorId: $actorId
         userId: $userId
       }
     }

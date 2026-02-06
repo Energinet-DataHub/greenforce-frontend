@@ -309,10 +309,12 @@ export class DhActorConversationShellComponent {
         }
         return [];
       },
-    })
+    });
   }
 
-  private isSendMessageSuccessful(mutationResult: MutationResult<SendActorConversationMessageMutation>['data']) {
+  private isSendMessageSuccessful(
+    mutationResult: MutationResult<SendActorConversationMessageMutation>['data']
+  ) {
     return mutationResult?.sendActorConversationMessage.boolean;
   }
 
