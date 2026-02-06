@@ -172,7 +172,7 @@ export class DhChargesFilters {
         resolution: this.valuesChanges().resolution,
         vatInclusive: this.getOptionFilter((o) => o.vatInclusive),
         transparentInvoicing: this.getOptionFilter((o) => o.transparentInvoicing),
-        predictablePrice: this.getOptionFilter((o) => o.predictablePrice),
+        spotDependingPrice: this.getOptionFilter((o) => o.spotDependingPrice),
         missingPriceSeries: this.getOptionFilter((o) => o.missingPriceSeries),
       });
     });
@@ -205,7 +205,7 @@ export class DhChargesFilters {
     return [
       this.createGroupOption('vatInclusive'),
       this.createGroupOption('transparentInvoicing'),
-      this.createGroupOption('predictablePrice'),
+      this.createGroupOption('spotDependingPrice'),
       this.createGroupOption('missingPriceSeries', { noInvertedOption: true }),
     ];
   }

@@ -15,7 +15,7 @@ fragment ChargeFields on Charge {
   status
   vatInclusive
   transparentInvoicing
-  predictablePrice
+  spotDependingPrice
   periods {
     description
     period

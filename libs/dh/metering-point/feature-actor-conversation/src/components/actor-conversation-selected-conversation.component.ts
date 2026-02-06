@@ -30,11 +30,11 @@ import {
   WattMenuItemComponent,
   WattMenuTriggerDirective,
 } from '@energinet/watt/menu';
-import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { ConversationDetail } from '../types';
+import { MessageFormValue, ConversationDetail } from '../types';
 import { JsonPipe } from '@angular/common';
+import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 
 @Component({
   selector: 'dh-actor-conversation-selected-conversation',
@@ -47,12 +47,12 @@ import { JsonPipe } from '@angular/common';
     WattMenuComponent,
     WattMenuItemComponent,
     WattMenuTriggerDirective,
-    DhActorConversationTextAreaComponent,
     VaterUtilityDirective,
     VaterFlexComponent,
     TranslocoDirective,
     JsonPipe,
     ReactiveFormsModule,
+    DhActorConversationMessageFormComponent,
   ],
   styles: `
     .no-margin {
@@ -118,7 +118,7 @@ import { JsonPipe } from '@angular/common';
         }
       </vater-flex>
       <vater-stack fill="horizontal" class="watt-space-inset-ml">
-        <dh-actor-conversation-text-area
+        <dh-actor-conversation-message-form
           vater
           fill="horizontal"
           [small]="true"
@@ -130,7 +130,7 @@ import { JsonPipe } from '@angular/common';
 })
 export class DhActorConversationSelectedConversationComponent {
   private readonly fb = inject(NonNullableFormBuilder);
-  formControl = this.fb.control('');
+  formControl = this.fb.control<MessageFormValue>({ message: '', anonymous: false });
   conversation = input.required<ConversationDetail>();
   closeConversation = output<string>();
 }
