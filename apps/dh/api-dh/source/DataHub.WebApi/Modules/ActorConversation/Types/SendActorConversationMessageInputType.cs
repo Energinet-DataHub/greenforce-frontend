@@ -16,7 +16,7 @@ using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
-public class SendMessageInputType
+public class SendActorConversationMessageInputType
 {
     public required string MeteringPointIdentification { get; set; }
 

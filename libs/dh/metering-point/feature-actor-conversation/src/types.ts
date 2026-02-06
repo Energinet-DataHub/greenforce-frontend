@@ -46,8 +46,8 @@ export interface ConversationDetail {
 }
 
 export interface MessageFormValue {
-  message: string | null;
-  anonymous: boolean | null;
+  content: string;
+  anonymous: boolean;
 }
 
 export type StartConversationFormValue = {

@@ -1,0 +1,21 @@
+mutation SendActorConversationMessage(
+  $meteringPointIdentification: String!
+  $actorId: String!
+  $userId: String!
+  $content: String!
+  $anonymous: Boolean!
+) {
+  sendActorConversationMessage(
+    input: {
+      sendActorConversationMessageInputType: {
+        meteringPointIdentification: $meteringPointIdentification,
+        anonymous: $anonymous,
+        content: $content,
+        actorId: $actorId,
+        userId: $userId
+      }
+    }
+  ) {
+    boolean
+  }
+}

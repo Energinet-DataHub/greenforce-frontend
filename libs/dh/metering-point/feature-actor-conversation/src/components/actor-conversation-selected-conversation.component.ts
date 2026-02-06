@@ -30,7 +30,7 @@ import {
   WattMenuItemComponent,
   WattMenuTriggerDirective,
 } from '@energinet/watt/menu';
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { MessageFormValue, ConversationDetail } from '../types';
 import { JsonPipe } from '@angular/common';
@@ -53,6 +53,7 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
     JsonPipe,
     ReactiveFormsModule,
     DhActorConversationMessageFormComponent,
+    FormsModule,
   ],
   styles: `
     .no-margin {
@@ -97,7 +98,8 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
             [disabled]="conversation().closed"
             (click)="closeConversation.emit(conversation().id)"
             variant="secondary"
-            >{{ t('closeCaseButton') }}</watt-button
+          >{{ t('closeCaseButton') }}
+          </watt-button
           >
           <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
             <watt-icon name="moreVertical" />
@@ -117,20 +119,21 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
           <span>{{ message | json }}</span>
         }
       </vater-flex>
-      <vater-stack fill="horizontal" class="watt-space-inset-ml">
+      <form vater-stack fill="horizontal" class="watt-space-inset-ml" (ngSubmit)="sendMessage.emit(formControl.value)">
         <dh-actor-conversation-message-form
           vater
           fill="horizontal"
           [small]="true"
           [formControl]="formControl"
         />
-      </vater-stack>
+      </form>
     </vater-stack>
   `,
 })
 export class DhActorConversationSelectedConversationComponent {
   private readonly fb = inject(NonNullableFormBuilder);
-  formControl = this.fb.control<MessageFormValue>({ message: '', anonymous: false });
+  formControl = this.fb.control<MessageFormValue>({ content: '', anonymous: false });
   conversation = input.required<ConversationDetail>();
   closeConversation = output<string>();
+  sendMessage = output<MessageFormValue>();
 }

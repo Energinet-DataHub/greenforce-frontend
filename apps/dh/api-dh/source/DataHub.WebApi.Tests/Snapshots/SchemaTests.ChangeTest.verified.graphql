@@ -1073,6 +1073,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 
 type Mutation {
   startConversation(input: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  sendActorConversationMessage(input: SendActorConversationMessageInput!): SendActorConversationMessagePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   closeConversation(input: CloseConversationInput!): CloseConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
@@ -1517,6 +1518,10 @@ type SelectionActorDto {
   actorName: String!
   organizationName: String!
   marketRole: EicFunction!
+}
+
+type SendActorConversationMessagePayload {
+  boolean: Boolean
 }
 
 type SendMeasurementsInstanceDto {
@@ -2241,6 +2246,18 @@ input RequestSortInput {
 
 input ResetTwoFactorAuthenticationInput {
   userId: UUID!
+}
+
+input SendActorConversationMessageInput {
+  sendActorConversationMessageInputType: SendActorConversationMessageInputTypeInput!
+}
+
+input SendActorConversationMessageInputTypeInput {
+  meteringPointIdentification: String!
+  actorId: String!
+  userId: String!
+  content: String!
+  anonymous: Boolean!
 }
 
 input SendMeasurementsInstanceDtoSortInput {

@@ -106,8 +106,8 @@ public static partial class ActorConversationNode
 
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static Task<bool> SendMessageAsync(
-        StartConversationInputType startConversationInput,
+    public static Task<bool> SendActorConversationMessageAsync(
+        SendActorConversationMessageInputType sendActorConversationMessageInputType,
         CancellationToken ct)
     {
         return Task.FromResult(true);

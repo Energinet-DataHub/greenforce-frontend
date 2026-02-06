@@ -30,6 +30,8 @@ import {
   GetConversationDocument,
   GetConversationsDocument,
   GetSelectionMarketParticipantsDocument,
+  SendActorConversationMessageDocument,
+  SendActorConversationMessageMutation,
   StartConversationDocument,
   UserProfileDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -39,6 +41,7 @@ import {
   ActorConversationState,
   Conversation,
   ConversationDetail,
+  MessageFormValue,
   StartConversationFormValue,
 } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -137,6 +140,7 @@ import { MutationResult } from 'apollo-angular';
                   fill="both"
                   [conversation]="conversation"
                   (closeConversation)="closeConversation($event)"
+                  (sendMessage)="sendMessage($event)"
                 />
               } @else {
                 <watt-spinner vater center />
@@ -225,6 +229,7 @@ export class DhActorConversationShellComponent {
 
   startConversationMutation = mutation(StartConversationDocument);
   closeConversationMutation = mutation(CloseConversationDocument);
+  sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
 
   private toastService = inject(WattToastService);
 
@@ -287,6 +292,28 @@ export class DhActorConversationShellComponent {
 
   private isCloseSuccessful(mutationResult: MutationResult<CloseConversationMutation>['data']) {
     return mutationResult?.closeConversation.boolean;
+  }
+
+  async sendMessage(message: MessageFormValue) {
+    await this.sendActorConversationMessageMutation.mutate({
+      variables: {
+        meteringPointIdentification: this.meteringPointId(),
+        actorId: this.actorStorage.getSelectedActorId(),
+        anonymous: message.anonymous,
+        content: message.content,
+        userId: this.userProfile()?.firstName ?? '', // Change to userId
+      },
+      refetchQueries: ({ data }) => {
+        if (this.isSendMessageSuccessful(data)) {
+          return [GetConversationDocument];
+        }
+        return [];
+      },
+    })
+  }
+
+  private isSendMessageSuccessful(mutationResult: MutationResult<SendActorConversationMessageMutation>['data']) {
+    return mutationResult?.sendActorConversationMessage.boolean;
   }
 
   newConversation() {
