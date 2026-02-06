@@ -106,6 +106,15 @@ public static partial class ActorConversationNode
 
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
+    public static Task<bool> SendActorConversationMessageAsync(
+        SendActorConversationMessageInputType sendActorConversationMessageInputType,
+        CancellationToken ct)
+    {
+        return Task.FromResult(true);
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> CloseConversationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,

@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-﻿using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
+using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
-﻿namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
+namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
 public class StartConversationInputType
 {

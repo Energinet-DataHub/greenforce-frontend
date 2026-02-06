@@ -16,19 +16,15 @@ using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
-[ObjectType<ConversationInfoDto>]
-public static partial class ConversationInfoDtoType
+public class SendActorConversationMessageInputType
 {
-    static partial void Configure(
-        IObjectTypeDescriptor<ConversationInfoDto> descriptor)
-    {
-        descriptor.Name("ConversationInfo");
+    public required string MeteringPointIdentification { get; set; }
 
-        descriptor
-            .Field(f => f.ConversationId)
-            .Name("id");
+    public required string ActorId { get; set; }
 
-        descriptor.Ignore(f => f.AdditionalProperties);
-        descriptor.Ignore(f => f.MeteringPointIdentification);
-    }
+    public required string UserId { get; set; }
+
+    public required string Content { get; set; }
+
+    public required bool Anonymous { get; set; }
 }

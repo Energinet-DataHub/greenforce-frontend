@@ -120,7 +120,7 @@ export class DhActorConversationNewConversationComponent {
     ),
     receiver: this.fb.control<ActorType>(ActorType.Energinet, Validators.required),
     internalNote: this.fb.control<string | null>(null),
-    message: this.fb.control<MessageFormValue>({ message: '', anonymous: false }, (control) =>
+    message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, (control) =>
       control.value.message ? null : { required: true }
     ),
   });
@@ -135,7 +135,7 @@ export class DhActorConversationNewConversationComponent {
     const formControls = this.newConversationForm.controls;
     const formValues: StartConversationFormValue = {
       subject: formControls.subject.value,
-      content: formControls.message.value.message as string,
+      content: formControls.message.value.content as string,
       anonymous: formControls.message.value.anonymous as boolean,
       receiver: formControls.receiver.value,
       internalNote: formControls.internalNote.value ?? undefined,

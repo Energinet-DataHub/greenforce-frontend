@@ -38,6 +38,7 @@ import {
   mockGetConversationsQuery,
   mockGetConversationQuery,
   mockCloseConversationMutation,
+  mockSendActorConversationMessageMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -75,6 +76,7 @@ export function meteringPointMocks(apiBase: string) {
     getConversations(),
     getConversation(),
     closeConversation(),
+    sendActorConversationMessage(),
   ];
 }
 
@@ -733,6 +735,22 @@ function closeConversation() {
         __typename: 'Mutation',
         closeConversation: {
           __typename: 'CloseConversationPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function sendActorConversationMessage() {
+  return mockSendActorConversationMessageMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        sendActorConversationMessage: {
+          __typename: 'SendActorConversationMessagePayload',
           boolean: true,
         },
       },
