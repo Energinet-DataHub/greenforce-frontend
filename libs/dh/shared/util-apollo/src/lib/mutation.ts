@@ -17,13 +17,25 @@
  */
 //#endregion
 import { DestroyRef, Signal, computed, inject, signal } from '@angular/core';
-import { ApolloError, OperationVariables } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
+import { ApolloError, FetchResult, OperationVariables } from '@apollo/client/core';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
-import { catchError, delay, filter, firstValueFrom, map, of, take, tap } from 'rxjs';
+import {
+  catchError,
+  delay,
+  filter,
+  firstValueFrom,
+  from,
+  map,
+  of,
+  startWith,
+  take,
+  tap,
+} from 'rxjs';
 import { MutationOptions as ApolloMutationOptions } from 'apollo-angular/types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { mapGraphQLErrorsToApolloError } from './util/error';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 export enum MutationStatus {
   Idle,
@@ -39,6 +51,11 @@ export interface MutationOptions<TResult, TVariables>
   onError?: (error: ApolloError, clientOptions?: MutationOptions<TResult, TVariables>) => void;
 }
 
+export type MutationResult<T> = FetchResult<T> & {
+  error?: ApolloError;
+  loading?: boolean;
+};
+
 /** Signal-based wrapper around Apollo's `mutate` function, made to align with `useMutation`. */
 export function mutation<TResult, TVariables extends OperationVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
@@ -49,7 +66,7 @@ export function mutation<TResult, TVariables extends OperationVariables>(
   const parentOptions = options;
 
   // Inject dependencies
-  const client = inject(Apollo);
+  const apollo = inject(DhApollo);
   const destroyRef = inject(DestroyRef);
 
   // Signals holding the result values
@@ -74,22 +91,26 @@ export function mutation<TResult, TVariables extends OperationVariables>(
       called.set(false);
       status.set(MutationStatus.Idle);
     },
-    mutate(options?: Partial<MutationOptions<TResult, TVariables>>) {
+    mutate(
+      options?: Partial<MutationOptions<TResult, TVariables>>
+    ): Promise<MutationResult<TResult>> {
       const mergedOptions = { ...parentOptions, ...options };
       const { onCompleted, onError, ...mutationOptions } = mergedOptions;
       status.set(MutationStatus.Loading);
       return firstValueFrom(
-        client.mutate({ ...mutationOptions, mutation: document, useMutationLoading: true }).pipe(
+        from(apollo.client.mutate({ ...mutationOptions, mutation: document })).pipe(
           // The MutationResult type is different from QueryResult in several ways
           map(({ errors, ...result }) => ({
             ...result,
             error: mapGraphQLErrorsToApolloError(errors),
+            loading: false,
           })),
           catchError((error: ApolloError) => of({ error, data: undefined, loading: false })),
+          startWith({ data: undefined, error: undefined, loading: true }),
           tap((result) => {
             data.set(result.data ?? undefined);
             error.set(result.error);
-            loading.set(result.loading ?? false); // should always be defined by useMutationLoading
+            loading.set(result.loading);
             called.set(true);
           }),
           // Since this observable returns a promise, it should only emit the final result
