@@ -38,7 +38,7 @@ import {
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { DhActorTokenService } from '@energinet-datahub/dh/shared/feature-authorization';
 
-export class SSELink extends ApolloLink {
+class SseLink extends ApolloLink {
   constructor(
     private client: Client,
     private notifier: Observable<unknown>
@@ -82,6 +82,6 @@ export class DhSseLink {
         firstValueFrom(this.token$.pipe(map((token) => ({ Authorization: `Bearer ${token}` })))),
     });
 
-    return new SSELink(client, this.token$);
+    return new SseLink(client, this.token$);
   }
 }
