@@ -17,11 +17,13 @@
  */
 //#endregion
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { gql } from 'apollo-angular';
+import { Apollo, gql } from 'apollo-angular';
 import { ApolloTestingController, ApolloTestingModule } from 'apollo-angular/testing';
 import { mutation } from './mutation';
 import { GraphQLError } from 'graphql';
 import { vi } from 'vitest';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 const TEST_MUTATION = gql`
   mutation TestMutation {
@@ -33,7 +35,16 @@ describe('mutation', () => {
   let controller: ApolloTestingController;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [ApolloTestingModule] });
+    TestBed.configureTestingModule({
+      imports: [ApolloTestingModule],
+      providers: [
+        {
+          provide: DhApollo,
+          useFactory: (apollo: Apollo) => ({ client: apollo.client }),
+          deps: [Apollo],
+        },
+      ],
+    });
     controller = TestBed.inject(ApolloTestingController);
   });
 
@@ -50,6 +61,20 @@ describe('mutation', () => {
       const result = mutation(TEST_MUTATION);
       result.mutate();
       controller.expectOne(TEST_MUTATION);
+    })));
+
+  it('should update loading correctly when called', fakeAsync(() =>
+    TestBed.runInInjectionContext(() => {
+      const result = mutation(TEST_MUTATION);
+      expect(result.loading()).toBe(false);
+      result.mutate();
+      tick();
+      expect(result.loading()).toBe(true);
+      const op = controller.expectOne(TEST_MUTATION);
+      const data = { __typename: 'Mutation' };
+      op.flush({ data });
+      tick();
+      expect(result.loading()).toBe(false);
     })));
 
   it('should set called to true', fakeAsync(() =>

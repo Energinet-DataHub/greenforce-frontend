@@ -30,8 +30,8 @@ import { SeverityLevel } from '@microsoft/applicationinsights-web';
 import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
 import introspection from '@energinet-datahub/dh/shared/domain/graphql/introspection';
 
-import { errorHandler } from './error-handler';
-import DhSseLink from './dh-sse-link';
+import { DhErrorLink } from './dh-error-link';
+import { DhSseLink } from './dh-sse-link';
 import { HttpErrorResponse } from '@angular/common/http';
 
 declare const ngDevMode: boolean;
@@ -45,6 +45,7 @@ function isSubscriptionQuery(operation: Operation) {
 export const graphQLProvider = provideApollo(() => {
   const httpLink = inject(HttpLink);
   const sseLink = inject(DhSseLink);
+  const errorLink = inject(DhErrorLink);
   const dhApiEnvironment = inject(dhApiEnvironmentToken);
   const dhApplicationInsights = inject(DhApplicationInsights);
 
@@ -175,7 +176,7 @@ export const graphQLProvider = provideApollo(() => {
     }),
     link: ApolloLink.from([
       retryLink,
-      errorHandler(dhApplicationInsights),
+      errorLink.create(),
       split(
         isSubscriptionQuery,
         sseLink.create(`${dhApiEnvironment.apiBase}/graphql?ngsw-bypass=true`),

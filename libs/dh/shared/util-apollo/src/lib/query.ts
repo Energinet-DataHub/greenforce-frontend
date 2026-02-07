@@ -32,10 +32,13 @@ import {
   NetworkStatus,
   ApolloQueryResult,
   Unmasked,
+  ObservableQuery,
+  Observable as AObservable,
 } from '@apollo/client/core';
-import { Apollo, WatchQueryOptions } from 'apollo-angular';
+import { WatchQueryOptions } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import {
+  Observable,
   Subject,
   asyncScheduler,
   catchError,
@@ -45,8 +48,10 @@ import {
   distinctUntilChanged,
   filter,
   firstValueFrom,
+  from,
   map,
   mergeWith,
+  observable,
   share,
   shareReplay,
   skipWhile,
@@ -57,6 +62,8 @@ import {
   takeUntil,
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { fromApolloError, mapGraphQLErrorsToApolloError } from './util/error';
 
@@ -139,6 +146,26 @@ function makeReactive<R>(valueOrFunction: R | (() => R)) {
     : signal(valueOrFunction);
 }
 
+// Taken from apollo-angular, will be removed in v4
+function fromObservableQuery<TData>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  obsQuery: ObservableQuery<TData, any>
+): Observable<ApolloQueryResult<TData>> {
+  return new Observable((subscriber) => {
+    return obsQuery.subscribe(subscriber);
+  });
+}
+
+// Taken from apollo-angular, will be removed in v4
+export function fixObservable<T>(
+  obs: AObservable<T> | ObservableQuery<T>
+): Observable<ApolloQueryResult<T>> | Observable<T> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (obs as any)[observable] = () => obs;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return obs as any;
+}
+
 /** Signal-based wrapper around Apollo's `watchQuery` function, made to align with `useQuery`. */
 export function query<TResult, TVariables extends OperationVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
@@ -146,7 +173,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   options?: QueryOptions<Exact<TVariables>> | (() => QueryOptions<Exact<TVariables>>)
 ): QueryResult<TResult, TVariables> {
   // Inject dependencies
-  const client = inject(Apollo);
+  const apollo = inject(DhApollo);
   const destroyRef = inject(DestroyRef);
 
   // Make it possible to reset query and subscriptions to a pending state
@@ -162,12 +189,11 @@ export function query<TResult, TVariables extends OperationVariables>(
   const ref$ = options$.pipe(
     filter((opts): opts is ImmediateQueryOptions<TVariables> => !opts?.skip),
     map((opts) =>
-      client.watchQuery({
+      apollo.client.watchQuery({
         errorPolicy: 'all',
         notifyOnNetworkStatusChange: true,
         ...opts,
         query: document,
-        useInitialLoading: true,
       })
     )
   );
@@ -177,7 +203,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   // `refReplay$` observable is created to ensure the cache has data before attempting to merge.
   const refWhenData$ = ref$.pipe(
     switchMap((ref) =>
-      ref.valueChanges.pipe(
+      fromObservableQuery(ref).pipe(
         skipWhile(({ data }) => !data), // Wait until data is available
         map(() => ref), // Then emit the ref
         take(1), // And complete the observable
@@ -193,13 +219,14 @@ export function query<TResult, TVariables extends OperationVariables>(
   const result$ = ref$.pipe(
     // The inner observable will be recreated each time the `options$` emits
     switchMap((ref) =>
-      ref.valueChanges.pipe(
+      fromObservableQuery(ref).pipe(
         takeUntil(reset$),
         map(({ errors, error, ...result }) => ({
           ...result,
           error: error ?? mapGraphQLErrorsToApolloError(errors),
         })),
-        catchError((error: ApolloError) => fromApolloError<TResult>(error))
+        catchError((error: ApolloError) => fromApolloError<TResult>(error)),
+        startWith(makeInitialResult<TResult>(false)) // Handles `useInitialLoading: true`
       )
     ),
     share()
@@ -312,8 +339,9 @@ export function query<TResult, TVariables extends OperationVariables>(
     }: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>) {
       // Create an observable that immediately makes a GraphQL subscription, but then
       // waits for the ref to be ready before attempting to merge the data into the cache.
-      const subscription = client
-        .subscribe({ query, variables, context })
+      const subscription = from(
+        fixObservable(apollo.client.subscribe({ query, variables, context }))
+      )
         .pipe(
           map(({ data }) => data as Unmasked<TSubscriptionData>),
           exists(), // The data should generally be available, but types says otherwise
