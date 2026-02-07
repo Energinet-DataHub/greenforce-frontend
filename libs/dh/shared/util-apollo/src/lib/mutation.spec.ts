@@ -63,6 +63,20 @@ describe('mutation', () => {
       controller.expectOne(TEST_MUTATION);
     })));
 
+  it('should update loading correctly when called', fakeAsync(() =>
+    TestBed.runInInjectionContext(() => {
+      const result = mutation(TEST_MUTATION);
+      expect(result.loading()).toBe(false);
+      result.mutate();
+      tick();
+      expect(result.loading()).toBe(true);
+      const op = controller.expectOne(TEST_MUTATION);
+      const data = { __typename: 'Mutation' };
+      op.flush({ data });
+      tick();
+      expect(result.loading()).toBe(false);
+    })));
+
   it('should set called to true', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const onCompleted = vi.fn();
