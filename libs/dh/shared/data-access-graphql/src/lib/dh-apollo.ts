@@ -23,7 +23,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { cache } from './dh-apollo-cache';
+import { cache } from './cache';
 import { DhErrorLink } from './dh-error-link';
 import { DhHttpLink } from './dh-http-link';
 import { DhRetryLink } from './dh-retry-link';

@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 //#endregion
+export { DhApollo } from './lib/dh-apollo';
+
 export { graphQLProvider } from './lib/dh-graphql.providers';
 export { parseGraphQLErrorResponse } from './lib/util';
 export { getActorOptions } from './lib/graphql/get-market-participants-by-eic-function-for-dropdowns';
