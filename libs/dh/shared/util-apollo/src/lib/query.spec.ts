@@ -17,14 +17,11 @@
  */
 //#endregion
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { Apollo, gql } from 'apollo-angular';
-import { ApolloTestingController, ApolloTestingModule } from 'apollo-angular/testing';
-import { query } from './query';
-import { ApolloError, NetworkStatus } from '@apollo/client/core';
+import { gql, ApolloError, NetworkStatus } from '@apollo/client/core';
 import { GraphQLError } from 'graphql';
 import { vi } from 'vitest';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { query } from './query';
+import { ApolloTestingController, setupApolloTesting } from './testing/apollo-testing';
 
 const TEST_QUERY = gql`
   query TestQuery($name: String! = "Query") {
@@ -46,17 +43,11 @@ describe('query', () => {
   let controller: ApolloTestingController;
 
   beforeEach(() => {
+    const apollo = setupApolloTesting();
+    controller = apollo.controller;
     TestBed.configureTestingModule({
-      imports: [ApolloTestingModule],
-      providers: [
-        {
-          provide: DhApollo,
-          useFactory: (apollo: Apollo) => ({ client: apollo.client }),
-          deps: [Apollo],
-        },
-      ],
+      providers: apollo.providers,
     });
-    controller = TestBed.inject(ApolloTestingController);
   });
 
   afterEach(() => controller.verify());
