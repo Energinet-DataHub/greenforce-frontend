@@ -543,7 +543,6 @@ export class DhUpdateCustomerDataComponent {
       form,
       this.meteringPointId(),
       'UPDATE_MASTER_DATA_CONSUMER',
-      dayjs().toDate(),
       false,
       this.isBusinessCustomer()
     );
