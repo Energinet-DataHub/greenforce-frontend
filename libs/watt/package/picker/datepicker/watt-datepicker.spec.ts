@@ -137,20 +137,11 @@ describe(WattDatepickerComponent, () => {
     it('updates value when user types a valid date', async () => {
       const { fixture } = await setup({ template });
 
-      // Get component instance to call method directly
       const datepickerComponent = fixture.debugElement.query(
         (de) => de.componentInstance instanceof WattDatepickerComponent
       ).componentInstance;
 
-      // Call the inputChanged method directly instead of simulating user input
-      datepickerComponent.inputChanged('25092023');
-
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      // Set a specific date value for testing
-      const testDate = new Date('2023-09-25T00:00:00.000Z');
-      fixture.componentInstance.dateRangeControl.setValue(testDate.toISOString());
+      datepickerComponent.inputChanged('25-09-2023');
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -158,8 +149,7 @@ describe(WattDatepickerComponent, () => {
       const control = fixture.componentInstance.dateRangeControl;
       expect(control.value).toBeDefined();
 
-      // The value stored in the control should be an ISO string
-      const dateFromControl = dayjs(control.value as string);
+      const dateFromControl = dayjs.utc(control.value as string);
       expect(dateFromControl.date()).toBe(25);
       expect(dateFromControl.month()).toBe(8); // 0-indexed, so 8 is September
       expect(dateFromControl.year()).toBe(2023);
@@ -444,48 +434,38 @@ describe(WattDatepickerComponent, () => {
     it('updates value when user types a valid date range', async () => {
       const { fixture } = await setup({ template });
 
-      // Get component instance to call method directly
       const datepickerComponent = fixture.debugElement.query(
         (de) => de.componentInstance instanceof WattDatepickerComponent
       ).componentInstance;
 
-      // Call the method directly since userEvent.type doesn't work well with the custom input in tests
-      datepickerComponent.rangeInputChanged('25092023-30092023');
+      datepickerComponent.rangeInputChanged('25-09-2023 - 30-09-2023');
 
       fixture.detectChanges();
       await fixture.whenStable();
 
       const control = fixture.componentInstance.dateRangeControl;
-      expect(control.value).toBeDefined();
-
-      // The control value should be a WattDateRange
       const value = control.value as WattDateRange;
+      expect(value).toBeDefined();
 
-      if (value) {
-        // Check start date
-        const startDate = dayjs(value.start as string);
-        expect(startDate.date()).toBe(25);
-        expect(startDate.month()).toBe(8); // 0-indexed, so 8 is September
-        expect(startDate.year()).toBe(2023);
+      const startDate = dayjs.utc(value.start as string);
+      expect(startDate.date()).toBe(25);
+      expect(startDate.month()).toBe(8); // 0-indexed, so 8 is September
+      expect(startDate.year()).toBe(2023);
 
-        // Check end date
-        const endDate = dayjs(value.end as string);
-        expect(endDate.date()).toBe(30);
-        expect(endDate.month()).toBe(8);
-        expect(endDate.year()).toBe(2023);
-      }
+      const endDate = dayjs.utc(value.end as string);
+      expect(endDate.date()).toBe(30);
+      expect(endDate.month()).toBe(8);
+      expect(endDate.year()).toBe(2023);
     });
 
     it('sets end date to end of day', async () => {
       const { fixture } = await setup({ template });
 
-      // Get component instance to call method directly
       const datepickerComponent = fixture.debugElement.query(
         (de) => de.componentInstance instanceof WattDatepickerComponent
       ).componentInstance;
 
-      // Call the method directly since userEvent.type doesn't work well with the custom input in tests
-      datepickerComponent.rangeInputChanged('25092023-30092023');
+      datepickerComponent.rangeInputChanged('25-09-2023 - 30-09-2023');
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -493,14 +473,10 @@ describe(WattDatepickerComponent, () => {
       const control = fixture.componentInstance.dateRangeControl;
       const value = control.value as WattDateRange;
 
-      if (value && value.end) {
-        const endDate = dayjs.utc(value.end as string);
-
-        // Check that the time is set to end of day in UTC
-        expect(endDate.hour()).toBe(23);
-        expect(endDate.minute()).toBe(59);
-        expect(endDate.second()).toBe(59);
-      }
+      const endDate = dayjs.utc(value.end as string);
+      expect(endDate.hour()).toBe(23);
+      expect(endDate.minute()).toBe(59);
+      expect(endDate.second()).toBe(59);
     });
 
     describe('timezone-safe range handling (issue #3911)', () => {
