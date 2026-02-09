@@ -21,7 +21,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ElectricityMarketViewWashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { MeteringPointDetails } from '../types';
@@ -38,11 +38,7 @@ import { MeteringPointDetails } from '../types';
     @use '@energinet/watt/utils' as watt;
 
     :host {
-      width: 100%;
-      display: block;
-    }
-    .highlights-container {
-      padding: var(--watt-space-ml) var(--watt-space-ml) 0;
+      display: contents;
     }
 
     .watt-chip-label__custom {
@@ -59,6 +55,7 @@ import { MeteringPointDetails } from '../types';
     @if (hasHighlights()) {
       <div
         *transloco="let t; prefix: 'meteringPoint.overview.highlights'"
+        fill="horizontal"
         vater-stack
         wrap
         direction="row"
@@ -127,7 +124,7 @@ export class DhMeteringPointHighlightsComponent {
   notActualAddress = computed(
     () =>
       this.meteringPointDetails()?.metadata.installationAddress?.washInstructions ===
-      WashInstructions.NotWashable
+      ElectricityMarketViewWashInstructions.NotWashable
   );
 
   annualSettlement = computed(

@@ -196,7 +196,13 @@
     "selectedValues": "{{count}} selected",
     "calculationType": "Calculation type",
     "all": "All",
-    "downloadNameParams": "'{{ env }}' environment - {{ datetime }}"
+    "downloadNameParams": "'{{ env }}' environment - {{ datetime }}",
+    "terminology": {
+      "customerMasterData": "Customer master data",
+      "measurements": "Measurements",
+      "meteringPointMasterData": "Metering point master data",
+      "chargeLink": "Charge link"
+    }
   },
   "clipboard": {
     "success": "Copied",
@@ -388,7 +394,7 @@
     "charges": {
       "topBarTitle": "Prices",
       "table": {
-        "createButton": "New charge",
+        "createButton": "Create charge",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -415,12 +421,12 @@
           "vatInclusiveGroupName": "VAT",
           "vatInclusive": "With VAT",
           "not_vatInclusive": "Without VAT",
-          "transparentInvoicingGroupName": "Transparent Invoicing",
+          "transparentInvoicingGroupName": "Transparent invoicing",
           "transparentInvoicing": "Subject to transparent invoicing",
           "not_transparentInvoicing": "Not subject to transparent invoicing",
-          "predictablePriceGroupName": "Predictable Price",
-          "predictablePrice": "Predictable price",
-          "not_predictablePrice": "Non-predictable price",
+          "spotDependingPriceGroupName": "Spot depending price",
+          "spotDependingPrice": "Spot depending price",
+          "not_spotDependingPrice": "Non-spot depending price",
           "missingPriceSeriesGroupName": "Price series",
           "missingPriceSeries": "Missing price series",
           "not_missingPriceSeries": "Has price series"
@@ -430,11 +436,11 @@
     "actions": {
       "create": {
         "action": {
-          "SUBSCRIPTION": "New subscription",
-          "FEE": "New fee",
-          "TARIFF": "New tariff",
-          "TARIFF_TAX": "New tariff, tax",
-          "SELECTION": "New charge"
+          "SUBSCRIPTION": "Create subscription",
+          "FEE": "Create fee",
+          "TARIFF": "Create tariff",
+          "TARIFF_TAX": "Create tariff, tax",
+          "SELECTION": "Create charge"
         },
         "toast": {
           "loading": "Creating charge..",
@@ -455,9 +461,9 @@
           "transparentInvoicing": "Transparent Invoicing",
           "withTransparentInvoicing": "Yes",
           "withoutTransparentInvoicing": "No",
-          "predictablePrice": "Predictable Price",
-          "withPredictablePrice": "Yes",
-          "withoutPredictablePrice": "No",
+          "spotDependingPrice": "Spot depending price",
+          "withSpotDependingPrice": "Yes",
+          "withoutSpotDependingPrice": "No",
           "validFrom": "Valid From",
           "cutoffDate": "Cut-off Date"
         },
@@ -518,6 +524,7 @@
       "owner": "Owner",
       "resolution": "Resolution",
       "transparentInvoicing": "Transparent Invoicing",
+      "spotDependingPrice": "Spot depending price",
       "vat": "VAT",
       "tabs": {
         "pricesLabel": "Prices",
@@ -621,7 +628,7 @@
         "tabLabel": "Messages"
       },
       "measurements": {
-        "tabLabel": "Measurements"
+        "tabLabel": "{{ meteringPoint.overview.shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Failed measurements"
@@ -690,7 +697,8 @@
         "moveIn": "Customer move-in",
         "createChargeLink": "Attach price",
         "changeConnectionStatus": "Change connection status",
-        "updateCustomerData": "Update customer data"
+        "updateCustomerData": "Update customer data",
+        "endOfSupply": "End of supply"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -704,7 +712,8 @@
         "settlementMethod": "Settlement method",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Electrical heating date",
-        "powerLimit": "Power limit",
+        "powerLimitKw": "Power limit kW",
+        "powerLimitA": "Power limit A",
         "powerLimitValueKw": "{{ value }} kW",
         "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Disconnection type",
@@ -772,15 +781,37 @@
       "newCaseTitle": "New case",
       "subjectLabel": "Subject",
       "subjects": {
-        "misc": "Miscellaneous"
+        "QUESTION_FOR_ENERGINET": "Ad hoc question",
+        "disconnectionOrReconnection": "Disconnect/Reconnect",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "incorrectMoveInOrSupplierSwitch": "Incorrect move/switch of supplier",
+        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
+        "measurements": "{{ shared.terminology.measurements }}",
+        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
+        "priceAssociation": "{{ shared.terminology.chargeLink }}",
+        "newCase": "New case"
       },
-      "receiverLabel": "Receiver",
+      "receiverLabel": "To",
       "receivers": {
-        "energinet": "Energinet"
+        "ENERGY_SUPPLIER": "Energy supplier",
+        "ENERGINET": "Energinet",
+        "GRID_ACCESS_PROVIDER": "Grid access provider"
       },
+      "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
       "internalNoteLabel": "Internal note",
       "messageLabel": "Message",
-      "sendButton": "Send"
+      "messagePlaceholder": "Write a message",
+      "sendButton": "Send",
+      "emptyState": {
+        "noCases": "No cases found",
+        "noCaseSelected": "No case selected"
+      },
+      "closed": "Closed",
+      "closeCaseButton": "Close case",
+      "markAsUnreadButton": "Mark as unread",
+      "conversationCloseError": "An error occurred trying to close the case",
+      "anonymousCheckbox": "Send anonymously",
+      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
@@ -936,9 +967,11 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Confirmation of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Notification of new metering point (RSM-022)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Notification of charge links (RSM-031)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Request for connection of metering point (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Notification of connection of metering point (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_1": "Request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Confirm request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Reject request Change of Supplier (RSM-001)",
@@ -1235,6 +1268,17 @@
       "cancel": "Cancel",
       "save": "Save changes",
       "saveSuccess": "Connection status is being updated"
+    },
+    "endOfSupply": {
+      "modalTitle": "Start end of supply",
+      "dateLabel": "Specify cut-off date",
+      "dateHint": "The cut-off date must be between 3 days from today and 60 days ahead.",
+      "confirmCheckbox": "Please note that when you initiate an end of supply, you are requesting to disconnect the electricity at the metering point.",
+      "cancel": "Cancel",
+      "submit": "Start end of supply",
+      "submitSuccess": "End of supply submitted.",
+      "submitSuccessAction": "See status under processes",
+      "submitError": "End of supply could not be submitted"
     }
   },
   "messageArchive": {
@@ -1286,8 +1330,7 @@
       "created": "Sent",
       "messageId": "Message ID",
       "receiver": "Receiver",
-      "sender": "Sender",
-      "download": "Download"
+      "sender": "Sender"
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Rejection (RSM-009)",
@@ -1308,8 +1351,10 @@
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
       "REQUEST_CHANGE_OF_PRICE_LIST": "Request change of price list (RSM-033)",
+      "B2C_REQUEST_CHANGE_OF_PRICE_LIST": "UI: Request change of price list (RSM-033)",
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Confirm request change of price list (RSM-033)",
-      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)"
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)",
+      "NOTIFY_PRICE_LIST": "Notify price list (RSM-034)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
@@ -1648,8 +1693,7 @@
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
-        "reset": "{{ shared.form.reset }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
       },
       "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {
@@ -2252,7 +2296,7 @@
     "topBarTitle": "Reports",
     "tabs": {
       "settlementReports": "Settlement reports",
-      "measurementsReports": "Measurements",
+      "measurementsReports": "{{ shared.terminology.measurements }}",
       "imbalancePrices": "Imbalance prices"
     },
     "settlements": {
@@ -2273,8 +2317,9 @@
         "title": "Are you sure you want to cancel the report?",
         "confirm": "Cancel report",
         "cancel": "Close",
-        "requestSuccess": "Settlement report has been canceled.",
-        "requestError": "Something went wrong. Settlement report was not canceled. Please try again."
+        "loading": "Cancelling settlement report...",
+        "success": "Settlement report has been canceled.",
+        "error": "Something went wrong. Settlement report was not canceled. Please try again."
       },
       "columns": {
         "startedAt": "Started",
@@ -2315,7 +2360,6 @@
         "includeBasisData": "Include basis data",
         "allowLargeTextFiles": "Allow large files",
         "period": "Calculation period",
-        "includeMonthlySum": "Include monthly sum",
         "useApi": "Request report via new solution",
         "energySupplier": "Energy supplier",
         "gridArea": "Grid area",
@@ -2338,7 +2382,7 @@
       }
     },
     "measurementsReports": {
-      "title": "{{ reports.tabs.measurementsReports }}",
+      "title": "{{ shared.terminology.measurements }}",
       "emptyMessage": "There are no measurements reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
@@ -2425,6 +2469,7 @@
       "search": "Search by ID",
       "new": "New calculation",
       "scheduledCalculationTooltip": "The actual time may differ from the scheduled time",
+      "actionsButton": "Actions",
       "capacitySettlements": {
         "uploadButton": "Upload file for capacity settlements",
         "uploadInProgress": "Upload in progress",
@@ -2781,6 +2826,9 @@
         },
         "editRole": "Edit user role",
         "disable": "Deactivate",
+        "resetMitID": "Reset MitID connection",
+        "resetMitIDError": "Something went wrong. MitID connection may not have been reset. Please try again",
+        "resetMitIDSuccess": "MitID connection has been reset. The user can link MitID again at next login.",
         "reset2fa": "Reset two-factor authentication",
         "reset2faError": "Something went wrong. Two-factor authentication may not have been reset. Please try again",
         "reset2faSuccess": "Two-factor authentication has been reset. The user can re-configure two-factor authentication at next login. The login must be done within 24 hours.",
@@ -2876,7 +2924,8 @@
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> due to the role being deactivated",
               "USER_LOGIN_FEDERATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested to link MitID to the user",
-              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> has successfully linked MitID to the user"
+              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> has successfully linked MitID to the user",
+              "USER_LOGIN_FEDERATION_RESET": "<b>{{ auditedBy }}</b> has successfully reset MitID of the user"
             }
           }
         },
@@ -3148,7 +3197,6 @@
         "period": "Calculation period"
       },
       "table": {
-        "headline": "Processes",
         "searchLabel": "Search by ID",
         "columns": {
           "id": "Id",

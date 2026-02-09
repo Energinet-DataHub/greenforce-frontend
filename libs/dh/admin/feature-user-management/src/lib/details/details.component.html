@@ -17,7 +17,14 @@ limitations under the License.
 @let user = selectedUser();
 
 <ng-container *transloco="let t; prefix: 'admin.userManagement.drawer'">
-  <watt-drawer [loading]="isLoading()" #drawer size="large" (closed)="onClose()">
+  <watt-drawer
+    autoOpen
+    [key]="id()"
+    [loading]="isLoading()"
+    #drawer
+    size="large"
+    (closed)="onClose()"
+  >
     <watt-drawer-topbar>
       @if (user) {
         <dh-user-status [status]="user.status" />
@@ -60,10 +67,13 @@ limitations under the License.
 
       <watt-button variant="secondary" (click)="edit()">{{ t("edit") }}</watt-button>
 
-      <watt-button variant="icon" icon="moreVertical" [matMenuTriggerFor]="menu">
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="resetUser2Fa()">{{ t("reset2fa") }}</button>
-        </mat-menu>
+      <watt-button variant="icon" icon="moreVertical" [wattMenuTriggerFor]="menu">
+        <watt-menu #menu>
+          <watt-menu-item (click)="resetUser2Fa()">{{ t("reset2fa") }}</watt-menu-item>
+          <watt-menu-item *dhPermissionRequired="['users:manage']" (click)="resetMitID()">
+            {{ t("resetMitID") }}
+          </watt-menu-item>
+        </watt-menu>
       </watt-button>
     </watt-drawer-actions>
 

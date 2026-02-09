@@ -29,22 +29,90 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IActorConversationClient_V1
     {
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<string> ApiHealthAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<string> ApiHealthAsync(System.Threading.CancellationToken cancellationToken);
+
+        /// <remarks>
+        /// Closes a conversation, creating a closed conversation message by the user
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ApiCloseConversationAsync(CloseConversationRequest body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <remarks>
+        /// Closes a conversation, creating a closed conversation message by the user
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ApiCloseConversationAsync(CloseConversationRequest body, System.Threading.CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Gets the specified conversation.
+        /// </summary>
+        /// <remarks>
+        /// Gets the specified conversation
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ConversationDto> ApiGetConversationApiGetConversationAsync(System.Guid conversationId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Gets the specified conversation.
+        /// </summary>
+        /// <remarks>
+        /// Gets the specified conversation
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ConversationDto> ApiGetConversationApiGetConversationAsync(System.Guid conversationId, System.Threading.CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Get all conversations.
+        /// </summary>
+        /// <remarks>
+        /// Get all conversations  or conversations just for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ConversationsDto> ApiGetConversationsAsync(string? meteringPointIdentification);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get all conversations.
+        /// </summary>
+        /// <remarks>
+        /// Get all conversations  or conversations just for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ConversationsDto> ApiGetConversationsAsync(string? meteringPointIdentification, System.Threading.CancellationToken cancellationToken);
+
         /// <summary>
         /// Starts a conversation
         /// </summary>
         /// <remarks>
-        /// Example request:
+        /// Example request for QuestionForEnerginet:
         /// <br/>
         /// <br/>```
         /// <br/>   {
+        /// <br/>      "subject": "QuestionForEnerginet",
         /// <br/>      "meteringPointIdentification": "570715000000033841",
-        /// <br/>      "actorsGlnNumbers": [ "5790001330999", "5790001330552"],
+        /// <br/>      "glnNumberForReceivers": [ "5790001330552"],
+        /// <br/>      "internalNote": "",
         /// <br/>      "conversationMessage": {
-        /// <br/>          "senderEmail": "xx@ddddd.dk",
+        /// <br/>          "senderEmail": "noreply@energinet.dk",
+        /// <br/>          "senderGlnNumber": "5790001330553",
         /// <br/>          "anonymous": true,
         /// <br/>          "content": "Test message",
-        /// <br/>          "createdBy": "xxxxx",
-        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"
+        /// <br/>          "createdBy": "User id of the sender"
         /// <br/>       }
         /// <br/>    }
         /// <br/> ```
@@ -52,25 +120,27 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="body">Specifies the new Conversation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> ApiCreateConversationAsync(StartConversationRequest body);
+        System.Threading.Tasks.Task<StartConversationResponse> ApiStartConversationAsync(StartConversationRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Starts a conversation
         /// </summary>
         /// <remarks>
-        /// Example request:
+        /// Example request for QuestionForEnerginet:
         /// <br/>
         /// <br/>```
         /// <br/>   {
+        /// <br/>      "subject": "QuestionForEnerginet",
         /// <br/>      "meteringPointIdentification": "570715000000033841",
-        /// <br/>      "actorsGlnNumbers": [ "5790001330999", "5790001330552"],
+        /// <br/>      "glnNumberForReceivers": [ "5790001330552"],
+        /// <br/>      "internalNote": "",
         /// <br/>      "conversationMessage": {
-        /// <br/>          "senderEmail": "xx@ddddd.dk",
+        /// <br/>          "senderEmail": "noreply@energinet.dk",
+        /// <br/>          "senderGlnNumber": "5790001330553",
         /// <br/>          "anonymous": true,
         /// <br/>          "content": "Test message",
-        /// <br/>          "createdBy": "xxxxx",
-        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"
+        /// <br/>          "createdBy": "User id of the sender"
         /// <br/>       }
         /// <br/>    }
         /// <br/> ```
@@ -78,7 +148,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="body">Specifies the new Conversation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> ApiCreateConversationAsync(StartConversationRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<StartConversationResponse> ApiStartConversationAsync(StartConversationRequest body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -97,7 +167,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         public ActorConversationClient_V1(System.Net.Http.HttpClient httpClient)
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
-            BaseUrl = "http://localhost:8080/";
+            BaseUrl = "http://app-api-actcon-d-we-001.azurewebsites.net/";
             _httpClient = httpClient;
             Initialize();
         }
@@ -130,80 +200,31 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
-        /// <summary>
-        /// Starts a conversation
-        /// </summary>
-        /// <remarks>
-        /// Example request:
-        /// <br/>
-        /// <br/>```
-        /// <br/>   {
-        /// <br/>      "meteringPointIdentification": "570715000000033841",
-        /// <br/>      "actorsGlnNumbers": [ "5790001330999", "5790001330552"],
-        /// <br/>      "conversationMessage": {
-        /// <br/>          "senderEmail": "xx@ddddd.dk",
-        /// <br/>          "anonymous": true,
-        /// <br/>          "content": "Test message",
-        /// <br/>          "createdBy": "xxxxx",
-        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"
-        /// <br/>       }
-        /// <br/>    }
-        /// <br/> ```
-        /// </remarks>
-        /// <param name="body">Specifies the new Conversation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Guid> ApiCreateConversationAsync(StartConversationRequest body)
+        public virtual System.Threading.Tasks.Task<string> ApiHealthAsync()
         {
-            return ApiCreateConversationAsync(body, System.Threading.CancellationToken.None);
+            return ApiHealthAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Starts a conversation
-        /// </summary>
-        /// <remarks>
-        /// Example request:
-        /// <br/>
-        /// <br/>```
-        /// <br/>   {
-        /// <br/>      "meteringPointIdentification": "570715000000033841",
-        /// <br/>      "actorsGlnNumbers": [ "5790001330999", "5790001330552"],
-        /// <br/>      "conversationMessage": {
-        /// <br/>          "senderEmail": "xx@ddddd.dk",
-        /// <br/>          "anonymous": true,
-        /// <br/>          "content": "Test message",
-        /// <br/>          "createdBy": "xxxxx",
-        /// <br/>          "createdTime": "yyyy-mm-ddTHH:mi:ssZ"
-        /// <br/>       }
-        /// <br/>    }
-        /// <br/> ```
-        /// </remarks>
-        /// <param name="body">Specifies the new Conversation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Guid> ApiCreateConversationAsync(StartConversationRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<string> ApiHealthAsync(System.Threading.CancellationToken cancellationToken)
         {
-            if (body == null)
-                throw new System.ArgumentNullException("body");
-
             var client_ = _httpClient;
             var disposeClient_ = false;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
-                    var content_ = new System.Net.Http.StringContent(json_);
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "api/CreateConversation"
-                    urlBuilder_.Append("api/CreateConversation");
+                    // Operation Path: "api/health"
+                    urlBuilder_.Append("api/health");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -230,7 +251,430 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Guid>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var result_ = (string)System.Convert.ChangeType(responseData_, typeof(string))!;
+                            return result_;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <remarks>
+        /// Closes a conversation, creating a closed conversation message by the user
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task ApiCloseConversationAsync(CloseConversationRequest body)
+        {
+            return ApiCloseConversationAsync(body, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <remarks>
+        /// Closes a conversation, creating a closed conversation message by the user
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task ApiCloseConversationAsync(CloseConversationRequest body, System.Threading.CancellationToken cancellationToken)
+        {
+            if (body == null)
+                throw new System.ArgumentNullException("body");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "api/CloseConversation"
+                    urlBuilder_.Append("api/CloseConversation");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Gets the specified conversation.
+        /// </summary>
+        /// <remarks>
+        /// Gets the specified conversation
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<ConversationDto> ApiGetConversationApiGetConversationAsync(System.Guid conversationId)
+        {
+            return ApiGetConversationApiGetConversationAsync(conversationId, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Gets the specified conversation.
+        /// </summary>
+        /// <remarks>
+        /// Gets the specified conversation
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<ConversationDto> ApiGetConversationApiGetConversationAsync(System.Guid conversationId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (conversationId == null)
+                throw new System.ArgumentNullException("conversationId");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "api/GetConversation/api/GetConversation/{conversationId}"
+                    urlBuilder_.Append("api/GetConversation/api/GetConversation/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(conversationId, System.Globalization.CultureInfo.InvariantCulture)));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ConversationDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Get all conversations.
+        /// </summary>
+        /// <remarks>
+        /// Get all conversations  or conversations just for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<ConversationsDto> ApiGetConversationsAsync(string? meteringPointIdentification)
+        {
+            return ApiGetConversationsAsync(meteringPointIdentification, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get all conversations.
+        /// </summary>
+        /// <remarks>
+        /// Get all conversations  or conversations just for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<ConversationsDto> ApiGetConversationsAsync(string? meteringPointIdentification, System.Threading.CancellationToken cancellationToken)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "api/GetConversations"
+                    urlBuilder_.Append("api/GetConversations");
+                    urlBuilder_.Append('?');
+                    if (meteringPointIdentification != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("meteringPointIdentification")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(meteringPointIdentification, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ConversationsDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Starts a conversation
+        /// </summary>
+        /// <remarks>
+        /// Example request for QuestionForEnerginet:
+        /// <br/>
+        /// <br/>```
+        /// <br/>   {
+        /// <br/>      "subject": "QuestionForEnerginet",
+        /// <br/>      "meteringPointIdentification": "570715000000033841",
+        /// <br/>      "glnNumberForReceivers": [ "5790001330552"],
+        /// <br/>      "internalNote": "",
+        /// <br/>      "conversationMessage": {
+        /// <br/>          "senderEmail": "noreply@energinet.dk",
+        /// <br/>          "senderGlnNumber": "5790001330553",
+        /// <br/>          "anonymous": true,
+        /// <br/>          "content": "Test message",
+        /// <br/>          "createdBy": "User id of the sender"
+        /// <br/>       }
+        /// <br/>    }
+        /// <br/> ```
+        /// </remarks>
+        /// <param name="body">Specifies the new Conversation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<StartConversationResponse> ApiStartConversationAsync(StartConversationRequest body)
+        {
+            return ApiStartConversationAsync(body, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Starts a conversation
+        /// </summary>
+        /// <remarks>
+        /// Example request for QuestionForEnerginet:
+        /// <br/>
+        /// <br/>```
+        /// <br/>   {
+        /// <br/>      "subject": "QuestionForEnerginet",
+        /// <br/>      "meteringPointIdentification": "570715000000033841",
+        /// <br/>      "glnNumberForReceivers": [ "5790001330552"],
+        /// <br/>      "internalNote": "",
+        /// <br/>      "conversationMessage": {
+        /// <br/>          "senderEmail": "noreply@energinet.dk",
+        /// <br/>          "senderGlnNumber": "5790001330553",
+        /// <br/>          "anonymous": true,
+        /// <br/>          "content": "Test message",
+        /// <br/>          "createdBy": "User id of the sender"
+        /// <br/>       }
+        /// <br/>    }
+        /// <br/> ```
+        /// </remarks>
+        /// <param name="body">Specifies the new Conversation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<StartConversationResponse> ApiStartConversationAsync(StartConversationRequest body, System.Threading.CancellationToken cancellationToken)
+        {
+            if (body == null)
+                throw new System.ArgumentNullException("body");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "api/StartConversation"
+                    urlBuilder_.Append("api/StartConversation");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<StartConversationResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -379,42 +823,209 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         }
     }
 
-    /// <summary>
-    /// The Conversation message
-    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ConversationMessage
+    public enum ActorType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"EnergySupplier")]
+        EnergySupplier = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Energinet")]
+        Energinet = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"GridAccessProvider")]
+        GridAccessProvider = 2,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CloseConversationRequest
     {
         /// <summary>
-        /// Sender Email
+        /// Conversation subject.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("senderEmail", Required = Newtonsoft.Json.Required.Always)]
+        [Newtonsoft.Json.JsonProperty("conversationId", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string SenderEmail { get; set; } = default!;
+        public System.Guid ConversationId { get; set; } = default!;
 
         /// <summary>
-        /// Specifies whether the message is anonymous with respect to the Sender information.
+        /// GLN or EIC number of the actor of the sender
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("anonymous", Required = Newtonsoft.Json.Required.Always)]
-        public bool Anonymous { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("senderActorNumber", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string SenderActorNumber { get; set; } = default!;
 
         /// <summary>
-        /// The message content, thus the body itself.
-        /// <br/>Can be atmost of 5000 characters.
+        /// UserId of the user, who created the message.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("senderUserId", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string SenderUserId { get; set; } = default!;
+
+        /// <summary>
+        /// Username of the sender
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("senderUserName", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string SenderUserName { get; set; } = default!;
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    /// <summary>
+    /// Conversation
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ConversationDto
+    {
+        /// <summary>
+        /// MeteringPoint identification
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("meteringPointIdentification", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string MeteringPointIdentification { get; set; } = default!;
+
+        /// <summary>
+        /// Display Id of the conversation
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("displayId", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public object DisplayId { get; set; } = default!;
+
+        /// <summary>
+        /// Internal note from the creator
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("internalNote", Required = Newtonsoft.Json.Required.AllowNull)]
+        public string? InternalNote { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("subject", Required = Newtonsoft.Json.Required.Always)]
+        public ConversationSubject Subject { get; set; } = default!;
+
+        /// <summary>
+        /// true for conversations that are closed. false otherwise.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("closed", Required = Newtonsoft.Json.Required.Always)]
+        public bool Closed { get; set; } = default!;
+
+        /// <summary>
+        /// Messages associated with a conversation
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("messages", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<ConversationMessageDto> Messages { get; set; } = new System.Collections.ObjectModel.Collection<ConversationMessageDto>();
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    /// <summary>
+    /// Conversation info
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ConversationInfoDto
+    {
+        /// <summary>
+        /// Conversation id
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("conversationId", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.Guid ConversationId { get; set; } = default!;
+
+        /// <summary>
+        /// MeteringPoint Identification
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("meteringPointIdentification", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string MeteringPointIdentification { get; set; } = default!;
+
+        /// <summary>
+        /// Specifies whether the conversation has been read or not
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("read", Required = Newtonsoft.Json.Required.Always)]
+        public bool Read { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("subject", Required = Newtonsoft.Json.Required.Always)]
+        public ConversationSubject Subject { get; set; } = default!;
+
+        /// <summary>
+        /// Display id of the conversation
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("displayId", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public object DisplayId { get; set; } = default!;
+
+        /// <summary>
+        /// Conversation is closed or not
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("closed", Required = Newtonsoft.Json.Required.Always)]
+        public bool Closed { get; set; } = default!;
+
+        /// <summary>
+        /// Last updated time of the conversation
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("lastUpdated", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.DateTimeOffset LastUpdated { get; set; } = default!;
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    /// <summary>
+    /// Conversation message
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ConversationMessageDto
+    {
+        /// <summary>
+        /// Sender user name
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("senderUserName", Required = Newtonsoft.Json.Required.AllowNull)]
+        public string? SenderUserName { get; set; } = default!;
+
+        /// <summary>
+        /// Sendor actor name
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("senderActorName", Required = Newtonsoft.Json.Required.AllowNull)]
+        public string? SenderActorName { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("senderType", Required = Newtonsoft.Json.Required.Always)]
+        public ActorType SenderType { get; set; } = default!;
+
+        /// <summary>
+        /// Message content
         /// </summary>
         [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Content { get; set; } = default!;
 
-        /// <summary>
-        /// The user that creates the conversation message
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("createdBy", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string CreatedBy { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("messageType", Required = Newtonsoft.Json.Required.Always)]
+        public int MessageType { get; set; } = default!;
 
         /// <summary>
-        /// Created time in Utc - yyyy-mm-ddTHH:mi:ssZ.
+        /// Created time
         /// </summary>
         [Newtonsoft.Json.JsonProperty("createdTime", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
@@ -428,6 +1039,42 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
             get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
             set { _additionalProperties = value; }
         }
+
+    }
+
+    /// <summary>
+    /// Conversations
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ConversationsDto
+    {
+        /// <summary>
+        /// List of Conversations
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("conversations", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<ConversationInfoDto> Conversations { get; set; } = new System.Collections.ObjectModel.Collection<ConversationInfoDto>();
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    /// <summary>
+    /// Conversation subjects
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ConversationSubject
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"QuestionForEnerginet")]
+        QuestionForEnerginet = 0,
 
     }
 
@@ -460,30 +1107,92 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
 
     }
 
-    /// <summary>
-    /// Request for starting a new conversation.
-    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class StartConversationRequest
     {
+        [Newtonsoft.Json.JsonProperty("subject", Required = Newtonsoft.Json.Required.Always)]
+        public ConversationSubject Subject { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("receiverActorType", Required = Newtonsoft.Json.Required.Always)]
+        public ActorType ReceiverActorType { get; set; } = default!;
+
         /// <summary>
-        /// MeteringPointIdentification. 18 digits GSRN number consisting of digits only.
+        /// MeteringPointIdentification
+        /// <br/>18 digits GSRN number consisting of digits only.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("meteringPointIdentification", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string MeteringPointIdentification { get; set; } = default!;
 
         /// <summary>
-        /// GLN Numbers of the actors, thus participants in the conversation. GLN numbers can be atmost 14 characters length and consits of digits only.
-        /// <br/>There can be atmost 2 participants
+        /// GLN or EIC number of the actor of the sender
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("actorsGlnNumbers", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required]
-        public System.Collections.Generic.ICollection<string> ActorsGlnNumbers { get; set; } = new System.Collections.ObjectModel.Collection<string>();
+        [Newtonsoft.Json.JsonProperty("senderActorNumber", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string SenderActorNumber { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("conversationMessage", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required]
-        public ConversationMessage ConversationMessage { get; set; } = new ConversationMessage();
+        /// <summary>
+        /// Name of the organization of the sender
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("senderActorName", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string SenderActorName { get; set; } = default!;
+
+        /// <summary>
+        /// UserId of the user, who created the message.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("senderUserId", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string SenderUserId { get; set; } = default!;
+
+        /// <summary>
+        /// Username of the sender
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("senderUserName", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string SenderUserName { get; set; } = default!;
+
+        /// <summary>
+        /// Optional Internal note from the Organization, that created the Conversation.
+        /// <br/>Can contain at most 80 characters and will be assumed empty, if not specified
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("internalNote", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? InternalNote { get; set; } = default!;
+
+        /// <summary>
+        /// The message content, thus the body itself.
+        /// <br/>Can contain at most 5000 characters and should not be empty.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Content { get; set; } = default!;
+
+        /// <summary>
+        /// Specifies whether the message is anonymous with respect to the Sender information.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("anonymous", Required = Newtonsoft.Json.Required.Always)]
+        public bool Anonymous { get; set; } = default!;
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    /// <summary>
+    /// Response for the request for starting a conversation
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class StartConversationResponse
+    {
+        [Newtonsoft.Json.JsonProperty("conversationId", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.Guid ConversationId { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 

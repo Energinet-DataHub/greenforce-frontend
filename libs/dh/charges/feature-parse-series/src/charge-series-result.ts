@@ -17,7 +17,7 @@
  */
 //#endregion
 import { dayjs } from '@energinet/watt/date';
-import { ChargePointV1Input, ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ChargePointV2Input, ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
 import { danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
 
 export type ChargeSeriesParseError = {
@@ -36,6 +36,16 @@ const dateFormat = new Intl.DateTimeFormat('da-DK', {
   dateStyle: 'short',
   timeStyle: 'short',
 });
+
+/**
+ * Applies a transformation to a Day.js date with proper DST handling.
+ * The transform function receives the date in Danish timezone and can chain any operations.
+ */
+function withDstFix(date: dayjs.Dayjs, transform: (d: dayjs.Dayjs) => dayjs.Dayjs): dayjs.Dayjs {
+  // HACK: dayjs does not add days/months correctly across DST boundaries
+  // https://github.com/iamkun/dayjs/issues/1271
+  return transform(date.tz(danishTimeZoneIdentifier)).tz(danishTimeZoneIdentifier, true).utc();
+}
 
 export class ChargeSeriesResult {
   // List of supported date time formats
@@ -65,7 +75,7 @@ export class ChargeSeriesResult {
   isFatal = false;
 
   /** Array of points parsed from the CSV file. */
-  points: ChargePointV1Input[] = [];
+  points: ChargePointV2Input[] = [];
 
   /** Array of errors encountered during parsing. */
   errors: ChargeSeriesParseError[] = [];
@@ -132,14 +142,13 @@ export class ChargeSeriesResult {
       case ChargeResolution.Hourly:
         return this.last.add(1, 'hour');
       case ChargeResolution.Daily:
+        return withDstFix(this.last, (d) => d.add(1, 'day'));
       case ChargeResolution.Monthly:
-        // HACK: dayjs does not add days correctly across DST boundaries
-        // https://github.com/iamkun/dayjs/issues/1271
-        return this.last
-          .tz(danishTimeZoneIdentifier)
-          .add(1, this.resolution === ChargeResolution.Monthly ? 'month' : 'day')
-          .tz(danishTimeZoneIdentifier, true)
-          .utc();
+        // For monthly resolution, the first entry can start on any day of the month.
+        // Subsequent entries must start on the 1st of the month.
+        return this.points.length === 1
+          ? withDstFix(this.last, (d) => d.add(1, 'month').startOf('month'))
+          : withDstFix(this.last, (d) => d.add(1, 'month'));
     }
   };
 
@@ -156,7 +165,7 @@ export class ChargeSeriesResult {
   };
 
   /** Adds a point to the result. Chainable. */
-  addPoint = (point: ChargePointV1Input) => {
+  addPoint = (point: ChargePointV2Input) => {
     this.points.push(point);
     return this;
   };

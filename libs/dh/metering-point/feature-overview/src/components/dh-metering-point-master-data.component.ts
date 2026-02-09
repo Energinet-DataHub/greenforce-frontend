@@ -52,16 +52,10 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
   styles: `
     @use '@energinet/watt/utils' as watt;
 
-    :host {
-      display: block;
-      height: 100%;
-    }
-
     .page-grid {
       display: grid;
       width: 100%;
       gap: var(--watt-space-ml);
-      padding: var(--watt-space-ml);
 
       @include watt.media('>=Large') {
         grid-template-columns: 1fr 1fr;
@@ -131,7 +125,7 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
   `,
   template: `
     <dh-result [hasError]="query.hasError()" [loading]="query.loading()">
-      <vater-stack direction="column">
+      <vater-stack direction="column" gap="ml">
         <dh-metering-point-highlights [meteringPointDetails]="meteringPoint()" />
         <div class="page-grid" [class.page-grid__child-view]="meteringPoint()?.isChild">
           <dh-metering-point-details [meteringPoint]="meteringPoint()" />
@@ -149,7 +143,10 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
           }
 
           @defer (on idle) {
-            <dh-related-metering-points [meteringPointId]="meteringPointId()" />
+            <dh-related-metering-points
+              [meteringPointIdentification]="meteringPointId()"
+              [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
+            />
           }
         </div>
       </vater-stack>

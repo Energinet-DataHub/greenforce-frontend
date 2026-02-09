@@ -21,7 +21,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent } from '@energinet/watt/vater';
-import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ElectricityMarketViewWashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-actual-address',
@@ -55,7 +55,9 @@ import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
   `,
 })
 export class DhActualAddressComponent {
-  washInstructions = input<WashInstructions | null>();
+  washInstructions = input<ElectricityMarketViewWashInstructions | null>();
 
-  isActualAddress = computed(() => this.washInstructions() === WashInstructions.Washable);
+  isActualAddress = computed(
+    () => this.washInstructions() === ElectricityMarketViewWashInstructions.Washable
+  );
 }

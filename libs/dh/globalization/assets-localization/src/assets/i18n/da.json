@@ -196,7 +196,13 @@
     "selectedValues": "{{count}} valgt(e)",
     "calculationType": "Beregningstype",
     "all": "Alle",
-    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}"
+    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}",
+    "terminology": {
+      "customerMasterData": "Kundestamdata",
+      "measurements": "Måledata",
+      "meteringPointMasterData": "Målepunktsstamdata",
+      "chargeLink": "Pristilknytning"
+    }
   },
   "clipboard": {
     "success": "Kopieret",
@@ -388,7 +394,7 @@
     "charges": {
       "topBarTitle": "Priser",
       "table": {
-        "createButton": "Ny pris",
+        "createButton": "Opret pris",
         "columns": {
           "code": "ID",
           "type": "Type",
@@ -418,9 +424,9 @@
           "transparentInvoicingGroupName": "Viderefakturering",
           "transparentInvoicing": "Skal viderefaktureres",
           "not_transparentInvoicing": "Skal ikke viderefaktureres",
-          "predictablePriceGroupName": "Spotafhængig pris",
-          "predictablePrice": "Spotafhængig pris",
-          "not_predictablePrice": "Ikke spotafhængig pris",
+          "spotDependingPriceGroupName": "Spotafhængig pris",
+          "spotDependingPrice": "Spotafhængig pris",
+          "not_spotDependingPrice": "Ikke spotafhængig pris",
           "missingPriceSeriesGroupName": "Prisserie",
           "missingPriceSeries": "Mangler prisserie",
           "not_missingPriceSeries": "Har prisserie"
@@ -430,11 +436,11 @@
     "actions": {
       "create": {
         "action": {
-          "SUBSCRIPTION": "Nyt abonnement",
-          "FEE": "Nyt gebyr",
-          "TARIFF": "Ny tarif",
-          "TARIFF_TAX": "Ny tarif, afgift",
-          "SELECTION": "Ny pris"
+          "SUBSCRIPTION": "Opret abonnement",
+          "FEE": "Opret gebyr",
+          "TARIFF": "Opret tarif",
+          "TARIFF_TAX": "Opret tarif, afgift",
+          "SELECTION": "Opret pris"
         },
         "toast": {
           "loading": "Pris oprettes..",
@@ -455,9 +461,9 @@
           "transparentInvoicing": "Viderefakturering",
           "withTransparentInvoicing": "Ja",
           "withoutTransparentInvoicing": "Nej",
-          "predictablePrice": "Forudsigelig pris",
-          "withPredictablePrice": "Ja",
-          "withoutPredictablePrice": "Nej",
+          "spotDependingPrice": "Spotafhængig pris",
+          "withSpotDependingPrice": "Ja",
+          "withoutSpotDependingPrice": "Nej",
           "validFrom": "Gyldig fra",
           "cutoffDate": "Skæringsdato"
         },
@@ -518,6 +524,7 @@
       "owner": "Ejer",
       "resolution": "Prisopløsning",
       "transparentInvoicing": "Viderefakturering",
+      "spotDependingPrice": "Spotafhængig pris",
       "vat": "Moms",
       "tabs": {
         "pricesLabel": "Priser",
@@ -621,7 +628,7 @@
         "tabLabel": "Beskeder"
       },
       "measurements": {
-        "tabLabel": "Måledata"
+        "tabLabel": "{{ shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Fejlede måledata"
@@ -690,7 +697,8 @@
         "moveIn": "Tilflyt kunde",
         "createChargeLink": "Tilknyt pris",
         "changeConnectionStatus": "Ændre tilslutningsstatus",
-        "updateCustomerData": "Opdater kundestamdata"
+        "updateCustomerData": "Opdater kundestamdata",
+        "endOfSupply": "Leveranceophør"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -704,7 +712,8 @@
         "settlementMethod": "Afregningsform",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Elvarmedato",
-        "powerLimit": "Effektgrænse",
+        "powerLimitKw": "Effektgrænse kW",
+        "powerLimitA": "Effektgrænse A",
         "powerLimitValueKw": "{{ value }} kW",
         "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Afbrydelsesart",
@@ -772,15 +781,37 @@
       "newCaseTitle": "Ny sag",
       "subjectLabel": "Emne",
       "subjects": {
-        "misc": "Andet"
+        "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
+        "disconnectionOrReconnection": "Afbrydelse/Gentilslutning",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "incorrectMoveInOrSupplierSwitch": "Fejlagtig flytning/leverandørskifte",
+        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
+        "measurements": "{{ shared.terminology.measurements }}",
+        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
+        "chargeLink": "{{ shared.terminology.chargeLink }}",
+        "newCase": "Ny sag"
       },
-      "receiverLabel": "Modtager",
+      "receiverLabel": "Til",
       "receivers": {
-        "energinet": "Energinet"
+        "ENERGY_SUPPLIER": "Elleverandør",
+        "ENERGINET": "Energinet",
+        "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
+      "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
       "internalNoteLabel": "Intern note",
       "messageLabel": "Besked",
-      "sendButton": "Send"
+      "messagePlaceholder": "Skriv en besked",
+      "sendButton": "Send",
+      "emptyState": {
+        "noCases": "Der er ingen sager på målepunktet",
+        "noCaseSelected": "Ingen sag valgt"
+      },
+      "closed": "Afsluttet",
+      "closeCaseButton": "Afslut sag",
+      "markAsUnreadButton": "Marker som ulæst",
+      "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
+      "anonymousCheckbox": "Send anonymt",
+      "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
@@ -936,9 +967,11 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Information om nyt målepunkt (RSM-022)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Information om pristilknytning (RSM-031)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
         "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
+        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_1": "Anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Godkendelse af anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Afvisning af anmodning om tilflytning (RSM-001)",
@@ -1237,12 +1270,22 @@
       "cancel": "Annuller",
       "save": "Gem ændringer",
       "saveSuccess": "Tilslutningsstatus opdateres"
+    },
+    "endOfSupply": {
+      "modalTitle": "Start leveranceophør",
+      "dateLabel": "Angiv skæringsdato",
+      "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
+      "confirmCheckbox": "Vær opmærksom på, at når du starter et leveranceophør anmoder du om at slukke strømmen på målepunktet.",
+      "cancel": "Annuller",
+      "submit": "Start leveranceophør",
+      "submitSuccess": "Leveranceophør indsendt.",
+      "submitSuccessAction": "Se status under processer",
+      "submitError": "Leveranceophør kunne ikke indsendes"
     }
   },
   "messageArchive": {
     "topBarTitle": "Fremsøg forretningsbeskeder",
     "new": "Ny søgning",
-    "results": "Resultater",
     "searchById": "Søg på ID",
     "refetching": "Henter forretningsbeskeder...",
     "drawer": {
@@ -1288,8 +1331,7 @@
       "created": "Sendt",
       "messageId": "Besked ID",
       "sender": "Afsender",
-      "receiver": "Modtager",
-      "download": "Download"
+      "receiver": "Modtager"
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
@@ -1310,8 +1352,10 @@
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af opdatering af pristilknytninger (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Information om pristilknytninger (RSM-031)",
       "REQUEST_CHANGE_OF_PRICE_LIST": "Anmodning om opdatering af priser (RSM-033)",
+      "B2C_REQUEST_CHANGE_OF_PRICE_LIST": "UI: Anmodning om opdatering af priser (RSM-033)",
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Godkendelse af opdatering af priser (RSM-033)",
-      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af opdatering af priser (RSM-033)"
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af opdatering af priser (RSM-033)",
+      "NOTIFY_PRICE_LIST": "Information om priser (RSM-034)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -1650,8 +1694,7 @@
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
-        "reset": "{{ shared.form.reset }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
       },
       "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {
@@ -2049,10 +2092,10 @@
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
       "status": {
-        "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 2, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
+        "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 3, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
         "CONVERTER": "Status bliver rød hvis NBS-beskeder ikke kan dannes, fordi der enten er en fejl i konverteringen eller netområdet i beskeden ikke har en netvirksomhed tilknyttet.",
-        "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til BizTalk, fordi der enten ikke er forbindelse, BizTalk ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
-        "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra BizTalk, fordi der enten ikke er forbindelse, BizTalk/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
+        "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til Servicebus/eSett, fordi der enten ikke er forbindelse, fordi servicebus/eSett ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
+        "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra Servicebus, fordi der enten ikke er forbindelse, Servicebus/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
       },
       "fileName": "DataHub eSett udgående beskeder - {{ shared.downloadNameParams }}",
       "shared": {
@@ -2254,7 +2297,7 @@
     "topBarTitle": "Rapporter",
     "tabs": {
       "settlementReports": "Afregningsrapporter",
-      "measurementsReports": "Måledata",
+      "measurementsReports": "{{ shared.terminology.measurements }}",
       "imbalancePrices": "Ubalancepriser"
     },
     "settlements": {
@@ -2275,8 +2318,9 @@
         "title": "Er du sikker på, at du vil afbryde denne rapport?",
         "confirm": "Afbryd rapport",
         "cancel": "Fortryd",
-        "requestSuccess": "Afregningsrapport afbrudt.",
-        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
+        "loading": "Afbryder afregningsrapport...",
+        "success": "Afregningsrapport afbrudt.",
+        "error": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
       },
       "columns": {
         "startedAt": "Bestilt",
@@ -2317,7 +2361,6 @@
         "includeBasisData": "Inkluder datagrundlag",
         "allowLargeTextFiles": "Tillad store filer",
         "period": "Beregningsperiode",
-        "includeMonthlySum": "Inkluder månedssummer",
         "useApi": "Bestil rapport via. ny løsning",
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",
@@ -2427,6 +2470,7 @@
       "search": "Søg på ID",
       "new": "Ny beregning",
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
+      "actionsButton": "Handlinger",
       "capacitySettlements": {
         "uploadButton": "Upload fil til effektbetaling",
         "uploadInProgress": "Upload i gang",
@@ -2783,6 +2827,9 @@
         },
         "editRole": "Rediger brugerrolle",
         "disable": "Deaktiver",
+        "resetMitID": "Nulstil MitID tilknytning",
+        "resetMitIDError": "Noget gik galt. MitID tilknytning blev muligvis ikke nulstillet. Prøv igen.",
+        "resetMitIDSuccess": "MitID tilknytning nulstillet. Brugeren kan knytte MitID igen ved næste login.",
         "reset2fa": "Nulstil tofaktorgodkendelse",
         "reset2faError": "Noget gik galt. Tofaktorgodkendelse blev muligvis ikke nulstillet. Prøv igen.",
         "reset2faSuccess": "Tofaktorgodkendelse nulstillet. Brugeren skal opsætte tofaktorgodkendelse inden for 24 timer.",
@@ -2878,7 +2925,8 @@
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret",
               "USER_LOGIN_FEDERATION_REQUESTED": "<b>{{ auditedBy }}</b> har anmodet om at knytte MitID til brugeren",
-              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> har succesfuldt knyttet MitID til brugeren"
+              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> har succesfuldt knyttet MitID til brugeren",
+              "USER_LOGIN_FEDERATION_RESET": "<b>{{ auditedBy }}</b> har nulstillet MitID for brugeren"
             }
           }
         },
@@ -3150,7 +3198,6 @@
         "period": "Beregningsperiode"
       },
       "table": {
-        "headline": "Processer",
         "searchLabel": "Søg på ID",
         "columns": {
           "id": "Id",

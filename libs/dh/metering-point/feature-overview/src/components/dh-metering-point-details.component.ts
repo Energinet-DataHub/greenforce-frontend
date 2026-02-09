@@ -143,7 +143,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
               }
             </ng-container>
 
-            <watt-description-list-item [label]="t('powerLimit')">
+            <watt-description-list-item [label]="t('powerLimitKw')">
               @if (meteringPointDetails()?.powerLimitKw) {
                 {{
                   t('powerLimitValueKw', {
@@ -155,11 +155,11 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
               }
             </watt-description-list-item>
 
-            <watt-description-list-item [label]="t('powerLimit')">
+            <watt-description-list-item [label]="t('powerLimitA')">
               @if (meteringPointDetails()?.powerLimitAmp) {
                 {{
                   t('powerLimitValueAmpere', {
-                    value: meteringPointDetails()?.powerLimitAmp | number: '1.1',
+                    value: meteringPointDetails()?.powerLimitAmp | number: '1.0-0',
                   })
                 }}
               } @else {
@@ -238,7 +238,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
                 @if (meteringPointDetails()?.capacity) {
                   {{
                     t('powerPlantCapacityValue', {
-                      value: meteringPointDetails()?.capacity | number: '1.1',
+                      value: meteringPointDetails()?.capacity,
                     })
                   }}
                 } @else {

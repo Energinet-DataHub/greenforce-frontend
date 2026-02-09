@@ -13,8 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Linq;
-using System.Reflection;
 using Energinet.DataHub.WebApi.Modules.Common.Utilities;
 using Xunit;
 
@@ -22,7 +20,10 @@ namespace Energinet.DataHub.WebApi.Tests.Helpers;
 
 public static class EnumerationTestHelper
 {
-    public static void TestEnumerationFrom<T>(Type type, Func<string, T> makeOrThrow)
+    public static void TestFromName<T>(Type type)
+         where T : Enumeration<T> => TestCustomFrom(type, Enumeration<T>.FromName);
+
+    public static void TestCustomFrom<T>(Type type, Func<string, T> fromOrThrow)
     {
         foreach (var e in Enum.GetNames(type))
         {
@@ -31,29 +32,28 @@ public static class EnumerationTestHelper
 
             try
             {
-                var instance = makeOrThrow(name);
+                var instance = fromOrThrow(name);
                 Assert.IsType<T>(instance);
             }
             catch (Exception)
             {
-                Assert.Fail($"Unable to make {typeof(T).FullName} instance from {type.FullName}");
+                Assert.Fail($"""
+
+                    Unable to make "{typeof(T).Name}" instance from "{type.Name}" with name "{name}".
+                    Did you forget to add "{name}" to "{typeof(T).Name}"?
+
+                """);
             }
         }
     }
 
-    public static void TestEnumerationCast<T>(Type type, Func<T, object> castOrThrow)
+    public static void TestCast<T>(Type type)
+        where T : Enumeration<T> => TestCustomCast<T>(type, r => r.Cast(type));
+
+    public static void TestCustomCast<T>(Type type, Func<T, object> castOrThrow)
         where T : Enumeration<T>
     {
-        var baseType = typeof(T);
-        var options = baseType
-            .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-            .Where(f => f.FieldType == baseType)
-            .OrderBy(f => f.Name)
-            .Select(field => field.GetValue(null) ?? throw new Exception())
-            .Cast<T>()
-            .ToList();
-
-        foreach (var option in options)
+        foreach (var option in Enumeration<T>.GetAll())
         {
             try
             {
@@ -61,7 +61,12 @@ public static class EnumerationTestHelper
             }
             catch (Exception)
             {
-                Assert.Fail($"Unable to cast {option.Name} to {type.FullName}");
+                Assert.Fail($"""
+
+                    Unable to cast "{option.Name}" to "{type.Name}".
+                    Has there been any changes to "{type.Name}"?
+
+                """);
             }
         }
     }

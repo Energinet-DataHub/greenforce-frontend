@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
@@ -32,7 +32,7 @@ public interface IMeteringPointArchivedMessageClient
         string meteringPointId,
         Guid? senderId,
         Guid? receiverId,
-        MeteringPointDocumentType? documentTypes,
+        MeteringPointDocumentTypeDtoV1? documentTypes,
         int? first,
         string? after,
         int? last,

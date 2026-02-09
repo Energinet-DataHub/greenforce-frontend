@@ -34,6 +34,6 @@ export type DhImbalancePricesForMonth = ResultOf<
 export type DhImbalancePricesForDay = DhImbalancePricesForMonth['imbalancePrices'][0];
 
 export type DhImbalancePricesForDayProcessed = Omit<DhImbalancePricesForDay, 'timestamp'> & {
-  timestampFrom: DhImbalancePricesForDay['timestamp'];
-  timestampTo: Date;
+  timeFrom: string;
+  timeTo: string;
 };

@@ -2,7 +2,7 @@ query GetArchivedMessages(
   $created: DateRange!
   $senderId: UUID
   $receiverId: UUID
-  $documentTypes: [SearchDocumentType!]
+  $documentTypes: [ArchivedMessageDocumentType!]
   $businessReasons: [BusinessReason!]
   $includeRelated: Boolean
   $first: Int

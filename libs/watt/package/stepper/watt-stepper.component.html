@@ -41,7 +41,7 @@ limitations under the License.
   <ng-template let-index="index" matStepperIcon="error">
     {{ index + 1 }}
   </ng-template>
-  @for (step of _steps; track step) {
+  @for (step of wattSteps(); track step) {
     @if (step.enabled()) {
       <mat-step [editable]="step.editable" [stepControl]="step.stepControl">
         <ng-template matStepLabel>{{ step.label }}</ng-template>
@@ -75,7 +75,7 @@ limitations under the License.
           @if (onLastStep()) {
             <watt-button
               variant="primary"
-              [loading]="isCompleting"
+              [loading]="isCompleting()"
               (click)="complete()"
               [disabled]="step.disableNextButton()"
               >{{ step.nextButtonLabel() }}

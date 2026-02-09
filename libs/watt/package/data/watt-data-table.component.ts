@@ -29,7 +29,6 @@ import { PageEvent } from '@angular/material/paginator';
 
 import {
   VaterFlexComponent,
-  VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
@@ -37,7 +36,7 @@ import { WATT_CARD_VARIANT, WattCardComponent } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet/watt/paginator';
-import { WattSearchComponent } from '@energinet/watt/search';
+import { WattSearchComponent, WattSimpleSearchComponent } from '@energinet/watt/search';
 import { WattTableComponent } from '@energinet/watt/table';
 import { WattIcon } from '@energinet/watt/icon';
 
@@ -47,14 +46,13 @@ import { WattDataIntlService } from './watt-data-intl.service';
   selector: 'watt-data-table',
   imports: [
     VaterFlexComponent,
-    VaterSpacerComponent,
     VaterStackComponent,
     VaterUtilityDirective,
     WattCardComponent,
     WattEmptyStateComponent,
     WattPaginatorComponent,
-    WattSearchComponent,
     WattButtonComponent,
+    WattSimpleSearchComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -74,38 +72,55 @@ import { WattDataIntlService } from './watt-data-intl.service';
       watt-data-table watt-empty-state {
         margin: var(--watt-space-xl) 0;
       }
+
+      watt-simple-search {
+        width: 400px; /* Magix UX number (replace with variable) */
+      }
     `,
   ],
   template: `
     <watt-card vater fill="vertical" [variant]="variant()">
       <vater-flex autoSize fill="vertical" gap="m">
         @if (header()) {
-          <vater-stack direction="row" gap="m">
-            <vater-stack direction="row" gap="s">
-              <ng-content select="h3" />
-              <ng-content select="h4" />
-              @if (enableCount()) {
-                <span class="watt-chip-label">
-                  {{ count() ?? table().dataSource().totalCount }}
-                </span>
-              }
-              @if (queryTime()) {
-                <span class="watt-label">in {{ queryTime() }} ms</span>
-              }
+          <vater-stack direction="column" fill="horizontal" align="start">
+            <!-- Header, count, queryTime and custom area -->
+            <vater-stack
+              direction="row"
+              gap="m"
+              justify="space-between"
+              fill="horizontal"
+              align="start"
+              wrap
+            >
+              <vater-stack align="start">
+                <vater-stack direction="row" gap="m">
+                  <ng-content select="h3" />
+                  <ng-content select="h4" />
+                  @if (enableCount()) {
+                    <span class="watt-chip-label">
+                      {{ count() ?? table().dataSource().totalCount }}
+                    </span>
+                  }
+                  @if (queryTime()) {
+                    <span class="watt-label">in {{ queryTime() }} ms</span>
+                  }
+                  <ng-content />
+                  <ng-content select="watt-button" />
+                </vater-stack>
+                <!-- Searchbar -->
+                @if (enableSearch()) {
+                  <watt-simple-search
+                    [label]="searchLabel() ?? intl.search"
+                    [trim]="trimSearch()"
+                    (search)="onSearch($event)"
+                  />
+                }
+              </vater-stack>
+              <ng-content select="watt-data-actions" />
             </vater-stack>
-            <ng-content />
-            <vater-spacer />
-            @if (enableSearch()) {
-              <watt-search
-                [label]="searchLabel() ?? intl.search"
-                [trim]="trimSearch()"
-                (search)="onSearch($event)"
-              />
-            }
-            <ng-content select="watt-data-actions" />
-            <ng-content select="watt-button" />
           </vater-stack>
         }
+        <!-- Filters -->
         <ng-content select="watt-data-filters" />
         <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
@@ -124,9 +139,9 @@ import { WattDataIntlService } from './watt-data-intl.service';
                   [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
                 >
                   @if (enableRetry()) {
-                    <watt-button variant="secondary" (click)="retry.emit()">{{
-                      intl.emptyRetry
-                    }}</watt-button>
+                    <watt-button variant="secondary" (click)="retry.emit()"
+                      >{{ intl.emptyRetry }}
+                    </watt-button>
                   }
                 </watt-empty-state>
               </vater-stack>

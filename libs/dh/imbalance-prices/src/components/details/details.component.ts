@@ -16,157 +16,135 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, effect, signal, inject, computed, output } from '@angular/core';
+import { Component, input, inject, computed, output } from '@angular/core';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
-import { Apollo } from 'apollo-angular';
-import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
-
-import { dayjs, wattFormatDate } from '@energinet/watt/date';
-import { WattDatePipe } from '@energinet/watt/date';
-import { VaterFlexComponent } from '@energinet/watt/vater';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { VATER } from '@energinet/watt/vater';
 import { danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
+import { dayjs, WattDatePipe, wattFormatDate } from '@energinet/watt/date';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
-import { GenerateCSV, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import {
+  GenerateCSV,
+  DhEmDashFallbackPipe,
+  DhDownloadButtonComponent,
+  DhResultComponent,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
-import { DhImbalancePrice, DhImbalancePricesForMonth } from '../../types';
+import { DhImbalancePrice } from '../../types';
 import { DhTableDayViewComponent } from './table-day-view/dh-table-day-view.component';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-imbalance-prices-details',
-  templateUrl: './details.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-
-      .entry-metadata {
-        display: flex;
-        gap: var(--watt-space-ml);
-      }
-
-      .entry-metadata__item {
-        align-items: center;
-        display: flex;
-        gap: var(--watt-space-s);
-      }
-
-      .prices-note {
-        color: var(--watt-color-neutral-grey-700);
-      }
-
-      watt-expandable-card-title {
-        display: contents;
-
-        dh-status-badge {
-          margin-left: auto;
-        }
-      }
-    `,
-  ],
   imports: [
-    TranslocoPipe,
     TranslocoDirective,
+    VATER,
+    WATT_DESCRIPTION_LIST,
     WATT_DRAWER,
-    WattDatePipe,
-    VaterFlexComponent,
-    WattButtonComponent,
-    WattSpinnerComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
+    WattDatePipe,
+    WattSpinnerComponent,
+    DhDownloadButtonComponent,
     DhEmDashFallbackPipe,
+    DhResultComponent,
     DhStatusBadgeComponent,
     DhTableDayViewComponent,
   ],
+  template: `
+    <watt-drawer
+      #drawer
+      autoOpen
+      [key]="imbalancePrice()"
+      [animateOnKeyChange]="true"
+      (closed)="closed.emit()"
+      size="small"
+      *transloco="let t; prefix: 'imbalancePrices.drawer'"
+    >
+      <watt-drawer-topbar>
+        <dh-status-badge [status]="imbalancePrice().status" />
+      </watt-drawer-topbar>
+
+      <watt-drawer-heading>
+        <h2>{{ imbalancePrice().name | wattDate: 'monthYear' }}</h2>
+      </watt-drawer-heading>
+
+      <watt-drawer-actions>
+        <dh-download-button (click)="downloadCSV()" />
+      </watt-drawer-actions>
+
+      <watt-drawer-content>
+        <vater-flex fill="vertical">
+          <watt-description-list variant="inline-flow">
+            <watt-description-list-item [label]="t('priceAreaLabel')">
+              {{ imbalancePrice().priceAreaCode | dhEmDashFallback }}
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('updatedLabel')">
+              {{ lastUpdated() | wattDate: 'short' | dhEmDashFallback }}
+            </watt-description-list-item>
+          </watt-description-list>
+
+          <p class="watt-on-light--medium-emphasis">{{ t('pricesNote') }}</p>
+
+          <dh-result vater fill="vertical" [query]="query">
+            @for (day of imbalancePricesForMonth(); track day.timeStamp) {
+              <watt-expandable-card variant="solid" togglePosition="before">
+                <watt-expandable-card-title vater fill="horizontal">
+                  <vater-stack direction="row" fill="horizontal" justify="space-between">
+                    {{ day.timeStamp | wattDate: 'short' }}
+                    @if (day.status !== 'COMPLETE') {
+                      <dh-status-badge [status]="day.status" />
+                    }
+                  </vater-stack>
+                </watt-expandable-card-title>
+                <dh-table-day-view [data]="day.imbalancePrices" />
+              </watt-expandable-card>
+            }
+          </dh-result>
+        </vater-flex>
+      </watt-drawer-content>
+    </watt-drawer>
+  `,
 })
 export class DhImbalancePricesDetailsComponent {
   private readonly env = inject(dhAppEnvironmentToken);
-  private readonly apollo = inject(Apollo);
-
   private readonly yearAndMonth = computed(() => {
     const imbalancePrice = this.imbalancePrice();
-
-    if (!imbalancePrice) {
-      return { year: 0, month: 0 };
-    }
-
     const date = dayjs(imbalancePrice.name).tz(danishTimeZoneIdentifier);
-
     return { year: date.get('year'), month: date.get('month') + 1 };
   });
 
-  imbalancePrice = input<DhImbalancePrice>();
+  readonly imbalancePrice = input.required<DhImbalancePrice>();
+  readonly closed = output<void>();
 
-  url = signal<string>('');
+  query = query(GetImbalancePricesMonthOverviewDocument, () => ({
+    variables: {
+      areaCode: this.imbalancePrice().priceAreaCode,
+      year: this.yearAndMonth().year,
+      month: this.yearAndMonth().month,
+    },
+  }));
+
+  imbalancePricesForMonth = computed(() => this.query.data()?.imbalancePricesForMonth ?? []);
+  firstDay = computed(() => this.query.data()?.imbalancePricesForMonth[0]);
+  url = computed(() => this.firstDay()?.imbalancePricesDownloadImbalanceUrl ?? '');
+  lastUpdated = computed(() => this.firstDay()?.importedAt);
 
   private generateCSV = GenerateCSV.fromStream(() => this.url());
-
-  imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
-  isLoading = signal(false);
-  lastUpdated = computed(() => {
-    const [firstDay] = this.imbalancePricesForMonth();
-
-    return firstDay?.importedAt;
-  });
-
-  closed = output<void>();
-
-  constructor() {
-    effect(() => {
-      if (this.imbalancePrice()) {
-        this.fetchData();
-      }
-    });
-  }
-
-  onClose(): void {
-    this.closed.emit();
-  }
-
-  downloadCSV() {
-    const period = dayjs(this.imbalancePrice()?.name).format('MMMM YYYY');
+  protected downloadCSV = () => {
+    const period = dayjs(this.imbalancePrice().name).format('MMMM YYYY');
     const imbalancePrice = translate('imbalancePrices.fileName');
     const envDate = translate('shared.downloadNameParams', {
       datetime: wattFormatDate(new Date(), 'long'),
       env: translate(`environmentName.${this.env.current}`),
     });
+
     this.generateCSV.withFileName(`${imbalancePrice} - ${period} - ${envDate}`).generate();
-  }
-
-  private fetchData() {
-    this.isLoading.set(true);
-    this.imbalancePricesForMonth.set([]);
-
-    const imbalancePrice = this.imbalancePrice();
-
-    if (!imbalancePrice) return;
-
-    const { year, month } = this.yearAndMonth();
-
-    return this.apollo
-      .query({
-        query: GetImbalancePricesMonthOverviewDocument,
-        variables: {
-          year,
-          month,
-          areaCode: imbalancePrice.priceAreaCode,
-        },
-      })
-      .subscribe({
-        next: (result) => {
-          this.isLoading.set(result.loading);
-          this.url.set(result.data.imbalancePricesForMonth[0].imbalancePricesDownloadImbalanceUrl);
-          this.imbalancePricesForMonth.set(result.data.imbalancePricesForMonth);
-        },
-        error: () => {
-          this.isLoading.set(false);
-        },
-      });
-  }
+  };
 }

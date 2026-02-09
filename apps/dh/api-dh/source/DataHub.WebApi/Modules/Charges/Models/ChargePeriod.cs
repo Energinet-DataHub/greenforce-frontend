@@ -29,8 +29,6 @@ public record ChargePeriod(ChargeInformationPeriodDto PeriodDto)
 
     public bool TransparentInvoicing => PeriodDto.TransparentInvoicing;
 
-    public bool PredictablePrice => false; // TODO: Implement once available in backend
-
     public Interval Period => new(
         PeriodDto.StartDate,
         PeriodDto.EndDate?.ToDateTimeOffset().Year == DateTimeOffset.MaxValue.Year ? null : PeriodDto.EndDate);

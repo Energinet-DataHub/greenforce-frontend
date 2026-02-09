@@ -6,18 +6,191 @@
   },
   "servers": [
     {
-      "url": "https://app-api-actcon-d-we-001.azurewebsites.net/"
+      "url": "http://app-api-actcon-d-we-001.azurewebsites.net/"
     }
   ],
   "paths": {
-    "/api/CreateConversation": {
+    "/api/health": {
+      "get": {
+        "tags": [
+          "ActorConversation"
+        ],
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CloseConversation": {
       "post": {
         "tags": [
-          "StartConversation"
+          "CloseConversation"
+        ],
+        "description": "Closes a conversation, creating a closed conversation message by the user",
+        "operationId": "CloseConversation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseConversationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseConversationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetConversation/api/GetConversation/{conversationId}": {
+      "get": {
+        "tags": [
+          "GetConversation"
+        ],
+        "summary": "Gets the specified conversation.",
+        "description": "Gets the specified conversation",
+        "operationId": "GetConversation",
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetConversations": {
+      "get": {
+        "tags": [
+          "GetAllConversations, GetConversationsForMeteringPoint"
+        ],
+        "summary": "Get all conversations.",
+        "description": "Get all conversations  or conversations just for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied ",
+        "operationId": "GetConversations",
+        "parameters": [
+          {
+            "name": "meteringPointIdentification",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationsDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationsDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/StartConversation": {
+      "post": {
+        "tags": [
+          "Start"
         ],
         "summary": "Starts a conversation",
-        "description": "Example request:\n\n```  \n   {  \n      \"meteringPointIdentification\": \"570715000000033841\",  \n      \"actorsGlnNumbers\": [ \"5790001330999\", \"5790001330552\"],\n      \"conversationMessage\": {  \n          \"senderEmail\": \"xx@ddddd.dk\",  \n          \"anonymous\": true,  \n          \"content\": \"Test message\",  \n          \"createdBy\": \"xxxxx\",  \n          \"createdTime\": \"yyyy-mm-ddTHH:mi:ssZ\"  \n       }    \n    }     \n ```",
-        "operationId": "CreateConversation",
+        "description": "Example request for QuestionForEnerginet:\n\n```\n   {\n      \"subject\": \"QuestionForEnerginet\",\n      \"meteringPointIdentification\": \"570715000000033841\",\n      \"glnNumberForReceivers\": [ \"5790001330552\"],\n      \"internalNote\": \"\",\n      \"conversationMessage\": {\n          \"senderEmail\": \"noreply@energinet.dk\",\n          \"senderGlnNumber\": \"5790001330553\",\n          \"anonymous\": true,\n          \"content\": \"Test message\",\n          \"createdBy\": \"User id of the sender\"\n       }\n    }\n ```",
+        "operationId": "StartConversation",
         "requestBody": {
           "description": "Specifies the new Conversation.",
           "content": {
@@ -40,20 +213,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string",
-                  "format": "uuid"
+                  "$ref": "#/components/schemas/StartConversationResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "uuid"
+                  "$ref": "#/components/schemas/StartConversationResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "uuid"
+                  "$ref": "#/components/schemas/StartConversationResponse"
                 }
               }
             }
@@ -84,39 +254,192 @@
   },
   "components": {
     "schemas": {
-      "ConversationMessage": {
+      "ActorType": {
+        "enum": [
+          "EnergySupplier",
+          "Energinet",
+          "GridAccessProvider"
+        ]
+      },
+      "CloseConversationRequest": {
         "type": "object",
-        "description": "The Conversation message",
         "required": [
-          "senderEmail",
-          "anonymous",
-          "content",
-          "createdBy",
-          "createdTime"
+          "conversationId",
+          "senderActorNumber",
+          "senderUserId",
+          "senderUserName"
         ],
         "properties": {
-          "senderEmail": {
+          "conversationId": {
             "type": "string",
-            "description": "Sender Email"
+            "description": "Conversation subject.",
+            "format": "uuid"
           },
-          "anonymous": {
+          "senderActorNumber": {
+            "type": "string",
+            "description": "GLN or EIC number of the actor of the sender"
+          },
+          "senderUserId": {
+            "type": "string",
+            "description": "UserId of the user, who created the message."
+          },
+          "senderUserName": {
+            "type": "string",
+            "description": "Username of the sender"
+          }
+        }
+      },
+      "ConversationDto": {
+        "type": "object",
+        "description": "Conversation",
+        "required": [
+          "meteringPointIdentification",
+          "displayId",
+          "internalNote",
+          "subject",
+          "closed",
+          "messages"
+        ],
+        "properties": {
+          "meteringPointIdentification": {
+            "type": "string",
+            "description": "MeteringPoint identification"
+          },
+          "displayId": {
+            "description": "Display Id of the conversation",
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
+          },
+          "internalNote": {
+            "type": "string",
+            "description": "Internal note from the creator",
+            "nullable": true
+          },
+          "subject": {
+            "$ref": "#/components/schemas/ConversationSubject"
+          },
+          "closed": {
             "type": "boolean",
-            "description": "Specifies whether the message is anonymous with respect to the Sender information."
+            "description": "true for conversations that are closed. false otherwise."
           },
-          "content": {
+          "messages": {
+            "type": "array",
+            "description": "Messages associated with a conversation",
+            "items": {
+              "$ref": "#/components/schemas/ConversationMessageDto"
+            }
+          }
+        }
+      },
+      "ConversationInfoDto": {
+        "type": "object",
+        "description": "Conversation info",
+        "required": [
+          "conversationId",
+          "meteringPointIdentification",
+          "read",
+          "subject",
+          "displayId",
+          "closed",
+          "lastUpdated"
+        ],
+        "properties": {
+          "conversationId": {
             "type": "string",
-            "description": "The message content, thus the body itself.\nCan be atmost of 5000 characters."
+            "description": "Conversation id",
+            "format": "uuid"
           },
-          "createdBy": {
+          "meteringPointIdentification": {
             "type": "string",
-            "description": "The user that creates the conversation message"
+            "description": "MeteringPoint Identification"
           },
-          "createdTime": {
+          "read": {
+            "type": "boolean",
+            "description": "Specifies whether the conversation has been read or not"
+          },
+          "subject": {
+            "$ref": "#/components/schemas/ConversationSubject"
+          },
+          "displayId": {
+            "description": "Display id of the conversation",
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
+          },
+          "closed": {
+            "type": "boolean",
+            "description": "Conversation is closed or not"
+          },
+          "lastUpdated": {
             "type": "string",
-            "description": "Created time in Utc - yyyy-mm-ddTHH:mi:ssZ.",
+            "description": "Last updated time of the conversation",
             "format": "date-time"
           }
         }
+      },
+      "ConversationMessageDto": {
+        "type": "object",
+        "description": "Conversation message",
+        "required": [
+          "senderUserName",
+          "senderActorName",
+          "senderType",
+          "content",
+          "messageType",
+          "createdTime"
+        ],
+        "properties": {
+          "senderUserName": {
+            "type": "string",
+            "description": "Sender user name",
+            "nullable": true
+          },
+          "senderActorName": {
+            "type": "string",
+            "description": "Sendor actor name",
+            "nullable": true
+          },
+          "senderType": {
+            "$ref": "#/components/schemas/ActorType"
+          },
+          "content": {
+            "type": "string",
+            "description": "Message content"
+          },
+          "messageType": {
+            "$ref": "#/components/schemas/MessageType"
+          },
+          "createdTime": {
+            "type": "string",
+            "description": "Created time",
+            "format": "date-time"
+          }
+        }
+      },
+      "ConversationsDto": {
+        "type": "object",
+        "description": "Conversations",
+        "required": [
+          "conversations"
+        ],
+        "properties": {
+          "conversations": {
+            "type": "array",
+            "description": "List of Conversations",
+            "items": {
+              "$ref": "#/components/schemas/ConversationInfoDto"
+            }
+          }
+        }
+      },
+      "ConversationSubject": {
+        "description": "Conversation subjects",
+        "enum": [
+          "QuestionForEnerginet"
+        ]
+      },
+      "MessageType": {
+        "type": "integer",
+        "description": "Message type"
       },
       "ProblemDetails": {
         "type": "object",
@@ -146,26 +469,69 @@
       },
       "StartConversationRequest": {
         "type": "object",
-        "description": "Request for starting a new conversation.",
         "required": [
+          "subject",
+          "receiverActorType",
           "meteringPointIdentification",
-          "actorsGlnNumbers",
-          "conversationMessage"
+          "senderActorNumber",
+          "senderActorName",
+          "senderUserId",
+          "senderUserName",
+          "content",
+          "anonymous"
         ],
         "properties": {
+          "subject": {
+            "$ref": "#/components/schemas/ConversationSubject"
+          },
+          "receiverActorType": {
+            "$ref": "#/components/schemas/ActorType"
+          },
           "meteringPointIdentification": {
             "type": "string",
-            "description": "MeteringPointIdentification. 18 digits GSRN number consisting of digits only."
+            "description": "MeteringPointIdentification\n18 digits GSRN number consisting of digits only."
           },
-          "actorsGlnNumbers": {
-            "type": "array",
-            "description": "GLN Numbers of the actors, thus participants in the conversation. GLN numbers can be atmost 14 characters length and consits of digits only.\nThere can be atmost 2 participants",
-            "items": {
-              "type": "string"
-            }
+          "senderActorNumber": {
+            "type": "string",
+            "description": "GLN or EIC number of the actor of the sender"
           },
-          "conversationMessage": {
-            "$ref": "#/components/schemas/ConversationMessage"
+          "senderActorName": {
+            "type": "string",
+            "description": "Name of the organization of the sender"
+          },
+          "senderUserId": {
+            "type": "string",
+            "description": "UserId of the user, who created the message."
+          },
+          "senderUserName": {
+            "type": "string",
+            "description": "Username of the sender"
+          },
+          "internalNote": {
+            "type": "string",
+            "description": "Optional Internal note from the Organization, that created the Conversation.\nCan contain at most 80 characters and will be assumed empty, if not specified",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "description": "The message content, thus the body itself.\nCan contain at most 5000 characters and should not be empty."
+          },
+          "anonymous": {
+            "type": "boolean",
+            "description": "Specifies whether the message is anonymous with respect to the Sender information."
+          }
+        }
+      },
+      "StartConversationResponse": {
+        "type": "object",
+        "description": "Response for the request for starting a conversation",
+        "required": [
+          "conversationId"
+        ],
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       }
@@ -173,7 +539,19 @@
   },
   "tags": [
     {
-      "name": "StartConversation"
+      "name": "ActorConversation"
+    },
+    {
+      "name": "CloseConversation"
+    },
+    {
+      "name": "GetConversation"
+    },
+    {
+      "name": "GetAllConversations, GetConversationsForMeteringPoint"
+    },
+    {
+      "name": "Start"
     }
   ]
 }

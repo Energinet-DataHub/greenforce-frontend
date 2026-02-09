@@ -16,11 +16,44 @@
  * limitations under the License.
  */
 //#endregion
+import {
+  ActorType,
+  ConversationMessage,
+  ConversationSubject,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-export enum ActorConversationCaseSubjectType {
-  misc = 'misc',
+export enum ActorConversationState {
+  noConversations = 'noConversations',
+  noConversationSelected = 'noConversationSelected',
+  conversationSelected = 'conversationSelected',
+  newConversationOpen = 'newConversationOpen',
 }
 
-export enum ActorConversationReceiverType {
-  energinet = 'energinet',
+export interface Conversation {
+  id?: string;
+  subject?: ConversationSubject | 'newCase';
+  closed: boolean;
+  lastUpdatedDate?: Date;
+  unread?: boolean;
 }
+
+export interface ConversationDetail {
+  id: string;
+  subject: ConversationSubject;
+  closed: boolean;
+  internalNote?: string;
+  messages?: ConversationMessage[];
+}
+
+export interface MessageFormValue {
+  message: string | null;
+  anonymous: boolean | null;
+}
+
+export type StartConversationFormValue = {
+  subject: ConversationSubject;
+  content: string;
+  anonymous: boolean;
+  receiver: ActorType;
+  internalNote?: string;
+};

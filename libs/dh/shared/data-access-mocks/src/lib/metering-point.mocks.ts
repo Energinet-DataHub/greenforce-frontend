@@ -33,12 +33,16 @@ import {
   mockGetRelatedMeteringPointsByIdQuery,
   mockGetMeteringPointEventsDebugViewQuery,
   mockRequestConnectionStateChangeMutation,
-  mockCreateConversationMutation,
+  mockRequestEndOfSupplyMutation,
+  mockStartConversationMutation,
+  mockGetConversationsQuery,
+  mockGetConversationQuery,
+  mockCloseConversationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
-  ConnectionState,
+  ElectricityMarketConnectionStateType,
   ElectricityMarketMeteringPointType,
-  MeteringPointSubType,
+  ElectricityMarketViewMeteringPointSubType,
   Quality,
   Resolution,
   Unit,
@@ -49,6 +53,7 @@ import { measurementPoints } from './data/metering-point/measurements-points';
 import { meteringPointsByGridAreaCode } from './data/metering-point/metering-points-by-grid-area-code';
 import { childMeteringPoint } from './data/metering-point/child-metering-point';
 import { eventsDebugView } from './data/metering-point/metering-point-events-debug-view';
+import { conversations } from './data/metering-point/conversations';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
@@ -65,7 +70,11 @@ export function meteringPointMocks(apiBase: string) {
     getRelatedMeteringPoints(),
     getMeteringPointEventsDebugView(),
     requestConnectionStateChange(),
+    requestEndOfSupply(),
     createConversation(),
+    getConversations(),
+    getConversation(),
+    closeConversation(),
   ];
 }
 
@@ -80,69 +89,75 @@ function getRelatedMeteringPoints() {
           __typename: 'RelatedMeteringPointsDto',
           current: {
             __typename: 'RelatedMeteringPointDto',
+            meteringPointIdentification: '444444444444444444',
             id: '4444444',
-            connectionState: ConnectionState.Connected,
-            identification: '444444444444444444',
+            connectionState: ElectricityMarketConnectionStateType.Connected,
             type: ElectricityMarketMeteringPointType.ElectricalHeating,
             createdDate: new Date('2021-01-01'),
             connectionDate: new Date('2021-01-01'),
+            disconnectionDate: null,
             closedDownDate: null,
           },
           parent: {
             __typename: 'RelatedMeteringPointDto',
+            meteringPointIdentification: '222222222222222222',
             id: '2222222',
-            connectionState: ConnectionState.Connected,
-            identification: '222222222222222222',
+            connectionState: ElectricityMarketConnectionStateType.Connected,
             type: ElectricityMarketMeteringPointType.Consumption,
             createdDate: new Date('2021-01-01'),
             connectionDate: new Date('2021-01-01'),
+            disconnectionDate: null,
             closedDownDate: null,
           },
           relatedMeteringPoints: [
             {
               __typename: 'RelatedMeteringPointDto',
-              id: '3',
-              connectionState: ConnectionState.Connected,
-              identification: '333333333333333333',
+              meteringPointIdentification: '333333333333333333',
+              id: '3333333',
+              connectionState: ElectricityMarketConnectionStateType.Connected,
               type: ElectricityMarketMeteringPointType.Exchange,
               createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2024-01-01'),
+              disconnectionDate: null,
               closedDownDate: null,
             },
           ],
           relatedByGsrn: [
             {
               __typename: 'RelatedMeteringPointDto',
-              id: '4',
-              connectionState: ConnectionState.New,
-              identification: '444444444444441111',
+              meteringPointIdentification: '444444444444441111',
+              id: '4444441',
+              connectionState: ElectricityMarketConnectionStateType.New,
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2024-01-01'),
+              disconnectionDate: null,
               closedDownDate: null,
             },
           ],
           historicalMeteringPoints: [
             {
               __typename: 'RelatedMeteringPointDto',
-              id: '5',
-              connectionState: ConnectionState.ClosedDown,
-              identification: '555555555555555555',
+              meteringPointIdentification: '555555555555555555',
+              id: '5555555',
+              connectionState: ElectricityMarketConnectionStateType.ClosedDown,
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2021-01-01'),
               connectionDate: new Date('2021-01-01'),
+              disconnectionDate: null,
               closedDownDate: new Date('2021-11-01'),
             },
           ],
           historicalMeteringPointsByGsrn: [
             {
               __typename: 'RelatedMeteringPointDto',
-              id: '6',
-              connectionState: ConnectionState.Disconnected,
-              identification: '666666666666666666',
+              meteringPointIdentification: '666666666666666666',
+              id: '6666666',
+              connectionState: ElectricityMarketConnectionStateType.Disconnected,
               type: ElectricityMarketMeteringPointType.ElectricalHeating,
               createdDate: new Date('2022-01-01'),
               connectionDate: new Date('2022-01-01'),
+              disconnectionDate: new Date('2022-10-01'),
               closedDownDate: null,
             },
           ],
@@ -472,10 +487,10 @@ function getMeasurementPoints() {
       data: {
         __typename: 'Query',
         meteringPoint: {
-          __typename: 'MeteringPointDto',
+          __typename: 'ElectricityMarketViewMeteringPointDto',
           id: mockMPs[meteringPointId].id,
           metadata: {
-            __typename: 'MeteringPointMetadataDto',
+            __typename: 'ElectricityMarketViewMeteringPointMetadataDto',
             id: mockMPs[meteringPointId].metadataId,
             subType: mockMPs[meteringPointId].subType,
           },
@@ -495,7 +510,7 @@ const mockMPs: {
     id: string;
     meteringPointId: string;
     metadataId: string;
-    subType: MeteringPointSubType | undefined | null;
+    subType: ElectricityMarketViewMeteringPointSubType | undefined | null;
   };
 } = {
   [parentMeteringPoint.meteringPointId]: {
@@ -539,7 +554,7 @@ function doesInternalMeteringPointIdExist() {
           data: {
             __typename: 'Query',
             meteringPointExists: {
-              __typename: 'MeteringPointDto',
+              __typename: 'ElectricityMarketViewMeteringPointDto',
               id: params['id'],
               meteringPointId: params['meteringPointId'],
             },
@@ -615,6 +630,52 @@ function getMeteringPointEventsDebugView() {
   });
 }
 
+function getConversations() {
+  return mockGetConversationsQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        conversationsForMeteringPoint: {
+          __typename: 'Conversations',
+          conversations: conversations,
+        },
+      },
+    });
+  });
+}
+
+function getConversation() {
+  return mockGetConversationQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        conversation: {
+          __typename: 'Conversation',
+          displayId: '00001',
+          internalNote: 'CS00123645',
+          subject: 'QUESTION_FOR_ENERGINET',
+          closed: false,
+          messages: [
+            {
+              __typename: 'ConversationMessage',
+              senderUserName: 'Test Testesen',
+              senderActorName: 'Test Company',
+              senderType: 'ENERGY_SUPPLIER',
+              content: 'Hej, her er et spørgsmål',
+              messageType: 0,
+              createdTime: new Date(),
+            },
+          ],
+        },
+      },
+    });
+  });
+}
+
 function requestConnectionStateChange() {
   return mockRequestConnectionStateChangeMutation(async () => {
     await delay(mswConfig.delay);
@@ -631,15 +692,47 @@ function requestConnectionStateChange() {
   });
 }
 
-function createConversation() {
-  return mockCreateConversationMutation(async () => {
+function requestEndOfSupply() {
+  return mockRequestEndOfSupplyMutation(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
-        createConversation: {
-          __typename: 'CreateConversationPayload',
+        requestEndOfSupply: {
+          __typename: 'RequestEndOfSupplyPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function createConversation() {
+  return mockStartConversationMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        startConversation: {
+          __typename: 'StartConversationPayload',
+          string: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        },
+      },
+    });
+  });
+}
+
+function closeConversation() {
+  return mockCloseConversationMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        closeConversation: {
+          __typename: 'CloseConversationPayload',
           boolean: true,
         },
       },

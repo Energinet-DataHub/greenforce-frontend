@@ -36,6 +36,7 @@ export enum DhAppEnvironment {
   local = 'localhost',
   dev_001 = 'd-001',
   dev_002 = 'd-002',
+  dev_003 = 'd-003',
   test_001 = 't-001',
   test_002 = 't-002',
   preprod = 'b-001',
