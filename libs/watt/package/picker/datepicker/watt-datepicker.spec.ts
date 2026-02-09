@@ -232,6 +232,91 @@ describe(WattDatepickerComponent, () => {
       expect(control.valid).toBeFalsy();
     });
 
+    describe('timezone-safe date handling', () => {
+      it('inputChanged produces UTC midnight ISO string for the selected date', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.inputChanged('24-01-2025');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as string;
+        expect(value).toBe('2025-01-24T00:00:00.000Z');
+      });
+
+      it('inputChanged always produces a string value, not a Date object', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.inputChanged('15-06-2024');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value;
+        expect(typeof value).toBe('string');
+      });
+
+      it('control value time is always UTC midnight (T00:00:00.000Z)', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        const testDates = ['01-01-2025', '15-06-2024', '31-12-2023', '28-02-2024'];
+
+        for (const dateStr of testDates) {
+          datepickerComponent.inputChanged(dateStr);
+          fixture.detectChanges();
+          await fixture.whenStable();
+
+          const value = fixture.componentInstance.dateRangeControl.value as string;
+          expect(value).toMatch(/T00:00:00\.000Z$/);
+        }
+      });
+
+      it('UTC date components match the input date exactly', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.inputChanged('24-01-2025');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as string;
+        const parsed = dayjs.utc(value);
+        expect(parsed.date()).toBe(24);
+        expect(parsed.month()).toBe(0); // January
+        expect(parsed.year()).toBe(2025);
+      });
+
+      it('clearing input after entering a date sets value to null', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.inputChanged('24-01-2025');
+        fixture.detectChanges();
+        await fixture.whenStable();
+        expect(fixture.componentInstance.dateRangeControl.value).not.toBeNull();
+
+        datepickerComponent.inputChanged('');
+        fixture.detectChanges();
+        await fixture.whenStable();
+        expect(fixture.componentInstance.dateRangeControl.value).toBeNull();
+      });
+    });
+
     it('allows stepping through days when enabled', async () => {
       const initialDate = new Date(TEST_DATE_2023_01_15);
       const { fixture } = await setup({
@@ -409,13 +494,85 @@ describe(WattDatepickerComponent, () => {
       const value = control.value as WattDateRange;
 
       if (value && value.end) {
-        const endDate = dayjs(value.end as string);
+        const endDate = dayjs.utc(value.end as string);
 
-        // Check that the time is set to end of day
+        // Check that the time is set to end of day in UTC
         expect(endDate.hour()).toBe(23);
         expect(endDate.minute()).toBe(59);
         expect(endDate.second()).toBe(59);
       }
+    });
+
+    describe('timezone-safe range handling (issue #3911)', () => {
+      it('rangeInputChanged produces UTC ISO strings, not Date objects', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.rangeInputChanged('01-03-2025 - 15-03-2025');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as WattDateRange;
+        expect(typeof value.start).toBe('string');
+        expect(typeof value.end).toBe('string');
+      });
+
+      it('range start date is UTC midnight', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.rangeInputChanged('01-03-2025 - 15-03-2025');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as WattDateRange;
+        expect(value.start).toBe('2025-03-01T00:00:00.000Z');
+      });
+
+      it('range end date is UTC end-of-day', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.rangeInputChanged('01-03-2025 - 15-03-2025');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as WattDateRange;
+        expect(value.end).toBe('2025-03-15T23:59:59.999Z');
+      });
+
+      it('range UTC date components match the input dates exactly', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.rangeInputChanged('25-09-2023 - 30-09-2023');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as WattDateRange;
+
+        const startDate = dayjs.utc(value.start);
+        expect(startDate.date()).toBe(25);
+        expect(startDate.month()).toBe(8); // September
+        expect(startDate.year()).toBe(2023);
+
+        const endDate = dayjs.utc(value.end);
+        expect(endDate.date()).toBe(30);
+        expect(endDate.month()).toBe(8); // September
+        expect(endDate.year()).toBe(2023);
+      });
     });
 
     it('enforces month-only mode when enabled', async () => {
