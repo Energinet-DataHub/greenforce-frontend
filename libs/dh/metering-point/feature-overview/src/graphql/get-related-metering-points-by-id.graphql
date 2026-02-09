@@ -1,5 +1,5 @@
 fragment RelatedMeteringPoint on RelatedMeteringPointDto {
-  internalId
+  id
   meteringPointIdentification
   type
   connectionState

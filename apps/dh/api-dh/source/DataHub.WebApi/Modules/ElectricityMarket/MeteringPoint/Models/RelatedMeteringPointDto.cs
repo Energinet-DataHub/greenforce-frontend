@@ -17,8 +17,8 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Model
 /// <summary>
 /// Represents a metering point's data
 /// </summary>
-/// <param name="InternalId">
-/// A representation of the metering point GSRN id, without containing the actual GSRN id. Is used to
+/// <param name="Id">
+/// A representation of the metering point GSRN id, without containing the actual GSRN number. Is used to
 /// show in the URL, to avoid saving the real metering point id in the browser history.
 /// </param>
 /// <param name="MeteringPointIdentification">
@@ -31,7 +31,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Model
 /// <param name="ClosedDownDate"></param>
 /// <param name="DisconnectionDate"></param>
 public record RelatedMeteringPointDto(
-    string InternalId,
+    string Id,
     string MeteringPointIdentification,
     MeteringPointType Type,
     ConnectionState ConnectionState,

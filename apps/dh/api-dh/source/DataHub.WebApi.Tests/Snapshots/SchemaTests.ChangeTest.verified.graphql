@@ -1379,8 +1379,14 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
+"Represents a metering point's data"
 type RelatedMeteringPointDto {
-  internalId: String!
+  """
+  A representation of the metering point GSRN id, without containing the actual GSRN number. Is used to
+  show in the URL, to avoid saving the real metering point id in the browser history.
+  """
+  id: String!
+  "The metering point GSRN id, e.g. 57XXXXXXXXXXXXXXXX."
   meteringPointIdentification: String!
   type: ElectricityMarketViewMeteringPointType!
   connectionState: ElectricityMarketViewConnectionState!
