@@ -405,13 +405,10 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
    * offsets from shifting the date when converting between local time and UTC.
    */
   private formatDateFromViewToModel(value: Date): string {
-    return new Date(
-      Date.UTC(value.getFullYear(), value.getMonth(), value.getDate())
-    ).toISOString();
+    return new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate())).toISOString();
   }
 
   private formatDateTimeFromModelToView(value: string): string {
     return dayjs(value).tz(danishTimeZoneIdentifier).format(dateShortFormat);
   }
-
 }
