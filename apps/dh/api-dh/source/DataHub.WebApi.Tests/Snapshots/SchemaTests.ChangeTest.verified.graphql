@@ -1863,7 +1863,6 @@ input CancelSettlementReportInput {
 input ChangeCustomerCharacteristicsInput {
   meteringPointId: String!
   businessReason: ChangeCustomerCharacteristicsBusinessReason!
-  startDate: DateTime!
   firstCustomerCpr: String
   firstCustomerCvr: String
   firstCustomerName: String
