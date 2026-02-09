@@ -64,7 +64,6 @@ import {
   RequestChangeCustomerCharacteristicsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-customer-characteristics-mapper';
-import { dayjs } from '@energinet/watt/date';
 
 @Component({
   selector: 'dh-update-customer-data',
