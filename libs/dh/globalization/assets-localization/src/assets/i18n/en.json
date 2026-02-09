@@ -628,7 +628,7 @@
         "tabLabel": "Messages"
       },
       "measurements": {
-        "tabLabel": "{{ meteringPoint.overview.shared.terminology.measurements }}"
+        "tabLabel": "{{ shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Failed measurements"
