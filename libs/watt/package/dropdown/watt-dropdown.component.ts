@@ -41,7 +41,6 @@ import {
   ControlValueAccessor,
 } from '@angular/forms';
 
-import { NgClass } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { of, map } from 'rxjs';
@@ -66,7 +65,6 @@ import type {
   styleUrls: ['./watt-dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
   imports: [
-    NgClass,
     MatSelectModule,
     MatOptionModule,
     ReactiveFormsModule,
