@@ -23,10 +23,8 @@ import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 
 import { WattIconComponent, WattIconSize } from '@energinet/watt/icon';
 import { WattFieldComponent } from '@energinet/watt/field';
-import { WattButtonComponent } from '@energinet/watt/button';
-
 @Component({
-  imports: [WattIconComponent, WattFieldComponent, WattButtonComponent],
+  imports: [WattIconComponent, WattFieldComponent],
   selector: 'watt-simple-search',
   styles: `
     :host {

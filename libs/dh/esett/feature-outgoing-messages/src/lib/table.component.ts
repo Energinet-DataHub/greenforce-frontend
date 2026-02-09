@@ -65,26 +65,6 @@ type Variables = Partial<GetOutgoingMessagesQueryVariables> &
 @Component({
   selector: 'dh-outgoing-messages',
   templateUrl: './table.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-
-      h3 {
-        margin: 0;
-      }
-
-      .health-icons {
-        display: flex;
-        flex-direction: row;
-      }
-
-      .resend-container .watt-chip-label {
-        padding: 10px;
-      }
-    `,
-  ],
   providers: [DhNavigationService],
   imports: [
     RouterOutlet,
