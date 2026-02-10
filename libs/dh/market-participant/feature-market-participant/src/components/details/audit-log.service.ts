@@ -17,13 +17,12 @@
  */
 //#endregion
 import { inject, Injectable } from '@angular/core';
-
+import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { GetMarketParticipantAuditLogsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { Apollo } from 'apollo-angular';
 
 @Injectable()
 export class DhMarketParticipantAuditLogService {
-  private readonly apollo = inject(Apollo);
+  private readonly apollo = inject(DhApollo);
 
   public async refreshAuditLog() {
     await this.apollo.client.refetchQueries({ include: [GetMarketParticipantAuditLogsDocument] });
