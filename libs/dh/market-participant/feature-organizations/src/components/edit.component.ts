@@ -20,7 +20,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { MutationResult } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet/watt/toast';
@@ -36,7 +35,7 @@ import {
   GetAuditLogByOrganizationIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/ui-shared';

@@ -18,7 +18,6 @@
 //#endregion
 import { Component, effect, inject, input, viewChild } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
-import { MutationResult } from 'apollo-angular';
 
 import {
   WATT_TABLE,
@@ -33,7 +32,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataTableComponent, WattDataActionsComponent } from '@energinet/watt/data';
 
 import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
   GetMarketParticipantAuditLogsDocument,

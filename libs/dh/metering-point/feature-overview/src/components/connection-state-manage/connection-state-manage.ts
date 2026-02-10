@@ -19,7 +19,6 @@
 import { Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
-import { MutationResult } from 'apollo-angular';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
@@ -41,7 +40,7 @@ import {
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-connection-state-manage',

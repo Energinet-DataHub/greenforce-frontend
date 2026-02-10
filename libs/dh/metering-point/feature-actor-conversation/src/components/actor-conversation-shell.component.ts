@@ -23,7 +23,7 @@ import {
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
 import { WattToastService } from '@energinet/watt/toast';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationResult, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   CloseConversationDocument,
   CloseConversationMutation,
@@ -48,7 +48,6 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
 import { DhActorConversationSelectedConversationComponent } from './actor-conversation-selected-conversation.component';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
-import { MutationResult } from 'apollo-angular';
 
 @Component({
   selector: 'dh-actor-conversation-shell',

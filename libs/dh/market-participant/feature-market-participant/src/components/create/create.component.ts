@@ -34,7 +34,6 @@ import {
   NonNullableFormBuilder,
 } from '@angular/forms';
 
-import { MutationResult } from 'apollo-angular';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
@@ -55,7 +54,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { dhCvrValidator, dhGlnOrEicValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
