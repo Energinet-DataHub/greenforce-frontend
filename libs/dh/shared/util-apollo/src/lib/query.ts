@@ -34,8 +34,8 @@ import {
   Unmasked,
   ObservableQuery,
   Observable as AObservable,
+  WatchQueryOptions,
 } from '@apollo/client/core';
-import { WatchQueryOptions } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import {
   Observable,
