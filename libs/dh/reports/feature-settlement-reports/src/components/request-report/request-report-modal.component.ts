@@ -37,6 +37,7 @@ import {
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, debounceTime, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MutationResult } from 'apollo-angular';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import {
@@ -73,7 +74,7 @@ import { WattValidationMessageComponent } from '@energinet/watt/validation-messa
 
 import { DhSelectCalculationModal } from './select-calculation-modal.component';
 import { startDateAndEndDateHaveSameMonthValidator } from '../util/start-date-and-end-date-have-same-month.validator';
-import { lazyQuery, mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 
