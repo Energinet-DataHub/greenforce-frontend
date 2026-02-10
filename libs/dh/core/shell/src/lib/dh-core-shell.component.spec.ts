@@ -22,8 +22,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { render, RenderResult } from '@testing-library/angular';
 import { provideRouter } from '@angular/router';
 
-import { graphQLProvider } from '@energinet-datahub/dh/shared/data-access-graphql';
-
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattShellComponent } from '@energinet/watt/shell';
 import {
@@ -44,7 +42,6 @@ describe(DhCoreShellComponent, () => {
         WattModalService,
         provideHttpClient(),
         provideHttpClientTesting(),
-        graphQLProvider,
         provideRouter([]),
       ],
     });

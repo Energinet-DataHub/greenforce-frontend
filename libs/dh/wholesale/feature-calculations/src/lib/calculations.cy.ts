@@ -23,7 +23,6 @@ import { FormGroupDirective } from '@angular/forms';
 
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
-import { graphQLProvider } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util';
 
@@ -33,13 +32,7 @@ const { calculations } = daTranslations.wholesale;
 
 it.skip('mounts', () => {
   cy.mount(DhCalculationsComponent, {
-    providers: [
-      graphQLProvider,
-      translocoProviders,
-      danishDatetimeProviders,
-      FormGroupDirective,
-      MsalServiceMock,
-    ],
+    providers: [translocoProviders, danishDatetimeProviders, FormGroupDirective, MsalServiceMock],
     imports: [BrowserAnimationsModule, HttpClientModule, RouterTestingModule],
   });
 

@@ -19,7 +19,6 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { render, screen } from '@testing-library/angular';
 
-import { graphQLProvider } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   getTranslocoTestingModule,
   provideMsalTesting,
@@ -32,7 +31,6 @@ async function setup() {
   await render(DhCalculationsComponent, {
     providers: [
       provideHttpClient(withInterceptorsFromDi()),
-      graphQLProvider,
       danishDatetimeProviders,
       provideMsalTesting(),
     ],
