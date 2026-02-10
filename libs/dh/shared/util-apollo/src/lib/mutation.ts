@@ -17,7 +17,12 @@
  */
 //#endregion
 import { DestroyRef, Signal, computed, inject, signal } from '@angular/core';
-import { ApolloError, FetchResult, OperationVariables } from '@apollo/client/core';
+import {
+  ApolloError,
+  FetchResult,
+  OperationVariables,
+  MutationOptions as ApolloMutationOptions,
+} from '@apollo/client/core';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import {
   catchError,
@@ -31,7 +36,6 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { MutationOptions as ApolloMutationOptions } from 'apollo-angular/types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { mapGraphQLErrorsToApolloError } from './util/error';
 // eslint-disable-next-line @nx/enforce-module-boundaries
