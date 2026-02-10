@@ -127,7 +127,8 @@ export function mutation<TResult, TVariables extends OperationVariables>(
           delay(0), // Ensure status updates before promise resolves
           take(1), // Complete the observable when result is available
           takeUntilDestroyed(destroyRef) // Or when the component is destroyed
-        )
+        ),
+        { defaultValue: { data: null, loading: false } }
       );
     },
   };
