@@ -581,6 +581,7 @@ type ElectricityMarketViewMeteringPointDto {
   createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
+  disconnectedDate: DateTime
   id: String!
   identification: String!
   metadata: ElectricityMarketViewMeteringPointMetadataDto!

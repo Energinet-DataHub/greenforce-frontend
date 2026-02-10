@@ -686,7 +686,7 @@
       },
       "status": {
         "CLOSED_DOWN": "Nedlagt",
-        "NEW": "Ny",
+        "NEW": "Nyoprettet",
         "CONNECTED": "Tilsluttet",
         "DISCONNECTED": "Afbrudt",
         "UNKNOWN": "Ukendt"
@@ -733,7 +733,8 @@
         "measureUnit": "Enhed",
         "product": "Produkt",
         "connectionDate": "Tilsluttet",
-        "closedDownDate": "Nedlagt"
+        "closedDownDate": "Nedlagt",
+        "disconnectedDate": "Afbrudt"
       },
       "customerContactDetails": {
         "title": "Kontakter",
