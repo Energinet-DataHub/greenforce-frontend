@@ -628,7 +628,7 @@
         "tabLabel": "Messages"
       },
       "measurements": {
-        "tabLabel": "{{ meteringPoint.overview.shared.terminology.measurements }}"
+        "tabLabel": "{{ shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Failed measurements"
@@ -686,7 +686,7 @@
       },
       "status": {
         "CLOSED_DOWN": "Closed down",
-        "NEW": "New",
+        "NEW": "Newly created",
         "CONNECTED": "Connected",
         "DISCONNECTED": "Disconnected",
         "UNKNOWN": "Unknown"
@@ -733,7 +733,8 @@
         "measureUnit": "Measure unit",
         "product": "Product",
         "connectionDate": "Connected",
-        "closedDownDate": "Discontinued"
+        "closedDownDate": "Discontinued",
+        "disconnectedDate": "Disconnected"
       },
       "customerContactDetails": {
         "title": "Contacts",

@@ -73,7 +73,6 @@ export function mapChangeCustomerCharacteristicsFormToRequest(
   form: FormGroup<CustomerCharacteristicsFormType>,
   meteringPointId: string,
   businessReason: ChangeCustomerCharacteristicsBusinessReason,
-  startDate: Date,
   electricalHeating: boolean,
   isBusinessCustomer: boolean
 ): ChangeCustomerCharacteristicsInput {
@@ -96,7 +95,6 @@ export function mapChangeCustomerCharacteristicsFormToRequest(
     return {
       meteringPointId,
       businessReason,
-      startDate,
       firstCustomerCpr: null,
       firstCustomerCvr: controls.cvr.value,
       firstCustomerName: controls.companyName.value,
@@ -112,7 +110,6 @@ export function mapChangeCustomerCharacteristicsFormToRequest(
     return {
       meteringPointId,
       businessReason,
-      startDate,
       firstCustomerCpr: controls.cpr1.value,
       firstCustomerCvr: null,
       firstCustomerName: controls.customerName1.value,

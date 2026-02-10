@@ -581,6 +581,7 @@ type ElectricityMarketViewMeteringPointDto {
   createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
+  disconnectedDate: DateTime
   id: String!
   identification: String!
   metadata: ElectricityMarketViewMeteringPointMetadataDto!
@@ -1108,7 +1109,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
-  resetMitId: ResetMitIdPayload!
+  resetMitId(input: ResetMitIdInput!): ResetMitIdPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
@@ -1300,7 +1301,7 @@ type Query {
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
   meteringPointExists(environment: String! searchMigratedMeteringPoints: Boolean! internalMeteringPointId: String meteringPointId: String): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
-  relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
+  relatedMeteringPoints(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   disabledDatesForEndOfSupply: [DateTime!]!
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -1379,11 +1380,17 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
+"Represents a metering point's data"
 type RelatedMeteringPointDto {
-  id: Long!
-  identification: String!
-  type: ElectricityMarketMeteringPointType!
-  connectionState: ElectricityMarketConnectionStateType!
+  """
+  A representation of the metering point GSRN id, without containing the actual GSRN number. Is used to
+  show in the URL, to avoid saving the real metering point id in the browser history.
+  """
+  id: String!
+  "The metering point GSRN id, e.g. 57XXXXXXXXXXXXXXXX."
+  meteringPointIdentification: String!
+  type: ElectricityMarketViewMeteringPointType!
+  connectionState: ElectricityMarketViewConnectionState!
   createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
@@ -1857,7 +1864,6 @@ input CancelSettlementReportInput {
 input ChangeCustomerCharacteristicsInput {
   meteringPointId: String!
   businessReason: ChangeCustomerCharacteristicsBusinessReason!
-  startDate: DateTime!
   firstCustomerCpr: String
   firstCustomerCvr: String
   firstCustomerName: String
@@ -2237,6 +2243,10 @@ input RequestSortInput {
   calculationType: SortEnumType
   period: SortEnumType
   meteringPointTypeOrPriceType: SortEnumType
+}
+
+input ResetMitIdInput {
+  userId: UUID!
 }
 
 input ResetTwoFactorAuthenticationInput {

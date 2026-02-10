@@ -210,6 +210,7 @@ export const childMeteringPoint: ElectricityMarketViewMeteringPointDto = {
   commercialRelation,
   createdDate: new Date('2020-12-08'),
   connectionDate: null,
+  disconnectedDate: null,
   closedDownDate: null,
   electricalHeatingStartDate: null,
   metadata,
