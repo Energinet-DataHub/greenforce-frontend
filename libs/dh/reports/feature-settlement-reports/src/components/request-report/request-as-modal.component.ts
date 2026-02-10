@@ -25,7 +25,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
@@ -43,6 +42,7 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhRequestReportModal } from './request-report-modal.component';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 type DhFormType = FormGroup<{
   actorId: FormControl<string>;
@@ -65,10 +65,11 @@ export class DhRequestAsModal extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly modalService = inject(WattModalService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly apollo = inject(Apollo);
 
   private readonly permissionService = inject(PermissionService);
   private readonly actorStorage = inject(DhActorStorage);
+
+  marketParticipant = lazyQuery(GetMarketParticipantByIdDocument);
 
   form: DhFormType = this.formBuilder.group({
     actorId: new FormControl<string>(this.actorStorage.getSelectedActorId(), {
@@ -109,15 +110,9 @@ export class DhRequestAsModal extends WattTypedModal {
           this.submitInProgress.set(false);
         });
     } else {
-      this.apollo
-        .query({
-          query: GetMarketParticipantByIdDocument,
-          variables: {
-            id: this.form.value.actorId,
-          },
-        })
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((result) => {
+      this.marketParticipant
+        .query({ variables: { id: this.form.value.actorId } })
+        .then((result) => {
           this.modalService.close(true);
           this.modalService.open({
             component: DhRequestReportModal,
