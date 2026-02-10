@@ -17,9 +17,8 @@
  */
 //#endregion
 import { inject, Injectable } from '@angular/core';
-import { ApolloClient, ApolloLink, Operation, split } from '@apollo/client/core';
+import { ApolloClient, ApolloLink, split } from '@apollo/client/core';
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
-import { getMainDefinition } from '@apollo/client/utilities';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
@@ -28,18 +27,13 @@ import { DhErrorLink } from './dh-error-link';
 import { DhHttpLink } from './dh-http-link';
 import { DhRetryLink } from './dh-retry-link';
 import { DhSseLink } from './dh-sse-link';
+import { isSubscription } from './util';
 
 declare const ngDevMode: boolean;
 
 if (ngDevMode) {
   loadDevMessages();
   loadErrorMessages();
-}
-
-/** Returns true if the operation is a subscription. */
-function isSubscription(operation: Operation) {
-  const definition = getMainDefinition(operation.query);
-  return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
 }
 
 /**

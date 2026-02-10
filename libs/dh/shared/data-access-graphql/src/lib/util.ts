@@ -33,9 +33,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Operation } from '@apollo/client/core';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { GraphQLFormattedError } from 'graphql';
 
 //#endregion
 export const parseGraphQLErrorResponse = (errorResponse: readonly GraphQLFormattedError[]) => {
   return errorResponse.map((x) => x.message).join(' ');
 };
+
+/** Returns true if the operation is a subscription. */
+export function isSubscription(operation: Operation) {
+  const definition = getMainDefinition(operation.query);
+  return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+}
