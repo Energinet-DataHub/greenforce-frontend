@@ -1109,7 +1109,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
-  resetMitId: ResetMitIdPayload!
+  resetMitId(input: ResetMitIdInput!): ResetMitIdPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
@@ -2243,6 +2243,10 @@ input RequestSortInput {
   calculationType: SortEnumType
   period: SortEnumType
   meteringPointTypeOrPriceType: SortEnumType
+}
+
+input ResetMitIdInput {
+  userId: UUID!
 }
 
 input ResetTwoFactorAuthenticationInput {
