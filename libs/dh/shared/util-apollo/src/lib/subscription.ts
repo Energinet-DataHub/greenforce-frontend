@@ -17,18 +17,22 @@
  */
 //#endregion
 import { DestroyRef, inject, Signal, signal } from '@angular/core';
-import { ApolloError, FetchResult, OperationVariables } from '@apollo/client/core';
+import {
+  ApolloError,
+  FetchResult,
+  OperationVariables,
+  SubscriptionOptions as ApolloSubscriptionOptions,
+} from '@apollo/client/core';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { catchError, from, map, of, tap } from 'rxjs';
-import { SubscriptionOptionsAlone as ApolloSubscriptionOptions } from 'apollo-angular/types';
 import { mapGraphQLErrorsToApolloError } from './util/error';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { fixObservable } from './query';
 
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`
-export interface SubscriptionOptions<TResult, TVariables> extends ApolloSubscriptionOptions {
-  variables?: TVariables;
+export interface SubscriptionOptions<TResult, TVariables extends OperationVariables | undefined>
+  extends Omit<ApolloSubscriptionOptions<TVariables>, 'query'> {
   onData?: (data: TResult) => void;
   onError?: (error: ApolloError) => void;
   onCompleted?: () => void;
