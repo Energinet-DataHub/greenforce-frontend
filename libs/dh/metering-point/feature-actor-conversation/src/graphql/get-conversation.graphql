@@ -5,8 +5,6 @@ query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
     subject
     closed
     messages {
-      senderUserName
-      senderActorName
       senderType
       content
       messageType
