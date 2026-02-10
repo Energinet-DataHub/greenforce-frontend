@@ -5,8 +5,8 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": [],
+    "types": []
   },
   "exclude": ["tests/**/*.ts", "vite.config.mts"],
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts"]
 }
