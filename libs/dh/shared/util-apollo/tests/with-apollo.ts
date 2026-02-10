@@ -37,6 +37,7 @@ export const withApollo = (
     success: () => Promise<FetchResult>;
     error: () => Promise<FetchResult>;
     subscription: (data: Record<string, unknown>) => Promise<FetchResult>;
+    subscriptionError: () => Promise<FetchResult>;
   };
 }> => ({
   apollo: [
@@ -68,6 +69,12 @@ export const withApollo = (
             TestBed.tick();
             subscription$.subscribe(resolve);
             subscriptionSubject.next({ data });
+          }),
+        subscriptionError: () =>
+          new Promise((resolve) => {
+            TestBed.tick();
+            subscription$.subscribe(resolve);
+            subscriptionSubject.next({ errors: [new GraphQLError('TestError')] });
           }),
       });
 
