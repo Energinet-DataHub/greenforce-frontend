@@ -20,7 +20,6 @@ import { Location } from '@angular/common';
 import {
   Component,
   computed,
-  DestroyRef,
   effect,
   inject,
   Injector,
@@ -31,7 +30,6 @@ import {
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   dhCprValidator,
@@ -64,6 +62,7 @@ import {
   RequestChangeCustomerCharacteristicsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-customer-characteristics-mapper';
+import { dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -92,7 +91,7 @@ import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-cu
     }
 
     .form-container {
-      margin: var(--watt-space-m);
+      margin-top: var(--watt-space-m);
       flex: 1 1 0;
       min-height: 0;
       overflow: auto;
@@ -174,7 +173,6 @@ export class DhUpdateCustomerDataComponent {
   private readonly wattToastService = inject(WattToastService);
   private readonly locationService = inject(Location);
   private readonly actorStorage = inject(DhActorStorage).getSelectedActor();
-  private readonly destroyRef = inject(DestroyRef);
 
   private readonly requestChangeCustomerCharacteristics = mutation(
     RequestChangeCustomerCharacteristicsDocument
@@ -222,6 +220,11 @@ export class DhUpdateCustomerDataComponent {
   contacts = computed(
     () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
+
+  legalContact = computed(() => this.contacts().find((contact) => contact.legalContact));
+
+  technicalContact = computed(() => this.contacts().find((contact) => contact.technicalContact));
+
   uniqueContacts = computed(() =>
     this.contacts()
       .reduce((foundContacts: Contact[], nextContact) => {
@@ -328,21 +331,25 @@ export class DhUpdateCustomerDataComponent {
       addressProtection: this.formBuilder.control<boolean>(false),
     });
 
-  private customerName1 = signal(this.privateCustomerDetailsForm.controls.customerName1.value);
-  private companyName = signal(this.businessCustomerDetailsForm.controls.companyName.value);
-
-  private legalContactSameAsCustomer = signal(
-    this.legalContactDetailsForm.controls.contactSameAsCustomer.value
+  private customerName1 = dhFormControlToSignal(
+    this.privateCustomerDetailsForm.controls.customerName1
   );
-  private technicalContactSameAsCustomer = signal(
-    this.technicalContactDetailsForm.controls.contactSameAsCustomer.value
+  private companyName = dhFormControlToSignal(
+    this.businessCustomerDetailsForm.controls.companyName
   );
 
-  private legalAddressSameAsMeteringPoint = signal(
-    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.value
+  private legalContactSameAsCustomer = dhFormControlToSignal(
+    this.legalContactDetailsForm.controls.contactSameAsCustomer
   );
-  private technicalAddressSameAsMeteringPoint = signal(
-    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.value
+  private technicalContactSameAsCustomer = dhFormControlToSignal(
+    this.technicalContactDetailsForm.controls.contactSameAsCustomer
+  );
+
+  private legalAddressSameAsMeteringPoint = dhFormControlToSignal(
+    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint
+  );
+  private technicalAddressSameAsMeteringPoint = dhFormControlToSignal(
+    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint
   );
 
   updateCustomerDataForm: FormGroup<CustomerCharacteristicsFormType> = this.formBuilder.group({
@@ -358,7 +365,6 @@ export class DhUpdateCustomerDataComponent {
     this.setupContactNameEffects();
     this.setupAddressEffects();
     this.setupCustomerTypeEffect();
-    this.setupFormValueChangeListeners();
   }
 
   private setupContactNameEffects(): void {
@@ -469,44 +475,6 @@ export class DhUpdateCustomerDataComponent {
     });
   }
 
-  private setupFormValueChangeListeners(): void {
-    this.privateCustomerDetailsForm.controls.customerName1.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.customerName1.set(value);
-      });
-
-    this.businessCustomerDetailsForm.controls.companyName.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.companyName.set(value);
-      });
-
-    this.legalContactDetailsForm.controls.contactSameAsCustomer.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.legalContactSameAsCustomer.set(value);
-      });
-
-    this.technicalContactDetailsForm.controls.contactSameAsCustomer.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.technicalContactSameAsCustomer.set(value);
-      });
-
-    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.legalAddressSameAsMeteringPoint.set(value);
-      });
-
-    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.technicalAddressSameAsMeteringPoint.set(value);
-      });
-  }
-
   private getEmptyAddressData(): AddressData {
     return {
       streetName: '',
@@ -566,7 +534,7 @@ export class DhUpdateCustomerDataComponent {
     this.locationService.back();
   }
 
-  public cancel() {
+  cancel() {
     this.locationService.back();
   }
 }
