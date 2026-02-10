@@ -45,12 +45,12 @@ public enum ProcessStepType
     /// <summary>
     /// BRS-004 Create metering point - Step 1 - Request creation of metering point (RSM-021)
     /// </summary>
-    CREATEMETERINGPOINT_V1_STEP_1,
+    NEWMETERINGPOINT_V1_STEP_1,
 
     /// <summary>
     /// BRS-004 Create metering point - Step 2 - Confirm creation of metering point (RSM-021)
     /// </summary>
-    CREATEMETERINGPOINT_V1_STEP_2,
+    NEWMETERINGPOINT_V1_STEP_2,
 
     /// <summary>
     /// BRS-004 Create metering point - Step 1 - Request creation of metering point (RSM-021)

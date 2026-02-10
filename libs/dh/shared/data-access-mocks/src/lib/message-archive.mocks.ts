@@ -257,7 +257,7 @@ function getMeteringPointProcessById(apiBase: string) {
             {
               __typename: 'MeteringPointProcessStep' as const,
               id: `step-${processId}-1`,
-              step: ProcessStepType.CreatemeteringpointV1Step_1,
+              step: ProcessStepType.NewmeteringpointV1Step_1,
               comment: 'OBS: Sendt til foged',
               completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24), // 1 day later
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2), // 2 days later
