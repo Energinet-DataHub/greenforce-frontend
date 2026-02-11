@@ -423,7 +423,8 @@
           "internalNote",
           "subject",
           "closed",
-          "messages"
+          "messages",
+          "partOfConversations"
         ],
         "properties": {
           "meteringPointIdentification": {
@@ -453,6 +454,10 @@
             "items": {
               "$ref": "#/components/schemas/ConversationMessageDto"
             }
+          },
+          "partOfConversations": {
+            "type": "boolean",
+            "description": "Indicates id you are part of this conversation.\nEnerginet can see conversations they are not part of."
           }
         }
       },

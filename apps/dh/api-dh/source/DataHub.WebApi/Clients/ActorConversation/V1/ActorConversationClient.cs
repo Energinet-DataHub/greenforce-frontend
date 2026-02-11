@@ -1218,6 +1218,13 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         [System.ComponentModel.DataAnnotations.Required]
         public System.Collections.Generic.ICollection<ConversationMessageDto> Messages { get; set; } = new System.Collections.ObjectModel.Collection<ConversationMessageDto>();
 
+        /// <summary>
+        /// Indicates id you are part of this conversation.
+        /// <br/>Energinet can see conversations they are not part of.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("partOfConversations", Required = Newtonsoft.Json.Required.Always)]
+        public bool PartOfConversations { get; set; } = default!;
+
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
         [Newtonsoft.Json.JsonExtensionData]
