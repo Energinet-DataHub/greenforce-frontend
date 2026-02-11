@@ -3216,71 +3216,67 @@ enum ProcessStepState {
 Enum representing known process step types.
 These values are used as translation keys in the frontend.
 When adding new processes, add the step identifiers here.
-Format: {PROCESS_NAME}_V{VERSION}_STEP_{SEQUENCE}
+Format: {REASON_CODE}_V{VERSION}_STEP_{SEQUENCE}
 """
 enum ProcessStepType {
   "BRS-002 Request End of Supply - Step 1: Request end of supply (RSM-005)"
-  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1
+  ENDOFSUPPLY_V1_STEP_1
   "BRS-002 Request End of Supply - Step 2: Confirm end of supply (RSM-005)"
-  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2
+  ENDOFSUPPLY_V1_STEP_2
   "BRS-002 Request End of Supply - Step 3: Reject end of supply (RSM-005)"
-  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3
+  ENDOFSUPPLY_V1_STEP_3
   "BRS-002 Request End of Supply - Step 4: Notify cancellation of end of supply (RSM-020)"
-  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4
+  ENDOFSUPPLY_V1_STEP_4
   "BRS-004 Create metering point - Step 1 - Request creation of metering point (RSM-021)"
   NEWMETERINGPOINT_V1_STEP_1
   "BRS-004 Create metering point - Step 2 - Confirm creation of metering point (RSM-021)"
   NEWMETERINGPOINT_V1_STEP_2
-  "BRS-004 Create metering point - Step 1 - Request creation of metering point (RSM-021)"
-  BRS_004_CREATEMETERINGPOINT_V1_STEP_1
-  "BRS-004 Create metering point - Step 2 - Confirm creation of metering point (RSM-021)"
-  BRS_004_CREATEMETERINGPOINT_V1_STEP_2
   "BRS-004 Create metering point - Step 3 - Reject creation of metering point (RSM-021)"
-  BRS_004_CREATEMETERINGPOINT_V1_STEP_3
+  NEWMETERINGPOINT_V1_STEP_3
   "BRS-004 Create metering point - Step 4 - Information about newly created metering point (RSM-022)"
-  BRS_004_CREATEMETERINGPOINT_V1_STEP_4
+  NEWMETERINGPOINT_V1_STEP_4
   "BRS-004 Create metering point - Step 5 - Notification of charge links (RSM-031)"
-  BRS_004_CREATEMETERINGPOINT_V1_STEP_5
+  NEWMETERINGPOINT_V1_STEP_5
   "BRS-008 Connect metering point - Step 1 - Incoming RSM-021"
-  BRS_008_CONNECTMETERINGPOINT_V1_STEP_1
+  CONNECTMETERINGPOINT_V1_STEP_1
   "BRS-008 Connect metering point - Step 2 - Confirm RSM-021"
-  BRS_008_CONNECTMETERINGPOINT_V1_STEP_2
+  CONNECTMETERINGPOINT_V1_STEP_2
   "BRS-008 Connect metering point - Step 3 - Reject RSM-021"
-  BRS_008_CONNECTMETERINGPOINT_V1_STEP_3
+  CONNECTMETERINGPOINT_V1_STEP_3
   "BRS-008 Connect metering point - Step 4 - Udgående RSM-022"
-  BRS_008_CONNECTMETERINGPOINT_V1_STEP_4
+  CONNECTMETERINGPOINT_V1_STEP_4
   "BRS-009 Tilflytning - Step 1: Anmodning om tilflytning (RSM-001)"
-  BRS_009_MOVEIN_V1_STEP_1
+  CUSTOMERMOVEIN_V1_STEP_1
   "BRS-009 Tilflytning - Step 2: Godkendelse af anmodning om tilflytning (RSM-001)"
-  BRS_009_MOVEIN_V1_STEP_2
+  CUSTOMERMOVEIN_V1_STEP_2
   "BRS-009 Tilflytning - Step 3: Afvisning af anmodning om tilflytning (RSM-001)"
-  BRS_009_MOVEIN_V1_STEP_3
+  CUSTOMERMOVEIN_V1_STEP_3
   "BRS-009 Tilflytning - Step 4: Information om målepunktsstamdata (RSM-022)"
-  BRS_009_MOVEIN_V1_STEP_4
+  CUSTOMERMOVEIN_V1_STEP_4
   "BRS-009 Tilflytning - Step 5: Information om kundestamdata (RSM-028)"
-  BRS_009_MOVEIN_V1_STEP_5
+  CUSTOMERMOVEIN_V1_STEP_5
   "BRS-009 Tilflytning - Step 6: Information om pristilknytninger (RSM-031)"
-  BRS_009_MOVEIN_V1_STEP_6
+  CUSTOMERMOVEIN_V1_STEP_6
   "BRS-009 Tilflytning - Step 7: Anmodning om opdatering af kundestamdata (RSM-027)"
-  BRS_009_MOVEIN_V1_STEP_7
+  CUSTOMERMOVEIN_V1_STEP_7
   "BRS-009 Tilflytning - Step 8: Godkendelse af opdatering af kundestamdata (RSM-027)"
-  BRS_009_MOVEIN_V1_STEP_8
+  CUSTOMERMOVEIN_V1_STEP_8
   "BRS-009 Tilflytning - Step 9: Afvisning af opdatering af kundestamdata (RSM-027)"
-  BRS_009_MOVEIN_V1_STEP_9
+  CUSTOMERMOVEIN_V1_STEP_9
   "BRS-009 Tilflytning - Step 10: Information om tilflytning til netvirksomhed (RSM-004\/E65)"
-  BRS_009_MOVEIN_V1_STEP_10
+  CUSTOMERMOVEIN_V1_STEP_10
   "BRS-009 Tilflytning - Step 11: Information om kundestamdata til netvirksomhed (RSM-028\/E65)"
-  BRS_009_MOVEIN_V1_STEP_11
+  CUSTOMERMOVEIN_V1_STEP_11
   "BRS-009 Tilflytning - Step 12: Information om stop af leverance (RSM-004\/E01)"
-  BRS_009_MOVEIN_V1_STEP_12
+  CUSTOMERMOVEIN_V1_STEP_12
   "BRS-015 Opdatering af kundestamdata - Step 1: Anmodning om opdatering af kundestamdata (RSM-027)"
-  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1
+  UPDATEMASTERDATACONSUMER_V1_STEP_1
   "BRS-015 Opdatering af kundestamdata - Step 2: Godkendelse af opdatering af kundestamdata (RSM-027)"
-  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2
+  UPDATEMASTERDATACONSUMER_V1_STEP_2
   "BRS-015 Opdatering af kundestamdata - Step 3: Afvisning af opdatering af kundestamdata (RSM-027)"
-  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3
+  UPDATEMASTERDATACONSUMER_V1_STEP_3
   "BRS-015 Opdatering af kundestamdata - Step 4: Information om kundestamdata (RSM-028)"
-  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4
+  UPDATEMASTERDATACONSUMER_V1_STEP_4
   """
   Unknown or unmapped step type.
   Used when ProcessManager returns a step we haven't added to this enum yet.

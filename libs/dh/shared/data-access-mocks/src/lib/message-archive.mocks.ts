@@ -272,7 +272,7 @@ function getMeteringPointProcessById(apiBase: string) {
             {
               __typename: 'MeteringPointProcessStep' as const,
               id: `step-${processId}-2`,
-              step: ProcessStepType.Brs_002RequestendofsupplyV1Step_2,
+              step: ProcessStepType.EndofsupplyV1Step_2,
               comment: 'Afventer bekræftelse',
               completedAt: null,
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5), // 5 days later
