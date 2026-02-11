@@ -1,1 +1,22 @@
-﻿[]
+﻿[  
+{
+  "errors": [
+    {
+      "message": "The current user is not authorized to access this resource.",
+      "locations": [
+        {
+          "line": 2,
+          "column": 5
+        }
+      ],
+      "path": [
+        "calculationUpdated"
+      ],
+      "extensions": {
+        "code": "AUTH_NOT_AUTHORIZED"
+      }
+    }
+  ],
+  "data": null
+}
+]
