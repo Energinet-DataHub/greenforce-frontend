@@ -388,6 +388,11 @@ type Conversation {
   subject: ConversationSubject!
   closed: Boolean!
   messages: [ConversationMessage!]!
+  """
+  Indicates id you are part of this conversation.
+  Energinet can see conversations they are not part of.
+  """
+  partOfConversations: Boolean!
 }
 
 "Conversation info"
