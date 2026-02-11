@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Shared;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures;
@@ -102,11 +102,11 @@ public static class MeteringPointConstants
     public static readonly Guid LegalDarReference = Guid.Parse("55555555-5555-5555-5555-555555555555");
     public static readonly Guid TechnicalDarReference = Guid.Parse("66666666-6666-6666-6666-666666666666");
 
-    public static MeteringPointDtoV1.ContactAddressDto CreateLegalContactAddressEm2()
+    public static MeteringPointDtoV2.ContactAddressDto CreateLegalContactAddressEm2()
         => new(
+            LegalContactIsProtected,
             LegalContactName,
             LegalContactEmail,
-            LegalContactIsProtected,
             LegalContactPhone,
             LegalContactMobile,
             LegalContactAttention,
@@ -123,11 +123,11 @@ public static class MeteringPointConstants
             LegalContactPoBox,
             LegalContactMunicipalityCode);
 
-    public static MeteringPointDtoV1.ContactAddressDto CreateTechnicalContactAddressEm2()
+    public static MeteringPointDtoV2.ContactAddressDto CreateTechnicalContactAddressEm2()
         => new(
+            TechnicalContactIsProtected,
             TechnicalContactName,
             TechnicalContactEmail,
-            TechnicalContactIsProtected,
             TechnicalContactPhone,
             TechnicalContactMobile,
             TechnicalContactAttention,
@@ -144,14 +144,14 @@ public static class MeteringPointConstants
             TechnicalContactPoBox,
             TechnicalContactMunicipalityCode);
 
-    public static MeteringPointDtoV1.ContactDto CreateContactEm2(
+    public static MeteringPointDtoV2.ContactDto CreateContactEm2(
         string name,
         string cvr,
         bool isProtectedName,
         RelationType relationType,
-        MeteringPointDtoV1.ContactAddressDto? legalContact,
-        MeteringPointDtoV1.ContactAddressDto? technicalContact)
-        => new(name, cvr, isProtectedName, relationType, legalContact, technicalContact);
+        MeteringPointDtoV2.ContactAddressDto? legalContact,
+        MeteringPointDtoV2.ContactAddressDto? technicalContact)
+        => new(isProtectedName, relationType, name, cvr, legalContact, technicalContact);
 
     public static Clients.ElectricityMarket.v1.CustomerContactDto CreateLegalContactAddressEm1()
         => new()

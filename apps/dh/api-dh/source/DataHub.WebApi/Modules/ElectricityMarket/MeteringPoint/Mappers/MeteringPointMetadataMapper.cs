@@ -22,7 +22,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappe
 /// </summary>
 public static class MeteringPointMetadataMapper
 {
-    public static MeteringPointMetadataDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.MeteringPointPeriodDto meteringPoint, string meteringPointId)
+    public static MeteringPointMetadataDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2.MeteringPointDtoV2.MeteringPointPeriodDto meteringPoint, string meteringPointId)
     {
         return new MeteringPointMetadataDto
         {
@@ -32,13 +32,13 @@ public static class MeteringPointMetadataMapper
             ParentMeteringPoint = meteringPoint.ParentMeteringPointId?.ToString(),
             Type = meteringPoint.Type.MapToDto(),
             SubType = meteringPoint.SubType.MapToDto(),
-            ConnectionState = meteringPoint.ConnectionState.MapToDto(),
+            ConnectionState = meteringPoint.ConnectionState?.MapToDto(),
             Resolution = meteringPoint.TimeResolution.MapToDto(),
             GridAreaCode = meteringPoint.GridAreaId,
             OwnedBy = string.Empty,
             ConnectionType = meteringPoint.ConnectionType?.MapToDto(),
             DisconnectionType = meteringPoint.DisconnectionType?.MapToDto(),
-            Product = meteringPoint.Product.MapToDto(),
+            Product = meteringPoint.Product?.MapToDto(),
             ProductObligation = meteringPoint.ProductObligation,
             MeasureUnit = meteringPoint.EnergyUnit.MapToDto(),
             AssetType = meteringPoint.AssetType?.MapToDto(),
@@ -96,7 +96,7 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    public static CommercialRelationDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.CommercialRelationDto commercialRelation, string meteringPointId)
+    public static CommercialRelationDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2.MeteringPointDtoV2.CommercialRelationDto commercialRelation, string meteringPointId)
     {
         return new CommercialRelationDto
         {
@@ -104,7 +104,7 @@ public static class MeteringPointMetadataMapper
             EnergySupplier = commercialRelation.EnergySupplierId,
             StartDate = commercialRelation.ValidFrom,
             EndDate = commercialRelation.ValidTo,
-            ActiveEnergySupplyPeriod = commercialRelation.ActiveEnergySupplyPeriod?.MapToDto(meteringPointId),
+            ActiveEnergySupplyPeriod = commercialRelation.ActiveEnergySupplierPeriod?.MapToDto(meteringPointId),
             EnergySupplyPeriodTimeline = [.. commercialRelation.EnergySupplierPeriods.Select(e => e.MapToDto(meteringPointId))],
             ActiveElectricalHeatingPeriods = commercialRelation.ActiveElectricalHeatingPeriod?.MapToDto(meteringPointId),
             ElectricalHeatingPeriods = [.. commercialRelation.ElectricalHeatingPeriods.Select(e => e.MapToDto(meteringPointId))],
@@ -126,7 +126,7 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static EnergySupplyPeriodDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.EnergySupplierPeriodDto energySupplierPeriod, string meteringPointId)
+    private static EnergySupplyPeriodDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2.MeteringPointDtoV2.EnergySupplierPeriodDto energySupplierPeriod, string meteringPointId)
     {
         var encodedId = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, energySupplierPeriod.ValidFrom, energySupplierPeriod.ValidTo);
         return new EnergySupplyPeriodDto
@@ -149,7 +149,7 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static ElectricalHeatingDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ElectricalHeatingPeriodDto electricalHeatingPeriod, string meteringPointId)
+    private static ElectricalHeatingDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2.MeteringPointDtoV2.ElectricalHeatingPeriodDto electricalHeatingPeriod, string meteringPointId)
     {
         return new ElectricalHeatingDto
         {
@@ -173,7 +173,7 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static CustomerDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactDto contactDto, string meteringPointId, int index)
+    private static CustomerDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2.MeteringPointDtoV2.ContactDto contactDto, string meteringPointId, int index)
     {
         return new CustomerDto
         {
@@ -201,7 +201,7 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static CustomerContactDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.ContactAddressDto contactDto, string meteringPointId, string index)
+    private static CustomerContactDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2.MeteringPointDtoV2.ContactAddressDto contactDto, string meteringPointId, string index)
     {
         return new CustomerContactDto
         {
@@ -253,7 +253,7 @@ public static class MeteringPointMetadataMapper
         };
     }
 
-    private static InstallationAddressDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1.MeteringPointDtoV1.InstallationAddressDto installationAddress, string meteringPointId)
+    private static InstallationAddressDto MapToDto(this DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2.MeteringPointDtoV2.InstallationAddressDto installationAddress, string meteringPointId)
     {
         return new InstallationAddressDto
         {
