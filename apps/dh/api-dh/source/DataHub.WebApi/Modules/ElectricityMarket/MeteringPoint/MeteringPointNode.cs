@@ -17,6 +17,7 @@ using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Commands;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetRelatedMeteringPoints.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
@@ -209,6 +210,11 @@ public static partial class MeteringPointNode
             throw new InvalidOperationException("Http context is not available.");
         }
 
+        var user = httpContextAccessor.HttpContext.User;
+
+        var actorNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
+
         // New metering points model
         var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
 
@@ -216,14 +222,10 @@ public static partial class MeteringPointNode
         {
             if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
             {
-                return await GetMeteringPointWithNewModelAsync(meteringPointId, ct, electricityMarketClient).ConfigureAwait(false);
+                return await GetMeteringPointWithNewModelAsync(meteringPointId, actorNumber, marketRole, ct, electricityMarketClient).ConfigureAwait(false);
             }
         }
 
-        var user = httpContextAccessor.HttpContext.User;
-
-        var actorNumber = user.GetMarketParticipantNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var accessValidationRequest = new MeteringPointMasterDataAccessValidationRequest
         {
             MeteringPointId = meteringPointId,
@@ -302,11 +304,13 @@ public static partial class MeteringPointNode
 
     private static async Task<MeteringPointDto> GetMeteringPointWithNewModelAsync(
             string meteringPointId,
+            string actorNumber,
+            EicFunctionAuth eicFunction,
             CancellationToken ct,
             [Service] IElectricityMarketClient electricityMarketClient)
     {
         var result = await electricityMarketClient
-        .SendAsync(new GetMeteringPointQueryV1(meteringPointId), ct)
+        .SendAsync(new GetMeteringPointQueryV2(meteringPointId, actorNumber, eicFunction.MapToDto()), ct)
         .ConfigureAwait(false);
 
         var meteringPoint = result.Data?.MeteringPoint ?? throw new InvalidOperationException("No MeteringPoint was returned");
