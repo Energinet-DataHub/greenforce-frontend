@@ -388,6 +388,11 @@ type Conversation {
   subject: ConversationSubject!
   closed: Boolean!
   messages: [ConversationMessage!]!
+  """
+  Indicates id you are part of this conversation.
+  Energinet can see conversations they are not part of.
+  """
+  partOfConversations: Boolean!
 }
 
 "Conversation info"
@@ -405,14 +410,14 @@ type ConversationInfo {
 
 "Conversation message"
 type ConversationMessage {
-  "Sender user name"
-  senderUserName: String
-  "Sendor actor name"
-  senderActorName: String
+  "Sender user id"
+  userId: String
+  "Sendor actor number"
+  actorNumber: String
   senderType: ActorType!
   "Message content"
   content: String!
-  messageType: Int!
+  messageType: MessageType!
   "Created time"
   createdTime: DateTime!
 }
@@ -1109,7 +1114,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
-  resetMitId: ResetMitIdPayload!
+  resetMitId(input: ResetMitIdInput!): ResetMitIdPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
@@ -2245,6 +2250,10 @@ input RequestSortInput {
   meteringPointTypeOrPriceType: SortEnumType
 }
 
+input ResetMitIdInput {
+  userId: UUID!
+}
+
 input ResetTwoFactorAuthenticationInput {
   userId: UUID!
 }
@@ -2466,6 +2475,7 @@ enum ActorAuditedChange {
   ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
 }
 
+"Application layer receiver type"
 enum ActorType {
   ENERGY_SUPPLIER
   ENERGINET
@@ -2635,7 +2645,7 @@ enum ContactCategory {
   REMINDER
 }
 
-"Conversation subjects"
+"Application layer conversation subject"
 enum ConversationSubject {
   QUESTION_FOR_ENERGINET
 }
@@ -3126,6 +3136,12 @@ enum MeasurementsReportStatusType {
   ERROR
   COMPLETED
   CANCELED
+}
+
+"Message type"
+enum MessageType {
+  USER_MESSAGE
+  CLOSING_MESSAGE
 }
 
 enum MeteringGridImbalanceValuesToInclude {

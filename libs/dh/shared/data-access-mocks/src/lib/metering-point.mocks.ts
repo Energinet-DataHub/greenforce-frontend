@@ -662,11 +662,9 @@ function getConversation() {
           messages: [
             {
               __typename: 'ConversationMessage',
-              senderUserName: 'Test Testesen',
-              senderActorName: 'Test Company',
               senderType: 'ENERGY_SUPPLIER',
               content: 'Hej, her er et spørgsmål',
-              messageType: 0,
+              messageType: 'USER_MESSAGE',
               createdTime: new Date(),
             },
           ],

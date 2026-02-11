@@ -30,23 +30,23 @@
         }
       }
     },
-    "/api/CloseConversation": {
+    "/api/AddConversationMessage": {
       "post": {
         "tags": [
-          "CloseConversation"
+          "AddConversationMessage"
         ],
-        "description": "Closes a conversation, creating a closed conversation message by the user",
-        "operationId": "CloseConversation",
+        "description": "Adds a message to an existing conversation",
+        "operationId": "AddConversationMessage",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CloseConversationRequest"
+                "$ref": "#/components/schemas/AddConversationMessageRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CloseConversationRequest"
+                "$ref": "#/components/schemas/AddConversationMessageRequest"
               }
             }
           },
@@ -79,13 +79,55 @@
         }
       }
     },
-    "/api/GetConversation/api/GetConversation/{conversationId}": {
+    "/api/CloseConversation": {
+      "post": {
+        "tags": [
+          "CloseConversation"
+        ],
+        "description": "Closes a conversation, creating a closed conversation message by the user",
+        "operationId": "CloseConversation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseConversationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseConversationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetConversation/{conversationId}": {
       "get": {
         "tags": [
           "GetConversation"
         ],
         "summary": "Gets the specified conversation.",
-        "description": "Gets the specified conversation",
+        "description": "Gets the specified conversation.",
         "operationId": "GetConversation",
         "parameters": [
           {
@@ -147,13 +189,14 @@
         "tags": [
           "GetAllConversations, GetConversationsForMeteringPoint"
         ],
-        "summary": "Get all conversations.",
-        "description": "Get all conversations  or conversations just for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied ",
+        "summary": "Get all conversations  or just conversations for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied",
+        "description": "Get all conversations across all meteringpoints or for a single MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied",
         "operationId": "GetConversations",
         "parameters": [
           {
             "name": "meteringPointIdentification",
             "in": "query",
+            "description": "GSRN consists of 18 digits. Null to retrieve across all meteringpoints.",
             "schema": {
               "type": "string"
             }
@@ -179,6 +222,46 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
         }
       }
@@ -189,7 +272,7 @@
           "Start"
         ],
         "summary": "Starts a conversation",
-        "description": "Example request for QuestionForEnerginet:\n\n```\n   {\n      \"subject\": \"QuestionForEnerginet\",\n      \"meteringPointIdentification\": \"570715000000033841\",\n      \"glnNumberForReceivers\": [ \"5790001330552\"],\n      \"internalNote\": \"\",\n      \"conversationMessage\": {\n          \"senderEmail\": \"noreply@energinet.dk\",\n          \"senderGlnNumber\": \"5790001330553\",\n          \"anonymous\": true,\n          \"content\": \"Test message\",\n          \"createdBy\": \"User id of the sender\"\n       }\n    }\n ```",
+        "description": "Example request for QuestionForEnerginet:\n\n```\n   {\n      \"subject\": \"QuestionForEnerginet\",\n      \"senderActorType\": \"Energinet\",\n      \"receiverActorType\": \"GridAccessProvider\",\n      \"meteringPointIdentification\": \"570715000000033841\",\n      \"senderActorNumber\": \"5790001330552\",\n      \"senderUserId\": \"user@elsupplier.dk\",\n      \"senderUserName\": \"EL supplier\"\n      \"internalNote\": \"Note from the sender\",\n      \"content\": \"No metereddata available!!!\",\n      \"anonymous\": false\n    }\n ```",
         "operationId": "StartConversation",
         "requestBody": {
           "description": "Specifies the new Conversation.",
@@ -211,17 +294,7 @@
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/StartConversationResponse"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/StartConversationResponse"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/StartConversationResponse"
                 }
@@ -229,19 +302,61 @@
             }
           },
           "400": {
-            "description": "The specified conversation does not meet the requirements",
+            "description": "Bad Request",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
-              },
-              "text/json": {
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UpdateInternalNote": {
+      "post": {
+        "tags": [
+          "UpdateInternalNote"
+        ],
+        "description": "Updates an internal note for the invoking participant of a conversation",
+        "operationId": "UpdateInternalNote",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateInternalNoteRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateInternalNoteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -255,19 +370,20 @@
   "components": {
     "schemas": {
       "ActorType": {
+        "type": "string",
+        "description": "Application layer receiver type",
         "enum": [
           "EnergySupplier",
           "Energinet",
           "GridAccessProvider"
         ]
       },
-      "CloseConversationRequest": {
+      "AddConversationMessageRequest": {
         "type": "object",
         "required": [
           "conversationId",
-          "senderActorNumber",
-          "senderUserId",
-          "senderUserName"
+          "content",
+          "anonymous"
         ],
         "properties": {
           "conversationId": {
@@ -275,17 +391,26 @@
             "description": "Conversation subject.",
             "format": "uuid"
           },
-          "senderActorNumber": {
+          "content": {
             "type": "string",
-            "description": "GLN or EIC number of the actor of the sender"
+            "description": "The message content, thus the body itself.\nCan contain at most 5000 characters and should not be empty."
           },
-          "senderUserId": {
+          "anonymous": {
+            "type": "boolean",
+            "description": "Specifies whether the message is anonymous with respect to the Sender information."
+          }
+        }
+      },
+      "CloseConversationRequest": {
+        "type": "object",
+        "required": [
+          "conversationId"
+        ],
+        "properties": {
+          "conversationId": {
             "type": "string",
-            "description": "UserId of the user, who created the message."
-          },
-          "senderUserName": {
-            "type": "string",
-            "description": "Username of the sender"
+            "description": "Conversation subject.",
+            "format": "uuid"
           }
         }
       },
@@ -298,7 +423,8 @@
           "internalNote",
           "subject",
           "closed",
-          "messages"
+          "messages",
+          "partOfConversations"
         ],
         "properties": {
           "meteringPointIdentification": {
@@ -328,6 +454,10 @@
             "items": {
               "$ref": "#/components/schemas/ConversationMessageDto"
             }
+          },
+          "partOfConversations": {
+            "type": "boolean",
+            "description": "Indicates id you are part of this conversation.\nEnerginet can see conversations they are not part of."
           }
         }
       },
@@ -380,22 +510,22 @@
         "type": "object",
         "description": "Conversation message",
         "required": [
-          "senderUserName",
-          "senderActorName",
+          "userId",
+          "actorNumber",
           "senderType",
           "content",
           "messageType",
           "createdTime"
         ],
         "properties": {
-          "senderUserName": {
+          "userId": {
             "type": "string",
-            "description": "Sender user name",
+            "description": "Sender user id",
             "nullable": true
           },
-          "senderActorName": {
+          "actorNumber": {
             "type": "string",
-            "description": "Sendor actor name",
+            "description": "Sendor actor number",
             "nullable": true
           },
           "senderType": {
@@ -432,14 +562,19 @@
         }
       },
       "ConversationSubject": {
-        "description": "Conversation subjects",
+        "type": "string",
+        "description": "Application layer conversation subject",
         "enum": [
           "QuestionForEnerginet"
         ]
       },
       "MessageType": {
-        "type": "integer",
-        "description": "Message type"
+        "type": "string",
+        "description": "Message type",
+        "enum": [
+          "UserMessage",
+          "ClosingMessage"
+        ]
       },
       "ProblemDetails": {
         "type": "object",
@@ -471,12 +606,9 @@
         "type": "object",
         "required": [
           "subject",
+          "senderActorType",
           "receiverActorType",
           "meteringPointIdentification",
-          "senderActorNumber",
-          "senderActorName",
-          "senderUserId",
-          "senderUserName",
           "content",
           "anonymous"
         ],
@@ -484,28 +616,15 @@
           "subject": {
             "$ref": "#/components/schemas/ConversationSubject"
           },
+          "senderActorType": {
+            "$ref": "#/components/schemas/ActorType"
+          },
           "receiverActorType": {
             "$ref": "#/components/schemas/ActorType"
           },
           "meteringPointIdentification": {
             "type": "string",
             "description": "MeteringPointIdentification\n18 digits GSRN number consisting of digits only."
-          },
-          "senderActorNumber": {
-            "type": "string",
-            "description": "GLN or EIC number of the actor of the sender"
-          },
-          "senderActorName": {
-            "type": "string",
-            "description": "Name of the organization of the sender"
-          },
-          "senderUserId": {
-            "type": "string",
-            "description": "UserId of the user, who created the message."
-          },
-          "senderUserName": {
-            "type": "string",
-            "description": "Username of the sender"
           },
           "internalNote": {
             "type": "string",
@@ -534,12 +653,34 @@
             "format": "uuid"
           }
         }
+      },
+      "UpdateInternalNoteRequest": {
+        "type": "object",
+        "required": [
+          "conversationId",
+          "internalNote"
+        ],
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "description": "Conversation subject.",
+            "format": "uuid"
+          },
+          "internalNote": {
+            "type": "string",
+            "description": "Optional Internal note from the active participant\nCan contain at most 80 characters and will be assumed empty, if not specified",
+            "nullable": true
+          }
+        }
       }
     }
   },
   "tags": [
     {
       "name": "ActorConversation"
+    },
+    {
+      "name": "AddConversationMessage"
     },
     {
       "name": "CloseConversation"
@@ -552,6 +693,9 @@
     },
     {
       "name": "Start"
+    },
+    {
+      "name": "UpdateInternalNote"
     }
   ]
 }
