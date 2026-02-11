@@ -225,6 +225,46 @@ export class DhUpdateCustomerDataComponent {
 
   technicalContact = computed(() => this.contacts().find((contact) => contact.technicalContact));
 
+  legalContactAddress = computed((): AddressData => {
+    const contact = this.legalContact()?.legalContact;
+    if (!contact) return this.getEmptyAddressData();
+    return {
+      streetName: contact.streetName ?? '',
+      buildingNumber: contact.buildingNumber ?? '',
+      floor: contact.floor ?? '',
+      room: contact.room ?? '',
+      postCode: contact.postCode ?? '',
+      cityName: contact.cityName ?? '',
+      countryCode: contact.countryCode ?? '',
+      streetCode: contact.streetCode ?? '',
+      citySubDivisionName: contact.citySubDivisionName ?? '',
+      postalDistrict: '',
+      postBox: contact.postBox ?? '',
+      municipalityCode: contact.municipalityCode ?? '',
+      darReference: contact.darReference ?? '',
+    };
+  });
+
+  technicalContactAddress = computed((): AddressData => {
+    const contact = this.technicalContact()?.technicalContact;
+    if (!contact) return this.getEmptyAddressData();
+    return {
+      streetName: contact.streetName ?? '',
+      buildingNumber: contact.buildingNumber ?? '',
+      floor: contact.floor ?? '',
+      room: contact.room ?? '',
+      postCode: contact.postCode ?? '',
+      cityName: contact.cityName ?? '',
+      countryCode: contact.countryCode ?? '',
+      streetCode: contact.streetCode ?? '',
+      citySubDivisionName: contact.citySubDivisionName ?? '',
+      postalDistrict: '',
+      postBox: contact.postBox ?? '',
+      municipalityCode: contact.municipalityCode ?? '',
+      darReference: contact.darReference ?? '',
+    };
+  });
+
   uniqueContacts = computed(() =>
     this.contacts()
       .reduce((foundContacts: Contact[], nextContact) => {
@@ -418,7 +458,7 @@ export class DhUpdateCustomerDataComponent {
           }
           this.legalAddressDetailsForm.controls.addressGroup.disable();
         } else {
-          this.legalAddressDetailsForm.controls.addressGroup.patchValue(this.getEmptyAddressData());
+          this.legalAddressDetailsForm.controls.addressGroup.patchValue(this.legalContactAddress());
           this.legalAddressDetailsForm.controls.addressGroup.enable();
         }
       });
@@ -437,7 +477,7 @@ export class DhUpdateCustomerDataComponent {
           this.technicalAddressDetailsForm.controls.addressGroup.disable();
         } else {
           this.technicalAddressDetailsForm.controls.addressGroup.patchValue(
-            this.getEmptyAddressData()
+            this.technicalContactAddress()
           );
           this.technicalAddressDetailsForm.controls.addressGroup.enable();
         }
@@ -455,6 +495,9 @@ export class DhUpdateCustomerDataComponent {
 
       const customers = meteringPoint.commercialRelation?.activeEnergySupplyPeriod?.customers ?? [];
       const customer = customers[0];
+      const installationAddress = this.addressDataFromMeteringPoint();
+      const legalContactAddr = this.legalContactAddress();
+      const technicalContactAddr = this.technicalContactAddress();
 
       untracked(() => {
         if (customer) {
@@ -471,8 +514,38 @@ export class DhUpdateCustomerDataComponent {
             });
           }
         }
+
+        const legalAddressSame = this.areAddressesEqual(installationAddress, legalContactAddr);
+        this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.setValue(legalAddressSame);
+
+        const technicalAddressSame = this.areAddressesEqual(
+          installationAddress,
+          technicalContactAddr
+        );
+        this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.setValue(
+          technicalAddressSame
+        );
       });
     });
+  }
+
+  private areAddressesEqual(
+    installationAddress: AddressData,
+    contactAddress: AddressData
+  ): boolean {
+    if (!contactAddress) return true;
+
+    return (
+      installationAddress.streetName === contactAddress.streetName &&
+      installationAddress.buildingNumber === contactAddress.buildingNumber &&
+      installationAddress.floor === contactAddress.floor &&
+      installationAddress.room === contactAddress.room &&
+      installationAddress.postCode === contactAddress.postCode &&
+      installationAddress.cityName === contactAddress.cityName &&
+      installationAddress.countryCode === contactAddress.countryCode &&
+      installationAddress.streetCode === contactAddress.streetCode &&
+      installationAddress.municipalityCode === contactAddress.municipalityCode
+    );
   }
 
   private getEmptyAddressData(): AddressData {

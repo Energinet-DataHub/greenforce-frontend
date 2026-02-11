@@ -55,8 +55,7 @@ import { childMeteringPoint } from './data/metering-point/child-metering-point';
 import { eventsDebugView } from './data/metering-point/metering-point-events-debug-view';
 import { conversations } from './data/metering-point/conversations';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function meteringPointMocks(apiBase: string) {
+export function meteringPointMocks() {
   return [
     doesInternalMeteringPointIdExist(),
     getContactCPR(),
