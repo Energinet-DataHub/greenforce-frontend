@@ -465,6 +465,11 @@ type DeactivateUserRolePayload {
   errors: [DeactivateUserRoleError!]
 }
 
+type DismissAllNotificationsPayload {
+  boolean: Boolean
+  errors: [DismissAllNotificationsError!]
+}
+
 type DismissNotificationPayload {
   boolean: Boolean
   errors: [DismissNotificationError!]
@@ -1122,6 +1127,7 @@ type Mutation {
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
+  dismissAllNotifications(input: DismissAllNotificationsInput!): DismissAllNotificationsPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
@@ -1747,6 +1753,8 @@ union DeactivateUserError = ApiError
 
 union DeactivateUserRoleError = ApiError
 
+union DismissAllNotificationsError = ApiError
+
 union DismissNotificationError = ApiError
 
 union InitiateMitIdSignupError = ApiError
@@ -2020,6 +2028,10 @@ input DeactivateUserInput {
 
 input DeactivateUserRoleInput {
   roleId: UUID!
+}
+
+input DismissAllNotificationsInput {
+  notificationIds: [Int!]!
 }
 
 input DismissNotificationInput {
