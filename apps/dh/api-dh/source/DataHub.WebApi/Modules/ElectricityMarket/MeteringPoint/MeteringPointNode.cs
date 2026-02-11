@@ -16,7 +16,6 @@ using Energinet.DataHub.Core.App.Common.Calendar;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Commands;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetRelatedMeteringPoints.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
