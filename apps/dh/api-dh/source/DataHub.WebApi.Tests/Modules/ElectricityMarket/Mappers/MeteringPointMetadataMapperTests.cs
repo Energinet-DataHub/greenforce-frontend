@@ -55,7 +55,7 @@ public class MeteringPointMetadataMapperTests
             FromGridAreaId: FromGridAreaCode,
             ToGridAreaId: ToGridAreaCode,
             PowerPlantGsrn: PowerPlantGsrn.ToString(),
-            new MeteringPointDtoV2.InstallationAddressDto(
+            InstallationAddress: new MeteringPointDtoV2.InstallationAddressDto(
                 StreetCode: InstallationStreetCode,
                 StreetName: InstallationStreetName,
                 BuildingNumber: InstallationBuildingNumber,
