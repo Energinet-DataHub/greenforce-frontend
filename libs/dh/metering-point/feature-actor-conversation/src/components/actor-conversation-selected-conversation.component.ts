@@ -42,7 +42,7 @@ import {
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
-import { DhActorStorage } from 'libs/dh/shared/feature-authorization/src/lib/dh-actor-storage';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { MsalService } from '@azure/msal-angular';
 
 @Component({
