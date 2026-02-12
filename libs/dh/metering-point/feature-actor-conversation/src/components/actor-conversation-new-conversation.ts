@@ -41,6 +41,7 @@ import {
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -146,7 +147,8 @@ export class DhActorConversationNewConversationComponent {
 
     const { content, anonymous } = message ?? {};
 
-    if (!content || !anonymous) return;
+    assertIsDefined(content);
+    assertIsDefined(anonymous);
 
     const result = await this.startConversationMutation.mutate({
       variables: {

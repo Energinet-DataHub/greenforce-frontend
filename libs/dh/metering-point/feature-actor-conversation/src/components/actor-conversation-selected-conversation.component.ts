@@ -39,6 +39,7 @@ import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   CloseConversationDocument,
   GetConversationDocument,
+  GetConversationsDocument,
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
@@ -96,7 +97,7 @@ import { MsalService } from '@azure/msal-angular';
               <vater-stack direction="row" gap="m">
                 <vater-stack direction="row" gap="xs">
                   <label>ID</label>
-                  <span class="watt-text-s">{{ conversation.id }}</span>
+                  <span class="watt-text-s">{{ conversation.displayId }}</span>
                 </vater-stack>
                 <vater-stack direction="row" gap="xs">
                   <label>{{ t('internalNoteLabel') }}</label>
@@ -172,7 +173,7 @@ export class DhActorConversationSelectedConversationComponent {
       variables: {
         conversationId: this.conversationId(),
       },
-      refetchQueries: [GetConversationDocument],
+      refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
   }
 
@@ -194,7 +195,7 @@ export class DhActorConversationSelectedConversationComponent {
         content: content,
         userId,
       },
-      refetchQueries: [GetConversationDocument],
+      refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
 
     this.formControl.reset({ content: '', anonymous: false });
