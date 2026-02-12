@@ -30,7 +30,7 @@ import {
   WattMenuItemComponent,
   WattMenuTriggerDirective,
 } from '@energinet/watt/menu';
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { MessageFormValue } from '../types';
 import { JsonPipe } from '@angular/common';
@@ -183,12 +183,14 @@ export class DhActorConversationSelectedConversationComponent {
     if (!userId) return;
 
     const { content, anonymous } = this.formControl.getRawValue();
+
+    if (!content) return;
     await this.sendActorConversationMessageMutation.mutate({
       variables: {
         conversationId: this.conversationId(),
         meteringPointIdentification: this.meteringPointId(),
         actorId: this.actorStorage.getSelectedActorId(),
-        anonymous: anonymous,
+        anonymous: anonymous ?? false,
         content: content,
         userId,
       },

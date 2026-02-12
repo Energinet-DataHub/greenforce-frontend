@@ -112,7 +112,7 @@ export class DhActorConversationMessageFormComponent implements ControlValueAcce
     if (value) {
       this.form.setValue(
         {
-          message: value.message,
+          message: value.content,
           anonymous: value.anonymous ?? false,
         },
         { emitEvent: false }

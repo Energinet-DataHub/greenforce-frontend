@@ -41,7 +41,7 @@ export enum ActorConversationState {
 export type Conversation = ActorConversations[0];
 
 export interface MessageFormValue {
-  message: string | null;
+  content: string | null;
   anonymous: boolean | null;
 }
 

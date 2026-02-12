@@ -31,7 +31,7 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MessageFormValue, StartConversationFormValue } from '../types';
+import { MessageFormValue } from '../types';
 import {
   ActorType,
   ConversationSubject,
@@ -109,6 +109,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
       <dh-actor-conversation-message-form
         vater
         fill="horizontal"
+        [loading]="startConversationMutation.loading()"
         [formControl]="newConversationForm.controls.message"
       />
     </form>
@@ -116,8 +117,8 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 })
 export class DhActorConversationNewConversationComponent {
   private readonly toastService = inject(WattToastService);
-  private readonly startConversationMutation = mutation(StartConversationDocument);
   private readonly fb = inject(NonNullableFormBuilder);
+  startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
 
   meteringPointId = input.required<string>();
@@ -143,13 +144,17 @@ export class DhActorConversationNewConversationComponent {
 
     const { subject, receiver, internalNote, message } = this.newConversationForm.getRawValue();
 
+    const { content, anonymous } = message ?? {};
+
+    if (!content || !anonymous) return;
+
     const result = await this.startConversationMutation.mutate({
       variables: {
         subject: subject,
         meteringPointIdentification: this.meteringPointId(),
         internalNote: internalNote,
-        content: message.content,
-        anonymous: message.anonymous,
+        content: content,
+        anonymous: anonymous,
         receiver: receiver,
       },
       refetchQueries: [GetConversationsDocument],
@@ -165,7 +170,7 @@ export class DhActorConversationNewConversationComponent {
     } else {
       this.toastService.open({
         type: 'success',
-        message: message.content,
+        message: content,
       });
     }
   }
