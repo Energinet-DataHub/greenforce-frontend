@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -67,12 +67,10 @@ public static partial class ActorConversationNode
 
         var authRequest = new CreateActorConversationRequest
         {
-            ActorName = startConversationInput.ActorName,
             ActorNumber = actorNumber,
             MarketRole = marketRole,
             MeteringPointId = startConversationInput.MeteringPointIdentification,
             UserId = userId,
-            UserName = startConversationInput.UserName,
         };
 
         var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
@@ -91,10 +89,6 @@ public static partial class ActorConversationNode
                 Subject = startConversationInput.Subject,
                 ReceiverActorType = startConversationInput.Receiver,
                 MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
-                SenderActorNumber = actorNumber,
-                SenderActorName = startConversationInput.ActorName,
-                SenderUserId = userId.ToString(),
-                SenderUserName = startConversationInput.UserName,
                 InternalNote = startConversationInput.InternalNote,
                 Content = startConversationInput.Content,
                 Anonymous = startConversationInput.Anonymous,
@@ -123,14 +117,10 @@ public static partial class ActorConversationNode
         var userId = user.GetUserId();
 
         // TODO: Will be replaced with the CloseActorConversationRequest when implemented
-        var authRequest = new CreateActorConversationRequest
+        var authRequest = new CloseActorConversationRequest
         {
-            ActorName = string.Empty,
             ActorNumber = actorNumber,
-            MarketRole = marketRole,
-            MeteringPointId = meteringPointIdentification,
             UserId = userId,
-            UserName = userName,
         };
 
         var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
@@ -149,9 +139,6 @@ public static partial class ActorConversationNode
                 new CloseConversationRequest
                 {
                     ConversationId = conversationId,
-                    SenderActorNumber = actorNumber,
-                    SenderUserId = userId.ToString(),
-                    SenderUserName = userName,
                 },
                 ct);
             return true;
@@ -180,14 +167,12 @@ public static partial class ActorConversationNode
         var userId = user.GetUserId();
 
         // TODO: Will be replaced with the GetActorConversationRequest when implemented
-        var authRequest = new CreateActorConversationRequest
+        var authRequest = new ReadActorConversationRequest
         {
-            ActorName = string.Empty,
             ActorNumber = actorNumber,
             MarketRole = marketRole,
             MeteringPointId = meteringPointIdentification,
             UserId = userId,
-            UserName = string.Empty,
         };
 
         var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
@@ -200,7 +185,7 @@ public static partial class ActorConversationNode
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
 
-        return await authClient.ApiGetConversationApiGetConversationAsync(conversationId, ct);
+        return await authClient.ApiGetConversationAsync(conversationId, ct);
     }
 
     [Query]
@@ -222,12 +207,10 @@ public static partial class ActorConversationNode
         // TODO: Will be replaced with the ActorConversationsRequest when implemented
         var authRequest = new CreateActorConversationRequest
         {
-            ActorName = string.Empty,
             ActorNumber = actorNumber,
             MarketRole = marketRole,
             MeteringPointId = meteringPointIdentification,
             UserId = userId,
-            UserName = string.Empty,
         };
 
         var signature = await requestAuthorization.RequestSignatureAsync(authRequest);

@@ -29,6 +29,7 @@
   "notificationsCenter": {
     "headline": "Notifikationer",
     "noNotifications": "Ingen notifikationer",
+    "markAllAsRead": "Marker alle som læst",
     "notification": {
       "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
