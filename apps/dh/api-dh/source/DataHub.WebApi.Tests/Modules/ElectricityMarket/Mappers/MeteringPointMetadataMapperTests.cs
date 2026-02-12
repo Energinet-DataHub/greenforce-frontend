@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System.Linq;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Xunit;
@@ -30,16 +30,17 @@ public class MeteringPointMetadataMapperTests
         // Arrange
         var settlementDate = new AnnualDate(SettlementDateMonth, SettlementDateDay);
 
-        var meteringPointPeriod = new MeteringPointDtoV1.MeteringPointPeriodDto(
+        var meteringPointPeriod = new MeteringPointDtoV2.MeteringPointPeriodDto(
             ValidFrom: _validFrom,
             ValidTo: _validTo,
             Type: MeteringPointType.Consumption,
             SubType: MeteringPointSubType.Physical,
+            TimeResolution: TimeResolution.QuarterHourly,
+            EnergyUnit: EnergyUnit.KWh,
+            GridAreaId: GridAreaCode,
             ConnectionState: ConnectionState.Connected,
             ConnectionType: ConnectionType.Direct,
             DisconnectionType: DisconnectionType.Remote,
-            TimeResolution: TimeResolution.QuarterHourly,
-            GridAreaId: GridAreaCode,
             ParentMeteringPointId: ParentId.ToString(),
             MeterId: MeterNumber,
             SettlementMethod: SettlementMethod.FlexSettled,
@@ -47,7 +48,6 @@ public class MeteringPointMetadataMapperTests
             ProductObligation: true,
             AssetType: AssetType.WindTurbines,
             AssetCapacity: AssetCapacity,
-            EnergyUnit: EnergyUnit.KWh,
             PowerLimitKw: PowerLimitKw,
             PowerLimitAmperes: PowerLimitAmperes,
             SettlementGroup: SettlementGroup.Six,
@@ -55,7 +55,7 @@ public class MeteringPointMetadataMapperTests
             FromGridAreaId: FromGridAreaCode,
             ToGridAreaId: ToGridAreaCode,
             PowerPlantGsrn: PowerPlantGsrn.ToString(),
-            new MeteringPointDtoV1.InstallationAddressDto(
+            InstallationAddress: new MeteringPointDtoV2.InstallationAddressDto(
                 StreetCode: InstallationStreetCode,
                 StreetName: InstallationStreetName,
                 BuildingNumber: InstallationBuildingNumber,
@@ -133,17 +133,16 @@ public class MeteringPointMetadataMapperTests
         var legalContact = CreateContactEm2(CompanyName, CompanyCvr, false, RelationType.Juridical, legalContactAddress, null);
         var technicalContact = CreateContactEm2(CompanyNameTwo, CompanyCvrTwo, true, RelationType.Technical, null, technicalContactAddress);
 
-        var energySupplierPeriod = new MeteringPointDtoV1.EnergySupplierPeriodDto(
+        var energySupplierPeriod = new MeteringPointDtoV2.EnergySupplierPeriodDto(
             _energySupplierValidFrom,
             _energySupplierValidTo,
-            OrchestrationInstanceId,
             [legalContact, technicalContact]);
 
-        var electricalHeatingPeriod = new MeteringPointDtoV1.ElectricalHeatingPeriodDto(
+        var electricalHeatingPeriod = new MeteringPointDtoV2.ElectricalHeatingPeriodDto(
             _heatingValidFrom,
             _heatingValidTo);
 
-        var commercialRelation = new MeteringPointDtoV1.CommercialRelationDto(
+        var commercialRelation = new MeteringPointDtoV2.CommercialRelationDto(
             _validFrom,
             _validTo,
             EnergySupplierId,
@@ -243,13 +242,12 @@ public class MeteringPointMetadataMapperTests
         var technicalContactAddress = CreateTechnicalContactAddressEm2();
         var contact = CreateContactEm2(CompanyName, CompanyCvr, false, RelationType.Juridical, legalContactAddress, technicalContactAddress);
 
-        var energySupplierPeriod = new MeteringPointDtoV1.EnergySupplierPeriodDto(
+        var energySupplierPeriod = new MeteringPointDtoV2.EnergySupplierPeriodDto(
             _energySupplierValidFrom,
             _energySupplierValidTo,
-            OrchestrationInstanceId,
             [contact]);
 
-        var commercialRelation = new MeteringPointDtoV1.CommercialRelationDto(
+        var commercialRelation = new MeteringPointDtoV2.CommercialRelationDto(
             _validFrom,
             _validTo,
             EnergySupplierId,
@@ -284,20 +282,18 @@ public class MeteringPointMetadataMapperTests
         var technicalContactAddress = CreateTechnicalContactAddressEm2();
 
         var contact1 = CreateContactEm2(CompanyName, CompanyCvr, false, RelationType.Juridical, legalContactAddress, null);
-        var energySupplierPeriod1 = new MeteringPointDtoV1.EnergySupplierPeriodDto(
+        var energySupplierPeriod1 = new MeteringPointDtoV2.EnergySupplierPeriodDto(
             _energySupplierValidFrom,
             _energySupplierValidTo,
-            OrchestrationInstanceId,
             [contact1]);
 
         var contact2 = CreateContactEm2(CompanyNameTwo, CompanyCvrTwo, true, RelationType.Technical, null, technicalContactAddress);
-        var energySupplierPeriod2 = new MeteringPointDtoV1.EnergySupplierPeriodDto(
+        var energySupplierPeriod2 = new MeteringPointDtoV2.EnergySupplierPeriodDto(
             _validFrom,
             _validTo,
-            OrchestrationInstanceId,
             [contact2]);
 
-        var commercialRelation = new MeteringPointDtoV1.CommercialRelationDto(
+        var commercialRelation = new MeteringPointDtoV2.CommercialRelationDto(
             _validFrom,
             _validTo,
             EnergySupplierId,
