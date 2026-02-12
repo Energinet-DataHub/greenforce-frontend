@@ -1535,6 +1535,10 @@ type SelectionActorDto {
   marketRole: EicFunction!
 }
 
+type SendActorConversationMessagePayload {
+  boolean: Boolean
+}
+
 type SendMeasurementsInstanceDto {
   id: UUID!
   idempotencyKeyHash: String!
