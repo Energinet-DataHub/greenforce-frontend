@@ -45,6 +45,7 @@ import {
 import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { MsalService } from '@azure/msal-angular';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-actor-conversation-selected-conversation',
@@ -185,14 +186,16 @@ export class DhActorConversationSelectedConversationComponent {
 
     const { content, anonymous } = this.formControl.getRawValue();
 
-    if (!content) return;
+    assertIsDefined(content);
+    assertIsDefined(anonymous);
+
     await this.sendActorConversationMessageMutation.mutate({
       variables: {
         conversationId: this.conversationId(),
         meteringPointIdentification: this.meteringPointId(),
         actorId: this.actorStorage.getSelectedActorId(),
-        anonymous: anonymous ?? false,
-        content: content,
+        anonymous,
+        content,
         userId,
       },
       refetchQueries: [GetConversationDocument, GetConversationsDocument],

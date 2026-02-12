@@ -152,12 +152,12 @@ export class DhActorConversationNewConversationComponent {
 
     const result = await this.startConversationMutation.mutate({
       variables: {
-        subject: subject,
         meteringPointIdentification: this.meteringPointId(),
-        internalNote: internalNote,
-        content: content,
-        anonymous: anonymous,
-        receiver: receiver,
+        subject,
+        internalNote,
+        content,
+        anonymous,
+        receiver,
       },
       refetchQueries: [GetConversationsDocument],
     });
