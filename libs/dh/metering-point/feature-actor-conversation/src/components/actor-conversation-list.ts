@@ -27,14 +27,13 @@ import {
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
 import { Conversation } from '../types';
-import dayjs from 'dayjs';
 import { QueryResult } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  GetConversationQueryVariables,
   GetConversationsQuery,
   GetConversationsQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { dayjs } from '@energinet/watt/core/date';
 
 @Component({
   selector: 'dh-actor-conversation-list',
