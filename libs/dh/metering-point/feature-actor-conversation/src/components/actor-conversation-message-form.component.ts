@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, forwardRef, input } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, forwardRef, input } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,
   FormControl,
@@ -33,6 +33,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { MessageFormValue } from '../types';
+import { skip } from 'rxjs';
 
 @Component({
   selector: 'dh-actor-conversation-message-form',
@@ -69,7 +70,6 @@ import { MessageFormValue } from '../types';
         [label]="t('messageLabel')"
         [formControl]="form.controls.message"
         [small]="small()"
-        (blur)="onTouched()"
         data-testid="actor-conversation-message-textarea"
       />
       <vater-stack direction="row" gap="s">
@@ -77,7 +77,7 @@ import { MessageFormValue } from '../types';
           {{ t('anonymousCheckbox') }}
         </watt-checkbox>
         <watt-icon name="info" class="info-icon-color" [wattTooltip]="t('anonymousTooltip')" />
-        <watt-button type="submit">
+        <watt-button [loading]="loading()" type="submit">
           {{ t('sendButton') }}
           <watt-icon name="send" />
         </watt-button>
@@ -87,23 +87,27 @@ import { MessageFormValue } from '../types';
 })
 export class DhActorConversationMessageFormComponent implements ControlValueAccessor {
   small = input<boolean>(false);
+  loading = input<boolean>(false);
 
   form = new FormGroup({
     message: new FormControl<string | null>(null),
     anonymous: new FormControl<boolean>(false),
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange: (value: MessageFormValue) => void = () => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onTouched: () => void = () => {};
+  value = toSignal(this.form.valueChanges);
 
-  constructor() {
-    this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
-      this.onChange(value as MessageFormValue);
-    });
-  }
+  messageValueChanged = toObservable(
+    computed<MessageFormValue>(() => {
+      const value = this.value();
 
+      return {
+        content: value?.message ?? '',
+        anonymous: value?.anonymous ?? false,
+      };
+    })
+  );
+
+  // Implementation for ControlValueAccessor
   writeValue(value: MessageFormValue | null): void {
     if (value) {
       this.form.setValue(
@@ -118,19 +122,8 @@ export class DhActorConversationMessageFormComponent implements ControlValueAcce
     }
   }
 
-  registerOnChange(fn: (value: MessageFormValue) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.form.disable({ emitEvent: false });
-    } else {
-      this.form.enable({ emitEvent: false });
-    }
-  }
+  registerOnChange = (fn: (value: MessageFormValue | null) => void) =>
+    this.messageValueChanged.subscribe(fn);
+  registerOnTouched = (fn: () => void) => this.form.valueChanges.pipe(skip(1)).subscribe(fn);
+  setDisabledState = (disabled: boolean) => (disabled ? this.form.disable() : this.form.enable());
 }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
 import {
@@ -27,6 +27,14 @@ import {
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
 import { Conversation } from '../types';
+import dayjs from 'dayjs';
+import { QueryResult } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  GetConversationQueryVariables,
+  GetConversationsQuery,
+  GetConversationsQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-actor-conversation-list',
@@ -38,6 +46,7 @@ import { Conversation } from '../types';
     VaterFlexComponent,
     DhActorConversationListItemComponent,
     VaterUtilityDirective,
+    DhResultComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -80,40 +89,48 @@ import { Conversation } from '../types';
           </vater-stack>
         </watt-card-title>
         <hr class="watt-divider no-margin" />
-        <ul>
-          @if (newConversationVisible()) {
-            <li>
-              <dh-actor-conversation-list-item
-                [conversation]="newConversation"
-                [selected]="newConversationVisible()"
-              />
-            </li>
-          }
-          @for (conversationItem of conversations(); track conversationItem.id) {
-            <li>
-              <dh-actor-conversation-list-item
-                [conversation]="conversationItem"
-                [selected]="selectedConversationId() === conversationItem.id"
-                (click)="selectConversation.emit(conversationItem.id)"
-              />
-            </li>
-          }
-        </ul>
+        <dh-result vater fill="vertical" [query]="conversationsQuery()">
+          <ul>
+            @if (newConversationVisible()) {
+              <li>
+                <dh-actor-conversation-list-item
+                  [conversation]="newConversation"
+                  [selected]="newConversationVisible()"
+                />
+              </li>
+            }
+            @for (conversationItem of conversations(); track conversationItem.id) {
+              <li>
+                <dh-actor-conversation-list-item
+                  [conversation]="conversationItem"
+                  [selected]="selectedConversationId() === conversationItem.id"
+                  (click)="selectConversation.emit(conversationItem.id)"
+                />
+              </li>
+            }
+          </ul>
+        </dh-result>
       </watt-card>
     </vater-flex>
   `,
 })
 export class DhActorConversationListComponent {
-  conversations = input<Conversation[]>([]);
+  conversationsQuery = input<QueryResult<GetConversationsQuery, GetConversationsQueryVariables>>();
+  conversations = computed(
+    () => this.conversationsQuery()?.data()?.conversationsForMeteringPoint?.conversations ?? []
+  );
   newConversationVisible = input<boolean>(false);
   selectedConversationId = input<string | undefined>(undefined);
   createNewConversation = output();
   selectConversation = output<string | undefined>();
 
   newConversation: Conversation = {
+    __typename: 'ConversationInfo',
     closed: false,
-    lastUpdatedDate: undefined,
-    id: undefined,
-    subject: 'newCase',
+    read: false,
+    lastUpdated: dayjs().toDate(),
+    id: '',
+    displayId: '',
+    subject: 'QUESTION_FOR_ENERGINET',
   };
 }

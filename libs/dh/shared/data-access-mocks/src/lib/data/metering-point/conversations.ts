@@ -23,6 +23,7 @@ export const conversations: ConversationInfo[] = [
   {
     __typename: 'ConversationInfo',
     id: '00001',
+    displayId: '00001',
     closed: false,
     read: false,
     lastUpdated: new Date(),
@@ -31,6 +32,7 @@ export const conversations: ConversationInfo[] = [
   {
     __typename: 'ConversationInfo',
     id: '00002',
+    displayId: '00002',
     closed: false,
     read: true,
     lastUpdated: new Date(),
@@ -39,6 +41,7 @@ export const conversations: ConversationInfo[] = [
   {
     __typename: 'ConversationInfo',
     id: '00003',
+    displayId: '00003',
     closed: true,
     read: true,
     lastUpdated: new Date(),
