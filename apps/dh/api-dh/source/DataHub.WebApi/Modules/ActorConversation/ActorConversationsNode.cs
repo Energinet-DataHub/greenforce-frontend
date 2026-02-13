@@ -22,16 +22,15 @@ using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
-[ObjectType<ConversationDto>]
-public static partial class ActorConversationNode
+[ObjectType<ConversationsDto>]
+public static partial class ActorConversationsNode
 {
     [Query]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task<ConversationDto> GetConversationAsync(
+    public static async Task<ConversationsDto> GetConversationsForMeteringPointAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        Guid conversationId,
         string meteringPointIdentification,
         CancellationToken ct)
     {
@@ -42,8 +41,8 @@ public static partial class ActorConversationNode
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
-        // TODO: Will be replaced with the GetActorConversationRequest when implemented
-        var authRequest = new ReadActorConversationRequest
+        // TODO: Will be replaced with the ActorConversationsRequest when implemented
+        var authRequest = new CreateActorConversationRequest
         {
             ActorNumber = actorNumber,
             MarketRole = marketRole,
@@ -56,33 +55,23 @@ public static partial class ActorConversationNode
         if (signature.Signature == null ||
             (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
         {
-            throw new InvalidOperationException("User is not authorized to access the requested conversation.");
+            throw new InvalidOperationException(
+                "User is not authorized to access conversations for the requested metering point.");
         }
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
 
-        return await authClient.ApiGetConversationAsync(conversationId, ct);
+        return await authClient.ApiGetConversationsAsync(meteringPointIdentification, ct);
     }
 
     static partial void Configure(
-        IObjectTypeDescriptor<ConversationDto> descriptor)
+        IObjectTypeDescriptor<ConversationsDto> descriptor)
     {
         descriptor
-            .Name("Conversation")
+            .Name("Conversations")
             .BindFieldsExplicitly();
 
         descriptor
-            .Field(f => f.DisplayId.ToString())
-            .Name("displayId");
-
-        descriptor
-            .Field(f => f.DisplayId)
-            .Type<NonNullType<IdType>>()
-            .Name("id");
-
-        descriptor.Field(f => f.InternalNote);
-        descriptor.Field(f => f.Subject);
-        descriptor.Field(f => f.Closed);
-        descriptor.Field(f => f.Messages);
+            .Field(f => f.Conversations);
     }
 }
