@@ -413,6 +413,8 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
       },
     });
 
+    if (!result.data) return;
+
     const dataCopy = structuredClone(result.data);
     return {
       ...dataCopy,
