@@ -382,11 +382,15 @@ type CollectionSegmentInfo {
 
 "Conversation"
 type Conversation {
-  meteringPointIdentification: String!
-  displayId: String!
+  displayId: String
+  "Display Id of the conversation"
+  id: ID!
+  "Internal note from the creator"
   internalNote: String
   subject: ConversationSubject!
+  "true for conversations that are closed. false otherwise."
   closed: Boolean!
+  "Messages associated with a conversation"
   messages: [ConversationMessage!]!
 }
 
@@ -394,9 +398,11 @@ type Conversation {
 type ConversationInfo {
   "Conversation id"
   id: UUID!
+  "Display id of the conversation"
+  displayId: ID!
+  subject: ConversationSubject!
   "Specifies whether the conversation has been read or not"
   read: Boolean!
-  subject: ConversationSubject!
   "Conversation is closed or not"
   closed: Boolean!
   "Last updated time of the conversation"
@@ -405,16 +411,12 @@ type ConversationInfo {
 
 "Conversation message"
 type ConversationMessage {
-  "Sender user name"
-  senderUserName: String
-  "Sendor actor name"
-  senderActorName: String
-  senderType: ActorType!
   "Message content"
   content: String!
-  messageType: Int!
+  messageType: MessageType!
   "Created time"
   createdTime: DateTime!
+  senderType: ActorType!
 }
 
 "Conversations"
@@ -458,6 +460,11 @@ type DeactivateUserPayload {
 type DeactivateUserRolePayload {
   boolean: Boolean
   errors: [DeactivateUserRoleError!]
+}
+
+type DismissAllNotificationsPayload {
+  boolean: Boolean
+  errors: [DismissAllNotificationsError!]
 }
 
 type DismissNotificationPayload {
@@ -1073,7 +1080,8 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
-  startConversation(input: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  startConversation(startConversationInput: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  sendActorConversationMessage(sendActorConversationMessageInput: SendActorConversationMessageInput!): SendActorConversationMessagePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   closeConversation(input: CloseConversationInput!): CloseConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
@@ -1117,6 +1125,7 @@ type Mutation {
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
+  dismissAllNotifications(input: DismissAllNotificationsInput!): DismissAllNotificationsPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
@@ -1526,6 +1535,10 @@ type SelectionActorDto {
   marketRole: EicFunction!
 }
 
+type SendActorConversationMessagePayload {
+  boolean: Boolean
+}
+
 type SendMeasurementsInstanceDto {
   id: UUID!
   idempotencyKeyHash: String!
@@ -1742,6 +1755,8 @@ union DeactivateUserError = ApiError
 
 union DeactivateUserRoleError = ApiError
 
+union DismissAllNotificationsError = ApiError
+
 union DismissNotificationError = ApiError
 
 union InitiateMitIdSignupError = ApiError
@@ -1910,8 +1925,6 @@ input ChargesQueryInput {
 
 input CloseConversationInput {
   conversationId: UUID!
-  meteringPointIdentification: String!
-  userName: String!
 }
 
 input CreateActorContactDtoInput {
@@ -2015,6 +2028,10 @@ input DeactivateUserInput {
 
 input DeactivateUserRoleInput {
   roleId: UUID!
+}
+
+input DismissAllNotificationsInput {
+  notificationIds: [Int!]!
 }
 
 input DismissNotificationInput {
@@ -2253,6 +2270,15 @@ input ResetTwoFactorAuthenticationInput {
   userId: UUID!
 }
 
+input SendActorConversationMessageInput {
+  conversationId: UUID!
+  meteringPointIdentification: String!
+  actorId: String!
+  userId: String!
+  content: String!
+  anonymous: Boolean!
+}
+
 input SendMeasurementsInstanceDtoSortInput {
   id: SortEnumType
   idempotencyKeyHash: SortEnumType
@@ -2288,14 +2314,8 @@ input SimulateMeteringPointManualCorrectionInput {
 }
 
 input StartConversationInput {
-  startConversationInput: StartConversationInputTypeInput!
-}
-
-input StartConversationInputTypeInput {
   subject: ConversationSubject!
   meteringPointIdentification: String!
-  actorName: String!
-  userName: String!
   internalNote: String
   content: String!
   anonymous: Boolean!
@@ -2470,6 +2490,7 @@ enum ActorAuditedChange {
   ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
 }
 
+"Application layer receiver type"
 enum ActorType {
   ENERGY_SUPPLIER
   ENERGINET
@@ -2639,7 +2660,7 @@ enum ContactCategory {
   REMINDER
 }
 
-"Conversation subjects"
+"Application layer conversation subject"
 enum ConversationSubject {
   QUESTION_FOR_ENERGINET
 }
@@ -3130,6 +3151,12 @@ enum MeasurementsReportStatusType {
   ERROR
   COMPLETED
   CANCELED
+}
+
+"Message type"
+enum MessageType {
+  USER_MESSAGE
+  CLOSING_MESSAGE
 }
 
 enum MeteringGridImbalanceValuesToInclude {

@@ -4,6 +4,7 @@ query GetConversations($meteringPointIdentification: String!) {
       id
       read
       subject
+      displayId
       closed
       lastUpdated
     }
