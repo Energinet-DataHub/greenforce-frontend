@@ -313,10 +313,8 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
           return [];
         },
       })
-      .then(({ loading, data }) => {
-        if (loading) {
-          return;
-        } else if (this.isUpdateSuccessful(data)) {
+      .then(({ data }) => {
+        if (this.isUpdateSuccessful(data)) {
           this.modal().close(true);
           this.showSuccessNotification();
         } else {
