@@ -29,7 +29,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
   encapsulation: ViewEncapsulation.None,
   styles: `
     .message-container {
-      background-color: var(--watt-color-primary-ultralight);
       border-radius: var(--watt-radius-m);
       border: 1px solid var(--watt-color-neutral-grey-300);
     }
@@ -40,11 +39,13 @@ import { TranslocoDirective } from '@jsverse/transloco';
   `,
   host: {
     class: 'watt-space-inset-m',
-    '[style.align-self]': 'messageAlignment()'
+    '[style.align-self]': 'messageAlignment()',
+    '[style.max-width]': '"66%"',
   },
   template: `
     <vater-stack
       class="message-container"
+      [style.background-color]="backgroundColor()"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <vater-stack fill="horizontal" align="start" class="watt-space-inset-m">
@@ -63,4 +64,9 @@ export class DhActorConversationMessageComponent {
   message = input.required<ConversationMessage>();
   isFromCurrentUser = input(false);
   messageAlignment = computed(() => (this.isFromCurrentUser() ? 'end' : 'start'));
+  backgroundColor = computed(() =>
+    this.isFromCurrentUser()
+      ? 'var(--watt-color-primary-ultralight)'
+      : 'var(--watt-color-neutral-grey-100)'
+  );
 }

@@ -18,17 +18,10 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
-import {
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattBadgeComponent } from '@energinet/watt/badge';
 import { WattButtonComponent } from '@energinet/watt/button';
-import {
-  WattMenuComponent,
-  WattMenuItemComponent,
-  WattMenuTriggerDirective,
-} from '@energinet/watt/menu';
+import { WattMenuComponent, WattMenuItemComponent, WattMenuTriggerDirective, } from '@energinet/watt/menu';
 import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { MessageFormValue } from '../types';
@@ -147,7 +140,10 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
           <!-- Content - Scrollable message area -->
           <vater-stack direction="column" fill="horizontal" scrollable class="no-min-height flex-1">
             @for (message of conversation.messages; track message) {
-              <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
+              <dh-actor-conversation-message
+                [message]="message"
+                [isFromCurrentUser]="isMessageFromCurrentUser(message.userId)"
+              />
             }
           </vater-stack>
         }
@@ -174,6 +170,7 @@ export class DhActorConversationSelectedConversationComponent {
   private readonly closeToastEffect = effect(() =>
     this.closeToast(this.closeConversationMutation.status())
   );
+  private readonly userId = this.authService.instance.getActiveAccount()?.idTokenClaims?.sub;
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   formControl = this.fb.control<MessageFormValue>({ content: '', anonymous: false });
   conversationId = input.required<string>();
@@ -198,8 +195,7 @@ export class DhActorConversationSelectedConversationComponent {
   }
 
   async sendMessage() {
-    const token = this.authService.instance.getActiveAccount();
-    const userId = token?.idTokenClaims?.sub;
+    const userId = this.userId;
 
     if (!userId) return;
 
@@ -221,5 +217,9 @@ export class DhActorConversationSelectedConversationComponent {
     });
 
     this.formControl.reset({ content: '', anonymous: false });
+  }
+
+  isMessageFromCurrentUser(userId: string | null | undefined): boolean {
+    return userId ? userId === this.userId : false;
   }
 }
