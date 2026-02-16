@@ -191,8 +191,8 @@ public static partial class MeteringPointProcessNode
     /// Format: {PROCESS_NAME}_V{VERSION}_STEP_{SEQUENCE}
     /// Example: BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1
     ///
-    /// If the generated identifier doesn't match any known enum value, returns ProcessStepType.UNKNOWN.
-    /// This allows new processes to work without breaking the application.
+    /// If the generated identifier doesn't match any known enum value, throws an exception.
+    /// All process steps must be explicitly defined in the ProcessStepType enum.
     /// </summary>
     private static ProcessStepType GetStepIdentifier(WorkflowStepInstanceDto step)
     {
@@ -210,7 +210,9 @@ public static partial class MeteringPointProcessNode
             return stepType;
         }
 
-        // If not found, return UNKNOWN (new processes that haven't been added to the enum yet)
-        return ProcessStepType.UNKNOWN;
+        // If not found, throw an exception - all steps must be explicitly defined
+        throw new InvalidOperationException(
+            $"Unknown process step type: '{identifier}'. " +
+            $"Please add this step to the ProcessStepType enum and update the translations.");
     }
 }

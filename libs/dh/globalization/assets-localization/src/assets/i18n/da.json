@@ -989,8 +989,7 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
-        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)",
-        "UNKNOWN": "Ukendt trin"
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)"
       },
       "details": {
         "notFound": "Process ikke fundet",
@@ -1111,7 +1110,6 @@
         }
       }
     },
-
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "updateCustomerData": "Opdater kundestamdata",

@@ -989,8 +989,7 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
-        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)",
-        "UNKNOWN": "Unknown Step"
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)"
       },
       "details": {
         "notFound": "Process not found",

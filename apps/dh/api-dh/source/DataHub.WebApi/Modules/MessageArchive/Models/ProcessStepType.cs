@@ -166,10 +166,4 @@ public enum ProcessStepType
     /// BRS-015 Opdatering af kundestamdata - Step 4: Information om kundestamdata (RSM-028)
     /// </summary>
     BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4,
-
-    /// <summary>
-    /// Unknown or unmapped step type.
-    /// Used when ProcessManager returns a step we haven't added to this enum yet.
-    /// </summary>
-    UNKNOWN,
 }

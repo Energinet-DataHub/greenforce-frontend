@@ -51,16 +51,14 @@ public enum ProcessStepType
     // Add new process steps here:
     BRS_009_MOVEIN_V1_STEP_1,
     BRS_009_MOVEIN_V1_STEP_2,
-
-    UNKNOWN,
 }
 ```
 
 **Important:**
 
-- Always keep `UNKNOWN` as the last enum value
 - TypeScript types will be auto-generated from this enum
 - No need to manually maintain frontend types!
+- All process steps must be explicitly defined before they are used
 
 ### 2. Regenerate GraphQL Types
 
