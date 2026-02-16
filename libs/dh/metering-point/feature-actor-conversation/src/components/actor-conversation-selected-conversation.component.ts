@@ -18,10 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
-import {
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattBadgeComponent } from '@energinet/watt/badge';
 import { WattButtonComponent } from '@energinet/watt/button';
 import {

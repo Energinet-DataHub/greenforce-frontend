@@ -16,7 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDatePipe } from '@energinet/watt/date';
 import { ConversationMessage } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -40,7 +46,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
   `,
   host: {
     class: 'watt-space-inset-m',
-    '[style.align-self]': 'messageAlignment()'
+    '[style.align-self]': 'messageAlignment()',
   },
   template: `
     <vater-stack
