@@ -134,12 +134,14 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
         },
       },
       onError: () => {
+        this.modal().close(false);
         this.toastService.open({
           type: 'danger',
           message: translate('meteringPoint.endOfSupply.submitError'),
         });
       },
       onCompleted: () => {
+        this.modal().close(true);
         this.toastService.open({
           type: 'success',
           message: translate('meteringPoint.endOfSupply.submitSuccess'),
@@ -154,6 +156,7 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
           },
         });
       },
+
     });
   }
 }
