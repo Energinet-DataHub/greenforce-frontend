@@ -32,6 +32,21 @@ public static partial class ConversationMessageDtoType
         return actor?.Name.Value;
     }
 
+    public static async Task<string?> GetUserNameAsync(
+        [Parent] ConversationMessageDto message,
+        IAuditIdentitiesByUserIdDataLoader dataLoader,
+        CancellationToken ct)
+    {
+        var auditIdentity = await dataLoader.LoadAsync(message.UserId ?? string.Empty, ct);
+        // Ensure auditIdentity is of type AuditIdentityDto
+        if (auditIdentity is AuditIdentityDto dto)
+        {
+            return dto.DisplayName;
+        }
+
+        return null;
+    }
+
     static partial void Configure(
         IObjectTypeDescriptor<ConversationMessageDto> descriptor)
     {

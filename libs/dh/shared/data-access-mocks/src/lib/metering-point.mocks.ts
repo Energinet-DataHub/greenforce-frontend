@@ -668,6 +668,7 @@ function getConversation() {
               messageType: 'USER_MESSAGE',
               createdTime: new Date(),
               actorName: 'Sort Strøm',
+              userName: 'Niels Pedersen',
             },
           ],
         },
