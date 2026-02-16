@@ -656,17 +656,16 @@ function getConversation() {
         conversation: {
           __typename: 'Conversation',
           displayId: '00001',
+          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           internalNote: 'CS00123645',
           subject: 'QUESTION_FOR_ENERGINET',
           closed: false,
           messages: [
             {
               __typename: 'ConversationMessage',
-              senderUserName: 'Test Testesen',
-              senderActorName: 'Test Company',
               senderType: 'ENERGY_SUPPLIER',
               content: 'Hej, her er et spørgsmål',
-              messageType: 0,
+              messageType: 'USER_MESSAGE',
               createdTime: new Date(),
             },
           ],

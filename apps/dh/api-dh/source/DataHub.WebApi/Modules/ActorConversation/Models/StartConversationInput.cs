@@ -13,18 +13,20 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
-using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
+namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Models;
 
-public class ActorConversationModule : IModule
+public class StartConversationInput
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
-        services
-            .AddClient<IActorConversationClient_V1>(
-                baseUrls => baseUrls.ActorConversationBaseUrl,
-                (baseUrl, client) => new ActorConversationClient_V1(client));
+    public required ConversationSubject Subject { get; set; }
+
+    public required string MeteringPointIdentification { get; set; }
+
+    public string? InternalNote { get; set; }
+
+    public required string Content { get; set; }
+
+    public required bool Anonymous { get; set; }
+
+    public required ActorType Receiver { get; set; }
 }

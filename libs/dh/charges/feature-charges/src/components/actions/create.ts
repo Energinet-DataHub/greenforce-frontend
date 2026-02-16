@@ -213,7 +213,6 @@ export default class DhChargesCreate {
       this.form().getRawValue();
 
     assertIsDefined(resolution);
-    assertIsDefined(spotDependingPrice);
     assertIsDefined(type);
     assertIsDefined(validFrom);
     assertIsDefined(vat);
@@ -223,7 +222,7 @@ export default class DhChargesCreate {
         input: {
           resolution,
           transparentInvoicing,
-          spotDependingPrice,
+          spotDependingPrice: spotDependingPrice ?? false,
           type,
           validFrom,
           vat,
