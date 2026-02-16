@@ -58,5 +58,6 @@ public static partial class ConversationMessageDtoType
         descriptor.Field(f => f.MessageType);
         descriptor.Field(f => f.CreatedTime);
         descriptor.Field(f => f.SenderType);
+        descriptor.Field(f => f.UserId);
     }
 }

@@ -419,6 +419,8 @@ type ConversationMessage {
   "Created time"
   createdTime: DateTime!
   senderType: ActorType!
+  "Sender user id"
+  userId: String
 }
 
 "Conversations"
