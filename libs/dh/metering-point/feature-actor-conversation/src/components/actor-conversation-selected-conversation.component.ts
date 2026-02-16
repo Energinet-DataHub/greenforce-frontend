@@ -46,6 +46,7 @@ import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { MsalService } from '@azure/msal-angular';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { DhActorConversationMessageComponent } from './actor-conversation-message';
 
 @Component({
   selector: 'dh-actor-conversation-selected-conversation',
@@ -66,6 +67,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     DhActorConversationMessageFormComponent,
     FormsModule,
     DhResultComponent,
+    DhActorConversationMessageComponent,
   ],
   styles: `
     .no-margin {
@@ -126,10 +128,19 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
           <hr class="watt-divider no-margin" />
 
           <!-- Content -->
-          <vater-flex fill="both">
+          <vater-flex fill="both" style="">
             <!-- Messages will go here -->
             @for (message of conversation.messages; track message) {
-              <span>{{ message | json }}</span>
+              <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
+              <dh-actor-conversation-message [message]="message" />
+              <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
+              <dh-actor-conversation-message [message]="message" />
+              <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
+              <dh-actor-conversation-message [message]="message" />
+              <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
+              <dh-actor-conversation-message [message]="message" />
+              <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
+              <dh-actor-conversation-message [message]="message" />
             }
           </vater-flex>
         }

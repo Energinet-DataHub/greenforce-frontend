@@ -19,6 +19,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattDatePipe } from '@energinet/watt/date';
+import { ConversationMessage } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-actor-conversation-message',
@@ -37,6 +38,7 @@ import { WattDatePipe } from '@energinet/watt/date';
     }
   `,
   host: {
+    'class': 'watt-space-inset-m',
     '[style.align-self]': 'messageAlignment()',
   },
   template: `
@@ -57,7 +59,8 @@ import { WattDatePipe } from '@energinet/watt/date';
   `,
 })
 export class DhActorConversationMessageComponent {
-  isOwnMessage = input(false);
-  messageAlignment = computed(() => (this.isOwnMessage() ? 'end' : 'start'));
+  message = input.required<ConversationMessage>();
+  isFromCurrentUser = input(false);
+  messageAlignment = computed(() => (this.isFromCurrentUser() ? 'end' : 'start'));
   date = new Date();
 }
