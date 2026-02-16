@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import {
   VaterSpacerComponent,
   VaterStackComponent,
@@ -119,6 +119,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 export class DhActorConversationNewConversationComponent {
   private readonly toastService = inject(WattToastService);
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly translocoservice = inject(TranslocoService);
   startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
 
@@ -167,12 +168,7 @@ export class DhActorConversationNewConversationComponent {
     if (result.error) {
       this.toastService.open({
         type: 'danger',
-        message: 'Error',
-      });
-    } else {
-      this.toastService.open({
-        type: 'success',
-        message: content,
+        message: this.translocoservice.translate('meteringPoint.actorConversation.startConversationError'),
       });
     }
   }

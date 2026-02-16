@@ -811,6 +811,7 @@
       "closed": "Afsluttet",
       "closeCaseButton": "Afslut sag",
       "markAsUnreadButton": "Marker som ulæst",
+      "startConversationError": "Et eller flere felter er ikke udfyldt korrekt.\n\nDet kan f.eks. være en kombination af emne og modtager, der er ugyldig, eller at det ikke er muligt at sende anonymt til den valgte modtager.",
       "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
       "anonymousCheckbox": "Send anonymt",
       "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren"
