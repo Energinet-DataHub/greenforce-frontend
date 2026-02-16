@@ -76,11 +76,11 @@ Parse any overrides from `$ARGUMENTS` and merge with defaults.
 
 ## Session Context Behavior
 
-**Important:** Within a Claude Code session, conversation context persists. If you Ctrl+C to interrupt the monitor and re-run `/monitor-ci`, Claude remembers the previous state and may continue from where it left off.
+**Important:** Within the current agent session, conversation context persists. If you interrupt the monitor (for example with Ctrl+C) and re-run `/monitor-ci`, the agent remembers the previous state and may continue from where it left off.
 
 - **To continue monitoring:** Just re-run `/monitor-ci` (context is preserved)
 - **To start fresh:** Use `/monitor-ci --fresh` to ignore previous context
-- **For a completely clean slate:** Exit Claude Code and restart `claude`
+- **For a completely clean slate:** End the current agent session and start a new one
 
 ## Default Behaviors by Status
 
