@@ -21,7 +21,11 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattBadgeComponent } from '@energinet/watt/badge';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattMenuComponent, WattMenuItemComponent, WattMenuTriggerDirective, } from '@energinet/watt/menu';
+import {
+  WattMenuComponent,
+  WattMenuItemComponent,
+  WattMenuTriggerDirective,
+} from '@energinet/watt/menu';
 import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { MessageFormValue } from '../types';
