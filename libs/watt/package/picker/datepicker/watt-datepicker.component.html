@@ -82,9 +82,10 @@ limitations under the License.
       autocomplete="off"
       spellcheck="false"
       [disabled]="disabled()"
-      [min]="min()"
-      [max]="max()"
+      [min]="min() ?? null"
+      [max]="max() ?? null"
       [matDatepicker]="singleDatepicker"
+      [matDatepickerFilter]="dateFilter()"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
     />

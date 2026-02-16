@@ -22,8 +22,13 @@ public static partial class ConversationMessageDtoType
     static partial void Configure(
         IObjectTypeDescriptor<ConversationMessageDto> descriptor)
     {
-        descriptor.Name("ConversationMessage");
+        descriptor
+            .Name("ConversationMessage")
+            .BindFieldsExplicitly();
 
-        descriptor.Ignore(f => f.AdditionalProperties);
+        descriptor.Field(f => f.Content);
+        descriptor.Field(f => f.MessageType);
+        descriptor.Field(f => f.CreatedTime);
+        descriptor.Field(f => f.SenderType);
     }
 }

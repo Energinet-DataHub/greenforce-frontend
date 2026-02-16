@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Core.App.Common.Calendar;
 using Energinet.DataHub.Core.App.Common.Extensions.DependencyInjection;
 using Energinet.DataHub.ElectricityMarket.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi.Clients.Dh2Bridge;
@@ -27,6 +28,8 @@ public static class DomainRegistrationExtensions
     public static IServiceCollection AddDomainClients(this IServiceCollection services)
     {
         return services
+            .AddNodaTimeForApplication()
+            .AddDataHubCalendar()
             .AddHttpClient()
             .AddHttpContextAccessor()
             .AddAuthorizedHttpClient()

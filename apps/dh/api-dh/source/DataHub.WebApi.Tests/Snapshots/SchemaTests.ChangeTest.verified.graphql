@@ -304,7 +304,7 @@ type Charge {
   status: ChargeStatus!
   vatInclusive: Boolean!
   transparentInvoicing: Boolean!
-  predictablePrice: Boolean!
+  spotDependingPrice: Boolean!
 }
 
 type ChargeLink {
@@ -331,7 +331,6 @@ type ChargePeriod {
   description: String!
   transparentInvoicing: Boolean!
   vatInclusive: Boolean!
-  predictablePrice: Boolean!
   period: DateRange!
   status: ChargeStatus!
 }
@@ -383,11 +382,15 @@ type CollectionSegmentInfo {
 
 "Conversation"
 type Conversation {
-  meteringPointIdentification: String!
-  displayId: String!
+  displayId: String
+  "Display Id of the conversation"
+  id: ID!
+  "Internal note from the creator"
   internalNote: String
   subject: ConversationSubject!
+  "true for conversations that are closed. false otherwise."
   closed: Boolean!
+  "Messages associated with a conversation"
   messages: [ConversationMessage!]!
 }
 
@@ -395,9 +398,11 @@ type Conversation {
 type ConversationInfo {
   "Conversation id"
   id: UUID!
+  "Display id of the conversation"
+  displayId: ID!
+  subject: ConversationSubject!
   "Specifies whether the conversation has been read or not"
   read: Boolean!
-  subject: ConversationSubject!
   "Conversation is closed or not"
   closed: Boolean!
   "Last updated time of the conversation"
@@ -406,16 +411,12 @@ type ConversationInfo {
 
 "Conversation message"
 type ConversationMessage {
-  "Sender user name"
-  senderUserName: String
-  "Sendor actor name"
-  senderActorName: String
-  senderType: ActorType!
   "Message content"
   content: String!
-  messageType: Int!
+  messageType: MessageType!
   "Created time"
   createdTime: DateTime!
+  senderType: ActorType!
 }
 
 "Conversations"
@@ -459,6 +460,11 @@ type DeactivateUserPayload {
 type DeactivateUserRolePayload {
   boolean: Boolean
   errors: [DeactivateUserRoleError!]
+}
+
+type DismissAllNotificationsPayload {
+  boolean: Boolean
+  errors: [DismissAllNotificationsError!]
 }
 
 type DismissNotificationPayload {
@@ -582,6 +588,7 @@ type ElectricityMarketViewMeteringPointDto {
   createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
+  disconnectedDate: DateTime
   id: String!
   identification: String!
   metadata: ElectricityMarketViewMeteringPointMetadataDto!
@@ -1073,7 +1080,8 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
-  startConversation(input: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  startConversation(startConversationInput: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  sendActorConversationMessage(sendActorConversationMessageInput: SendActorConversationMessageInput!): SendActorConversationMessagePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   closeConversation(input: CloseConversationInput!): CloseConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
@@ -1109,7 +1117,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
-  resetMitId: ResetMitIdPayload!
+  resetMitId(input: ResetMitIdInput!): ResetMitIdPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
@@ -1117,6 +1125,7 @@ type Mutation {
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
+  dismissAllNotifications(input: DismissAllNotificationsInput!): DismissAllNotificationsPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
@@ -1301,8 +1310,9 @@ type Query {
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
   meteringPointExists(environment: String! searchMigratedMeteringPoints: Boolean! internalMeteringPointId: String meteringPointId: String): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
-  relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
+  relatedMeteringPoints(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  disabledDatesForEndOfSupply: [DateTime!]!
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -1379,11 +1389,17 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
+"Represents a metering point's data"
 type RelatedMeteringPointDto {
-  id: Long!
-  identification: String!
-  type: ElectricityMarketMeteringPointType!
-  connectionState: ElectricityMarketConnectionStateType!
+  """
+  A representation of the metering point GSRN id, without containing the actual GSRN number. Is used to
+  show in the URL, to avoid saving the real metering point id in the browser history.
+  """
+  id: String!
+  "The metering point GSRN id, e.g. 57XXXXXXXXXXXXXXXX."
+  meteringPointIdentification: String!
+  type: ElectricityMarketViewMeteringPointType!
+  connectionState: ElectricityMarketViewConnectionState!
   createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
@@ -1517,6 +1533,10 @@ type SelectionActorDto {
   actorName: String!
   organizationName: String!
   marketRole: EicFunction!
+}
+
+type SendActorConversationMessagePayload {
+  boolean: Boolean
 }
 
 type SendMeasurementsInstanceDto {
@@ -1735,6 +1755,8 @@ union DeactivateUserError = ApiError
 
 union DeactivateUserRoleError = ApiError
 
+union DismissAllNotificationsError = ApiError
+
 union DismissNotificationError = ApiError
 
 union InitiateMitIdSignupError = ApiError
@@ -1788,7 +1810,7 @@ input AddChargeSeriesInput {
   id: String!
   start: DateTime!
   end: DateTime!
-  points: [ChargePointV1Input!]!
+  points: [ChargePointV2Input!]!
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
@@ -1857,7 +1879,6 @@ input CancelSettlementReportInput {
 input ChangeCustomerCharacteristicsInput {
   meteringPointId: String!
   businessReason: ChangeCustomerCharacteristicsBusinessReason!
-  startDate: DateTime!
   firstCustomerCpr: String
   firstCustomerCvr: String
   firstCustomerName: String
@@ -1879,7 +1900,7 @@ input ChargeLinkDtoSortInput {
   chargeIdentifier: ChargeIdentifierDtoSortInput
 }
 
-input ChargePointV1Input {
+input ChargePointV2Input {
   position: Int!
   priceAmount: Decimal!
 }
@@ -1898,14 +1919,12 @@ input ChargesQueryInput {
   resolution: [ChargeResolution!]
   vatInclusive: Boolean
   transparentInvoicing: Boolean
-  predictablePrice: Boolean
+  spotDependingPrice: Boolean
   missingPriceSeries: Boolean
 }
 
 input CloseConversationInput {
   conversationId: UUID!
-  meteringPointIdentification: String!
-  userName: String!
 }
 
 input CreateActorContactDtoInput {
@@ -1938,6 +1957,7 @@ input CreateChargeInput {
   validFrom: DateTime!
   vat: Boolean!
   transparentInvoicing: Boolean
+  spotDependingPrice: Boolean!
 }
 
 input CreateChargeLinkInput {
@@ -2008,6 +2028,10 @@ input DeactivateUserInput {
 
 input DeactivateUserRoleInput {
   roleId: UUID!
+}
+
+input DismissAllNotificationsInput {
+  notificationIds: [Int!]!
 }
 
 input DismissNotificationInput {
@@ -2238,8 +2262,21 @@ input RequestSortInput {
   meteringPointTypeOrPriceType: SortEnumType
 }
 
+input ResetMitIdInput {
+  userId: UUID!
+}
+
 input ResetTwoFactorAuthenticationInput {
   userId: UUID!
+}
+
+input SendActorConversationMessageInput {
+  conversationId: UUID!
+  meteringPointIdentification: String!
+  actorId: String!
+  userId: String!
+  content: String!
+  anonymous: Boolean!
 }
 
 input SendMeasurementsInstanceDtoSortInput {
@@ -2277,14 +2314,8 @@ input SimulateMeteringPointManualCorrectionInput {
 }
 
 input StartConversationInput {
-  startConversationInput: StartConversationInputTypeInput!
-}
-
-input StartConversationInputTypeInput {
   subject: ConversationSubject!
   meteringPointIdentification: String!
-  actorName: String!
-  userName: String!
   internalNote: String
   content: String!
   anonymous: Boolean!
@@ -2459,6 +2490,7 @@ enum ActorAuditedChange {
   ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
 }
 
+"Application layer receiver type"
 enum ActorType {
   ENERGY_SUPPLIER
   ENERGINET
@@ -2628,7 +2660,7 @@ enum ContactCategory {
   REMINDER
 }
 
-"Conversation subjects"
+"Application layer conversation subject"
 enum ConversationSubject {
   QUESTION_FOR_ENERGINET
 }
@@ -3121,6 +3153,12 @@ enum MeasurementsReportStatusType {
   CANCELED
 }
 
+"Message type"
+enum MessageType {
+  USER_MESSAGE
+  CLOSING_MESSAGE
+}
+
 enum MeteringGridImbalanceValuesToInclude {
   IMBALANCES
   BALANCES
@@ -3396,6 +3434,7 @@ enum UserAuditedChange {
   USER_ROLE_REMOVED_DUE_TO_DEACTIVATION
   USER_LOGIN_FEDERATION_REQUESTED
   USER_LOGIN_FEDERATED
+  USER_LOGIN_FEDERATION_RESET
 }
 
 enum UserOverviewSortProperty {

@@ -29,6 +29,7 @@
   "notificationsCenter": {
     "headline": "Notifications",
     "noNotifications": "No notifications",
+    "markAllAsRead": "Mark all as read",
     "notification": {
       "markAsRead": "Mark as read",
       "BalanceResponsibilityActorUnrecognized": {
@@ -421,12 +422,12 @@
           "vatInclusiveGroupName": "VAT",
           "vatInclusive": "With VAT",
           "not_vatInclusive": "Without VAT",
-          "transparentInvoicingGroupName": "Transparent Invoicing",
+          "transparentInvoicingGroupName": "Transparent invoicing",
           "transparentInvoicing": "Subject to transparent invoicing",
           "not_transparentInvoicing": "Not subject to transparent invoicing",
-          "predictablePriceGroupName": "Predictable Price",
-          "predictablePrice": "Predictable price",
-          "not_predictablePrice": "Non-predictable price",
+          "spotDependingPriceGroupName": "Spot depending price",
+          "spotDependingPrice": "Spot depending price",
+          "not_spotDependingPrice": "Non-spot depending price",
           "missingPriceSeriesGroupName": "Price series",
           "missingPriceSeries": "Missing price series",
           "not_missingPriceSeries": "Has price series"
@@ -461,9 +462,9 @@
           "transparentInvoicing": "Transparent Invoicing",
           "withTransparentInvoicing": "Yes",
           "withoutTransparentInvoicing": "No",
-          "predictablePrice": "Predictable Price",
-          "withPredictablePrice": "Yes",
-          "withoutPredictablePrice": "No",
+          "spotDependingPrice": "Spot depending price",
+          "withSpotDependingPrice": "Yes",
+          "withoutSpotDependingPrice": "No",
           "validFrom": "Valid From",
           "cutoffDate": "Cut-off Date"
         },
@@ -524,6 +525,7 @@
       "owner": "Owner",
       "resolution": "Resolution",
       "transparentInvoicing": "Transparent Invoicing",
+      "spotDependingPrice": "Spot depending price",
       "vat": "VAT",
       "tabs": {
         "pricesLabel": "Prices",
@@ -627,7 +629,7 @@
         "tabLabel": "Messages"
       },
       "measurements": {
-        "tabLabel": "{{ meteringPoint.overview.shared.terminology.measurements }}"
+        "tabLabel": "{{ shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Failed measurements"
@@ -685,7 +687,7 @@
       },
       "status": {
         "CLOSED_DOWN": "Closed down",
-        "NEW": "New",
+        "NEW": "Newly created",
         "CONNECTED": "Connected",
         "DISCONNECTED": "Disconnected",
         "UNKNOWN": "Unknown"
@@ -732,7 +734,8 @@
         "measureUnit": "Measure unit",
         "product": "Product",
         "connectionDate": "Connected",
-        "closedDownDate": "Discontinued"
+        "closedDownDate": "Discontinued",
+        "disconnectedDate": "Disconnected"
       },
       "customerContactDetails": {
         "title": "Contacts",
@@ -807,7 +810,11 @@
       },
       "closed": "Closed",
       "closeCaseButton": "Close case",
-      "markAsUnreadButton": "Mark as unread"
+      "markAsUnreadButton": "Mark as unread",
+      "startConversationError": "One or more fields are not filled correctly.\n\nThis may be due to an invalid combination of subject and recipient, or because anonymous submissions are not permitted for the selected recipient.",
+      "conversationCloseError": "An error occurred trying to close the case",
+      "anonymousCheckbox": "Send anonymously",
+      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
@@ -1269,8 +1276,7 @@
       "modalTitle": "Start end of supply",
       "dateLabel": "Specify cut-off date",
       "dateHint": "The cut-off date must be between 3 days from today and 60 days ahead.",
-      "consequencesInfo": "Here should be a text...",
-      "confirmCheckbox": "I understand the consequences",
+      "confirmCheckbox": "Please note that when you initiate an end of supply, you are requesting to disconnect the electricity at the metering point.",
       "cancel": "Cancel",
       "submit": "Start end of supply",
       "submitSuccess": "End of supply submitted.",
@@ -2314,8 +2320,9 @@
         "title": "Are you sure you want to cancel the report?",
         "confirm": "Cancel report",
         "cancel": "Close",
-        "requestSuccess": "Settlement report has been canceled.",
-        "requestError": "Something went wrong. Settlement report was not canceled. Please try again."
+        "loading": "Cancelling settlement report...",
+        "success": "Settlement report has been canceled.",
+        "error": "Something went wrong. Settlement report was not canceled. Please try again."
       },
       "columns": {
         "startedAt": "Started",
@@ -2920,7 +2927,8 @@
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> due to the role being deactivated",
               "USER_LOGIN_FEDERATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested to link MitID to the user",
-              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> has successfully linked MitID to the user"
+              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> has successfully linked MitID to the user",
+              "USER_LOGIN_FEDERATION_RESET": "<b>{{ auditedBy }}</b> has successfully reset MitID of the user"
             }
           }
         },

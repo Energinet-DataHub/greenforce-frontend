@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import {
   VaterSpacerComponent,
@@ -29,11 +29,19 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DhActorConversationTextAreaComponent } from './actor-conversation-text-area.component';
-import { StartConversationFormValue } from '../types';
-import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
+import { MessageFormValue } from '../types';
+import {
+  ActorType,
+  ConversationSubject,
+  GetConversationsDocument,
+  StartConversationDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -47,7 +55,7 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
     WattTextFieldComponent,
     VaterUtilityDirective,
     VaterSpacerComponent,
-    DhActorConversationTextAreaComponent,
+    DhActorConversationMessageFormComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -58,7 +66,7 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
   template: `
     <form
       [formGroup]="newConversationForm"
-      (ngSubmit)="send()"
+      (ngSubmit)="startConversation()"
       vater-stack
       fill="both"
       align="start"
@@ -99,19 +107,27 @@ import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/dom
         />
       </vater-stack>
       <vater-spacer />
-      <dh-actor-conversation-text-area
+      <dh-actor-conversation-message-form
         vater
         fill="horizontal"
-        [control]="newConversationForm.controls.message"
+        [loading]="startConversationMutation.loading()"
+        [formControl]="newConversationForm.controls.message"
       />
     </form>
   `,
 })
 export class DhActorConversationNewConversationComponent {
-  closeNewConversation = output();
-  startConversation = output<StartConversationFormValue>();
-
+  private readonly startConversationErrorToast = injectToast(
+    'meteringPoint.actorConversation.startConversationError'
+  );
+  private readonly startConversationToastEffect = effect(() =>
+    this.startConversationErrorToast(this.startConversationMutation.status())
+  );
   private readonly fb = inject(NonNullableFormBuilder);
+  startConversationMutation = mutation(StartConversationDocument);
+  closeNewConversation = output();
+
+  meteringPointId = input.required<string>();
 
   newConversationForm = this.fb.group({
     subject: this.fb.control<ConversationSubject>(
@@ -120,24 +136,37 @@ export class DhActorConversationNewConversationComponent {
     ),
     receiver: this.fb.control<ActorType>(ActorType.Energinet, Validators.required),
     internalNote: this.fb.control<string | null>(null),
-    message: this.fb.control<string>('', Validators.required),
+    message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, (control) =>
+      control.value.content ? null : { required: true }
+    ),
   });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
   receivers = dhEnumToWattDropdownOptions(ActorType);
 
-  protected send() {
+  async startConversation() {
     if (this.newConversationForm.invalid) {
       return;
     }
 
-    const formControls = this.newConversationForm.controls;
-    const formValues: StartConversationFormValue = {
-      subject: formControls.subject.value,
-      content: formControls.message.value,
-      anonymous: false,
-      receiver: formControls.receiver.value,
-      internalNote: formControls.internalNote.value ?? undefined,
-    };
-    this.startConversation.emit(formValues);
+    const { subject, receiver, internalNote, message } = this.newConversationForm.getRawValue();
+
+    const { content, anonymous } = message ?? {};
+
+    assertIsDefined(content);
+    assertIsDefined(anonymous);
+
+    await this.startConversationMutation.mutate({
+      variables: {
+        meteringPointIdentification: this.meteringPointId(),
+        subject,
+        internalNote,
+        content,
+        anonymous,
+        receiver,
+      },
+      refetchQueries: [GetConversationsDocument],
+    });
+
+    this.closeNewConversation.emit();
   }
 }

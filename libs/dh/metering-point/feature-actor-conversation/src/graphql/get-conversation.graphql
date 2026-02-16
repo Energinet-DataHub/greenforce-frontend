@@ -1,12 +1,11 @@
 query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
   conversation(conversationId: $conversationId, meteringPointIdentification: $meteringPointId) {
+    id
     displayId
     internalNote
     subject
     closed
     messages {
-      senderUserName
-      senderActorName
       senderType
       content
       messageType

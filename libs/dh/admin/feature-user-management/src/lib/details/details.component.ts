@@ -144,6 +144,7 @@ export class DhUserDetailsComponent {
 
   resetMitID = () => {
     this.resetMitIDMutation.mutate({
+      variables: { input: { userId: this.id() } },
       onCompleted: (data) =>
         data.resetMitId.errors
           ? this.showToast('danger', 'resetMitIDError')
