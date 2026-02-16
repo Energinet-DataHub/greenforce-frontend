@@ -156,7 +156,6 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
           },
         });
       },
-
     });
   }
 }

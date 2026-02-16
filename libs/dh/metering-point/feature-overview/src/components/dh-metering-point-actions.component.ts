@@ -221,7 +221,10 @@ export class DhMeteringPointActionsComponent {
   showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
 
   showEndOfSupplyButton = computed(
-    () => this.hasEnergySupplierRole() && this.isEnergySupplierResponsible() && this.featureFlagsService.isEnabled('end-of-supply')
+    () =>
+      this.hasEnergySupplierRole() &&
+      this.isEnergySupplierResponsible() &&
+      this.featureFlagsService.isEnabled('end-of-supply')
   );
 
   showActionsButton = computed(() => {
