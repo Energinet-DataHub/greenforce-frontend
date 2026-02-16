@@ -80,6 +80,10 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
     .no-margin {
       margin: 0;
     }
+
+    .flex-1 {
+      flex: 1;
+    }
   `,
   template: `
     <dh-result vater fill="vertical" [query]="conversationQuery">
@@ -126,7 +130,7 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
                   [disabled]="conversation.closed"
                   (click)="closeConversation()"
                   variant="secondary"
-                >{{ t('closeCaseButton') }}
+                  >{{ t('closeCaseButton') }}
                 </watt-button>
                 <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
                   <watt-icon name="moreVertical" />
@@ -141,24 +145,14 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
           </vater-stack>
 
           <!-- Content - Scrollable message area -->
-          <vater-stack
-            direction="column"
-            fill="horizontal"
-            scrollable
-            class="no-min-height"
-          >
+          <vater-stack direction="column" fill="horizontal" scrollable class="no-min-height flex-1">
             @for (message of conversation.messages; track message) {
               <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
             }
           </vater-stack>
         }
         <!-- Footer - Message input form -->
-        <form
-          vater
-          class="watt-space-inset-stretch-m"
-          fill="horizontal"
-          (ngSubmit)="sendMessage()"
-        >
+        <form vater class="watt-space-inset-stretch-m" fill="horizontal" (ngSubmit)="sendMessage()">
           <dh-actor-conversation-message-form
             [loading]="sendActorConversationMessageMutation.loading()"
             [small]="true"

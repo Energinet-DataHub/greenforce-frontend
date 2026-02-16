@@ -17,13 +17,14 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDatePipe } from '@energinet/watt/date';
 import { ConversationMessage } from '@energinet-datahub/dh/shared/domain/graphql';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
   selector: 'dh-actor-conversation-message',
-  imports: [VaterStackComponent, WattDatePipe],
+  imports: [VaterStackComponent, WattDatePipe, TranslocoDirective, VaterUtilityDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styles: `
@@ -38,23 +39,23 @@ import { ConversationMessage } from '@energinet-datahub/dh/shared/domain/graphql
     }
   `,
   host: {
-    'class': 'watt-space-inset-m',
-    '[style.align-self]': 'messageAlignment()',
+    class: 'watt-space-inset-m',
+    '[style.align-self]': 'messageAlignment()'
   },
   template: `
-    <vater-stack class="message-container">
+    <vater-stack
+      class="message-container"
+      *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+    >
       <vater-stack fill="horizontal" align="start" class="watt-space-inset-m">
         <vater-stack direction="row" justify="space-between" fill="horizontal">
-          <span>Netvirsomhed</span>
-          <span>{{ date | wattDate: 'short' }}</span>
+          <span>{{ t('receivers.' + message().senderType) }}</span>
+          <span>{{ message().createdTime | wattDate: 'short' }}</span>
         </vater-stack>
         <span>Den Grønne Strøm, Niels Pedersen</span>
       </vater-stack>
       <hr class="watt-divider no-margin" />
-      <span class="watt-space-inset-m"
-        >Vi har haft problemer med at hjemtage måledata på dette målepunkt. Vi forsøger igen kl.
-        09</span
-      >
+      <span vater fill="horizontal" class="watt-space-inset-m">{{ message().content }}</span>
     </vater-stack>
   `,
 })
@@ -62,5 +63,4 @@ export class DhActorConversationMessageComponent {
   message = input.required<ConversationMessage>();
   isFromCurrentUser = input(false);
   messageAlignment = computed(() => (this.isFromCurrentUser() ? 'end' : 'start'));
-  date = new Date();
 }
