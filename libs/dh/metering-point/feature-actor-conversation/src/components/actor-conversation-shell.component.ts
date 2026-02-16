@@ -67,6 +67,10 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
     .flex-3 {
       flex: 3;
     }
+
+    .overflow-hidden {
+      overflow: hidden;
+    }
   `,
   template: `
     <vater-flex
@@ -82,8 +86,8 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
         (selectConversation)="selectConversation($event)"
         class="flex-1"
       />
-      <watt-card class="flex-3 no-padding no-border-radius-left">
-        <vater-stack fill="vertical">
+      <watt-card class="flex-3 no-padding no-border-radius-left overflow-hidden">
+        <vater-stack fill="both" class="overflow-hidden">
           @switch (state()) {
             @case ('newConversationOpen') {
               <dh-actor-conversation-new-conversation

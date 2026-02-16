@@ -19,7 +19,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
 import {
-  VaterFlexComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
@@ -33,7 +32,6 @@ import {
 import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { MessageFormValue } from '../types';
-import { JsonPipe } from '@angular/common';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -60,9 +58,7 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
     WattMenuItemComponent,
     WattMenuTriggerDirective,
     VaterUtilityDirective,
-    VaterFlexComponent,
     TranslocoDirective,
-    JsonPipe,
     ReactiveFormsModule,
     DhActorConversationMessageFormComponent,
     FormsModule,
@@ -70,66 +66,114 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
     DhActorConversationMessageComponent,
   ],
   styles: `
+    :host {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    dh-result {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .conversation-container {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .conversation-header {
+      flex-shrink: 0;
+    }
+
+    .conversation-messages {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      min-height: 0;
+    }
+
+    .conversation-footer {
+      flex-shrink: 0;
+    }
+
     .no-margin {
       margin: 0;
     }
   `,
   template: `
     <dh-result vater fill="vertical" [query]="conversationQuery">
-      <vater-stack fill="both" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+      <vater-stack
+        direction="column"
+        fill="both"
+        class="conversation-container"
+        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+      >
         @if (conversation(); as conversation) {
           <!-- Header -->
-          <vater-stack
-            direction="row"
-            fill="horizontal"
-            justify="space-between"
-            class="watt-space-inset-stretch-m"
-          >
-            <vater-stack gap="s" align="start">
-              <vater-stack direction="row" gap="xs">
-                <span class="watt-text-s">Sort Strøm(MOCK)</span>
-                <watt-icon name="right" size="xs" />
-                <span class="watt-text-s">Netvirksomhed(MOCK)</span>
+          <vater-stack fill="horizontal" class="conversation-header">
+            <vater-stack
+              fill="horizontal"
+              direction="row"
+              justify="space-between"
+              class="watt-space-inset-stretch-m"
+            >
+              <vater-stack gap="s" align="start">
+                <vater-stack direction="row" gap="xs">
+                  <span class="watt-text-s">Sort Strøm(MOCK)</span>
+                  <watt-icon name="right" size="xs" />
+                  <span class="watt-text-s">Netvirksomhed(MOCK)</span>
+                </vater-stack>
+                <vater-stack direction="row" gap="s">
+                  <h3 class="no-margin">{{ t('subjects.' + conversation.subject) }}</h3>
+                  @if (conversation.closed) {
+                    <watt-badge type="neutral">{{ t('closed') }}</watt-badge>
+                  }
+                </vater-stack>
+                <vater-stack direction="row" gap="m">
+                  <vater-stack direction="row" gap="xs">
+                    <label>ID</label>
+                    <span class="watt-text-s">{{ conversation.displayId }}</span>
+                  </vater-stack>
+                  <vater-stack direction="row" gap="xs">
+                    <label>{{ t('internalNoteLabel') }}</label>
+                    <span class="watt-text-s">{{ conversation.internalNote }}</span>
+                  </vater-stack>
+                </vater-stack>
               </vater-stack>
-              <vater-stack direction="row" gap="s">
-                <h3 class="no-margin">{{ t('subjects.' + conversation.subject) }}</h3>
-                @if (conversation.closed) {
-                  <watt-badge type="neutral">{{ t('closed') }}</watt-badge>
-                }
-              </vater-stack>
+
               <vater-stack direction="row" gap="m">
-                <vater-stack direction="row" gap="xs">
-                  <label>ID</label>
-                  <span class="watt-text-s">{{ conversation.displayId }}</span>
-                </vater-stack>
-                <vater-stack direction="row" gap="xs">
-                  <label>{{ t('internalNoteLabel') }}</label>
-                  <span class="watt-text-s">{{ conversation.internalNote }}</span>
-                </vater-stack>
+                <watt-button
+                  [disabled]="conversation.closed"
+                  (click)="closeConversation()"
+                  variant="secondary"
+                  >{{ t('closeCaseButton') }}
+                </watt-button>
+                <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
+                  <watt-icon name="moreVertical" />
+                </watt-button>
+                <watt-menu #menu>
+                  <watt-menu-item>{{ t('internalNoteLabel') }}</watt-menu-item>
+                  <watt-menu-item>{{ t('markAsUnreadButton') }}</watt-menu-item>
+                </watt-menu>
               </vater-stack>
             </vater-stack>
-
-            <vater-stack direction="row" gap="m">
-              <watt-button
-                [disabled]="conversation.closed"
-                (click)="closeConversation()"
-                variant="secondary"
-                >{{ t('closeCaseButton') }}
-              </watt-button>
-              <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
-                <watt-icon name="moreVertical" />
-              </watt-button>
-              <watt-menu #menu>
-                <watt-menu-item>{{ t('internalNoteLabel') }}</watt-menu-item>
-                <watt-menu-item>{{ t('markAsUnreadButton') }}</watt-menu-item>
-              </watt-menu>
-            </vater-stack>
+            <hr class="watt-divider no-margin" />
           </vater-stack>
-          <hr class="watt-divider no-margin" />
 
-          <!-- Content -->
-          <vater-flex fill="both" style="">
-            <!-- Messages will go here -->
+          <!-- Content - Scrollable message area -->
+          <vater-stack
+            direction="column"
+            fill="horizontal"
+            class="conversation-messages"
+          >
             @for (message of conversation.messages; track message) {
               <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
               <dh-actor-conversation-message [message]="message" />
@@ -139,12 +183,16 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
               <dh-actor-conversation-message [message]="message" />
               <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
               <dh-actor-conversation-message [message]="message" />
-              <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
-              <dh-actor-conversation-message [message]="message" />
             }
-          </vater-flex>
+          </vater-stack>
         }
-        <form vater class="watt-space-inset-stretch-m" fill="horizontal" (ngSubmit)="sendMessage()">
+        <!-- Footer - Message input form -->
+        <form
+          vater
+          class="watt-space-inset-stretch-m conversation-footer"
+          fill="horizontal"
+          (ngSubmit)="sendMessage()"
+        >
           <dh-actor-conversation-message-form
             [loading]="sendActorConversationMessageMutation.loading()"
             [small]="true"
