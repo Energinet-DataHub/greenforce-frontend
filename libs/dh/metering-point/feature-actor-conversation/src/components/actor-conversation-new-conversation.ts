@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { TranslocoDirective } from '@jsverse/transloco';
 import {
   VaterSpacerComponent,
   VaterStackComponent,
@@ -28,7 +28,7 @@ import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import {
   DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
+  dhEnumToWattDropdownOptions, injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageFormValue } from '../types';
@@ -39,7 +39,6 @@ import {
   StartConversationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
-import { WattToastService } from '@energinet/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
@@ -117,9 +116,13 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export class DhActorConversationNewConversationComponent {
-  private readonly toastService = inject(WattToastService);
+  private readonly startConversationErrorToast = injectToast(
+    'meteringPoint.actorConversation.startConversationError'
+  );
+  private readonly startConversationToastEffect = effect(() =>
+    this.startConversationErrorToast(this.startConversationMutation.status())
+  );
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly translocoservice = inject(TranslocoService);
   startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
 
@@ -151,7 +154,7 @@ export class DhActorConversationNewConversationComponent {
     assertIsDefined(content);
     assertIsDefined(anonymous);
 
-    const result = await this.startConversationMutation.mutate({
+    await this.startConversationMutation.mutate({
       variables: {
         meteringPointIdentification: this.meteringPointId(),
         subject,
@@ -164,12 +167,5 @@ export class DhActorConversationNewConversationComponent {
     });
 
     this.closeNewConversation.emit();
-
-    if (result.error) {
-      this.toastService.open({
-        type: 'danger',
-        message: this.translocoservice.translate('meteringPoint.actorConversation.startConversationError'),
-      });
-    }
   }
 }
