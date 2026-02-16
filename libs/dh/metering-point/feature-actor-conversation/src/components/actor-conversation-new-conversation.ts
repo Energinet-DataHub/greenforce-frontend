@@ -28,7 +28,8 @@ import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import {
   DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions, injectToast,
+  dhEnumToWattDropdownOptions,
+  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageFormValue } from '../types';
