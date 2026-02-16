@@ -5,7 +5,7 @@ description: Helps with running tasks in an Nx workspace. USE WHEN the user want
 
 You can run tasks with Nx in the following way.
 
-Keep in mind that you might have to prefix things with npx/pnpx/yarn if the user doesn't have nx installed globally. Look at the package.json or lockfile to determine which package manager is in use.
+Keep in mind that you might have to prefix things with `npx`, `pnpx`, `yarn`, or `bunx` if the user doesn't have `nx` installed globally. Use the package manager indicated in `package.json#packageManager` or the lockfile to decide which prefix to use.
 
 For more details on any command, run it with `--help` (e.g. `nx run-many --help`, `nx affected --help`).
 

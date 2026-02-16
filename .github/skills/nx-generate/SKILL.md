@@ -27,8 +27,8 @@ This skill applies when the user wants to:
 
 Use the Nx CLI to discover available generators:
 
-- List all generators for a plugin: `npx nx list @nx/react`
-- View available plugins: `npx nx list`
+- List all generators for a plugin: `bunx nx list @nx/react`
+- View available plugins: `bunx nx list`
 
 This includes plugin generators (e.g., `@nx/react:library`) and local workspace generators.
 
@@ -45,7 +45,7 @@ If no suitable generator exists, you can stop using this skill. However, the bur
 Use the `--help` flag to understand available options:
 
 ```bash
-npx nx g @nx/react:library --help
+bunx nx g @nx/react:library --help
 ```
 
 Pay attention to required options, defaults that might need overriding, and options relevant to the user's request.
@@ -117,7 +117,7 @@ Before generating, examine the target area of the codebase:
 **Always run with `--dry-run` first** to verify files will be created in the correct location:
 
 ```bash
-npx nx g @nx/react:library --name=my-lib --dry-run --no-interactive
+bunx nx g @nx/react:library --name=my-lib --dry-run --no-interactive
 ```
 
 Review the output carefully. If files would be created in the wrong location, adjust your options based on what you learned from the generator source code.
