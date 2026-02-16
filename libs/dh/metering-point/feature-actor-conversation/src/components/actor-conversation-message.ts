@@ -53,7 +53,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
           <span>{{ t('receivers.' + message().senderType) }}</span>
           <span>{{ message().createdTime | wattDate: 'short' }}</span>
         </vater-stack>
-        <span>Den Grønne Strøm, Niels Pedersen</span>
+        <span>{{ message().actorName }}</span>
       </vater-stack>
       <hr class="watt-divider no-margin" />
       <span vater fill="horizontal" class="watt-space-inset-m">{{ message().content }}</span>

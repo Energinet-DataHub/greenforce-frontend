@@ -667,6 +667,7 @@ function getConversation() {
               content: 'Hej, her er et spørgsmål',
               messageType: 'USER_MESSAGE',
               createdTime: new Date(),
+              actorName: 'Sort Strøm',
             },
           ],
         },

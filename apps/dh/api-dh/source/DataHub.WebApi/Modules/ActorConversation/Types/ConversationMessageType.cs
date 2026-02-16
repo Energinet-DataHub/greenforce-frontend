@@ -13,12 +13,25 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
 [ObjectType<ConversationMessageDto>]
 public static partial class ConversationMessageDtoType
 {
+    public static async Task<string?> GetActorNameAsync(
+        [Parent] ConversationMessageDto message,
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader,
+        CancellationToken ct)
+    {
+        var actor = await dataLoader.LoadAsync(
+            (message.ActorNumber ?? string.Empty, (EicFunction)message.SenderType),
+            ct);
+        return actor?.Name.Value;
+    }
+
     static partial void Configure(
         IObjectTypeDescriptor<ConversationMessageDto> descriptor)
     {
@@ -30,7 +43,5 @@ public static partial class ConversationMessageDtoType
         descriptor.Field(f => f.MessageType);
         descriptor.Field(f => f.CreatedTime);
         descriptor.Field(f => f.SenderType);
-        descriptor.Field(f => f.UserId);
-        descriptor.Field(f => f.ActorNumber);
     }
 }
