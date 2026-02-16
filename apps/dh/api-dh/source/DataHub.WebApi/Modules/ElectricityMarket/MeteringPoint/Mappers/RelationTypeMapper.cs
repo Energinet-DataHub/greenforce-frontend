@@ -22,8 +22,8 @@ public static class RelationTypeMapper
     {
         return relationType switch
         {
-            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Technical => CustomerRelationType.Contact1,
-            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Juridical => CustomerRelationType.Contact4,
+            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Technical => CustomerRelationType.Technical,
+            DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Juridical => CustomerRelationType.Juridical,
             DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Secondary => CustomerRelationType.Secondary,
             DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Unknown => throw new InvalidOperationException("Invalid RelationType"),
         };
@@ -33,8 +33,8 @@ public static class RelationTypeMapper
     {
         return relationType switch
         {
-            Clients.ElectricityMarket.v1.CustomerRelationType.Contact1 => CustomerRelationType.Contact1,
-            Clients.ElectricityMarket.v1.CustomerRelationType.Contact4 => CustomerRelationType.Contact4,
+            Clients.ElectricityMarket.v1.CustomerRelationType.Contact1 => CustomerRelationType.Juridical,
+            Clients.ElectricityMarket.v1.CustomerRelationType.Contact4 => CustomerRelationType.Technical,
             Clients.ElectricityMarket.v1.CustomerRelationType.Secondary => CustomerRelationType.Secondary,
         };
     }

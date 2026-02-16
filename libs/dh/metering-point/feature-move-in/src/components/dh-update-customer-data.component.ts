@@ -181,7 +181,12 @@ export class DhUpdateCustomerDataComponent {
   meteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
-  isBusinessCustomer = signal<boolean>(false);
+  isBusinessCustomer = computed(
+    () =>
+      this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers.some(
+        (customer) => customer.cvr !== null
+      ) ?? false
+  );
   meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
@@ -265,21 +270,6 @@ export class DhUpdateCustomerDataComponent {
     };
   });
 
-  uniqueContacts = computed(() =>
-    this.contacts()
-      .reduce((foundContacts: Contact[], nextContact) => {
-        if (!foundContacts.some((contact) => contact.id === nextContact.id)) {
-          foundContacts.push(nextContact);
-        }
-        return foundContacts;
-      }, [])
-      .filter(
-        (contact) =>
-          contact.legalContact ||
-          contact.relationType === ElectricityMarketViewCustomerRelationType.Secondary
-      )
-  );
-
   businessCustomerDetailsForm: FormGroup<BusinessCustomerFormGroup> =
     this.formBuilder.group<BusinessCustomerFormGroup>({
       companyName: this.formBuilder.control<string>('', Validators.required),
@@ -304,16 +294,16 @@ export class DhUpdateCustomerDataComponent {
       contactSameAsCustomer: this.formBuilder.control<boolean>(true),
       contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
         name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
-        title: this.formBuilder.control<string>(''),
         phone: this.formBuilder.control<string>(''),
         mobile: this.formBuilder.control<string>(''),
+        attention: this.formBuilder.control<string>(''),
         email: this.formBuilder.control<string>('', Validators.email),
       }),
     });
 
   legalAddressDetailsForm: FormGroup<AddressDetailsFormType> =
     this.formBuilder.group<AddressDetailsFormType>({
-      addressSameAsMeteringPoint: this.formBuilder.control<boolean>(true),
+      addressSameAsInstallation: this.formBuilder.control<boolean>(true),
       addressGroup: this.formBuilder.group({
         countryCode: this.formBuilder.control<string>('', Validators.required),
         streetName: this.formBuilder.control<string>('', Validators.required),
@@ -328,7 +318,6 @@ export class DhUpdateCustomerDataComponent {
           dhMunicipalityCodeValidator(),
           Validators.required,
         ]),
-        postalDistrict: this.formBuilder.control<string>(''),
         postBox: this.formBuilder.control<string>(''),
         darReference: this.formBuilder.control<string>(''),
       }),
@@ -340,7 +329,7 @@ export class DhUpdateCustomerDataComponent {
       contactSameAsCustomer: this.formBuilder.control<boolean>(true),
       contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
         name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
-        title: this.formBuilder.control<string>(''),
+        attention: this.formBuilder.control<string>(''),
         phone: this.formBuilder.control<string>(''),
         mobile: this.formBuilder.control<string>(''),
         email: this.formBuilder.control<string>('', Validators.email),
@@ -349,7 +338,7 @@ export class DhUpdateCustomerDataComponent {
 
   technicalAddressDetailsForm: FormGroup<AddressDetailsFormType> =
     this.formBuilder.group<AddressDetailsFormType>({
-      addressSameAsMeteringPoint: this.formBuilder.control<boolean>(true),
+      addressSameAsInstallation: this.formBuilder.control<boolean>(true),
       addressGroup: this.formBuilder.group({
         countryCode: this.formBuilder.control<string>('', Validators.required),
         streetName: this.formBuilder.control<string>('', Validators.required),
@@ -364,7 +353,6 @@ export class DhUpdateCustomerDataComponent {
           dhMunicipalityCodeValidator(),
           Validators.required,
         ]),
-        postalDistrict: this.formBuilder.control<string>(''),
         postBox: this.formBuilder.control<string>(''),
         darReference: this.formBuilder.control<string>(''),
       }),
@@ -386,10 +374,10 @@ export class DhUpdateCustomerDataComponent {
   );
 
   private legalAddressSameAsMeteringPoint = dhFormControlToSignal(
-    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint
+    this.legalAddressDetailsForm.controls.addressSameAsInstallation
   );
   private technicalAddressSameAsMeteringPoint = dhFormControlToSignal(
-    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint
+    this.technicalAddressDetailsForm.controls.addressSameAsInstallation
   );
 
   updateCustomerDataForm: FormGroup<CustomerCharacteristicsFormType> = this.formBuilder.group({
@@ -502,13 +490,11 @@ export class DhUpdateCustomerDataComponent {
       untracked(() => {
         if (customer) {
           if (customer.cvr) {
-            this.isBusinessCustomer.set(true);
             this.businessCustomerDetailsForm.patchValue({
               companyName: customer.name ?? '',
               cvr: customer.cvr ?? '',
             });
           } else {
-            this.isBusinessCustomer.set(false);
             this.privateCustomerDetailsForm.patchValue({
               customerName1: customer.name ?? '',
             });
@@ -516,13 +502,13 @@ export class DhUpdateCustomerDataComponent {
         }
 
         const legalAddressSame = this.areAddressesEqual(installationAddress, legalContactAddr);
-        this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.setValue(legalAddressSame);
+        this.legalAddressDetailsForm.controls.addressSameAsInstallation.setValue(legalAddressSame);
 
         const technicalAddressSame = this.areAddressesEqual(
           installationAddress,
           technicalContactAddr
         );
-        this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.setValue(
+        this.technicalAddressDetailsForm.controls.addressSameAsInstallation.setValue(
           technicalAddressSame
         );
       });

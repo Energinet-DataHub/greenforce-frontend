@@ -155,8 +155,8 @@ public class MeteringPointMetadataMapperTests
         var commercialRelationResult = commercialRelation.MapToDto(MeteringPointId);
 
         // Assert
-        var legalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact4);
-        var technicalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact1);
+        var legalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Juridical);
+        var technicalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Technical);
 
         // CommercialRelation
         Assert.Multiple(
@@ -178,7 +178,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(CompanyName, legalCustomerResult.Name),
             () => Assert.Equal(CompanyCvr, legalCustomerResult.Cvr),
             () => Assert.False(legalCustomerResult.IsProtectedName),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact4, legalCustomerResult.RelationType),
+            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Juridical, legalCustomerResult.RelationType),
             () => Assert.NotEmpty(legalCustomerResult.LegalContact!.Id),
             () => Assert.Equal(LegalContactName, legalCustomerResult.LegalContact!.Name),
             () => Assert.Equal(LegalContactEmail, legalCustomerResult.LegalContact!.Email),
@@ -205,7 +205,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(CompanyNameTwo, technicalCustomerResult.Name),
             () => Assert.Equal(CompanyCvrTwo, technicalCustomerResult.Cvr),
             () => Assert.True(technicalCustomerResult.IsProtectedName),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact1, technicalCustomerResult.RelationType),
+            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Technical, technicalCustomerResult.RelationType),
             () => Assert.NotEmpty(technicalCustomerResult.TechnicalContact!.Id),
             () => Assert.Equal(TechnicalContactName, technicalCustomerResult.TechnicalContact!.Name),
             () => Assert.Equal(TechnicalContactEmail, technicalCustomerResult.TechnicalContact!.Email),
@@ -467,8 +467,8 @@ public class MeteringPointMetadataMapperTests
         var commercialRelationResult = commercialRelation.MapToDto();
 
         // Assert
-        var legalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact4);
-        var technicalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact1);
+        var legalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Juridical);
+        var technicalCustomerResult = commercialRelationResult.ActiveEnergySupplyPeriod!.Customers.Single(c => c.RelationType == WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Technical);
 
         // CommercialRelation
         Assert.Multiple(
@@ -490,7 +490,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(CompanyName, legalCustomerResult.Name),
             () => Assert.Equal(CompanyCvr, legalCustomerResult.Cvr),
             () => Assert.False(legalCustomerResult.IsProtectedName),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact4, legalCustomerResult.RelationType),
+            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Juridical, legalCustomerResult.RelationType),
             () => Assert.Equal(legalContact.LegalContact!.Id.ToString(), legalCustomerResult.LegalContact!.Id),
             () => Assert.Equal(LegalContactName, legalCustomerResult.LegalContact!.Name),
             () => Assert.Equal(LegalContactEmail, legalCustomerResult.LegalContact!.Email),
@@ -517,7 +517,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(CompanyNameTwo, technicalCustomerResult.Name),
             () => Assert.Equal(CompanyCvrTwo, technicalCustomerResult.Cvr),
             () => Assert.True(technicalCustomerResult.IsProtectedName),
-            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Contact1, technicalCustomerResult.RelationType),
+            () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.CustomerRelationType.Technical, technicalCustomerResult.RelationType),
             () => Assert.Equal(technicalContact.TechnicalContact!.Id.ToString(), technicalCustomerResult.TechnicalContact!.Id),
             () => Assert.Equal(TechnicalContactName, technicalCustomerResult.TechnicalContact!.Name),
             () => Assert.Equal(TechnicalContactEmail, technicalCustomerResult.TechnicalContact!.Email),

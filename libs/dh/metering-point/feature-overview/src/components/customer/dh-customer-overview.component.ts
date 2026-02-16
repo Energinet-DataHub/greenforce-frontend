@@ -129,7 +129,7 @@ export class DhCustomerOverviewComponent {
       }, [])
       .filter(
         (x) =>
-          (x.relationType === ElectricityMarketViewCustomerRelationType.Contact4 &&
+          (x.relationType === ElectricityMarketViewCustomerRelationType.Juridical &&
             x.name !== '') ||
           (x.relationType === ElectricityMarketViewCustomerRelationType.Secondary && x.name !== '')
       )

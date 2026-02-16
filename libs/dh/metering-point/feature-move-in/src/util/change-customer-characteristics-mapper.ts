@@ -47,7 +47,7 @@ function mapUsagePointLocation(
     protectedAddress: address.addressProtection ?? null,
 
     contactName: contact.name || null,
-    attention: contact.title || null,
+    attention: contact.attention || null,
     phone: contact.phone || null,
     mobile: contact.mobile || null,
     email: contact.email || null,

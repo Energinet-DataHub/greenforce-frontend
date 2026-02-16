@@ -46,14 +46,14 @@ export type ContactDetailsFormType = {
 
 export type ContactDetailsFormGroup = {
   name: FormControl<string>;
-  title: FormControl<string>;
+  attention: FormControl<string>;
   phone: FormControl<string>;
   mobile: FormControl<string>;
   email: FormControl<string>;
 };
 
 export type AddressDetailsFormType = {
-  addressSameAsMeteringPoint: FormControl<boolean>;
+  addressSameAsInstallation: FormControl<boolean>;
   addressGroup: FormGroup<AddressGroup>;
   addressProtection: FormControl<boolean>;
 };
@@ -84,7 +84,6 @@ export type AddressGroup = {
   countryCode: FormControl<string>;
   streetCode: FormControl<string>;
   citySubDivisionName: FormControl<string>;
-  postalDistrict: FormControl<string>;
   postBox: FormControl<string>;
   municipalityCode: FormControl<string>;
   darReference: FormControl<string>;
@@ -117,6 +116,9 @@ export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>
 
 type CommercialRelation = NonNullable<MeteringPointDetails['commercialRelation']>;
 type ActiveEnergySupplyPeriod = NonNullable<CommercialRelation['activeEnergySupplyPeriod']>;
+type Metadata = NonNullable<MeteringPointDetails['metadata']>;
+
+export type InstallationAddress = Metadata['installationAddress'];
 
 export type EnergySupplier = {
   gln?: CommercialRelation['energySupplier'];
@@ -124,4 +126,8 @@ export type EnergySupplier = {
   validFrom?: ActiveEnergySupplyPeriod['validFrom'];
 };
 
-export type Contact = ActiveEnergySupplyPeriod['customers'][0];
+type CustomerWithContacts = ActiveEnergySupplyPeriod['customers'][0];
+export type Customer = Omit<CustomerWithContacts, 'legalContact' | 'technicalContact'>;
+export type Contact =
+  | CustomerWithContacts['legalContact']
+  | CustomerWithContacts['technicalContact'];
