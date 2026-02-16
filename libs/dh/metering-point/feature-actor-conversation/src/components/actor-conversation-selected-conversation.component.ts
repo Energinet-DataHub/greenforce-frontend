@@ -149,13 +149,6 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
           >
             @for (message of conversation.messages; track message) {
               <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
-              <dh-actor-conversation-message [message]="message" />
-              <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
-              <dh-actor-conversation-message [message]="message" />
-              <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
-              <dh-actor-conversation-message [message]="message" />
-              <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
-              <dh-actor-conversation-message [message]="message" />
             }
           </vater-stack>
         }

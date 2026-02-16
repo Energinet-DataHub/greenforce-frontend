@@ -117,27 +117,6 @@ import { dayjs } from '@energinet/watt/core/date';
                   (click)="selectConversation.emit(conversationItem.id)"
                 />
               </li>
-              <li>
-                <dh-actor-conversation-list-item
-                  [conversation]="conversationItem"
-                  [selected]="selectedConversationId() === conversationItem.id"
-                  (click)="selectConversation.emit(conversationItem.id)"
-                />
-              </li>
-              <li>
-                <dh-actor-conversation-list-item
-                  [conversation]="conversationItem"
-                  [selected]="selectedConversationId() === conversationItem.id"
-                  (click)="selectConversation.emit(conversationItem.id)"
-                />
-              </li>
-              <li>
-                <dh-actor-conversation-list-item
-                  [conversation]="conversationItem"
-                  [selected]="selectedConversationId() === conversationItem.id"
-                  (click)="selectConversation.emit(conversationItem.id)"
-                />
-              </li>
             }
           </ul>
         </dh-result>
