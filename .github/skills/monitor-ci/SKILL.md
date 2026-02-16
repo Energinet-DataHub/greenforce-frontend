@@ -80,7 +80,7 @@ Parse any overrides from `$ARGUMENTS` and merge with defaults.
 
 - **To continue monitoring:** Just re-run `/monitor-ci` (context is preserved)
 - **To start fresh:** Use `/monitor-ci --fresh` to ignore previous context
-- **For a completely clean slate:** End the current agent session and start a new one before running `/monitor-ci` again.
+- **For a completely clean slate:** End the current agent session and start a new one
 
 ## Default Behaviors by Status
 
