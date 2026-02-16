@@ -69,39 +69,12 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
     :host {
       display: flex;
       flex-direction: column;
-      height: 100%;
       min-height: 0;
       overflow: hidden;
     }
 
-    dh-result {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
+    .no-min-height {
       min-height: 0;
-      overflow: hidden;
-    }
-
-    .conversation-container {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow: hidden;
-    }
-
-    .conversation-header {
-      flex-shrink: 0;
-    }
-
-    .conversation-messages {
-      flex: 1 1 auto;
-      overflow-y: auto;
-      min-height: 0;
-    }
-
-    .conversation-footer {
-      flex-shrink: 0;
     }
 
     .no-margin {
@@ -113,12 +86,11 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
       <vater-stack
         direction="column"
         fill="both"
-        class="conversation-container"
         *transloco="let t; prefix: 'meteringPoint.actorConversation'"
       >
         @if (conversation(); as conversation) {
           <!-- Header -->
-          <vater-stack fill="horizontal" class="conversation-header">
+          <vater-stack fill="horizontal">
             <vater-stack
               fill="horizontal"
               direction="row"
@@ -154,7 +126,7 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
                   [disabled]="conversation.closed"
                   (click)="closeConversation()"
                   variant="secondary"
-                  >{{ t('closeCaseButton') }}
+                >{{ t('closeCaseButton') }}
                 </watt-button>
                 <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
                   <watt-icon name="moreVertical" />
@@ -172,7 +144,8 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
           <vater-stack
             direction="column"
             fill="horizontal"
-            class="conversation-messages"
+            scrollable
+            class="no-min-height"
           >
             @for (message of conversation.messages; track message) {
               <dh-actor-conversation-message [message]="message" [isFromCurrentUser]="true" />
@@ -189,7 +162,7 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
         <!-- Footer - Message input form -->
         <form
           vater
-          class="watt-space-inset-stretch-m conversation-footer"
+          class="watt-space-inset-stretch-m"
           fill="horizontal"
           (ngSubmit)="sendMessage()"
         >
