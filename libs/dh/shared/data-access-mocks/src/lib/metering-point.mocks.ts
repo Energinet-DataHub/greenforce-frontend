@@ -669,7 +669,7 @@ function getConversation() {
               createdTime: new Date(),
               actorName: 'Sort Strøm',
               userName: 'Niels Pedersen',
-              userId: '123456'
+              userId: '123456',
             },
           ],
         },
