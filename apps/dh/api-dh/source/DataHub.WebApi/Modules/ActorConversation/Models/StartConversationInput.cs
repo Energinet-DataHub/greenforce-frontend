@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -14,21 +14,19 @@
 
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
-namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
+namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Models;
 
-[ObjectType<ConversationMessageDto>]
-public static partial class ConversationMessageDtoType
+public class StartConversationInput
 {
-    static partial void Configure(
-        IObjectTypeDescriptor<ConversationMessageDto> descriptor)
-    {
-        descriptor
-            .Name("ConversationMessage")
-            .BindFieldsExplicitly();
+    public required ConversationSubject Subject { get; set; }
 
-        descriptor.Field(f => f.Content);
-        descriptor.Field(f => f.MessageType);
-        descriptor.Field(f => f.CreatedTime);
-        descriptor.Field(f => f.SenderType);
-    }
+    public required string MeteringPointIdentification { get; set; }
+
+    public string? InternalNote { get; set; }
+
+    public required string Content { get; set; }
+
+    public required bool Anonymous { get; set; }
+
+    public required ActorType Receiver { get; set; }
 }

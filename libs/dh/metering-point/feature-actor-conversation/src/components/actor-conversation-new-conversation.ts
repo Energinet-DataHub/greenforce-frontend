@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import {
   VaterSpacerComponent,
@@ -31,9 +31,17 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MessageFormValue, StartConversationFormValue } from '../types';
-import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
+import { MessageFormValue } from '../types';
+import {
+  ActorType,
+  ConversationSubject,
+  GetConversationsDocument,
+  StartConversationDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
+import { WattToastService } from '@energinet/watt/toast';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -58,7 +66,7 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
   template: `
     <form
       [formGroup]="newConversationForm"
-      (ngSubmit)="send()"
+      (ngSubmit)="startConversation()"
       vater-stack
       fill="both"
       align="start"
@@ -102,16 +110,19 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
       <dh-actor-conversation-message-form
         vater
         fill="horizontal"
+        [loading]="startConversationMutation.loading()"
         [formControl]="newConversationForm.controls.message"
       />
     </form>
   `,
 })
 export class DhActorConversationNewConversationComponent {
-  closeNewConversation = output();
-  startConversation = output<StartConversationFormValue>();
-
+  private readonly toastService = inject(WattToastService);
   private readonly fb = inject(NonNullableFormBuilder);
+  startConversationMutation = mutation(StartConversationDocument);
+  closeNewConversation = output();
+
+  meteringPointId = input.required<string>();
 
   newConversationForm = this.fb.group({
     subject: this.fb.control<ConversationSubject>(
@@ -120,26 +131,49 @@ export class DhActorConversationNewConversationComponent {
     ),
     receiver: this.fb.control<ActorType>(ActorType.Energinet, Validators.required),
     internalNote: this.fb.control<string | null>(null),
-    message: this.fb.control<MessageFormValue>({ message: '', anonymous: false }, (control) =>
-      control.value.message ? null : { required: true }
+    message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, (control) =>
+      control.value.content ? null : { required: true }
     ),
   });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
   receivers = dhEnumToWattDropdownOptions(ActorType);
 
-  protected send() {
+  async startConversation() {
     if (this.newConversationForm.invalid) {
       return;
     }
 
-    const formControls = this.newConversationForm.controls;
-    const formValues: StartConversationFormValue = {
-      subject: formControls.subject.value,
-      content: formControls.message.value.message as string,
-      anonymous: formControls.message.value.anonymous as boolean,
-      receiver: formControls.receiver.value,
-      internalNote: formControls.internalNote.value ?? undefined,
-    };
-    this.startConversation.emit(formValues);
+    const { subject, receiver, internalNote, message } = this.newConversationForm.getRawValue();
+
+    const { content, anonymous } = message ?? {};
+
+    assertIsDefined(content);
+    assertIsDefined(anonymous);
+
+    const result = await this.startConversationMutation.mutate({
+      variables: {
+        meteringPointIdentification: this.meteringPointId(),
+        subject,
+        internalNote,
+        content,
+        anonymous,
+        receiver,
+      },
+      refetchQueries: [GetConversationsDocument],
+    });
+
+    this.closeNewConversation.emit();
+
+    if (result.error) {
+      this.toastService.open({
+        type: 'danger',
+        message: 'Error',
+      });
+    } else {
+      this.toastService.open({
+        type: 'success',
+        message: content,
+      });
+    }
   }
 }

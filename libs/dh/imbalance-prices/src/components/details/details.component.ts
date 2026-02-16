@@ -25,7 +25,6 @@ import { dayjs, WattDatePipe, wattFormatDate } from '@energinet/watt/date';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
-import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import {
@@ -50,7 +49,6 @@ import { DhTableDayViewComponent } from './table-day-view/dh-table-day-view.comp
     WATT_DRAWER,
     WATT_EXPANDABLE_CARD_COMPONENTS,
     WattDatePipe,
-    WattSpinnerComponent,
     DhDownloadButtonComponent,
     DhEmDashFallbackPipe,
     DhResultComponent,

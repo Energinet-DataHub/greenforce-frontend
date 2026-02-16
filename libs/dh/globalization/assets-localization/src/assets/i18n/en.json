@@ -29,6 +29,7 @@
   "notificationsCenter": {
     "headline": "Notifications",
     "noNotifications": "No notifications",
+    "markAllAsRead": "Mark all as read",
     "notification": {
       "markAsRead": "Mark as read",
       "BalanceResponsibilityActorUnrecognized": {

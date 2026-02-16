@@ -656,6 +656,7 @@ function getConversation() {
         conversation: {
           __typename: 'Conversation',
           displayId: '00001',
+          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           internalNote: 'CS00123645',
           subject: 'QUESTION_FOR_ENERGINET',
           closed: false,
