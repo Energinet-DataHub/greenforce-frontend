@@ -412,7 +412,7 @@ type ConversationInfo {
 "Conversation message"
 type ConversationMessage {
   actorName: String
-  userName: String
+  userName: String!
   "Message content"
   content: String!
   messageType: MessageType!
