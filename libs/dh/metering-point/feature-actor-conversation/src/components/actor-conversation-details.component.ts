@@ -48,7 +48,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
 
 @Component({
-  selector: 'dh-actor-conversation-selected-conversation',
+  selector: 'dh-actor-conversation-details',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     WattIconComponent,
@@ -163,7 +163,7 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
     </dh-result>
   `,
 })
-export class DhActorConversationSelectedConversationComponent {
+export class DhActorConversationDetailsComponent {
   private readonly authService = inject(MsalService);
   private readonly actorStorage = inject(DhActorStorage);
   private readonly fb = inject(NonNullableFormBuilder);
