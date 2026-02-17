@@ -118,6 +118,130 @@ public static partial class ActorConversationOperations
 
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
+    public static async Task<bool> UpdateInternalConversationNoteAsync(
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        UpdateInternalConversationNoteInput updateInternalConversationNoteInput,
+        CancellationToken ct)
+    {
+        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+        var userId = user.GetUserId();
+
+        // TODO: What auth request do we want to use
+        var authRequest = new AddActorConversationMessageRequest
+        {
+            ActorNumber = actorNumber,
+            UserId = userId,
+        };
+
+        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
+
+        if (signature.Signature == null ||
+            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        {
+            throw new InvalidOperationException("User is not authorized to update internal conversation note.");
+        }
+
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+
+        await authClient.ApiUpdateInternalNoteAsync(
+            new UpdateInternalNoteRequest
+            {
+                ConversationId = updateInternalConversationNoteInput.ConversationId,
+                InternalNote = updateInternalConversationNoteInput.InternalNote,
+            },
+            ct);
+
+        return true;
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:actor-conversation"])]
+    public static async Task<bool> MarkConversationReadAsync(
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        Guid conversationId,
+        CancellationToken ct)
+    {
+        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+        var userId = user.GetUserId();
+
+        // TODO: USe another authRequest
+        var authRequest = new AddActorConversationMessageRequest
+        {
+            ActorNumber = actorNumber,
+            UserId = userId,
+        };
+
+        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
+
+        if (signature.Signature == null ||
+            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        {
+            throw new InvalidOperationException("User is not authorized to mark conversation read.");
+        }
+
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+
+        await authClient.ApiMarkConversationReadAsync(
+            new MarkConversationReadRequest
+            {
+                ConversationId = conversationId,
+            },
+            ct);
+
+        return true;
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:actor-conversation"])]
+    public static async Task<bool> MarkConversationUnReadAsync(
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        Guid conversationId,
+        CancellationToken ct)
+    {
+        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+        var userId = user.GetUserId();
+
+        // TODO: USe another authRequest
+        var authRequest = new AddActorConversationMessageRequest
+        {
+            ActorNumber = actorNumber,
+            UserId = userId,
+        };
+
+        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
+
+        if (signature.Signature == null ||
+            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        {
+            throw new InvalidOperationException("User is not authorized to mark conversation unread.");
+        }
+
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+
+        await authClient.ApiMarkConversationUnreadAsync(
+            new MarkConversationUnreadRequest
+            {
+                ConversationId = conversationId,
+            },
+            ct);
+
+        return true;
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> CloseConversationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
