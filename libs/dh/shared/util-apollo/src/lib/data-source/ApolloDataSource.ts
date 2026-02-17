@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { OperationVariables } from '@apollo/client/core';
-import { TypedDocumentNode } from 'apollo-angular';
+import { OperationVariables, TypedDocumentNode } from '@apollo/client/core';
 import {
   BehaviorSubject,
   connectable,

@@ -35,7 +35,8 @@ export type SelectionMarketParticipant = ResultOf<
   typeof GetSelectionMarketParticipantsDocument
 >['selectionMarketParticipants'][0];
 
-const meteringPointSubPathRegex = /^\/metering-point\/\d+\//;
+const em1MeteringPointSubPathRegex = /^\/metering-point\/\d+\//;
+const em2MeteringPointSubPathRegex = /^\/metering-point\/[a-zA-Z0-9]{10,}\//;
 
 @Component({
   selector: 'dh-selected-actor',
@@ -107,7 +108,7 @@ export class DhSelectedActorComponent {
   selectMarketParticipant = async (marketParticipant: SelectionMarketParticipant) => {
     this.actorStorage.setSelectedActor(marketParticipant);
 
-    if (meteringPointSubPathRegex.test(this.router.url)) {
+    if (this.isMeteringPointSubPath(this.router.url)) {
       await this.router.navigate(['/metering-point/search']);
     }
 
@@ -116,4 +117,7 @@ export class DhSelectedActorComponent {
 
   isMarketParticipantSelected = (marketParticipant: SelectionMarketParticipant) =>
     marketParticipant.id === this.actorStorage.getSelectedActorId();
+
+  private isMeteringPointSubPath = (url: string) =>
+    em1MeteringPointSubPathRegex.test(url) || em2MeteringPointSubPathRegex.test(url);
 }
