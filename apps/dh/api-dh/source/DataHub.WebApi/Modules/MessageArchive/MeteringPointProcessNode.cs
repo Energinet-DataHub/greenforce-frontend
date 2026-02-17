@@ -190,9 +190,6 @@ public static partial class MeteringPointProcessNode
     /// and maps it to a known ProcessStepType enum value.
     /// Format: {REASON_CODE}_V{VERSION}_STEP_{SEQUENCE}
     /// Example: ENDOFSUPPLY_V1_STEP_1
-    ///
-    /// If the generated identifier doesn't match any known enum value, returns ProcessStepType.UNKNOWN.
-    /// This allows new processes to work without breaking the application.
     /// </summary>
     private static string GetStepIdentifier(string reasonCode, WorkflowStepInstanceDto step)
     {
