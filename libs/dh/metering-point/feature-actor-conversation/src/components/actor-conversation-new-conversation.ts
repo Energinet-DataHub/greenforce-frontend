@@ -55,6 +55,11 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     DhActorConversationMessageFormComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: `
+    .header-background {
+      background-color: var(--bg-card);
+    }
+  `,
   template: `
     <form
       [formGroup]="newConversationForm"
@@ -64,11 +69,13 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <vater-stack
+        sticky="top"
         direction="row"
         fill="horizontal"
         align="center"
         offset="m"
         justify="space-between"
+        class="header-background"
       >
         <h3 watt-heading>{{ t('newCaseTitle') }}</h3>
         <watt-button (click)="closeNewConversation.emit()" variant="icon" icon="close" />
