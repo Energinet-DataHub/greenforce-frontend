@@ -53,7 +53,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
     }
   `,
   template: `
-    <watt-card vater contain scrollable fill="vertical">
+    <watt-card vater contain fill="vertical">
       <vater-grid
         inset="0"
         columns="minmax(min-content, 1fr) 3fr"
