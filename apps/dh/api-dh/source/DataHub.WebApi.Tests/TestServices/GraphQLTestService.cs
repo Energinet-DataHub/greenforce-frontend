@@ -29,6 +29,7 @@ using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
+using Energinet.DataHub.WebApi.Registration;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Http;
