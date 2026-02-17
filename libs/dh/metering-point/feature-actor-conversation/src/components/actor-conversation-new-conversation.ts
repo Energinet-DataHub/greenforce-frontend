@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { VATER } from '@energinet/watt/vater';
+import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattHeadingComponent } from '@energinet/watt/heading';
@@ -52,7 +52,6 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     WattTextFieldComponent,
     DhDropdownTranslatorDirective,
     VaterUtilityDirective,
-    VaterSpacerComponent,
     DhActorConversationMessageFormComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

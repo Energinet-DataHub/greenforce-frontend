@@ -16,14 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { VATER } from '@energinet/watt/vater';
-import { WattToastService } from '@energinet/watt/toast';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  ConversationSubject,
-  StartConversationDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { VATER, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetConversationsDocument, } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
 import { ActorConversationState } from '../types';
@@ -58,7 +54,12 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
   `,
   template: `
     <watt-card vater contain scrollable fill="vertical">
-      <vater-grid inset="0" columns="minmax(min-content, 1fr) 3fr" gap="dividers" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+      <vater-grid
+        inset="0"
+        columns="minmax(min-content, 1fr) 3fr"
+        gap="dividers"
+        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+      >
         <dh-actor-conversation-list
           vater
           scrollable

@@ -18,16 +18,13 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { VATER } from '@energinet/watt/vater';
+import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
 import { Conversation } from '../types';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { QueryResult } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  GetConversationsQuery,
-  GetConversationsQueryVariables,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetConversationsQuery, GetConversationsQueryVariables, } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { dayjs } from '@energinet/watt/core/date';
 
