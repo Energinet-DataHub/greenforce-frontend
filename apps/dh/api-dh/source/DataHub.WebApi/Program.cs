@@ -28,6 +28,7 @@ using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
 using OpenTelemetry.Trace;
+using EicFunction = Energinet.DataHub.WebApi.Modules.Common.Models.EicFunction;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -96,9 +97,9 @@ services.AddJwtBearerAuthenticationForWebApp(configuration);
 services
     .AddAuthorizationBuilder()
     .AddPolicy("fas", policy => policy.RequireClaim("multitenancy", "true"))
-    .AddPolicy(nameof(EicFunction.EnergySupplier), policy =>
+    .AddPolicy(EicFunction.EnergySupplier.Name, policy =>
         policy.RequireAssertion(context =>
-            context.User.GetMarketParticipantMarketRole() == nameof(EicFunction.EnergySupplier)));
+            context.User.GetMarketParticipantMarketRole() == EicFunction.EnergySupplier.Name));
 
 if (environment.IsDevelopment())
 {
