@@ -30,7 +30,6 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-related-metering-points',
@@ -179,15 +178,12 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
   `,
 })
 export class DhRelatedMeteringPointsComponent {
-  private readonly environment = inject(dhAppEnvironmentToken);
-
   meteringPointIdentification = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
   query = query(GetRelatedMeteringPointsByIdDocument, () => ({
     variables: {
       meteringPointIdentification: this.meteringPointIdentification(),
-      environment: this.environment.current,
       searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
     },
   }));

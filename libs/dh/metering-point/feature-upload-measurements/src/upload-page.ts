@@ -50,7 +50,6 @@ import {
   dhMakeFormControl,
   injectRelativeNavigate,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
@@ -194,12 +193,10 @@ export class DhUploadMeasurementsPage {
   private navigate = injectRelativeNavigate();
   private measurements = inject(DhUploadMeasurementsService);
   private transloco = inject(TranslocoService);
-  private environment = inject(dhAppEnvironmentToken);
   private meteringPointQuery = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
     fetchPolicy: 'cache-only',
     variables: {
       meteringPointId: this.meteringPointId(),
-      environment: this.environment.current,
       searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
     },
   }));

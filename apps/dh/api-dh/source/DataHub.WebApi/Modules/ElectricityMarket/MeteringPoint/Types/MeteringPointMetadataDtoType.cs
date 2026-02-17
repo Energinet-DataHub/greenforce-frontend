@@ -15,7 +15,6 @@
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using Microsoft.FeatureManagement;
 
@@ -54,7 +53,6 @@ public static partial class MeteringPointMetadataDtoType
     }
 
     public static async Task<string?> GetInternalMeteringPointParentIdAsync(
-        string? environment,
         bool? searchMigratedMeteringPoints,
         [Parent] MeteringPointMetadataDto meteringPointMetadata,
         CancellationToken ct,
@@ -69,7 +67,7 @@ public static partial class MeteringPointMetadataDtoType
             return null;
         }
 
-        var meteringPoint = await MeteringPointNode.GetMeteringPointAsync(meteringPointMetadata.ParentMeteringPoint, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
+        var meteringPoint = await MeteringPointNode.GetMeteringPointAsync(meteringPointMetadata.ParentMeteringPoint, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
 
         return meteringPoint?.Id;
     }
