@@ -27,7 +27,7 @@ public static partial class ConversationMessageDtoType
         CancellationToken ct)
     {
         var actor = await dataLoader.LoadAsync(
-            (message.ActorNumber ?? string.Empty, (EicFunction)message.SenderType),
+            (message.ActorNumber ?? string.Empty, MapActorTypeToEicFunction(message.SenderType)),
             ct);
         return actor?.Name.Value;
     }
@@ -59,5 +59,16 @@ public static partial class ConversationMessageDtoType
         descriptor.Field(f => f.CreatedTime);
         descriptor.Field(f => f.SenderType);
         descriptor.Field(f => f.UserId);
+    }
+
+    private static EicFunction MapActorTypeToEicFunction(ActorType actorType)
+    {
+        return actorType switch
+        {
+            ActorType.EnergySupplier => EicFunction.EnergySupplier,
+            ActorType.Energinet => EicFunction.DataHubAdministrator,
+            ActorType.GridAccessProvider => EicFunction.GridAccessProvider,
+            _ => throw new ArgumentOutOfRangeException(nameof(actorType), actorType, "Unknown ActorType"),
+        };
     }
 }
