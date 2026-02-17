@@ -27,8 +27,8 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
 import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
-import { DhActorConversationSelectedConversationComponent } from './actor-conversation-selected-conversation.component';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { DhActorConversationDetailsComponent } from './actor-conversation-details.component';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -43,8 +43,8 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
-    DhActorConversationSelectedConversationComponent,
     WattSpinnerComponent,
+    DhActorConversationDetailsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -102,7 +102,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
             }
             @case ('conversationSelected') {
               @if (selectedConversationId(); as conversationId) {
-                <dh-actor-conversation-selected-conversation
+                <dh-actor-conversation-details
                   vater
                   fill="both"
                   [meteringPointId]="meteringPointId()"

@@ -33,7 +33,6 @@ import {
 import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { MessageFormValue } from '../types';
-import { JsonPipe } from '@angular/common';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -46,9 +45,10 @@ import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { MsalService } from '@azure/msal-angular';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { DhActorConversationMessageComponent } from './actor-conversation-message';
 
 @Component({
-  selector: 'dh-actor-conversation-selected-conversation',
+  selector: 'dh-actor-conversation-details',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     WattIconComponent,
@@ -59,92 +59,111 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     WattMenuItemComponent,
     WattMenuTriggerDirective,
     VaterUtilityDirective,
-    VaterFlexComponent,
     TranslocoDirective,
-    JsonPipe,
     ReactiveFormsModule,
     DhActorConversationMessageFormComponent,
     FormsModule,
     DhResultComponent,
+    DhActorConversationMessageComponent,
+    VaterFlexComponent,
   ],
   styles: `
     .no-margin {
       margin: 0;
     }
+
+    .sticky-background {
+      background-color: var(--bg-card);
+    }
   `,
   template: `
     <dh-result vater fill="vertical" [query]="conversationQuery">
-      <vater-stack fill="both" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+      <vater-flex
+        direction="column"
+        fill="both"
+        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+      >
         @if (conversation(); as conversation) {
           <!-- Header -->
-          <vater-stack
-            direction="row"
-            fill="horizontal"
-            justify="space-between"
-            class="watt-space-inset-stretch-m"
-          >
-            <vater-stack gap="s" align="start">
-              <vater-stack direction="row" gap="xs">
-                <span class="watt-text-s">Sort Strøm(MOCK)</span>
-                <watt-icon name="right" size="xs" />
-                <span class="watt-text-s">Netvirksomhed(MOCK)</span>
+          <vater-stack fill="horizontal" sticky="top" class="sticky-background">
+            <vater-stack
+              fill="horizontal"
+              direction="row"
+              justify="space-between"
+              class="watt-space-inset-stretch-m"
+            >
+              <vater-stack gap="s" align="start">
+                <vater-stack direction="row" gap="xs">
+                  <span class="watt-text-s">Sort Strøm(MOCK)</span>
+                  <watt-icon name="right" size="xs" />
+                  <span class="watt-text-s">Netvirksomhed(MOCK)</span>
+                </vater-stack>
+                <vater-stack direction="row" gap="s">
+                  <h3 class="no-margin">{{ t('subjects.' + conversation.subject) }}</h3>
+                  @if (conversation.closed) {
+                    <watt-badge type="neutral">{{ t('closed') }}</watt-badge>
+                  }
+                </vater-stack>
+                <vater-stack direction="row" gap="m">
+                  <vater-stack direction="row" gap="xs">
+                    <label>ID</label>
+                    <span class="watt-text-s">{{ conversation.displayId }}</span>
+                  </vater-stack>
+                  <vater-stack direction="row" gap="xs">
+                    <label>{{ t('internalNoteLabel') }}</label>
+                    <span class="watt-text-s">{{ conversation.internalNote }}</span>
+                  </vater-stack>
+                </vater-stack>
               </vater-stack>
-              <vater-stack direction="row" gap="s">
-                <h3 class="no-margin">{{ t('subjects.' + conversation.subject) }}</h3>
-                @if (conversation.closed) {
-                  <watt-badge type="neutral">{{ t('closed') }}</watt-badge>
-                }
-              </vater-stack>
+
               <vater-stack direction="row" gap="m">
-                <vater-stack direction="row" gap="xs">
-                  <label>ID</label>
-                  <span class="watt-text-s">{{ conversation.displayId }}</span>
-                </vater-stack>
-                <vater-stack direction="row" gap="xs">
-                  <label>{{ t('internalNoteLabel') }}</label>
-                  <span class="watt-text-s">{{ conversation.internalNote }}</span>
-                </vater-stack>
+                <watt-button
+                  [disabled]="conversation.closed"
+                  (click)="closeConversation()"
+                  variant="secondary"
+                  >{{ t('closeCaseButton') }}
+                </watt-button>
+                <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
+                  <watt-icon name="moreVertical" />
+                </watt-button>
+                <watt-menu #menu>
+                  <watt-menu-item>{{ t('internalNoteLabel') }}</watt-menu-item>
+                  <watt-menu-item>{{ t('markAsUnreadButton') }}</watt-menu-item>
+                </watt-menu>
               </vater-stack>
             </vater-stack>
-
-            <vater-stack direction="row" gap="m">
-              <watt-button
-                [disabled]="conversation.closed"
-                (click)="closeConversation()"
-                variant="secondary"
-                >{{ t('closeCaseButton') }}
-              </watt-button>
-              <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
-                <watt-icon name="moreVertical" />
-              </watt-button>
-              <watt-menu #menu>
-                <watt-menu-item>{{ t('internalNoteLabel') }}</watt-menu-item>
-                <watt-menu-item>{{ t('markAsUnreadButton') }}</watt-menu-item>
-              </watt-menu>
-            </vater-stack>
+            <hr class="watt-divider no-margin" />
           </vater-stack>
-          <hr class="watt-divider no-margin" />
 
-          <!-- Content -->
-          <vater-flex fill="both">
-            <!-- Messages will go here -->
+          <!-- Content - Scrollable message area -->
+          <vater-flex direction="column" fill="both" scrollable>
             @for (message of conversation.messages; track message) {
-              <span>{{ message | json }}</span>
+              <dh-actor-conversation-message
+                [message]="message"
+                [isFromCurrentUser]="isMessageFromCurrentUser(message.userId)"
+              />
             }
           </vater-flex>
         }
-        <form vater class="watt-space-inset-stretch-m" fill="horizontal" (ngSubmit)="sendMessage()">
+        <!-- Footer - Message input form -->
+        <form
+          vater
+          sticky="bottom"
+          class="watt-space-inset-stretch-m sticky-background"
+          fill="horizontal"
+          (ngSubmit)="sendMessage()"
+        >
           <dh-actor-conversation-message-form
             [loading]="sendActorConversationMessageMutation.loading()"
             [small]="true"
             [formControl]="formControl"
           />
         </form>
-      </vater-stack>
+      </vater-flex>
     </dh-result>
   `,
 })
-export class DhActorConversationSelectedConversationComponent {
+export class DhActorConversationDetailsComponent {
   private readonly authService = inject(MsalService);
   private readonly actorStorage = inject(DhActorStorage);
   private readonly fb = inject(NonNullableFormBuilder);
@@ -155,6 +174,7 @@ export class DhActorConversationSelectedConversationComponent {
   private readonly closeToastEffect = effect(() =>
     this.closeToast(this.closeConversationMutation.status())
   );
+  private readonly userId = this.authService.instance.getActiveAccount()?.idTokenClaims?.sub;
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   formControl = this.fb.control<MessageFormValue>({ content: '', anonymous: false });
   conversationId = input.required<string>();
@@ -179,8 +199,7 @@ export class DhActorConversationSelectedConversationComponent {
   }
 
   async sendMessage() {
-    const token = this.authService.instance.getActiveAccount();
-    const userId = token?.idTokenClaims?.sub;
+    const userId = this.userId;
 
     if (!userId) return;
 
@@ -202,5 +221,9 @@ export class DhActorConversationSelectedConversationComponent {
     });
 
     this.formControl.reset({ content: '', anonymous: false });
+  }
+
+  isMessageFromCurrentUser(userId: string | null | undefined): boolean {
+    return userId ? userId === this.userId : false;
   }
 }
