@@ -179,7 +179,7 @@ public class GraphQLTestService
         }
     }
 
-    public async Task<HotChocolate.ISchema> GetSchemaAsync() =>
+    public async Task<ISchema> GetSchemaAsync() =>
         await Services
             .BuildServiceProvider()
             .GetRequiredService<RequestExecutorProxy>()
