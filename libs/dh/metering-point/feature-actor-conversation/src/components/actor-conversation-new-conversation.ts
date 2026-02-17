@@ -18,13 +18,10 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import {
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import {
   DhDropdownTranslatorDirective,
@@ -46,45 +43,49 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
   imports: [
+    ReactiveFormsModule,
     TranslocoDirective,
-    VaterStackComponent,
+    VATER,
     WattButtonComponent,
     WattDropdownComponent,
-    DhDropdownTranslatorDirective,
-    ReactiveFormsModule,
+    WattHeadingComponent,
     WattTextFieldComponent,
+    DhDropdownTranslatorDirective,
     VaterUtilityDirective,
-    VaterSpacerComponent,
     DhActorConversationMessageFormComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
-    .third-width {
-      width: 33%;
+    .header-background {
+      background-color: var(--bg-card);
     }
   `,
   template: `
     <form
       [formGroup]="newConversationForm"
       (ngSubmit)="startConversation()"
-      vater-stack
-      fill="both"
-      align="start"
+      vater-grid
+      rows="minmax(var(--case-min-row-height), auto) 1fr"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
-      <watt-card-title vater fill="horizontal">
-        <vater-stack direction="row" fill="horizontal" justify="space-between">
-          <h3>{{ t('newCaseTitle') }}</h3>
-          <watt-button (click)="closeNewConversation.emit()" variant="icon" icon="close" />
-        </vater-stack>
-      </watt-card-title>
-      <vater-stack align="start" fill="horizontal" gap="ml" offset="m">
+      <vater-stack
+        sticky="top"
+        direction="row"
+        fill="horizontal"
+        align="center"
+        offset="m"
+        justify="space-between"
+        class="header-background"
+      >
+        <h3 watt-heading>{{ t('newCaseTitle') }}</h3>
+        <watt-button (click)="closeNewConversation.emit()" variant="icon" icon="close" />
+      </vater-stack>
+      <vater-grid columns="1fr 2fr" flow="column" offset="m" gap="m" justify="end">
         <watt-dropdown
           [formControl]="newConversationForm.controls.subject"
           [options]="subjects"
           [label]="t('subjectLabel')"
           [showResetOption]="false"
-          class="third-width"
           dhDropdownTranslator
           translateKey="meteringPoint.actorConversation.subjects"
           data-testid="actor-conversation-subject-dropdown"
@@ -94,7 +95,6 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
           [options]="receivers"
           [label]="t('receiverLabel')"
           [showResetOption]="false"
-          class="third-width"
           dhDropdownTranslator
           translateKey="meteringPoint.actorConversation.receivers"
           data-testid="actor-conversation-receiver-dropdown"
@@ -102,17 +102,17 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         <watt-text-field
           [formControl]="newConversationForm.controls.internalNote"
           [label]="t('internalNoteLabelWithDisclaimer')"
-          class="third-width"
           data-testid="actor-conversation-internal-note-input"
         />
-      </vater-stack>
-      <vater-spacer />
-      <dh-actor-conversation-message-form
-        vater
-        fill="horizontal"
-        [loading]="startConversationMutation.loading()"
-        [formControl]="newConversationForm.controls.message"
-      />
+        <vater-grid-area row="4" fill="horizontal">
+          <dh-actor-conversation-message-form
+            vater
+            fill="horizontal"
+            [loading]="startConversationMutation.loading()"
+            [formControl]="newConversationForm.controls.message"
+          />
+        </vater-grid-area>
+      </vater-grid>
     </form>
   `,
 })

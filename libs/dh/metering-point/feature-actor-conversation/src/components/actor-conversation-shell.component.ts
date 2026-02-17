@@ -17,11 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
-import {
-  VaterFlexComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VATER, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetConversationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
@@ -37,12 +33,13 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 @Component({
   selector: 'dh-actor-conversation-shell',
   imports: [
+    TranslocoDirective,
+    VATER,
+    WATT_CARD,
+    WattEmptyStateComponent,
+    WattButtonComponent,
     DhActorConversationListComponent,
     DhActorConversationNewConversationComponent,
-    VaterFlexComponent,
-    WattEmptyStateComponent,
-    WATT_CARD,
-    WattButtonComponent,
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
@@ -51,39 +48,28 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
-    .no-border-radius-left {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-
-    .no-padding {
-      padding: 0;
-    }
-
-    .flex-1 {
-      flex: 1;
-    }
-
-    .flex-3 {
-      flex: 3;
+    :host {
+      --case-min-row-height: 82px;
     }
   `,
   template: `
-    <vater-flex
-      direction="row"
-      fill="vertical"
-      *transloco="let t; prefix: 'meteringPoint.actorConversation'"
-    >
-      <dh-actor-conversation-list
-        [conversationsQuery]="conversationsQuery"
-        [newConversationVisible]="newConversationVisible()"
-        [selectedConversationId]="selectedConversationId()"
-        (createNewConversation)="newConversation()"
-        (selectConversation)="selectConversation($event)"
-        class="flex-1"
-      />
-      <watt-card class="flex-3 no-padding no-border-radius-left">
-        <vater-stack fill="vertical">
+    <watt-card vater contain fill="vertical">
+      <vater-grid
+        inset="0"
+        columns="minmax(min-content, 1fr) 3fr"
+        gap="dividers"
+        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+      >
+        <dh-actor-conversation-list
+          vater
+          scrollable
+          [conversationsQuery]="conversationsQuery"
+          [newConversationVisible]="newConversationVisible()"
+          [selectedConversationId]="selectedConversationId()"
+          (createNewConversation)="newConversation()"
+          (selectConversation)="selectConversation($event)"
+        />
+        <vater-stack scrollable *transloco="let t; prefix: 'meteringPoint.actorConversation'">
           @switch (state()) {
             @case ('newConversationOpen') {
               <dh-actor-conversation-new-conversation
@@ -128,8 +114,8 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
             }
           }
         </vater-stack>
-      </watt-card>
-    </vater-flex>
+      </vater-grid>
+    </watt-card>
   `,
 })
 export class DhActorConversationShellComponent {
