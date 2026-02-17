@@ -20,29 +20,21 @@ import { TestBed } from '@angular/core/testing';
 import { describe, it, beforeEach, expect, vi } from 'vitest';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideApollo } from 'apollo-angular';
-import { InMemoryCache } from '@apollo/client/core';
-import { HttpLink } from 'apollo-angular/http';
 
 import { DhReleaseToggleService } from './dh-release-toggle.service';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { provideMsalTesting } from '@energinet-datahub/dh/shared/test-util';
 
 describe('DhReleaseToggleService', () => {
   let service: DhReleaseToggleService;
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         DhReleaseToggleService,
         provideHttpClient(),
         provideHttpClientTesting(),
-        provideApollo(() => {
-          const httpLink = TestBed.inject(HttpLink);
-          return {
-            link: httpLink.create({ uri: '/graphql' }),
-            cache: new InMemoryCache(),
-          };
-        }),
+        provideMsalTesting(),
         {
           provide: DhApplicationInsights,
           useValue: {
