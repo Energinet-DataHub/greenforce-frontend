@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+/* eslint-disable @nx/enforce-module-boundaries */
 import { computed, Signal } from '@angular/core';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 

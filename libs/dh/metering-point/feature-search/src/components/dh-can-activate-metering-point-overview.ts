@@ -27,7 +27,6 @@ import {
   dhIsEM1InternalId,
   dhIsEM2EncodedId,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 
@@ -35,7 +34,6 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
   route: ActivatedRouteSnapshot
 ): Promise<UrlTree | boolean> | UrlTree => {
   const router = inject(Router);
-  const environment = inject(dhAppEnvironmentToken);
 
   const searchRoute = router.createUrlTree([
     getPath<BasePaths>('metering-point'),
@@ -57,7 +55,6 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
       variables: {
         internalMeteringPointId: idParam,
         searchMigratedMeteringPoints: isEM1Id,
-        environment: environment.current,
       },
     })
       .result()

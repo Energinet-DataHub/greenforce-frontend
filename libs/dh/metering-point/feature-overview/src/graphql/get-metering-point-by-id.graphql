@@ -22,12 +22,10 @@ fragment CustomerContact on ElectricityMarketViewCustomerContactDto {
 query GetMeteringPointById(
   $meteringPointId: String!
   $actorGln: String!
-  $environment: String
   $searchMigratedMeteringPoints: Boolean
 ) {
   meteringPoint(
     meteringPointId: $meteringPointId
-    environment: $environment
     searchMigratedMeteringPoints: $searchMigratedMeteringPoints
   ) {
     id
@@ -86,10 +84,7 @@ query GetMeteringPointById(
         displayName
       }
       parentMeteringPoint
-      internalMeteringPointParentId(
-        environment: $environment
-        searchMigratedMeteringPoints: $searchMigratedMeteringPoints
-      )
+      internalMeteringPointParentId(searchMigratedMeteringPoints: $searchMigratedMeteringPoints)
       ownedBy
       connectionState
       netSettlementGroup

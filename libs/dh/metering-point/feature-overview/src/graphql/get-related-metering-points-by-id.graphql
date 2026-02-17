@@ -11,12 +11,10 @@ fragment RelatedMeteringPoint on RelatedMeteringPointDto {
 
 query GetRelatedMeteringPointsById(
   $meteringPointIdentification: String!
-  $environment: String
   $searchMigratedMeteringPoints: Boolean
 ) {
   relatedMeteringPoints(
     meteringPointId: $meteringPointIdentification
-    environment: $environment
     searchMigratedMeteringPoints: $searchMigratedMeteringPoints
   ) {
     parent {

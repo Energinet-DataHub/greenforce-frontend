@@ -47,7 +47,6 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
@@ -226,7 +225,6 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
 export class DhMeteringPointComponent {
   private readonly router = inject(Router);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
-  private readonly environment = inject(dhAppEnvironmentToken);
 
   meteringPointId = input.required<string>();
   internalMeteringPointId = input.required<string>();
@@ -237,7 +235,6 @@ export class DhMeteringPointComponent {
       meteringPointId: this.meteringPointId(),
       actorGln: this.actor.gln,
       searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
-      environment: this.environment.current,
     },
   }));
   meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
