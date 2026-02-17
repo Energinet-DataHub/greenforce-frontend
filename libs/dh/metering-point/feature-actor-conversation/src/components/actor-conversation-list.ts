@@ -63,17 +63,6 @@ import { dayjs } from '@energinet/watt/core/date';
       margin: 0;
     }
 
-    .no-min-height {
-      min-height: 0;
-    }
-
-    .card-height {
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-      overflow: hidden;
-    }
-
     ul {
       list-style: none;
       padding: 0;
@@ -83,7 +72,7 @@ import { dayjs } from '@energinet/watt/core/date';
   template: `
     <vater-flex fill="vertical">
       <watt-card
-        class="no-padding no-right-border-radius card-height"
+        class="no-padding no-right-border-radius"
         *transloco="let t; prefix: 'meteringPoint.actorConversation'"
       >
         <watt-card-title vater class="watt-space-inset-m no-margin">
@@ -99,7 +88,7 @@ import { dayjs } from '@energinet/watt/core/date';
           </vater-stack>
         </watt-card-title>
         <hr class="watt-divider no-margin" />
-        <dh-result [query]="conversationsQuery()" vater scrollable class="no-min-height">
+        <dh-result [query]="conversationsQuery()">
           <ul>
             @if (newConversationVisible()) {
               <li>
@@ -110,6 +99,27 @@ import { dayjs } from '@energinet/watt/core/date';
               </li>
             }
             @for (conversationItem of conversations(); track conversationItem.id) {
+              <li>
+                <dh-actor-conversation-list-item
+                  [conversation]="conversationItem"
+                  [selected]="selectedConversationId() === conversationItem.id"
+                  (click)="selectConversation.emit(conversationItem.id)"
+                />
+              </li>
+              <li>
+                <dh-actor-conversation-list-item
+                  [conversation]="conversationItem"
+                  [selected]="selectedConversationId() === conversationItem.id"
+                  (click)="selectConversation.emit(conversationItem.id)"
+                />
+              </li>
+              <li>
+                <dh-actor-conversation-list-item
+                  [conversation]="conversationItem"
+                  [selected]="selectedConversationId() === conversationItem.id"
+                  (click)="selectConversation.emit(conversationItem.id)"
+                />
+              </li>
               <li>
                 <dh-actor-conversation-list-item
                   [conversation]="conversationItem"
