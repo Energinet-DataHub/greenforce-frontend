@@ -17,20 +17,30 @@
  */
 //#endregion
 import { DestroyRef, inject, Signal, signal } from '@angular/core';
-import { ApolloError, OperationVariables } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
+import {
+  ApolloError,
+  FetchResult,
+  OperationVariables,
+  SubscriptionOptions as ApolloSubscriptionOptions,
+} from '@apollo/client/core';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
-import { catchError, map, of, tap } from 'rxjs';
-import { SubscriptionOptionsAlone as ApolloSubscriptionOptions } from 'apollo-angular/types';
+import { catchError, from, map, of, tap } from 'rxjs';
 import { mapGraphQLErrorsToApolloError } from './util/error';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { fixObservable } from './query';
 
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`
-export interface SubscriptionOptions<TResult, TVariables> extends ApolloSubscriptionOptions {
-  variables?: TVariables;
+export interface SubscriptionOptions<TResult, TVariables extends OperationVariables | undefined>
+  extends Omit<ApolloSubscriptionOptions<TVariables>, 'query'> {
   onData?: (data: TResult) => void;
   onError?: (error: ApolloError) => void;
   onCompleted?: () => void;
 }
+
+export type SubscriptionResult<T> = FetchResult<T> & {
+  error?: ApolloError;
+};
 
 /**
  * Signal-based wrapper around Apollo's `subscribe` function, made to align with `useSubscripion`.
@@ -41,17 +51,19 @@ export function subscription<TResult, TVariables extends OperationVariables>(
   options?: SubscriptionOptions<TResult, TVariables>
 ) {
   // Inject dependencies
-  const client = inject(Apollo);
+  const apollo = inject(DhApollo);
   const destroyRef = inject(DestroyRef);
 
   // Signals holding the result values
   const data = signal<TResult | undefined>(undefined);
   const error = signal<ApolloError | undefined>(undefined);
 
-  const subscription = client
-    .subscribe({ query: document, ...options })
+  const subscription = from(fixObservable(apollo.client.subscribe({ query: document, ...options })))
     .pipe(
-      map(({ errors, data }) => ({ data, error: mapGraphQLErrorsToApolloError(errors) })),
+      map(
+        ({ errors, data }) =>
+          ({ data, error: mapGraphQLErrorsToApolloError(errors) }) as SubscriptionResult<TResult>
+      ),
       catchError((error: ApolloError) => of({ error, data: undefined })),
       tap((result) => {
         data.set(result.data ?? undefined);

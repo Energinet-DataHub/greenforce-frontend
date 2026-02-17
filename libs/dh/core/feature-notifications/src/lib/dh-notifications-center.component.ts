@@ -23,6 +23,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  DismissAllNotificationsDocument,
   DismissNotificationDocument,
   GetNotificationsDocument,
   OnNotificationAddedDocument,
@@ -30,7 +31,7 @@ import {
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattIcon } from '@energinet/watt/icon';
+import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 import { dayjs } from '@energinet/watt/date';
 
 import { dhGetRouteByType } from './dh-get-route-by-type';
@@ -45,6 +46,7 @@ import { DhSettlementReportNotificationComponent } from './dh-settlement-report-
     OverlayModule,
     TranslocoDirective,
     WattButtonComponent,
+    WattIconComponent,
     DhNotificationComponent,
     DhSettlementReportNotificationComponent,
   ],
@@ -60,15 +62,30 @@ import { DhSettlementReportNotificationComponent } from './dh-settlement-report-
         width: 344px;
       }
 
+      .notifications-panel__header {
+        display: flex;
+        justify-content: space-between;
+        padding: var(--watt-space-m) var(--watt-space-ml);
+        border-bottom: 1px solid var(--watt-color-neutral-grey-200);
+      }
+
+      .icon-dismiss {
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 150ms linear;
+      }
+
+      .notifications-panel__header:hover .icon-dismiss {
+        opacity: 1;
+      }
+
       .notifications-panel__items {
         max-height: 400px;
         overflow-y: auto;
       }
 
       h3 {
-        border-bottom: 1px solid var(--watt-color-neutral-grey-200);
         margin: 0;
-        padding: var(--watt-space-m) var(--watt-space-ml);
       }
 
       dh-notification:not(:last-of-type) {
@@ -125,7 +142,18 @@ import { DhSettlementReportNotificationComponent } from './dh-settlement-report-
         *transloco="let t; prefix: 'notificationsCenter'"
         class="notifications-panel watt-elevation"
       >
-        <h3>{{ t('headline') }}</h3>
+        <div class="notifications-panel__header">
+          <h3>{{ t('headline') }}</h3>
+
+          @if (notifications().length > 0) {
+            <watt-icon
+              name="close"
+              class="icon-dismiss"
+              [title]="t('markAllAsRead')"
+              (click)="onDismissAll()"
+            />
+          }
+        </div>
 
         <div class="notifications-panel__items">
           @for (notification of notifications(); track notification.id) {
@@ -156,6 +184,7 @@ export class DhNotificationsCenterComponent {
   private readonly notificationsService = inject(DhNotificationsCenterService);
 
   private readonly dismissMutation = mutation(DismissNotificationDocument);
+  private readonly dismissAllMutation = mutation(DismissAllNotificationsDocument);
   private readonly getNotificationsQuery = query(GetNotificationsDocument);
 
   private readonly initTime = new Date();
@@ -224,6 +253,14 @@ export class DhNotificationsCenterComponent {
       variables: { input: { notificationId } },
       refetchQueries: [GetNotificationsDocument],
       onError: () => console.error('Failed to dismiss notification'),
+    });
+  }
+
+  onDismissAll(): void {
+    this.dismissAllMutation.mutate({
+      variables: { input: { notificationIds: this.notifications().map((n) => n.id) } },
+      refetchQueries: [GetNotificationsDocument],
+      onError: () => console.error('Failed to dismiss all notifications'),
     });
   }
 

@@ -37,11 +37,8 @@ import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import {
-  DhReleaseToggleDirective,
-  DhReleaseToggleService,
-} from '@energinet-datahub/dh/shared/release-toggle';
-import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component';
@@ -123,7 +120,11 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
 
         <ng-content *dhFeatureFlag="'search-migrated-metering-points'">
           <watt-checkbox [formControl]="searchMigratedMeteringPoints">
-            {{ t('searchMigratedMeteringPoints') }}
+            @if (environment.current === 'b-001') {
+              {{ t('searchMigratedMeteringPointsPreProd') }}
+            } @else {
+              {{ t('searchMigratedMeteringPoints') }}
+            }
           </watt-checkbox>
         </ng-content>
       </vater-stack>
@@ -150,8 +151,8 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
 export class DhSearchComponent {
   private readonly router = inject(Router);
   private readonly modalService = inject(WattModalService);
-  private readonly releaseToggleService = inject(DhReleaseToggleService);
-  private readonly environment = inject(dhAppEnvironmentToken);
+
+  readonly environment = inject(dhAppEnvironmentToken);
 
   private readonly doesMeteringPointExist = lazyQuery(DoesInternalMeteringPointIdExistDocument);
   protected submitted = signal(false);
@@ -198,25 +199,11 @@ export class DhSearchComponent {
       variables: {
         meteringPointId,
         searchMigratedMeteringPoints: this.searchMigratedMeteringPoints.value,
-        environment: this.environment.current,
       },
     });
 
     if (!result.data) {
       return this.meteringPointNotFound.set(true);
-    }
-
-    if (this.releaseToggleService.isEnabled('PM120-DH3-METERING-POINTS-UI')) {
-      if (
-        this.environment.current === DhAppEnvironment.preprod ||
-        this.searchMigratedMeteringPoints.value === false
-      ) {
-        return this.router.navigate([
-          '/',
-          getPath('metering-point'),
-          result.data.meteringPointExists.meteringPointId,
-        ]);
-      }
     }
 
     this.router.navigate(['/', getPath('metering-point'), result.data.meteringPointExists.id]);

@@ -143,7 +143,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
               }
             </ng-container>
 
-            <watt-description-list-item [label]="t('powerLimit')">
+            <watt-description-list-item [label]="t('powerLimitKw')">
               @if (meteringPointDetails()?.powerLimitKw) {
                 {{
                   t('powerLimitValueKw', {
@@ -155,7 +155,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
               }
             </watt-description-list-item>
 
-            <watt-description-list-item [label]="t('powerLimit')">
+            <watt-description-list-item [label]="t('powerLimitA')">
               @if (meteringPointDetails()?.powerLimitAmp) {
                 {{
                   t('powerLimitValueAmpere', {
@@ -195,6 +195,17 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
             <watt-description-list-item
               [label]="t('connectionDate')"
               [value]="meteringPoint()?.connectionDate | wattDate | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('disconnectedDate')"
+              [value]="
+                (meteringPoint()?.metadata?.connectionState === 'DISCONNECTED'
+                  ? meteringPoint()?.disconnectedDate
+                  : null
+                )
+                  | wattDate
+                  | dhEmDashFallback
+              "
             />
             <watt-description-list-item
               [label]="t('closedDownDate')"

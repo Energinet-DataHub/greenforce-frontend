@@ -16,7 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ActorType,
+  ConversationSubject,
+  GetConversationDocument,
+  GetConversationsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+export type ActorConversations = ResultOf<
+  typeof GetConversationsDocument
+>['conversationsForMeteringPoint']['conversations'];
+
+export type ActorConversationDetail = ResultOf<typeof GetConversationDocument>['conversation'];
 
 export enum ActorConversationState {
   noConversations = 'noConversations',
@@ -25,12 +38,11 @@ export enum ActorConversationState {
   newConversationOpen = 'newConversationOpen',
 }
 
-export interface Conversation {
-  id?: string;
-  subject?: ConversationSubject | 'newCase';
-  closed: boolean;
-  lastUpdatedDate?: Date;
-  unread?: boolean;
+export type Conversation = ActorConversations[0];
+
+export interface MessageFormValue {
+  content: string | null;
+  anonymous: boolean | null;
 }
 
 export type StartConversationFormValue = {

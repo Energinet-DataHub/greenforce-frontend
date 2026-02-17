@@ -15,7 +15,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Model
 
 public class MeteringPointDto
 {
-    public long Id { get; set; }
+    public string Id { get; set; } = default!;
 
     public string Identification { get; set; } = default!;
 

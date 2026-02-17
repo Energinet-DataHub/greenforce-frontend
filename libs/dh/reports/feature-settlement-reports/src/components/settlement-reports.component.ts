@@ -16,92 +16,151 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject, model } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VATER } from '@energinet/watt/vater';
 import { WATT_CARD } from '@energinet/watt/card';
-import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
-import { WattSpinnerComponent } from '@energinet/watt/spinner';
-import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/watt/data';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
-import { DhOverview } from './overview/overview.component';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
+import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-reports';
+
+import { DhDetails } from './details/details.component';
 import { DhNewReportRequest } from './new-report-request.component';
+import { WattDatePipe } from '@energinet/watt/core/date';
+import { DhReportStatus } from './report-status.component';
+import { DhCancelReportRequest } from './cancel-report-request.component';
 
 @Component({
   selector: 'dh-settlement-reports',
+  providers: [DhSettlementReportsService],
   imports: [
     TranslocoDirective,
+    VATER,
     WATT_CARD,
-
-    VaterStackComponent,
-    VaterFlexComponent,
-    VaterUtilityDirective,
-    VaterSpacerComponent,
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
-    DhOverview,
+    WATT_TABLE,
+    WattDataTableComponent,
+    WattDataActionsComponent,
+    WattDatePipe,
+    DhCancelReportRequest,
+    DhDetails,
     DhNewReportRequest,
+    DhReportStatus,
   ],
-  styles: `
-    :host {
-      display: block;
-    }
-
-    h3 {
-      margin: 0;
-    }
-  `,
   template: `
-    <watt-card vater inset="ml" *transloco="let t; prefix: 'reports.settlementReports'">
-      @if (isLoading()) {
-        <vater-stack fill="vertical" justify="center">
-          <watt-spinner />
-        </vater-stack>
-      } @else {
-        @if (totalCount() === 0) {
-          <vater-stack fill="vertical" justify="center" gap="l">
-            <watt-empty-state
-              [icon]="hasError() ? 'custom-power' : 'custom-no-results'"
-              [title]="hasError() ? t('errorTitle') : ''"
-              [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
-            >
-              @if (hasError() === false) {
-                <dh-new-report-request />
-              }
-            </watt-empty-state>
-          </vater-stack>
-        } @else {
-          <vater-flex fill="vertical" gap="ml">
-            <vater-stack direction="row" gap="s">
-              <vater-spacer />
+    @if (activeRow(); as report) {
+      <dh-details
+        #reportDetails
+        [report]="report"
+        (closed)="activeRow.set(undefined)"
+        (download)="settlementReportsService.downloadReport($event)"
+      />
+    }
+    <watt-data-table
+      [enableCount]="false"
+      [enableSearch]="false"
+      [error]="settlementReports.error()"
+      *transloco="let t; prefix: 'reports.settlementReports'"
+    >
+      <watt-data-actions>
+        <dh-new-report-request />
+      </watt-data-actions>
+      <watt-table
+        *transloco="let resolveHeader; prefix: 'reports.settlementReports.columns'"
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [displayedColumns]="displayedColumns()"
+        [resolveHeader]="resolveHeader"
+        [activeRow]="activeRow()"
+        [loading]="settlementReports.loading()"
+        (rowClick)="activeRow.set($event)"
+      >
+        <ng-container *wattTableCell="columns['startedAt']; let entry">
+          {{ entry.executionTime.start | wattDate: 'long' }}
+        </ng-container>
 
-              <dh-new-report-request />
-            </vater-stack>
+        <ng-container *wattTableCell="columns['actorName']; let entry">
+          {{ entry.actor?.name }}
+        </ng-container>
 
-            <dh-overview [settlementReports]="settlementReports()" />
-          </vater-flex>
-        }
-      }
-    </watt-card>
+        <ng-container *wattTableCell="columns['calculationType']; let entry">
+          {{ t('calculationTypes.' + entry.calculationType) }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns['period']; let entry">
+          {{ entry.period | wattDate: 'short' }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns['numberOfGridAreasInReport']; let entry">
+          @let gridAreas = entry.gridAreas;
+          @if (gridAreas.length > 0) {
+            @if (gridAreas.length < 4) {
+              {{ gridAreas.join(', ') }}
+            } @else {
+              {{
+                t('itemsAndCount', {
+                  items: gridAreas.slice(0, 2).join(', '),
+                  remainingCount: gridAreas.length - 2,
+                })
+              }}
+            }
+          } @else {
+            @if (entry.numberOfGridAreasInReport > 0) {
+              [{{ entry.numberOfGridAreasInReport }}]
+            } @else {
+              {{ t('noData') }}
+            }
+          }
+        </ng-container>
+
+        <ng-container *wattTableCell="columns['status']; let entry">
+          @let reportIsEmpty = entry.statusType === 'COMPLETED' && entry.gridAreas.length === 0;
+          @if (reportIsEmpty === false) {
+            <dh-report-status
+              [status]="entry.statusType"
+              (download)="settlementReportsService.downloadReport(entry)"
+              (click)="$event.stopPropagation()"
+            />
+          }
+        </ng-container>
+
+        <ng-container *wattTableCell="columns['cancel']; let entry">
+          @if (entry.statusType === 'IN_PROGRESS') {
+            <dh-cancel-report-request [reportId]="entry.id" (click)="$event.stopPropagation()" />
+          }
+        </ng-container>
+      </watt-table>
+    </watt-data-table>
   `,
 })
-// TODO: Convert to watt data table
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhSettlementReports {
-  private readonly settlementReportsQuery = query(GetSettlementReportsDocument, {
-    fetchPolicy: 'network-only',
-  });
+  private permissionService = inject(PermissionService);
+  protected settlementReportsService = inject(DhSettlementReportsService);
 
-  settlementReports = computed(() => this.settlementReportsQuery.data()?.settlementReports ?? []);
-  totalCount = computed(() => this.settlementReports().length);
-  isLoading = this.settlementReportsQuery.loading;
-  hasError = this.settlementReportsQuery.hasError;
+  settlementReports = query(GetSettlementReportsDocument, { fetchPolicy: 'network-only' });
+  dataSource = dataSource(() => this.settlementReports.data()?.settlementReports ?? []);
+  activeRow = model<DhSettlementReport>();
+  columns: WattTableColumnDef<DhSettlementReport> = {
+    startedAt: { accessor: (report) => report.executionTime.start },
+    actorName: { accessor: (report) => report.actor?.name },
+    calculationType: { accessor: 'calculationType' },
+    period: { accessor: (report) => report.period.start },
+    numberOfGridAreasInReport: { accessor: 'numberOfGridAreasInReport' },
+    status: { accessor: 'statusType' },
+    cancel: { accessor: 'id', header: '' },
+  };
+
+  isFas = toSignal(this.permissionService.isFas());
+  displayedColumns = computed(() =>
+    this.isFas()
+      ? Object.keys(this.columns)
+      : Object.keys(this.columns).filter((column) => column !== 'actorName')
+  );
 }

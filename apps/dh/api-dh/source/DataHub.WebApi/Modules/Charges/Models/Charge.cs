@@ -22,6 +22,7 @@ public record Charge(
     ChargeIdentifierDto Id,
     Resolution Resolution,
     bool TaxIndicator,
+    bool SpotDependingPrice,
     IReadOnlyCollection<ChargeInformationPeriodDto> PeriodDtos)
 {
     public string Code => Id.Code;
@@ -39,8 +40,6 @@ public record Charge(
     public bool VatInclusive => LatestPeriod.VatInclusive;
 
     public bool TransparentInvoicing => LatestPeriod.TransparentInvoicing;
-
-    public bool PredictablePrice => LatestPeriod.PredictablePrice;
 
     public ChargeStatus Status => LatestPeriod.Status;
 

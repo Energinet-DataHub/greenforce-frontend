@@ -20,7 +20,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 
-import { MutationResult } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -30,7 +29,7 @@ import { WattPhoneFieldComponent } from '@energinet/watt/phone-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WattToastService, WattToastType } from '@energinet/watt/toast';
 
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationResult, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {

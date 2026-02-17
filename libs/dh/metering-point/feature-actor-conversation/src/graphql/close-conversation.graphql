@@ -1,0 +1,5 @@
+mutation CloseConversation($conversationId: UUID!) {
+  closeConversation(input: { conversationId: $conversationId }) {
+    boolean
+  }
+}

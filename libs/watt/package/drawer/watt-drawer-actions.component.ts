@@ -26,6 +26,6 @@ import { Component } from '@angular/core';
       gap: var(--watt-space-s);
     }
   `,
-  template: `<ng-content select="watt-button" />`,
+  template: `<ng-content />`,
 })
 export class WattDrawerActionsComponent {}

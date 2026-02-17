@@ -29,6 +29,7 @@
   "notificationsCenter": {
     "headline": "Notifikationer",
     "noNotifications": "Ingen notifikationer",
+    "markAllAsRead": "Marker alle som læst",
     "notification": {
       "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
@@ -424,9 +425,9 @@
           "transparentInvoicingGroupName": "Viderefakturering",
           "transparentInvoicing": "Skal viderefaktureres",
           "not_transparentInvoicing": "Skal ikke viderefaktureres",
-          "predictablePriceGroupName": "Spotafhængig pris",
-          "predictablePrice": "Spotafhængig pris",
-          "not_predictablePrice": "Ikke spotafhængig pris",
+          "spotDependingPriceGroupName": "Spotafhængig pris",
+          "spotDependingPrice": "Spotafhængig pris",
+          "not_spotDependingPrice": "Ikke spotafhængig pris",
           "missingPriceSeriesGroupName": "Prisserie",
           "missingPriceSeries": "Mangler prisserie",
           "not_missingPriceSeries": "Har prisserie"
@@ -461,9 +462,9 @@
           "transparentInvoicing": "Viderefakturering",
           "withTransparentInvoicing": "Ja",
           "withoutTransparentInvoicing": "Nej",
-          "predictablePrice": "Forudsigelig pris",
-          "withPredictablePrice": "Ja",
-          "withoutPredictablePrice": "Nej",
+          "spotDependingPrice": "Spotafhængig pris",
+          "withSpotDependingPrice": "Ja",
+          "withoutSpotDependingPrice": "Nej",
           "validFrom": "Gyldig fra",
           "cutoffDate": "Skæringsdato"
         },
@@ -524,6 +525,7 @@
       "owner": "Ejer",
       "resolution": "Prisopløsning",
       "transparentInvoicing": "Viderefakturering",
+      "spotDependingPrice": "Spotafhængig pris",
       "vat": "Moms",
       "tabs": {
         "pricesLabel": "Priser",
@@ -608,7 +610,8 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "Intet resultat fundet",
-      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter"
+      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter",
+      "searchMigratedMeteringPointsPreProd": "Søg i fase 2 testmålepunkter"
     },
     "tabs": {
       "masterData": {
@@ -685,7 +688,7 @@
       },
       "status": {
         "CLOSED_DOWN": "Nedlagt",
-        "NEW": "Ny",
+        "NEW": "Nyoprettet",
         "CONNECTED": "Tilsluttet",
         "DISCONNECTED": "Afbrudt",
         "UNKNOWN": "Ukendt"
@@ -711,7 +714,8 @@
         "settlementMethod": "Afregningsform",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Elvarmedato",
-        "powerLimit": "Effektgrænse",
+        "powerLimitKw": "Effektgrænse kW",
+        "powerLimitA": "Effektgrænse A",
         "powerLimitValueKw": "{{ value }} kW",
         "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Afbrydelsesart",
@@ -731,7 +735,8 @@
         "measureUnit": "Enhed",
         "product": "Produkt",
         "connectionDate": "Tilsluttet",
-        "closedDownDate": "Nedlagt"
+        "closedDownDate": "Nedlagt",
+        "disconnectedDate": "Afbrudt"
       },
       "customerContactDetails": {
         "title": "Kontakter",
@@ -780,29 +785,37 @@
       "subjectLabel": "Emne",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
-        "disconnectionOrReconnection": "Afbrydelse/Gentilslutning",
-        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Fejlagtig flytning/leverandørskifte",
-        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
-        "measurements": "{{ shared.terminology.measurements }}",
-        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "chargeLink": "{{ shared.terminology.chargeLink }}",
+        "INTERRUPTION_RECONNECTION": "Afbrydelse/Gentilslutning",
+        "ELECTRICAL_HEATING": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "WRONGFUL_MOVE_OR_SUPPLIER_CHANGE": "Fejlagtig flytning/leverandørskifte",
+        "CUSTOMER_MASTER_DATA": "{{ shared.terminology.customerMasterData }}",
+        "MEASUREMENT_DATA": "{{ shared.terminology.measurements }}",
+        "MEASUREMENT_POINT_MASTER_DATA": "{{ shared.terminology.meteringPointMasterData }}",
+        "PRICE_LINKING": "{{ shared.terminology.chargeLink }}",
         "newCase": "Ny sag"
       },
-      "receiverLabel": "Modtager",
+      "receiverLabel": "Til",
       "receivers": {
         "ENERGY_SUPPLIER": "Elleverandør",
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
+      "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
       "internalNoteLabel": "Intern note",
       "messageLabel": "Besked",
+      "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send",
       "emptyState": {
         "noCases": "Der er ingen sager på målepunktet",
         "noCaseSelected": "Ingen sag valgt"
       },
-      "closed": "Afsluttet"
+      "closed": "Afsluttet",
+      "closeCaseButton": "Afslut sag",
+      "markAsUnreadButton": "Marker som ulæst",
+      "startConversationError": "Et eller flere felter er ikke udfyldt korrekt.\n\nDet kan f.eks. være en kombination af emne og modtager, der er ugyldig, eller at det ikke er muligt at sende anonymt til den valgte modtager.",
+      "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
+      "anonymousCheckbox": "Send anonymt",
+      "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
@@ -978,8 +991,7 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
-        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)",
-        "UNKNOWN": "Ukendt trin"
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)"
       },
       "details": {
         "notFound": "Process ikke fundet",
@@ -1100,7 +1112,6 @@
         }
       }
     },
-
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "updateCustomerData": "Opdater kundestamdata",
@@ -1266,8 +1277,7 @@
       "modalTitle": "Start leveranceophør",
       "dateLabel": "Angiv skæringsdato",
       "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
-      "consequencesInfo": "Her skal stå en tekst...",
-      "confirmCheckbox": "Jeg er indforstået med konsekvenserne",
+      "confirmCheckbox": "Vær opmærksom på, at når du starter et leveranceophør anmoder du om at slukke strømmen på målepunktet.",
       "cancel": "Annuller",
       "submit": "Start leveranceophør",
       "submitSuccess": "Leveranceophør indsendt.",
@@ -2084,10 +2094,10 @@
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
       "status": {
-        "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 2, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
+        "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 3, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
         "CONVERTER": "Status bliver rød hvis NBS-beskeder ikke kan dannes, fordi der enten er en fejl i konverteringen eller netområdet i beskeden ikke har en netvirksomhed tilknyttet.",
-        "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til BizTalk, fordi der enten ikke er forbindelse, BizTalk ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
-        "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra BizTalk, fordi der enten ikke er forbindelse, BizTalk/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
+        "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til Servicebus/eSett, fordi der enten ikke er forbindelse, fordi servicebus/eSett ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
+        "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra Servicebus, fordi der enten ikke er forbindelse, Servicebus/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
       },
       "fileName": "DataHub eSett udgående beskeder - {{ shared.downloadNameParams }}",
       "shared": {
@@ -2310,8 +2320,9 @@
         "title": "Er du sikker på, at du vil afbryde denne rapport?",
         "confirm": "Afbryd rapport",
         "cancel": "Fortryd",
-        "requestSuccess": "Afregningsrapport afbrudt.",
-        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
+        "loading": "Afbryder afregningsrapport...",
+        "success": "Afregningsrapport afbrudt.",
+        "error": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
       },
       "columns": {
         "startedAt": "Bestilt",
@@ -2352,7 +2363,6 @@
         "includeBasisData": "Inkluder datagrundlag",
         "allowLargeTextFiles": "Tillad store filer",
         "period": "Beregningsperiode",
-        "includeMonthlySum": "Inkluder månedssummer",
         "useApi": "Bestil rapport via. ny løsning",
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",
@@ -2917,7 +2927,8 @@
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret",
               "USER_LOGIN_FEDERATION_REQUESTED": "<b>{{ auditedBy }}</b> har anmodet om at knytte MitID til brugeren",
-              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> har succesfuldt knyttet MitID til brugeren"
+              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> har succesfuldt knyttet MitID til brugeren",
+              "USER_LOGIN_FEDERATION_RESET": "<b>{{ auditedBy }}</b> har nulstillet MitID for brugeren"
             }
           }
         },

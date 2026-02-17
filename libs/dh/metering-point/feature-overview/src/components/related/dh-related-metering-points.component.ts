@@ -116,7 +116,10 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
         [emptyText]="'meteringPoint.relatedMeteringPointsEmpty' | transloco"
       >
         <div class="grid-container">
-          @for (meteringPoint of relatedMeteringPointsList(); track meteringPoint.identification) {
+          @for (
+            meteringPoint of relatedMeteringPointsList();
+            track meteringPoint.meteringPointIdentification
+          ) {
             <div class="grid-row" [routerLink]="getLink('master-data', meteringPoint.id)">
               <div class="grid-cell">
                 <span class="watt-text-m watt-on-light--high-emphasis">
@@ -124,7 +127,7 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
                 </span>
                 <br />
                 <span class="watt-text-s watt-on-light--medium-emphasis">
-                  {{ meteringPoint.identification }}
+                  {{ meteringPoint.meteringPointIdentification }}
                 </span>
               </div>
 
@@ -159,7 +162,7 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
               </div>
 
               <div class="grid-cell">
-                @if (meteringPointId() === meteringPoint.identification) {
+                @if (meteringPointIdentification() === meteringPoint.meteringPointIdentification) {
                   <span class="dh-one-time-badge watt-label watt-space-inset-squish-xs">
                     {{ 'meteringPoint.selectedRelatedMeteringPoint' | transloco }}
                   </span>
@@ -175,13 +178,17 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
   `,
 })
 export class DhRelatedMeteringPointsComponent {
+  meteringPointIdentification = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
+
   query = query(GetRelatedMeteringPointsByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId() },
+    variables: {
+      meteringPointIdentification: this.meteringPointIdentification(),
+      searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
+    },
   }));
 
   private maybeRelatedMeteringPoints = computed(() => this.query.data()?.relatedMeteringPoints);
-
-  meteringPointId = input.required<string>();
 
   showHistorical = signal(false);
 

@@ -186,15 +186,11 @@ public static partial class MeteringPointProcessNode
         };
 
     /// <summary>
-    /// Generates a step identifier based on the workflow's unique name and step sequence,
-    /// and maps it to a known ProcessStepType enum value.
+    /// Generates a step identifier based on the workflow's unique name and step sequence.
     /// Format: {PROCESS_NAME}_V{VERSION}_STEP_{SEQUENCE}
     /// Example: BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1
-    ///
-    /// If the generated identifier doesn't match any known enum value, returns ProcessStepType.UNKNOWN.
-    /// This allows new processes to work without breaking the application.
     /// </summary>
-    private static ProcessStepType GetStepIdentifier(WorkflowStepInstanceDto step)
+    private static string GetStepIdentifier(WorkflowStepInstanceDto step)
     {
         // Normalize the process name: replace dots and spaces with underscores, convert to uppercase
         var processName = step.UniqueName.Name
@@ -202,15 +198,6 @@ public static partial class MeteringPointProcessNode
             .Replace(" ", string.Empty)
             .ToUpperInvariant();
 
-        var identifier = $"{processName}_V{step.UniqueName.Version}_STEP_{step.Sequence}";
-
-        // Try to parse the identifier to a known ProcessStepType enum value
-        if (Enum.TryParse<ProcessStepType>(identifier, ignoreCase: true, out var stepType))
-        {
-            return stepType;
-        }
-
-        // If not found, return UNKNOWN (new processes that haven't been added to the enum yet)
-        return ProcessStepType.UNKNOWN;
+        return $"{processName}_V{step.UniqueName.Version}_STEP_{step.Sequence}";
     }
 }

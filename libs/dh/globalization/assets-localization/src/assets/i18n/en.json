@@ -29,6 +29,7 @@
   "notificationsCenter": {
     "headline": "Notifications",
     "noNotifications": "No notifications",
+    "markAllAsRead": "Mark all as read",
     "notification": {
       "markAsRead": "Mark as read",
       "BalanceResponsibilityActorUnrecognized": {
@@ -421,12 +422,12 @@
           "vatInclusiveGroupName": "VAT",
           "vatInclusive": "With VAT",
           "not_vatInclusive": "Without VAT",
-          "transparentInvoicingGroupName": "Transparent Invoicing",
+          "transparentInvoicingGroupName": "Transparent invoicing",
           "transparentInvoicing": "Subject to transparent invoicing",
           "not_transparentInvoicing": "Not subject to transparent invoicing",
-          "predictablePriceGroupName": "Predictable Price",
-          "predictablePrice": "Predictable price",
-          "not_predictablePrice": "Non-predictable price",
+          "spotDependingPriceGroupName": "Spot depending price",
+          "spotDependingPrice": "Spot depending price",
+          "not_spotDependingPrice": "Non-spot depending price",
           "missingPriceSeriesGroupName": "Price series",
           "missingPriceSeries": "Missing price series",
           "not_missingPriceSeries": "Has price series"
@@ -461,9 +462,9 @@
           "transparentInvoicing": "Transparent Invoicing",
           "withTransparentInvoicing": "Yes",
           "withoutTransparentInvoicing": "No",
-          "predictablePrice": "Predictable Price",
-          "withPredictablePrice": "Yes",
-          "withoutPredictablePrice": "No",
+          "spotDependingPrice": "Spot depending price",
+          "withSpotDependingPrice": "Yes",
+          "withoutSpotDependingPrice": "No",
           "validFrom": "Valid From",
           "cutoffDate": "Cut-off Date"
         },
@@ -524,6 +525,7 @@
       "owner": "Owner",
       "resolution": "Resolution",
       "transparentInvoicing": "Transparent Invoicing",
+      "spotDependingPrice": "Spot depending price",
       "vat": "VAT",
       "tabs": {
         "pricesLabel": "Prices",
@@ -608,7 +610,8 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found",
-      "searchMigratedMeteringPoints": "Search migrated metering points"
+      "searchMigratedMeteringPoints": "Search migrated metering points",
+      "searchMigratedMeteringPointsPreProd": "Search phase 2 test metering points"
     },
     "tabs": {
       "masterData": {
@@ -627,7 +630,7 @@
         "tabLabel": "Messages"
       },
       "measurements": {
-        "tabLabel": "{{ meteringPoint.overview.shared.terminology.measurements }}"
+        "tabLabel": "{{ shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Failed measurements"
@@ -685,7 +688,7 @@
       },
       "status": {
         "CLOSED_DOWN": "Closed down",
-        "NEW": "New",
+        "NEW": "Newly created",
         "CONNECTED": "Connected",
         "DISCONNECTED": "Disconnected",
         "UNKNOWN": "Unknown"
@@ -711,7 +714,8 @@
         "settlementMethod": "Settlement method",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Electrical heating date",
-        "powerLimit": "Power limit",
+        "powerLimitKw": "Power limit kW",
+        "powerLimitA": "Power limit A",
         "powerLimitValueKw": "{{ value }} kW",
         "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Disconnection type",
@@ -731,7 +735,8 @@
         "measureUnit": "Measure unit",
         "product": "Product",
         "connectionDate": "Connected",
-        "closedDownDate": "Discontinued"
+        "closedDownDate": "Discontinued",
+        "disconnectedDate": "Disconnected"
       },
       "customerContactDetails": {
         "title": "Contacts",
@@ -780,29 +785,37 @@
       "subjectLabel": "Subject",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc question",
-        "disconnectionOrReconnection": "Disconnect/Reconnect",
-        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Incorrect move/switch of supplier",
-        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
-        "measurements": "{{ shared.terminology.measurements }}",
-        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "priceAssociation": "{{ shared.terminology.chargeLink }}",
+        "INTERRUPTION_RECONNECTION": "Disconnect/Reconnect",
+        "ELECTRICAL_HEATING": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "WRONGFUL_MOVE_OR_SUPPLIER_CHANGE": "Incorrect move/switch of supplier",
+        "CUSTOMER_MASTER_DATA": "{{ shared.terminology.customerMasterData }}",
+        "MEASUREMENT_DATA": "{{ shared.terminology.measurements }}",
+        "MEASUREMENT_POINT_MASTER_DATA": "{{ shared.terminology.meteringPointMasterData }}",
+        "PRICE_LINKING": "{{ shared.terminology.chargeLink }}",
         "newCase": "New case"
       },
-      "receiverLabel": "Receiver",
+      "receiverLabel": "To",
       "receivers": {
         "ENERGY_SUPPLIER": "Energy supplier",
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Grid access provider"
       },
+      "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
       "internalNoteLabel": "Internal note",
       "messageLabel": "Message",
+      "messagePlaceholder": "Write a message",
       "sendButton": "Send",
       "emptyState": {
         "noCases": "No cases found",
         "noCaseSelected": "No case selected"
       },
-      "closed": "Closed"
+      "closed": "Closed",
+      "closeCaseButton": "Close case",
+      "markAsUnreadButton": "Mark as unread",
+      "startConversationError": "One or more fields are not filled correctly.\n\nThis may be due to an invalid combination of subject and recipient, or because anonymous submissions are not permitted for the selected recipient.",
+      "conversationCloseError": "An error occurred trying to close the case",
+      "anonymousCheckbox": "Send anonymously",
+      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
@@ -978,8 +991,7 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
-        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)",
-        "UNKNOWN": "Unknown Step"
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)"
       },
       "details": {
         "notFound": "Process not found",
@@ -1264,8 +1276,7 @@
       "modalTitle": "Start end of supply",
       "dateLabel": "Specify cut-off date",
       "dateHint": "The cut-off date must be between 3 days from today and 60 days ahead.",
-      "consequencesInfo": "Here should be a text...",
-      "confirmCheckbox": "I understand the consequences",
+      "confirmCheckbox": "Please note that when you initiate an end of supply, you are requesting to disconnect the electricity at the metering point.",
       "cancel": "Cancel",
       "submit": "Start end of supply",
       "submitSuccess": "End of supply submitted.",
@@ -2309,8 +2320,9 @@
         "title": "Are you sure you want to cancel the report?",
         "confirm": "Cancel report",
         "cancel": "Close",
-        "requestSuccess": "Settlement report has been canceled.",
-        "requestError": "Something went wrong. Settlement report was not canceled. Please try again."
+        "loading": "Cancelling settlement report...",
+        "success": "Settlement report has been canceled.",
+        "error": "Something went wrong. Settlement report was not canceled. Please try again."
       },
       "columns": {
         "startedAt": "Started",
@@ -2351,7 +2363,6 @@
         "includeBasisData": "Include basis data",
         "allowLargeTextFiles": "Allow large files",
         "period": "Calculation period",
-        "includeMonthlySum": "Include monthly sum",
         "useApi": "Request report via new solution",
         "energySupplier": "Energy supplier",
         "gridArea": "Grid area",
@@ -2916,7 +2927,8 @@
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> due to the role being deactivated",
               "USER_LOGIN_FEDERATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested to link MitID to the user",
-              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> has successfully linked MitID to the user"
+              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> has successfully linked MitID to the user",
+              "USER_LOGIN_FEDERATION_RESET": "<b>{{ auditedBy }}</b> has successfully reset MitID of the user"
             }
           }
         },

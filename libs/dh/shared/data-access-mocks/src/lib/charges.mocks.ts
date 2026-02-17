@@ -61,7 +61,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     code: 'CHARGE001',
     status: ChargeStatus.Awaiting,
     resolution: ChargeResolution.QuarterHourly,
-    predictablePrice: false,
+    spotDependingPrice: false,
     transparentInvoicing: true,
     vatInclusive: false,
     periods: [
@@ -73,7 +73,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         status: 'CLOSED',
         transparentInvoicing: true,
         vatInclusive: false,
-        predictablePrice: false,
       },
       {
         __typename: 'ChargePeriod',
@@ -83,7 +82,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         status: 'CURRENT',
         transparentInvoicing: true,
         vatInclusive: false,
-        predictablePrice: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.QuarterHourly) : [],
@@ -105,7 +103,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE002 • Peak Hours Tariff',
     status: ChargeStatus.Current,
     resolution: ChargeResolution.Hourly,
-    predictablePrice: false,
+    spotDependingPrice: false,
     transparentInvoicing: false,
     vatInclusive: false,
     periods: [
@@ -117,7 +115,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         status: 'CLOSED',
         transparentInvoicing: true,
         vatInclusive: false,
-        predictablePrice: false,
       },
       {
         __typename: 'ChargePeriod',
@@ -127,7 +124,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         status: 'CURRENT',
         transparentInvoicing: false,
         vatInclusive: false,
-        predictablePrice: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Hourly) : [],
@@ -149,7 +145,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE003 • Green Energy Plan',
     status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Daily,
-    predictablePrice: false,
+    spotDependingPrice: false,
     transparentInvoicing: true,
     vatInclusive: false,
     periods: [
@@ -161,7 +157,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         status: 'CLOSED',
         transparentInvoicing: true,
         vatInclusive: false,
-        predictablePrice: false,
       },
       {
         __typename: 'ChargePeriod',
@@ -171,7 +166,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         status: 'CURRENT',
         transparentInvoicing: true,
         vatInclusive: false,
-        predictablePrice: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Daily) : [],
@@ -193,7 +187,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE004 • Connection Fee',
     status: ChargeStatus.Cancelled,
     resolution: ChargeResolution.Monthly,
-    predictablePrice: false,
+    spotDependingPrice: true,
     transparentInvoicing: true,
     vatInclusive: false,
     periods: [
@@ -205,7 +199,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         status: 'CLOSED',
         transparentInvoicing: true,
         vatInclusive: false,
-        predictablePrice: false,
       },
       {
         __typename: 'ChargePeriod',
@@ -215,7 +208,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         status: 'CURRENT',
         transparentInvoicing: true,
         vatInclusive: false,
-        predictablePrice: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Monthly) : [],
@@ -237,7 +229,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     displayName: 'CHARGE005 • Connection Fee',
     status: ChargeStatus.Current,
     resolution: ChargeResolution.Monthly,
-    predictablePrice: false,
+    spotDependingPrice: true,
     transparentInvoicing: true,
     vatInclusive: false,
     periods: [
@@ -249,7 +241,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         status: 'CLOSED',
         transparentInvoicing: true,
         vatInclusive: false,
-        predictablePrice: false,
       },
       {
         __typename: 'ChargePeriod',
@@ -259,7 +250,6 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         status: 'CURRENT',
         transparentInvoicing: true,
         vatInclusive: false,
-        predictablePrice: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Monthly) : [],

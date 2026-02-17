@@ -18,7 +18,7 @@ namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
 public record MeteringPointProcessStep(
     string Id,
-    ProcessStepType Step,
+    string Step,
     string? Comment,
     DateTimeOffset? CompletedAt,
     DateTimeOffset? DueDate,

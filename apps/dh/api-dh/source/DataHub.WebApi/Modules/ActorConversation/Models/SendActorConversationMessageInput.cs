@@ -12,25 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-﻿using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
+namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Models;
 
-﻿namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
-
-public class StartConversationInputType
+public class SendActorConversationMessageInput
 {
-    public required ConversationSubject Subject { get; set; }
+    public required Guid ConversationId { get; set; }
 
     public required string MeteringPointIdentification { get; set; }
 
-    public required string ActorName { get; set; }
+    public required string ActorId { get; set; }
 
-    public required string UserName { get; set; }
-
-    public string? InternalNote { get; set; }
+    public required string UserId { get; set; }
 
     public required string Content { get; set; }
 
     public required bool Anonymous { get; set; }
-
-    public required ActorType Receiver { get; set; }
 }

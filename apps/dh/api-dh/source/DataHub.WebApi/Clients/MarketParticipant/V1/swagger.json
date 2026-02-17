@@ -2954,13 +2954,22 @@
         }
       }
     },
-    "/user/reset-mitid": {
+    "/user/{userId}/reset-mitid": {
       "post": {
         "tags": [
           "User"
         ],
         "operationId": "reset-mitid",
         "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           {
             "name": "api-version",
             "in": "query",
@@ -3920,6 +3929,74 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/Validate/gridArea/{gridAreaId}/exists": {
+      "get": {
+        "tags": [
+          "Validate"
+        ],
+        "operationId": "exists",
+        "parameters": [
+          {
+            "name": "gridAreaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Validate/actor/{actorNumer}/gridArea/{gridAreaId}": {
+      "get": {
+        "tags": [
+          "Validate"
+        ],
+        "operationId": "gridArea",
+        "parameters": [
+          {
+            "name": "actorNumer",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "gridAreaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -5615,7 +5692,8 @@
           "UserRoleRemoved",
           "UserRoleRemovedDueToDeactivation",
           "UserLoginFederationRequested",
-          "UserLoginFederated"
+          "UserLoginFederated",
+          "UserLoginFederationReset"
         ],
         "enum": [
           1,
@@ -5627,7 +5705,8 @@
           7,
           8,
           9,
-          10
+          10,
+          11
         ]
       },
       "UserAuditedChangeAuditLogDto": {
@@ -5646,7 +5725,8 @@
               "UserRoleRemoved",
               "UserRoleRemovedDueToDeactivation",
               "UserLoginFederationRequested",
-              "UserLoginFederated"
+              "UserLoginFederated",
+              "UserLoginFederationReset"
             ],
             "allOf": [
               {

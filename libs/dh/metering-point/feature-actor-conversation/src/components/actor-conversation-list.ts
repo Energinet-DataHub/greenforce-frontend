@@ -16,13 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VATER } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
 import { Conversation } from '../types';
 import { WattHeadingComponent } from '@energinet/watt/heading';
+import { QueryResult } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  GetConversationsQuery,
+  GetConversationsQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { dayjs } from '@energinet/watt/core/date';
 
 @Component({
   selector: 'dh-actor-conversation-list',
@@ -32,6 +39,8 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
     WattButtonComponent,
     WattHeadingComponent,
     DhActorConversationListItemComponent,
+    VaterUtilityDirective,
+    DhResultComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -67,39 +76,47 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
           {{ t('newCaseButton') }}
         </watt-button>
       </vater-stack>
-      <ul vater fragment class="cases">
-        @if (newConversationVisible()) {
-          <li>
-            <dh-actor-conversation-list-item
-              [conversation]="newConversation"
-              [selected]="newConversationVisible()"
-            />
-          </li>
-        }
-        @for (conversationItem of conversations(); track conversationItem.id) {
-          <li>
-            <dh-actor-conversation-list-item
-              [conversation]="conversationItem"
-              [selected]="selectedConversationId() === conversationItem.id"
-              (click)="selectConversation.emit(conversationItem.id)"
-            />
-          </li>
-        }
-      </ul>
+      <dh-result vater fill="vertical" [query]="conversationsQuery()">
+        <ul>
+          @if (newConversationVisible()) {
+            <li>
+              <dh-actor-conversation-list-item
+                [conversation]="newConversation"
+                [selected]="newConversationVisible()"
+              />
+            </li>
+          }
+          @for (conversationItem of conversations(); track conversationItem.id) {
+            <li>
+              <dh-actor-conversation-list-item
+                [conversation]="conversationItem"
+                [selected]="selectedConversationId() === conversationItem.id"
+                (click)="selectConversation.emit(conversationItem.id)"
+              />
+            </li>
+          }
+        </ul>
+      </dh-result>
     </vater-grid>
   `,
 })
 export class DhActorConversationListComponent {
-  conversations = input<Conversation[]>([]);
+  conversationsQuery = input<QueryResult<GetConversationsQuery, GetConversationsQueryVariables>>();
+  conversations = computed(
+    () => this.conversationsQuery()?.data()?.conversationsForMeteringPoint?.conversations ?? []
+  );
   newConversationVisible = input<boolean>(false);
   selectedConversationId = input<string | undefined>(undefined);
   createNewConversation = output();
   selectConversation = output<string | undefined>();
 
   newConversation: Conversation = {
+    __typename: 'ConversationInfo',
     closed: false,
-    lastUpdatedDate: undefined,
-    id: undefined,
-    subject: 'newCase',
+    read: false,
+    lastUpdated: dayjs().toDate(),
+    id: '',
+    displayId: '',
+    subject: 'QUESTION_FOR_ENERGINET',
   };
 }

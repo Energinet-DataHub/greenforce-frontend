@@ -23,5 +23,5 @@ public record ChargesQuery(
     Resolution[]? Resolution,
     bool? VatInclusive,
     bool? TransparentInvoicing,
-    bool? PredictablePrice,
+    bool? SpotDependingPrice,
     bool? MissingPriceSeries);

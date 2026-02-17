@@ -25,7 +25,6 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { EnergySupplier } from './../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
@@ -143,7 +142,10 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
           }
 
           @defer (on idle) {
-            <dh-related-metering-points [meteringPointId]="meteringPointId()" />
+            <dh-related-metering-points
+              [meteringPointIdentification]="meteringPointId()"
+              [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
+            />
           }
         </div>
       </vater-stack>
@@ -152,7 +154,6 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
 })
 export class DhMeteringPointMasterDataComponent {
   private readonly actor = inject(DhActorStorage).getSelectedActor();
-  private readonly environment = inject(dhAppEnvironmentToken);
 
   meteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
@@ -162,7 +163,6 @@ export class DhMeteringPointMasterDataComponent {
       meteringPointId: this.meteringPointId(),
       actorGln: this.actor.gln,
       searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
-      environment: this.environment.current,
     },
   }));
 

@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "https://app-api-actcon-d-we-002.azurewebsites.net/openapi/v1.json",
+      "url": "https://app-api-actcon-d-we-001.azurewebsites.net/openapi/v1.json",
       "output": "swagger.json",
       "newLineBehavior": "Auto"
     }
@@ -31,8 +31,8 @@
       "useHttpClientCreationMethod": false,
       "httpClientType": "System.Net.Http.HttpClient",
       "useHttpRequestMessageCreationMethod": false,
-      "useBaseUrl": true,
-      "generateBaseUrlProperty": true,
+      "useBaseUrl": false,
+      "generateBaseUrlProperty": false,
       "generateSyncMethods": false,
       "generatePrepareRequestAndProcessResponseAsAsyncMethods": false,
       "exposeJsonSerializerSettings": true,

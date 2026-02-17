@@ -15,9 +15,10 @@
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Commands;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using NodaTime;
@@ -40,7 +41,7 @@ public class ChargesClient(
         Resolution[]? resolution,
         bool? vatInclusive,
         bool? transparentInvoicing,
-        bool? predictablePrice,
+        bool? spotDependingPrice,
         bool? missingPriceSeries,
         CancellationToken ct = default)
     {
@@ -57,6 +58,7 @@ public class ChargesClient(
         // Map and apply filters
         var data = result.Data ?? [];
         var charges = data
+            .Where(c => c.Periods.Count > 0) // Only include charges with at least one period
             .Select(MapChargeInformationDtoToCharge)
             .Where(c => owners?.Contains(c.Id.Owner) ?? true)
             .Where(c => types?.Contains(c.Type) ?? true)
@@ -64,7 +66,7 @@ public class ChargesClient(
             .Where(c => resolution?.Contains(c.Resolution) ?? true)
             .Where(c => vatInclusive.GetValueOrDefault(c.VatInclusive) == c.VatInclusive)
             .Where(c => transparentInvoicing.GetValueOrDefault(c.TransparentInvoicing) == c.TransparentInvoicing)
-            .Where(c => predictablePrice.GetValueOrDefault(c.PredictablePrice) == c.PredictablePrice)
+            .Where(c => spotDependingPrice.GetValueOrDefault(c.SpotDependingPrice) == c.SpotDependingPrice)
             .Where(c => c.FilterText.Contains(filter ?? string.Empty, StringComparison.InvariantCultureIgnoreCase))
             .OrderBy(c => c.Type.Name)
             .ThenBy(c => c.Id.Owner)
@@ -112,7 +114,7 @@ public class ChargesClient(
 
         return !result.IsSuccess
             ? throw new GraphQLException(result.DiagnosticMessage)
-            : result.Data?.Select(MapChargeInformationDtoToCharge) ?? [];
+            : result.Data?.Where(c => c.Periods?.Count > 0)?.Select(MapChargeInformationDtoToCharge) ?? [];
     }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
@@ -138,19 +140,19 @@ public class ChargesClient(
     public async Task<bool> CreateChargeAsync(CreateChargeInput input, CancellationToken ct = default)
     {
         var result = await ediClient.SendAsync(
-            new UpsertChargeInformationCommandV1(new(
+            new UpsertChargeInformationCommandV2(new(
                 ChargeId: input.Code,
                 ChargeOwnerId: httpContext.CreateUserIdentity().ActorNumber.Value,
                 ChargeType: input.Type.ToRequestChangeOfPriceListChargeType(),
                 ChargeName: input.Name,
                 ChargeDescription: input.Description,
-                Resolution: input.Resolution.CastDurationTo<ResolutionV1>(),
+                Resolution: input.Resolution.CastDurationTo<ResolutionV2>(),
                 Start: input.ValidFrom,
                 End: null,
-                VatPayer: input.Vat ? VatPayerV1.D02 : VatPayerV1.D01,
+                VatPayer: input.Vat ? VatPayerV2.D02 : VatPayerV2.D01,
                 TransparentInvoicing: input.TransparentInvoicing,
                 TaxIndicator: input.Type.IsTax,
-                LocalPricingCategoryType: null)),
+                PricingCategory: MapBoolToPricingCategoryV2(input.SpotDependingPrice))),
             ct);
 
         return result.IsSuccess;
@@ -160,19 +162,19 @@ public class ChargesClient(
     {
         var charge = await GetChargeByIdAsync(input.Id, ct) ?? throw new GraphQLException("Charge not found");
         var result = await ediClient.SendAsync(
-            new UpsertChargeInformationCommandV1(new(
+            new UpsertChargeInformationCommandV2(new(
                 ChargeId: input.Id.Code,
                 ChargeOwnerId: input.Id.Owner,
                 ChargeType: charge.Type.ToRequestChangeOfPriceListChargeType(),
                 ChargeName: input.Name,
                 ChargeDescription: input.Description,
-                Resolution: charge.Resolution.CastDurationTo<ResolutionV1>(),
+                Resolution: charge.Resolution.CastDurationTo<ResolutionV2>(),
                 Start: input.CutoffDate,
                 End: null,
-                VatPayer: input.Vat ? VatPayerV1.D02 : VatPayerV1.D01,
+                VatPayer: input.Vat ? VatPayerV2.D02 : VatPayerV2.D01,
                 TransparentInvoicing: input.TransparentInvoicing,
                 TaxIndicator: null,
-                LocalPricingCategoryType: null)),
+                PricingCategory: MapBoolToPricingCategoryV2(charge.SpotDependingPrice))),
             ct);
 
         return result.IsSuccess;
@@ -185,18 +187,18 @@ public class ChargesClient(
     {
         var charge = await GetChargeByIdAsync(id, ct) ?? throw new GraphQLException("Charge not found");
         var result = await ediClient.SendAsync(
-            new StopChargeInformationCommandV1(new(
+            new StopChargeInformationCommandV2(new(
                 ChargeId: id.Code,
                 ChargeType: charge.Type.ToRequestChangeOfPriceListChargeType(),
                 TerminationDate: terminationDate,
                 ChargeOwnerId: id.Owner,
                 ChargeName: charge.Name,
                 ChargeDescription: charge.Description,
-                Resolution: charge.Resolution.CastDurationTo<ResolutionV1>(),
-                VatPayer: charge.VatInclusive ? VatPayerV1.D02 : VatPayerV1.D01,
+                Resolution: charge.Resolution.CastDurationTo<ResolutionV2>(),
+                VatPayer: charge.VatInclusive ? VatPayerV2.D02 : VatPayerV2.D01,
                 TransparentInvoicing: charge.TransparentInvoicing,
                 TaxIndicator: charge.TaxIndicator,
-                LocalPricingCategoryType: string.Empty)),
+                PricingCategory: MapBoolToPricingCategoryV2(charge.SpotDependingPrice))),
             ct);
 
         return result.IsSuccess;
@@ -206,12 +208,12 @@ public class ChargesClient(
         ChargeIdentifierDto id,
         DateTimeOffset start,
         DateTimeOffset end,
-        List<ChargePointV1> points,
+        List<ChargePointV2> points,
         CancellationToken ct = default)
     {
         var charge = await GetChargeByIdAsync(id, ct) ?? throw new GraphQLException("Charge not found");
         var result = await ediClient.SendAsync(
-            new UpsertChargeSeriesCommandV1(new(
+            new UpsertChargeSeriesCommandV2(new(
                 ChargeId: id.Code,
                 ChargeType: charge.Type.ToRequestChangeOfPriceListChargeType(),
                 ChargeOwnerId: id.Owner,
@@ -220,7 +222,7 @@ public class ChargesClient(
                 Points:
                 [
                     new(
-                        Resolution: charge.Resolution.CastDurationTo<ResolutionV1>(),
+                        Resolution: charge.Resolution.CastDurationTo<ResolutionV2>(),
                         Start: start,
                         End: end,
                         Points: points),
@@ -235,8 +237,14 @@ public class ChargesClient(
             Id: charge.ChargeIdentifierDto,
             Resolution: Resolution.FromName(charge.ResolutionDto),
             TaxIndicator: charge.TaxIndicator,
+            SpotDependingPrice: charge.PricingCategoryDto == PricingCategoryDto.SpotDependingPrice,
             PeriodDtos: [.. charge.Periods
                 .Where(x => x.StartDate <= x.EndDate)
                 .OrderByDescending(x => x.StartDate)
                 .ThenByDescending(x => x.EndDate)]);
+
+    private static PricingCategoryV2 MapBoolToPricingCategoryV2(bool spotDependingPrice)
+        => spotDependingPrice
+            ? PricingCategoryV2.SpotDependeningPrice
+            : PricingCategoryV2.NotSpotDependingPrice;
 }

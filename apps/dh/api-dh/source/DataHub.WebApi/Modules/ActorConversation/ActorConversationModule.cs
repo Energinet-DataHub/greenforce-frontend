@@ -26,5 +26,5 @@ public class ActorConversationModule : IModule
         services
             .AddClient<IActorConversationClient_V1>(
                 baseUrls => baseUrls.ActorConversationBaseUrl,
-                (baseUrl, client) => new ActorConversationClient_V1(client) { BaseUrl = baseUrl });
+                (baseUrl, client) => new ActorConversationClient_V1(client));
 }

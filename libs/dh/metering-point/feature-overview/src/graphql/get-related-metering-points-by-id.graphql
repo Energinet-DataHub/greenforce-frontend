@@ -1,6 +1,6 @@
 fragment RelatedMeteringPoint on RelatedMeteringPointDto {
   id
-  identification
+  meteringPointIdentification
   type
   connectionState
   createdDate
@@ -9,8 +9,14 @@ fragment RelatedMeteringPoint on RelatedMeteringPointDto {
   disconnectionDate
 }
 
-query GetRelatedMeteringPointsById($meteringPointId: String!) {
-  relatedMeteringPoints(meteringPointId: $meteringPointId) {
+query GetRelatedMeteringPointsById(
+  $meteringPointIdentification: String!
+  $searchMigratedMeteringPoints: Boolean
+) {
+  relatedMeteringPoints(
+    meteringPointId: $meteringPointIdentification
+    searchMigratedMeteringPoints: $searchMigratedMeteringPoints
+  ) {
     parent {
       ...RelatedMeteringPoint
     }

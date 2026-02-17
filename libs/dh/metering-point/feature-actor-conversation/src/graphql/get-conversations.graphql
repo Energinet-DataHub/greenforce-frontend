@@ -1,0 +1,12 @@
+query GetConversations($meteringPointIdentification: String!) {
+  conversationsForMeteringPoint(meteringPointIdentification: $meteringPointIdentification) {
+    conversations {
+      id
+      read
+      subject
+      displayId
+      closed
+      lastUpdated
+    }
+  }
+}

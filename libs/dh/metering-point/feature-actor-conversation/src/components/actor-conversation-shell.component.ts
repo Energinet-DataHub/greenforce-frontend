@@ -26,11 +26,13 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState, StartConversationFormValue } from '../types';
+import { ActorConversationState } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
 import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
+import { DhActorConversationSelectedConversationComponent } from './actor-conversation-selected-conversation.component';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -42,6 +44,11 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
     WattButtonComponent,
     DhActorConversationListComponent,
     DhActorConversationNewConversationComponent,
+    TranslocoDirective,
+    VaterStackComponent,
+    VaterUtilityDirective,
+    DhActorConversationSelectedConversationComponent,
+    WattSpinnerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -51,11 +58,11 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
   `,
   template: `
     <watt-card vater contain scrollable fill="vertical">
-      <vater-grid inset="0" columns="minmax(min-content, 1fr) 3fr" gap="dividers">
+      <vater-grid inset="0" columns="minmax(min-content, 1fr) 3fr" gap="dividers" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
         <dh-actor-conversation-list
           vater
           scrollable
-          [conversations]="conversations()"
+          [conversationsQuery]="conversationsQuery"
           [newConversationVisible]="newConversationVisible()"
           [selectedConversationId]="selectedConversationId()"
           (createNewConversation)="newConversation()"
@@ -63,15 +70,16 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
         />
         <vater-stack scrollable *transloco="let t; prefix: 'meteringPoint.actorConversation'">
           @switch (state()) {
-            @case (ActorConversationState.newConversationOpen) {
+            @case ('newConversationOpen') {
               <dh-actor-conversation-new-conversation
                 vater
                 fill="both"
+                class="watt-space-inset-m"
+                [meteringPointId]="meteringPointId()"
                 (closeNewConversation)="newConversationVisible.set(false)"
-                (startConversation)="startConversation($event)"
               />
             }
-            @case (ActorConversationState.noConversations) {
+            @case ('noConversations') {
               <watt-empty-state
                 vater
                 center
@@ -83,7 +91,7 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
                 </watt-button>
               </watt-empty-state>
             }
-            @case (ActorConversationState.noConversationSelected) {
+            @case ('noConversationSelected') {
               <watt-empty-state
                 vater
                 center
@@ -91,8 +99,17 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
                 [title]="t('emptyState.noCaseSelected')"
               />
             }
-            @case (ActorConversationState.conversationSelected) {
-              <h1>TO BE IMPLEMENTED</h1>
+            @case ('conversationSelected') {
+              @if (selectedConversationId(); as conversationId) {
+                <dh-actor-conversation-selected-conversation
+                  vater
+                  fill="both"
+                  [meteringPointId]="meteringPointId()"
+                  [conversationId]="conversationId"
+                />
+              } @else {
+                <watt-spinner vater center />
+              }
             }
           }
         </vater-stack>
@@ -101,24 +118,21 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
   `,
 })
 export class DhActorConversationShellComponent {
-  protected readonly ActorConversationState = ActorConversationState;
+  conversationsQuery = query(GetConversationsDocument, () => ({
+    variables: {
+      meteringPointIdentification: this.meteringPointId(),
+    },
+  }));
+
+  meteringPointId = input.required<string>();
   newConversationVisible = signal(false);
-  conversations = signal([
-    {
-      id: '00001',
-      subject: ConversationSubject.QuestionForEnerginet,
-      lastUpdatedDate: new Date(),
-      closed: false,
-      unread: true,
-    },
-    {
-      id: '00002',
-      subject: ConversationSubject.QuestionForEnerginet,
-      lastUpdatedDate: new Date(),
-      closed: true,
-    },
-  ]);
+
+  conversations = computed(
+    () => this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []
+  );
+
   selectedConversationId = signal<string | undefined>(undefined);
+
   state = computed<ActorConversationState>(() => {
     if (this.newConversationVisible()) {
       return ActorConversationState.newConversationOpen;
@@ -129,39 +143,6 @@ export class DhActorConversationShellComponent {
     }
     return ActorConversationState.conversationSelected;
   });
-  startConversationMutation = mutation(StartConversationDocument);
-  private toastService = inject(WattToastService);
-
-  async startConversation(formValue: StartConversationFormValue) {
-    const meteringPointIdentification = '571313131313131313'; // TODO: Get from context
-    const actorName = 'Testnet & CO'; // TODO: Get from context
-    const userName = 'Test Testesen'; // TODO: Get from context
-
-    const result = await this.startConversationMutation.mutate({
-      variables: {
-        subject: formValue.subject,
-        meteringPointIdentification: meteringPointIdentification,
-        actorName: actorName,
-        userName: userName,
-        internalNote: formValue.internalNote,
-        content: formValue.content,
-        anonymous: formValue.anonymous,
-        receiver: formValue.receiver,
-      },
-    });
-    this.newConversationVisible.set(false);
-    if (result.error) {
-      this.toastService.open({
-        type: 'danger',
-        message: 'Error',
-      });
-    } else {
-      this.toastService.open({
-        type: 'success',
-        message: formValue.content,
-      });
-    }
-  }
 
   newConversation() {
     this.newConversationVisible.set(true);

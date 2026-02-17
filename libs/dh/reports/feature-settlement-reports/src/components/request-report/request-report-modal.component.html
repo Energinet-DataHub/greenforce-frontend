@@ -39,15 +39,6 @@ limitations under the License.
             </watt-field-error>
           }
         </watt-datepicker>
-
-        @if (showMonthlySumCheckbox$ | push) {
-          <watt-checkbox
-            [formControl]="form.controls.includeMonthlySum"
-            data-testid="settlementreport.includeMonthlySum"
-          >
-            {{ t("includeMonthlySum") }}
-          </watt-checkbox>
-        }
       </div>
 
       <div class="items-group">

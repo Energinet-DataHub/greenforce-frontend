@@ -52,8 +52,7 @@ public static partial class MeteringPointMetadataDtoType
         return await dataLoader.LoadAsync(meteringPointMetadata.ToGridAreaCode);
     }
 
-    public static async Task<long?> GetInternalMeteringPointParentIdAsync(
-        string? environment,
+    public static async Task<string?> GetInternalMeteringPointParentIdAsync(
         bool? searchMigratedMeteringPoints,
         [Parent] MeteringPointMetadataDto meteringPointMetadata,
         CancellationToken ct,
@@ -68,7 +67,7 @@ public static partial class MeteringPointMetadataDtoType
             return null;
         }
 
-        var meteringPoint = await MeteringPointNode.GetMeteringPointAsync(meteringPointMetadata.ParentMeteringPoint, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
+        var meteringPoint = await MeteringPointNode.GetMeteringPointAsync(meteringPointMetadata.ParentMeteringPoint, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
 
         return meteringPoint?.Id;
     }

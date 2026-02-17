@@ -553,12 +553,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UserResetMitidAsync(string? api_version = null);
+        System.Threading.Tasks.Task UserResetMitidAsync(System.Guid userId, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UserResetMitidAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task UserResetMitidAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -712,6 +712,24 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> ActorsRolesAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ValidateGridAreaExistsAsync(string gridAreaId, string? api_version = null);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ValidateGridAreaExistsAsync(string gridAreaId, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ValidateActorGridAreaAsync(string actorNumer, string gridAreaId, string? api_version = null);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ValidateActorGridAreaAsync(string actorNumer, string gridAreaId, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
     }
 
@@ -5786,16 +5804,19 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task UserResetMitidAsync(string? api_version = null)
+        public virtual System.Threading.Tasks.Task UserResetMitidAsync(System.Guid userId, string? api_version = null)
         {
-            return UserResetMitidAsync(System.Threading.CancellationToken.None, api_version);
+            return UserResetMitidAsync(userId, System.Threading.CancellationToken.None, api_version);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task UserResetMitidAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task UserResetMitidAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
+            if (userId == null)
+                throw new System.ArgumentNullException("userId");
+
             var client_ = _httpClient;
             var disposeClient_ = false;
             try
@@ -5807,8 +5828,10 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "user/reset-mitid"
-                    urlBuilder_.Append("user/reset-mitid");
+                    // Operation Path: "user/{userId}/reset-mitid"
+                    urlBuilder_.Append("user/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/reset-mitid");
                     urlBuilder_.Append('?');
                     if (api_version != null)
                     {
@@ -7369,6 +7392,176 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
             }
         }
 
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task ValidateGridAreaExistsAsync(string gridAreaId, string? api_version = null)
+        {
+            return ValidateGridAreaExistsAsync(gridAreaId, System.Threading.CancellationToken.None, api_version);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task ValidateGridAreaExistsAsync(string gridAreaId, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        {
+            if (gridAreaId == null)
+                throw new System.ArgumentNullException("gridAreaId");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "Validate/gridArea/{gridAreaId}/exists"
+                    urlBuilder_.Append("Validate/gridArea/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(gridAreaId, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/exists");
+                    urlBuilder_.Append('?');
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task ValidateActorGridAreaAsync(string actorNumer, string gridAreaId, string? api_version = null)
+        {
+            return ValidateActorGridAreaAsync(actorNumer, gridAreaId, System.Threading.CancellationToken.None, api_version);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task ValidateActorGridAreaAsync(string actorNumer, string gridAreaId, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        {
+            if (actorNumer == null)
+                throw new System.ArgumentNullException("actorNumer");
+
+            if (gridAreaId == null)
+                throw new System.ArgumentNullException("gridAreaId");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "Validate/actor/{actorNumer}/gridArea/{gridAreaId}"
+                    urlBuilder_.Append("Validate/actor/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorNumer, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/gridArea/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(gridAreaId, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -8588,6 +8781,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         UserLoginFederationRequested = 9,
 
         UserLoginFederated = 10,
+
+        UserLoginFederationReset = 11,
 
     }
 
