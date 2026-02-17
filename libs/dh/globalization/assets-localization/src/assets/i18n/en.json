@@ -610,7 +610,8 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found",
-      "searchMigratedMeteringPoints": "Search migrated metering points"
+      "searchMigratedMeteringPoints": "Search migrated metering points",
+      "searchMigratedMeteringPointsPreProd": "Search phase 2 test metering points"
     },
     "tabs": {
       "masterData": {
