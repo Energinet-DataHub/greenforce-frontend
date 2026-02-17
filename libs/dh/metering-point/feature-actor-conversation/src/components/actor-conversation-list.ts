@@ -53,31 +53,31 @@ import { dayjs } from '@energinet/watt/core/date';
     }
   `,
   template: `
-    <vater-grid
-      gap="dividers"
-      autoRows="minmax(var(--case-min-row-height), 1fr)"
-      *transloco="let t; prefix: 'meteringPoint.actorConversation'"
-    >
-      <vater-stack
-        sticky="top"
-        direction="row"
-        justify="space-between"
-        align="center"
-        offset="m"
-        class="new-case"
+    <dh-result [query]="conversationsQuery()">
+      <vater-grid
+        gap="dividers"
+        autoRows="minmax(var(--case-min-row-height), 1fr)"
+        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
       >
-        <h3 watt-heading>{{ t('cases') }}</h3>
-        <watt-button
-          (click)="createNewConversation.emit()"
-          icon="plus"
-          variant="text"
-          data-testid="new-conversation-button"
+        <vater-stack
+          sticky="top"
+          direction="row"
+          justify="space-between"
+          align="center"
+          offset="m"
+          class="new-case"
         >
-          {{ t('newCaseButton') }}
-        </watt-button>
-      </vater-stack>
-      <dh-result vater fill="vertical" [query]="conversationsQuery()">
-        <ul>
+          <h3 watt-heading>{{ t('cases') }}</h3>
+          <watt-button
+            (click)="createNewConversation.emit()"
+            icon="plus"
+            variant="text"
+            data-testid="new-conversation-button"
+          >
+            {{ t('newCaseButton') }}
+          </watt-button>
+        </vater-stack>
+        <ul vater fragment class="cases">
           @if (newConversationVisible()) {
             <li>
               <dh-actor-conversation-list-item
@@ -96,8 +96,8 @@ import { dayjs } from '@energinet/watt/core/date';
             </li>
           }
         </ul>
-      </dh-result>
-    </vater-grid>
+      </vater-grid>
+    </dh-result>
   `,
 })
 export class DhActorConversationListComponent {
