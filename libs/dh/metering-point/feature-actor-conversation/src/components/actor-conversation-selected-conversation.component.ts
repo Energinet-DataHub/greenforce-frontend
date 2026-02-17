@@ -71,6 +71,10 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
     .no-margin {
       margin: 0;
     }
+
+    .sticky-background {
+      background-color: var(--bg-card);
+    }
   `,
   template: `
     <dh-result vater fill="vertical" [query]="conversationQuery">
@@ -81,7 +85,7 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
       >
         @if (conversation(); as conversation) {
           <!-- Header -->
-          <vater-stack fill="horizontal">
+          <vater-stack fill="horizontal" sticky="top" class="sticky-background">
             <vater-stack
               fill="horizontal"
               direction="row"
@@ -142,7 +146,13 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
           </vater-flex>
         }
         <!-- Footer - Message input form -->
-        <form vater class="watt-space-inset-stretch-m" fill="horizontal" (ngSubmit)="sendMessage()">
+        <form
+          vater
+          sticky="bottom"
+          class="watt-space-inset-stretch-m sticky-background"
+          fill="horizontal"
+          (ngSubmit)="sendMessage()"
+        >
           <dh-actor-conversation-message-form
             [loading]="sendActorConversationMessageMutation.loading()"
             [small]="true"
