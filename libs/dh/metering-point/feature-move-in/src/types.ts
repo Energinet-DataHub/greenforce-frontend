@@ -20,6 +20,7 @@ import { type FormControl, type FormGroup } from '@angular/forms';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import {
+  ChangeCustomerCharacteristicsInput,
   ChangeOfSupplierBusinessReason,
   GetMeteringPointByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -131,3 +132,6 @@ export type Customer = Omit<CustomerWithContacts, 'legalContact' | 'technicalCon
 export type Contact =
   | CustomerWithContacts['legalContact']
   | CustomerWithContacts['technicalContact'];
+
+export type UpdateCustomer = ChangeCustomerCharacteristicsInput;
+export type Location = NonNullable<UpdateCustomer['usagePointLocations']>[0];
