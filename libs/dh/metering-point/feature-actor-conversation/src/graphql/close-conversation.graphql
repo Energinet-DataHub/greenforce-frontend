@@ -1,15 +1,5 @@
-mutation CloseConversation(
-  $conversationId: UUID!
-  $meteringPointIdentification: String!
-  $userName: String!
-) {
-  closeConversation(
-    input: {
-      conversationId: $conversationId
-      meteringPointIdentification: $meteringPointIdentification
-      userName: $userName
-    }
-  ) {
+mutation CloseConversation($conversationId: UUID!) {
+  closeConversation(input: { conversationId: $conversationId }) {
     boolean
   }
 }

@@ -382,26 +382,27 @@ type CollectionSegmentInfo {
 
 "Conversation"
 type Conversation {
-  meteringPointIdentification: String!
-  displayId: String!
+  displayId: String
+  "Display Id of the conversation"
+  id: ID!
+  "Internal note from the creator"
   internalNote: String
   subject: ConversationSubject!
+  "true for conversations that are closed. false otherwise."
   closed: Boolean!
+  "Messages associated with a conversation"
   messages: [ConversationMessage!]!
-  """
-  Indicates id you are part of this conversation.
-  Energinet can see conversations they are not part of.
-  """
-  partOfConversations: Boolean!
 }
 
 "Conversation info"
 type ConversationInfo {
   "Conversation id"
   id: UUID!
+  "Display id of the conversation"
+  displayId: ID!
+  subject: ConversationSubject!
   "Specifies whether the conversation has been read or not"
   read: Boolean!
-  subject: ConversationSubject!
   "Conversation is closed or not"
   closed: Boolean!
   "Last updated time of the conversation"
@@ -410,16 +411,12 @@ type ConversationInfo {
 
 "Conversation message"
 type ConversationMessage {
-  "Sender user id"
-  userId: String
-  "Sendor actor number"
-  actorNumber: String
-  senderType: ActorType!
   "Message content"
   content: String!
   messageType: MessageType!
   "Created time"
   createdTime: DateTime!
+  senderType: ActorType!
 }
 
 "Conversations"
@@ -1083,7 +1080,8 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
-  startConversation(input: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  startConversation(startConversationInput: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  sendActorConversationMessage(sendActorConversationMessageInput: SendActorConversationMessageInput!): SendActorConversationMessagePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   closeConversation(input: CloseConversationInput!): CloseConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
@@ -1537,6 +1535,10 @@ type SelectionActorDto {
   marketRole: EicFunction!
 }
 
+type SendActorConversationMessagePayload {
+  boolean: Boolean
+}
+
 type SendMeasurementsInstanceDto {
   id: UUID!
   idempotencyKeyHash: String!
@@ -1923,8 +1925,6 @@ input ChargesQueryInput {
 
 input CloseConversationInput {
   conversationId: UUID!
-  meteringPointIdentification: String!
-  userName: String!
 }
 
 input CreateActorContactDtoInput {
@@ -2270,6 +2270,15 @@ input ResetTwoFactorAuthenticationInput {
   userId: UUID!
 }
 
+input SendActorConversationMessageInput {
+  conversationId: UUID!
+  meteringPointIdentification: String!
+  actorId: String!
+  userId: String!
+  content: String!
+  anonymous: Boolean!
+}
+
 input SendMeasurementsInstanceDtoSortInput {
   id: SortEnumType
   idempotencyKeyHash: SortEnumType
@@ -2305,14 +2314,8 @@ input SimulateMeteringPointManualCorrectionInput {
 }
 
 input StartConversationInput {
-  startConversationInput: StartConversationInputTypeInput!
-}
-
-input StartConversationInputTypeInput {
   subject: ConversationSubject!
   meteringPointIdentification: String!
-  actorName: String!
-  userName: String!
   internalNote: String
   content: String!
   anonymous: Boolean!
