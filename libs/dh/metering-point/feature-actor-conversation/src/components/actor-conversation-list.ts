@@ -44,11 +44,11 @@ import { dayjs } from '@energinet/watt/core/date';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
-    .new-case {
+    .new-conversation {
       background-color: var(--bg-card);
     }
 
-    .cases {
+    .conversations {
       list-style: none;
     }
   `,
@@ -65,7 +65,7 @@ import { dayjs } from '@energinet/watt/core/date';
           justify="space-between"
           align="center"
           offset="m"
-          class="new-case"
+          class="new-conversation"
         >
           <h3 watt-heading>{{ t('cases') }}</h3>
           <watt-button
@@ -77,7 +77,7 @@ import { dayjs } from '@energinet/watt/core/date';
             {{ t('newCaseButton') }}
           </watt-button>
         </vater-stack>
-        <ul vater fragment class="cases">
+        <ul vater fragment class="conversations">
           @if (newConversationVisible()) {
             <li>
               <dh-actor-conversation-list-item
