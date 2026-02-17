@@ -28,7 +28,7 @@ public static partial class ChargeLinkOperations
 {
     [Query]
     [UseSorting]
-    [Authorize(Roles = new[] { "metering-point:prices" })]
+    [Authorize(Roles = ["metering-point:prices"])]
     public static async Task<IEnumerable<ChargeLinkDto>> GetChargeLinksByMeteringPointIdAsync(
         string meteringPointId,
         CancellationToken ct,
@@ -36,7 +36,7 @@ public static partial class ChargeLinkOperations
             await client.GetChargeLinksByMeteringPointIdAsync(meteringPointId, ct);
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:prices" })]
+    [Authorize(Roles = ["metering-point:prices"])]
     public static async Task<ChargeLinkDto?> GetChargeLinkByIdAsync(
         ChargeLinkId id,
         CancellationToken ct,
@@ -47,7 +47,7 @@ public static partial class ChargeLinkOperations
     }
 
     [Mutation]
-    [Authorize(Roles = new[] { "metering-point:prices-manage" })]
+    [Authorize(Roles = ["metering-point:prices-manage"])]
     public static async Task<bool> StopChargeLinkAsync(
         ChargeLinkId id,
         DateTimeOffset stopDate,
@@ -56,7 +56,7 @@ public static partial class ChargeLinkOperations
             await client.StopChargeLinkAsync(id, stopDate, ct);
 
     [Mutation]
-    [Authorize(Roles = new[] { "metering-point:prices-manage" })]
+    [Authorize(Roles = ["metering-point:prices-manage"])]
     public static async Task<bool> EditChargeLinkAsync(
         ChargeLinkId id,
         DateTimeOffset newStartDate,
@@ -66,7 +66,7 @@ public static partial class ChargeLinkOperations
             await client.EditChargeLinkAsync(id, newStartDate, factor, ct);
 
     [Mutation]
-    [Authorize(Roles = new[] { "metering-point:prices-manage" })]
+    [Authorize(Roles = ["metering-point:prices-manage"])]
     public static async Task<bool> CreateChargeLinkAsync(
         ChargeIdentifierDto chargeId,
         string meteringPointId,
@@ -77,7 +77,7 @@ public static partial class ChargeLinkOperations
             await client.CreateChargeLinkAsync(chargeId, meteringPointId, newStartDate, factor, ct);
 
     [Mutation]
-    [Authorize(Roles = new[] { "metering-point:prices-manage" })]
+    [Authorize(Roles = ["metering-point:prices-manage"])]
     public static async Task<bool> CancelChargeLinkAsync(
         ChargeLinkId id,
         CancellationToken ct,

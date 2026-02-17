@@ -26,17 +26,17 @@ public static class RequestOperations
     [Query]
     [UsePaging]
     [UseSorting]
-    [Authorize(Roles = new[]
-    {
+    [Authorize(Roles =
+    [
         "calculations:manage",
         "request-aggregated-measured-data:view",
         "request-wholesale-settlement:view",
-    })]
+    ])]
     public static Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(
         IRequestsClient client) => client.GetRequestsAsync();
 
     [Query]
-    [Authorize(Roles = new[] { "request-aggregated-measured-data:view", "request-wholesale-settlement:view" })]
+    [Authorize(Roles = ["request-aggregated-measured-data:view", "request-wholesale-settlement:view"])]
     public static async Task<RequestOptions> GetRequestOptionsAsync(
         IHttpContextAccessor httpContextAccessor,
         IMarketParticipantClient_V1 marketParticipantClient)
@@ -48,7 +48,7 @@ public static class RequestOperations
     }
 
     [Mutation]
-    [Authorize(Roles = new[] { "request-aggregated-measured-data:view", "request-wholesale-settlement:view" })]
+    [Authorize(Roles = ["request-aggregated-measured-data:view", "request-wholesale-settlement:view"])]
     public static Task<bool> RequestAsync(
         RequestInput input,
         IRequestsClient client,
