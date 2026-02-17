@@ -16,24 +16,30 @@
  * limitations under the License.
  */
 //#endregion
-import { booleanAttribute, computed, Directive, input } from '@angular/core';
-import { Direction } from './types';
+import { Component, computed, input, ViewEncapsulation } from '@angular/core';
 
-@Directive({
+export type WattHeadingSize = '1' | '2' | '3' | '4' | '5' | '6';
+
+/**
+ * Usage:
+ * `import { WattHeadingComponent } from '@energinet/watt/heading';`
+ */
+@Component({
+  selector: 'watt-heading, [watt-heading]',
+  encapsulation: ViewEncapsulation.None,
+  template: '<ng-content />',
+  styles: `
+    watt-heading,
+    [watt-heading] {
+      margin: 0;
+    }
+  `,
   host: {
     '[class]': 'class()',
-    '[class.vater-wrap]': 'wrap()',
-    '[attr.direction]': 'null',
-    '[attr.wrap]': 'null',
+    '[attr.size]': 'null',
   },
 })
-export class VaterFlexboxDirective {
-  /** Direction of the flex items. Defaults to `column`. */
-  direction = input<Direction>('column');
-
-  /** Whether the flex items should wrap. */
-  wrap = input(false, { transform: booleanAttribute });
-
-  // Computed class names
-  protected class = computed(() => this.direction() && `vater-${this.direction()}`);
+export class WattHeadingComponent {
+  readonly size = input<WattHeadingSize>();
+  protected class = computed(() => (this.size() ? 'watt-headline-' + this.size() : null));
 }

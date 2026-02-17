@@ -16,24 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-import { booleanAttribute, computed, Directive, input } from '@angular/core';
-import { Direction } from './types';
-
-@Directive({
-  host: {
-    '[class]': 'class()',
-    '[class.vater-wrap]': 'wrap()',
-    '[attr.direction]': 'null',
-    '[attr.wrap]': 'null',
-  },
-})
-export class VaterFlexboxDirective {
-  /** Direction of the flex items. Defaults to `column`. */
-  direction = input<Direction>('column');
-
-  /** Whether the flex items should wrap. */
-  wrap = input(false, { transform: booleanAttribute });
-
-  // Computed class names
-  protected class = computed(() => this.direction() && `vater-${this.direction()}`);
-}
+export { WattHeadingComponent, WattHeadingSize } from './watt-heading.component';
