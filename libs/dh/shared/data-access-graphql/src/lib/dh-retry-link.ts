@@ -36,13 +36,10 @@ export class DhRetryLink {
       },
       attempts: {
         max: 10,
-        retryIf: (error: HttpError) => {
-          // Do not retry blocked requests
-          if (error.status === 0) return false;
-          return !error.status
-            ? error.message?.includes('Http failure') || error.name === 'HttpErrorResponse'
-            : error.status >= 500;
-        },
+        retryIf: (error?: HttpError) =>
+          error?.status
+            ? error.status >= 500
+            : error?.message?.includes('Http failure') || error?.name === 'HttpErrorResponse',
       },
     });
 }
