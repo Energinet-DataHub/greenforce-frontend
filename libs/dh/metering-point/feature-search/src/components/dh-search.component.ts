@@ -38,7 +38,7 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
-import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component';
@@ -120,7 +120,7 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
 
         <ng-content *dhFeatureFlag="'search-migrated-metering-points'">
           <watt-checkbox [formControl]="searchMigratedMeteringPoints">
-            @if (environment.current === DhAppEnvironment.preprod) {
+            @if (environment.current === 'b-001') {
               {{ t('searchMigratedMeteringPointsPreProd') }}
             } @else {
               {{ t('searchMigratedMeteringPoints') }}
@@ -153,7 +153,6 @@ export class DhSearchComponent {
   private readonly modalService = inject(WattModalService);
 
   readonly environment = inject(dhAppEnvironmentToken);
-  DhAppEnvironment = DhAppEnvironment;
 
   private readonly doesMeteringPointExist = lazyQuery(DoesInternalMeteringPointIdExistDocument);
   protected submitted = signal(false);
