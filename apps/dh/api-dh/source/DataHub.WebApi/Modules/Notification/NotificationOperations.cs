@@ -45,6 +45,17 @@ public static partial class NotificationOperations
         return true;
     }
 
+    [Mutation]
+    [Error(typeof(ApiException))]
+    public static async Task<bool> DismissAllNotificationsAsync(
+        IEnumerable<int> notificationIds,
+        [Service] INotificationsClient client,
+        CancellationToken cancellationToken)
+    {
+        await Task.WhenAll(notificationIds.Select(n => client.DismissNotificationAsync(n, cancellationToken)));
+        return true;
+    }
+
     [Subscription]
     [Subscribe(With = nameof(OnNotificationAddedAsync))]
     public static NotificationDto NotificationAdded([EventMessage] NotificationDto notification) =>

@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Shared;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
@@ -45,7 +45,7 @@ public static partial class ChargeNode
                 query?.Resolution,
                 query?.VatInclusive,
                 query?.TransparentInvoicing,
-                query?.PredictablePrice,
+                query?.SpotDependingPrice,
                 query?.MissingPriceSeries,
                 ct);
 
@@ -97,7 +97,7 @@ public static partial class ChargeNode
         ChargeIdentifierDto id,
         DateTimeOffset start,
         DateTimeOffset end,
-        List<ChargePointV1> points,
+        List<ChargePointV2> points,
         CancellationToken ct) =>
             await client.AddChargeSeriesAsync(id, start, end, points, ct);
 
@@ -132,6 +132,6 @@ public static partial class ChargeNode
         descriptor.Field(f => f.Status);
         descriptor.Field(f => f.VatInclusive);
         descriptor.Field(f => f.TransparentInvoicing);
-        descriptor.Field(f => f.PredictablePrice);
+        descriptor.Field(f => f.SpotDependingPrice);
     }
 }

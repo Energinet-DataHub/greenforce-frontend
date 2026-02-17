@@ -113,7 +113,6 @@ import { WattDataIntlService } from './watt-data-intl.service';
                     [label]="searchLabel() ?? intl.search"
                     [trim]="trimSearch()"
                     (search)="onSearch($event)"
-                    class="watt-space-stack-m"
                   />
                 }
               </vater-stack>

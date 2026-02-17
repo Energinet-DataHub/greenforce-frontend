@@ -24,4 +24,5 @@ public record CreateChargeInput(
     Resolution Resolution,
     DateTimeOffset ValidFrom,
     bool Vat,
-    bool? TransparentInvoicing);
+    bool? TransparentInvoicing,
+    bool SpotDependingPrice);

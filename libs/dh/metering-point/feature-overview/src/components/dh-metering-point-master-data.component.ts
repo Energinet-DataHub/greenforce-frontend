@@ -143,7 +143,10 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
           }
 
           @defer (on idle) {
-            <dh-related-metering-points [meteringPointId]="meteringPointId()" />
+            <dh-related-metering-points
+              [meteringPointIdentification]="meteringPointId()"
+              [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
+            />
           }
         </div>
       </vater-stack>

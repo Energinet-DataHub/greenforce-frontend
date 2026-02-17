@@ -152,7 +152,9 @@ export default class DhMeteringPointCreateChargeLink {
       chargeId: this.fb.control<string>('', Validators.required),
       factor: this.fb.control<string | null>(
         null,
-        this.selectedType() !== 'TARIFF' ? [Validators.required, Validators.min(1)] : null
+        this.selectedType() !== 'TARIFF' && this.selectedType() !== 'TARIFF_TAX'
+          ? [Validators.required, Validators.min(1)]
+          : null
       ),
       startDate: this.fb.control<Date | null>(null, Validators.required),
     })

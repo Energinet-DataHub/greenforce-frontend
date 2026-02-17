@@ -25,7 +25,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -43,6 +42,7 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhRequestReportModal } from './request-report-modal.component';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 type DhFormType = FormGroup<{
   actorId: FormControl<string>;
@@ -66,7 +66,7 @@ export class DhRequestAsModal extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly modalService = inject(WattModalService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly apollo = inject(Apollo);
+  private readonly marketParticipant = lazyQuery(GetMarketParticipantByIdDocument);
 
   private readonly permissionService = inject(PermissionService);
   private readonly actorStorage = inject(DhActorStorage);
@@ -110,21 +110,19 @@ export class DhRequestAsModal extends WattTypedModal {
           });
         });
     } else {
-      this.apollo
+      this.marketParticipant
         .query({
-          query: GetMarketParticipantByIdDocument,
           variables: {
             id: this.form.value.actorId,
           },
         })
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((result) => {
+        .then((result) =>
           this.openModal({
             isFas: false,
             actorId: result.data.marketParticipantById.id,
             marketRole: result.data.marketParticipantById.marketRole,
-          });
-        });
+          })
+        );
     }
   }
 

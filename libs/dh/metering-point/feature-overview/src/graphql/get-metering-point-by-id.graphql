@@ -41,6 +41,7 @@ query GetMeteringPointById(
     createdDate
     closedDownDate
     connectionDate
+    disconnectedDate
     commercialRelation {
       id
       startDate

@@ -24,7 +24,8 @@ limitations under the License.
   [enableCount]="true"
   #wattDataTable
 >
-  <vater-stack direction="row">
+  <h4>{{ t("tabHeading") }}</h4>
+  <vater-stack gap="s" direction="row">
     <span class="watt-chip-label">
       @if (gridAreaCount() === 1) {
         {{ t("countGridAreas.singular", { gridAreaCount: gridAreaCount() }) }}
@@ -33,7 +34,7 @@ limitations under the License.
       }
     </span>
 
-    <div class="health-icons">
+    <vater-stack direction="row" gap="s">
       @for (status of serviceStatus(); track status) {
         @if (status.isReady) {
           <watt-icon name="success" [title]="t('status.' + status.component)" />
@@ -41,7 +42,7 @@ limitations under the License.
           <watt-icon name="danger" [title]="t('status.' + status.component)" />
         }
       }
-    </div>
+    </vater-stack>
 
     @let waitingForExternalResponse = statusReport();
 
@@ -54,7 +55,7 @@ limitations under the License.
             {{ t("messagesNotSent.plural", { number: waitingForExternalResponse }) }}
           }
         </span>
-        <watt-button variant="secondary" icon="arrowRightAlt" (click)="resend()">{{
+        <watt-button variant="secondary" size="small" icon="arrowRightAlt" (click)="resend()">{{
           t("resendMessages")
         }}</watt-button>
       </vater-stack>

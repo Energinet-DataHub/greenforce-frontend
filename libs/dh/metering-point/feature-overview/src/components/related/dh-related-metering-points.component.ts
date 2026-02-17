@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { RouterLink } from '@angular/router';
 
@@ -30,6 +30,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-related-metering-points',
@@ -116,7 +117,10 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
         [emptyText]="'meteringPoint.relatedMeteringPointsEmpty' | transloco"
       >
         <div class="grid-container">
-          @for (meteringPoint of relatedMeteringPointsList(); track meteringPoint.identification) {
+          @for (
+            meteringPoint of relatedMeteringPointsList();
+            track meteringPoint.meteringPointIdentification
+          ) {
             <div class="grid-row" [routerLink]="getLink('master-data', meteringPoint.id)">
               <div class="grid-cell">
                 <span class="watt-text-m watt-on-light--high-emphasis">
@@ -124,7 +128,7 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
                 </span>
                 <br />
                 <span class="watt-text-s watt-on-light--medium-emphasis">
-                  {{ meteringPoint.identification }}
+                  {{ meteringPoint.meteringPointIdentification }}
                 </span>
               </div>
 
@@ -159,7 +163,7 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
               </div>
 
               <div class="grid-cell">
-                @if (meteringPointId() === meteringPoint.identification) {
+                @if (meteringPointIdentification() === meteringPoint.meteringPointIdentification) {
                   <span class="dh-one-time-badge watt-label watt-space-inset-squish-xs">
                     {{ 'meteringPoint.selectedRelatedMeteringPoint' | transloco }}
                   </span>
@@ -175,13 +179,20 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
   `,
 })
 export class DhRelatedMeteringPointsComponent {
+  private readonly environment = inject(dhAppEnvironmentToken);
+
+  meteringPointIdentification = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
+
   query = query(GetRelatedMeteringPointsByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId() },
+    variables: {
+      meteringPointIdentification: this.meteringPointIdentification(),
+      environment: this.environment.current,
+      searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
+    },
   }));
 
   private maybeRelatedMeteringPoints = computed(() => this.query.data()?.relatedMeteringPoints);
-
-  meteringPointId = input.required<string>();
 
   showHistorical = signal(false);
 
