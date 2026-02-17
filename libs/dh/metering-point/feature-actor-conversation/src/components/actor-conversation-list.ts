@@ -108,7 +108,7 @@ export class DhActorConversationListComponent {
   newConversationVisible = input<boolean>(false);
   selectedConversationId = input<string | undefined>(undefined);
   createNewConversation = output();
-  selectConversation = output<string | undefined>();
+  selectConversation = output<string>();
 
   newConversation: Conversation = {
     __typename: 'ConversationInfo',
