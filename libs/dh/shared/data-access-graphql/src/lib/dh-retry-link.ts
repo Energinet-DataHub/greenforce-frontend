@@ -37,7 +37,7 @@ export class DhRetryLink {
       attempts: {
         max: 10,
         retryIf: (error?: HttpError) =>
-          error?.status
+          typeof error?.status === 'number'
             ? error.status >= 500
             : error?.message?.includes('Http failure') || error?.name === 'HttpErrorResponse',
       },
