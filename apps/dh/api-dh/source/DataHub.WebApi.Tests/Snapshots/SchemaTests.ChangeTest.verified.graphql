@@ -874,6 +874,14 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledBy: UUID!
 }
 
+type MarkConversationReadPayload {
+  boolean: Boolean
+}
+
+type MarkConversationUnReadPayload {
+  boolean: Boolean
+}
+
 type MarketParticipant {
   gridAreas: [GridAreaDto!]!
   userRoles(userId: UUID): [MarketParticipantUserRole!]!
@@ -1086,6 +1094,9 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 type Mutation {
   startConversation(startConversationInput: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   sendActorConversationMessage(sendActorConversationMessageInput: SendActorConversationMessageInput!): SendActorConversationMessagePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  updateInternalConversationNote(updateInternalConversationNoteInput: UpdateInternalConversationNoteInput!): UpdateInternalConversationNotePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  markConversationRead(input: MarkConversationReadInput!): MarkConversationReadPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  markConversationUnRead(input: MarkConversationUnReadInput!): MarkConversationUnReadPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   closeConversation(input: CloseConversationInput!): CloseConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
@@ -1609,6 +1620,10 @@ type UpdateChargePayload {
   boolean: Boolean
 }
 
+type UpdateInternalConversationNotePayload {
+  boolean: Boolean
+}
+
 type UpdateMarketParticipantPayload {
   boolean: Boolean
   errors: [UpdateMarketParticipantError!]
@@ -2123,6 +2138,14 @@ input ManuallyHandleOutgoingMessageInput {
   comment: String!
 }
 
+input MarkConversationReadInput {
+  conversationId: UUID!
+}
+
+input MarkConversationUnReadInput {
+  conversationId: UUID!
+}
+
 input MarketParticipantSortInput {
   name: SortEnumType
   glnOrEicNumber: SortEnumType
@@ -2377,6 +2400,11 @@ input UpdateChargeInput {
   cutoffDate: DateTime!
   vat: Boolean!
   transparentInvoicing: Boolean!
+}
+
+input UpdateInternalConversationNoteInput {
+  conversationId: UUID!
+  internalNote: String!
 }
 
 input UpdateMarketParticipantInput {
@@ -2667,6 +2695,13 @@ enum ContactCategory {
 "Application layer conversation subject"
 enum ConversationSubject {
   QUESTION_FOR_ENERGINET
+  INTERRUPTION_RECONNECTION
+  ELECTRICAL_HEATING
+  WRONGFUL_MOVE_OR_SUPPLIER_CHANGE
+  CUSTOMER_MASTER_DATA
+  MEASUREMENT_DATA
+  MEASUREMENT_POINT_MASTER_DATA
+  PRICE_LINKING
 }
 
 enum DelegatedProcess {
