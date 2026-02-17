@@ -19,7 +19,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { VATER, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetConversationsDocument, } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetConversationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
 import { ActorConversationState } from '../types';
