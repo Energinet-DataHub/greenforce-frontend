@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattBadgeComponent } from '@energinet/watt/badge';
 import { WattButtonComponent } from '@energinet/watt/button';
 import {
@@ -61,30 +61,16 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
     FormsModule,
     DhResultComponent,
     DhActorConversationMessageComponent,
+    VaterFlexComponent,
   ],
   styles: `
-    :host {
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-      overflow: hidden;
-    }
-
-    .no-min-height {
-      min-height: 0;
-    }
-
     .no-margin {
       margin: 0;
-    }
-
-    .flex-1 {
-      flex: 1;
     }
   `,
   template: `
     <dh-result vater fill="vertical" [query]="conversationQuery">
-      <vater-stack
+      <vater-flex
         direction="column"
         fill="both"
         *transloco="let t; prefix: 'meteringPoint.actorConversation'"
@@ -142,14 +128,14 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
           </vater-stack>
 
           <!-- Content - Scrollable message area -->
-          <vater-stack direction="column" fill="horizontal" scrollable class="no-min-height flex-1">
+          <vater-flex direction="column" fill="both" scrollable>
             @for (message of conversation.messages; track message) {
               <dh-actor-conversation-message
                 [message]="message"
                 [isFromCurrentUser]="isMessageFromCurrentUser(message.userId)"
               />
             }
-          </vater-stack>
+          </vater-flex>
         }
         <!-- Footer - Message input form -->
         <form vater class="watt-space-inset-stretch-m" fill="horizontal" (ngSubmit)="sendMessage()">
@@ -159,7 +145,7 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
             [formControl]="formControl"
           />
         </form>
-      </vater-stack>
+      </vater-flex>
     </dh-result>
   `,
 })
