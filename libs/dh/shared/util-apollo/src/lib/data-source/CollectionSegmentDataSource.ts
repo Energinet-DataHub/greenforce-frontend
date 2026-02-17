@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { TypedDocumentNode } from 'apollo-angular';
 import { MatPaginator } from '@angular/material/paginator';
+import { TypedDocumentNode } from '@apollo/client/core';
 import { QueryOptions } from '../query';
 import { ApolloDataSource } from './ApolloDataSource';
 

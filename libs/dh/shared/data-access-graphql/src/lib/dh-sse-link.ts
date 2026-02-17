@@ -38,7 +38,7 @@ import {
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { DhActorTokenService } from '@energinet-datahub/dh/shared/feature-authorization';
 
-export class SSELink extends ApolloLink {
+class SseLink extends ApolloLink {
   constructor(
     private client: Client,
     private notifier: Observable<unknown>
@@ -60,9 +60,7 @@ export class SSELink extends ApolloLink {
 @Injectable({
   providedIn: 'root',
 })
-export default class DhSseLink {
-  tokenService = inject(DhActorTokenService);
-
+export class DhSseLink {
   // Create an observable that attempts to acquire a new token every 30 seconds.
   // Most of the time this results in the same token and no additional requests,
   // since it will be read from cache. But when the token is about to expire,
@@ -70,19 +68,20 @@ export default class DhSseLink {
   // token is needed since subscriptions cannot have their "Authorization" header
   // updated while they are still subscribed. Subscriptions will unsubscribe and
   // then resubscribe with the new token once the token$ emits.
-  token$ = timer(0, 30_000).pipe(
+  private tokenService = inject(DhActorTokenService);
+  private token$ = timer(0, 30_000).pipe(
     switchMap(() => this.tokenService.acquireToken()),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  public create(url: string): SSELink {
+  create(url: string) {
     const client = createClient({
       url,
       headers: () =>
         firstValueFrom(this.token$.pipe(map((token) => ({ Authorization: `Bearer ${token}` })))),
     });
 
-    return new SSELink(client, this.token$);
+    return new SseLink(client, this.token$);
   }
 }

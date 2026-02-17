@@ -12,17 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Processes.Types;
+namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
+public class UpdateInternalConversationNoteInput
+{
+    public required Guid ConversationId { get; set; }
 
-public record MeteringPointProcessStep(
-    string Id,
-    string Step,
-    string? Comment,
-    DateTimeOffset? CompletedAt,
-    DateTimeOffset? DueDate,
-    string ActorNumber,
-    string ActorRole,
-    ProcessState State,
-    string? MessageId);
+    public required string InternalNote { get; set; }
+}

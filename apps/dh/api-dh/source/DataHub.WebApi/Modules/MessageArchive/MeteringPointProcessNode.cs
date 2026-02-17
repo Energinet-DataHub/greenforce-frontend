@@ -194,19 +194,10 @@ public static partial class MeteringPointProcessNode
     /// If the generated identifier doesn't match any known enum value, returns ProcessStepType.UNKNOWN.
     /// This allows new processes to work without breaking the application.
     /// </summary>
-    private static ProcessStepType GetStepIdentifier(string reasonCode, WorkflowStepInstanceDto step)
+    private static string GetStepIdentifier(string reasonCode, WorkflowStepInstanceDto step)
     {
         var businessReason = reasonCode.ToUpperInvariant();
 
-        var identifier = $"{businessReason}_V{step.UniqueName.Version}_STEP_{step.Sequence}";
-
-        // Try to parse the identifier to a known ProcessStepType enum value
-        if (Enum.TryParse<ProcessStepType>(identifier, ignoreCase: true, out var stepType))
-        {
-            return stepType;
-        }
-
-        // If not found, return UNKNOWN (new processes that haven't been added to the enum yet)
-        return ProcessStepType.UNKNOWN;
+        return $"{businessReason}_V{step.UniqueName.Version}_STEP_{step.Sequence}";
     }
 }

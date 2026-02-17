@@ -610,7 +610,8 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found",
-      "searchMigratedMeteringPoints": "Search migrated metering points"
+      "searchMigratedMeteringPoints": "Search migrated metering points",
+      "searchMigratedMeteringPointsPreProd": "Search phase 2 test metering points"
     },
     "tabs": {
       "masterData": {
@@ -784,13 +785,13 @@
       "subjectLabel": "Subject",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc question",
-        "disconnectionOrReconnection": "Disconnect/Reconnect",
-        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Incorrect move/switch of supplier",
-        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
-        "measurements": "{{ shared.terminology.measurements }}",
-        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "priceAssociation": "{{ shared.terminology.chargeLink }}",
+        "INTERRUPTION_RECONNECTION": "Disconnect/Reconnect",
+        "ELECTRICAL_HEATING": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "WRONGFUL_MOVE_OR_SUPPLIER_CHANGE": "Incorrect move/switch of supplier",
+        "CUSTOMER_MASTER_DATA": "{{ shared.terminology.customerMasterData }}",
+        "MEASUREMENT_DATA": "{{ shared.terminology.measurements }}",
+        "MEASUREMENT_POINT_MASTER_DATA": "{{ shared.terminology.meteringPointMasterData }}",
+        "PRICE_LINKING": "{{ shared.terminology.chargeLink }}",
         "newCase": "New case"
       },
       "receiverLabel": "To",
@@ -811,6 +812,7 @@
       "closed": "Closed",
       "closeCaseButton": "Close case",
       "markAsUnreadButton": "Mark as unread",
+      "startConversationError": "One or more fields are not filled correctly.\n\nThis may be due to an invalid combination of subject and recipient, or because anonymous submissions are not permitted for the selected recipient.",
       "conversationCloseError": "An error occurred trying to close the case",
       "anonymousCheckbox": "Send anonymously",
       "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver"
@@ -967,11 +969,9 @@
         "ENDOFSUPPLY_V1_STEP_4": "Notify cancellation of end of supply (RSM-020)",
         "NEWMETERINGPOINT_V1_STEP_1": "Request for creation of metering point (RSM-021)",
         "NEWMETERINGPOINT_V1_STEP_2": "Confirmation of request for creation of metering point (RSM-021)",
-        "NEWMETERINGPOINT_V1_STEP_3": "Request for creation of metering point (RSM-021)",
-        "NEWMETERINGPOINT_V1_STEP_4": "Confirmation of request for creation of metering point (RSM-021)",
-        "NEWMETERINGPOINT_V1_STEP_5": "Rejection of request for creation of metering point (RSM-021)",
-        "NEWMETERINGPOINT_V1_STEP_6": "Notification of new metering point (RSM-022)",
-        "NEWMETERINGPOINT_V1_STEP_7": "Notification of charge links (RSM-031)",
+        "NEWMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
+        "NEWMETERINGPOINT_V1_STEP_4": "Notification of new metering point (RSM-022)",
+        "NEWMETERINGPOINT_V1_STEP_5": "Notification of charge links (RSM-031)",
         "CONNECTMETERINGPOINT_V1_STEP_1": "Request for connection of metering point (RSM-021)",
         "CONNECTMETERINGPOINT_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
         "CONNECTMETERINGPOINT_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
@@ -991,8 +991,7 @@
         "UPDATEMASTERDATACONSUMER_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "UPDATEMASTERDATACONSUMER_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "UPDATEMASTERDATACONSUMER_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
-        "UPDATEMASTERDATACONSUMER_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)",
-        "UNKNOWN": "Unknown Step"
+        "UPDATEMASTERDATACONSUMER_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)"
       },
       "details": {
         "notFound": "Process not found",

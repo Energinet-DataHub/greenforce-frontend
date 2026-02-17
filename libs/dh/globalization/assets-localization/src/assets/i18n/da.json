@@ -610,7 +610,8 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "Intet resultat fundet",
-      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter"
+      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter",
+      "searchMigratedMeteringPointsPreProd": "Søg i fase 2 testmålepunkter"
     },
     "tabs": {
       "masterData": {
@@ -784,13 +785,13 @@
       "subjectLabel": "Emne",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
-        "disconnectionOrReconnection": "Afbrydelse/Gentilslutning",
-        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Fejlagtig flytning/leverandørskifte",
-        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
-        "measurements": "{{ shared.terminology.measurements }}",
-        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "chargeLink": "{{ shared.terminology.chargeLink }}",
+        "INTERRUPTION_RECONNECTION": "Afbrydelse/Gentilslutning",
+        "ELECTRICAL_HEATING": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "WRONGFUL_MOVE_OR_SUPPLIER_CHANGE": "Fejlagtig flytning/leverandørskifte",
+        "CUSTOMER_MASTER_DATA": "{{ shared.terminology.customerMasterData }}",
+        "MEASUREMENT_DATA": "{{ shared.terminology.measurements }}",
+        "MEASUREMENT_POINT_MASTER_DATA": "{{ shared.terminology.meteringPointMasterData }}",
+        "PRICE_LINKING": "{{ shared.terminology.chargeLink }}",
         "newCase": "Ny sag"
       },
       "receiverLabel": "Til",
@@ -811,6 +812,7 @@
       "closed": "Afsluttet",
       "closeCaseButton": "Afslut sag",
       "markAsUnreadButton": "Marker som ulæst",
+      "startConversationError": "Et eller flere felter er ikke udfyldt korrekt.\n\nDet kan f.eks. være en kombination af emne og modtager, der er ugyldig, eller at det ikke er muligt at sende anonymt til den valgte modtager.",
       "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
       "anonymousCheckbox": "Send anonymt",
       "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren"
@@ -989,8 +991,7 @@
         "UPDATEMASTERDATACONSUMER_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "UPDATEMASTERDATACONSUMER_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "UPDATEMASTERDATACONSUMER_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
-        "UPDATEMASTERDATACONSUMER_V1_STEP_4": "Information om kundestamdata (RSM-028)",
-        "UNKNOWN": "Ukendt trin"
+        "UPDATEMASTERDATACONSUMER_V1_STEP_4": "Information om kundestamdata (RSM-028)"
       },
       "details": {
         "notFound": "Process ikke fundet",
@@ -1111,7 +1112,6 @@
         }
       }
     },
-
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "updateCustomerData": "Opdater kundestamdata",

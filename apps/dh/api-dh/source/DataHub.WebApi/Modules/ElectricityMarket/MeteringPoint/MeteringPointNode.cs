@@ -23,7 +23,6 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
@@ -123,7 +122,6 @@ public static partial class MeteringPointNode
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<MeteringPointDto> GetMeteringPointExistsAsync(
-            string environment,
             bool searchMigratedMeteringPoints,
             string? internalMeteringPointId,
             string? meteringPointId,
@@ -160,14 +158,13 @@ public static partial class MeteringPointNode
             throw new InvalidOperationException("Could not resolve metering point external ID.");
         }
 
-        return await GetMeteringPointAsync(meteringPointExternalId, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
+        return await GetMeteringPointAsync(meteringPointExternalId, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
     }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
         string meteringPointId,
-        string? environment,
         bool? searchMigratedMeteringPoints,
         CancellationToken ct,
         [Service] Clients.ElectricityMarket.v1.IElectricityMarketClient_V1 em1Client,
@@ -176,16 +173,13 @@ public static partial class MeteringPointNode
     {
         var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
 
-        if (isNewMeteringPointsModelEnabled)
+        if (isNewMeteringPointsModelEnabled && searchMigratedMeteringPoints == false)
         {
-            if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
-            {
-                return await GetRelatedMeteringPointsAsync(
-                        meteringPointId,
-                        ct,
-                        electricityMarketClient)
-                    .ConfigureAwait(false);
-            }
+            return await GetRelatedMeteringPointsAsync(
+                    meteringPointId,
+                    ct,
+                    electricityMarketClient)
+                .ConfigureAwait(false);
         }
 
         return await GetRelatedMeteringPointsInEm1Async(meteringPointId, ct, em1Client).ConfigureAwait(false);
@@ -195,7 +189,6 @@ public static partial class MeteringPointNode
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<MeteringPointDto> GetMeteringPointAsync(
         string meteringPointId,
-        string? environment,
         bool? searchMigratedMeteringPoints,
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
@@ -214,15 +207,11 @@ public static partial class MeteringPointNode
         var actorNumber = user.GetMarketParticipantNumber();
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
 
-        // New metering points model
         var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
 
-        if (isNewMeteringPointsModelEnabled)
+        if (isNewMeteringPointsModelEnabled && searchMigratedMeteringPoints == false)
         {
-            if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
-            {
-                return await GetMeteringPointWithNewModelAsync(meteringPointId, actorNumber, marketRole, ct, electricityMarketClient).ConfigureAwait(false);
-            }
+            return await GetMeteringPointWithNewModelAsync(meteringPointId, actorNumber, marketRole, ct, electricityMarketClient).ConfigureAwait(false);
         }
 
         var accessValidationRequest = new MeteringPointMasterDataAccessValidationRequest
