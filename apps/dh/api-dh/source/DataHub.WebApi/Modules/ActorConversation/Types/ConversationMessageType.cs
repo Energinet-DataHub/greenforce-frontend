@@ -32,19 +32,19 @@ public static partial class ConversationMessageDtoType
         return actor?.Name.Value;
     }
 
-    public static async Task<string?> GetUserNameAsync(
+    public static async Task<string> GetUserNameAsync(
         [Parent] ConversationMessageDto message,
         IAuditIdentitiesByUserIdDataLoader dataLoader,
         CancellationToken ct)
     {
-        var auditIdentity = await dataLoader.LoadAsync(message.UserId ?? string.Empty, ct);
-        // Ensure auditIdentity is of type AuditIdentityDto
-        if (auditIdentity is AuditIdentityDto dto)
+        if (!Guid.TryParse(message.UserId, out var userId))
         {
-            return dto.DisplayName;
+            return string.Empty;
         }
 
-        return null;
+        var auditIdentity = await dataLoader.LoadAsync(userId, ct);
+
+        return auditIdentity?.DisplayName ?? string.Empty;
     }
 
     static partial void Configure(
