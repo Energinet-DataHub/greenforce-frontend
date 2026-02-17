@@ -87,7 +87,7 @@ import { dayjs } from '@energinet/watt/core/date';
             </watt-button>
           </vater-stack>
         </watt-card-title>
-        <hr class="watt-divider no-margin" />
+        <hr class="watt-divider-without-margin" />
         <dh-result vater fill="vertical" [query]="conversationsQuery()">
           <ul>
             @if (newConversationVisible()) {

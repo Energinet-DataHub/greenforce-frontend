@@ -100,7 +100,7 @@ import { WattDatePipe } from '@energinet/watt/date';
         }}</span>
       </vater-stack>
     </vater-flex>
-    <hr class="watt-divider no-margin" />
+    <hr class="watt-divider-without-margin" />
   `,
 })
 export class DhActorConversationListItemComponent {

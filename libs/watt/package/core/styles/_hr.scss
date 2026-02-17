@@ -18,3 +18,10 @@
   margin: var(--watt-space-m) 0;
   width: 100%;
 }
+
+.watt-divider-without-margin {
+  all: unset;
+  display: block;
+  border-top: 1px solid var(--watt-color-neutral-grey-300);
+  width: 100%;
+}

@@ -123,7 +123,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
               </watt-menu>
             </vater-stack>
           </vater-stack>
-          <hr class="watt-divider no-margin" />
+          <hr class="watt-divider-without-margin" />
 
           <!-- Content -->
           <vater-flex fill="both">
