@@ -101,7 +101,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
                   <span class="watt-text-s">Netvirksomhed(MOCK)</span>
                 </vater-stack>
                 <vater-stack direction="row" gap="s">
-                  <h3 watt-heading class="no-margin">
+                  <h3 watt-heading>
                     {{ t('subjects.' + conversation.subject) }}
                   </h3>
                   @if (conversation.closed) {
