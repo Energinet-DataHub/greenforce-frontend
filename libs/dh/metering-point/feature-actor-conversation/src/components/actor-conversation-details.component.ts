@@ -39,6 +39,7 @@ import {
   CloseConversationDocument,
   GetConversationDocument,
   GetConversationsDocument,
+  MarkConversationUnReadDocument,
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
@@ -132,7 +133,9 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
                 </watt-button>
                 <watt-menu #menu>
                   <watt-menu-item>{{ t('internalNoteLabel') }}</watt-menu-item>
-                  <watt-menu-item>{{ t('markAsUnreadButton') }}</watt-menu-item>
+                  <watt-menu-item (click)="unreadConversation()">{{
+                    t('markAsUnreadButton')
+                  }}</watt-menu-item>
                 </watt-menu>
               </vater-stack>
             </vater-stack>
@@ -180,6 +183,7 @@ export class DhActorConversationDetailsComponent {
   );
   private readonly userId = this.authService.instance.getActiveAccount()?.idTokenClaims?.sub;
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
+  unreadConversationMutation = mutation(MarkConversationUnReadDocument);
   formControl = this.fb.control<MessageFormValue>({ content: '', anonymous: false });
   conversationId = input.required<string>();
   meteringPointId = input.required<string>();
@@ -195,6 +199,15 @@ export class DhActorConversationDetailsComponent {
 
   async closeConversation() {
     await this.closeConversationMutation.mutate({
+      variables: {
+        conversationId: this.conversationId(),
+      },
+      refetchQueries: [GetConversationDocument, GetConversationsDocument],
+    });
+  }
+
+  async unreadConversation() {
+    await this.unreadConversationMutation.mutate({
       variables: {
         conversationId: this.conversationId(),
       },
