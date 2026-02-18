@@ -1,9 +1,5 @@
 mutation MarkConversationRead($conversationId: UUID!) {
-  markConversationRead(
-    input: {
-      conversationId: $conversationId
-    }
-  ) {
+  markConversationRead(input: { conversationId: $conversationId }) {
     boolean
   }
 }

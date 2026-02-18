@@ -133,7 +133,9 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
                 </watt-button>
                 <watt-menu #menu>
                   <watt-menu-item>{{ t('internalNoteLabel') }}</watt-menu-item>
-                  <watt-menu-item (click)="unreadConversation()">{{ t('markAsUnreadButton') }}</watt-menu-item>
+                  <watt-menu-item (click)="unreadConversation()">{{
+                    t('markAsUnreadButton')
+                  }}</watt-menu-item>
                 </watt-menu>
               </vater-stack>
             </vater-stack>
