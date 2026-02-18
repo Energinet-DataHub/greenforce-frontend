@@ -82,18 +82,18 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
           </watt-button>
         </vater-stack>
 
-        <vater-stack
-          direction="row"
-          class="search-wrapper"
-        >
+        <vater-stack direction="row" class="search-wrapper">
           <watt-text-field
-              [placeholder]="t('searchPlaceholder')"
-              [formControl]="searchControl"
-              (keydown.enter)="search.emit(searchControl.value ?? '')"
-            >
-              <watt-button variant="icon" icon="search" (click)="search.emit(searchControl.value ?? '')" />
+            [placeholder]="t('searchPlaceholder')"
+            [formControl]="searchControl"
+            (keydown.enter)="search.emit(searchControl.value ?? '')"
+          >
+            <watt-button
+              variant="icon"
+              icon="search"
+              (click)="search.emit(searchControl.value ?? '')"
+            />
           </watt-text-field>
-          
         </vater-stack>
 
         <ul vater fragment class="conversations">
@@ -140,6 +140,4 @@ export class DhActorConversationListComponent {
     displayId: '',
     subject: 'QUESTION_FOR_ENERGINET',
   };
-
-
 }
