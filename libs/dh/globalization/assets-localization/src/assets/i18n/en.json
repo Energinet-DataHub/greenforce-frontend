@@ -779,6 +779,7 @@
       }
     },
     "actorConversation": {
+      "searchPlaceholder": "Search for case-ID or internal note",
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case",

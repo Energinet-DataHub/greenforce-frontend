@@ -70,6 +70,7 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
           [newConversationVisible]="newConversationVisible()"
           [selectedConversationId]="selectedConversationId()"
           (createNewConversation)="newConversation()"
+          (search)="search($event)"
           (selectConversation)="selectConversation($event)"
         />
         <vater-stack scrollable *transloco="let t; prefix: 'meteringPoint.actorConversation'">
@@ -122,9 +123,12 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
   `,
 })
 export class DhActorConversationShellComponent {
+  searchTerm = signal<string | undefined>(undefined);
+
   conversationsQuery = query(GetConversationsDocument, () => ({
     variables: {
       meteringPointIdentification: this.meteringPointId(),
+      searchTerm: this.searchTerm(),
     },
   }));
   readConversationMutation = mutation(MarkConversationReadDocument);
@@ -152,6 +156,10 @@ export class DhActorConversationShellComponent {
   newConversation() {
     this.newConversationVisible.set(true);
     this.selectedConversationId.set(undefined);
+  }
+
+  search(term: string) {
+    this.searchTerm.set(term || undefined);
   }
 
   async selectConversation(conversationId: string) {

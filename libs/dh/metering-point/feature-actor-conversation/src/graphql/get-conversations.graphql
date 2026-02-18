@@ -1,5 +1,5 @@
-query GetConversations($meteringPointIdentification: String!) {
-  conversationsForMeteringPoint(meteringPointIdentification: $meteringPointIdentification) {
+query GetConversations($meteringPointIdentification: String!, $searchTerm: String) {
+  conversationsForMeteringPoint(meteringPointIdentification: $meteringPointIdentification, searchTerm: $searchTerm) {
     conversations {
       id
       read

@@ -779,6 +779,7 @@
       }
     },
     "actorConversation": {
+      "searchPlaceholder": "Søg på sags-ID eller intern note",
       "cases": "Sager",
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag",

@@ -17,6 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -30,6 +31,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { dayjs } from '@energinet/watt/core/date';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
 
 @Component({
   selector: 'dh-actor-conversation-list',
@@ -41,6 +43,8 @@ import { dayjs } from '@energinet/watt/core/date';
     DhActorConversationListItemComponent,
     VaterUtilityDirective,
     DhResultComponent,
+    WattTextFieldComponent,
+    ReactiveFormsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -77,6 +81,21 @@ import { dayjs } from '@energinet/watt/core/date';
             {{ t('newCaseButton') }}
           </watt-button>
         </vater-stack>
+
+        <vater-stack
+          direction="row"
+          class="search-wrapper"
+        >
+          <watt-text-field
+              [placeholder]="t('searchPlaceholder')"
+              [formControl]="searchControl"
+              (keydown.enter)="search.emit(searchControl.value ?? '')"
+            >
+              <watt-button variant="icon" icon="search" (click)="search.emit(searchControl.value ?? '')" />
+          </watt-text-field>
+          
+        </vater-stack>
+
         <ul vater fragment class="conversations">
           @if (newConversationVisible()) {
             <li>
@@ -108,7 +127,9 @@ export class DhActorConversationListComponent {
   newConversationVisible = input<boolean>(false);
   selectedConversationId = input<string | undefined>(undefined);
   createNewConversation = output();
+  search = output<string>();
   selectConversation = output<string>();
+  searchControl = new FormControl('');
 
   newConversation: Conversation = {
     __typename: 'ConversationInfo',
@@ -119,4 +140,6 @@ export class DhActorConversationListComponent {
     displayId: '',
     subject: 'QUESTION_FOR_ENERGINET',
   };
+
+
 }
