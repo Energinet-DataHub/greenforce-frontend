@@ -65,6 +65,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       [formGroup]="newConversationForm"
       (ngSubmit)="startConversation()"
       vater-grid
+      fill="vertical"
       rows="minmax(var(--case-min-row-height), auto) 1fr"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
@@ -105,12 +106,14 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
           data-testid="actor-conversation-internal-note-input"
         />
         <vater-grid-area row="4" fill="horizontal">
-          <dh-actor-conversation-message-form
-            vater
-            fill="horizontal"
-            [loading]="startConversationMutation.loading()"
-            [formControl]="newConversationForm.controls.message"
-          />
+          <vater-stack fill="vertical" justify="end">
+            <dh-actor-conversation-message-form
+              vater
+              fill="horizontal"
+              [loading]="startConversationMutation.loading()"
+              [formControl]="newConversationForm.controls.message"
+            />
+          </vater-stack>
         </vater-grid-area>
       </vater-grid>
     </form>
