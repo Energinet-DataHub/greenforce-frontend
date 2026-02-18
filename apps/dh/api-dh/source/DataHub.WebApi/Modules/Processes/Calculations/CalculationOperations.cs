@@ -30,7 +30,7 @@ public static partial class CalculationOperations
 {
     [Query]
     [UseRevisionLog]
-    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
+    [Authorize(Roles = ["calculations:view", "calculations:manage"])]
     public static async Task<ICalculationsQueryResultV1?> GetCalculationByIdAsync(
         Guid id,
         ICalculationsClient client,
@@ -41,7 +41,7 @@ public static partial class CalculationOperations
     [UsePaging]
     [UseSorting]
     [UseRevisionLog]
-    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
+    [Authorize(Roles = ["calculations:view", "calculations:manage"])]
     public static async Task<IEnumerable<ICalculationsQueryResultV1>> GetCalculationsAsync(
         CalculationsQueryInput input,
         string? filter,
@@ -67,7 +67,7 @@ public static partial class CalculationOperations
 
     [Query]
     [UseRevisionLog]
-    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
+    [Authorize(Roles = ["calculations:view", "calculations:manage"])]
     public static async Task<ICalculationsQueryResultV1?> GetLatestCalculationAsync(
         StartCalculationType calculationType,
         PeriodInput period,
@@ -77,7 +77,7 @@ public static partial class CalculationOperations
 
     [Mutation]
     [UseRevisionLog]
-    [Authorize(Roles = new[] { "calculations:manage" })]
+    [Authorize(Roles = ["calculations:manage"])]
     public static async Task<Guid> CreateCalculationAsync(
         CreateCalculationInput input,
         ICalculationsClient client,
@@ -91,7 +91,7 @@ public static partial class CalculationOperations
 
     [Mutation]
     [UseRevisionLog]
-    [Authorize(Roles = new[] { "calculations:manage" })]
+    [Authorize(Roles = ["calculations:manage"])]
     public static async Task<bool> CancelScheduledCalculationAsync(
         Guid id,
         ICalculationsClient client,
@@ -100,7 +100,7 @@ public static partial class CalculationOperations
 
     [Subscription]
     [Subscribe(With = nameof(OnCalculationUpdatedAsync))]
-    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
+    [Authorize(Roles = ["calculations:view", "calculations:manage"])]
     public static ICalculationsQueryResultV1 CalculationUpdated(
         [EventMessage] ICalculationsQueryResultV1 calculation) => calculation;
 

@@ -15,6 +15,7 @@
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
 using HotChocolate.Execution.Configuration;
 using NodaTime;
+using LongType = Energinet.DataHub.WebApi.Modules.Common.Scalars.LongType;
 
 namespace Energinet.DataHub.WebApi.Registration;
 

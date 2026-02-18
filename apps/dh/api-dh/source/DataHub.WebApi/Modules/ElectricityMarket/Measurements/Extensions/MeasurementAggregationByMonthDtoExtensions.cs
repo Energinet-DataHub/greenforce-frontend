@@ -20,15 +20,22 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Extens
 public static class MeasurementAggregationByMonthDtoExtensions
 {
     public static IEnumerable<MeasurementAggregationByMonthDto> PadWithEmptyPositions(
-        this IEnumerable<MeasurementAggregationByMonthDto> measurementPositions,
+        this IEnumerable<MeasurementAggregationByMonthDto>? measurementPositions,
         int requestYear)
     {
-        if (measurementPositions == null || !measurementPositions.Any())
+        if (measurementPositions is null)
         {
-            return Enumerable.Empty<MeasurementAggregationByMonthDto>();
+            return [];
         }
 
-        var existingPositionsByDate = measurementPositions
+        var measurementAggregationByMonthDtos = measurementPositions.ToList();
+
+        if (!measurementAggregationByMonthDtos.Any())
+        {
+            return [];
+        }
+
+        var existingPositionsByDate = measurementAggregationByMonthDtos
             .ToDictionary(p => p.YearMonth, p => p);
 
         var result = new List<MeasurementAggregationByMonthDto>();
