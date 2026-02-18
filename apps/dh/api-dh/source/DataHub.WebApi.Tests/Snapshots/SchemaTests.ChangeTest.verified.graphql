@@ -1427,7 +1427,6 @@ type RelatedMeteringPointsDto {
   relatedMeteringPoints: [RelatedMeteringPointDto!]!
   relatedByGsrn: [RelatedMeteringPointDto!]!
   historicalMeteringPoints: [RelatedMeteringPointDto!]!
-  historicalMeteringPointsByGsrn: [RelatedMeteringPointDto!]!
 }
 
 type RemoveMeteringPointsFromAdditionalRecipientPayload {

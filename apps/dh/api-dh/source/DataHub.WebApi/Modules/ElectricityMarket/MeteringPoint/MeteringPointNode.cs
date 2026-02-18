@@ -362,8 +362,7 @@ public static partial class MeteringPointNode
             Parent: data.Parent is not null ? ToDto(data.Parent) : null,
             RelatedMeteringPoints: data.Children.Select(ToDto).ToList(),
             RelatedByGsrn: data.OnSamePowerPlant.Select(ToDto).ToList(),
-            HistoricalMeteringPoints: data.HistoricalChildren.Select(ToDto).ToList(),
-            HistoricalMeteringPointsByGsrn: []); // Historical "power plant" relations are not relevant according to the business requirements
+            HistoricalMeteringPoints: data.HistoricalChildren.Select(ToDto).ToList());
     }
 
     private static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsInEm1Async(
@@ -378,8 +377,7 @@ public static partial class MeteringPointNode
             Parent: result.Parent is not null ? ToDto(result.Parent) : null,
             RelatedMeteringPoints: result.RelatedMeteringPoints.Select(ToDto).ToList(),
             RelatedByGsrn: result.RelatedByGsrn.Select(ToDto).ToList(),
-            HistoricalMeteringPoints: result.HistoricalMeteringPoints.Select(ToDto).ToList(),
-            HistoricalMeteringPointsByGsrn: result.HistoricalMeteringPointsByGsrn.Select(ToDto).ToList());
+            HistoricalMeteringPoints: result.HistoricalMeteringPoints.Select(ToDto).ToList());
     }
 
     private static RelatedMeteringPointDto ToDto(GetRelatedMeteringPointsResultDtoV1.MeteringPointData meteringPointData)
