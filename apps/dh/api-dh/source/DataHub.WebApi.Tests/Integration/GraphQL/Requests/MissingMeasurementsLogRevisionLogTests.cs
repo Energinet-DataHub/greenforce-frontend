@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Threading.Tasks;
-using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.Processes.MissingMeasurementsLog.Types;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Energinet.DataHub.WebApi.Tests.TestServices;
@@ -22,7 +20,7 @@ using Energinet.DataHub.WebApi.Tests.Traits;
 using NodaTime;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Calculation;
+namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Requests;
 
 public class MissingMeasurementsLogRevisionLogTests
 {

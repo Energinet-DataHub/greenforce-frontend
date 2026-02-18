@@ -69,7 +69,7 @@ public static partial class MeteringPointMetadataDtoType
 
         var meteringPoint = await MeteringPointNode.GetMeteringPointAsync(meteringPointMetadata.ParentMeteringPoint, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
 
-        return meteringPoint?.Id;
+        return meteringPoint.Id;
     }
 
     static partial void Configure(

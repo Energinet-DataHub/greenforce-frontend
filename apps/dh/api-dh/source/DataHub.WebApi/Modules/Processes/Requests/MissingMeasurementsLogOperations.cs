@@ -12,9 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Client;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_045.MissingMeasurementsLogOnDemandCalculation.V1.Model;
-using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.MissingMeasurementsLog.Types;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
@@ -26,7 +23,7 @@ public static class MissingMeasurementsLogOperations
 {
     [Mutation]
     [UseRevisionLog]
-    [Authorize(Roles = new[] { "missing-measurements-log:view" })]
+    [Authorize(Roles = ["missing-measurements-log:view"])]
     public static Task<bool> RequestMissingMeasurementsLogAsync(
         RequestMissingMeasurementsLogInput input,
         IRequestsClient client) => client.RequestMissingMeasurementsLogAsync(input);

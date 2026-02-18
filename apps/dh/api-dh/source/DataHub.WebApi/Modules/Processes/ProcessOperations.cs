@@ -17,7 +17,6 @@ using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using HotChocolate.Authorization;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes;
 
@@ -26,7 +25,7 @@ public static class ProcessOperations
     [Query]
     [UsePaging]
     [UseSorting]
-    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })] // TODO: Make dev role
+    [Authorize(Roles = ["calculations:view", "calculations:manage"])] // TODO: Make dev role
     public static async Task<IEnumerable<OrchestrationInstanceTypedDto>> GetProcessesAsync(
         ICalculationsClient calculationsClient,
         CalculationsQueryInput input,
