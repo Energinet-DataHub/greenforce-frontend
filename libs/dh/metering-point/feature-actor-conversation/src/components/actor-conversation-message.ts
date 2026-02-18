@@ -21,7 +21,6 @@ import {
   Component,
   computed,
   input,
-  ViewEncapsulation,
 } from '@angular/core';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDatePipe } from '@energinet/watt/date';
@@ -32,7 +31,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
   selector: 'dh-actor-conversation-message',
   imports: [VaterStackComponent, WattDatePipe, TranslocoDirective, VaterUtilityDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   styles: `
     .message-container {
       border-radius: var(--watt-radius-m);

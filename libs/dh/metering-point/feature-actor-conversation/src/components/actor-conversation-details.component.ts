@@ -46,6 +46,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import { MsalService } from '@azure/msal-angular';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
+import { WattHeadingComponent } from '@energinet/watt/heading';
 
 @Component({
   selector: 'dh-actor-conversation-details',
@@ -66,6 +67,7 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
     DhResultComponent,
     DhActorConversationMessageComponent,
     VaterFlexComponent,
+    WattHeadingComponent,
   ],
   styles: `
     .no-margin {
@@ -99,7 +101,9 @@ import { DhActorConversationMessageComponent } from './actor-conversation-messag
                   <span class="watt-text-s">Netvirksomhed(MOCK)</span>
                 </vater-stack>
                 <vater-stack direction="row" gap="s">
-                  <h3 class="no-margin">{{ t('subjects.' + conversation.subject) }}</h3>
+                  <h3 watt-heading class="no-margin">
+                    {{ t('subjects.' + conversation.subject) }}
+                  </h3>
                   @if (conversation.closed) {
                     <watt-badge type="neutral">{{ t('closed') }}</watt-badge>
                   }
