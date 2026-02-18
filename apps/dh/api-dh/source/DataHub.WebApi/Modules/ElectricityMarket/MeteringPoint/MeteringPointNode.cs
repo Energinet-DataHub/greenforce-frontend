@@ -363,7 +363,7 @@ public static partial class MeteringPointNode
             RelatedMeteringPoints: data.Children.Select(ToDto).ToList(),
             RelatedByGsrn: data.OnSamePowerPlant.Select(ToDto).ToList(),
             HistoricalMeteringPoints: data.HistoricalChildren.Select(ToDto).ToList(),
-            HistoricalMeteringPointsByGsrn: data.HistoricalOnSamePowerPlant.Select(ToDto).ToList());
+            HistoricalMeteringPointsByGsrn: []); // Historical "power plant" relations are not relevant according to the business requirements
     }
 
     private static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsInEm1Async(
