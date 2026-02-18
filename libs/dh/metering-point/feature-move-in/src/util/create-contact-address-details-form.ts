@@ -12,49 +12,30 @@ export function createContactAddressDetailsForm(
     contact
   );
 
-  const contactOrInstallationAddress = addressSameAsInstallation
-    ? mapInstallationAdressToContact(installationAddress)
-    : contact;
+  const addressGroup = new FormGroup({
+    streetName: dhMakeFormControl<string | null>(contact?.streetName, Validators.required),
+    buildingNumber: dhMakeFormControl<string | null>(contact?.buildingNumber, Validators.required),
+    floor: dhMakeFormControl<string | null>(contact?.floor),
+    room: dhMakeFormControl<string | null>(contact?.room),
+    postCode: dhMakeFormControl<string | null>(contact?.postCode, Validators.required),
+    cityName: dhMakeFormControl<string | null>(contact?.cityName, Validators.required),
+    countryCode: dhMakeFormControl<string | null>(contact?.countryCode),
+    streetCode: dhMakeFormControl<string | null>(contact?.streetCode, Validators.required),
+    citySubDivisionName: dhMakeFormControl<string | null>(contact?.citySubDivisionName),
+    postBox: dhMakeFormControl<string | null>(contact?.postBox),
+    municipalityCode: dhMakeFormControl<string | null>(contact?.municipalityCode, [
+      dhMunicipalityCodeValidator(),
+      Validators.required,
+    ]),
+    darReference: dhMakeFormControl<string | null>(contact?.darReference),
+  });
+
+  if (addressSameAsInstallation) addressGroup.disable();
 
   return new FormGroup<AddressDetailsFormType>({
     addressSameAsInstallation: dhMakeFormControl<boolean>(addressSameAsInstallation),
-    addressProtection: dhMakeFormControl<boolean>(
-      contactOrInstallationAddress?.isProtectedAddress ?? false
-    ),
-    addressGroup: new FormGroup({
-      streetName: dhMakeFormControl<string>(
-        contactOrInstallationAddress?.streetName ?? '',
-        Validators.required
-      ),
-      buildingNumber: dhMakeFormControl<string>(
-        contactOrInstallationAddress?.buildingNumber ?? '',
-        Validators.required
-      ),
-      floor: dhMakeFormControl<string>(contactOrInstallationAddress?.floor ?? ''),
-      room: dhMakeFormControl<string>(contactOrInstallationAddress?.room ?? ''),
-      postCode: dhMakeFormControl<string>(
-        contactOrInstallationAddress?.postCode ?? '',
-        Validators.required
-      ),
-      cityName: dhMakeFormControl<string>(
-        contactOrInstallationAddress?.cityName ?? '',
-        Validators.required
-      ),
-      countryCode: dhMakeFormControl<string>(contactOrInstallationAddress?.countryCode ?? ''),
-      streetCode: dhMakeFormControl<string>(
-        contactOrInstallationAddress?.streetCode ?? '',
-        Validators.required
-      ),
-      citySubDivisionName: dhMakeFormControl<string>(
-        contactOrInstallationAddress?.citySubDivisionName ?? ''
-      ),
-      postBox: dhMakeFormControl<string>(contactOrInstallationAddress?.postBox ?? ''),
-      municipalityCode: dhMakeFormControl<string>(
-        contactOrInstallationAddress?.municipalityCode ?? '',
-        [dhMunicipalityCodeValidator(), Validators.required]
-      ),
-      darReference: dhMakeFormControl<string>(contactOrInstallationAddress?.darReference ?? ''),
-    }),
+    addressProtection: dhMakeFormControl<boolean>(contact?.isProtectedAddress ?? false),
+    addressGroup,
   });
 }
 

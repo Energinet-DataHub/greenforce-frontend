@@ -29,7 +29,14 @@ import {
 } from '@angular/core';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import {
   dhCprValidator,
@@ -68,6 +75,7 @@ import { createContactAddressDetailsForm } from '../util/create-contact-address-
 import { dhAppEnvironmentToken } from 'libs/dh/shared/environments/src/lib/app-environment/dh-app-environment';
 import { name } from '@azure/msal-angular/packageMetadata';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -180,6 +188,9 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 export class DhUpdateCustomerDataComponent {
   private readonly actor = inject(DhActorStorage).getSelectedActor();
   private readonly appEnv = inject(dhAppEnvironmentToken).current;
+  private readonly requestChangeCustomerCharacteristics = mutation(
+    RequestChangeCustomerCharacteristicsDocument
+  );
   private readonly query = query(GetMeteringPointByIdDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
@@ -202,6 +213,8 @@ export class DhUpdateCustomerDataComponent {
   private readonly installationAddress = computed(
     () => this.query.data()?.meteringPoint.metadata?.installationAddress
   );
+  private readonly technicalContact = computed(() => this.technicalCustomer()?.technicalContact);
+  private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
   loading = this.query.loading;
   isBusinessCustomer = computed(() => this.legalCustomer()?.cvr !== null);
@@ -214,12 +227,14 @@ export class DhUpdateCustomerDataComponent {
         businessCustomerDetails: new FormGroup({
           companyName: dhMakeFormControl<string>(
             this.legalCustomer()?.name ?? '',
-            Validators.required
+            this.isBusinessCustomer() ? [Validators.required] : []
           ),
-          cvr: dhMakeFormControl<string>(this.legalCustomer()?.cvr ?? '', [
-            Validators.required,
-            dhMoveInCvrValidator(this.appEnv),
-          ]),
+          cvr: dhMakeFormControl<string>(
+            this.legalCustomer()?.cvr ?? '',
+            this.isBusinessCustomer()
+              ? [Validators.required, dhMoveInCvrValidator(this.appEnv)]
+              : []
+          ),
           nameProtection: dhMakeFormControl<boolean>(
             this.legalCustomer()?.isProtectedName ?? false
           ),
@@ -227,37 +242,129 @@ export class DhUpdateCustomerDataComponent {
         privateCustomerDetails: new FormGroup({
           customerName1: dhMakeFormControl<string>(
             this.legalCustomer()?.name ?? '',
-            Validators.required
+            !this.isBusinessCustomer() ? [Validators.required] : []
           ),
-          cpr1: dhMakeFormControl<string>('', [Validators.required, dhCprValidator()]),
+          cpr1: dhMakeFormControl<string>(
+            '',
+            !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
+          ),
           customerName2: dhMakeFormControl<string>(this.secondaryCustomer()?.name ?? ''),
-          cpr2: dhMakeFormControl<string>('', [Validators.required, dhCprValidator()]),
+          cpr2: dhMakeFormControl<string>(
+            '',
+            !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
+          ),
           nameProtection: dhMakeFormControl<boolean>(
             this.secondaryCustomer()?.isProtectedName ?? false
           ),
         }),
         legalContactDetails: createCustomerContactDetailsForm(
           this.legalCustomer(),
-          this.legalCustomer()?.legalContact
+          this.legalContact()
         ),
         legalContactAddressDetails: createContactAddressDetailsForm(
-          this.legalCustomer()?.legalContact,
+          this.legalContact(),
           this.installationAddress()
         ),
         technicalContactDetails: createCustomerContactDetailsForm(
-          this.technicalCustomer(),
-          this.technicalCustomer()?.technicalContact
+          this.legalCustomer(),
+          this.technicalContact()
         ),
         technicalContactAddressDetails: createContactAddressDetailsForm(
-          this.technicalCustomer()?.technicalContact,
+          this.technicalContact(),
           this.installationAddress()
         ),
       })
   );
 
-  async updateCustomerData() {}
+  /** Sync technical */
+  private readonly technicalNameSameAsContactNameToggle = dhFormControlToSignal(
+    this.form().controls.technicalContactDetails.controls.contactSameAsCustomer
+  );
+
+  private readonly syncTechnicalContactName = effect(() => {
+    const technicalNameSameAsContactName = this.technicalNameSameAsContactNameToggle();
+    const control =
+      this.form().controls.technicalContactDetails.controls.contactGroup.controls.name;
+    this.sync(
+      control,
+      technicalNameSameAsContactName ? this.legalCustomer()?.name : this.technicalContact()?.name,
+      technicalNameSameAsContactName
+    );
+  });
+
+  private readonly technicalAddressSameAsInstallationToggle = dhFormControlToSignal(
+    this.form().controls.technicalContactAddressDetails.controls.addressSameAsInstallation
+  );
+
+  private readonly syncTechnicalContactAddress = effect(() => {
+    const technicalAddressSameAsInstallation = this.technicalAddressSameAsInstallationToggle();
+    const addressGroup = this.form().controls.technicalContactAddressDetails.controls.addressGroup;
+    const contact = this.technicalContact();
+    const installationAddress = this.installationAddress();
+
+    this.sync(
+      addressGroup,
+      technicalAddressSameAsInstallation ? installationAddress : contact,
+      technicalAddressSameAsInstallation
+    );
+  });
+
+  /** Sync legal */
+  private readonly legalNameSameAsContactNameToggle = dhFormControlToSignal(
+    this.form().controls.legalContactDetails.controls.contactSameAsCustomer
+  );
+
+  private readonly syncLegalContactName = effect(() => {
+    const legalNameSameAsContactName = this.legalNameSameAsContactNameToggle();
+    const control = this.form().controls.legalContactDetails.controls.contactGroup.controls.name;
+    this.sync(
+      control,
+      legalNameSameAsContactName ? this.legalCustomer()?.name : this.legalContact()?.name,
+      legalNameSameAsContactName
+    );
+  });
+
+  private readonly legalAddressSameAsInstallationToggle = dhFormControlToSignal(
+    this.form().controls.legalContactAddressDetails.controls.addressSameAsInstallation
+  );
+
+  private readonly syncLegalContactAddress = effect(() => {
+    const legalAddressSameAsInstallation = this.legalAddressSameAsInstallationToggle();
+    const addressGroup = this.form().controls.legalContactAddressDetails.controls.addressGroup;
+    const contact = this.legalContact();
+    const installationAddress = this.installationAddress();
+
+    this.sync(
+      addressGroup,
+      legalAddressSameAsInstallation ? installationAddress : contact,
+      legalAddressSameAsInstallation
+    );
+  });
+
+  /** Not typesafe */
+
+  async updateCustomerData() {
+    if (this.form().invalid) return;
+
+    const values = this.form().getRawValue();
+  }
 
   cancel() {
     // this.locationService.back();
+  }
+
+  private sync<C extends AbstractControl>(
+    control: C,
+    value: C['value'] | null | undefined,
+    toggle: boolean
+  ) {
+    if (value != null) {
+      control.patchValue(value);
+    }
+    if (toggle) {
+      control.disable();
+    } else {
+      control.enable();
+    }
   }
 }

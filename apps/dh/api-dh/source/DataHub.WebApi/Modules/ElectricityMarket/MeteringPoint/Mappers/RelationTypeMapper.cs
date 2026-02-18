@@ -33,8 +33,8 @@ public static class RelationTypeMapper
     {
         return relationType switch
         {
-            Clients.ElectricityMarket.v1.CustomerRelationType.Contact1 => CustomerRelationType.Juridical,
-            Clients.ElectricityMarket.v1.CustomerRelationType.Contact4 => CustomerRelationType.Technical,
+            Clients.ElectricityMarket.v1.CustomerRelationType.Contact1 => CustomerRelationType.Technical,
+            Clients.ElectricityMarket.v1.CustomerRelationType.Contact4 => CustomerRelationType.Juridical,
             Clients.ElectricityMarket.v1.CustomerRelationType.Secondary => CustomerRelationType.Secondary,
         };
     }

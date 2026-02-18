@@ -46,11 +46,11 @@ export type ContactDetailsFormType = {
 };
 
 export type ContactDetailsFormGroup = {
-  name: FormControl<string>;
-  attention: FormControl<string>;
-  phone: FormControl<string>;
-  mobile: FormControl<string>;
-  email: FormControl<string>;
+  name: FormControl<string | null>;
+  attention: FormControl<string | null>;
+  phone: FormControl<string | null>;
+  mobile: FormControl<string | null>;
+  email: FormControl<string | null>;
 };
 
 export type AddressDetailsFormType = {
@@ -76,18 +76,18 @@ export type AddressData = {
 };
 
 export type AddressGroup = {
-  streetName: FormControl<string>;
-  buildingNumber: FormControl<string>;
-  floor: FormControl<string>;
-  room: FormControl<string>;
-  postCode: FormControl<string>;
-  cityName: FormControl<string>;
-  countryCode: FormControl<string>;
-  streetCode: FormControl<string>;
-  citySubDivisionName: FormControl<string>;
-  postBox: FormControl<string>;
-  municipalityCode: FormControl<string>;
-  darReference: FormControl<string>;
+  streetName: FormControl<string | null>;
+  buildingNumber: FormControl<string | null>;
+  floor: FormControl<string | null>;
+  room: FormControl<string | null>;
+  postCode: FormControl<string | null>;
+  cityName: FormControl<string | null>;
+  countryCode: FormControl<string | null>;
+  streetCode: FormControl<string | null>;
+  citySubDivisionName: FormControl<string | null>;
+  postBox: FormControl<string | null>;
+  municipalityCode: FormControl<string | null>;
+  darReference: FormControl<string | null>;
 };
 
 export type PrivateCustomerFormGroup = {
@@ -127,7 +127,7 @@ export type EnergySupplier = {
   validFrom?: ActiveEnergySupplyPeriod['validFrom'];
 };
 
-type CustomerWithContacts = ActiveEnergySupplyPeriod['customers'][0];
+export type CustomerWithContacts = ActiveEnergySupplyPeriod['customers'][0];
 export type Customer = Omit<CustomerWithContacts, 'legalContact' | 'technicalContact'>;
 export type Contact =
   | CustomerWithContacts['legalContact']
