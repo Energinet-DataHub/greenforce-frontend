@@ -113,10 +113,10 @@ export class DhActorConversationListComponent {
   newConversation: Conversation = {
     __typename: 'ConversationInfo',
     closed: false,
-    read: false,
+    read: true,
     lastUpdated: dayjs().toDate(),
     id: '',
     displayId: '',
-    subject: 'QUESTION_FOR_ENERGINET',
+    subject: 'newCase' as Conversation['subject'],
   };
 }
