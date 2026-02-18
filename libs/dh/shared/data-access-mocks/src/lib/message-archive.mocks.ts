@@ -256,7 +256,7 @@ function getMeteringPointProcessById(apiBase: string) {
             {
               __typename: 'MeteringPointProcessStep' as const,
               id: `step-${processId}-1`,
-              step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1',
+              step: 'ENDOFSUPPLY_V1_STEP_1',
               comment: 'OBS: Sendt til foged',
               completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24), // 1 day later
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2), // 2 days later
@@ -271,7 +271,7 @@ function getMeteringPointProcessById(apiBase: string) {
             {
               __typename: 'MeteringPointProcessStep' as const,
               id: `step-${processId}-2`,
-              step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2',
+              step: 'ENDOFSUPPLY_V1_STEP_2',
               comment: 'Afventer bekræftelse',
               completedAt: null,
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5), // 5 days later

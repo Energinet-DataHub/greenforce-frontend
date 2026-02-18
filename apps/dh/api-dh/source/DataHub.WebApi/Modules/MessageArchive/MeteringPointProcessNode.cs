@@ -84,7 +84,7 @@ public static partial class MeteringPointProcessNode
 
         return process.WorkflowSteps.Select(step => new MeteringPointProcessStep(
             Id: step.Id.ToString(),
-            Step: GetStepIdentifier(step),
+            Step: GetStepIdentifier(process.ReasonCode, step),
             Comment: null, // TODO: REPLACE WHEN PROCESS MANAGER IS READY
             CompletedAt: step.Lifecycle.CompletedAt,
             DueDate: null, // DueDate was removed in ProcessManager 8.1.0
@@ -186,18 +186,15 @@ public static partial class MeteringPointProcessNode
         };
 
     /// <summary>
-    /// Generates a step identifier based on the workflow's unique name and step sequence.
-    /// Format: {PROCESS_NAME}_V{VERSION}_STEP_{SEQUENCE}
-    /// Example: BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1
+    /// Generates a step identifier based on the workflow's business reason and step's sequence,
+    /// and maps it to a known ProcessStepType enum value.
+    /// Format: {REASON_CODE}_V{VERSION}_STEP_{SEQUENCE}
+    /// Example: ENDOFSUPPLY_V1_STEP_1
     /// </summary>
-    private static string GetStepIdentifier(WorkflowStepInstanceDto step)
+    private static string GetStepIdentifier(string reasonCode, WorkflowStepInstanceDto step)
     {
-        // Normalize the process name: replace dots and spaces with underscores, convert to uppercase
-        var processName = step.UniqueName.Name
-            .Replace(".", "_")
-            .Replace(" ", string.Empty)
-            .ToUpperInvariant();
+        var businessReason = reasonCode.ToUpperInvariant();
 
-        return $"{processName}_V{step.UniqueName.Version}_STEP_{step.Sequence}";
+        return $"{businessReason}_V{step.UniqueName.Version}_STEP_{step.Sequence}";
     }
 }
