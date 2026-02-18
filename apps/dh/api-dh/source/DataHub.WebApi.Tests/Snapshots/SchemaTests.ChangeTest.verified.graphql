@@ -411,12 +411,16 @@ type ConversationInfo {
 
 "Conversation message"
 type ConversationMessage {
+  actorName: String
+  userName: String!
   "Message content"
   content: String!
   messageType: MessageType!
   "Created time"
   createdTime: DateTime!
   senderType: ActorType!
+  "Sender user id"
+  userId: String
 }
 
 "Conversations"
