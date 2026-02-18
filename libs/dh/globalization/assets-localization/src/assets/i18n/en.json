@@ -360,12 +360,12 @@
     "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
-    "PT15M": "Quarter hour",
+    "PT15M": "15 min",
     "PT1H": "Hour",
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
-    "QUARTER_HOURLY": "Quarter hour",
+    "QUARTER_HOURLY": "15 min",
     "HOURLY": "Hour",
     "MONTHLY": "Monthly",
     "OTHER": "Other"
@@ -383,7 +383,7 @@
       "TARIFF_TAX": "Tariff, tax"
     },
     "resolutions": {
-      "QUARTER_HOURLY": "Quarter hour",
+      "QUARTER_HOURLY": "15 min",
       "DAILY": "Day",
       "HOURLY": "Hour",
       "MONTHLY": "Month"
@@ -709,8 +709,8 @@
         "detailsSubtitle": "Details",
         "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
         "meteringPointStatus": "Connection status",
-        "meteringPointSubType": "Meteringpoint subtype",
-        "meteringPointNumber": "Metering point no.",
+        "meteringPointSubType": "Metering point subtype",
+        "meteringPointNumber": "Meter ID",
         "settlementMethod": "Settlement method",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Electrical heating date",
@@ -1249,7 +1249,7 @@
         "3": "Immediate settlement (3)"
       },
       "resolution": {
-        "quarterHourly": "Quarter hour",
+        "quarterHourly": "15 min",
         "hourly": "Hour"
       },
       "other": {
