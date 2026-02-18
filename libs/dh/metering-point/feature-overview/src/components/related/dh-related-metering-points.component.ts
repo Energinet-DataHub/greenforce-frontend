@@ -212,9 +212,7 @@ export class DhRelatedMeteringPointsComponent {
 
     if (!relatedMeteringPoints) return false;
 
-    return (
-      relatedMeteringPoints.historicalMeteringPoints?.length > 0
-    );
+    return relatedMeteringPoints.historicalMeteringPoints?.length > 0;
   });
 
   toggleHistorical() {
