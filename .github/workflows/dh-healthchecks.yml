@@ -66,7 +66,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v16
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@workflows/v1
     with:
       team_name: TeamFrontend
       subject: DH UI Frontend Healthchecks - Failed
