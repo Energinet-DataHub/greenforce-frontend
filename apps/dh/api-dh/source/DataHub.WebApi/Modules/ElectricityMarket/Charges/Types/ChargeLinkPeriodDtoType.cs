@@ -15,7 +15,7 @@
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Types;
 
 [ObjectType<ChargeLinkPeriodDto>]
 public static partial class ChargeLinkPeriodDtoType

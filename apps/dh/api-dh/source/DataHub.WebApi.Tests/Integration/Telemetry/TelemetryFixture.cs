@@ -21,7 +21,7 @@ using Energinet.DataHub.Core.FunctionApp.TestCommon.AppConfiguration;
 using Energinet.DataHub.Core.FunctionApp.TestCommon.Configuration;
 using Energinet.DataHub.Core.TestCommon;
 
-namespace Energinet.DataHub.WebApi.Tests.Telemetry;
+namespace Energinet.DataHub.WebApi.Tests.Integration.Telemetry;
 
 public class TelemetryFixture
 {

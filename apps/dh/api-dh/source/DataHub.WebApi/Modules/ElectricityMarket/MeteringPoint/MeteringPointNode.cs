@@ -78,7 +78,7 @@ public static partial class MeteringPointNode
     #endregion
 
     [Query]
-    [Authorize(Roles = new[] { "cpr:view" })]
+    [Authorize(Roles = ["cpr:view"])]
     public static async Task<Clients.ElectricityMarket.v1.CPRResponse> GetMeteringPointContactCprAsync(
         string meteringPointId,
         long contactId,
@@ -120,7 +120,7 @@ public static partial class MeteringPointNode
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<MeteringPointDto> GetMeteringPointExistsAsync(
             bool searchMigratedMeteringPoints,
             string? internalMeteringPointId,
@@ -162,7 +162,7 @@ public static partial class MeteringPointNode
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
         string meteringPointId,
         bool? searchMigratedMeteringPoints,
@@ -186,7 +186,7 @@ public static partial class MeteringPointNode
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<MeteringPointDto> GetMeteringPointAsync(
         string meteringPointId,
         bool? searchMigratedMeteringPoints,
@@ -241,7 +241,7 @@ public static partial class MeteringPointNode
     }
 
     [Mutation]
-    [Authorize(Roles = new[] { "metering-point:connection-state-manage" })]
+    [Authorize(Roles = ["metering-point:connection-state-manage"])]
     public static async Task<bool> RequestConnectionStateChangeAsync(
         string meteringPointId,
         DateTimeOffset validityDate,
