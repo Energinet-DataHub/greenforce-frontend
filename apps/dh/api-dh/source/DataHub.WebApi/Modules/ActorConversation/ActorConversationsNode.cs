@@ -62,7 +62,7 @@ public static partial class ActorConversationsNode
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
 
-        return await authClient.ApiGetConversationsAsync(meteringPointIdentification, searchTerm, ct);
+        return await authClient.ApiGetConversationsAsync(meteringPointIdentification, ct);
     }
 
     static partial void Configure(
