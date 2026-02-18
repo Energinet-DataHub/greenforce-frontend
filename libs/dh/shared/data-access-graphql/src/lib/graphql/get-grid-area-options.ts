@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+/* eslint-disable @nx/enforce-module-boundaries */
 import { computed, Signal } from '@angular/core';
 
 import { WattDropdownOptions } from '@energinet/watt/dropdown';

@@ -49,7 +49,6 @@ import {
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { dhIsEM1InternalId } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
@@ -285,8 +284,6 @@ function meteringPointCreateGuard(): CanActivateFn {
  */
 function meteringPointIdResolver(): ResolveFn<string> {
   return (route: ActivatedRouteSnapshot) => {
-    const environment = inject(dhAppEnvironmentToken);
-
     const idParam: string = route.params[dhInternalMeteringPointIdParam];
     const isEM1Id = dhIsEM1InternalId(idParam);
 
@@ -294,7 +291,6 @@ function meteringPointIdResolver(): ResolveFn<string> {
       variables: {
         internalMeteringPointId: idParam,
         searchMigratedMeteringPoints: isEM1Id,
-        environment: environment.current,
       },
     })
       .result()

@@ -266,6 +266,90 @@
         }
       }
     },
+    "/api/MarkConversationRead": {
+      "post": {
+        "tags": [
+          "MarkConversationRead"
+        ],
+        "description": "Marks a conversation as read by the invoking actor",
+        "operationId": "MarkConversationRead",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkConversationReadRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkConversationReadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MarkConversationUnread": {
+      "post": {
+        "tags": [
+          "MarkConversationUnread"
+        ],
+        "description": "Marks a conversation as unread by the invoking actor",
+        "operationId": "MarkConversationUnread",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkConversationUnreadRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkConversationUnreadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/StartConversation": {
       "post": {
         "tags": [
@@ -313,6 +397,47 @@
           },
           "500": {
             "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TestActorRetrieval/{meteringPointIdentification}": {
+      "get": {
+        "tags": [
+          "TestActorRetrieval"
+        ],
+        "description": "Updates an internal note for the invoking participant of a conversation",
+        "operationId": "TestActorRetrieval",
+        "parameters": [
+          {
+            "name": "meteringPointIdentification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestActorRetrievalResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -565,8 +690,39 @@
         "type": "string",
         "description": "Application layer conversation subject",
         "enum": [
-          "QuestionForEnerginet"
+          "QuestionForEnerginet",
+          "InterruptionReconnection",
+          "ElectricalHeating",
+          "WrongfulMoveOrSupplierChange",
+          "CustomerMasterData",
+          "MeasurementData",
+          "MeasurementPointMasterData",
+          "PriceLinking"
         ]
+      },
+      "MarkConversationReadRequest": {
+        "type": "object",
+        "required": [
+          "conversationId"
+        ],
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "MarkConversationUnreadRequest": {
+        "type": "object",
+        "required": [
+          "conversationId"
+        ],
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
       },
       "MessageType": {
         "type": "string",
@@ -654,6 +810,27 @@
           }
         }
       },
+      "TestActorRetrievalResult": {
+        "type": "object",
+        "properties": {
+          "energySupplierActorNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "gridAccesProviderActorNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "energySupplierExceptionMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "gridAccessproviderExceptionMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "UpdateInternalNoteRequest": {
         "type": "object",
         "required": [
@@ -692,7 +869,16 @@
       "name": "GetAllConversations, GetConversationsForMeteringPoint"
     },
     {
+      "name": "MarkConversationRead"
+    },
+    {
+      "name": "MarkConversationUnread"
+    },
+    {
       "name": "Start"
+    },
+    {
+      "name": "TestActorRetrieval"
     },
     {
       "name": "UpdateInternalNote"

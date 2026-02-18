@@ -120,7 +120,11 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
 
         <ng-content *dhFeatureFlag="'search-migrated-metering-points'">
           <watt-checkbox [formControl]="searchMigratedMeteringPoints">
-            {{ t('searchMigratedMeteringPoints') }}
+            @if (environment.current === 'b-001') {
+              {{ t('searchMigratedMeteringPointsPreProd') }}
+            } @else {
+              {{ t('searchMigratedMeteringPoints') }}
+            }
           </watt-checkbox>
         </ng-content>
       </vater-stack>
@@ -147,7 +151,8 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
 export class DhSearchComponent {
   private readonly router = inject(Router);
   private readonly modalService = inject(WattModalService);
-  private readonly environment = inject(dhAppEnvironmentToken);
+
+  readonly environment = inject(dhAppEnvironmentToken);
 
   private readonly doesMeteringPointExist = lazyQuery(DoesInternalMeteringPointIdExistDocument);
   protected submitted = signal(false);
@@ -194,7 +199,6 @@ export class DhSearchComponent {
       variables: {
         meteringPointId,
         searchMigratedMeteringPoints: this.searchMigratedMeteringPoints.value,
-        environment: this.environment.current,
       },
     });
 

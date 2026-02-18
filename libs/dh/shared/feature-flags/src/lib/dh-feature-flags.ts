@@ -79,7 +79,7 @@ export const dhFeatureFlagsConfig = {
   },
   'search-migrated-metering-points': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
   'end-of-supply': {
     created: latestBump,

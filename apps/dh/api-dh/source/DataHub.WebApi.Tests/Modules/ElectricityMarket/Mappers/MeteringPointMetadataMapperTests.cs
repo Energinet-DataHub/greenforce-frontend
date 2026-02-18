@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Globalization;
 using System.Linq;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Shared;
@@ -93,7 +94,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.MeteringPointMeasureUnit.KWh, result.MeasureUnit),
             () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.AssetType.WindTurbines, result.AssetType),
             () => Assert.Null(result.EnvironmentalFriendly),
-            () => Assert.Equal(AssetCapacity.ToString(), result.Capacity),
+            () => Assert.Equal(AssetCapacity.ToString(CultureInfo.InvariantCulture), result.Capacity),
             () => Assert.Equal((double)PowerLimitKw, result.PowerLimitKw),
             () => Assert.Equal(PowerLimitAmperes, result.PowerLimitAmp),
             () => Assert.Equal(MeterNumber, result.MeterNumber),
@@ -339,7 +340,7 @@ public class MeteringPointMetadataMapperTests
             Product = Clients.ElectricityMarket.v1.Product.EnergyActive,
             ProductObligation = true,
             AssetType = Clients.ElectricityMarket.v1.AssetType.WindTurbines,
-            Capacity = AssetCapacity.ToString(),
+            Capacity = AssetCapacity.ToString(CultureInfo.InvariantCulture),
             MeasureUnit = Clients.ElectricityMarket.v1.MeteringPointMeasureUnit.KWh,
             PowerLimitKw = (double?)PowerLimitKw,
             PowerLimitAmp = PowerLimitAmperes,
@@ -394,7 +395,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.MeteringPointMeasureUnit.KWh, result.MeasureUnit),
             () => Assert.Equal(WebApi.Modules.ElectricityMarket.MeteringPoint.Models.AssetType.WindTurbines, result.AssetType),
             () => Assert.True(result.EnvironmentalFriendly),
-            () => Assert.Equal(AssetCapacity.ToString(), result.Capacity),
+            () => Assert.Equal(AssetCapacity.ToString(CultureInfo.InvariantCulture), result.Capacity),
             () => Assert.Equal((double)PowerLimitKw, result.PowerLimitKw),
             () => Assert.Equal(PowerLimitAmperes, result.PowerLimitAmp),
             () => Assert.Equal(MeterNumber, result.MeterNumber),
