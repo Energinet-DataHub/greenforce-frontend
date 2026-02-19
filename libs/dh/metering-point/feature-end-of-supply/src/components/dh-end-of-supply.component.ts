@@ -95,7 +95,10 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     </watt-modal>
   `,
 })
-export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: string; internalMeteringPointId: string }> {
+export class DhEndOfSupplyComponent extends WattTypedModal<{
+  meteringPointId: string;
+  internalMeteringPointId: string;
+}> {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly toastService = inject(WattToastService);
   private readonly router = inject(Router);
