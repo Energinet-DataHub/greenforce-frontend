@@ -117,7 +117,7 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{
 
   readonly minDate = computed(() => {
     const dates = this.selectableDatesQuery.data()?.selectableDatesForEndOfSupply;
-    return dates?.[0] ? dayjs(dates[0]).toDate() : dayjs().add(1, 'day').toDate()
+    return dates?.[0] ? dayjs(dates[0]).toDate() : dayjs().add(1, 'day').toDate();
   });
   readonly dateFilter = computed(() => {
     const selectable = this.selectableDates();
