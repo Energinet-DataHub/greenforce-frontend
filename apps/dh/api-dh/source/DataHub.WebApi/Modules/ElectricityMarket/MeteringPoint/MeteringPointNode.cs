@@ -272,21 +272,20 @@ public static partial class MeteringPointNode
     }
 
     [Query]
-    public static IEnumerable<DateTimeOffset> GetDisabledDatesForEndOfSupply(
+    public static IEnumerable<DateTimeOffset> GetSelectableDatesForEndOfSupply(
         [Service] DataHubCalendar calendar)
     {
-        var firstPossibleWorkingDay = 3;
-        var lastPossibleWorkingDay = 60;
+        var requiredWorkingDaysGap = 3;
+        var lastPossibleDay = 60;
 
-        var start = calendar.GetDateRelativeToCurrentDate(firstPossibleWorkingDay);
-        var end = calendar.GetDateRelativeToCurrentDate(lastPossibleWorkingDay);
-        var workingDays = calendar.GetWorkingDaysInPeriod(start, end);
-        var allDays = Enumerable
-            .Range(firstPossibleWorkingDay, lastPossibleWorkingDay - firstPossibleWorkingDay + 1)
-            .Select(calendar.GetDateRelativeToCurrentDate);
+        var tomorrow = calendar.GetDateRelativeToCurrentDate(1);
+        var end = calendar.GetDateRelativeToCurrentDate(lastPossibleDay);
 
-        return allDays
-            .Except(workingDays)
+        // First selectable date is after 3 working days have passed
+        var allWorkingDays = calendar.GetWorkingDaysInPeriod(tomorrow, end);
+
+        return allWorkingDays
+            .Skip(requiredWorkingDaysGap)
             .Select(date => date.ToDateTimeOffset());
     }
 
@@ -362,8 +361,7 @@ public static partial class MeteringPointNode
             Parent: data.Parent is not null ? ToDto(data.Parent) : null,
             RelatedMeteringPoints: data.Children.Select(ToDto).ToList(),
             RelatedByGsrn: data.OnSamePowerPlant.Select(ToDto).ToList(),
-            HistoricalMeteringPoints: data.HistoricalChildren.Select(ToDto).ToList(),
-            HistoricalMeteringPointsByGsrn: data.HistoricalOnSamePowerPlant.Select(ToDto).ToList());
+            HistoricalMeteringPoints: data.HistoricalChildren.Select(ToDto).ToList());
     }
 
     private static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsInEm1Async(
@@ -378,8 +376,7 @@ public static partial class MeteringPointNode
             Parent: result.Parent is not null ? ToDto(result.Parent) : null,
             RelatedMeteringPoints: result.RelatedMeteringPoints.Select(ToDto).ToList(),
             RelatedByGsrn: result.RelatedByGsrn.Select(ToDto).ToList(),
-            HistoricalMeteringPoints: result.HistoricalMeteringPoints.Select(ToDto).ToList(),
-            HistoricalMeteringPointsByGsrn: result.HistoricalMeteringPointsByGsrn.Select(ToDto).ToList());
+            HistoricalMeteringPoints: result.HistoricalMeteringPoints.Select(ToDto).ToList());
     }
 
     private static RelatedMeteringPointDto ToDto(GetRelatedMeteringPointsResultDtoV1.MeteringPointData meteringPointData)
