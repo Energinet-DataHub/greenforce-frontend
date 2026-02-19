@@ -137,7 +137,7 @@ export class DhActorConversationNewConversationComponent {
       ConversationSubject.QuestionForEnerginet,
       Validators.required
     ),
-    receiver: this.fb.control<ActorType>(ActorType.Energinet, Validators.required),
+    receiver: this.fb.control<ActorType | null>(null, Validators.required),
     internalNote: this.fb.control<string | null>(null),
     message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, (control) =>
       control.value.content ? null : { required: true }
@@ -152,6 +152,10 @@ export class DhActorConversationNewConversationComponent {
     }
 
     const { subject, receiver, internalNote, message } = this.newConversationForm.getRawValue();
+
+    if (!receiver) {
+      return;
+    }
 
     const { content, anonymous } = message ?? {};
 
