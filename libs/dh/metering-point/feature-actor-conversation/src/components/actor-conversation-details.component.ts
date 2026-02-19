@@ -241,6 +241,7 @@ export class DhActorConversationDetailsComponent {
   }
 
   isMessageFromCurrentUser(userId: string | null | undefined): boolean {
+    console.log('userId', userId, 'this.userId', this.userId)
     return userId ? userId === this.userId : false;
   }
 }
