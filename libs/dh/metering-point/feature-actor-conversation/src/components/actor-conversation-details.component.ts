@@ -241,8 +241,11 @@ export class DhActorConversationDetailsComponent {
   }
 
   isMessageFromCurrentUser(userId: string | null | undefined): boolean {
-    console.log(userId)
-    console.log('this.authService.instance.getActiveAccount().idTokenClaims', this.authService.instance.getActiveAccount()?.idTokenClaims)
+    console.log(userId);
+    console.log(
+      'this.authService.instance.getActiveAccount().idTokenClaims',
+      this.authService.instance.getActiveAccount()?.idTokenClaims
+    );
     return userId ? userId === this.userId : false;
   }
 }
