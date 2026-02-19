@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+/* eslint-disable @nx/enforce-module-boundaries */
 import { GetRelevantGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDropdownOptions } from '@energinet/watt/dropdown';
 import { WattRange } from '@energinet/watt/date';

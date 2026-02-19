@@ -10,6 +10,9 @@ query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
       content
       messageType
       createdTime
+      actorName
+      userName
+      userId
     }
   }
 }

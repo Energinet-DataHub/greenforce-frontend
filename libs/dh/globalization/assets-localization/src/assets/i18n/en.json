@@ -360,12 +360,12 @@
     "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
-    "PT15M": "Quarter hour",
+    "PT15M": "15 min",
     "PT1H": "Hour",
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
-    "QUARTER_HOURLY": "Quarter hour",
+    "QUARTER_HOURLY": "15 min",
     "HOURLY": "Hour",
     "MONTHLY": "Monthly",
     "OTHER": "Other"
@@ -383,7 +383,7 @@
       "TARIFF_TAX": "Tariff, tax"
     },
     "resolutions": {
-      "QUARTER_HOURLY": "Quarter hour",
+      "QUARTER_HOURLY": "15 min",
       "DAILY": "Day",
       "HOURLY": "Hour",
       "MONTHLY": "Month"
@@ -610,7 +610,8 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found",
-      "searchMigratedMeteringPoints": "Search migrated metering points"
+      "searchMigratedMeteringPoints": "Search migrated metering points",
+      "searchMigratedMeteringPointsPreProd": "Search phase 2 test metering points"
     },
     "tabs": {
       "masterData": {
@@ -708,8 +709,8 @@
         "detailsSubtitle": "Details",
         "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
         "meteringPointStatus": "Connection status",
-        "meteringPointSubType": "Meteringpoint subtype",
-        "meteringPointNumber": "Metering point no.",
+        "meteringPointSubType": "Metering point subtype",
+        "meteringPointNumber": "Meter ID",
         "settlementMethod": "Settlement method",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Electrical heating date",
@@ -784,13 +785,13 @@
       "subjectLabel": "Subject",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc question",
-        "disconnectionOrReconnection": "Disconnect/Reconnect",
-        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Incorrect move/switch of supplier",
-        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
-        "measurements": "{{ shared.terminology.measurements }}",
-        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "priceAssociation": "{{ shared.terminology.chargeLink }}",
+        "INTERRUPTION_RECONNECTION": "Disconnect/Reconnect",
+        "ELECTRICAL_HEATING": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "WRONGFUL_MOVE_OR_SUPPLIER_CHANGE": "Incorrect move/switch of supplier",
+        "CUSTOMER_MASTER_DATA": "{{ shared.terminology.customerMasterData }}",
+        "MEASUREMENT_DATA": "{{ shared.terminology.measurements }}",
+        "MEASUREMENT_POINT_MASTER_DATA": "{{ shared.terminology.meteringPointMasterData }}",
+        "PRICE_LINKING": "{{ shared.terminology.chargeLink }}",
         "newCase": "New case"
       },
       "receiverLabel": "To",
@@ -990,8 +991,7 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
-        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)",
-        "UNKNOWN": "Unknown Step"
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)"
       },
       "details": {
         "notFound": "Process not found",
@@ -1249,7 +1249,7 @@
         "3": "Immediate settlement (3)"
       },
       "resolution": {
-        "quarterHourly": "Quarter hour",
+        "quarterHourly": "15 min",
         "hourly": "Hour"
       },
       "other": {

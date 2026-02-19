@@ -38,7 +38,6 @@ import {
   MSALInstanceFactory,
   MSALInterceptorConfigFactory,
 } from '@energinet-datahub/dh/auth/msal';
-import { graphQLProvider } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   dhApiEnvironmentToken,
   dhB2CEnvironmentToken,
@@ -112,7 +111,6 @@ export const dhCoreShellProviders = [
   dhWattTranslationsProviders,
   danishLocalProviders,
   translocoProviders,
-  graphQLProvider,
   danishDatetimeProviders,
   WattModalService,
   interceptors,

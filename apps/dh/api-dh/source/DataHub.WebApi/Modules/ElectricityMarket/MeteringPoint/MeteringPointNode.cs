@@ -23,7 +23,6 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
@@ -79,7 +78,7 @@ public static partial class MeteringPointNode
     #endregion
 
     [Query]
-    [Authorize(Roles = new[] { "cpr:view" })]
+    [Authorize(Roles = ["cpr:view"])]
     public static async Task<Clients.ElectricityMarket.v1.CPRResponse> GetMeteringPointContactCprAsync(
         string meteringPointId,
         long contactId,
@@ -121,9 +120,8 @@ public static partial class MeteringPointNode
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<MeteringPointDto> GetMeteringPointExistsAsync(
-            string environment,
             bool searchMigratedMeteringPoints,
             string? internalMeteringPointId,
             string? meteringPointId,
@@ -160,14 +158,13 @@ public static partial class MeteringPointNode
             throw new InvalidOperationException("Could not resolve metering point external ID.");
         }
 
-        return await GetMeteringPointAsync(meteringPointExternalId, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
+        return await GetMeteringPointAsync(meteringPointExternalId, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
         string meteringPointId,
-        string? environment,
         bool? searchMigratedMeteringPoints,
         CancellationToken ct,
         [Service] Clients.ElectricityMarket.v1.IElectricityMarketClient_V1 em1Client,
@@ -176,26 +173,22 @@ public static partial class MeteringPointNode
     {
         var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
 
-        if (isNewMeteringPointsModelEnabled)
+        if (isNewMeteringPointsModelEnabled && searchMigratedMeteringPoints == false)
         {
-            if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
-            {
-                return await GetRelatedMeteringPointsAsync(
-                        meteringPointId,
-                        ct,
-                        electricityMarketClient)
-                    .ConfigureAwait(false);
-            }
+            return await GetRelatedMeteringPointsAsync(
+                    meteringPointId,
+                    ct,
+                    electricityMarketClient)
+                .ConfigureAwait(false);
         }
 
         return await GetRelatedMeteringPointsInEm1Async(meteringPointId, ct, em1Client).ConfigureAwait(false);
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<MeteringPointDto> GetMeteringPointAsync(
         string meteringPointId,
-        string? environment,
         bool? searchMigratedMeteringPoints,
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
@@ -214,15 +207,11 @@ public static partial class MeteringPointNode
         var actorNumber = user.GetMarketParticipantNumber();
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
 
-        // New metering points model
         var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
 
-        if (isNewMeteringPointsModelEnabled)
+        if (isNewMeteringPointsModelEnabled && searchMigratedMeteringPoints == false)
         {
-            if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
-            {
-                return await GetMeteringPointWithNewModelAsync(meteringPointId, actorNumber, marketRole, ct, electricityMarketClient).ConfigureAwait(false);
-            }
+            return await GetMeteringPointWithNewModelAsync(meteringPointId, actorNumber, marketRole, ct, electricityMarketClient).ConfigureAwait(false);
         }
 
         var accessValidationRequest = new MeteringPointMasterDataAccessValidationRequest
@@ -252,7 +241,7 @@ public static partial class MeteringPointNode
     }
 
     [Mutation]
-    [Authorize(Roles = new[] { "metering-point:connection-state-manage" })]
+    [Authorize(Roles = ["metering-point:connection-state-manage"])]
     public static async Task<bool> RequestConnectionStateChangeAsync(
         string meteringPointId,
         DateTimeOffset validityDate,
@@ -381,8 +370,7 @@ public static partial class MeteringPointNode
             Parent: data.Parent is not null ? ToDto(data.Parent) : null,
             RelatedMeteringPoints: data.Children.Select(ToDto).ToList(),
             RelatedByGsrn: data.OnSamePowerPlant.Select(ToDto).ToList(),
-            HistoricalMeteringPoints: data.HistoricalChildren.Select(ToDto).ToList(),
-            HistoricalMeteringPointsByGsrn: data.HistoricalOnSamePowerPlant.Select(ToDto).ToList());
+            HistoricalMeteringPoints: data.HistoricalChildren.Select(ToDto).ToList());
     }
 
     private static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsInEm1Async(
@@ -397,8 +385,7 @@ public static partial class MeteringPointNode
             Parent: result.Parent is not null ? ToDto(result.Parent) : null,
             RelatedMeteringPoints: result.RelatedMeteringPoints.Select(ToDto).ToList(),
             RelatedByGsrn: result.RelatedByGsrn.Select(ToDto).ToList(),
-            HistoricalMeteringPoints: result.HistoricalMeteringPoints.Select(ToDto).ToList(),
-            HistoricalMeteringPointsByGsrn: result.HistoricalMeteringPointsByGsrn.Select(ToDto).ToList());
+            HistoricalMeteringPoints: result.HistoricalMeteringPoints.Select(ToDto).ToList());
     }
 
     private static RelatedMeteringPointDto ToDto(GetRelatedMeteringPointsResultDtoV1.MeteringPointData meteringPointData)

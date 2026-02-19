@@ -27,7 +27,7 @@ public class InstallationAddressDto
 
     public string? CitySubDivisionName { get; set; }
 
-    public System.Guid? DarReference { get; set; }
+    public Guid? DarReference { get; set; }
 
     public WashInstructions? WashInstructions { get; set; }
 

@@ -5,7 +5,7 @@
   "dependencies": {
     "@nx/cypress": "22.2.3",
     "@testing-library/cypress": "10.1.0",
-    "cypress": "15.6.0",
+    "cypress": "15.10.0",
     "typescript": "5.9.3",
     "vite": "7.1.11"
   },

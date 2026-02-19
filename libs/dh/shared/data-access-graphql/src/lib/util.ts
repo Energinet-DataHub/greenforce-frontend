@@ -16,24 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { onError } from '@apollo/client/link/error';
+import { Operation } from '@apollo/client/core';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { GraphQLFormattedError } from 'graphql';
-import { SeverityLevel } from '@microsoft/applicationinsights-web';
-
-import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
-
-export const errorHandler = (logger: DhApplicationInsights) =>
-  onError(({ graphQLErrors }) => {
-    if (graphQLErrors) {
-      graphQLErrors.map(({ message, extensions }) => {
-        logger.trackException(
-          new Error(extensions ? (extensions['details'] as string) || message : message),
-          SeverityLevel.Error
-        );
-      });
-    }
-  });
 
 export const parseGraphQLErrorResponse = (errorResponse: readonly GraphQLFormattedError[]) => {
   return errorResponse.map((x) => x.message).join(' ');
 };
+
+/** Returns true if the operation is a subscription. */
+export function isSubscription(operation: Operation) {
+  const definition = getMainDefinition(operation.query);
+  return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+}
