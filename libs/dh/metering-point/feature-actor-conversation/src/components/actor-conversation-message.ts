@@ -53,7 +53,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
           <span>{{ message().createdTime | wattDate: 'short' }}</span>
         </vater-stack>
         @if (message().actorName && message().userName) {
-        <span>{{ message().actorName + ', ' + message().userName }}</span>
+          <span>{{ message().actorName + ', ' + message().userName }}</span>
         }
       </vater-stack>
       <hr class="watt-divider no-margin" />
