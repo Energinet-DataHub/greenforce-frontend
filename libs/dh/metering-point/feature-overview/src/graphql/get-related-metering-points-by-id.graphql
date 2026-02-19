@@ -32,8 +32,5 @@ query GetRelatedMeteringPointsById(
     historicalMeteringPoints {
       ...RelatedMeteringPoint
     }
-    historicalMeteringPointsByGsrn {
-      ...RelatedMeteringPoint
-    }
   }
 }
