@@ -16,45 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { JsonPipe, Location } from '@angular/common';
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  Injector,
-  input,
-  signal,
-  untracked,
-} from '@angular/core';
+import { Component, computed, effect, inject, input } from '@angular/core';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { AbstractControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import {
-  dhCprValidator,
-  dhMunicipalityCodeValidator,
-} from '@energinet-datahub/dh/shared/ui-validators';
-import { WattToastService } from '@energinet/watt/toast';
+import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
 
-import {
-  AddressData,
-  AddressDetailsFormType,
-  BusinessCustomerFormGroup,
-  Contact,
-  ContactDetailsFormGroup,
-  ContactDetailsFormType,
-  CustomerCharacteristicsFormType,
-  PrivateCustomerFormGroup,
-} from '../types';
 import { WATT_CARD } from '@energinet/watt/card';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
@@ -64,18 +33,21 @@ import { DhPrivateCustomerDetailsComponent } from './dh-private-customer-details
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  ElectricityMarketViewCustomerRelationType,
+  AddressTypeV1,
+  ChangeCustomerCharacteristicsBusinessReason,
   GetMeteringPointByIdDocument,
   RequestChangeCustomerCharacteristicsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-customer-characteristics-mapper';
-import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { mapUsagePointLocation } from '../util/change-customer-characteristics-mapper';
+import {
+  dhFormControlToSignal,
+  dhMakeFormControl,
+  injectRelativeNavigate,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { createCustomerContactDetailsForm } from '../util/create-customer-contact-details-form';
 import { createContactAddressDetailsForm } from '../util/create-contact-address-details-form';
 import { dhAppEnvironmentToken } from 'libs/dh/shared/environments/src/lib/app-environment/dh-app-environment';
-import { name } from '@azure/msal-angular/packageMetadata';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -130,7 +102,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
             }
           </vater-stack>
           <vater-stack direction="row" gap="m">
-            <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }}</watt-button>
+            <watt-button (click)="navigate('..')" variant="secondary">{{
+              t('cancel')
+            }}</watt-button>
             <watt-button type="submit">{{ t('updateCustomerData') }}</watt-button>
           </vater-stack>
         </vater-stack>
@@ -216,6 +190,7 @@ export class DhUpdateCustomerDataComponent {
   private readonly technicalContact = computed(() => this.technicalCustomer()?.technicalContact);
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
+  navigate = injectRelativeNavigate();
   loading = this.query.loading;
   isBusinessCustomer = computed(() => this.legalCustomer()?.cvr !== null);
   meteringPointId = input.required<string>();
@@ -276,6 +251,20 @@ export class DhUpdateCustomerDataComponent {
       })
   );
 
+  constructor() {
+    effect(() => {
+      this.form().controls.privateCustomerDetails.controls.customerName1.valueChanges.subscribe(
+        console.log
+      );
+    });
+  }
+
+  private readonly customerNameChanged = dhFormControlToSignal(
+    this.form().controls.privateCustomerDetails.controls.customerName1
+  );
+
+  _ = effect(() => console.log('Customer name changed to', this.customerNameChanged()));
+
   /** Sync technical */
   private readonly technicalNameSameAsContactNameToggle = dhFormControlToSignal(
     this.form().controls.technicalContactDetails.controls.contactSameAsCustomer
@@ -283,11 +272,13 @@ export class DhUpdateCustomerDataComponent {
 
   private readonly syncTechnicalContactName = effect(() => {
     const technicalNameSameAsContactName = this.technicalNameSameAsContactNameToggle();
+    const legalCustomerName =
+      this.form().controls.privateCustomerDetails.controls.customerName1.value;
     const control =
       this.form().controls.technicalContactDetails.controls.contactGroup.controls.name;
     this.sync(
       control,
-      technicalNameSameAsContactName ? this.legalCustomer()?.name : this.technicalContact()?.name,
+      technicalNameSameAsContactName ? legalCustomerName : this.technicalContact()?.name,
       technicalNameSameAsContactName
     );
   });
@@ -341,18 +332,49 @@ export class DhUpdateCustomerDataComponent {
     );
   });
 
-  /** Not typesafe */
-
   async updateCustomerData() {
     if (this.form().invalid) return;
 
     const values = this.form().getRawValue();
+
+    const { cpr1, cpr2, customerName1, customerName2, nameProtection } =
+      values.privateCustomerDetails;
+    const { companyName, cvr } = values.businessCustomerDetails;
+    const legalContactDetails = values.legalContactDetails;
+    const legalContactAddressDetails = values.legalContactAddressDetails;
+    const technicalContactDetails = values.technicalContactDetails;
+    const technicalContactAddressDetails = values.technicalContactAddressDetails;
+
+    this.requestChangeCustomerCharacteristics.mutate({
+      variables: {
+        input: {
+          meteringPointId: this.meteringPointId(),
+          businessReason: ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer,
+          electricalHeating: this.query.data()?.meteringPoint.haveElectricalHeating ?? false,
+          firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
+          secondCustomerCpr: !this.isBusinessCustomer() ? cpr2 : undefined,
+          firstCustomerName: !this.isBusinessCustomer() ? customerName1 : companyName,
+          secondCustomerName: !this.isBusinessCustomer() ? customerName2 : companyName,
+          firstCustomerCvr: this.isBusinessCustomer() ? cvr : undefined,
+          protectedName: nameProtection,
+          usagePointLocations: [
+            mapUsagePointLocation(
+              legalContactDetails,
+              legalContactAddressDetails,
+              AddressTypeV1.Legal
+            ),
+            mapUsagePointLocation(
+              technicalContactDetails,
+              technicalContactAddressDetails,
+              AddressTypeV1.Technical
+            ),
+          ],
+        },
+      },
+    });
   }
 
-  cancel() {
-    // this.locationService.back();
-  }
-
+  /** Not typesafe */
   private sync<C extends AbstractControl>(
     control: C,
     value: C['value'] | null | undefined,

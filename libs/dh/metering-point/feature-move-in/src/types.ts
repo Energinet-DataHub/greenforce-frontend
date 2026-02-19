@@ -59,22 +59,6 @@ export type AddressDetailsFormType = {
   addressProtection: FormControl<boolean>;
 };
 
-export type AddressData = {
-  streetName: string;
-  buildingNumber: string;
-  floor: string;
-  room: string;
-  postCode: string;
-  cityName: string;
-  countryCode: string;
-  streetCode: string;
-  citySubDivisionName: string;
-  postalDistrict: string;
-  postBox: string;
-  municipalityCode: string;
-  darReference: string;
-};
-
 export type AddressGroup = {
   streetName: FormControl<string | null>;
   buildingNumber: FormControl<string | null>;
@@ -112,6 +96,9 @@ export type CustomerCharacteristicsFormType = {
   technicalContactDetails: FormGroup<ContactDetailsFormType>;
   technicalAddressDetails: FormGroup<AddressDetailsFormType>;
 };
+
+export type AddressDetailsValues = CustomerCharacteristicsFormType['legalAddressDetails']['value'];
+export type ContactDetailsValues = CustomerCharacteristicsFormType['legalContactDetails']['value'];
 
 export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
 
