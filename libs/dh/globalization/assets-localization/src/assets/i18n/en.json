@@ -815,7 +815,8 @@
       "startConversationError": "One or more fields are not filled correctly.\n\nThis may be due to an invalid combination of subject and recipient, or because anonymous submissions are not permitted for the selected recipient.",
       "conversationCloseError": "An error occurred trying to close the case",
       "anonymousCheckbox": "Send anonymously",
-      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver"
+      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver",
+      "ClosingMessage": "Case closed"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",

@@ -57,7 +57,12 @@ import { TranslocoDirective } from '@jsverse/transloco';
         }
       </vater-stack>
       <hr class="watt-divider no-margin" />
-      <span vater fill="horizontal" class="watt-space-inset-m">{{ message().content }}</span>
+      @if (message().messageType === 'USER_MESSAGE') {
+        <span vater fill="horizontal" class="watt-space-inset-m">{{ message().content }}</span>
+      }
+      @if (message().messageType === 'CLOSING_MESSAGE') {
+        <span vater fill="horizontal" class="watt-space-inset-m">{{ t(message().content) }}</span>
+      }
     </vater-stack>
   `,
 })
