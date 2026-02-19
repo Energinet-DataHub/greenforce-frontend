@@ -35,6 +35,5 @@ import { DhEnvironment } from './dh-environment';
  */
 export const environment: DhEnvironment = {
   production: false,
-  authDisabled: false,
   mocked: true,
 };
