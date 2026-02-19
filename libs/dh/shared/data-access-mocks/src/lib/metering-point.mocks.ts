@@ -691,7 +691,6 @@ function getConversation() {
               userName: '',
               userId: '',
             },
-
           ],
         },
       },
