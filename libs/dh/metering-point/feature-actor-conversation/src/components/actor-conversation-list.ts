@@ -91,7 +91,7 @@ import { dayjs } from '@energinet/watt/core/date';
               <dh-actor-conversation-list-item
                 [conversation]="conversationItem"
                 [selected]="selectedConversationId() === conversationItem.id"
-                (click)="selectConversation.emit(conversationItem.id)"
+                (click)="selectConversation.emit(conversationItem)"
               />
             </li>
           }
@@ -108,7 +108,7 @@ export class DhActorConversationListComponent {
   newConversationVisible = input<boolean>(false);
   selectedConversationId = input<string | undefined>(undefined);
   createNewConversation = output();
-  selectConversation = output<string>();
+  selectConversation = output<Conversation>();
 
   newConversation: Conversation = {
     __typename: 'ConversationInfo',
