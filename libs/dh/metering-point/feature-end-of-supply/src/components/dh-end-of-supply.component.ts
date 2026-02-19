@@ -34,7 +34,7 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
 import {
   RequestEndOfSupplyDocument,
   GetMeteringPointProcessOverviewDocument,
-  GetDisabledDatesForEndOfSupplyDocument,
+  GetSelectableDatesForEndOfSupplyDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
@@ -68,9 +68,8 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         <vater-stack direction="column" gap="m" align="start">
           <watt-datepicker
             [label]="t('dateLabel')"
-            [min]="minDate"
+            [min]="minDate()"
             [max]="maxDate"
-            [startAt]="startAt()"
             [dateFilter]="dateFilter()"
             [formControl]="form.controls.cutOffDate"
           >
@@ -103,28 +102,27 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{
   private readonly toastService = inject(WattToastService);
   private readonly router = inject(Router);
   private readonly requestEndOfSupply = mutation(RequestEndOfSupplyDocument);
-  private readonly disabledDatesQuery = query(GetDisabledDatesForEndOfSupplyDocument);
+  private readonly selectableDatesQuery = query(GetSelectableDatesForEndOfSupplyDocument);
 
   readonly modal = viewChild.required(WattModalComponent);
 
-  readonly minDate = dayjs().add(1, 'day').toDate();
   readonly maxDate = dayjs().add(60, 'day').toDate();
   readonly loading = this.requestEndOfSupply.loading;
 
-  readonly dateFilter = computed(() => {
-    const disabledDates = this.disabledDatesQuery.data()?.disabledDatesForEndOfSupply;
-    if (!disabledDates?.length) return undefined;
-
-    return (date: Date | null) => !disabledDates.some((d) => dayjs(d).isSame(date, 'day'));
+  private readonly selectableDates = computed(() => {
+    const dates = this.selectableDatesQuery.data()?.selectableDatesForEndOfSupply;
+    if (!dates?.length) return undefined;
+    return new Set(dates.map((d) => dayjs(d).format('YYYY-MM-DD')));
   });
 
-  readonly startAt = computed(() => {
-    const filter = this.dateFilter();
-    if (!filter) return null;
-
-    let candidate = dayjs(this.minDate);
-    while (!filter(candidate.toDate())) candidate = candidate.add(1, 'day');
-    return candidate.toDate();
+  readonly minDate = computed(() => {
+    const dates = this.selectableDatesQuery.data()?.selectableDatesForEndOfSupply;
+    return dates?.[0] ? dayjs(dates[0]).toDate() : dayjs().add(1, 'day').toDate()
+  });
+  readonly dateFilter = computed(() => {
+    const selectable = this.selectableDates();
+    if (!selectable) return undefined;
+    return (date: Date | null) => !!date && selectable.has(dayjs(date).format('YYYY-MM-DD'));
   });
 
   readonly form = this.fb.group({
