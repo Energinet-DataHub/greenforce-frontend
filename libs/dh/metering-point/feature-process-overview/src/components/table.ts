@@ -28,6 +28,7 @@ import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/tabl
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -40,7 +41,6 @@ import {
   GetMeteringPointProcessOverviewDocument,
   GetMeteringPointProcessOverviewQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattIconComponent } from '@energinet/watt/icon';
 
 type MeteringPointProcess = NonNullable<
   GetMeteringPointProcessOverviewQuery['meteringPointProcessOverview']
@@ -115,7 +115,7 @@ type MeteringPointProcess = NonNullable<
           {{ process.createdAt | wattDate: 'long' | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.cutoffDate; let process">
-          {{ process.cutoffDate | wattDate: 'long' | dhEmDashFallback }}
+          {{ process.cutoffDate | wattDate | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.reasonCode; let process">
           {{ t('processType.' + process.reasonCode) }}
