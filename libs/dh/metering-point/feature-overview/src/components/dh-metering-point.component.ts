@@ -170,10 +170,11 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
 
         <dh-metering-point-actions
           [meteringPointId]="meteringPointId()"
+          [internalMeteringPointId]="internalMeteringPointId()"
           [type]="metadata()?.type"
           [subType]="metadata()?.subType"
           [connectionState]="metadata()?.connectionState"
-          [isEnergySupplierResponsible]="!!isEnergySupplierResponsible"
+          [isEnergySupplierResponsible]="isEnergySupplierResponsible()"
           [installationAddress]="metadata()?.installationAddress"
           [createdDate]="meteringPoint()?.createdDate"
         />
@@ -247,7 +248,7 @@ export class DhMeteringPointComponent {
 
   commercialRelation = computed(() => this.meteringPoint()?.commercialRelation);
   metadata = computed(() => this.meteringPoint()?.metadata);
-  isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
+  isEnergySupplierResponsible = computed(() => !!this.meteringPoint()?.isEnergySupplier);
 
   breadcrumbLabel = translateSignal('meteringPoint.breadcrumb');
 

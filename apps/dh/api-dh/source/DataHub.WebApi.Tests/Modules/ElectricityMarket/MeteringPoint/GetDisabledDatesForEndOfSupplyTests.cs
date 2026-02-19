@@ -28,41 +28,39 @@ public class GetDisabledDatesForEndOfSupplyTests
     private static readonly DateTimeZone CopenhagenZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
 
     [Fact]
-    public void ReturnsOnlyNonWorkingDays()
+    public void DisablesFirst3WorkingDaysAsGapPeriod()
     {
-        // Arrange - a regular Wednesday
+        // Arrange - Wednesday Jan 15
+        // Working days: Jan 16 (Thu), Jan 17 (Fri), Jan 20 (Mon) = 3 working day gap
+        // First selectable: Jan 21 (Tue)
         var calendar = CreateCalendar(new LocalDate(2025, 1, 15));
 
         // Act
         var result = MeteringPointNode.GetDisabledDatesForEndOfSupply(calendar).ToList();
         var disabledLocalDates = result.Select(ToLocalDate).ToHashSet();
 
-        // Assert - all disabled dates should be non-working days (weekends or holidays)
+        // Assert - the first 3 working days should be disabled
         result.Should().NotBeEmpty();
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 1, 16), "1st working day in gap (Thursday)");
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 1, 17), "2nd working day in gap (Friday)");
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 1, 20), "3rd working day in gap (Monday)");
 
-        foreach (var date in disabledLocalDates)
-        {
-            var dayOfWeek = date.DayOfWeek;
-            var isWeekend = dayOfWeek == IsoDayOfWeek.Saturday || dayOfWeek == IsoDayOfWeek.Sunday;
-            var isHoliday = IsKnownDanishHoliday(date);
-
-            (isWeekend || isHoliday).Should().BeTrue(
-                $"date {date} should be a non-working day but is {dayOfWeek}");
-        }
+        // First selectable date should NOT be disabled
+        disabledLocalDates.Should().NotContain(new LocalDate(2025, 1, 21), "4th working day = first selectable (Tuesday)");
     }
 
     [Fact]
-    public void DoesNotIncludeWorkingDays()
+    public void DoesNotIncludeWorkingDaysAfterGap()
     {
-        // Arrange
+        // Arrange - Wednesday Jan 15, first selectable = Jan 21 (Tue)
         var calendar = CreateCalendar(new LocalDate(2025, 1, 15));
 
         // Act
         var result = MeteringPointNode.GetDisabledDatesForEndOfSupply(calendar).ToList();
         var disabledLocalDates = result.Select(ToLocalDate).ToHashSet();
 
-        // Assert - verify working days within the range are NOT in the disabled list
-        var start = new LocalDate(2025, 1, 18); // day 3
+        // Assert - verify working days from first selectable date onward are NOT disabled
+        var start = new LocalDate(2025, 1, 21); // first selectable (4th working day)
         var end = new LocalDate(2025, 3, 16);   // day 60
 
         var current = start;
@@ -86,8 +84,9 @@ public class GetDisabledDatesForEndOfSupplyTests
     [Fact]
     public void DSTSpringForward_DoesNotSkipDates()
     {
-        // Arrange - set clock so the 3-60 day window spans the DST spring forward (March 30, 2025)
-        // Clock at Feb 15, so days 3-60 = Feb 18 - Apr 16
+        // Arrange - set clock so the 1-60 day window spans the DST spring forward (March 30, 2025)
+        // Clock at Feb 15 (Saturday), working days: Mon 17, Tue 18, Wed 19 = gap
+        // First selectable: Feb 20 (Thursday)
         var calendar = CreateCalendar(new LocalDate(2025, 2, 15));
 
         // Act
@@ -99,8 +98,8 @@ public class GetDisabledDatesForEndOfSupplyTests
         disabledLocalDates.Should().Contain(new LocalDate(2025, 3, 29), "Saturday before DST transition");
         disabledLocalDates.Should().Contain(new LocalDate(2025, 3, 30), "Sunday (DST spring forward day)");
 
-        // Verify no dates are skipped - all non-working days in range should be disabled
-        var allDatesInRange = GetAllDatesInRange(new LocalDate(2025, 2, 18), new LocalDate(2025, 4, 16));
+        // Verify no dates are skipped - all non-working days after the gap should be disabled
+        var allDatesInRange = GetAllDatesInRange(new LocalDate(2025, 2, 20), new LocalDate(2025, 4, 16));
         var workingDatesNotDisabled = allDatesInRange
             .Where(d => !disabledLocalDates.Contains(d))
             .ToList();
@@ -119,8 +118,9 @@ public class GetDisabledDatesForEndOfSupplyTests
     [Fact]
     public void DSTFallBack_DoesNotDuplicateDates()
     {
-        // Arrange - set clock so the 3-60 day window spans the DST fall back (October 26, 2025)
-        // Clock at Sep 1, so days 3-60 = Sep 4 - Oct 31
+        // Arrange - set clock so the 1-60 day window spans the DST fall back (October 26, 2025)
+        // Clock at Sep 1 (Monday), working days: Tue 2, Wed 3, Thu 4 = gap
+        // First selectable: Sep 5 (Friday)
         var calendar = CreateCalendar(new LocalDate(2025, 9, 1));
 
         // Act
@@ -134,8 +134,8 @@ public class GetDisabledDatesForEndOfSupplyTests
         disabledLocalDates.Should().Contain(new LocalDate(2025, 10, 25), "Saturday before DST transition");
         disabledLocalDates.Should().Contain(new LocalDate(2025, 10, 26), "Sunday (DST fall back day)");
 
-        // Verify completeness
-        var allDatesInRange = GetAllDatesInRange(new LocalDate(2025, 9, 4), new LocalDate(2025, 10, 31));
+        // Verify completeness - after the gap, all non-working days should be disabled
+        var allDatesInRange = GetAllDatesInRange(new LocalDate(2025, 9, 5), new LocalDate(2025, 10, 31));
         var workingDatesNotDisabled = allDatesInRange
             .Where(d => !disabledLocalDates.Contains(d))
             .ToList();
@@ -154,7 +154,9 @@ public class GetDisabledDatesForEndOfSupplyTests
     [Fact]
     public void CurrentDayIsNonWorkingDay_ReturnsExpectedDates()
     {
-        // Arrange - set current day to a Saturday
+        // Arrange - set current day to a Saturday (Jan 18)
+        // Working days: Mon 20 (wd1), Tue 21 (wd2), Wed 22 (wd3)
+        // First selectable: Thu 23 (wd4)
         var calendar = CreateCalendar(new LocalDate(2025, 1, 18)); // Saturday
 
         // Act
@@ -163,14 +165,22 @@ public class GetDisabledDatesForEndOfSupplyTests
         // Assert - should still return results (the method works regardless of current day type)
         result.Should().NotBeEmpty();
 
-        // The date range (days 3-60) should be from Jan 21 (Tuesday) to Mar 19 (Wednesday)
+        // The date range (days 1-60) should be from Jan 19 (Sunday) to Mar 19 (Wednesday)
         var disabledLocalDates = result.Select(ToLocalDate).ToList();
         var minDate = disabledLocalDates.Min();
         var maxDate = disabledLocalDates.Max();
 
-        // First disabled date should be within the 3-60 day window
-        minDate.Should().BeGreaterThanOrEqualTo(new LocalDate(2025, 1, 21));
+        // First disabled date should be tomorrow (day 1)
+        minDate.Should().Be(new LocalDate(2025, 1, 19));
         maxDate.Should().BeLessThanOrEqualTo(new LocalDate(2025, 3, 19));
+
+        // Gap working days should be disabled
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 1, 20), "1st working day in gap (Monday)");
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 1, 21), "2nd working day in gap (Tuesday)");
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 1, 22), "3rd working day in gap (Wednesday)");
+
+        // First selectable should NOT be disabled
+        disabledLocalDates.Should().NotContain(new LocalDate(2025, 1, 23), "first selectable (Thursday)");
     }
 
     [Fact]
@@ -250,17 +260,39 @@ public class GetDisabledDatesForEndOfSupplyTests
     [Fact]
     public void BoundaryDates_AreIncludedInRange()
     {
-        // Arrange - pick a date where day 3 (Saturday) and day 60 are within range
-        // Jan 15 (Wednesday) + 3 = Jan 18 (Saturday), + 60 = Mar 16 (Sunday)
+        // Arrange - Jan 15 (Wednesday) + 1 = Jan 16 (Thursday), + 60 = Mar 16 (Sunday)
         var calendar = CreateCalendar(new LocalDate(2025, 1, 15));
 
         // Act
         var result = MeteringPointNode.GetDisabledDatesForEndOfSupply(calendar).ToList();
         var disabledLocalDates = result.Select(ToLocalDate).ToList();
 
-        // Assert - day 3 (Saturday) and day 60 (Sunday) should both be disabled
-        disabledLocalDates.Should().Contain(new LocalDate(2025, 1, 18), "day 3 boundary (Saturday)");
+        // Assert - day 1 start (Thursday, in gap) and day 60 boundary (Sunday) should both be disabled
+        disabledLocalDates.Should().Contain(new LocalDate(2025, 1, 16), "day 1 boundary (Thursday, in gap)");
         disabledLocalDates.Should().Contain(new LocalDate(2025, 3, 16), "day 60 boundary (Sunday)");
+    }
+
+    [Fact]
+    public void ThursdayThe12th_FirstSelectableIsWednesdayThe18th()
+    {
+        // Arrange - Thursday Feb 12, 2026
+        // Working days in gap: Fri 13 (wd1), Mon 16 (wd2), Tue 17 (wd3)
+        // First selectable: Wed 18 (wd4)
+        var calendar = CreateCalendar(new LocalDate(2026, 2, 12));
+
+        // Act
+        var result = MeteringPointNode.GetDisabledDatesForEndOfSupply(calendar).ToList();
+        var disabledLocalDates = result.Select(ToLocalDate).ToHashSet();
+
+        // Assert - gap days are disabled
+        disabledLocalDates.Should().Contain(new LocalDate(2026, 2, 13), "Friday (1st working day in gap)");
+        disabledLocalDates.Should().Contain(new LocalDate(2026, 2, 14), "Saturday (weekend)");
+        disabledLocalDates.Should().Contain(new LocalDate(2026, 2, 15), "Sunday (weekend)");
+        disabledLocalDates.Should().Contain(new LocalDate(2026, 2, 16), "Monday (2nd working day in gap)");
+        disabledLocalDates.Should().Contain(new LocalDate(2026, 2, 17), "Tuesday (3rd working day in gap)");
+
+        // First selectable date (Wednesday the 18th) should NOT be disabled
+        disabledLocalDates.Should().NotContain(new LocalDate(2026, 2, 18), "Wednesday = first selectable date");
     }
 
     [Fact]

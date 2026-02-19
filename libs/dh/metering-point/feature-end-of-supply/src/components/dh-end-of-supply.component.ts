@@ -70,6 +70,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
             [label]="t('dateLabel')"
             [min]="minDate"
             [max]="maxDate"
+            [startAt]="startAt()"
             [dateFilter]="dateFilter()"
             [formControl]="form.controls.cutOffDate"
           >
@@ -94,7 +95,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     </watt-modal>
   `,
 })
-export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: string }> {
+export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: string; internalMeteringPointId: string }> {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly toastService = inject(WattToastService);
   private readonly router = inject(Router);
@@ -103,7 +104,7 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
 
   readonly modal = viewChild.required(WattModalComponent);
 
-  readonly minDate = dayjs().add(3, 'day').toDate();
+  readonly minDate = dayjs().add(1, 'day').toDate();
   readonly maxDate = dayjs().add(60, 'day').toDate();
   readonly loading = this.requestEndOfSupply.loading;
 
@@ -112,6 +113,15 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
     if (!disabledDates?.length) return undefined;
 
     return (date: Date | null) => !disabledDates.some((d) => dayjs(d).isSame(date, 'day'));
+  });
+
+  readonly startAt = computed(() => {
+    const filter = this.dateFilter();
+    if (!filter) return null;
+
+    let candidate = dayjs(this.minDate);
+    while (!filter(candidate.toDate())) candidate = candidate.add(1, 'day');
+    return candidate.toDate();
   });
 
   readonly form = this.fb.group({
@@ -149,7 +159,7 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
           action: (ref) => {
             this.router.navigate([
               getPath<BasePaths>('metering-point'),
-              this.modalData.meteringPointId,
+              this.modalData.internalMeteringPointId,
               getPath<MeteringPointSubPaths>('process-overview'),
             ]);
             ref.dismiss();

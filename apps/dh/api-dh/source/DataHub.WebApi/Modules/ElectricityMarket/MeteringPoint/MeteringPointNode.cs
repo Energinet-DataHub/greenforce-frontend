@@ -286,18 +286,26 @@ public static partial class MeteringPointNode
     public static IEnumerable<DateTimeOffset> GetDisabledDatesForEndOfSupply(
         [Service] DataHubCalendar calendar)
     {
-        var firstPossibleWorkingDay = 3;
-        var lastPossibleWorkingDay = 60;
+        var requiredWorkingDaysGap = 3;
+        var lastPossibleDay = 60;
 
-        var start = calendar.GetDateRelativeToCurrentDate(firstPossibleWorkingDay);
-        var end = calendar.GetDateRelativeToCurrentDate(lastPossibleWorkingDay);
-        var workingDays = calendar.GetWorkingDaysInPeriod(start, end);
+        var tomorrow = calendar.GetDateRelativeToCurrentDate(1);
+        var end = calendar.GetDateRelativeToCurrentDate(lastPossibleDay);
+
+        // Find the first selectable date by counting working days forward
+        var allWorkingDays = calendar.GetWorkingDaysInPeriod(tomorrow, end).ToList();
+        var firstSelectableDate = allWorkingDays[requiredWorkingDaysGap];
+
+        // All days from tomorrow to end
         var allDays = Enumerable
-            .Range(firstPossibleWorkingDay, lastPossibleWorkingDay - firstPossibleWorkingDay + 1)
+            .Range(1, lastPossibleDay)
             .Select(calendar.GetDateRelativeToCurrentDate);
 
+        // Selectable working days start from firstSelectableDate
+        var selectableWorkingDays = calendar.GetWorkingDaysInPeriod(firstSelectableDate, end);
+
         return allDays
-            .Except(workingDays)
+            .Except(selectableWorkingDays)
             .Select(date => date.ToDateTimeOffset());
     }
 
