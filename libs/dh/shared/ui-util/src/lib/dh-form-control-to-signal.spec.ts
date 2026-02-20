@@ -183,4 +183,101 @@ describe('dhFormControlToSignal', () => {
       await expect.poll(() => signalValue()).toBe('back to control');
     });
   });
+
+  it('should set initial value when FormControl factory returns a new FormControl', () => {
+    TestBed.runInInjectionContext(async () => {
+      const formControlSignal = signal(new FormControl('first control'));
+      const signalValue = dhFormControlToSignal(() => formControlSignal());
+
+      expect(signalValue()).toBe('first control');
+
+      // Update the factory signal with a new FormControl that has a different initial value
+      formControlSignal.set(new FormControl('second control'));
+      TestBed.tick();
+
+      // The signal should update to the initial value of the new FormControl
+      await expect.poll(() => signalValue()).toBe('second control');
+    });
+  });
+
+  it('should handle updating to a new FormControl with different initial value without triggering valueChanges', () => {
+    TestBed.runInInjectionContext(async () => {
+      // Start with a FormControl with value 'initial'
+      const formControlSignal = signal(new FormControl('initial'));
+      const signalValue = dhFormControlToSignal(() => formControlSignal());
+
+      expect(signalValue()).toBe('initial');
+
+      // Change the signal value
+      signalValue.set('modified');
+      TestBed.tick();
+      expect(formControlSignal().value).toBe('modified');
+
+      // Now replace the FormControl entirely with a new one that has value 'brand new'
+      // This new control's valueChanges hasn't been triggered yet
+      const newControl = new FormControl('brand new');
+      formControlSignal.set(newControl);
+      TestBed.tick();
+
+      // The signal should now reflect the initial value of the new FormControl
+      await expect.poll(() => signalValue()).toBe('brand new');
+      expect(newControl.value).toBe('brand new');
+    });
+  });
+
+  it('should respect the initial value of a new FormControl when factory changes', () => {
+    TestBed.runInInjectionContext(async () => {
+      const formControlSignal = signal(new FormControl('first'));
+      const signalValue = dhFormControlToSignal(() => formControlSignal());
+
+      // Change the signal to something else
+      signalValue.set('updated first');
+      TestBed.tick();
+
+      // Replace with a completely new FormControl that has its own initial value
+      const secondControl = new FormControl('second');
+      formControlSignal.set(secondControl);
+      TestBed.tick();
+
+      // EXPECTED: The signal should adopt the new control's initial value
+      // ACTUAL (BUG): The new control gets overwritten with the old signal value
+      await expect.poll(() => signalValue()).toBe('second');
+      
+      // The new FormControl should maintain its initial value, not be overwritten
+      expect(secondControl.value).toBe('second');
+    });
+  });
+
+  it('should demonstrate the bug: new FormControl initial value is overwritten', () => {
+    TestBed.runInInjectionContext(() => {
+      const formControlSignal = signal(new FormControl('first'));
+      const signalValue = dhFormControlToSignal(() => formControlSignal());
+
+      expect(signalValue()).toBe('first');
+      expect(formControlSignal().value).toBe('first');
+
+      // Update the signal value
+      signalValue.set('changed');
+      TestBed.tick();
+      expect(formControlSignal().value).toBe('changed');
+
+      // Create a new FormControl with a different initial value
+      const newControl = new FormControl('new initial value');
+      expect(newControl.value).toBe('new initial value'); // Sanity check
+
+      // Replace the FormControl in the factory
+      formControlSignal.set(newControl);
+      TestBed.tick();
+
+      // BUG: The new control's initial value gets overwritten
+      // Expected: newControl.value should be 'new initial value'
+      // Actual: newControl.value becomes 'changed' (the old signal value)
+      console.log('Signal value:', signalValue());
+      console.log('New control value:', newControl.value);
+      
+      // This is the bug: the new control should keep its initial value
+      expect(newControl.value).toBe('new initial value');
+      expect(signalValue()).toBe('new initial value');
+    });
+  });
 });
