@@ -1,0 +1,20 @@
+{
+  "name": "dh-developers-feature-operation",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/developers/feature-operation",
+  "prefix": "dh",
+  "projectType": "library",
+  "tags": ["product:dh", "domain:developers", "type:feature"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "config": "libs/dh/dev-examples/feature-processes/vite.config.mts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
