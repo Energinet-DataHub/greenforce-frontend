@@ -816,7 +816,7 @@
       "conversationCloseError": "An error occurred trying to close the case",
       "anonymousCheckbox": "Send anonymously",
       "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver",
-      "ClosingMessage": "Case closed"
+      "closingMessage": "Case closed"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
