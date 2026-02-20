@@ -38,7 +38,10 @@ export enum ActorConversationState {
 
 export type Conversation = ActorConversations[0];
 
-export type NewConversation = Omit<Conversation, 'subject'> & { subject: string };
+export type NewConversation = Pick<
+  Conversation,
+  '__typename' | 'id' | 'displayId' | 'read' | 'closed' | 'lastUpdated'
+> & { subject: string };
 
 export interface MessageFormValue {
   content: string | null;
