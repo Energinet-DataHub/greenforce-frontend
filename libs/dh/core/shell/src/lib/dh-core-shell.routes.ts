@@ -68,7 +68,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('dev-examples'),
-        loadChildren: () => import('@energinet-datahub/dh/dev-examples/feature-processes'),
+        loadChildren: () => import('@energinet-datahub/dh/developer/feature-examples'),
         canActivate: [MsalGuard],
       },
       {

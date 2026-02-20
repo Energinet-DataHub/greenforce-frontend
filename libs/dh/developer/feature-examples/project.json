@@ -1,16 +1,16 @@
 {
-  "name": "dh-dev-examples-feature-processes",
+  "name": "dh-developer-feature-examples",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/dev-examples/feature-processes",
+  "sourceRoot": "libs/dh/developer/feature-examples",
   "prefix": "dh",
   "projectType": "library",
-  "tags": ["product:dh", "domain:dev-examples", "type:feature"],
+  "tags": ["product:dh", "domain:developer", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "config": "libs/dh/dev-examples/feature-processes/vite.config.mts"
+        "config": "libs/dh/developer/feature-examples/vite.config.mts"
       }
     },
     "lint": {
