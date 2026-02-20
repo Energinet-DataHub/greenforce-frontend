@@ -210,7 +210,6 @@ export class DhActorConversationDetailsComponent {
   }
 
   async sendMessage() {
-
     const { content, anonymous } = this.formControl.getRawValue();
 
     assertIsDefined(content);
