@@ -168,8 +168,6 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
   `,
 })
 export class DhActorConversationDetailsComponent {
-  private readonly authService = inject(MsalService);
-  private readonly actorStorage = inject(DhActorStorage);
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly closeConversationMutation = mutation(CloseConversationDocument);
   private readonly closeToast = injectToast(
@@ -178,7 +176,6 @@ export class DhActorConversationDetailsComponent {
   private readonly closeToastEffect = effect(() =>
     this.closeToast(this.closeConversationMutation.status())
   );
-  private readonly userId = this.authService.instance.getActiveAccount()?.idTokenClaims?.sub;
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
   formControl = this.fb.control<MessageFormValue>({ content: '', anonymous: false });
@@ -213,9 +210,6 @@ export class DhActorConversationDetailsComponent {
   }
 
   async sendMessage() {
-    const userId = this.userId;
-
-    if (!userId) return;
 
     const { content, anonymous } = this.formControl.getRawValue();
 
@@ -225,11 +219,8 @@ export class DhActorConversationDetailsComponent {
     await this.sendActorConversationMessageMutation.mutate({
       variables: {
         conversationId: this.conversationId(),
-        meteringPointIdentification: this.meteringPointId(),
-        actorId: this.actorStorage.getSelectedActorId(),
         anonymous,
         content,
-        userId,
       },
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });

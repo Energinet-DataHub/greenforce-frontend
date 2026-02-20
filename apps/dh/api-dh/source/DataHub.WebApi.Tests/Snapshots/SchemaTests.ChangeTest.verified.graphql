@@ -2299,9 +2299,6 @@ input ResetTwoFactorAuthenticationInput {
 
 input SendActorConversationMessageInput {
   conversationId: UUID!
-  meteringPointIdentification: String!
-  actorId: String!
-  userId: String!
   content: String!
   anonymous: Boolean!
 }
