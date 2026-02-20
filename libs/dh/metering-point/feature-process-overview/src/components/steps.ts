@@ -91,7 +91,15 @@ type MeteringPointProcessStep = NonNullable<
             justify="space-between"
           >
             <div vater fill="horizontal">
-              {{ 'meteringPoint.processOverview.steps.' + process.step | transloco }}
+              @if (reasonCode() === 'ConnectMeteringPoint') {
+                {{
+                  'meteringPoint.processOverview.steps.ConnectMeteringPoint.' + process.step
+                    | transloco
+                }}
+              } @else {
+                {{ 'meteringPoint.processOverview.steps.' + process.step | transloco }}
+              }
+
               @if (process.comment) {
                 <div class="watt-text-s-highlighted">{{ process.comment }}</div>
               }
