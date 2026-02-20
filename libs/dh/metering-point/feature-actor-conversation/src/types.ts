@@ -17,8 +17,6 @@
  */
 //#endregion
 import {
-  ActorType,
-  ConversationSubject,
   GetConversationDocument,
   GetConversationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
