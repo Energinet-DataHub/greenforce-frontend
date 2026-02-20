@@ -46,11 +46,3 @@ export interface MessageFormValue {
   content: string | null;
   anonymous: boolean | null;
 }
-
-export type StartConversationFormValue = {
-  subject: ConversationSubject;
-  content: string;
-  anonymous: boolean;
-  receiver: ActorType;
-  internalNote?: string;
-};
