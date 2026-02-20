@@ -25,7 +25,6 @@ import {
   MeteringPointSubPaths,
   getPath,
 } from '@energinet-datahub/dh/core/routing';
-import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhCoreLoginComponent } from './dh-core-login.component';
