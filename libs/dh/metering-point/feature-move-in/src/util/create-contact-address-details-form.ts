@@ -76,21 +76,3 @@ function IsContactAddressEquealToInstallation(
     installationAddress.municipalityCode === contactAddress.municipalityCode
   );
 }
-
-function mapInstallationAdressToContact(
-  installationAddress: InstallationAddress
-): Partial<Contact> {
-  return {
-    streetName: installationAddress?.streetName,
-    buildingNumber: installationAddress?.buildingNumber,
-    floor: installationAddress?.floor,
-    room: installationAddress?.room,
-    postCode: installationAddress?.postCode,
-    cityName: installationAddress?.cityName,
-    countryCode: installationAddress?.countryCode,
-    streetCode: installationAddress?.streetCode,
-    citySubDivisionName: installationAddress?.citySubDivisionName,
-    municipalityCode: installationAddress?.municipalityCode,
-    darReference: installationAddress?.darReference,
-  };
-}

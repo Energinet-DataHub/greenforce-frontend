@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
