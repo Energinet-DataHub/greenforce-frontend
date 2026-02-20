@@ -145,9 +145,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
           <!-- Content - Scrollable message area -->
           <vater-flex direction="column" fill="both" scrollable>
             @for (message of conversation.messages; track message) {
-              <dh-actor-conversation-message
-                [message]="message"
-              />
+              <dh-actor-conversation-message [message]="message" />
             }
           </vater-flex>
         }
