@@ -133,8 +133,8 @@ export class DhActorConversationNewConversationComponent {
   meteringPointId = input.required<string>();
 
   newConversationForm = this.fb.group({
-    subject: this.fb.control<ConversationSubject>(
-      ConversationSubject.QuestionForEnerginet,
+    subject: this.fb.control<ConversationSubject | null>(
+      null,
       Validators.required
     ),
     receiver: this.fb.control<ActorType | null>(null, Validators.required),
@@ -153,7 +153,7 @@ export class DhActorConversationNewConversationComponent {
 
     const { subject, receiver, internalNote, message } = this.newConversationForm.getRawValue();
 
-    if (!receiver) {
+    if (!receiver || !subject) {
       return;
     }
 
