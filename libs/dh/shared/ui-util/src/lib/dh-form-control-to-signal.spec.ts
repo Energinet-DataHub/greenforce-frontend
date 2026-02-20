@@ -183,4 +183,21 @@ describe('dhFormControlToSignal', () => {
       await expect.poll(() => signalValue()).toBe('back to control');
     });
   });
+
+  it('should update signal value when FormControl reference changes', () => {
+    TestBed.runInInjectionContext(() => {
+      const controlA = new FormControl('value A');
+      const controlB = new FormControl('value B');
+      const controlSignal = signal(controlA);
+
+      const value = dhFormControlToSignal(() => controlSignal());
+
+      expect(value()).toBe('value A');
+
+      controlSignal.set(controlB);
+      TestBed.flushEffects();
+
+      expect(value()).toBe('value B');
+    });
+  });
 });
