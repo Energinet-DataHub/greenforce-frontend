@@ -16,17 +16,25 @@
  * limitations under the License.
  */
 //#endregion
-import { effect, linkedSignal, WritableSignal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { computed, effect, linkedSignal, WritableSignal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 /** Helper function for creating a writeable signal for the value of a FormControl. */
-export const dhFormControlToSignal = <T>(control: FormControl<T>): WritableSignal<T> => {
-  const value = linkedSignal(toSignal(control.valueChanges, { initialValue: control.value }));
+export const dhFormControlToSignal = <T>(
+  formControl: FormControl<T> | (() => FormControl<T>)
+): WritableSignal<T> => {
+  const control = computed(() => (typeof formControl === 'function' ? formControl() : formControl));
+  const value = linkedSignal<T>(() => control().value);
+
+  effect((onCleanup) => {
+    const subscription = control().valueChanges.subscribe((v) => value.set(v));
+    return onCleanup(() => subscription.unsubscribe());
+  });
+
   effect(() => {
-    if (value() === control.value) return;
-    control.setValue(value());
-    control.updateValueAndValidity();
+    if (value() === control().value) return;
+    control().setValue(value());
+    control().updateValueAndValidity();
   });
 
   return value;
