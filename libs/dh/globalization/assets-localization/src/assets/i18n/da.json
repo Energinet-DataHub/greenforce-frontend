@@ -226,6 +226,12 @@
   },
   "sidebar": {
     "navigation": {
+      "developer": {
+        "operationTools": {
+          "menuGroupLabel": "Driftsværktøjer",
+          "meteringPoint": "Målepunkt"
+        }
+      },
       "devExamples": {
         "menuGroupLabel": "Dev eksempler",
         "processes": "Processer"
@@ -250,7 +256,6 @@
         "settlements": "Afregninger",
         "missingMeasurementsLog": "Anmod om hullerlog"
       },
-      "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
         "calculations": "Beregninger",
         "overview": "Oversigt",

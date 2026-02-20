@@ -105,16 +105,6 @@ limitations under the License.
       </ng-container>
     </watt-nav-list>
 
-    <watt-nav-list *dhFeatureFlag="'metering-point-debug'">
-      <ng-container *dhMarketRoleRequired="[EicFunction.DataHubAdministrator]">
-        <watt-nav-list-item
-          *dhPermissionRequired="['metering-point:search']"
-          [link]="getLink('metering-point-debug')"
-          >{{ transloco("meteringPointDebug") }}</watt-nav-list-item
-        >
-      </ng-container>
-    </watt-nav-list>
-
     <watt-nav-list [title]="transloco('marketParticipant.menuGroupLabel')" [expandable]="true">
       <watt-nav-list-item *dhPermissionRequired="['users:manage']" [link]="getLink('admin')">{{
         transloco("marketParticipant.userManagement")
@@ -127,6 +117,25 @@ limitations under the License.
       <watt-nav-list-item [link]="getLink('grid-areas')">{{
         transloco("marketParticipant.gridAreas")
       }}</watt-nav-list-item>
+    </watt-nav-list>
+
+    <watt-nav-list
+      [title]="transloco('developer.operationTools.menuGroupLabel')"
+      [expandable]="true"
+      *dhPermissionRequired="[
+        'metering-point:operation-tools-view',
+        'metering-point:operation-tools-manage',
+      ]"
+    >
+      <watt-nav-list-item
+        [link]="getOperationToolsLink('metering-point')"
+        *dhPermissionRequired="[
+          'metering-point:operation-tools-view',
+          'metering-point:operation-tools-manage',
+        ]"
+      >
+        {{ transloco("developer.operationTools.meteringPoint") }}
+      </watt-nav-list-item>
     </watt-nav-list>
   </mat-accordion>
 </ng-container>
