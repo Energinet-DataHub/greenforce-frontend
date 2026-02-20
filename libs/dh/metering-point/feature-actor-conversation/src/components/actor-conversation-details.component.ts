@@ -43,8 +43,6 @@ import {
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
-import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { MsalService } from '@azure/msal-angular';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
 import { WattHeadingComponent } from '@energinet/watt/heading';
