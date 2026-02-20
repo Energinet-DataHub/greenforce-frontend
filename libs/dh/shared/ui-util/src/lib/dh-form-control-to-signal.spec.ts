@@ -195,7 +195,7 @@ describe('dhFormControlToSignal', () => {
       expect(value()).toBe('value A');
 
       controlSignal.set(controlB);
-      TestBed.flushEffects();
+      TestBed.tick();
 
       expect(value()).toBe('value B');
     });
