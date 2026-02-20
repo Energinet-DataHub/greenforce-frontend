@@ -37,14 +37,14 @@ describe('dhFormControlToSignal', () => {
   });
 
   it('should update signal when FormControl value changes', () => {
-    TestBed.runInInjectionContext(() => {
+    TestBed.runInInjectionContext(async () => {
       const formControl = new FormControl('initial');
       const signalValue = dhFormControlToSignal(formControl);
 
       formControl.setValue('updated');
-      TestBed.flushEffects();
+      TestBed.tick();
 
-      expect(signalValue()).toBe('updated');
+      await expect.poll(() => signalValue()).toBe('updated');
     });
   });
 
@@ -54,37 +54,37 @@ describe('dhFormControlToSignal', () => {
       const signalValue = dhFormControlToSignal(formControl);
 
       signalValue.set('new value');
-      TestBed.flushEffects();
+      TestBed.tick();
 
       expect(formControl.value).toBe('new value');
     });
   });
 
   it('should handle numeric values', () => {
-    TestBed.runInInjectionContext(() => {
+    TestBed.runInInjectionContext(async () => {
       const formControl = new FormControl<number>(42);
       const signalValue = dhFormControlToSignal(formControl);
 
       expect(signalValue()).toBe(42);
 
       formControl.setValue(100);
-      TestBed.flushEffects();
+      TestBed.tick();
 
-      expect(signalValue()).toBe(100);
+      await expect.poll(() => signalValue()).toBe(100);
     });
   });
 
   it('should handle null values', () => {
-    TestBed.runInInjectionContext(() => {
+    TestBed.runInInjectionContext(async () => {
       const formControl = new FormControl<string | null>(null);
       const signalValue = dhFormControlToSignal(formControl);
 
       expect(signalValue()).toBeNull();
 
       formControl.setValue('not null');
-      TestBed.flushEffects();
+      TestBed.tick();
 
-      expect(signalValue()).toBe('not null');
+      await expect.poll(() => signalValue()).toBe('not null');
     });
   });
 
@@ -98,14 +98,14 @@ describe('dhFormControlToSignal', () => {
   });
 
   it('should update signal when FormControl from factory changes', () => {
-    TestBed.runInInjectionContext(() => {
+    TestBed.runInInjectionContext(async () => {
       const formControlSignal = signal(new FormControl('initial'));
       const signalValue = dhFormControlToSignal(() => formControlSignal());
 
       formControlSignal().setValue('updated from factory');
-      TestBed.flushEffects();
+      TestBed.tick();
 
-      expect(signalValue()).toBe('updated from factory');
+      await expect.poll(() => signalValue()).toBe('updated from factory');
     });
   });
 
@@ -115,7 +115,7 @@ describe('dhFormControlToSignal', () => {
       const signalValue = dhFormControlToSignal(() => formControlSignal());
 
       signalValue.set('signal update');
-      TestBed.flushEffects();
+      TestBed.tick();
 
       expect(formControlSignal().value).toBe('signal update');
     });
@@ -127,9 +127,9 @@ describe('dhFormControlToSignal', () => {
       const signalValue = dhFormControlToSignal(formControl);
 
       const setValueSpy = vi.spyOn(formControl, 'setValue');
-      
+
       signalValue.set('same value');
-      TestBed.flushEffects();
+      TestBed.tick();
 
       expect(setValueSpy).not.toHaveBeenCalled();
     });
@@ -143,14 +143,14 @@ describe('dhFormControlToSignal', () => {
       const updateSpy = vi.spyOn(formControl, 'updateValueAndValidity');
 
       signalValue.set('trigger update');
-      TestBed.flushEffects();
+      TestBed.tick();
 
       expect(updateSpy).toHaveBeenCalled();
     });
   });
 
   it('should handle complex object values', () => {
-    TestBed.runInInjectionContext(() => {
+    TestBed.runInInjectionContext(async () => {
       const initialValue = { name: 'John', age: 30 };
       const formControl = new FormControl(initialValue);
       const signalValue = dhFormControlToSignal(formControl);
@@ -159,28 +159,28 @@ describe('dhFormControlToSignal', () => {
 
       const newValue = { name: 'Jane', age: 25 };
       formControl.setValue(newValue);
-      TestBed.flushEffects();
+      TestBed.tick();
 
-      expect(signalValue()).toEqual(newValue);
+      await expect.poll(() => signalValue()).toEqual(newValue);
     });
   });
 
   it('should synchronize bidirectionally between control and signal', () => {
-    TestBed.runInInjectionContext(() => {
+    TestBed.runInInjectionContext(async () => {
       const formControl = new FormControl('start');
       const signalValue = dhFormControlToSignal(formControl);
 
       formControl.setValue('from control');
-      TestBed.flushEffects();
-      expect(signalValue()).toBe('from control');
+      TestBed.tick();
+      await expect.poll(() => signalValue()).toBe('from control');
 
       signalValue.set('from signal');
-      TestBed.flushEffects();
+      TestBed.tick();
       expect(formControl.value).toBe('from signal');
 
       formControl.setValue('back to control');
-      TestBed.flushEffects();
-      expect(signalValue()).toBe('back to control');
+      TestBed.tick();
+      await expect.poll(() => signalValue()).toBe('back to control');
     });
   });
 });
