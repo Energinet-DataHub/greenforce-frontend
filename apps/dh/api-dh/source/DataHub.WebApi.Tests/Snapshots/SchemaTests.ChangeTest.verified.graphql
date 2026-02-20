@@ -413,6 +413,7 @@ type ConversationInfo {
 type ConversationMessage {
   actorName: String
   userName: String!
+  isSentByCurrentActor: Boolean!
   "Message content"
   content: String!
   messageType: MessageType!

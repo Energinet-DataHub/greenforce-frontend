@@ -147,7 +147,6 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
             @for (message of conversation.messages; track message) {
               <dh-actor-conversation-message
                 [message]="message"
-                [isFromCurrentUser]="isMessageFromCurrentUser(message.userId)"
               />
             }
           </vater-flex>
@@ -238,9 +237,5 @@ export class DhActorConversationDetailsComponent {
     });
 
     this.formControl.reset({ content: '', anonymous: false });
-  }
-
-  isMessageFromCurrentUser(userId: string | null | undefined): boolean {
-    return userId ? userId === this.userId : false;
   }
 }

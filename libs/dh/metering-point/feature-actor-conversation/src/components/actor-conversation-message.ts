@@ -68,10 +68,9 @@ import { TranslocoDirective } from '@jsverse/transloco';
 })
 export class DhActorConversationMessageComponent {
   message = input.required<ConversationMessage>();
-  isFromCurrentUser = input(false);
-  messageAlignment = computed(() => (this.isFromCurrentUser() ? 'end' : 'start'));
+  messageAlignment = computed(() => (this.message().isSentByCurrentActor ? 'end' : 'start'));
   backgroundColor = computed(() =>
-    this.isFromCurrentUser()
+    this.message().isSentByCurrentActor
       ? 'var(--watt-color-primary-ultralight)'
       : 'var(--watt-color-neutral-grey-100)'
   );
