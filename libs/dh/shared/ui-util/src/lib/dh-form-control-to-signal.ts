@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, effect, linkedSignal, signal, WritableSignal } from '@angular/core';
+import { computed, effect, linkedSignal, WritableSignal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 /** Helper function for creating a writeable signal for the value of a FormControl. */
