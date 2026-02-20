@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, effect, signal, WritableSignal } from '@angular/core';
+import { computed, effect, linkedSignal, WritableSignal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 /** Helper function for creating a writeable signal for the value of a FormControl. */
@@ -24,7 +24,7 @@ export const dhFormControlToSignal = <T>(
   formControl: FormControl<T> | (() => FormControl<T>)
 ): WritableSignal<T> => {
   const control = computed(() => (typeof formControl === 'function' ? formControl() : formControl));
-  const value = signal<T>(control().value);
+  const value = linkedSignal<T>(() => control().value);
 
   effect((onCleanup) => {
     const subscription = control().valueChanges.subscribe((v) => value.set(v));

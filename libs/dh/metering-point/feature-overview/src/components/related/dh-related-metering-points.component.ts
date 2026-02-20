@@ -204,9 +204,6 @@ export class DhRelatedMeteringPointsComponent {
       ...(relatedMeteringPoints.relatedByGsrn ?? []),
       // Historical
       ...(this.showHistorical() ? (relatedMeteringPoints.historicalMeteringPoints ?? []) : []),
-      ...(this.showHistorical()
-        ? (relatedMeteringPoints.historicalMeteringPointsByGsrn ?? [])
-        : []),
     ];
   });
 
@@ -215,10 +212,7 @@ export class DhRelatedMeteringPointsComponent {
 
     if (!relatedMeteringPoints) return false;
 
-    return (
-      relatedMeteringPoints.historicalMeteringPoints?.length > 0 ||
-      relatedMeteringPoints.historicalMeteringPointsByGsrn?.length > 0
-    );
+    return relatedMeteringPoints.historicalMeteringPoints?.length > 0;
   });
 
   toggleHistorical() {
