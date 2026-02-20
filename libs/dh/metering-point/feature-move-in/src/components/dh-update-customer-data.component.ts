@@ -24,7 +24,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhAppEnvironmentToken } from 'libs/dh/shared/environments/src/lib/app-environment/dh-app-environment';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import {
   injectToast,
@@ -55,7 +55,7 @@ import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details
 import { createContactAddressDetailsForm } from '../util/create-contact-address-details-form';
 import { createCustomerContactDetailsForm } from '../util/create-customer-contact-details-form';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
-import { BasePaths, getPath, MeteringPointSubPaths } from 'libs/dh/core/routing/src/dhPaths';
+import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import { Router } from '@angular/router';
 
 @Component({

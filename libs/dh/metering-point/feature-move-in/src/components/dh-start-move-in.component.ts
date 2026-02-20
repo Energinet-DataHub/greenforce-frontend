@@ -34,7 +34,7 @@ import {
   ChangeOfSupplierBusinessReason,
   InitiateMoveInDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhAppEnvironmentToken } from 'libs/dh/shared/environments/src/lib/app-environment/dh-app-environment';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-start-move-in-modal',
