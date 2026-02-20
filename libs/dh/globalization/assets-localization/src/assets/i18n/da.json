@@ -816,7 +816,7 @@
       "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
       "anonymousCheckbox": "Send anonymt",
       "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren",
-      "ClosingMessage": "Sag afsluttet"
+      "closingMessage": "Sag afsluttet"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
