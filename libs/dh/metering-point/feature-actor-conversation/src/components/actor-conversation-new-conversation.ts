@@ -133,10 +133,7 @@ export class DhActorConversationNewConversationComponent {
   meteringPointId = input.required<string>();
 
   newConversationForm = this.fb.group({
-    subject: this.fb.control<ConversationSubject | null>(
-      null,
-      Validators.required
-    ),
+    subject: this.fb.control<ConversationSubject | null>(null, Validators.required),
     receiver: this.fb.control<ActorType | null>(null, Validators.required),
     internalNote: this.fb.control<string | null>(null),
     message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, (control) =>
