@@ -170,6 +170,21 @@ describe(parseMeasurements, () => {
     expect(makeReadable(result)).toMatchSnapshot();
   });
 
+  it('should sum decimal quantities without floating-point errors', async () => {
+    const csv = [
+      'Position,Periode,Værdi,Kvantum status',
+      '1,28.4.2025 0.00,2.123,Målt',
+      '2,28.4.2025 0.15,2.123,Målt',
+      '3,28.4.2025 0.30,2.123,Målt',
+      '4,28.4.2025 0.45,2.123,Målt',
+      '5,28.4.2025 1.00,2.123,Målt',
+    ].join('\n');
+
+    const stream = parseMeasurements(csv, SendMeasurementsResolution.QuarterHourly);
+    const result = await lastValueFrom(stream);
+    expect(result.sum).toBe(10.615);
+  });
+
   it('should error with missing measurements in quarter hourly resolution', async () => {
     const csv = [
       'Position,Periode,Værdi,Kvantum status',
