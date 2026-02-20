@@ -656,7 +656,7 @@ function getConversation() {
               createdTime: new Date(),
               actorName: 'Sort Strøm',
               userName: 'Niels Pedersen',
-              userId: '0e41ca3c-0c1c-482d-a70a-b1cf42faeb69',
+              isSentByCurrentActor: true,
             },
             {
               __typename: 'ConversationMessage',
@@ -666,7 +666,7 @@ function getConversation() {
               createdTime: new Date(),
               actorName: '',
               userName: '',
-              userId: '',
+              isSentByCurrentActor: false,
             },
             {
               __typename: 'ConversationMessage',
@@ -676,7 +676,7 @@ function getConversation() {
               createdTime: new Date(),
               actorName: '',
               userName: '',
-              userId: '',
+              isSentByCurrentActor: true,
             },
           ],
         },
