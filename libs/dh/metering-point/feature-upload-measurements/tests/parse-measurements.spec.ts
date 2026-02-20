@@ -185,6 +185,28 @@ describe(parseMeasurements, () => {
     expect(result.sum).toBe(10.615);
   });
 
+  it('should sum 96 rows with mixed decimals without floating-point errors', async () => {
+    const header = 'Position,Periode,Værdi,Kvantum status';
+    const lines: string[] = [header];
+
+    // 88 rows of 2 + 8 rows of 2.123 = 192.984 (mirrors the reported bug)
+    for (let i = 0; i < 96; i++) {
+      const hour = Math.floor(i / 4);
+      const quarter = i % 4;
+      const minutes =
+        quarter === 0 ? '00' : quarter === 1 ? '15' : quarter === 2 ? '30' : '45';
+      const position = i + 1;
+      const value = i >= 66 && i <= 68 || i >= 74 && i <= 76 || i >= 81 && i <= 82 ? '2.123' : '2';
+      const timestamp = `28.4.2025 ${hour}.${minutes}`;
+      lines.push(`${position},${timestamp},${value},Målt`);
+    }
+
+    const csv = lines.join('\n');
+    const stream = parseMeasurements(csv, SendMeasurementsResolution.QuarterHourly);
+    const result = await lastValueFrom(stream);
+    expect(result.sum).toBe(192.984);
+  });
+
   it('should error with missing measurements in quarter hourly resolution', async () => {
     const csv = [
       'Position,Periode,Værdi,Kvantum status',
