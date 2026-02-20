@@ -172,7 +172,7 @@ export class MeasureDataResult {
   /** Adds a measurement to the result. Chainable. */
   addMeasurement = (measurement: Measurement) => {
     this.measurements.push(measurement);
-    this.sum = parseFloat((this.sum + measurement.quantity).toFixed(10));
+    this.sum = Number.parseFloat((this.sum + measurement.quantity).toFixed(10));
     this.qualities.add(measurement.quality);
     return this;
   };

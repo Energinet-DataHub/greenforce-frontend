@@ -193,7 +193,8 @@ describe(parseMeasurements, () => {
     for (let i = 0; i < 96; i++) {
       const hour = Math.floor(i / 4);
       const quarter = i % 4;
-      const minutes = quarter === 0 ? '00' : quarter === 1 ? '15' : quarter === 2 ? '30' : '45';
+      const minutesMap = ['00', '15', '30', '45'] as const;
+      const minutes = minutesMap[quarter];
       const position = i + 1;
       const value =
         (i >= 66 && i <= 68) || (i >= 74 && i <= 76) || (i >= 81 && i <= 82) ? '2.123' : '2';
