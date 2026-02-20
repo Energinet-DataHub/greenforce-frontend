@@ -21,7 +21,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
-import { Conversation } from '../types';
+import { Conversation, NewConversation } from '../types';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { QueryResult } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -110,13 +110,13 @@ export class DhActorConversationListComponent {
   createNewConversation = output();
   selectConversation = output<Conversation>();
 
-  newConversation: Conversation = {
+  newConversation: NewConversation = {
     __typename: 'ConversationInfo',
     closed: false,
     read: true,
     lastUpdated: dayjs().toDate(),
     id: '',
     displayId: '',
-    subject: 'newCase' as Conversation['subject'],
+    subject: 'newCase',
   };
 }
