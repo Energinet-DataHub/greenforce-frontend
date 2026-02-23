@@ -18,7 +18,7 @@
 //#endregion
 import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw';
 
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { mswConfig } from '@energinet-datahub/gf/util-msw/server';
 import {
   DocumentType,
   ProcessState,

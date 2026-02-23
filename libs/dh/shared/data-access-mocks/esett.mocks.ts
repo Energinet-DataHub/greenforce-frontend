@@ -32,7 +32,7 @@ import {
   mockGetBalanceResponsibleByIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { mswConfig } from '@energinet-datahub/gf/util-msw/server';
 
 import { eSettExchangeEvents } from './data/esett-exchange-events';
 import { eSettDetailedExchangeEvents } from './data/esett-detailed-exchange-events';

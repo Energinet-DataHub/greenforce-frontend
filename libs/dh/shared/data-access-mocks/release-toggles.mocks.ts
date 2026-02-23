@@ -18,7 +18,7 @@
 //#endregion
 import { delay, HttpResponse } from 'msw';
 
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { mswConfig } from '@energinet-datahub/gf/util-msw/server';
 import { mockGetReleaseTogglesQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 export function releaseTogglesMocks() {

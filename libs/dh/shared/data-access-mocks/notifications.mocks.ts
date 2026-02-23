@@ -23,7 +23,7 @@ import {
   mockDismissNotificationMutation,
   mockGetNotificationsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { mswConfig } from '@energinet-datahub/gf/util-msw/server';
 
 export function notificationsMocks() {
   return [dismissNotification(), getNotifications()];

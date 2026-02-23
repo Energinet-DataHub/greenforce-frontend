@@ -28,7 +28,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 // Use the shared MSW polyfill path
 const mswPolyfillPath = resolve(
   process.cwd(),
-  'libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js'
+  'libs/gf/test-util-vitest/lib/msw-global-polyfill.js'
 );
 
 export default defineConfig(() => ({
@@ -41,7 +41,7 @@ export default defineConfig(() => ({
       // Map the mock provider to work with Vitest
       '.*dh-shared-highlight-provider': resolve(
         __dirname,
-        '../../../libs/dh/shared/feature-highlight/src/dh-shared-highlight-provider.mock.ts'
+        '../../../libs/dh/shared/feature-highlight/dh-shared-highlight-provider.mock.ts'
       ),
     },
   },

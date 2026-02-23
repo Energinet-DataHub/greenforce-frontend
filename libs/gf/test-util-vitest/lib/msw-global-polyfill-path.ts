@@ -39,5 +39,5 @@ import { resolve } from 'path';
 export function getMswGlobalPolyfillPath(): string {
   // For now, return the direct path to the source file
   // This works because the file is a plain JS file that doesn't need compilation
-  return resolve(process.cwd(), 'libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js');
+  return resolve(process.cwd(), 'libs/gf/test-util-vitest/lib/msw-global-polyfill.js');
 }

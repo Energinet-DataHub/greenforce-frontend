@@ -227,7 +227,7 @@ function createLintTarget(projectRoot: string, product: string): TargetConfigura
  */
 function createTestTarget(projectRoot: string, product: string): TargetConfiguration {
   return {
-    command: 'vitest',
+    command: 'vitest run',
     options: {
       cwd: projectRoot,
       root: '.',

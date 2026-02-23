@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { mocks, onUnhandledRequest, handlers } from '@energinet-datahub/gf/util-msw';
+import { mocks, onUnhandledRequest, handlers } from '@energinet-datahub/gf/util-msw/server';
 import { setupServer } from 'msw/node';
 
 export function setupMSWServer(apiBase: string, mocks: mocks) {

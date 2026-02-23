@@ -20,7 +20,7 @@ import { test, vi } from 'vitest';
 import { ApolloError } from '@apollo/client/core';
 import { TestBed } from '@angular/core/testing';
 import { gql } from '@apollo/client/core';
-import { mutation } from '../lib/mutation';
+import { mutation } from '../mutation';
 import { withApollo } from './with-apollo';
 
 const MOCK_DATA = { __typename: 'Mutation' };

@@ -25,7 +25,7 @@ import {
   mockGetOrganizationsQuery,
   mockUpdateOrganizationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { mswConfig } from '@energinet-datahub/gf/util-msw/server';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 import {
   Organization,

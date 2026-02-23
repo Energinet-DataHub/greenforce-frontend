@@ -16,21 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { delay, HttpResponse } from 'msw';
-
-import { mswConfig } from '@energinet-datahub/gf/util-msw/server';
-import { mockGetPermissionByEicFunctionQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
-
-import { marketParticipantUserRolePermissionsQuery } from './data/market-participant-user-role-permissions';
-
-export function marketParticipantUserRoleMocks() {
-  return [getPermissionsByEicFunction()];
-}
-
-function getPermissionsByEicFunction() {
-  return mockGetPermissionByEicFunctionQuery(async () => {
-    await delay(mswConfig.delay);
-
-    return HttpResponse.json({ data: marketParticipantUserRolePermissionsQuery });
-  });
-}
+/**
+ * Server-safe exports for use in Node.js test environments.
+ * This entry point does NOT include browser-specific code (setupServiceWorker).
+ *
+ * Use `@energinet-datahub/gf/util-msw` for browser code.
+ * Use `@energinet-datahub/gf/util-msw/server` for Node.js/test code.
+ */
+export { handlers, onUnhandledRequest, mocks } from './lib/handlers';
+export * as mswConfig from './lib/config';

@@ -233,6 +233,7 @@
       "@energinet-datahub/gf/util-browser": ["libs/gf/util-browser/index.ts"],
       "@energinet-datahub/gf/util-cookie-information": ["libs/gf/util-cookie-information/index.ts"],
       "@energinet-datahub/gf/util-msw": ["libs/gf/msw/util-msw/index.ts"],
+      "@energinet-datahub/gf/util-msw/server": ["libs/gf/msw/util-msw/server.ts"],
       "@energinet-datahub/tools/github": ["tools/github"],
       "@energinet-datahub/tools/license": ["tools/license"],
       "@energinet-datahub/tools/package": ["tools/package"],

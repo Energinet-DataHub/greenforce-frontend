@@ -17,7 +17,7 @@
  */
 //#endregion
 import { delay, HttpResponse } from 'msw';
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { mswConfig } from '@energinet-datahub/gf/util-msw/server';
 import {
   MeteringPointType,
   RequestCalculationType,

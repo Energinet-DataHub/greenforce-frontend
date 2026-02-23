@@ -63,7 +63,7 @@ import {
   mockCheckEmailExistsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { mswConfig } from '@energinet-datahub/gf/util-msw/server';
 
 import { marketParticipants } from './data/market-participants';
 import { getMarketParticipantAuditLogsMock } from './data/get-actor-audit-logs';

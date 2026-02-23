@@ -17,7 +17,7 @@
  */
 //#endregion
 import { HttpResponse, delay, http } from 'msw';
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { mswConfig } from '@energinet-datahub/gf/util-msw/server';
 
 import {
   mockGetImbalancePricesMonthOverviewQuery,

@@ -24,7 +24,7 @@ import {
   mockUserProfileQuery,
   mockUpdateUserProfileMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { mswConfig } from '@energinet-datahub/gf/util-msw/server';
 import { HttpResponse, delay } from 'msw';
 
 export function userProfileMocks() {
