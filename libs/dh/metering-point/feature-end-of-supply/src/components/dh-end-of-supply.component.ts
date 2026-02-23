@@ -34,7 +34,7 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
 import {
   RequestEndOfSupplyDocument,
   GetMeteringPointProcessOverviewDocument,
-  GetDisabledDatesForEndOfSupplyDocument,
+  GetSelectableDatesForEndOfSupplyDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
@@ -68,7 +68,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         <vater-stack direction="column" gap="m" align="start">
           <watt-datepicker
             [label]="t('dateLabel')"
-            [min]="minDate"
+            [min]="minDate()"
             [max]="maxDate"
             [dateFilter]="dateFilter()"
             [formControl]="form.controls.cutOffDate"
@@ -94,24 +94,35 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     </watt-modal>
   `,
 })
-export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: string }> {
+export class DhEndOfSupplyComponent extends WattTypedModal<{
+  meteringPointId: string;
+  internalMeteringPointId: string;
+}> {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly toastService = inject(WattToastService);
   private readonly router = inject(Router);
   private readonly requestEndOfSupply = mutation(RequestEndOfSupplyDocument);
-  private readonly disabledDatesQuery = query(GetDisabledDatesForEndOfSupplyDocument);
+  private readonly selectableDatesQuery = query(GetSelectableDatesForEndOfSupplyDocument);
 
   readonly modal = viewChild.required(WattModalComponent);
 
-  readonly minDate = dayjs().add(3, 'day').toDate();
   readonly maxDate = dayjs().add(60, 'day').toDate();
   readonly loading = this.requestEndOfSupply.loading;
 
-  readonly dateFilter = computed(() => {
-    const disabledDates = this.disabledDatesQuery.data()?.disabledDatesForEndOfSupply;
-    if (!disabledDates?.length) return undefined;
+  private readonly selectableDates = computed(() => {
+    const dates = this.selectableDatesQuery.data()?.selectableDatesForEndOfSupply;
+    if (!dates?.length) return undefined;
+    return new Set(dates.map((d) => dayjs(d).format('YYYY-MM-DD')));
+  });
 
-    return (date: Date | null) => !disabledDates.some((d) => dayjs(d).isSame(date, 'day'));
+  readonly minDate = computed(() => {
+    const dates = this.selectableDatesQuery.data()?.selectableDatesForEndOfSupply;
+    return dates?.[0] ? dayjs(dates[0]).toDate() : dayjs().add(1, 'day').toDate();
+  });
+  readonly dateFilter = computed(() => {
+    const selectable = this.selectableDates();
+    if (!selectable) return undefined;
+    return (date: Date | null) => !!date && selectable.has(dayjs(date).format('YYYY-MM-DD'));
   });
 
   readonly form = this.fb.group({
@@ -134,12 +145,14 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
         },
       },
       onError: () => {
+        this.modal().close(false);
         this.toastService.open({
           type: 'danger',
           message: translate('meteringPoint.endOfSupply.submitError'),
         });
       },
       onCompleted: () => {
+        this.modal().close(true);
         this.toastService.open({
           type: 'success',
           message: translate('meteringPoint.endOfSupply.submitSuccess'),
@@ -147,7 +160,7 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: st
           action: (ref) => {
             this.router.navigate([
               getPath<BasePaths>('metering-point'),
-              this.modalData.meteringPointId,
+              this.modalData.internalMeteringPointId,
               getPath<MeteringPointSubPaths>('process-overview'),
             ]);
             ref.dismiss();

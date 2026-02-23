@@ -20,6 +20,7 @@ import {
   Component,
   computed,
   DestroyRef,
+  effect,
   EnvironmentInjector,
   inject,
   runInInjectionContext,
@@ -34,9 +35,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RxPush } from '@rx-angular/template/push';
-import { Observable, debounceTime, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import {
@@ -66,6 +66,7 @@ import {
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  dhFormControlToSignal,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
 import { WattToastService } from '@energinet/watt/toast';
@@ -99,7 +100,6 @@ type SettlementReportRequestedBy = {
 @Component({
   selector: 'dh-request-report-modal',
   imports: [
-    RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
 
@@ -161,20 +161,24 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
     allowLargeTextFiles: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
-  showEnergySupplierDropdown$ = of(this.modalData.isFas).pipe(
-    map((isFas) => isFas || this.modalData.marketRole === EicFunction.SystemOperator),
-    tap((showEnergySupplierDropdown) => {
-      if (showEnergySupplierDropdown) {
-        this.form.addControl(
-          'energySupplier',
-          new FormControl<string | null>(ALL_ENERGY_SUPPLIERS, Validators.required)
-        );
-      }
-    })
-  );
+  readonly showEnergySupplierDropdown = this.initEnergySupplierControl();
+
+  private initEnergySupplierControl(): boolean {
+    const shouldShow =
+      this.modalData.isFas || this.modalData.marketRole === EicFunction.SystemOperator;
+    if (shouldShow) {
+      this.form.addControl(
+        'energySupplier',
+        new FormControl<string | null>(ALL_ENERGY_SUPPLIERS, Validators.required)
+      );
+    }
+    return shouldShow;
+  }
 
   calculationTypeOptions = this.getCalculationTypeOptions();
-  gridAreaOptions$ = this.getGridAreaOptions();
+  gridAreaOptions = toSignal(this.getGridAreaOptions(), {
+    initialValue: [] as WattDropdownOptions,
+  });
 
   energySupplierOptions = computed(() => [
     {
@@ -184,14 +188,14 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
     ...this.actorOptions(),
   ]);
 
-  multipleGridAreasSelected$: Observable<boolean> = this.form.controls.gridAreas.valueChanges.pipe(
-    map((gridAreas) => (gridAreas?.length ? gridAreas.length > 1 : false)),
-    tap((moreThanOneGridAreas) => {
-      if (!moreThanOneGridAreas) {
-        this.form.controls.combineResultsInOneFile.setValue(false);
-      }
-    })
-  );
+  private readonly gridAreasValue = dhFormControlToSignal(this.form.controls.gridAreas);
+  readonly multipleGridAreasSelected = computed(() => (this.gridAreasValue()?.length ?? 0) > 1);
+
+  readonly resetCombineResultsEffect = effect(() => {
+    if (!this.multipleGridAreasSelected()) {
+      this.form.controls.combineResultsInOneFile.setValue(false, { emitEvent: false });
+    }
+  });
 
   submitInProgress = signal(false);
   noCalculationsFound = signal(false);

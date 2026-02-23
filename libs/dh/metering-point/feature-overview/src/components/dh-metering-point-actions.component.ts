@@ -95,9 +95,11 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
           <watt-menu-item (click)="startMoveIn()">
             {{ t('moveIn') }}
           </watt-menu-item>
-          <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
-            {{ t('updateCustomerData') }}
-          </watt-menu-item>
+          @if (isEnergySupplierResponsible()) {
+            <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
+              {{ t('updateCustomerData') }}
+            </watt-menu-item>
+          }
         }
 
         @if (showCreateChargeLinkButton()) {
@@ -144,11 +146,13 @@ export class DhMeteringPointActionsComponent {
   createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;
 
   meteringPointId = input.required<string>();
+  internalMeteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
   subType = input<ElectricityMarketViewMeteringPointSubType | null>();
   connectionState = input<ElectricityMarketViewConnectionState | null>();
   createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();
+  isEnergySupplierResponsible = input.required<boolean>();
 
   private readonly hasGridAccessProviderRole = toSignal(
     this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
@@ -220,7 +224,10 @@ export class DhMeteringPointActionsComponent {
   showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
 
   showEndOfSupplyButton = computed(
-    () => this.hasEnergySupplierRole() && this.featureFlagsService.isEnabled('end-of-supply')
+    () =>
+      this.hasEnergySupplierRole() &&
+      this.isEnergySupplierResponsible() &&
+      this.featureFlagsService.isEnabled('end-of-supply')
   );
 
   showActionsButton = computed(() => {
@@ -250,6 +257,7 @@ export class DhMeteringPointActionsComponent {
       component: DhEndOfSupplyComponent,
       data: {
         meteringPointId: this.meteringPointId(),
+        internalMeteringPointId: this.internalMeteringPointId(),
       },
     });
   }

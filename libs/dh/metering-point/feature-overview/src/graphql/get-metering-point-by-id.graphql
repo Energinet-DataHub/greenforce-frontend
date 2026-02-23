@@ -11,6 +11,7 @@ fragment CustomerContact on ElectricityMarketViewCustomerContactDto {
   postBox
   countryCode
   darReference
+  attention
   isProtectedAddress
   citySubDivisionName
   name

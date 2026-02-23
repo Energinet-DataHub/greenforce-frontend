@@ -65,6 +65,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       [formGroup]="newConversationForm"
       (ngSubmit)="startConversation()"
       vater-grid
+      fill="vertical"
       rows="minmax(var(--case-min-row-height), auto) 1fr"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
@@ -105,12 +106,14 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
           data-testid="actor-conversation-internal-note-input"
         />
         <vater-grid-area row="4" fill="horizontal">
-          <dh-actor-conversation-message-form
-            vater
-            fill="horizontal"
-            [loading]="startConversationMutation.loading()"
-            [formControl]="newConversationForm.controls.message"
-          />
+          <vater-stack fill="vertical" justify="end">
+            <dh-actor-conversation-message-form
+              vater
+              fill="horizontal"
+              [loading]="startConversationMutation.loading()"
+              [formControl]="newConversationForm.controls.message"
+            />
+          </vater-stack>
         </vater-grid-area>
       </vater-grid>
     </form>
@@ -130,11 +133,8 @@ export class DhActorConversationNewConversationComponent {
   meteringPointId = input.required<string>();
 
   newConversationForm = this.fb.group({
-    subject: this.fb.control<ConversationSubject>(
-      ConversationSubject.QuestionForEnerginet,
-      Validators.required
-    ),
-    receiver: this.fb.control<ActorType>(ActorType.Energinet, Validators.required),
+    subject: this.fb.control<ConversationSubject | null>(null, Validators.required),
+    receiver: this.fb.control<ActorType | null>(null, Validators.required),
     internalNote: this.fb.control<string | null>(null),
     message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, (control) =>
       control.value.content ? null : { required: true }
@@ -149,6 +149,10 @@ export class DhActorConversationNewConversationComponent {
     }
 
     const { subject, receiver, internalNote, message } = this.newConversationForm.getRawValue();
+
+    if (!receiver || !subject) {
+      return;
+    }
 
     const { content, anonymous } = message ?? {};
 

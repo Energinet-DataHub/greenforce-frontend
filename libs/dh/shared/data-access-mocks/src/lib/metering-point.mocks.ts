@@ -55,8 +55,7 @@ import { childMeteringPoint } from './data/metering-point/child-metering-point';
 import { eventsDebugView } from './data/metering-point/metering-point-events-debug-view';
 import { conversations } from './data/metering-point/conversations';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function meteringPointMocks(apiBase: string) {
+export function meteringPointMocks() {
   return [
     doesInternalMeteringPointIdExist(),
     getContactCPR(),
@@ -656,7 +655,27 @@ function getConversation() {
               createdTime: new Date(),
               actorName: 'Sort Strøm',
               userName: 'Niels Pedersen',
-              userId: '123456',
+              isSentByCurrentActor: true,
+            },
+            {
+              __typename: 'ConversationMessage',
+              senderType: 'ENERGY_SUPPLIER',
+              content: 'ClosingMessage',
+              messageType: 'CLOSING_MESSAGE',
+              createdTime: new Date(),
+              actorName: '',
+              userName: '',
+              isSentByCurrentActor: false,
+            },
+            {
+              __typename: 'ConversationMessage',
+              senderType: 'ENERGY_SUPPLIER',
+              content: 'Anonym besked',
+              messageType: 'USER_MESSAGE',
+              createdTime: new Date(),
+              actorName: '',
+              userName: '',
+              isSentByCurrentActor: true,
             },
           ],
         },

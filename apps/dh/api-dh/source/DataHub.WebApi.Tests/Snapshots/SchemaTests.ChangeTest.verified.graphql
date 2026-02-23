@@ -413,6 +413,7 @@ type ConversationInfo {
 type ConversationMessage {
   actorName: String
   userName: String!
+  isSentByCurrentActor: Boolean!
   "Message content"
   content: String!
   messageType: MessageType!
@@ -1327,7 +1328,7 @@ type Query {
   meteringPointExists(searchMigratedMeteringPoints: Boolean! internalMeteringPointId: String meteringPointId: String): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String! searchMigratedMeteringPoints: Boolean): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String! searchMigratedMeteringPoints: Boolean): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
-  disabledDatesForEndOfSupply: [DateTime!]!
+  selectableDatesForEndOfSupply: [DateTime!]!
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -2298,9 +2299,6 @@ input ResetTwoFactorAuthenticationInput {
 
 input SendActorConversationMessageInput {
   conversationId: UUID!
-  meteringPointIdentification: String!
-  actorId: String!
-  userId: String!
   content: String!
   anonymous: Boolean!
 }
@@ -2918,8 +2916,8 @@ enum ElectricityMarketViewConnectionType {
 }
 
 enum ElectricityMarketViewCustomerRelationType {
-  CONTACT1
-  CONTACT4
+  TECHNICAL
+  JURIDICAL
   SECONDARY
 }
 
