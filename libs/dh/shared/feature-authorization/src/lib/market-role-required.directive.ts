@@ -27,6 +27,7 @@ import {
 } from '@angular/core';
 import { concatAll, from, map, reduce, take } from 'rxjs';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { PermissionService } from './permission.service';
 
