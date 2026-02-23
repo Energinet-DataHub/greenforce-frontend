@@ -233,6 +233,7 @@ export class DhMeteringPointComponent {
   searchMigratedMeteringPoints = input.required<boolean>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
+    fetchPolicy: 'cache-and-network',
     variables: {
       meteringPointId: this.meteringPointId(),
       actorGln: this.actor.gln,

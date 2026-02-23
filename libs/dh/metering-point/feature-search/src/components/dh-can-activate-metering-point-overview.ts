@@ -52,6 +52,7 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
 
   if (isEM1Id || isEM2Id) {
     return query(DoesInternalMeteringPointIdExistDocument, {
+      fetchPolicy: 'cache-and-network',
       variables: {
         internalMeteringPointId: idParam,
         searchMigratedMeteringPoints: isEM1Id,
