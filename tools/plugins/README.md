@@ -34,7 +34,7 @@ The following libraries are **not** inferred by this plugin and retain explicit 
 
 Instead of individual config files per library, shared configurations are located at the product level:
 
-```
+```text
 libs/
 ├── dh/
 │   ├── .eslintrc.json      # Shared ESLint config for dh libs
