@@ -189,11 +189,11 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
   ]);
 
   private readonly gridAreasValue = dhFormControlToSignal(this.form.controls.gridAreas);
-  multipleGridAreasSelected = computed(() => (this.gridAreasValue()?.length ?? 0) > 1);
+  readonly multipleGridAreasSelected = computed(() => (this.gridAreasValue()?.length ?? 0) > 1);
 
-  resetCombineResultsEffect = effect(() => {
+  private readonly resetCombineResultsEffect = effect(() => {
     if (!this.multipleGridAreasSelected()) {
-      this.form.controls.combineResultsInOneFile.setValue(false);
+      this.form.controls.combineResultsInOneFile.setValue(false, { emitEvent: false });
     }
   });
 
