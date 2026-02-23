@@ -24,17 +24,6 @@
       "outputs": ["{options.outputFile}"],
       "metadata": { "technologies": ["eslint"] }
     },
-    "test": {
-      "command": "vitest",
-      "options": {
-        "cwd": "libs/dh/shared/domain",
-        "root": "."
-      },
-      "cache": true,
-      "inputs": ["default", "^production", { "externalDependencies": ["vitest"] }, { "env": "CI" }],
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/domain"],
-      "metadata": { "technologies": ["vitest"] }
-    },
     "generate": {
       "executor": "nx:run-commands",
       "cache": true,

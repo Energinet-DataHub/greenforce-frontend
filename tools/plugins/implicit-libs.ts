@@ -45,6 +45,8 @@ import { CreateNodesV2, CreateNodesResultV2, TargetConfiguration } from '@nx/dev
  * - libs/{product}/{domain}/{name}/index.ts (e.g., libs/dh/admin/feature-user-management)
  * - libs/{product}/{name}/index.ts (e.g., libs/dh/grid-areas, libs/gf/test-util)
  * - libs/{product}/{category}/{domain}/{name}/index.ts (e.g., libs/gf/msw/util-msw)
+ *
+ * Libraries with explicit project.json files are skipped to avoid duplicate/conflicting targets.
  */
 
 interface LibraryInfo {
@@ -237,6 +239,14 @@ function getRelativeConfigPath(projectRoot: string, product: string): string {
 }
 
 /**
+ * Check if library has its own project.json file (explicit configuration)
+ * Libraries with explicit project.json are skipped to avoid duplicate targets
+ */
+function hasExplicitProjectJson(projectRoot: string): boolean {
+  return existsSync(`${projectRoot}/project.json`);
+}
+
+/**
  * Check if library has its own vite.config.mts file
  */
 function hasLocalViteConfig(projectRoot: string): boolean {
@@ -278,6 +288,11 @@ export const createNodesV2: CreateNodesV2 = [
         }
 
         const { projectRoot, projectName, product, tags } = libraryInfo;
+
+        // Skip libraries with explicit project.json - they manage their own targets
+        if (hasExplicitProjectJson(projectRoot)) {
+          return null;
+        }
 
         return [
           indexPath,

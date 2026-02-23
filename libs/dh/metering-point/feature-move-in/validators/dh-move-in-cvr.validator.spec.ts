@@ -18,63 +18,42 @@
 //#endregion
 import { FormControl } from '@angular/forms';
 import { describe, expect, it } from 'vitest';
-import { Injector } from '@angular/core';
 
-import {
-  DhAppEnvironment,
-  dhAppEnvironmentToken,
-  type DhAppEnvironmentConfig,
-} from '@energinet-datahub/dh/shared/environments';
+import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 
 import { dhMoveInCvrValidator } from './dh-move-in-cvr.validator';
 
-function createAppEnvInjector(current: DhAppEnvironment): Injector {
-  const config: DhAppEnvironmentConfig = {
-    current,
-    applicationInsights: { connectionString: '' },
-  };
-
-  return Injector.create({
-    providers: [{ provide: dhAppEnvironmentToken, useValue: config }],
-  });
-}
-
 describe('dhMoveInCvrValidator', () => {
   it('allows 11111111 in non-prod/non-preprod', () => {
-    const injector = createAppEnvInjector(DhAppEnvironment.test_001);
-    const validator = dhMoveInCvrValidator(injector);
+    const validator = dhMoveInCvrValidator(DhAppEnvironment.test_001);
 
     const control = new FormControl('11111111');
     expect(validator(control)).toBeNull();
   });
 
   it('allows 22222222 in non-prod/non-preprod', () => {
-    const injector = createAppEnvInjector(DhAppEnvironment.dev_001);
-    const validator = dhMoveInCvrValidator(injector);
+    const validator = dhMoveInCvrValidator(DhAppEnvironment.dev_001);
 
     const control = new FormControl('22222222');
     expect(validator(control)).toBeNull();
   });
 
   it('rejects invalid CVR values that are not allowlisted', () => {
-    const injector = createAppEnvInjector(DhAppEnvironment.test_001);
-    const validator = dhMoveInCvrValidator(injector);
+    const validator = dhMoveInCvrValidator(DhAppEnvironment.test_001);
 
     const control = new FormControl('12345678');
     expect(validator(control)).toEqual({ invalidCvrNumber: true });
   });
 
   it('does NOT allow 11111111 in preprod', () => {
-    const injector = createAppEnvInjector(DhAppEnvironment.preprod);
-    const validator = dhMoveInCvrValidator(injector);
+    const validator = dhMoveInCvrValidator(DhAppEnvironment.preprod);
 
     const control = new FormControl('11111111');
     expect(validator(control)).toEqual({ invalidCvrNumber: true });
   });
 
   it('does NOT allow 11111111 in prod', () => {
-    const injector = createAppEnvInjector(DhAppEnvironment.prod);
-    const validator = dhMoveInCvrValidator(injector);
+    const validator = dhMoveInCvrValidator(DhAppEnvironment.prod);
 
     const control = new FormControl('11111111');
     expect(validator(control)).toEqual({ invalidCvrNumber: true });
