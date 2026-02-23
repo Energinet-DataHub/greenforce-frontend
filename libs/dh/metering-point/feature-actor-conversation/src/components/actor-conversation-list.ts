@@ -86,12 +86,12 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
           <watt-text-field
             [placeholder]="t('searchPlaceholder')"
             [formControl]="searchControl"
-            (keydown.enter)="search.emit(searchControl.value ?? '')"
+            (keydown.enter)="searchChanged.emit(searchControl.value ?? '')"
           >
             <watt-button
               variant="icon"
               icon="search"
-              (click)="search.emit(searchControl.value ?? '')"
+              (click)="searchChanged.emit(searchControl.value ?? '')"
             />
           </watt-text-field>
         </vater-stack>
@@ -127,7 +127,7 @@ export class DhActorConversationListComponent {
   newConversationVisible = input<boolean>(false);
   selectedConversationId = input<string | undefined>(undefined);
   createNewConversation = output();
-  search = output<string>();
+  searchChanged = output<string>();
   selectConversation = output<string>();
   searchControl = new FormControl('');
 

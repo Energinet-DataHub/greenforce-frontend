@@ -55,7 +55,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
         <span>{{ message().actorName + ', ' + message().userName }}</span>
       </vater-stack>
       <hr class="watt-divider no-margin" />
-      <span vater fill="horizontal" class="watt-space-inset-m">{{ message().content }}</span>
+      <span vater fill="horizontal" class="watt-space-inset-m">{{ message().userMessage?.content }}</span>
     </vater-stack>
   `,
 })

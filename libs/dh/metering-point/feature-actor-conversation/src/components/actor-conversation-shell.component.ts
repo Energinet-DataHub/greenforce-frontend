@@ -70,7 +70,7 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
           [newConversationVisible]="newConversationVisible()"
           [selectedConversationId]="selectedConversationId()"
           (createNewConversation)="newConversation()"
-          (search)="search($event)"
+          (searchChanged)="search($event)"
           (selectConversation)="selectConversation($event)"
         />
         <vater-stack scrollable *transloco="let t; prefix: 'meteringPoint.actorConversation'">

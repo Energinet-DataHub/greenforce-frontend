@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -54,11 +54,12 @@ public static partial class ConversationMessageDtoType
             .Name("ConversationMessage")
             .BindFieldsExplicitly();
 
-        descriptor.Field(f => f.Content);
+        descriptor.Field(f => f.UserMessage);
         descriptor.Field(f => f.MessageType);
         descriptor.Field(f => f.CreatedTime);
         descriptor.Field(f => f.SenderType);
         descriptor.Field(f => f.UserId);
+        descriptor.Field(f => f.Anonymous);
     }
 
     private static EicFunction MapActorTypeToEicFunction(ActorType actorType)

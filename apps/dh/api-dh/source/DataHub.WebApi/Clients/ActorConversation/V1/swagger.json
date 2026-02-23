@@ -189,14 +189,22 @@
         "tags": [
           "GetAllConversations, GetConversationsForMeteringPoint"
         ],
-        "summary": "Get all conversations  or just conversations for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied",
+        "summary": "Get all conversations  or just conversations for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied.\nThe search can be further narrowed by suppling the search querystring to be searched into DisplayId and InternalNote for the logged in actor.\nThe search has to be an integer to be searched into the DisplayId.",
         "description": "Get all conversations across all meteringpoints or for a single MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied",
         "operationId": "GetConversations",
         "parameters": [
           {
             "name": "meteringPointIdentification",
             "in": "query",
-            "description": "GSRN consists of 18 digits. Null to retrieve across all meteringpoints.",
+            "description": "GSRN consists of 18 digits supplied as querystring by name 'meteringPointIdentification'. Null to retrieve across all meteringpoints.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchValue",
+            "in": "query",
+            "description": "Search string supplied as querystring by name 'searchValue' to be searched for into DisplayId and InternalNote for the logged in actor.",
             "schema": {
               "type": "string"
             }
@@ -245,6 +253,68 @@
           },
           "500": {
             "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetElectricalHeatingInformation/{meteringPointIdentification}": {
+      "get": {
+        "tags": [
+          "GetElectricalHeatingInformation"
+        ],
+        "summary": "Gets information regarding electrical heating on a measuring point",
+        "description": "Gets information regarding electrical heating on a measuring point",
+        "operationId": "GetElectricalHeatingInformation",
+        "parameters": [
+          {
+            "name": "meteringPointIdentification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -638,9 +708,9 @@
           "userId",
           "actorNumber",
           "senderType",
-          "content",
           "messageType",
-          "createdTime"
+          "createdTime",
+          "anonymous"
         ],
         "properties": {
           "userId": {
@@ -656,10 +726,6 @@
           "senderType": {
             "$ref": "#/components/schemas/ActorType"
           },
-          "content": {
-            "type": "string",
-            "description": "Message content"
-          },
           "messageType": {
             "$ref": "#/components/schemas/MessageType"
           },
@@ -667,6 +733,29 @@
             "type": "string",
             "description": "Created time",
             "format": "date-time"
+          },
+          "anonymous": {
+            "type": "boolean"
+          },
+          "userMessage": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/UserMessageDto"
+              }
+            ]
+          },
+          "electricalHeatingMessage": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/EleectricalHeatingMessageDto"
+              }
+            ]
           }
         }
       },
@@ -700,6 +789,52 @@
           "PriceLinking"
         ]
       },
+      "ElectricityHeatingMessagePeriodDto": {
+        "type": "object",
+        "required": [
+          "from",
+          "to"
+        ],
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "EleectricalHeatingMessageDto": {
+        "type": "object",
+        "required": [
+          "customerName",
+          "supplierPeriods",
+          "isElectricalHeatingActive",
+          "electricalHeatingFrom"
+        ],
+        "properties": {
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplierPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ElectricityHeatingMessagePeriodDto"
+            }
+          },
+          "isElectricalHeatingActive": {
+            "type": "boolean"
+          },
+          "electricalHeatingFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
       "MarkConversationReadRequest": {
         "type": "object",
         "required": [
@@ -729,7 +864,8 @@
         "description": "Message type",
         "enum": [
           "UserMessage",
-          "ClosingMessage"
+          "ClosingMessage",
+          "ElectricalHeatingInformation"
         ]
       },
       "ProblemDetails": {
@@ -849,6 +985,18 @@
             "nullable": true
           }
         }
+      },
+      "UserMessageDto": {
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Message content"
+          }
+        }
       }
     }
   },
@@ -867,6 +1015,9 @@
     },
     {
       "name": "GetAllConversations, GetConversationsForMeteringPoint"
+    },
+    {
+      "name": "GetElectricalHeatingInformation"
     },
     {
       "name": "MarkConversationRead"
