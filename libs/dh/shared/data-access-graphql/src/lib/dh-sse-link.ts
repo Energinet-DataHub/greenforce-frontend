@@ -35,8 +35,7 @@ import {
   timer,
 } from 'rxjs';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { DhActorTokenService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhTokenProvider } from '@energinet-datahub/dh/shared/util-apollo';
 
 class SseLink extends ApolloLink {
   constructor(
@@ -68,7 +67,7 @@ export class DhSseLink {
   // token is needed since subscriptions cannot have their "Authorization" header
   // updated while they are still subscribed. Subscriptions will unsubscribe and
   // then resubscribe with the new token once the token$ emits.
-  private tokenService = inject(DhActorTokenService);
+  private tokenService = inject(DhTokenProvider);
   private token$ = timer(0, 30_000).pipe(
     switchMap(() => this.tokenService.acquireToken()),
     distinctUntilChanged(),

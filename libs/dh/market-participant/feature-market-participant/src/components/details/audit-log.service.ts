@@ -17,7 +17,7 @@
  */
 //#endregion
 import { inject, Injectable } from '@angular/core';
-import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhApollo } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMarketParticipantAuditLogsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Injectable()

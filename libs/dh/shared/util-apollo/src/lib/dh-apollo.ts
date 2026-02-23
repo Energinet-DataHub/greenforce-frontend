@@ -16,9 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-export { DhApolloService } from './lib/dh-apollo';
+import { ApolloClient } from '@apollo/client/core';
 
-export { parseGraphQLErrorResponse } from './lib/util';
-export { getActorOptions } from './lib/graphql/get-market-participants-by-eic-function-for-dropdowns';
-export { getGridAreaOptionsForPeriod } from './lib/graphql/get-grid-area-options-for-period';
-export { getGridAreaOptionsSignal } from './lib/graphql/get-grid-area-options';
+/**
+ * Abstract Apollo service for Angular.
+ * Provides access to the ApolloClient instance.
+ *
+ * Usage:
+ *   const apollo = inject(DhApollo);
+ *   apollo.client.query({ query: MyDocument });
+ *   apollo.client.mutate({ mutation: MyMutation });
+ *   apollo.client.subscribe({ query: MySubscription });
+ */
+export abstract class DhApollo {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  abstract readonly client: ApolloClient<any>;
+}

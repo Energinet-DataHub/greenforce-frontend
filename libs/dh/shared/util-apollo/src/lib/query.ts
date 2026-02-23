@@ -62,8 +62,7 @@ import {
   takeUntil,
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhApollo } from './dh-apollo';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { fromApolloError, mapGraphQLErrorsToApolloError } from './util/error';
 

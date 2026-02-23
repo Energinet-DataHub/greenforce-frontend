@@ -38,8 +38,7 @@ import {
 } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { mapGraphQLErrorsToApolloError } from './util/error';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhApollo } from './dh-apollo';
 
 export enum MutationStatus {
   Idle,
