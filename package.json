@@ -87,7 +87,6 @@
     "@ngrx/operators": "19.0.1",
     "@ngxpert/hot-toast": "5.1.1",
     "@popperjs/core": "2.11.8",
-    "apollo-angular": "11.0.0",
     "chardet": "2.1.1",
     "dayjs": "1.11.13",
     "graphql": "16.10.0",
