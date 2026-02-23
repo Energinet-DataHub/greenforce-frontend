@@ -91,9 +91,19 @@ type MeteringPointProcessStep = NonNullable<
             justify="space-between"
           >
             <div vater fill="horizontal">
-              @if (reasonCode() === 'ConnectMeteringPoint') {
+              @if (reasonCode() === 'CloseDownMeteringPoint') {
+                {{
+                  'meteringPoint.processOverview.steps.CloseDownMeteringPoint.' + process.step
+                    | transloco
+                }}
+              } @else if (reasonCode() === 'ConnectMeteringPoint') {
                 {{
                   'meteringPoint.processOverview.steps.ConnectMeteringPoint.' + process.step
+                    | transloco
+                }}
+              } @else if (reasonCode() === 'ChangeConnectionState') {
+                {{
+                  'meteringPoint.processOverview.steps.ChangeConnectionState.' + process.step
                     | transloco
                 }}
               } @else {
