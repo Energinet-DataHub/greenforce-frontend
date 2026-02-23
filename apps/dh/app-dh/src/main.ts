@@ -71,7 +71,7 @@ if (ngDevMode && environment.mocked) {
 
 function bootstrapApp() {
   Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironment()])
-    .then(([dhApiEnvironment, dhB2CEnvironment, dhAppEnvironment]) => {
+    .then(([dhApiEnvironment, dhB2CEnvironment, dhAppEnvironment]) =>
       bootstrapApplication(DataHubAppComponent, {
         providers: [
           { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
@@ -93,7 +93,7 @@ function bootstrapApp() {
             registrationStrategy: 'registerWhenStable:30000',
           }),
         ],
-      });
-    })
+      })
+    )
     .catch((error: unknown) => console.error(error));
 }

@@ -20,19 +20,24 @@
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
-import angular from '@analogjs/vite-plugin-angular';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const workspaceRoot = resolve(__dirname, '../../');
+const workspaceRoot = resolve(__dirname, '../../../../');
+
+// This library needs its own vite config because:
+// 1. It uses vitest fixtures with `test.extend()` pattern (see tests/with-apollo.ts)
+// 2. The @analogjs/vite-plugin-angular plugin interferes with vitest's ability
+//    to detect tests when fixtures are used - tests show as "0 tests" even though
+//    the test files contain valid describe/it blocks
+// 3. Since this library only tests pure TypeScript Apollo functions (no Angular
+//    components or templates), we don't need the Angular plugin at all
 
 export default defineConfig(() => ({
-  cacheDir: resolve(workspaceRoot, 'node_modules/.vite/libs/dh'),
+  root: __dirname,
+  cacheDir: resolve(workspaceRoot, 'node_modules/.vite/libs/dh/shared/util-apollo'),
 
   plugins: [
-    angular({
-      tsconfig: resolve(__dirname, 'tsconfig.spec.json'),
-    }),
     viteTsConfigPaths({
       root: workspaceRoot,
     }),
@@ -41,12 +46,12 @@ export default defineConfig(() => ({
   test: {
     passWithNoTests: true,
     globals: true,
-    environment: 'happy-dom',
-    include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    setupFiles: [resolve(__dirname, 'test-setup.ts')],
+    environment: 'jsdom',
+    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    setupFiles: [resolve(__dirname, 'tests/test-setup.ts')],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: resolve(workspaceRoot, 'coverage/libs/dh'),
+      reportsDirectory: resolve(workspaceRoot, 'coverage/libs/dh/shared/util-apollo'),
       provider: 'v8' as const,
     },
     pool: 'forks',

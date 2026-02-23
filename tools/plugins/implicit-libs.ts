@@ -32,6 +32,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { existsSync } from 'fs';
 import { CreateNodesV2, CreateNodesResultV2, TargetConfiguration } from '@nx/devkit';
 
 /**
@@ -222,15 +223,41 @@ function createLintTarget(projectRoot: string, product: string): TargetConfigura
 }
 
 /**
+ * Calculate relative path from library to shared vite config
+ */
+function getRelativeConfigPath(projectRoot: string, product: string): string {
+  // Calculate depth from library to libs/{product}/
+  const parts = projectRoot.split('/');
+  // projectRoot is like "libs/dh/shared/release-toggle" (4 parts)
+  // or "libs/gf/test-util" (3 parts)
+  // We need to go up to libs/{product}/ level
+  const depth = parts.length - 2; // e.g., 4 - 2 = 2 for "libs/dh/shared/release-toggle"
+  const upDirs = '../'.repeat(depth);
+  return `${upDirs}vite.config.mts`;
+}
+
+/**
+ * Check if library has its own vite.config.mts file
+ */
+function hasLocalViteConfig(projectRoot: string): boolean {
+  return existsSync(`${projectRoot}/vite.config.mts`);
+}
+
+/**
  * Create test target configuration using command approach
  * This avoids needing tsconfig.json in each library
  */
 function createTestTarget(projectRoot: string, product: string): TargetConfiguration {
+  // Use local vite.config.mts if it exists, otherwise use shared config
+  const hasLocalConfig = hasLocalViteConfig(projectRoot);
+  const configPath = hasLocalConfig
+    ? 'vite.config.mts'
+    : getRelativeConfigPath(projectRoot, product);
+
   return {
-    command: 'vitest run',
+    command: `vitest run --config ${configPath}`,
     options: {
       cwd: projectRoot,
-      root: '.',
     },
     cache: true,
     inputs: ['default', '^production', { externalDependencies: ['vitest'] }, { env: 'CI' }],
