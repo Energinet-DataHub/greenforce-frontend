@@ -58,6 +58,7 @@ const exampleJson = {
       roles: ['viewer'],
     },
   ],
+  test: () => console.log('haha'),
   statistics: {
     totalRequests: 1048576,
     averageResponseTime: 42.5,

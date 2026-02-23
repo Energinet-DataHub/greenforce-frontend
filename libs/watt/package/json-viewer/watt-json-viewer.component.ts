@@ -16,25 +16,25 @@
  * limitations under the License.
  */
 //#endregion
-import { JsonPipe, KeyValuePipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { Component, ViewEncapsulation, computed, input, linkedSignal, signal } from '@angular/core';
-import { VATER } from '@energinet/watt/vater';
 import { WattIconComponent } from '@energinet/watt/icon';
 
-export type Json = { [key: string]: Json } | Json[] | string | number | boolean | null;
+export type Json = { [key: string]: Json } | Json[] | string | number | boolean | null | unknown;
 export type Ast =
   | { type: 'string'; value: string }
   | { type: 'number'; value: number }
   | { type: 'boolean'; value: boolean }
   | { type: 'array'; value: Json[] }
   | { type: 'object'; value: object }
-  | { type: 'null'; value: null };
+  | { type: 'null'; value: null }
+  | { type: 'unknown'; value: unknown };
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[watt-json]',
   encapsulation: ViewEncapsulation.None,
-  imports: [JsonPipe, KeyValuePipe, VATER, WattIconComponent],
+  imports: [JsonPipe, WattIconComponent],
   host: { '[class]': 'class()' },
   styles: `
     .watt-json-label {
@@ -68,67 +68,36 @@ export type Ast =
       color: var(--watt-color-state-danger);
     }
 
-    .watt-json-raw {
+    .watt-json--object > .watt-json-label > .watt-json-literal,
+    .watt-json--array > .watt-json-label > .watt-json-literal {
       color: var(--watt-on-light-low-emphasis);
     }
   `,
   template: `
-    @if (ast(); as ast) {
-      @if (expandable()) {
-        <div
-          class="watt-json-label"
-          [style.paddingLeft.px]="20 * level()"
-          (click)="expanded.set(!expanded())"
-        >
-          <watt-icon size="s" [name]="expanded() ? 'down' : 'right'" />
-          {{ label() }}:
-          @if (!expanded()) {
-            <span class="watt-json-raw">{{ ast.value | json }}</span>
-          }
-        </div>
-        @switch (ast.type) {
-          @case ('array') {
-            @for (value of ast.value; track $index) {
-              <div
-                [hidden]="!expanded()"
-                watt-json
-                label="[{{ $index }}]"
-                [json]="value"
-                [expandAll]="expandAll()"
-                [level]="level() + 1"
-              ></div>
-            }
-          }
-          @case ('object') {
-            @for (property of ast.value | keyvalue: null; track $index) {
-              <div
-                [hidden]="!expanded()"
-                watt-json
-                [label]="property.key"
-                [expandAll]="expandAll()"
-                [json]="property.value"
-                [level]="level() + 1"
-              ></div>
-            }
-          }
-        }
-      } @else {
-        <div
-          class="watt-json-label"
-          [style.paddingLeft.px]="20 * level()"
-          (click)="expanded.set(!expanded())"
-        >
-          {{ label() }}: <span class="watt-json-literal">{{ ast.value | json }}</span>
-        </div>
+    <div class="watt-json-label" [style.paddingLeft.px]="20 * level()" (click)="handleClick()">
+      @if (hasChildren()) {
+        <watt-icon size="s" [name]="expanded() ? 'down' : 'right'" />
       }
-    } @else {
-      <div
-        class="watt-json-label"
-        [style.paddingLeft.px]="20 * level()"
-        (click)="expanded.set(!expanded())"
-      >
-        {{ label() }}: <span class="watt-json-literal">{{ json()?.toString() }}</span>
-      </div>
+
+      <span>{{ label() }}: </span>
+
+      @if (!hasChildren() || !expanded()) {
+        <span class="watt-json-literal">
+          {{ type() === 'unknown' ? json()?.toString() : (ast().value | json) }}
+        </span>
+      }
+    </div>
+    @if (hasChildren()) {
+      @for (child of children(); track child[0]) {
+        <div
+          [hidden]="!expanded()"
+          watt-json
+          [label]="child[0]"
+          [json]="child[1]"
+          [expandAll]="expandAll()"
+          [level]="level() + 1"
+        ></div>
+      }
     }
   `,
 })
@@ -139,7 +108,7 @@ export class WattJson {
   readonly level = input(0);
 
   protected readonly expanded = linkedSignal(this.expandAll);
-  protected readonly ast = computed<Ast | null>(() => {
+  protected readonly ast = computed<Ast>(() => {
     const json = this.json();
     switch (typeof json) {
       case 'string':
@@ -154,15 +123,15 @@ export class WattJson {
           ? { type: 'array', value: json }
           : { type: 'object', value: json };
       default:
-        return null;
+        return { type: 'unknown', value: json };
     }
   });
 
   protected readonly type = computed(() => this.ast()?.type ?? 'unknown');
-  protected readonly expandable = computed(
-    () => this.type() === 'object' || this.type() === 'array'
-  );
+  protected readonly hasChildren = computed(() => ['object', 'array'].includes(this.type()));
+  protected readonly children = computed(() => Object.entries(this.ast()?.value ?? {}));
   protected readonly class = computed(() => `watt-json--${this.type()}`);
+  protected readonly handleClick = () => this.expanded.update((e) => !e);
 }
 
 @Component({
