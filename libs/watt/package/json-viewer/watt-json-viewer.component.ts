@@ -98,29 +98,27 @@ export type Ast =
         </div>
         @switch (ast.type) {
           @case ('array') {
-            @if (expanded()) {
-              @for (value of ast.value; track $index) {
-                <div
-                  watt-json
-                  label="[{{ $index }}]"
-                  [json]="value"
-                  [expandAll]="expandAll()"
-                  [level]="level() + 1"
-                ></div>
-              }
+            @for (value of ast.value; track $index) {
+              <div
+                [hidden]="!expanded()"
+                watt-json
+                label="[{{ $index }}]"
+                [json]="value"
+                [expandAll]="expandAll()"
+                [level]="level() + 1"
+              ></div>
             }
           }
           @case ('object') {
-            @if (expanded()) {
-              @for (property of ast.value | keyvalue: null; track $index) {
-                <div
-                  watt-json
-                  [label]="property.key"
-                  [expandAll]="expandAll()"
-                  [json]="property.value"
-                  [level]="level() + 1"
-                ></div>
-              }
+            @for (property of ast.value | keyvalue: null; track $index) {
+              <div
+                [hidden]="!expanded()"
+                watt-json
+                [label]="property.key"
+                [expandAll]="expandAll()"
+                [json]="property.value"
+                [level]="level() + 1"
+              ></div>
             }
           }
         }
