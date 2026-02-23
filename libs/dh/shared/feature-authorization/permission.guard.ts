@@ -21,6 +21,7 @@ import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { concatAll, from, map, Observable, reduce } from 'rxjs';
 
 import { BasePaths } from '@energinet-datahub/dh/core/routing';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 
 import { PermissionService } from './permission.service';

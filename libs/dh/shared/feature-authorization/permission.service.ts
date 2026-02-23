@@ -19,9 +19,11 @@
 import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 
 import { DhActorTokenService } from './dh-actor-token.service';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 type Claims = { [name: string]: unknown };
