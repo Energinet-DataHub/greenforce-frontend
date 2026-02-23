@@ -16,33 +16,37 @@
  * limitations under the License.
  */
 //#endregion
-import { installPackagesTask, Tree } from '@nx/devkit';
+import { Tree } from '@nx/devkit';
 import libraryGenerator from '../library/generator';
 import { GenerateDomainSchema } from './schema';
-import { LibraryType } from '../library/schema';
 
+/**
+ * Domain generator - creates a complete domain with feature, data-access, and shell libraries
+ *
+ * This creates implicit libraries that are automatically detected by
+ * the implicit-libs plugin (tools/plugins/implicit-libs.ts).
+ */
 export default async function (tree: Tree, schema: GenerateDomainSchema) {
+  // Create feature library
   await libraryGenerator(tree, {
     domain: schema.domain,
-    libraryType: LibraryType.feature,
+    libraryType: 'feature',
     name: schema.name,
     product: schema.product,
   });
 
+  // Create data-access library
   await libraryGenerator(tree, {
     domain: schema.domain,
-    libraryType: LibraryType.dataAccess,
+    libraryType: 'data-access',
     name: 'api',
     product: schema.product,
   });
 
+  // Create shell library
   await libraryGenerator(tree, {
     domain: schema.domain,
-    libraryType: LibraryType.shell,
+    libraryType: 'shell',
     product: schema.product,
   });
-
-  return () => {
-    installPackagesTask(tree);
-  };
 }
