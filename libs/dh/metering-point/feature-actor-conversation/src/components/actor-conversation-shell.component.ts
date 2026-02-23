@@ -25,7 +25,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState } from '../types';
+import { ActorConversationState, Conversation } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
@@ -161,13 +161,15 @@ export class DhActorConversationShellComponent {
   search(term: string) {
     this.searchTerm.set(term || undefined);
   }
-
-  async selectConversation(conversationId: string) {
+  async selectConversation(conversation: Conversation) {
     this.newConversationVisible.set(false);
-    this.selectedConversationId.set(conversationId);
+    this.selectedConversationId.set(conversation.id);
+    if (conversation.read) {
+      return;
+    }
     await this.readConversationMutation.mutate({
       variables: {
-        conversationId: conversationId,
+        conversationId: conversation.id,
       },
       refetchQueries: [GetConversationsDocument],
     });

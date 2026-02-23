@@ -816,7 +816,8 @@
       "startConversationError": "Et eller flere felter er ikke udfyldt korrekt.\n\nDet kan f.eks. være en kombination af emne og modtager, der er ugyldig, eller at det ikke er muligt at sende anonymt til den valgte modtager.",
       "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
       "anonymousCheckbox": "Send anonymt",
-      "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren"
+      "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren",
+      "closingMessage": "Sag afsluttet"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
@@ -941,7 +942,10 @@
         "NewMeteringPoint": "Oprettelse af målepunkt (BRS-004)",
         "ConnectMeteringPoint": "Tilslutning af nyoprettet målepunkt (BRS-008)",
         "UpdateMasterDataConsumer": "Opdatering af kundestamdata (BRS-015)",
-        "CustomerMoveIn": "Tilflytning (BRS-009)"
+        "CustomerMoveIn": "Tilflytning (BRS-009)",
+        "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (BRS-007)",
+        "ChangeConnectionState": "Afbrydelse og gentilslutning af målepunkt (BRS-013)",
+        "UpdateMasterDataMeteringPoint": "Opdatering af målepunktsstamdata (BRS-006)"
       },
       "reasonCode": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -950,7 +954,10 @@
         "UpdateMasterDataConsumer": "Opdatering af kundestamdata (E34)",
         "CustomerMoveIn": "Almindelig tilflytning (E65)",
         "SecondaryMoveIn": "Sekundær tilflytning (D29)",
-        "Move": "Flytning (E01)"
+        "Move": "Flytning (E01)",
+        "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (D14)",
+        "ChangeConnectionState": "Ændring af tilslutningsstatus (E79)",
+        "UpdateMasterDataMeteringPoint": "Opdatering af målepunktsstamdata (E32)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -964,6 +971,28 @@
         "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
       },
       "steps": {
+        "CloseDownMeteringPoint": {
+          "BRS_007_008_013_V1_STEP_1": "Anmodning om nedlæggelse af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Godkendelse af nedlæggelse af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Afvisning af nedlæggelse af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Information om nedlæggelse af målepunkt (RSM-004)"
+        },
+        "ConnectMeteringPoint": {
+          "BRS_007_008_013_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_1 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_2 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_3 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_4 }}"
+        },
+        "ChangeConnectionState": {
+          "BRS_007_008_013_V1_STEP_1": "Anmodning om ændring af tilslutningsstatus (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Godkendelse af ændring af tilslutningsstatus (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Afvisning af ændring af tilslutningsstatus (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Information om ændring af tilslutningsstatus (RSM-022)"
+        },
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
@@ -973,10 +1002,9 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Information om nyt målepunkt (RSM-022)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Information om pristilknytning (RSM-031)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_1": "Anmodning om opdatering af målepunktsstamdata (RSM-021)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_2": "Godkendelse af opdatering af målepunktsstamdata (RSM-021)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_3": "Afvisning af opdatering af målepunktsstamdata (RSM-021)",
         "BRS_009_MOVEIN_V1_STEP_1": "Anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Godkendelse af anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Afvisning af anmodning om tilflytning (RSM-001)",
@@ -1116,6 +1144,13 @@
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "updateCustomerData": "Opdater kundestamdata",
+      "updateCustomer": {
+        "toast": {
+          "loading": "Kundestamdata opdateres...",
+          "success": "Kundestamdata opdateret",
+          "error": "Opdatering mislykkedes"
+        }
+      },
       "customerDetails": {
         "label": "Kundedetaljer",
         "cutOffDate": "Skæringsdato",

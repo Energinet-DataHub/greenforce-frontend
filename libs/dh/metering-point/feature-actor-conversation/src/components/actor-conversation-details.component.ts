@@ -43,8 +43,6 @@ import {
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
-import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { MsalService } from '@azure/msal-angular';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
 import { WattHeadingComponent } from '@energinet/watt/heading';
@@ -145,10 +143,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
           <!-- Content - Scrollable message area -->
           <vater-flex direction="column" fill="both" scrollable>
             @for (message of conversation.messages; track message) {
-              <dh-actor-conversation-message
-                [message]="message"
-                [isFromCurrentUser]="isMessageFromCurrentUser(message.userId)"
-              />
+              <dh-actor-conversation-message [message]="message" />
             }
           </vater-flex>
         }
@@ -171,8 +166,6 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
   `,
 })
 export class DhActorConversationDetailsComponent {
-  private readonly authService = inject(MsalService);
-  private readonly actorStorage = inject(DhActorStorage);
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly closeConversationMutation = mutation(CloseConversationDocument);
   private readonly closeToast = injectToast(
@@ -181,7 +174,6 @@ export class DhActorConversationDetailsComponent {
   private readonly closeToastEffect = effect(() =>
     this.closeToast(this.closeConversationMutation.status())
   );
-  private readonly userId = this.authService.instance.getActiveAccount()?.idTokenClaims?.sub;
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
   formControl = this.fb.control<MessageFormValue>({ content: '', anonymous: false });
@@ -216,10 +208,6 @@ export class DhActorConversationDetailsComponent {
   }
 
   async sendMessage() {
-    const userId = this.userId;
-
-    if (!userId) return;
-
     const { content, anonymous } = this.formControl.getRawValue();
 
     assertIsDefined(content);
@@ -228,19 +216,12 @@ export class DhActorConversationDetailsComponent {
     await this.sendActorConversationMessageMutation.mutate({
       variables: {
         conversationId: this.conversationId(),
-        meteringPointIdentification: this.meteringPointId(),
-        actorId: this.actorStorage.getSelectedActorId(),
         anonymous,
         content,
-        userId,
       },
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
 
     this.formControl.reset({ content: '', anonymous: false });
-  }
-
-  isMessageFromCurrentUser(userId: string | null | undefined): boolean {
-    return userId ? userId === this.userId : false;
   }
 }

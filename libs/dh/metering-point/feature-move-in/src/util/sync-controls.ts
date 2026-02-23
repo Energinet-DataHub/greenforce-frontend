@@ -16,20 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { makeEnvironmentProviders } from '@angular/core';
-import {
-  RX_RENDER_STRATEGIES_CONFIG,
-  RxRenderStrategiesConfig,
-} from '@rx-angular/cdk/render-strategies';
+import { AbstractControl } from '@angular/forms';
 
-/**
- * Enable RxAngular Template to render in Vitest tests.
- */
-export const gfRxAngularTestingProviders = makeEnvironmentProviders([
-  {
-    provide: RX_RENDER_STRATEGIES_CONFIG,
-    useValue: {
-      primaryStrategy: 'native',
-    } as RxRenderStrategiesConfig<string>,
-  },
-]);
+export function sync<C extends AbstractControl>(
+  control: C,
+  value: C['value'] | null | undefined,
+  toggle: boolean
+) {
+  if (value != null) {
+    control.patchValue(value);
+    control.updateValueAndValidity();
+  }
+  if (toggle) {
+    control.disable();
+  } else {
+    control.enable();
+  }
+}

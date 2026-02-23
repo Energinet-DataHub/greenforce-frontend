@@ -21,6 +21,7 @@ import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { concatAll, from, map, Observable, reduce } from 'rxjs';
 
 import { PermissionService } from './permission.service';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export function MarketRoleGuard(marketRole: EicFunction[]): CanActivateFn {

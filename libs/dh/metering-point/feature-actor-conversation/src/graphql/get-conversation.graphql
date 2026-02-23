@@ -14,7 +14,7 @@ query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
       createdTime
       actorName
       userName
-      userId
+      isSentByCurrentActor
     }
   }
 }

@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
@@ -45,6 +46,20 @@ public static partial class ConversationMessageDtoType
         var auditIdentity = await dataLoader.LoadAsync(userId, ct);
 
         return auditIdentity?.DisplayName ?? string.Empty;
+    }
+
+    public static bool IsSentByCurrentActor(
+        [Parent] ConversationMessageDto message,
+        [Service] IHttpContextAccessor httpContextAccessor)
+    {
+        var user = httpContextAccessor.HttpContext?.User;
+        if (user == null)
+        {
+            return false;
+        }
+
+        var currentActorNumber = user.GetMarketParticipantNumber();
+        return message.ActorNumber == currentActorNumber;
     }
 
     static partial void Configure(

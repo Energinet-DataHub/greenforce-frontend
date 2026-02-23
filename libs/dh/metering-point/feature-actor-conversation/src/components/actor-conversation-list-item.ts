@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { Conversation } from '../types';
+import { Conversation, NewConversation } from '../types';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhCircleComponent } from '@energinet-datahub/dh/shared/ui-util';
@@ -103,6 +103,6 @@ import { WattDatePipe } from '@energinet/watt/date';
   `,
 })
 export class DhActorConversationListItemComponent {
-  conversation = input.required<Conversation>();
+  conversation = input.required<Conversation | NewConversation>();
   selected = input<boolean>(false);
 }
