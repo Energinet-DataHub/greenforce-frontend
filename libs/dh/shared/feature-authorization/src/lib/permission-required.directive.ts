@@ -27,6 +27,7 @@ import {
 } from '@angular/core';
 import { concatAll, from, map, reduce, take } from 'rxjs';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { type Permission } from '@energinet-datahub/dh/shared/domain';
 
 import { PermissionService } from './permission.service';
