@@ -28,8 +28,7 @@ export type Ast =
   | { type: 'boolean'; value: boolean }
   | { type: 'array'; value: Json[] }
   | { type: 'object'; value: object }
-  | { type: 'null'; value: null }
-  | null;
+  | { type: 'null'; value: null };
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -123,7 +122,13 @@ export type Ast =
         </div>
       }
     } @else {
-      Invalid JSON
+      <div
+        class="watt-json-label"
+        [style.paddingLeft.px]="20 * level()"
+        (click)="expanded.set(!expanded())"
+      >
+        {{ label() }}: <span class="watt-json-literal">{{ json()?.toString() }}</span>
+      </div>
     }
   `,
 })
@@ -132,8 +137,9 @@ export class WattJson {
   readonly json = input.required<Json>();
   readonly expandAll = input(true);
   readonly level = input(0);
+
   protected readonly expanded = linkedSignal(this.expandAll);
-  protected readonly ast = computed<Ast>(() => {
+  protected readonly ast = computed<Ast | null>(() => {
     const json = this.json();
     switch (typeof json) {
       case 'string':
