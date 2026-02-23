@@ -30,7 +30,10 @@ import {
   GetConversationsQuery,
   GetConversationsQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhEnumToWattDropdownOptions, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhEnumToWattDropdownOptions,
+  DhResultComponent,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { dayjs } from '@energinet/watt/core/date';
 import { WattSimpleSearchComponent } from '@energinet/watt/search';
 import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/dropdown';
@@ -66,7 +69,12 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
   `,
   template: `
     <vater-stack sticky="top" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
-      <vater-stack fill="horizontal" class="new-conversation watt-space-inset-m" gap="m" align="start">
+      <vater-stack
+        fill="horizontal"
+        class="new-conversation watt-space-inset-m"
+        gap="m"
+        align="start"
+      >
         <vater-stack fill="horizontal" direction="row" justify="space-between" align="center">
           <h3 watt-heading>{{ t('cases') }}</h3>
           <watt-button
@@ -78,20 +86,20 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
             {{ t('newCaseButton') }}
           </watt-button>
         </vater-stack>
-          <watt-simple-search
-            vater
-            fill="horizontal"
-            [label]="t('searchPlaceholder')"
-            [formControl]="searchControl"
-            (search)="filter.emit($event)"
-          />
-          <watt-dropdown
-            [formControl]="formControl"
-            [options]="options()"
-            [multiple]="true"
-            [chipMode]="true"
-            [placeholder]="t('filters.placeholder')"
-          />
+        <watt-simple-search
+          vater
+          fill="horizontal"
+          [label]="t('searchPlaceholder')"
+          [formControl]="searchControl"
+          (search)="filter.emit($event)"
+        />
+        <watt-dropdown
+          [formControl]="formControl"
+          [options]="options()"
+          [multiple]="true"
+          [chipMode]="true"
+          [placeholder]="t('filters.placeholder')"
+        />
       </vater-stack>
       <hr class="watt-divider thick-divider" />
     </vater-stack>
