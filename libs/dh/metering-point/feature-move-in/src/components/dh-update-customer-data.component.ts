@@ -46,7 +46,6 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { sync } from '../util/sync-controls';
-import { isFormInvalid } from '../util/is-form-invalid';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
 import { mapUsagePointLocation } from '../util/map-usage-point-location';
@@ -337,8 +336,7 @@ export class DhUpdateCustomerDataComponent {
   });
 
   async updateCustomerData() {
-    // because the form is computed, the parent form isValid is not updated corrently, so we need to check the validity of the form manually
-    if (isFormInvalid(this.form())) return;
+    if (this.form().invalid) return;
 
     const values = this.form().getRawValue();
 
