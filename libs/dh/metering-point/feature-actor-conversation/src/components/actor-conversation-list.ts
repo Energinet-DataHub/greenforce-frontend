@@ -16,71 +16,68 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { WATT_CARD } from '@energinet/watt/card';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { WattButtonComponent } from '@energinet/watt/button';
-import {
-  VaterFlexComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
-import { Conversation } from '../types';
+import { Conversation, NewConversation } from '../types';
+import { WattHeadingComponent } from '@energinet/watt/heading';
+import { QueryResult } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  GetConversationsQuery,
+  GetConversationsQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { dayjs } from '@energinet/watt/core/date';
 
 @Component({
   selector: 'dh-actor-conversation-list',
   imports: [
-    WATT_CARD,
-    WattButtonComponent,
-    VaterStackComponent,
     TranslocoDirective,
-    VaterFlexComponent,
+    VATER,
+    WattButtonComponent,
+    WattHeadingComponent,
     DhActorConversationListItemComponent,
     VaterUtilityDirective,
+    DhResultComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
-    .no-padding {
-      padding: 0;
+    .new-conversation {
+      background-color: var(--bg-card);
     }
 
-    .no-right-border-radius {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      border-right: 0 !important;
-    }
-
-    .no-margin {
-      margin: 0;
-    }
-
-    ul {
+    .conversations {
       list-style: none;
-      padding: 0;
-      margin: 0;
     }
   `,
   template: `
-    <vater-flex fill="vertical">
-      <watt-card
-        class="no-padding no-right-border-radius"
+    <dh-result [query]="conversationsQuery()">
+      <vater-grid
+        gap="dividers"
+        autoRows="minmax(var(--case-min-row-height), 1fr)"
         *transloco="let t; prefix: 'meteringPoint.actorConversation'"
       >
-        <watt-card-title vater class="watt-space-inset-m no-margin">
-          <vater-stack direction="row" justify="space-between" align="center">
-            <h3>{{ t('cases') }}</h3>
-            <watt-button
-              (click)="createNewConversation.emit()"
-              icon="plus"
-              variant="text"
-              data-testid="new-conversation-button"
-              >{{ t('newCaseButton') }}
-            </watt-button>
-          </vater-stack>
-        </watt-card-title>
-        <hr class="watt-divider no-margin" />
-        <ul>
+        <vater-stack
+          sticky="top"
+          direction="row"
+          justify="space-between"
+          align="center"
+          offset="m"
+          class="new-conversation"
+        >
+          <h3 watt-heading>{{ t('cases') }}</h3>
+          <watt-button
+            (click)="createNewConversation.emit()"
+            icon="plus"
+            variant="text"
+            data-testid="new-conversation-button"
+          >
+            {{ t('newCaseButton') }}
+          </watt-button>
+        </vater-stack>
+        <ul vater fragment class="conversations">
           @if (newConversationVisible()) {
             <li>
               <dh-actor-conversation-list-item
@@ -94,26 +91,32 @@ import { Conversation } from '../types';
               <dh-actor-conversation-list-item
                 [conversation]="conversationItem"
                 [selected]="selectedConversationId() === conversationItem.id"
-                (click)="selectConversation.emit(conversationItem.id)"
+                (click)="selectConversation.emit(conversationItem)"
               />
             </li>
           }
         </ul>
-      </watt-card>
-    </vater-flex>
+      </vater-grid>
+    </dh-result>
   `,
 })
 export class DhActorConversationListComponent {
-  conversations = input<Conversation[]>([]);
+  conversationsQuery = input<QueryResult<GetConversationsQuery, GetConversationsQueryVariables>>();
+  conversations = computed(
+    () => this.conversationsQuery()?.data()?.conversationsForMeteringPoint?.conversations ?? []
+  );
   newConversationVisible = input<boolean>(false);
   selectedConversationId = input<string | undefined>(undefined);
   createNewConversation = output();
-  selectConversation = output<string | undefined>();
+  selectConversation = output<Conversation>();
 
-  newConversation: Conversation = {
+  newConversation: NewConversation = {
+    __typename: 'ConversationInfo',
     closed: false,
-    lastUpdatedDate: undefined,
-    id: undefined,
+    read: true,
+    lastUpdated: dayjs().toDate(),
+    id: '',
+    displayId: '',
     subject: 'newCase',
   };
 }

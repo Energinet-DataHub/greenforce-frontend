@@ -58,6 +58,7 @@ public class ChargesClient(
         // Map and apply filters
         var data = result.Data ?? [];
         var charges = data
+            .Where(c => c.Periods.Count > 0) // Only include charges with at least one period
             .Select(MapChargeInformationDtoToCharge)
             .Where(c => owners?.Contains(c.Id.Owner) ?? true)
             .Where(c => types?.Contains(c.Type) ?? true)
@@ -82,8 +83,8 @@ public class ChargesClient(
             return await charges
                 .ToAsyncEnumerable()
                 .Where(charge => charge.Status != ChargeStatus.Cancelled)
-                .Select(async (charge, ct) => (charge, series: await GetChargeSeriesAsync(charge, ct)))
-                .Where(result => result.series.Any() != missingPriceSeries.Value)
+                .Select(async (charge, cancellationToken) => (charge, series: await GetChargeSeriesAsync(charge, cancellationToken)))
+                .Where(r => r.series.Any() != missingPriceSeries.Value)
                 .Select(c => c.charge)
                 .ToListAsync(ct);
         }
@@ -113,7 +114,7 @@ public class ChargesClient(
 
         return !result.IsSuccess
             ? throw new GraphQLException(result.DiagnosticMessage)
-            : result.Data?.Select(MapChargeInformationDtoToCharge) ?? [];
+            : result.Data?.Where(c => c.Periods?.Count > 0)?.Select(MapChargeInformationDtoToCharge) ?? [];
     }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(

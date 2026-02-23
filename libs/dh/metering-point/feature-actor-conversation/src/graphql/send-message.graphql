@@ -1,0 +1,15 @@
+mutation SendActorConversationMessage(
+  $conversationId: UUID!
+  $content: String!
+  $anonymous: Boolean!
+) {
+  sendActorConversationMessage(
+    sendActorConversationMessageInput: {
+      conversationId: $conversationId
+      anonymous: $anonymous
+      content: $content
+    }
+  ) {
+    boolean
+  }
+}

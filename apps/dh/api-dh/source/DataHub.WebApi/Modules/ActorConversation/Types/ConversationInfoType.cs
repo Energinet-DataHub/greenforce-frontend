@@ -22,13 +22,22 @@ public static partial class ConversationInfoDtoType
     static partial void Configure(
         IObjectTypeDescriptor<ConversationInfoDto> descriptor)
     {
-        descriptor.Name("ConversationInfo");
+        descriptor
+            .Name("ConversationInfo")
+            .BindFieldsExplicitly();
 
         descriptor
             .Field(f => f.ConversationId)
             .Name("id");
 
-        descriptor.Ignore(f => f.AdditionalProperties);
-        descriptor.Ignore(f => f.MeteringPointIdentification);
+        descriptor
+            .Field(f => f.DisplayId)
+            .Type<NonNullType<IdType>>()
+            .Name("displayId");
+
+        descriptor.Field(f => f.Subject);
+        descriptor.Field(f => f.Read);
+        descriptor.Field(f => f.Closed);
+        descriptor.Field(f => f.LastUpdated);
     }
 }

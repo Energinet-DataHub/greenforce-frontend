@@ -22,8 +22,11 @@ public static partial class ConversationsType
     static partial void Configure(
         IObjectTypeDescriptor<ConversationsDto> descriptor)
     {
-        descriptor.Name("Conversations");
+        descriptor
+            .Name("Conversations")
+            .BindFieldsExplicitly();
 
-        descriptor.Ignore(f => f.AdditionalProperties);
+        descriptor
+            .Field(f => f.Conversations);
     }
 }

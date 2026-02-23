@@ -23,6 +23,7 @@ export type Fill = 'horizontal' | 'vertical' | 'both';
 export type Inset = '0' | Spacing;
 export type Align = 'stretch' | 'start' | 'end' | 'center' | 'baseline';
 export type Direction = 'row' | 'column';
+export type Anchor = 'top' | 'right' | 'bottom' | 'left';
 export type Justify =
   | 'start'
   | 'end'

@@ -29,6 +29,7 @@
   "notificationsCenter": {
     "headline": "Notifikationer",
     "noNotifications": "Ingen notifikationer",
+    "markAllAsRead": "Marker alle som læst",
     "notification": {
       "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
@@ -609,7 +610,8 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "Intet resultat fundet",
-      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter"
+      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter",
+      "searchMigratedMeteringPointsPreProd": "Søg i fase 2 testmålepunkter"
     },
     "tabs": {
       "masterData": {
@@ -686,7 +688,7 @@
       },
       "status": {
         "CLOSED_DOWN": "Nedlagt",
-        "NEW": "Ny",
+        "NEW": "Nyoprettet",
         "CONNECTED": "Tilsluttet",
         "DISCONNECTED": "Afbrudt",
         "UNKNOWN": "Ukendt"
@@ -733,7 +735,8 @@
         "measureUnit": "Enhed",
         "product": "Produkt",
         "connectionDate": "Tilsluttet",
-        "closedDownDate": "Nedlagt"
+        "closedDownDate": "Nedlagt",
+        "disconnectedDate": "Afbrudt"
       },
       "customerContactDetails": {
         "title": "Kontakter",
@@ -782,13 +785,13 @@
       "subjectLabel": "Emne",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
-        "disconnectionOrReconnection": "Afbrydelse/Gentilslutning",
-        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Fejlagtig flytning/leverandørskifte",
-        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
-        "measurements": "{{ shared.terminology.measurements }}",
-        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "chargeLink": "{{ shared.terminology.chargeLink }}",
+        "INTERRUPTION_RECONNECTION": "Afbrydelse/Gentilslutning",
+        "ELECTRICAL_HEATING": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "WRONGFUL_MOVE_OR_SUPPLIER_CHANGE": "Fejlagtig flytning/leverandørskifte",
+        "CUSTOMER_MASTER_DATA": "{{ shared.terminology.customerMasterData }}",
+        "MEASUREMENT_DATA": "{{ shared.terminology.measurements }}",
+        "MEASUREMENT_POINT_MASTER_DATA": "{{ shared.terminology.meteringPointMasterData }}",
+        "PRICE_LINKING": "{{ shared.terminology.chargeLink }}",
         "newCase": "Ny sag"
       },
       "receiverLabel": "Til",
@@ -809,9 +812,11 @@
       "closed": "Afsluttet",
       "closeCaseButton": "Afslut sag",
       "markAsUnreadButton": "Marker som ulæst",
+      "startConversationError": "Et eller flere felter er ikke udfyldt korrekt.\n\nDet kan f.eks. være en kombination af emne og modtager, der er ugyldig, eller at det ikke er muligt at sende anonymt til den valgte modtager.",
       "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
       "anonymousCheckbox": "Send anonymt",
-      "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren"
+      "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren",
+      "closingMessage": "Sag afsluttet"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
@@ -959,6 +964,16 @@
         "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
       },
       "steps": {
+        "ConnectMeteringPoint": {
+          "BRS_007_008_013_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_1 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_2 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_3 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_4 }}"
+        },
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
@@ -968,10 +983,6 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Information om nyt målepunkt (RSM-022)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Information om pristilknytning (RSM-031)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_1": "Anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Godkendelse af anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Afvisning af anmodning om tilflytning (RSM-001)",
@@ -987,8 +998,7 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
-        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)",
-        "UNKNOWN": "Ukendt trin"
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)"
       },
       "details": {
         "notFound": "Process ikke fundet",
@@ -1109,10 +1119,16 @@
         }
       }
     },
-
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "updateCustomerData": "Opdater kundestamdata",
+      "updateCustomer": {
+        "toast": {
+          "loading": "Kundestamdata opdateres...",
+          "success": "Kundestamdata opdateret",
+          "error": "Opdatering mislykkedes"
+        }
+      },
       "customerDetails": {
         "label": "Kundedetaljer",
         "cutOffDate": "Skæringsdato",

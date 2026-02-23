@@ -55,8 +55,7 @@ import { childMeteringPoint } from './data/metering-point/child-metering-point';
 import { eventsDebugView } from './data/metering-point/metering-point-events-debug-view';
 import { conversations } from './data/metering-point/conversations';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function meteringPointMocks(apiBase: string) {
+export function meteringPointMocks() {
   return [
     doesInternalMeteringPointIdExist(),
     getContactCPR(),
@@ -146,19 +145,6 @@ function getRelatedMeteringPoints() {
               connectionDate: new Date('2021-01-01'),
               disconnectionDate: null,
               closedDownDate: new Date('2021-11-01'),
-            },
-          ],
-          historicalMeteringPointsByGsrn: [
-            {
-              __typename: 'RelatedMeteringPointDto',
-              meteringPointIdentification: '666666666666666666',
-              id: '6666666',
-              connectionState: ElectricityMarketConnectionStateType.Disconnected,
-              type: ElectricityMarketMeteringPointType.ElectricalHeating,
-              createdDate: new Date('2022-01-01'),
-              connectionDate: new Date('2022-01-01'),
-              disconnectionDate: new Date('2022-10-01'),
-              closedDownDate: null,
             },
           ],
         },
@@ -656,18 +642,40 @@ function getConversation() {
         conversation: {
           __typename: 'Conversation',
           displayId: '00001',
+          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           internalNote: 'CS00123645',
           subject: 'QUESTION_FOR_ENERGINET',
           closed: false,
           messages: [
             {
               __typename: 'ConversationMessage',
-              senderUserName: 'Test Testesen',
-              senderActorName: 'Test Company',
               senderType: 'ENERGY_SUPPLIER',
               content: 'Hej, her er et spørgsmål',
-              messageType: 0,
+              messageType: 'USER_MESSAGE',
               createdTime: new Date(),
+              actorName: 'Sort Strøm',
+              userName: 'Niels Pedersen',
+              isSentByCurrentActor: true,
+            },
+            {
+              __typename: 'ConversationMessage',
+              senderType: 'ENERGY_SUPPLIER',
+              content: 'ClosingMessage',
+              messageType: 'CLOSING_MESSAGE',
+              createdTime: new Date(),
+              actorName: '',
+              userName: '',
+              isSentByCurrentActor: false,
+            },
+            {
+              __typename: 'ConversationMessage',
+              senderType: 'ENERGY_SUPPLIER',
+              content: 'Anonym besked',
+              messageType: 'USER_MESSAGE',
+              createdTime: new Date(),
+              actorName: '',
+              userName: '',
+              isSentByCurrentActor: true,
             },
           ],
         },

@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-export { graphQLProvider } from './lib/dh-graphql.providers';
-export { parseGraphQLErrorResponse } from './lib/error-handler';
+export { DhApollo } from './lib/dh-apollo';
+
+export { isSubscription, parseGraphQLErrorResponse } from './lib/util';
 export { getActorOptions } from './lib/graphql/get-market-participants-by-eic-function-for-dropdowns';
 export { getGridAreaOptionsForPeriod } from './lib/graphql/get-grid-area-options-for-period';
 export { getGridAreaOptionsSignal } from './lib/graphql/get-grid-area-options';

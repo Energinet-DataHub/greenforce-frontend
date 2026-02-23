@@ -152,7 +152,7 @@ export class DhMeasurementsMonthComponent {
         this.measurements()
           .map((x) => x.quantity)
           .filter((quantity) => quantity !== null && quantity !== undefined)
-          .reduce((acc, quantity) => acc + Number(quantity), 0)
+          .reduce((acc, quantity) => Number.parseFloat((acc + Number(quantity)).toFixed(10)), 0)
       )} ${this.unit()}`
   );
   private unit = computed(() => {

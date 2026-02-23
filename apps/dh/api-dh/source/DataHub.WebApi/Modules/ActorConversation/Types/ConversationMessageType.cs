@@ -13,17 +13,77 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
 [ObjectType<ConversationMessageDto>]
 public static partial class ConversationMessageDtoType
 {
+    public static async Task<string?> GetActorNameAsync(
+        [Parent] ConversationMessageDto message,
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader,
+        CancellationToken ct)
+    {
+        var actor = await dataLoader.LoadAsync(
+            (message.ActorNumber ?? string.Empty, MapActorTypeToEicFunction(message.SenderType)),
+            ct);
+        return actor?.Name.Value;
+    }
+
+    public static async Task<string> GetUserNameAsync(
+        [Parent] ConversationMessageDto message,
+        IAuditIdentitiesByUserIdDataLoader dataLoader,
+        CancellationToken ct)
+    {
+        if (!Guid.TryParse(message.UserId, out var userId))
+        {
+            return string.Empty;
+        }
+
+        var auditIdentity = await dataLoader.LoadAsync(userId, ct);
+
+        return auditIdentity?.DisplayName ?? string.Empty;
+    }
+
+    public static bool IsSentByCurrentActor(
+        [Parent] ConversationMessageDto message,
+        [Service] IHttpContextAccessor httpContextAccessor)
+    {
+        var user = httpContextAccessor.HttpContext?.User;
+        if (user == null)
+        {
+            return false;
+        }
+
+        var currentActorNumber = user.GetMarketParticipantNumber();
+        return message.ActorNumber == currentActorNumber;
+    }
+
     static partial void Configure(
         IObjectTypeDescriptor<ConversationMessageDto> descriptor)
     {
-        descriptor.Name("ConversationMessage");
+        descriptor
+            .Name("ConversationMessage")
+            .BindFieldsExplicitly();
 
-        descriptor.Ignore(f => f.AdditionalProperties);
+        descriptor.Field(f => f.Content);
+        descriptor.Field(f => f.MessageType);
+        descriptor.Field(f => f.CreatedTime);
+        descriptor.Field(f => f.SenderType);
+        descriptor.Field(f => f.UserId);
+    }
+
+    private static EicFunction MapActorTypeToEicFunction(ActorType actorType)
+    {
+        return actorType switch
+        {
+            ActorType.EnergySupplier => EicFunction.EnergySupplier,
+            ActorType.Energinet => EicFunction.DataHubAdministrator,
+            ActorType.GridAccessProvider => EicFunction.GridAccessProvider,
+            _ => throw new ArgumentOutOfRangeException(nameof(actorType), actorType, "Unknown ActorType"),
+        };
     }
 }

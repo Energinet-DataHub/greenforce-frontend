@@ -29,6 +29,7 @@
   "notificationsCenter": {
     "headline": "Notifications",
     "noNotifications": "No notifications",
+    "markAllAsRead": "Mark all as read",
     "notification": {
       "markAsRead": "Mark as read",
       "BalanceResponsibilityActorUnrecognized": {
@@ -359,12 +360,12 @@
     "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
-    "PT15M": "Quarter hour",
+    "PT15M": "15 min",
     "PT1H": "Hour",
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
-    "QUARTER_HOURLY": "Quarter hour",
+    "QUARTER_HOURLY": "15 min",
     "HOURLY": "Hour",
     "MONTHLY": "Monthly",
     "OTHER": "Other"
@@ -382,7 +383,7 @@
       "TARIFF_TAX": "Tariff, tax"
     },
     "resolutions": {
-      "QUARTER_HOURLY": "Quarter hour",
+      "QUARTER_HOURLY": "15 min",
       "DAILY": "Day",
       "HOURLY": "Hour",
       "MONTHLY": "Month"
@@ -609,7 +610,8 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found",
-      "searchMigratedMeteringPoints": "Search migrated metering points"
+      "searchMigratedMeteringPoints": "Search migrated metering points",
+      "searchMigratedMeteringPointsPreProd": "Search phase 2 test metering points"
     },
     "tabs": {
       "masterData": {
@@ -628,7 +630,7 @@
         "tabLabel": "Messages"
       },
       "measurements": {
-        "tabLabel": "{{ meteringPoint.overview.shared.terminology.measurements }}"
+        "tabLabel": "{{ shared.terminology.measurements }}"
       },
       "failedMeasurements": {
         "tabLabel": "Failed measurements"
@@ -686,7 +688,7 @@
       },
       "status": {
         "CLOSED_DOWN": "Closed down",
-        "NEW": "New",
+        "NEW": "Newly created",
         "CONNECTED": "Connected",
         "DISCONNECTED": "Disconnected",
         "UNKNOWN": "Unknown"
@@ -707,8 +709,8 @@
         "detailsSubtitle": "Details",
         "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
         "meteringPointStatus": "Connection status",
-        "meteringPointSubType": "Meteringpoint subtype",
-        "meteringPointNumber": "Metering point no.",
+        "meteringPointSubType": "Metering point subtype",
+        "meteringPointNumber": "Meter ID",
         "settlementMethod": "Settlement method",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Electrical heating date",
@@ -733,7 +735,8 @@
         "measureUnit": "Measure unit",
         "product": "Product",
         "connectionDate": "Connected",
-        "closedDownDate": "Discontinued"
+        "closedDownDate": "Discontinued",
+        "disconnectedDate": "Disconnected"
       },
       "customerContactDetails": {
         "title": "Contacts",
@@ -782,13 +785,13 @@
       "subjectLabel": "Subject",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc question",
-        "disconnectionOrReconnection": "Disconnect/Reconnect",
-        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Incorrect move/switch of supplier",
-        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
-        "measurements": "{{ shared.terminology.measurements }}",
-        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "priceAssociation": "{{ shared.terminology.chargeLink }}",
+        "INTERRUPTION_RECONNECTION": "Disconnect/Reconnect",
+        "ELECTRICAL_HEATING": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "WRONGFUL_MOVE_OR_SUPPLIER_CHANGE": "Incorrect move/switch of supplier",
+        "CUSTOMER_MASTER_DATA": "{{ shared.terminology.customerMasterData }}",
+        "MEASUREMENT_DATA": "{{ shared.terminology.measurements }}",
+        "MEASUREMENT_POINT_MASTER_DATA": "{{ shared.terminology.meteringPointMasterData }}",
+        "PRICE_LINKING": "{{ shared.terminology.chargeLink }}",
         "newCase": "New case"
       },
       "receiverLabel": "To",
@@ -809,9 +812,11 @@
       "closed": "Closed",
       "closeCaseButton": "Close case",
       "markAsUnreadButton": "Mark as unread",
+      "startConversationError": "One or more fields are not filled correctly.\n\nThis may be due to an invalid combination of subject and recipient, or because anonymous submissions are not permitted for the selected recipient.",
       "conversationCloseError": "An error occurred trying to close the case",
       "anonymousCheckbox": "Send anonymously",
-      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver"
+      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver",
+      "closingMessage": "Case closed"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
@@ -959,6 +964,16 @@
         "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
       },
       "steps": {
+        "ConnectMeteringPoint": {
+          "BRS_007_008_013_V1_STEP_1": "Request for connection of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Notification of connection of metering point (RSM-022)",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_1 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_2 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_3 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_4 }}"
+        },
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Request end of supply (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Confirm end of supply (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Reject end of supply (RSM-005)",
@@ -968,10 +983,6 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Notification of new metering point (RSM-022)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Notification of charge links (RSM-031)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Request for connection of metering point (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Notification of connection of metering point (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_1": "Request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Confirm request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Reject request Change of Supplier (RSM-001)",
@@ -987,8 +998,7 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
-        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)",
-        "UNKNOWN": "Unknown Step"
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)"
       },
       "details": {
         "notFound": "Process not found",
@@ -1112,6 +1122,13 @@
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
       "updateCustomerData": "Update customer data",
+      "updateCustomer": {
+        "toast": {
+          "loading": "Updating customer data...",
+          "success": "Customer data updated",
+          "error": "Update failed"
+        }
+      },
       "customerDetails": {
         "label": "Customer details",
         "cutOffDate": "Cut-off date",
@@ -1246,7 +1263,7 @@
         "3": "Immediate settlement (3)"
       },
       "resolution": {
-        "quarterHourly": "Quarter hour",
+        "quarterHourly": "15 min",
         "hourly": "Hour"
       },
       "other": {

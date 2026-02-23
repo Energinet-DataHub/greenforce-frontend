@@ -170,6 +170,44 @@ describe(parseMeasurements, () => {
     expect(makeReadable(result)).toMatchSnapshot();
   });
 
+  it('should sum decimal quantities without floating-point errors', async () => {
+    const csv = [
+      'Position,Periode,Værdi,Kvantum status',
+      '1,28.4.2025 0.00,2.123,Målt',
+      '2,28.4.2025 0.15,2.123,Målt',
+      '3,28.4.2025 0.30,2.123,Målt',
+      '4,28.4.2025 0.45,2.123,Målt',
+      '5,28.4.2025 1.00,2.123,Målt',
+    ].join('\n');
+
+    const stream = parseMeasurements(csv, SendMeasurementsResolution.QuarterHourly);
+    const result = await lastValueFrom(stream);
+    expect(result.sum).toBe(10.615);
+  });
+
+  it('should sum 96 rows with mixed decimals without floating-point errors', async () => {
+    const header = 'Position,Periode,Værdi,Kvantum status';
+    const lines: string[] = [header];
+
+    // 88 rows of 2 + 8 rows of 2.123 = 192.984 (mirrors the reported bug)
+    for (let i = 0; i < 96; i++) {
+      const hour = Math.floor(i / 4);
+      const quarter = i % 4;
+      const minutesMap = ['00', '15', '30', '45'] as const;
+      const minutes = minutesMap[quarter];
+      const position = i + 1;
+      const value =
+        (i >= 66 && i <= 68) || (i >= 74 && i <= 76) || (i >= 81 && i <= 82) ? '2.123' : '2';
+      const timestamp = `28.4.2025 ${hour}.${minutes}`;
+      lines.push(`${position},${timestamp},${value},Målt`);
+    }
+
+    const csv = lines.join('\n');
+    const stream = parseMeasurements(csv, SendMeasurementsResolution.QuarterHourly);
+    const result = await lastValueFrom(stream);
+    expect(result.sum).toBe(192.984);
+  });
+
   it('should error with missing measurements in quarter hourly resolution', async () => {
     const csv = [
       'Position,Periode,Værdi,Kvantum status',

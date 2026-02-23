@@ -16,67 +16,77 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import {
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MessageFormValue, StartConversationFormValue } from '../types';
-import { ActorType, ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
+import { MessageFormValue } from '../types';
+import {
+  ActorType,
+  ConversationSubject,
+  GetConversationsDocument,
+  StartConversationDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
   imports: [
+    ReactiveFormsModule,
     TranslocoDirective,
-    VaterStackComponent,
+    VATER,
     WattButtonComponent,
     WattDropdownComponent,
-    DhDropdownTranslatorDirective,
-    ReactiveFormsModule,
+    WattHeadingComponent,
     WattTextFieldComponent,
+    DhDropdownTranslatorDirective,
     VaterUtilityDirective,
-    VaterSpacerComponent,
     DhActorConversationMessageFormComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
-    .third-width {
-      width: 33%;
+    .header-background {
+      background-color: var(--bg-card);
     }
   `,
   template: `
     <form
       [formGroup]="newConversationForm"
-      (ngSubmit)="send()"
-      vater-stack
-      fill="both"
-      align="start"
+      (ngSubmit)="startConversation()"
+      vater-grid
+      fill="vertical"
+      rows="minmax(var(--case-min-row-height), auto) 1fr"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
-      <watt-card-title vater fill="horizontal">
-        <vater-stack direction="row" fill="horizontal" justify="space-between">
-          <h3>{{ t('newCaseTitle') }}</h3>
-          <watt-button (click)="closeNewConversation.emit()" variant="icon" icon="close" />
-        </vater-stack>
-      </watt-card-title>
-      <vater-stack align="start" fill="horizontal" gap="ml" offset="m">
+      <vater-stack
+        sticky="top"
+        direction="row"
+        fill="horizontal"
+        align="center"
+        offset="m"
+        justify="space-between"
+        class="header-background"
+      >
+        <h3 watt-heading>{{ t('newCaseTitle') }}</h3>
+        <watt-button (click)="closeNewConversation.emit()" variant="icon" icon="close" />
+      </vater-stack>
+      <vater-grid columns="1fr 2fr" flow="column" offset="m" gap="m" justify="end">
         <watt-dropdown
           [formControl]="newConversationForm.controls.subject"
           [options]="subjects"
           [label]="t('subjectLabel')"
           [showResetOption]="false"
-          class="third-width"
           dhDropdownTranslator
           translateKey="meteringPoint.actorConversation.subjects"
           data-testid="actor-conversation-subject-dropdown"
@@ -86,7 +96,6 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
           [options]="receivers"
           [label]="t('receiverLabel')"
           [showResetOption]="false"
-          class="third-width"
           dhDropdownTranslator
           translateKey="meteringPoint.actorConversation.receivers"
           data-testid="actor-conversation-receiver-dropdown"
@@ -94,52 +103,74 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
         <watt-text-field
           [formControl]="newConversationForm.controls.internalNote"
           [label]="t('internalNoteLabelWithDisclaimer')"
-          class="third-width"
           data-testid="actor-conversation-internal-note-input"
         />
-      </vater-stack>
-      <vater-spacer />
-      <dh-actor-conversation-message-form
-        vater
-        fill="horizontal"
-        [formControl]="newConversationForm.controls.message"
-      />
+        <vater-grid-area row="4" fill="horizontal">
+          <vater-stack fill="vertical" justify="end">
+            <dh-actor-conversation-message-form
+              vater
+              fill="horizontal"
+              [loading]="startConversationMutation.loading()"
+              [formControl]="newConversationForm.controls.message"
+            />
+          </vater-stack>
+        </vater-grid-area>
+      </vater-grid>
     </form>
   `,
 })
 export class DhActorConversationNewConversationComponent {
-  closeNewConversation = output();
-  startConversation = output<StartConversationFormValue>();
-
+  private readonly startConversationErrorToast = injectToast(
+    'meteringPoint.actorConversation.startConversationError'
+  );
+  private readonly startConversationToastEffect = effect(() =>
+    this.startConversationErrorToast(this.startConversationMutation.status())
+  );
   private readonly fb = inject(NonNullableFormBuilder);
+  startConversationMutation = mutation(StartConversationDocument);
+  closeNewConversation = output();
+
+  meteringPointId = input.required<string>();
 
   newConversationForm = this.fb.group({
-    subject: this.fb.control<ConversationSubject>(
-      ConversationSubject.QuestionForEnerginet,
-      Validators.required
-    ),
-    receiver: this.fb.control<ActorType>(ActorType.Energinet, Validators.required),
+    subject: this.fb.control<ConversationSubject | null>(null, Validators.required),
+    receiver: this.fb.control<ActorType | null>(null, Validators.required),
     internalNote: this.fb.control<string | null>(null),
-    message: this.fb.control<MessageFormValue>({ message: '', anonymous: false }, (control) =>
-      control.value.message ? null : { required: true }
+    message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, (control) =>
+      control.value.content ? null : { required: true }
     ),
   });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
   receivers = dhEnumToWattDropdownOptions(ActorType);
 
-  protected send() {
+  async startConversation() {
     if (this.newConversationForm.invalid) {
       return;
     }
 
-    const formControls = this.newConversationForm.controls;
-    const formValues: StartConversationFormValue = {
-      subject: formControls.subject.value,
-      content: formControls.message.value.message as string,
-      anonymous: formControls.message.value.anonymous as boolean,
-      receiver: formControls.receiver.value,
-      internalNote: formControls.internalNote.value ?? undefined,
-    };
-    this.startConversation.emit(formValues);
+    const { subject, receiver, internalNote, message } = this.newConversationForm.getRawValue();
+
+    if (!receiver || !subject) {
+      return;
+    }
+
+    const { content, anonymous } = message ?? {};
+
+    assertIsDefined(content);
+    assertIsDefined(anonymous);
+
+    await this.startConversationMutation.mutate({
+      variables: {
+        meteringPointIdentification: this.meteringPointId(),
+        subject,
+        internalNote,
+        content,
+        anonymous,
+        receiver,
+      },
+      refetchQueries: [GetConversationsDocument],
+    });
+
+    this.closeNewConversation.emit();
   }
 }

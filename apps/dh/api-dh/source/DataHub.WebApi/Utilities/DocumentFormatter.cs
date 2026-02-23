@@ -85,7 +85,7 @@ public static class DocumentFormatter
 
             var doc = XDocument.Parse(input);
             formattedXml = doc.Declaration != null
-                ? doc.Declaration.ToString() + Environment.NewLine + doc.ToString()
+                ? doc.Declaration + Environment.NewLine + doc
                 : doc.ToString();
             return true;
         }

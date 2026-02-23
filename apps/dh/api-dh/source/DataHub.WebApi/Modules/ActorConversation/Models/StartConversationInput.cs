@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-﻿using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
+using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
-﻿namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
+namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Models;
 
-public class StartConversationInputType
+public class StartConversationInput
 {
     public required ConversationSubject Subject { get; set; }
 
     public required string MeteringPointIdentification { get; set; }
-
-    public required string ActorName { get; set; }
-
-    public required string UserName { get; set; }
 
     public string? InternalNote { get; set; }
 

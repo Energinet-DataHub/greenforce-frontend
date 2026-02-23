@@ -16,101 +16,74 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import {
-  VaterFlexComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
-import { WattToastService } from '@energinet/watt/toast';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { VATER, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  CloseConversationDocument,
-  CloseConversationMutation,
-  GetConversationDocument,
   GetConversationsDocument,
-  GetSelectionMarketParticipantsDocument,
-  StartConversationDocument,
-  UserProfileDocument,
+  MarkConversationReadDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WATT_CARD } from '@energinet/watt/card';
-import {
-  ActorConversationState,
-  Conversation,
-  ConversationDetail,
-  StartConversationFormValue,
-} from '../types';
+import { ActorConversationState, Conversation } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { DhActorConversationListComponent } from './actor-conversation-list';
 import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
-import { DhActorConversationSelectedConversationComponent } from './actor-conversation-selected-conversation.component';
-import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
-import { MutationResult } from 'apollo-angular';
+import { DhActorConversationDetailsComponent } from './actor-conversation-details.component';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
   imports: [
+    TranslocoDirective,
+    VATER,
+    WATT_CARD,
+    WattEmptyStateComponent,
+    WattButtonComponent,
     DhActorConversationListComponent,
     DhActorConversationNewConversationComponent,
-    VaterFlexComponent,
-    WattEmptyStateComponent,
-    WATT_CARD,
-    WattButtonComponent,
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
-    DhActorConversationSelectedConversationComponent,
     WattSpinnerComponent,
+    DhActorConversationDetailsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
-    .no-border-radius-left {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-
-    .no-padding {
-      padding: 0;
-    }
-
-    .flex-1 {
-      flex: 1;
-    }
-
-    .flex-3 {
-      flex: 3;
+    :host {
+      --case-min-row-height: 82px;
     }
   `,
   template: `
-    <vater-flex
-      direction="row"
-      fill="vertical"
-      *transloco="let t; prefix: 'meteringPoint.actorConversation'"
-    >
-      <dh-actor-conversation-list
-        [conversations]="conversations()"
-        [newConversationVisible]="newConversationVisible()"
-        [selectedConversationId]="selectedConversationId()"
-        (createNewConversation)="newConversation()"
-        (selectConversation)="selectConversation($event)"
-        class="flex-1"
-      />
-      <watt-card class="flex-3 no-padding no-border-radius-left">
-        <vater-stack fill="vertical">
+    <watt-card vater contain fill="vertical">
+      <vater-grid
+        inset="0"
+        columns="minmax(min-content, 1fr) 3fr"
+        gap="dividers"
+        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+      >
+        <dh-actor-conversation-list
+          vater
+          scrollable
+          [conversationsQuery]="conversationsQuery"
+          [newConversationVisible]="newConversationVisible()"
+          [selectedConversationId]="selectedConversationId()"
+          (createNewConversation)="newConversation()"
+          (selectConversation)="selectConversation($event)"
+        />
+        <vater-stack scrollable *transloco="let t; prefix: 'meteringPoint.actorConversation'">
           @switch (state()) {
-            @case (ActorConversationState.newConversationOpen) {
+            @case ('newConversationOpen') {
               <dh-actor-conversation-new-conversation
                 vater
                 fill="both"
                 class="watt-space-inset-m"
+                [meteringPointId]="meteringPointId()"
                 (closeNewConversation)="newConversationVisible.set(false)"
-                (startConversation)="startConversation($event)"
               />
             }
-            @case (ActorConversationState.noConversations) {
+            @case ('noConversations') {
               <watt-empty-state
                 vater
                 center
@@ -122,7 +95,7 @@ import { MutationResult } from 'apollo-angular';
                 </watt-button>
               </watt-empty-state>
             }
-            @case (ActorConversationState.noConversationSelected) {
+            @case ('noConversationSelected') {
               <watt-empty-state
                 vater
                 center
@@ -130,13 +103,13 @@ import { MutationResult } from 'apollo-angular';
                 [title]="t('emptyState.noCaseSelected')"
               />
             }
-            @case (ActorConversationState.conversationSelected) {
-              @if (conversation(); as conversation) {
-                <dh-actor-conversation-selected-conversation
+            @case ('conversationSelected') {
+              @if (selectedConversationId(); as conversationId) {
+                <dh-actor-conversation-details
                   vater
                   fill="both"
-                  [conversation]="conversation"
-                  (closeConversation)="closeConversation($event)"
+                  [meteringPointId]="meteringPointId()"
+                  [conversationId]="conversationId"
                 />
               } @else {
                 <watt-spinner vater center />
@@ -144,73 +117,26 @@ import { MutationResult } from 'apollo-angular';
             }
           }
         </vater-stack>
-      </watt-card>
-    </vater-flex>
+      </vater-grid>
+    </watt-card>
   `,
 })
 export class DhActorConversationShellComponent {
-  private readonly userProfileQuery = query(UserProfileDocument, { returnPartialData: true });
-  userProfile = computed(() => this.userProfileQuery.data()?.userProfile);
-
-  private selectionMarketParticipantQuery = query(GetSelectionMarketParticipantsDocument);
-  private memberOfMarketParticipants = computed(
-    () => this.selectionMarketParticipantQuery.data()?.selectionMarketParticipants || []
-  );
-  private readonly actorStorage = inject(DhActorStorage);
-  selectedMarketParticipant = computed(() =>
-    this.memberOfMarketParticipants().find(
-      (participant) => participant.id === this.actorStorage.getSelectedActorId()
-    )
-  );
-  meteringPointId = input.required<string>();
-  private transloco = inject(TranslocoService);
-
-  protected readonly ActorConversationState = ActorConversationState;
-  newConversationVisible = signal(false);
-
   conversationsQuery = query(GetConversationsDocument, () => ({
     variables: {
       meteringPointIdentification: this.meteringPointId(),
     },
   }));
+  readConversationMutation = mutation(MarkConversationReadDocument);
 
-  conversations = computed<Conversation[]>(() => {
-    return (this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []).map(
-      (conversation) => ({
-        id: conversation.id,
-        subject: conversation.subject,
-        closed: conversation.closed,
-        unread: !conversation.read,
-        lastUpdatedDate: conversation.lastUpdated ? new Date(conversation.lastUpdated) : undefined,
-      })
-    );
-  });
+  meteringPointId = input.required<string>();
+  newConversationVisible = signal(false);
+
+  conversations = computed(
+    () => this.conversationsQuery.data()?.conversationsForMeteringPoint?.conversations ?? []
+  );
 
   selectedConversationId = signal<string | undefined>(undefined);
-
-  conversationQuery = query(GetConversationDocument, () => ({
-    variables: {
-      conversationId: this.selectedConversationId() ?? '',
-      meteringPointId: this.meteringPointId(),
-    },
-    skip: this.selectedConversationId() === undefined,
-  }));
-
-  conversation = computed<ConversationDetail | undefined>(() => {
-    const conversation = this.conversationQuery.data()?.conversation;
-
-    if (!conversation) {
-      return undefined;
-    }
-
-    return {
-      id: conversation.displayId,
-      internalNote: conversation.internalNote ?? undefined,
-      subject: conversation.subject,
-      closed: conversation.closed,
-      messages: conversation.messages,
-    };
-  });
 
   state = computed<ActorConversationState>(() => {
     if (this.newConversationVisible()) {
@@ -223,79 +149,22 @@ export class DhActorConversationShellComponent {
     return ActorConversationState.conversationSelected;
   });
 
-  startConversationMutation = mutation(StartConversationDocument);
-  closeConversationMutation = mutation(CloseConversationDocument);
-
-  private toastService = inject(WattToastService);
-
-  async startConversation(formValue: StartConversationFormValue) {
-    // TODO: MASEP Remove when the API takes actorId and UserId
-    const actorName = this.selectedMarketParticipant()?.actorName ?? '';
-    const userName =
-      (this.userProfile()?.firstName ?? '') + ' ' + (this.userProfile()?.lastName ?? '');
-
-    const result = await this.startConversationMutation.mutate({
-      variables: {
-        subject: formValue.subject,
-        meteringPointIdentification: this.meteringPointId(),
-        actorName: actorName,
-        userName: userName,
-        internalNote: formValue.internalNote,
-        content: formValue.content,
-        anonymous: formValue.anonymous,
-        receiver: formValue.receiver,
-      },
-    });
-    this.newConversationVisible.set(false);
-    if (result.error) {
-      this.toastService.open({
-        type: 'danger',
-        message: 'Error',
-      });
-    } else {
-      this.toastService.open({
-        type: 'success',
-        message: formValue.content,
-      });
-    }
-  }
-
-  async closeConversation(conversationId: string) {
-    await this.closeConversationMutation.mutate({
-      variables: {
-        conversationId,
-        meteringPointIdentification: this.meteringPointId(),
-        userName:
-          (this.userProfile()?.firstName ?? '') + ' ' + (this.userProfile()?.lastName ?? ''),
-      },
-      refetchQueries: ({ data }) => {
-        if (this.isCloseSuccessful(data)) {
-          return [GetConversationDocument];
-        }
-        return [];
-      },
-      onError: () => {
-        this.toastService.open({
-          type: 'danger',
-          message: this.transloco.translate(
-            'meteringPoint.actorConversation.conversationCloseError'
-          ),
-        });
-      },
-    });
-  }
-
-  private isCloseSuccessful(mutationResult: MutationResult<CloseConversationMutation>['data']) {
-    return mutationResult?.closeConversation.boolean;
-  }
-
   newConversation() {
     this.newConversationVisible.set(true);
     this.selectedConversationId.set(undefined);
   }
 
-  selectConversation(conversationId?: string): void {
+  async selectConversation(conversation: Conversation) {
     this.newConversationVisible.set(false);
-    this.selectedConversationId.set(conversationId);
+    this.selectedConversationId.set(conversation.id);
+    if (conversation.read) {
+      return;
+    }
+    await this.readConversationMutation.mutate({
+      variables: {
+        conversationId: conversation.id,
+      },
+      refetchQueries: [GetConversationsDocument],
+    });
   }
 }

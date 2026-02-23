@@ -44,64 +44,63 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
   `,
   template: `
     @let formGroup = contactDetailsFormGroup();
-    @let controls = formGroup.controls.contactGroup.controls;
-    <ng-container
-      [formGroup]="formGroup"
-      *transloco="let t; prefix: 'meteringPoint.moveIn.contactDetails'"
-    >
-      <vater-flex gap="xl" direction="row">
-        <vater-flex align="stretch">
-          <watt-slide-toggle
-            [formControl]="formGroup.controls.contactSameAsCustomer"
-            class="slide-toggle-margin-bottom"
-            data-testid="legal-contact-same-as-customer"
-          >
-            {{ t('contactSameAsCustomer') }}
-          </watt-slide-toggle>
+    @if (formGroup) {
+      @let controls = formGroup.controls.contactGroup.controls;
+      <ng-container *transloco="let t; prefix: 'meteringPoint.moveIn.contactDetails'">
+        <vater-flex gap="xl" direction="row">
+          <vater-flex align="stretch">
+            <watt-slide-toggle
+              [formControl]="formGroup.controls.contactSameAsCustomer"
+              class="slide-toggle-margin-bottom"
+              data-testid="legal-contact-same-as-customer"
+            >
+              {{ t('contactSameAsCustomer') }}
+            </watt-slide-toggle>
 
-          <watt-text-field
-            [formControl]="controls.name"
-            [label]="t('contactName')"
-            data-testid="legal-contact-name"
-          />
-
-          <watt-text-field
-            [formControl]="controls.title"
-            [label]="t('attention')"
-            data-testid="legal-contact-title"
-          />
-
-          <vater-flex direction="row" gap="m" justify="space-between">
-            <watt-phone-field
-              [formControl]="controls.phone"
-              [label]="t('phoneNumber')"
-              data-testid="legal-contact-phone"
+            <watt-text-field
+              [formControl]="controls.name"
+              [label]="t('contactName')"
+              data-testid="legal-contact-name"
             />
 
-            <watt-phone-field
-              [formControl]="controls.mobile"
-              [label]="t('mobile')"
-              data-testid="legal-contact-mobile"
+            <watt-text-field
+              [formControl]="controls.attention"
+              [label]="t('attention')"
+              data-testid="legal-contact-attention"
             />
+
+            <vater-flex direction="row" gap="m" justify="space-between">
+              <watt-phone-field
+                [formControl]="controls.phone"
+                [label]="t('phoneNumber')"
+                data-testid="legal-contact-phone"
+              />
+
+              <watt-phone-field
+                [formControl]="controls.mobile"
+                [label]="t('mobile')"
+                data-testid="legal-contact-mobile"
+              />
+            </vater-flex>
+
+            <watt-text-field
+              [formControl]="controls.email"
+              [label]="t('email')"
+              type="email"
+              data-testid="legal-contact-email"
+            >
+              <watt-field-error>
+                @if (controls.email.hasError('email')) {
+                  {{ t('invalidEmail') }}
+                }
+              </watt-field-error>
+            </watt-text-field>
           </vater-flex>
-
-          <watt-text-field
-            [formControl]="controls.email"
-            [label]="t('email')"
-            type="email"
-            data-testid="legal-contact-email"
-          >
-            <watt-field-error>
-              @if (controls.email.hasError('email')) {
-                {{ t('invalidEmail') }}
-              }
-            </watt-field-error>
-          </watt-text-field>
         </vater-flex>
-      </vater-flex>
-    </ng-container>
+      </ng-container>
+    }
   `,
 })
 export class DhContactDetailsComponent {
-  contactDetailsFormGroup = input.required<FormGroup<ContactDetailsFormType>>();
+  contactDetailsFormGroup = input<FormGroup<ContactDetailsFormType>>();
 }

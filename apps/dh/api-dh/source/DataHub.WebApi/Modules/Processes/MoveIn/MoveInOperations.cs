@@ -26,7 +26,7 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 public static class MoveInOperations
 {
     [Mutation]
-    [Authorize(Roles = new[] { "metering-point:move-in" })]
+    [Authorize(Roles = ["metering-point:move-in"])]
     public static async Task<bool> InitiateMoveInAsync(
         string meteringPointId,
         ChangeOfSupplierBusinessReason businessReason,
@@ -59,11 +59,10 @@ public static class MoveInOperations
     }
 
     [Mutation]
-    [Authorize(Roles = new[] { "metering-point:move-in" })]
+    [Authorize(Roles = ["metering-point:move-in"])]
     public static async Task<bool> ChangeCustomerCharacteristicsAsync(
         string meteringPointId,
         ChangeCustomerCharacteristicsBusinessReason businessReason,
-        DateTimeOffset startDate,
         string? firstCustomerCpr,
         string? firstCustomerCvr,
         string? firstCustomerName,
@@ -79,7 +78,6 @@ public static class MoveInOperations
             RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV1(
                 MeteringPointId: meteringPointId,
                 BusinessReason: businessReason,
-                StartDate: startDate,
                 FirstCustomerCpr: firstCustomerCpr,
                 FirstCustomerCvr: firstCustomerCvr,
                 FirstCustomerName: firstCustomerName,

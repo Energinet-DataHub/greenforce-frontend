@@ -18,7 +18,6 @@
 //#endregion
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 import { Component, computed, effect, inject, viewChild } from '@angular/core';
-import { MutationResult } from 'apollo-angular';
 import {
   FormControl,
   FormGroup,
@@ -42,7 +41,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhProfileModalService } from './dh-profile-modal.service';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationResult, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 type UserPreferencesForm = FormGroup<{
   email: FormControl<string>;

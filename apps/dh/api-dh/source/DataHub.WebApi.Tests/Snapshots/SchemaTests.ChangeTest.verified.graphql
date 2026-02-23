@@ -382,11 +382,15 @@ type CollectionSegmentInfo {
 
 "Conversation"
 type Conversation {
-  meteringPointIdentification: String!
-  displayId: String!
+  displayId: String
+  "Display Id of the conversation"
+  id: ID!
+  "Internal note from the creator"
   internalNote: String
   subject: ConversationSubject!
+  "true for conversations that are closed. false otherwise."
   closed: Boolean!
+  "Messages associated with a conversation"
   messages: [ConversationMessage!]!
 }
 
@@ -394,9 +398,11 @@ type Conversation {
 type ConversationInfo {
   "Conversation id"
   id: UUID!
+  "Display id of the conversation"
+  displayId: ID!
+  subject: ConversationSubject!
   "Specifies whether the conversation has been read or not"
   read: Boolean!
-  subject: ConversationSubject!
   "Conversation is closed or not"
   closed: Boolean!
   "Last updated time of the conversation"
@@ -405,16 +411,17 @@ type ConversationInfo {
 
 "Conversation message"
 type ConversationMessage {
-  "Sender user name"
-  senderUserName: String
-  "Sendor actor name"
-  senderActorName: String
-  senderType: ActorType!
+  actorName: String
+  userName: String!
+  isSentByCurrentActor: Boolean!
   "Message content"
   content: String!
-  messageType: Int!
+  messageType: MessageType!
   "Created time"
   createdTime: DateTime!
+  senderType: ActorType!
+  "Sender user id"
+  userId: String
 }
 
 "Conversations"
@@ -458,6 +465,11 @@ type DeactivateUserPayload {
 type DeactivateUserRolePayload {
   boolean: Boolean
   errors: [DeactivateUserRoleError!]
+}
+
+type DismissAllNotificationsPayload {
+  boolean: Boolean
+  errors: [DismissAllNotificationsError!]
 }
 
 type DismissNotificationPayload {
@@ -581,6 +593,7 @@ type ElectricityMarketViewMeteringPointDto {
   createdDate: DateTime
   connectionDate: DateTime
   closedDownDate: DateTime
+  disconnectedDate: DateTime
   id: String!
   identification: String!
   metadata: ElectricityMarketViewMeteringPointMetadataDto!
@@ -593,7 +606,7 @@ type ElectricityMarketViewMeteringPointMetadataDto {
   gridArea: GridAreaDto
   fromGridArea: GridAreaDto
   toGridArea: GridAreaDto
-  internalMeteringPointParentId(environment: String searchMigratedMeteringPoints: Boolean): String
+  internalMeteringPointParentId(searchMigratedMeteringPoints: Boolean): String
   id: String!
   validFrom: DateTime!
   validTo: DateTime!
@@ -862,6 +875,14 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledBy: UUID!
 }
 
+type MarkConversationReadPayload {
+  boolean: Boolean
+}
+
+type MarkConversationUnReadPayload {
+  boolean: Boolean
+}
+
 type MarketParticipant {
   gridAreas: [GridAreaDto!]!
   userRoles(userId: UUID): [MarketParticipantUserRole!]!
@@ -1045,7 +1066,7 @@ type MeteringPointProcessStep {
   """
   documentUrl: String
   id: String!
-  step: ProcessStepType!
+  step: String!
   comment: String
   completedAt: DateTime
   dueDate: DateTime
@@ -1072,7 +1093,11 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
-  startConversation(input: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  startConversation(startConversationInput: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  sendActorConversationMessage(sendActorConversationMessageInput: SendActorConversationMessageInput!): SendActorConversationMessagePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  updateInternalConversationNote(updateInternalConversationNoteInput: UpdateInternalConversationNoteInput!): UpdateInternalConversationNotePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  markConversationRead(input: MarkConversationReadInput!): MarkConversationReadPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  markConversationUnRead(input: MarkConversationUnReadInput!): MarkConversationUnReadPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   closeConversation(input: CloseConversationInput!): CloseConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
@@ -1108,7 +1133,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
-  resetMitId: ResetMitIdPayload!
+  resetMitId(input: ResetMitIdInput!): ResetMitIdPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
@@ -1116,6 +1141,7 @@ type Mutation {
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
+  dismissAllNotifications(input: DismissAllNotificationsInput!): DismissAllNotificationsPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
@@ -1299,10 +1325,10 @@ type Query {
   eventsDebugView(meteringPointId: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
-  meteringPointExists(environment: String! searchMigratedMeteringPoints: Boolean! internalMeteringPointId: String meteringPointId: String): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
-  relatedMeteringPoints(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
-  meteringPoint(meteringPointId: String! environment: String searchMigratedMeteringPoints: Boolean): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
-  disabledDatesForEndOfSupply: [DateTime!]!
+  meteringPointExists(searchMigratedMeteringPoints: Boolean! internalMeteringPointId: String meteringPointId: String): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  relatedMeteringPoints(meteringPointId: String! searchMigratedMeteringPoints: Boolean): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPoint(meteringPointId: String! searchMigratedMeteringPoints: Boolean): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  selectableDatesForEndOfSupply: [DateTime!]!
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -1402,7 +1428,6 @@ type RelatedMeteringPointsDto {
   relatedMeteringPoints: [RelatedMeteringPointDto!]!
   relatedByGsrn: [RelatedMeteringPointDto!]!
   historicalMeteringPoints: [RelatedMeteringPointDto!]!
-  historicalMeteringPointsByGsrn: [RelatedMeteringPointDto!]!
 }
 
 type RemoveMeteringPointsFromAdditionalRecipientPayload {
@@ -1525,6 +1550,10 @@ type SelectionActorDto {
   marketRole: EicFunction!
 }
 
+type SendActorConversationMessagePayload {
+  boolean: Boolean
+}
+
 type SendMeasurementsInstanceDto {
   id: UUID!
   idempotencyKeyHash: String!
@@ -1588,6 +1617,10 @@ type Subscription {
 }
 
 type UpdateChargePayload {
+  boolean: Boolean
+}
+
+type UpdateInternalConversationNotePayload {
   boolean: Boolean
 }
 
@@ -1741,6 +1774,8 @@ union DeactivateUserError = ApiError
 
 union DeactivateUserRoleError = ApiError
 
+union DismissAllNotificationsError = ApiError
+
 union DismissNotificationError = ApiError
 
 union InitiateMitIdSignupError = ApiError
@@ -1863,7 +1898,6 @@ input CancelSettlementReportInput {
 input ChangeCustomerCharacteristicsInput {
   meteringPointId: String!
   businessReason: ChangeCustomerCharacteristicsBusinessReason!
-  startDate: DateTime!
   firstCustomerCpr: String
   firstCustomerCvr: String
   firstCustomerName: String
@@ -1910,8 +1944,6 @@ input ChargesQueryInput {
 
 input CloseConversationInput {
   conversationId: UUID!
-  meteringPointIdentification: String!
-  userName: String!
 }
 
 input CreateActorContactDtoInput {
@@ -2017,6 +2049,10 @@ input DeactivateUserRoleInput {
   roleId: UUID!
 }
 
+input DismissAllNotificationsInput {
+  notificationIds: [Int!]!
+}
+
 input DismissNotificationInput {
   notificationId: Int!
 }
@@ -2100,6 +2136,14 @@ input InviteUserInput {
 input ManuallyHandleOutgoingMessageInput {
   documentId: String!
   comment: String!
+}
+
+input MarkConversationReadInput {
+  conversationId: UUID!
+}
+
+input MarkConversationUnReadInput {
+  conversationId: UUID!
 }
 
 input MarketParticipantSortInput {
@@ -2245,8 +2289,18 @@ input RequestSortInput {
   meteringPointTypeOrPriceType: SortEnumType
 }
 
+input ResetMitIdInput {
+  userId: UUID!
+}
+
 input ResetTwoFactorAuthenticationInput {
   userId: UUID!
+}
+
+input SendActorConversationMessageInput {
+  conversationId: UUID!
+  content: String!
+  anonymous: Boolean!
 }
 
 input SendMeasurementsInstanceDtoSortInput {
@@ -2284,14 +2338,8 @@ input SimulateMeteringPointManualCorrectionInput {
 }
 
 input StartConversationInput {
-  startConversationInput: StartConversationInputTypeInput!
-}
-
-input StartConversationInputTypeInput {
   subject: ConversationSubject!
   meteringPointIdentification: String!
-  actorName: String!
-  userName: String!
   internalNote: String
   content: String!
   anonymous: Boolean!
@@ -2349,6 +2397,11 @@ input UpdateChargeInput {
   cutoffDate: DateTime!
   vat: Boolean!
   transparentInvoicing: Boolean!
+}
+
+input UpdateInternalConversationNoteInput {
+  conversationId: UUID!
+  internalNote: String!
 }
 
 input UpdateMarketParticipantInput {
@@ -2466,6 +2519,7 @@ enum ActorAuditedChange {
   ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
 }
 
+"Application layer receiver type"
 enum ActorType {
   ENERGY_SUPPLIER
   ENERGINET
@@ -2635,9 +2689,16 @@ enum ContactCategory {
   REMINDER
 }
 
-"Conversation subjects"
+"Application layer conversation subject"
 enum ConversationSubject {
   QUESTION_FOR_ENERGINET
+  INTERRUPTION_RECONNECTION
+  ELECTRICAL_HEATING
+  WRONGFUL_MOVE_OR_SUPPLIER_CHANGE
+  CUSTOMER_MASTER_DATA
+  MEASUREMENT_DATA
+  MEASUREMENT_POINT_MASTER_DATA
+  PRICE_LINKING
 }
 
 enum DelegatedProcess {
@@ -2855,8 +2916,8 @@ enum ElectricityMarketViewConnectionType {
 }
 
 enum ElectricityMarketViewCustomerRelationType {
-  CONTACT1
-  CONTACT4
+  TECHNICAL
+  JURIDICAL
   SECONDARY
 }
 
@@ -3128,6 +3189,12 @@ enum MeasurementsReportStatusType {
   CANCELED
 }
 
+"Message type"
+enum MessageType {
+  USER_MESSAGE
+  CLOSING_MESSAGE
+}
+
 enum MeteringGridImbalanceValuesToInclude {
   IMBALANCES
   BALANCES
@@ -3210,78 +3277,6 @@ enum ProcessStepState {
   skipped
   canceled
   succeeded
-}
-
-"""
-Enum representing known process step types.
-These values are used as translation keys in the frontend.
-When adding new processes, add the step identifiers here.
-Format: {PROCESS_NAME}_V{VERSION}_STEP_{SEQUENCE}
-"""
-enum ProcessStepType {
-  "BRS-002 Request End of Supply - Step 1: Request end of supply (RSM-005)"
-  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1
-  "BRS-002 Request End of Supply - Step 2: Confirm end of supply (RSM-005)"
-  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2
-  "BRS-002 Request End of Supply - Step 3: Reject end of supply (RSM-005)"
-  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3
-  "BRS-002 Request End of Supply - Step 4: Notify cancellation of end of supply (RSM-020)"
-  BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4
-  "BRS-004 Create metering point - Step 1 - Request creation of metering point (RSM-021)"
-  BRS_004_CREATEMETERINGPOINT_V1_STEP_1
-  "BRS-004 Create metering point - Step 2 - Confirm creation of metering point (RSM-021)"
-  BRS_004_CREATEMETERINGPOINT_V1_STEP_2
-  "BRS-004 Create metering point - Step 3 - Reject creation of metering point (RSM-021)"
-  BRS_004_CREATEMETERINGPOINT_V1_STEP_3
-  "BRS-004 Create metering point - Step 4 - Information about newly created metering point (RSM-022)"
-  BRS_004_CREATEMETERINGPOINT_V1_STEP_4
-  "BRS-004 Create metering point - Step 5 - Notification of charge links (RSM-031)"
-  BRS_004_CREATEMETERINGPOINT_V1_STEP_5
-  "BRS-008 Connect metering point - Step 1 - Incoming RSM-021"
-  BRS_008_CONNECTMETERINGPOINT_V1_STEP_1
-  "BRS-008 Connect metering point - Step 2 - Confirm RSM-021"
-  BRS_008_CONNECTMETERINGPOINT_V1_STEP_2
-  "BRS-008 Connect metering point - Step 3 - Reject RSM-021"
-  BRS_008_CONNECTMETERINGPOINT_V1_STEP_3
-  "BRS-008 Connect metering point - Step 4 - Udgående RSM-022"
-  BRS_008_CONNECTMETERINGPOINT_V1_STEP_4
-  "BRS-009 Tilflytning - Step 1: Anmodning om tilflytning (RSM-001)"
-  BRS_009_MOVEIN_V1_STEP_1
-  "BRS-009 Tilflytning - Step 2: Godkendelse af anmodning om tilflytning (RSM-001)"
-  BRS_009_MOVEIN_V1_STEP_2
-  "BRS-009 Tilflytning - Step 3: Afvisning af anmodning om tilflytning (RSM-001)"
-  BRS_009_MOVEIN_V1_STEP_3
-  "BRS-009 Tilflytning - Step 4: Information om målepunktsstamdata (RSM-022)"
-  BRS_009_MOVEIN_V1_STEP_4
-  "BRS-009 Tilflytning - Step 5: Information om kundestamdata (RSM-028)"
-  BRS_009_MOVEIN_V1_STEP_5
-  "BRS-009 Tilflytning - Step 6: Information om pristilknytninger (RSM-031)"
-  BRS_009_MOVEIN_V1_STEP_6
-  "BRS-009 Tilflytning - Step 7: Anmodning om opdatering af kundestamdata (RSM-027)"
-  BRS_009_MOVEIN_V1_STEP_7
-  "BRS-009 Tilflytning - Step 8: Godkendelse af opdatering af kundestamdata (RSM-027)"
-  BRS_009_MOVEIN_V1_STEP_8
-  "BRS-009 Tilflytning - Step 9: Afvisning af opdatering af kundestamdata (RSM-027)"
-  BRS_009_MOVEIN_V1_STEP_9
-  "BRS-009 Tilflytning - Step 10: Information om tilflytning til netvirksomhed (RSM-004\/E65)"
-  BRS_009_MOVEIN_V1_STEP_10
-  "BRS-009 Tilflytning - Step 11: Information om kundestamdata til netvirksomhed (RSM-028\/E65)"
-  BRS_009_MOVEIN_V1_STEP_11
-  "BRS-009 Tilflytning - Step 12: Information om stop af leverance (RSM-004\/E01)"
-  BRS_009_MOVEIN_V1_STEP_12
-  "BRS-015 Opdatering af kundestamdata - Step 1: Anmodning om opdatering af kundestamdata (RSM-027)"
-  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1
-  "BRS-015 Opdatering af kundestamdata - Step 2: Godkendelse af opdatering af kundestamdata (RSM-027)"
-  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2
-  "BRS-015 Opdatering af kundestamdata - Step 3: Afvisning af opdatering af kundestamdata (RSM-027)"
-  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3
-  "BRS-015 Opdatering af kundestamdata - Step 4: Information om kundestamdata (RSM-028)"
-  BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4
-  """
-  Unknown or unmapped step type.
-  Used when ProcessManager returns a step we haven't added to this enum yet.
-  """
-  UNKNOWN
 }
 
 enum Quality {

@@ -68,7 +68,7 @@ const commercialRelation: ElectricityMarketViewCommercialRelationDto = {
         cvr: null,
         name: 'Hr name',
         technicalContact: null,
-        relationType: ElectricityMarketViewCustomerRelationType.Contact4,
+        relationType: ElectricityMarketViewCustomerRelationType.Juridical,
         legalContact: {
           __typename: 'ElectricityMarketViewCustomerContactDto',
           id: '1',
@@ -99,7 +99,7 @@ const commercialRelation: ElectricityMarketViewCommercialRelationDto = {
         cvr: '12345678',
         name: 'Fru Name',
         legalContact: null,
-        relationType: ElectricityMarketViewCustomerRelationType.Contact1,
+        relationType: ElectricityMarketViewCustomerRelationType.Technical,
         technicalContact: {
           __typename: 'ElectricityMarketViewCustomerContactDto',
           id: '2',
@@ -218,6 +218,7 @@ export const parentMeteringPoint: ElectricityMarketViewMeteringPointDto = {
   electricalHeatingStartDate: new Date('2021-01-01'),
   createdDate: new Date('2020-12-08'),
   connectionDate: new Date('2021-01-01'),
+  disconnectedDate: new Date('2021-02-01'),
   closedDownDate: null,
   commercialRelationTimeline: [commercialRelation],
   commercialRelation,
