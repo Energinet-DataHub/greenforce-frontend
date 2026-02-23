@@ -20,6 +20,7 @@ import {
   Component,
   computed,
   DestroyRef,
+  effect,
   EnvironmentInjector,
   inject,
   runInInjectionContext,
@@ -65,6 +66,7 @@ import {
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  dhFormControlToSignal,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
 import { WattToastService } from '@energinet/watt/toast';
@@ -159,7 +161,9 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
     allowLargeTextFiles: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
-  showEnergySupplierDropdown = (() => {
+  readonly showEnergySupplierDropdown = this.initEnergySupplierControl();
+
+  private initEnergySupplierControl(): boolean {
     const shouldShow =
       this.modalData.isFas || this.modalData.marketRole === EicFunction.SystemOperator;
     if (shouldShow) {
@@ -169,7 +173,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
       );
     }
     return shouldShow;
-  })();
+  }
 
   calculationTypeOptions = this.getCalculationTypeOptions();
   gridAreaOptions = toSignal(this.getGridAreaOptions(), {
@@ -184,17 +188,17 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
     ...this.actorOptions(),
   ]);
 
-  multipleGridAreasSelected = toSignal(
-    this.form.controls.gridAreas.valueChanges.pipe(
-      map((gridAreas) => (gridAreas?.length ? gridAreas.length > 1 : false)),
-      tap((moreThanOneGridAreas) => {
-        if (!moreThanOneGridAreas) {
-          this.form.controls.combineResultsInOneFile.setValue(false);
-        }
-      })
-    ),
-    { initialValue: false }
-  );
+  private readonly gridAreasValue = dhFormControlToSignal(this.form.controls.gridAreas);
+  multipleGridAreasSelected = computed(() => {
+    const gridAreas = this.gridAreasValue();
+    return gridAreas?.length ? gridAreas.length > 1 : false;
+  });
+
+  resetCombineResultsEffect = effect(() => {
+    if (!this.multipleGridAreasSelected()) {
+      this.form.controls.combineResultsInOneFile.setValue(false);
+    }
+  });
 
   submitInProgress = signal(false);
   noCalculationsFound = signal(false);
