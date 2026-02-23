@@ -176,7 +176,6 @@ export class DhActorConversationDetailsComponent {
   );
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
-  formControl = this.fb.control<MessageFormValue>({ content: '', anonymous: false });
   conversationId = input.required<string>();
   meteringPointId = input.required<string>();
 
@@ -188,6 +187,30 @@ export class DhActorConversationDetailsComponent {
   }));
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
+  wasLatestMessageAnonymous = computed(() => {
+    const messages = this.conversation()?.messages;
+    if (!messages || messages.length === 0) {
+      return false;
+    }
+
+    // Find the latest message sent by the current actor
+    const latestMessageByCurrentActor = messages
+      .slice()
+      .reverse()
+      .find((message) => message.isSentByCurrentActor);
+
+    if (!latestMessageByCurrentActor) {
+      return false;
+    }
+
+    // TODO: MASEP change to use anonymous from the message
+    return (!!latestMessageByCurrentActor.actorName && !!latestMessageByCurrentActor.userName) ?? false;
+  });
+
+  formControl = this.fb.control<MessageFormValue>({
+    content: '',
+    anonymous: this.wasLatestMessageAnonymous(),
+  });
 
   async closeConversation() {
     await this.closeConversationMutation.mutate({
