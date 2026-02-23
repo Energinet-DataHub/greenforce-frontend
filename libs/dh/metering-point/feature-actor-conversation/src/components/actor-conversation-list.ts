@@ -31,7 +31,8 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { dayjs } from '@energinet/watt/core/date';
-import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattSimpleSearchComponent } from '@energinet/watt/search';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
   selector: 'dh-actor-conversation-list',
@@ -43,8 +44,9 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
     DhActorConversationListItemComponent,
     VaterUtilityDirective,
     DhResultComponent,
-    WattTextFieldComponent,
     ReactiveFormsModule,
+    WattSimpleSearchComponent,
+    WattIconComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -55,22 +57,16 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
     .conversations {
       list-style: none;
     }
+
+    .thick-divider {
+      border-top: 2px solid var(--watt-color-neutral-grey-300);
+      margin: 0;
+    }
   `,
   template: `
-    <dh-result [query]="conversationsQuery()">
-      <vater-grid
-        gap="dividers"
-        autoRows="minmax(var(--case-min-row-height), 1fr)"
-        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
-      >
-        <vater-stack
-          sticky="top"
-          direction="row"
-          justify="space-between"
-          align="center"
-          offset="m"
-          class="new-conversation"
-        >
+    <vater-stack sticky="top" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+      <vater-stack fill="horizontal" class="new-conversation watt-space-inset-m" gap="m">
+        <vater-stack fill="horizontal" direction="row" justify="space-between" align="center">
           <h3 watt-heading>{{ t('cases') }}</h3>
           <watt-button
             (click)="createNewConversation.emit()"
@@ -81,21 +77,24 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
             {{ t('newCaseButton') }}
           </watt-button>
         </vater-stack>
-
-        <vater-stack direction="row" class="search-wrapper">
-          <watt-text-field
-            [placeholder]="t('searchPlaceholder')"
+        <vater-stack fill="horizontal" direction="row" gap="s">
+          <watt-simple-search
+            vater
+            fill="horizontal"
+            [label]="t('searchPlaceholder')"
             [formControl]="searchControl"
-            (keydown.enter)="search.emit(searchControl.value ?? '')"
-          >
-            <watt-button
-              variant="icon"
-              icon="search"
-              (click)="search.emit(searchControl.value ?? '')"
-            />
-          </watt-text-field>
+            (search)="filter.emit($event)"
+          />
+          <watt-button variant="secondary">
+            <watt-icon name="filter" />
+          </watt-button>
         </vater-stack>
+      </vater-stack>
+      <hr class="watt-divider thick-divider" />
+    </vater-stack>
 
+    <dh-result [query]="conversationsQuery()">
+      <vater-grid gap="dividers" autoRows="minmax(var(--case-min-row-height), 1fr)">
         <ul vater fragment class="conversations">
           @if (newConversationVisible()) {
             <li>
@@ -127,7 +126,7 @@ export class DhActorConversationListComponent {
   newConversationVisible = input<boolean>(false);
   selectedConversationId = input<string | undefined>(undefined);
   createNewConversation = output();
-  search = output<string>();
+  filter = output<string>();
   selectConversation = output<Conversation>();
   searchControl = new FormControl('');
 
