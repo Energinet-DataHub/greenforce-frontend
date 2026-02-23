@@ -35,7 +35,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs';
+import { Observable, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -189,10 +189,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
   ]);
 
   private readonly gridAreasValue = dhFormControlToSignal(this.form.controls.gridAreas);
-  multipleGridAreasSelected = computed(() => {
-    const gridAreas = this.gridAreasValue();
-    return gridAreas?.length ? gridAreas.length > 1 : false;
-  });
+  multipleGridAreasSelected = computed(() => (this.gridAreasValue()?.length ?? 0) > 1);
 
   resetCombineResultsEffect = effect(() => {
     if (!this.multipleGridAreasSelected()) {
