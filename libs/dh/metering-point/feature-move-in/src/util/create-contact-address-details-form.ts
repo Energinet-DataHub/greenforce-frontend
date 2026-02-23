@@ -25,7 +25,7 @@ export function createContactAddressDetailsForm(
   contact: Contact,
   installationAddress: InstallationAddress
 ) {
-  const addressSameAsInstallation = IsContactAddressEquealToInstallation(
+  const addressSameAsInstallation = isContactAddressEquealToInstallation(
     installationAddress,
     contact
   );
@@ -57,7 +57,7 @@ export function createContactAddressDetailsForm(
   });
 }
 
-function IsContactAddressEquealToInstallation(
+function isContactAddressEquealToInstallation(
   installationAddress: InstallationAddress,
   contactAddress: Contact
 ): boolean {

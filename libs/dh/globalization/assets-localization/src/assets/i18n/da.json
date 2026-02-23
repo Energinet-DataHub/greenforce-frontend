@@ -1117,7 +1117,7 @@
       "updateCustomerData": "Opdater kundestamdata",
       "updateCustomer": {
         "toast": {
-          "loading": "Kundestamdata opdateres..",
+          "loading": "Kundestamdata opdateres...",
           "success": "Kundestamdata opdateret",
           "error": "Opdatering mislykkedes"
         }
