@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringGridAreaImbalanceComponent as default } from './src/components/metering-gridarea-imbalance.component';
-export { DhMeteringGridAreaImbalanceDetails } from './src/components/details/details.component';
+export { DhMeteringGridAreaImbalanceComponent as default } from './components/metering-gridarea-imbalance.component';
+export { DhMeteringGridAreaImbalanceDetails } from './components/details/details.component';

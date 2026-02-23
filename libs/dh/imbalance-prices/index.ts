@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhImbalancePricesComponent as default } from './src/components/imbalance-prices.component';
+export { DhImbalancePricesComponent as default } from './components/imbalance-prices.component';

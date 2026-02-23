@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMarketParticipantStatusBadgeComponent } from './src/status-badge.component';
-export { DhOrganizationManageComponent } from './src/dh-organization-manage.component';
+export { DhMarketParticipantStatusBadgeComponent } from './status-badge.component';
+export { DhOrganizationManageComponent } from './dh-organization-manage.component';

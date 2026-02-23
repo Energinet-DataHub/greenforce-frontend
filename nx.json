@@ -1,4 +1,5 @@
 {
+  "plugins": ["./tools/plugins/implicit-libs.ts"],
   "tasksRunnerOptions": {
     "default": {
       "options": {

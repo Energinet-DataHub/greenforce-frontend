@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { gridAreaRoutes as default } from './src/routes';
+export { gridAreaRoutes as default } from './routes';

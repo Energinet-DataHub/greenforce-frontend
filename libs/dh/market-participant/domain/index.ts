@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/types';
-export * from './src/error-handling';
+export * from './types';
+export * from './error-handling';

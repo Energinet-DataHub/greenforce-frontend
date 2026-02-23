@@ -18,9 +18,9 @@
 //#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
 import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
-import { parseChargeSeries } from '../src/parse-charge-series';
+import { parseChargeSeries } from '../parse-charge-series';
 import { lastValueFrom } from 'rxjs';
-import { ChargeSeriesResult } from '../src/charge-series-result';
+import { ChargeSeriesResult } from '../charge-series-result';
 
 const makeReadable = (result: ChargeSeriesResult) => ({
   interval: result.maybeGetDateRange(),

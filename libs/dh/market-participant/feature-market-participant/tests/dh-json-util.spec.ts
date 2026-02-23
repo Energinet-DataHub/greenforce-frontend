@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { dhParseJSON, dhToJSON } from '../src/utils/dh-json-util';
+import { dhParseJSON, dhToJSON } from '../utils/dh-json-util';
 
 const testObject = { foo: 'bar' };
 const testObjectStringified = '{"foo":"bar"}';

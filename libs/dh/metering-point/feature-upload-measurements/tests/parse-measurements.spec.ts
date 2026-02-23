@@ -18,9 +18,9 @@
 //#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
 import { SendMeasurementsResolution } from '@energinet-datahub/dh/shared/domain/graphql';
-import { parseMeasurements } from '../src/parse-measurements';
+import { parseMeasurements } from '../parse-measurements';
 import { lastValueFrom } from 'rxjs';
-import { MeasureDataResult } from '../src/models/measure-data-result';
+import { MeasureDataResult } from '../models/measure-data-result';
 
 const makeReadable = (result: MeasureDataResult) => ({
   interval: result.maybeGetDateRange(),

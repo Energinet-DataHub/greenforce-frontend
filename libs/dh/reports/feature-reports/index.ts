@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { routes as default } from './src/routes';
+export { routes as default } from './routes';

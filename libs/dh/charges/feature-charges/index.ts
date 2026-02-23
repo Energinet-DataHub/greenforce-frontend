@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { chargeRoutes as default } from './src/routes';
+export { chargeRoutes as default } from './routes';

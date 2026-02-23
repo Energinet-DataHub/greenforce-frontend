@@ -27,7 +27,7 @@ import {
 
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 
-import { DhProcesses } from '../src/components/table';
+import { DhProcesses } from '../components/table';
 
 async function setup() {
   await render(DhProcesses, {

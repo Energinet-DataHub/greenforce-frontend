@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhUploadMeasurementsPage } from './src/upload-page';
-export { DhUploadMeasurementsService } from './src/upload-service';
+export { DhUploadMeasurementsPage } from './upload-page';
+export { DhUploadMeasurementsService } from './upload-service';

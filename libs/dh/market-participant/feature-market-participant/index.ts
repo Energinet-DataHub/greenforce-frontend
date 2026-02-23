@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { dhMarketParticipantShellRoutes as default } from './src/routes';
+export { dhMarketParticipantShellRoutes as default } from './routes';

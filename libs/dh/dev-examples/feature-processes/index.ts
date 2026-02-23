@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { devExampleProcessesRoutes as default } from './src/routes';
+export { devExampleProcessesRoutes as default } from './routes';

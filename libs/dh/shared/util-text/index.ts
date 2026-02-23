@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/capitalize';
+export * from './capitalize';

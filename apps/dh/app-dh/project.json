@@ -21,7 +21,7 @@
         "allowedCommonJsDependencies": ["flat", "msw", "dayjs", "qs"],
         "assets": [
           {
-            "input": "libs/dh/shared/assets/src/favicon",
+            "input": "libs/dh/shared/assets/favicon",
             "glob": "**/*",
             "output": ""
           },
@@ -31,17 +31,17 @@
             "output": ""
           },
           {
-            "input": "libs/dh/shared/assets/src/assets",
+            "input": "libs/dh/shared/assets/assets",
             "glob": "**/*",
             "output": "assets"
           },
           {
-            "input": "libs/dh/globalization/assets-localization/src/assets",
+            "input": "libs/dh/globalization/assets-localization/assets",
             "glob": "**/*",
             "output": "assets"
           },
           {
-            "input": "libs/gf/msw/util-msw/src/assets",
+            "input": "libs/gf/msw/util-msw/assets",
             "glob": "mockServiceWorker.js",
             "output": "/"
           }
@@ -80,8 +80,8 @@
               "with": "apps/dh/app-dh/src/configuration/load-dh-app-environment.prod.ts"
             },
             {
-              "replace": "libs/dh/shared/environments/src/lib/environment.ts",
-              "with": "libs/dh/shared/environments/src/lib/environment.prod.ts"
+              "replace": "libs/dh/shared/environments/environment.ts",
+              "with": "libs/dh/shared/environments/environment.prod.ts"
             }
           ],
           "allowedCommonJsDependencies": ["crypto-js", "dayjs", "flat", "qs"],
@@ -109,8 +109,8 @@
           "namedChunks": true,
           "fileReplacements": [
             {
-              "replace": "libs/dh/shared/environments/src/lib/environment.ts",
-              "with": "libs/dh/shared/environments/src/lib/environment.mocked.ts"
+              "replace": "libs/dh/shared/environments/environment.ts",
+              "with": "libs/dh/shared/environments/environment.mocked.ts"
             }
           ],
           "allowedCommonJsDependencies": [

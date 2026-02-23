@@ -20,7 +20,7 @@ import { test, vi } from 'vitest';
 import { ApolloError } from '@apollo/client/core';
 import { TestBed } from '@angular/core/testing';
 import { gql } from '@apollo/client/core';
-import { subscription } from '../src/lib/subscription';
+import { subscription } from '../lib/subscription';
 import { withApollo } from './with-apollo';
 
 const MOCK_DATA = { calculationUpdated: { id: '1' } };

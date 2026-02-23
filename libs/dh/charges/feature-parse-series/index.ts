@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { parseChargeSeries } from './src/parse-charge-series';
-export { ChargeSeriesResult } from './src/charge-series-result';
+export { parseChargeSeries } from './parse-charge-series';
+export { ChargeSeriesResult } from './charge-series-result';

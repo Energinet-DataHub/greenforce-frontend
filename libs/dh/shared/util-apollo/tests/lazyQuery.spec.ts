@@ -20,7 +20,7 @@ import { test, vi } from 'vitest';
 import { ApolloError } from '@apollo/client/core';
 import { TestBed } from '@angular/core/testing';
 import { gql } from '@apollo/client/core';
-import { lazyQuery } from '../src/lib/lazyQuery';
+import { lazyQuery } from '../lib/lazyQuery';
 import { withApollo } from './with-apollo';
 
 const MOCK_DATA = { __type: { name: 'Query' } };

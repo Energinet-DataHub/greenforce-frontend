@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { highlightWorkerProvider } from './src/dh-shared-highlight-provider';
-export type * from './src/types';
+export { highlightWorkerProvider } from './dh-shared-highlight-provider';
+export type * from './types';
