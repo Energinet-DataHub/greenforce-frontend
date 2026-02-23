@@ -47,7 +47,12 @@ import { dhLanguageServiceInitializer } from '@energinet-datahub/dh/globalizatio
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { highlightWorkerProvider } from '@energinet-datahub/dh/shared/feature-highlight';
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
-import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  dhAuthorizationInterceptor,
+  DhActorTokenService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhApollo, DhTokenProvider } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhApolloService } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 import { microsoftClarityProviders } from '@energinet-datahub/dh/shared/feature-microsoft-clarity';
 import { WattModalService } from '@energinet/watt/modal';
@@ -105,6 +110,9 @@ const msalProviders = [
 ];
 
 export const dhCoreShellProviders = [
+  DhApolloService,
+  { provide: DhApollo, useExisting: DhApolloService },
+  { provide: DhTokenProvider, useExisting: DhActorTokenService },
   FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   microsoftClarityProviders,

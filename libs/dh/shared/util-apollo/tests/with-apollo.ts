@@ -27,8 +27,8 @@ import {
   Observable,
 } from '@apollo/client/core';
 import { GraphQLError } from 'graphql';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { DhApollo, isSubscription } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhApollo } from '../src/lib/dh-apollo';
+import { isSubscription } from '../src/lib/util/is-subscription';
 
 export const withApollo = (
   data: Record<string, unknown>

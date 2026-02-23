@@ -16,6 +16,9 @@
  * limitations under the License.
  */
 //#endregion
+export * from './lib/dh-apollo';
+export * from './lib/dh-token-provider';
+export * from './lib/util/is-subscription';
 export * from './lib/query';
 export * from './lib/lazyQuery';
 export * from './lib/mutation';

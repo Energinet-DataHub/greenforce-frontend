@@ -21,13 +21,13 @@ import { ApolloClient, ApolloLink, split } from '@apollo/client/core';
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { DhApollo, isSubscription } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { cache } from './cache';
 import { DhErrorLink } from './dh-error-link';
 import { DhHttpLink } from './dh-http-link';
 import { DhRetryLink } from './dh-retry-link';
 import { DhSseLink } from './dh-sse-link';
-import { isSubscription } from './util';
 
 declare const ngDevMode: boolean;
 
@@ -36,18 +36,8 @@ if (ngDevMode) {
   loadErrorMessages();
 }
 
-/**
- * Minimal Apollo service for Angular.
- * Provides access to the ApolloClient instance.
- *
- * Usage:
- *   const apollo = inject(DhApollo);
- *   apollo.client.query({ query: MyDocument });
- *   apollo.client.mutate({ mutation: MyMutation });
- *   apollo.client.subscribe({ query: MySubscription });
- */
-@Injectable({ providedIn: 'root' })
-export class DhApollo {
+@Injectable()
+export class DhApolloService extends DhApollo {
   private readonly environment = inject(dhApiEnvironmentToken);
   private readonly errorLink = inject(DhErrorLink);
   private readonly retryLink = inject(DhRetryLink);
