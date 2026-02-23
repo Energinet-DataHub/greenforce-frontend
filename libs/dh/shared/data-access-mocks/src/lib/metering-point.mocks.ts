@@ -652,7 +652,7 @@ function getConversation() {
               senderType: 'ENERGY_SUPPLIER',
               userMessage: {
                 content: 'Hej, her er et spørgsmål',
-                __typename: 'UserMessage'
+                __typename: 'UserMessage',
               },
               messageType: 'USER_MESSAGE',
               createdTime: new Date(),
@@ -674,7 +674,7 @@ function getConversation() {
               senderType: 'ENERGY_SUPPLIER',
               userMessage: {
                 content: 'Hej, her er et spørgsmål',
-                __typename: 'UserMessage'
+                __typename: 'UserMessage',
               },
               messageType: 'USER_MESSAGE',
               createdTime: new Date(),
