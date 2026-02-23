@@ -1,0 +1,92 @@
+{
+  "name": "dh-shared-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/shared/domain",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:shared", "type:domain"],
+  "implicitDependencies": ["api-dh"],
+  "targets": {
+    "lint": {
+      "command": "eslint .",
+      "options": {
+        "cwd": "libs/dh/shared/domain"
+      },
+      "cache": true,
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/.eslintrc.json",
+        "{workspaceRoot}/libs/dh/.eslintrc.json",
+        "{workspaceRoot}/tools/eslint-rules/**/*",
+        { "externalDependencies": ["eslint"] }
+      ],
+      "outputs": ["{options.outputFile}"],
+      "metadata": { "technologies": ["eslint"] }
+    },
+    "test": {
+      "command": "vitest",
+      "options": {
+        "cwd": "libs/dh/shared/domain",
+        "root": "."
+      },
+      "cache": true,
+      "inputs": ["default", "^production", { "externalDependencies": ["vitest"] }, { "env": "CI" }],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/domain"],
+      "metadata": { "technologies": ["vitest"] }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql",
+        "{workspaceRoot}/codegen.ts",
+        "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
+        "{workspaceRoot}/libs/**/*.graphql",
+        "!{projectRoot}/generated/graphql/**/*"
+      ],
+      "dependsOn": [
+        {
+          "projects": ["api-dh"],
+          "target": "build"
+        }
+      ],
+      "outputs": [
+        "{projectRoot}/generated/graphql/types.ts",
+        "{projectRoot}/generated/graphql/data-source.ts",
+        "{projectRoot}/generated/graphql/introspection.ts",
+        "{projectRoot}/generated/graphql/msw.ts"
+      ],
+      "options": {
+        "commands": ["graphql-codegen"]
+      }
+    },
+    "watch-generate": {
+      "executor": "nx:run-commands",
+      "continuous": true,
+      "inputs": [
+        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql",
+        "{workspaceRoot}/codegen.ts",
+        "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
+        "{workspaceRoot}/libs/**/*.graphql",
+        "!{projectRoot}/generated/graphql/**/*"
+      ],
+      "dependsOn": [
+        {
+          "projects": ["api-dh"],
+          "target": "serve"
+        }
+      ],
+      "outputs": [
+        "{projectRoot}/generated/graphql/types.ts",
+        "{projectRoot}/generated/graphql/data-source.ts",
+        "{projectRoot}/generated/graphql/introspection.ts",
+        "{projectRoot}/generated/graphql/msw.ts"
+      ],
+      "options": {
+        "commands": ["graphql-codegen"],
+        "args": ["--watch"]
+      }
+    }
+  }
+}

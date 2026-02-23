@@ -34,7 +34,7 @@ documentation.json
 
 # GraphQL generated files
 schema.graphql
-libs/dh/shared/domain/src/lib/generated/graphql
+libs/dh/shared/domain/generated/graphql
 
 # nested node_modules
 node_modules

@@ -24,7 +24,7 @@ const config: CodegenConfig = {
   config: { sort: false },
   documents: 'libs/**/*.graphql',
   generates: {
-    'libs/dh/shared/domain/src/lib/generated/graphql/types.ts': {
+    'libs/dh/shared/domain/generated/graphql/types.ts': {
       plugins: [
         'typescript',
         'typescript-operations',
@@ -50,17 +50,17 @@ const config: CodegenConfig = {
         },
       },
     },
-    'libs/dh/shared/domain/src/lib/generated/graphql/msw.ts': {
+    'libs/dh/shared/domain/generated/graphql/msw.ts': {
       preset: 'import-types',
       plugins: ['typescript-msw'],
       presetConfig: {
         typesPath: './types',
       },
     },
-    'libs/dh/shared/domain/src/lib/generated/graphql/introspection.ts': {
+    'libs/dh/shared/domain/generated/graphql/introspection.ts': {
       plugins: ['fragment-matcher'],
     },
-    'libs/dh/shared/domain/src/lib/generated/graphql/data-source.ts': {
+    'libs/dh/shared/domain/generated/graphql/data-source.ts': {
       plugins: ['libs/dh/shared/feature-graphql-codegen/dist/apollo-data-source.js'],
     },
   },
