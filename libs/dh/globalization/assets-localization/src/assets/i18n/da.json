@@ -1122,6 +1122,13 @@
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "updateCustomerData": "Opdater kundestamdata",
+      "updateCustomer": {
+        "toast": {
+          "loading": "Kundestamdata opdateres...",
+          "success": "Kundestamdata opdateret",
+          "error": "Opdatering mislykkedes"
+        }
+      },
       "customerDetails": {
         "label": "Kundedetaljer",
         "cutOffDate": "Skæringsdato",

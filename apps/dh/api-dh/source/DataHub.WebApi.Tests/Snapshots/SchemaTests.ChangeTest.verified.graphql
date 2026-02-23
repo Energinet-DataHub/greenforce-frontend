@@ -2916,8 +2916,8 @@ enum ElectricityMarketViewConnectionType {
 }
 
 enum ElectricityMarketViewCustomerRelationType {
-  CONTACT1
-  CONTACT4
+  TECHNICAL
+  JURIDICAL
   SECONDARY
 }
 

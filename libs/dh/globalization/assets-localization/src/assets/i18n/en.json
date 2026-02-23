@@ -1122,6 +1122,13 @@
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
       "updateCustomerData": "Update customer data",
+      "updateCustomer": {
+        "toast": {
+          "loading": "Updating customer data...",
+          "success": "Customer data updated",
+          "error": "Update failed"
+        }
+      },
       "customerDetails": {
         "label": "Customer details",
         "cutOffDate": "Cut-off date",
