@@ -38,20 +38,12 @@ export type Ast =
   imports: [JsonPipe, KeyValuePipe, VATER, WattIconComponent],
   host: { '[class]': 'class()' },
   styles: `
-    /*watt-json,
-    [watt-json] {
-    }*/
-
-    .watt-json--object > [watt-json] {
-      /*padding-left: 20px; /* Size equal to small watt-icon */
-    }
-
     .watt-json-label {
       position: relative;
-      color: var(--watt-color-primary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      color: var(--watt-color-primary);
     }
 
     .watt-json-label:hover {
@@ -77,9 +69,8 @@ export type Ast =
       color: var(--watt-color-state-danger);
     }
 
-    .watt-json-index,
     .watt-json-raw {
-      color: var(--watt-on-light-medium-emphasis);
+      color: var(--watt-on-light-low-emphasis);
     }
   `,
   template: `
