@@ -413,6 +413,7 @@ type ConversationInfo {
 type ConversationMessage {
   actorName: String
   userName: String!
+  isSentByCurrentActor: Boolean!
   "Message content"
   content: String!
   messageType: MessageType!
@@ -2298,9 +2299,6 @@ input ResetTwoFactorAuthenticationInput {
 
 input SendActorConversationMessageInput {
   conversationId: UUID!
-  meteringPointIdentification: String!
-  actorId: String!
-  userId: String!
   content: String!
   anonymous: Boolean!
 }
@@ -2918,8 +2916,8 @@ enum ElectricityMarketViewConnectionType {
 }
 
 enum ElectricityMarketViewCustomerRelationType {
-  CONTACT1
-  CONTACT4
+  TECHNICAL
+  JURIDICAL
   SECONDARY
 }
 

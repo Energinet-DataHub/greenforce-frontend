@@ -198,6 +198,7 @@ export class DhMeteringPointActionsComponent {
 
   showMoveInButton = computed(() => {
     return (
+      this.isEnergySupplierResponsible() &&
       this.hasMeteringPointMoveInPermission() &&
       this.releaseToggleService.isEnabled('MoveInBrs009') &&
       (this.connectionState() === ElectricityMarketViewConnectionState.New ||

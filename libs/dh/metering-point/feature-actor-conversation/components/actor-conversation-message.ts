@@ -48,23 +48,29 @@ import { TranslocoDirective } from '@jsverse/transloco';
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <vater-stack fill="horizontal" align="start" class="watt-space-inset-m">
-        <vater-stack direction="row" justify="space-between" fill="horizontal">
+        <vater-stack direction="row" justify="space-between" fill="horizontal" gap="m">
           <span>{{ t('receivers.' + message().senderType) }}</span>
           <span>{{ message().createdTime | wattDate: 'short' }}</span>
         </vater-stack>
-        <span>{{ message().actorName + ', ' + message().userName }}</span>
+        @if (message().actorName && message().userName) {
+          <span>{{ message().actorName + ', ' + message().userName }}</span>
+        }
       </vater-stack>
       <hr class="watt-divider no-margin" />
-      <span vater fill="horizontal" class="watt-space-inset-m">{{ message().content }}</span>
+      @if (message().messageType === 'USER_MESSAGE') {
+        <span vater fill="horizontal" class="watt-space-inset-m">{{ message().content }}</span>
+      }
+      @if (message().messageType === 'CLOSING_MESSAGE') {
+        <span vater fill="horizontal" class="watt-space-inset-m">{{ t('closingMessage') }}</span>
+      }
     </vater-stack>
   `,
 })
 export class DhActorConversationMessageComponent {
   message = input.required<ConversationMessage>();
-  isFromCurrentUser = input(false);
-  messageAlignment = computed(() => (this.isFromCurrentUser() ? 'end' : 'start'));
+  messageAlignment = computed(() => (this.message().isSentByCurrentActor ? 'end' : 'start'));
   backgroundColor = computed(() =>
-    this.isFromCurrentUser()
+    this.message().isSentByCurrentActor
       ? 'var(--watt-color-primary-ultralight)'
       : 'var(--watt-color-neutral-grey-100)'
   );
