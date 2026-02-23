@@ -650,7 +650,10 @@ function getConversation() {
             {
               __typename: 'ConversationMessage',
               senderType: 'ENERGY_SUPPLIER',
-              content: 'Hej, her er et spørgsmål',
+              userMessage: {
+                content: 'Hej, her er et spørgsmål',
+                __typename: 'UserMessage',
+              },
               messageType: 'USER_MESSAGE',
               createdTime: new Date(),
               actorName: 'Sort Strøm',
@@ -660,7 +663,6 @@ function getConversation() {
             {
               __typename: 'ConversationMessage',
               senderType: 'ENERGY_SUPPLIER',
-              content: 'ClosingMessage',
               messageType: 'CLOSING_MESSAGE',
               createdTime: new Date(),
               actorName: '',
@@ -670,7 +672,10 @@ function getConversation() {
             {
               __typename: 'ConversationMessage',
               senderType: 'ENERGY_SUPPLIER',
-              content: 'Anonym besked',
+              userMessage: {
+                content: 'Hej, her er et spørgsmål',
+                __typename: 'UserMessage',
+              },
               messageType: 'USER_MESSAGE',
               createdTime: new Date(),
               actorName: '',

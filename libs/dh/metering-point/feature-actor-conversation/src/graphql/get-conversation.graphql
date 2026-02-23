@@ -7,7 +7,9 @@ query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
     closed
     messages {
       senderType
-      content
+      userMessage {
+        content
+      }
       messageType
       createdTime
       actorName
