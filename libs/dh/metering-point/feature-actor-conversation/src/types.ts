@@ -17,8 +17,6 @@
  */
 //#endregion
 import {
-  ActorType,
-  ConversationSubject,
   GetConversationDocument,
   GetConversationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -40,15 +38,9 @@ export enum ActorConversationState {
 
 export type Conversation = ActorConversations[0];
 
+export type NewConversation = Omit<Conversation, 'subject'> & { subject: string };
+
 export interface MessageFormValue {
   content: string | null;
   anonymous: boolean | null;
 }
-
-export type StartConversationFormValue = {
-  subject: ConversationSubject;
-  content: string;
-  anonymous: boolean;
-  receiver: ActorType;
-  internalNote?: string;
-};

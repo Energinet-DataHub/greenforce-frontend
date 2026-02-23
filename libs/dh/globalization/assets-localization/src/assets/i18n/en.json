@@ -821,7 +821,8 @@
       "startConversationError": "One or more fields are not filled correctly.\n\nThis may be due to an invalid combination of subject and recipient, or because anonymous submissions are not permitted for the selected recipient.",
       "conversationCloseError": "An error occurred trying to close the case",
       "anonymousCheckbox": "Send anonymously",
-      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver"
+      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver",
+      "closingMessage": "Case closed"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
@@ -969,6 +970,16 @@
         "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
       },
       "steps": {
+        "ConnectMeteringPoint": {
+          "BRS_007_008_013_V1_STEP_1": "Request for connection of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Notification of connection of metering point (RSM-022)",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_1 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_2 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_3 }}",
+          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_4 }}"
+        },
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Request end of supply (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Confirm end of supply (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Reject end of supply (RSM-005)",
@@ -978,10 +989,6 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Notification of new metering point (RSM-022)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Notification of charge links (RSM-031)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Request for connection of metering point (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Notification of connection of metering point (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_1": "Request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Confirm request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Reject request Change of Supplier (RSM-001)",
