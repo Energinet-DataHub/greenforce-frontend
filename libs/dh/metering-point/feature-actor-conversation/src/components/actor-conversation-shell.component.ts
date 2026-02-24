@@ -54,6 +54,10 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
     :host {
       --case-min-row-height: 82px;
     }
+
+    .list-min-width {
+      min-width: 400px;
+    }
   `,
   template: `
     <watt-card vater contain fill="vertical">
@@ -66,6 +70,7 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
         <dh-actor-conversation-list
           vater
           scrollable
+          class="list-min-width"
           [conversationsQuery]="conversationsQuery"
           [newConversationVisible]="newConversationVisible()"
           [selectedConversationId]="selectedConversationId()"
