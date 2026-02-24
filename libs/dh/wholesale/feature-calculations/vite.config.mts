@@ -34,7 +34,7 @@ const mswPolyfillPath = resolve(
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/dh/wholesale/feature-calculations',
-  plugins: [analog(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [analog({ tsconfig: './tsconfig.spec.json' }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   resolve: {
     conditions: ['development', 'browser'],
   },
