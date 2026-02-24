@@ -123,9 +123,6 @@ export class DhActorConversationNewConversationComponent {
   private readonly startConversationErrorToast = injectToast(
     'meteringPoint.actorConversation.startConversationError'
   );
-  private readonly startConversationToastEffect = effect(() =>
-    this.startConversationErrorToast(this.startConversationMutation.status())
-  );
   private readonly fb = inject(NonNullableFormBuilder);
   startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
