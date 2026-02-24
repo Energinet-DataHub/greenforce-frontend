@@ -28,10 +28,8 @@ import { WattJsonColorize } from './watt-json-colorize.component';
   styles: `
     .watt-json-label {
       position: relative;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       color: var(--watt-color-primary);
+      padding-left: calc(var(--watt-json-level) * 20px);
     }
 
     .watt-json-label:hover {
@@ -45,7 +43,7 @@ import { WattJsonColorize } from './watt-json-colorize.component';
     }
   `,
   template: `
-    <div class="watt-json-label" [style.paddingLeft.px]="20 * level()" (click)="toggleExpanded()">
+    <div class="watt-json-label" [style.--watt-json-level]="level()" (click)="toggleExpanded()">
       @if (expandable() && children()) {
         <watt-icon size="s" [name]="expanded() ? 'down' : 'right'" />
       }
