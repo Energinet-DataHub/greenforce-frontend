@@ -12,9 +12,6 @@
       "options": {
         "config": "libs/dh/metering-point/feature-move-in/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

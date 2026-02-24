@@ -12,9 +12,6 @@
       "options": {
         "reportsDirectory": "../../../../coverage/libs/dh/shared/ui-util"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

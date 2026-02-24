@@ -128,7 +128,7 @@
       "inputs": ["default", "^production"],
       "cache": true
     },
-    "@nx/eslint:lint": {
+    "lint": {
       "dependsOn": [
         {
           "projects": ["dh-shared-domain"],
@@ -162,5 +162,13 @@
     ]
   },
   "defaultBase": "main",
-  "nxCloudId": "6124f33c6b561869a0db14ff"
+  "nxCloudId": "6124f33c6b561869a0db14ff",
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    }
+  ]
 }
