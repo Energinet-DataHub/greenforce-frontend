@@ -20,18 +20,23 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, translateObjectSignal } from '@jsverse/transloco';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
 import { Conversation, NewConversation } from '../types';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { QueryResult } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  ConversationSubject,
   GetConversationsQuery,
   GetConversationsQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhEnumToWattDropdownOptions,
+  DhResultComponent,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { dayjs } from '@energinet/watt/core/date';
-import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattSimpleSearchComponent } from '@energinet/watt/search';
+import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/dropdown';
 
 @Component({
   selector: 'dh-actor-conversation-list',
@@ -43,8 +48,9 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
     DhActorConversationListItemComponent,
     VaterUtilityDirective,
     DhResultComponent,
-    WattTextFieldComponent,
     ReactiveFormsModule,
+    WattSimpleSearchComponent,
+    WattDropdownComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -55,22 +61,21 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
     .conversations {
       list-style: none;
     }
+
+    .thick-divider {
+      border-top: 2px solid var(--watt-color-neutral-grey-300);
+      margin: 0;
+    }
   `,
   template: `
-    <dh-result [query]="conversationsQuery()">
-      <vater-grid
-        gap="dividers"
-        autoRows="minmax(var(--case-min-row-height), 1fr)"
-        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+    <vater-stack sticky="top" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+      <vater-stack
+        fill="horizontal"
+        class="new-conversation watt-space-inset-m"
+        gap="m"
+        align="start"
       >
-        <vater-stack
-          sticky="top"
-          direction="row"
-          justify="space-between"
-          align="center"
-          offset="m"
-          class="new-conversation"
-        >
+        <vater-stack fill="horizontal" direction="row" justify="space-between" align="center">
           <h3 watt-heading>{{ t('cases') }}</h3>
           <watt-button
             (click)="createNewConversation.emit()"
@@ -81,21 +86,26 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
             {{ t('newCaseButton') }}
           </watt-button>
         </vater-stack>
+        <watt-simple-search
+          vater
+          fill="horizontal"
+          [label]="t('searchPlaceholder')"
+          [formControl]="searchControl"
+          (search)="filter.emit($event)"
+        />
+        <watt-dropdown
+          [formControl]="formControl"
+          [options]="options()"
+          [multiple]="true"
+          [chipMode]="true"
+          [placeholder]="t('filters.placeholder')"
+        />
+      </vater-stack>
+      <hr class="watt-divider thick-divider" />
+    </vater-stack>
 
-        <vater-stack direction="row" class="search-wrapper">
-          <watt-text-field
-            [placeholder]="t('searchPlaceholder')"
-            [formControl]="searchControl"
-            (keydown.enter)="searchChanged.emit(searchControl.value ?? '')"
-          >
-            <watt-button
-              variant="icon"
-              icon="search"
-              (click)="searchChanged.emit(searchControl.value ?? '')"
-            />
-          </watt-text-field>
-        </vater-stack>
-
+    <dh-result [query]="conversationsQuery()">
+      <vater-grid gap="dividers" autoRows="minmax(var(--case-min-row-height), 1fr)">
         <ul vater fragment class="conversations">
           @if (newConversationVisible()) {
             <li>
@@ -120,6 +130,8 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
   `,
 })
 export class DhActorConversationListComponent {
+  private translations = translateObjectSignal('meteringPoint.actorConversation');
+
   conversationsQuery = input<QueryResult<GetConversationsQuery, GetConversationsQueryVariables>>();
   conversations = computed(
     () => this.conversationsQuery()?.data()?.conversationsForMeteringPoint?.conversations ?? []
@@ -127,9 +139,39 @@ export class DhActorConversationListComponent {
   newConversationVisible = input<boolean>(false);
   selectedConversationId = input<string | undefined>(undefined);
   createNewConversation = output();
-  searchChanged = output<string>();
+  filter = output<string>();
   selectConversation = output<Conversation>();
   searchControl = new FormControl('');
+  formControl = new FormControl<string | ''>('');
+  conversationSubjectOptions = dhEnumToWattDropdownOptions(ConversationSubject);
+
+  options = computed<WattDropdownOptionGroup[]>(() => {
+    const t = this.translations();
+
+    return [
+      {
+        label: t['filters']['general'],
+        options: [
+          { value: 'myCases', displayValue: t['filters']['myCases'] },
+          { value: 'showOnlyUnread', displayValue: t['filters']['showOnlyUnread'] },
+        ],
+      },
+      {
+        label: t['filters']['status'],
+        options: [
+          { value: 'active', displayValue: t['active'] },
+          { value: 'closed', displayValue: t['closed'] },
+        ],
+      },
+      {
+        label: t['subjectLabel'],
+        options: this.conversationSubjectOptions.map((option) => ({
+          ...option,
+          displayValue: t['subjects'][option.value],
+        })),
+      },
+    ];
+  });
 
   newConversation: NewConversation = {
     __typename: 'ConversationInfo',

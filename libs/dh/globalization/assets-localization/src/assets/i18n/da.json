@@ -787,12 +787,12 @@
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
         "INTERRUPTION_RECONNECTION": "Afbrydelse/Gentilslutning",
-        "ELECTRICAL_HEATING": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "ELECTRICAL_HEATING": "Elvarme",
         "WRONGFUL_MOVE_OR_SUPPLIER_CHANGE": "Fejlagtig flytning/leverandørskifte",
-        "CUSTOMER_MASTER_DATA": "{{ shared.terminology.customerMasterData }}",
-        "MEASUREMENT_DATA": "{{ shared.terminology.measurements }}",
-        "MEASUREMENT_POINT_MASTER_DATA": "{{ shared.terminology.meteringPointMasterData }}",
-        "PRICE_LINKING": "{{ shared.terminology.chargeLink }}",
+        "CUSTOMER_MASTER_DATA": "Kundestamdata",
+        "MEASUREMENT_DATA": "Måledata",
+        "MEASUREMENT_POINT_MASTER_DATA": "Målepunktsstamdata",
+        "PRICE_LINKING": "Pristilknytning",
         "newCase": "Ny sag"
       },
       "receiverLabel": "Til",
@@ -810,6 +810,7 @@
         "noCases": "Der er ingen sager på målepunktet",
         "noCaseSelected": "Ingen sag valgt"
       },
+      "active": "Aktiv",
       "closed": "Afsluttet",
       "closeCaseButton": "Afslut sag",
       "markAsUnreadButton": "Marker som ulæst",
@@ -817,7 +818,14 @@
       "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
       "anonymousCheckbox": "Send anonymt",
       "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren",
-      "closingMessage": "Sag afsluttet"
+      "closingMessage": "Sag afsluttet",
+      "filters": {
+        "placeholder": "Filtre",
+        "general": "Generelt",
+        "myCases": "Mine sager",
+        "showOnlyUnread": "Vis kun ulæste",
+        "status": "Status"
+      }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
