@@ -12,10 +12,6 @@
       "options": {
         "reportsDirectory": "../../../../coverage/libs/dh/shared/feature-microsoft-clarity"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }

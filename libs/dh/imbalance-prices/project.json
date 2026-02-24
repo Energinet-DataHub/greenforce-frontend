@@ -12,10 +12,6 @@
       "options": {
         "configFile": "libs/dh/imbalance-prices/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }

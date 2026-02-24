@@ -95,9 +95,11 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
           <watt-menu-item (click)="startMoveIn()">
             {{ t('moveIn') }}
           </watt-menu-item>
-          <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
-            {{ t('updateCustomerData') }}
-          </watt-menu-item>
+          @if (isEnergySupplierResponsible()) {
+            <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
+              {{ t('updateCustomerData') }}
+            </watt-menu-item>
+          }
         }
 
         @if (showCreateChargeLinkButton()) {

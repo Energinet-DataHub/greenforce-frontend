@@ -22,7 +22,9 @@ import { ActivatedRoute } from '@angular/router';
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { InitiateMitIdSignupDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({

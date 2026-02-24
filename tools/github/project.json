@@ -5,9 +5,6 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
     "create-branch": {
       "executor": "nx:run-commands",
       "options": {

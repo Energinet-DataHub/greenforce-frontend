@@ -12,10 +12,6 @@
       "options": {
         "config": "libs/gf/test-util-matchers/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }

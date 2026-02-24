@@ -20,18 +20,22 @@ import { HttpClient } from '@angular/common/http';
 import { Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { firstValueFrom } from 'rxjs';
+
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattDatePipe } from '@energinet/watt/date';
+import { WattToastService } from '@energinet/watt/toast';
 import { WattDataTableComponent } from '@energinet/watt/data';
+
 import {
   GetMeteringPointProcessByIdQuery,
   ProcessStepState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattIconComponent } from '@energinet/watt/icon';
-import { WattDatePipe } from '@energinet/watt/date';
-import { WattToastService } from '@energinet/watt/toast';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+
+import { DhStepName } from './step-name';
 
 type MeteringPointProcessStep = NonNullable<
   GetMeteringPointProcessByIdQuery['meteringPointProcessById']
@@ -44,11 +48,13 @@ type MeteringPointProcessStep = NonNullable<
     TranslocoPipe,
     VaterFlexComponent,
     VaterUtilityDirective,
+
     WATT_TABLE,
     WattDataTableComponent,
     WattDatePipe,
     WattIconComponent,
     DhEmDashFallbackPipe,
+    DhStepName,
   ],
   styles: `
     tr.pending-step {
@@ -91,14 +97,7 @@ type MeteringPointProcessStep = NonNullable<
             justify="space-between"
           >
             <div vater fill="horizontal">
-              @if (reasonCode() === 'ConnectMeteringPoint') {
-                {{
-                  'meteringPoint.processOverview.steps.ConnectMeteringPoint.' + process.step
-                    | transloco
-                }}
-              } @else {
-                {{ 'meteringPoint.processOverview.steps.' + process.step | transloco }}
-              }
+              <dh-step-name [reasonCode]="reasonCode()" [step]="process.step" />
 
               @if (process.comment) {
                 <div class="watt-text-s-highlighted">{{ process.comment }}</div>

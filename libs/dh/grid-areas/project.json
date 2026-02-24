@@ -12,10 +12,6 @@
       "options": {
         "config": "libs/dh/grid-areas/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }

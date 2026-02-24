@@ -12,9 +12,6 @@
       "options": {
         "configFile": "libs/dh/admin/feature-user-roles/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

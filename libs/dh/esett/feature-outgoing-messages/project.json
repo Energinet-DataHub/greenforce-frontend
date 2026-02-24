@@ -12,10 +12,6 @@
       "options": {
         "configFile": "libs/dh/esett/feature-outgoing-messages/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }

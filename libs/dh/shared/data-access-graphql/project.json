@@ -13,9 +13,6 @@
       "options": {
         "config": "libs/dh/shared/data-access-graphql/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

@@ -9,9 +9,6 @@
     "test": {
       "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

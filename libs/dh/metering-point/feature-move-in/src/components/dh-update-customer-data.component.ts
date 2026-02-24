@@ -16,54 +16,46 @@
  * limitations under the License.
  */
 //#endregion
-import { Location } from '@angular/common';
-import {
-  Component,
-  computed,
-  DestroyRef,
-  effect,
-  inject,
-  Injector,
-  input,
-  signal,
-  untracked,
-} from '@angular/core';
+import { Component, computed, effect, inject, input } from '@angular/core';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { TranslocoDirective } from '@jsverse/transloco';
+
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import {
-  dhCprValidator,
-  dhMunicipalityCodeValidator,
-} from '@energinet-datahub/dh/shared/ui-validators';
-import { WattToastService } from '@energinet/watt/toast';
-import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
-
-import {
-  AddressData,
-  AddressDetailsFormType,
-  BusinessCustomerFormGroup,
-  Contact,
-  ContactDetailsFormGroup,
-  ContactDetailsFormType,
-  CustomerCharacteristicsFormType,
-  PrivateCustomerFormGroup,
-} from '../types';
-import { WATT_CARD } from '@energinet/watt/card';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
-import { DhContactDetailsComponent } from './dh-contact-details.component';
-import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details.component';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { DhPrivateCustomerDetailsComponent } from './dh-private-customer-details.component';
-import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
+import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+
 import {
-  ElectricityMarketViewCustomerRelationType,
+  injectToast,
+  dhMakeFormControl,
+  dhFormControlToSignal,
+  injectRelativeNavigate,
+} from '@energinet-datahub/dh/shared/ui-util';
+
+import { WATT_CARD } from '@energinet/watt/card';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+
+import {
+  AddressTypeV1,
   GetMeteringPointByIdDocument,
+  ChangeCustomerCharacteristicsBusinessReason,
   RequestChangeCustomerCharacteristicsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-customer-characteristics-mapper';
+
+import { sync } from '../util/sync-controls';
+import { DhContactDetailsComponent } from './dh-contact-details.component';
+import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
+import { mapUsagePointLocation } from '../util/map-usage-point-location';
+import { DhPrivateCustomerDetailsComponent } from './dh-private-customer-details.component';
+import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details.component';
+import { createContactAddressDetailsForm } from '../util/create-contact-address-details-form';
+import { createCustomerContactDetailsForm } from '../util/create-customer-contact-details-form';
+import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
+import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -71,13 +63,14 @@ import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-cu
     TranslocoDirective,
     WATT_CARD,
     VaterFlexComponent,
+    WattButtonComponent,
+    ReactiveFormsModule,
+    WattSpinnerComponent,
+    VaterStackComponent,
     DhContactDetailsComponent,
     DhCustomerAddressDetailsComponent,
-    WattButtonComponent,
-    VaterStackComponent,
-    DhBusinessCustomerDetailsFormComponent,
     DhPrivateCustomerDetailsComponent,
-    ReactiveFormsModule,
+    DhBusinessCustomerDetailsFormComponent,
   ],
   styles: `
     .sticky-header {
@@ -92,7 +85,7 @@ import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-cu
     }
 
     .form-container {
-      margin: var(--watt-space-m);
+      margin-top: var(--watt-space-m);
       flex: 1 1 0;
       min-height: 0;
       overflow: auto;
@@ -104,16 +97,25 @@ import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-cu
   `,
   template: `
     <form
-      [formGroup]="updateCustomerDataForm"
+      [formGroup]="this.form()"
       (ngSubmit)="updateCustomerData()"
       *transloco="let t; prefix: 'meteringPoint.moveIn'"
     >
       <watt-card class="sticky-header">
         <vater-stack class="margin-medium" direction="row" justify="space-between">
-          <h3>{{ t('updateCustomerData') }}</h3>
           <vater-stack direction="row" gap="m">
-            <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }}</watt-button>
-            <watt-button type="submit">{{ t('updateCustomerData') }}</watt-button>
+            <h3>{{ t('updateCustomerData') }}</h3>
+            @if (query.loading()) {
+              <watt-spinner [diameter]="22" />
+            }
+          </vater-stack>
+          <vater-stack direction="row" gap="m">
+            <watt-button (click)="navigate('..')" variant="secondary">{{
+              t('cancel')
+            }}</watt-button>
+            <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()">{{
+              t('updateCustomerData')
+            }}</watt-button>
           </vater-stack>
         </vater-stack>
       </watt-card>
@@ -127,11 +129,11 @@ import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-cu
           </watt-card-title>
           @if (isBusinessCustomer()) {
             <dh-business-customer-details
-              [businessCustomerFormGroup]="updateCustomerDataForm.controls.businessCustomerDetails"
+              [businessCustomerFormGroup]="this.form().controls.businessCustomerDetails"
             />
           } @else {
             <dh-private-customer-details
-              [privateCustomerFormGroup]="updateCustomerDataForm.controls.privateCustomerDetails"
+              [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
             />
           }
         </watt-card>
@@ -143,10 +145,10 @@ import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-cu
             </h3>
           </watt-card-title>
           <dh-contact-details
-            [contactDetailsFormGroup]="updateCustomerDataForm.controls.legalContactDetails"
+            [contactDetailsFormGroup]="this.form().controls.legalContactDetails"
           />
           <dh-customer-address-details
-            [addressDetailsFormGroup]="updateCustomerDataForm.controls.legalAddressDetails"
+            [addressDetailsFormGroup]="this.form().controls.legalContactAddressDetails"
           />
         </watt-card>
         <!-- Technical -->
@@ -157,10 +159,10 @@ import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-cu
             </h3>
           </watt-card-title>
           <dh-contact-details
-            [contactDetailsFormGroup]="updateCustomerDataForm.controls.technicalContactDetails"
+            [contactDetailsFormGroup]="this.form().controls.technicalContactDetails"
           />
           <dh-customer-address-details
-            [addressDetailsFormGroup]="updateCustomerDataForm.controls.technicalAddressDetails"
+            [addressDetailsFormGroup]="this.form().controls.technicalContactAddressDetails"
           />
         </watt-card>
       </vater-flex>
@@ -168,405 +170,216 @@ import { mapChangeCustomerCharacteristicsFormToRequest } from '../util/change-cu
   `,
 })
 export class DhUpdateCustomerDataComponent {
-  private readonly formBuilder = inject(NonNullableFormBuilder);
-  private readonly injector = inject(Injector);
-  private readonly translocoService = inject(TranslocoService);
-  private readonly wattToastService = inject(WattToastService);
-  private readonly locationService = inject(Location);
-  private readonly actorStorage = inject(DhActorStorage).getSelectedActor();
-  private readonly destroyRef = inject(DestroyRef);
-
-  private readonly requestChangeCustomerCharacteristics = mutation(
-    RequestChangeCustomerCharacteristicsDocument
+  private readonly router = inject(Router);
+  private readonly actor = inject(DhActorStorage).getSelectedActor();
+  private readonly appEnv = inject(dhAppEnvironmentToken).current;
+  private readonly toast = injectToast('meteringPoint.moveIn.updateCustomer.toast');
+  private readonly effectToast = effect(() =>
+    this.toast(this.requestChangeCustomerCharacteristics.status())
   );
-
-  meteringPointId = input.required<string>();
-  searchMigratedMeteringPoints = input.required<boolean>();
-
-  isBusinessCustomer = signal<boolean>(false);
-  meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
+  requestChangeCustomerCharacteristics = mutation(RequestChangeCustomerCharacteristicsDocument);
+  query = query(GetMeteringPointByIdDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
-      actorGln: this.actorStorage.gln,
       searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
+      actorGln: this.actor.gln,
     },
   }));
+  private readonly customers = computed(
+    () => this.query.data()?.meteringPoint.commercialRelation?.activeEnergySupplyPeriod?.customers
+  );
+  private readonly legalCustomer = computed(() =>
+    this.customers()?.find((customer) => customer.relationType === 'JURIDICAL')
+  );
+  private readonly technicalCustomer = computed(() =>
+    this.customers()?.find((customer) => customer.relationType === 'TECHNICAL')
+  );
+  private readonly secondaryCustomer = computed(() =>
+    this.customers()?.find((customer) => customer.relationType === 'SECONDARY')
+  );
+  private readonly installationAddress = computed(
+    () => this.query.data()?.meteringPoint.metadata?.installationAddress
+  );
+  private readonly technicalContact = computed(() => this.technicalCustomer()?.technicalContact);
+  private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
-  meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
-  installationAddress = computed(() => this.meteringPoint()?.metadata?.installationAddress);
+  navigate = injectRelativeNavigate();
+  isBusinessCustomer = computed(() => this.legalCustomer()?.cvr !== null);
+  meteringPointId = input.required<string>();
+  internalMeteringPointId = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
 
-  hasValidInstallationAddress = computed(() => {
-    const address = this.installationAddress();
-    return !!(address && (address.streetName || address.cityName || address.postCode));
+  form = computed(
+    () =>
+      new FormGroup({
+        businessCustomerDetails: new FormGroup({
+          companyName: dhMakeFormControl<string>(
+            this.legalCustomer()?.name ?? '',
+            this.isBusinessCustomer() ? [Validators.required] : []
+          ),
+          cvr: dhMakeFormControl<string>(
+            this.legalCustomer()?.cvr ?? '',
+            this.isBusinessCustomer()
+              ? [Validators.required, dhMoveInCvrValidator(this.appEnv)]
+              : []
+          ),
+          nameProtection: dhMakeFormControl<boolean>(
+            this.legalCustomer()?.isProtectedName ?? false
+          ),
+        }),
+        privateCustomerDetails: new FormGroup({
+          customerName1: dhMakeFormControl<string>(
+            this.legalCustomer()?.name ?? '',
+            !this.isBusinessCustomer() ? [Validators.required] : []
+          ),
+          cpr1: dhMakeFormControl<string>(
+            '',
+            !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
+          ),
+          customerName2: dhMakeFormControl<string>(this.secondaryCustomer()?.name ?? ''),
+          cpr2: dhMakeFormControl<string>(
+            '',
+            !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
+          ),
+          nameProtection: dhMakeFormControl<boolean>(
+            this.secondaryCustomer()?.isProtectedName ?? false
+          ),
+        }),
+        legalContactDetails: createCustomerContactDetailsForm(
+          this.legalCustomer(),
+          this.legalContact()
+        ),
+        legalContactAddressDetails: createContactAddressDetailsForm(
+          this.legalContact(),
+          this.installationAddress()
+        ),
+        technicalContactDetails: createCustomerContactDetailsForm(
+          this.legalCustomer(),
+          this.technicalContact()
+        ),
+        technicalContactAddressDetails: createContactAddressDetailsForm(
+          this.technicalContact(),
+          this.installationAddress()
+        ),
+      })
+  );
+
+  private readonly legalCustomerNameChanged = dhFormControlToSignal(
+    () => this.form().controls.privateCustomerDetails.controls.customerName1
+  );
+
+  /** Sync technical */
+  private readonly technicalNameSameAsContactNameToggle = dhFormControlToSignal(
+    () => this.form().controls.technicalContactDetails.controls.contactSameAsCustomer
+  );
+
+  private readonly syncTechnicalContactName = effect(() => {
+    const technicalNameSameAsContactName = this.technicalNameSameAsContactNameToggle();
+    const legalCustomerName = this.legalCustomerNameChanged();
+    const control =
+      this.form().controls.technicalContactDetails.controls.contactGroup.controls.name;
+    sync(
+      control,
+      technicalNameSameAsContactName ? legalCustomerName : this.technicalContact()?.name,
+      technicalNameSameAsContactName
+    );
   });
 
-  addressDataFromMeteringPoint = computed((): AddressData => {
-    const address = this.installationAddress();
-    return {
-      streetName: address?.streetName ?? '',
-      buildingNumber: address?.buildingNumber ?? '',
-      floor: address?.floor ?? '',
-      room: address?.room ?? '',
-      postCode: address?.postCode ?? '',
-      cityName: address?.cityName ?? '',
-      countryCode: address?.countryCode ?? '',
-      streetCode: address?.streetCode ?? '',
-      citySubDivisionName: address?.citySubDivisionName ?? '',
-      postalDistrict: '',
-      postBox: '',
-      municipalityCode: address?.municipalityCode ?? '',
-      darReference: address?.darReference ?? '',
-    };
+  private readonly technicalAddressSameAsInstallationToggle = dhFormControlToSignal(
+    () => this.form().controls.technicalContactAddressDetails.controls.addressSameAsInstallation
+  );
+
+  private readonly syncTechnicalContactAddress = effect(() => {
+    const technicalAddressSameAsInstallation = this.technicalAddressSameAsInstallationToggle();
+    const addressGroup = this.form().controls.technicalContactAddressDetails.controls.addressGroup;
+    const contact = this.technicalContact();
+    const installationAddress = this.installationAddress();
+
+    sync(
+      addressGroup,
+      technicalAddressSameAsInstallation ? installationAddress : contact,
+      technicalAddressSameAsInstallation
+    );
   });
 
-  contacts = computed(
-    () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
-  );
-  uniqueContacts = computed(() =>
-    this.contacts()
-      .reduce((foundContacts: Contact[], nextContact) => {
-        if (!foundContacts.some((contact) => contact.id === nextContact.id)) {
-          foundContacts.push(nextContact);
-        }
-        return foundContacts;
-      }, [])
-      .filter(
-        (contact) =>
-          contact.legalContact ||
-          contact.relationType === ElectricityMarketViewCustomerRelationType.Secondary
-      )
+  /** Sync legal */
+  private readonly legalNameSameAsContactNameToggle = dhFormControlToSignal(
+    () => this.form().controls.legalContactDetails.controls.contactSameAsCustomer
   );
 
-  businessCustomerDetailsForm: FormGroup<BusinessCustomerFormGroup> =
-    this.formBuilder.group<BusinessCustomerFormGroup>({
-      companyName: this.formBuilder.control<string>('', Validators.required),
-      cvr: this.formBuilder.control<string>('', [
-        Validators.required,
-        dhMoveInCvrValidator(this.injector),
-      ]),
-      nameProtection: this.formBuilder.control<boolean>(false),
-    });
-
-  privateCustomerDetailsForm: FormGroup<PrivateCustomerFormGroup> =
-    this.formBuilder.group<PrivateCustomerFormGroup>({
-      customerName1: this.formBuilder.control<string>('', Validators.required),
-      cpr1: this.formBuilder.control<string>('', [Validators.required, dhCprValidator()]),
-      customerName2: this.formBuilder.control<string>(''),
-      cpr2: this.formBuilder.control<string>('', dhCprValidator()),
-      nameProtection: this.formBuilder.control<boolean>(false),
-    });
-
-  legalContactDetailsForm: FormGroup<ContactDetailsFormType> =
-    this.formBuilder.group<ContactDetailsFormType>({
-      contactSameAsCustomer: this.formBuilder.control<boolean>(true),
-      contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
-        name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
-        title: this.formBuilder.control<string>(''),
-        phone: this.formBuilder.control<string>(''),
-        mobile: this.formBuilder.control<string>(''),
-        email: this.formBuilder.control<string>('', Validators.email),
-      }),
-    });
-
-  legalAddressDetailsForm: FormGroup<AddressDetailsFormType> =
-    this.formBuilder.group<AddressDetailsFormType>({
-      addressSameAsMeteringPoint: this.formBuilder.control<boolean>(true),
-      addressGroup: this.formBuilder.group({
-        countryCode: this.formBuilder.control<string>('', Validators.required),
-        streetName: this.formBuilder.control<string>('', Validators.required),
-        buildingNumber: this.formBuilder.control<string>('', Validators.required),
-        floor: this.formBuilder.control<string>(''),
-        room: this.formBuilder.control<string>(''),
-        postCode: this.formBuilder.control<string>('', Validators.required),
-        cityName: this.formBuilder.control<string>('', Validators.required),
-        citySubDivisionName: this.formBuilder.control<string>(''),
-        streetCode: this.formBuilder.control<string>('', Validators.required),
-        municipalityCode: this.formBuilder.control<string>('', [
-          dhMunicipalityCodeValidator(),
-          Validators.required,
-        ]),
-        postalDistrict: this.formBuilder.control<string>(''),
-        postBox: this.formBuilder.control<string>(''),
-        darReference: this.formBuilder.control<string>(''),
-      }),
-      addressProtection: this.formBuilder.control<boolean>(false),
-    });
-
-  technicalContactDetailsForm: FormGroup<ContactDetailsFormType> =
-    this.formBuilder.group<ContactDetailsFormType>({
-      contactSameAsCustomer: this.formBuilder.control<boolean>(true),
-      contactGroup: this.formBuilder.group<ContactDetailsFormGroup>({
-        name: this.formBuilder.control<string>({ value: '', disabled: true }, Validators.required),
-        title: this.formBuilder.control<string>(''),
-        phone: this.formBuilder.control<string>(''),
-        mobile: this.formBuilder.control<string>(''),
-        email: this.formBuilder.control<string>('', Validators.email),
-      }),
-    });
-
-  technicalAddressDetailsForm: FormGroup<AddressDetailsFormType> =
-    this.formBuilder.group<AddressDetailsFormType>({
-      addressSameAsMeteringPoint: this.formBuilder.control<boolean>(true),
-      addressGroup: this.formBuilder.group({
-        countryCode: this.formBuilder.control<string>('', Validators.required),
-        streetName: this.formBuilder.control<string>('', Validators.required),
-        buildingNumber: this.formBuilder.control<string>('', Validators.required),
-        floor: this.formBuilder.control<string>(''),
-        room: this.formBuilder.control<string>(''),
-        postCode: this.formBuilder.control<string>('', Validators.required),
-        cityName: this.formBuilder.control<string>('', Validators.required),
-        citySubDivisionName: this.formBuilder.control<string>(''),
-        streetCode: this.formBuilder.control<string>('', Validators.required),
-        municipalityCode: this.formBuilder.control<string>('', [
-          dhMunicipalityCodeValidator(),
-          Validators.required,
-        ]),
-        postalDistrict: this.formBuilder.control<string>(''),
-        postBox: this.formBuilder.control<string>(''),
-        darReference: this.formBuilder.control<string>(''),
-      }),
-      addressProtection: this.formBuilder.control<boolean>(false),
-    });
-
-  private customerName1 = signal(this.privateCustomerDetailsForm.controls.customerName1.value);
-  private companyName = signal(this.businessCustomerDetailsForm.controls.companyName.value);
-
-  private legalContactSameAsCustomer = signal(
-    this.legalContactDetailsForm.controls.contactSameAsCustomer.value
-  );
-  private technicalContactSameAsCustomer = signal(
-    this.technicalContactDetailsForm.controls.contactSameAsCustomer.value
-  );
-
-  private legalAddressSameAsMeteringPoint = signal(
-    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.value
-  );
-  private technicalAddressSameAsMeteringPoint = signal(
-    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.value
-  );
-
-  updateCustomerDataForm: FormGroup<CustomerCharacteristicsFormType> = this.formBuilder.group({
-    businessCustomerDetails: this.businessCustomerDetailsForm,
-    privateCustomerDetails: this.privateCustomerDetailsForm,
-    legalContactDetails: this.legalContactDetailsForm,
-    legalAddressDetails: this.legalAddressDetailsForm,
-    technicalContactDetails: this.technicalContactDetailsForm,
-    technicalAddressDetails: this.technicalAddressDetailsForm,
+  private readonly syncLegalContactName = effect(() => {
+    const legalNameSameAsContactName = this.legalNameSameAsContactNameToggle();
+    const legalCustomerName = this.legalCustomerNameChanged();
+    const control = this.form().controls.legalContactDetails.controls.contactGroup.controls.name;
+    sync(
+      control,
+      legalNameSameAsContactName ? legalCustomerName : this.legalContact()?.name,
+      legalNameSameAsContactName
+    );
   });
 
-  constructor() {
-    this.setupContactNameEffects();
-    this.setupAddressEffects();
-    this.setupCustomerTypeEffect();
-    this.setupFormValueChangeListeners();
-  }
+  private readonly legalAddressSameAsInstallationToggle = dhFormControlToSignal(
+    () => this.form().controls.legalContactAddressDetails.controls.addressSameAsInstallation
+  );
 
-  private setupContactNameEffects(): void {
-    effect(() => {
-      const sameAsCustomer = this.legalContactSameAsCustomer();
-      const isBusinessCustomer = this.isBusinessCustomer();
-      const customerName = this.customerName1();
-      const businessName = this.companyName();
+  private readonly syncLegalContactAddress = effect(() => {
+    const legalAddressSameAsInstallation = this.legalAddressSameAsInstallationToggle();
+    const addressGroup = this.form().controls.legalContactAddressDetails.controls.addressGroup;
+    const contact = this.legalContact();
+    const installationAddress = this.installationAddress();
 
-      untracked(() => {
-        if (sameAsCustomer) {
-          const name = isBusinessCustomer ? businessName : customerName;
-          this.legalContactDetailsForm.controls.contactGroup.controls.name.setValue(name);
-          this.legalContactDetailsForm.controls.contactGroup.controls.name.disable();
-        } else {
-          this.legalContactDetailsForm.controls.contactGroup.controls.name.setValue('');
-          this.legalContactDetailsForm.controls.contactGroup.controls.name.enable();
-        }
-      });
-    });
-
-    effect(() => {
-      const sameAsCustomer = this.technicalContactSameAsCustomer();
-      const isBusinessCustomer = this.isBusinessCustomer();
-      const customerName = this.customerName1();
-      const businessName = this.companyName();
-
-      untracked(() => {
-        if (sameAsCustomer) {
-          const name = isBusinessCustomer ? businessName : customerName;
-          this.technicalContactDetailsForm.controls.contactGroup.controls.name.setValue(name);
-          this.technicalContactDetailsForm.controls.contactGroup.controls.name.disable();
-        } else {
-          this.technicalContactDetailsForm.controls.contactGroup.controls.name.setValue('');
-          this.technicalContactDetailsForm.controls.contactGroup.controls.name.enable();
-        }
-      });
-    });
-  }
-
-  private setupAddressEffects(): void {
-    effect(() => {
-      const sameAsMeteringPoint = this.legalAddressSameAsMeteringPoint();
-      const hasValidAddress = this.hasValidInstallationAddress();
-      const addressData = this.addressDataFromMeteringPoint();
-
-      untracked(() => {
-        if (sameAsMeteringPoint) {
-          if (hasValidAddress) {
-            this.legalAddressDetailsForm.controls.addressGroup.patchValue(addressData);
-          }
-          this.legalAddressDetailsForm.controls.addressGroup.disable();
-        } else {
-          this.legalAddressDetailsForm.controls.addressGroup.patchValue(this.getEmptyAddressData());
-          this.legalAddressDetailsForm.controls.addressGroup.enable();
-        }
-      });
-    });
-
-    effect(() => {
-      const sameAsMeteringPoint = this.technicalAddressSameAsMeteringPoint();
-      const hasValidAddress = this.hasValidInstallationAddress();
-      const addressData = this.addressDataFromMeteringPoint();
-
-      untracked(() => {
-        if (sameAsMeteringPoint) {
-          if (hasValidAddress) {
-            this.technicalAddressDetailsForm.controls.addressGroup.patchValue(addressData);
-          }
-          this.technicalAddressDetailsForm.controls.addressGroup.disable();
-        } else {
-          this.technicalAddressDetailsForm.controls.addressGroup.patchValue(
-            this.getEmptyAddressData()
-          );
-          this.technicalAddressDetailsForm.controls.addressGroup.enable();
-        }
-      });
-    });
-  }
-
-  private setupCustomerTypeEffect(): void {
-    effect(() => {
-      const meteringPoint = this.meteringPoint();
-
-      if (!meteringPoint) {
-        return;
-      }
-
-      const customers = meteringPoint.commercialRelation?.activeEnergySupplyPeriod?.customers ?? [];
-      const customer = customers[0];
-
-      untracked(() => {
-        if (customer) {
-          if (customer.cvr) {
-            this.isBusinessCustomer.set(true);
-            this.businessCustomerDetailsForm.patchValue({
-              companyName: customer.name ?? '',
-              cvr: customer.cvr ?? '',
-            });
-          } else {
-            this.isBusinessCustomer.set(false);
-            this.privateCustomerDetailsForm.patchValue({
-              customerName1: customer.name ?? '',
-            });
-          }
-        }
-      });
-    });
-  }
-
-  private setupFormValueChangeListeners(): void {
-    this.privateCustomerDetailsForm.controls.customerName1.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.customerName1.set(value);
-      });
-
-    this.businessCustomerDetailsForm.controls.companyName.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.companyName.set(value);
-      });
-
-    this.legalContactDetailsForm.controls.contactSameAsCustomer.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.legalContactSameAsCustomer.set(value);
-      });
-
-    this.technicalContactDetailsForm.controls.contactSameAsCustomer.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.technicalContactSameAsCustomer.set(value);
-      });
-
-    this.legalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.legalAddressSameAsMeteringPoint.set(value);
-      });
-
-    this.technicalAddressDetailsForm.controls.addressSameAsMeteringPoint.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.technicalAddressSameAsMeteringPoint.set(value);
-      });
-  }
-
-  private getEmptyAddressData(): AddressData {
-    return {
-      streetName: '',
-      buildingNumber: '',
-      floor: '',
-      room: '',
-      postCode: '',
-      cityName: '',
-      countryCode: '',
-      streetCode: '',
-      citySubDivisionName: '',
-      postalDistrict: '',
-      postBox: '',
-      municipalityCode: '',
-      darReference: '',
-    };
-  }
+    sync(
+      addressGroup,
+      legalAddressSameAsInstallation ? installationAddress : contact,
+      legalAddressSameAsInstallation
+    );
+  });
 
   async updateCustomerData() {
-    const form = this.updateCustomerDataForm;
-    const isCustomerInvalid = this.isBusinessCustomer()
-      ? form.controls.businessCustomerDetails.invalid
-      : form.controls.privateCustomerDetails.invalid;
-    const isRestOfFormInvalid =
-      form.controls.legalContactDetails.invalid ||
-      form.controls.legalAddressDetails.invalid ||
-      form.controls.technicalContactDetails.invalid ||
-      form.controls.technicalAddressDetails.invalid;
-    if (isCustomerInvalid || isRestOfFormInvalid) {
-      return;
-    }
-    const input = mapChangeCustomerCharacteristicsFormToRequest(
-      form,
-      this.meteringPointId(),
-      'UPDATE_MASTER_DATA_CONSUMER',
-      false,
-      this.isBusinessCustomer()
-    );
-    const result = await this.requestChangeCustomerCharacteristics.mutate({ variables: { input } });
+    if (this.form().invalid || this.requestChangeCustomerCharacteristics.loading()) return;
 
-    if (result.data?.changeCustomerCharacteristics.success) {
-      this.success();
-    } else {
-      this.error();
-    }
-  }
+    const values = this.form().getRawValue();
 
-  success() {
-    const message = this.translocoService.translate('meteringPoint.moveIn.customerDataSuccess');
-    this.wattToastService.open({ type: 'success', message });
-    this.locationService.back();
-  }
+    const { cpr1, cpr2, customerName1, customerName2, nameProtection } =
+      values.privateCustomerDetails;
+    const { companyName, cvr } = values.businessCustomerDetails;
+    const legalContactDetails = values.legalContactDetails;
+    const legalContactAddressDetails = values.legalContactAddressDetails;
+    const technicalContactDetails = values.technicalContactDetails;
+    const technicalContactAddressDetails = values.technicalContactAddressDetails;
 
-  error() {
-    const message = this.translocoService.translate('meteringPoint.moveIn.customerDataFail');
-    this.wattToastService.open({ type: 'warning', message });
-    this.locationService.back();
-  }
+    await this.requestChangeCustomerCharacteristics.mutate({
+      variables: {
+        input: {
+          meteringPointId: this.meteringPointId(),
+          businessReason: ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer,
+          electricalHeating: this.query.data()?.meteringPoint.haveElectricalHeating ?? false,
+          firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
+          secondCustomerCpr: !this.isBusinessCustomer() ? cpr2 : undefined,
+          firstCustomerName: !this.isBusinessCustomer() ? customerName1 : companyName,
+          secondCustomerName: !this.isBusinessCustomer() ? customerName2 : companyName,
+          firstCustomerCvr: this.isBusinessCustomer() ? cvr : undefined,
+          protectedName: nameProtection,
+          usagePointLocations: [
+            mapUsagePointLocation(
+              legalContactDetails,
+              legalContactAddressDetails,
+              AddressTypeV1.Legal
+            ),
+            mapUsagePointLocation(
+              technicalContactDetails,
+              technicalContactAddressDetails,
+              AddressTypeV1.Technical
+            ),
+          ],
+        },
+      },
+    });
 
-  public cancel() {
-    this.locationService.back();
+    this.router.navigate([
+      getPath<BasePaths>('metering-point'),
+      this.internalMeteringPointId(),
+      getPath<MeteringPointSubPaths>('process-overview'),
+    ]);
   }
 }

@@ -64,9 +64,9 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
           <h4>{{ t('label') }}</h4>
 
           <watt-slide-toggle
-            [formControl]="formGroup.controls.addressSameAsMeteringPoint"
+            [formControl]="formGroup.controls.addressSameAsInstallation"
             class="watt-space-stack-m"
-            data-testid="address-same-as-metering-point"
+            data-testid="address-same-as-installation"
           >
             {{ t('addressSameAsMeteringPoint') }}
           </watt-slide-toggle>
@@ -153,11 +153,6 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
           </vater-flex>
 
           <vater-flex direction="row" gap="m" justify="space-between">
-            <watt-text-field
-              [formControl]="groupControls.postalDistrict"
-              [label]="t('postalDistrict')"
-              data-testid="postal-district"
-            />
             <watt-text-field
               [formControl]="groupControls.postBox"
               [label]="t('postBox')"
