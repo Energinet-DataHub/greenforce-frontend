@@ -12,10 +12,6 @@
       "options": {
         "reportsDirectory": "../../../coverage/libs/gf/util-cookie-information"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }

@@ -12,9 +12,6 @@
       "options": {
         "configFile": "libs/dh/market-participant/ui-shared/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

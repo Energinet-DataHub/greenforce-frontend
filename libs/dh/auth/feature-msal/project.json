@@ -9,9 +9,6 @@
     "test": {
       "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/auth/feature-msal"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

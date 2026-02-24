@@ -12,9 +12,6 @@
       "options": {
         "config": "libs/dh/dev-examples/feature-processes/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

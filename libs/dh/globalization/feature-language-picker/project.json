@@ -12,9 +12,6 @@
       "options": {
         "configFile": "libs/dh/globalization/feature-language-picker/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

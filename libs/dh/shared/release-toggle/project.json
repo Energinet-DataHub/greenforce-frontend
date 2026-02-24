@@ -12,9 +12,6 @@
       "options": {
         "configFile": "libs/dh/shared/release-toggle/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

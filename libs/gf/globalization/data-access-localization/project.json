@@ -12,9 +12,6 @@
       "options": {
         "config": "libs/gf/globalization/data-access-localization/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

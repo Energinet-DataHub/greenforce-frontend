@@ -5,6 +5,7 @@
   "prefix": "dh",
   "projectType": "library",
   "tags": ["product:dh", "domain:shared", "type:feature"],
+  "implicitDependencies": ["dh-shared-util-apollo"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -15,10 +16,6 @@
         "tsConfig": "libs/dh/shared/feature-graphql-codegen/tsconfig.lib.json",
         "rootDir": "libs/dh/shared/feature-graphql-codegen/src"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
-  },
-  "implicitDependencies": ["dh-shared-util-apollo"]
+  }
 }
