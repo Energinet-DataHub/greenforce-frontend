@@ -163,7 +163,6 @@ describe(WattTimepickerComponent, () => {
       userEvent.click(sliderToggle);
 
       // Simulate focus moving outside the component by calling onFocusOut with a relatedTarget outside
-      const componentInstance = fixture.componentInstance;
       const timepickerComponent = fixture.debugElement.children[0].componentInstance;
 
       // Create a mock FocusEvent with relatedTarget outside the component

@@ -27,7 +27,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/dh/admin/feature-user-roles',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [angular({ tsconfig: './tsconfig.spec.json' }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   resolve: {
     conditions: ['development', 'browser'],
   },

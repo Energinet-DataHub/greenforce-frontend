@@ -18,7 +18,7 @@
 //#endregion
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { render, screen, fireEvent } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { WattCheckboxComponent } from './watt-checkbox.component';
