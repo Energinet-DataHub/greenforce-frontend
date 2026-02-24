@@ -494,7 +494,14 @@ type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance
   steps: [OrchestrationInstanceStep!]!
 }
 
-type ElectricityHeatingMessagePeriodDto {
+type ElectricalHeatingMessage {
+  customerName: String
+  isElectricalHeatingActive: Boolean!
+  electricalHeatingFrom: DateTime
+  supplierPeriods: [ElectricityHeatingMessagePeriod!]!
+}
+
+type ElectricityHeatingMessagePeriod {
   from: DateTime!
   to: DateTime!
 }
@@ -639,13 +646,6 @@ type ElectricityMarketViewMeteringPointMetadataDto {
   settlementMethod: ElectricityMarketViewSettlementMethod
   installationAddress: ElectricityMarketViewInstallationAddressDto
   manuallyHandled: Boolean!
-}
-
-type EleectricalHeatingMessage {
-  customerName: String
-  isElectricalHeatingActive: Boolean!
-  electricalHeatingFrom: DateTime
-  supplierPeriods: [ElectricityHeatingMessagePeriodDto!]!
 }
 
 "A segment of a collection."
