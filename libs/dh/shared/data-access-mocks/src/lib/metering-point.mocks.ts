@@ -75,7 +75,7 @@ export function meteringPointMocks() {
     getConversations(),
     getConversation(),
     closeConversation(),
-    updateInternalConversationNoteMutation,
+    updateInternalConversationNoteMutation(),
   ];
 }
 
