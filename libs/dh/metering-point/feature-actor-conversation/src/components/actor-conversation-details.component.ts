@@ -203,10 +203,7 @@ export class DhActorConversationDetailsComponent {
       return false;
     }
 
-    // TODO: MASEP change to use anonymous from the message
-    return (
-      (!!latestMessageByCurrentActor.actorName && !!latestMessageByCurrentActor.userName) ?? false
-    );
+    return latestMessageByCurrentActor.anonymous
   });
 
   formControl = this.fb.control<MessageFormValue>({
