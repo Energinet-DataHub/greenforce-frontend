@@ -4,17 +4,11 @@
   "sourceRoot": "libs/dh/shared/util-assert/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:shared",
-    "type:util"
-  ],
+  "tags": ["product:dh", "domain:shared", "type:util"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/dh/shared/util-assert"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/util-assert"],
       "options": {
         "config": "libs/dh/shared/util-assert/vite.config.mts"
       }

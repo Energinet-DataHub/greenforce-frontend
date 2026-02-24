@@ -4,17 +4,11 @@
   "sourceRoot": "libs/dh/esett/feature-outgoing-messages/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:esett",
-    "type:feature"
-  ],
+  "tags": ["product:dh", "domain:esett", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "configFile": "libs/dh/esett/feature-outgoing-messages/vite.config.mts"
       }
