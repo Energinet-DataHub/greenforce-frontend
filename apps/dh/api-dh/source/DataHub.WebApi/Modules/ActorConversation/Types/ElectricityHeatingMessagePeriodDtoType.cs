@@ -23,7 +23,7 @@ public static partial class ElectricityHeatingMessagePeriodDtoType
         IObjectTypeDescriptor<ElectricityHeatingMessagePeriodDto> descriptor)
     {
         descriptor
-            .Name("ElectricityHeatingMessagePeriodDto")
+            .Name("ElectricityHeatingMessagePeriod")
             .BindFieldsExplicitly();
 
         descriptor.Field(m => m.From);
