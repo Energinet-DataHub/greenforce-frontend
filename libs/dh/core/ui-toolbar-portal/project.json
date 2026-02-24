@@ -11,10 +11,6 @@
       "options": {
         "config": "libs/dh/core/ui-toolbar-portal/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }

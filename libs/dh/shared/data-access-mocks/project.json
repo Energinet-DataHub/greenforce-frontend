@@ -12,9 +12,6 @@
       "options": {
         "config": "libs/dh/shared/data-access-mocks/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

@@ -336,7 +336,7 @@ export class DhUpdateCustomerDataComponent {
   });
 
   async updateCustomerData() {
-    if (this.form().invalid) return;
+    if (this.form().invalid || this.requestChangeCustomerCharacteristics.loading()) return;
 
     const values = this.form().getRawValue();
 

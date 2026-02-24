@@ -14,9 +14,6 @@
         "config": "libs/dh/shared/domain/vite.config.mts"
       }
     },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
     "generate": {
       "executor": "nx:run-commands",
       "cache": true,

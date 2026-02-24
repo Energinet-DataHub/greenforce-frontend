@@ -12,9 +12,6 @@
       "options": {
         "config": "libs/dh/shared/ui-validators/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

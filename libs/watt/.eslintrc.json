@@ -1,6 +1,9 @@
 {
   "extends": ["../../.eslintrc.json"],
   "ignorePatterns": ["!**/*", "storybook-static", "node_modules"],
+  "rules": {
+    "storybook/no-uninstalled-addons": ["error", { "packageJsonLocation": "../../package.json" }]
+  },
   "overrides": [
     {
       "files": ["*.ts"],

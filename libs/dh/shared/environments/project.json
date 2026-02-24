@@ -12,9 +12,6 @@
       "options": {
         "reportsDirectory": "../../../../coverage/libs/dh/shared/environments"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

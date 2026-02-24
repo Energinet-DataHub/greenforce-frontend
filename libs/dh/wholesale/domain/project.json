@@ -12,9 +12,6 @@
       "options": {
         "config": "libs/dh/wholesale/domain/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }
