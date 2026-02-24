@@ -12,10 +12,6 @@
       "options": {
         "vitestConfig": "libs/dh/market-participant/feature-market-roles/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }

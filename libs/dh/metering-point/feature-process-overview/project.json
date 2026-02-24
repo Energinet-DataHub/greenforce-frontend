@@ -12,9 +12,6 @@
       "options": {
         "config": "libs/dh/metering-point/feature-process-overview/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

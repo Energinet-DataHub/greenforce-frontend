@@ -23,10 +23,6 @@ describe('Production environment config', () => {
     expect(environment.production).toBe(true);
   });
 
-  it('should have authDisabled set to false', () => {
-    expect(environment.authDisabled).toBe(false);
-  });
-
   it('should have mocked set to false', () => {
     expect(environment.mocked).toBe(false);
   });

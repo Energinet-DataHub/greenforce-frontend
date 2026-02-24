@@ -4,10 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/navigation/src",
   "prefix": "dh",
-  "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  },
   "tags": ["product:dh", "domain:shared", "type:util"]
 }

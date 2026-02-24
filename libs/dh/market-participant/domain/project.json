@@ -4,10 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/market-participant/src",
   "prefix": "dh",
-  "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  },
   "tags": ["product:dh", "domain:market-participant", "type:domain"]
 }
