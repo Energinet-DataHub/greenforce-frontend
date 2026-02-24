@@ -16,12 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { Meta, StoryFn } from '@storybook/angular';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { VATER } from '../vater';
+import { WATT_CARD } from '../card';
+import { WattButtonComponent } from '../button';
 import { WattJsonViewer } from './watt-json-viewer.component';
 
 const meta: Meta<WattJsonViewer> = {
   title: 'Components/JsonViewer',
   component: WattJsonViewer,
+  decorators: [
+    moduleMetadata({
+      imports: [VATER, WATT_CARD, WattButtonComponent],
+    }),
+  ],
 };
 
 export default meta;
@@ -58,7 +66,6 @@ const exampleJson = {
       roles: ['viewer'],
     },
   ],
-  test: () => console.log('haha'),
   statistics: {
     totalRequests: 1048576,
     averageResponseTime: 42.5,
@@ -67,13 +74,31 @@ const exampleJson = {
   },
   emptyObject: {},
   emptyArray: [],
-  ohCrap: undefined,
-  specialCharacters: "Line 1\nLine 2\tTabbed\"Escaped Quote",
+  invalidJson: {
+    undefined: undefined,
+    function: () => console.log('this is invalid JSON'),
+  },
+  circularRef: null as unknown,
+  negativeNumber: -10.2,
+  scientificNotataion: -53.2e64,
+  specialCharacters: 'Line 1\nLine 2\tTabbed"Escaped Quote',
   unicodeText: 'Æblegrød med fløde 🍏',
   longText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
 };
 
+exampleJson.circularRef = exampleJson;
+
 export const Overview: StoryFn<WattJsonViewer> = () => ({
   props: { json: exampleJson },
-  template: `<watt-json-viewer [json]="json" />`,
+  template: `
+    <vater-flex inset="m" align="end" gap="m">
+      <vater-stack direction="row" gap="s">
+        <watt-button (click)="viewer.expandAll()">Expand all</watt-button>
+        <watt-button (click)="viewer.collapseAll()">Collapse all</watt-button>
+      </vater-stack>
+      <watt-card vater fill="both" scrollable>
+        <watt-json-viewer #viewer [json]="json" [maxDepth]="5" />
+      </watt-card>
+    </vater-flex>
+  `,
 });

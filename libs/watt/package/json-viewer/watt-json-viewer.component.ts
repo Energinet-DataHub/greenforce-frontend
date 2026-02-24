@@ -102,11 +102,7 @@ export class WattJson {
       cursor: default;
     }
   `,
-  template: `
-    <button (click)="expanded.set(true)">Expand all</button>
-    <button (click)="expanded.set(false)">Collapse all</button>
-    <div watt-json [json]="json()" [expandable]="false" [tree]="tree()"></div>
-  `,
+  template: `<div watt-json [json]="json()" [expandable]="false" [tree]="tree()"></div>`,
 })
 export class WattJsonViewer {
   /**
@@ -115,8 +111,8 @@ export class WattJsonViewer {
   readonly json = input.required<unknown>();
 
   /**
-   * Maximum depth for "Expand all".
-   * @remarks Nodes beyond this depth start collapsed but can be expanded manually.
+   * Maximum depth for `expandAll()`. Beyond this depth nodes start collapsed but can be
+   * expanded manually. Useful when dealing with large objects or circular references.
    */
   readonly maxDepth = input(50);
 
@@ -124,6 +120,16 @@ export class WattJsonViewer {
    * Whether the tree starts expanded or collapsed.
    */
   readonly initialExpanded = input(false);
+
+  /**
+   * Expands all nodes up to `maxDepth`.
+   */
+  readonly expandAll = () => this.expanded.set(true);
+
+  /**
+   * Collapses all nodes.
+   */
+  readonly collapseAll = () => this.expanded.set(false);
 
   // Use equality function + computed object to always return a new reference, even
   // when `expanded` is "updated" to its current value. This ensures that "Expand all"
