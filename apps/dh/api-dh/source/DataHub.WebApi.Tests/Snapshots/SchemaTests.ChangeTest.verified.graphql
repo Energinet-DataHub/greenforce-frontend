@@ -413,8 +413,8 @@ type ConversationInfo {
 type ConversationMessage {
   actorName: String
   userName: String!
-  userMessage: UserMessage
   isSentByCurrentActor: Boolean!
+  userMessage: UserMessage
   messageType: MessageType!
   "Created time"
   createdTime: DateTime!

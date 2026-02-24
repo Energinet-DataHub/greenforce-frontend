@@ -73,10 +73,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
-    VaterSpacerComponent,
     VaterStackComponent,
-    WattButtonComponent,
     WattDateRangeChipComponent,
     WattFormChipDirective,
     WattDropdownComponent,
