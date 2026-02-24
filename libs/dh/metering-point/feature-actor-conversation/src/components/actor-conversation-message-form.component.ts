@@ -16,7 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, forwardRef, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  forwardRef,
+  inject,
+  input,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,

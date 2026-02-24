@@ -249,6 +249,9 @@ export class DhActorConversationDetailsComponent {
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
 
-    this.formControl.patchValue({ content: '', anonymous: this.formControl.value.anonymous ?? false });
+    this.formControl.patchValue({
+      content: '',
+      anonymous: this.formControl.value.anonymous ?? false,
+    });
   }
 }
