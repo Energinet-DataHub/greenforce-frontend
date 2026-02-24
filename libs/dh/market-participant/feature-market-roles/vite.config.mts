@@ -25,7 +25,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/dh/market-participant/feature-market-roles',
-  plugins: [analog(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [analog({ tsconfig: './tsconfig.spec.json' }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     passWithNoTests: true,
     watch: false,
