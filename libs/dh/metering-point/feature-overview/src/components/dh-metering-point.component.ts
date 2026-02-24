@@ -30,6 +30,7 @@ import { WATT_CARD } from '@energinet/watt/card';
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
 
 import {
   DhActorStorage,
@@ -67,6 +68,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     VaterStackComponent,
     VaterSpacerComponent,
     VaterUtilityDirective,
+    WattCopyToClipboardDirective,
     DhCanSeeDirective,
     DhToolbarPortalComponent,
     DhEmDashFallbackPipe,
@@ -126,7 +128,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
         <div *transloco="let t; prefix: 'meteringPoint.overview'">
           <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
             <span>
-              {{ meteringPointId() }}
+              <span wattCopyToClipboard>{{ meteringPointId() }}</span>
               <ng-content *dhMarketRoleRequired="rolesWithAccess">
                 • <dh-address-inline [address]="this.metadata()?.installationAddress" />
               </ng-content>
