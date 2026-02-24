@@ -42,9 +42,11 @@ import {
   MarkConversationUnReadDocument,
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattModalService } from '@energinet/watt/modal';
 import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
+import { DhActorConversationInternalNoteModalComponent } from './actor-conversation-internal-note-modal.component';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 
 @Component({
@@ -130,7 +132,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
                   <watt-icon name="moreVertical" />
                 </watt-button>
                 <watt-menu #menu>
-                  <watt-menu-item>{{ t('internalNoteLabel') }}</watt-menu-item>
+                  <watt-menu-item (click)="openInternalNoteModal(conversation.internalNote)">{{ t('internalNoteLabel') }}</watt-menu-item>
                   <watt-menu-item (click)="unreadConversation()">{{
                     t('markAsUnreadButton')
                   }}</watt-menu-item>
@@ -167,6 +169,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
 })
 export class DhActorConversationDetailsComponent {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly modalService = inject(WattModalService);
   private readonly closeConversationMutation = mutation(CloseConversationDocument);
   private readonly closeToast = injectToast(
     'meteringPoint.actorConversation.conversationCloseError'
@@ -195,6 +198,16 @@ export class DhActorConversationDetailsComponent {
         conversationId: this.conversationId(),
       },
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
+    });
+  }
+
+  openInternalNoteModal(internalNote: string | null | undefined) {
+    this.modalService.open({
+      component: DhActorConversationInternalNoteModalComponent,
+      data: {
+        conversationId: this.conversationId(),
+        internalNote: internalNote ?? null,
+      },
     });
   }
 

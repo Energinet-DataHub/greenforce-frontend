@@ -803,6 +803,16 @@
       },
       "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
       "internalNoteLabel": "Intern note",
+      "editInternalNote": {
+        "title": "Intern note",
+        "closeButton": "Luk",
+        "saveButton": "Gem ændringer",
+        "toast": {
+          "loading": "Intern note opdateres...",
+          "success": "Intern note opdateret",
+          "error": "Der opstod en fejl under opdatering af intern note"
+        }
+      },
       "messageLabel": "Besked",
       "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send",
