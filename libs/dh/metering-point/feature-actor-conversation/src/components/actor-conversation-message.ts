@@ -21,19 +21,22 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
 import { WattDatePipe } from '@energinet/watt/date';
 import { ConversationMessage } from '@energinet-datahub/dh/shared/domain/graphql';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
 
 @Component({
   selector: 'dh-actor-conversation-message',
-  imports: [VaterStackComponent, WattDatePipe, TranslocoDirective, VaterUtilityDirective],
+  imports: [
+    VaterStackComponent,
+    WattDatePipe,
+    TranslocoDirective,
+    VaterUtilityDirective,
+    WattSeparatorComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .message-container {
       border-radius: var(--watt-radius-m);
       border: 1px solid var(--watt-color-neutral-grey-300);
-    }
-
-    .no-margin {
-      margin: 0;
     }
   `,
   host: {
@@ -56,7 +59,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
           <span>{{ message().actorName + ', ' + message().userName }}</span>
         }
       </vater-stack>
-      <hr class="watt-divider no-margin" />
+      <watt-separator />
       @if (message().messageType === 'USER_MESSAGE') {
         <span vater fill="horizontal" class="watt-space-inset-m">{{
           message().userMessage?.content

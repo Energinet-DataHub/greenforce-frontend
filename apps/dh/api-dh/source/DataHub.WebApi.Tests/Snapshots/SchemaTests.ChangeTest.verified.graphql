@@ -494,7 +494,14 @@ type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance
   steps: [OrchestrationInstanceStep!]!
 }
 
-type ElectricityHeatingMessagePeriodDto {
+type ElectricalHeatingMessage {
+  customerName: String
+  isElectricalHeatingActive: Boolean!
+  electricalHeatingFrom: DateTime
+  supplierPeriods: [ElectricityHeatingMessagePeriod!]!
+}
+
+type ElectricityHeatingMessagePeriod {
   from: DateTime!
   to: DateTime!
 }
@@ -645,7 +652,7 @@ type EleectricalHeatingMessage {
   customerName: String
   isElectricalHeatingActive: Boolean!
   electricalHeatingFrom: DateTime
-  supplierPeriods: [ElectricityHeatingMessagePeriodDto!]!
+  supplierPeriods: [ElectricityHeatingMessagePeriod!]!
 }
 
 "A segment of a collection."

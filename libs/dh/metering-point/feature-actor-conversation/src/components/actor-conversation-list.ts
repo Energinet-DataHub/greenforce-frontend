@@ -25,6 +25,7 @@ import { DhActorConversationListItemComponent } from './actor-conversation-list-
 import { Conversation, NewConversation } from '../types';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { QueryResult } from '@energinet-datahub/dh/shared/util-apollo';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
 import {
   ConversationSubject,
   GetConversationsQuery,
@@ -51,6 +52,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
     ReactiveFormsModule,
     WattSimpleSearchComponent,
     WattDropdownComponent,
+    WattSeparatorComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -101,7 +103,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
           [placeholder]="t('filters.placeholder')"
         />
       </vater-stack>
-      <hr class="watt-divider thick-divider" />
+      <watt-separator size="m" />
     </vater-stack>
 
     <dh-result [query]="conversationsQuery()">
