@@ -16,5 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { WattFileField } from './watt-json-viewer.component';
-export { WattJsonColorize } from './watt-json-colorize.component';
+export { WattJsonViewer } from './watt-json-viewer.component';
