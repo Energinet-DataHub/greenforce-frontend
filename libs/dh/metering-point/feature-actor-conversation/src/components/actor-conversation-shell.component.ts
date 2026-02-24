@@ -164,7 +164,7 @@ export class DhActorConversationShellComponent {
   }
 
   search(term: string) {
-    this.searchTerm.set(term || undefined);
+    this.searchTerm.set(term);
   }
 
   async selectConversation(conversation: Conversation) {
