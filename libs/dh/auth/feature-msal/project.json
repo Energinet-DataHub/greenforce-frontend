@@ -4,9 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/auth/feature-msal/src",
   "prefix": "dh",
-  "tags": [
-    "product:dh",
-    "domain:auth",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:auth", "type:feature"]
 }

@@ -4,9 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/util-application-insights/src",
   "prefix": "dh",
-  "tags": [
-    "product:dh",
-    "scope:shared",
-    "type:util"
-  ]
+  "tags": ["product:dh", "scope:shared", "type:util"]
 }

@@ -4,9 +4,5 @@
   "sourceRoot": "libs/dh/imbalance-prices/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:imbalance-prices",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:imbalance-prices", "type:feature"]
 }

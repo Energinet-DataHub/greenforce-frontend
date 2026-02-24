@@ -4,9 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/gf/globalization/configuration-danish-locale/src",
   "prefix": "gf",
-  "tags": [
-    "product:gf",
-    "domain:globalization",
-    "type:configuration"
-  ]
+  "tags": ["product:gf", "domain:globalization", "type:configuration"]
 }

@@ -4,9 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/message-archive/shell/src",
   "prefix": "dh",
-  "tags": [
-    "product:dh",
-    "domain:message-archive",
-    "type:shell"
-  ]
+  "tags": ["product:dh", "domain:message-archive", "type:shell"]
 }

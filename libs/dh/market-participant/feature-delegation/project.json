@@ -4,9 +4,5 @@
   "sourceRoot": "libs/dh/market-participant/feature-delegation/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:market-participant",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:market-participant", "type:feature"]
 }

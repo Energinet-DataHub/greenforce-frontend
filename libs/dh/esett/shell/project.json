@@ -4,9 +4,5 @@
   "sourceRoot": "libs/dh/esett/shell/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:esett",
-    "type:shell"
-  ]
+  "tags": ["product:dh", "domain:esett", "type:shell"]
 }

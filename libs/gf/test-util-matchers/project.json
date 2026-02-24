@@ -4,9 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/gf/test-util-matchers/src",
   "prefix": "gf-test",
-  "tags": [
-    "product:gf",
-    "domain:shared",
-    "type:test-util"
-  ]
+  "tags": ["product:gf", "domain:shared", "type:test-util"]
 }

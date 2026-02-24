@@ -4,9 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/market-participant/ui-shared/src",
   "prefix": "dh",
-  "tags": [
-    "product:dh",
-    "domain:market-participant",
-    "type:ui"
-  ]
+  "tags": ["product:dh", "domain:market-participant", "type:ui"]
 }

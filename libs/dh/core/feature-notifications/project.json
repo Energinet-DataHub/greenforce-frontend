@@ -4,9 +4,5 @@
   "sourceRoot": "libs/dh/core/feature-notifications/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:core",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:core", "type:feature"]
 }

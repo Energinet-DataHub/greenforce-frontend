@@ -4,11 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/wholesale/feature-calculations/src",
   "prefix": "dh",
-  "tags": [
-    "product:dh",
-    "domain:wholesale",
-    "type:feature"
-  ],
+  "tags": ["product:dh", "domain:wholesale", "type:feature"],
   "targets": {
     "component-test": {
       "executor": "@nx/cypress:cypress",

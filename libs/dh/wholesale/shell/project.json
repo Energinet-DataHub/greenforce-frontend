@@ -4,9 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/wholesale/shell/src",
   "prefix": "dh",
-  "tags": [
-    "product:dh",
-    "domain:wholesale",
-    "type:shell"
-  ]
+  "tags": ["product:dh", "domain:wholesale", "type:shell"]
 }

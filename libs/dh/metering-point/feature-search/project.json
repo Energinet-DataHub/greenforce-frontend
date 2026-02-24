@@ -4,9 +4,5 @@
   "sourceRoot": "libs/dh/metering-point/feature-search/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:metering-point",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:metering-point", "type:feature"]
 }

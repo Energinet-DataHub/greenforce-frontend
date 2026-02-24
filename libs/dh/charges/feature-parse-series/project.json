@@ -4,9 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/charges/feature-parse-series/src",
   "prefix": "dh",
-  "tags": [
-    "product:dh",
-    "domain:charges",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:charges", "type:feature"]
 }

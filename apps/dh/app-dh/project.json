@@ -4,39 +4,21 @@
   "projectType": "application",
   "sourceRoot": "apps/dh/app-dh/src",
   "prefix": "dh",
-  "tags": [
-    "product:dh",
-    "type:app"
-  ],
-  "implicitDependencies": [
-    "api-dh",
-    "dh-shared-domain",
-    "dh-globalization-assets-localization"
-  ],
+  "tags": ["product:dh", "type:app"],
+  "implicitDependencies": ["api-dh", "dh-shared-domain", "dh-globalization-assets-localization"],
   "targets": {
     "build": {
-      "dependsOn": [
-        "^generate"
-      ],
+      "dependsOn": ["^generate"],
       "executor": "@nx/angular:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/dh/app-dh",
         "index": "apps/dh/app-dh/src/index.html",
         "browser": "apps/dh/app-dh/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "allowedCommonJsDependencies": [
-          "flat",
-          "msw",
-          "dayjs",
-          "qs"
-        ],
+        "allowedCommonJsDependencies": ["flat", "msw", "dayjs", "qs"],
         "assets": [
           {
             "input": "libs/dh/shared/assets/src/favicon",
@@ -64,13 +46,9 @@
             "output": "/"
           }
         ],
-        "styles": [
-          "apps/dh/app-dh/src/styles.scss"
-        ],
+        "styles": ["apps/dh/app-dh/src/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "libs/watt/package/core/styles"
-          ]
+          "includePaths": ["libs/watt/package/core/styles"]
         },
         "scripts": []
       },
@@ -106,12 +84,7 @@
               "with": "libs/dh/shared/environments/src/lib/environment.prod.ts"
             }
           ],
-          "allowedCommonJsDependencies": [
-            "crypto-js",
-            "dayjs",
-            "flat",
-            "qs"
-          ],
+          "allowedCommonJsDependencies": ["crypto-js", "dayjs", "flat", "qs"],
           "outputHashing": "all",
           "serviceWorker": "apps/dh/app-dh/ngsw-config.json",
           "sourceMap": {
@@ -126,11 +99,7 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
-          "allowedCommonJsDependencies": [
-            "flat",
-            "msw",
-            "dayjs"
-          ]
+          "allowedCommonJsDependencies": ["flat", "msw", "dayjs"]
         },
         "mocked": {
           "aot": false,
@@ -159,9 +128,7 @@
     "serve": {
       "dependsOn": [
         {
-          "projects": [
-            "api-dh"
-          ],
+          "projects": ["api-dh"],
           "target": "serve"
         },
         "^watch-generate"

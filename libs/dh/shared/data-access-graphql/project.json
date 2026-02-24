@@ -4,12 +4,6 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/data-access-graphql/src",
   "prefix": "dh",
-  "tags": [
-    "product:dh",
-    "domain:shared",
-    "type:data-access"
-  ],
-  "implicitDependencies": [
-    "api-dh"
-  ]
+  "tags": ["product:dh", "domain:shared", "type:data-access"],
+  "implicitDependencies": ["api-dh"]
 }

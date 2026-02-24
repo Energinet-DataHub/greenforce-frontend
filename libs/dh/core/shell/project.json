@@ -3,9 +3,5 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/core/shell/src",
-  "tags": [
-    "product:dh",
-    "domain:core",
-    "type:shell"
-  ]
+  "tags": ["product:dh", "domain:core", "type:shell"]
 }

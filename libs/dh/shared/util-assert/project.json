@@ -4,9 +4,5 @@
   "sourceRoot": "libs/dh/shared/util-assert/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:shared",
-    "type:util"
-  ]
+  "tags": ["product:dh", "domain:shared", "type:util"]
 }

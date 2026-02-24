@@ -4,9 +4,5 @@
   "sourceRoot": "libs/dh/esett/feature-metering-gridarea-imbalance/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:esett",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:esett", "type:feature"]
 }

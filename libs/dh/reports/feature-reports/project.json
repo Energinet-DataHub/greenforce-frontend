@@ -4,9 +4,5 @@
   "sourceRoot": "libs/dh/reports/feature-reports/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:reports",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:reports", "type:feature"]
 }

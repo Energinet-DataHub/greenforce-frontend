@@ -4,9 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/gf/globalization/domain/src",
   "prefix": "gf",
-  "tags": [
-    "product:gf",
-    "domain:globalization",
-    "type:domain"
-  ]
+  "tags": ["product:gf", "domain:globalization", "type:domain"]
 }

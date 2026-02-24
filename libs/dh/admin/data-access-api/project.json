@@ -4,9 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/admin/data-access-api/src",
   "prefix": "dh",
-  "tags": [
-    "product:dh",
-    "domain:admin",
-    "type:data-access"
-  ]
+  "tags": ["product:dh", "domain:admin", "type:data-access"]
 }

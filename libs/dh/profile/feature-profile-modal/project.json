@@ -4,9 +4,5 @@
   "sourceRoot": "libs/dh/profile/feature-profile-modal/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:profile",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:profile", "type:feature"]
 }

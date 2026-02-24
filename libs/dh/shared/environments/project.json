@@ -4,9 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/environments/src",
   "prefix": "dh",
-  "tags": [
-    "product:dh",
-    "domain:shared",
-    "type:environments"
-  ]
+  "tags": ["product:dh", "domain:shared", "type:environments"]
 }
