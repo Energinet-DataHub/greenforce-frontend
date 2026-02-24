@@ -4,11 +4,9 @@
   "sourceRoot": "libs/dh/core/feature-notifications/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": ["product:dh", "domain:core", "type:feature"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
-    }
-  }
+  "tags": [
+    "product:dh",
+    "domain:core",
+    "type:feature"
+  ]
 }

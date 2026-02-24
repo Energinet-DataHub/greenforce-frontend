@@ -4,14 +4,9 @@
   "sourceRoot": "libs/dh/wholesale/feature-requests/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": ["product:dh", "domain:wholesale", "type:feature"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "vitestConfig": "libs/dh/wholesale/feature-requests/vite.config.mts"
-      }
-    }
-  }
+  "tags": [
+    "product:dh",
+    "domain:wholesale",
+    "type:feature"
+  ]
 }

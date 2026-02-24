@@ -4,11 +4,9 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/auth/feature-msal/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:auth", "type:feature"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/auth/feature-msal"]
-    }
-  }
+  "tags": [
+    "product:dh",
+    "domain:auth",
+    "type:feature"
+  ]
 }

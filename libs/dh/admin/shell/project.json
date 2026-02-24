@@ -4,11 +4,9 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/admin/shell/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:admin", "type:shell"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
-    }
-  }
+  "tags": [
+    "product:dh",
+    "domain:admin",
+    "type:shell"
+  ]
 }

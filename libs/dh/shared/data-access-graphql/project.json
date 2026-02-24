@@ -4,15 +4,12 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/data-access-graphql/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:shared", "type:data-access"],
-  "implicitDependencies": ["api-dh"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "config": "libs/dh/shared/data-access-graphql/vite.config.mts"
-      }
-    }
-  }
+  "tags": [
+    "product:dh",
+    "domain:shared",
+    "type:data-access"
+  ],
+  "implicitDependencies": [
+    "api-dh"
+  ]
 }

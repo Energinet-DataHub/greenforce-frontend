@@ -4,14 +4,9 @@
   "sourceRoot": "libs/dh/metering-point/feature-chargelink/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": ["product:dh", "domain:metering-point", "type:feature"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/metering-point/feature-chargelink"],
-      "options": {
-        "config": "libs/dh/metering-point/feature-chargelink/vite.config.mts"
-      }
-    }
-  }
+  "tags": [
+    "product:dh",
+    "domain:metering-point",
+    "type:feature"
+  ]
 }

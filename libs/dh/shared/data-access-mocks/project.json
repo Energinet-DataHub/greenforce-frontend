@@ -4,14 +4,9 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/data-access-mocks/src",
   "prefix": "dh",
-  "tags": ["product:dh", "scope:shared", "type:test-util"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-mocks"],
-      "options": {
-        "config": "libs/dh/shared/data-access-mocks/vite.config.mts"
-      }
-    }
-  }
+  "tags": [
+    "product:dh",
+    "scope:shared",
+    "type:test-util"
+  ]
 }

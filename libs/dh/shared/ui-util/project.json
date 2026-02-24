@@ -4,14 +4,9 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/ui-util/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:shared", "type:ui"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
-      "options": {
-        "reportsDirectory": "../../../../coverage/libs/dh/shared/ui-util"
-      }
-    }
-  }
+  "tags": [
+    "product:dh",
+    "domain:shared",
+    "type:ui"
+  ]
 }

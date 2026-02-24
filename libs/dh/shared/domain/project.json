@@ -4,16 +4,15 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/domain/src",
   "prefix": "dh",
-  "tags": ["product:dh", "scope:shared", "type:domain"],
-  "implicitDependencies": ["api-dh"],
+  "tags": [
+    "product:dh",
+    "scope:shared",
+    "type:domain"
+  ],
+  "implicitDependencies": [
+    "api-dh"
+  ],
   "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/domain"],
-      "options": {
-        "config": "libs/dh/shared/domain/vite.config.mts"
-      }
-    },
     "generate": {
       "executor": "nx:run-commands",
       "cache": true,
@@ -26,7 +25,9 @@
       ],
       "dependsOn": [
         {
-          "projects": ["api-dh"],
+          "projects": [
+            "api-dh"
+          ],
           "target": "build"
         }
       ],
@@ -37,7 +38,9 @@
         "{projectRoot}/src/lib/generated/graphql/msw.ts"
       ],
       "options": {
-        "commands": ["graphql-codegen"]
+        "commands": [
+          "graphql-codegen"
+        ]
       }
     },
     "watch-generate": {
@@ -52,7 +55,9 @@
       ],
       "dependsOn": [
         {
-          "projects": ["api-dh"],
+          "projects": [
+            "api-dh"
+          ],
           "target": "serve"
         }
       ],
@@ -63,8 +68,12 @@
         "{projectRoot}/src/lib/generated/graphql/msw.ts"
       ],
       "options": {
-        "commands": ["graphql-codegen"],
-        "args": ["--watch"]
+        "commands": [
+          "graphql-codegen"
+        ],
+        "args": [
+          "--watch"
+        ]
       }
     }
   }

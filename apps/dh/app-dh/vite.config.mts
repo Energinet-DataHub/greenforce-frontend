@@ -25,10 +25,10 @@ import { resolve } from 'path';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
-// Use the shared MSW polyfill path
+// Use the shared MSW polyfill path (relative to this config file)
 const mswPolyfillPath = resolve(
-  process.cwd(),
-  'libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js'
+  __dirname,
+  '../../../libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js'
 );
 
 export default defineConfig(() => ({
