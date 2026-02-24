@@ -12,10 +12,6 @@
       "options": {
         "config": "libs/gf/globalization/configuration-danish-locale/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }

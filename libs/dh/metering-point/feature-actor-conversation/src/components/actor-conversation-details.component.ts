@@ -46,6 +46,7 @@ import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
 import { WattHeadingComponent } from '@energinet/watt/heading';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
 
 @Component({
   selector: 'dh-actor-conversation-details',
@@ -67,12 +68,9 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
     DhActorConversationMessageComponent,
     VaterFlexComponent,
     WattHeadingComponent,
+    WattSeparatorComponent,
   ],
   styles: `
-    .no-margin {
-      margin: 0;
-    }
-
     .sticky-background {
       background-color: var(--bg-card);
     }
@@ -137,7 +135,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
                 </watt-menu>
               </vater-stack>
             </vater-stack>
-            <hr class="watt-divider no-margin" />
+            <watt-separator />
           </vater-stack>
 
           <!-- Content - Scrollable message area -->

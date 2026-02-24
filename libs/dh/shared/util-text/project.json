@@ -12,9 +12,6 @@
       "options": {
         "config": "libs/dh/shared/util-text/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

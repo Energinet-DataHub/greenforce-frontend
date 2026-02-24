@@ -414,14 +414,14 @@ type ConversationMessage {
   actorName: String
   userName: String!
   isSentByCurrentActor: Boolean!
-  "Message content"
-  content: String!
+  userMessage: UserMessage
   messageType: MessageType!
   "Created time"
   createdTime: DateTime!
   senderType: ActorType!
   "Sender user id"
   userId: String
+  anonymous: Boolean!
 }
 
 "Conversations"
@@ -492,6 +492,18 @@ type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance
   createdBy: AuditIdentityDto
   state: ProcessState!
   steps: [OrchestrationInstanceStep!]!
+}
+
+type ElectricalHeatingMessage {
+  customerName: String
+  isElectricalHeatingActive: Boolean!
+  electricalHeatingFrom: DateTime
+  supplierPeriods: [ElectricityHeatingMessagePeriod!]!
+}
+
+type ElectricityHeatingMessagePeriod {
+  from: DateTime!
+  to: DateTime!
 }
 
 type ElectricityMarketV2EventDto {
@@ -1308,7 +1320,7 @@ type ProcessesEdge {
 
 type Query {
   conversation(conversationId: UUID! meteringPointIdentification: String!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
-  conversationsForMeteringPoint(meteringPointIdentification: String!): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
+  conversationsForMeteringPoint(meteringPointIdentification: String! searchTerm: String): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
   charges(filter: String query: ChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
@@ -1683,6 +1695,11 @@ type UserAuditedChangeAuditLogDto {
   isInitialAssignment: Boolean!
   currentValue: String
   previousValue: String
+}
+
+type UserMessage {
+  "Message content"
+  content: String!
 }
 
 type UserOverviewItemDto {
@@ -3193,6 +3210,7 @@ enum MeasurementsReportStatusType {
 enum MessageType {
   USER_MESSAGE
   CLOSING_MESSAGE
+  ELECTRICAL_HEATING_INFORMATION
 }
 
 enum MeteringGridImbalanceValuesToInclude {

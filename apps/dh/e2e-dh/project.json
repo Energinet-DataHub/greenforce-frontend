@@ -3,6 +3,8 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/dh/e2e-dh/src",
   "projectType": "application",
+  "tags": ["product:dh", "type:e2e"],
+  "implicitDependencies": ["app-dh"],
   "targets": {
     "e2e": {
       "dependsOn": ["^generate"],
@@ -31,12 +33,6 @@
           "devServerTarget": "app-dh:serve:production"
         }
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": ["product:dh", "type:e2e"],
-  "implicitDependencies": ["app-dh"]
+  }
 }

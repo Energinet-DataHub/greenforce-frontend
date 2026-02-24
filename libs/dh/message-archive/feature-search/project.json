@@ -12,9 +12,6 @@
       "options": {
         "configFile": "libs/dh/message-archive/feature-search/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

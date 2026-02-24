@@ -12,9 +12,6 @@
       "options": {
         "configFile": "libs/dh/shared/data-access-top-bar/vite.config.mts"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

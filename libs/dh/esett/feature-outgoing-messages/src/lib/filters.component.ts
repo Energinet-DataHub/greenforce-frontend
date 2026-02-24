@@ -30,9 +30,8 @@ import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angul
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
-import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { VaterStackComponent } from '@energinet/watt/vater';
 
 import {
   DhDropdownTranslatorDirective,
@@ -73,10 +72,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
-    VaterSpacerComponent,
     VaterStackComponent,
-    WattButtonComponent,
     WattDateRangeChipComponent,
     WattFormChipDirective,
     WattDropdownComponent,

@@ -4,11 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/gf/test-util-vitest/src",
   "prefix": "gf-test",
-  "tags": ["product:gf", "domain:shared", "type:test-util"],
-  "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    }
-  }
+  "tags": ["product:gf", "domain:shared", "type:test-util"]
 }
