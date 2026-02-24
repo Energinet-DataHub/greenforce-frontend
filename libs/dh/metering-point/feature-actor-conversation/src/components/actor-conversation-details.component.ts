@@ -201,7 +201,7 @@ export class DhActorConversationDetailsComponent {
       return false;
     }
 
-    return latestMessageByCurrentActor.anonymous
+    return latestMessageByCurrentActor.anonymous;
   });
 
   formControl = this.fb.control<MessageFormValue>({
