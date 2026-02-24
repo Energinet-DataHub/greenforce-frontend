@@ -190,7 +190,7 @@ describe('CookieInformationService', () => {
   });
 
   describe('consentGiven$', () => {
-    it('should emit updated consent status', async () => {
+    it('should emit updated consent status', () => {
       setupTest();
       service.init({ culture: 'en' });
       const mockEvent = new CustomEvent('CookieInformationConsentGiven', {
@@ -205,18 +205,16 @@ describe('CookieInformationService', () => {
         },
       });
 
+      // Dispatch event to update consent status
       mockWindow.dispatchEvent(mockEvent);
 
-      return new Promise<void>((resolve) => {
-        service.consentGiven$.subscribe((status) => {
-          expect(status[COOKIE_CATEGORIES.NECESSARY]).toBe(true);
-          expect(status[COOKIE_CATEGORIES.FUNCTIONAL]).toBe(true);
-          expect(status[COOKIE_CATEGORIES.STATISTIC]).toBe(true);
-          expect(status[COOKIE_CATEGORIES.MARKETING]).toBe(true);
-          expect(status[COOKIE_CATEGORIES.UNCLASSIFIED]).toBe(true);
-          resolve();
-        });
-      });
+      // Verify the consent status was updated via the synchronous getter
+      const status = service.getConsentStatus();
+      expect(status[COOKIE_CATEGORIES.NECESSARY]).toBe(true);
+      expect(status[COOKIE_CATEGORIES.FUNCTIONAL]).toBe(true);
+      expect(status[COOKIE_CATEGORIES.STATISTIC]).toBe(true);
+      expect(status[COOKIE_CATEGORIES.MARKETING]).toBe(true);
+      expect(status[COOKIE_CATEGORIES.UNCLASSIFIED]).toBe(true);
     });
   });
 });

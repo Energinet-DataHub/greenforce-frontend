@@ -18,7 +18,7 @@
 //#endregion
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { render, screen } from '@testing-library/angular';
+import { render, screen, fireEvent } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { WattCheckboxComponent } from './watt-checkbox.component';
@@ -61,19 +61,26 @@ describe(WattCheckboxComponent, () => {
       const initialState = { value: true };
       const { fixture } = await setup(initialState);
 
+      // Enable auto change detection for Angular 21 compatibility
+      fixture.autoDetectChanges();
+
       // Initial state check
       expect(fixture.componentInstance.checkboxControl.value).toBe(true);
 
-      // Directly update the form control value to simulate the click
-      fixture.componentInstance.checkboxControl.setValue(false);
-      fixture.detectChanges();
+      // Find the actual checkbox input element
+      const checkboxInput = screen.getByRole('checkbox') as HTMLInputElement;
+
+      // Simulate clicking by toggling checked and dispatching change event
+      // This is how the browser actually handles checkbox clicks
+      checkboxInput.checked = false;
+      checkboxInput.dispatchEvent(new Event('change', { bubbles: true }));
       await fixture.whenStable();
 
       expect(fixture.componentInstance.checkboxControl.value).toBe(false);
 
       // Toggle back
-      fixture.componentInstance.checkboxControl.setValue(true);
-      fixture.detectChanges();
+      checkboxInput.checked = true;
+      checkboxInput.dispatchEvent(new Event('change', { bubbles: true }));
       await fixture.whenStable();
 
       expect(fixture.componentInstance.checkboxControl.value).toBe(true);
