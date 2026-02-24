@@ -24,7 +24,11 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   cacheDir: '../../../../node_modules/.vite/dh-shared-util-reports',
-  plugins: [angular({ tsconfig: './tsconfig.spec.json' }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [
+    angular({ tsconfig: './tsconfig.spec.json' }),
+    nxViteTsPaths(),
+    nxCopyAssetsPlugin(['*.md']),
+  ],
   test: {
     passWithNoTests: true,
     globals: true,
