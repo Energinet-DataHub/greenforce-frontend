@@ -648,13 +648,6 @@ type ElectricityMarketViewMeteringPointMetadataDto {
   manuallyHandled: Boolean!
 }
 
-type EleectricalHeatingMessage {
-  customerName: String
-  isElectricalHeatingActive: Boolean!
-  electricalHeatingFrom: DateTime
-  supplierPeriods: [ElectricityHeatingMessagePeriod!]!
-}
-
 "A segment of a collection."
 type EsettExchangeEventsCollectionSegment {
   "Information to aid in pagination."
