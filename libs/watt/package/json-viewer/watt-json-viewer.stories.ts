@@ -67,7 +67,8 @@ const exampleJson = {
   },
   emptyObject: {},
   emptyArray: [],
-  specialCharacters: 'Line 1\nLine 2\tTabbed',
+  ohCrap: undefined,
+  specialCharacters: "Line 1\nLine 2\tTabbed\"Escaped Quote",
   unicodeText: 'Æblegrød med fløde 🍏',
   longText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
 };
