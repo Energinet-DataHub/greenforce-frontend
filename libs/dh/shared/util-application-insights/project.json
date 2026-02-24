@@ -4,14 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/util-application-insights/src",
   "prefix": "dh",
-  "tags": ["product:dh", "scope:shared", "type:util"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/util-application-insights"],
-      "options": {
-        "config": "libs/dh/shared/util-application-insights/vite.config.mts"
-      }
-    }
-  }
+  "tags": ["product:dh", "scope:shared", "type:util"]
 }

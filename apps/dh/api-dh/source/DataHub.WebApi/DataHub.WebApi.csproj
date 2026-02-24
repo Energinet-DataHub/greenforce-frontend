@@ -53,17 +53,20 @@ limitations under the License.
 
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
-    <PackageReference Include="Energinet.DataHub.Charges.Client" Version="2.0.1" />
-    <PackageReference Include="Energinet.DataHub.Core.App.Common" Version="15.11.0" />
-    <PackageReference Include="Energinet.DataHub.EDI.B2CClient" Version="1.1.3" />
-    <PackageReference Include="Energinet.DataHub.ElectricityMarket.Client" Version="1.65.0" />
+    <PackageReference Include="Energinet.DataHub.Charges.Client" Version="2.0.8" />
+    <PackageReference Include="Energinet.DataHub.Core.App.Common" Version="15.12.1" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="15.12.1" />
+    <PackageReference Include="Energinet.DataHub.EDI.B2CClient" Version="1.1.5" />
+    <PackageReference Include="Energinet.DataHub.ElectricityMarket.Client" Version="1.70.0" />
     <PackageReference Include="Energinet.DataHub.MarketParticipant.Authorization" Version="3.0.7" />
-    <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="11.3.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="8.9.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="2.33.0" />
-    <PackageReference Include="Energinet.DataHub.Reports.Abstractions" Version="5.1.0" />
-    <PackageReference Include="Energinet.DataHub.Reports.Client" Version="5.1.0" />
-    <PackageReference Include="Energinet.DataHub.RevisionLog.Integration" Version="1.2.0" />
+    <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="11.3.1" />
+    <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
+    <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="10.1.0" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="2.48.0" />
+    <PackageReference Include="Energinet.DataHub.Reports.Abstractions" Version="5.1.3" />
+    <PackageReference Include="Energinet.DataHub.Reports.Client" Version="5.1.3" />
+    <PackageReference Include="Energinet.DataHub.RevisionLog.Integration" Version="1.2.4" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.3" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.3" />
     <PackageReference Include="HotChocolate.AspNetCore.CommandLine" Version="15.1.3" />
@@ -75,10 +78,7 @@ limitations under the License.
     </PackageReference>
     <PackageReference Include="HotChocolate.Types.NodaTime" Version="15.1.3" />
     <PackageReference Include="HotChocolate.Types.OffsetPagination" Version="15.1.3" />
-    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="15.9.0" />
-    <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
-    <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
-    <PackageReference Include="Microsoft.FeatureManagement" Version="4.0.0" />
+    <PackageReference Include="Microsoft.FeatureManagement" Version="4.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
       <PrivateAssets>all</PrivateAssets>
@@ -88,7 +88,7 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NodaTime" Version="3.2.3" />
+    <PackageReference Include="NodaTime" Version="3.3.0" />
     <PackageReference Include="NSwag.MSBuild" Version="14.6.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -97,7 +97,7 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
     <PackageReference Include="Sqids" Version="3.2.0" />
     <PackageReference Include="System.Linq.AsyncEnumerable" Version="10.0.1" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />

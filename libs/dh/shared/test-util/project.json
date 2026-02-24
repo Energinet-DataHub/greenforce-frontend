@@ -4,14 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/test-util/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:shared", "type:test-util"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/test-util"],
-      "options": {
-        "config": "libs/dh/shared/test-util/vite.config.mts"
-      }
-    }
-  }
+  "tags": ["product:dh", "domain:shared", "type:test-util"]
 }
