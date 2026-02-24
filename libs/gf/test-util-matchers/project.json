@@ -4,14 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/gf/test-util-matchers/src",
   "prefix": "gf-test",
-  "tags": ["product:gf", "domain:shared", "type:test-util"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/gf/test-util-matchers"],
-      "options": {
-        "config": "libs/gf/test-util-matchers/vite.config.mts"
-      }
-    }
-  }
+  "tags": ["product:gf", "domain:shared", "type:test-util"]
 }
