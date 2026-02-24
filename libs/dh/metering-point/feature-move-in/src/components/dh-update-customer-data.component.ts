@@ -113,12 +113,9 @@ import { Router } from '@angular/router';
             <watt-button (click)="navigate('..')" variant="secondary">{{
               t('cancel')
             }}</watt-button>
-            <watt-button
-              type="submit"
-              [disabled]="requestChangeCustomerCharacteristics.loading()"
-              [loading]="requestChangeCustomerCharacteristics.loading()"
-              >{{ t('updateCustomerData') }}</watt-button
-            >
+            <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()">{{
+              t('updateCustomerData')
+            }}</watt-button>
           </vater-stack>
         </vater-stack>
       </watt-card>
@@ -339,7 +336,7 @@ export class DhUpdateCustomerDataComponent {
   });
 
   async updateCustomerData() {
-    if (this.form().invalid) return;
+    if (this.form().invalid || this.requestChangeCustomerCharacteristics.loading()) return;
 
     const values = this.form().getRawValue();
 

@@ -51,7 +51,6 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
         <watt-button
           variant="secondary"
           [loading]="initiateMoveInMutation.loading()"
-          [disabled]="initiateMoveInMutation.loading()"
           (click)="startMoveIn()"
           >{{ t('save') }}
         </watt-button>
@@ -134,7 +133,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
   });
 
   async startMoveIn() {
-    if (this.startMoveInForm.invalid) {
+    if (this.startMoveInForm.invalid || this.initiateMoveInMutation.loading()) {
       return;
     }
 
