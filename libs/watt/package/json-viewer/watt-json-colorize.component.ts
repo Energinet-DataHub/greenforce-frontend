@@ -44,20 +44,24 @@ const JSON_TOKEN_REGEX = /"(?:[^"\\]|\\.)*":?|-?\d+\.?\d*|\b(true|false|null)\b/
 export class WattJsonColorize {
   readonly json = input.required<unknown>();
   protected readonly colorized = computed(() => {
-    const json = JSON.stringify(this.json(), null, ' ');
-    return json === undefined
-      ? `<span class='watt-json-invalid'>${this.json()?.toString() || typeof this.json()}</span>:`
-      : json.replace(JSON_TOKEN_REGEX, (match) => {
-          switch (true) {
-            case match.endsWith(':'):
-              return `<span class='watt-json-key'>${match.slice(1, -2)}</span>:`;
-            case match.startsWith('"'):
-              return `<span class='watt-json-string'>${match}</span>`;
-            case /\d/.test(match):
-              return `<span class='watt-json-number'>${match}</span>`;
-            default:
-              return `<span class='watt-json-keyword'>${match}</span>`;
-          }
-        });
+    try {
+      const json = JSON.stringify(this.json(), null, ' ');
+      return json === undefined
+        ? `<span class='watt-json-invalid'>${this.json()?.toString() || typeof this.json()}</span>`
+        : json.replace(JSON_TOKEN_REGEX, (match) => {
+            switch (true) {
+              case match.endsWith(':'):
+                return `<span class='watt-json-key'>${match.slice(1, -2)}</span>:`;
+              case match.startsWith('"'):
+                return `<span class='watt-json-string'>${match}</span>`;
+              case /\d/.test(match):
+                return `<span class='watt-json-number'>${match}</span>`;
+              default:
+                return `<span class='watt-json-keyword'>${match}</span>`;
+            }
+          });
+    } catch {
+      return `<span class='watt-json-invalid'>[Circular]</span>`;
+    }
   });
 }
