@@ -42,4 +42,3 @@ export const Medium: StoryFn<WattSeparatorComponent> = () => ({
     <p>Content below</p>
   `,
 });
-

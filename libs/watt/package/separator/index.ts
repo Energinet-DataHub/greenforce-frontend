@@ -17,4 +17,3 @@
  */
 //#endregion
 export { WattSeparatorComponent, WattSeparatorSize } from './watt-separator.component';
-

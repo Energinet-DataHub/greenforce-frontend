@@ -44,4 +44,3 @@ export type WattSeparatorSize = 's' | 'm';
 export class WattSeparatorComponent {
   size = input<WattSeparatorSize>('s');
 }
-

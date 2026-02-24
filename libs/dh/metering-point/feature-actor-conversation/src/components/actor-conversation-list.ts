@@ -52,7 +52,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
     ReactiveFormsModule,
     WattSimpleSearchComponent,
     WattDropdownComponent,
-    WattSeparatorComponent
+    WattSeparatorComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
