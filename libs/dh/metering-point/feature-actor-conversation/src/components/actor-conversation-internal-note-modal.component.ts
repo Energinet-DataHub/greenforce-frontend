@@ -76,9 +76,7 @@ export class DhActorConversationInternalNoteModalComponent extends WattTypedModa
   private readonly updateToast = injectToast(
     'meteringPoint.actorConversation.editInternalNote.toast'
   );
-  private readonly updateToastEffect = effect(() =>
-    this.updateToast(this.updateMutation.status())
-  );
+  private readonly updateToastEffect = effect(() => this.updateToast(this.updateMutation.status()));
 
   form = this.fb.group({
     internalNote: this.fb.control(this.modalData.internalNote ?? '', Validators.maxLength(80)),

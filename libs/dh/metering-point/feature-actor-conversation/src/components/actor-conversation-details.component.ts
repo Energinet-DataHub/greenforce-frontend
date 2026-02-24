@@ -130,7 +130,9 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
                   <watt-icon name="moreVertical" />
                 </watt-button>
                 <watt-menu #menu>
-                  <watt-menu-item (click)="openInternalNoteModal(conversation.internalNote)">{{ t('internalNoteLabel') }}</watt-menu-item>
+                  <watt-menu-item (click)="openInternalNoteModal(conversation.internalNote)">{{
+                    t('internalNoteLabel')
+                  }}</watt-menu-item>
                   <watt-menu-item (click)="unreadConversation()">{{
                     t('markAsUnreadButton')
                   }}</watt-menu-item>
