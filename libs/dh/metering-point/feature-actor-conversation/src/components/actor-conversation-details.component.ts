@@ -206,7 +206,14 @@ export class DhActorConversationDetailsComponent {
 
   formControl = this.fb.control<MessageFormValue>({
     content: '',
-    anonymous: this.wasLatestMessageAnonymous(),
+    anonymous: false,
+  });
+
+  private readonly syncAnonymousEffect = effect(() => {
+    this.formControl.patchValue({
+      content: this.formControl.value.content ?? '',
+      anonymous: this.wasLatestMessageAnonymous(),
+    });
   });
 
   async closeConversation() {
@@ -242,6 +249,6 @@ export class DhActorConversationDetailsComponent {
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
 
-    this.formControl.reset({ content: '', anonymous: false });
+    this.formControl.patchValue({ content: '', anonymous: this.formControl.value.anonymous ?? false });
   }
 }
