@@ -38,6 +38,8 @@ import {
   mockGetConversationsQuery,
   mockGetConversationQuery,
   mockCloseConversationMutation,
+  mockMarkConversationReadMutation,
+  mockMarkConversationUnReadMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -74,6 +76,8 @@ export function meteringPointMocks() {
     getConversations(),
     getConversation(),
     closeConversation(),
+    markConversationRead(),
+    markConversationUnRead(),
   ];
 }
 
@@ -664,6 +668,10 @@ function getConversation() {
             {
               __typename: 'ConversationMessage',
               senderType: 'ENERGY_SUPPLIER',
+              userMessage: {
+                content: '',
+                __typename: 'UserMessage',
+              },
               messageType: 'CLOSING_MESSAGE',
               createdTime: new Date(),
               actorName: '',
@@ -749,6 +757,38 @@ function closeConversation() {
         __typename: 'Mutation',
         closeConversation: {
           __typename: 'CloseConversationPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function markConversationRead() {
+  return mockMarkConversationReadMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        markConversationRead: {
+          __typename: 'MarkConversationReadPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function markConversationUnRead() {
+  return mockMarkConversationUnReadMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        markConversationUnRead: {
+          __typename: 'MarkConversationUnReadPayload',
           boolean: true,
         },
       },
