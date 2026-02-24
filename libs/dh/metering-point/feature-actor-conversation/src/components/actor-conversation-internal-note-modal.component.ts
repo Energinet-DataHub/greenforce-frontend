@@ -31,6 +31,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { internalNoteMaxLength } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-internal-note-modal',
@@ -43,13 +44,12 @@ import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
     TranslocoDirective,
   ],
   template: `
-    <watt-modal #modal *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+    <watt-modal size="small" #modal *transloco="let t; prefix: 'meteringPoint.actorConversation'">
       <h2 class="watt-modal-title">{{ t('editInternalNote.title') }}</h2>
       <form [formGroup]="form" id="edit-internal-note-form" (ngSubmit)="save(modal)">
         <watt-text-field
-          [label]="t('internalNoteLabel')"
           [formControl]="form.controls.internalNote"
-          [maxLength]="80"
+          [maxLength]="internalNoteMaxLength"
         />
       </form>
       <watt-modal-actions>
@@ -77,6 +77,7 @@ export class DhActorConversationInternalNoteModalComponent extends WattTypedModa
     'meteringPoint.actorConversation.editInternalNote.toast'
   );
   private readonly updateToastEffect = effect(() => this.updateToast(this.updateMutation.status()));
+  internalNoteMaxLength = internalNoteMaxLength;
 
   form = this.fb.group({
     internalNote: this.fb.control(this.modalData.internalNote ?? '', Validators.maxLength(80)),

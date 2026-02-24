@@ -29,7 +29,7 @@ import {
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MessageFormValue } from '../types';
+import { internalNoteMaxLength, MessageFormValue, messageMaxLength } from '../types';
 import {
   ActorType,
   ConversationSubject,
@@ -132,10 +132,11 @@ export class DhActorConversationNewConversationComponent {
   newConversationForm = this.fb.group({
     subject: this.fb.control<ConversationSubject | null>(null, Validators.required),
     receiver: this.fb.control<ActorType | null>(null, Validators.required),
-    internalNote: this.fb.control<string | null>(null),
-    message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, (control) =>
-      control.value.content ? null : { required: true }
-    ),
+    internalNote: this.fb.control<string | null>(null, Validators.maxLength(internalNoteMaxLength)),
+    message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, [
+      (control) => (control.value.content ? null : { required: true }),
+      Validators.maxLength(messageMaxLength),
+    ]),
   });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
   receivers = dhEnumToWattDropdownOptions(ActorType);
