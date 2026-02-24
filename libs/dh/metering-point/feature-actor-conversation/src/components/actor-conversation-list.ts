@@ -130,7 +130,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
   `,
 })
 export class DhActorConversationListComponent {
-  private translations = translateObjectSignal('meteringPoint.actorConversation');
+  private readonly translations = translateObjectSignal('meteringPoint.actorConversation');
 
   conversationsQuery = input<QueryResult<GetConversationsQuery, GetConversationsQueryVariables>>();
   conversations = computed(
