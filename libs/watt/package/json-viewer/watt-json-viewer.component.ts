@@ -16,16 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  Component,
-  ViewEncapsulation,
-  computed,
-  effect,
-  input,
-  linkedSignal,
-  model,
-  signal,
-} from '@angular/core';
+import { Component, ViewEncapsulation, computed, input, linkedSignal } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattJsonColorize } from './watt-json-colorize.component';
 
@@ -118,9 +109,25 @@ export class WattJson {
   `,
 })
 export class WattJsonViewer {
+  /**
+   * The JSON data to display. Accepts any value that can be serialized by JSON.stringify.
+   */
   readonly json = input.required<unknown>();
+
+  /**
+   * Maximum depth for "Expand all".
+   * @remarks Nodes beyond this depth start collapsed but can be expanded manually.
+   */
   readonly maxDepth = input(50);
+
+  /**
+   * Whether the tree starts expanded or collapsed.
+   */
   readonly initialExpanded = input(false);
+
+  // Use equality function + computed object to always return a new reference, even
+  // when `expanded` is "updated" to its current value. This ensures that "Expand all"
+  // and "Collapse all" always works, regardless of the current state of `expanded`.
   protected readonly expanded = linkedSignal(this.initialExpanded, { equal: () => false });
   protected readonly tree = computed(() => ({
     expanded: this.expanded(),
