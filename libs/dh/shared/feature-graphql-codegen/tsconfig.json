@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "CommonJS",
+    "moduleResolution": "node",
     "useDefineForClassFields": false,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
