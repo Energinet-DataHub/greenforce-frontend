@@ -659,6 +659,7 @@ function getConversation() {
               actorName: 'Sort Strøm',
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
+              anonymous: false,
             },
             {
               __typename: 'ConversationMessage',
@@ -668,6 +669,7 @@ function getConversation() {
               actorName: '',
               userName: '',
               isSentByCurrentActor: false,
+              anonymous: false,
             },
             {
               __typename: 'ConversationMessage',
@@ -681,6 +683,7 @@ function getConversation() {
               actorName: '',
               userName: '',
               isSentByCurrentActor: true,
+              anonymous: true,
             },
           ],
         },

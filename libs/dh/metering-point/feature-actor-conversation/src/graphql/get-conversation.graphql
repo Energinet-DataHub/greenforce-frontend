@@ -15,6 +15,7 @@ query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
       actorName
       userName
       isSentByCurrentActor
+      anonymous
     }
   }
 }
