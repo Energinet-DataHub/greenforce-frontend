@@ -819,7 +819,6 @@
           "error": "Der opstod en fejl under opdatering af intern note"
         }
       },
-      "messageLabel": "Besked",
       "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send",
       "emptyState": {

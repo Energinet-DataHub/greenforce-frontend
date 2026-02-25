@@ -75,7 +75,6 @@ import { skip } from 'rxjs';
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <watt-textarea-field
-        [label]="t('messageLabel')"
         [formControl]="form.controls.message"
         [small]="small()"
         data-testid="actor-conversation-message-textarea"
