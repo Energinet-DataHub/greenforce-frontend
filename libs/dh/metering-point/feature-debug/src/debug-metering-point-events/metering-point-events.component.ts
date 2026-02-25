@@ -35,8 +35,8 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
     WattTextFieldComponent,
     DhResultComponent,
     JsonPipe,
-    VaterUtilityDirective
-],
+    VaterUtilityDirective,
+  ],
   styles: `
     :host {
       display: block;
@@ -56,11 +56,7 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
         [maxLength]="18"
       />
 
-      <dh-result
-        vater
-        fill="vertical"
-        [loading]="query.loading()"
-        [hasError]="query.hasError()">
+      <dh-result vater fill="vertical" [loading]="query.loading()" [hasError]="query.hasError()">
         @if (debugViewV2()) {
           <h1>Metering point</h1>
           <pre>{{ debugViewV2()!.meteringPointJson }}</pre>
@@ -75,7 +71,6 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
           <h1>Projections</h1>
           <h2>Metering point with relations</h2>
           <pre>{{ debugViewV2()!.meteringPointWithRelationsJson }}</pre>
-
         } @else {
           <p>No data</p>
         }
