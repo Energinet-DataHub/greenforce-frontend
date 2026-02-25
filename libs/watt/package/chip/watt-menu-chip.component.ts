@@ -62,7 +62,7 @@ export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialo
         [attr.aria-haspopup]="hasPopup()"
         [attr.aria-expanded]="opened()"
         [attr.aria-pressed]="selected()"
-        (click)="toggleChange.emit()"
+        (click)="$event.stopImmediatePropagation(); toggleChange.emit()"
         [disabled]="disabled()"
       ></button>
       <ng-content />

@@ -58,12 +58,19 @@ import type {
   WattDropdownOptionGroup,
   WattDropdownGroupedOptions,
 } from './watt-dropdown-option';
+import { OVERLAY_DEFAULT_CONFIG } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'watt-dropdown',
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: OVERLAY_DEFAULT_CONFIG,
+      useValue: { usePopover: false },
+    },
+  ],
   imports: [
     MatSelectModule,
     MatOptionModule,
