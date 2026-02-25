@@ -757,6 +757,7 @@ type FilteredUserRolesEdge {
 
 type GetMeteringPointDebugResultDtoV1 {
   meteringPointJson: String!
+  meteringPointWithRelationsJson: String
   events: [ElectricityMarketV2EventDto!]!
 }
 
