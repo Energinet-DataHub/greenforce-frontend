@@ -42,7 +42,7 @@ export type NewConversation = Omit<Conversation, 'subject'> & { subject: string 
 
 export interface MessageFormValue {
   content: string | null;
-  anonymous: boolean | null;
+  anonymous: boolean | undefined;
 }
 
 export const internalNoteMaxLength = 35;

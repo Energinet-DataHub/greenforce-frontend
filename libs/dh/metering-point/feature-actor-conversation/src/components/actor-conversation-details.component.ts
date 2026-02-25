@@ -220,6 +220,18 @@ export class DhActorConversationDetailsComponent {
     });
   });
 
+  formControl = this.fb.control<MessageFormValue>({
+    content: '',
+    anonymous: false,
+  });
+
+  private readonly syncAnonymousEffect = effect(() => {
+    const anonymous = this.conversation()?.wasLatestMessageAnonymous;
+    if (anonymous !== undefined) {
+      this.formControl.patchValue({ content: this.formControl.value.content, anonymous });
+    }
+  });
+
   async closeConversation() {
     await this.closeConversationMutation.mutate({
       variables: {

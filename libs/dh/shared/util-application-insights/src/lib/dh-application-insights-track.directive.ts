@@ -16,6 +16,28 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-shared-util-application-insights.providers';
-export * from './lib/dh-application-insights.service';
-export * from './lib/dh-application-insights-track.directive';
+import { input, inject, Directive } from '@angular/core';
+
+import { DhApplicationInsights } from './dh-application-insights.service';
+
+@Directive({
+  selector: '[dhAppInsightsTrack]',
+  host: {
+    '(click)': 'handleHostClick()',
+  },
+})
+export class DhApplicationInsightsTrackDirective {
+  private appInsights = inject(DhApplicationInsights);
+
+  eventName = input.required<string>({ alias: 'dhAppInsightsTrack' });
+
+  handleHostClick() {
+    if (!this.eventName()) {
+      console.warn(`[DhApplicationInsightsTrackDirective] No event name provided for tracking.`);
+
+      return;
+    }
+
+    this.appInsights.trackEvent(this.eventName());
+  }
+}
