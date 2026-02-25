@@ -4,18 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/feature-authorization/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:shared", "type:feature"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/feature-authorization"],
-      "options": {
-        "config": "libs/dh/shared/feature-authorization/vite.config.mts"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    }
-  }
+  "tags": ["product:dh", "domain:shared", "type:feature"]
 }

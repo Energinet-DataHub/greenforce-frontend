@@ -7,16 +7,6 @@
   "tags": ["product:dh", "scope:shared", "type:domain"],
   "implicitDependencies": ["api-dh"],
   "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/domain"],
-      "options": {
-        "config": "libs/dh/shared/domain/vite.config.mts"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
     "generate": {
       "executor": "nx:run-commands",
       "cache": true,

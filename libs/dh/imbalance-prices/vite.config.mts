@@ -16,7 +16,7 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       reporter: ['html', 'json', 'text-summary'],
-      reportsDirectory: '../../../../coverage/shell',
+      reportsDirectory: '../../../coverage/libs/dh/imbalance-prices',
     },
     pool: 'forks',
     isolate: false,

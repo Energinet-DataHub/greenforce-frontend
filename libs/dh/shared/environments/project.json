@@ -4,17 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/environments/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:shared", "type:environments"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
-      "options": {
-        "reportsDirectory": "../../../../coverage/libs/dh/shared/environments"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  }
+  "tags": ["product:dh", "domain:shared", "type:environments"]
 }

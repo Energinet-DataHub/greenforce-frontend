@@ -4,10 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/feature-highlight/src",
   "prefix": "dh",
-  "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  },
   "tags": ["product:dh", "domain:shared", "type:feature"]
 }

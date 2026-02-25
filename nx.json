@@ -128,7 +128,7 @@
       "inputs": ["default", "^production"],
       "cache": true
     },
-    "@nx/eslint:lint": {
+    "lint": {
       "dependsOn": [
         {
           "projects": ["dh-shared-domain"],
@@ -137,10 +137,6 @@
       ],
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
       "cache": true
-    },
-    "@nx/vitest:test": {
-      "cache": true,
-      "inputs": ["default", "^production"]
     }
   },
   "namedInputs": {
@@ -162,5 +158,19 @@
     ]
   },
   "defaultBase": "main",
-  "nxCloudId": "6124f33c6b561869a0db14ff"
+  "nxCloudId": "6124f33c6b561869a0db14ff",
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/vite/plugin",
+      "options": {
+        "testTargetName": "test"
+      }
+    }
+  ]
 }

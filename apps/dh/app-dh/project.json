@@ -158,23 +158,6 @@
       },
       "defaultConfiguration": "mocked",
       "continuous": true
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "dependsOn": [
-        {
-          "projects": ["dh-shared-domain"],
-          "target": "generate"
-        }
-      ],
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/apps/dh/app-dh"],
-      "options": {
-        "config": "apps/dh/app-dh/vite.config.mts"
-      }
     }
   }
 }
