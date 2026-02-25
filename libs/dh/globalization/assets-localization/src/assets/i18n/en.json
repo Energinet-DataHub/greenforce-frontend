@@ -226,6 +226,12 @@
   },
   "sidebar": {
     "navigation": {
+      "developer": {
+        "operationTools": {
+          "menuGroupLabel": "Operation tools",
+          "meteringPoint": "Metering point"
+        }
+      },
       "devExamples": {
         "menuGroupLabel": "Dev Examples",
         "processes": "Processes"
@@ -803,6 +809,16 @@
       },
       "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
       "internalNoteLabel": "Internal note",
+      "editInternalNote": {
+        "title": "Internal note",
+        "closeButton": "Close",
+        "saveButton": "Save changes",
+        "toast": {
+          "loading": "Updating internal note...",
+          "success": "Internal note updated",
+          "error": "An error occurred updating the internal note"
+        }
+      },
       "messageLabel": "Message",
       "messagePlaceholder": "Write a message",
       "sendButton": "Send",

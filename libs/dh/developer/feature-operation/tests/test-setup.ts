@@ -16,6 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-shared-util-application-insights.providers';
-export * from './lib/dh-application-insights.service';
-export * from './lib/dh-application-insights-track.directive';
+import '@analogjs/vitest-angular/setup-zone';
+import '@angular/compiler';
+import '@testing-library/jest-dom/vitest';
+
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();

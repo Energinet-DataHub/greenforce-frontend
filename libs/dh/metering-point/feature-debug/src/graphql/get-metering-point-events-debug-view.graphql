@@ -1,6 +1,7 @@
 query GetMeteringPointEventsDebugView($meteringPointId: String!) {
   eventsDebugView(meteringPointId: $meteringPointId) {
     meteringPointJson
+    meteringPointWithRelationsJson
     events {
       id
       timestamp

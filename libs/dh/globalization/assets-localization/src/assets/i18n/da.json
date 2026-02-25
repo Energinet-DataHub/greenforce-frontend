@@ -226,6 +226,12 @@
   },
   "sidebar": {
     "navigation": {
+      "developer": {
+        "operationTools": {
+          "menuGroupLabel": "Driftsværktøjer",
+          "meteringPoint": "Målepunkt"
+        }
+      },
       "devExamples": {
         "menuGroupLabel": "Dev eksempler",
         "processes": "Processer"
@@ -250,7 +256,6 @@
         "settlements": "Afregninger",
         "missingMeasurementsLog": "Anmod om hullerlog"
       },
-      "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
         "calculations": "Beregninger",
         "overview": "Oversigt",
@@ -803,6 +808,16 @@
       },
       "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
       "internalNoteLabel": "Intern note",
+      "editInternalNote": {
+        "title": "Intern note",
+        "closeButton": "Luk",
+        "saveButton": "Gem ændringer",
+        "toast": {
+          "loading": "Intern note opdateres...",
+          "success": "Intern note opdateret",
+          "error": "Der opstod en fejl under opdatering af intern note"
+        }
+      },
       "messageLabel": "Besked",
       "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send",

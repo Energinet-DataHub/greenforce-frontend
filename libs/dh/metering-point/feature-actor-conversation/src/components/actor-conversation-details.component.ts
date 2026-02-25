@@ -42,9 +42,11 @@ import {
   MarkConversationUnReadDocument,
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattModalService } from '@energinet/watt/modal';
 import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
+import { DhActorConversationInternalNoteModalComponent } from './actor-conversation-internal-note-modal.component';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 
@@ -128,7 +130,9 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
                   <watt-icon name="moreVertical" />
                 </watt-button>
                 <watt-menu #menu>
-                  <watt-menu-item>{{ t('internalNoteLabel') }}</watt-menu-item>
+                  <watt-menu-item (click)="openInternalNoteModal(conversation.internalNote)">{{
+                    t('internalNoteLabel')
+                  }}</watt-menu-item>
                   <watt-menu-item (click)="unreadConversation()">{{
                     t('markAsUnreadButton')
                   }}</watt-menu-item>
@@ -165,6 +169,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
 })
 export class DhActorConversationDetailsComponent {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly modalService = inject(WattModalService);
   private readonly closeConversationMutation = mutation(CloseConversationDocument);
   private readonly closeToast = injectToast(
     'meteringPoint.actorConversation.conversationCloseError'
@@ -174,7 +179,6 @@ export class DhActorConversationDetailsComponent {
   );
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
-  formControl = this.fb.control<MessageFormValue>({ content: '', anonymous: false });
   conversationId = input.required<string>();
   meteringPointId = input.required<string>();
 
@@ -187,12 +191,34 @@ export class DhActorConversationDetailsComponent {
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
 
+  private readonly syncAnonymousEffect = effect(() => {
+    const anonymous = this.conversation()?.wasLatestMessageAnonymous;
+    if (anonymous !== undefined) {
+      this.formControl.patchValue({ content: this.formControl.value.content, anonymous });
+    }
+  });
+
+  formControl = this.fb.control<MessageFormValue>({
+    content: '',
+    anonymous: false,
+  });
+
   async closeConversation() {
     await this.closeConversationMutation.mutate({
       variables: {
         conversationId: this.conversationId(),
       },
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
+    });
+  }
+
+  openInternalNoteModal(internalNote: string | null | undefined) {
+    this.modalService.open({
+      component: DhActorConversationInternalNoteModalComponent,
+      data: {
+        conversationId: this.conversationId(),
+        internalNote: internalNote ?? null,
+      },
     });
   }
 
@@ -220,6 +246,9 @@ export class DhActorConversationDetailsComponent {
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
 
-    this.formControl.reset({ content: '', anonymous: false });
+    this.formControl.patchValue({
+      content: '',
+      anonymous: this.formControl.value.anonymous ?? false,
+    });
   }
 }

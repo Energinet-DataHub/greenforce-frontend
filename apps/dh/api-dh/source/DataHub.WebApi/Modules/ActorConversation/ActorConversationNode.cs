@@ -64,6 +64,30 @@ public static partial class ActorConversationNode
         return await authClient.ApiGetConversationAsync(conversationId, ct);
     }
 
+    public static bool WasLatestMessageAnonymous(
+        [Parent] ConversationDto conversation,
+        [Service] IHttpContextAccessor httpContextAccessor)
+    {
+        var messages = conversation.Messages;
+        if (messages.Count == 0)
+        {
+            return false;
+        }
+
+        var currentActorNumber = httpContextAccessor.HttpContext?.User.GetMarketParticipantNumber();
+
+        var latestMessageByCurrentActor = messages
+            .Reverse()
+            .FirstOrDefault(m => m.ActorNumber == currentActorNumber);
+
+        if (latestMessageByCurrentActor == null)
+        {
+            return false;
+        }
+
+        return latestMessageByCurrentActor.Anonymous;
+    }
+
     static partial void Configure(
         IObjectTypeDescriptor<ConversationDto> descriptor)
     {
