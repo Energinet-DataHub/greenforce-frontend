@@ -16,7 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, forwardRef, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  forwardRef,
+  inject,
+  input,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,
@@ -86,6 +94,7 @@ import { skip } from 'rxjs';
   `,
 })
 export class DhActorConversationMessageFormComponent implements ControlValueAccessor {
+  private readonly cdr = inject(ChangeDetectorRef);
   small = input<boolean>(false);
   loading = input<boolean>(false);
 
@@ -111,15 +120,13 @@ export class DhActorConversationMessageFormComponent implements ControlValueAcce
   writeValue(value: MessageFormValue | null): void {
     if (value) {
       this.form.setValue(
-        {
-          message: value.content,
-          anonymous: value.anonymous ?? false,
-        },
+        { message: value.content, anonymous: value.anonymous ?? false },
         { emitEvent: false }
       );
     } else {
       this.form.reset({ message: null, anonymous: false }, { emitEvent: false });
     }
+    this.cdr.markForCheck();
   }
 
   registerOnChange = (fn: (value: MessageFormValue | null) => void) =>

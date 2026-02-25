@@ -382,6 +382,7 @@ type CollectionSegmentInfo {
 
 "Conversation"
 type Conversation {
+  wasLatestMessageAnonymous: Boolean!
   displayId: String
   "Display Id of the conversation"
   id: ID!

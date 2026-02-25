@@ -174,7 +174,6 @@ export class DhActorConversationDetailsComponent {
   );
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
-  formControl = this.fb.control<MessageFormValue>({ content: '', anonymous: false });
   conversationId = input.required<string>();
   meteringPointId = input.required<string>();
 
@@ -186,6 +185,18 @@ export class DhActorConversationDetailsComponent {
   }));
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
+
+  formControl = this.fb.control<MessageFormValue>({
+    content: '',
+    anonymous: false,
+  });
+
+  private readonly syncAnonymousEffect = effect(() => {
+    const anonymous = this.conversation()?.wasLatestMessageAnonymous;
+    if (anonymous !== undefined) {
+      this.formControl.patchValue({ content: this.formControl.value.content, anonymous });
+    }
+  });
 
   async closeConversation() {
     await this.closeConversationMutation.mutate({
@@ -220,6 +231,9 @@ export class DhActorConversationDetailsComponent {
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
 
-    this.formControl.reset({ content: '', anonymous: false });
+    this.formControl.patchValue({
+      content: '',
+      anonymous: this.formControl.value.anonymous ?? false,
+    });
   }
 }
