@@ -95,9 +95,11 @@ import { WattDatePipe } from '@energinet/watt/date';
         <span class="watt-text-m watt-on-light--low-emphasis font-size-s">{{
           conversation().displayId
         }}</span>
-        <span class="watt-text-m watt-on-light--low-emphasis font-size-s">{{
-          conversation().lastUpdated | wattDate: 'long'
-        }}</span>
+        @if (conversation().lastUpdated) {
+          <span class="watt-text-m watt-on-light--low-emphasis font-size-s">{{
+            conversation().lastUpdated | wattDate: 'long'
+          }}</span>
+        }
       </vater-stack>
     </vater-flex>
   `,

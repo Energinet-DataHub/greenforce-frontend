@@ -174,7 +174,7 @@ export class DhActorConversationListComponent {
     __typename: 'ConversationInfo',
     closed: false,
     read: true,
-    lastUpdated: dayjs().toDate(),
+    lastUpdated: undefined,
     id: '',
     displayId: '',
     subject: 'newCase',
