@@ -21,7 +21,7 @@ import { JsonPipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { VaterFlexComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointEventsDebugViewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -35,7 +35,8 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
     WattTextFieldComponent,
     DhResultComponent,
     JsonPipe,
-  ],
+    VaterUtilityDirective
+],
   styles: `
     :host {
       display: block;
@@ -43,22 +44,38 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
       width: 100%;
       padding: var(--watt-space-ml);
     }
+    hr {
+      margin-top: var(--watt-space-l);
+    }
   `,
   template: `
-    <vater-flex autoSize fill="both" gap="l">
+    <vater-flex autoSize fill="both" gap="m">
       <watt-text-field
-        label="Metering Point Id"
+        label="Metering point ID"
         [formControl]="meteringPointIdFormControl"
         [maxLength]="18"
       />
 
-      <dh-result [loading]="query.loading()" [hasError]="query.hasError()">
+      <dh-result
+        vater
+        fill="vertical"
+        [loading]="query.loading()"
+        [hasError]="query.hasError()">
         @if (debugViewV2()) {
-          <h1>Metering Point</h1>
+          <h1>Metering point</h1>
           <pre>{{ debugViewV2()!.meteringPointJson }}</pre>
+
+          <hr />
 
           <h1>Events</h1>
           <pre>{{ debugViewV2()!.events | json }}</pre>
+
+          <hr />
+
+          <h1>Projections</h1>
+          <h2>Metering point with relations</h2>
+          <pre>{{ debugViewV2()!.meteringPointWithRelationsJson }}</pre>
+
         } @else {
           <p>No data</p>
         }
@@ -76,6 +93,7 @@ export class DhMeteringPointEventsComponent {
 
     return {
       meteringPointJson: debugView.meteringPointJson,
+      meteringPointWithRelationsJson: debugView.meteringPointWithRelationsJson,
       events: debugView?.events.map((e) => ({
         ...e,
         data: tryJsonParse(e.dataJson),
