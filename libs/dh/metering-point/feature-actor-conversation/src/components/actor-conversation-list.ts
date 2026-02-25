@@ -63,11 +63,6 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
     .conversations {
       list-style: none;
     }
-
-    .thick-divider {
-      border-top: 2px solid var(--watt-color-neutral-grey-300);
-      margin: 0;
-    }
   `,
   template: `
     <vater-stack sticky="top" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
