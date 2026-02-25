@@ -84,8 +84,13 @@ import { skip } from 'rxjs';
           <watt-checkbox [formControl]="form.controls.anonymous">
             {{ t('anonymousCheckbox') }}
           </watt-checkbox>
-          <watt-icon name="info" size="s" class="info-icon-color"
-                     [wattTooltip]="t('anonymousTooltip')" wattTooltipPosition="top-start" />
+          <watt-icon
+            name="info"
+            size="s"
+            class="info-icon-color"
+            [wattTooltip]="t('anonymousTooltip')"
+            wattTooltipPosition="top-start"
+          />
         </vater-stack>
         <watt-button [loading]="loading()" type="submit">
           {{ t('sendButton') }}
