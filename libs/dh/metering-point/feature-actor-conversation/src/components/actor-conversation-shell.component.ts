@@ -54,6 +54,10 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
     :host {
       --case-min-row-height: 82px;
     }
+
+    .list-min-width {
+      min-width: 400px;
+    }
   `,
   template: `
     <watt-card vater contain fill="vertical">
@@ -66,10 +70,12 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
         <dh-actor-conversation-list
           vater
           scrollable
+          class="list-min-width"
           [conversationsQuery]="conversationsQuery"
           [newConversationVisible]="newConversationVisible()"
           [selectedConversationId]="selectedConversationId()"
           (createNewConversation)="newConversation()"
+          (filter)="search($event)"
           (selectConversation)="selectConversation($event)"
         />
         <vater-stack scrollable *transloco="let t; prefix: 'meteringPoint.actorConversation'">
@@ -122,9 +128,12 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
   `,
 })
 export class DhActorConversationShellComponent {
+  searchTerm = signal<string | undefined>(undefined);
+
   conversationsQuery = query(GetConversationsDocument, () => ({
     variables: {
       meteringPointIdentification: this.meteringPointId(),
+      searchTerm: this.searchTerm(),
     },
   }));
   readConversationMutation = mutation(MarkConversationReadDocument);
@@ -152,6 +161,10 @@ export class DhActorConversationShellComponent {
   newConversation() {
     this.newConversationVisible.set(true);
     this.selectedConversationId.set(undefined);
+  }
+
+  search(term: string) {
+    this.searchTerm.set(term);
   }
 
   async selectConversation(conversation: Conversation) {

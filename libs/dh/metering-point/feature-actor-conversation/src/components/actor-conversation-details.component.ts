@@ -46,6 +46,7 @@ import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
 import { WattHeadingComponent } from '@energinet/watt/heading';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
 
 @Component({
   selector: 'dh-actor-conversation-details',
@@ -67,12 +68,9 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
     DhActorConversationMessageComponent,
     VaterFlexComponent,
     WattHeadingComponent,
+    WattSeparatorComponent,
   ],
   styles: `
-    .no-margin {
-      margin: 0;
-    }
-
     .sticky-background {
       background-color: var(--bg-card);
     }
@@ -137,7 +135,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
                 </watt-menu>
               </vater-stack>
             </vater-stack>
-            <hr class="watt-divider no-margin" />
+            <watt-separator />
           </vater-stack>
 
           <!-- Content - Scrollable message area -->
@@ -176,7 +174,6 @@ export class DhActorConversationDetailsComponent {
   );
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
-  formControl = this.fb.control<MessageFormValue>({ content: '', anonymous: false });
   conversationId = input.required<string>();
   meteringPointId = input.required<string>();
 
@@ -188,6 +185,18 @@ export class DhActorConversationDetailsComponent {
   }));
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
+
+  formControl = this.fb.control<MessageFormValue>({
+    content: '',
+    anonymous: false,
+  });
+
+  private readonly syncAnonymousEffect = effect(() => {
+    const anonymous = this.conversation()?.wasLatestMessageAnonymous;
+    if (anonymous !== undefined) {
+      this.formControl.patchValue({ content: this.formControl.value.content, anonymous });
+    }
+  });
 
   async closeConversation() {
     await this.closeConversationMutation.mutate({
@@ -222,6 +231,9 @@ export class DhActorConversationDetailsComponent {
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
 
-    this.formControl.reset({ content: '', anonymous: false });
+    this.formControl.patchValue({
+      content: '',
+      anonymous: this.formControl.value.anonymous ?? false,
+    });
   }
 }

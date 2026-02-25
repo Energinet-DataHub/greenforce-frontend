@@ -4,17 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/util-table/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:shared", "type:util"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/util-table"],
-      "options": {
-        "config": "libs/dh/shared/util-table/vite.config.mts"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  }
+  "tags": ["product:dh", "domain:shared", "type:util"]
 }

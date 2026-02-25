@@ -195,6 +195,7 @@ export class DhSearchComponent {
 
     const meteringPointId = this.searchControl.getRawValue();
     const result = await this.doesMeteringPointExist.query({
+      fetchPolicy: 'cache-and-network',
       variables: {
         meteringPointId,
         searchMigratedMeteringPoints: this.searchMigratedMeteringPoints.value,

@@ -25,7 +25,9 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { GetSelectionMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { windowLocationToken } from './window-location';

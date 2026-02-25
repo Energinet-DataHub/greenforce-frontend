@@ -4,17 +4,5 @@
   "sourceRoot": "libs/dh/developer/feature-examples",
   "prefix": "dh",
   "projectType": "library",
-  "tags": ["product:dh", "domain:developer", "type:feature"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "config": "libs/dh/developer/feature-examples/vite.config.mts"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  }
+  "tags": ["product:dh", "domain:developer", "type:feature"]
 }

@@ -4,18 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/gf/globalization/configuration-danish-locale/src",
   "prefix": "gf",
-  "tags": ["product:gf", "domain:globalization", "type:configuration"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/gf/globalization/configuration-danish-locale"],
-      "options": {
-        "config": "libs/gf/globalization/configuration-danish-locale/vite.config.mts"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    }
-  }
+  "tags": ["product:gf", "domain:globalization", "type:configuration"]
 }

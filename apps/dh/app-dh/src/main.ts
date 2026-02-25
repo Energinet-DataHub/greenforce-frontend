@@ -48,15 +48,6 @@ if (environment.production) {
   enableProdMode();
 }
 
-if (environment.authDisabled) {
-  const searchParams = new URLSearchParams(window.location.search);
-  const debugToken = searchParams.get('debugToken');
-
-  if (debugToken) {
-    localStorage.setItem('access_token', debugToken);
-  }
-}
-
 if (ngDevMode && environment.mocked) {
   // Dynamically import the MSW setup to avoid loading it in production
   Promise.all([

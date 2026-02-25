@@ -38,6 +38,8 @@ import {
   mockGetConversationsQuery,
   mockGetConversationQuery,
   mockCloseConversationMutation,
+  mockMarkConversationReadMutation,
+  mockMarkConversationUnReadMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -55,8 +57,7 @@ import { childMeteringPoint } from './data/metering-point/child-metering-point';
 import { eventsDebugView } from './data/metering-point/metering-point-events-debug-view';
 import { conversations } from './data/metering-point/conversations';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function meteringPointMocks(apiBase: string) {
+export function meteringPointMocks() {
   return [
     doesInternalMeteringPointIdExist(),
     getContactCPR(),
@@ -75,6 +76,8 @@ export function meteringPointMocks(apiBase: string) {
     getConversations(),
     getConversation(),
     closeConversation(),
+    markConversationRead(),
+    markConversationUnRead(),
   ];
 }
 
@@ -647,36 +650,49 @@ function getConversation() {
           internalNote: 'CS00123645',
           subject: 'QUESTION_FOR_ENERGINET',
           closed: false,
+          wasLatestMessageAnonymous: true,
           messages: [
             {
               __typename: 'ConversationMessage',
               senderType: 'ENERGY_SUPPLIER',
-              content: 'Hej, her er et spørgsmål',
+              userMessage: {
+                content: 'Hej, her er et spørgsmål',
+                __typename: 'UserMessage',
+              },
               messageType: 'USER_MESSAGE',
               createdTime: new Date(),
               actorName: 'Sort Strøm',
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
+              anonymous: false,
             },
             {
               __typename: 'ConversationMessage',
               senderType: 'ENERGY_SUPPLIER',
-              content: 'ClosingMessage',
+              userMessage: {
+                content: '',
+                __typename: 'UserMessage',
+              },
               messageType: 'CLOSING_MESSAGE',
               createdTime: new Date(),
               actorName: '',
               userName: '',
               isSentByCurrentActor: false,
+              anonymous: false,
             },
             {
               __typename: 'ConversationMessage',
               senderType: 'ENERGY_SUPPLIER',
-              content: 'Anonym besked',
+              userMessage: {
+                content: 'Hej, her er et spørgsmål',
+                __typename: 'UserMessage',
+              },
               messageType: 'USER_MESSAGE',
               createdTime: new Date(),
               actorName: '',
               userName: '',
               isSentByCurrentActor: true,
+              anonymous: true,
             },
           ],
         },
@@ -742,6 +758,38 @@ function closeConversation() {
         __typename: 'Mutation',
         closeConversation: {
           __typename: 'CloseConversationPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function markConversationRead() {
+  return mockMarkConversationReadMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        markConversationRead: {
+          __typename: 'MarkConversationReadPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function markConversationUnRead() {
+  return mockMarkConversationUnReadMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        markConversationUnRead: {
+          __typename: 'MarkConversationUnReadPayload',
           boolean: true,
         },
       },

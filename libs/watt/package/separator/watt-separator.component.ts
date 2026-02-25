@@ -16,20 +16,31 @@
  * limitations under the License.
  */
 //#endregion
-import { makeEnvironmentProviders } from '@angular/core';
-import {
-  RX_RENDER_STRATEGIES_CONFIG,
-  RxRenderStrategiesConfig,
-} from '@rx-angular/cdk/render-strategies';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+
+export type WattSeparatorSize = 's' | 'm';
 
 /**
- * Enable RxAngular Template to render in Vitest tests.
+ * Usage:
+ * `import { WattSeparatorComponent } from '@energinet/watt/separator';`
  */
-export const gfRxAngularTestingProviders = makeEnvironmentProviders([
-  {
-    provide: RX_RENDER_STRATEGIES_CONFIG,
-    useValue: {
-      primaryStrategy: 'native',
-    } as RxRenderStrategiesConfig<string>,
+@Component({
+  selector: 'watt-separator',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    role: 'separator',
+    '[style.border-top-width]': 'size() === "s" ? "1px" : "2px"',
   },
-]);
+  template: '',
+  styles: `
+    :host {
+      display: block;
+      width: 100%;
+      border-top-style: solid;
+      border-top-color: var(--watt-color-neutral-grey-300);
+    }
+  `,
+})
+export class WattSeparatorComponent {
+  size = input<WattSeparatorSize>('s');
+}

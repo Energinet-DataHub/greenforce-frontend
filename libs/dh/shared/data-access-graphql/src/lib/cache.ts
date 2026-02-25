@@ -18,7 +18,9 @@
 //#endregion
 import { InMemoryCache } from '@apollo/client/core';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import introspection from '@energinet-datahub/dh/shared/domain/graphql/introspection';
 
 export const cache = new InMemoryCache({

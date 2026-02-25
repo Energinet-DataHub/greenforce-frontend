@@ -4,17 +4,5 @@
   "sourceRoot": "libs/dh/metering-point/feature-actor-conversation/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": ["product:dh", "domain:metering-point", "type:feature"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/metering-point/feature-actor-conversation"],
-      "options": {
-        "config": "libs/dh/metering-point/feature-actor-conversation/vite.config.mts"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  }
+  "tags": ["product:dh", "domain:metering-point", "type:feature"]
 }

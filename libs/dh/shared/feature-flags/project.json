@@ -4,17 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/feature-flags/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:shared", "type:feature"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/feature-flags"],
-      "options": {
-        "configFile": "libs/dh/shared/feature-flags/vite.config.mts"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  }
+  "tags": ["product:dh", "domain:shared", "type:feature"]
 }

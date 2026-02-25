@@ -4,10 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/gf/msw/util-msw/src",
   "prefix": "gf",
-  "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  },
   "tags": ["product:gf", "domain:shared", "type:test-util"]
 }

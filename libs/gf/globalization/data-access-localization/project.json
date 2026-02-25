@@ -4,17 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/gf/globalization/data-access-localization/src",
   "prefix": "gf",
-  "tags": ["product:gf", "domain:globalization", "type:data-access"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/gf/globalization/data-access-localization"],
-      "options": {
-        "config": "libs/gf/globalization/data-access-localization/vite.config.mts"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  }
+  "tags": ["product:gf", "domain:globalization", "type:data-access"]
 }

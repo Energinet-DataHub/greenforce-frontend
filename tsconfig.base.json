@@ -293,6 +293,7 @@
       "@energinet/watt/resize-observer": ["libs/watt/package/utils/resize-observer/index.ts"],
       "@energinet/watt/search": ["libs/watt/package/search/index.ts"],
       "@energinet/watt/segmented-buttons": ["libs/watt/package/segmented-buttons/index.ts"],
+      "@energinet/watt/separator": ["libs/watt/package/separator/index.ts"],
       "@energinet/watt/shell": ["libs/watt/package/shell/index.ts"],
       "@energinet/watt/slide-toggle": ["libs/watt/package/slide-toggle/index.ts"],
       "@energinet/watt/slider": ["libs/watt/package/slider/index.ts"],

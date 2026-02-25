@@ -785,6 +785,7 @@
       }
     },
     "actorConversation": {
+      "searchPlaceholder": "Search for case-ID or internal note",
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case",
@@ -792,12 +793,12 @@
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc question",
         "INTERRUPTION_RECONNECTION": "Disconnect/Reconnect",
-        "ELECTRICAL_HEATING": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "ELECTRICAL_HEATING": "Electrical heating",
         "WRONGFUL_MOVE_OR_SUPPLIER_CHANGE": "Incorrect move/switch of supplier",
-        "CUSTOMER_MASTER_DATA": "{{ shared.terminology.customerMasterData }}",
-        "MEASUREMENT_DATA": "{{ shared.terminology.measurements }}",
-        "MEASUREMENT_POINT_MASTER_DATA": "{{ shared.terminology.meteringPointMasterData }}",
-        "PRICE_LINKING": "{{ shared.terminology.chargeLink }}",
+        "CUSTOMER_MASTER_DATA": "Customer master data",
+        "MEASUREMENT_DATA": "Measurements",
+        "MEASUREMENT_POINT_MASTER_DATA": "Metering point master data",
+        "PRICE_LINKING": "Charge link",
         "newCase": "New case"
       },
       "receiverLabel": "To",
@@ -815,6 +816,7 @@
         "noCases": "No cases found",
         "noCaseSelected": "No case selected"
       },
+      "active": "Active",
       "closed": "Closed",
       "closeCaseButton": "Close case",
       "markAsUnreadButton": "Mark as unread",
@@ -822,7 +824,14 @@
       "conversationCloseError": "An error occurred trying to close the case",
       "anonymousCheckbox": "Send anonymously",
       "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver",
-      "closingMessage": "Case closed"
+      "closingMessage": "Case closed",
+      "filters": {
+        "placeholder": "Filters",
+        "general": "General",
+        "myCases": "My cases",
+        "showOnlyUnread": "Show only unread",
+        "status": "Status"
+      }
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
@@ -947,7 +956,10 @@
         "NewMeteringPoint": "Creation of metering point (BRS-004)",
         "ConnectMeteringPoint": "Connection of new metering point (BRS-008)",
         "UpdateMasterDataConsumer": "Update of customer master data (BRS-015)",
-        "CustomerMoveIn": "Move-in (BRS-009)"
+        "CustomerMoveIn": "Move-in (BRS-009)",
+        "CloseDownMeteringPoint": "Close down metering point (BRS-007)",
+        "ChangeConnectionState": "Disconnection and reconnection of metering point (BRS-013)",
+        "UpdateMasterDataMeteringPoint": "Update of metering point master data (BRS-006)"
       },
       "reasonCode": {
         "EndOfSupply": "End of supply (E20)",
@@ -956,7 +968,10 @@
         "UpdateMasterDataConsumer": "Update master data consumer (E34)",
         "CustomerMoveIn": "Customer move-in (E65)",
         "SecondaryMoveIn": "Secondary move-in (D29)",
-        "Move": "Move (E01)"
+        "Move": "Move (E01)",
+        "CloseDownMeteringPoint": "Close down metering point (D14)",
+        "ChangeConnectionState": "Change Connection Status (E79)",
+        "UpdateMasterDataMeteringPoint": "Update master data metering point (E32)"
       },
       "filters": {
         "created": "Time",
@@ -970,6 +985,12 @@
         "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
       },
       "steps": {
+        "CloseDownMeteringPoint": {
+          "BRS_007_008_013_V1_STEP_1": "Request for close-down of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Confirmation of request for close-down of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Rejection of request for close-down of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Notification of close-down of metering point (RSM-004)"
+        },
         "ConnectMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Request for connection of metering point (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
@@ -980,6 +1001,12 @@
           "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_3 }}",
           "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_4 }}"
         },
+        "ChangeConnectionState": {
+          "BRS_007_008_013_V1_STEP_1": "Request for change of connection status (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Confirmation of request for change of connection status (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Rejection of request for change of connection status (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Notification of change of connections status (RSM-022)"
+        },
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Request end of supply (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Confirm end of supply (RSM-005)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Reject end of supply (RSM-005)",
@@ -989,10 +1016,13 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Notification of new metering point (RSM-022)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Notification of charge links (RSM-031)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_1": "Request for update of metering point master data (RSM-021)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_2": "Confirmation of request for update of metering point master data (RSM-021)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_3": "Rejection of request for update of metering point master data (RSM-021)",
         "BRS_009_MOVEIN_V1_STEP_1": "Request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Confirm request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Reject request Change of Supplier (RSM-001)",
-        "BRS_009_MOVEIN_V1_STEP_4": "Metering point master data information (RSM-022)",
+        "BRS_009_MOVEIN_V1_STEP_4": "Notification of move-in (RSM-004)",
         "BRS_009_MOVEIN_V1_STEP_5": "Customer master data information (RSM-028)",
         "BRS_009_MOVEIN_V1_STEP_6": "Price link information (RSM-031)",
         "BRS_009_MOVEIN_V1_STEP_7": "Request update customer master data (RSM-027)",
@@ -1128,6 +1158,13 @@
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
       "updateCustomerData": "Update customer data",
+      "updateCustomer": {
+        "toast": {
+          "loading": "Updating customer data...",
+          "success": "Customer data updated",
+          "error": "Update failed"
+        }
+      },
       "customerDetails": {
         "label": "Customer details",
         "cutOffDate": "Cut-off date",

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -122,9 +122,6 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 export class DhActorConversationNewConversationComponent {
   private readonly startConversationErrorToast = injectToast(
     'meteringPoint.actorConversation.startConversationError'
-  );
-  private readonly startConversationToastEffect = effect(() =>
-    this.startConversationErrorToast(this.startConversationMutation.status())
   );
   private readonly fb = inject(NonNullableFormBuilder);
   startConversationMutation = mutation(StartConversationDocument);

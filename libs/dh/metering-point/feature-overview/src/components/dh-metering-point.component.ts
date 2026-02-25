@@ -30,6 +30,7 @@ import { WATT_CARD } from '@energinet/watt/card';
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
 
 import {
   DhActorStorage,
@@ -47,6 +48,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhApplicationInsightsTrackDirective } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
@@ -67,6 +69,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     VaterStackComponent,
     VaterSpacerComponent,
     VaterUtilityDirective,
+    WattCopyToClipboardDirective,
     DhCanSeeDirective,
     DhToolbarPortalComponent,
     DhEmDashFallbackPipe,
@@ -76,6 +79,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     DhMarketRoleRequiredDirective,
     DhMeteringPointStatusComponent,
     DhMeteringPointActionsComponent,
+    DhApplicationInsightsTrackDirective,
   ],
   styles: `
     @use '@energinet/watt/utils' as watt;
@@ -126,7 +130,9 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
         <div *transloco="let t; prefix: 'meteringPoint.overview'">
           <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
             <span>
-              {{ meteringPointId() }}
+              <span wattCopyToClipboard dhAppInsightsTrack="Copy metering point">{{
+                meteringPointId()
+              }}</span>
               <ng-content *dhMarketRoleRequired="rolesWithAccess">
                 • <dh-address-inline [address]="this.metadata()?.installationAddress" />
               </ng-content>
@@ -233,6 +239,7 @@ export class DhMeteringPointComponent {
   searchMigratedMeteringPoints = input.required<boolean>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
+    fetchPolicy: 'cache-and-network',
     variables: {
       meteringPointId: this.meteringPointId(),
       actorGln: this.actor.gln,
