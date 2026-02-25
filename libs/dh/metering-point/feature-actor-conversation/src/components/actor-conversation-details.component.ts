@@ -193,8 +193,7 @@ export class DhActorConversationDetailsComponent {
 
     // Find the latest message sent by the current actor
     const latestMessageByCurrentActor = messages
-      .slice()
-      .reverse()
+      .toReversed()
       .find((message) => message.isSentByCurrentActor);
 
     if (!latestMessageByCurrentActor) {
