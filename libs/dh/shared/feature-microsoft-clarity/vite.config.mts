@@ -5,9 +5,10 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig(({ mode }) => {
   return {
+    root: __dirname,
     cacheDir: '../../../../node_modules/.vite/libs/dh/shared/feature-microsoft-clarity',
     plugins: [
-      analog({ tsconfig: './tsconfig.spec.json', vite: { inlineStylesExtension: 'scss' } }),
+      analog({ tsconfig: './tsconfig.spec.json', inlineStylesExtension: 'scss' }),
       nxViteTsPaths(),
     ],
     test: {
