@@ -280,6 +280,7 @@
       "@energinet/watt/intersection-observer": [
         "libs/watt/package/utils/intersection-observer/index.ts"
       ],
+      "@energinet/watt/json-viewer": ["libs/watt/package/json-viewer/index.ts"],
       "@energinet/watt/menu": ["libs/watt/package/menu/index.ts"],
       "@energinet/watt/modal": ["libs/watt/package/modal/index.ts"],
       "@energinet/watt/paginator": ["libs/watt/package/paginator/index.ts"],
