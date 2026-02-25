@@ -788,6 +788,7 @@
       "cases": "Sager",
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag",
+      "cancelButtonLabel": "Annuller",
       "subjectLabel": "Emne",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
