@@ -68,7 +68,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
     <vater-stack sticky="top" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
       <vater-stack
         fill="horizontal"
-        class="new-conversation watt-space-inset-m"
+        class="new-conversation watt-space-inset-ml"
         gap="m"
         align="start"
       >
