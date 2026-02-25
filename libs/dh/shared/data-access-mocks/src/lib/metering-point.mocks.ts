@@ -650,6 +650,7 @@ function getConversation() {
           internalNote: 'CS00123645',
           subject: 'QUESTION_FOR_ENERGINET',
           closed: false,
+          wasLatestMessageAnonymous: true,
           messages: [
             {
               __typename: 'ConversationMessage',

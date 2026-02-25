@@ -185,23 +185,6 @@ export class DhActorConversationDetailsComponent {
   }));
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
-  wasLatestMessageAnonymous = computed(() => {
-    const messages = this.conversation()?.messages;
-    if (!messages || messages.length === 0) {
-      return false;
-    }
-
-    // Find the latest message sent by the current actor
-    const latestMessageByCurrentActor = messages
-      .toReversed()
-      .find((message) => message.isSentByCurrentActor);
-
-    if (!latestMessageByCurrentActor) {
-      return false;
-    }
-
-    return latestMessageByCurrentActor.anonymous;
-  });
 
   formControl = this.fb.control<MessageFormValue>({
     content: '',
@@ -209,10 +192,10 @@ export class DhActorConversationDetailsComponent {
   });
 
   private readonly syncAnonymousEffect = effect(() => {
-    this.formControl.patchValue({
-      content: this.formControl.value.content ?? '',
-      anonymous: this.wasLatestMessageAnonymous(),
-    });
+    const anonymous = this.conversation()?.wasLatestMessageAnonymous;
+    if (anonymous !== undefined) {
+      this.formControl.patchValue({ content: this.formControl.value.content, anonymous });
+    }
   });
 
   async closeConversation() {
