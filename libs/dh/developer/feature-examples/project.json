@@ -1,0 +1,8 @@
+{
+  "name": "dh-developer-feature-examples",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/developer/feature-examples",
+  "prefix": "dh",
+  "projectType": "library",
+  "tags": ["product:dh", "domain:developer", "type:feature"]
+}

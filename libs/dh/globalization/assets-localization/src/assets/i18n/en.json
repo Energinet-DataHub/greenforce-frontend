@@ -226,6 +226,12 @@
   },
   "sidebar": {
     "navigation": {
+      "developer": {
+        "operationTools": {
+          "menuGroupLabel": "Operation tools",
+          "meteringPoint": "Metering point"
+        }
+      },
       "devExamples": {
         "menuGroupLabel": "Dev Examples",
         "processes": "Processes"

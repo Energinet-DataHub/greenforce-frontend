@@ -26,7 +26,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh/dev-examples/feature-processes',
+  cacheDir: '../../../../node_modules/.vite/libs/dh/developer/feature-examples',
   plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     passWithNoTests: true,
@@ -40,7 +40,7 @@ export default defineConfig(() => ({
     setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/dh/dev-examples/feature-processes',
+      reportsDirectory: '../../../../coverage/libs/dh/developer/feature-examples',
       provider: 'v8' as const,
     },
     pool: 'forks',
