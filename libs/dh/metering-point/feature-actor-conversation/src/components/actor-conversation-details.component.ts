@@ -154,9 +154,9 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
 
           <!-- Content - Scrollable message area -->
           <vater-flex direction="column" fill="both" scrollable>
-          @for (message of conversation.messages; track message) {
-            <dh-actor-conversation-message [message]="message" />
-          }
+            @for (message of conversation.messages; track message) {
+              <dh-actor-conversation-message [message]="message" />
+            }
             <div #scrollAnchor></div>
           </vater-flex>
         }

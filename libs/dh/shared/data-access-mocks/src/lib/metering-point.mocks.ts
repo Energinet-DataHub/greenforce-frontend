@@ -718,8 +718,7 @@ function getConversation() {
               __typename: 'ConversationMessage',
               senderType: 'GRID_ACCESS_PROVIDER',
               userMessage: {
-                content:
-                  'Gider I afslutte sagen?',
+                content: 'Gider I afslutte sagen?',
                 __typename: 'UserMessage',
               },
               messageType: 'USER_MESSAGE',
