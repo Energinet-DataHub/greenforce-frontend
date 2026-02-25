@@ -74,7 +74,11 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
 
           <h1>Projections</h1>
           <h2>Metering point with relations</h2>
-          <pre>{{ debugViewV2()!.meteringPointWithRelationsJson }}</pre>
+          @if (debugViewV2()!.meteringPointWithRelationsJson) {
+            <pre>{{ debugViewV2()!.meteringPointWithRelationsJson }}</pre>
+          } @else {
+            <p>No data</p>
+          }
 
         } @else {
           <p>No data</p>
