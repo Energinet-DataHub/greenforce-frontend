@@ -256,7 +256,6 @@
         "settlements": "Settlements",
         "missingMeasurementsLog": "Request missing measurements log"
       },
-      "meteringPointDebug": "Debug metering point",
       "wholesale": {
         "calculations": "Calculations",
         "overview": "Overview",
@@ -3181,7 +3180,15 @@
       "tabLabel": "Metering point"
     },
     "meteringPointEvents": {
-      "tabLabel": "Metering point events"
+      "tabLabel": "Metering point events",
+      "searchLabel": "Metering point ID",
+      "segments": {
+        "meteringPoint": "Metering point",
+        "events": "Events",
+        "relations": "Relations"
+      },
+      "expandAll": "Expand all",
+      "collapseAll": "Collapse all"
     },
     "meteringPoints": {
       "tabLabel": "Metering points",

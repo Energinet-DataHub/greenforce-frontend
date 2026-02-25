@@ -3180,7 +3180,15 @@
       "tabLabel": "Målepunkt"
     },
     "meteringPointEvents": {
-      "tabLabel": "Målepunkt events"
+      "tabLabel": "Målepunkt events",
+      "searchLabel": "Målepunkts-ID",
+      "segments": {
+        "meteringPoint": "Målepunkt",
+        "events": "Events",
+        "relations": "Relationer"
+      },
+      "expandAll": "Udvid alle",
+      "collapseAll": "Skjul alle"
     },
     "meteringPoints": {
       "tabLabel": "Målepunkter",
