@@ -75,7 +75,6 @@ import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/
           } @else {
             <p>No data</p>
           }
-
         } @else {
           <p>No data</p>
         }
