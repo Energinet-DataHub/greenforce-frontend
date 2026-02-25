@@ -80,7 +80,10 @@ export class DhActorConversationInternalNoteModalComponent extends WattTypedModa
   internalNoteMaxLength = internalNoteMaxLength;
 
   form = this.fb.group({
-    internalNote: this.fb.control(this.modalData.internalNote ?? '', Validators.maxLength(internalNoteMaxLength)),
+    internalNote: this.fb.control(
+      this.modalData.internalNote ?? '',
+      Validators.maxLength(internalNoteMaxLength)
+    ),
   });
 
   async save(modal: { close: (result: boolean) => void }) {
