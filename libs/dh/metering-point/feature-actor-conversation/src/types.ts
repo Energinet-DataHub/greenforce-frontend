@@ -44,3 +44,6 @@ export interface MessageFormValue {
   content: string | null;
   anonymous: boolean | undefined;
 }
+
+export const internalNoteMaxLength = 35;
+export const messageMaxLength = 35;

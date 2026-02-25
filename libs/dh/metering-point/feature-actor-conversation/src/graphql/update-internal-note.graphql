@@ -1,0 +1,10 @@
+mutation UpdateInternalConversationNote($conversationId: UUID!, $internalNote: String!) {
+  updateInternalConversationNote(
+    updateInternalConversationNoteInput: {
+      conversationId: $conversationId
+      internalNote: $internalNote
+    }
+  ) {
+    boolean
+  }
+}

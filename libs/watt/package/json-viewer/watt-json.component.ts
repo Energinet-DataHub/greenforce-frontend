@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation, computed, input, linkedSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  computed,
+  input,
+  linkedSignal,
+} from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattJsonColorize } from './watt-json-colorize.component';
 
@@ -29,6 +36,7 @@ export type TreeState = {
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'watt-json',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WattIconComponent, WattJsonColorize],
   styles: `
     watt-json {

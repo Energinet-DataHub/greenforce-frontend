@@ -87,14 +87,14 @@ $offset: 6px;
   &[data-popper-placement="top-end"],
   &[data-popper-placement="bottom-end"] {
     > .arrow {
-      left: 10px !important;
+      left: calc(100% - ($arrow-size + 10px));
     }
   }
 
   &[data-popper-placement="top-start"],
   &[data-popper-placement="bottom-start"] {
     > .arrow {
-      left: calc(100% - ($arrow-size + 10px));
+      left: 10px !important;
     }
   }
 }

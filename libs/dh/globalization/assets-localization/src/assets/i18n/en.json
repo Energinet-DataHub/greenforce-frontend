@@ -256,7 +256,6 @@
         "settlements": "Settlements",
         "missingMeasurementsLog": "Request missing measurements log"
       },
-      "meteringPointDebug": "Debug metering point",
       "wholesale": {
         "calculations": "Calculations",
         "overview": "Overview",
@@ -809,6 +808,16 @@
       },
       "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
       "internalNoteLabel": "Internal note",
+      "editInternalNote": {
+        "title": "Internal note",
+        "closeButton": "Close",
+        "saveButton": "Save changes",
+        "toast": {
+          "loading": "Updating internal note...",
+          "success": "Internal note updated",
+          "error": "An error occurred updating the internal note"
+        }
+      },
       "messageLabel": "Message",
       "messagePlaceholder": "Write a message",
       "sendButton": "Send",
@@ -3171,7 +3180,15 @@
       "tabLabel": "Metering point"
     },
     "meteringPointEvents": {
-      "tabLabel": "Metering point events"
+      "tabLabel": "Metering point events",
+      "searchLabel": "Metering point ID",
+      "segments": {
+        "meteringPoint": "Metering point",
+        "events": "Events",
+        "relations": "Relations"
+      },
+      "expandAll": "Expand all",
+      "collapseAll": "Collapse all"
     },
     "meteringPoints": {
       "tabLabel": "Metering points",
