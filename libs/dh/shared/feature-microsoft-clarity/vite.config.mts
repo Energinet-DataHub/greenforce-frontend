@@ -7,11 +7,7 @@ export default defineConfig(({ mode }) => {
   return {
     cacheDir: '../../../../node_modules/.vite/libs/dh/shared/feature-microsoft-clarity',
     plugins: [
-      analog({
-        vite: {
-          inlineStylesExtension: 'scss',
-        },
-      }),
+      analog({ tsconfig: './tsconfig.json', inlineStylesExtension: 'scss' }),
       nxViteTsPaths(),
     ],
     test: {
