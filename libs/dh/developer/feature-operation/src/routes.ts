@@ -31,6 +31,7 @@ const routes: Routes = [
   {
     canActivate: [
       PermissionGuard([
+        'fas',
         'metering-point:operation-tools-view',
         'metering-point:operation-tools-manage',
       ]),

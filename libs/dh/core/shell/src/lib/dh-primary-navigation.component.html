@@ -123,6 +123,7 @@ limitations under the License.
       [title]="transloco('developer.operationTools.menuGroupLabel')"
       [expandable]="true"
       *dhPermissionRequired="[
+        'fas',
         'metering-point:operation-tools-view',
         'metering-point:operation-tools-manage',
       ]"
@@ -130,6 +131,7 @@ limitations under the License.
       <watt-nav-list-item
         [link]="getOperationToolsLink('metering-point')"
         *dhPermissionRequired="[
+          'fas',
           'metering-point:operation-tools-view',
           'metering-point:operation-tools-manage',
         ]"

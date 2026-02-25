@@ -132,7 +132,7 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
       @if (searchControl.value && meteringPointNotFound()) {
         <watt-empty-state size="small" icon="custom-no-results" [title]="t('noResultFound')" />
 
-        <ng-container *dhPermissionRequired="['metering-point:operation-tools-view']">
+        <ng-container *dhPermissionRequired="['fas', 'metering-point:operation-tools-view']">
           <watt-button
             variant="secondary"
             icon="contentCopy"
