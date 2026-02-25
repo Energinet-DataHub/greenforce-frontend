@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input, linkedSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, linkedSignal } from '@angular/core';
 import { TreeState, WattJson } from './watt-json.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'watt-json-viewer',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WattJson],
   template: `<watt-json [json]="json()" [tree]="tree()" />`,
 })
