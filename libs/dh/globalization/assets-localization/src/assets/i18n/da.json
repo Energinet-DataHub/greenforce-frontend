@@ -969,7 +969,7 @@
         "CustomerMoveIn": "Tilflytning (BRS-009)",
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (BRS-007)",
         "ChangeConnectionState": "Afbrydelse og gentilslutning af målepunkt (BRS-013)",
-        "UpdateMeteringPointMasterData ": "Opdatering af målepunktsstamdata (BRS-006)"
+        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)"
       },
       "reasonCode": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -981,7 +981,7 @@
         "Move": "Flytning (E01)",
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (D14)",
         "ChangeConnectionState": "Ændring af tilslutningsstatus (E79)",
-        "UpdateMeteringPointMasterData ": "Opdatering af målepunktsstamdata (E32)"
+        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (E32)"
       },
       "filters": {
         "created": "Tidspunkt",
