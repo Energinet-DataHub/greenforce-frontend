@@ -33,13 +33,13 @@ The tool uses the GitHub Git Trees API to fetch the repository structure in a si
 
 A file at:
 
-```
+```text
 dh3-dev-secrets/greenforce-frontend/apps/dh/api-dh/source/DataHub.WebApi/dev_002/appsettings.json
 ```
 
 Will be written to:
 
-```
+```text
 apps/dh/api-dh/source/DataHub.WebApi/appsettings.json
 ```
 
