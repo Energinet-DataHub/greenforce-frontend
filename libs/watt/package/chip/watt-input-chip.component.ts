@@ -36,6 +36,8 @@ import { WattIconComponent } from '@energinet/watt/icon';
         [disabled]="disabled()"
         [attr.aria-label]="'Remove'"
         (click)="removed.emit()"
+        (keydown.delete)="removed.emit()"
+        (keydown.backspace)="removed.emit()"
       >
         <watt-icon name="close" size="s" [attr.aria-hidden]="true" />
       </button>
