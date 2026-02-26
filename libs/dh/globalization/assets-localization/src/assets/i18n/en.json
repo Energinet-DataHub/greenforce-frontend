@@ -807,6 +807,7 @@
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Grid access provider"
       },
+      "reducedElectricityTaxToggle": "I want to apply for reduced electricity tax",
       "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
       "internalNoteLabel": "Internal note",
       "editInternalNote": {
