@@ -969,7 +969,7 @@
         "CustomerMoveIn": "Move-in (BRS-009)",
         "CloseDownMeteringPoint": "Close down metering point (BRS-007)",
         "ChangeConnectionState": "Disconnection and reconnection of metering point (BRS-013)",
-        "UpdateMeteringPointMasterData ": "Update of metering point master data (BRS-006)"
+        "UpdateMeteringPointMasterData": "Update of metering point master data (BRS-006)"
       },
       "reasonCode": {
         "EndOfSupply": "End of supply (E20)",
@@ -981,7 +981,7 @@
         "Move": "Move (E01)",
         "CloseDownMeteringPoint": "Close down metering point (D14)",
         "ChangeConnectionState": "Change Connection Status (E79)",
-        "UpdateMeteringPointMasterData ": "Update master data metering point (E32)"
+        "UpdateMeteringPointMasterData": "Update master data metering point (E32)"
       },
       "filters": {
         "created": "Time",
