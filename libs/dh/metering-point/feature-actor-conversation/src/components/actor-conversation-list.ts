@@ -35,7 +35,6 @@ import {
   dhEnumToWattDropdownOptions,
   DhResultComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { dayjs } from '@energinet/watt/core/date';
 import { WattSimpleSearchComponent } from '@energinet/watt/search';
 import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/dropdown';
 
