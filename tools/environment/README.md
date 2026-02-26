@@ -58,7 +58,7 @@ Current examples:
 
 ### "gh: command not found"
 
-Install the GitHub CLI: https://cli.github.com/
+Install the GitHub CLI: <https://cli.github.com/>
 
 ### "Not authenticated with GitHub CLI"
 
