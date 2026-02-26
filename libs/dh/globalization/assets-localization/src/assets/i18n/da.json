@@ -840,6 +840,21 @@
         "myCases": "Mine sager",
         "showOnlyUnread": "Vis kun ulæste",
         "status": "Status"
+      },
+      "electricalHeatingForm": {
+        "title": "Ansøg om reduceret elafgift",
+        "currentElectricalHeatingStatus": "Nuværende elvarme status",
+        "electricalHeatingDate": "Elvarme dato",
+        "customer": "Kunde",
+        "supplierInPeriod": "Elleverandør i periode",
+        "addressEligibilityDate": "Adressens berettigelsesdato (jf. BBR)",
+        "periodTitle": "Periode der søges reduceret elafgift for",
+        "periodStart": "Start",
+        "periodEnd": "Slut",
+        "attachedBbrNotification": "Jeg har vedhæftet aktuel BBR-meddelelse",
+        "attachedBbrDocumentation": "Jeg har vedhæftet dokumentation for berettigelsesdato fra BBR",
+        "yes": "Ja",
+        "no": "Nej"
       }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
