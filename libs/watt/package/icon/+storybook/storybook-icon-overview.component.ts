@@ -148,6 +148,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Print', icon: 'print' },
         { name: 'Preview', icon: 'preview' },
         { name: 'AttachFile', icon: 'attachFile' },
+        { name: 'Article', icon: 'article' },
       ],
     },
     {

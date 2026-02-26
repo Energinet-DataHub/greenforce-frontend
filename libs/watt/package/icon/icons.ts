@@ -78,6 +78,7 @@ export const WattIconMap = {
   print: 'print',
   preview: 'preview',
   attachFile: 'attach_file',
+  article: 'article',
   // Other
   power: 'power',
   location: 'location_on',
