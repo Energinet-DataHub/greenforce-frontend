@@ -788,6 +788,7 @@
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case",
+      "cancelButtonLabel": "Cancel",
       "subjectLabel": "Subject",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc question",
@@ -818,7 +819,6 @@
           "error": "An error occurred updating the internal note"
         }
       },
-      "messageLabel": "Message",
       "messagePlaceholder": "Write a message",
       "sendButton": "Send",
       "emptyState": {
