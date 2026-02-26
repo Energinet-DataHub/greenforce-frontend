@@ -58,19 +58,12 @@ import type {
   WattDropdownOptionGroup,
   WattDropdownGroupedOptions,
 } from './watt-dropdown-option';
-import { OVERLAY_DEFAULT_CONFIG } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'watt-dropdown',
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [
-    {
-      provide: OVERLAY_DEFAULT_CONFIG,
-      useValue: { usePopover: false },
-    },
-  ],
   imports: [
     MatSelectModule,
     MatOptionModule,
@@ -264,6 +257,19 @@ export class WattDropdownComponent<T = string> implements ControlValueAccessor, 
     const filteredOptions = this.mergedFilteredOptions();
     const optionsToSelect = toggleAllState ? filteredOptions : [];
     this.matSelectControl.patchValue(optionsToSelect);
+  }
+
+  onFieldClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    // Prevent re-opening when click originated from backdrop or select panel
+    // This handles the case where Angular Material 21's inline overlay
+    // causes click events to bubble up to parent containers
+    if (
+      !target?.classList.contains('cdk-overlay-backdrop') &&
+      !target?.closest('.mat-mdc-select-panel')
+    ) {
+      this.matSelect()?.open();
+    }
   }
 
   public sortOptions(options: WattDropdownOptions): WattDropdownOptions {
