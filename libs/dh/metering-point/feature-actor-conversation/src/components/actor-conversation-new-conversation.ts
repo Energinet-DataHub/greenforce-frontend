@@ -28,12 +28,14 @@ import {
   dhEnumToWattDropdownOptions,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { internalNoteMaxLength, MessageFormValue, messageMaxLength } from '../types';
 import {
   ActorType,
   ConversationSubject,
+  EicFunction,
   GetConversationsDocument,
   StartConversationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -138,6 +140,14 @@ export class DhActorConversationNewConversationComponent {
     'meteringPoint.actorConversation.startConversationError'
   );
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly actorStorage = inject(DhActorStorage);
+
+  private readonly eicFunctionToActorType: Partial<Record<EicFunction, ActorType>> = {
+    [EicFunction.EnergySupplier]: ActorType.EnergySupplier,
+    [EicFunction.DataHubAdministrator]: ActorType.Energinet,
+    [EicFunction.GridAccessProvider]: ActorType.GridAccessProvider,
+  };
+
   startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
 
@@ -153,7 +163,11 @@ export class DhActorConversationNewConversationComponent {
     ]),
   });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
-  receivers = dhEnumToWattDropdownOptions(ActorType);
+  receivers = dhEnumToWattDropdownOptions(ActorType).filter((option) => {
+    const selectedActor = this.actorStorage.getSelectedActor();
+    const ownActorType = this.eicFunctionToActorType[selectedActor.marketRole];
+    return option.value !== ownActorType;
+  });
 
   private readonly subjectValue = toSignal(this.newConversationForm.controls.subject.valueChanges, {
     initialValue: this.newConversationForm.controls.subject.value,
