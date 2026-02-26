@@ -69,6 +69,10 @@ import { WattDatePipe } from '@energinet/watt/date';
       left: var(--watt-space-s);
       color: var(--watt-color-primary);
     }
+
+    .grey-600 {
+      color: var(--watt-color-neutral-grey-600);
+    }
   `,
   template: `
     <vater-flex
@@ -92,12 +96,12 @@ import { WattDatePipe } from '@energinet/watt/date';
         justify="space-between"
         class="min-height-line-height-xs"
       >
-        <span class="watt-text-m watt-on-light--low-emphasis font-size-s">{{
-          conversation().displayId
-        }}</span>
-        <span class="watt-text-m watt-on-light--low-emphasis font-size-s">{{
-          conversation().lastUpdated | wattDate: 'short'
-        }}</span>
+        <span class="watt-text-s grey-600">{{ conversation().displayId }}</span>
+        @if (conversation().lastUpdated) {
+          <span class="watt-text-s grey-600">{{
+            conversation().lastUpdated | wattDate: 'long'
+          }}</span>
+        }
       </vater-stack>
     </vater-flex>
   `,

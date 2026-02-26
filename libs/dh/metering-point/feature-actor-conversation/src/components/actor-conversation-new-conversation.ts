@@ -79,7 +79,9 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         class="header-background"
       >
         <h3 watt-heading>{{ t('newCaseTitle') }}</h3>
-        <watt-button (click)="closeNewConversation.emit()" variant="icon" icon="close" />
+        <watt-button (click)="closeNewConversation.emit()" variant="secondary">
+          {{ t('cancelButtonLabel') }}
+        </watt-button>
       </vater-stack>
       <vater-grid columns="1fr 2fr" flow="column" offset="m" gap="m" justify="end">
         <watt-dropdown

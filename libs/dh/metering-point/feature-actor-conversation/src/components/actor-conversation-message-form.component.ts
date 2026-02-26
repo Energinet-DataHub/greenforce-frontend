@@ -75,16 +75,23 @@ import { skip } from 'rxjs';
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <watt-textarea-field
-        [label]="t('messageLabel')"
         [formControl]="form.controls.message"
         [small]="small()"
         data-testid="actor-conversation-message-textarea"
       />
-      <vater-stack direction="row" gap="s">
-        <watt-checkbox [formControl]="form.controls.anonymous">
-          {{ t('anonymousCheckbox') }}
-        </watt-checkbox>
-        <watt-icon name="info" class="info-icon-color" [wattTooltip]="t('anonymousTooltip')" />
+      <vater-stack direction="row" gap="m">
+        <vater-stack direction="row" gap="xs">
+          <watt-checkbox [formControl]="form.controls.anonymous">
+            {{ t('anonymousCheckbox') }}
+          </watt-checkbox>
+          <watt-icon
+            name="info"
+            size="s"
+            class="info-icon-color"
+            [wattTooltip]="t('anonymousTooltip')"
+            wattTooltipPosition="top-start"
+          />
+        </vater-stack>
         <watt-button [loading]="loading()" type="submit">
           {{ t('sendButton') }}
           <watt-icon name="send" />
