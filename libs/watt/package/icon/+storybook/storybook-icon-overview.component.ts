@@ -149,10 +149,12 @@ export class StorybookIconOverviewComponent {
         { name: 'Preview', icon: 'preview' },
         { name: 'AttachFile', icon: 'attachFile' },
         { name: 'Article', icon: 'article' },
+        { name: 'Contract', icon: 'contract' },
       ],
     },
     {
       icons: [
+        { name: 'Forward', icon: 'forward' },
         { name: 'Forward Message', icon: 'forwardMessage' },
         { name: 'Monetization', icon: 'monetization' },
         { name: 'Payments', icon: 'payments' },
