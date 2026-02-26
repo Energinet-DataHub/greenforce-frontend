@@ -226,6 +226,12 @@
   },
   "sidebar": {
     "navigation": {
+      "developer": {
+        "operationTools": {
+          "menuGroupLabel": "Operation tools",
+          "meteringPoint": "Metering point"
+        }
+      },
       "devExamples": {
         "menuGroupLabel": "Dev Examples",
         "processes": "Processes"
@@ -250,7 +256,6 @@
         "settlements": "Settlements",
         "missingMeasurementsLog": "Request missing measurements log"
       },
-      "meteringPointDebug": "Debug metering point",
       "wholesale": {
         "calculations": "Calculations",
         "overview": "Overview",
@@ -783,6 +788,7 @@
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case",
+      "cancelButtonLabel": "Cancel",
       "subjectLabel": "Subject",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc question",
@@ -803,7 +809,16 @@
       },
       "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
       "internalNoteLabel": "Internal note",
-      "messageLabel": "Message",
+      "editInternalNote": {
+        "title": "Internal note",
+        "closeButton": "Close",
+        "saveButton": "Save changes",
+        "toast": {
+          "loading": "Updating internal note...",
+          "success": "Internal note updated",
+          "error": "An error occurred updating the internal note"
+        }
+      },
       "messagePlaceholder": "Write a message",
       "sendButton": "Send",
       "emptyState": {
@@ -814,6 +829,7 @@
       "closed": "Closed",
       "closeCaseButton": "Close case",
       "markAsUnreadButton": "Mark as unread",
+      "sentAnonymously": "(sent anonymously)",
       "startConversationError": "One or more fields are not filled correctly.\n\nThis may be due to an invalid combination of subject and recipient, or because anonymous submissions are not permitted for the selected recipient.",
       "conversationCloseError": "An error occurred trying to close the case",
       "anonymousCheckbox": "Send anonymously",
@@ -3165,7 +3181,15 @@
       "tabLabel": "Metering point"
     },
     "meteringPointEvents": {
-      "tabLabel": "Metering point events"
+      "tabLabel": "Metering point events",
+      "searchLabel": "Metering point ID",
+      "segments": {
+        "meteringPoint": "Metering point",
+        "events": "Events",
+        "relations": "Relations"
+      },
+      "expandAll": "Expand all",
+      "collapseAll": "Collapse all"
     },
     "meteringPoints": {
       "tabLabel": "Metering points",

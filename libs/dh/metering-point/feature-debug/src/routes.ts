@@ -16,12 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Router, Routes } from '@angular/router';
-import { inject } from '@angular/core';
+import { Routes } from '@angular/router';
 
-import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { getPath, MeteringPointDebugSubPaths } from '@energinet-datahub/dh/core/routing';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhMeteringPointDebugComponent } from './debug.component';
 import { DhMeteringPointComponent } from './debug-metering-point/metering-point.component';
@@ -32,12 +29,6 @@ import { DhMeteringPointFailedMeasurementsComponent } from './debug-metering-poi
 export const dhMeteringPointDebugRoutes: Routes = [
   {
     path: '',
-    canActivate: [
-      PermissionGuard(['fas']),
-      () =>
-        inject(DhFeatureFlagsService).isEnabled('metering-point-debug') ||
-        inject(Router).parseUrl('/'),
-    ],
     data: {
       titleTranslationKey: 'meteringPointDebug.topBarTitle',
     },

@@ -29,7 +29,7 @@ import {
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MessageFormValue } from '../types';
+import { internalNoteMaxLength, MessageFormValue, messageMaxLength } from '../types';
 import {
   ActorType,
   ConversationSubject,
@@ -79,7 +79,9 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         class="header-background"
       >
         <h3 watt-heading>{{ t('newCaseTitle') }}</h3>
-        <watt-button (click)="closeNewConversation.emit()" variant="icon" icon="close" />
+        <watt-button (click)="closeNewConversation.emit()" variant="secondary">
+          {{ t('cancelButtonLabel') }}
+        </watt-button>
       </vater-stack>
       <vater-grid columns="1fr 2fr" flow="column" offset="m" gap="m" justify="end">
         <watt-dropdown
@@ -132,10 +134,11 @@ export class DhActorConversationNewConversationComponent {
   newConversationForm = this.fb.group({
     subject: this.fb.control<ConversationSubject | null>(null, Validators.required),
     receiver: this.fb.control<ActorType | null>(null, Validators.required),
-    internalNote: this.fb.control<string | null>(null),
-    message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, (control) =>
-      control.value.content ? null : { required: true }
-    ),
+    internalNote: this.fb.control<string | null>(null, Validators.maxLength(internalNoteMaxLength)),
+    message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, [
+      (control) => (control.value.content ? null : { required: true }),
+      Validators.maxLength(messageMaxLength),
+    ]),
   });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
   receivers = dhEnumToWattDropdownOptions(ActorType);

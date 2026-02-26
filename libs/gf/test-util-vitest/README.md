@@ -26,7 +26,7 @@ export default defineConfig(() => ({
     coveragePath: 'coverage/libs/dh/my-lib',
   }),
   plugins: [
-    analog(),
+    analog({ tsconfig: './tsconfig.spec.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],
@@ -45,7 +45,7 @@ export default defineConfig(() => ({
     enableMsw: true, // This enables the TransformStream polyfill
   }),
   plugins: [
-    analog(),
+    analog({ tsconfig: './tsconfig.spec.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],

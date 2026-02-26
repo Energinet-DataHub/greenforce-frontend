@@ -35,7 +35,6 @@ import {
   dhEnumToWattDropdownOptions,
   DhResultComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { dayjs } from '@energinet/watt/core/date';
 import { WattSimpleSearchComponent } from '@energinet/watt/search';
 import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/dropdown';
 
@@ -68,7 +67,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
     <vater-stack sticky="top" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
       <vater-stack
         fill="horizontal"
-        class="new-conversation watt-space-inset-m"
+        class="new-conversation watt-space-inset-ml"
         gap="m"
         align="start"
       >
@@ -174,7 +173,7 @@ export class DhActorConversationListComponent {
     __typename: 'ConversationInfo',
     closed: false,
     read: true,
-    lastUpdated: dayjs().toDate(),
+    lastUpdated: undefined,
     id: '',
     displayId: '',
     subject: 'newCase',

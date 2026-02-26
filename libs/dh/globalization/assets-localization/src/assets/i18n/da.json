@@ -226,6 +226,12 @@
   },
   "sidebar": {
     "navigation": {
+      "developer": {
+        "operationTools": {
+          "menuGroupLabel": "Driftsværktøjer",
+          "meteringPoint": "Målepunkt"
+        }
+      },
       "devExamples": {
         "menuGroupLabel": "Dev eksempler",
         "processes": "Processer"
@@ -250,7 +256,6 @@
         "settlements": "Afregninger",
         "missingMeasurementsLog": "Anmod om hullerlog"
       },
-      "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
         "calculations": "Beregninger",
         "overview": "Oversigt",
@@ -783,6 +788,7 @@
       "cases": "Sager",
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag",
+      "cancelButtonLabel": "Annuller",
       "subjectLabel": "Emne",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
@@ -803,7 +809,16 @@
       },
       "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
       "internalNoteLabel": "Intern note",
-      "messageLabel": "Besked",
+      "editInternalNote": {
+        "title": "Intern note",
+        "closeButton": "Luk",
+        "saveButton": "Gem ændringer",
+        "toast": {
+          "loading": "Intern note opdateres...",
+          "success": "Intern note opdateret",
+          "error": "Der opstod en fejl under opdatering af intern note"
+        }
+      },
       "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send",
       "emptyState": {
@@ -814,6 +829,7 @@
       "closed": "Afsluttet",
       "closeCaseButton": "Afslut sag",
       "markAsUnreadButton": "Marker som ulæst",
+      "sentAnonymously": "(sendt anonymt)",
       "startConversationError": "Et eller flere felter er ikke udfyldt korrekt.\n\nDet kan f.eks. være en kombination af emne og modtager, der er ugyldig, eller at det ikke er muligt at sende anonymt til den valgte modtager.",
       "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
       "anonymousCheckbox": "Send anonymt",
@@ -3165,7 +3181,15 @@
       "tabLabel": "Målepunkt"
     },
     "meteringPointEvents": {
-      "tabLabel": "Målepunkt events"
+      "tabLabel": "Målepunkt events",
+      "searchLabel": "Målepunkts-ID",
+      "segments": {
+        "meteringPoint": "Målepunkt",
+        "events": "Events",
+        "relations": "Relationer"
+      },
+      "expandAll": "Udvid alle",
+      "collapseAll": "Skjul alle"
     },
     "meteringPoints": {
       "tabLabel": "Målepunkter",
