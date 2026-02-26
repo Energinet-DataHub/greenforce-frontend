@@ -166,7 +166,8 @@ export class DhActorConversationNewConversationComponent {
   receivers = dhEnumToWattDropdownOptions(ActorType).filter((option) => {
     const selectedActor = this.actorStorage.getSelectedActor();
     const ownActorType = this.eicFunctionToActorType[selectedActor.marketRole];
-    return option.value !== ownActorType;
+    if (ownActorType === ActorType.EnergySupplier) return true;
+    return (option.value as ActorType) !== ownActorType;
   });
 
   private readonly subjectValue = toSignal(this.newConversationForm.controls.subject.valueChanges, {
