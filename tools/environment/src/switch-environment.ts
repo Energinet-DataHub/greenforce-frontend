@@ -26,7 +26,7 @@ const execAsync = promisify(exec);
 
 const REPO = 'Energinet-DataHub/dh3-dev-secrets';
 const BASE_PATH = 'greenforce-frontend';
-const ENV_PATTERN = /^(dev_\d+|test_\d+|prod_\d+)$/;
+const ENV_PATTERN = /^(dev_\d+|test_\d+)$/;
 
 interface GitTreeItem {
   path: string;
