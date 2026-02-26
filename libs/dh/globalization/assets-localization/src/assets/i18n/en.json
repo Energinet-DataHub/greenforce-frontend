@@ -829,6 +829,7 @@
       "closed": "Closed",
       "closeCaseButton": "Close case",
       "markAsUnreadButton": "Mark as unread",
+      "sentAnonymously": "(sent anonymously)",
       "startConversationError": "One or more fields are not filled correctly.\n\nThis may be due to an invalid combination of subject and recipient, or because anonymous submissions are not permitted for the selected recipient.",
       "conversationCloseError": "An error occurred trying to close the case",
       "anonymousCheckbox": "Send anonymously",

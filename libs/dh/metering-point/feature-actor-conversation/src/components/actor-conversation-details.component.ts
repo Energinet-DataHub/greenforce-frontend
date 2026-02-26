@@ -16,7 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
+import {
+  afterRenderEffect,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
 import {
   VaterFlexComponent,
@@ -147,6 +157,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
             @for (message of conversation.messages; track message) {
               <dh-actor-conversation-message [message]="message" />
             }
+            <div #scrollAnchor></div>
           </vater-flex>
         }
         <!-- Footer - Message input form -->
@@ -170,6 +181,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
 export class DhActorConversationDetailsComponent {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly modalService = inject(WattModalService);
+  private readonly scrollAnchor = viewChild<ElementRef<HTMLElement>>('scrollAnchor');
   private readonly closeConversationMutation = mutation(CloseConversationDocument);
   private readonly closeToast = injectToast(
     'meteringPoint.actorConversation.conversationCloseError'
@@ -177,6 +189,11 @@ export class DhActorConversationDetailsComponent {
   private readonly closeToastEffect = effect(() =>
     this.closeToast(this.closeConversationMutation.status())
   );
+  private readonly scrollEffect = afterRenderEffect(() => {
+    if (this.conversation()) {
+      this.scrollAnchor()?.nativeElement.scrollIntoView();
+    }
+  });
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
   conversationId = input.required<string>();
