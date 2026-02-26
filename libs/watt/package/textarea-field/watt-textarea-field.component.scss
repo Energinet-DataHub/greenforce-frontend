@@ -20,6 +20,10 @@ watt-textarea-field {
     --watt-textarea-min-height: 80px;
   }
 
+  .textarea-wrapper {
+    width: 100%;
+  }
+
   textarea {
     border: none;
     width: 100%;
@@ -28,6 +32,17 @@ watt-textarea-field {
     padding-left: 0;
     background-color: transparent;
     min-height: var(--watt-textarea-min-height);
+  }
+
+  .textarea-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--watt-space-s);
+    padding: 0 0 var(--watt-space-s) 0;
+
+    &:empty {
+      display: none;
+    }
   }
 
   &[resize="none"] textarea {

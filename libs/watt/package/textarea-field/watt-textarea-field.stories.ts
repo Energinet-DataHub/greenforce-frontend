@@ -23,6 +23,7 @@ import { WattIconComponent } from '../icon/icon.component';
 import { WattTextAreaFieldComponent } from './watt-textarea-field.component';
 import { WattFieldComponent, WattFieldErrorComponent, WattFieldHintComponent } from '../field';
 import { WattButtonComponent } from '../button';
+import { WattInputChipComponent } from '../chip';
 
 const meta: Meta<WattTextAreaFieldComponent> = {
   title: 'Components/TextArea Field',
@@ -37,6 +38,7 @@ const meta: Meta<WattTextAreaFieldComponent> = {
         WattButtonComponent,
         WattFieldErrorComponent,
         WattFieldHintComponent,
+        WattInputChipComponent,
       ],
     }),
   ],
@@ -162,4 +164,22 @@ export const WithHint: StoryFn<WattTextAreaFieldComponent> = () => ({
               <watt-field-error>This field is required</watt-field-error>
               <watt-field-hint>This is a hint</watt-field-hint>
             </watt-textarea-field>`,
+});
+
+export const WithInputChips: StoryFn<WattTextAreaFieldComponent> = () => ({
+  props: {
+    exampleFormControl: new FormControl(null),
+    files: ['report.pdf', 'data.csv', 'notes.txt'],
+    remove(file: string) {
+      const idx = this.files.indexOf(file);
+      if (idx >= 0) this.files.splice(idx, 1);
+    },
+  },
+  template: `
+    <watt-textarea-field label="Message" placeholder="Write a message..." [formControl]="exampleFormControl" [small]="true">
+      @for (file of files; track file) {
+        <watt-input-chip [label]="file" (removed)="remove(file)" />
+      }
+    </watt-textarea-field>
+  `,
 });
