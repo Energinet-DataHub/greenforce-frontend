@@ -245,11 +245,11 @@ public static partial class MeteringPointNode
     public static async Task<bool> RequestConnectionStateChangeAsync(
         string meteringPointId,
         DateTimeOffset validityDate,
-        ConnectionState toState,
+        ConnectionState newConnectionState,
         IB2CClient ediB2CClient,
         CancellationToken ct)
     {
-        if (toState == ConnectionState.Connected)
+        if (newConnectionState == ConnectionState.Connected)
         {
             var command = new RequestConnectMeteringPointCommandV1(
                 new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
