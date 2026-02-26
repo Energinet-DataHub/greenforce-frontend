@@ -48,6 +48,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhApplicationInsightsTrackDirective } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
@@ -78,6 +79,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     DhMarketRoleRequiredDirective,
     DhMeteringPointStatusComponent,
     DhMeteringPointActionsComponent,
+    DhApplicationInsightsTrackDirective,
   ],
   styles: `
     @use '@energinet/watt/utils' as watt;
@@ -128,7 +130,9 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
         <div *transloco="let t; prefix: 'meteringPoint.overview'">
           <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
             <span>
-              <span wattCopyToClipboard>{{ meteringPointId() }}</span>
+              <span wattCopyToClipboard dhAppInsightsTrack="Copy metering point">{{
+                meteringPointId()
+              }}</span>
               <ng-content *dhMarketRoleRequired="rolesWithAccess">
                 • <dh-address-inline [address]="this.metadata()?.installationAddress" />
               </ng-content>

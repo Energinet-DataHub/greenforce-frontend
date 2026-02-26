@@ -382,6 +382,7 @@ type CollectionSegmentInfo {
 
 "Conversation"
 type Conversation {
+  wasLatestMessageAnonymous: Boolean!
   displayId: String
   "Display Id of the conversation"
   id: ID!
@@ -757,6 +758,7 @@ type FilteredUserRolesEdge {
 
 type GetMeteringPointDebugResultDtoV1 {
   meteringPointJson: String!
+  meteringPointWithRelationsJson: String
   events: [ElectricityMarketV2EventDto!]!
 }
 
