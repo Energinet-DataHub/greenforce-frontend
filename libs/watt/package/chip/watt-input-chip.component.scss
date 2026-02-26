@@ -36,14 +36,14 @@
     }
   }
 
-  &:hover:not(.disabled),
-  :host(.hover) &:not(.disabled) {
+  &:hover:not(:has(:disabled)),
+  :host(.hover) &:not(:has(:disabled)) {
     .watt-input-chip__remove {
       background: var(--watt-color-neutral-grey-200);
     }
   }
 
-  &.disabled {
+  &:has(:disabled) {
     opacity: 0.38;
     cursor: not-allowed;
 

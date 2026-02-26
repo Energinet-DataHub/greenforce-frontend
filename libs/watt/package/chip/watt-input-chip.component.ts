@@ -26,7 +26,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
   styleUrls: ['./watt-input-chip.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="watt-input-chip" [class.disabled]="disabled()">
+    <div class="watt-input-chip">
       <span class="watt-input-chip__label">
         {{ label() }}
       </span>
