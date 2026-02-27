@@ -1,0 +1,11 @@
+﻿{
+  "activity": "eventsDebugView",
+  "payload": {
+    "query": "query($id: String!) { eventsDebugView(id: $id) { meteringPointJson } }",
+    "variables": {
+      "id": "570000000000000008"
+    }
+  },
+  "affectedEntityType": "ElectricityMarketOperationTools",
+  "affectedEntityKey": "570000000000000008"
+}
