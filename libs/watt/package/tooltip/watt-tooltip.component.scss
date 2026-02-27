@@ -11,25 +11,22 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-@use "sass:math";
 @use "@energinet/watt/utils" as watt;
 
 $arrow-size: 8px;
-$offset: 6px;
 
 :host {
   position: absolute;
-  left: 0; /* Prevent overflow on right side */
+  left: 0;
   pointer-events: none;
   z-index: 1000;
   display: inline-block;
-  line-height: 18px;
   border-radius: 6px;
-  @include watt.space-inset-squish-s;
+  padding: var(--watt-space-xs) var(--watt-space-s);
   @include watt.typography-watt-text-s;
   white-space: pre-wrap;
   opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
 
   &.tooltip-dark {
     background: var(--watt-color-primary-dark);
@@ -43,59 +40,6 @@ $offset: 6px;
 
   &.show {
     opacity: 1;
-  }
-
-  &[data-popper-placement^="top"] {
-    inset-block-end: $offset !important;
-  }
-
-  &[data-popper-placement^="bottom"] {
-    inset-block-start: $offset !important;
-    > .arrow {
-      top: -#{math.div($arrow-size, 2)};
-    }
-  }
-
-  &[data-popper-placement^="left"] {
-    inset-inline-end: $offset !important;
-    > .arrow {
-      right: -#{math.div($arrow-size, 2)};
-    }
-  }
-
-  &[data-popper-placement^="right"] {
-    inset-inline-start: $offset !important;
-    > .arrow {
-      left: -#{math.div($arrow-size, 2)};
-    }
-  }
-
-  &[data-popper-placement="left"],
-  &[data-popper-placement="right"] {
-    > .arrow {
-      top: calc(50% - math.div($arrow-size, 2));
-    }
-  }
-
-  &[data-popper-placement="top"],
-  &[data-popper-placement="bottom"] {
-    > .arrow {
-      left: calc(50% - math.div($arrow-size, 2)) !important;
-    }
-  }
-
-  &[data-popper-placement="top-end"],
-  &[data-popper-placement="bottom-end"] {
-    > .arrow {
-      left: 10px !important;
-    }
-  }
-
-  &[data-popper-placement="top-start"],
-  &[data-popper-placement="bottom-start"] {
-    > .arrow {
-      left: calc(100% - ($arrow-size + 10px));
-    }
   }
 }
 
@@ -115,4 +59,18 @@ $offset: 6px;
   visibility: visible;
   content: "";
   transform: rotate(45deg);
+}
+
+// Place the arrow on the correct side based on placement set by Popper
+:host([data-popper-placement^="top"]) .arrow {
+  bottom: calc(#{$arrow-size} / -2);
+}
+:host([data-popper-placement^="bottom"]) .arrow {
+  top: calc(#{$arrow-size} / -2);
+}
+:host([data-popper-placement^="left"]) .arrow {
+  right: calc(#{$arrow-size} / -2);
+}
+:host([data-popper-placement^="right"]) .arrow {
+  left: calc(#{$arrow-size} / -2);
 }
