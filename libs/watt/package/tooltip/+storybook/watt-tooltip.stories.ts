@@ -31,6 +31,12 @@ const meta: Meta = {
 };
 export default meta;
 
+export const Overview: StoryObj = {
+  render: () => ({
+    template: `<watt-button wattTooltip="Click me">Button</watt-button>`,
+  }),
+};
+
 export const Positions: StoryObj = {
   render: () => ({
     template: `

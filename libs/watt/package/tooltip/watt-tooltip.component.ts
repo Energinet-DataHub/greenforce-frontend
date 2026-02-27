@@ -17,11 +17,11 @@
  */
 //#endregion
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
   DestroyRef,
-  effect,
   ElementRef,
   inject,
   input,
@@ -60,15 +60,11 @@ export class WattTooltipComponent {
   private readonly destroyRef = inject(DestroyRef);
 
   private popper: Instance | null = null;
-  private abortController: AbortController | null = null;
 
   constructor() {
-    effect(() => this.setupEventListeners());
+    afterNextRender(() => this.setupEventListeners());
 
-    this.destroyRef.onDestroy(() => {
-      this.popper?.destroy();
-      this.abortController?.abort();
-    });
+    this.destroyRef.onDestroy(() => this.popper?.destroy());
   }
 
   show(): void {
@@ -94,14 +90,14 @@ export class WattTooltipComponent {
 
   private setupEventListeners(): void {
     const target = this.target();
-    this.abortController?.abort();
-    this.abortController = new AbortController();
-    const opts = { signal: this.abortController.signal };
 
-    target.addEventListener('mouseenter', () => this.show(), opts);
-    target.addEventListener('mouseleave', () => this.hide(), opts);
-    target.addEventListener('wheel', () => this.hide(), { ...opts, passive: true });
-    target.addEventListener('focusin', () => this.show(), opts);
-    target.addEventListener('focusout', () => this.hide(), opts);
+    const onShow = () => this.show();
+    const onHide = () => this.hide();
+
+    target.addEventListener('mouseenter', onShow);
+    target.addEventListener('mouseleave', onHide);
+    target.addEventListener('wheel', onHide, { passive: true });
+    target.addEventListener('focusin', onShow);
+    target.addEventListener('focusout', onHide);
   }
 }
