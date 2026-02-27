@@ -6,6 +6,6 @@
       "id": "570000000000000008"
     }
   },
-  "affectedEntityType": "ElectricityMarketOperationTools",
+  "affectedEntityType": "OperationToolsMeteringPoint",
   "affectedEntityKey": "570000000000000008"
 }

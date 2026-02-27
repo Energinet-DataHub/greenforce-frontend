@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPointDebug.V1;
@@ -23,12 +22,12 @@ using Energinet.DataHub.WebApi.Tests.Traits;
 using Moq;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.MeteringPoint.OperationTools;
+namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.OperationTools.MeteringPoint;
 
-public class MeteringPointOperationToolsRevisionLogTests
+public class OperationToolsMeteringPointRevisionLogTests
 {
     [Fact]
-    [RevisionLogTest("ElectricityMarketOperationToolsNode.GetOperationToolsMeteringPointAsync")]
+    [RevisionLogTest("OperationToolsMeteringPointNode.GetOperationToolsMeteringPointAsync")]
     public async Task GetOperationToolsMeteringPoint()
     {
         var operation =

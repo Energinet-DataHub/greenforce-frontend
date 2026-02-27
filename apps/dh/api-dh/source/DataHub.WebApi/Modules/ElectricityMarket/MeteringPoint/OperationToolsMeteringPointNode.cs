@@ -21,7 +21,7 @@ using HotChocolate.Authorization;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint;
 
-public static class ElectricityMarketOperationToolsNode
+public static class OperationToolsMeteringPointNode
 {
     [Query]
     [Authorize(Roles = ["metering-point:search"])]
