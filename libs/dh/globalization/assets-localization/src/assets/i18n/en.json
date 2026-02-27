@@ -3179,12 +3179,12 @@
     }
   },
   "meteringPointDebug": {
-    "topBarTitle": "Debug metering point",
+    "topBarTitle": "Metering point",
     "meteringPoint": {
-      "tabLabel": "Metering point"
+      "tabLabel": "Metering point (EM1)"
     },
     "meteringPointEvents": {
-      "tabLabel": "Metering point events",
+      "tabLabel": "Data lookup",
       "searchLabel": "Metering point ID",
       "segments": {
         "meteringPoint": "Metering point",
@@ -3194,8 +3194,14 @@
       "expandAll": "Expand all",
       "collapseAll": "Collapse all"
     },
+    "migration": {
+      "tabLabel": "Migration"
+    },
+    "actions": {
+      "tabLabel": "Actions"
+    },
     "meteringPoints": {
-      "tabLabel": "Metering points",
+      "tabLabel": "Find metering points",
       "gridArea": "Grid area",
       "packageNumber": "Package no. {{ packageNumber }}"
     },
