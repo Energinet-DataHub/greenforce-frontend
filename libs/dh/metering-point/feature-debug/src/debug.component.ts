@@ -19,25 +19,28 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { getPath, MeteringPointDebugSubPaths } from '@energinet-datahub/dh/core/routing';
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { VaterUtilityDirective } from '@energinet/watt/vater';
+
+import { getPath, MeteringPointDebugSubPaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-metering-point-debug',
   imports: [TranslocoDirective, WATT_LINK_TABS, VaterUtilityDirective],
   template: `
     <watt-link-tabs vater inset="0" *transloco="let t; prefix: 'meteringPointDebug'">
-      <watt-link-tab [label]="t('meteringPoint.tabLabel')" [link]="getLink('metering-point')" />
       <watt-link-tab [label]="t('meteringPoints.tabLabel')" [link]="getLink('metering-points')" />
-      <watt-link-tab
-        [label]="t('failedMeasurements.tabLabel')"
-        [link]="getLink('failed-measurements')"
-      />
       <watt-link-tab
         [label]="t('meteringPointEvents.tabLabel')"
         [link]="getLink('metering-point-events')"
       />
+      <watt-link-tab
+        [label]="t('failedMeasurements.tabLabel')"
+        [link]="getLink('failed-measurements')"
+      />
+      <watt-link-tab [label]="t('migration.tabLabel')" [link]="getLink('migration')" />
+      <watt-link-tab [label]="t('actions.tabLabel')" [link]="getLink('actions')" />
+      <watt-link-tab [label]="t('meteringPoint.tabLabel')" [link]="getLink('metering-point')" />
     </watt-link-tabs>
   `,
 })

@@ -3179,12 +3179,12 @@
     }
   },
   "meteringPointDebug": {
-    "topBarTitle": "Debug målepunkt",
+    "topBarTitle": "Målepunkt",
     "meteringPoint": {
-      "tabLabel": "Målepunkt"
+      "tabLabel": "Målepunkt (EM1)"
     },
     "meteringPointEvents": {
-      "tabLabel": "Målepunkt events",
+      "tabLabel": "Dataudtræk",
       "searchLabel": "Målepunkts-ID",
       "segments": {
         "meteringPoint": "Målepunkt",
@@ -3194,8 +3194,14 @@
       "expandAll": "Udvid alle",
       "collapseAll": "Skjul alle"
     },
+    "migration": {
+      "tabLabel": "Migrering"
+    },
+    "actions": {
+      "tabLabel": "Handlinger"
+    },
     "meteringPoints": {
-      "tabLabel": "Målepunkter",
+      "tabLabel": "Find målepunkter",
       "gridArea": "Netområde",
       "packageNumber": "Pakkenr: {{ packageNumber }}"
     },

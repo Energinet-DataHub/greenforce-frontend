@@ -48,7 +48,9 @@ export type MeteringPointDebugSubPaths =
   | 'metering-point'
   | 'metering-points'
   | 'failed-measurements'
-  | 'metering-point-events';
+  | 'metering-point-events'
+  | 'migration'
+  | 'actions';
 
 export type DevExamplesSubPaths = 'processes';
 
