@@ -37,6 +37,7 @@ import {
   BasePaths,
   ReportsSubPaths,
   MissingMeasurementsLogSubPaths,
+  OperationToolsSubPaths,
 } from '@energinet-datahub/dh/core/routing';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -74,6 +75,7 @@ export class DhPrimaryNavigationComponent {
 
   getWholesaleLink = (path: WholesaleSubPaths) => combinePaths('wholesale', path);
   getReportsLink = (path: ReportsSubPaths) => combinePaths('reports', path);
+  getOperationToolsLink = (path: OperationToolsSubPaths) => combinePaths('operation-tools', path);
   getMissingMeasurementsLogLink = (path: MissingMeasurementsLogSubPaths) =>
     this.getReportsLink('missing-measurements-log') + '/' + path;
 }

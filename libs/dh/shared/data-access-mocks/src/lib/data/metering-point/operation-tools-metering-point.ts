@@ -18,20 +18,20 @@
 //#endregion
 import { GetMeteringPointDebugResultDtoV1 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
+export const operationToolsMeteringPoint: GetMeteringPointDebugResultDtoV1 = {
   __typename: 'GetMeteringPointDebugResultDtoV1',
   meteringPointJson: `{
     "meteringPointId": "111111111111111111",
     "meteringPointPeriods": [
       {
-        "validFrom": "2023-01-01T00:00:00.000Z",
-        "validTo": "2023-12-31T23:59:59.000Z",
+        "validFrom": "2022-12-31T23:00:00.000Z",
+        "validTo": "2023-12-31T23:00:00.000Z",
         "type": "Consumption",
-        "connectionState": "Connected"
+        "connectionState": "New"
       },
       {
-        "validFrom": "2023-01-01T00:00:00.000Z",
-        "validTo": "2023-12-31T23:59:59.000Z",
+        "validFrom": "2023-12-31T23:00:00.000Z",
+        "validTo": "9999-12-31T23:59:59.000Z",
         "type": "Consumption",
         "connectionState": "Connected"
       }
@@ -40,15 +40,33 @@ export const eventsDebugView: GetMeteringPointDebugResultDtoV1 = {
       {
         "customerId": "111",
         "energySupplierId": "2222222222222222",
-        "validFrom": "2023-01-01T00:00:00.000Z",
-        "validTo": "2023-12-31T23:59:59.000Z",
+        "validFrom": "2023-12-31T23:00:00.000Z",
+        "validTo": "9999-12-31T23:59:59.000Z",
         "energySupplierPeriods": [
           {
-            "validFrom": "2023-01-01T00:00:00.000Z",
-            "validTo": "2023-12-31T23:59:59.000Z",
+            "validFrom": "2023-12-31T23:00:00.000Z",
+            "validTo": "9999-12-31T23:59:59.000Z",
             "contacts": []
           }
         ]
+      }
+    ]
+  }`,
+  meteringPointWithRelationsJson: `{
+    "id": "111111111111111111",
+    "relationType": "Parent",
+    "relations": [
+      {
+        "meteringPointId": "222222222222222222",
+        "validFrom": "2022-12-31T23:00:00Z",
+        "validTo": "2023-12-31T23:00:00Z",
+        "relationType": "Child"
+      },
+      {
+        "meteringPointId": "333333333333333333",
+        "validFrom": "2023-12-31T23:00:00Z",
+        "validTo": "9999-12-31T23:59:59Z",
+        "relationType": "Child"
       }
     ]
   }`,

@@ -5,14 +5,18 @@ query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
     internalNote
     subject
     closed
+    wasLatestMessageAnonymous
     messages {
       senderType
-      content
+      userMessage {
+        content
+      }
       messageType
       createdTime
       actorName
       userName
       isSentByCurrentActor
+      anonymous
     }
   }
 }

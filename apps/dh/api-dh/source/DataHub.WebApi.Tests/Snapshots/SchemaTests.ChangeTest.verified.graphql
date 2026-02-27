@@ -382,6 +382,7 @@ type CollectionSegmentInfo {
 
 "Conversation"
 type Conversation {
+  wasLatestMessageAnonymous: Boolean!
   displayId: String
   "Display Id of the conversation"
   id: ID!
@@ -414,14 +415,14 @@ type ConversationMessage {
   actorName: String
   userName: String!
   isSentByCurrentActor: Boolean!
-  "Message content"
-  content: String!
+  userMessage: UserMessage
   messageType: MessageType!
   "Created time"
   createdTime: DateTime!
   senderType: ActorType!
   "Sender user id"
   userId: String
+  anonymous: Boolean!
 }
 
 "Conversations"
@@ -492,6 +493,18 @@ type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance
   createdBy: AuditIdentityDto
   state: ProcessState!
   steps: [OrchestrationInstanceStep!]!
+}
+
+type ElectricalHeatingMessage {
+  customerName: String
+  isElectricalHeatingActive: Boolean!
+  electricalHeatingFrom: DateTime
+  supplierPeriods: [ElectricityHeatingMessagePeriod!]!
+}
+
+type ElectricityHeatingMessagePeriod {
+  from: DateTime!
+  to: DateTime!
 }
 
 type ElectricityMarketV2EventDto {
@@ -745,6 +758,7 @@ type FilteredUserRolesEdge {
 
 type GetMeteringPointDebugResultDtoV1 {
   meteringPointJson: String!
+  meteringPointWithRelationsJson: String
   events: [ElectricityMarketV2EventDto!]!
 }
 
@@ -1308,7 +1322,7 @@ type ProcessesEdge {
 
 type Query {
   conversation(conversationId: UUID! meteringPointIdentification: String!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
-  conversationsForMeteringPoint(meteringPointIdentification: String!): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
+  conversationsForMeteringPoint(meteringPointIdentification: String! searchTerm: String): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
   charges(filter: String query: ChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
@@ -1320,15 +1334,15 @@ type Query {
   measurements(showOnlyChangedValues: Boolean! showHistoricalValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
   measurementPoints(observationTime: DateTime! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
-  debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
-  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
-  eventsDebugView(meteringPointId: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
   meteringPointExists(searchMigratedMeteringPoints: Boolean! internalMeteringPointId: String meteringPointId: String): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String! searchMigratedMeteringPoints: Boolean): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String! searchMigratedMeteringPoints: Boolean): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   selectableDatesForEndOfSupply: [DateTime!]!
+  debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
+  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -1683,6 +1697,11 @@ type UserAuditedChangeAuditLogDto {
   isInitialAssignment: Boolean!
   currentValue: String
   previousValue: String
+}
+
+type UserMessage {
+  "Message content"
+  content: String!
 }
 
 type UserOverviewItemDto {
@@ -2232,6 +2251,7 @@ input RequestClientSecretCredentialsInput {
 input RequestConnectionStateChangeInput {
   meteringPointId: String!
   validityDate: DateTime!
+  newConnectionState: ElectricityMarketViewConnectionState!
 }
 
 input RequestEndOfSupplyInput {
@@ -3193,6 +3213,7 @@ enum MeasurementsReportStatusType {
 enum MessageType {
   USER_MESSAGE
   CLOSING_MESSAGE
+  ELECTRICAL_HEATING_INFORMATION
 }
 
 enum MeteringGridImbalanceValuesToInclude {

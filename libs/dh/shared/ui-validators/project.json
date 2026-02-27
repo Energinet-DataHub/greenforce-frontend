@@ -4,14 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/ui-validators/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:shared", "type:ui"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/ui-validators"],
-      "options": {
-        "config": "libs/dh/shared/ui-validators/vite.config.mts"
-      }
-    }
-  }
+  "tags": ["product:dh", "domain:shared", "type:ui"]
 }

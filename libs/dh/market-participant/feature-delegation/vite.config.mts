@@ -4,7 +4,7 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   root: __dirname,
-  plugins: [angular(), nxViteTsPaths()],
+  plugins: [angular({ tsconfig: './tsconfig.json' }), nxViteTsPaths()],
   test: {
     passWithNoTests: true,
     globals: true,

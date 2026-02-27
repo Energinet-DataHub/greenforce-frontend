@@ -25,7 +25,6 @@ import {
   MeteringPointSubPaths,
   getPath,
 } from '@energinet-datahub/dh/core/routing';
-import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhCoreLoginComponent } from './dh-core-login.component';
@@ -67,13 +66,8 @@ export const dhCoreShellRoutes: Routes = [
         redirectTo: `${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('settlements')}/${getPath<ReportsSubPaths>('imbalance-prices')}`,
       },
       {
-        path: getPath<BasePaths>('metering-point-debug'),
-        loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-debug'),
-        canActivate: [MsalGuard, PermissionGuard(['fas'])],
-      },
-      {
         path: getPath<BasePaths>('dev-examples'),
-        loadChildren: () => import('@energinet-datahub/dh/dev-examples/feature-processes'),
+        loadChildren: () => import('@energinet-datahub/dh/developer/feature-examples'),
         canActivate: [MsalGuard],
       },
       {
@@ -104,6 +98,11 @@ export const dhCoreShellRoutes: Routes = [
       {
         path: getPath<BasePaths>('charges'),
         loadChildren: () => import('@energinet-datahub/dh/charges/feature-charges'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('operation-tools'),
+        loadChildren: () => import('@energinet-datahub/dh/developer/feature-operation'),
         canActivate: [MsalGuard],
       },
       { path: '**', component: Dh404Component },

@@ -6,13 +6,6 @@
   "prefix": "watt",
   "tags": ["product:watt"],
   "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/watt"],
-      "options": {
-        "vitestConfig": "libs/watt/vitest.config.mts"
-      }
-    },
     "storybook": {
       "executor": "@nx/storybook:storybook",
       "options": {

@@ -27,15 +27,19 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 // Use the shared MSW polyfill path
 const mswPolyfillPath = resolve(
-  process.cwd(),
-  'libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js'
+  __dirname,
+  '../../../../libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js'
 );
 
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir:
     '../../../../../node_modules/.vite/libs/dh/market-participant/feature-market-participant',
-  plugins: [analog(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [
+    analog({ tsconfig: './tsconfig.spec.json' }),
+    nxViteTsPaths(),
+    nxCopyAssetsPlugin(['*.md']),
+  ],
   resolve: {
     conditions: ['development', 'browser'],
   },
@@ -52,7 +56,7 @@ export default defineConfig(() => ({
     reporters: ['default'],
     coverage: {
       reportsDirectory:
-        '../../../../../coverage/libs/dh/market-participant/feature-market-participant',
+        '../../../../coverage/libs/dh/market-participant/feature-market-participant',
       provider: 'v8' as const,
     },
     pool: 'forks',

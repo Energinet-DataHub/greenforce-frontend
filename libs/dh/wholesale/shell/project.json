@@ -4,14 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/wholesale/shell/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:wholesale", "type:shell"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "vitestConfig": "libs/dh/wholesale/shell/vite.config.mts"
-      }
-    }
-  }
+  "tags": ["product:dh", "domain:wholesale", "type:shell"]
 }

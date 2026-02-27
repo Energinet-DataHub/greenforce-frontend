@@ -4,11 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/globalization/configuration-watt-translation/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:globalization", "type:configuration"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
-    }
-  }
+  "tags": ["product:dh", "domain:globalization", "type:configuration"]
 }

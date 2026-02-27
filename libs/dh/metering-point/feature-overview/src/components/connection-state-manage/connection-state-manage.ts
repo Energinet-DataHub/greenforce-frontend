@@ -140,6 +140,7 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
       variables: {
         input: {
           meteringPointId: this.modalData.meteringPointId,
+          newConnectionState: this.form.controls.state.value,
           validityDate,
         },
       },

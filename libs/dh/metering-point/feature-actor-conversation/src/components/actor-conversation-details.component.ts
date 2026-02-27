@@ -16,7 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
+import {
+  afterRenderEffect,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
 import {
   VaterFlexComponent,
@@ -42,10 +52,13 @@ import {
   MarkConversationUnReadDocument,
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattModalService } from '@energinet/watt/modal';
 import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
+import { DhActorConversationInternalNoteModalComponent } from './actor-conversation-internal-note-modal.component';
 import { WattHeadingComponent } from '@energinet/watt/heading';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
 
 @Component({
   selector: 'dh-actor-conversation-details',
@@ -67,12 +80,9 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
     DhActorConversationMessageComponent,
     VaterFlexComponent,
     WattHeadingComponent,
+    WattSeparatorComponent,
   ],
   styles: `
-    .no-margin {
-      margin: 0;
-    }
-
     .sticky-background {
       background-color: var(--bg-card);
     }
@@ -130,14 +140,16 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
                   <watt-icon name="moreVertical" />
                 </watt-button>
                 <watt-menu #menu>
-                  <watt-menu-item>{{ t('internalNoteLabel') }}</watt-menu-item>
+                  <watt-menu-item (click)="openInternalNoteModal(conversation.internalNote)">{{
+                    t('internalNoteLabel')
+                  }}</watt-menu-item>
                   <watt-menu-item (click)="unreadConversation()">{{
                     t('markAsUnreadButton')
                   }}</watt-menu-item>
                 </watt-menu>
               </vater-stack>
             </vater-stack>
-            <hr class="watt-divider no-margin" />
+            <watt-separator />
           </vater-stack>
 
           <!-- Content - Scrollable message area -->
@@ -145,6 +157,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
             @for (message of conversation.messages; track message) {
               <dh-actor-conversation-message [message]="message" />
             }
+            <div #scrollAnchor></div>
           </vater-flex>
         }
         <!-- Footer - Message input form -->
@@ -167,6 +180,8 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
 })
 export class DhActorConversationDetailsComponent {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly modalService = inject(WattModalService);
+  private readonly scrollAnchor = viewChild<ElementRef<HTMLElement>>('scrollAnchor');
   private readonly closeConversationMutation = mutation(CloseConversationDocument);
   private readonly closeToast = injectToast(
     'meteringPoint.actorConversation.conversationCloseError'
@@ -174,9 +189,13 @@ export class DhActorConversationDetailsComponent {
   private readonly closeToastEffect = effect(() =>
     this.closeToast(this.closeConversationMutation.status())
   );
+  private readonly scrollEffect = afterRenderEffect(() => {
+    if (this.conversation()) {
+      this.scrollAnchor()?.nativeElement.scrollIntoView();
+    }
+  });
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
-  formControl = this.fb.control<MessageFormValue>({ content: '', anonymous: false });
   conversationId = input.required<string>();
   meteringPointId = input.required<string>();
 
@@ -189,12 +208,34 @@ export class DhActorConversationDetailsComponent {
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
 
+  private readonly syncAnonymousEffect = effect(() => {
+    const anonymous = this.conversation()?.wasLatestMessageAnonymous;
+    if (anonymous !== undefined) {
+      this.formControl.patchValue({ content: this.formControl.value.content, anonymous });
+    }
+  });
+
+  formControl = this.fb.control<MessageFormValue>({
+    content: '',
+    anonymous: false,
+  });
+
   async closeConversation() {
     await this.closeConversationMutation.mutate({
       variables: {
         conversationId: this.conversationId(),
       },
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
+    });
+  }
+
+  openInternalNoteModal(internalNote: string | null | undefined) {
+    this.modalService.open({
+      component: DhActorConversationInternalNoteModalComponent,
+      data: {
+        conversationId: this.conversationId(),
+        internalNote: internalNote ?? null,
+      },
     });
   }
 
@@ -222,6 +263,9 @@ export class DhActorConversationDetailsComponent {
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
 
-    this.formControl.reset({ content: '', anonymous: false });
+    this.formControl.patchValue({
+      content: '',
+      anonymous: this.formControl.value.anonymous ?? false,
+    });
   }
 }

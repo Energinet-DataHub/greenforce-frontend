@@ -38,9 +38,15 @@ export enum ActorConversationState {
 
 export type Conversation = ActorConversations[0];
 
-export type NewConversation = Omit<Conversation, 'subject'> & { subject: string };
+export type NewConversation = Omit<Conversation, 'subject' | 'lastUpdated'> & {
+  subject: string;
+  lastUpdated: Date | undefined;
+};
 
 export interface MessageFormValue {
   content: string | null;
-  anonymous: boolean | null;
+  anonymous: boolean | undefined;
 }
+
+export const internalNoteMaxLength = 35;
+export const messageMaxLength = 35;

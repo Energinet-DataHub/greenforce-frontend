@@ -237,10 +237,7 @@ export class DhUpdateCustomerDataComponent {
             !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
           ),
           customerName2: dhMakeFormControl<string>(this.secondaryCustomer()?.name ?? ''),
-          cpr2: dhMakeFormControl<string>(
-            '',
-            !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
-          ),
+          cpr2: dhMakeFormControl<string>('', !this.isBusinessCustomer() ? [dhCprValidator()] : []),
           nameProtection: dhMakeFormControl<boolean>(
             this.secondaryCustomer()?.isProtectedName ?? false
           ),
@@ -336,7 +333,7 @@ export class DhUpdateCustomerDataComponent {
   });
 
   async updateCustomerData() {
-    if (this.form().invalid) return;
+    if (this.form().invalid || this.requestChangeCustomerCharacteristics.loading()) return;
 
     const values = this.form().getRawValue();
 

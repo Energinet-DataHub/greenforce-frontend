@@ -16,139 +16,76 @@
  * limitations under the License.
  */
 //#endregion
-const marketParticipantSubPaths = {
-  actorsPath: 'actors',
-  organizationsPath: 'organizations',
-  marketRolesPath: 'market-roles',
-} as const;
 
-const eSettSubPaths = {
-  outgoingMessagesPath: 'outgoing-messages',
-  meteringGridareaImbalancePath: 'metering-gridarea-imbalance',
-  imbalanceResponsiblePartiesPath: 'balance-responsible',
-} as const;
+export type MarketParticipantSubPaths = 'actors' | 'organizations' | 'market-roles';
 
-const adminSubPaths = {
-  users: 'users',
-  roles: 'roles',
-  permissions: 'permissions',
-} as const;
+export type ESettSubPaths =
+  | 'outgoing-messages'
+  | 'metering-gridarea-imbalance'
+  | 'balance-responsible';
 
-const wholesaleSubPaths = {
-  requests: 'requests',
-  calculations: 'calculations',
-} as const;
+export type AdminSubPaths = 'users' | 'roles' | 'permissions';
 
-const meteringPointSubPaths = {
-  search: 'search',
-  masterData: 'master-data',
-  measurements: 'measurements',
-  messages: 'messages',
-  create: 'create',
-  failedMeasurements: 'failed-measurements',
-  processOverview: 'process-overview',
-  chargeLinks: 'charge-links',
-  updateCustomerDetails: 'update-customer-details',
-  actorConversation: 'actor-conversation',
-} as const;
-
-const chargeLinksSubPaths = {
-  tariffAndSubscription: 'tariff-and-subscription',
-  fees: 'fees',
-  create: 'create',
-} as const;
-
-const measurementsSubPaths = {
-  day: 'day',
-  month: 'month',
-  year: 'year',
-  all: 'all',
-  upload: 'upload',
-} as const;
-
-const meteringPointDebugSubPaths = {
-  meteringPoint: 'metering-point',
-  meteringPoints: 'metering-points',
-  failedMeasurements: 'failed-measurements',
-  meteringPointEvents: 'metering-point-events',
-} as const;
-
-const devExamplesSubPaths = {
-  processes: 'processes',
-} as const;
-
-const gridAreaSubPaths = {
-  gridarea: 'gridarea',
-} as const;
-
-const reportsSubPaths = {
-  overview: 'overview',
-  settlements: 'settlements',
-  settlementReports: 'settlement-reports',
-  missingMeasurementsLog: 'missing-measurements-log',
-  measurementsReports: 'measurements-reports',
-  imbalancePrices: 'imbalance-prices',
-} as const;
-
-const missingMeasurementsLogSubPaths = {
-  request: 'request',
-} as const;
-
-const chargesSubPaths = {
-  prices: 'prices',
-  information: 'information',
-  history: 'history',
-} as const;
-
-const basePaths = {
-  devExamples: 'dev-examples',
-  meteringPointBasePath: 'metering-point',
-  marketParticipantBasePath: 'market-participant',
-  messageArchiveBasePath: 'message-archive',
-  esettBasePath: 'esett',
-  admin: 'admin',
-  imbalancPrices: 'imbalance-prices',
-  gridAreas: 'grid-areas',
-  wholesale: 'wholesale',
-  login: 'login',
-  meteringPointDebug: 'metering-point-debug',
-  reports: 'reports',
-  charges: 'charges',
-} as const;
-
-export type MarketParticipantSubPaths =
-  (typeof marketParticipantSubPaths)[keyof typeof marketParticipantSubPaths];
-
-export type BasePaths = (typeof basePaths)[keyof typeof basePaths];
-
-export type ESettSubPaths = (typeof eSettSubPaths)[keyof typeof eSettSubPaths];
-
-export type WholesaleSubPaths = (typeof wholesaleSubPaths)[keyof typeof wholesaleSubPaths];
+export type WholesaleSubPaths = 'requests' | 'calculations';
 
 export type MeteringPointSubPaths =
-  (typeof meteringPointSubPaths)[keyof typeof meteringPointSubPaths];
+  | 'search'
+  | 'master-data'
+  | 'measurements'
+  | 'messages'
+  | 'create'
+  | 'failed-measurements'
+  | 'process-overview'
+  | 'charge-links'
+  | 'update-customer-details'
+  | 'actor-conversation';
+
+export type ChargeLinksSubPaths = 'tariff-and-subscription' | 'fees' | 'create';
+
+export type MeasurementsSubPaths = 'day' | 'month' | 'year' | 'all' | 'upload';
 
 export type MeteringPointDebugSubPaths =
-  (typeof meteringPointDebugSubPaths)[keyof typeof meteringPointDebugSubPaths];
+  | 'metering-point'
+  | 'metering-points'
+  | 'failed-measurements'
+  | 'metering-point-events'
+  | 'migration'
+  | 'actions';
 
-export type AdminSubPaths = (typeof adminSubPaths)[keyof typeof adminSubPaths];
+export type DevExamplesSubPaths = 'processes';
 
-export type DevExamplesSubPaths = (typeof devExamplesSubPaths)[keyof typeof devExamplesSubPaths];
+export type GridAreaSubPaths = 'gridarea';
 
-export type ReportsSubPaths = (typeof reportsSubPaths)[keyof typeof reportsSubPaths];
+export type ReportsSubPaths =
+  | 'overview'
+  | 'settlements'
+  | 'settlement-reports'
+  | 'missing-measurements-log'
+  | 'measurements-reports'
+  | 'imbalance-prices';
 
-export type MeasurementsSubPaths = (typeof measurementsSubPaths)[keyof typeof measurementsSubPaths];
+export type MissingMeasurementsLogSubPaths = 'request';
 
-export type MissingMeasurementsLogSubPaths =
-  (typeof missingMeasurementsLogSubPaths)[keyof typeof missingMeasurementsLogSubPaths];
+export type ChargesSubPaths = 'prices' | 'information' | 'history';
 
-export type GridAreaSubPaths = (typeof gridAreaSubPaths)[keyof typeof gridAreaSubPaths];
+export type OperationToolsSubPaths = 'metering-point';
 
-export type ChargesSubPaths = (typeof chargesSubPaths)[keyof typeof chargesSubPaths];
+export type BasePaths =
+  | 'dev-examples'
+  | 'metering-point'
+  | 'market-participant'
+  | 'message-archive'
+  | 'esett'
+  | 'admin'
+  | 'imbalance-prices'
+  | 'grid-areas'
+  | 'wholesale'
+  | 'login'
+  | 'reports'
+  | 'charges'
+  | 'operation-tools';
 
-export type ChargeLinksSubPaths = (typeof chargeLinksSubPaths)[keyof typeof chargeLinksSubPaths];
-
-type SubPaths =
+export type SubPaths =
   | MarketParticipantSubPaths
   | ESettSubPaths
   | WholesaleSubPaths
@@ -161,14 +98,15 @@ type SubPaths =
   | MissingMeasurementsLogSubPaths
   | GridAreaSubPaths
   | ChargesSubPaths
-  | ChargeLinksSubPaths;
+  | ChargeLinksSubPaths
+  | OperationToolsSubPaths;
 
 export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;
 
 export const combinePaths = <T extends BasePaths | SubPaths, Y extends BasePaths | SubPaths>(
   part1: Y,
   part2: T,
-  absolute: boolean = true
+  absolute = true
 ) => (absolute ? `/${part1}/${part2}` : `${part1}/${part2}`);
 
 export const combineWithIdPaths = <T extends SubPaths, Y extends BasePaths>(

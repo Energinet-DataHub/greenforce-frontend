@@ -16,103 +16,115 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect } from '@angular/core';
-import { JsonPipe } from '@angular/common';
+import { Component, computed, effect, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
 
-import { VaterFlexComponent } from '@energinet/watt/vater';
+import { VATER } from '@energinet/watt/vater';
+import { WATT_CARD } from '@energinet/watt/card';
+import { WATT_SEGMENTED_BUTTONS } from '@energinet/watt/segmented-buttons';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattJsonViewer } from '@energinet/watt/json-viewer';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointEventsDebugViewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+
+import { GetOperationToolsMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  dhFormControlToSignal,
+  dhIsValidMeteringPointId,
+  DhResultComponent,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
   selector: 'dh-metering-point-events',
   imports: [
     ReactiveFormsModule,
-    VaterFlexComponent,
+    TranslocoDirective,
+    VATER,
+    WATT_CARD,
+    WATT_SEGMENTED_BUTTONS,
+    WattButtonComponent,
+    WattJsonViewer,
     WattTextFieldComponent,
     DhResultComponent,
-    JsonPipe,
   ],
-  styles: `
-    :host {
-      display: block;
-      height: 100%;
-      width: 100%;
-      padding: var(--watt-space-ml);
-    }
-  `,
   template: `
-    <vater-flex autoSize fill="both" gap="l">
-      <watt-text-field
-        label="Metering Point Id"
-        [formControl]="meteringPointIdFormControl"
-        [maxLength]="18"
-      />
-
-      <dh-result [loading]="query.loading()" [hasError]="query.hasError()">
-        @if (debugViewV2()) {
-          <h1>Metering Point</h1>
-          <pre>{{ debugViewV2()!.meteringPointJson }}</pre>
-
-          <h1>Events</h1>
-          <pre>{{ debugViewV2()!.events | json }}</pre>
-        } @else {
-          <p>No data</p>
-        }
-      </dh-result>
-    </vater-flex>
+    <ng-container *transloco="let t; prefix: 'meteringPointDebug.meteringPointEvents'">
+      <vater-flex fill="vertical" gap="m">
+        <watt-text-field
+          [label]="t('searchLabel')"
+          [formControl]="meteringPointIdFormControl"
+          [maxLength]="18"
+        />
+        <vater-stack fill="horizontal" direction="row">
+          <watt-segmented-buttons [(selected)]="selected">
+            <watt-segmented-button value="meteringPoint">
+              {{ t('segments.meteringPoint') }}
+            </watt-segmented-button>
+            <watt-segmented-button value="events">
+              {{ t('segments.events') }}
+            </watt-segmented-button>
+            <watt-segmented-button value="relations">
+              {{ t('segments.relations') }}
+            </watt-segmented-button>
+          </watt-segmented-buttons>
+          <vater-spacer />
+          <watt-button icon="down" variant="text" (click)="viewer.expandAll()">
+            {{ t('expandAll') }}
+          </watt-button>
+          <watt-button icon="up" variant="text" (click)="viewer.collapseAll()">
+            {{ t('collapseAll') }}
+          </watt-button>
+        </vater-stack>
+        <watt-card vater scrollable fill="both">
+          <dh-result
+            vater
+            [fill]="!operationToolsMeteringPoint.data() ? 'vertical' : undefined"
+            [empty]="!operationToolsMeteringPoint.data()"
+            [loading]="operationToolsMeteringPoint.loading()"
+            [hasError]="operationToolsMeteringPoint.hasError()"
+          >
+            <watt-json-viewer #viewer [initialExpanded]="true" [json]="json()" />
+          </dh-result>
+        </watt-card>
+      </vater-flex>
+    </ng-container>
   `,
 })
 export class DhMeteringPointEventsComponent {
-  query = lazyQuery(GetMeteringPointEventsDebugViewDocument);
-
-  debugViewV2 = computed(() => {
-    const debugView = this.query.data()?.eventsDebugView;
-
-    if (!debugView) return undefined;
-
-    return {
-      meteringPointJson: debugView.meteringPointJson,
-      events: debugView?.events.map((e) => ({
-        ...e,
-        data: tryJsonParse(e.dataJson),
-        dataJson: undefined,
-        __typename: undefined,
-      })),
-    };
-  });
-
   meteringPointIdFormControl = new FormControl();
+  meteringPointId = dhFormControlToSignal(this.meteringPointIdFormControl);
+  operationToolsMeteringPoint = query(GetOperationToolsMeteringPointDocument, () => ({
+    skip: !dhIsValidMeteringPointId(this.meteringPointId()),
+    variables: {
+      id: this.meteringPointId(),
+    },
+  }));
 
-  meteringPointId = toSignal(this.meteringPointIdFormControl.valueChanges);
+  selected = signal<'meteringPoint' | 'events' | 'relations'>('meteringPoint');
+  json = computed(() => {
+    const data = this.operationToolsMeteringPoint.data()?.operationToolsMeteringPoint;
+    if (!data) return null;
+    switch (this.selected()) {
+      case 'meteringPoint':
+        return JSON.parse(data.meteringPointJson);
+      case 'events':
+        return data.events.map((e) => ({
+          id: e.id,
+          timestamp: e.timestamp,
+          type: e.type,
+          data: JSON.parse(e.dataJson),
+        }));
+      case 'relations':
+        return JSON.parse(data.meteringPointWithRelationsJson ?? 'null');
+    }
+  });
 
   constructor() {
     effect(() => {
-      const meteringPointId = this.meteringPointId();
-
-      if (!dhIsValidMeteringPointId(meteringPointId)) {
-        if (this.query.data()) {
-          this.query.reset();
-        }
-
-        return;
+      if (!dhIsValidMeteringPointId(this.meteringPointId())) {
+        this.operationToolsMeteringPoint.reset();
       }
-
-      this.query.query({
-        variables: { meteringPointId: meteringPointId },
-      });
     });
-  }
-}
-
-function tryJsonParse(str: string): unknown {
-  try {
-    return JSON.parse(str);
-  } catch (error) {
-    console.error('Failed to parse JSON:', str, error);
-    return str;
   }
 }

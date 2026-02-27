@@ -27,14 +27,18 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 // Use the shared MSW polyfill path
 const mswPolyfillPath = resolve(
-  process.cwd(),
-  'libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js'
+  __dirname,
+  '../../../../libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js'
 );
 
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/dh/metering-point/feature-actor-conversation',
-  plugins: [analog(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [
+    analog({ tsconfig: './tsconfig.spec.json' }),
+    nxViteTsPaths(),
+    nxCopyAssetsPlugin(['*.md']),
+  ],
   resolve: {
     conditions: ['development', 'browser'],
   },

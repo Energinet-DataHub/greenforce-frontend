@@ -53,8 +53,11 @@
       "@energinet-datahub/dh/core/routing": ["libs/dh/core/routing/src/index.ts"],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
       "@energinet-datahub/dh/core/ui-toolbar-portal": ["libs/dh/core/ui-toolbar-portal/index.ts"],
-      "@energinet-datahub/dh/dev-examples/feature-processes": [
-        "libs/dh/dev-examples/feature-processes/index.ts"
+      "@energinet-datahub/dh/developer/feature-examples": [
+        "libs/dh/developer/feature-examples/index.ts"
+      ],
+      "@energinet-datahub/dh/developer/feature-operation": [
+        "libs/dh/developer/feature-operation/index.ts"
       ],
       "@energinet-datahub/dh/esett/data-access-outgoing-messages": [
         "libs/dh/esett/data-access-outgoing-messages/src/index.ts"
@@ -277,6 +280,7 @@
       "@energinet/watt/intersection-observer": [
         "libs/watt/package/utils/intersection-observer/index.ts"
       ],
+      "@energinet/watt/json-viewer": ["libs/watt/package/json-viewer/index.ts"],
       "@energinet/watt/menu": ["libs/watt/package/menu/index.ts"],
       "@energinet/watt/modal": ["libs/watt/package/modal/index.ts"],
       "@energinet/watt/paginator": ["libs/watt/package/paginator/index.ts"],
@@ -290,6 +294,7 @@
       "@energinet/watt/resize-observer": ["libs/watt/package/utils/resize-observer/index.ts"],
       "@energinet/watt/search": ["libs/watt/package/search/index.ts"],
       "@energinet/watt/segmented-buttons": ["libs/watt/package/segmented-buttons/index.ts"],
+      "@energinet/watt/separator": ["libs/watt/package/separator/index.ts"],
       "@energinet/watt/shell": ["libs/watt/package/shell/index.ts"],
       "@energinet/watt/slide-toggle": ["libs/watt/package/slide-toggle/index.ts"],
       "@energinet/watt/slider": ["libs/watt/package/slider/index.ts"],

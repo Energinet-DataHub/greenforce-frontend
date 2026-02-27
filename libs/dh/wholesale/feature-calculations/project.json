@@ -6,13 +6,6 @@
   "prefix": "dh",
   "tags": ["product:dh", "domain:wholesale", "type:feature"],
   "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/feature-calculations"],
-      "options": {
-        "config": "libs/dh/wholesale/feature-calculations/vite.config.mts"
-      }
-    },
     "component-test": {
       "executor": "@nx/cypress:cypress",
       "options": {

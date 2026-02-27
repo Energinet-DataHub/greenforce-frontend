@@ -21,23 +21,26 @@ import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
+  mockCloseConversationMutation,
   mockDoesInternalMeteringPointIdExistQuery,
   mockGetAggregatedMeasurementsForAllYearsQuery,
   mockGetAggregatedMeasurementsForMonthQuery,
   mockGetAggregatedMeasurementsForYearQuery,
   mockGetContactCprQuery,
+  mockGetConversationQuery,
+  mockGetConversationsQuery,
   mockGetMeasurementPointsQuery,
   mockGetMeasurementsQuery,
   mockGetMeteringPointByIdQuery,
+  mockGetOperationToolsMeteringPointQuery,
   mockGetMeteringPointsByGridAreaQuery,
   mockGetRelatedMeteringPointsByIdQuery,
-  mockGetMeteringPointEventsDebugViewQuery,
+  mockMarkConversationReadMutation,
+  mockMarkConversationUnReadMutation,
   mockRequestConnectionStateChangeMutation,
   mockRequestEndOfSupplyMutation,
   mockStartConversationMutation,
-  mockGetConversationsQuery,
-  mockGetConversationQuery,
-  mockCloseConversationMutation,
+  mockUpdateInternalConversationNoteMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -52,7 +55,7 @@ import { parentMeteringPoint } from './data/metering-point/parent-metering-point
 import { measurementPoints } from './data/metering-point/measurements-points';
 import { meteringPointsByGridAreaCode } from './data/metering-point/metering-points-by-grid-area-code';
 import { childMeteringPoint } from './data/metering-point/child-metering-point';
-import { eventsDebugView } from './data/metering-point/metering-point-events-debug-view';
+import { operationToolsMeteringPoint } from './data/metering-point/operation-tools-metering-point';
 import { conversations } from './data/metering-point/conversations';
 
 export function meteringPointMocks() {
@@ -67,13 +70,16 @@ export function meteringPointMocks() {
     getAggreatedMeasurementsForYear(),
     getAggreatedMeasurementsForAllYears(),
     getRelatedMeteringPoints(),
-    getMeteringPointEventsDebugView(),
+    getOperationToolsMeteringPoint(),
     requestConnectionStateChange(),
     requestEndOfSupply(),
     createConversation(),
     getConversations(),
     getConversation(),
     closeConversation(),
+    markConversationRead(),
+    markConversationUnRead(),
+    updateInternalConversationNoteMutation(),
   ];
 }
 
@@ -603,14 +609,14 @@ function getMeteringPointsByGridArea() {
   });
 }
 
-function getMeteringPointEventsDebugView() {
-  return mockGetMeteringPointEventsDebugViewQuery(async () => {
+function getOperationToolsMeteringPoint() {
+  return mockGetOperationToolsMeteringPointQuery(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        eventsDebugView: eventsDebugView,
+        operationToolsMeteringPoint: operationToolsMeteringPoint,
       },
     });
   });
@@ -644,38 +650,97 @@ function getConversation() {
           displayId: '00001',
           id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           internalNote: 'CS00123645',
-          subject: 'QUESTION_FOR_ENERGINET',
+          subject: 'INTERRUPTION_RECONNECTION',
           closed: false,
+          wasLatestMessageAnonymous: true,
           messages: [
             {
               __typename: 'ConversationMessage',
               senderType: 'ENERGY_SUPPLIER',
-              content: 'Hej, her er et spørgsmål',
+              userMessage: {
+                content:
+                  'Vi sidder med en slutkunde i Roskilde, som undrer sig over, at deres forbrugsdata er stoppet med at tikke ind i fredags. Kan I se, om måleren er gået offline hos jer?',
+                __typename: 'UserMessage',
+              },
+              messageType: 'USER_MESSAGE',
+              createdTime: new Date(),
+              actorName: 'Sort Strøm',
+              userName: 'Hanne Hansen',
+              isSentByCurrentActor: false,
+              anonymous: false,
+            },
+            {
+              __typename: 'ConversationMessage',
+              senderType: 'GRID_ACCESS_PROVIDER',
+              userMessage: {
+                content:
+                  'Lad mig lige slå installationsnummeret op... Ja, jeg kan se, at vi har mistet radiokontakten til den specifikke måler i fredags kl. 14.00. Der er ikke meldt strømafbrydelser i området.',
+                __typename: 'UserMessage',
+              },
+              messageType: 'USER_MESSAGE',
+              createdTime: new Date(),
+              actorName: 'Grøn Strøm',
+              userName: 'Niels Pedersen',
+              isSentByCurrentActor: true,
+              anonymous: false,
+            },
+            {
+              __typename: 'ConversationMessage',
+              senderType: 'ENERGY_SUPPLIER',
+              userMessage: {
+                content:
+                  'Okay, kunden er bange for, at de får en kæmpe efterregning baseret på et skøn. Kan I sende en tekniker ud og kigge på det?',
+                __typename: 'UserMessage',
+              },
+              messageType: 'USER_MESSAGE',
+              createdTime: new Date(),
+              actorName: 'Sort Strøm',
+              userName: 'Hanne Hansen',
+              isSentByCurrentActor: false,
+              anonymous: false,
+            },
+            {
+              __typename: 'ConversationMessage',
+              senderType: 'GRID_ACCESS_PROVIDER',
+              userMessage: {
+                content:
+                  'Vi forsøger først at genstarte kommunikationsmodulet herfra centralt. Hvis det ikke virker inden for 24 timer, opretter vi en montøropgave. Vi giver besked via DataHub, så snart den er aktiv igen, så I kan få de rigtige data til faktureringen.',
+                __typename: 'UserMessage',
+              },
+              messageType: 'USER_MESSAGE',
+              createdTime: new Date(),
+              actorName: 'Grøn Strøm',
+              userName: 'Niels Pedersen',
+              isSentByCurrentActor: true,
+              anonymous: false,
+            },
+            {
+              __typename: 'ConversationMessage',
+              senderType: 'GRID_ACCESS_PROVIDER',
+              userMessage: {
+                content: 'Gider I afslutte sagen?',
+                __typename: 'UserMessage',
+              },
               messageType: 'USER_MESSAGE',
               createdTime: new Date(),
               actorName: 'Sort Strøm',
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
+              anonymous: true,
             },
             {
               __typename: 'ConversationMessage',
               senderType: 'ENERGY_SUPPLIER',
-              content: 'ClosingMessage',
+              userMessage: {
+                content: '',
+                __typename: 'UserMessage',
+              },
               messageType: 'CLOSING_MESSAGE',
               createdTime: new Date(),
               actorName: '',
               userName: '',
               isSentByCurrentActor: false,
-            },
-            {
-              __typename: 'ConversationMessage',
-              senderType: 'ENERGY_SUPPLIER',
-              content: 'Anonym besked',
-              messageType: 'USER_MESSAGE',
-              createdTime: new Date(),
-              actorName: '',
-              userName: '',
-              isSentByCurrentActor: true,
+              anonymous: false,
             },
           ],
         },
@@ -741,6 +806,54 @@ function closeConversation() {
         __typename: 'Mutation',
         closeConversation: {
           __typename: 'CloseConversationPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function markConversationRead() {
+  return mockMarkConversationReadMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        markConversationRead: {
+          __typename: 'MarkConversationReadPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function markConversationUnRead() {
+  return mockMarkConversationUnReadMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        markConversationUnRead: {
+          __typename: 'MarkConversationUnReadPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function updateInternalConversationNoteMutation() {
+  return mockUpdateInternalConversationNoteMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        updateInternalConversationNote: {
+          __typename: 'UpdateInternalConversationNotePayload',
           boolean: true,
         },
       },

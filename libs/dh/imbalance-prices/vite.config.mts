@@ -5,7 +5,7 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   root: __dirname,
-  plugins: [angular(), nxViteTsPaths()],
+  plugins: [angular({ tsconfig: './tsconfig.json' }), nxViteTsPaths()],
   test: {
     passWithNoTests: true,
     globals: true,
@@ -16,7 +16,7 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       reporter: ['html', 'json', 'text-summary'],
-      reportsDirectory: '../../../../coverage/shell',
+      reportsDirectory: '../../../coverage/libs/dh/imbalance-prices',
     },
     pool: 'forks',
     isolate: false,

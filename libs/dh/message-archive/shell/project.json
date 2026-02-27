@@ -4,14 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/message-archive/shell/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:message-archive", "type:shell"],
-  "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/message-archive/shell"],
-      "options": {
-        "passWithNoTests": true
-      }
-    }
-  }
+  "tags": ["product:dh", "domain:message-archive", "type:shell"]
 }
