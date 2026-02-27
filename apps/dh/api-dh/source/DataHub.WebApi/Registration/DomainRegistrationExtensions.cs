@@ -27,6 +27,7 @@ public static class DomainRegistrationExtensions
 {
     public static IServiceCollection AddDomainClients(this IServiceCollection services)
     {
+        // comment for adding pr - update everything dependent on core, with authheaderprovider (core.common, charges, edi, electricitymarket, processmanager)
         return services
             .AddNodaTimeForApplication()
             .AddDataHubCalendar()
