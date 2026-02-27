@@ -23,10 +23,9 @@ import { WattButtonComponent } from '../button';
 import { WattTooltipDirective } from './watt-tooltip.directive';
 
 async function setup() {
-  return render(
-    `<watt-button wattTooltip="Click me">Button</watt-button>`,
-    { imports: [WattTooltipDirective, WattButtonComponent] }
-  );
+  return render(`<watt-button wattTooltip="Click me">Button</watt-button>`, {
+    imports: [WattTooltipDirective, WattButtonComponent],
+  });
 }
 
 describe(WattTooltipDirective.name, () => {

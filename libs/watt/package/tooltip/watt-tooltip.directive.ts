@@ -50,7 +50,10 @@ export class WattTooltipDirective {
   readonly text = input<string>('', { alias: 'wattTooltip' });
   readonly position = input<wattTooltipPosition>('top', { alias: 'wattTooltipPosition' });
   readonly variant = input<wattTooltipVariant>('dark', { alias: 'wattTooltipVariant' });
-  readonly alwaysVisible = input(false, { alias: 'wattTooltipAlwaysVisible', transform: booleanAttribute });
+  readonly alwaysVisible = input(false, {
+    alias: 'wattTooltipAlwaysVisible',
+    transform: booleanAttribute,
+  });
 
   private readonly element = inject(ElementRef).nativeElement;
   private readonly viewContainerRef = inject(ViewContainerRef);
