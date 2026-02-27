@@ -23,19 +23,18 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WATT_RADIO } from '@energinet/watt/radio';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { internalNoteMaxLength, MessageFormValue, messageMaxLength } from '../types';
 import {
   ActorType,
   ConversationSubject,
-  EicFunction,
   GetConversationsDocument,
   StartConversationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -58,6 +57,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
     VaterUtilityDirective,
     DhActorConversationMessageFormComponent,
     WattSlideToggleComponent,
+    WATT_RADIO,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -102,18 +102,26 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
             />
             @if (isElectricalHeating()) {
               <watt-slide-toggle>
-                  {{ t('reducedElectricityTaxToggle') }}
+                {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
-            <watt-dropdown
-              [formControl]="newConversationForm.controls.receiver"
-              [options]="receivers"
+            <watt-radio-group
               [label]="t('receiverLabel')"
-              [showResetOption]="false"
-              dhDropdownTranslator
-              translateKey="meteringPoint.actorConversation.receivers"
-              data-testid="actor-conversation-receiver-dropdown"
-            />
+              [formControl]="newConversationForm.controls.receiver"
+              data-testid="actor-conversation-receiver-radio-group"
+            >
+              <vater-stack direction="column" align="start">
+                <watt-radio [value]="ActorType.EnergySupplier">
+                  {{ t('receivers.ENERGY_SUPPLIER') }}
+                </watt-radio>
+                <watt-radio [value]="ActorType.GridAccessProvider">
+                  {{ t('receivers.GRID_ACCESS_PROVIDER') }}
+                </watt-radio>
+                <watt-radio [value]="ActorType.Energinet">
+                  {{ t('receivers.ENERGINET') }}
+                </watt-radio>
+              </vater-stack>
+            </watt-radio-group>
             <watt-text-field
               [formControl]="newConversationForm.controls.internalNote"
               [label]="t('internalNoteLabelWithDisclaimer')"
@@ -140,18 +148,13 @@ export class DhActorConversationNewConversationComponent {
     'meteringPoint.actorConversation.startConversationError'
   );
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly actorStorage = inject(DhActorStorage);
-
-  private readonly eicFunctionToActorType: Partial<Record<EicFunction, ActorType>> = {
-    [EicFunction.EnergySupplier]: ActorType.EnergySupplier,
-    [EicFunction.DataHubAdministrator]: ActorType.Energinet,
-    [EicFunction.GridAccessProvider]: ActorType.GridAccessProvider,
-  };
 
   startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
 
   meteringPointId = input.required<string>();
+
+  protected readonly ActorType = ActorType;
 
   newConversationForm = this.fb.group({
     subject: this.fb.control<ConversationSubject | null>(null, Validators.required),
@@ -163,12 +166,6 @@ export class DhActorConversationNewConversationComponent {
     ]),
   });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
-  receivers = dhEnumToWattDropdownOptions(ActorType).filter((option) => {
-    const selectedActor = this.actorStorage.getSelectedActor();
-    const ownActorType = this.eicFunctionToActorType[selectedActor.marketRole];
-    if (ownActorType === ActorType.EnergySupplier) return true;
-    return (option.value as ActorType) !== ownActorType;
-  });
 
   private readonly subjectValue = toSignal(this.newConversationForm.controls.subject.valueChanges, {
     initialValue: this.newConversationForm.controls.subject.value,
