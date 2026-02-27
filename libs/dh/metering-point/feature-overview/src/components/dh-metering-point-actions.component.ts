@@ -221,6 +221,7 @@ export class DhMeteringPointActionsComponent {
       this.hasConnectionStateManagePermission() &&
       this.connectionState() === ElectricityMarketViewConnectionState.New
   );
+
   showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
 
   showEndOfSupplyButton = computed(

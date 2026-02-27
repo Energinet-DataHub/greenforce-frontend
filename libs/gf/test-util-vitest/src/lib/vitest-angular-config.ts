@@ -57,7 +57,7 @@ interface VitestAngularConfigOptions {
  *     enableMsw: true,
  *   }),
  *   plugins: [
- *     analog(),
+ *     analog({ tsconfig: './tsconfig.spec.json' }),
  *     nxViteTsPaths(),
  *     nxCopyAssetsPlugin(['*.md']),
  *   ],

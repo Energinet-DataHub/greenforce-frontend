@@ -22,4 +22,5 @@ export { WattDateChipComponent } from './watt-date-chip.component';
 export { WattDateRangeChipComponent } from './watt-date-range-chip.component';
 export { WattFilterChipComponent } from './watt-filter-chip.component';
 export { WattFormChipDirective } from './watt-chip.directive';
+export { WattInputChipComponent } from './watt-input-chip.component';
 export { WattMenuChipComponent } from './watt-menu-chip.component';

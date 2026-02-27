@@ -2251,6 +2251,7 @@ input RequestClientSecretCredentialsInput {
 input RequestConnectionStateChangeInput {
   meteringPointId: String!
   validityDate: DateTime!
+  newConnectionState: ElectricityMarketViewConnectionState!
 }
 
 input RequestEndOfSupplyInput {
