@@ -69,6 +69,7 @@ export class WattTooltipDirective {
     });
   }
 
+
   private createTooltipComponent() {
     if (!this.text()) return null;
 

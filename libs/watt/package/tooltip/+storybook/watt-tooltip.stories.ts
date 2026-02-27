@@ -16,93 +16,52 @@
  * limitations under the License.
  */
 //#endregion
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { within, userEvent } from 'storybook/test';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
-import { WattButtonComponent } from '../../button/watt-button.component';
-
-import { WattTooltipComponent } from '../watt-tooltip.component';
+import { WattButtonComponent } from '../../button';
 import { WattTooltipDirective } from '../watt-tooltip.directive';
 
-export default {
+const meta: Meta = {
   title: 'Components/Tooltip',
   decorators: [
     moduleMetadata({
-      imports: [WattButtonComponent, WattTooltipDirective, WattTooltipComponent],
+      imports: [WattTooltipDirective, WattButtonComponent],
     }),
   ],
-} as Meta;
+};
+export default meta;
 
-const template = `
-<h1>Example</h1>
-    <watt-button
-      wattTooltip="Click me"
-      wattTooltipPosition="right"
-      [wattTooltipVariant]="variant"
-    >Button</watt-button>
+export const Positions: StoryObj = {
+  render: () => ({
+    template: `
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5rem; padding: 5rem; justify-items: center; align-items: center;">
+        <watt-button wattTooltip="top-start" wattTooltipPosition="top-start">top-start</watt-button>
+        <watt-button wattTooltip="top" wattTooltipPosition="top">top</watt-button>
+        <watt-button wattTooltip="top-end" wattTooltipPosition="top-end">top-end</watt-button>
 
-    <div class="positions-container" style="display: none;">
-      <h2>Positions</h2>
+        <watt-button wattTooltip="left" wattTooltipPosition="left">left</watt-button>
+        <div></div>
+        <watt-button wattTooltip="right" wattTooltipPosition="right">right</watt-button>
 
-      <section style="margin-top: 3rem; display: flex; justify-content: center;">
-      <div data-testid="positions" #positions style="padding: 3rem 10rem; border: 1px dotted var(--watt-color-neutral-grey-600);"></div>
-      </section>
-
-      <watt-tooltip text="top-start" position="top-start" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
-      <watt-tooltip text="top" position="top" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
-      <watt-tooltip text="top-end" position="top-end" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
-
-      <watt-tooltip text="bottom-start" position="bottom-start" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
-      <watt-tooltip text="bottom" position="bottom" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
-      <watt-tooltip text="bottom-end" position="bottom-end" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
-
-      <watt-tooltip text="right" position="right" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
-      <watt-tooltip text="left" position="left" variant="dark" style="opacity: 1;" [target]="positions"></watt-tooltip>
-    </div>
- `;
-
-export const Overview: StoryFn = (args) => ({
-  props: args,
-  template,
-});
-
-Overview.parameters = {
-  docs: {
-    source: {
-      code: `<watt-button
-      wattTooltip="Click me"
-      wattTooltipPosition="right"
-      wattTooltipVariant="dark"
-    >Button</watt-button>`,
-    },
-  },
+        <watt-button wattTooltip="bottom-start" wattTooltipPosition="bottom-start">bottom-start</watt-button>
+        <watt-button wattTooltip="bottom" wattTooltipPosition="bottom">bottom</watt-button>
+        <watt-button wattTooltip="bottom-end" wattTooltipPosition="bottom-end">bottom-end</watt-button>
+      </div>
+    `,
+  }),
 };
 
-Overview.args = {
-  variant: 'dark',
-};
-
-Overview.argTypes = {
-  variant: {
-    options: ['dark', 'light'],
-    description: '`wattTooltipVariant`',
-    defaultValue: 'dark',
-    control: {
-      type: 'select',
-      options: ['dark', 'light'],
-    },
-  },
-};
-
-Overview.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  const positions: HTMLElement = canvas.getByTestId('positions');
-
-  // Positions are not visible by default, to hide them from the docs page.
-  const container = positions.parentElement?.parentElement;
-  if (container) {
-    container.style.display = 'block';
-  }
-
-  userEvent.hover(positions);
+export const Variants: StoryObj = {
+  render: () => ({
+    template: `
+      <div style="display: flex; gap: 0; align-items: stretch;">
+        <div style="padding: 5rem 8rem; display: flex; align-items: center; justify-content: center;">
+          <watt-button wattTooltip="Dark variant" wattTooltipPosition="top" wattTooltipVariant="dark">Dark</watt-button>
+        </div>
+        <div style="padding: 5rem 8rem; background: var(--watt-color-primary-dark); display: flex; align-items: center; justify-content: center;">
+          <watt-button wattTooltip="Light variant" wattTooltipPosition="top" wattTooltipVariant="light">Light</watt-button>
+        </div>
+      </div>
+    `,
+  }),
 };
