@@ -1,0 +1,106 @@
+name: dh3-frontend
+
+volumes:
+  azure-auth:
+
+services:
+  dh3-bff:
+    container_name: dh3-bff
+    build:
+      context: .
+      dockerfile: apps/dh/api-dh/Dockerfile
+      args:
+        BUILD_ENV: development
+    ports:
+      - '5000:8080'
+    volumes:
+      - azure-auth:/home/app/.azure
+    entrypoint: >
+      sh -c "
+        az config set core.login_experience_v2=off >/dev/null
+
+        SUBSCRIPTION_ID=c9f36554-9158-47ac-85b3-b5ed6ef2d063
+        echo 'Waiting for azure login, with access to dev003'
+
+        if az account set --subscription $$SUBSCRIPTION_ID >/dev/null 2>&1; then
+          echo '✔ Already logged in, skipping az login'
+        else
+            az login --use-device-code --tenant f7619355-6c67-4100-9a78-1847f30742e2 >&2
+            az account set --subscription $$SUBSCRIPTION_ID
+            echo '✔ Azure login OK'
+        fi
+
+        dotnet Energinet.DataHub.WebApi.dll
+      "
+    environment:
+      Logging__LogLevel__Default: Information
+      Logging__LogLevel__Microsoft: Information
+      Logging__LogLevel__Microsoft.Hosting.Lifetime: Information
+
+      UserAuthentication__BackendBffAppId: 0a69c2e4-d8e3-4b11-b63b-22925504f326
+      UserAuthentication__MitIdExternalMetadataAddress: https://b2cshresdevwe003.b2clogin.com/284d6f0a-04e7-4260-a1d9-c95661e741ee/B2C_1_MitID_SignInSignUpFlow_v2/v2.0/.well-known/openid-configuration
+      UserAuthentication__ExternalMetadataAddress: https://b2cshresdevwe003.b2clogin.com/284d6f0a-04e7-4260-a1d9-c95661e741ee/B2C_1_SignInFlow/v2.0/.well-known/openid-configuration
+      UserAuthentication__InternalMetadataAddress: https://app-api-markpart-d-we-003.azurewebsites.net/.well-known/openid-configuration
+
+      SubSystemBaseUrls__EdiB2CWebApiBaseUrl: https://app-b2cwebapi-edi-d-we-003.azurewebsites.net
+      SubSystemBaseUrls__MarketParticipantBaseUrl: https://app-api-markpart-d-we-003.azurewebsites.net
+      SubSystemBaseUrls__ESettExchangeBaseUrl: https://app-webapi-esett-d-we-003.azurewebsites.net
+      SubSystemBaseUrls__SettlementReportsAPIBaseUrl: https://app-api-settrepo-d-we-003.azurewebsites.net
+      SubSystemBaseUrls__NotificationsBaseUrl: https://func-notifications-worker-notif-d-we-003.azurewebsites.net
+      SubSystemBaseUrls__ImbalancePricesBaseUrl: https://app-api-gridimbp-d-we-003.azurewebsites.net
+      SubSystemBaseUrls__ElectricityMarketBaseUrl: https://app-api-elmark-d-we-003.azurewebsites.net
+      SubSystemBaseUrls__Dh2BridgeBaseUrl: https://func-grid-loss-event-receiver-dh2brdg-d-we-003.azurewebsites.net
+      SubSystemBaseUrls__ActorConversationBaseUrl: https://app-api-actcon-d-we-003.azurewebsites.net
+
+      ProcessManagerHttpClients__GeneralApiBaseAddress: https://func-api-pmcore-d-we-003.azurewebsites.net
+      ProcessManagerHttpClients__OrchestrationsApiBaseAddress: https://func-orchestrations-pmorch-d-we-003.azurewebsites.net
+      ProcessManagerHttpClients__ApplicationIdUri: api://f7619355-6c67-4100-9a78-1847f30742e2/datahub3-processmanager-d-003
+      MeasurementsHttpClient__BaseAddress: https://app-measurementsapi-mmcore-d-we-003.azurewebsites.net
+      MeasurementsHttpClient__ApplicationIdUri: api://f7619355-6c67-4100-9a78-1847f30742e2/datahub3-measurements-d-003
+      ChargesHttpClient__BaseAddress: https://app-chargesapi-charges-d-we-003.azurewebsites.net
+      ChargesHttpClient__ApplicationIdUri: api://f7619355-6c67-4100-9a78-1847f30742e2/datahub3-charges-d-003
+      EDIB2CHttpClient__BaseAddress: https://app-b2cwebapi-edi-d-we-003.azurewebsites.net
+      EDIB2CHttpClient__ApplicationIdUri: api://f7619355-6c67-4100-9a78-1847f30742e2/datahub3-b2cwebapi-d-003
+      ElectricityMarketClient__ApiBaseAddress: https://app-api-v2-elmark-d-we-003.azurewebsites.net
+      ElectricityMarketClient__ApplicationIdUri: api://f7619355-6c67-4100-9a78-1847f30742e2/datahub3-electricitymarket-d-003
+      RevisionLogOptions__ApiAddress: https://func-log-ingestion-revlog-d-we-003.azurewebsites.net/api/revision-logs
+      AuthorizationRequest__BaseUrl: https://func-authapi-markpart-d-we-003.azurewebsites.net
+      AuthorizationRequest__ApplicationIdUri: api://f7619355-6c67-4100-9a78-1847f30742e2/datahub3-marketparticipant-d-003
+
+      APPLICATIONINSIGHTS_CONNECTION_STRING: InstrumentationKey=406d4e28-fa9f-4642-bd59-7f791687123a;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/
+      AzureAppConfiguration__Endpoint: https://appcs-shres-d-we-003.azconfig.io
+      ASPNETCORE_ENVIRONMENT: Development
+      FeatureManagement__UseProcessManager: true
+
+  dh3-angular:
+    container_name: dh3-angular
+    depends_on:
+      - dh3-bff
+    build:
+      context: .
+      dockerfile: apps/dh/app-dh/Dockerfile
+    ports:
+      - '4200:8443'
+    volumes:
+      - ./localhost.crt:/etc/nginx/ssl/localhost.crt:ro
+      - ./localhost.key:/etc/nginx/ssl/localhost.key:ro
+    environment:
+      - NGINX_LISTEN_SSL=listen 8443 ssl;
+      - NGINX_SSL_CERTIFICATE=ssl_certificate /etc/nginx/ssl/localhost.crt;
+      - NGINX_SSL_CERTIFICATE_FILE=ssl_certificate_key /etc/nginx/ssl/localhost.key;
+      - NGINX_SSL_PROTOCOLS=ssl_protocols TLSv1.2 TLSv1.3;
+      - NGINX_SSL_CIPHERS=ssl_ciphers HIGH:!aNULL:!MD5;
+
+      - API_BASE=http://localhost:5000
+      - GET_USER_ACTORS_URL=/v1/MarketParticipantUser/GetUserActors
+      - GET_TOKEN_URL=/v1/Token
+
+      - B2C_CLIENT_ID=49b66b87-fe80-43f6-a2b2-416b922e1f3b
+      - B2C_SCOPE_URI=https://b2cshresdevwe003.onmicrosoft.com/backend-bff/api
+      - B2C_AUTHORITY=https://b2cshresdevwe003.b2clogin.com/b2cshresdevwe003.onmicrosoft.com/B2C_1_SignInFlow
+      - B2C_MITID_FLOW_URI=https://b2cshresdevwe003.b2clogin.com/b2cshresdevwe003.onmicrosoft.com/B2C_1_MitID_SignInSignUpFlow_v2
+      - B2C_KNOWN_AUTHORITIES=["b2cshresdevwe003.b2clogin.com"]
+
+      - APP_ENVIRONMENT=d-003
+      - APP_INSIGHTS_CONNECTION_STRING=InstrumentationKey=65cd16f3-868e-4a2f-a60f-7449f8275957;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=f17ec1c5-5967-4c9e-b075-93806ef05675
+      - CLARITY_PROJECT_ID=

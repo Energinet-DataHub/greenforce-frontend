@@ -1,0 +1,7 @@
+{
+  "clientId": "__B2C_CLIENT_ID__",
+  "scopeUri": "__B2C_SCOPE_URI__",
+  "authority": "__B2C_AUTHORITY__",
+  "mitIdFlowUri": "__B2C_MITID_FLOW_URI__",
+  "knownAuthorities": "__B2C_KNOWN_AUTHORITIES__"
+}

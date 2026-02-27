@@ -1,0 +1,5 @@
+{
+  "apiBase": "__API_BASE__",
+  "getUserActorsUrl": "__GET_USER_ACTORS_URL__",
+  "getTokenUrl": "__GET_TOKEN_URL__"
+}
