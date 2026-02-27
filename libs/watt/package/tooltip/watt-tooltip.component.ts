@@ -55,6 +55,7 @@ export class WattTooltipComponent {
   target = input.required<HTMLElement>();
   position = input.required<wattTooltipPosition>();
   variant = input.required<wattTooltipVariant>();
+  alwaysVisible = input(false);
 
   readonly id = `watt-tooltip-${WattTooltipComponent.nextId++}`; // used by aria-describedby
   hostClass = computed(() => `tooltip-${this.variant()}`);
@@ -107,7 +108,7 @@ export class WattTooltipComponent {
     }
   }
 
-  private show(): void {
+  show(): void {
     if (!this.popper) {
       this.popper = createPopper(this.target(), this.element, {
         placement: this.position(),
@@ -119,6 +120,7 @@ export class WattTooltipComponent {
   }
 
   private hide(): void {
+    if (this.alwaysVisible()) return;
     this.renderer.removeClass(this.element, this.showClass);
   }
 
