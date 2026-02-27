@@ -34,10 +34,7 @@ watt-textarea-field {
     min-height: var(--watt-textarea-min-height);
   }
 
-  .textarea-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--watt-space-s);
+  .textarea-footer {
     padding: 0 0 var(--watt-space-s) 0;
 
     &:empty {

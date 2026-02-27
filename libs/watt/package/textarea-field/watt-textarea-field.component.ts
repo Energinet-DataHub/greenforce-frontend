@@ -30,9 +30,10 @@ import {
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { WattFieldComponent } from '@energinet/watt/field';
+import { VaterStackComponent } from '@energinet/watt/vater';
 
 @Component({
-  imports: [FormsModule, WattFieldComponent],
+  imports: [FormsModule, WattFieldComponent, VaterStackComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -54,9 +55,9 @@ import { WattFieldComponent } from '@energinet/watt/field';
         (input)="onInput($event)"
       ></textarea>
 
-      <div class="textarea-chips">
-        <ng-content select="watt-input-chip" />
-      </div>
+      <vater-stack direction="row" wrap gap="s" class="textarea-footer">
+        <ng-content />
+      </vater-stack>
     </div>
 
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
