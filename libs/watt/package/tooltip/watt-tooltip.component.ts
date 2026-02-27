@@ -17,6 +17,7 @@
  */
 //#endregion
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   DestroyRef,
@@ -24,107 +25,83 @@ import {
   ElementRef,
   inject,
   input,
-  Renderer2,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { createPopper, Instance } from '@popperjs/core';
-import { Platform } from '@angular/cdk/platform';
 
 import { wattTooltipPosition, wattTooltipVariant } from './watt-tooltip.directive';
-import { FocusMonitor } from '@angular/cdk/a11y';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-type unlistenerFunction = () => void;
 
 @Component({
-  template: `
-    {{ text() }}
-    <div #arrow class="arrow"></div>
-  `,
   selector: 'watt-tooltip',
-  styleUrls: ['./watt-tooltip.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './watt-tooltip.component.scss',
   host: {
     '[id]': 'id',
-    '[attr.role]': '"tooltip"',
+    role: 'tooltip',
     '[class]': 'hostClass()',
+    '[class.show]': 'visible()',
   },
+  template: `{{ text() }}<div #arrowEl class="arrow"></div>`,
 })
 export class WattTooltipComponent {
-  static nextId = 0;
-
   text = input.required<string>();
   target = input.required<HTMLElement>();
   position = input.required<wattTooltipPosition>();
   variant = input.required<wattTooltipVariant>();
   alwaysVisible = input(false);
 
-  readonly id = `watt-tooltip-${WattTooltipComponent.nextId++}`; // used by aria-describedby
-  hostClass = computed(() => `tooltip-${this.variant()}`);
+  readonly id = `watt-tooltip-${crypto.randomUUID()}`;
+  protected readonly visible = signal(false);
+  protected readonly hostClass = computed(() => `tooltip-${this.variant()}`);
 
-  private element: HTMLElement = inject(ElementRef).nativeElement;
-  private platform = inject(Platform);
-  private renderer: Renderer2 = inject(Renderer2);
-  private focusMonitor: FocusMonitor = inject(FocusMonitor);
-  private destroyRef = inject(DestroyRef);
+  private readonly arrowRef = viewChild<ElementRef>('arrowEl');
+  private readonly element: HTMLElement = inject(ElementRef).nativeElement;
+  private readonly destroyRef = inject(DestroyRef);
 
-  private listeners: unlistenerFunction[] = [];
-  private showClass = 'show';
   private popper: Instance | null = null;
+  private abortController: AbortController | null = null;
 
   constructor() {
+    effect(() => this.setupEventListeners());
+
     this.destroyRef.onDestroy(() => {
       this.popper?.destroy();
-      this.listeners.forEach((listener) => listener());
+      this.abortController?.abort();
     });
-
-    effect(() => {
-      this.setupEventListeners();
-
-      this.focusMonitor
-        .monitor(this.target(), true)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((origin) => {
-          if (!origin) {
-            this.hide();
-          } else if (origin === 'keyboard') {
-            this.show();
-          }
-        });
-    });
-  }
-
-  private setupEventListeners(): void {
-    // The mouse events shouldn't be bound on mobile devices, because they can prevent the
-    // first tap from firing its click event or can cause the tooltip to open for clicks.
-    if (this.platformSupportsMouseEvents()) {
-      const mouseEnter = this.renderer.listen(this.target(), 'mouseenter', this.show.bind(this));
-      const mouseLeave = this.renderer.listen(this.target(), 'mouseleave', this.hide.bind(this));
-      const wheel = this.renderer.listen(this.target(), 'wheel', this.hide.bind(this));
-      this.listeners.push(mouseEnter, mouseLeave, wheel);
-    } else {
-      const touchStart = this.renderer.listen(this.target(), 'touchstart', this.show.bind(this));
-      const touchEnd = this.renderer.listen(this.target(), 'touchend', this.hide.bind(this));
-      const touchCancel = this.renderer.listen(this.target(), 'touchcancel', this.hide.bind(this));
-      this.listeners.push(touchStart, touchEnd, touchCancel);
-    }
   }
 
   show(): void {
     if (!this.popper) {
+      const arrowEl = this.arrowRef()?.nativeElement;
       this.popper = createPopper(this.target(), this.element, {
         placement: this.position(),
+        modifiers: [
+          { name: 'offset', options: { offset: [0, 8] } },
+          ...(arrowEl ? [{ name: 'arrow', options: { element: arrowEl, padding: 6 } }] : []),
+        ],
       });
     } else {
       this.popper.forceUpdate();
     }
-    this.renderer.addClass(this.element, this.showClass);
+    this.visible.set(true);
   }
 
   private hide(): void {
     if (this.alwaysVisible()) return;
-    this.renderer.removeClass(this.element, this.showClass);
+    this.visible.set(false);
   }
 
-  private platformSupportsMouseEvents() {
-    return !this.platform.IOS && !this.platform.ANDROID;
+  private setupEventListeners(): void {
+    const target = this.target();
+    this.abortController?.abort();
+    this.abortController = new AbortController();
+    const opts = { signal: this.abortController.signal };
+
+    target.addEventListener('mouseenter', () => this.show(), opts);
+    target.addEventListener('mouseleave', () => this.hide(), opts);
+    target.addEventListener('wheel', () => this.hide(), { ...opts, passive: true });
+    target.addEventListener('focusin', () => this.show(), opts);
+    target.addEventListener('focusout', () => this.hide(), opts);
   }
 }

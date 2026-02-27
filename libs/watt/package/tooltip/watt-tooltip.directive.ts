@@ -17,6 +17,7 @@
  */
 //#endregion
 import {
+  ComponentRef,
   DestroyRef,
   Directive,
   effect,
@@ -53,48 +54,47 @@ export class WattTooltipDirective {
 
   private readonly element = inject(ElementRef).nativeElement;
   private readonly viewContainerRef = inject(ViewContainerRef);
-  private readonly destroyRef = inject(DestroyRef);
+  private tooltipRef: ComponentRef<WattTooltipComponent> | null = null;
 
   constructor() {
-    let tooltipComponent: ReturnType<typeof this.viewContainerRef.createComponent<WattTooltipComponent>> | null = null;
-
-    // Setup effect to manage tooltip component lifecycle
+    // Create or destroy the tooltip component when text changes
     effect(() => {
       const text = this.text();
 
-      // Destroy previous instance when inputs change
-      if (tooltipComponent) {
-        tooltipComponent.destroy();
-        tooltipComponent = null;
-        this.element.removeAttribute('aria-describedby');
+      if (!text) {
+        this.destroyTooltip();
+        return;
       }
 
-      if (!text) return;
+      if (!this.tooltipRef) {
+        this.tooltipRef = this.viewContainerRef.createComponent(WattTooltipComponent);
+        this.tooltipRef.setInput('target', this.element);
+        this.element.setAttribute('aria-describedby', this.tooltipRef.instance.id);
+      }
 
-      // Create the component
-      tooltipComponent = this.viewContainerRef.createComponent(WattTooltipComponent);
+      this.tooltipRef.setInput('text', text);
+    });
 
-      // Get the component instance
-      const instance = tooltipComponent.instance;
+    // Update position, variant, and alwaysVisible without recreating the component
+    effect(() => {
+      if (!this.tooltipRef) return;
 
-      // Set up bindings
-      tooltipComponent.setInput('text', text);
-      tooltipComponent.setInput('target', this.element);
-      tooltipComponent.setInput('position', this.position());
-      tooltipComponent.setInput('variant', this.variant());
-      tooltipComponent.setInput('alwaysVisible', this.alwaysVisible());
-
-      this.element.setAttribute('aria-describedby', instance.id);
+      this.tooltipRef.setInput('position', this.position());
+      this.tooltipRef.setInput('variant', this.variant());
+      this.tooltipRef.setInput('alwaysVisible', this.alwaysVisible());
 
       if (this.alwaysVisible()) {
+        const instance = this.tooltipRef.instance;
         requestAnimationFrame(() => requestAnimationFrame(() => instance.show()));
       }
     });
 
-    // Cleanup on destroy
-    this.destroyRef.onDestroy(() => {
-      tooltipComponent?.destroy();
-      this.element.removeAttribute('aria-describedby');
-    });
+    inject(DestroyRef).onDestroy(() => this.destroyTooltip());
+  }
+
+  private destroyTooltip(): void {
+    this.tooltipRef?.destroy();
+    this.tooltipRef = null;
+    this.element.removeAttribute('aria-describedby');
   }
 }
