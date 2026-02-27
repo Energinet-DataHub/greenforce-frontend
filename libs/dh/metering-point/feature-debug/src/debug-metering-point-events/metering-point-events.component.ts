@@ -26,7 +26,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattJsonViewer } from '@energinet/watt/json-viewer';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 
-import { GetMeteringPointEventsDebugViewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetOperationToolsMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   dhFormControlToSignal,
@@ -79,10 +79,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
         <watt-card vater scrollable fill="both">
           <dh-result
             vater
-            [fill]="!debugView.data() ? 'vertical' : undefined"
-            [empty]="!debugView.data()"
-            [loading]="debugView.loading()"
-            [hasError]="debugView.hasError()"
+            [fill]="!operationToolsMeteringPoint.data() ? 'vertical' : undefined"
+            [empty]="!operationToolsMeteringPoint.data()"
+            [loading]="operationToolsMeteringPoint.loading()"
+            [hasError]="operationToolsMeteringPoint.hasError()"
           >
             <watt-json-viewer #viewer [initialExpanded]="true" [json]="json()" />
           </dh-result>
@@ -94,16 +94,16 @@ import { TranslocoDirective } from '@jsverse/transloco';
 export class DhMeteringPointEventsComponent {
   meteringPointIdFormControl = new FormControl();
   meteringPointId = dhFormControlToSignal(this.meteringPointIdFormControl);
-  debugView = query(GetMeteringPointEventsDebugViewDocument, () => ({
+  operationToolsMeteringPoint = query(GetOperationToolsMeteringPointDocument, () => ({
     skip: !dhIsValidMeteringPointId(this.meteringPointId()),
     variables: {
-      meteringPointId: this.meteringPointId(),
+      id: this.meteringPointId(),
     },
   }));
 
   selected = signal<'meteringPoint' | 'events' | 'relations'>('meteringPoint');
   json = computed(() => {
-    const data = this.debugView.data()?.eventsDebugView;
+    const data = this.operationToolsMeteringPoint.data()?.operationToolsMeteringPoint;
     if (!data) return null;
     switch (this.selected()) {
       case 'meteringPoint':
@@ -123,7 +123,7 @@ export class DhMeteringPointEventsComponent {
   constructor() {
     effect(() => {
       if (!dhIsValidMeteringPointId(this.meteringPointId())) {
-        this.debugView.reset();
+        this.operationToolsMeteringPoint.reset();
       }
     });
   }

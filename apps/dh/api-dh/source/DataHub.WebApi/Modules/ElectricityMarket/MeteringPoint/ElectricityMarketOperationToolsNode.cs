@@ -16,11 +16,12 @@ using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.Ge
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint;
 
-public static class ElectricityMarketDebug
+public static class ElectricityMarketOperationToolsNode
 {
     [Query]
     [Authorize(Roles = ["metering-point:search"])]
@@ -46,18 +47,19 @@ public static class ElectricityMarketDebug
 
     [Query]
     [Authorize(Roles = ["metering-point:search"])]
-    public static async Task<GetMeteringPointDebugResultDtoV1?> GetEventsDebugViewAsync(
-        string meteringPointId,
+    [UseRevisionLog]
+    public static async Task<GetMeteringPointDebugResultDtoV1?> GetOperationToolsMeteringPointAsync(
+        string id,
         CancellationToken ct,
         [Service] IElectricityMarketClient electricityMarketClient)
     {
         var meteringPointResult = await electricityMarketClient
-            .SendAsync(new GetMeteringPointDebugQueryV1(meteringPointId), ct)
+            .SendAsync(new GetMeteringPointDebugQueryV1(id), ct)
             .ConfigureAwait(false);
 
         if (!meteringPointResult.IsSuccess)
         {
-            throw new InvalidOperationException($"Failed to get metering point {meteringPointId}: {meteringPointResult.DiagnosticMessage}.");
+            throw new InvalidOperationException($"Failed to get metering point {id}: {meteringPointResult.DiagnosticMessage}.");
         }
 
         if (!meteringPointResult.HasData)
