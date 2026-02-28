@@ -185,7 +185,7 @@
     "jiti": "2.4.2",
     "jsdom": "27.3.0",
     "jsonc-eslint-parser": "2.1.0",
-    "minimatch": "10.2.1",
+    "minimatch": "10.2.3",
     "msw": "2.7.3",
     "ng-packagr": "20.3.0",
     "nx": "22.2.3",
