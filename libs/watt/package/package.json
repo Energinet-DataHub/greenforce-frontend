@@ -11,16 +11,5 @@
       "sass": "./core/styles/@energinet/watt/_utils.scss"
     }
   },
-  "peerDependencies": {
-    "@analogjs/vite-plugin-angular": "^2.2.3",
-    "@maskito/angular": "^2.5.0",
-    "@maskito/core": "^2.5.0",
-    "@maskito/kit": "^2.5.0",
-    "@maskito/phone": "^2.5.0",
-    "@popperjs/core": "^2.11.8",
-    "dayjs": "^1.11.13",
-    "libphonenumber-js": "^1.11.9",
-    "ngx-mat-select-search": "^8.0.4",
-    "rxjs": "^7.8.2"
-  }
+  "peerDependencies": {}
 }
