@@ -259,6 +259,19 @@ export class WattDropdownComponent<T = string> implements ControlValueAccessor, 
     this.matSelectControl.patchValue(optionsToSelect);
   }
 
+  onFieldClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    // Prevent re-opening when click originated from backdrop or select panel
+    // This handles the case where Angular Material 21's inline overlay
+    // causes click events to bubble up to parent containers
+    if (
+      !target?.classList.contains('cdk-overlay-backdrop') &&
+      !target?.closest('.mat-mdc-select-panel')
+    ) {
+      this.matSelect()?.open();
+    }
+  }
+
   public sortOptions(options: WattDropdownOptions): WattDropdownOptions {
     return [...options].sort((a, b) => {
       return this.sortDirection() === 'asc'

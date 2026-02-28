@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { enableProdMode, isDevMode } from '@angular/core';
+import { enableProdMode, isDevMode, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import {
   provideRouter,
@@ -65,6 +65,7 @@ function bootstrapApp() {
     .then(([dhApiEnvironment, dhB2CEnvironment, dhAppEnvironment]) => {
       bootstrapApplication(DataHubAppComponent, {
         providers: [
+          provideZoneChangeDetection(),
           { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
           { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
           { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },

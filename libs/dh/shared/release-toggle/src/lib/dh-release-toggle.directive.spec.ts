@@ -329,7 +329,7 @@ describe('DhReleaseToggleDirective', () => {
       mockReleaseToggleService.toggles.mockReturnValue([]);
       mockReleaseToggleService.isEnabled.mockReturnValue(false);
 
-      const { fixture } = await render(ToggleStateComponent, {
+      const { fixture, rerender } = await render(ToggleStateComponent, {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
       });
 
@@ -342,9 +342,11 @@ describe('DhReleaseToggleDirective', () => {
       ]);
       mockReleaseToggleService.isEnabled.mockReturnValue(true);
 
+      // Use rerender to properly update the component state without triggering
+      // ExpressionChangedAfterItHasBeenCheckedError
       const component = fixture.componentInstance as ToggleStateComponent;
-      component.refreshToggleState(`${TOGGLE_NAMES.RELEASE_TOGGLE}-refreshed`);
-      fixture.detectChanges();
+      component.currentToggle = `${TOGGLE_NAMES.RELEASE_TOGGLE}-refreshed`;
+      rerender({});
 
       expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
       expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(
@@ -358,7 +360,7 @@ describe('DhReleaseToggleDirective', () => {
       mockReleaseToggleService.isEnabled.mockReturnValue(states[0]);
       mockReleaseToggleService.toggles.mockReturnValue([]);
 
-      const { fixture } = await render(ToggleStateComponent, {
+      const { fixture, rerender } = await render(ToggleStateComponent, {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
       });
 
@@ -370,8 +372,8 @@ describe('DhReleaseToggleDirective', () => {
         mockReleaseToggleService.toggles.mockReturnValue(states[i] ? [toggleName] : []);
         mockReleaseToggleService.isEnabled.mockReturnValue(states[i]);
 
-        component.refreshToggleState(toggleName);
-        fixture.detectChanges();
+        component.currentToggle = toggleName;
+        rerender({});
 
         if (states[i]) {
           expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();

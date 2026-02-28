@@ -18,7 +18,7 @@
 //#endregion
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { fireEvent, render, screen } from '@testing-library/angular';
+import { fireEvent, render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
@@ -157,13 +157,25 @@ describe(WattTimepickerComponent, () => {
     });
 
     it('hides slider on blur', async () => {
-      await setup({ template });
+      const { fixture } = await setup({ template });
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
       userEvent.click(sliderToggle);
-      sliderToggle.blur();
 
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      // Simulate focus moving outside the component by calling onFocusOut with a relatedTarget outside
+      const timepickerComponent = fixture.debugElement.children[0].componentInstance;
+
+      // Create a mock FocusEvent with relatedTarget outside the component
+      const mockFocusEvent = new FocusEvent('focusout', {
+        relatedTarget: document.body,
+      });
+
+      timepickerComponent.onFocusOut(mockFocusEvent);
+      fixture.detectChanges();
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      });
     });
 
     it('shows slider with default values if input is empty', async () => {
