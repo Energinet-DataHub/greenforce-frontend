@@ -17,34 +17,66 @@
  */
 //#endregion
 import {
-  // createProjectGraphAsync,
   updateJson,
   readJson,
   readProjectConfiguration,
   Tree,
   createProjectGraphAsync,
 } from '@nx/devkit';
-import type { ICruiseResult } from 'dependency-cruiser';
-import { execSync } from 'child_process';
 import { PeerDependenciesGeneratorSchema } from './schema';
 
-// dependency-cruiser also has an API, but it is ESM only which Nx fails to import...
-const findNpmDependenciesUsingDependencyCruiser = (path: string): string[] => {
-  const buffer = execSync(
-    `bun depcruise \
-      ${path} \
-      --do-not-follow "^node_modules" \
-      --exclude "(storybook|.spec.ts$|.stories.ts$)" \
-      --output-type json \
-      --no-config`
-  );
+/** Check if file should be scanned for imports */
+const isSourceFile = (path: string): boolean =>
+  path.endsWith('.ts') &&
+  !path.includes('.stories.') &&
+  !path.includes('.spec.') &&
+  !path.includes('storybook');
 
-  const output: ICruiseResult = JSON.parse(buffer.toString());
-  return output.modules
-    .flatMap((m) => m.dependencies)
-    .filter((d) => d.dependencyTypes?.some((d) => d.startsWith('npm')))
-    .map((d) => d.module)
-    .map((d) => (d.startsWith('@') ? d.split('/').slice(0, 2).join('/') : d.split('/')[0]));
+/** Extract package name from import path (e.g., "@angular/core/testing" -> "@angular/core") */
+const extractPackageName = (importPath: string): string => {
+  if (importPath.startsWith('@')) {
+    return importPath.split('/').slice(0, 2).join('/');
+  }
+  return importPath.split('/')[0];
+};
+
+/**
+ * Find npm dependencies by scanning TypeScript files for import statements.
+ * This supplements Nx's project graph which may miss imports with moduleResolution: "bundler".
+ */
+const findNpmDependenciesUsingGrep = (projectRoot: string, tree: Tree): string[] => {
+  const tsFiles: string[] = [];
+
+  const collectTsFiles = (dir: string) => {
+    for (const child of tree.children(dir)) {
+      const childPath = `${dir}/${child}`;
+      if (tree.isFile(childPath) && isSourceFile(childPath)) {
+        tsFiles.push(childPath);
+      } else if (!tree.isFile(childPath)) {
+        collectTsFiles(childPath);
+      }
+    }
+  };
+
+  collectTsFiles(projectRoot);
+
+  const importRegex = /from\s+['"]([^'"./][^'"]*)['"]/g;
+  const packages = new Set<string>();
+
+  for (const filePath of tsFiles) {
+    const content = tree.read(filePath, 'utf-8');
+    if (!content) continue;
+
+    let match;
+    while ((match = importRegex.exec(content)) !== null) {
+      const packageName = extractPackageName(match[1]);
+      if (!packageName.startsWith('@energinet')) {
+        packages.add(packageName);
+      }
+    }
+  }
+
+  return [...packages];
 };
 
 export async function peerDependenciesGenerator(
@@ -54,23 +86,29 @@ export async function peerDependenciesGenerator(
   const { dependencies } = readJson(tree, 'package.json');
   const projectGraph = await createProjectGraphAsync();
   const projectDependencies = projectGraph.dependencies[options.project];
-  const npmDependencies = projectDependencies
+
+  // Get npm dependencies from Nx project graph
+  const nxNpmDependencies = projectDependencies
     .filter((d) => d.type === 'static')
     .filter((d) => d.target.startsWith('npm:'))
     .map((d) => d.target)
-    .map((t) => t.split(':')[1]);
+    .map((t) => t.replace(/^npm:/, '').replace(/@[\d.]+$/, ''));
 
-  // Use "dependency-cruiser" until Nx fixes their project graph
-  // const path = readProjectConfiguration(tree, options.project);
-  // const npmDependencies = findNpmDependenciesUsingDependencyCruiser(path.root);
+  // Also scan source files for imports (Nx may miss some with moduleResolution: "bundler")
+  const projectConfig = readProjectConfiguration(tree, options.project);
+  const grepNpmDependencies = findNpmDependenciesUsingGrep(projectConfig.root, tree);
+
+  // Merge both sources
+  const npmDependencies = [...new Set([...nxNpmDependencies, ...grepNpmDependencies])];
 
   // Fail if no npm dependencies are found
-  if (npmDependencies.length == 0) {
-    throw Error(`ProjectGraph for ${options.project} unexpectedly contains no npm dependencies.`);
+  if (npmDependencies.length === 0) {
+    throw Error(`No npm dependencies found for ${options.project}.`);
   }
 
   // Transform list of dependencies into an object of module name and version
-  const peerDependencies = npmDependencies
+  // Only include packages that exist in the root package.json dependencies
+  const peerDependencies = [...new Set(npmDependencies)]
     .filter((k) => dependencies[k])
     .sort()
     .reduce((p, k) => ({ ...p, [k]: `^${dependencies[k]}` }), {});

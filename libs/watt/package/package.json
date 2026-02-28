@@ -11,5 +11,25 @@
       "sass": "./core/styles/@energinet/watt/_utils.scss"
     }
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@analogjs/vite-plugin-angular": "^2.2.3",
+    "@angular/cdk": "^21.1.5",
+    "@angular/common": "^21.1.5",
+    "@angular/compiler": "^21.1.5",
+    "@angular/core": "^21.1.5",
+    "@angular/forms": "^21.1.5",
+    "@angular/material": "^21.1.5",
+    "@angular/router": "^21.1.5",
+    "@maskito/angular": "^2.5.0",
+    "@maskito/core": "^2.5.0",
+    "@maskito/kit": "^2.5.0",
+    "@maskito/phone": "^2.5.0",
+    "@popperjs/core": "^2.11.8",
+    "dayjs": "^1.11.13",
+    "libphonenumber-js": "^1.11.9",
+    "ngx-mat-select-search": "^8.0.4",
+    "rxjs": "^7.8.2",
+    "storybook": "^10.1.10",
+    "zone.js": "^0.16.1"
+  }
 }
