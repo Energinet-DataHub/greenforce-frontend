@@ -22,6 +22,7 @@ import {
   readJson,
   readProjectConfiguration,
   Tree,
+  createProjectGraphAsync,
 } from '@nx/devkit';
 import type { ICruiseResult } from 'dependency-cruiser';
 import { execSync } from 'child_process';
@@ -51,17 +52,17 @@ export async function peerDependenciesGenerator(
   options: PeerDependenciesGeneratorSchema
 ) {
   const { dependencies } = readJson(tree, 'package.json');
-  // const projectGraph = await createProjectGraphAsync();
-  // const projectDependencies = projectGraph.dependencies[options.project];
-  // const npmDependencies = projectDependencies
-  //   .filter((d) => d.type === 'static')
-  //   .filter((d) => d.target.startsWith('npm:'))
-  //   .map((d) => d.target)
-  //   .map((t) => t.split(':')[1]);
+  const projectGraph = await createProjectGraphAsync();
+  const projectDependencies = projectGraph.dependencies[options.project];
+  const npmDependencies = projectDependencies
+    .filter((d) => d.type === 'static')
+    .filter((d) => d.target.startsWith('npm:'))
+    .map((d) => d.target)
+    .map((t) => t.split(':')[1]);
 
   // Use "dependency-cruiser" until Nx fixes their project graph
-  const path = readProjectConfiguration(tree, options.project);
-  const npmDependencies = findNpmDependenciesUsingDependencyCruiser(path.root);
+  // const path = readProjectConfiguration(tree, options.project);
+  // const npmDependencies = findNpmDependenciesUsingDependencyCruiser(path.root);
 
   // Fail if no npm dependencies are found
   if (npmDependencies.length == 0) {
