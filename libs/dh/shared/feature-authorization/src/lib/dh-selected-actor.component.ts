@@ -32,6 +32,7 @@ import { GetSelectionMarketParticipantsDocument } from '@energinet-datahub/dh/sh
 
 import { windowLocationToken } from './window-location';
 import { DhActorStorage } from './dh-actor-storage';
+import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
 
 export type SelectionMarketParticipant = ResultOf<
   typeof GetSelectionMarketParticipantsDocument
@@ -50,6 +51,7 @@ export class DhSelectedActorComponent {
   private readonly router = inject(Router);
   private readonly location = inject(windowLocationToken);
   private readonly actorStorage = inject(DhActorStorage);
+  private readonly hiddenLocationStrategy = injectHiddenLocationStrategy();
 
   private query = query(GetSelectionMarketParticipantsDocument);
   private memberOfMarketParticipants = computed(
@@ -109,6 +111,7 @@ export class DhSelectedActorComponent {
 
   selectMarketParticipant = async (marketParticipant: SelectionMarketParticipant) => {
     this.actorStorage.setSelectedActor(marketParticipant);
+    this.hiddenLocationStrategy.clearSession();
 
     if (this.isMeteringPointSubPath(this.router.url)) {
       await this.router.navigate(['/metering-point/search']);

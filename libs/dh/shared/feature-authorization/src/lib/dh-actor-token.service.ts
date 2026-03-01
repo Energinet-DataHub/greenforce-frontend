@@ -34,6 +34,7 @@ import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhActorStorage } from './dh-actor-storage';
+import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
 
 type CachedEntry = { token: string; value: Observable<string> } | undefined;
 
@@ -48,6 +49,7 @@ export class DhActorTokenService {
   private apiToken = inject(dhApiEnvironmentToken);
   private httpClient = inject(HttpClient);
   private appInsights = inject(DhApplicationInsights);
+  private readonly hiddenLocationStrategy = injectHiddenLocationStrategy();
 
   private logoutInProgress = false;
 
@@ -101,6 +103,7 @@ export class DhActorTokenService {
                     const givenName = account?.idTokenClaims['given_name'];
                     if (!givenName) {
                       localStorage.setItem('mitIdRelogin', 'true');
+                      this.hiddenLocationStrategy.clearSession();
                       this.msalService.instance.logoutRedirect();
                     }
                   }
@@ -129,7 +132,10 @@ export class DhActorTokenService {
                     this.appInsights.flush();
 
                     // Delay redirect to logout so AppInsights has a chance to flush
-                    setTimeout(() => this.msalService.instance.logoutRedirect(), 2_000);
+                    setTimeout(() => {
+                      this.hiddenLocationStrategy.clearSession();
+                      this.msalService.instance.logoutRedirect();
+                    }, 2_000);
 
                     this.logoutInProgress = true;
                   }

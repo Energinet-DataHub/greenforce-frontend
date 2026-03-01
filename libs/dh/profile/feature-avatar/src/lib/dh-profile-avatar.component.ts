@@ -28,6 +28,7 @@ import { DhProfileModalComponent } from '@energinet-datahub/dh/profile/feature-p
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-profile-avatar',
@@ -65,11 +66,13 @@ export class DhProfileAvatarComponent {
   private readonly modalService = inject(WattModalService);
   private readonly languageService = inject(DhLanguageService);
   private readonly appInsights = inject(DhApplicationInsights);
+  private readonly hiddenLocationStrategy = injectHiddenLocationStrategy();
 
   selectedLaguage = this.languageService.selectedLanguage;
   displayLanguage = DisplayLanguage;
 
   logout() {
+    this.hiddenLocationStrategy.clearSession();
     this.authService.logoutRedirect();
   }
 
