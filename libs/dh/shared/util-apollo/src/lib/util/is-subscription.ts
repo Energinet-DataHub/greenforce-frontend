@@ -16,9 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-export { DhApolloService } from './lib/dh-apollo';
+import { Operation } from '@apollo/client/core';
+import { getMainDefinition } from '@apollo/client/utilities';
 
-export { parseGraphQLErrorResponse } from './lib/util';
-export { getActorOptions } from './lib/graphql/get-market-participants-by-eic-function-for-dropdowns';
-export { getGridAreaOptionsForPeriod } from './lib/graphql/get-grid-area-options-for-period';
-export { getGridAreaOptionsSignal } from './lib/graphql/get-grid-area-options';
+/** Returns true if the operation is a subscription. */
+export function isSubscription(operation: Operation) {
+  const definition = getMainDefinition(operation.query);
+  return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+}

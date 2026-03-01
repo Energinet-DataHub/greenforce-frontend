@@ -26,8 +26,7 @@ import {
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { catchError, from, map, of, tap } from 'rxjs';
 import { mapGraphQLErrorsToApolloError } from './util/error';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhApollo } from './dh-apollo';
 import { fixObservable } from './query';
 
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`

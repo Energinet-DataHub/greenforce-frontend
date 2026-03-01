@@ -32,6 +32,7 @@ import { SeverityLevel } from '@microsoft/applicationinsights-web';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { DhTokenProvider } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhActorStorage } from './dh-actor-storage';
 
@@ -40,7 +41,7 @@ type CachedEntry = { token: string; value: Observable<string> } | undefined;
 @Injectable({
   providedIn: 'root',
 })
-export class DhActorTokenService {
+export class DhActorTokenService extends DhTokenProvider {
   private internalActors: CachedEntry;
   private internalToken: CachedEntry;
   private actorStorage = inject(DhActorStorage);
