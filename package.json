@@ -97,7 +97,7 @@
     "ngx-mat-select-search": "8.0.4",
     "papaparse": "5.5.3",
     "rxjs": "7.8.2",
-    "storybook": "10.1.10",
+    "storybook": "10.2.10",
     "tslib": "2.4.0",
     "zone.js": "0.15.0"
   },
