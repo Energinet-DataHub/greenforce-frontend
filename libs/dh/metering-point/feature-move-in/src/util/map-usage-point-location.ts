@@ -40,8 +40,7 @@ export function mapUsagePointLocation(
     attention: contact?.attention,
     phone: contact?.phone,
     mobile: contact?.mobile,
-    email: contact?.email,
-
+    email: contact?.email ? contact.email.split(', ').join(';') : null,
     streetDetail: {
       streetName: address?.streetName,
       buildingNumber: address?.buildingNumber,
