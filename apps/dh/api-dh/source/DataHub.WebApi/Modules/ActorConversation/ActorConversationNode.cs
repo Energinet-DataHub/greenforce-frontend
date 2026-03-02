@@ -59,9 +59,9 @@ public static partial class ActorConversationNode
             throw new InvalidOperationException("User is not authorized to access the requested conversation.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
-        return await authClient.ApiGetConversationAsync(conversationId, ct);
+        return await authClient.ApiGetConversationAsync(conversationId, userId.ToString(), actorNumber, ct);
     }
 
     public static bool WasLatestMessageAnonymous(
