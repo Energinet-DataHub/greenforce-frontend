@@ -23,66 +23,78 @@ import { VATER } from '@energinet/watt/vater';
 import { WATT_RADIO } from '@energinet/watt/radio';
 import { ActorType, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
+import { WattFieldComponent } from '@energinet/watt/field';
 
 @Component({
   selector: 'dh-actor-conversation-receiver-radio-group',
-  imports: [ReactiveFormsModule, TranslocoDirective, VATER, WATT_RADIO, WattDatepickerComponent],
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+    VATER,
+    WATT_RADIO,
+    WattDatepickerComponent,
+    WattSeparatorComponent,
+    WattFieldComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ng-container *transloco="let t; prefix: 'meteringPoint.actorConversation'">
-      @switch (marketRole()) {
-        @case (EicFunction.EnergySupplier) {
-          <watt-radio-group
-            [label]="t('receiverLabel')"
-            [formControl]="receiverControl()"
-            data-testid="actor-conversation-receiver-radio-group"
-          >
-            <vater-stack direction="column" align="start">
+      <watt-radio-group
+        [label]="t('receiverLabel')"
+        [formControl]="receiverControl()"
+        data-testid="actor-conversation-receiver-radio-group"
+      >
+        <vater-stack direction="column" align="start">
+          @switch (marketRole()) {
+            @case (EicFunction.EnergySupplier) {
               <watt-radio [value]="ActorType.EnergySupplier">
                 {{ t('receivers.ENERGY_SUPPLIER') }}
               </watt-radio>
+              @if (receiverControl().value === actorType.EnergySupplier) {
+                <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
+                  <watt-separator size="bold" orientation="vertical" />
+                  <watt-datepicker [label]="t('onDate')" />
+                </vater-stack>
+              }
               <watt-radio [value]="ActorType.GridAccessProvider">
                 {{ t('receivers.GRID_ACCESS_PROVIDER') }}
               </watt-radio>
               <watt-radio [value]="ActorType.Energinet">
                 {{ t('receivers.ENERGINET') }}
               </watt-radio>
-            </vater-stack>
-          </watt-radio-group>
-        }
-        @case (EicFunction.GridAccessProvider) {
-          <watt-radio-group
-            [label]="t('receiverLabel')"
-            [formControl]="receiverControl()"
-            data-testid="actor-conversation-receiver-radio-group"
-          >
-            <vater-stack direction="column" align="start">
+            }
+            @case (EicFunction.GridAccessProvider) {
               <watt-radio [value]="ActorType.EnergySupplier">
                 {{ t('receivers.ENERGY_SUPPLIER') }}
               </watt-radio>
+              @if (receiverControl().value === actorType.EnergySupplier) {
+                <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
+                  <watt-separator size="bold" orientation="vertical" />
+                  <watt-datepicker [label]="t('onDate')" />
+                </vater-stack>
+              }
               <watt-radio [value]="ActorType.Energinet">
                 {{ t('receivers.ENERGINET') }}
               </watt-radio>
-            </vater-stack>
-          </watt-radio-group>
-        }
-        @case (EicFunction.DataHubAdministrator) {
-          <watt-radio-group
-            [label]="t('receiverLabel')"
-            [formControl]="receiverControl()"
-            data-testid="actor-conversation-receiver-radio-group"
-          >
-            <vater-stack direction="column" align="start">
+            }
+            @case (EicFunction.DataHubAdministrator) {
               <watt-radio [value]="ActorType.EnergySupplier">
                 {{ t('receivers.ENERGY_SUPPLIER') }}
               </watt-radio>
+              @if (receiverControl().value === actorType.EnergySupplier) {
+                <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
+                  <watt-separator size="bold" orientation="vertical" />
+                  <watt-datepicker [label]="t('onDate')" />
+                </vater-stack>
+              }
               <watt-radio [value]="ActorType.GridAccessProvider">
                 {{ t('receivers.GRID_ACCESS_PROVIDER') }}
               </watt-radio>
-            </vater-stack>
-          </watt-radio-group>
-        }
-      }
+            }
+          }
+        </vater-stack>
+      </watt-radio-group>
     </ng-container>
   `,
 })
@@ -92,4 +104,5 @@ export class DhActorConversationReceiverRadioGroupComponent {
 
   marketRole = input.required<EicFunction | null | undefined>();
   receiverControl = input.required<FormControl<ActorType | null>>();
+  protected readonly actorType = ActorType;
 }

@@ -114,12 +114,6 @@ import { WattDatepickerComponent } from '@energinet/watt/datepicker';
                 [marketRole]="currentActorMarketRole"
                 [receiverControl]="newConversationForm.controls.receiver"
               />
-              @if (newConversationForm.controls.receiver.value === actorType.EnergySupplier) {
-                <watt-datepicker
-                  [formControl]="newConversationForm.controls.energySupplierDate"
-                  [label]="t('onDate')"
-                />
-              }
             </vater-flex>
             <watt-text-field
               [formControl]="newConversationForm.controls.internalNote"
