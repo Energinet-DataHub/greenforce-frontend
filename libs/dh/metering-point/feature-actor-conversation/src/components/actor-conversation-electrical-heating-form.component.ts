@@ -113,14 +113,8 @@ export interface ElectricalHeatingInfo {
       <vater-stack gap="s">
         <span class="watt-label">{{ t('periodTitle') }}</span>
         <vater-stack direction="row" gap="m">
-          <watt-datepicker
-            [label]="t('periodStart')"
-            [formControl]="form.controls.periodStart"
-          />
-          <watt-datepicker
-            [label]="t('periodEnd')"
-            [formControl]="form.controls.periodEnd"
-          />
+          <watt-datepicker [label]="t('periodStart')" [formControl]="form.controls.periodStart" />
+          <watt-datepicker [label]="t('periodEnd')" [formControl]="form.controls.periodEnd" />
         </vater-stack>
       </vater-stack>
 
@@ -194,10 +188,7 @@ export class DhActorConversationElectricalHeatingFormComponent implements Contro
   registerOnChange = (fn: (value: ElectricalHeatingFormValue | null) => void) =>
     this.formValueChanged.subscribe(fn);
 
-  registerOnTouched = (fn: () => void) =>
-    this.form.valueChanges.pipe(skip(1)).subscribe(fn);
+  registerOnTouched = (fn: () => void) => this.form.valueChanges.pipe(skip(1)).subscribe(fn);
 
-  setDisabledState = (disabled: boolean) =>
-    disabled ? this.form.disable() : this.form.enable();
+  setDisabledState = (disabled: boolean) => (disabled ? this.form.disable() : this.form.enable());
 }
-
