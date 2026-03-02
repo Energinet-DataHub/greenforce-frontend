@@ -214,7 +214,7 @@ export class DhUpdateCustomerDataComponent {
       new FormGroup({
         businessCustomerDetails: new FormGroup({
           companyName: dhMakeFormControl<string>(
-            this.legalCustomer()?.name ?? '',
+            this.legalCustomer()?.name ?? 'test',
             this.isBusinessCustomer() ? [Validators.required] : []
           ),
           cvr: dhMakeFormControl<string>(
