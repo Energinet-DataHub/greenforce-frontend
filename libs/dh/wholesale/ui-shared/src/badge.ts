@@ -39,6 +39,7 @@ export class DhProcessStateBadge {
       case ProcessState.Running:
         return 'info';
       case ProcessState.Failed:
+      case ProcessState.Rejected:
         return 'danger';
       case ProcessState.Succeeded:
         return 'success';
