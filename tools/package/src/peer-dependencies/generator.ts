@@ -79,11 +79,35 @@ const findNpmDependenciesUsingGrep = (projectRoot: string, tree: Tree): string[]
   return [...packages];
 };
 
+/** Packages that should never be peer dependencies (dev/test/build tools) */
+const DEV_ONLY_PACKAGES = [
+  'storybook',
+  '@storybook/',
+  'vitest',
+  '@vitest/',
+  'jest',
+  '@jest/',
+  'cypress',
+  '@cypress/',
+  '@testing-library/',
+  '@nx/',
+  'vite',
+  'typescript',
+  'tslib',
+  'eslint',
+  '@eslint/',
+  'prettier',
+];
+
+/** Check if a package should be excluded from peer dependencies */
+const isDevOnlyPackage = (packageName: string): boolean =>
+  DEV_ONLY_PACKAGES.some((dev) => packageName === dev || packageName.startsWith(dev));
+
 export async function peerDependenciesGenerator(
   tree: Tree,
   options: PeerDependenciesGeneratorSchema
 ) {
-  const { dependencies } = readJson(tree, 'package.json');
+  const { dependencies, devDependencies } = readJson(tree, 'package.json');
   const projectGraph = await createProjectGraphAsync();
   const projectDependencies = projectGraph.dependencies[options.project];
 
@@ -107,9 +131,9 @@ export async function peerDependenciesGenerator(
   }
 
   // Transform list of dependencies into an object of module name and version
-  // Only include packages that exist in the root package.json dependencies
+  // Only include packages that are in dependencies (not devDependencies or dev-only tools)
   const peerDependencies = [...new Set(npmDependencies)]
-    .filter((k) => dependencies[k])
+    .filter((k) => dependencies[k] && !devDependencies?.[k] && !isDevOnlyPackage(k))
     .sort()
     .reduce((p, k) => ({ ...p, [k]: `^${dependencies[k]}` }), {});
 
