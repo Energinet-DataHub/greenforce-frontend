@@ -1,0 +1,9 @@
+{
+  "current": "__APP_ENVIRONMENT__",
+  "applicationInsights": {
+    "connectionString": "__APP_INSIGHTS_CONNECTION_STRING__"
+  },
+  "microsoftClarity": {
+    "projectId": "__CLARITY_PROJECT_ID__"
+  }
+}
