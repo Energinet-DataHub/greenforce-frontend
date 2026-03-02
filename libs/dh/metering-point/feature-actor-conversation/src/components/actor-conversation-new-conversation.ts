@@ -23,7 +23,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import { WATT_RADIO } from '@energinet/watt/radio';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -40,10 +39,12 @@ import {
   StartConversationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
+import { DhActorConversationReceiverRadioGroupComponent } from './actor-conversation-receiver-radio-group';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -59,7 +60,8 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
     VaterUtilityDirective,
     DhActorConversationMessageFormComponent,
     WattSlideToggleComponent,
-    WATT_RADIO,
+    DhActorConversationReceiverRadioGroupComponent,
+    WattDatepickerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -107,59 +109,18 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
-            @switch (currentActorMarketRole) {
-              @case (eicFuntion.EnergySupplier) {
-                <watt-radio-group
-                  [label]="t('receiverLabel')"
-                  [formControl]="newConversationForm.controls.receiver"
-                  data-testid="actor-conversation-receiver-radio-group"
-                >
-                  <vater-stack direction="column" align="start">
-                    <watt-radio [value]="ActorType.EnergySupplier">
-                      {{ t('receivers.ENERGY_SUPPLIER') }}
-                    </watt-radio>
-                    <watt-radio [value]="ActorType.GridAccessProvider">
-                      {{ t('receivers.GRID_ACCESS_PROVIDER') }}
-                    </watt-radio>
-                    <watt-radio [value]="ActorType.Energinet">
-                      {{ t('receivers.ENERGINET') }}
-                    </watt-radio>
-                  </vater-stack>
-                </watt-radio-group>
+            <vater-flex fill="horizontal" direction="row" gap="m" align="start">
+              <dh-actor-conversation-receiver-radio-group
+                [marketRole]="currentActorMarketRole"
+                [receiverControl]="newConversationForm.controls.receiver"
+              />
+              @if (newConversationForm.controls.receiver.value === actorType.EnergySupplier) {
+                <watt-datepicker
+                  [formControl]="newConversationForm.controls.energySupplierDate"
+                  [label]="t('onDate')"
+                />
               }
-              @case (eicFuntion.GridAccessProvider) {
-                <watt-radio-group
-                  [label]="t('receiverLabel')"
-                  [formControl]="newConversationForm.controls.receiver"
-                  data-testid="actor-conversation-receiver-radio-group"
-                >
-                  <vater-stack direction="column" align="start">
-                    <watt-radio [value]="ActorType.EnergySupplier">
-                      {{ t('receivers.ENERGY_SUPPLIER') }}
-                    </watt-radio>
-                    <watt-radio [value]="ActorType.Energinet">
-                      {{ t('receivers.ENERGINET') }}
-                    </watt-radio>
-                  </vater-stack>
-                </watt-radio-group>
-              }
-              @case (eicFuntion.DataHubAdministrator) {
-                <watt-radio-group
-                  [label]="t('receiverLabel')"
-                  [formControl]="newConversationForm.controls.receiver"
-                  data-testid="actor-conversation-receiver-radio-group"
-                >
-                  <vater-stack direction="column" align="start">
-                    <watt-radio [value]="ActorType.EnergySupplier">
-                      {{ t('receivers.ENERGY_SUPPLIER') }}
-                    </watt-radio>
-                    <watt-radio [value]="ActorType.GridAccessProvider">
-                      {{ t('receivers.GRID_ACCESS_PROVIDER') }}
-                    </watt-radio>
-                  </vater-stack>
-                </watt-radio-group>
-              }
-            }
+            </vater-flex>
             <watt-text-field
               [formControl]="newConversationForm.controls.internalNote"
               [label]="t('internalNoteLabelWithDisclaimer')"
@@ -186,7 +147,7 @@ export class DhActorConversationNewConversationComponent {
     'meteringPoint.actorConversation.startConversationError'
   );
   public readonly currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
-  public readonly eicFuntion = EicFunction;
+  public readonly actorType = ActorType;
 
   private readonly fb = inject(NonNullableFormBuilder);
 
@@ -195,11 +156,10 @@ export class DhActorConversationNewConversationComponent {
 
   meteringPointId = input.required<string>();
 
-  protected readonly ActorType = ActorType;
-
   newConversationForm = this.fb.group({
     subject: this.fb.control<ConversationSubject | null>(null, Validators.required),
     receiver: this.fb.control<ActorType | null>(null, Validators.required),
+    energySupplierDate: this.fb.control<Date | null>(null),
     internalNote: this.fb.control<string | null>(null, Validators.maxLength(internalNoteMaxLength)),
     message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, [
       (control) => (control.value.content ? null : { required: true }),

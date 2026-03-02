@@ -802,6 +802,7 @@
         "newCase": "New case"
       },
       "receiverLabel": "To",
+      "onDate": "On date",
       "receivers": {
         "ENERGY_SUPPLIER": "Energy supplier",
         "ENERGINET": "Energinet",

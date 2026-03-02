@@ -802,6 +802,7 @@
         "newCase": "Ny sag"
       },
       "receiverLabel": "Til",
+      "onDate": "På dato",
       "receivers": {
         "ENERGY_SUPPLIER": "Elleverandør",
         "ENERGINET": "Energinet",
