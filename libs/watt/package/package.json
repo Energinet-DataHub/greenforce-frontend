@@ -29,6 +29,7 @@
     "libphonenumber-js": "^1.11.9",
     "ngx-mat-select-search": "^8.0.4",
     "rxjs": "^7.8.2",
+    "storybook": "^10.1.10",
     "zone.js": "^0.16.1"
   }
 }
