@@ -76,7 +76,7 @@ import { skip } from 'rxjs';
     >
       <watt-textarea-field
         [formControl]="form.controls.message"
-        [small]="small()"
+        [small]="true"
         data-testid="actor-conversation-message-textarea"
       />
       <vater-stack direction="row" gap="m">
@@ -102,7 +102,6 @@ import { skip } from 'rxjs';
 })
 export class DhActorConversationMessageFormComponent implements ControlValueAccessor {
   private readonly cdr = inject(ChangeDetectorRef);
-  small = input<boolean>(false);
   loading = input<boolean>(false);
 
   form = new FormGroup({

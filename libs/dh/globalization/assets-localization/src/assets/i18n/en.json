@@ -807,6 +807,7 @@
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Grid access provider"
       },
+      "reducedElectricityTaxToggle": "I want to apply for reduced electricity tax",
       "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
       "internalNoteLabel": "Internal note",
       "editInternalNote": {
@@ -829,6 +830,7 @@
       "closed": "Closed",
       "closeCaseButton": "Close case",
       "markAsUnreadButton": "Mark as unread",
+      "sentAnonymously": "(sent anonymously)",
       "startConversationError": "One or more fields are not filled correctly.\n\nThis may be due to an invalid combination of subject and recipient, or because anonymous submissions are not permitted for the selected recipient.",
       "conversationCloseError": "An error occurred trying to close the case",
       "anonymousCheckbox": "Send anonymously",
@@ -983,7 +985,7 @@
         "CustomerMoveIn": "Move-in (BRS-009)",
         "CloseDownMeteringPoint": "Close down metering point (BRS-007)",
         "ChangeConnectionState": "Disconnection and reconnection of metering point (BRS-013)",
-        "UpdateMasterDataMeteringPoint": "Update of metering point master data (BRS-006)"
+        "UpdateMeteringPointMasterData ": "Update of metering point master data (BRS-006)"
       },
       "reasonCode": {
         "EndOfSupply": "End of supply (E20)",
@@ -995,7 +997,7 @@
         "Move": "Move (E01)",
         "CloseDownMeteringPoint": "Close down metering point (D14)",
         "ChangeConnectionState": "Change Connection Status (E79)",
-        "UpdateMasterDataMeteringPoint": "Update master data metering point (E32)"
+        "UpdateMeteringPointMasterData ": "Update master data metering point (E32)"
       },
       "filters": {
         "created": "Time",

@@ -55,9 +55,14 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
           <span>{{ t('receivers.' + message().senderType) }}</span>
           <span>{{ message().createdTime | wattDate: 'short' }}</span>
         </vater-stack>
-        @if (message().actorName && message().userName) {
-          <span>{{ message().actorName + ', ' + message().userName }}</span>
-        }
+        <vater-stack direction="row" gap="s">
+          @if (message().actorName && message().userName) {
+            <span>{{ message().actorName + ', ' + message().userName }}</span>
+          }
+          @if (message().actorName && message().userName && message().anonymous) {
+            <span>{{ t('sentAnonymously') }}</span>
+          }
+        </vater-stack>
       </vater-stack>
       <watt-separator />
       @if (message().messageType === 'USER_MESSAGE') {
