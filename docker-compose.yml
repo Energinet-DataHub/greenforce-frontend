@@ -12,7 +12,7 @@ services:
       args:
         BUILD_ENV: development
     ports:
-      - '5000:8080'
+      - "5001:8080"
     volumes:
       - azure-auth:/home/app/.azure
     entrypoint: >
@@ -80,7 +80,7 @@ services:
       context: .
       dockerfile: apps/dh/app-dh/Dockerfile
     ports:
-      - '4200:8443'
+      - "4200:8443"
     volumes:
       - ./localhost.crt:/etc/nginx/ssl/localhost.crt:ro
       - ./localhost.key:/etc/nginx/ssl/localhost.key:ro
@@ -91,7 +91,7 @@ services:
       - NGINX_SSL_PROTOCOLS=ssl_protocols TLSv1.2 TLSv1.3;
       - NGINX_SSL_CIPHERS=ssl_ciphers HIGH:!aNULL:!MD5;
 
-      - API_BASE=http://localhost:5000
+      - API_BASE=http://localhost:5001
       - GET_USER_ACTORS_URL=/v1/MarketParticipantUser/GetUserActors
       - GET_TOKEN_URL=/v1/Token
 
