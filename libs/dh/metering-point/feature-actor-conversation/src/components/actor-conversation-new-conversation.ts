@@ -35,6 +35,7 @@ import { internalNoteMaxLength, MessageFormValue, messageMaxLength } from '../ty
 import {
   ActorType,
   ConversationSubject,
+  EicFunction,
   GetConversationsDocument,
   StartConversationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -42,6 +43,7 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -105,23 +107,59 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
-            <watt-radio-group
-              [label]="t('receiverLabel')"
-              [formControl]="newConversationForm.controls.receiver"
-              data-testid="actor-conversation-receiver-radio-group"
-            >
-              <vater-stack direction="column" align="start">
-                <watt-radio [value]="ActorType.EnergySupplier">
-                  {{ t('receivers.ENERGY_SUPPLIER') }}
-                </watt-radio>
-                <watt-radio [value]="ActorType.GridAccessProvider">
-                  {{ t('receivers.GRID_ACCESS_PROVIDER') }}
-                </watt-radio>
-                <watt-radio [value]="ActorType.Energinet">
-                  {{ t('receivers.ENERGINET') }}
-                </watt-radio>
-              </vater-stack>
-            </watt-radio-group>
+            @switch (currentActorMarketRole) {
+              @case (eicFuntion.EnergySupplier) {
+                <watt-radio-group
+                  [label]="t('receiverLabel')"
+                  [formControl]="newConversationForm.controls.receiver"
+                  data-testid="actor-conversation-receiver-radio-group"
+                >
+                  <vater-stack direction="column" align="start">
+                    <watt-radio [value]="ActorType.EnergySupplier">
+                      {{ t('receivers.ENERGY_SUPPLIER') }}
+                    </watt-radio>
+                    <watt-radio [value]="ActorType.GridAccessProvider">
+                      {{ t('receivers.GRID_ACCESS_PROVIDER') }}
+                    </watt-radio>
+                    <watt-radio [value]="ActorType.Energinet">
+                      {{ t('receivers.ENERGINET') }}
+                    </watt-radio>
+                  </vater-stack>
+                </watt-radio-group>
+              }
+              @case (eicFuntion.GridAccessProvider) {
+                <watt-radio-group
+                  [label]="t('receiverLabel')"
+                  [formControl]="newConversationForm.controls.receiver"
+                  data-testid="actor-conversation-receiver-radio-group"
+                >
+                  <vater-stack direction="column" align="start">
+                    <watt-radio [value]="ActorType.EnergySupplier">
+                      {{ t('receivers.ENERGY_SUPPLIER') }}
+                    </watt-radio>
+                    <watt-radio [value]="ActorType.Energinet">
+                      {{ t('receivers.ENERGINET') }}
+                    </watt-radio>
+                  </vater-stack>
+                </watt-radio-group>
+              }
+              @case (eicFuntion.DataHubAdministrator) {
+                <watt-radio-group
+                  [label]="t('receiverLabel')"
+                  [formControl]="newConversationForm.controls.receiver"
+                  data-testid="actor-conversation-receiver-radio-group"
+                >
+                  <vater-stack direction="column" align="start">
+                    <watt-radio [value]="ActorType.EnergySupplier">
+                      {{ t('receivers.ENERGY_SUPPLIER') }}
+                    </watt-radio>
+                    <watt-radio [value]="ActorType.GridAccessProvider">
+                      {{ t('receivers.GRID_ACCESS_PROVIDER') }}
+                    </watt-radio>
+                  </vater-stack>
+                </watt-radio-group>
+              }
+            }
             <watt-text-field
               [formControl]="newConversationForm.controls.internalNote"
               [label]="t('internalNoteLabelWithDisclaimer')"
@@ -147,6 +185,9 @@ export class DhActorConversationNewConversationComponent {
   private readonly startConversationErrorToast = injectToast(
     'meteringPoint.actorConversation.startConversationError'
   );
+  public readonly currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
+  public readonly eicFuntion = EicFunction;
+
   private readonly fb = inject(NonNullableFormBuilder);
 
   startConversationMutation = mutation(StartConversationDocument);
@@ -170,7 +211,9 @@ export class DhActorConversationNewConversationComponent {
   private readonly subjectValue = toSignal(this.newConversationForm.controls.subject.valueChanges, {
     initialValue: this.newConversationForm.controls.subject.value,
   });
-  isElectricalHeating = computed(() => this.subjectValue() === ConversationSubject.ElectricalHeating);
+  isElectricalHeating = computed(
+    () => this.subjectValue() === ConversationSubject.ElectricalHeating
+  );
 
   async startConversation() {
     if (this.newConversationForm.invalid) {
