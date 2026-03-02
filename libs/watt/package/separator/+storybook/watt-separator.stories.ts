@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Meta, StoryFn } from '@storybook/angular';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 
+import { VaterStackComponent } from '../../vater/vater-stack.component';
 import { WattSeparatorComponent } from '../watt-separator.component';
 
 const meta: Meta<WattSeparatorComponent> = {
@@ -27,18 +28,40 @@ const meta: Meta<WattSeparatorComponent> = {
 
 export default meta;
 
-export const Small: StoryFn<WattSeparatorComponent> = () => ({
+export const Regular: StoryFn<WattSeparatorComponent> = () => ({
   template: `
     <p>Content above</p>
-    <watt-separator size="s" />
+    <watt-separator size="regular" />
     <p>Content below</p>
   `,
 });
 
-export const Medium: StoryFn<WattSeparatorComponent> = () => ({
+export const Bold: StoryFn<WattSeparatorComponent> = () => ({
   template: `
     <p>Content above</p>
-    <watt-separator size="m" />
+    <watt-separator size="bold" />
     <p>Content below</p>
   `,
 });
+
+export const VerticalRegular: StoryFn<WattSeparatorComponent> = () => ({
+  template: `
+    <vater-stack gap="m" direction="row" style="height: 200px">
+      <span>Left content</span>
+      <watt-separator orientation="vertical" size="regular" />
+      <span>Right content</span>
+    </vater-stack>
+  `,
+});
+VerticalRegular.decorators = [moduleMetadata({ imports: [VaterStackComponent] })];
+
+export const VerticalBold: StoryFn<WattSeparatorComponent> = () => ({
+  template: `
+    <vater-stack gap="m" direction="row" style="height: 200px">
+      <span>Left content</span>
+      <watt-separator orientation="vertical" size="bold" />
+      <span>Right content</span>
+    </vater-stack>
+  `,
+});
+VerticalBold.decorators = [moduleMetadata({ imports: [VaterStackComponent] })];
