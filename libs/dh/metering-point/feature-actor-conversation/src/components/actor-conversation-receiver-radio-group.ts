@@ -24,7 +24,6 @@ import { WATT_RADIO } from '@energinet/watt/radio';
 import { ActorType, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
-import { WattFieldComponent } from '@energinet/watt/field';
 
 @Component({
   selector: 'dh-actor-conversation-receiver-radio-group',
@@ -35,7 +34,6 @@ import { WattFieldComponent } from '@energinet/watt/field';
     WATT_RADIO,
     WattDatepickerComponent,
     WattSeparatorComponent,
-    WattFieldComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -45,16 +43,16 @@ import { WattFieldComponent } from '@energinet/watt/field';
         [formControl]="receiverControl()"
         data-testid="actor-conversation-receiver-radio-group"
       >
-        <vater-stack direction="column" align="start">
+        <vater-stack align="start">
           @switch (marketRole()) {
-            @case (EicFunction.EnergySupplier) {
+              @case (EicFunction.EnergySupplier) {
               <watt-radio [value]="ActorType.EnergySupplier">
                 {{ t('receivers.ENERGY_SUPPLIER') }}
               </watt-radio>
               @if (receiverControl().value === actorType.EnergySupplier) {
                 <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
                   <watt-separator size="bold" orientation="vertical" />
-                  <watt-datepicker [label]="t('onDate')" />
+                  <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
                 </vater-stack>
               }
               <watt-radio [value]="ActorType.GridAccessProvider">
@@ -71,7 +69,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
               @if (receiverControl().value === actorType.EnergySupplier) {
                 <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
                   <watt-separator size="bold" orientation="vertical" />
-                  <watt-datepicker [label]="t('onDate')" />
+                  <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
                 </vater-stack>
               }
               <watt-radio [value]="ActorType.Energinet">
@@ -85,7 +83,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
               @if (receiverControl().value === actorType.EnergySupplier) {
                 <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
                   <watt-separator size="bold" orientation="vertical" />
-                  <watt-datepicker [label]="t('onDate')" />
+                  <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
                 </vater-stack>
               }
               <watt-radio [value]="ActorType.GridAccessProvider">
@@ -104,5 +102,6 @@ export class DhActorConversationReceiverRadioGroupComponent {
 
   marketRole = input.required<EicFunction | null | undefined>();
   receiverControl = input.required<FormControl<ActorType | null>>();
+  dateControl = input.required<FormControl<Date | null>>();
   protected readonly actorType = ActorType;
 }

@@ -34,7 +34,6 @@ import { internalNoteMaxLength, MessageFormValue, messageMaxLength } from '../ty
 import {
   ActorType,
   ConversationSubject,
-  EicFunction,
   GetConversationsDocument,
   StartConversationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -44,7 +43,6 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -61,7 +59,6 @@ import { WattDatepickerComponent } from '@energinet/watt/datepicker';
     DhActorConversationMessageFormComponent,
     WattSlideToggleComponent,
     DhActorConversationReceiverRadioGroupComponent,
-    WattDatepickerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -113,6 +110,7 @@ import { WattDatepickerComponent } from '@energinet/watt/datepicker';
               <dh-actor-conversation-receiver-radio-group
                 [marketRole]="currentActorMarketRole"
                 [receiverControl]="newConversationForm.controls.receiver"
+                [dateControl]="newConversationForm.controls.energySupplierDate"
               />
             </vater-flex>
             <watt-text-field
