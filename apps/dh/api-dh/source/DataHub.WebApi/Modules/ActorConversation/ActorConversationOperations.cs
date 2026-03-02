@@ -57,9 +57,11 @@ public static partial class ActorConversationOperations
             throw new InvalidOperationException("User is not authorized to access the requested metering point.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
         var response = await authClient.ApiStartConversationAsync(
+            userId.ToString(),
+            actorNumber,
             new StartConversationRequest
             {
                 Subject = startConversationInput.Subject,
@@ -102,9 +104,11 @@ public static partial class ActorConversationOperations
             throw new InvalidOperationException("User is not authorized to access the requested conversation.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
         await authClient.ApiAddConversationMessageAsync(
+            userId.ToString(),
+            actorNumber,
             new AddConversationMessageRequest
             {
                 ConversationId = sendActorConversationMessageInput.ConversationId,
@@ -145,9 +149,11 @@ public static partial class ActorConversationOperations
             throw new InvalidOperationException("User is not authorized to update internal conversation note.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
         await authClient.ApiUpdateInternalNoteAsync(
+            userId.ToString(),
+            actorNumber,
             new UpdateInternalNoteRequest
             {
                 ConversationId = updateInternalConversationNoteInput.ConversationId,
@@ -187,9 +193,11 @@ public static partial class ActorConversationOperations
             throw new InvalidOperationException("User is not authorized to mark conversation read.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
         await authClient.ApiMarkConversationReadAsync(
+            userId.ToString(),
+            actorNumber,
             new MarkConversationReadRequest
             {
                 ConversationId = conversationId,
@@ -228,9 +236,11 @@ public static partial class ActorConversationOperations
             throw new InvalidOperationException("User is not authorized to mark conversation unread.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
         await authClient.ApiMarkConversationUnreadAsync(
+            userId.ToString(),
+            actorNumber,
             new MarkConversationUnreadRequest
             {
                 ConversationId = conversationId,
@@ -269,11 +279,13 @@ public static partial class ActorConversationOperations
             throw new InvalidOperationException("User is not authorized to access the requested conversation.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
         try
         {
             await authClient.ApiCloseConversationAsync(
+                userId.ToString(),
+                actorNumber,
                 new CloseConversationRequest
                 {
                     ConversationId = conversationId,
