@@ -30,6 +30,8 @@ public enum ProcessState
     Canceled,
     [GraphQLName("succeeded")]
     Succeeded,
+    [GraphQLName("rejected")]
+    Rejected,
 }
 
 public static class ProcessStateExtensions
@@ -60,6 +62,7 @@ public static class ProcessStateExtensions
             ProcessState.Pending => [OrchestrationInstanceLifecycleState.Pending, OrchestrationInstanceLifecycleState.Queued],
             ProcessState.Running => [OrchestrationInstanceLifecycleState.Running],
             ProcessState.Failed => [OrchestrationInstanceLifecycleState.Terminated],
+            ProcessState.Rejected => [OrchestrationInstanceLifecycleState.Terminated],
             ProcessState.Canceled => [OrchestrationInstanceLifecycleState.Terminated],
             ProcessState.Succeeded => [OrchestrationInstanceLifecycleState.Terminated],
         };
@@ -70,6 +73,7 @@ public static class ProcessStateExtensions
             ProcessState.Scheduled => null,
             ProcessState.Pending => null,
             ProcessState.Running => null,
+            ProcessState.Rejected => null,
             ProcessState.Failed => OrchestrationInstanceTerminationState.Failed,
             ProcessState.Canceled => OrchestrationInstanceTerminationState.UserCanceled,
             ProcessState.Succeeded => OrchestrationInstanceTerminationState.Succeeded,

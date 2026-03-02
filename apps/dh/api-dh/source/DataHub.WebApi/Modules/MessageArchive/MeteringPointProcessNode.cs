@@ -183,6 +183,7 @@ public static partial class MeteringPointProcessNode
             WorkflowInstanceTerminationState.Succeeded => ProcessState.Succeeded,
             WorkflowInstanceTerminationState.Failed => ProcessState.Failed,
             WorkflowInstanceTerminationState.Canceled => ProcessState.Canceled,
+            WorkflowInstanceTerminationState.Rejected => ProcessState.Rejected,
             _ => ProcessState.Failed,
         };
 
