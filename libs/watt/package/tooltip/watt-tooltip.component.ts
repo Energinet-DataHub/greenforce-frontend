@@ -42,7 +42,8 @@ import { wattTooltipPosition, wattTooltipVariant } from './watt-tooltip.directiv
     '[class]': 'hostClass()',
     '[class.show]': 'visible()',
   },
-  template: `{{ text() }}<div #arrowEl class="arrow"></div>`,
+  template: `{{ text() }}
+    <div #arrowEl class="arrow"></div>`,
 })
 export class WattTooltipComponent {
   text = input.required<string>();

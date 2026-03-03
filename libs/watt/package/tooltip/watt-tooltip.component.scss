@@ -62,7 +62,15 @@ $arrow-size: 8px;
 }
 
 // Place the arrow on the correct side based on placement set by Popper
-:host([data-popper-placement^="top"])    .arrow { bottom: calc(#{$arrow-size} / -2); }
-:host([data-popper-placement^="bottom"]) .arrow { top:    calc(#{$arrow-size} / -2); }
-:host([data-popper-placement^="left"])   .arrow { right:  calc(#{$arrow-size} / -2); }
-:host([data-popper-placement^="right"])  .arrow { left:   calc(#{$arrow-size} / -2); }
+:host([data-popper-placement^="top"]) .arrow {
+  bottom: calc(#{$arrow-size} / -2);
+}
+:host([data-popper-placement^="bottom"]) .arrow {
+  top: calc(#{$arrow-size} / -2);
+}
+:host([data-popper-placement^="left"]) .arrow {
+  right: calc(#{$arrow-size} / -2);
+}
+:host([data-popper-placement^="right"]) .arrow {
+  left: calc(#{$arrow-size} / -2);
+}
