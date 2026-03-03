@@ -1086,6 +1086,7 @@ type MeteringPointProcessStep {
   dueDate: DateTime
   state: ProcessState!
   messageId: String
+  description: String!
 }
 
 type MeteringPointsGroupByPackageNumber {

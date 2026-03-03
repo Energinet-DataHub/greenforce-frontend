@@ -23,17 +23,16 @@ COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile --yarn
 
 COPY nx.json tsconfig.base.json .graphqlrc.yml codegen.ts .eslintrc.json ./
-COPY apps/dh/app-dh ./apps/dh/app-dh
+COPY apps/dh ./apps/dh
 
 COPY libs ./libs
 COPY --from=dotnet-build /app/libs/dh/shared/data-access-graphql/schema.graphql ./libs/dh/shared/data-access-graphql/schema.graphql
-COPY --from=dotnet-build /app/apps/dh/api-dh/source/DataHub.WebApi/project.json ./apps/dh/api-dh/source/DataHub.WebApi/project.json
 
 ARG NX_BRANCH
 ARG NX_CI_EXECUTION_ID
 RUN --mount=type=secret,id=NX_CLOUD_ACCESS_TOKEN export NX_CLOUD_ACCESS_TOKEN=$(cat /run/secrets/NX_CLOUD_ACCESS_TOKEN) && \
   export NX_DAEMON=false && \
-  bun run nx build app-dh --configuration=production
+  bun nx build app-dh --configuration=production
 
 RUN bun run i18n:optimize:app-dh
 

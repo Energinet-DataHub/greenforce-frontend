@@ -25,4 +25,5 @@ public record MeteringPointProcessStep(
     string ActorNumber,
     string ActorRole,
     ProcessState State,
-    string? MessageId);
+    string? MessageId,
+    string Description);
