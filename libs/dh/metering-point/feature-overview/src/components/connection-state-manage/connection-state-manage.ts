@@ -177,7 +177,7 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
     );
 
     switch (newConnectionState) {
-      case 'CONNECTED':
+      case 'CONNECTED': {
         const maxDaysBackInTime = 7;
 
         if (daysSinceCreated < maxDaysBackInTime) {
@@ -185,7 +185,8 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
         }
 
         return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
-      case 'CLOSED_DOWN':
+      }
+      case 'CLOSED_DOWN': {
         if (
           this.modalData.meteringPointType === ElectricityMarketMeteringPointType.ElectricalHeating
         ) {
@@ -199,6 +200,7 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
         }
 
         return this.yesterday;
+      }
       default:
         return this.today;
     }
