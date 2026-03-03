@@ -62,7 +62,7 @@ public class ChargesClient(
             .Select(MapChargeInformationDtoToCharge)
             .Where(c => owners?.Contains(c.Id.Owner) ?? true)
             .Where(c => types?.Contains(c.Type) ?? true)
-            .Where(c => status?.Contains(c.Status) ?? true)
+            .Where(c => status?.Any(s => s == c.Status || s == c.ActivePeriod?.Status) ?? true)
             .Where(c => resolution?.Contains(c.Resolution) ?? true)
             .Where(c => vatInclusive.GetValueOrDefault(c.VatInclusive) == c.VatInclusive)
             .Where(c => transparentInvoicing.GetValueOrDefault(c.TransparentInvoicing) == c.TransparentInvoicing)
