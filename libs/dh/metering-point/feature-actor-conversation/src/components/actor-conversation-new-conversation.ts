@@ -34,10 +34,10 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  dhFormControlToSignal,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { internalNoteMaxLength, MessageFormValue, messageMaxLength } from '../types';
 import {
   ActorType,
@@ -167,13 +167,10 @@ export class DhActorConversationNewConversationComponent {
   });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
 
-  private readonly subjectValue = toSignal(this.newConversationForm.controls.subject.valueChanges, {
-    initialValue: this.newConversationForm.controls.subject.value,
-  });
+  private readonly subjectValue = dhFormControlToSignal(this.newConversationForm.controls.subject);
 
-  private readonly receiverValue = toSignal(
-    this.newConversationForm.controls.receiver.valueChanges,
-    { initialValue: this.newConversationForm.controls.receiver.value }
+  private readonly receiverValue = dhFormControlToSignal(
+    this.newConversationForm.controls.receiver
   );
 
   constructor() {
