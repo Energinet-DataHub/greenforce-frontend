@@ -1,11 +1,5 @@
 {
   "name": "dh-admin-data-access-graphql",
-  "tags": [
-    "product:dh",
-    "domain:admin",
-    "type:data-access"
-  ],
-  "implicitDependencies": [
-    "api-dh"
-  ]
+  "tags": ["product:dh", "domain:admin", "type:data-access"],
+  "implicitDependencies": ["api-dh"]
 }

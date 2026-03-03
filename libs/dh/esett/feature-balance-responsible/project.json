@@ -1,8 +1,4 @@
 {
   "name": "dh-esett-feature-balance-responsible",
-  "tags": [
-    "product:dh",
-    "domain:esett",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:esett", "type:feature"]
 }

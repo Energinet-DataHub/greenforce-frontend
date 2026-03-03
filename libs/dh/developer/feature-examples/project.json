@@ -1,8 +1,4 @@
 {
   "name": "dh-developer-feature-examples",
-  "tags": [
-    "product:dh",
-    "domain:developer",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:developer", "type:feature"]
 }

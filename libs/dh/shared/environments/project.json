@@ -1,8 +1,4 @@
 {
   "name": "dh-shared-environments",
-  "tags": [
-    "product:dh",
-    "domain:shared",
-    "type:environments"
-  ]
+  "tags": ["product:dh", "domain:shared", "type:environments"]
 }

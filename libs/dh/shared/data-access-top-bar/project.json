@@ -1,8 +1,4 @@
 {
   "name": "dh-shared-data-access-top-bar",
-  "tags": [
-    "product:dh",
-    "domain:shared",
-    "type:data-access"
-  ]
+  "tags": ["product:dh", "domain:shared", "type:data-access"]
 }

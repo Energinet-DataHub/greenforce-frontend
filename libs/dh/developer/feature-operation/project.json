@@ -1,16 +1,10 @@
 {
   "name": "dh-developer-feature-operation",
-  "tags": [
-    "product:dh",
-    "domain:developer",
-    "type:feature"
-  ],
+  "tags": ["product:dh", "domain:developer", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "config": "libs/dh/developer/feature-operation/vite.config.mts"
       }

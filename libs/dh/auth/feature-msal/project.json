@@ -1,8 +1,4 @@
 {
   "name": "dh-auth-feature-msal",
-  "tags": [
-    "product:dh",
-    "domain:auth",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:auth", "type:feature"]
 }

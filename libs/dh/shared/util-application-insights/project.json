@@ -1,8 +1,4 @@
 {
   "name": "dh-shared-util-application-insights",
-  "tags": [
-    "product:dh",
-    "scope:shared",
-    "type:util"
-  ]
+  "tags": ["product:dh", "scope:shared", "type:util"]
 }

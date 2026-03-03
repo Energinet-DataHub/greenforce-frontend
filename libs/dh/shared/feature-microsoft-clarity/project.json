@@ -1,8 +1,4 @@
 {
   "name": "dh-shared-feature-microsoft-clarity",
-  "tags": [
-    "product:dh",
-    "domain:shared",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:shared", "type:feature"]
 }

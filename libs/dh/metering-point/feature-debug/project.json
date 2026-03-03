@@ -1,8 +1,4 @@
 {
   "name": "dh-metering-point-feature-debug",
-  "tags": [
-    "product:dh",
-    "domain:metering-point",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:metering-point", "type:feature"]
 }

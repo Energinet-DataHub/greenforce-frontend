@@ -1,8 +1,4 @@
 {
   "name": "dh-profile-feature-avatar",
-  "tags": [
-    "product:dh",
-    "domain:profile",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:profile", "type:feature"]
 }

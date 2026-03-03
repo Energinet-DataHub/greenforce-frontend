@@ -1,8 +1,4 @@
 {
   "name": "dh-esett-feature-metering-gridarea-imbalance",
-  "tags": [
-    "product:dh",
-    "domain:esett",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:esett", "type:feature"]
 }

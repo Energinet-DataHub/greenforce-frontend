@@ -44,7 +44,8 @@ export default defineConfig(() => ({
     setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/dh/market-participant/feature-market-participant',
+      reportsDirectory:
+        '../../../../coverage/libs/dh/market-participant/feature-market-participant',
       provider: 'v8' as const,
     },
     pool: 'forks',
