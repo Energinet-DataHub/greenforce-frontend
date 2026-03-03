@@ -44,50 +44,32 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
         data-testid="actor-conversation-receiver-radio-group"
       >
         <vater-stack align="start">
+          <watt-radio [value]="actorType.EnergySupplier">
+            {{ t('receivers.ENERGY_SUPPLIER') }}
+          </watt-radio>
+          @if (receiverControl().value === 'ENERGY_SUPPLIER') {
+            <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
+              <watt-separator weight="bold" orientation="vertical" />
+              <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
+            </vater-stack>
+          }
           @switch (marketRole()) {
             @case ('EnergySupplier') {
-              <watt-radio [value]="'EnergySupplier'">
-                {{ t('receivers.ENERGY_SUPPLIER') }}
-              </watt-radio>
-              @if (receiverControl().value === 'ENERGY_SUPPLIER') {
-                <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
-                  <watt-separator weight="bold" orientation="vertical" />
-                  <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
-                </vater-stack>
-              }
-              <watt-radio [value]="'GridAccessProvider'">
+              <watt-radio [value]="actorType.GridAccessProvider">
                 {{ t('receivers.GRID_ACCESS_PROVIDER') }}
               </watt-radio>
-              <watt-radio [value]="'Energinet'">
-                {{ t('receivers.ENERGINET') }}
-              </watt-radio>
-            }
-            @case ('GridAccessProvider') {
-              <watt-radio [value]="'EnergySupplier'">
-                {{ t('receivers.ENERGY_SUPPLIER') }}
-              </watt-radio>
-              @if (receiverControl().value === 'ENERGY_SUPPLIER') {
-                <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
-                  <watt-separator weight="bold" orientation="vertical" />
-                  <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
-                </vater-stack>
-              }
-              <watt-radio [value]="'Energinet'">
+              <watt-radio [value]="actorType.Energinet">
                 {{ t('receivers.ENERGINET') }}
               </watt-radio>
             }
             @case ('DataHubAdministrator') {
-              <watt-radio [value]="'EnergySupplier'">
-                {{ t('receivers.ENERGY_SUPPLIER') }}
-              </watt-radio>
-              @if (receiverControl().value === 'ENERGY_SUPPLIER') {
-                <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
-                  <watt-separator weight="bold" orientation="vertical" />
-                  <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
-                </vater-stack>
-              }
-              <watt-radio [value]="'GridAccessProvider'">
+              <watt-radio [value]="actorType.GridAccessProvider">
                 {{ t('receivers.GRID_ACCESS_PROVIDER') }}
+              </watt-radio>
+            }
+            @case ('GridAccessProvider') {
+              <watt-radio [value]="actorType.Energinet">
+                {{ t('receivers.ENERGINET') }}
               </watt-radio>
             }
           }
@@ -100,4 +82,5 @@ export class DhActorConversationReceiverRadioGroupComponent {
   marketRole = input.required<EicFunction | null | undefined>();
   receiverControl = input.required<FormControl<ActorType | null>>();
   dateControl = input.required<FormControl<Date | null>>();
+  actorType = ActorType;
 }
