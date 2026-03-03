@@ -31,7 +31,7 @@ export default meta;
 export const Regular: StoryFn<WattSeparatorComponent> = () => ({
   template: `
     <p>Content above</p>
-    <watt-separator size="regular" />
+    <watt-separator weight="regular" />
     <p>Content below</p>
   `,
 });
@@ -39,7 +39,7 @@ export const Regular: StoryFn<WattSeparatorComponent> = () => ({
 export const Bold: StoryFn<WattSeparatorComponent> = () => ({
   template: `
     <p>Content above</p>
-    <watt-separator size="bold" />
+    <watt-separator weight="bold" />
     <p>Content below</p>
   `,
 });
@@ -48,7 +48,7 @@ export const VerticalRegular: StoryFn<WattSeparatorComponent> = () => ({
   template: `
     <vater-stack gap="m" direction="row" style="height: 200px">
       <span>Left content</span>
-      <watt-separator orientation="vertical" size="regular" />
+      <watt-separator orientation="vertical" weight="regular" />
       <span>Right content</span>
     </vater-stack>
   `,
@@ -59,7 +59,7 @@ export const VerticalBold: StoryFn<WattSeparatorComponent> = () => ({
   template: `
     <vater-stack gap="m" direction="row" style="height: 200px">
       <span>Left content</span>
-      <watt-separator orientation="vertical" size="bold" />
+      <watt-separator orientation="vertical" weight="bold" />
       <span>Right content</span>
     </vater-stack>
   `,

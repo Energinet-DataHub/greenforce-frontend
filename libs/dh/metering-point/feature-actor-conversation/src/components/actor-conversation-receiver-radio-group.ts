@@ -51,7 +51,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
               </watt-radio>
               @if (receiverControl().value === actorType.EnergySupplier) {
                 <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
-                  <watt-separator size="bold" orientation="vertical" />
+                  <watt-separator weight="bold" orientation="vertical" />
                   <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
                 </vater-stack>
               }
@@ -68,7 +68,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
               </watt-radio>
               @if (receiverControl().value === actorType.EnergySupplier) {
                 <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
-                  <watt-separator size="bold" orientation="vertical" />
+                  <watt-separator weight="bold" orientation="vertical" />
                   <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
                 </vater-stack>
               }
@@ -82,7 +82,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
               </watt-radio>
               @if (receiverControl().value === actorType.EnergySupplier) {
                 <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
-                  <watt-separator size="bold" orientation="vertical" />
+                  <watt-separator weight="bold" orientation="vertical" />
                   <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
                 </vater-stack>
               }

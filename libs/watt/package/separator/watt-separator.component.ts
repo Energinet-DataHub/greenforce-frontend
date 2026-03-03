@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
 
-export type WattSeparatorSize = 'regular' | 'bold';
+export type WattSeparatorWeight = 'regular' | 'bold';
 export type WattSeparatorOrientation = 'horizontal' | 'vertical';
 
 /**
@@ -32,7 +32,7 @@ export type WattSeparatorOrientation = 'horizontal' | 'vertical';
   host: {
     '[attr.aria-orientation]': 'orientation()',
     '[attr.role]': '"separator"',
-    '[class]': '"watt-separator--" + orientation() + " watt-separator--" + size()',
+    '[class]': '"watt-separator--" + orientation() + " watt-separator--" + weight()',
   },
   template: '',
   styles: `
@@ -64,6 +64,6 @@ export type WattSeparatorOrientation = 'horizontal' | 'vertical';
   `,
 })
 export class WattSeparatorComponent {
-  size = input<WattSeparatorSize>('regular');
+  weight = input<WattSeparatorWeight>('regular');
   orientation = input<WattSeparatorOrientation>('horizontal');
 }
