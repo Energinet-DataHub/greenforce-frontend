@@ -151,8 +151,9 @@ export class DhActorConversationNewConversationComponent {
 
   startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
-
   meteringPointId = input.required<string>();
+
+  subjects = dhEnumToWattDropdownOptions(ConversationSubject);
 
   newConversationForm = computed(
     () =>
@@ -164,17 +165,12 @@ export class DhActorConversationNewConversationComponent {
           null,
           Validators.maxLength(internalNoteMaxLength)
         ),
-        message: dhMakeFormControl<MessageFormValue>(
-          { content: '', anonymous: false },
-          [
-            (control) => (control.value.content ? null : { required: true }),
-            Validators.maxLength(messageMaxLength),
-          ]
-        ),
+        message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false }, [
+          (control) => (control.value.content ? null : { required: true }),
+          Validators.maxLength(messageMaxLength),
+        ]),
       })
   );
-
-  subjects = dhEnumToWattDropdownOptions(ConversationSubject);
 
   private readonly subjectValue = dhFormControlToSignal(
     () => this.newConversationForm().controls.subject
@@ -184,34 +180,27 @@ export class DhActorConversationNewConversationComponent {
     () => this.newConversationForm().controls.receiver
   );
 
-  constructor() {
-    effect(() => {
-      const energySupplierDateControl = this.newConversationForm().controls.energySupplierDate;
-      if (this.receiverValue() === ActorType.EnergySupplier) {
-        energySupplierDateControl.addValidators(Validators.required);
-      } else {
-        energySupplierDateControl.removeValidators(Validators.required);
-        energySupplierDateControl.reset();
-      }
-      energySupplierDateControl.updateValueAndValidity();
-    });
-  }
-
   isElectricalHeating = computed(
     () => this.subjectValue() === ConversationSubject.ElectricalHeating
   );
 
+  private readonly syncEnergySupplierDateValidators = effect(() => {
+    const energySupplierDateControl = this.newConversationForm().controls.energySupplierDate;
+    if (this.receiverValue() === ActorType.EnergySupplier) {
+      energySupplierDateControl.addValidators(Validators.required);
+    } else {
+      energySupplierDateControl.removeValidators(Validators.required);
+      energySupplierDateControl.reset();
+    }
+    energySupplierDateControl.updateValueAndValidity();
+  });
+
   async startConversation() {
-    if (this.newConversationForm().invalid) {
-      return;
-    }
+    if (this.newConversationForm().invalid) return;
 
-    const { subject, receiver, internalNote, message } =
-      this.newConversationForm().getRawValue();
+    const { subject, receiver, internalNote, message } = this.newConversationForm().getRawValue();
 
-    if (!receiver || !subject) {
-      return;
-    }
+    if (!receiver || !subject) return;
 
     const { content, anonymous } = message ?? {};
 
