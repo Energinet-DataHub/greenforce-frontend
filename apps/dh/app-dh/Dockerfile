@@ -31,7 +31,8 @@ COPY --from=dotnet-build /app/libs/dh/shared/data-access-graphql/schema.graphql 
 
 ARG NX_BRANCH
 ARG NX_CI_EXECUTION_ID
-RUN --mount=type=secret,id=NX_CLOUD_ACCESS_TOKEN export NX_CLOUD_ACCESS_TOKEN=$(cat /run/secrets/NX_CLOUD_ACCESS_TOKEN) && \
+RUN --mount=type=secret,id=NX_CLOUD_ACCESS_TOKEN \
+  export NX_CLOUD_ACCESS_TOKEN=$(cat /run/secrets/NX_CLOUD_ACCESS_TOKEN) && \
   export NX_DAEMON=false && \
   bun nx build app-dh --configuration=production
 
