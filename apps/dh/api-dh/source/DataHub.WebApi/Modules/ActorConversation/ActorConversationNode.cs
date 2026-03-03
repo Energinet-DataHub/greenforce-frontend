@@ -42,7 +42,6 @@ public static partial class ActorConversationNode
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
-        // TODO: Will be replaced with the GetActorConversationRequest when implemented
         var authRequest = new ReadActorConversationRequest
         {
             ActorNumber = actorNumber,
