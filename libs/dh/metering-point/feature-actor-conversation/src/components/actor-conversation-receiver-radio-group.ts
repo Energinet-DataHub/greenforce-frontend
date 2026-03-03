@@ -45,7 +45,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
       >
         <vater-stack align="start">
           @switch (marketRole()) {
-              @case (EicFunction.EnergySupplier) {
+            @case (EicFunction.EnergySupplier) {
               <watt-radio [value]="ActorType.EnergySupplier">
                 {{ t('receivers.ENERGY_SUPPLIER') }}
               </watt-radio>
