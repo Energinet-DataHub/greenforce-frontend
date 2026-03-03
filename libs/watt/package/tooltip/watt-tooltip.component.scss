@@ -26,7 +26,7 @@ $arrow-size: 8px;
   @include watt.typography-watt-text-s;
   white-space: pre-wrap;
   opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity var(--watt-time-short) var(--watt-move-inside-screen);
 
   &.tooltip-dark {
     background: var(--watt-color-primary-dark);
