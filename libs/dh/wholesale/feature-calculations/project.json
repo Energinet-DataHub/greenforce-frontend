@@ -1,4 +1,5 @@
 {
   "name": "dh-wholesale-feature-calculations",
+  "projectType": "library",
   "tags": ["product:dh", "domain:wholesale", "type:feature"]
 }
