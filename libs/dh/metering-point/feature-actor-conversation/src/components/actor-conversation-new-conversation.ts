@@ -16,7 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -27,9 +35,10 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhFormControlToSignal,
+  dhMakeFormControl,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { internalNoteMaxLength, MessageFormValue, messageMaxLength } from '../types';
 import {
   ActorType,
@@ -72,7 +81,7 @@ import {
   `,
   template: `
     <form
-      [formGroup]="newConversationForm"
+      [formGroup]="newConversationForm()"
       (ngSubmit)="startConversation()"
       vater-grid
       fill="vertical"
@@ -97,7 +106,7 @@ import {
         <vater-grid-area column="1" row="1">
           <vater-stack direction="column" gap="m" align="start">
             <watt-dropdown
-              [formControl]="newConversationForm.controls.subject"
+              [formControl]="newConversationForm().controls.subject"
               [options]="subjects"
               [label]="t('subjectLabel')"
               [showResetOption]="false"
@@ -106,19 +115,19 @@ import {
               data-testid="actor-conversation-subject-dropdown"
             />
             @if (isElectricalHeating()) {
-              <watt-slide-toggle [formControl]="newConversationForm.controls.reducedElectricityTax">
+              <watt-slide-toggle>
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
             <vater-flex fill="horizontal" direction="row" gap="m" align="start">
               <dh-actor-conversation-receiver-radio-group
                 [marketRole]="currentActorMarketRole"
-                [receiverControl]="newConversationForm.controls.receiver"
-                [dateControl]="newConversationForm.controls.energySupplierDate"
+                [receiverControl]="newConversationForm().controls.receiver"
+                [dateControl]="newConversationForm().controls.energySupplierDate"
               />
             </vater-flex>
             <watt-text-field
-              [formControl]="newConversationForm.controls.internalNote"
+              [formControl]="newConversationForm().controls.internalNote"
               [label]="t('internalNoteLabelWithDisclaimer')"
               data-testid="actor-conversation-internal-note-input"
             />
@@ -130,7 +139,7 @@ import {
               vater
               fill="horizontal"
               [loading]="startConversationMutation.loading()"
-              [formControl]="newConversationForm.controls.message"
+              [formControl]="newConversationForm().controls.message"
             />
           </vater-stack>
         </vater-grid-area>
@@ -149,48 +158,51 @@ export class DhActorConversationNewConversationComponent {
   );
   public readonly currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
 
-  private readonly fb = inject(NonNullableFormBuilder);
-
   startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
-
   meteringPointId = input.required<string>();
 
-  newConversationForm = this.fb.group({
-    subject: this.fb.control<ConversationSubject | null>(null, Validators.required),
-    receiver: this.fb.control<ActorType | null>(null, Validators.required),
-    energySupplierDate: this.fb.control<Date | null>(null),
-    internalNote: this.fb.control<string | null>(null, Validators.maxLength(internalNoteMaxLength)),
-    reducedElectricityTax: this.fb.control<boolean>(false),
-    message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, [
-      (control) => (control.value.content ? null : { required: true }),
-      Validators.maxLength(messageMaxLength),
-    ]),
-  });
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
 
-  private readonly subjectValue = dhFormControlToSignal(this.newConversationForm.controls.subject);
-
-  private readonly receiverValue = dhFormControlToSignal(
-    this.newConversationForm.controls.receiver
+  newConversationForm = computed(
+    () =>
+      new FormGroup({
+        subject: dhMakeFormControl<ConversationSubject | null>(null, Validators.required),
+        receiver: dhMakeFormControl<ActorType | null>(null, Validators.required),
+        energySupplierDate: dhMakeFormControl<Date | null>(null),
+        internalNote: dhMakeFormControl<string | null>(
+          null,
+          Validators.maxLength(internalNoteMaxLength)
+        ),
+        message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false }, [
+          (control) => (control.value.content ? null : { required: true }),
+          Validators.maxLength(messageMaxLength),
+        ]),
+      })
   );
 
-  constructor() {
-    effect(() => {
-      const energySupplierDateControl = this.newConversationForm.controls.energySupplierDate;
-      if (this.receiverValue() === ActorType.EnergySupplier) {
-        energySupplierDateControl.addValidators(Validators.required);
-      } else {
-        energySupplierDateControl.removeValidators(Validators.required);
-        energySupplierDateControl.reset();
-      }
-      energySupplierDateControl.updateValueAndValidity();
-    });
-  }
+  private readonly subjectValue = dhFormControlToSignal(
+    () => this.newConversationForm().controls.subject
+  );
+
+  private readonly receiverValue = dhFormControlToSignal(
+    () => this.newConversationForm().controls.receiver
+  );
 
   isElectricalHeating = computed(
     () => this.subjectValue() === ConversationSubject.ElectricalHeating
   );
+
+  private readonly syncEnergySupplierDateValidators = effect(() => {
+    const energySupplierDateControl = this.newConversationForm().controls.energySupplierDate;
+    if (this.receiverValue() === ActorType.EnergySupplier) {
+      energySupplierDateControl.addValidators(Validators.required);
+    } else {
+      energySupplierDateControl.removeValidators(Validators.required);
+      energySupplierDateControl.reset();
+    }
+    energySupplierDateControl.updateValueAndValidity();
+  });
 
   private readonly reducedElectricityTaxValue = dhFormControlToSignal(
     this.newConversationForm.controls.reducedElectricityTax
@@ -201,15 +213,11 @@ export class DhActorConversationNewConversationComponent {
   );
 
   async startConversation() {
-    if (this.newConversationForm.invalid) {
-      return;
-    }
+    if (this.newConversationForm().invalid) return;
 
-    const { subject, receiver, internalNote, message } = this.newConversationForm.getRawValue();
+    const { subject, receiver, internalNote, message } = this.newConversationForm().getRawValue();
 
-    if (!receiver || !subject) {
-      return;
-    }
+    if (!receiver || !subject) return;
 
     const { content, anonymous } = message ?? {};
 

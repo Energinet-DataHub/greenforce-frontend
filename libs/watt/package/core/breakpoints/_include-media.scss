@@ -276,7 +276,11 @@ $im-no-media-expressions: ("screen", "portrait", "landscape") !default;
 /// @return {String} - `min` or `max`
 ///
 @function get-expression-prefix($operator) {
-  @return if(list.index(("<", "<=", "≤"), $operator), "max", "min");
+  @if list.index(("<", "<=", "≤"), $operator) {
+    @return "max";
+  } @else {
+    @return "min";
+  }
 }
 
 ///
@@ -407,7 +411,11 @@ $im-no-media-expressions: ("screen", "portrait", "landscape") !default;
     $character: string.slice($value, $i, $i);
 
     @if not(list.index(map.keys($numbers), $character) or $character == ".") {
-      @return to-length(if($minus, -$result, $result), string.slice($value, $i));
+      $signed-result: $result;
+      @if $minus {
+        $signed-result: -$result;
+      }
+      @return to-length($signed-result, string.slice($value, $i));
     }
 
     @if $character == "." {
@@ -420,7 +428,11 @@ $im-no-media-expressions: ("screen", "portrait", "landscape") !default;
     }
   }
 
-  @return if($minus, -$result, $result);
+  @if $minus {
+    @return -$result;
+  } @else {
+    @return $result;
+  }
 }
 
 ///
