@@ -2,10 +2,19 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-    "module": "commonjs",
-    "types": ["vitest/globals", "node"],
-    "target": "es2016"
+    "module": "ESNext",
+    "target": "es2020",
+    "types": [
+      "vitest/globals",
+      "node"
+    ]
   },
-  "files": ["src/test-setup.ts"],
-  "include": ["vite.config.mts", "**/*.test.ts", "**/*.spec.ts", "**/*.d.ts"]
+  "files": [
+    "tests/test-setup.ts"
+  ],
+  "include": [
+    "vite.config.mts",
+    "tests/**/*.test.ts",
+    "tests/**/*.spec.ts"
+  ]
 }

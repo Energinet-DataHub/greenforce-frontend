@@ -17,6 +17,7 @@
  */
 //#endregion
 /// <reference types='vitest' />
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
 
@@ -36,14 +37,19 @@ export default defineConfig(() => ({
     watch: false,
     globals: true,
     environment: 'jsdom',
-    pool: 'forks',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    setupFiles: ['src/test-setup.ts'],
+    include: [
+      'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+      'tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+    ],
+    setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
       reportsDirectory: '../../../../coverage/libs/dh/shared/feature-authorization',
       provider: 'v8' as const,
     },
+    pool: 'forks',
+    isolate: false,
+    maxWorkers: 1,
     server: {
       deps: {
         inline: [/fesm2022/],

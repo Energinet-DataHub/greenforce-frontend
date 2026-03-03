@@ -1,6 +1,7 @@
 {
+  "extends": "../../../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2022",
     "useDefineForClassFields": false,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -19,7 +20,6 @@
       "path": "./tsconfig.spec.json"
     }
   ],
-  "extends": "../../../../tsconfig.base.json",
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

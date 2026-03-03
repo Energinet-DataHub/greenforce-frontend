@@ -3,9 +3,18 @@
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
     "module": "ESNext",
-    "types": ["vitest/globals", "node"],
-    "target": "es2020"
+    "target": "es2020",
+    "types": [
+      "vitest/globals",
+      "node"
+    ]
   },
-  "files": ["src/test-setup.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts", "vite.config.mts"]
+  "files": [
+    "tests/test-setup.ts"
+  ],
+  "include": [
+    "vite.config.mts",
+    "tests/**/*.test.ts",
+    "tests/**/*.spec.ts"
+  ]
 }

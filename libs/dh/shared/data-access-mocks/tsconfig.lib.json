@@ -2,13 +2,18 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-    "target": "ES2023",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": [],
-    "lib": ["dom", "ES2023"]
+    "types": []
   },
-  "exclude": ["src/test-setup.ts", "**/*.spec.ts", "vite.config.mts"],
-  "include": ["**/*.ts"]
+  "exclude": [
+    "tests/**/*.spec.ts",
+    "tests/test-setup.ts",
+    "vite.config.mts",
+    "tests/**/*.test.ts"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ]
 }

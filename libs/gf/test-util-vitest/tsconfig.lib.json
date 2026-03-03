@@ -3,8 +3,17 @@
   "compilerOptions": {
     "outDir": "../../../dist/out-tsc",
     "declaration": true,
-    "types": ["node"]
+    "declarationMap": true,
+    "inlineSources": true,
+    "types": []
   },
-  "include": ["**/*.ts", "**/*.js"],
-  "exclude": ["vite.config.mts", "**/*.spec.ts", "**/*.test.ts", "test-setup.ts"]
+  "exclude": [
+    "tests/**/*.spec.ts",
+    "tests/test-setup.ts",
+    "vite.config.mts",
+    "tests/**/*.test.ts"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ]
 }

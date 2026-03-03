@@ -17,6 +17,7 @@
  */
 //#endregion
 /// <reference types='vitest' />
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
 
@@ -25,7 +26,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh/core/ui-toolbar',
+  cacheDir: '../../../../node_modules/.vite/libs/dh/core/ui-toolbar-portal',
   plugins: [
     angular({ tsconfig: './tsconfig.json' }),
     nxViteTsPaths(),
@@ -36,13 +37,19 @@ export default defineConfig(() => ({
     watch: false,
     globals: true,
     environment: 'jsdom',
-    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    include: [
+      'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+      'tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+    ],
     setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/dh/core/ui-toolbar',
+      reportsDirectory: '../../../../coverage/libs/dh/core/ui-toolbar-portal',
       provider: 'v8' as const,
     },
+    pool: 'forks',
+    isolate: false,
+    maxWorkers: 1,
     server: {
       deps: {
         inline: [/fesm2022/],

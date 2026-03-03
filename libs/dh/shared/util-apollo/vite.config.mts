@@ -17,14 +17,12 @@
  */
 //#endregion
 /// <reference types='vitest' />
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
+
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
-
-// TODO: This library's tests use fakeAsync which requires ProxyZone setup in Vitest.
-// The tests are temporarily disabled until fakeAsync support is properly configured.
-// See: https://github.com/vitest-dev/vitest/issues/2728
 
 export default defineConfig(() => ({
   root: __dirname,
@@ -39,7 +37,10 @@ export default defineConfig(() => ({
     watch: false,
     globals: true,
     environment: 'jsdom',
-    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    include: [
+      'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+      'tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+    ],
     setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
@@ -47,13 +48,12 @@ export default defineConfig(() => ({
       provider: 'v8' as const,
     },
     pool: 'forks',
+    isolate: false,
+    maxWorkers: 1,
     server: {
       deps: {
         inline: [/fesm2022/],
       },
     },
-  },
-  define: {
-    'import.meta.vitest': undefined,
   },
 }));
