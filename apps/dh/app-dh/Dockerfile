@@ -32,7 +32,7 @@ ARG NX_BRANCH
 ARG NX_CI_EXECUTION_ID
 RUN --mount=type=secret,id=NX_CLOUD_ACCESS_TOKEN export NX_CLOUD_ACCESS_TOKEN=$(cat /run/secrets/NX_CLOUD_ACCESS_TOKEN) && \
   export NX_DAEMON=false && \
-  bun nx run build app-dh --configuration=production
+  bun nx build app-dh --configuration=production
 
 RUN bun run i18n:optimize:app-dh
 
