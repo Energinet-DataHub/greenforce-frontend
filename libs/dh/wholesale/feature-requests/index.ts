@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhWholesaleRequestsPage as default } from './lib/page';
+export { DhWholesaleRequestsPage as default } from './src/lib/page';

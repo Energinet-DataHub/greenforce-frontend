@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-b2c-config';
+export * from './src/lib/dh-b2c-config';

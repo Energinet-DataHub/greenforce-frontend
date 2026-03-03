@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhReportsMissingMeasurementsLogPage as default } from './lib/page';
-export { DhReportsMissingMeasurementsLogRequestLog } from './lib/request-log';
+export { DhReportsMissingMeasurementsLogPage as default } from './src/lib/page';
+export { DhReportsMissingMeasurementsLogRequestLog } from './src/lib/request-log';

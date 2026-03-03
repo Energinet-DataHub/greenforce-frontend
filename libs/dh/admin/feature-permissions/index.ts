@@ -16,6 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export { DhPermissionsTableComponent as default } from './lib/table.component';
-export { DhPermissionDetailComponent } from './lib/details/detail.component';
-export { DhPermissionEditComponent } from './lib/details/edit.component';
+export { DhPermissionsTableComponent as default } from './src/lib/table.component';
+export { DhPermissionDetailComponent } from './src/lib/details/detail.component';
+export { DhPermissionEditComponent } from './src/lib/details/edit.component';

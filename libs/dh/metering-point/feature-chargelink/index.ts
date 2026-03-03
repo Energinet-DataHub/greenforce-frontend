@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { meteringPointPricesRoutes as default } from './routes';
+export { meteringPointPricesRoutes as default } from './src/routes';

@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/server';
+export * from './src/lib/server';

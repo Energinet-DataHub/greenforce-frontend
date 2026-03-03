@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { LocalStorageFake, SessionStorageFake } from './lib/browser-storage-fake';
+export { LocalStorageFake, SessionStorageFake } from './src/lib/browser-storage-fake';

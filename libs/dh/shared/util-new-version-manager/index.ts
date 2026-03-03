@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-new-version-manager.initializer';
+export * from './src/lib/dh-new-version-manager.initializer';

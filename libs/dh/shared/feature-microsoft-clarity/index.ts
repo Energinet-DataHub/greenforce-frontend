@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-shared-feature-microsoft-clarity.providers';
-export * from './lib/dh-microsoft-clarity.service';
+export * from './src/lib/dh-shared-feature-microsoft-clarity.providers';
+export * from './src/lib/dh-microsoft-clarity.service';

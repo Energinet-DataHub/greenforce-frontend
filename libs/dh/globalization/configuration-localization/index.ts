@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { translocoProviders, dhTranslocoConfig } from './lib/dh-transloco.providers';
+export { translocoProviders, dhTranslocoConfig } from './src/lib/dh-transloco.providers';

@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './calculation';
-export * from './types';
+export * from './src/calculation';
+export * from './src/types';

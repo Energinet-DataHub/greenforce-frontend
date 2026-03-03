@@ -16,6 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-shared-util-application-insights.providers';
-export * from './lib/dh-application-insights.service';
-export * from './lib/dh-application-insights-track.directive';
+export * from './src/lib/dh-shared-util-application-insights.providers';
+export * from './src/lib/dh-application-insights.service';
+export * from './src/lib/dh-application-insights-track.directive';

@@ -17,26 +17,26 @@
  */
 //#endregion
 
-import { wholesaleMocks } from './lib/wholesale.mocks';
-import { marketParticipantMocks } from './lib/market-participant.mocks';
-import { messageArchiveMocks } from './lib/message-archive.mocks';
-import { adminMocks } from './lib/admin.mocks';
-import { marketParticipantUserMocks } from './lib/market-participant-user.mocks';
-import { marketParticipantUserRoleMocks } from './lib/market-participant-user-role.mocks';
-import { tokenMocks } from './lib/token.mocks';
-import { eSettMocks } from './lib/esett.mocks';
-import { imbalancePricesMocks } from './lib/imbalance-prices.mocks';
-import { userProfileMocks } from './lib/user-profile.mocks';
-import { defaultMocks } from './lib/default.mocks';
-import { notificationsMocks } from './lib/notifications.mocks';
-import { meteringPointMocks } from './lib/metering-point.mocks';
-import { organizationMocks } from './lib/organization.mocks';
-import { requestMocks } from './lib/request.mocks';
-import { processMocks } from './lib/process';
-import { chargesMocks } from './lib/charges.mocks';
-import { measurementsReportsMocks } from './lib/measurements-reports.mocks';
-import { releaseTogglesMocks } from './lib/release-toggles.mocks';
-import { moveInMocks } from './lib/move-in.mocks';
+import { wholesaleMocks } from './src/lib/wholesale.mocks';
+import { marketParticipantMocks } from './src/lib/market-participant.mocks';
+import { messageArchiveMocks } from './src/lib/message-archive.mocks';
+import { adminMocks } from './src/lib/admin.mocks';
+import { marketParticipantUserMocks } from './src/lib/market-participant-user.mocks';
+import { marketParticipantUserRoleMocks } from './src/lib/market-participant-user-role.mocks';
+import { tokenMocks } from './src/lib/token.mocks';
+import { eSettMocks } from './src/lib/esett.mocks';
+import { imbalancePricesMocks } from './src/lib/imbalance-prices.mocks';
+import { userProfileMocks } from './src/lib/user-profile.mocks';
+import { defaultMocks } from './src/lib/default.mocks';
+import { notificationsMocks } from './src/lib/notifications.mocks';
+import { meteringPointMocks } from './src/lib/metering-point.mocks';
+import { organizationMocks } from './src/lib/organization.mocks';
+import { requestMocks } from './src/lib/request.mocks';
+import { processMocks } from './src/lib/process';
+import { chargesMocks } from './src/lib/charges.mocks';
+import { measurementsReportsMocks } from './src/lib/measurements-reports.mocks';
+import { releaseTogglesMocks } from './src/lib/release-toggles.mocks';
+import { moveInMocks } from './src/lib/move-in.mocks';
 
 export const mocks = [
   wholesaleMocks,

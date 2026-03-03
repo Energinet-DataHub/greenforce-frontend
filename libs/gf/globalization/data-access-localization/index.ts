@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/transloco-http-loader.service';
-export * from './lib/transloco-typed-loader.service';
+export * from './src/lib/transloco-http-loader.service';
+export * from './src/lib/transloco-typed-loader.service';

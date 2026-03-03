@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeasurementsReports as default } from './components/measurements-reports.component';
+export { DhMeasurementsReports as default } from './src/components/measurements-reports.component';

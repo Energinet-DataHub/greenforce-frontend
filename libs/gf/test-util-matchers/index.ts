@@ -17,4 +17,4 @@
  */
 //#endregion
 // DOM
-export * from './lib/add-dom-matchers';
+export * from './src/lib/add-dom-matchers';

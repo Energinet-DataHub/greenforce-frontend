@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/query';
-export * from './lib/lazyQuery';
-export * from './lib/mutation';
-export * from './lib/subscription';
-export * from './lib/data-source/CollectionSegmentDataSource';
-export * from './lib/data-source/ConnectionDataSource';
-export * from './lib/performance/queryTime';
-export * from './lib/util/types';
+export * from './src/lib/query';
+export * from './src/lib/lazyQuery';
+export * from './src/lib/mutation';
+export * from './src/lib/subscription';
+export * from './src/lib/data-source/CollectionSegmentDataSource';
+export * from './src/lib/data-source/ConnectionDataSource';
+export * from './src/lib/performance/queryTime';
+export * from './src/lib/util/types';

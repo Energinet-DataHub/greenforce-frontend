@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/archivedMessage';
-export * from './lib/documentType';
+export * from './src/lib/archivedMessage';
+export * from './src/lib/documentType';
