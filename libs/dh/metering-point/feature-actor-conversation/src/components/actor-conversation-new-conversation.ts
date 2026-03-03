@@ -147,7 +147,6 @@ export class DhActorConversationNewConversationComponent {
     'meteringPoint.actorConversation.startConversationError'
   );
   public readonly currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
-  public readonly actorType = ActorType;
 
   private readonly fb = inject(NonNullableFormBuilder);
 
