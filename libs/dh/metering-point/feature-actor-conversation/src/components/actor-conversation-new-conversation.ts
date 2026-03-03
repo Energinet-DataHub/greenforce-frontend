@@ -16,15 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -51,6 +43,9 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorConversationElectricalHeatingFormComponent
+} from './actor-conversation-electrical-heating-form.component';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -67,6 +62,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
     DhActorConversationMessageFormComponent,
     WattSlideToggleComponent,
     DhActorConversationReceiverRadioGroupComponent,
+    DhActorConversationElectricalHeatingFormComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -138,9 +134,9 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
             />
           </vater-stack>
         </vater-grid-area>
-        @if (newConversationForm.controls.reducedElectricityTax.value) {
+        @if (shouldShowEletricalHeatingForm()) {
           <vater-grid-area column="2" row="1">
-            Hello World :)
+            <dh-actor-conversation-electrical-heating-form />
           </vater-grid-area>
         }
       </vater-grid>
@@ -194,6 +190,14 @@ export class DhActorConversationNewConversationComponent {
 
   isElectricalHeating = computed(
     () => this.subjectValue() === ConversationSubject.ElectricalHeating
+  );
+
+  private readonly reducedElectricityTaxValue = dhFormControlToSignal(
+    this.newConversationForm.controls.reducedElectricityTax
+  );
+
+  shouldShowEletricalHeatingForm = computed(
+    () => this.isElectricalHeating() && this.reducedElectricityTaxValue()
   );
 
   async startConversation() {
