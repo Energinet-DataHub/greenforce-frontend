@@ -1,8 +1,8 @@
 {
   "name": "dh-globalization-configuration-watt-translation",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/dh/globalization/configuration-watt-translation/src",
-  "prefix": "dh",
-  "tags": ["product:dh", "domain:globalization", "type:configuration"]
+  "tags": [
+    "product:dh",
+    "domain:globalization",
+    "type:configuration"
+  ]
 }

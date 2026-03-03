@@ -1,15 +1,19 @@
 {
   "name": "dh-shared-feature-graphql-codegen",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/shared/feature-graphql-codegen/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:shared", "type:feature"],
-  "implicitDependencies": ["dh-shared-util-apollo"],
+  "tags": [
+    "product:dh",
+    "domain:shared",
+    "type:feature"
+  ],
+  "implicitDependencies": [
+    "dh-shared-util-apollo"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "main": "libs/dh/shared/feature-graphql-codegen/src/index.ts",
         "outputPath": "libs/dh/shared/feature-graphql-codegen/dist",

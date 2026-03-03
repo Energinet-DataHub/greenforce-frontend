@@ -1,8 +1,8 @@
 {
   "name": "dh-reports-feature-settlement-reports",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/reports/feature-settlement-reports/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:reports", "type:feature"]
+  "tags": [
+    "product:dh",
+    "domain:reports",
+    "type:feature"
+  ]
 }

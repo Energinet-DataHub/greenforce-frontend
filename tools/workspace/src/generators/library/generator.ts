@@ -24,7 +24,6 @@ import {
   joinPathFragments,
   names,
   updateJson,
-  offsetFromRoot,
 } from '@nx/devkit';
 import { libraryGenerator } from '@nx/angular/generators';
 import { GenerateLibrarySchema, LibraryType } from './schema';
@@ -114,20 +113,16 @@ function getFinalLibraryPath(options: {
 }
 
 /**
- * Adds $schema property to project.json file
+ * Strips all boilerplate fields from project.json, keeping only name and tags.
+ * Fields like $schema, projectType, sourceRoot, and prefix are inferred by Nx
+ * and do not need to be explicitly set.
  */
 function updateProjectJsonFile(tree: Tree, libPath: string) {
   updateJson(tree, `${libPath}/project.json`, (json) => {
-    if (json.$schema === undefined) {
-      const $schema = `${offsetFromRoot(libPath)}node_modules/nx/schemas/project-schema.json`;
-
-      return {
-        $schema,
-        ...json,
-      };
-    }
-
-    return json;
+    return {
+      name: json.name,
+      tags: json.tags,
+    };
   });
 }
 

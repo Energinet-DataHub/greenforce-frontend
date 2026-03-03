@@ -1,8 +1,8 @@
 {
   "name": "dh-shared-util-apollo",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/shared/util-apollo/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:shared", "type:util"]
+  "tags": [
+    "product:dh",
+    "domain:shared",
+    "type:util"
+  ]
 }

@@ -1,8 +1,8 @@
 {
   "name": "dh-message-archive-feature-search",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/message-archive/feature-search/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:message-archive", "type:feature"]
+  "tags": [
+    "product:dh",
+    "domain:message-archive",
+    "type:feature"
+  ]
 }

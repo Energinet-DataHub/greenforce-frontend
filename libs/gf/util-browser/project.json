@@ -1,8 +1,8 @@
 {
   "name": "gf-util-browser",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/gf/util-browser/src",
-  "prefix": "gf",
-  "tags": ["product:gf", "domain:shared", "type:util"]
+  "tags": [
+    "product:gf",
+    "domain:shared",
+    "type:util"
+  ]
 }

@@ -1,8 +1,8 @@
 {
   "name": "dh-shared-data-access-mocks",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/dh/shared/data-access-mocks/src",
-  "prefix": "dh",
-  "tags": ["product:dh", "scope:shared", "type:test-util"]
+  "tags": [
+    "product:dh",
+    "scope:shared",
+    "type:test-util"
+  ]
 }

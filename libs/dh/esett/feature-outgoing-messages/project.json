@@ -1,8 +1,8 @@
 {
   "name": "dh-esett-feature-outgoing-messages",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/esett/feature-outgoing-messages/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:esett", "type:feature"]
+  "tags": [
+    "product:dh",
+    "domain:esett",
+    "type:feature"
+  ]
 }

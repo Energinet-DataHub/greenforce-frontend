@@ -1,8 +1,8 @@
 {
   "name": "dh-profile-feature-avatar",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/profile/feature-avatar/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:profile", "type:feature"]
+  "tags": [
+    "product:dh",
+    "domain:profile",
+    "type:feature"
+  ]
 }

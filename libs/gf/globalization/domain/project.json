@@ -1,8 +1,8 @@
 {
   "name": "gf-globalization-domain",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/gf/globalization/domain/src",
-  "prefix": "gf",
-  "tags": ["product:gf", "domain:globalization", "type:domain"]
+  "tags": [
+    "product:gf",
+    "domain:globalization",
+    "type:domain"
+  ]
 }

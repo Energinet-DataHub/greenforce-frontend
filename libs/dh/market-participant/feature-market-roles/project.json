@@ -1,8 +1,8 @@
 {
   "name": "dh-market-participant-feature-market-roles",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/market-participant/feature-market-roles/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:market-participant", "type:feature"]
+  "tags": [
+    "product:dh",
+    "domain:market-participant",
+    "type:feature"
+  ]
 }
