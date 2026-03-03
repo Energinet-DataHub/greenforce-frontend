@@ -97,7 +97,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
           {{ t('cancelButtonLabel') }}
         </watt-button>
       </vater-stack>
-      <vater-grid columns="1fr 1fr" rows="auto 1fr" offset="m" gap="m">
+      <vater-grid columns="1fr 2fr" rows="auto 1fr" offset="m" gap="m">
         <vater-grid-area column="1" row="1">
           <vater-stack direction="column" gap="m" align="start">
             <watt-dropdown
@@ -110,7 +110,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
               data-testid="actor-conversation-subject-dropdown"
             />
             @if (isElectricalHeating()) {
-              <watt-slide-toggle>
+              <watt-slide-toggle [formControl]="newConversationForm.controls.reducedElectricityTax">
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
@@ -138,6 +138,11 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
             />
           </vater-stack>
         </vater-grid-area>
+        @if (newConversationForm.controls.reducedElectricityTax.value) {
+          <vater-grid-area column="2" row="1">
+            Hello World :)
+          </vater-grid-area>
+        }
       </vater-grid>
     </form>
   `,
@@ -160,6 +165,7 @@ export class DhActorConversationNewConversationComponent {
     receiver: this.fb.control<ActorType | null>(null, Validators.required),
     energySupplierDate: this.fb.control<Date | null>(null),
     internalNote: this.fb.control<string | null>(null, Validators.maxLength(internalNoteMaxLength)),
+    reducedElectricityTax: this.fb.control<boolean>(false),
     message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, [
       (control) => (control.value.content ? null : { required: true }),
       Validators.maxLength(messageMaxLength),
