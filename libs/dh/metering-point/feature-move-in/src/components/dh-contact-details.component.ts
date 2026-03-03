@@ -90,7 +90,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
               data-testid="legal-contact-email"
             >
               <watt-field-error>
-                @if (controls.email.hasError('email')) {
+                @if (controls.email.hasError('invalidEmail')) {
                   {{ t('invalidEmail') }}
                 }
               </watt-field-error>

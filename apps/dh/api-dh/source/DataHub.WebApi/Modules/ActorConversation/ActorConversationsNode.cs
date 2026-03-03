@@ -60,9 +60,18 @@ public static partial class ActorConversationsNode
                 "User is not authorized to access conversations for the requested metering point.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
-        return await authClient.ApiGetConversationsAsync(meteringPointIdentification, searchTerm, ct);
+        return await authClient.ApiGetConversationsAsync(
+            meteringPointIdentification,
+            searchTerm,
+            null,
+            null,
+            null,
+            null,
+            null,
+            userId: userId.ToString(),
+            actorNumber: actorNumber);
     }
 
     static partial void Configure(

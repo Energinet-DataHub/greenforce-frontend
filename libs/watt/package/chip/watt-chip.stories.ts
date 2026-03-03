@@ -19,6 +19,7 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { WattFilterChipComponent } from './watt-filter-chip.component';
+import { WattInputChipComponent } from './watt-input-chip.component';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
 import { WattActionChipComponent } from './watt-action-chip.component';
 import { WattChipComponent } from './watt-chip.component';
@@ -32,6 +33,7 @@ const meta: Meta = {
         WattMenuChipComponent,
         WattActionChipComponent,
         WattFilterChipComponent,
+        WattInputChipComponent,
       ],
     }),
   ],
@@ -136,6 +138,49 @@ export const Enabled: StoryObj<WattChipComponent> = {
         <watt-chip>todo.dk</watt-chip>
         <watt-chip>funny.dk</watt-chip>
         <watt-chip>domain.dk</watt-chip>
+      </div>
+    `,
+  }),
+};
+
+export const Input: StoryObj<WattInputChipComponent> = {
+  render: () => ({
+    props: {
+      files: ['report.pdf', 'data.csv', 'notes.txt'],
+      remove(file: string) {
+        const idx = this.files.indexOf(file);
+        if (idx >= 0) this.files.splice(idx, 1);
+      },
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: var(--watt-space-l)">
+        <div style="display: flex; gap: var(--watt-space-l); align-items: start">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: var(--watt-space-s)">
+            <span>Enabled</span>
+            <watt-input-chip label="file.txt" />
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: var(--watt-space-s)">
+            <span>Hover</span>
+            <watt-input-chip label="file.txt" class="hover" />
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: var(--watt-space-s)">
+            <span>Focus</span>
+            <watt-input-chip label="file.txt" class="focus" />
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: var(--watt-space-s)">
+            <span>Disabled</span>
+            <watt-input-chip label="file.txt" [disabled]="true" />
+          </div>
+        </div>
+
+        <div>
+          <div style="margin-bottom: var(--watt-space-s)">Interactive</div>
+          <div style="display: flex; gap: var(--watt-space-s)">
+            @for (file of files; track file) {
+              <watt-input-chip [label]="file" (removed)="remove(file)" />
+            }
+          </div>
+        </div>
       </div>
     `,
   }),

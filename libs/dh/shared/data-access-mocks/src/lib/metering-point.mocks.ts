@@ -32,7 +32,7 @@ import {
   mockGetMeasurementPointsQuery,
   mockGetMeasurementsQuery,
   mockGetMeteringPointByIdQuery,
-  mockGetMeteringPointEventsDebugViewQuery,
+  mockGetOperationToolsMeteringPointQuery,
   mockGetMeteringPointsByGridAreaQuery,
   mockGetRelatedMeteringPointsByIdQuery,
   mockMarkConversationReadMutation,
@@ -55,7 +55,7 @@ import { parentMeteringPoint } from './data/metering-point/parent-metering-point
 import { measurementPoints } from './data/metering-point/measurements-points';
 import { meteringPointsByGridAreaCode } from './data/metering-point/metering-points-by-grid-area-code';
 import { childMeteringPoint } from './data/metering-point/child-metering-point';
-import { eventsDebugView } from './data/metering-point/metering-point-events-debug-view';
+import { operationToolsMeteringPoint } from './data/metering-point/operation-tools-metering-point';
 import { conversations } from './data/metering-point/conversations';
 
 export function meteringPointMocks() {
@@ -70,7 +70,7 @@ export function meteringPointMocks() {
     getAggreatedMeasurementsForYear(),
     getAggreatedMeasurementsForAllYears(),
     getRelatedMeteringPoints(),
-    getMeteringPointEventsDebugView(),
+    getOperationToolsMeteringPoint(),
     requestConnectionStateChange(),
     requestEndOfSupply(),
     createConversation(),
@@ -609,14 +609,14 @@ function getMeteringPointsByGridArea() {
   });
 }
 
-function getMeteringPointEventsDebugView() {
-  return mockGetMeteringPointEventsDebugViewQuery(async () => {
+function getOperationToolsMeteringPoint() {
+  return mockGetOperationToolsMeteringPointQuery(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        eventsDebugView: eventsDebugView,
+        operationToolsMeteringPoint: operationToolsMeteringPoint,
       },
     });
   });

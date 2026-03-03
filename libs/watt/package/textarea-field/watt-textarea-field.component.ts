@@ -30,9 +30,10 @@ import {
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { WattFieldComponent } from '@energinet/watt/field';
+import { VaterStackComponent } from '@energinet/watt/vater';
 
 @Component({
-  imports: [FormsModule, WattFieldComponent],
+  imports: [FormsModule, WattFieldComponent, VaterStackComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -44,14 +45,21 @@ import { WattFieldComponent } from '@energinet/watt/field';
   styleUrls: ['./watt-textarea-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
   template: `<watt-field [label]="label()" [control]="formControl()">
-    <textarea
-      [attr.placeholder]="placeholder()"
-      [value]="value()"
-      [disabled]="isDisabled()"
-      [required]="required()"
-      [attr.maxlength]="maxLength()"
-      (input)="onInput($event)"
-    ></textarea>
+    <div class="textarea-wrapper">
+      <textarea
+        [attr.placeholder]="placeholder()"
+        [value]="value()"
+        [disabled]="isDisabled()"
+        [required]="required()"
+        [attr.maxlength]="maxLength()"
+        (input)="onInput($event)"
+      ></textarea>
+
+      <vater-stack direction="row" wrap gap="s" class="textarea-footer">
+        <ng-content />
+      </vater-stack>
+    </div>
+
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
   </watt-field>`,

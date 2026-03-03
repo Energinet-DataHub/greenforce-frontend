@@ -22,7 +22,14 @@ import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
 
 export default defineConfig({
   e2e: {
-    ...nxE2EPreset(__dirname, { bundler: 'vite' }),
+    ...nxE2EPreset(__dirname, {
+      bundler: 'vite',
+      webServerCommands: {
+        default: 'bun nx run app-dh:serve:mocked',
+      },
+      ciWebServerCommand: 'bun nx run app-dh:serve:mocked',
+    }),
+    baseUrl: 'https://localhost:4200',
     video: true,
     defaultCommandTimeout: 6000,
     viewportWidth: 1280,

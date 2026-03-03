@@ -24,6 +24,7 @@ import {
   provideMsalTesting,
 } from '@energinet-datahub/dh/shared/test-util';
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
+import { WattModalService } from '@energinet/watt/modal';
 
 import { DhCalculationsComponent } from './calculations.component';
 
@@ -33,6 +34,7 @@ async function setup() {
       provideHttpClient(withInterceptorsFromDi()),
       danishDatetimeProviders,
       provideMsalTesting(),
+      WattModalService,
     ],
     imports: [getTranslocoTestingModule()],
   });

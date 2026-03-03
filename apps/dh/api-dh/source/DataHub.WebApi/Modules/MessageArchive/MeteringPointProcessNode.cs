@@ -91,7 +91,8 @@ public static partial class MeteringPointProcessNode
             ActorNumber: step.Actor?.ActorNumber.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
             State: MapStepStateToProcessState(step.Lifecycle.State),
-            MessageId: step.ArchivedMessageId?.ToString()));
+            MessageId: step.ArchivedMessageId?.ToString(),
+            Description: step.Description));
     }
 
     public static IEnumerable<WorkflowAction> GetAvailableActions(
@@ -181,7 +182,7 @@ public static partial class MeteringPointProcessNode
         {
             WorkflowInstanceTerminationState.Succeeded => ProcessState.Succeeded,
             WorkflowInstanceTerminationState.Failed => ProcessState.Failed,
-            WorkflowInstanceTerminationState.UserCanceled => ProcessState.Canceled,
+            WorkflowInstanceTerminationState.Canceled => ProcessState.Canceled,
             _ => ProcessState.Failed,
         };
 
