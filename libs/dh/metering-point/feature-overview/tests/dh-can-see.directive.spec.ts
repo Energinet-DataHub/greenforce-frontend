@@ -25,10 +25,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import {
-  DhCanSeeDirective,
-  PropertyName,
-} from '../src/components/can-see/dh-can-see.directive';
+import { DhCanSeeDirective, PropertyName } from '../src/components/can-see/dh-can-see.directive';
 import { MeteringPointDetails } from '../src/types';
 
 function getPropertyName(propertyName: PropertyName) {
