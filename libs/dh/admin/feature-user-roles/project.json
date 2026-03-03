@@ -1,8 +1,4 @@
 {
   "name": "dh-admin-feature-user-roles",
-  "tags": [
-    "product:dh",
-    "domain:admin",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:admin", "type:feature"]
 }

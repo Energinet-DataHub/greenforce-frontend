@@ -1,8 +1,4 @@
 {
   "name": "dh-imbalance-prices",
-  "tags": [
-    "product:dh",
-    "domain:imbalance-prices",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:imbalance-prices", "type:feature"]
 }

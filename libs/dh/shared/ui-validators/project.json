@@ -1,8 +1,4 @@
 {
   "name": "dh-ui-validators",
-  "tags": [
-    "product:dh",
-    "domain:shared",
-    "type:ui"
-  ]
+  "tags": ["product:dh", "domain:shared", "type:ui"]
 }

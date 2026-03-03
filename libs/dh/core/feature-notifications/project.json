@@ -1,8 +1,4 @@
 {
   "name": "dh-core-feature-notifications",
-  "tags": [
-    "product:dh",
-    "domain:core",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:core", "type:feature"]
 }

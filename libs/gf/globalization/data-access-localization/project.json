@@ -1,8 +1,4 @@
 {
   "name": "gf-globalization-data-access-localization",
-  "tags": [
-    "product:gf",
-    "domain:globalization",
-    "type:data-access"
-  ]
+  "tags": ["product:gf", "domain:globalization", "type:data-access"]
 }

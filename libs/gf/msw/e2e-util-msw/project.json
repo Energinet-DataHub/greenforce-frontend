@@ -1,8 +1,4 @@
 {
   "name": "gf-e2e-util-msw",
-  "tags": [
-    "product:gf",
-    "domain:shared",
-    "type:e2e-util"
-  ]
+  "tags": ["product:gf", "domain:shared", "type:e2e-util"]
 }

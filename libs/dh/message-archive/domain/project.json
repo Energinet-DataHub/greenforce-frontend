@@ -1,8 +1,4 @@
 {
   "name": "dh-message-archive-domain",
-  "tags": [
-    "product:dh",
-    "domain:message-archive",
-    "type:domain"
-  ]
+  "tags": ["product:dh", "domain:message-archive", "type:domain"]
 }

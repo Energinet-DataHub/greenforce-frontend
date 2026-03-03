@@ -1,8 +1,4 @@
 {
   "name": "dh-market-participant-feature-delegation",
-  "tags": [
-    "product:dh",
-    "domain:market-participant",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:market-participant", "type:feature"]
 }

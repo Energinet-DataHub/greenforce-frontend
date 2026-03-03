@@ -1,8 +1,4 @@
 {
   "name": "dh-shared-data-access-mocks",
-  "tags": [
-    "product:dh",
-    "scope:shared",
-    "type:test-util"
-  ]
+  "tags": ["product:dh", "scope:shared", "type:test-util"]
 }

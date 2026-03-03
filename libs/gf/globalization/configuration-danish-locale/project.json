@@ -1,8 +1,4 @@
 {
   "name": "gf-configuration-danish-locale",
-  "tags": [
-    "product:gf",
-    "domain:globalization",
-    "type:configuration"
-  ]
+  "tags": ["product:gf", "domain:globalization", "type:configuration"]
 }

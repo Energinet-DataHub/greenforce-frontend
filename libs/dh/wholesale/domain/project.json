@@ -1,8 +1,4 @@
 {
   "name": "dh-wholesale-domain",
-  "tags": [
-    "product:dh",
-    "domain:wholesale",
-    "type:domain"
-  ]
+  "tags": ["product:dh", "domain:wholesale", "type:domain"]
 }

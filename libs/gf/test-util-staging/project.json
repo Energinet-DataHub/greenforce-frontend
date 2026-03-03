@@ -1,8 +1,4 @@
 {
   "name": "gf-test-util-staging",
-  "tags": [
-    "product:gf",
-    "domain:shared",
-    "type:test-util"
-  ]
+  "tags": ["product:gf", "domain:shared", "type:test-util"]
 }

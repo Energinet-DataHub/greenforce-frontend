@@ -1,8 +1,4 @@
 {
   "name": "dh-core-shell",
-  "tags": [
-    "product:dh",
-    "domain:core",
-    "type:shell"
-  ]
+  "tags": ["product:dh", "domain:core", "type:shell"]
 }

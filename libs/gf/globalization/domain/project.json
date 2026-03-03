@@ -1,8 +1,4 @@
 {
   "name": "gf-globalization-domain",
-  "tags": [
-    "product:gf",
-    "domain:globalization",
-    "type:domain"
-  ]
+  "tags": ["product:gf", "domain:globalization", "type:domain"]
 }

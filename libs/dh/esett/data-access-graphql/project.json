@@ -1,11 +1,5 @@
 {
   "name": "dh-esett-data-access-graphql",
-  "tags": [
-    "product:dh",
-    "domain:esett",
-    "type:data-access"
-  ],
-  "implicitDependencies": [
-    "api-dh"
-  ]
+  "tags": ["product:dh", "domain:esett", "type:data-access"],
+  "implicitDependencies": ["api-dh"]
 }
