@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { dhESettShellRoutes as default } from './src/lib/dh-esett-shell.routes';
+export { dhESettShellRoutes as default } from './src/dh-esett-shell.routes';

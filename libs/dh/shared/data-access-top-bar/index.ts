@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/lib/dh-top-bar.service';
+export * from './src/dh-top-bar.service';

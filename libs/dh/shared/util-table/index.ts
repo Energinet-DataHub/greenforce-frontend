@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/lib/dh-table-sort';
+export * from './src/dh-table-sort';

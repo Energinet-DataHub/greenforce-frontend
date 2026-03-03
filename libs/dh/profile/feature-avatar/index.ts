@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/lib/dh-profile-avatar.component';
+export * from './src/dh-profile-avatar.component';

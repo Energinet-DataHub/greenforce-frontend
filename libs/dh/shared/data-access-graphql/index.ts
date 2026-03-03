@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-export { DhApollo } from './src/lib/dh-apollo';
+export { DhApollo } from './src/dh-apollo';
 
-export { isSubscription, parseGraphQLErrorResponse } from './src/lib/util';
-export { getActorOptions } from './src/lib/graphql/get-market-participants-by-eic-function-for-dropdowns';
-export { getGridAreaOptionsForPeriod } from './src/lib/graphql/get-grid-area-options-for-period';
-export { getGridAreaOptionsSignal } from './src/lib/graphql/get-grid-area-options';
+export { isSubscription, parseGraphQLErrorResponse } from './src/util';
+export { getActorOptions } from './src/graphql/get-market-participants-by-eic-function-for-dropdowns';
+export { getGridAreaOptionsForPeriod } from './src/graphql/get-grid-area-options-for-period';
+export { getGridAreaOptionsSignal } from './src/graphql/get-grid-area-options';

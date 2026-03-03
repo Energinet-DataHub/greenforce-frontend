@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/lib/types/admin-role.types';
-export * from './src/lib/types/user-details.type';
-export * from './src/lib/types/user.type';
-export * from './src/lib/types/user-role.type';
-export * from './src/lib/types/permission.type';
-export * from './src/lib/types/actor-user-role.types';
+export * from './src/types/admin-role.types';
+export * from './src/types/user-details.type';
+export * from './src/types/user.type';
+export * from './src/types/user-role.type';
+export * from './src/types/permission.type';
+export * from './src/types/actor-user-role.types';

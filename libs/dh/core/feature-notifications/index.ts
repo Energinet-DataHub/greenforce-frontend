@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhNotificationsCenterComponent } from './src/lib/dh-notifications-center.component';
+export { DhNotificationsCenterComponent } from './src/dh-notifications-center.component';

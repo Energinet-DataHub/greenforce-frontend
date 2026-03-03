@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhBalanceResponsibleComponent as default } from './src/lib/dh-balance-responsible.component';
-export { DhBalanceResponsibleDrawerComponent } from './src/lib/drawer/dh-drawer.component';
+export { DhBalanceResponsibleComponent as default } from './src/dh-balance-responsible.component';
+export { DhBalanceResponsibleDrawerComponent } from './src/drawer/dh-drawer.component';

@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { dhAdminShellRoutes as default } from './src/lib/dh-admin-shell.routes';
+export { dhAdminShellRoutes as default } from './src/dh-admin-shell.routes';

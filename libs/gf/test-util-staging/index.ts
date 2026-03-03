@@ -17,7 +17,7 @@
  */
 //#endregion
 // Angular Testing Library
-export * from './src/lib/set-up-angular-testing-library';
+export * from './src/set-up-angular-testing-library';
 
 // Angular testbed
-export * from './src/lib/set-up-testbed';
+export * from './src/set-up-testbed';

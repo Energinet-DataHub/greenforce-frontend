@@ -16,6 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export { getMswGlobalPolyfillPath } from './src/lib/msw-global-polyfill-path';
-export { vitestAngularConfig } from './src/lib/vitest-angular-config';
-export {} from './src/lib/setup-msw-polyfills'; // Side-effect import for polyfills
+export { getMswGlobalPolyfillPath } from './src/msw-global-polyfill-path';
+export { vitestAngularConfig } from './src/vitest-angular-config';
+export {} from './src/setup-msw-polyfills'; // Side-effect import for polyfills

@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { dhCoreShellRoutes } from './src/lib/dh-core-shell.routes';
-export { dhCoreShellProviders } from './src/lib/dh-core-shell.providers';
+export { dhCoreShellRoutes } from './src/dh-core-shell.routes';
+export { dhCoreShellProviders } from './src/dh-core-shell.providers';

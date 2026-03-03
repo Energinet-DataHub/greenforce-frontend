@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/lib/languages/display-language';
+export * from './src/languages/display-language';

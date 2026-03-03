@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/lib/cookie-information.constants';
-export * from './src/lib/cookie-information.service';
-export * from './src/lib/cookie-information.types';
-export * from './src/lib/supported-cultures';
+export * from './src/cookie-information.constants';
+export * from './src/cookie-information.service';
+export * from './src/cookie-information.types';
+export * from './src/supported-cultures';

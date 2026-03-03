@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhProfileModalComponent } from './src/lib/dh-profile-modal/dh-profile-modal.component';
-export { DhProfileModalService } from './src/lib/dh-profile-modal/dh-profile-modal.service';
+export { DhProfileModalComponent } from './src/dh-profile-modal/dh-profile-modal.component';
+export { DhProfileModalService } from './src/dh-profile-modal/dh-profile-modal.service';

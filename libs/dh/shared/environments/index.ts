@@ -17,16 +17,16 @@
  */
 //#endregion
 // API environment
-export * from './src/lib/api-environment/dh-api-environment';
-export * from './src/lib/api-environment/load-dh-api-environment';
+export * from './src/api-environment/dh-api-environment';
+export * from './src/api-environment/load-dh-api-environment';
 
 // B2C environment
-export * from './src/lib/b2c-environment/dh-b2c-environment';
-export * from './src/lib/b2c-environment/load-dh-b2c-environment';
+export * from './src/b2c-environment/dh-b2c-environment';
+export * from './src/b2c-environment/load-dh-b2c-environment';
 
 // App environment
-export * from './src/lib/app-environment/dh-app-environment';
-export * from './src/lib/app-environment/load-dh-app-environment';
+export * from './src/app-environment/dh-app-environment';
+export * from './src/app-environment/load-dh-app-environment';
 
 // Application environment
-export * from './src/lib/environment';
+export * from './src/environment';

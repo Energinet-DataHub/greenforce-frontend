@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhSettlementReportsService } from './src/lib/dh-settlement-reports.service';
-export { DhMeasurementsReportsService } from './src/lib/dh-measurements-reports.service';
+export { DhSettlementReportsService } from './src/dh-settlement-reports.service';
+export { DhMeasurementsReportsService } from './src/dh-measurements-reports.service';

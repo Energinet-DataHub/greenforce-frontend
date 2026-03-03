@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhOutgoingMessagesComponent as default } from './src/lib/table.component';
-export { DhOutgoingMessageDetailsComponent } from './src/lib/details.component';
+export { DhOutgoingMessagesComponent as default } from './src/table.component';
+export { DhOutgoingMessageDetailsComponent } from './src/details.component';

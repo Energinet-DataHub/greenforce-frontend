@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export { type DhFeatureFlag } from './src/lib/dh-feature-flags';
-export * from './src/lib/dh-feature-flags.service';
-export * from './src/lib/dh-feature-flag.directive';
-export * from './src/lib/dh-feature-flag.guard';
+export { type DhFeatureFlag } from './src/dh-feature-flags';
+export * from './src/dh-feature-flags.service';
+export * from './src/dh-feature-flag.directive';
+export * from './src/dh-feature-flag.guard';

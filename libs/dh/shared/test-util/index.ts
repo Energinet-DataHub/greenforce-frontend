@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/lib/get-transloco-testing.module';
-export * from './src/lib/msal-fake.service';
+export * from './src/get-transloco-testing.module';
+export * from './src/msal-fake.service';

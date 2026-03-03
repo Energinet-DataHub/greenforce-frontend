@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/lib/market-role.guard';
-export * from './src/lib/permission.guard';
-export * from './src/lib/permission-required.directive';
-export * from './src/lib/permission.service';
-export * from './src/lib/dh-authorization.interceptor';
-export * from './src/lib/dh-inactivity-detection.service';
-export * from './src/lib/dh-selected-actor.component';
-export * from './src/lib/dh-mitid-button.component';
-export * from './src/lib/dh-actor-token.service';
-export * from './src/lib/dh-actor-storage';
-export * from './src/lib/market-role-required.directive';
+export * from './src/market-role.guard';
+export * from './src/permission.guard';
+export * from './src/permission-required.directive';
+export * from './src/permission.service';
+export * from './src/dh-authorization.interceptor';
+export * from './src/dh-inactivity-detection.service';
+export * from './src/dh-selected-actor.component';
+export * from './src/dh-mitid-button.component';
+export * from './src/dh-actor-token.service';
+export * from './src/dh-actor-storage';
+export * from './src/market-role-required.directive';

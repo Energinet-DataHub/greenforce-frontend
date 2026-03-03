@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { dhMessageArchiveShellRoutes as default } from './src/lib/dh-message-archive-shell.routes';
+export { dhMessageArchiveShellRoutes as default } from './src/dh-message-archive-shell.routes';

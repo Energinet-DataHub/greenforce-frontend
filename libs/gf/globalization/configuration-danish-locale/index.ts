@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { danishLocaleProvider } from './src/lib/danish-locale.provider';
-import { danishCurrencyProvider } from './src/lib/danish-currency.provider';
-import { danishLocaleInitializer } from './src/lib/danish-locale.initializer';
+import { danishLocaleProvider } from './src/danish-locale.provider';
+import { danishCurrencyProvider } from './src/danish-currency.provider';
+import { danishLocaleInitializer } from './src/danish-locale.initializer';
 import { makeEnvironmentProviders } from '@angular/core';
 
 export const danishLocalProviders = makeEnvironmentProviders([

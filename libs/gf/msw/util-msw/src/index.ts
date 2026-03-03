@@ -16,6 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export { setupServiceWorker } from './lib/setup-service-worker';
-export { handlers, onUnhandledRequest, mocks } from './lib/handlers';
-export * as mswConfig from './lib/config';
+export { setupServiceWorker } from './setup-service-worker';
+export { handlers, onUnhandledRequest, mocks } from './handlers';
+export * as mswConfig from './config';
