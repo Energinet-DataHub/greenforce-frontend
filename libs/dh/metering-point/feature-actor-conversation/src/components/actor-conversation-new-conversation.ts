@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -163,6 +163,25 @@ export class DhActorConversationNewConversationComponent {
   private readonly subjectValue = toSignal(this.newConversationForm.controls.subject.valueChanges, {
     initialValue: this.newConversationForm.controls.subject.value,
   });
+
+  private readonly receiverValue = toSignal(
+    this.newConversationForm.controls.receiver.valueChanges,
+    { initialValue: this.newConversationForm.controls.receiver.value }
+  );
+
+  constructor() {
+    effect(() => {
+      const energySupplierDateControl = this.newConversationForm.controls.energySupplierDate;
+      if (this.receiverValue() === ActorType.EnergySupplier) {
+        energySupplierDateControl.addValidators(Validators.required);
+      } else {
+        energySupplierDateControl.removeValidators(Validators.required);
+        energySupplierDateControl.reset();
+      }
+      energySupplierDateControl.updateValueAndValidity();
+    });
+  }
+
   isElectricalHeating = computed(
     () => this.subjectValue() === ConversationSubject.ElectricalHeating
   );
