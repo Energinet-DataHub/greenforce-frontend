@@ -35,9 +35,10 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhFormControlToSignal,
+  dhMakeFormControl,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { internalNoteMaxLength, MessageFormValue, messageMaxLength } from '../types';
 import {
   ActorType,
@@ -76,7 +77,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
   `,
   template: `
     <form
-      [formGroup]="newConversationForm"
+      [formGroup]="newConversationForm()"
       (ngSubmit)="startConversation()"
       vater-grid
       fill="vertical"
@@ -101,7 +102,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
         <vater-grid-area column="1" row="1">
           <vater-stack direction="column" gap="m" align="start">
             <watt-dropdown
-              [formControl]="newConversationForm.controls.subject"
+              [formControl]="newConversationForm().controls.subject"
               [options]="subjects"
               [label]="t('subjectLabel')"
               [showResetOption]="false"
@@ -117,12 +118,12 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
             <vater-flex fill="horizontal" direction="row" gap="m" align="start">
               <dh-actor-conversation-receiver-radio-group
                 [marketRole]="currentActorMarketRole"
-                [receiverControl]="newConversationForm.controls.receiver"
-                [dateControl]="newConversationForm.controls.energySupplierDate"
+                [receiverControl]="newConversationForm().controls.receiver"
+                [dateControl]="newConversationForm().controls.energySupplierDate"
               />
             </vater-flex>
             <watt-text-field
-              [formControl]="newConversationForm.controls.internalNote"
+              [formControl]="newConversationForm().controls.internalNote"
               [label]="t('internalNoteLabelWithDisclaimer')"
               data-testid="actor-conversation-internal-note-input"
             />
@@ -134,7 +135,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
               vater
               fill="horizontal"
               [loading]="startConversationMutation.loading()"
-              [formControl]="newConversationForm.controls.message"
+              [formControl]="newConversationForm().controls.message"
             />
           </vater-stack>
         </vater-grid-area>
@@ -148,34 +149,44 @@ export class DhActorConversationNewConversationComponent {
   );
   public readonly currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
 
-  private readonly fb = inject(NonNullableFormBuilder);
-
   startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
 
   meteringPointId = input.required<string>();
 
-  newConversationForm = this.fb.group({
-    subject: this.fb.control<ConversationSubject | null>(null, Validators.required),
-    receiver: this.fb.control<ActorType | null>(null, Validators.required),
-    energySupplierDate: this.fb.control<Date | null>(null),
-    internalNote: this.fb.control<string | null>(null, Validators.maxLength(internalNoteMaxLength)),
-    message: this.fb.control<MessageFormValue>({ content: '', anonymous: false }, [
-      (control) => (control.value.content ? null : { required: true }),
-      Validators.maxLength(messageMaxLength),
-    ]),
-  });
+  newConversationForm = computed(
+    () =>
+      new FormGroup({
+        subject: dhMakeFormControl<ConversationSubject | null>(null, Validators.required),
+        receiver: dhMakeFormControl<ActorType | null>(null, Validators.required),
+        energySupplierDate: dhMakeFormControl<Date | null>(null),
+        internalNote: dhMakeFormControl<string | null>(
+          null,
+          Validators.maxLength(internalNoteMaxLength)
+        ),
+        message: dhMakeFormControl<MessageFormValue>(
+          { content: '', anonymous: false },
+          [
+            (control) => (control.value.content ? null : { required: true }),
+            Validators.maxLength(messageMaxLength),
+          ]
+        ),
+      })
+  );
+
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
 
-  private readonly subjectValue = dhFormControlToSignal(this.newConversationForm.controls.subject);
+  private readonly subjectValue = dhFormControlToSignal(
+    () => this.newConversationForm().controls.subject
+  );
 
   private readonly receiverValue = dhFormControlToSignal(
-    this.newConversationForm.controls.receiver
+    () => this.newConversationForm().controls.receiver
   );
 
   constructor() {
     effect(() => {
-      const energySupplierDateControl = this.newConversationForm.controls.energySupplierDate;
+      const energySupplierDateControl = this.newConversationForm().controls.energySupplierDate;
       if (this.receiverValue() === ActorType.EnergySupplier) {
         energySupplierDateControl.addValidators(Validators.required);
       } else {
@@ -191,11 +202,12 @@ export class DhActorConversationNewConversationComponent {
   );
 
   async startConversation() {
-    if (this.newConversationForm.invalid) {
+    if (this.newConversationForm().invalid) {
       return;
     }
 
-    const { subject, receiver, internalNote, message } = this.newConversationForm.getRawValue();
+    const { subject, receiver, internalNote, message } =
+      this.newConversationForm().getRawValue();
 
     if (!receiver || !subject) {
       return;
