@@ -261,6 +261,8 @@ function getMeteringPointProcessById(apiBase: string) {
               completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24), // 1 day later
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2), // 2 days later
               state: ProcessState.Succeeded,
+              description:
+                'Første step i processen, hvor vi har sendt en anmodning om end of supply til den relevante aktør.',
               documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
               actor: {
                 __typename: 'MarketParticipant' as const,
@@ -276,6 +278,8 @@ function getMeteringPointProcessById(apiBase: string) {
               completedAt: null,
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5), // 5 days later
               state: ProcessState.Pending,
+              description:
+                'Andet step i processen, hvor vi afventer en bekræftelse fra den relevante aktør om modtagelsen af anmodningen.',
               documentUrl: null,
               actor: {
                 __typename: 'MarketParticipant' as const,

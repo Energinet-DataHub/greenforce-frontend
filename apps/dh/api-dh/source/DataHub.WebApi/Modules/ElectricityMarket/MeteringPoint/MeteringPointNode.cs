@@ -245,15 +245,21 @@ public static partial class MeteringPointNode
     public static async Task<bool> RequestConnectionStateChangeAsync(
         string meteringPointId,
         DateTimeOffset validityDate,
-        CancellationToken ct,
-        [Service] IB2CClient ediB2CClient)
+        ConnectionState newConnectionState,
+        IB2CClient ediB2CClient,
+        CancellationToken ct)
     {
-        var command = new RequestConnectMeteringPointCommandV1(
-            new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+        if (newConnectionState == ConnectionState.Connected)
+        {
+            var command = new RequestConnectMeteringPointCommandV1(
+                new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
 
-        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+            var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess;
+            return result.IsSuccess;
+        }
+
+        return false;
     }
 
     [Mutation]

@@ -19,6 +19,7 @@
 import { Contact, ContactDetailsFormType, Customer } from '../types';
 import { FormGroup, Validators } from '@angular/forms';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { emailsValidator } from '../validators/mails.validator';
 
 export function createCustomerContactDetailsForm(
   legalCustomer: Customer | undefined,
@@ -42,7 +43,10 @@ export function createCustomerContactDetailsForm(
       phone: dhMakeFormControl<string | null>(contact?.phone),
       mobile: dhMakeFormControl<string | null>(contact?.mobile),
       attention: dhMakeFormControl<string | null>(contact?.attention),
-      email: dhMakeFormControl<string | null>(contact?.email, Validators.email),
+      email: dhMakeFormControl<string | null>(
+        (contact?.email ?? '').split(';').join(', '),
+        emailsValidator()
+      ),
     }),
   });
 }

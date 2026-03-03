@@ -1,5 +1,5 @@
-query GetMeteringPointEventsDebugView($meteringPointId: String!) {
-  eventsDebugView(meteringPointId: $meteringPointId) {
+query GetOperationToolsMeteringPoint($id: String!) {
+  operationToolsMeteringPoint(id: $id) {
     meteringPointJson
     meteringPointWithRelationsJson
     events {

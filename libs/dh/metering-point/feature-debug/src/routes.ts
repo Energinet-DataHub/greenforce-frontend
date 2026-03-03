@@ -23,8 +23,10 @@ import { getPath, MeteringPointDebugSubPaths } from '@energinet-datahub/dh/core/
 import { DhMeteringPointDebugComponent } from './debug.component';
 import { DhMeteringPointComponent } from './debug-metering-point/metering-point.component';
 import { DhMeteringPointEventsComponent } from './debug-metering-point-events/metering-point-events.component';
+import { DhMeteringPointMigrationComponent } from './debug-metering-point-migration/metering-point-migration.component';
 import { DhMeteringPointsDebugComponent } from './debug-metering-points/metering-points.component';
 import { DhMeteringPointFailedMeasurementsComponent } from './debug-metering-points/failed-measurements.component';
+import { DhMeteringPointActionsComponent } from './debug-metering-point-actions/metering-point-actions.component';
 
 export const dhMeteringPointDebugRoutes: Routes = [
   {
@@ -57,6 +59,14 @@ export const dhMeteringPointDebugRoutes: Routes = [
           {
             path: getPath<MeteringPointDebugSubPaths>('metering-point-events'),
             component: DhMeteringPointEventsComponent,
+          },
+          {
+            path: getPath<MeteringPointDebugSubPaths>('migration'),
+            component: DhMeteringPointMigrationComponent,
+          },
+          {
+            path: getPath<MeteringPointDebugSubPaths>('actions'),
+            component: DhMeteringPointActionsComponent,
           },
         ],
       },

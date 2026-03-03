@@ -237,10 +237,7 @@ export class DhUpdateCustomerDataComponent {
             !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
           ),
           customerName2: dhMakeFormControl<string>(this.secondaryCustomer()?.name ?? ''),
-          cpr2: dhMakeFormControl<string>(
-            '',
-            !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
-          ),
+          cpr2: dhMakeFormControl<string>('', !this.isBusinessCustomer() ? [dhCprValidator()] : []),
           nameProtection: dhMakeFormControl<boolean>(
             this.secondaryCustomer()?.isProtectedName ?? false
           ),
