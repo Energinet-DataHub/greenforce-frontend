@@ -17,7 +17,7 @@
  */
 //#endregion
 import {
-  computed,
+  ComponentRef,
   DestroyRef,
   Directive,
   effect,
@@ -25,6 +25,7 @@ import {
   inject,
   input,
   ViewContainerRef,
+  booleanAttribute,
 } from '@angular/core';
 
 import { WattTooltipComponent } from './watt-tooltip.component';
@@ -49,43 +50,54 @@ export class WattTooltipDirective {
   readonly text = input<string>('', { alias: 'wattTooltip' });
   readonly position = input<wattTooltipPosition>('top', { alias: 'wattTooltipPosition' });
   readonly variant = input<wattTooltipVariant>('dark', { alias: 'wattTooltipVariant' });
+  readonly alwaysVisible = input(false, {
+    alias: 'wattTooltipAlwaysVisible',
+    transform: booleanAttribute,
+  });
 
   private readonly element = inject(ElementRef).nativeElement;
   private readonly viewContainerRef = inject(ViewContainerRef);
-  private readonly destroyRef = inject(DestroyRef);
-  private tooltip = computed(() => this.createTooltipComponent());
+  private tooltipRef: ComponentRef<WattTooltipComponent> | null = null;
 
   constructor() {
-    // Setup effect to manage tooltip component lifecycle
+    // Create or destroy the tooltip component when text changes
     effect(() => {
-      // Access the tooltip computed to create/update it when inputs change
-      const tooltipComponent = this.tooltip();
+      const text = this.text();
 
-      // Cleanup on destroy
-      this.destroyRef.onDestroy(() => {
-        tooltipComponent?.destroy();
-        this.element.removeAttribute('aria-describedby');
-      });
+      if (!text) {
+        this.destroyTooltip();
+        return;
+      }
+
+      if (!this.tooltipRef) {
+        this.tooltipRef = this.viewContainerRef.createComponent(WattTooltipComponent);
+        this.tooltipRef.setInput('target', this.element);
+        this.element.setAttribute('aria-describedby', this.tooltipRef.instance.id);
+      }
+
+      this.tooltipRef.setInput('text', text);
     });
+
+    // Update position, variant, and alwaysVisible without recreating the component
+    effect(() => {
+      if (!this.tooltipRef) return;
+
+      this.tooltipRef.setInput('position', this.position());
+      this.tooltipRef.setInput('variant', this.variant());
+      this.tooltipRef.setInput('alwaysVisible', this.alwaysVisible());
+
+      if (this.alwaysVisible()) {
+        const instance = this.tooltipRef.instance;
+        requestAnimationFrame(() => requestAnimationFrame(() => instance.show()));
+      }
+    });
+
+    inject(DestroyRef).onDestroy(() => this.destroyTooltip());
   }
 
-  private createTooltipComponent() {
-    if (!this.text()) return null;
-
-    // Create the component
-    const tooltipComponent = this.viewContainerRef.createComponent(WattTooltipComponent);
-
-    // Get the component instance
-    const instance = tooltipComponent.instance;
-
-    // Set up bindings
-    tooltipComponent.setInput('text', this.text());
-    tooltipComponent.setInput('target', this.element);
-    tooltipComponent.setInput('position', this.position());
-    tooltipComponent.setInput('variant', this.variant());
-
-    this.element.setAttribute('aria-describedby', instance.id);
-
-    return tooltipComponent;
+  private destroyTooltip(): void {
+    this.tooltipRef?.destroy();
+    this.tooltipRef = null;
+    this.element.removeAttribute('aria-describedby');
   }
 }
