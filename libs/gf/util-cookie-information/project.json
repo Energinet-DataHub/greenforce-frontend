@@ -1,8 +1,4 @@
 {
   "name": "gf-util-cookie-information",
-  "tags": [
-    "product:gf",
-    "domain:shared",
-    "type:util"
-  ]
+  "tags": ["product:gf", "domain:shared", "type:util"]
 }

@@ -1,11 +1,5 @@
 {
   "name": "dh-message-archive-data-access-graphql",
-  "tags": [
-    "product:dh",
-    "domain:message-archive",
-    "type:data-access"
-  ],
-  "implicitDependencies": [
-    "api-dh"
-  ]
+  "tags": ["product:dh", "domain:message-archive", "type:data-access"],
+  "implicitDependencies": ["api-dh"]
 }

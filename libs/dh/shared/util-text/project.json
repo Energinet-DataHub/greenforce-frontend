@@ -1,8 +1,4 @@
 {
   "name": "dh-shared-util-text",
-  "tags": [
-    "product:dh",
-    "domain:shared",
-    "type:util"
-  ]
+  "tags": ["product:dh", "domain:shared", "type:util"]
 }

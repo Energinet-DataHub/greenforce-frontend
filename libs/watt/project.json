@@ -1,8 +1,6 @@
 {
   "name": "watt",
-  "tags": [
-    "product:watt"
-  ],
+  "tags": ["product:watt"],
   "targets": {
     "storybook": {
       "options": {
@@ -15,9 +13,7 @@
       }
     },
     "build-storybook": {
-      "outputs": [
-        "{workspaceRoot}/dist/storybook/ui"
-      ],
+      "outputs": ["{workspaceRoot}/dist/storybook/ui"],
       "options": {
         "args": "--output-dir ../../dist/storybook/ui"
       }
@@ -43,18 +39,14 @@
     },
     "package": {
       "executor": "@nx/angular:package",
-      "outputs": [
-        "{workspaceRoot}/dist/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
         "project": "libs/watt/package/ng-package.json",
         "tsConfig": "libs/watt/tsconfig.lib.json"
       }
     },
     "publish": {
-      "dependsOn": [
-        "watt:package"
-      ],
+      "dependsOn": ["watt:package"],
       "executor": "@energinet-datahub/tools/package:publish",
       "options": {
         "path": "/dist/watt"

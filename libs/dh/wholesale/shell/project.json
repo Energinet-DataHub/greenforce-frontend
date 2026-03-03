@@ -1,8 +1,4 @@
 {
   "name": "dh-wholesale-shell",
-  "tags": [
-    "product:dh",
-    "domain:wholesale",
-    "type:shell"
-  ]
+  "tags": ["product:dh", "domain:wholesale", "type:shell"]
 }

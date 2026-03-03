@@ -1,8 +1,4 @@
 {
   "name": "dh-globalization-configuration-watt-translation",
-  "tags": [
-    "product:dh",
-    "domain:globalization",
-    "type:configuration"
-  ]
+  "tags": ["product:dh", "domain:globalization", "type:configuration"]
 }

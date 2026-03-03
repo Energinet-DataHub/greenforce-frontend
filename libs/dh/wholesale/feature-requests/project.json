@@ -1,8 +1,4 @@
 {
   "name": "dh-wholesale-feature-requests",
-  "tags": [
-    "product:dh",
-    "domain:wholesale",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:wholesale", "type:feature"]
 }

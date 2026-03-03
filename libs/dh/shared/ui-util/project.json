@@ -1,8 +1,4 @@
 {
   "name": "dh-shared-ui-util",
-  "tags": [
-    "product:dh",
-    "domain:shared",
-    "type:ui"
-  ]
+  "tags": ["product:dh", "domain:shared", "type:ui"]
 }

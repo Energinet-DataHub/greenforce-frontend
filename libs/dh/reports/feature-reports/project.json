@@ -1,8 +1,4 @@
 {
   "name": "dh-reports-feature-reports",
-  "tags": [
-    "product:dh",
-    "domain:reports",
-    "type:feature"
-  ]
+  "tags": ["product:dh", "domain:reports", "type:feature"]
 }

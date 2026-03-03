@@ -1,8 +1,4 @@
 {
   "name": "dh-shared-assets",
-  "tags": [
-    "product:dh",
-    "domain:shared",
-    "type:assets"
-  ]
+  "tags": ["product:dh", "domain:shared", "type:assets"]
 }
