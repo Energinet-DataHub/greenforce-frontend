@@ -260,7 +260,7 @@ public static partial class MeteringPointNode
 
             return result.IsSuccess;
         }
-        else if ((currentConnectionState == ConnectionState.Connected || currentConnectionState == ConnectionState.Disconnected) && newConnectionState == ConnectionState.ClosedDown)
+        else if (newConnectionState == ConnectionState.ClosedDown)
         {
             var command = new RequestCloseDownMeteringPointCommandV1(
                 new RequestCloseDownMeteringPointRequestV1(meteringPointId, validityDate));
