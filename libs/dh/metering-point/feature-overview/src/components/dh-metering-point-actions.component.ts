@@ -219,7 +219,9 @@ export class DhMeteringPointActionsComponent {
   showConnectionStateManageButton = computed(
     () =>
       this.hasConnectionStateManagePermission() &&
-      this.connectionState() === ElectricityMarketViewConnectionState.New
+      (this.connectionState() === ElectricityMarketViewConnectionState.New ||
+        this.connectionState() === ElectricityMarketViewConnectionState.Connected ||
+        this.connectionState() === ElectricityMarketViewConnectionState.Disconnected)
   );
 
   showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
@@ -276,6 +278,7 @@ export class DhMeteringPointActionsComponent {
         currentConnectionState,
         currentCreatedDate,
         meteringPointId: this.meteringPointId(),
+        meteringPointType: this.type(),
       },
     });
   }

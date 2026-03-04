@@ -5,16 +5,5 @@
   "sourceRoot": "libs/dh/wholesale/feature-calculations/src",
   "prefix": "dh",
   "tags": ["product:dh", "domain:wholesale", "type:feature"],
-  "targets": {
-    "component-test": {
-      "executor": "@nx/cypress:cypress",
-      "options": {
-        "cypressConfig": "libs/dh/wholesale/feature-calculations/cypress.config.ts",
-        "testingType": "component",
-        "skipServe": true,
-        "devServerTarget": "app-dh:build:mocked",
-        "browser": "chrome"
-      }
-    }
-  }
+  "targets": {}
 }

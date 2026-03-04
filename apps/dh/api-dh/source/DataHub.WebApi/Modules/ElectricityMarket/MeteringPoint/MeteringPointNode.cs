@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.Core.App.Common.Calendar;
 using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestCloseDownMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Commands;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2;
@@ -245,14 +246,24 @@ public static partial class MeteringPointNode
     public static async Task<bool> RequestConnectionStateChangeAsync(
         string meteringPointId,
         DateTimeOffset validityDate,
+        ConnectionState currentConnectionState,
         ConnectionState newConnectionState,
         IB2CClient ediB2CClient,
         CancellationToken ct)
     {
-        if (newConnectionState == ConnectionState.Connected)
+        if (currentConnectionState == ConnectionState.New && newConnectionState == ConnectionState.Connected)
         {
             var command = new RequestConnectMeteringPointCommandV1(
                 new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+            var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+            return result.IsSuccess;
+        }
+        else if (newConnectionState == ConnectionState.ClosedDown)
+        {
+            var command = new RequestCloseDownMeteringPointCommandV1(
+                new RequestCloseDownMeteringPointRequestV1(meteringPointId, validityDate));
 
             var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 

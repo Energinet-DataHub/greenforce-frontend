@@ -65,6 +65,7 @@ public static partial class ActorConversationOperations
             new StartConversationRequest
             {
                 Subject = startConversationInput.Subject,
+                SenderActorType = MapMarketRoleToActorType(marketRole),
                 ReceiverActorType = startConversationInput.Receiver,
                 MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
                 InternalNote = startConversationInput.InternalNote,
@@ -134,7 +135,6 @@ public static partial class ActorConversationOperations
         var actorNumber = user.GetMarketParticipantNumber();
         var userId = user.GetUserId();
 
-        // TODO: What auth request do we want to use
         var authRequest = new AddActorConversationMessageRequest
         {
             ActorNumber = actorNumber,
@@ -178,7 +178,7 @@ public static partial class ActorConversationOperations
         var actorNumber = user.GetMarketParticipantNumber();
         var userId = user.GetUserId();
 
-        // TODO: USe another authRequest
+        // Auth is not used for this operation, so just sets a randomsignature
         var authRequest = new AddActorConversationMessageRequest
         {
             ActorNumber = actorNumber,
@@ -221,7 +221,7 @@ public static partial class ActorConversationOperations
         var actorNumber = user.GetMarketParticipantNumber();
         var userId = user.GetUserId();
 
-        // TODO: USe another authRequest
+        // Auth is not used for this operation, so just sets a randomsignature
         var authRequest = new AddActorConversationMessageRequest
         {
             ActorNumber = actorNumber,
@@ -297,5 +297,16 @@ public static partial class ActorConversationOperations
         {
             return false;
         }
+    }
+
+    private static ActorType MapMarketRoleToActorType(EicFunctionAuth marketRole)
+    {
+        return marketRole switch
+        {
+            EicFunctionAuth.EnergySupplier => ActorType.EnergySupplier,
+            EicFunctionAuth.GridAccessProvider => ActorType.GridAccessProvider,
+            EicFunctionAuth.DataHubAdministrator => ActorType.Energinet,
+            _ => throw new InvalidOperationException($"Unsupported market role: {marketRole}"),
+        };
     }
 }

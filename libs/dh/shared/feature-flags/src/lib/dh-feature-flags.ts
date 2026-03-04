@@ -57,10 +57,6 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.prod],
   },
-  'update-charge-links': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod, DhAppEnvironment.preprod],
-  },
   'charges-history': {
     created: latestBump,
     disabledEnvironments: [
