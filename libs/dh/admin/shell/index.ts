@@ -16,9 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/types/admin-role.types';
-export * from './lib/types/user-details.type';
-export * from './lib/types/user.type';
-export * from './lib/types/user-role.type';
-export * from './lib/types/permission.type';
-export * from './lib/types/actor-user-role.types';
+export { dhAdminShellRoutes as default } from './src/dh-admin-shell.routes';

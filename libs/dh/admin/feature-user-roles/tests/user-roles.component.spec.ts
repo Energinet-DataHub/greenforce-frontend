@@ -24,8 +24,8 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
 
-import { DhUserRolesComponent } from './user-roles.component';
-import { DhUserByIdMarketParticipant } from './types';
+import { DhUserRolesComponent } from '../src/user-roles.component';
+import { DhUserByIdMarketParticipant } from '../src/types';
 
 function generateMarketParticipant(
   counter = 1,
