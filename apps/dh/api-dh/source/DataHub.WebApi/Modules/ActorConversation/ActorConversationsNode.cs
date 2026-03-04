@@ -22,12 +22,12 @@ using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
-[ObjectType<ConversationsDto>]
+[ObjectType<GetConversationsQueryResponse>]
 public static partial class ActorConversationsNode
 {
     [Query]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task<ConversationsDto> GetConversationsForMeteringPointAsync(
+    public static async Task<GetConversationsQueryResponse> GetConversationsForMeteringPointAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
@@ -75,7 +75,7 @@ public static partial class ActorConversationsNode
     }
 
     static partial void Configure(
-        IObjectTypeDescriptor<ConversationsDto> descriptor)
+        IObjectTypeDescriptor<GetConversationsQueryResponse> descriptor)
     {
         descriptor
             .Name("Conversations")

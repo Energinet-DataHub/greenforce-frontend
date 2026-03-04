@@ -16,11 +16,11 @@ using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
-[ObjectType<UserMessageDto>]
+[ObjectType<GetConversationQueryResponseUserMessage>]
 public static partial class UserMessageDtoType
 {
     static partial void Configure(
-        IObjectTypeDescriptor<UserMessageDto> descriptor)
+        IObjectTypeDescriptor<GetConversationQueryResponseUserMessage> descriptor)
     {
         descriptor
             .Name("UserMessage")

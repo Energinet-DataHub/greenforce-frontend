@@ -16,11 +16,11 @@ using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
-[ObjectType<ConversationsDto>]
+[ObjectType<GetConversationsQueryResponse>]
 public static partial class ConversationsType
 {
     static partial void Configure(
-        IObjectTypeDescriptor<ConversationsDto> descriptor)
+        IObjectTypeDescriptor<GetConversationsQueryResponse> descriptor)
     {
         descriptor
             .Name("Conversations")
