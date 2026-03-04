@@ -39,11 +39,15 @@ export function injectDownloadMessageDocument() {
       .get(`${apiEnvironment.apiBase}${downloadPath}/${documentId}`, {
         responseType: 'blob',
       })
-      .pipe(finalize(() => downloading.update((set) => {
-        const next = new Set(set);
-        next.delete(documentId);
-        return next;
-      })))
+      .pipe(
+        finalize(() =>
+          downloading.update((set) => {
+            const next = new Set(set);
+            next.delete(documentId);
+            return next;
+          })
+        )
+      )
       .subscribe((blob) => {
         toFile({ name: documentName, type: blob.type, data: blob });
       });

@@ -105,7 +105,9 @@ import { injectDownloadMessageDocument } from './download-message-document';
                 class="attachment-link"
                 [disabled]="documentDownload.downloading().has(attachment.documentId)"
                 (click)="documentDownload.download(attachment.documentId, attachment.documentName)"
-              >{{ attachment.documentName }}</button>
+              >
+                {{ attachment.documentName }}
+              </button>
               @if (documentDownload.downloading().has(attachment.documentId)) {
                 <watt-spinner [diameter]="16" [strokeWidth]="2" />
               }
