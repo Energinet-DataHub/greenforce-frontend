@@ -1,7 +1,5 @@
 query GetElectricalHeating($meteringPointIdentification: String!) {
-  electricalHeatingInformation(
-    meteringPointIdentification: $meteringPointIdentification
-  ) {
+  electricalHeatingInformation(meteringPointIdentification: $meteringPointIdentification) {
     customerName
     supplierPeriods {
       from

@@ -22,7 +22,8 @@ import {
   Component,
   computed,
   forwardRef,
-  inject, input,
+  inject,
+  input,
 } from '@angular/core';
 import {
   ControlValueAccessor,
