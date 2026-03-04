@@ -39,7 +39,12 @@ import {
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ElectricalHeatingFormValue, internalNoteMaxLength, MessageFormValue, messageMaxLength } from '../types';
+import {
+  ElectricalHeatingFormValue,
+  internalNoteMaxLength,
+  MessageFormValue,
+  messageMaxLength,
+} from '../types';
 import {
   ActorType,
   ConversationSubject,
