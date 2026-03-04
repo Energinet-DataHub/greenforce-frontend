@@ -82,7 +82,7 @@ import { WattFieldHintComponent } from '@energinet/watt/field';
     >
       <watt-textarea-field
         [formControl]="form.controls.message"
-        [small]="small()"
+        [small]="true"
         data-testid="actor-conversation-message-textarea">
         @if (closed()) {
           <watt-textarea-notice><watt-icon name="info" state="default" />{{ t('closedNotice') }}</watt-textarea-notice>
@@ -112,7 +112,6 @@ import { WattFieldHintComponent } from '@energinet/watt/field';
 })
 export class DhActorConversationMessageFormComponent implements ControlValueAccessor {
   private readonly cdr = inject(ChangeDetectorRef);
-  small = input<boolean>(false);
   loading = input<boolean>(false);
   closed = input<boolean>(false);
 

@@ -97,7 +97,7 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
           [placeholder]="t('filters.placeholder')"
         />
       </vater-stack>
-      <watt-separator size="m" />
+      <watt-separator weight="regular" />
     </vater-stack>
 
     <dh-result [query]="conversationsQuery()">

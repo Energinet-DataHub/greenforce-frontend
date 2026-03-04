@@ -20,12 +20,8 @@ import { DecimalPipe } from '@angular/common';
 import { input, signal, computed, Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import {
-  WattDataTableComponent,
-  WattDataFiltersComponent,
-  WattDataActionsComponent,
-} from '@energinet/watt/data';
+import { VATER } from '@energinet/watt/vater';
+import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
 import { dayjs } from '@energinet/watt/core/date';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
@@ -55,10 +51,8 @@ import { DhChargesSeriesDetails } from './series-details';
   imports: [
     DecimalPipe,
     TranslocoDirective,
-    VaterStackComponent,
-    VaterUtilityDirective,
+    VATER,
     WATT_TABLE,
-    WattDataActionsComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSlideToggleComponent,
@@ -79,7 +73,7 @@ import { DhChargesSeriesDetails } from './series-details';
       *transloco="let t; prefix: 'charges.series'"
     >
       <watt-data-filters>
-        <vater-stack wrap direction="row" align="baseline" gap="m">
+        <vater-stack fill="horizontal" wrap direction="row" align="baseline" gap="m">
           <dh-charges-interval-field
             [resolution]="resolution()"
             (intervalChange)="query.refetch({ interval: $event })"
@@ -89,12 +83,10 @@ import { DhChargesSeriesDetails } from './series-details';
               {{ t('showHistory') }}
             </watt-slide-toggle>
           }
+          <vater-spacer />
+          <dh-download-button (click)="download()" />
         </vater-stack>
       </watt-data-filters>
-
-      <watt-data-actions>
-        <dh-download-button (click)="download()" />
-      </watt-data-actions>
 
       <watt-table
         *transloco="let resolveHeader; prefix: 'charges.series.columns'"
@@ -195,7 +187,7 @@ export class DhChargesSeriesTable {
           `"${this.charge()?.owner?.name}"`,
           `"${this.charge()?.owner?.glnOrEicNumber}"`,
           `"${translate('charges.chargeTypes.' + this.charge()?.type)}"`,
-          `"${this.charge()?.id}"`,
+          `"${this.charge()?.code}"`,
           `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
           `"${dayjs(x.period.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
           `"${dayjs(x.period.end).format('YYYY-MM-DDTHH:mm:ss')}"`,
