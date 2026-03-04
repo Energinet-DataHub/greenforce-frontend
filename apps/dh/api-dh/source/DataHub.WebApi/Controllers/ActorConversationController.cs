@@ -115,8 +115,30 @@ public sealed class ActorConversationController : ControllerBase
         }
 
         var responseBody = await response.Content.ReadAsStringAsync(ct);
-        var documentId = JsonSerializer.Deserialize<Guid>(responseBody);
 
-        return Ok(documentId);
+        using var doc = JsonDocument.Parse(responseBody);
+        var root = doc.RootElement;
+
+        // If the response is a bare GUID string
+        if (root.ValueKind == JsonValueKind.String &&
+            Guid.TryParse(root.GetString(), out var bareGuid))
+        {
+            return Ok(bareGuid);
+        }
+
+        // If the response is an object, find the first GUID-like property
+        if (root.ValueKind == JsonValueKind.Object)
+        {
+            foreach (var property in root.EnumerateObject())
+            {
+                if (property.Value.ValueKind == JsonValueKind.String &&
+                    Guid.TryParse(property.Value.GetString(), out var guid))
+                {
+                    return Ok(guid);
+                }
+            }
+        }
+
+        return BadRequest($"Unexpected response format from upstream: {responseBody}");
     }
 }

@@ -17,20 +17,22 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
-import { DhApiEnvironment } from '@energinet-datahub/dh/shared/environments';
+import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 const uploadPath = '/v1/ActorConversation/UploadMessageDocument';
 
-export async function uploadMessageDocument(
-  http: HttpClient,
-  apiEnvironment: DhApiEnvironment,
-  file: File
-): Promise<string> {
-  const formData = new FormData();
-  formData.append('document', file);
-  return firstValueFrom(
-    http.post<string>(`${apiEnvironment.apiBase}${uploadPath}`, formData)
-  );
+export function injectUploadMessageDocument() {
+  const http = inject(HttpClient);
+  const apiEnvironment = inject(dhApiEnvironmentToken);
+
+  return (file: File): Promise<string> => {
+    const formData = new FormData();
+    formData.append('document', file);
+    return firstValueFrom(
+      http.post<string>(`${apiEnvironment.apiBase}${uploadPath}`, formData)
+    );
+  };
 }

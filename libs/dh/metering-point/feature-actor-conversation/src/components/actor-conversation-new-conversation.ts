@@ -26,8 +26,6 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -53,7 +51,7 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
 import { DhActorConversationReceiverRadioGroupComponent } from './actor-conversation-receiver-radio-group';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { uploadMessageDocument } from './upload-message-document';
+import { injectUploadMessageDocument } from './upload-message-document';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -138,7 +136,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
             <dh-actor-conversation-message-form
               vater
               fill="horizontal"
-              [loading]="startConversationMutation.loading()"
+              [loading]="uploading() || startConversationMutation.loading()"
               [uploadError]="uploadError()"
               [formControl]="newConversationForm().controls.message"
             />
@@ -149,13 +147,13 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
   `,
 })
 export class DhActorConversationNewConversationComponent {
-  private readonly http = inject(HttpClient);
-  private readonly apiEnvironment = inject(dhApiEnvironmentToken);
+  private readonly uploadMessageDocument = injectUploadMessageDocument();
   private readonly startConversationErrorToast = injectToast(
     'meteringPoint.actorConversation.startConversationError'
   );
   public readonly currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
 
+  uploading = signal(false);
   uploadError = signal(false);
   startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
@@ -211,22 +209,27 @@ export class DhActorConversationNewConversationComponent {
       this.newConversationForm().getRawValue();
 
     if (!receiver || !subject) return;
+    if (this.uploading()) return;
 
     const { content, anonymous, files } = message ?? {};
 
     assertIsDefined(anonymous);
 
     this.uploadError.set(false);
+    this.uploading.set(true);
 
     let attachedDocumentIds: string[];
     try {
       attachedDocumentIds = await Promise.all(
-        (files ?? []).map((file) => uploadMessageDocument(this.http, this.apiEnvironment, file))
+        (files ?? []).map((file) => this.uploadMessageDocument(file))
       );
     } catch {
       this.uploadError.set(true);
+      this.uploading.set(false);
       return;
     }
+
+    this.uploading.set(false);
 
     await this.startConversationMutation.mutate({
       variables: {

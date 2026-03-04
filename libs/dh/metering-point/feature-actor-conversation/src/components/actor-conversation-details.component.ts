@@ -28,8 +28,6 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { WattIconComponent } from '@energinet/watt/icon';
 import {
   VaterFlexComponent,
@@ -60,7 +58,7 @@ import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
 import { DhActorConversationInternalNoteModalComponent } from './actor-conversation-internal-note-modal.component';
-import { uploadMessageDocument } from './upload-message-document';
+import { injectUploadMessageDocument } from './upload-message-document';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 
@@ -173,7 +171,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
           (ngSubmit)="sendMessage()"
         >
           <dh-actor-conversation-message-form
-            [loading]="sendActorConversationMessageMutation.loading()"
+            [loading]="uploading() || sendActorConversationMessageMutation.loading()"
             [closed]="!!conversation()?.closed"
             [uploadError]="uploadError()"
             [formControl]="formControl"
@@ -185,8 +183,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
 })
 export class DhActorConversationDetailsComponent {
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly http = inject(HttpClient);
-  private readonly apiEnvironment = inject(dhApiEnvironmentToken);
+  private readonly uploadMessageDocument = injectUploadMessageDocument();
   private readonly modalService = inject(WattModalService);
   private readonly scrollAnchor = viewChild<ElementRef<HTMLElement>>('scrollAnchor');
   private readonly closeConversationMutation = mutation(CloseConversationDocument);
@@ -226,6 +223,7 @@ export class DhActorConversationDetailsComponent {
     }
   });
 
+  uploading = signal(false);
   uploadError = signal(false);
 
   formControl = this.fb.control<MessageFormValue>({
@@ -268,18 +266,23 @@ export class DhActorConversationDetailsComponent {
     assertIsDefined(anonymous);
 
     if (!content && !(files ?? []).length) return;
+    if (this.uploading()) return;
 
     this.uploadError.set(false);
+    this.uploading.set(true);
 
     let attachedDocumentIds: string[];
     try {
       attachedDocumentIds = await Promise.all(
-        (files ?? []).map((file) => uploadMessageDocument(this.http, this.apiEnvironment, file))
+        (files ?? []).map((file) => this.uploadMessageDocument(file))
       );
     } catch {
       this.uploadError.set(true);
+      this.uploading.set(false);
       return;
     }
+
+    this.uploading.set(false);
 
     await this.sendActorConversationMessageMutation.mutate({
       variables: {
