@@ -16,15 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -39,26 +31,24 @@ import {
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  ElectricalHeatingFormValue,
-  internalNoteMaxLength,
-  MessageFormValue,
-  messageMaxLength,
-} from '../types';
+import { ElectricalHeatingFormValue, internalNoteMaxLength, MessageFormValue, messageMaxLength, } from '../types';
 import {
   ActorType,
   ConversationSubject,
   GetConversationsDocument,
+  GetElectricalHeatingDocument,
   StartConversationDocument,
   StartElectricalHeatingConversationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 import { DhActorConversationReceiverRadioGroupComponent } from './actor-conversation-receiver-radio-group';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
+import {
+  DhActorConversationElectricalHeatingFormComponent
+} from './actor-conversation-electrical-heating-form.component';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -153,6 +143,7 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
           <vater-grid-area column="2" row="1">
             <dh-actor-conversation-electrical-heating-form
               [formControl]="newConversationForm().controls.electricalHeating"
+              [electricalHeatingInformation]="electricalHeatingInformation()"
             />
           </vater-grid-area>
         }
@@ -168,6 +159,15 @@ export class DhActorConversationNewConversationComponent {
 
   startConversationMutation = mutation(StartConversationDocument);
   startElectricalHeatingConversationMutation = mutation(StartElectricalHeatingConversationDocument);
+  electricHeatingInformationQuery = query(GetElectricalHeatingDocument, () => ({
+    variables: {
+      meteringPointIdentification: this.meteringPointId(),
+    },
+  }));
+  electricalHeatingInformation = computed(
+    () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
+  );
+
   closeNewConversation = output();
   meteringPointId = input.required<string>();
 

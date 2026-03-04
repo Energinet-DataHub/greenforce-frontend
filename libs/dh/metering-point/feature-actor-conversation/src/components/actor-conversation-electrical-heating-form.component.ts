@@ -22,7 +22,7 @@ import {
   Component,
   computed,
   forwardRef,
-  inject,
+  inject, input,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -45,6 +45,7 @@ import {
 } from '@energinet/watt/description-list';
 import { WattDatePipe } from '@energinet/watt/date';
 import { ElectricalHeatingFormValue } from '../types';
+import { ElectricalHeatingInformation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-actor-conversation-electrical-heating-form',
@@ -86,20 +87,23 @@ import { ElectricalHeatingFormValue } from '../types';
       <watt-description-list variant="compact">
         <watt-description-list-item
           [label]="t('currentElectricalHeatingStatus')"
-          [value]="t('yes')"
+          [value]="t(electricalHeatingInformation()?.isElectricalHeatingActive ? 'yes' : 'no')"
         />
         <watt-description-list-item
           [label]="t('electricalHeatingDate')"
-          [value]="newDate | wattDate: 'long'"
+          [value]="electricalHeatingInformation()?.electricalHeatingFrom | wattDate"
         />
-        <watt-description-list-item [label]="t('customer')" value="Fornavn Efternavn" />
+        <watt-description-list-item
+          [label]="t('customer')"
+          [value]="electricalHeatingInformation()?.customerName"
+        />
         <watt-description-list-item
           [label]="t('supplierInPeriod')"
-          [value]="newDate | wattDate: 'long'"
-        />
-        <watt-description-list-item
-          [label]="t('currentElectricalHeatingStatus')"
-          [value]="t('yes')"
+          [value]="
+            (getFirstSupplierPeriodFromDate() | wattDate) +
+            ' - ' +
+            (getFirstSupplierPeriodToDate() | wattDate)
+          "
         />
       </watt-description-list>
 
@@ -127,8 +131,17 @@ import { ElectricalHeatingFormValue } from '../types';
 })
 export class DhActorConversationElectricalHeatingFormComponent implements ControlValueAccessor {
   private readonly cdr = inject(ChangeDetectorRef);
-
-  newDate = new Date();
+  electricalHeatingInformation = input<ElectricalHeatingInformation>();
+  getFirstSupplierPeriodFromDate = computed(() => {
+    const periods = this.electricalHeatingInformation()?.supplierPeriods;
+    if (!periods || periods.length === 0) return null;
+    return periods[0].from;
+  });
+  getFirstSupplierPeriodToDate = computed(() => {
+    const periods = this.electricalHeatingInformation()?.supplierPeriods;
+    if (!periods || periods.length === 0) return null;
+    return periods[0].to;
+  });
   form = new FormGroup({
     addressEligibilityDate: new FormControl<Date | null>(null, Validators.required),
     periodStart: new FormControl<Date | null>(null, Validators.required),
