@@ -16,8 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/permission';
-export * from './lib/permission-dto';
-export * from './lib/range';
-export * from './lib/dh-settlement-report';
-export * from './lib/dh-measurements-report';
+import { environment } from '../src/environment.prod';
+
+describe('Production environment config', () => {
+  it('should have production set to true', () => {
+    expect(environment.production).toBe(true);
+  });
+
+  it('should have mocked set to false', () => {
+    expect(environment.mocked).toBe(false);
+  });
+});

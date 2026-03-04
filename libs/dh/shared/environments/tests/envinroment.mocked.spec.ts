@@ -16,4 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-top-bar.service';
+import { environment } from '../src/environment.mocked';
+
+describe('Mocked environment config', () => {
+  it('should have production set to false', () => {
+    expect(environment.production).toBe(false);
+  });
+
+  it('should have mocked set to true', () => {
+    expect(environment.mocked).toBe(true);
+  });
+});

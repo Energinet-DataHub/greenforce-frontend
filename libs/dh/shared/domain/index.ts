@@ -16,14 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { environment } from './environment.mocked';
-
-describe('Mocked environment config', () => {
-  it('should have production set to false', () => {
-    expect(environment.production).toBe(false);
-  });
-
-  it('should have mocked set to true', () => {
-    expect(environment.mocked).toBe(true);
-  });
-});
+export * from './src/permission';
+export * from './src/permission-dto';
+export * from './src/range';
+export * from './src/dh-settlement-report';
+export * from './src/dh-measurements-report';
