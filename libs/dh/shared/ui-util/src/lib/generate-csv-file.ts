@@ -203,8 +203,13 @@ class GenerateCSVFromStream {
             env: translate(`environmentName.${this.env.current}`),
           });
 
+          // Dear future programmer: You might be wondering why there is a weird unicode
+          // character prepended to the data. This is a UTF-8 BOM (which should not normally
+          // be required) but since CSV files are often opened in Excel, an application
+          // that seems to handle encoding quite poorly, this extra character ensures that
+          // the file is correctly recognized as UTF-8.
           toFile({
-            data,
+            data: `\ufeff${data}`,
             name: `${this.fileName || filename}.csv`,
             type: 'text/csv;charset=utf-8;',
           });
