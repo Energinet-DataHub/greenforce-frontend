@@ -150,7 +150,7 @@
         "libs/dh/reports/feature-measurements-reports/src/index.ts"
       ],
       "@energinet-datahub/dh/reports/feature-missing-measurements-log": [
-        "libs/dh/reports/feature-missing-measurements-log/src/index.ts"
+        "libs/dh/reports/feature-missing-measurements-log/index.ts"
       ],
       "@energinet-datahub/dh/reports/feature-reports": ["libs/dh/reports/feature-reports/index.ts"],
       "@energinet-datahub/dh/reports/feature-settlement-reports": [
