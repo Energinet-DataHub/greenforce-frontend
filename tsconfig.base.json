@@ -63,15 +63,15 @@
         "libs/dh/esett/data-access-outgoing-messages/src/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-balance-responsible": [
-        "libs/dh/esett/feature-balance-responsible/src/index.ts"
+        "libs/dh/esett/feature-balance-responsible/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance": [
         "libs/dh/esett/feature-metering-gridarea-imbalance/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-outgoing-messages": [
-        "libs/dh/esett/feature-outgoing-messages/src/index.ts"
+        "libs/dh/esett/feature-outgoing-messages/index.ts"
       ],
-      "@energinet-datahub/dh/esett/shell": ["libs/dh/esett/shell/src/index.ts"],
+      "@energinet-datahub/dh/esett/shell": ["libs/dh/esett/shell/index.ts"],
       "@energinet-datahub/dh/feature-market-participant": [
         "libs/dh/market-participant/feature-market-participant/index.ts"
       ],
