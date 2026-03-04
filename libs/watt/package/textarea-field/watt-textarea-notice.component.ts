@@ -31,7 +31,7 @@ import { Component, input, ViewEncapsulation } from '@angular/core';
       color: var(--watt-on-light-high-emphasis);
       background: var(--watt-color-neutral-grey-200);
 
-      &[type="danger"] {
+      &[type='danger'] {
         color: var(--watt-color-state-danger);
         background: var(--watt-color-state-danger-light);
       }

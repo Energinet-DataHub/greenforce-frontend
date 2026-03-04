@@ -58,9 +58,9 @@ watt-textarea-field {
   .watt-field-wrapper {
     padding: 0 !important;
 
-    textarea, .textarea-footer {
+    textarea,
+    .textarea-footer {
       padding: var(--watt-space-m) var(--watt-space-s) var(--watt-space-s) var(--watt-space-s);
     }
   }
-
 }

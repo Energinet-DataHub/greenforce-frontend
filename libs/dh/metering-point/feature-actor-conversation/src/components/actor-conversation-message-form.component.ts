@@ -68,7 +68,7 @@ import { WattFieldHintComponent } from '@energinet/watt/field';
     WattTooltipDirective,
     WattTextareaNoticeComponent,
     WattFieldHintComponent,
-],
+  ],
   styles: `
     .info-icon-color {
       color: var(--watt-text-color);
@@ -83,9 +83,12 @@ import { WattFieldHintComponent } from '@energinet/watt/field';
       <watt-textarea-field
         [formControl]="form.controls.message"
         [small]="true"
-        data-testid="actor-conversation-message-textarea">
+        data-testid="actor-conversation-message-textarea"
+      >
         @if (closed()) {
-          <watt-textarea-notice><watt-icon name="info" state="default" />{{ t('closedNotice') }}</watt-textarea-notice>
+          <watt-textarea-notice
+            ><watt-icon name="info" state="default" />{{ t('closedNotice') }}</watt-textarea-notice
+          >
         }
         <watt-field-hint [innerHTML]="t('personalDataNotice')" />
       </watt-textarea-field>
