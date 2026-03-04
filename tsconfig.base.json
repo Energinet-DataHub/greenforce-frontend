@@ -41,17 +41,17 @@
       ],
       "@energinet-datahub/dh/admin/shared": ["libs/dh/admin/shared/src/index.ts"],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
-      "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/src/index.ts"],
+      "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/index.ts"],
       "@energinet-datahub/dh/charges/feature-charges": ["libs/dh/charges/feature-charges/index.ts"],
       "@energinet-datahub/dh/charges/feature-parse-series": [
         "libs/dh/charges/feature-parse-series/index.ts"
       ],
       "@energinet-datahub/dh/charges/ui-shared": ["libs/dh/charges/ui-shared/index.ts"],
       "@energinet-datahub/dh/core/feature-notifications": [
-        "libs/dh/core/feature-notifications/src/index.ts"
+        "libs/dh/core/feature-notifications/index.ts"
       ],
       "@energinet-datahub/dh/core/routing": ["libs/dh/core/routing/src/index.ts"],
-      "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
+      "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/index.ts"],
       "@energinet-datahub/dh/core/ui-toolbar-portal": ["libs/dh/core/ui-toolbar-portal/index.ts"],
       "@energinet-datahub/dh/developer/feature-examples": [
         "libs/dh/developer/feature-examples/index.ts"
