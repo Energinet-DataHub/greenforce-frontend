@@ -2323,6 +2323,7 @@ input SendActorConversationMessageInput {
   conversationId: UUID!
   content: String!
   anonymous: Boolean!
+  attachedDocumentIds: [UUID!]!
 }
 
 input SendMeasurementsInstanceDtoSortInput {
@@ -2367,6 +2368,7 @@ input StartConversationInput {
   anonymous: Boolean!
   receiver: ActorType!
   energySupplierDate: DateTime
+  attachedDocumentIds: [UUID!]!
 }
 
 input StopChargeInput {

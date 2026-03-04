@@ -24,7 +24,10 @@ import {
   inject,
   input,
   output,
+  signal,
 } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -50,6 +53,7 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
 import { DhActorConversationReceiverRadioGroupComponent } from './actor-conversation-receiver-radio-group';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { uploadMessageDocument } from './upload-message-document';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -135,6 +139,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
               vater
               fill="horizontal"
               [loading]="startConversationMutation.loading()"
+              [uploadError]="uploadError()"
               [formControl]="newConversationForm().controls.message"
             />
           </vater-stack>
@@ -144,11 +149,14 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
   `,
 })
 export class DhActorConversationNewConversationComponent {
+  private readonly http = inject(HttpClient);
+  private readonly apiEnvironment = inject(dhApiEnvironmentToken);
   private readonly startConversationErrorToast = injectToast(
     'meteringPoint.actorConversation.startConversationError'
   );
   public readonly currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
 
+  uploadError = signal(false);
   startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
   meteringPointId = input.required<string>();
@@ -165,8 +173,9 @@ export class DhActorConversationNewConversationComponent {
           null,
           Validators.maxLength(internalNoteMaxLength)
         ),
-        message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false }, [
-          (control) => (control.value.content ? null : { required: true }),
+        message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false, files: [] }, [
+          (control) =>
+            control.value.content || control.value.files?.length ? null : { required: true },
           Validators.maxLength(messageMaxLength),
         ]),
       })
@@ -203,20 +212,32 @@ export class DhActorConversationNewConversationComponent {
 
     if (!receiver || !subject) return;
 
-    const { content, anonymous } = message ?? {};
+    const { content, anonymous, files } = message ?? {};
 
-    assertIsDefined(content);
     assertIsDefined(anonymous);
+
+    this.uploadError.set(false);
+
+    let attachedDocumentIds: string[];
+    try {
+      attachedDocumentIds = await Promise.all(
+        (files ?? []).map((file) => uploadMessageDocument(this.http, this.apiEnvironment, file))
+      );
+    } catch {
+      this.uploadError.set(true);
+      return;
+    }
 
     await this.startConversationMutation.mutate({
       variables: {
         meteringPointIdentification: this.meteringPointId(),
         subject,
         internalNote,
-        content,
+        content: content ?? '',
         anonymous,
         receiver,
         energySupplierDate,
+        attachedDocumentIds,
       },
       refetchQueries: [GetConversationsDocument],
     });

@@ -59,20 +59,27 @@ public static partial class ActorConversationOperations
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
+        var startRequest = new StartConversationRequest
+        {
+            Subject = startConversationInput.Subject,
+            SenderActorType = MapMarketRoleToActorType(marketRole),
+            ReceiverActorType = startConversationInput.Receiver,
+            MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
+            InternalNote = startConversationInput.InternalNote,
+            Content = startConversationInput.Content,
+            Anonymous = startConversationInput.Anonymous,
+            EnergySupplierDate = startConversationInput.EnergySupplierDate,
+        };
+
+        foreach (var documentId in startConversationInput.AttachedDocumentIds)
+        {
+            startRequest.AttachedDocumentIds.Add(documentId);
+        }
+
         var response = await authClient.ApiStartConversationAsync(
             userId.ToString(),
             actorNumber,
-            new StartConversationRequest
-            {
-                Subject = startConversationInput.Subject,
-                SenderActorType = MapMarketRoleToActorType(marketRole),
-                ReceiverActorType = startConversationInput.Receiver,
-                MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
-                InternalNote = startConversationInput.InternalNote,
-                Content = startConversationInput.Content,
-                Anonymous = startConversationInput.Anonymous,
-                EnergySupplierDate = startConversationInput.EnergySupplierDate,
-            },
+            startRequest,
             ct);
 
         return response.ConversationId.ToString();
@@ -108,15 +115,22 @@ public static partial class ActorConversationOperations
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
+        var messageRequest = new AddConversationMessageRequest
+        {
+            ConversationId = sendActorConversationMessageInput.ConversationId,
+            Content = sendActorConversationMessageInput.Content,
+            Anonymous = sendActorConversationMessageInput.Anonymous,
+        };
+
+        foreach (var documentId in sendActorConversationMessageInput.AttachedDocumentIds)
+        {
+            messageRequest.AttachedDocumentIds.Add(documentId);
+        }
+
         await authClient.ApiAddConversationMessageAsync(
             userId.ToString(),
             actorNumber,
-            new AddConversationMessageRequest
-            {
-                ConversationId = sendActorConversationMessageInput.ConversationId,
-                Content = sendActorConversationMessageInput.Content,
-                Anonymous = sendActorConversationMessageInput.Anonymous,
-            },
+            messageRequest,
             ct);
 
         return true;

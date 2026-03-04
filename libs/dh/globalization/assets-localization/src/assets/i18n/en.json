@@ -822,7 +822,11 @@
         }
       },
       "messagePlaceholder": "Write a message",
-      "sendButton": "Send",
+      "sendButton": "Send message",
+      "attachFileButton": "Attach file",
+      "invalidFileType": "File type not allowed. Allowed file types are: .bmp, .csv, .jpeg, .jpg, .pdf, .png, .txt",
+      "fileTooLarge": "The file you are trying to attach is too large. Maximum file size is 25 MB.",
+      "uploadError": "Failed to upload file. Please try again.",
       "emptyState": {
         "noCases": "No cases found",
         "noCaseSelected": "No case selected"

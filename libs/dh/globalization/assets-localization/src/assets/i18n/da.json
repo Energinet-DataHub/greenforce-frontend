@@ -822,7 +822,11 @@
         }
       },
       "messagePlaceholder": "Skriv en besked",
-      "sendButton": "Send",
+      "sendButton": "Send besked",
+      "attachFileButton": "Vedhæft fil",
+      "invalidFileType": "Filtype ikke tilladt. De tilladte filtyper er: .bmp, .csv, .jpeg, .jpg, .pdf, .png, .txt",
+      "fileTooLarge": "Filen du prøver at vedhæfte er for stor. Filen må maks være 25 MB.",
+      "uploadError": "Filen kunne ikke uploades. Prøv venligst igen.",
       "emptyState": {
         "noCases": "Der er ingen sager på målepunktet",
         "noCaseSelected": "Ingen sag valgt"
