@@ -79,13 +79,13 @@
         "libs/dh/globalization/assets-localization/src/index.ts"
       ],
       "@energinet-datahub/dh/globalization/configuration-localization": [
-        "libs/dh/globalization/configuration-localization/src/index.ts"
+        "libs/dh/globalization/configuration-localization/index.ts"
       ],
       "@energinet-datahub/dh/globalization/configuration-watt-translation": [
-        "libs/dh/globalization/configuration-watt-translation/src/index.ts"
+        "libs/dh/globalization/configuration-watt-translation/index.ts"
       ],
       "@energinet-datahub/dh/globalization/feature-language-picker": [
-        "libs/dh/globalization/feature-language-picker/src/index.ts"
+        "libs/dh/globalization/feature-language-picker/index.ts"
       ],
       "@energinet-datahub/dh/grid-areas": ["libs/dh/grid-areas/index.ts"],
       "@energinet-datahub/dh/imbalance-prices": ["libs/dh/imbalance-prices/index.ts"],

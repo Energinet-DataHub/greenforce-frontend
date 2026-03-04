@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { dhWattTranslationsProviders } from './lib/dh-watt-translation.providers';
+export { translocoProviders, dhTranslocoConfig } from './src/dh-transloco.providers';

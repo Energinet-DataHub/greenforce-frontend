@@ -16,4 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { translocoProviders, dhTranslocoConfig } from './lib/dh-transloco.providers';
+export { DhLanguageService } from './src/language-service/dh-language.service';
+export { dhLanguageServiceInitializer } from './src/language-service/dh-language.initializer';
