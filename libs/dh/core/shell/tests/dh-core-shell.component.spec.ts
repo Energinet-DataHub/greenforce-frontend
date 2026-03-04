@@ -30,7 +30,7 @@ import {
 } from '@energinet-datahub/dh/shared/test-util';
 import { WattModalService } from '@energinet/watt/modal';
 
-import { DhCoreShellComponent } from './dh-core-shell.component';
+import { DhCoreShellComponent } from '../src/dh-core-shell.component';
 
 describe(DhCoreShellComponent, () => {
   beforeEach(async () => {
