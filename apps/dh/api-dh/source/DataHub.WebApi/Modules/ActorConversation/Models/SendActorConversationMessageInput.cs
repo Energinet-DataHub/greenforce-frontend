@@ -21,4 +21,6 @@ public class SendActorConversationMessageInput
     public required string Content { get; set; }
 
     public required bool Anonymous { get; set; }
+
+    public ICollection<Guid> AttachedDocumentIds { get; set; } = [];
 }
