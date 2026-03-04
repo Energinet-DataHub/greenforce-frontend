@@ -2383,7 +2383,7 @@ input StartElectricalHeatingConversationInput {
   receiver: ActorType!
   electricalHeatingFrom: DateTime!
   electricalHeatingReductionPeriodFrom: DateTime!
-  electricalHeatingReductionPeriodTo: DateTime!
+  electricalHeatingReductionPeriodTo: DateTime
   attachedDocumentIds: [UUID!]!
 }
 

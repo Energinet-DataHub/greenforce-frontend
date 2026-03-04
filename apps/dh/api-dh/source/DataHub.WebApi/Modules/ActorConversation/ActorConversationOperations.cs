@@ -123,7 +123,7 @@ public static partial class ActorConversationOperations
                 Anonymous = input.Anonymous,
                 ElectricalHeatingFrom = input.ElectricalHeatingFrom,
                 ElectricalHeatingReductionPeriodFrom = input.ElectricalHeatingReductionPeriodFrom,
-                ElectricalHeatingReductionPeriodTo = input.ElectricalHeatingReductionPeriodTo,
+                ElectricalHeatingReductionPeriodTo = input.ElectricalHeatingReductionPeriodTo ?? DateTimeOffset.MaxValue,
                 AttachedDocumentIds = input.AttachedDocumentIds.Select(id => id).ToList(),
             },
             ct);

@@ -245,7 +245,6 @@ export class DhActorConversationNewConversationComponent {
     if (this.shouldShowEletricalHeatingForm() && electricalHeating) {
       assertIsDefined(electricalHeating.addressEligibilityDate);
       assertIsDefined(electricalHeating.periodStart);
-      assertIsDefined(electricalHeating.periodEnd);
 
       await this.startElectricalHeatingConversationMutation.mutate({
         variables: {
