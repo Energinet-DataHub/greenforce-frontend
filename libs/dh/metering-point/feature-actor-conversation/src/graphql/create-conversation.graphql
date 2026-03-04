@@ -21,3 +21,23 @@ mutation StartConversation(
     string
   }
 }
+
+mutation StartElectricalHeatingConversation(
+  $meteringPointIdentification: String!
+  $internalNote: String
+  $content: String!
+  $anonymous: Boolean!
+  $receiver: ActorType!
+) {
+  startElectricalHeatingConversation(
+    input: {
+      anonymous: $anonymous
+      meteringPointIdentification: $meteringPointIdentification
+      internalNote: $internalNote
+      content: $content
+      receiver: $receiver
+    }
+  ) {
+    string
+  }
+}

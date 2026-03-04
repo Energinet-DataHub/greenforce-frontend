@@ -27,6 +27,4 @@ public class StartElectricalHeatingConversationInput
     public required bool Anonymous { get; set; }
 
     public required ActorType Receiver { get; set; }
-
-    public required DateTimeOffset EnergySupplierDate { get; set; }
 }
