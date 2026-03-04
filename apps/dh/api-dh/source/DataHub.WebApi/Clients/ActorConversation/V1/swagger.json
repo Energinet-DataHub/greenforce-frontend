@@ -1287,6 +1287,22 @@
           }
         }
       },
+      "GetConversationQueryResponseAttachment": {
+        "type": "object",
+        "required": [
+          "documentId",
+          "documentName"
+        ],
+        "properties": {
+          "documentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "documentName": {
+            "type": "string"
+          }
+        }
+      },
       "GetConversationQueryResponseConversationMessage": {
         "type": "object",
         "description": "Conversation message",
@@ -1296,7 +1312,8 @@
           "senderType",
           "messageType",
           "createdTime",
-          "anonymous"
+          "anonymous",
+          "attachments"
         ],
         "properties": {
           "userId": {
@@ -1333,36 +1350,35 @@
               }
             ]
           },
-          "electricalHeatingMessage": {
+          "electricalHeatingUserMessage": {
             "oneOf": [
               {
                 "nullable": true
               },
               {
-                "$ref": "#/components/schemas/GetConversationQueryResponseEleectricalHeatingMessage"
+                "$ref": "#/components/schemas/GetConversationQueryResponseElectricalHeatingUserMessage"
               }
             ]
-          }
-        }
-      },
-      "GetConversationQueryResponseElectricityHeatingMessagePeriod": {
-        "type": "object",
-        "required": [
-          "from",
-          "to"
-        ],
-        "properties": {
-          "from": {
-            "type": "string",
-            "format": "date-time"
           },
-          "to": {
-            "type": "string",
-            "format": "date-time"
+          "electricalHeatingInformation": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/GetConversationQueryResponseElectricalHeatingInformation"
+              }
+            ]
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetConversationQueryResponseAttachment"
+            }
           }
         }
       },
-      "GetConversationQueryResponseEleectricalHeatingMessage": {
+      "GetConversationQueryResponseElectricalHeatingInformation": {
         "type": "object",
         "required": [
           "customerName",
@@ -1378,7 +1394,7 @@
           "supplierPeriods": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/GetConversationQueryResponseElectricityHeatingMessagePeriod"
+              "$ref": "#/components/schemas/GetConversationQueryResponseElectricityHeatingPeriod"
             }
           },
           "isElectricalHeatingActive": {
@@ -1388,6 +1404,43 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        }
+      },
+      "GetConversationQueryResponseElectricalHeatingUserMessage": {
+        "type": "object",
+        "required": [
+          "content",
+          "reductionPeriod",
+          "electricalHeatingFrom"
+        ],
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "reductionPeriod": {
+            "$ref": "#/components/schemas/GetConversationQueryResponseElectricityHeatingPeriod"
+          },
+          "electricalHeatingFrom": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetConversationQueryResponseElectricityHeatingPeriod": {
+        "type": "object",
+        "required": [
+          "from",
+          "to"
+        ],
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

@@ -380,7 +380,6 @@ type CollectionSegmentInfo {
   hasPreviousPage: Boolean!
 }
 
-"Conversation"
 type Conversation {
   wasLatestMessageAnonymous: Boolean!
   displayId: String
@@ -425,7 +424,6 @@ type ConversationMessage {
   anonymous: Boolean!
 }
 
-"Conversations"
 type Conversations {
   "List of Conversations"
   conversations: [ConversationInfo!]!

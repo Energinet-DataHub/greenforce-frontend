@@ -19,11 +19,11 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
-[ObjectType<ConversationMessageDto>]
+[ObjectType<GetConversationQueryResponseConversationMessage>]
 public static partial class ConversationMessageDtoType
 {
     public static async Task<string?> GetActorNameAsync(
-        [Parent] ConversationMessageDto message,
+        [Parent] GetConversationQueryResponseConversationMessage message,
         IMarketParticipantByNumberAndRoleDataLoader dataLoader,
         CancellationToken ct)
     {
@@ -34,7 +34,7 @@ public static partial class ConversationMessageDtoType
     }
 
     public static async Task<string> GetUserNameAsync(
-        [Parent] ConversationMessageDto message,
+        [Parent] GetConversationQueryResponseConversationMessage message,
         IAuditIdentitiesByUserIdDataLoader dataLoader,
         CancellationToken ct)
     {
@@ -49,7 +49,7 @@ public static partial class ConversationMessageDtoType
     }
 
     public static bool IsSentByCurrentActor(
-        [Parent] ConversationMessageDto message,
+        [Parent] GetConversationQueryResponseConversationMessage message,
         [Service] IHttpContextAccessor httpContextAccessor)
     {
         var user = httpContextAccessor.HttpContext?.User;
@@ -63,7 +63,7 @@ public static partial class ConversationMessageDtoType
     }
 
     static partial void Configure(
-        IObjectTypeDescriptor<ConversationMessageDto> descriptor)
+        IObjectTypeDescriptor<GetConversationQueryResponseConversationMessage> descriptor)
     {
         descriptor
             .Name("ConversationMessage")

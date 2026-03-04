@@ -16,11 +16,11 @@ using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
-[ObjectType<ElectricityHeatingMessagePeriodDto>]
+[ObjectType<GetConversationQueryResponseElectricityHeatingPeriod>]
 public static partial class ElectricityHeatingMessagePeriodDtoType
 {
     static partial void Configure(
-        IObjectTypeDescriptor<ElectricityHeatingMessagePeriodDto> descriptor)
+        IObjectTypeDescriptor<GetConversationQueryResponseElectricityHeatingPeriod> descriptor)
     {
         descriptor
             .Name("ElectricityHeatingMessagePeriod")
