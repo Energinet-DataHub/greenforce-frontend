@@ -113,7 +113,8 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
       <watt-textarea-field
         [formControl]="form.controls.message"
         [small]="true"
-        data-testid="actor-conversation-message-textarea">
+        data-testid="actor-conversation-message-textarea"
+      >
         @if (closed()) {
           <watt-textarea-notice
             ><watt-icon name="info" state="default" />{{ t('closedNotice') }}</watt-textarea-notice

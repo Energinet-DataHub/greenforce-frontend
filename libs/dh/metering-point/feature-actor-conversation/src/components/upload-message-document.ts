@@ -31,8 +31,6 @@ export function injectUploadMessageDocument() {
   return (file: File): Promise<string> => {
     const formData = new FormData();
     formData.append('document', file);
-    return firstValueFrom(
-      http.post<string>(`${apiEnvironment.apiBase}${uploadPath}`, formData)
-    );
+    return firstValueFrom(http.post<string>(`${apiEnvironment.apiBase}${uploadPath}`, formData));
   };
 }
