@@ -802,11 +802,13 @@
         "newCase": "Ny sag"
       },
       "receiverLabel": "Til",
+      "onDate": "På dato",
       "receivers": {
         "ENERGY_SUPPLIER": "Elleverandør",
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
+      "reducedElectricityTaxToggle": "Jeg vil ansøge om reduceret elafgift",
       "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
       "internalNoteLabel": "Intern note",
       "editInternalNote": {

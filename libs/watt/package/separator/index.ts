@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { WattSeparatorComponent, WattSeparatorSize } from './watt-separator.component';
+export { WattSeparatorComponent, WattSeparatorWeight } from './watt-separator.component';
