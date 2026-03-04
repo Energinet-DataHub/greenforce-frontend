@@ -381,8 +381,8 @@ type CollectionSegmentInfo {
 }
 
 type Conversation {
+  displayId: String!
   wasLatestMessageAnonymous: Boolean!
-  displayId: String
   "Display Id of the conversation"
   id: ID!
   "Internal note from the creator"
@@ -392,6 +392,11 @@ type Conversation {
   closed: Boolean!
   "Messages associated with a conversation"
   messages: [ConversationMessage!]!
+}
+
+type ConversationAttachment {
+  documentId: UUID!
+  documentName: String!
 }
 
 "Conversation info"
@@ -422,6 +427,7 @@ type ConversationMessage {
   "Sender user id"
   userId: String
   anonymous: Boolean!
+  attachments: [ConversationAttachment!]!
 }
 
 type Conversations {
@@ -2339,6 +2345,7 @@ input SendActorConversationMessageInput {
   conversationId: UUID!
   content: String!
   anonymous: Boolean!
+  attachedDocumentIds: [UUID!]!
 }
 
 input SendMeasurementsInstanceDtoSortInput {
@@ -2383,6 +2390,7 @@ input StartConversationInput {
   anonymous: Boolean!
   receiver: ActorType!
   energySupplierDate: DateTime
+  attachedDocumentIds: [UUID!]!
 }
 
 input StartElectricalHeatingConversationInput {

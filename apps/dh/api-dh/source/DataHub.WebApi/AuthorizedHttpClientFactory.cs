@@ -69,6 +69,17 @@ public class AuthorizedHttpClientFactory
         return new ActorConversationClient_V1(client);
     }
 
+    public HttpClient CreateActorConversationHttpClientWithSignature(
+        MarketParticipant.Authorization.Model.Signature signature)
+    {
+        var signatureBase64 = ConvertSignatureToBase64(signature);
+        var client = _httpClientFactory.CreateClient();
+        SetAuthorizationHeader(client);
+        client.DefaultRequestHeaders.Add("Signature", signatureBase64);
+        client.BaseAddress = new(_baseUrls.Value.ActorConversationBaseUrl);
+        return client;
+    }
+
     private static string ConvertSignatureToBase64(MarketParticipant.Authorization.Model.Signature signature)
     {
         var signatureJson = JsonSerializer.Serialize(signature);

@@ -46,6 +46,7 @@ export type NewConversation = Omit<Conversation, 'subject' | 'lastUpdated'> & {
 export interface MessageFormValue {
   content: string | null;
   anonymous: boolean | undefined;
+  files: File[];
 }
 
 export interface ElectricalHeatingFormValue {

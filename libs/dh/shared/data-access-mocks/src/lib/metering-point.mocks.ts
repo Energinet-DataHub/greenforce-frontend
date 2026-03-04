@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { delay, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
@@ -39,6 +39,7 @@ import {
   mockMarkConversationUnReadMutation,
   mockRequestConnectionStateChangeMutation,
   mockRequestEndOfSupplyMutation,
+  mockSendActorConversationMessageMutation,
   mockStartConversationMutation,
   mockStartElectricalHeatingConversationMutation,
   mockUpdateInternalConversationNoteMutation,
@@ -60,7 +61,7 @@ import { childMeteringPoint } from './data/metering-point/child-metering-point';
 import { operationToolsMeteringPoint } from './data/metering-point/operation-tools-metering-point';
 import { conversations } from './data/metering-point/conversations';
 
-export function meteringPointMocks() {
+export function meteringPointMocks(apiBase: string) {
   return [
     doesInternalMeteringPointIdExist(),
     getContactCPR(),
@@ -80,10 +81,13 @@ export function meteringPointMocks() {
     getConversations(),
     getConversation(),
     getElectricalHeatingInformation(),
+    sendMessage(),
     closeConversation(),
     markConversationRead(),
     markConversationUnRead(),
     updateInternalConversationNoteMutation(),
+    uploadMessageDocument(apiBase),
+    downloadMessageDocument(apiBase),
   ];
 }
 
@@ -674,6 +678,13 @@ function getConversation() {
               userName: 'Hanne Hansen',
               isSentByCurrentActor: false,
               anonymous: false,
+              attachments: [
+                {
+                  __typename: 'ConversationAttachment',
+                  documentId: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+                  documentName: 'forbrugsdata-rapport.pdf',
+                },
+              ],
             },
             {
               __typename: 'ConversationMessage',
@@ -689,6 +700,18 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: false,
+              attachments: [
+                {
+                  __typename: 'ConversationAttachment',
+                  documentId: 'b2c3d4e5-f6a7-8901-bcde-f12345678901',
+                  documentName: 'maaler-status.csv',
+                },
+                {
+                  __typename: 'ConversationAttachment',
+                  documentId: 'c3d4e5f6-a7b8-9012-cdef-123456789012',
+                  documentName: 'radiokontakt-log.txt',
+                },
+              ],
             },
             {
               __typename: 'ConversationMessage',
@@ -704,6 +727,7 @@ function getConversation() {
               userName: 'Hanne Hansen',
               isSentByCurrentActor: false,
               anonymous: false,
+              attachments: [],
             },
             {
               __typename: 'ConversationMessage',
@@ -719,6 +743,7 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: false,
+              attachments: [],
             },
             {
               __typename: 'ConversationMessage',
@@ -733,6 +758,7 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: true,
+              attachments: [],
             },
             {
               __typename: 'ConversationMessage',
@@ -747,6 +773,7 @@ function getConversation() {
               userName: '',
               isSentByCurrentActor: false,
               anonymous: false,
+              attachments: [],
             },
           ],
         },
@@ -906,4 +933,39 @@ function updateInternalConversationNoteMutation() {
       },
     });
   });
+}
+
+function sendMessage() {
+  return mockSendActorConversationMessageMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        sendActorConversationMessage: {
+          __typename: 'SendActorConversationMessagePayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function uploadMessageDocument(apiBase: string) {
+  return http.post(`${apiBase}/v1/ActorConversation/UploadMessageDocument`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(crypto.randomUUID());
+  });
+}
+
+function downloadMessageDocument(apiBase: string) {
+  return http.get(
+    `${apiBase}/v1/ActorConversation/DownloadMessageDocument/:documentId`,
+    async () => {
+      await delay(mswConfig.delay);
+      return new HttpResponse(new Blob(['mock file content'], { type: 'application/pdf' }), {
+        headers: { 'Content-Type': 'application/pdf' },
+      });
+    }
+  );
 }
