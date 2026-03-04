@@ -20,7 +20,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { TRANSLOCO_CONFIG, TRANSLOCO_LOADER } from '@jsverse/transloco';
 
-import { translocoProviders } from './dh-transloco.providers';
+import { translocoProviders } from '../src/dh-transloco.providers';
 
 describe('translocoProviders', () => {
   it('TRANSLOCO_CONFIG is provided', () => {

@@ -16,5 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhLanguageService } from './lib/language-service/dh-language.service';
-export { dhLanguageServiceInitializer } from './lib/language-service/dh-language.initializer';
+export { dhWattTranslationsProviders } from './src/dh-watt-translation.providers';
