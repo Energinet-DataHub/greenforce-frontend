@@ -381,8 +381,8 @@ type CollectionSegmentInfo {
 }
 
 type Conversation {
+  displayId: String!
   wasLatestMessageAnonymous: Boolean!
-  displayId: String
   "Display Id of the conversation"
   id: ID!
   "Internal note from the creator"
@@ -392,6 +392,11 @@ type Conversation {
   closed: Boolean!
   "Messages associated with a conversation"
   messages: [ConversationMessage!]!
+}
+
+type ConversationAttachment {
+  documentId: UUID!
+  documentName: String!
 }
 
 "Conversation info"
@@ -407,11 +412,6 @@ type ConversationInfo {
   closed: Boolean!
   "Last updated time of the conversation"
   lastUpdated: DateTime!
-}
-
-type ConversationAttachment {
-  documentId: UUID!
-  documentName: String!
 }
 
 "Conversation message"
