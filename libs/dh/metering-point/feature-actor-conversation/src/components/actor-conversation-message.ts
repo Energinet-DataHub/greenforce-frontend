@@ -96,7 +96,9 @@ import { injectDownloadMessageDocument } from './download-message-document';
               type="button"
               class="attachment-link"
               (click)="downloadDocument(attachment.documentId, attachment.documentName)"
-            >{{ attachment.documentName }}</button>
+            >
+              {{ attachment.documentName }}
+            </button>
           }
         </vater-stack>
       }
