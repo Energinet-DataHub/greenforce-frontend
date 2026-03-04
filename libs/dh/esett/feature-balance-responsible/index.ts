@@ -16,4 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { dhESettShellRoutes as default } from './lib/dh-esett-shell.routes';
+export { DhBalanceResponsibleComponent as default } from './src/dh-balance-responsible.component';
+export { DhBalanceResponsibleDrawerComponent } from './src/drawer/dh-drawer.component';
