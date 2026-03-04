@@ -53,9 +53,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import {
-  DhActorConversationElectricalHeatingFormComponent
-} from './actor-conversation-electrical-heating-form.component';
+import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -116,7 +114,9 @@ import {
               data-testid="actor-conversation-subject-dropdown"
             />
             @if (isElectricalHeating()) {
-              <watt-slide-toggle [formControl]="newConversationForm().controls.reducedElectricityTax">
+              <watt-slide-toggle
+                [formControl]="newConversationForm().controls.reducedElectricityTax"
+              >
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }

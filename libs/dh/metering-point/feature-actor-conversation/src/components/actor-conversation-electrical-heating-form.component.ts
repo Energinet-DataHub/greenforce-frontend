@@ -39,7 +39,10 @@ import { skip } from 'rxjs';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
-import { WattDescriptionListComponent, WattDescriptionListItemComponent } from '@energinet/watt/description-list';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+} from '@energinet/watt/description-list';
 import { WattDatePipe } from '@energinet/watt/date';
 import { ElectricalHeatingFormValue } from '../types';
 
