@@ -23,6 +23,8 @@ import { ConversationMessage } from '@energinet-datahub/dh/shared/domain/graphql
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 
+import { injectDownloadMessageDocument } from './download-message-document';
+
 @Component({
   selector: 'dh-actor-conversation-message',
   imports: [
@@ -37,6 +39,20 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
     .message-container {
       border-radius: var(--watt-radius-m);
       border: 1px solid var(--watt-color-neutral-grey-300);
+    }
+
+    .attachment-link {
+      color: var(--watt-color-primary);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font: inherit;
+      text-align: left;
+    }
+
+    .attachment-link:hover {
+      text-decoration: underline;
     }
   `,
   host: {
@@ -73,6 +89,17 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
       @if (message().messageType === 'CLOSING_MESSAGE') {
         <span vater fill="horizontal" class="watt-space-inset-m">{{ t('closingMessage') }}</span>
       }
+      @if (message().attachments.length) {
+        <vater-stack fill="horizontal" align="start" class="watt-space-inset-m" gap="xs">
+          @for (attachment of message().attachments; track attachment.documentId) {
+            <button
+              type="button"
+              class="attachment-link"
+              (click)="downloadDocument(attachment.documentId, attachment.documentName)"
+            >{{ attachment.documentName }}</button>
+          }
+        </vater-stack>
+      }
     </vater-stack>
   `,
 })
@@ -84,4 +111,6 @@ export class DhActorConversationMessageComponent {
       ? 'var(--watt-color-primary-ultralight)'
       : 'var(--watt-color-neutral-grey-100)'
   );
+
+  downloadDocument = injectDownloadMessageDocument();
 }

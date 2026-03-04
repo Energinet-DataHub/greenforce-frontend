@@ -409,6 +409,11 @@ type ConversationInfo {
   lastUpdated: DateTime!
 }
 
+type ConversationAttachment {
+  documentId: UUID!
+  documentName: String!
+}
+
 "Conversation message"
 type ConversationMessage {
   actorName: String
@@ -422,6 +427,7 @@ type ConversationMessage {
   "Sender user id"
   userId: String
   anonymous: Boolean!
+  attachments: [ConversationAttachment!]!
 }
 
 type Conversations {

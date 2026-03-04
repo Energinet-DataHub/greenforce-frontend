@@ -141,4 +141,56 @@ public sealed class ActorConversationController : ControllerBase
 
         return BadRequest($"Unexpected response format from upstream: {responseBody}");
     }
+
+    /// <summary>
+    /// Downloads an attached document from an actor conversation message.
+    /// </summary>
+    [HttpGet]
+    [Route("DownloadMessageDocument/{documentId:guid}")]
+    public async Task<IActionResult> DownloadMessageDocumentAsync(
+        Guid documentId,
+        CancellationToken ct)
+    {
+        ArgumentNullException.ThrowIfNull(_httpContextAccessor.HttpContext);
+
+        var user = _httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+        var userId = user.GetUserId();
+
+        var authRequest = new AddActorConversationMessageRequest
+        {
+            ActorNumber = actorNumber,
+            UserId = userId,
+        };
+
+        var signature = await _requestAuthorization.RequestSignatureAsync(authRequest);
+
+        if (signature.Signature == null ||
+            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        {
+            return Forbid();
+        }
+
+        using var httpClient = _authorizedHttpClientFactory.CreateActorConversationHttpClientWithSignature(signature.Signature);
+
+        using var request = new HttpRequestMessage(HttpMethod.Get, $"api/GetMessageDocument/{documentId}");
+        request.Headers.TryAddWithoutValidation("UserId", userId.ToString());
+        request.Headers.TryAddWithoutValidation("ActorNumber", actorNumber);
+
+        var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorBody = await response.Content.ReadAsStringAsync(ct);
+            return StatusCode((int)response.StatusCode, errorBody);
+        }
+
+        var contentType = response.Content.Headers.ContentType?.ToString() ?? "application/octet-stream";
+        var stream = await response.Content.ReadAsStreamAsync(ct);
+
+        var contentDisposition = response.Content.Headers.ContentDisposition?.FileNameStar
+            ?? response.Content.Headers.ContentDisposition?.FileName;
+
+        return File(stream, contentType, contentDisposition);
+    }
 }
