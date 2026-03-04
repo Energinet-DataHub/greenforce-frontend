@@ -16,6 +16,8 @@ using Energinet.DataHub.Core.App.Common.Calendar;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestCloseDownMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestDisconnectMeteringPoint;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestReconnectMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Commands;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetRelatedMeteringPoints.V1;
@@ -251,26 +253,59 @@ public static partial class MeteringPointNode
         IB2CClient ediB2CClient,
         CancellationToken ct)
     {
-        if (currentConnectionState == ConnectionState.New && newConnectionState == ConnectionState.Connected)
+        switch (newConnectionState)
         {
-            var command = new RequestConnectMeteringPointCommandV1(
-                new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+            case ConnectionState.Connected:
+            {
+                switch (currentConnectionState)
+                {
+                    case ConnectionState.New:
+                    {
+                        var command = new RequestConnectMeteringPointCommandV1(
+                            new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
 
-            var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+                        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-            return result.IsSuccess;
-        }
-        else if (newConnectionState == ConnectionState.ClosedDown)
-        {
-            var command = new RequestCloseDownMeteringPointCommandV1(
+                        return result.IsSuccess;
+                    }
+
+                    case ConnectionState.Disconnected:
+                    {
+                        var command = new RequestReconnectMeteringPointCommandV1(
+                            new RequestReconnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+                        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+                        return result.IsSuccess;
+                    }
+                }
+
+                return false;
+            }
+
+            case ConnectionState.Disconnected:
+            {
+                var command = new RequestDisconnectMeteringPointCommandV1(
+                new RequestDisconnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+                return result.IsSuccess;
+            }
+
+            case ConnectionState.ClosedDown:
+            {
+                var command = new RequestCloseDownMeteringPointCommandV1(
                 new RequestCloseDownMeteringPointRequestV1(meteringPointId, validityDate));
 
-            var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-            return result.IsSuccess;
+                return result.IsSuccess;
+            }
+
+            default:
+                return false;
         }
-
-        return false;
     }
 
     [Mutation]

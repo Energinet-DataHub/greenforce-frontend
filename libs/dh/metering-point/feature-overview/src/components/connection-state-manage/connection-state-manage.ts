@@ -170,13 +170,22 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
     }
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   private findMinDate(newConnectionState: ElectricityMarketViewConnectionState): Date {
     const daysSinceCreated = dayjs(this.today).diff(
       dayjs(this.modalData.currentCreatedDate),
       'days'
     );
 
+    // Handle DISCONNECTED -> CONNECTED transition
+    if (this.modalData.currentConnectionState === 'DISCONNECTED') {
+      if (newConnectionState === 'CONNECTED') {
+        return this.yesterday;
+      }
+    }
+
     switch (newConnectionState) {
+      // Handle NEW -> CONNECTED transition
       case 'CONNECTED': {
         const maxDaysBackInTime = 7;
 
@@ -186,6 +195,12 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
 
         return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
       }
+      // Handle CONNECTED -> DISCONNECTED transition
+      case 'DISCONNECTED': {
+        return this.yesterday;
+      }
+      // Handle CONNECTED -> CLOSED_DOWN and
+      // Handle DISCONNECTED -> CLOSED_DOWN transitions
       case 'CLOSED_DOWN': {
         if (
           this.modalData.meteringPointType === ElectricityMarketMeteringPointType.ElectricalHeating
@@ -218,11 +233,13 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
       case 'CONNECTED':
         return {
           Connected: 'CONNECTED',
+          Disconnected: 'DISCONNECTED',
           ClosedDown: 'CLOSED_DOWN',
         };
       case 'DISCONNECTED':
         return {
           Disconnected: 'DISCONNECTED',
+          Connected: 'CONNECTED',
           ClosedDown: 'CLOSED_DOWN',
         };
       default:
