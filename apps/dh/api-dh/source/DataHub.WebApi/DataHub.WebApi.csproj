@@ -42,12 +42,12 @@ limitations under the License.
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net90) run Clients/ActorConversation/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/ActorConversation/V1/ActorConversationClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/ActorConversation/V1/swagger.json')" />
   </Target>
 
-  <Target Name="SwaggerGen" AfterTargets="PostBuildEvent">
+  <Target Name="SwaggerGen" AfterTargets="PostBuildEvent" Condition="'$(SkipSwaggerGen)' != 'true'">
     <Exec Command="dotnet tool restore" />
     <Exec EnvironmentVariables="GENERATOR_TOOL_BUILD=Yes" Command="dotnet swagger tofile --output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />
   </Target>
 
-  <Target Name="ExportSchema" AfterTargets="Build">
+  <Target Name="ExportSchema" AfterTargets="Build" Condition="'$(SkipSchemaExport)' != 'true'">
     <Exec EnvironmentVariables="GENERATOR_TOOL_BUILD=Yes" Command="dotnet exec $(OutputPath)$(AssemblyName).dll schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql" />
   </Target>
 
@@ -56,14 +56,14 @@ limitations under the License.
     <PackageReference Include="Energinet.DataHub.Charges.Client" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.Core.App.Common" Version="15.12.1" />
     <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="15.12.1" />
-    <PackageReference Include="Energinet.DataHub.EDI.B2CClient" Version="1.1.5" />
+    <PackageReference Include="Energinet.DataHub.EDI.B2CClient" Version="1.1.7" />
     <PackageReference Include="Energinet.DataHub.ElectricityMarket.Client" Version="1.75.0" />
     <PackageReference Include="Energinet.DataHub.MarketParticipant.Authorization" Version="3.0.7" />
     <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="11.3.1" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="10.1.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="2.48.0" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="10.3.0" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="3.4.2" />
     <PackageReference Include="Energinet.DataHub.Reports.Abstractions" Version="5.1.3" />
     <PackageReference Include="Energinet.DataHub.Reports.Client" Version="5.1.3" />
     <PackageReference Include="Energinet.DataHub.RevisionLog.Integration" Version="1.2.4" />

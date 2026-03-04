@@ -21,7 +21,9 @@ import { nxComponentTestingPreset } from '@nx/angular/plugins/component-testing'
 
 export default defineConfig({
   component: {
-    ...nxComponentTestingPreset(__filename),
+    ...nxComponentTestingPreset(__filename, {
+      buildTarget: 'app-dh:build:mocked',
+    }),
   },
   video: true,
   defaultCommandTimeout: 10000,

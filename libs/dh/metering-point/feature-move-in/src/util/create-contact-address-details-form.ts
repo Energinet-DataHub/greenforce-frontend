@@ -38,12 +38,11 @@ export function createContactAddressDetailsForm(
     postCode: dhMakeFormControl<string | null>(contact?.postCode, Validators.required),
     cityName: dhMakeFormControl<string | null>(contact?.cityName, Validators.required),
     countryCode: dhMakeFormControl<string | null>(contact?.countryCode),
-    streetCode: dhMakeFormControl<string | null>(contact?.streetCode, Validators.required),
+    streetCode: dhMakeFormControl<string | null>(contact?.streetCode),
     citySubDivisionName: dhMakeFormControl<string | null>(contact?.citySubDivisionName),
     postBox: dhMakeFormControl<string | null>(contact?.postBox),
     municipalityCode: dhMakeFormControl<string | null>(contact?.municipalityCode, [
       dhMunicipalityCodeValidator(),
-      Validators.required,
     ]),
     darReference: dhMakeFormControl<string | null>(contact?.darReference),
   });

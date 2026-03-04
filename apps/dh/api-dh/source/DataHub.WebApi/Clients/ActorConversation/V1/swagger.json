@@ -16,6 +16,24 @@
           "ActorConversation"
         ],
         "operationId": "health",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -37,6 +55,24 @@
         ],
         "description": "Adds a message to an existing conversation",
         "operationId": "AddConversationMessage",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -79,6 +115,66 @@
         }
       }
     },
+    "/api/AddMessageDocument": {
+      "post": {
+        "tags": [
+          "AddMessageDocument"
+        ],
+        "description": "Uploads a document",
+        "operationId": "AddMessageDocument",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "File": {
+                    "$ref": "#/components/schemas/IFormFile"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/CloseConversation": {
       "post": {
         "tags": [
@@ -86,6 +182,24 @@
         ],
         "description": "Closes a conversation, creating a closed conversation message by the user",
         "operationId": "CloseConversation",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -121,6 +235,76 @@
         }
       }
     },
+    "/api/GetActorNumbers": {
+      "get": {
+        "tags": [
+          "GetActorNumbers"
+        ],
+        "summary": "Get all actor numbers that have a conversation.",
+        "description": "Returns a distinct list of actor numbers for actors that participate in at least one conversation.",
+        "operationId": "GetActorNumbers",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActorNumbersDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActorNumbersDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActorNumbersDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/GetConversation/{conversationId}": {
       "get": {
         "tags": [
@@ -137,6 +321,22 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
             }
           }
         ],
@@ -189,14 +389,14 @@
         "tags": [
           "GetAllConversations, GetConversationsForMeteringPoint"
         ],
-        "summary": "Get all conversations  or just conversations for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied.\nThe search can be further narrowed by suppling the search querystring to be searched into DisplayId and InternalNote for the logged in actor.\nThe search has to be an integer to be searched into the DisplayId.",
+        "summary": "Get all conversations or just conversations for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied.\nThe result can be further narrowed by either searching or filtering or both.\n- Search\n  - Supports searching for a MeteringPoint and searching into DisplayId and InternalNote for the logged in actor.\n  - The search for the MeteringPoint is an exact search based on the 18 digits GSRN.\n  - The search value is supplied as querystring 'searchValue'.\n- Filtering\n  - The list can further be narrowed down via filters.\n  - Provides with supports for filtering myConversations, unread, opened, closed and subjects.\n  - Filters are supplied as querystring, ex. myconversations=true to get my conversations only.",
         "description": "Get all conversations across all meteringpoints or for a single MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied",
         "operationId": "GetConversations",
         "parameters": [
           {
             "name": "meteringPointIdentification",
             "in": "query",
-            "description": "GSRN consists of 18 digits supplied as querystring by name 'meteringPointIdentification'. Null to retrieve across all meteringpoints.",
+            "description": "GSRN consists of 18 digits supplied as querystring by name 'meteringPointIdentification'. Null to retrieve across all meteringpoints or search for a meteringpoint.",
             "schema": {
               "type": "string"
             }
@@ -207,6 +407,69 @@
             "description": "Search string supplied as querystring by name 'searchValue' to be searched for into DisplayId and InternalNote for the logged in actor.",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "myConversations",
+            "in": "query",
+            "description": "Filter for only my conversations, thus participated either as sender, replied a message, closed the conversation. Passed as querystring of same name, ex. myConversations=true .",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "unread",
+            "in": "query",
+            "description": "Filter for only unread conversations. Passed as querystring of same name, ex. unread=true.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "opened",
+            "in": "query",
+            "description": "Filter for only opened or active conversations. Passed as querystring of same name, ex. opened=true.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "closed",
+            "in": "query",
+            "description": "Filter for only closed conversations. Passed as querystring of same name, ex. closed=true.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "subjects",
+            "in": "query",
+            "description": "Filter for only listed Conversationsubjects. passed as querystring of same name. ex subject=QuestionForEnerginet&amp;subjects=ElectricalHeating",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ConversationSubject"
+              }
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
             }
           }
         ],
@@ -290,6 +553,22 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
           }
         ],
         "responses": {
@@ -336,6 +615,83 @@
         }
       }
     },
+    "/api/GetMessageDocument/{documentId}": {
+      "get": {
+        "tags": [
+          "GetMessageDocument"
+        ],
+        "operationId": "GetMessageDocument",
+        "parameters": [
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileContentResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileContentResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileContentResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/MarkConversationRead": {
       "post": {
         "tags": [
@@ -343,6 +699,24 @@
         ],
         "description": "Marks a conversation as read by the invoking actor",
         "operationId": "MarkConversationRead",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -385,6 +759,24 @@
         ],
         "description": "Marks a conversation as unread by the invoking actor",
         "operationId": "MarkConversationUnread",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -428,6 +820,24 @@
         "summary": "Starts a conversation",
         "description": "Example request for QuestionForEnerginet:\n\n```\n   {\n      \"subject\": \"QuestionForEnerginet\",\n      \"senderActorType\": \"Energinet\",\n      \"receiverActorType\": \"GridAccessProvider\",\n      \"meteringPointIdentification\": \"570715000000033841\",\n      \"senderActorNumber\": \"5790001330552\",\n      \"senderUserId\": \"user@elsupplier.dk\",\n      \"senderUserName\": \"EL supplier\"\n      \"internalNote\": \"Note from the sender\",\n      \"content\": \"No metereddata available!!!\",\n      \"anonymous\": false\n    }\n ```",
         "operationId": "StartConversation",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
+          }
+        ],
         "requestBody": {
           "description": "Specifies the new Conversation.",
           "content": {
@@ -478,6 +888,81 @@
         }
       }
     },
+    "/api/StartElectricalHeatingConversation": {
+      "post": {
+        "tags": [
+          "Start"
+        ],
+        "summary": "Starts a new conversation regarding electrical heating price reduction.",
+        "description": "Starts a new conversation regarding electrical heating price reduction.",
+        "operationId": "StartElectricalHeatingConversation",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartElectricalHeatingConversationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartElectricalHeatingConversationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartElectricalHeatingConversationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/TestActorRetrieval/{meteringPointIdentification}": {
       "get": {
         "tags": [
@@ -492,6 +977,22 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
             }
           }
         ],
@@ -526,6 +1027,24 @@
         ],
         "description": "Updates an internal note for the invoking participant of a conversation",
         "operationId": "UpdateInternalNote",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "1234567891234"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -564,6 +1083,22 @@
   },
   "components": {
     "schemas": {
+      "ActorNumbersDto": {
+        "type": "object",
+        "description": "The list of actor numbers that have a conversation in the system.",
+        "required": [
+          "actorNumbers"
+        ],
+        "properties": {
+          "actorNumbers": {
+            "type": "array",
+            "description": "Actor numbers with at least one conversation.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "ActorType": {
         "type": "string",
         "description": "Application layer receiver type",
@@ -578,7 +1113,8 @@
         "required": [
           "conversationId",
           "content",
-          "anonymous"
+          "anonymous",
+          "attachedDocumentIds"
         ],
         "properties": {
           "conversationId": {
@@ -593,6 +1129,14 @@
           "anonymous": {
             "type": "boolean",
             "description": "Specifies whether the message is anonymous with respect to the Sender information."
+          },
+          "attachedDocumentIds": {
+            "type": "array",
+            "description": "The documents that should be attached to this message",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         }
       },
@@ -835,6 +1379,56 @@
           }
         }
       },
+      "EntityTagHeaderValue": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "$ref": "#/components/schemas/StringSegment"
+          },
+          "isWeak": {
+            "type": "boolean"
+          }
+        }
+      },
+      "FileContentResult": {
+        "type": "object",
+        "properties": {
+          "fileContents": {
+            "type": "string",
+            "format": "byte"
+          },
+          "contentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileDownloadName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastModified": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "entityTag": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/EntityTagHeaderValue"
+              }
+            ]
+          },
+          "enableRangeProcessing": {
+            "type": "boolean"
+          }
+        }
+      },
+      "IFormFile": {
+        "type": "string",
+        "format": "binary"
+      },
       "MarkConversationReadRequest": {
         "type": "object",
         "required": [
@@ -865,7 +1459,8 @@
         "enum": [
           "UserMessage",
           "ClosingMessage",
-          "ElectricalHeatingInformation"
+          "ElectricalHeatingInformation",
+          "ElectricalHeatingUserMessage"
         ]
       },
       "ProblemDetails": {
@@ -902,7 +1497,8 @@
           "receiverActorType",
           "meteringPointIdentification",
           "content",
-          "anonymous"
+          "anonymous",
+          "attachedDocumentIds"
         ],
         "properties": {
           "subject": {
@@ -930,6 +1526,19 @@
           "anonymous": {
             "type": "boolean",
             "description": "Specifies whether the message is anonymous with respect to the Sender information."
+          },
+          "attachedDocumentIds": {
+            "type": "array",
+            "description": "The documents that should be attached to the message that starts the conversation",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "energySupplierDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
@@ -943,6 +1552,89 @@
           "conversationId": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "StartElectricalHeatingConversationRequest": {
+        "type": "object",
+        "required": [
+          "meteringPointIdentification",
+          "content",
+          "anonymous",
+          "electricalHeatingFrom",
+          "electricalHeatingReductionPeriodFrom",
+          "electricalHeatingReductionPeriodTo",
+          "attachedDocumentIds"
+        ],
+        "properties": {
+          "meteringPointIdentification": {
+            "type": "string"
+          },
+          "internalNote": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string"
+          },
+          "anonymous": {
+            "type": "boolean"
+          },
+          "electricalHeatingFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "electricalHeatingReductionPeriodFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "electricalHeatingReductionPeriodTo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "attachedDocumentIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "StartElectricalHeatingConversationResponse": {
+        "type": "object",
+        "description": "Response for the request for starting a conversation",
+        "required": [
+          "conversationId"
+        ],
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "StringSegment": {
+        "type": "object",
+        "properties": {
+          "buffer": {
+            "type": "string",
+            "nullable": true
+          },
+          "offset": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
+          },
+          "length": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasValue": {
+            "type": "boolean"
           }
         }
       },
@@ -1008,7 +1700,13 @@
       "name": "AddConversationMessage"
     },
     {
+      "name": "AddMessageDocument"
+    },
+    {
       "name": "CloseConversation"
+    },
+    {
+      "name": "GetActorNumbers"
     },
     {
       "name": "GetConversation"
@@ -1018,6 +1716,9 @@
     },
     {
       "name": "GetElectricalHeatingInformation"
+    },
+    {
+      "name": "GetMessageDocument"
     },
     {
       "name": "MarkConversationRead"

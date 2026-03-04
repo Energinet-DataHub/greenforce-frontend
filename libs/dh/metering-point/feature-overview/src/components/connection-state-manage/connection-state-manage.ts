@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -34,10 +34,12 @@ import {
   RequestConnectionStateChangeMutation,
   GetMeteringPointProcessOverviewDocument,
   ElectricityMarketViewConnectionState,
+  ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  dhFormControlToSignal,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
@@ -86,8 +88,8 @@ import { mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apol
           <watt-datepicker
             [label]="t('validityDate')"
             [formControl]="form.controls.validityDate"
-            [min]="minDate"
-            [max]="today"
+            [min]="minDate()"
+            [max]="maxDate"
           />
         }
       </form>
@@ -113,12 +115,15 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
   currentConnectionState: ElectricityMarketViewConnectionState;
   currentCreatedDate: Date;
   meteringPointId: string;
+  meteringPointType: ElectricityMarketMeteringPointType;
 }> {
   private readonly mutation = mutation(RequestConnectionStateChangeDocument);
   private readonly toastService = inject(WattToastService);
 
-  today = new Date();
-  minDate = this.findMinDate();
+  private today = dayjs().startOf('day').toDate();
+  private yesterday = dayjs(this.today).subtract(1, 'day').toDate();
+
+  loading = this.mutation.loading;
 
   form = new FormGroup({
     state: dhMakeFormControl<ElectricityMarketViewConnectionState>(
@@ -127,11 +132,12 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
     validityDate: dhMakeFormControl<Date>(this.today, Validators.required),
   });
 
-  stateControlOptions = dhEnumToWattDropdownOptions(
-    ElectricityMarketViewConnectionState,
-    this.statesToExclude()
-  );
-  loading = this.mutation.loading;
+  private stateChange = dhFormControlToSignal(this.form.controls.state);
+
+  maxDate = this.today;
+  minDate = computed(() => this.findMinDate(this.stateChange()));
+
+  stateControlOptions = dhEnumToWattDropdownOptions(this.statesToShow());
 
   async save() {
     const { validityDate } = this.form.getRawValue();
@@ -140,6 +146,7 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
       variables: {
         input: {
           meteringPointId: this.modalData.meteringPointId,
+          currentConnectionState: this.modalData.currentConnectionState,
           newConnectionState: this.form.controls.state.value,
           validityDate,
         },
@@ -163,30 +170,64 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
     }
   }
 
-  private findMinDate() {
+  private findMinDate(newConnectionState: ElectricityMarketViewConnectionState): Date {
     const daysSinceCreated = dayjs(this.today).diff(
       dayjs(this.modalData.currentCreatedDate),
       'days'
     );
-    const maxDaysBackInTime = 7;
 
-    if (daysSinceCreated < maxDaysBackInTime) {
-      return this.modalData.currentCreatedDate;
+    switch (newConnectionState) {
+      case 'CONNECTED': {
+        const maxDaysBackInTime = 7;
+
+        if (daysSinceCreated < maxDaysBackInTime) {
+          return this.modalData.currentCreatedDate;
+        }
+
+        return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
+      }
+      case 'CLOSED_DOWN': {
+        if (
+          this.modalData.meteringPointType === ElectricityMarketMeteringPointType.ElectricalHeating
+        ) {
+          const maxDaysBackInTime = 23;
+
+          if (daysSinceCreated < maxDaysBackInTime) {
+            return this.modalData.currentCreatedDate;
+          }
+
+          return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
+        }
+
+        return this.yesterday;
+      }
+      default:
+        return this.today;
     }
-
-    return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
   }
 
-  private statesToExclude(): ElectricityMarketViewConnectionState[] | undefined {
-    if (this.modalData.currentConnectionState === ElectricityMarketViewConnectionState.New) {
-      return [
-        ElectricityMarketViewConnectionState.NotUsed,
-        ElectricityMarketViewConnectionState.ClosedDown,
-        ElectricityMarketViewConnectionState.Disconnected,
-      ];
+  private statesToShow(): Partial<{
+    [K in keyof typeof ElectricityMarketViewConnectionState]: (typeof ElectricityMarketViewConnectionState)[K];
+  }> {
+    switch (this.modalData.currentConnectionState) {
+      case 'NEW':
+        return {
+          New: 'NEW',
+          Connected: 'CONNECTED',
+        };
+      case 'CONNECTED':
+        return {
+          Connected: 'CONNECTED',
+          ClosedDown: 'CLOSED_DOWN',
+        };
+      case 'DISCONNECTED':
+        return {
+          Disconnected: 'DISCONNECTED',
+          ClosedDown: 'CLOSED_DOWN',
+        };
+      default:
+        return {};
     }
-
-    return undefined;
   }
 
   private isUpdateSuccessful(

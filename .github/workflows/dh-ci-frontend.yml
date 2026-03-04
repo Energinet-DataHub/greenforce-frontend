@@ -44,22 +44,24 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - name: Set up Docker Build
+        uses: docker/setup-buildx-action@v3
 
-      - name: Bun setup
-        uses: oven-sh/setup-bun@v2
+      - name: Build
+        uses: docker/build-push-action@v6
         with:
-          bun-version-file: package.json
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile --yarn
-
-      - name: Production build
-        run: bun run nx build ${{ env.APP_NAME }}
-
-      - name: Optimize i18n assets
-        run: bun run i18n:optimize:${{ env.APP_NAME }}
+          context: ${{ github.workspace }}
+          file: apps/dh/app-dh/Dockerfile
+          build-args: |
+            NX_BRANCH=${{ github.event.number }}
+            NX_CI_EXECUTION_ID=${{ github.run_id }}
+          secrets: |
+            NX_CLOUD_ACCESS_TOKEN=${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+          tags: app:latest
+          cache-from: type=gha
+          cache-to: type=gha
+          push: false
+          load: true
 
       - name: Get releaseversion strings
         id: get_releaseversion_strings
@@ -70,17 +72,17 @@ jobs:
       - name: Setup Release
         shell: bash
         run: |
-          mkdir -p ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
-          cp ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/3rdpartylicenses.txt ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
-          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/browser/* ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
-          cp -R ${{ github.workspace }}/apps/dh/e2e-dh ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
+            publishdir="${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}"
+            mkdir -p $publishdir
 
-      - name: Generate SBOM for node_modules
-        uses: anchore/sbom-action@v0
-        with:
-          file: ./yarn.lock
-          format: spdx-json
-          output-file: ${{ github.workspace }}/sbom.spdx.json
+            # Extract built assets from Docker image
+            docker create --name temp-container app:latest
+            docker cp temp-container:/usr/share/nginx/html/. $publishdir/${{ env.APP_NAME }}
+            docker cp temp-container:/usr/share/sbom.spdx.json ${{ github.workspace }}/sbom.spdx.json
+            docker rm temp-container
+
+            cp -R ${{ github.workspace }}/apps/dh/e2e-dh $publishdir
+            rm $publishdir/${{ env.APP_NAME }}/50x.html
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master

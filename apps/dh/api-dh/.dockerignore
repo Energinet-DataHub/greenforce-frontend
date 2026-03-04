@@ -1,0 +1,61 @@
+# IDE
+**/.vscode/
+**/.vs/
+**/.idea/
+**/.DS_Store
+**/*.user
+**/*.suo
+**/*.userosscache
+**/*.dbmdl
+**/*.jfm
+
+# Build artifacts
+**/bin/
+**/obj/
+**/out/
+**/publish/
+**/TestResults/
+**/*.binlog
+
+# NuGet
+**/*.nupkg
+**/packages/
+**/*.nuget.props
+**/*.nuget.targets
+
+# Tools
+**/.tools/
+
+# Temporary
+**/[Tt]emp/
+**/.local-chromium/
+**/launchSettings.json
+
+# Configuration
+**/.editorconfig
+
+# Documentation
+**/README.md
+**/docs/
+
+# Tests
+**/*.Tests/
+**/*.Tests.Unit/
+**/*.Tests.Integration/
+
+# Version control
+**/.git/
+**/.gitignore
+**/.github/
+
+# Docker
+**/Dockerfile*
+**/docker-compose*
+**/.dockerignore
+
+# Environment
+**/.env
+**/.env.*
+
+# Node (if present)
+**/node_modules/

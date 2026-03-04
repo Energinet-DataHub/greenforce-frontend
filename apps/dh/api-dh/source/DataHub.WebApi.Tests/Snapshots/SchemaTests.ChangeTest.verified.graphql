@@ -1086,6 +1086,7 @@ type MeteringPointProcessStep {
   dueDate: DateTime
   state: ProcessState!
   messageId: String
+  description: String!
 }
 
 type MeteringPointsGroupByPackageNumber {
@@ -2251,6 +2252,7 @@ input RequestClientSecretCredentialsInput {
 input RequestConnectionStateChangeInput {
   meteringPointId: String!
   validityDate: DateTime!
+  currentConnectionState: ElectricityMarketViewConnectionState!
   newConnectionState: ElectricityMarketViewConnectionState!
 }
 
@@ -2657,7 +2659,7 @@ enum CalculationTypeQueryParameterV1 {
 }
 
 enum ChangeCustomerCharacteristicsBusinessReason {
-  ELECTRIC_HEATING
+  ELECTRICAL_HEATING
   SECONDARY_MOVE_IN
   CHANGE_OF_ENERGY_SUPPLIER
   UPDATE_MASTER_DATA_CONSUMER
@@ -3214,6 +3216,7 @@ enum MessageType {
   USER_MESSAGE
   CLOSING_MESSAGE
   ELECTRICAL_HEATING_INFORMATION
+  ELECTRICAL_HEATING_USER_MESSAGE
 }
 
 enum MeteringGridImbalanceValuesToInclude {

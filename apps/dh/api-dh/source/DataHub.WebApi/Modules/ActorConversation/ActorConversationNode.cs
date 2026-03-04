@@ -42,7 +42,6 @@ public static partial class ActorConversationNode
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
-        // TODO: Will be replaced with the GetActorConversationRequest when implemented
         var authRequest = new ReadActorConversationRequest
         {
             ActorNumber = actorNumber,
@@ -59,9 +58,9 @@ public static partial class ActorConversationNode
             throw new InvalidOperationException("User is not authorized to access the requested conversation.");
         }
 
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
-        return await authClient.ApiGetConversationAsync(conversationId, ct);
+        return await authClient.ApiGetConversationAsync(conversationId, userId.ToString(), actorNumber, ct);
     }
 
     public static bool WasLatestMessageAnonymous(
