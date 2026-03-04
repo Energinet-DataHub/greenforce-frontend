@@ -2366,6 +2366,7 @@ input StartConversationInput {
   content: String!
   anonymous: Boolean!
   receiver: ActorType!
+  energySupplierDate: DateTime
 }
 
 input StopChargeInput {
