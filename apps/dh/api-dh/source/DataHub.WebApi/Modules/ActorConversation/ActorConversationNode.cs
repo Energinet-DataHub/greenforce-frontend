@@ -22,12 +22,12 @@ using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
-[ObjectType<ConversationDto>]
+[ObjectType<GetConversationQueryResponse>]
 public static partial class ActorConversationNode
 {
     [Query]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task<ConversationDto> GetConversationAsync(
+    public static async Task<GetConversationQueryResponse> GetConversationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
@@ -64,7 +64,7 @@ public static partial class ActorConversationNode
     }
 
     public static bool WasLatestMessageAnonymous(
-        [Parent] ConversationDto conversation,
+        [Parent] GetConversationQueryResponse conversation,
         [Service] IHttpContextAccessor httpContextAccessor)
     {
         var messages = conversation.Messages;
@@ -88,7 +88,7 @@ public static partial class ActorConversationNode
     }
 
     static partial void Configure(
-        IObjectTypeDescriptor<ConversationDto> descriptor)
+        IObjectTypeDescriptor<GetConversationQueryResponse> descriptor)
     {
         descriptor
             .Name("Conversation")

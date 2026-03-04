@@ -16,4 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export { dhAdminShellRoutes as default } from './lib/dh-admin-shell.routes';
+export { DhUserManagementComponent as default } from './src/user-management.component';
+export { DhUserDetailsComponent } from './src/details/details.component';
+export { DhEditUserComponent } from './src/edit/edit.component';
