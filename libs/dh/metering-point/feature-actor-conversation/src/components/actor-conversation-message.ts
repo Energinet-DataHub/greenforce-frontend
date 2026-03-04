@@ -19,6 +19,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDatePipe } from '@energinet/watt/date';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { ConversationMessage } from '@energinet-datahub/dh/shared/domain/graphql';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
@@ -30,6 +31,7 @@ import { injectDownloadMessageDocument } from './download-message-document';
   imports: [
     VaterStackComponent,
     WattDatePipe,
+    WattSpinnerComponent,
     TranslocoDirective,
     VaterUtilityDirective,
     WattSeparatorComponent,
@@ -51,8 +53,13 @@ import { injectDownloadMessageDocument } from './download-message-document';
       text-align: left;
     }
 
-    .attachment-link:hover {
+    .attachment-link:hover:not(:disabled) {
       text-decoration: underline;
+    }
+
+    .attachment-link:disabled {
+      opacity: 0.6;
+      cursor: default;
     }
   `,
   host: {
@@ -92,13 +99,17 @@ import { injectDownloadMessageDocument } from './download-message-document';
       @if (message().attachments.length) {
         <vater-stack fill="horizontal" align="start" class="watt-space-inset-m" gap="xs">
           @for (attachment of message().attachments; track attachment.documentId) {
-            <button
-              type="button"
-              class="attachment-link"
-              (click)="downloadDocument(attachment.documentId, attachment.documentName)"
-            >
-              {{ attachment.documentName }}
-            </button>
+            <vater-stack direction="row" align="center" gap="xs">
+              <button
+                type="button"
+                class="attachment-link"
+                [disabled]="documentDownload.downloading().has(attachment.documentId)"
+                (click)="documentDownload.download(attachment.documentId, attachment.documentName)"
+              >{{ attachment.documentName }}</button>
+              @if (documentDownload.downloading().has(attachment.documentId)) {
+                <watt-spinner [diameter]="16" [strokeWidth]="2" />
+              }
+            </vater-stack>
           }
         </vater-stack>
       }
@@ -114,5 +125,5 @@ export class DhActorConversationMessageComponent {
       : 'var(--watt-color-neutral-grey-100)'
   );
 
-  downloadDocument = injectDownloadMessageDocument();
+  documentDownload = injectDownloadMessageDocument();
 }

@@ -17,7 +17,8 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, signal } from '@angular/core';
+import { finalize } from 'rxjs';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { toFile } from '@energinet-datahub/dh/shared/ui-util';
@@ -27,14 +28,26 @@ const downloadPath = '/v1/ActorConversation/DownloadMessageDocument';
 export function injectDownloadMessageDocument() {
   const http = inject(HttpClient);
   const apiEnvironment = inject(dhApiEnvironmentToken);
+  const downloading = signal<Set<string>>(new Set());
 
-  return (documentId: string, documentName: string): void => {
+  const download = (documentId: string, documentName: string): void => {
+    if (downloading().has(documentId)) return;
+
+    downloading.update((set) => new Set(set).add(documentId));
+
     http
       .get(`${apiEnvironment.apiBase}${downloadPath}/${documentId}`, {
         responseType: 'blob',
       })
+      .pipe(finalize(() => downloading.update((set) => {
+        const next = new Set(set);
+        next.delete(documentId);
+        return next;
+      })))
       .subscribe((blob) => {
         toFile({ name: documentName, type: blob.type, data: blob });
       });
   };
+
+  return { download, downloading };
 }
