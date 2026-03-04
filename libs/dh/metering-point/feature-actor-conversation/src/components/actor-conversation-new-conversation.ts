@@ -198,7 +198,8 @@ export class DhActorConversationNewConversationComponent {
   async startConversation() {
     if (this.newConversationForm().invalid) return;
 
-    const { subject, receiver, internalNote, message, energySupplierDate } = this.newConversationForm().getRawValue();
+    const { subject, receiver, internalNote, message, energySupplierDate } =
+      this.newConversationForm().getRawValue();
 
     if (!receiver || !subject) return;
 
