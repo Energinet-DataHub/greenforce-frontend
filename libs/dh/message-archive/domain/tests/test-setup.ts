@@ -16,4 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-export { dhMessageArchiveShellRoutes as default } from './lib/dh-message-archive-shell.routes';
+import '@analogjs/vitest-angular/setup-zone';
+import '@angular/compiler';
+import '@testing-library/jest-dom/vitest';
+
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();

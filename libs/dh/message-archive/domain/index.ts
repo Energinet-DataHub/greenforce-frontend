@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMessageArchiveSearchPageComponent as default } from './lib/page.component';
-export { DhMessageArchiveSearchDetailsComponent } from './lib/details.component';
+export * from './src/archivedMessage';
+export * from './src/documentType';
