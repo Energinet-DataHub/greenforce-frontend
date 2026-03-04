@@ -17,34 +17,40 @@
  */
 //#endregion
 /// <reference types='vitest' />
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
-import analog from '@analogjs/vite-plugin-angular';
+import angular from '@analogjs/vite-plugin-angular';
+
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh-message-archive-shell',
+  cacheDir: '../../../../node_modules/.vite/libs/dh/message-archive/shell',
   plugins: [
-    analog({ tsconfig: './tsconfig.spec.json' }),
+    angular({ tsconfig: './tsconfig.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],
   test: {
-    watch: false,
     passWithNoTests: true,
-    reporters: ['default'],
+    watch: false,
     globals: true,
-
     environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    setupFiles: ['src/test-setup.ts'],
+    include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
+    setupFiles: ['tests/test-setup.ts'],
+    reporters: ['default'],
     coverage: {
       reportsDirectory: '../../../../coverage/libs/dh/message-archive/shell',
-      provider: 'v8',
+      provider: 'v8' as const,
     },
-  },
-  define: {
-    'import.meta.vitest': undefined,
+    pool: 'forks',
+    isolate: false,
+    maxWorkers: 1,
+    server: {
+      deps: {
+        inline: [/fesm2022/],
+      },
+    },
   },
 }));
