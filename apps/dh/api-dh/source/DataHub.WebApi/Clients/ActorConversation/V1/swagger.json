@@ -159,7 +159,11 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultOfAddMessageDocumentRequest"
+                }
+              }
             }
           },
           "400": {
@@ -267,17 +271,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActorNumbersDto"
+                  "$ref": "#/components/schemas/GetActorNumbersQueryResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActorNumbersDto"
+                  "$ref": "#/components/schemas/GetActorNumbersQueryResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActorNumbersDto"
+                  "$ref": "#/components/schemas/GetActorNumbersQueryResponse"
                 }
               }
             }
@@ -346,17 +350,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationDto"
+                  "$ref": "#/components/schemas/GetConversationQueryResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationDto"
+                  "$ref": "#/components/schemas/GetConversationQueryResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationDto"
+                  "$ref": "#/components/schemas/GetConversationQueryResponse"
                 }
               }
             }
@@ -479,17 +483,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationsDto"
+                  "$ref": "#/components/schemas/GetConversationsQueryResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationsDto"
+                  "$ref": "#/components/schemas/GetConversationsQueryResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationsDto"
+                  "$ref": "#/components/schemas/GetConversationsQueryResponse"
                 }
               }
             }
@@ -577,17 +581,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationDto"
+                  "$ref": "#/components/schemas/GetElectricalHeatingInformationQueryResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationDto"
+                  "$ref": "#/components/schemas/GetElectricalHeatingInformationQueryResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationDto"
+                  "$ref": "#/components/schemas/GetElectricalHeatingInformationQueryResponse"
                 }
               }
             }
@@ -860,7 +864,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StartConversationResponse"
+                  "$ref": "#/components/schemas/StartNewConversationCommandResponse"
                 }
               }
             }
@@ -935,7 +939,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StartElectricalHeatingConversationResponse"
+                  "$ref": "#/components/schemas/StartElectricalHeatingConversationCommandResponse"
                 }
               }
             }
@@ -1083,19 +1087,17 @@
   },
   "components": {
     "schemas": {
-      "ActorNumbersDto": {
+      "ActionResult": {
+        "type": "object"
+      },
+      "ActionResultOfAddMessageDocumentRequest": {
         "type": "object",
-        "description": "The list of actor numbers that have a conversation in the system.",
-        "required": [
-          "actorNumbers"
-        ],
         "properties": {
-          "actorNumbers": {
-            "type": "array",
-            "description": "Actor numbers with at least one conversation.",
-            "items": {
-              "type": "string"
-            }
+          "result": {
+            "$ref": "#/components/schemas/ActionResult"
+          },
+          "value": {
+            "$ref": "#/components/schemas/AddMessageDocumentRequest"
           }
         }
       },
@@ -1140,6 +1142,17 @@
           }
         }
       },
+      "AddMessageDocumentRequest": {
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "properties": {
+          "file": {
+            "$ref": "#/components/schemas/IFormFile"
+          }
+        }
+      },
       "CloseConversationRequest": {
         "type": "object",
         "required": [
@@ -1150,172 +1163,6 @@
             "type": "string",
             "description": "Conversation subject.",
             "format": "uuid"
-          }
-        }
-      },
-      "ConversationDto": {
-        "type": "object",
-        "description": "Conversation",
-        "required": [
-          "meteringPointIdentification",
-          "displayId",
-          "internalNote",
-          "subject",
-          "closed",
-          "messages",
-          "partOfConversations"
-        ],
-        "properties": {
-          "meteringPointIdentification": {
-            "type": "string",
-            "description": "MeteringPoint identification"
-          },
-          "displayId": {
-            "description": "Display Id of the conversation",
-            "format": "int32",
-            "pattern": "^-?(?:0|[1-9]\\d*)$"
-          },
-          "internalNote": {
-            "type": "string",
-            "description": "Internal note from the creator",
-            "nullable": true
-          },
-          "subject": {
-            "$ref": "#/components/schemas/ConversationSubject"
-          },
-          "closed": {
-            "type": "boolean",
-            "description": "true for conversations that are closed. false otherwise."
-          },
-          "messages": {
-            "type": "array",
-            "description": "Messages associated with a conversation",
-            "items": {
-              "$ref": "#/components/schemas/ConversationMessageDto"
-            }
-          },
-          "partOfConversations": {
-            "type": "boolean",
-            "description": "Indicates id you are part of this conversation.\nEnerginet can see conversations they are not part of."
-          }
-        }
-      },
-      "ConversationInfoDto": {
-        "type": "object",
-        "description": "Conversation info",
-        "required": [
-          "conversationId",
-          "meteringPointIdentification",
-          "read",
-          "subject",
-          "displayId",
-          "closed",
-          "lastUpdated"
-        ],
-        "properties": {
-          "conversationId": {
-            "type": "string",
-            "description": "Conversation id",
-            "format": "uuid"
-          },
-          "meteringPointIdentification": {
-            "type": "string",
-            "description": "MeteringPoint Identification"
-          },
-          "read": {
-            "type": "boolean",
-            "description": "Specifies whether the conversation has been read or not"
-          },
-          "subject": {
-            "$ref": "#/components/schemas/ConversationSubject"
-          },
-          "displayId": {
-            "description": "Display id of the conversation",
-            "format": "int32",
-            "pattern": "^-?(?:0|[1-9]\\d*)$"
-          },
-          "closed": {
-            "type": "boolean",
-            "description": "Conversation is closed or not"
-          },
-          "lastUpdated": {
-            "type": "string",
-            "description": "Last updated time of the conversation",
-            "format": "date-time"
-          }
-        }
-      },
-      "ConversationMessageDto": {
-        "type": "object",
-        "description": "Conversation message",
-        "required": [
-          "userId",
-          "actorNumber",
-          "senderType",
-          "messageType",
-          "createdTime",
-          "anonymous"
-        ],
-        "properties": {
-          "userId": {
-            "type": "string",
-            "description": "Sender user id",
-            "nullable": true
-          },
-          "actorNumber": {
-            "type": "string",
-            "description": "Sendor actor number",
-            "nullable": true
-          },
-          "senderType": {
-            "$ref": "#/components/schemas/ActorType"
-          },
-          "messageType": {
-            "$ref": "#/components/schemas/MessageType"
-          },
-          "createdTime": {
-            "type": "string",
-            "description": "Created time",
-            "format": "date-time"
-          },
-          "anonymous": {
-            "type": "boolean"
-          },
-          "userMessage": {
-            "oneOf": [
-              {
-                "nullable": true
-              },
-              {
-                "$ref": "#/components/schemas/UserMessageDto"
-              }
-            ]
-          },
-          "electricalHeatingMessage": {
-            "oneOf": [
-              {
-                "nullable": true
-              },
-              {
-                "$ref": "#/components/schemas/EleectricalHeatingMessageDto"
-              }
-            ]
-          }
-        }
-      },
-      "ConversationsDto": {
-        "type": "object",
-        "description": "Conversations",
-        "required": [
-          "conversations"
-        ],
-        "properties": {
-          "conversations": {
-            "type": "array",
-            "description": "List of Conversations",
-            "items": {
-              "$ref": "#/components/schemas/ConversationInfoDto"
-            }
           }
         }
       },
@@ -1332,52 +1179,6 @@
           "MeasurementPointMasterData",
           "PriceLinking"
         ]
-      },
-      "ElectricityHeatingMessagePeriodDto": {
-        "type": "object",
-        "required": [
-          "from",
-          "to"
-        ],
-        "properties": {
-          "from": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "to": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "EleectricalHeatingMessageDto": {
-        "type": "object",
-        "required": [
-          "customerName",
-          "supplierPeriods",
-          "isElectricalHeatingActive",
-          "electricalHeatingFrom"
-        ],
-        "properties": {
-          "customerName": {
-            "type": "string",
-            "nullable": true
-          },
-          "supplierPeriods": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ElectricityHeatingMessagePeriodDto"
-            }
-          },
-          "isElectricalHeatingActive": {
-            "type": "boolean"
-          },
-          "electricalHeatingFrom": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          }
-        }
       },
       "EntityTagHeaderValue": {
         "type": "object",
@@ -1422,6 +1223,342 @@
           },
           "enableRangeProcessing": {
             "type": "boolean"
+          }
+        }
+      },
+      "GetActorNumbersQueryResponse": {
+        "type": "object",
+        "required": [
+          "actorNumbers"
+        ],
+        "properties": {
+          "actorNumbers": {
+            "type": "array",
+            "description": "Actor numbers with at least one conversation.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "GetConversationQueryResponse": {
+        "type": "object",
+        "required": [
+          "meteringPointIdentification",
+          "displayId",
+          "internalNote",
+          "subject",
+          "closed",
+          "messages",
+          "partOfConversations"
+        ],
+        "properties": {
+          "meteringPointIdentification": {
+            "type": "string",
+            "description": "MeteringPoint identification"
+          },
+          "displayId": {
+            "description": "Display Id of the conversation",
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
+          },
+          "internalNote": {
+            "type": "string",
+            "description": "Internal note from the creator",
+            "nullable": true
+          },
+          "subject": {
+            "$ref": "#/components/schemas/ConversationSubject"
+          },
+          "closed": {
+            "type": "boolean",
+            "description": "true for conversations that are closed. false otherwise."
+          },
+          "messages": {
+            "type": "array",
+            "description": "Messages associated with a conversation",
+            "items": {
+              "$ref": "#/components/schemas/GetConversationQueryResponseConversationMessage"
+            }
+          },
+          "partOfConversations": {
+            "type": "boolean",
+            "description": "Indicates id you are part of this conversation.\nEnerginet can see conversations they are not part of."
+          }
+        }
+      },
+      "GetConversationQueryResponseAttachment": {
+        "type": "object",
+        "required": [
+          "documentId",
+          "documentName"
+        ],
+        "properties": {
+          "documentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "documentName": {
+            "type": "string"
+          }
+        }
+      },
+      "GetConversationQueryResponseConversationMessage": {
+        "type": "object",
+        "description": "Conversation message",
+        "required": [
+          "userId",
+          "actorNumber",
+          "senderType",
+          "messageType",
+          "createdTime",
+          "anonymous",
+          "attachments"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Sender user id",
+            "nullable": true
+          },
+          "actorNumber": {
+            "type": "string",
+            "description": "Sendor actor number",
+            "nullable": true
+          },
+          "senderType": {
+            "$ref": "#/components/schemas/ActorType"
+          },
+          "messageType": {
+            "$ref": "#/components/schemas/MessageType"
+          },
+          "createdTime": {
+            "type": "string",
+            "description": "Created time",
+            "format": "date-time"
+          },
+          "anonymous": {
+            "type": "boolean"
+          },
+          "userMessage": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/GetConversationQueryResponseUserMessage"
+              }
+            ]
+          },
+          "electricalHeatingUserMessage": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/GetConversationQueryResponseElectricalHeatingUserMessage"
+              }
+            ]
+          },
+          "electricalHeatingInformation": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/GetConversationQueryResponseElectricalHeatingInformation"
+              }
+            ]
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetConversationQueryResponseAttachment"
+            }
+          }
+        }
+      },
+      "GetConversationQueryResponseElectricalHeatingInformation": {
+        "type": "object",
+        "required": [
+          "customerName",
+          "supplierPeriods",
+          "isElectricalHeatingActive",
+          "electricalHeatingFrom"
+        ],
+        "properties": {
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplierPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetConversationQueryResponseElectricityHeatingPeriod"
+            }
+          },
+          "isElectricalHeatingActive": {
+            "type": "boolean"
+          },
+          "electricalHeatingFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "GetConversationQueryResponseElectricalHeatingUserMessage": {
+        "type": "object",
+        "required": [
+          "content",
+          "reductionPeriod",
+          "electricalHeatingFrom"
+        ],
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "reductionPeriod": {
+            "$ref": "#/components/schemas/GetConversationQueryResponseElectricityHeatingPeriod"
+          },
+          "electricalHeatingFrom": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetConversationQueryResponseElectricityHeatingPeriod": {
+        "type": "object",
+        "required": [
+          "from",
+          "to"
+        ],
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetConversationQueryResponseUserMessage": {
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Message content"
+          }
+        }
+      },
+      "GetConversationsQueryResponse": {
+        "type": "object",
+        "required": [
+          "conversations"
+        ],
+        "properties": {
+          "conversations": {
+            "type": "array",
+            "description": "List of Conversations",
+            "items": {
+              "$ref": "#/components/schemas/GetConversationsQueryResponseConversationInfo"
+            }
+          }
+        }
+      },
+      "GetConversationsQueryResponseConversationInfo": {
+        "type": "object",
+        "description": "Conversation info",
+        "required": [
+          "conversationId",
+          "meteringPointIdentification",
+          "read",
+          "subject",
+          "displayId",
+          "closed",
+          "lastUpdated"
+        ],
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "description": "Conversation id",
+            "format": "uuid"
+          },
+          "meteringPointIdentification": {
+            "type": "string",
+            "description": "MeteringPoint Identification"
+          },
+          "read": {
+            "type": "boolean",
+            "description": "Specifies whether the conversation has been read or not"
+          },
+          "subject": {
+            "$ref": "#/components/schemas/ConversationSubject"
+          },
+          "displayId": {
+            "description": "Display id of the conversation",
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
+          },
+          "closed": {
+            "type": "boolean",
+            "description": "Conversation is closed or not"
+          },
+          "lastUpdated": {
+            "type": "string",
+            "description": "Last updated time of the conversation",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetElectricalHeatingInformationQueryResponse": {
+        "type": "object",
+        "required": [
+          "customerName",
+          "supplierPeriods",
+          "isElectricalHeatingActive",
+          "electricalHeatingFrom"
+        ],
+        "properties": {
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplierPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetElectricalHeatingInformationQueryResponsePeriod"
+            }
+          },
+          "isElectricalHeatingActive": {
+            "type": "boolean"
+          },
+          "electricalHeatingFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "GetElectricalHeatingInformationQueryResponsePeriod": {
+        "type": "object",
+        "required": [
+          "from",
+          "to"
+        ],
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -1542,9 +1679,8 @@
           }
         }
       },
-      "StartConversationResponse": {
+      "StartElectricalHeatingConversationCommandResponse": {
         "type": "object",
-        "description": "Response for the request for starting a conversation",
         "required": [
           "conversationId"
         ],
@@ -1601,9 +1737,8 @@
           }
         }
       },
-      "StartElectricalHeatingConversationResponse": {
+      "StartNewConversationCommandResponse": {
         "type": "object",
-        "description": "Response for the request for starting a conversation",
         "required": [
           "conversationId"
         ],
@@ -1675,18 +1810,6 @@
             "type": "string",
             "description": "Optional Internal note from the active participant\nCan contain at most 80 characters and will be assumed empty, if not specified",
             "nullable": true
-          }
-        }
-      },
-      "UserMessageDto": {
-        "type": "object",
-        "required": [
-          "content"
-        ],
-        "properties": {
-          "content": {
-            "type": "string",
-            "description": "Message content"
           }
         }
       }
