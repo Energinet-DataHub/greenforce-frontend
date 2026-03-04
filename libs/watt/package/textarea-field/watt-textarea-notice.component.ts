@@ -22,6 +22,21 @@ import { Component, input, ViewEncapsulation } from '@angular/core';
   selector: 'watt-textarea-notice',
   template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
+  styles: `
+    watt-textarea-notice {
+      display: flex;
+      align-items: center;
+      gap: var(--watt-space-s);
+      padding: var(--watt-space-xs) var(--watt-space-s);
+      color: var(--watt-on-light-high-emphasis);
+      background: var(--watt-color-neutral-grey-200);
+
+      &[type="danger"] {
+        color: var(--watt-color-state-danger);
+        background: var(--watt-color-state-danger-light);
+      }
+    }
+  `,
   host: {
     '[attr.type]': 'type()',
   },
