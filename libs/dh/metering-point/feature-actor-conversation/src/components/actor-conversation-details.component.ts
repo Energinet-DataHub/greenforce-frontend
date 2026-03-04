@@ -170,6 +170,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
         >
           <dh-actor-conversation-message-form
             [loading]="sendActorConversationMessageMutation.loading()"
+            [closed]="!!conversation()?.closed"
             [formControl]="formControl"
           />
         </form>

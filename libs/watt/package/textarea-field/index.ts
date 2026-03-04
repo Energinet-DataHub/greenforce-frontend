@@ -17,3 +17,4 @@
  */
 //#endregion
 export { WattTextAreaFieldComponent } from './watt-textarea-field.component';
+export { WattTextareaNoticeComponent } from './watt-textarea-notice.component';

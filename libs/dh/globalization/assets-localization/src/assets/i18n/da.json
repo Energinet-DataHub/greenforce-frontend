@@ -836,6 +836,8 @@
       "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
       "anonymousCheckbox": "Send anonymt",
       "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren",
+      "closedNotice": "Sender du en besked, bliver sagen aktiv igen.",
+      "personalDataNotice": "Skriv ikke unødige <a target=\"_blank\" href=\"https://www.datatilsynet.dk/regler-og-vejledning/grundlaeggende-begreber/hvad-er-personoplysninger\">personoplysninger</a>, og del <strong>ikke</strong> fortrolige eller følsomme oplysninger, f.eks. CPR-nummer, helbredsoplysninger eller etnicitet.",
       "closingMessage": "Sag afsluttet",
       "filters": {
         "placeholder": "Filtre",
