@@ -46,6 +46,7 @@ import { VaterStackComponent } from '@energinet/watt/vater';
   encapsulation: ViewEncapsulation.None,
   template: `<watt-field [label]="label()" [control]="formControl()">
     <div class="textarea-wrapper">
+      <ng-content select="watt-textarea-notice" />
       <textarea
         [attr.placeholder]="placeholder()"
         [value]="value()"

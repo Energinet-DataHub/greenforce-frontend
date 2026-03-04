@@ -641,19 +641,21 @@ function getConversations() {
 }
 
 function getConversation() {
-  return mockGetConversationQuery(async () => {
+  return mockGetConversationQuery(async ({ variables }) => {
     await delay(mswConfig.delay);
+
+    const match = conversations.find((c) => c.id === variables.conversationId);
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
         conversation: {
           __typename: 'Conversation',
-          displayId: '00001',
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          displayId: match?.displayId ?? '00001',
+          id: variables.conversationId,
           internalNote: 'CS00123645',
-          subject: 'INTERRUPTION_RECONNECTION',
-          closed: false,
+          subject: match?.subject ?? 'INTERRUPTION_RECONNECTION',
+          closed: match?.closed ?? false,
           wasLatestMessageAnonymous: true,
           messages: [
             {

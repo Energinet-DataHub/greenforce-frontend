@@ -54,4 +54,13 @@ watt-textarea-field {
   &[resize="both"] textarea {
     resize: both;
   }
+
+  .watt-field-wrapper {
+    padding: 0 !important;
+
+    textarea,
+    .textarea-footer {
+      padding: var(--watt-space-m) var(--watt-space-s) var(--watt-space-s) var(--watt-space-s);
+    }
+  }
 }
