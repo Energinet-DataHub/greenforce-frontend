@@ -54,4 +54,26 @@ watt-textarea-field {
   &[resize="both"] textarea {
     resize: both;
   }
+
+  .watt-field-wrapper {
+    padding: 0 !important;
+
+    textarea, .textarea-footer {
+      padding: var(--watt-space-m) var(--watt-space-s) var(--watt-space-s) var(--watt-space-s);
+    }
+  }
+
+  watt-textarea-notice {
+    display: flex;
+    align-items: center;
+    gap: var(--watt-space-s);
+    padding: var(--watt-space-xs) var(--watt-space-s);
+    color: var(--watt-on-light-high-emphasis);
+    background: var(--watt-color-neutral-grey-200);
+
+    &[type="danger"] {
+      color: var(--watt-color-state-danger);
+      background: var(--watt-color-state-danger-light);
+    }
+  }
 }

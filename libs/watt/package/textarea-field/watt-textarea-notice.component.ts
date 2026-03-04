@@ -16,5 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-export { WattTextAreaFieldComponent } from './watt-textarea-field.component';
-export { WattTextareaNoticeComponent } from './watt-textarea-notice.component';
+import { Component, input, ViewEncapsulation } from '@angular/core';
+
+@Component({
+  selector: 'watt-textarea-notice',
+  template: `<ng-content />`,
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    '[attr.type]': 'type()',
+  },
+})
+export class WattTextareaNoticeComponent {
+  type = input<'info' | 'danger'>('info');
+}

@@ -834,6 +834,8 @@
       "conversationCloseError": "An error occurred trying to close the case",
       "anonymousCheckbox": "Send anonymously",
       "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver",
+      "closedNotice": "If you send a message, the case will become active again.",
+      "personalDataNotice": "Do not write unnecessary <a target=\"_blank\" href=\"https://www.datatilsynet.dk/regler-og-vejledning/grundlaeggende-begreber/hvad-er-personoplysninger\">personal data</a>, and do <strong>not</strong> share confidential or sensitive information, e.g. CPR number, health information or ethnicity.",
       "closingMessage": "Case closed",
       "filters": {
         "placeholder": "Filters",

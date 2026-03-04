@@ -36,12 +36,16 @@ import {
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
+import {
+  WattTextAreaFieldComponent,
+  WattTextareaNoticeComponent,
+} from '@energinet/watt/textarea-field';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { MessageFormValue } from '../types';
 import { skip } from 'rxjs';
+import { WattFieldHintComponent } from '@energinet/watt/field';
 
 @Component({
   selector: 'dh-actor-conversation-message-form',
@@ -62,7 +66,9 @@ import { skip } from 'rxjs';
     ReactiveFormsModule,
     WattCheckboxComponent,
     WattTooltipDirective,
-  ],
+    WattTextareaNoticeComponent,
+    WattFieldHintComponent,
+],
   styles: `
     .info-icon-color {
       color: var(--watt-text-color);
@@ -77,8 +83,12 @@ import { skip } from 'rxjs';
       <watt-textarea-field
         [formControl]="form.controls.message"
         [small]="small()"
-        data-testid="actor-conversation-message-textarea"
-      />
+        data-testid="actor-conversation-message-textarea">
+        @if (closed()) {
+          <watt-textarea-notice><watt-icon name="info" state="default" />{{ t('closedNotice') }}</watt-textarea-notice>
+        }
+        <watt-field-hint [innerHTML]="t('personalDataNotice')" />
+      </watt-textarea-field>
       <vater-stack direction="row" gap="m">
         <vater-stack direction="row" gap="xs">
           <watt-checkbox [formControl]="form.controls.anonymous">
@@ -104,6 +114,7 @@ export class DhActorConversationMessageFormComponent implements ControlValueAcce
   private readonly cdr = inject(ChangeDetectorRef);
   small = input<boolean>(false);
   loading = input<boolean>(false);
+  closed = input<boolean>(false);
 
   form = new FormGroup({
     message: new FormControl<string | null>(null),
