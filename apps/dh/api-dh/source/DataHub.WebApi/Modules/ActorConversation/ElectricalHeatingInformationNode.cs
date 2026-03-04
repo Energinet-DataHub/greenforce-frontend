@@ -1,4 +1,4 @@
-﻿﻿// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -22,12 +22,12 @@ using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
-[ObjectType<EleectricalHeatingMessageDto>]
+[ObjectType<GetElectricalHeatingInformationQueryResponse>]
 public static partial class ElectricalHeatingInformationNode
 {
     [Query]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task<EleectricalHeatingMessageDto?> GetElectricalHeatingInformationAsync(
+    public static async Task<GetElectricalHeatingInformationQueryResponse?> GetElectricalHeatingInformationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
@@ -60,14 +60,12 @@ public static partial class ElectricalHeatingInformationNode
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
-        var conversation = await authClient.ApiGetElectricalHeatingInformationAsync(
+        var electricalHeatingInformation = await authClient.ApiGetElectricalHeatingInformationAsync(
             meteringPointIdentification,
             userId.ToString(),
             actorNumber,
             ct);
 
-        return conversation.Messages
-            .FirstOrDefault(m => m.ElectricalHeatingMessage != null)
-            ?.ElectricalHeatingMessage;
+        return electricalHeatingInformation;
     }
 }
