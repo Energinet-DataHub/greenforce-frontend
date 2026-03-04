@@ -195,7 +195,7 @@ export class DhChargesSeriesTable {
           `"${this.charge()?.owner?.name}"`,
           `"${this.charge()?.owner?.glnOrEicNumber}"`,
           `"${translate('charges.chargeTypes.' + this.charge()?.type)}"`,
-          `"${this.charge()?.id}"`,
+          `"${this.charge()?.code}"`,
           `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
           `"${dayjs(x.period.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
           `"${dayjs(x.period.end).format('YYYY-MM-DDTHH:mm:ss')}"`,
