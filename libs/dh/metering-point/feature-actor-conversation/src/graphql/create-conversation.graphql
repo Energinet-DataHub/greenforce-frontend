@@ -28,6 +28,10 @@ mutation StartElectricalHeatingConversation(
   $content: String!
   $anonymous: Boolean!
   $receiver: ActorType!
+  $electricalHeatingFrom: DateTime!
+  $electricalHeatingReductionPeriodFrom: DateTime!
+  $electricalHeatingReductionPeriodTo: DateTime!
+  $attachedDocumentIds: [UUID!]!
 ) {
   startElectricalHeatingConversation(
     input: {
@@ -36,6 +40,10 @@ mutation StartElectricalHeatingConversation(
       internalNote: $internalNote
       content: $content
       receiver: $receiver
+      electricalHeatingFrom: $electricalHeatingFrom
+      electricalHeatingReductionPeriodFrom: $electricalHeatingReductionPeriodFrom
+      electricalHeatingReductionPeriodTo: $electricalHeatingReductionPeriodTo
+      attachedDocumentIds: $attachedDocumentIds
     }
   ) {
     string

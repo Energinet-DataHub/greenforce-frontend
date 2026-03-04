@@ -112,18 +112,19 @@ public static partial class ActorConversationOperations
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
-        var response = await authClient.ApiStartConversationAsync(
+        var response = await authClient.ApiStartElectricalHeatingConversationAsync(
             userId.ToString(),
             actorNumber,
-            new StartConversationRequest
+            new StartElectricalHeatingConversationRequest
             {
-                Subject = ConversationSubject.ElectricalHeating,
-                SenderActorType = MapMarketRoleToActorType(marketRole),
-                ReceiverActorType = input.Receiver,
                 MeteringPointIdentification = input.MeteringPointIdentification,
                 InternalNote = input.InternalNote,
                 Content = input.Content,
                 Anonymous = input.Anonymous,
+                ElectricalHeatingFrom = input.ElectricalHeatingFrom,
+                ElectricalHeatingReductionPeriodFrom = input.ElectricalHeatingReductionPeriodFrom,
+                ElectricalHeatingReductionPeriodTo = input.ElectricalHeatingReductionPeriodTo,
+                AttachedDocumentIds = input.AttachedDocumentIds.Select(id => id).ToList(),
             },
             ct);
 

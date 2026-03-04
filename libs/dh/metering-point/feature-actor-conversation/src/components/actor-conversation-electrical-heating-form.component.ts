@@ -16,19 +16,43 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  forwardRef,
+  inject,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormControl,
+  FormGroup,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { skip } from 'rxjs';
 
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDescriptionListComponent, WattDescriptionListItemComponent } from '@energinet/watt/description-list';
 import { WattDatePipe } from '@energinet/watt/date';
+import { ElectricalHeatingFormValue } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-electrical-heating-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DhActorConversationElectricalHeatingFormComponent),
+      multi: true,
+    },
+  ],
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -98,7 +122,9 @@ import { WattDatePipe } from '@energinet/watt/date';
     </vater-stack>
   `,
 })
-export class DhActorConversationElectricalHeatingFormComponent {
+export class DhActorConversationElectricalHeatingFormComponent implements ControlValueAccessor {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   newDate = new Date();
   form = new FormGroup({
     addressEligibilityDate: new FormControl<Date | null>(null, Validators.required),
@@ -107,4 +133,53 @@ export class DhActorConversationElectricalHeatingFormComponent {
     attachedBbrNotification: new FormControl<boolean>(false, { nonNullable: true }),
     attachedBbrDocumentation: new FormControl<boolean>(false, { nonNullable: true }),
   });
+
+  value = toSignal(this.form.valueChanges);
+
+  formValueChanged = toObservable(
+    computed<ElectricalHeatingFormValue>(() => {
+      const value = this.value();
+
+      return {
+        addressEligibilityDate: value?.addressEligibilityDate ?? null,
+        periodStart: value?.periodStart ?? null,
+        periodEnd: value?.periodEnd ?? null,
+        attachedBbrNotification: value?.attachedBbrNotification ?? false,
+        attachedBbrDocumentation: value?.attachedBbrDocumentation ?? false,
+      };
+    })
+  );
+
+  // Implementation for ControlValueAccessor
+  writeValue(value: ElectricalHeatingFormValue | null): void {
+    if (value) {
+      this.form.setValue(
+        {
+          addressEligibilityDate: value.addressEligibilityDate,
+          periodStart: value.periodStart,
+          periodEnd: value.periodEnd,
+          attachedBbrNotification: value.attachedBbrNotification,
+          attachedBbrDocumentation: value.attachedBbrDocumentation,
+        },
+        { emitEvent: false }
+      );
+    } else {
+      this.form.reset(
+        {
+          addressEligibilityDate: null,
+          periodStart: null,
+          periodEnd: null,
+          attachedBbrNotification: false,
+          attachedBbrDocumentation: false,
+        },
+        { emitEvent: false }
+      );
+    }
+    this.cdr.markForCheck();
+  }
+
+  registerOnChange = (fn: (value: ElectricalHeatingFormValue | null) => void) =>
+    this.formValueChanged.subscribe(fn);
+  registerOnTouched = (fn: () => void) => this.form.valueChanges.pipe(skip(1)).subscribe(fn);
+  setDisabledState = (disabled: boolean) => (disabled ? this.form.disable() : this.form.enable());
 }
