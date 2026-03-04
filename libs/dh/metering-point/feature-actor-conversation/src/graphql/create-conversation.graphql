@@ -5,6 +5,7 @@ mutation StartConversation(
   $content: String!
   $anonymous: Boolean!
   $receiver: ActorType!
+  $energySupplierDate: DateTime
 ) {
   startConversation(
     startConversationInput: {
@@ -14,6 +15,7 @@ mutation StartConversation(
       content: $content
       anonymous: $anonymous
       receiver: $receiver
+      energySupplierDate: $energySupplierDate
     }
   ) {
     string

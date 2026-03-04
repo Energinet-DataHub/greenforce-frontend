@@ -71,6 +71,7 @@ public static partial class ActorConversationOperations
                 InternalNote = startConversationInput.InternalNote,
                 Content = startConversationInput.Content,
                 Anonymous = startConversationInput.Anonymous,
+                EnergySupplierDate = startConversationInput.EnergySupplierDate,
             },
             ct);
 

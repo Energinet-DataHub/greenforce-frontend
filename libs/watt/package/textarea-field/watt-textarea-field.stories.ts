@@ -21,6 +21,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { WattIconComponent } from '../icon/icon.component';
 import { WattTextAreaFieldComponent } from './watt-textarea-field.component';
+import { WattTextareaNoticeComponent } from './watt-textarea-notice.component';
 import { WattFieldComponent, WattFieldErrorComponent, WattFieldHintComponent } from '../field';
 import { WattButtonComponent } from '../button';
 import { WattInputChipComponent } from '../chip';
@@ -38,6 +39,7 @@ const meta: Meta<WattTextAreaFieldComponent> = {
         WattButtonComponent,
         WattFieldErrorComponent,
         WattFieldHintComponent,
+        WattTextareaNoticeComponent,
         WattInputChipComponent,
       ],
     }),
@@ -163,6 +165,18 @@ export const WithHint: StoryFn<WattTextAreaFieldComponent> = () => ({
   template: `<watt-textarea-field [required]="true" [label]="label" [placeholder]="placeholder" [formControl]="exampleFormControl">
               <watt-field-error>This field is required</watt-field-error>
               <watt-field-hint>This is a hint</watt-field-hint>
+            </watt-textarea-field>`,
+});
+
+export const WithNotice: StoryFn<WattTextAreaFieldComponent> = () => ({
+  props: {
+    exampleFormControl: new FormControl(null),
+  },
+  template: `<watt-textarea-field label="With info notice" [formControl]="exampleFormControl">
+              <watt-textarea-notice>This is an informational notice</watt-textarea-notice>
+            </watt-textarea-field>
+            <watt-textarea-field label="With error notice" [formControl]="exampleFormControl">
+              <watt-textarea-notice type="danger">This is an error notice</watt-textarea-notice>
             </watt-textarea-field>`,
 });
 

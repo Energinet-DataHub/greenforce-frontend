@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
 
-export type WattSeparatorSize = 's' | 'm';
+export type WattSeparatorWeight = 'regular' | 'bold';
+export type WattSeparatorOrientation = 'horizontal' | 'vertical';
 
 /**
  * Usage:
@@ -27,20 +28,42 @@ export type WattSeparatorSize = 's' | 'm';
 @Component({
   selector: 'watt-separator',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   host: {
-    role: 'separator',
-    '[style.border-top-width]': 'size() === "s" ? "1px" : "2px"',
+    '[attr.aria-orientation]': 'orientation()',
+    '[attr.role]': '"separator"',
+    '[class]': '"watt-separator--" + orientation() + " watt-separator--" + weight()',
   },
   template: '',
   styles: `
-    :host {
+    watt-separator {
       display: block;
+      border-color: var(--watt-color-neutral-grey-300);
+      border-style: solid;
+      border-width: 0;
+    }
+
+    watt-separator.watt-separator--horizontal {
       width: 100%;
-      border-top-style: solid;
-      border-top-color: var(--watt-color-neutral-grey-300);
+      border-top-width: 1px;
+    }
+
+    watt-separator.watt-separator--horizontal.watt-separator--bold {
+      border-top-width: 2px;
+    }
+
+    watt-separator.watt-separator--vertical {
+      align-self: stretch;
+      height: auto;
+      border-left-width: 1px;
+    }
+
+    watt-separator.watt-separator--vertical.watt-separator--bold {
+      border-left-width: 2px;
     }
   `,
 })
 export class WattSeparatorComponent {
-  size = input<WattSeparatorSize>('s');
+  weight = input<WattSeparatorWeight>('regular');
+  orientation = input<WattSeparatorOrientation>('horizontal');
 }
