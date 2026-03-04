@@ -80,6 +80,59 @@ public static partial class ActorConversationOperations
 
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
+    public static async Task<string> StartElectricalHeatingConversationAsync(
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        StartElectricalHeatingConversationInput input,
+        CancellationToken ct)
+    {
+        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
+
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
+        var userId = user.GetUserId();
+
+        var authRequest = new CreateActorConversationRequest
+        {
+            ActorNumber = actorNumber,
+            MarketRole = marketRole,
+            MeteringPointId = input.MeteringPointIdentification,
+            UserId = userId,
+        };
+
+        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
+
+        if (signature.Signature == null ||
+            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        {
+            throw new InvalidOperationException("User is not authorized to access the requested metering point.");
+        }
+
+        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
+
+        var response = await authClient.ApiStartConversationAsync(
+            userId.ToString(),
+            actorNumber,
+            new StartConversationRequest
+            {
+                Subject = ConversationSubject.ElectricalHeating,
+                SenderActorType = MapMarketRoleToActorType(marketRole),
+                ReceiverActorType = input.Receiver,
+                MeteringPointIdentification = input.MeteringPointIdentification,
+                InternalNote = input.InternalNote,
+                Content = input.Content,
+                Anonymous = input.Anonymous,
+                EnergySupplierDate = input.EnergySupplierDate,
+            },
+            ct);
+
+        return response.ConversationId.ToString();
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> SendActorConversationMessageAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,

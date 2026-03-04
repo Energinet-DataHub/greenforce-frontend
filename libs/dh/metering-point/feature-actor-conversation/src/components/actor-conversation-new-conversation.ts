@@ -115,7 +115,7 @@ import {
               data-testid="actor-conversation-subject-dropdown"
             />
             @if (isElectricalHeating()) {
-              <watt-slide-toggle>
+              <watt-slide-toggle [formControl]="newConversationForm().controls.reducedElectricityTax">
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
@@ -174,6 +174,7 @@ export class DhActorConversationNewConversationComponent {
           null,
           Validators.maxLength(internalNoteMaxLength)
         ),
+        reducedElectricityTax: dhMakeFormControl<boolean>(false),
         message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false }, [
           (control) => (control.value.content ? null : { required: true }),
           Validators.maxLength(messageMaxLength),
@@ -205,7 +206,7 @@ export class DhActorConversationNewConversationComponent {
   });
 
   private readonly reducedElectricityTaxValue = dhFormControlToSignal(
-    this.newConversationForm.controls.reducedElectricityTax
+    () => this.newConversationForm().controls.reducedElectricityTax
   );
 
   shouldShowEletricalHeatingForm = computed(
