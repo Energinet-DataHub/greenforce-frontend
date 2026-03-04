@@ -83,26 +83,6 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
     .file-input {
       display: none;
     }
-
-    .file-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-
-    .file-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      border-radius: 16px;
-      background: var(--watt-color-neutral-grey-200);
-      font-size: 12px;
-    }
-
-    .file-chip watt-icon {
-      cursor: pointer;
-    }
   `,
   template: `
     <vater-stack
