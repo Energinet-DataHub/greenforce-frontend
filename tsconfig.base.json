@@ -20,7 +20,7 @@
       "@energinet-datahub/dh-shared-data-access-top-bar": [
         "libs/dh/shared/data-access-top-bar/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/data-access-api": ["libs/dh/admin/data-access-api/src/index.ts"],
+      "@energinet-datahub/dh/admin/data-access-api": ["libs/dh/admin/data-access-api/index.ts"],
       "@energinet-datahub/dh/admin/data-access-graphql": [
         "libs/dh/admin/data-access-graphql/src/index.ts"
       ],
@@ -31,16 +31,16 @@
         "libs/dh/admin/feature-invite-user-modal/src/index.ts"
       ],
       "@energinet-datahub/dh/admin/feature-permissions": [
-        "libs/dh/admin/feature-permissions/src/index.ts"
+        "libs/dh/admin/feature-permissions/index.ts"
       ],
       "@energinet-datahub/dh/admin/feature-user-management": [
-        "libs/dh/admin/feature-user-management/src/index.ts"
+        "libs/dh/admin/feature-user-management/index.ts"
       ],
       "@energinet-datahub/dh/admin/feature-user-roles": [
-        "libs/dh/admin/feature-user-roles/src/index.ts"
+        "libs/dh/admin/feature-user-roles/index.ts"
       ],
       "@energinet-datahub/dh/admin/shared": ["libs/dh/admin/shared/src/index.ts"],
-      "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
+      "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/index.ts"],
       "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/src/index.ts"],
       "@energinet-datahub/dh/charges/feature-charges": ["libs/dh/charges/feature-charges/index.ts"],
       "@energinet-datahub/dh/charges/feature-parse-series": [
