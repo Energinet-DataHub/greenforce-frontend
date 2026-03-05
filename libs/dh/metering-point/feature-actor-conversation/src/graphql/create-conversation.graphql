@@ -6,6 +6,7 @@ mutation StartConversation(
   $anonymous: Boolean!
   $receiver: ActorType!
   $energySupplierDate: DateTime
+  $attachedDocumentIds: [UUID!]!
 ) {
   startConversation(
     startConversationInput: {
@@ -16,6 +17,7 @@ mutation StartConversation(
       anonymous: $anonymous
       receiver: $receiver
       energySupplierDate: $energySupplierDate
+      attachedDocumentIds: $attachedDocumentIds
     }
   ) {
     string

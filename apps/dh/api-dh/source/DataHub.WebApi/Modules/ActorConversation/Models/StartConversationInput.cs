@@ -31,4 +31,6 @@ public class StartConversationInput
     public required ActorType Receiver { get; set; }
 
     public DateTimeOffset? EnergySupplierDate { get; set; }
+
+    public ICollection<Guid> AttachedDocumentIds { get; set; } = [];
 }

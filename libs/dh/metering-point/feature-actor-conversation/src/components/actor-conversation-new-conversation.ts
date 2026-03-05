@@ -24,6 +24,7 @@ import {
   inject,
   input,
   output,
+  signal,
 } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
@@ -50,6 +51,7 @@ import { DhActorConversationMessageFormComponent } from './actor-conversation-me
 import { DhActorConversationReceiverRadioGroupComponent } from './actor-conversation-receiver-radio-group';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { injectUploadMessageDocument } from './upload-message-document';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -134,7 +136,8 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
             <dh-actor-conversation-message-form
               vater
               fill="horizontal"
-              [loading]="startConversationMutation.loading()"
+              [loading]="uploading() || startConversationMutation.loading()"
+              [uploadError]="uploadError()"
               [formControl]="newConversationForm().controls.message"
             />
           </vater-stack>
@@ -144,11 +147,14 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
   `,
 })
 export class DhActorConversationNewConversationComponent {
+  private readonly uploadMessageDocument = injectUploadMessageDocument();
   private readonly startConversationErrorToast = injectToast(
     'meteringPoint.actorConversation.startConversationError'
   );
   public readonly currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
 
+  uploading = signal(false);
+  uploadError = signal(false);
   startConversationMutation = mutation(StartConversationDocument);
   closeNewConversation = output();
   meteringPointId = input.required<string>();
@@ -165,8 +171,9 @@ export class DhActorConversationNewConversationComponent {
           null,
           Validators.maxLength(internalNoteMaxLength)
         ),
-        message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false }, [
-          (control) => (control.value.content ? null : { required: true }),
+        message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false, files: [] }, [
+          (control) =>
+            control.value.content || control.value.files?.length ? null : { required: true },
           Validators.maxLength(messageMaxLength),
         ]),
       })
@@ -202,21 +209,38 @@ export class DhActorConversationNewConversationComponent {
       this.newConversationForm().getRawValue();
 
     if (!receiver || !subject) return;
+    if (this.uploading()) return;
 
-    const { content, anonymous } = message ?? {};
+    const { content, anonymous, files } = message ?? {};
 
-    assertIsDefined(content);
     assertIsDefined(anonymous);
+
+    this.uploadError.set(false);
+    this.uploading.set(true);
+
+    let attachedDocumentIds: string[];
+    try {
+      attachedDocumentIds = await Promise.all(
+        (files ?? []).map((file) => this.uploadMessageDocument(file))
+      );
+    } catch {
+      this.uploadError.set(true);
+      this.uploading.set(false);
+      return;
+    }
+
+    this.uploading.set(false);
 
     await this.startConversationMutation.mutate({
       variables: {
         meteringPointIdentification: this.meteringPointId(),
         subject,
         internalNote,
-        content,
+        content: content ?? '',
         anonymous,
         receiver,
         energySupplierDate,
+        attachedDocumentIds,
       },
       refetchQueries: [GetConversationsDocument],
     });

@@ -41,17 +41,17 @@
       ],
       "@energinet-datahub/dh/admin/shared": ["libs/dh/admin/shared/src/index.ts"],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/index.ts"],
-      "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/src/index.ts"],
+      "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/index.ts"],
       "@energinet-datahub/dh/charges/feature-charges": ["libs/dh/charges/feature-charges/index.ts"],
       "@energinet-datahub/dh/charges/feature-parse-series": [
         "libs/dh/charges/feature-parse-series/index.ts"
       ],
       "@energinet-datahub/dh/charges/ui-shared": ["libs/dh/charges/ui-shared/index.ts"],
       "@energinet-datahub/dh/core/feature-notifications": [
-        "libs/dh/core/feature-notifications/src/index.ts"
+        "libs/dh/core/feature-notifications/index.ts"
       ],
       "@energinet-datahub/dh/core/routing": ["libs/dh/core/routing/src/index.ts"],
-      "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
+      "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/index.ts"],
       "@energinet-datahub/dh/core/ui-toolbar-portal": ["libs/dh/core/ui-toolbar-portal/index.ts"],
       "@energinet-datahub/dh/developer/feature-examples": [
         "libs/dh/developer/feature-examples/index.ts"
@@ -63,15 +63,15 @@
         "libs/dh/esett/data-access-outgoing-messages/src/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-balance-responsible": [
-        "libs/dh/esett/feature-balance-responsible/src/index.ts"
+        "libs/dh/esett/feature-balance-responsible/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance": [
         "libs/dh/esett/feature-metering-gridarea-imbalance/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-outgoing-messages": [
-        "libs/dh/esett/feature-outgoing-messages/src/index.ts"
+        "libs/dh/esett/feature-outgoing-messages/index.ts"
       ],
-      "@energinet-datahub/dh/esett/shell": ["libs/dh/esett/shell/src/index.ts"],
+      "@energinet-datahub/dh/esett/shell": ["libs/dh/esett/shell/index.ts"],
       "@energinet-datahub/dh/feature-market-participant": [
         "libs/dh/market-participant/feature-market-participant/index.ts"
       ],
@@ -79,13 +79,13 @@
         "libs/dh/globalization/assets-localization/src/index.ts"
       ],
       "@energinet-datahub/dh/globalization/configuration-localization": [
-        "libs/dh/globalization/configuration-localization/src/index.ts"
+        "libs/dh/globalization/configuration-localization/index.ts"
       ],
       "@energinet-datahub/dh/globalization/configuration-watt-translation": [
-        "libs/dh/globalization/configuration-watt-translation/src/index.ts"
+        "libs/dh/globalization/configuration-watt-translation/index.ts"
       ],
       "@energinet-datahub/dh/globalization/feature-language-picker": [
-        "libs/dh/globalization/feature-language-picker/src/index.ts"
+        "libs/dh/globalization/feature-language-picker/index.ts"
       ],
       "@energinet-datahub/dh/grid-areas": ["libs/dh/grid-areas/index.ts"],
       "@energinet-datahub/dh/imbalance-prices": ["libs/dh/imbalance-prices/index.ts"],
@@ -107,13 +107,11 @@
       "@energinet-datahub/dh/market-participant/ui-shared": [
         "libs/dh/market-participant/ui-shared/index.ts"
       ],
-      "@energinet-datahub/dh/message-archive/domain": [
-        "libs/dh/message-archive/domain/src/index.ts"
-      ],
+      "@energinet-datahub/dh/message-archive/domain": ["libs/dh/message-archive/domain/index.ts"],
       "@energinet-datahub/dh/message-archive/feature-search": [
-        "libs/dh/message-archive/feature-search/src/index.ts"
+        "libs/dh/message-archive/feature-search/index.ts"
       ],
-      "@energinet-datahub/dh/message-archive/shell": ["libs/dh/message-archive/shell/src/index.ts"],
+      "@energinet-datahub/dh/message-archive/shell": ["libs/dh/message-archive/shell/index.ts"],
       "@energinet-datahub/dh/metering-point/feature-actor-conversation": [
         "libs/dh/metering-point/feature-actor-conversation/src/index.ts"
       ],
@@ -144,11 +142,9 @@
       "@energinet-datahub/dh/metering-point/feature-upload-measurements": [
         "libs/dh/metering-point/feature-upload-measurements/index.ts"
       ],
-      "@energinet-datahub/dh/profile/feature-avatar": [
-        "libs/dh/profile/feature-avatar/src/index.ts"
-      ],
+      "@energinet-datahub/dh/profile/feature-avatar": ["libs/dh/profile/feature-avatar/index.ts"],
       "@energinet-datahub/dh/profile/feature-profile-modal": [
-        "libs/dh/profile/feature-profile-modal/src/index.ts"
+        "libs/dh/profile/feature-profile-modal/index.ts"
       ],
       "@energinet-datahub/dh/reports/feature-measurements-reports": [
         "libs/dh/reports/feature-measurements-reports/src/index.ts"
