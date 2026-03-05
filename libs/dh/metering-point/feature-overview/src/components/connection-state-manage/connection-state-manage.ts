@@ -199,22 +199,20 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
       case 'DISCONNECTED': {
         return this.yesterday;
       }
+      // Handle NEW -> CLOSED_DOWN and
       // Handle CONNECTED -> CLOSED_DOWN and
       // Handle DISCONNECTED -> CLOSED_DOWN transitions
       case 'CLOSED_DOWN': {
-        if (
+        let maxDaysBackInTime =
           this.modalData.meteringPointType === ElectricityMarketMeteringPointType.ElectricalHeating
-        ) {
-          const maxDaysBackInTime = 23;
+            ? 23
+            : 1;
 
-          if (daysSinceCreated < maxDaysBackInTime) {
-            return this.modalData.currentCreatedDate;
-          }
-
-          return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
+        if (daysSinceCreated < maxDaysBackInTime) {
+          return this.modalData.currentCreatedDate;
         }
 
-        return this.yesterday;
+        return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
       }
       default:
         return this.today;
@@ -229,6 +227,7 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
         return {
           New: 'NEW',
           Connected: 'CONNECTED',
+          ClosedDown: 'CLOSED_DOWN',
         };
       case 'CONNECTED':
         return {
