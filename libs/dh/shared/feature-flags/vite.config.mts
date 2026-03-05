@@ -32,15 +32,19 @@ export default defineConfig(() => ({
   ],
   test: {
     passWithNoTests: true,
+    watch: false,
     globals: true,
     environment: 'happy-dom',
-    setupFiles: ['src/test-setup.ts'],
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
+    setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
       reportsDirectory: '../../../../coverage/libs/dh/shared/feature-flags',
       provider: 'v8' as const,
     },
     pool: 'forks',
+    isolate: false,
+    maxWorkers: 1,
+    server: { deps: { inline: [/fesm2022/] } },
   },
 }));
