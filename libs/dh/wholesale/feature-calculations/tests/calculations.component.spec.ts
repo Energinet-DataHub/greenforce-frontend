@@ -26,7 +26,7 @@ import {
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 
-import { DhCalculationsComponent } from './calculations.component';
+import { DhCalculationsComponent } from '../src/calculations.component';
 
 async function setup() {
   await render(DhCalculationsComponent, {

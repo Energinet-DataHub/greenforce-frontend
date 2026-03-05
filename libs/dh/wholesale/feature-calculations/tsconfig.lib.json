@@ -8,10 +8,10 @@
     "types": []
   },
   "exclude": [
-    "src/test-setup.ts",
-    "**/*.spec.ts",
-    "**/*.test.ts",
+    "tests/**/*.spec.ts",
+    "tests/test-setup.ts",
     "vite.config.mts",
+    "tests/**/*.test.ts",
     "cypress/**/*",
     "cypress.config.ts",
     "**/*.cy.ts",
@@ -19,5 +19,5 @@
     "**/*.cy.tsx",
     "**/*.cy.jsx"
   ],
-  "include": ["**/*.ts"]
+  "include": ["src/**/*.ts"]
 }

@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { dhWholesaleShellRoutes as default } from './lib/dh-wholesale-shell.routes';
+export { dhWholesaleShellRoutes as default } from './src/dh-wholesale-shell.routes';
