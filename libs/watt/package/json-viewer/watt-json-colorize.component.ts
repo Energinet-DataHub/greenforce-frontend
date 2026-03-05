@@ -61,6 +61,7 @@ const JSON_TOKEN_REGEX = /"(?:[^"\\]|\\.)*":?|-?\d+\.?\d*|\b(true|false|null)\b/
 })
 export class WattJsonColorize {
   readonly json = input.required<unknown>();
+
   protected readonly colorized = computed(() => {
     try {
       const json = JSON.stringify(this.json(), null, ' ');

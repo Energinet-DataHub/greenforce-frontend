@@ -41,8 +41,56 @@ const exampleJson = {
   isActive: true,
   createdAt: '2024-01-15T09:30:00.000Z',
   metadata: null,
-  tags: ['energy', 'grid', 'renewable', 'denmark'],
-  counts: [1, 2, 3, 5, 8, 13, 21],
+  tags: ['energy', 'grid', 'renewable'],
+  counts: [1, 2, 3, 5, 8, 13],
+  configuration: {
+    maxRetries: 3,
+    timeoutMs: 5000,
+    features: {
+      darkMode: true,
+      notifications: false,
+      experimentalApi: null,
+    },
+  },
+  users: [
+    {
+      id: 2,
+      username: 'bob',
+      email: 'bob@example.com',
+      roles: ['viewer'],
+    },
+  ],
+  statistics: {
+    totalRequests: 1048576,
+    averageResponseTime: 42.5,
+    errorRate: 0.0023,
+    uptime: 99.99,
+  },
+  emptyObject: {},
+  emptyArray: [],
+  invalidJson: {
+    undefined: undefined,
+    function: () => console.log('this is invalid JSON'),
+  },
+  circularRef: null as unknown,
+  negativeNumber: -10.2,
+  scientificNotataion: -53.2e64,
+  specialCharacters: 'Line 1\nLine 2\tTabbed"Escaped Quote',
+  unicodeText: 'Æblegrød med fløde 🍏',
+  longText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+};
+
+exampleJson.circularRef = exampleJson;
+
+const diff = {
+  id: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  name: 'Energinet DataHub',
+  version: 3.14159,
+  createdAt: '2024-01-15T09:30:00.000Z',
+  createdAt2: '2024-01-15T09:30:00.000Z',
+  metadata: null,
+  tags: { grid: true, renewable: false, denmark: true },
+  counts: [1, 2, 8, 13, 21],
   configuration: {
     maxRetries: 3,
     timeoutMs: 5000,
@@ -86,10 +134,8 @@ const exampleJson = {
   longText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
 };
 
-exampleJson.circularRef = exampleJson;
-
 export const Overview: StoryFn<WattJsonViewer> = () => ({
-  props: { json: exampleJson },
+  props: { json: exampleJson, compare: diff },
   template: `
     <vater-flex inset="m" align="end" gap="m">
       <vater-stack direction="row" gap="s">
@@ -97,7 +143,7 @@ export const Overview: StoryFn<WattJsonViewer> = () => ({
         <watt-button (click)="viewer.collapseAll()">Collapse all</watt-button>
       </vater-stack>
       <watt-card vater fill="both" scrollable>
-        <watt-json-viewer #viewer [json]="json" [maxDepth]="5" />
+        <watt-json-viewer #viewer [json]="json" [compare]="compare" [maxDepth]="5" />
       </watt-card>
     </vater-flex>
   `,
