@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhCalculationsComponent as default } from './lib/calculations.component';
-export { DhCalculationsCreateComponent } from './lib/create/create';
+export { DhCalculationsComponent as default } from './src/calculations.component';
+export { DhCalculationsCreateComponent } from './src/create/create';
