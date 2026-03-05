@@ -2441,7 +2441,6 @@
       "noData": "Ingen data",
       "itemsAndCount": "{{ items }}, +{{ remainingCount }} flere",
       "drawer": {
-        "monthlySum": "Månedssummer",
         "combined": "Kombineret",
         "gridAreas": "Netområder"
       },
