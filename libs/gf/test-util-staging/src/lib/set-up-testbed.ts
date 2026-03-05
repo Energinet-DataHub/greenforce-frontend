@@ -27,8 +27,6 @@ import {
 import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 
-import { gfAngularMaterialTestingProviders } from './angular-material/gf-angular-material-testing.module';
-
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
@@ -97,12 +95,12 @@ function patchTestbed(): void {
           { provide: ComponentFixtureAutoDetect, useValue: true },
           ...(moduleDef.providers ?? []),
           browserConfigurationProviders,
-          gfAngularMaterialTestingProviders,
           // Mark as NoopAnimations for Angular Material components that check this token
           { provide: ANIMATION_MODULE_TYPE, useValue: 'NoopAnimations' },
           provideRouter([]),
         ],
       });
+
       return testbed;
     };
 
@@ -126,8 +124,6 @@ function patchTestbed(): void {
  * from the DOM.
  *
  * Automatically import testing Angular modules for Angular Material.
- *
- *
  */
 export function setUpTestbed(): void {
   // Set up browser API mocks before initializing testbed
