@@ -16,8 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeasurementsDayComponent } from './components/day.component';
-export { DhMeasurementsYearComponent } from './components/year.component';
-export { DhMeasurementsMonthComponent } from './components/month.component';
-export { DhMeasurementsNavigationComponent } from './components/navigation.component';
-export { DhMeasurementsAllYearsComponent } from './components/all-years.component';
+export { DhEndOfSupplyComponent } from './src/components/dh-end-of-supply.component';

@@ -26,7 +26,7 @@ import {
   type DhAppEnvironmentConfig,
 } from '@energinet-datahub/dh/shared/environments';
 
-import { dhMoveInCvrValidator } from './dh-move-in-cvr.validator';
+import { dhMoveInCvrValidator } from '../src/validators/dh-move-in-cvr.validator';
 
 function createAppEnvInjector(current: DhAppEnvironment): Injector {
   const config: DhAppEnvironmentConfig = {

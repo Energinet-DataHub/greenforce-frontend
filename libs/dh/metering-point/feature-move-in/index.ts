@@ -16,4 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhActorConversationShellComponent } from './components/actor-conversation-shell.component';
+export { DhStartMoveInComponent } from './src/components/dh-start-move-in.component';
+export { DhUpdateCustomerDataComponent } from './src/components/dh-update-customer-data.component';
