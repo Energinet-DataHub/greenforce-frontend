@@ -17,27 +17,35 @@
  */
 //#endregion
 /// <reference types='vitest' />
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
-// import angular from '@analogjs/vite-plugin-angular';
-
+import angular from '@analogjs/vite-plugin-angular';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/gf/globalization/data-access-localization',
-  plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [
+    angular({ tsconfig: './tsconfig.json' }),
+    nxViteTsPaths(),
+    nxCopyAssetsPlugin(['*.md']),
+  ],
   test: {
+    passWithNoTests: true,
     watch: false,
     globals: true,
     environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    setupFiles: ['src/test-setup.ts'],
-    passWithNoTests: true,
+    include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
+    setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
       reportsDirectory: '../../../../coverage/libs/gf/globalization/data-access-localization',
       provider: 'v8' as const,
     },
+    pool: 'forks',
+    isolate: false,
+    maxWorkers: 1,
+    server: { deps: { inline: [/fesm2022/] } },
   },
 }));
