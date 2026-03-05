@@ -16,4 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-export { dhMeteringPointRoutes as default } from './routes';
+export { DhMeasurementsDayComponent } from './src/components/day.component';
+export { DhMeasurementsYearComponent } from './src/components/year.component';
+export { DhMeasurementsMonthComponent } from './src/components/month.component';
+export { DhMeasurementsNavigationComponent } from './src/components/navigation.component';
+export { DhMeasurementsAllYearsComponent } from './src/components/all-years.component';

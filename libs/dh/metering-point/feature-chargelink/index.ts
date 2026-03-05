@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhEndOfSupplyComponent } from './components/dh-end-of-supply.component';
+export { meteringPointPricesRoutes as default } from './src/routes';

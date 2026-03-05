@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { dhMeteringPointDebugRoutes as default } from './routes';
+export { meteringPointProcessOverviewRoutes as default } from './src/routes';
