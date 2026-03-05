@@ -28,7 +28,7 @@ import {
 import { WattDatePipe } from '@energinet/watt/date';
 import { WattCodeComponent } from '@energinet/watt/code';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetBalanceResponsibleByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';

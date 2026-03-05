@@ -26,7 +26,7 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
 import { WATT_TABLE, WattTableColumnDef, WattTableComponent } from '@energinet/watt/table';
 import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/watt/data';
 
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   DhDownloadButtonComponent,
   DhEmDashFallbackPipe,

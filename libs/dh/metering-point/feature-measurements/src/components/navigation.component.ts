@@ -30,7 +30,7 @@ import {
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
 
-import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
 
 @Component({
   selector: 'dh-measurements-navigation',

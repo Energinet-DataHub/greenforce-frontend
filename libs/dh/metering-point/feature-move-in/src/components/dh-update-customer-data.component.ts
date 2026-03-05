@@ -54,7 +54,7 @@ import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details
 import { createContactAddressDetailsForm } from '../util/create-contact-address-details-form';
 import { createCustomerContactDetailsForm } from '../util/create-customer-contact-details-form';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
-import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import { Router } from '@angular/router';
 
 @Component({

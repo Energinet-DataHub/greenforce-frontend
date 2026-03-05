@@ -27,8 +27,8 @@ import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import { GetProcessesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import { Process } from '../types';
 import { DhProcessesFilters } from './filters';

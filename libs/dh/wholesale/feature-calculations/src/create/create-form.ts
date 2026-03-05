@@ -43,7 +43,7 @@ import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
   DhCalculationsGridAreasDropdown,
   DhCalculationsPeriodField,
-} from '@energinet-datahub/dh/wholesale/shared';
+} from '@energinet-datahub/dh/wholesale/ui-shared';
 import {
   injectExistingCalculationValidator,
   injectResolutionTransitionValidator,

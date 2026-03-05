@@ -35,13 +35,13 @@ import {
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
-import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
 
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({

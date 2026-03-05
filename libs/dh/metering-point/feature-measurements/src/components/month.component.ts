@@ -31,7 +31,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent } from '@energinet/watt/vater';

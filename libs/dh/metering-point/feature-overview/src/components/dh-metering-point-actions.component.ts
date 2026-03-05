@@ -31,7 +31,7 @@ import {
   getPath,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
-} from '@energinet-datahub/dh/core/routing';
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 import {
   EicFunction,
@@ -41,7 +41,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   DhActorStorage,

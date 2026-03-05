@@ -42,9 +42,9 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/drop
 
 import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import {
   ChargeType,

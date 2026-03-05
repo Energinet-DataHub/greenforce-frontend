@@ -18,9 +18,9 @@
 //#endregion
 import { Routes } from '@angular/router';
 
-import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
 
 export const chargeRoutes: Routes = [
   {

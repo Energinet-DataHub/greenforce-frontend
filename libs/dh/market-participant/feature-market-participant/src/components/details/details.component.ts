@@ -31,7 +31,7 @@ import {
 import { Router, RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
-import { combinePaths, MarketParticipantSubPaths } from '@energinet-datahub/dh/core/routing';
+import { combinePaths, MarketParticipantSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
 
 import {
   PermissionService,
@@ -58,9 +58,9 @@ import { WATT_TABS, WattTabComponent } from '@energinet/watt/tabs';
 import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '@energinet/watt/drawer';
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/feature-delegation';
 
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
-import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 
 import { DhMarketParticipantAuditLogService } from './audit-log.service';

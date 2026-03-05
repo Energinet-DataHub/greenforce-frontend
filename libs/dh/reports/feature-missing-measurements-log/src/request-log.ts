@@ -27,7 +27,7 @@ import { RequestMissingMeasurementsLogInput } from '@energinet-datahub/dh/shared
 import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
-import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
+import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/ui-shared';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattRange, dayjs } from '@energinet/watt/date';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';

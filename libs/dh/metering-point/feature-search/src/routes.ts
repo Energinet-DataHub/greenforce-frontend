@@ -40,7 +40,7 @@ import {
   combinePaths,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
-} from '@energinet-datahub/dh/core/routing';
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 import {
   EicFunction,
@@ -48,7 +48,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { dhIsEM1InternalId } from '@energinet-datahub/dh/shared/ui-util';
 
 import {

@@ -30,7 +30,7 @@ import { WATT_RADIO, WattRadioComponent } from '@energinet/watt/radio';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
-import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { injectToast, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -42,7 +42,7 @@ import {
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 @Component({
   selector: 'dh-charges-create',

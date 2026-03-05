@@ -19,7 +19,7 @@
 import { RouterOutlet } from '@angular/router';
 import { Component, inject } from '@angular/core';
 
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import { DhUserRolesTableComponent } from './table.component';
 

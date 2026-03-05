@@ -30,7 +30,7 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { GetChargeLinkHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { History } from '../types';

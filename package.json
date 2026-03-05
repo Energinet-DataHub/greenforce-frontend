@@ -211,6 +211,6 @@
   "//packageManager-comment": "Version used in GitHub Actions pipelines",
   "packageManager": "bun@1.3.1",
   "msw": {
-    "workerDirectory": "libs/gf/msw/util-msw/src/assets"
+    "workerDirectory": "libs/gf/msw/test-util-msw-setup/src/assets"
   }
 }

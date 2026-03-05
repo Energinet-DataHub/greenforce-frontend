@@ -41,7 +41,7 @@
             "output": "assets"
           },
           {
-            "input": "libs/gf/msw/util-msw/src/assets",
+            "input": "libs/gf/msw/test-util-msw-setup/src/assets",
             "glob": "mockServiceWorker.js",
             "output": "/"
           }

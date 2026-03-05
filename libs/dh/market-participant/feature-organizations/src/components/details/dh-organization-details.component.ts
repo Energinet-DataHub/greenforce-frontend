@@ -43,7 +43,7 @@ import {
 } from '@energinet/watt/description-list';
 
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import { DhOrganizationHistoryComponent } from './tabs/dh-organization-history.component';
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';

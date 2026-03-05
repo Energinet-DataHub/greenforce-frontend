@@ -30,11 +30,11 @@ import { dayjs, WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
 
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,

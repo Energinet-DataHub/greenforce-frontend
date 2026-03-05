@@ -30,7 +30,7 @@ import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WattToastService, WattToastType } from '@energinet/watt/toast';
 
 import { mutation, MutationResult, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   UpdateMarketParticipantDocument,

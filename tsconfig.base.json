@@ -39,18 +39,22 @@
       "@energinet-datahub/dh/admin/feature-user-roles": [
         "libs/dh/admin/feature-user-roles/index.ts"
       ],
-      "@energinet-datahub/dh/admin/shared": ["libs/dh/admin/shared/src/index.ts"],
+      "@energinet-datahub/dh/admin/domain-shared": ["libs/dh/admin/domain-shared/src/index.ts"],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/index.ts"],
       "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/index.ts"],
       "@energinet-datahub/dh/charges/feature-charges": ["libs/dh/charges/feature-charges/index.ts"],
       "@energinet-datahub/dh/charges/feature-parse-series": [
         "libs/dh/charges/feature-parse-series/index.ts"
       ],
-      "@energinet-datahub/dh/charges/ui-shared": ["libs/dh/charges/ui-shared/index.ts"],
+      "@energinet-datahub/dh/charges/feature-ui-shared": [
+        "libs/dh/charges/feature-ui-shared/index.ts"
+      ],
       "@energinet-datahub/dh/core/feature-notifications": [
         "libs/dh/core/feature-notifications/index.ts"
       ],
-      "@energinet-datahub/dh/core/routing": ["libs/dh/core/routing/src/index.ts"],
+      "@energinet-datahub/dh/core/configuration-routing": [
+        "libs/dh/core/configuration-routing/src/index.ts"
+      ],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/index.ts"],
       "@energinet-datahub/dh/core/ui-toolbar-portal": ["libs/dh/core/ui-toolbar-portal/index.ts"],
       "@energinet-datahub/dh/developer/feature-examples": [
@@ -160,9 +164,7 @@
       "@energinet-datahub/dh/shared/data-access-graphql": [
         "libs/dh/shared/data-access-graphql/index.ts"
       ],
-      "@energinet-datahub/dh/shared/data-access-mocks": [
-        "libs/dh/shared/data-access-mocks/index.ts"
-      ],
+      "@energinet-datahub/dh/shared/test-util-mocks": ["libs/dh/shared/test-util-mocks/index.ts"],
       "@energinet-datahub/dh/shared/domain": ["libs/dh/shared/domain/index.ts"],
       "@energinet-datahub/dh/shared/domain/graphql": [
         "libs/dh/shared/domain/src/generated/graphql/types.ts"
@@ -190,8 +192,12 @@
       "@energinet-datahub/dh/shared/feature-microsoft-clarity": [
         "libs/dh/shared/feature-microsoft-clarity/index.ts"
       ],
-      "@energinet-datahub/dh/shared/navigation": ["libs/dh/shared/navigation/src/index.ts"],
-      "@energinet-datahub/dh/shared/release-toggle": ["libs/dh/shared/release-toggle/index.ts"],
+      "@energinet-datahub/dh/shared/util-navigation": [
+        "libs/dh/shared/util-navigation/src/index.ts"
+      ],
+      "@energinet-datahub/dh/shared/util-release-toggle": [
+        "libs/dh/shared/util-release-toggle/index.ts"
+      ],
       "@energinet-datahub/dh/shared/test-util": ["libs/dh/shared/test-util/index.ts"],
       "@energinet-datahub/dh/shared/ui-search": ["libs/dh/shared/ui-search/src/index.ts"],
       "@energinet-datahub/dh/shared/ui-util": ["libs/dh/shared/ui-util/index.ts"],
@@ -218,7 +224,7 @@
       "@energinet-datahub/dh/wholesale/feature-requests": [
         "libs/dh/wholesale/feature-requests/index.ts"
       ],
-      "@energinet-datahub/dh/wholesale/shared": ["libs/dh/wholesale/shared/index.ts"],
+      "@energinet-datahub/dh/wholesale/ui-shared": ["libs/dh/wholesale/ui-shared/index.ts"],
       "@energinet-datahub/dh/wholesale/shell": ["libs/dh/wholesale/shell/index.ts"],
       "@energinet-datahub/gf/e2e-util-msw": ["libs/gf/msw/e2e-util-msw/index.ts"],
       "@energinet-datahub/gf/globalization/configuration-danish-locale": [
@@ -235,7 +241,7 @@
       "@energinet-datahub/gf/test-util-vitest": ["libs/gf/test-util-vitest/index.ts"],
       "@energinet-datahub/gf/util-browser": ["libs/gf/util-browser/index.ts"],
       "@energinet-datahub/gf/util-cookie-information": ["libs/gf/util-cookie-information/index.ts"],
-      "@energinet-datahub/gf/util-msw": ["libs/gf/msw/util-msw/index.ts"],
+      "@energinet-datahub/gf/msw/test-util-msw-setup": ["libs/gf/msw/test-util-msw-setup/index.ts"],
       "@energinet-datahub/tools/github": ["tools/github"],
       "@energinet-datahub/tools/license": ["tools/license"],
       "@energinet-datahub/tools/package": ["tools/package"],
