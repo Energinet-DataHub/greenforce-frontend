@@ -16,4 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-top-bar.service';
+export { DhReportsMissingMeasurementsLogPage as default } from './src/page';
+export { DhReportsMissingMeasurementsLogRequestLog } from './src/request-log';

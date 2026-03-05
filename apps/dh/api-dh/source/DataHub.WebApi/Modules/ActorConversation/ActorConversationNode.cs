@@ -63,6 +63,10 @@ public static partial class ActorConversationNode
         return await authClient.ApiGetConversationAsync(conversationId, userId.ToString(), actorNumber, ct);
     }
 
+    public static string GetDisplayId(
+        [Parent] GetConversationQueryResponse conversation) =>
+        conversation.DisplayId?.ToString() ?? string.Empty;
+
     public static bool WasLatestMessageAnonymous(
         [Parent] GetConversationQueryResponse conversation,
         [Service] IHttpContextAccessor httpContextAccessor)
@@ -93,10 +97,6 @@ public static partial class ActorConversationNode
         descriptor
             .Name("Conversation")
             .BindFieldsExplicitly();
-
-        descriptor
-            .Field(f => f.DisplayId.ToString())
-            .Name("displayId");
 
         descriptor
             .Field(f => f.DisplayId)

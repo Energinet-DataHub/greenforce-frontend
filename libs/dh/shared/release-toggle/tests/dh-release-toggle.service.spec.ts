@@ -21,7 +21,7 @@ import { describe, it, beforeEach, expect, vi } from 'vitest';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { DhReleaseToggleService } from './dh-release-toggle.service';
+import { DhReleaseToggleService } from '../src/dh-release-toggle.service';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { provideMsalTesting } from '@energinet-datahub/dh/shared/test-util';
 

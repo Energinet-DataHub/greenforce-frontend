@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { environment } from './environment.prod';
+import { environment } from '../src/environment.mocked';
 
-describe('Production environment config', () => {
-  it('should have production set to true', () => {
-    expect(environment.production).toBe(true);
+describe('Mocked environment config', () => {
+  it('should have production set to false', () => {
+    expect(environment.production).toBe(false);
   });
 
-  it('should have mocked set to false', () => {
-    expect(environment.mocked).toBe(false);
+  it('should have mocked set to true', () => {
+    expect(environment.mocked).toBe(true);
   });
 });

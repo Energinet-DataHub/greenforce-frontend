@@ -75,6 +75,7 @@ public static partial class ConversationMessageDtoType
         descriptor.Field(f => f.SenderType);
         descriptor.Field(f => f.UserId);
         descriptor.Field(f => f.Anonymous);
+        descriptor.Field(f => f.Attachments);
     }
 
     private static EicFunction MapActorTypeToEicFunction(ActorType actorType)

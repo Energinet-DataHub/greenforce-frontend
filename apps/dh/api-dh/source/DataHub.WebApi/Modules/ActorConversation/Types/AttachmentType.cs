@@ -14,23 +14,19 @@
 
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
-namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Models;
+namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
-public class StartConversationInput
+[ObjectType<GetConversationQueryResponseAttachment>]
+public static partial class AttachmentType
 {
-    public required ConversationSubject Subject { get; set; }
+    static partial void Configure(
+        IObjectTypeDescriptor<GetConversationQueryResponseAttachment> descriptor)
+    {
+        descriptor
+            .Name("ConversationAttachment")
+            .BindFieldsExplicitly();
 
-    public required string MeteringPointIdentification { get; set; }
-
-    public string? InternalNote { get; set; }
-
-    public required string Content { get; set; }
-
-    public required bool Anonymous { get; set; }
-
-    public required ActorType Receiver { get; set; }
-
-    public DateTimeOffset? EnergySupplierDate { get; set; }
-
-    public ICollection<Guid> AttachedDocumentIds { get; set; } = [];
+        descriptor.Field(f => f.DocumentId);
+        descriptor.Field(f => f.DocumentName);
+    }
 }

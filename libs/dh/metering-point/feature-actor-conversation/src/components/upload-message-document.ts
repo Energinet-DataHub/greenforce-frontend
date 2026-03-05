@@ -16,8 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/permission';
-export * from './lib/permission-dto';
-export * from './lib/range';
-export * from './lib/dh-settlement-report';
-export * from './lib/dh-measurements-report';
+import { HttpClient } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+
+import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+
+const uploadPath = '/v1/ActorConversation/UploadMessageDocument';
+
+export function injectUploadMessageDocument() {
+  const http = inject(HttpClient);
+  const apiEnvironment = inject(dhApiEnvironmentToken);
+
+  return (file: File): Promise<string> => {
+    const formData = new FormData();
+    formData.append('document', file);
+    return firstValueFrom(http.post<string>(`${apiEnvironment.apiBase}${uploadPath}`, formData));
+  };
+}

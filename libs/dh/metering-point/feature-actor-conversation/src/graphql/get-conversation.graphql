@@ -17,6 +17,10 @@ query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
       userName
       isSentByCurrentActor
       anonymous
+      attachments {
+        documentId
+        documentName
+      }
     }
   }
 }
