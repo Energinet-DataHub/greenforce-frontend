@@ -203,7 +203,7 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
       // Handle CONNECTED -> CLOSED_DOWN and
       // Handle DISCONNECTED -> CLOSED_DOWN transitions
       case 'CLOSED_DOWN': {
-        let maxDaysBackInTime =
+        const maxDaysBackInTime =
           this.modalData.meteringPointType === ElectricityMarketMeteringPointType.ElectricalHeating
             ? 23
             : 1;
