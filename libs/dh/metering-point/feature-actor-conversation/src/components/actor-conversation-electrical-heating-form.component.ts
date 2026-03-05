@@ -47,6 +47,7 @@ import {
 import { WattDatePipe } from '@energinet/watt/date';
 import { ElectricalHeatingFormValue } from '../types';
 import { ElectricalHeatingInformation } from '@energinet-datahub/dh/shared/domain/graphql';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-actor-conversation-electrical-heating-form',
@@ -144,11 +145,11 @@ export class DhActorConversationElectricalHeatingFormComponent implements Contro
     return periods[0].to;
   });
   form = new FormGroup({
-    addressEligibilityDate: new FormControl<Date | null>(null, Validators.required),
-    periodStart: new FormControl<Date | null>(null, Validators.required),
-    periodEnd: new FormControl<Date | null>(null),
-    attachedBbrNotification: new FormControl<boolean>(false, { nonNullable: true }),
-    attachedBbrDocumentation: new FormControl<boolean>(false, { nonNullable: true }),
+    addressEligibilityDate: dhMakeFormControl<Date | null>(null, Validators.required),
+    periodStart: dhMakeFormControl<Date | null>(null, Validators.required),
+    periodEnd: dhMakeFormControl<Date | null>(null),
+    attachedBbrNotification: dhMakeFormControl<boolean>(false),
+    attachedBbrDocumentation: dhMakeFormControl<boolean>(false),
   });
 
   value = toSignal(this.form.valueChanges);
