@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-export { dhCvrValidator } from './lib/dh-cvr.validator';
-export { dhCprValidator } from './lib/dh-cpr.validator';
-export { dhDomainValidator } from './lib/dh-domain.validator';
-export { dhGlnOrEicValidator } from './lib/dh-gln-or-eic.validator';
-export { dhFirstPartEmailValidator } from './lib/dh-first-part-mail.validator';
-export { dhMunicipalityCodeValidator } from './lib/dh-municipality-code-validator';
+export { dhCvrValidator } from './src/dh-cvr.validator';
+export { dhCprValidator } from './src/dh-cpr.validator';
+export { dhDomainValidator } from './src/dh-domain.validator';
+export { dhGlnOrEicValidator } from './src/dh-gln-or-eic.validator';
+export { dhFirstPartEmailValidator } from './src/dh-first-part-mail.validator';
+export { dhMunicipalityCodeValidator } from './src/dh-municipality-code-validator';

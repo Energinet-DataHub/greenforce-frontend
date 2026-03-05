@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/assertions';
+export * from './src/assertions';

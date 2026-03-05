@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/exists';
-export * from './lib/keyExists';
+export * from './src/exists';
+export * from './src/keyExists';
