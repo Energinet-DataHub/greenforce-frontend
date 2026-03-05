@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [angular({ tsconfig: './tsconfig.json' }), nxViteTsPaths()],
   test: {
     passWithNoTests: true,
-    watch:false,
+    watch: false,
     globals: true,
     environment: 'happy-dom',
     setupFiles: './tests/test-setup.ts',
