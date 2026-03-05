@@ -30,7 +30,11 @@ import { WattToastService } from '@energinet/watt/toast';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { dayjs } from '@energinet/watt/date';
 
-import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  BasePaths,
+  getPath,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import {
   RequestEndOfSupplyDocument,
   GetMeteringPointProcessOverviewDocument,

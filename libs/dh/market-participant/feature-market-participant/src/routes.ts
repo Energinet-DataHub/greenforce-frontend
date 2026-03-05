@@ -18,7 +18,10 @@
 //#endregion
 import { Routes } from '@angular/router';
 
-import { MarketParticipantSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  MarketParticipantSubPaths,
+  getPath,
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 export const dhMarketParticipantShellRoutes: Routes = [
   {

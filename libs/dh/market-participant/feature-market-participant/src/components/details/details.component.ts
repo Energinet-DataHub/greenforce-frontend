@@ -31,7 +31,10 @@ import {
 import { Router, RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
-import { combinePaths, MarketParticipantSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  combinePaths,
+  MarketParticipantSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 import {
   PermissionService,

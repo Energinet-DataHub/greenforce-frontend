@@ -18,7 +18,10 @@
 //#endregion
 import { Routes } from '@angular/router';
 
-import { getPath, MeteringPointDebugSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  getPath,
+  MeteringPointDebugSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhMeteringPointDebugComponent } from './debug.component';
 import { DhMeteringPointComponent } from './debug-metering-point/metering-point.component';

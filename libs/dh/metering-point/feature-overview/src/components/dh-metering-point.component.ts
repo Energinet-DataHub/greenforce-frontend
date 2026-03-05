@@ -47,7 +47,11 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
-import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  BasePaths,
+  getPath,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import { DhApplicationInsightsTrackDirective } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';

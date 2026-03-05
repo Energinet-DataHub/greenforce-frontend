@@ -21,7 +21,11 @@ import { RedirectFunction, Router, Routes } from '@angular/router';
 import { inject } from '@angular/core';
 import { forkJoin, map } from 'rxjs';
 
-import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  BasePaths,
+  ReportsSubPaths,
+  getPath,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import {
   PermissionGuard,
   PermissionService,

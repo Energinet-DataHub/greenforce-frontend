@@ -39,7 +39,11 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigatio
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
-import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  BasePaths,
+  ChargesSubPaths,
+  getPath,
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
