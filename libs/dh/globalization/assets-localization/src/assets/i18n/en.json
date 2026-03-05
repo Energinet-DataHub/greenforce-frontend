@@ -2441,7 +2441,6 @@
       "noData": "No data",
       "itemsAndCount": "{{ items }}, +{{ remainingCount }} more",
       "drawer": {
-        "monthlySum": "Monthly sum",
         "combined": "Kombineret",
         "gridAreas": "Grid areas"
       },

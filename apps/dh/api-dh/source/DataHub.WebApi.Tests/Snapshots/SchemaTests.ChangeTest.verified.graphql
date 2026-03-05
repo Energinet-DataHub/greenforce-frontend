@@ -1606,7 +1606,6 @@ type SettlementReport {
   numberOfGridAreasInReport: Int!
   includesBasisData: Boolean!
   progress: Float!
-  includeMonthlyAmount: Boolean!
 }
 
 type SimulateMeteringPointManualCorrectionPayload {
