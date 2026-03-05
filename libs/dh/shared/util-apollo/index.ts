@@ -16,14 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { environment } from './environment.prod';
-
-describe('Production environment config', () => {
-  it('should have production set to true', () => {
-    expect(environment.production).toBe(true);
-  });
-
-  it('should have mocked set to false', () => {
-    expect(environment.mocked).toBe(false);
-  });
-});
+export * from './src/query';
+export * from './src/lazyQuery';
+export * from './src/mutation';
+export * from './src/subscription';
+export * from './src/data-source/CollectionSegmentDataSource';
+export * from './src/data-source/ConnectionDataSource';
+export * from './src/performance/queryTime';
+export * from './src/util/types';

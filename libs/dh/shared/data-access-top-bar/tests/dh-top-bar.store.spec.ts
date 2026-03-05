@@ -20,9 +20,9 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router, Routes } from '@angular/router';
 
-import { DhTopBarService } from './dh-top-bar.service';
-import { titleTranslationKey } from './title-translation-key';
-import { defaultTitleTranslationKey } from './default-title-translation-key';
+import { DhTopBarService } from '../src/dh-top-bar.service';
+import { titleTranslationKey } from '../src/title-translation-key';
+import { defaultTitleTranslationKey } from '../src/default-title-translation-key';
 
 @Component({
   template: '',
