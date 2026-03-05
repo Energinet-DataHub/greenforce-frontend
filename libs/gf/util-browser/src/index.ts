@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/gf-browser-configuration.provider';
-export * from './lib/window.service';
+export * from './gf-browser-configuration.provider';
+export * from './window.service';
