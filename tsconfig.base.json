@@ -210,16 +210,16 @@
       "@energinet-datahub/dh/shared/util-text": ["libs/dh/shared/util-text/index.ts"],
       "@energinet-datahub/dh/wholesale/domain": ["libs/dh/wholesale/domain/src/index.ts"],
       "@energinet-datahub/dh/wholesale/feature-calculations": [
-        "libs/dh/wholesale/feature-calculations/src/index.ts"
+        "libs/dh/wholesale/feature-calculations/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/feature-request-calculation": [
         "libs/dh/wholesale/feature-request-calculation/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/feature-requests": [
-        "libs/dh/wholesale/feature-requests/src/index.ts"
+        "libs/dh/wholesale/feature-requests/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/shared": ["libs/dh/wholesale/shared/index.ts"],
-      "@energinet-datahub/dh/wholesale/shell": ["libs/dh/wholesale/shell/src/index.ts"],
+      "@energinet-datahub/dh/wholesale/shell": ["libs/dh/wholesale/shell/index.ts"],
       "@energinet-datahub/gf/e2e-util-msw": ["libs/gf/msw/e2e-util-msw/index.ts"],
       "@energinet-datahub/gf/globalization/configuration-danish-locale": [
         "libs/gf/globalization/configuration-danish-locale/src/index.ts"
