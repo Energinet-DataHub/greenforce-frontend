@@ -27,7 +27,6 @@ import {
 } from '@angular/core';
 import {
   ControlValueAccessor,
-  FormControl,
   FormGroup,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
