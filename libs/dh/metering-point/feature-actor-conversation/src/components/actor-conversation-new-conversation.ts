@@ -268,18 +268,16 @@ export class DhActorConversationNewConversationComponent {
 
     this.uploading.set(false);
 
-    const electricalHeatingInput: StartElectricalHeatingConversationInput =
-      this.shouldShowEletricalHeatingForm() && electricalHeating
-        ? (() => {
-            assertIsDefined(electricalHeating.addressEligibilityDate);
-            assertIsDefined(electricalHeating.periodStart);
-            return {
-              addressEligibilityDate: electricalHeating.addressEligibilityDate,
-              chargeReductionPeriodFrom: electricalHeating.periodStart,
-              chargeReductionPeriodTo: electricalHeating.periodEnd ?? undefined,
-            };
-          })()
-        : undefined;
+    let electricalHeatingInput: StartElectricalHeatingConversationInput | undefined;
+    if (this.shouldShowEletricalHeatingForm() && electricalHeating) {
+      assertIsDefined(electricalHeating.addressEligibilityDate);
+      assertIsDefined(electricalHeating.periodStart);
+      electricalHeatingInput = {
+        addressEligibilityDate: electricalHeating.addressEligibilityDate,
+        chargeReductionPeriodFrom: electricalHeating.periodStart,
+        chargeReductionPeriodTo: electricalHeating.periodEnd ?? undefined,
+      };
+    }
 
     await this.startConversationMutation.mutate({
       variables: {
