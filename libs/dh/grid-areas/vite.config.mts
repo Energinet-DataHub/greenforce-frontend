@@ -25,19 +25,18 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../node_modules/.vite/dh-grid-areas',
+  watch: false,
   plugins: [
     angular({ tsconfig: './tsconfig.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],
-  test: {
-    passWithNoTests: true,
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: ['tests/test-setup.ts'],
-    include: ['tests/**/*.spec.ts'],
-    reporters: ['default'],
-  },
+  passWithNoTests: true,
+  globals: true,
+  environment: 'jsdom',
+  setupFiles: ['tests/test-setup.ts'],
+  include: ['tests/**/*.spec.ts'],
+  reporters: ['default'],
   define: {
     'import.meta.vitest': undefined,
   },

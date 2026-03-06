@@ -17,6 +17,7 @@
  */
 //#endregion
 /// <reference types='vitest' />
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
@@ -24,7 +25,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/dh-shared-data-access-mocks',
+  cacheDir: '../../../../node_modules/.vite/libs/dh/shared/data-access-mocks',
   plugins: [
     angular({ tsconfig: './tsconfig.json' }),
     nxViteTsPaths(),
@@ -32,17 +33,19 @@ export default defineConfig(() => ({
   ],
   test: {
     passWithNoTests: true,
+    watch: false,
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['src/test-setup.ts'],
-    include: ['src/**/*.spec.ts'],
+    include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
+    setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
       reportsDirectory: '../../../../coverage/libs/dh/shared/data-access-mocks',
-      provider: 'v8',
+      provider: 'v8' as const,
     },
-  },
-  define: {
-    'import.meta.vitest': undefined,
+    pool: 'forks',
+    isolate: false,
+    maxWorkers: 1,
+    server: { deps: { inline: [/fesm2022/] } },
   },
 }));

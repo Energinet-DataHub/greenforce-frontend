@@ -9,6 +9,7 @@ export default defineConfig({
   test: {
     passWithNoTests: true,
     globals: true,
+    watch: false,
     environment: 'happy-dom',
     setupFiles: './src/test-setup.ts',
     include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],

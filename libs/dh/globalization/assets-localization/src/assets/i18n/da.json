@@ -991,7 +991,7 @@
         "UpdateMasterDataConsumer": "Opdatering af kundestamdata (BRS-015)",
         "CustomerMoveIn": "Tilflytning (BRS-009)",
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (BRS-007)",
-        "ChangeConnectionState": "Afbrydelse og gentilslutning af målepunkt (BRS-013)",
+        "ChangeConnectionStatus": "Afbrydelse og gentilslutning af målepunkt (BRS-013)",
         "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)"
       },
       "reasonCode": {
@@ -1003,7 +1003,7 @@
         "SecondaryMoveIn": "Sekundær tilflytning (D29)",
         "Move": "Flytning (E01)",
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (D14)",
-        "ChangeConnectionState": "Ændring af tilslutningsstatus (E79)",
+        "ChangeConnectionStatus": "Ændring af tilslutningsstatus (E79)",
         "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (E32)"
       },
       "filters": {
@@ -1034,7 +1034,7 @@
           "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_3 }}",
           "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_4 }}"
         },
-        "ChangeConnectionState": {
+        "ChangeConnectionStatus": {
           "BRS_007_008_013_V1_STEP_1": "Anmodning om ændring af tilslutningsstatus (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Godkendelse af ændring af tilslutningsstatus (RSM-021)",
           "BRS_007_008_013_V1_STEP_3": "Afvisning af ændring af tilslutningsstatus (RSM-021)",
@@ -2456,7 +2456,6 @@
       "noData": "Ingen data",
       "itemsAndCount": "{{ items }}, +{{ remainingCount }} flere",
       "drawer": {
-        "monthlySum": "Månedssummer",
         "combined": "Kombineret",
         "gridAreas": "Netområder"
       },

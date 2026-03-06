@@ -16,7 +16,7 @@ RUN apk add --no-cache openjdk11
 # Add a no-op dotnet wrapper since api-dh is already built
 RUN echo '#!/bin/sh' > /usr/local/bin/dotnet && echo 'exit 0' >> /usr/local/bin/dotnet && chmod +x /usr/local/bin/dotnet
 
-RUN npm install -g bun@1.3.1
+RUN npm install -g bun@1.3.10
 
 COPY package.json bun.lock ./
 
