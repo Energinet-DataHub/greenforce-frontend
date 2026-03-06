@@ -32,6 +32,7 @@ public static partial class ActorConversationOperations
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
         StartConversationInput startConversationInput,
+        StartElectricalHeatingConversationInput? electricalHeatingConversationInput,
         CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
@@ -59,30 +60,59 @@ public static partial class ActorConversationOperations
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
-        var startRequest = new StartConversationRequest
+        if (electricalHeatingConversationInput != null)
         {
-            Subject = startConversationInput.Subject,
-            SenderActorType = MapMarketRoleToActorType(marketRole),
-            ReceiverActorType = startConversationInput.Receiver,
-            MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
-            InternalNote = startConversationInput.InternalNote,
-            Content = startConversationInput.Content,
-            Anonymous = startConversationInput.Anonymous,
-            EnergySupplierDate = startConversationInput.EnergySupplierDate,
-        };
+            var startRequest = new StartElectricalHeatingConversationRequest
+            {
+                MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
+                InternalNote = startConversationInput.InternalNote,
+                Content = startConversationInput.Content,
+                Anonymous = startConversationInput.Anonymous,
+                ElectricalHeatingFrom = electricalHeatingConversationInput.AddressEligibilityDate,
+                ElectricalHeatingReductionPeriodFrom = electricalHeatingConversationInput.ChargeReductionPeriodFrom,
+                ElectricalHeatingReductionPeriodTo = electricalHeatingConversationInput.ChargeReductionPeriodTo ?? DateTimeOffset.MaxValue,
+            };
 
-        foreach (var documentId in startConversationInput.AttachedDocumentIds)
-        {
-            startRequest.AttachedDocumentIds.Add(documentId);
+            foreach (var documentId in startConversationInput.AttachedDocumentIds)
+            {
+                startRequest.AttachedDocumentIds.Add(documentId);
+            }
+
+            var response = await authClient.ApiStartElectricalHeatingConversationAsync(
+                userId.ToString(),
+                actorNumber,
+                startRequest,
+                ct);
+
+            return response.ConversationId.ToString();
         }
+        else
+        {
+            var startRequest = new StartConversationRequest
+            {
+                Subject = startConversationInput.Subject,
+                SenderActorType = MapMarketRoleToActorType(marketRole),
+                ReceiverActorType = startConversationInput.Receiver,
+                MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
+                InternalNote = startConversationInput.InternalNote,
+                Content = startConversationInput.Content,
+                Anonymous = startConversationInput.Anonymous,
+                EnergySupplierDate = startConversationInput.EnergySupplierDate,
+            };
 
-        var response = await authClient.ApiStartConversationAsync(
-            userId.ToString(),
-            actorNumber,
-            startRequest,
-            ct);
+            foreach (var documentId in startConversationInput.AttachedDocumentIds)
+            {
+                startRequest.AttachedDocumentIds.Add(documentId);
+            }
 
-        return response.ConversationId.ToString();
+            var response = await authClient.ApiStartConversationAsync(
+                userId.ToString(),
+                actorNumber,
+                startRequest,
+                ct);
+
+            return response.ConversationId.ToString();
+        }
     }
 
     [Mutation]

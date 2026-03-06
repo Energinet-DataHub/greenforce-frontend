@@ -49,5 +49,13 @@ export interface MessageFormValue {
   files: File[];
 }
 
+export interface ElectricalHeatingFormValue {
+  addressEligibilityDate: Date | null;
+  periodStart: Date | null;
+  periodEnd: Date | null;
+  attachedBbrNotification: boolean;
+  attachedBbrDocumentation: boolean;
+}
+
 export const internalNoteMaxLength = 35;
 export const messageMaxLength = 35;

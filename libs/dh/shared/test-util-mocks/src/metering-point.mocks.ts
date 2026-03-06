@@ -42,6 +42,7 @@ import {
   mockSendActorConversationMessageMutation,
   mockStartConversationMutation,
   mockUpdateInternalConversationNoteMutation,
+  mockGetElectricalHeatingQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -77,6 +78,7 @@ export function meteringPointMocks(apiBase: string) {
     createConversation(),
     getConversations(),
     getConversation(),
+    getElectricalHeatingInformation(),
     sendMessage(),
     closeConversation(),
     markConversationRead(),
@@ -770,6 +772,31 @@ function getConversation() {
               isSentByCurrentActor: false,
               anonymous: false,
               attachments: [],
+            },
+          ],
+        },
+      },
+    });
+  });
+}
+
+function getElectricalHeatingInformation() {
+  return mockGetElectricalHeatingQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        electricalHeatingInformation: {
+          __typename: 'ElectricalHeatingInformation',
+          customerName: 'Test Testesen',
+          isElectricalHeatingActive: true,
+          electricalHeatingFrom: new Date(),
+          supplierPeriods: [
+            {
+              __typename: 'ElectricalHeatingInformationPeriod',
+              from: new Date(),
+              to: new Date(),
             },
           ],
         },
