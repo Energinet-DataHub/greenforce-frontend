@@ -74,6 +74,7 @@ export type BasePaths =
   | 'dev-examples'
   | 'metering-point'
   | 'market-participant'
+  | 'actor-conversation'
   | 'message-archive'
   | 'esett'
   | 'admin'
