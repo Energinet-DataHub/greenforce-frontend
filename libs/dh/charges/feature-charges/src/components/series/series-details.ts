@@ -63,7 +63,10 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
       <watt-drawer-heading>
         @switch (resolution()) {
           @case ('MONTHLY') {
-            <h1>{{ start() | wattDate: 'monthYear' | titlecase }}</h1>
+            <h1>
+              {{ series()?.period | dhChargesPeriod: resolution() }}
+              {{ start() | wattDate: 'year' }}
+            </h1>
           }
           @case ('DAILY') {
             <h1>{{ start() | wattDate }}</h1>
