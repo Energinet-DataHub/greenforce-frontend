@@ -37,7 +37,7 @@ import {
 import { WATT_MENU } from '@energinet/watt/menu';
 
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
 
 import {
   SortEnumType,

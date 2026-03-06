@@ -36,8 +36,8 @@ import {
   WattDataTableComponent,
 } from '@energinet/watt/data';
 
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ChargesQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';

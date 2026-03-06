@@ -22,7 +22,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { VaterUtilityDirective } from '@energinet/watt/vater';
 
-import { getPath, MeteringPointDebugSubPaths } from '@energinet-datahub/dh/core/routing';
+import {
+  getPath,
+  MeteringPointDebugSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 @Component({
   selector: 'dh-metering-point-debug',

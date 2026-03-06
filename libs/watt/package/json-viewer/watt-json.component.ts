@@ -24,8 +24,9 @@ import {
   input,
   linkedSignal,
 } from '@angular/core';
-import { WattIconComponent } from '@energinet/watt/icon';
-import { WattJsonColorize } from './watt-json-colorize.component';
+import { VATER } from '@energinet/watt/vater';
+import { WattJsonRow } from './watt-json-row.component';
+import { interleave, isNonEmpty, isEqual } from './watt-json.utils';
 
 export type TreeState = {
   expanded: boolean;
@@ -37,45 +38,61 @@ export type TreeState = {
   selector: 'watt-json',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WattIconComponent, WattJsonColorize],
+  imports: [VATER, WattJsonRow],
   styles: `
     watt-json {
       cursor: default;
     }
 
-    .watt-json-label {
+    .watt-json-row {
       position: relative;
-      padding-left: calc(var(--watt-json-level) * 20px);
-      color: var(--watt-color-primary);
     }
 
-    .watt-json-label:hover {
-      background: var(--watt-color-neutral-grey-100);
-    }
-
-    .watt-json-label > watt-icon {
+    .watt-json-row::after {
+      content: '';
       position: absolute;
-      top: 2px;
-      transform: translateX(-100%);
+      inset: 0;
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0);
+      pointer-events: none;
+    }
+
+    .watt-json-row:hover::after {
+      background-color: rgba(0, 0, 0, 0.1);
+      outline: 1px solid var(--watt-color-neutral-grey-500);
+      outline-offset: -1px;
     }
   `,
   host: { '[style.--watt-json-level]': 'level()' },
   template: `
     @if (!isRoot()) {
-      <div class="watt-json-label" (click)="toggleExpanded()">
-        @if (expandable()) {
-          <watt-icon size="s" [name]="expanded() ? 'down' : 'right'" />
+      <vater-flex class="watt-json-row" direction="row" (click)="toggleExpanded()">
+        <watt-json-row
+          [label]="label()"
+          [isOriginal]="true"
+          [isSame]="isSame()"
+          [expanded]="expanded()"
+          [value]="left()"
+        />
+        @if (diff()) {
+          <watt-json-row
+            [label]="label()"
+            [isOriginal]="false"
+            [isSame]="isSame()"
+            [expanded]="expanded()"
+            [value]="right()"
+          />
         }
-        <span>{{ label() }}: </span>
-        <watt-json-colorize [hidden]="expanded()" [json]="json()" />
-      </div>
+      </vater-flex>
     }
     @defer (when expanded()) {
-      @for (child of children(); track child[0]) {
+      @for (child of children(); track child.key) {
         <watt-json
           [hidden]="!expanded()"
-          [label]="child[0]"
-          [json]="child[1]"
+          [label]="child.key"
+          [left]="child.left"
+          [right]="child.right"
+          [diff]="diff()"
           [tree]="tree()"
           [level]="level() + 1"
         />
@@ -85,20 +102,27 @@ export type TreeState = {
 })
 export class WattJson {
   readonly label = input<string>();
-  readonly json = input.required<unknown>();
+  readonly left = input<unknown>();
+  readonly right = input<unknown>();
+  readonly diff = input(false);
   readonly tree = input.required<TreeState>();
   readonly level = input(0);
 
-  protected readonly isRoot = computed(() => this.level() === 0);
+  protected readonly toMap = (v: unknown) => new Map(Object.entries(isNonEmpty(v) ? v : []));
   protected readonly children = computed(() => {
-    const json = this.json();
-    return typeof json === 'object' && json && Object.keys(json).length
-      ? Object.entries(json)
-      : null;
+    const left = this.toMap(this.left());
+    const right = this.toMap(this.right());
+    const keys = new Set(interleave([...left.keys()], [...right.keys()]));
+    return [...keys].map((key) => ({ key, left: left.get(key), right: right.get(key) }));
   });
 
-  // The linkedSignal makes it possible to recursively toggle all nodes
-  protected readonly expandable = computed(() => Boolean(this.children()));
+  protected readonly isRoot = computed(() => this.level() === 0);
+  protected readonly isSame = computed(() => {
+    if (!this.diff()) return true;
+    return isEqual(this.left(), this.right(), { deep: !this.expanded() });
+  });
+
+  protected readonly expandable = computed(() => this.children().length > 0);
   protected readonly expanded = linkedSignal({
     source: this.tree,
     computation: (t) =>

@@ -19,7 +19,7 @@
 
 import { Routes } from '@angular/router';
 
-import { GridAreaSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { GridAreaSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
 
 const detailsPath = 'details/:id';
 

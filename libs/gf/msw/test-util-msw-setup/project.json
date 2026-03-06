@@ -1,0 +1,8 @@
+{
+  "name": "gf-msw-test-util-msw-setup",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/gf/msw/test-util-msw-setup/src",
+  "prefix": "gf",
+  "tags": ["product:gf", "domain:shared", "type:test-util"]
+}

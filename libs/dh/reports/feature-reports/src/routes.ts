@@ -21,12 +21,16 @@ import { RedirectFunction, Router, Routes } from '@angular/router';
 import { inject } from '@angular/core';
 import { forkJoin, map } from 'rxjs';
 
-import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import {
+  BasePaths,
+  ReportsSubPaths,
+  getPath,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import {
   PermissionGuard,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 
 import { DhReports } from './reports.component';
 import { DhSettlements } from './settlements.component';

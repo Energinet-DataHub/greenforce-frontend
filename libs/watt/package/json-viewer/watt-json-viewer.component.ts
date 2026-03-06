@@ -24,13 +24,25 @@ import { TreeState, WattJson } from './watt-json.component';
   selector: 'watt-json-viewer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WattJson],
-  template: `<watt-json [json]="json()" [tree]="tree()" />`,
+  template: `
+    <watt-json
+      [left]="json()"
+      [right]="compare()"
+      [diff]="compare() !== undefined"
+      [tree]="tree()"
+    />
+  `,
 })
 export class WattJsonViewer {
   /**
    * The JSON data to display. Accepts any value that can be serialized by JSON.stringify.
    */
   readonly json = input.required<unknown>();
+
+  /**
+   * Optional value to compare against. When provided, enables diff mode with side-by-side view.
+   */
+  readonly compare = input<unknown>();
 
   /**
    * Maximum depth for `expandAll()`. Beyond this depth nodes start collapsed but can be

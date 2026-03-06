@@ -20,7 +20,7 @@ import { Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
-import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
+import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/configuration-routing';
 
 @Component({
   selector: 'dh-esett-shell',

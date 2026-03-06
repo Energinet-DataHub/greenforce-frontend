@@ -38,7 +38,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattToastService, WattToastType } from '@energinet/watt/toast';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet/watt/drawer';
 
-import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
+import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/domain-shared';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
@@ -51,7 +51,7 @@ import {
   GetUserAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhUserRolesContainerComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 

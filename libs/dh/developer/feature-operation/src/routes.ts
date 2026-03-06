@@ -19,7 +19,7 @@
 
 import { Routes } from '@angular/router';
 
-import { OperationToolsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { OperationToolsSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 const routes: Routes = [

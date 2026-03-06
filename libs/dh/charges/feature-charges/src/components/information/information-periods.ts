@@ -26,7 +26,7 @@ import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 @Component({
   selector: 'dh-charges-information-periods',

@@ -19,7 +19,7 @@
 import { Route } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WholesaleSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { WholesaleSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
 
 export const dhWholesaleShellRoutes: Route[] = [
   {

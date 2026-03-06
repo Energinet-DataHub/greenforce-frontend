@@ -28,7 +28,10 @@ import { WattDatePipe } from '@energinet/watt/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import {
+  combineWithIdPaths,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({

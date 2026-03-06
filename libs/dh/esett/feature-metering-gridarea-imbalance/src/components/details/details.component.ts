@@ -38,7 +38,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   DhDownloadButtonComponent,
   DhEmDashFallbackPipe,

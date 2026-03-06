@@ -33,7 +33,7 @@ import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
