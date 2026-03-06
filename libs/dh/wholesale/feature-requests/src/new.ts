@@ -59,7 +59,7 @@ import { getMinDate, getMaxDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
   DhCalculationsGridAreasDropdown,
   DhCalculationsPeriodField,
-} from '@energinet-datahub/dh/wholesale/shared';
+} from '@energinet-datahub/dh/wholesale/ui-shared';
 
 /** Validate that the interval is less than or equal to `maxDays`. */
 const maxDaysValidator =

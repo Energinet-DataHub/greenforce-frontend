@@ -1,7 +1,7 @@
 # Mocking
 
 `app-dh` is using [Mock Service Worker](https://mswjs.io/docs/), also known as MSW, to mock HTTP requests against the backend-for-frontend (BFF). Mocks are located here:
-`libs/dh/shared/data-access-mocks/src/lib` and registered here: `libs/dh/shared/data-access-mocks/src/index.ts`.
+`libs/dh/shared/test-util-mocks/src/lib` and registered here: `libs/dh/shared/test-util-mocks/src/index.ts`.
 
 ![Dep graph](./mocking-dep-graph.png)
 
@@ -13,8 +13,8 @@ Mocks are enabled by default but can be bypassed by running the `development` ta
 
 ## Add new mocks
 
-Mocks should be added here `libs/dh/shared/data-access-mocks/src/lib` and you can find information about how to mock here.
-After your mocks has been created you need to import your mocks here `libs/dh/shared/data-access-mocks/src/index.ts`
+Mocks should be added here `libs/dh/shared/test-util-mocks/src/lib` and you can find information about how to mock here.
+After your mocks has been created you need to import your mocks here `libs/dh/shared/test-util-mocks/src/index.ts`
 
 You can find more information of how to define mocks [here](https://mswjs.io/docs/getting-started/mocks/rest-api).
 
@@ -27,7 +27,7 @@ However MSW needs to be configured in your `test-setup.ts` file:
 ```ts
   import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
   import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
-  import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+  import { mocks } from '@energinet-datahub/dh/shared/test-util-mocks';
 
   setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
   ...

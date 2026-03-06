@@ -160,6 +160,7 @@
   "defaultBase": "main",
   "nxCloudId": "6124f33c6b561869a0db14ff",
   "plugins": [
+    "./tools/plugins/implicit-libs.ts",
     {
       "plugin": "@nx/eslint/plugin",
       "options": {

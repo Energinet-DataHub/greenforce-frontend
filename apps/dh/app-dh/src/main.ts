@@ -51,8 +51,8 @@ if (environment.production) {
 if (ngDevMode && environment.mocked) {
   // Dynamically import the MSW setup to avoid loading it in production
   Promise.all([
-    import('@energinet-datahub/gf/util-msw'),
-    import('@energinet-datahub/dh/shared/data-access-mocks'),
+    import('@energinet-datahub/gf/msw/test-util-msw-setup'),
+    import('@energinet-datahub/dh/shared/test-util-mocks'),
   ]).then(([{ setupServiceWorker }, { mocks }]) => {
     setupServiceWorker(dhLocalApiEnvironment.apiBase, mocks).then(bootstrapApp);
   });

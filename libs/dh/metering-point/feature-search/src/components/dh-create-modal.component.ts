@@ -26,7 +26,11 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/drop
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import {
+  BasePaths,
+  getPath,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { dhMeteringPointTypeParam } from './dh-metering-point-params';

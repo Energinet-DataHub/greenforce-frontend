@@ -25,7 +25,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
+import { UpdateUserRoles } from '@energinet-datahub/dh/admin/domain-shared';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';

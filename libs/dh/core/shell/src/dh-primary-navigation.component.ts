@@ -24,7 +24,7 @@ import {
   DhFeatureFlagDirective,
   DhFeatureFlagsService,
 } from '@energinet-datahub/dh/shared/feature-flags';
-import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import {
   DhPermissionRequiredDirective,
   DhMarketRoleRequiredDirective,
@@ -38,7 +38,7 @@ import {
   ReportsSubPaths,
   MissingMeasurementsLogSubPaths,
   OperationToolsSubPaths,
-} from '@energinet-datahub/dh/core/routing';
+} from '@energinet-datahub/dh/core/configuration-routing';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({

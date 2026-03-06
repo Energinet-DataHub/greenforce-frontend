@@ -29,7 +29,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetGridAreaDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOverviewItemById'];
 

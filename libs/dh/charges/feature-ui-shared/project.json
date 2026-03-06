@@ -1,0 +1,8 @@
+{
+  "name": "dh-charges-feature-ui-shared",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/charges/feature-ui-shared/src",
+  "prefix": "dh",
+  "projectType": "library",
+  "tags": ["product:dh", "domain:charges", "type:feature"]
+}

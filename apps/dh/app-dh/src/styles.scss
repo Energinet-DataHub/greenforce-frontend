@@ -14,7 +14,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@energinet/watt";
 @use "highlight.js/styles/github.css";
-@use "@ngxpert/hot-toast/src/styles/styles.scss";
+@use "@ngxpert/hot-toast/styles";
 
 :root {
   --hot-toast-message-margin: 0;

@@ -32,7 +32,7 @@ import {
   ChargeSeriesPoint,
   ChargeSeriesPointChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { WattCardComponent } from '@energinet/watt/card';
 import { WattBadgeComponent } from '@energinet/watt/badge';
 

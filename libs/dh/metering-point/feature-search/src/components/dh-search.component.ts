@@ -33,11 +33,11 @@ import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { combinePaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';

@@ -35,7 +35,7 @@ import {
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 type Request = ExtractNodeType<GetRequestsDataSource>;

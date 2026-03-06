@@ -37,8 +37,8 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet/watt/drawer';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { GetProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 

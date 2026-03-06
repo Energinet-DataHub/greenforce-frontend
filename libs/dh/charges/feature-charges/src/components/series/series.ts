@@ -41,7 +41,7 @@ import {
 import {
   DhChargesIntervalField,
   DhChargesPeriodPipe,
-} from '@energinet-datahub/dh/charges/ui-shared';
+} from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { DhChargesSeriesDetails } from './series-details';
 
