@@ -18,8 +18,8 @@ mutation StartConversation(
       anonymous: $anonymous
       receiver: $receiver
       energySupplierDate: $energySupplierDate
-      attachedDocumentIds: $attachedDocumentIds,
-    },
+      attachedDocumentIds: $attachedDocumentIds
+    }
     electricalHeatingConversationInput: $electricalHeatingInput
   ) {
     string
