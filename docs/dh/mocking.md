@@ -1,7 +1,7 @@
 # Mocking
 
 `app-dh` is using [Mock Service Worker](https://mswjs.io/docs/), also known as MSW, to mock HTTP requests against the backend-for-frontend (BFF). Mocks are located here:
-`libs/dh/shared/data-access-mocks/src/lib` and registered here: `libs/dh/shared/data-access-mocks/src/index.ts`.
+`libs/dh/shared/test-util-mocks/src/lib` and registered here: `libs/dh/shared/test-util-mocks/src/index.ts`.
 
 ![Dep graph](./mocking-dep-graph.png)
 
