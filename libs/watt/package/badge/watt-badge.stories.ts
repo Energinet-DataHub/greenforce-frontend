@@ -46,3 +46,9 @@ Normal.args = { size: 'normal' };
 
 export const Large = Template.bind({});
 Large.args = { size: 'large' };
+
+export const WithIcon: StoryFn<WattBadgeComponent> = () => ({
+  template: `
+    <watt-badge type="info" icon="info">Badge with icon</watt-badge>
+  `,
+});
