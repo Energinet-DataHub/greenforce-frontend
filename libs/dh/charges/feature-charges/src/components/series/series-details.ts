@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { DecimalPipe, TitleCasePipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { Component, computed, input, model } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -40,7 +40,6 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
   selector: 'dh-charges-series-details',
   imports: [
     DecimalPipe,
-    TitleCasePipe,
     TranslocoDirective,
     WATT_DESCRIPTION_LIST,
     WATT_DRAWER,
