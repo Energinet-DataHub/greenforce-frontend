@@ -1124,8 +1124,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
-  startConversation(startConversationInput: StartConversationInput!): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
-  startElectricalHeatingConversation(input: StartElectricalHeatingConversationInput!): StartElectricalHeatingConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  startConversation(startConversationInput: StartConversationInput! electricalHeatingConversationInput: StartElectricalHeatingConversationInput): StartConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   sendActorConversationMessage(sendActorConversationMessageInput: SendActorConversationMessageInput!): SendActorConversationMessagePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   updateInternalConversationNote(updateInternalConversationNoteInput: UpdateInternalConversationNoteInput!): UpdateInternalConversationNotePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   markConversationRead(input: MarkConversationReadInput!): MarkConversationReadPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
@@ -1628,10 +1627,6 @@ type SimulateMeteringPointManualCorrectionPayload {
 }
 
 type StartConversationPayload {
-  string: String
-}
-
-type StartElectricalHeatingConversationPayload {
   string: String
 }
 
@@ -2394,15 +2389,9 @@ input StartConversationInput {
 }
 
 input StartElectricalHeatingConversationInput {
-  meteringPointIdentification: String!
-  internalNote: String
-  content: String!
-  anonymous: Boolean!
-  receiver: ActorType!
-  electricalHeatingFrom: DateTime!
-  electricalHeatingReductionPeriodFrom: DateTime!
-  electricalHeatingReductionPeriodTo: DateTime
-  attachedDocumentIds: [UUID!]!
+  addressEligibilityDate: DateTime!
+  chargeReductionPeriodFrom: DateTime!
+  chargeReductionPeriodTo: DateTime
 }
 
 input StopChargeInput {

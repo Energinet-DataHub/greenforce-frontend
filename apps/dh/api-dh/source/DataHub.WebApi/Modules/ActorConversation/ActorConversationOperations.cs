@@ -32,6 +32,7 @@ public static partial class ActorConversationOperations
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
         StartConversationInput startConversationInput,
+        StartElectricalHeatingConversationInput? electricalHeatingConversationInput,
         CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
@@ -59,83 +60,59 @@ public static partial class ActorConversationOperations
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
-        var startRequest = new StartConversationRequest
+        if (electricalHeatingConversationInput != null)
         {
-            Subject = startConversationInput.Subject,
-            SenderActorType = MapMarketRoleToActorType(marketRole),
-            ReceiverActorType = startConversationInput.Receiver,
-            MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
-            InternalNote = startConversationInput.InternalNote,
-            Content = startConversationInput.Content,
-            Anonymous = startConversationInput.Anonymous,
-            EnergySupplierDate = startConversationInput.EnergySupplierDate,
-        };
-
-        foreach (var documentId in startConversationInput.AttachedDocumentIds)
-        {
-            startRequest.AttachedDocumentIds.Add(documentId);
-        }
-
-        var response = await authClient.ApiStartConversationAsync(
-            userId.ToString(),
-            actorNumber,
-            startRequest,
-            ct);
-
-        return response.ConversationId.ToString();
-    }
-
-    [Mutation]
-    [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task<string> StartElectricalHeatingConversationAsync(
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        StartElectricalHeatingConversationInput input,
-        CancellationToken ct)
-    {
-        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
-
-        var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
-        var userId = user.GetUserId();
-
-        var authRequest = new CreateActorConversationRequest
-        {
-            ActorNumber = actorNumber,
-            MarketRole = marketRole,
-            MeteringPointId = input.MeteringPointIdentification,
-            UserId = userId,
-        };
-
-        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
-        {
-            throw new InvalidOperationException("User is not authorized to access the requested metering point.");
-        }
-
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
-
-        var response = await authClient.ApiStartElectricalHeatingConversationAsync(
-            userId.ToString(),
-            actorNumber,
-            new StartElectricalHeatingConversationRequest
+            var startRequest = new StartElectricalHeatingConversationRequest
             {
-                MeteringPointIdentification = input.MeteringPointIdentification,
-                InternalNote = input.InternalNote,
-                Content = input.Content,
-                Anonymous = input.Anonymous,
-                ElectricalHeatingFrom = input.ElectricalHeatingFrom,
-                ElectricalHeatingReductionPeriodFrom = input.ElectricalHeatingReductionPeriodFrom,
-                ElectricalHeatingReductionPeriodTo = input.ElectricalHeatingReductionPeriodTo ?? DateTimeOffset.MaxValue,
-                AttachedDocumentIds = input.AttachedDocumentIds.Select(id => id).ToList(),
-            },
-            ct);
+                MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
+                InternalNote = startConversationInput.InternalNote,
+                Content = startConversationInput.Content,
+                Anonymous = startConversationInput.Anonymous,
+                ElectricalHeatingFrom = electricalHeatingConversationInput.AddressEligibilityDate,
+                ElectricalHeatingReductionPeriodFrom = electricalHeatingConversationInput.ChargeReductionPeriodFrom,
+                ElectricalHeatingReductionPeriodTo = electricalHeatingConversationInput.ChargeReductionPeriodTo ?? DateTimeOffset.MaxValue,
+            };
 
-        return response.ConversationId.ToString();
+            foreach (var documentId in startConversationInput.AttachedDocumentIds)
+            {
+                startRequest.AttachedDocumentIds.Add(documentId);
+            }
+
+            var response = await authClient.ApiStartElectricalHeatingConversationAsync(
+                userId.ToString(),
+                actorNumber,
+                startRequest,
+                ct);
+
+            return response.ConversationId.ToString();
+        }
+        else
+        {
+            var startRequest = new StartConversationRequest
+            {
+                Subject = startConversationInput.Subject,
+                SenderActorType = MapMarketRoleToActorType(marketRole),
+                ReceiverActorType = startConversationInput.Receiver,
+                MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
+                InternalNote = startConversationInput.InternalNote,
+                Content = startConversationInput.Content,
+                Anonymous = startConversationInput.Anonymous,
+                EnergySupplierDate = startConversationInput.EnergySupplierDate,
+            };
+
+            foreach (var documentId in startConversationInput.AttachedDocumentIds)
+            {
+                startRequest.AttachedDocumentIds.Add(documentId);
+            }
+
+            var response = await authClient.ApiStartConversationAsync(
+                userId.ToString(),
+                actorNumber,
+                startRequest,
+                ct);
+
+            return response.ConversationId.ToString();
+        }
     }
 
     [Mutation]

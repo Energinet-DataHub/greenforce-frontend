@@ -18,21 +18,9 @@ namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Models;
 
 public class StartElectricalHeatingConversationInput
 {
-    public required string MeteringPointIdentification { get; set; }
+    public required DateTimeOffset AddressEligibilityDate { get; set; }
 
-    public string? InternalNote { get; set; }
+    public required DateTimeOffset ChargeReductionPeriodFrom { get; set; }
 
-    public required string Content { get; set; }
-
-    public required bool Anonymous { get; set; }
-
-    public required ActorType Receiver { get; set; }
-
-    public required DateTimeOffset ElectricalHeatingFrom { get; set; }
-
-    public required DateTimeOffset ElectricalHeatingReductionPeriodFrom { get; set; }
-
-    public DateTimeOffset? ElectricalHeatingReductionPeriodTo { get; set; }
-
-    public required ICollection<Guid> AttachedDocumentIds { get; set; }
+    public DateTimeOffset? ChargeReductionPeriodTo { get; set; }
 }

@@ -7,6 +7,7 @@ mutation StartConversation(
   $receiver: ActorType!
   $energySupplierDate: DateTime
   $attachedDocumentIds: [UUID!]!
+  $electricalHeatingInput: StartElectricalHeatingConversationInput
 ) {
   startConversation(
     startConversationInput: {
@@ -17,36 +18,9 @@ mutation StartConversation(
       anonymous: $anonymous
       receiver: $receiver
       energySupplierDate: $energySupplierDate
-      attachedDocumentIds: $attachedDocumentIds
-    }
-  ) {
-    string
-  }
-}
-
-mutation StartElectricalHeatingConversation(
-  $meteringPointIdentification: String!
-  $internalNote: String
-  $content: String!
-  $anonymous: Boolean!
-  $receiver: ActorType!
-  $electricalHeatingFrom: DateTime!
-  $electricalHeatingReductionPeriodFrom: DateTime!
-  $electricalHeatingReductionPeriodTo: DateTime
-  $attachedDocumentIds: [UUID!]!
-) {
-  startElectricalHeatingConversation(
-    input: {
-      anonymous: $anonymous
-      meteringPointIdentification: $meteringPointIdentification
-      internalNote: $internalNote
-      content: $content
-      receiver: $receiver
-      electricalHeatingFrom: $electricalHeatingFrom
-      electricalHeatingReductionPeriodFrom: $electricalHeatingReductionPeriodFrom
-      electricalHeatingReductionPeriodTo: $electricalHeatingReductionPeriodTo
-      attachedDocumentIds: $attachedDocumentIds
-    }
+      attachedDocumentIds: $attachedDocumentIds,
+    },
+    electricalHeatingConversationInput: $electricalHeatingInput
   ) {
     string
   }

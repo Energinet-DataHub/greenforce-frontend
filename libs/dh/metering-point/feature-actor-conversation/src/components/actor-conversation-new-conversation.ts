@@ -16,16 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal, } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -40,19 +31,14 @@ import {
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  ElectricalHeatingFormValue,
-  internalNoteMaxLength,
-  MessageFormValue,
-  messageMaxLength,
-} from '../types';
+import { ElectricalHeatingFormValue, internalNoteMaxLength, MessageFormValue, messageMaxLength, } from '../types';
 import {
   ActorType,
   ConversationSubject,
   GetConversationsDocument,
   GetElectricalHeatingDocument,
   StartConversationDocument,
-  StartElectricalHeatingConversationDocument,
+  StartElectricalHeatingConversationInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 import { DhActorConversationReceiverRadioGroupComponent } from './actor-conversation-receiver-radio-group';
@@ -61,7 +47,9 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { injectUploadMessageDocument } from './upload-message-document';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
+import {
+  DhActorConversationElectricalHeatingFormComponent
+} from './actor-conversation-electrical-heating-form.component';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -175,7 +163,6 @@ export class DhActorConversationNewConversationComponent {
   uploading = signal(false);
   uploadError = signal(false);
   startConversationMutation = mutation(StartConversationDocument);
-  startElectricalHeatingConversationMutation = mutation(StartElectricalHeatingConversationDocument);
   electricHeatingInformationQuery = query(GetElectricalHeatingDocument, () => ({
     variables: {
       meteringPointIdentification: this.meteringPointId(),
@@ -281,39 +268,33 @@ export class DhActorConversationNewConversationComponent {
 
     this.uploading.set(false);
 
-    if (this.shouldShowEletricalHeatingForm() && electricalHeating) {
-      assertIsDefined(electricalHeating.addressEligibilityDate);
-      assertIsDefined(electricalHeating.periodStart);
+    const electricalHeatingInput: StartElectricalHeatingConversationInput =
+      this.shouldShowEletricalHeatingForm() && electricalHeating
+        ? (() => {
+            assertIsDefined(electricalHeating.addressEligibilityDate);
+            assertIsDefined(electricalHeating.periodStart);
+            return {
+              addressEligibilityDate: electricalHeating.addressEligibilityDate,
+              chargeReductionPeriodFrom: electricalHeating.periodStart,
+              chargeReductionPeriodTo: electricalHeating.periodEnd ?? undefined,
+            };
+          })()
+        : undefined;
 
-      await this.startElectricalHeatingConversationMutation.mutate({
-        variables: {
-          meteringPointIdentification: this.meteringPointId(),
-          internalNote,
-          content: content ?? '',
-          anonymous,
-          receiver,
-          electricalHeatingFrom: electricalHeating.addressEligibilityDate,
-          electricalHeatingReductionPeriodFrom: electricalHeating.periodStart,
-          electricalHeatingReductionPeriodTo: electricalHeating.periodEnd,
-          attachedDocumentIds: [],
-        },
-        refetchQueries: [GetConversationsDocument],
-      });
-    } else {
-      await this.startConversationMutation.mutate({
-        variables: {
-          meteringPointIdentification: this.meteringPointId(),
-          subject,
-          internalNote,
-          content: content ?? '',
-          anonymous,
-          receiver,
-          energySupplierDate,
-          attachedDocumentIds,
-        },
-        refetchQueries: [GetConversationsDocument],
-      });
-    }
+    await this.startConversationMutation.mutate({
+      variables: {
+        meteringPointIdentification: this.meteringPointId(),
+        subject,
+        internalNote,
+        content: content ?? '',
+        anonymous,
+        receiver,
+        energySupplierDate,
+        attachedDocumentIds,
+        electricalHeatingInput,
+      },
+      refetchQueries: [GetConversationsDocument],
+    });
 
     this.closeNewConversation.emit();
   }
