@@ -1,7 +1,8 @@
 {
   "type": "module",
   "name": "@energinet/watt",
-  "version": "4.3.26",  "license": "Apache-2.0",
+  "version": "4.3.26",
+  "license": "Apache-2.0",
   "exports": {
     ".": {
       "sass": "./core/styles/@energinet/watt/_index.scss"
