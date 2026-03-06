@@ -25,7 +25,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh/shared/release-toggle',
+  cacheDir: '../../../../node_modules/.vite/libs/dh/shared/util-release-toggle',
   plugins: [
     angular({ tsconfig: './tsconfig.json' }),
     nxViteTsPaths(),
@@ -40,7 +40,7 @@ export default defineConfig(() => ({
     setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/dh/shared/release-toggle',
+      reportsDirectory: '../../../../coverage/libs/dh/shared/util-release-toggle',
       provider: 'v8' as const,
     },
     pool: 'forks',

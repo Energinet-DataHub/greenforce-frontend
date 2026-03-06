@@ -24,7 +24,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh-charges-ui-shared',
+  cacheDir: '../../../../node_modules/.vite/libs/dh-charges-feature-ui-shared',
   plugins: [
     analog({ tsconfig: './tsconfig.spec.json' }),
     nxViteTsPaths(),
@@ -40,7 +40,7 @@ export default defineConfig(() => ({
     include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     setupFiles: ['tests/test-setup.ts'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/dh/charges/ui-shared',
+      reportsDirectory: '../../../../coverage/libs/dh/charges/feature-ui-shared',
       provider: 'v8',
     },
   },
