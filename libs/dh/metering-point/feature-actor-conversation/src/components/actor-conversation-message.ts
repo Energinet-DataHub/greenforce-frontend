@@ -61,6 +61,10 @@ import { injectDownloadMessageDocument } from './download-message-document';
       opacity: 0.6;
       cursor: default;
     }
+
+    .italic {
+      font-style: italic;
+    }
   `,
   host: {
     class: 'watt-space-inset-m',
@@ -88,13 +92,71 @@ import { injectDownloadMessageDocument } from './download-message-document';
         </vater-stack>
       </vater-stack>
       <watt-separator />
-      @if (message().messageType === 'USER_MESSAGE') {
-        <span vater fill="horizontal" class="watt-space-inset-m">{{
-          message().userMessage?.content
-        }}</span>
-      }
-      @if (message().messageType === 'CLOSING_MESSAGE') {
-        <span vater fill="horizontal" class="watt-space-inset-m">{{ t('closingMessage') }}</span>
+      @switch (message().messageType) {
+        @case ('USER_MESSAGE') {
+          <span vater fill="horizontal" class="watt-space-inset-m">
+            {{ message().userMessage?.content }}
+          </span>
+        }
+        @case ('ELECTRICAL_HEATING_INFORMATION') {
+          <vater-stack align="start" class="watt-space-inset-m">
+            <span class="italic"
+              >{{ t('electricalHeatingInformationStatus')
+              }}{{
+                message().electricalHeatingInformation?.isElectricalHeatingActive
+                  ? t('yes')
+                  : t('no')
+              }}</span
+            >
+            <span class="italic">{{
+              t('electricalHeatingInformationDate', {
+                electricalHeatingDate:
+                  message().electricalHeatingInformation?.electricalHeatingFrom | wattDate,
+              })
+            }}</span>
+            <span class="italic">{{
+              t('electricalHeatingInformationCustomer', {
+                customerName: message().electricalHeatingInformation?.customerName,
+              })
+            }}</span>
+            <span class="italic">{{
+              t('electricalHeatingInformationSupplierPeriod', {
+                energySupplierPeriodFrom:
+                  message().electricalHeatingInformation?.supplierPeriods?.at(0)?.from | wattDate,
+                energySupplierPeriodTo:
+                  message().electricalHeatingInformation?.supplierPeriods?.at(0)?.to | wattDate,
+              })
+            }}</span>
+          </vater-stack>
+        }
+        @case ('ELECTRICAL_HEATING_USER_MESSAGE') {
+          <vater-stack align="start" class="watt-space-inset-m">
+            <span>{{
+              t('electricalHeatingUserAddressEligibilityDate', {
+                addressEligibilityDate:
+                  message().electricalHeatingUserMessage?.electricalHeatingFrom | wattDate,
+              })
+            }}</span>
+            <span class="watt-space-stack-ml">{{
+              t('electricalHeatingUserChargeReductionPeriod', {
+                chargeReductionPeriodFrom:
+                  message().electricalHeatingUserMessage?.reductionPeriod?.from | wattDate,
+                chargeReductionPeriodTo:
+                  (message().electricalHeatingUserMessage?.reductionPeriod?.to | wattDate) ?? '',
+              })
+            }}</span>
+            <span>{{
+              t('electricalHeatingUserContent', {
+                content: message().electricalHeatingUserMessage?.content,
+              })
+            }}</span>
+          </vater-stack>
+        }
+        @case ('CLOSING_MESSAGE') {
+          <span vater fill="horizontal" class="watt-space-inset-m italic">
+            {{ t('closingMessage') }}
+          </span>
+        }
       }
       @if (message().attachments.length) {
         <vater-stack fill="horizontal" align="start" class="watt-space-inset-m" gap="xs">

@@ -864,7 +864,16 @@
         "attachedBbrDocumentation": "Jeg har vedhæftet dokumentation for berettigelsesdato fra BBR",
         "yes": "Ja",
         "no": "Nej"
-      }
+      },
+      "electricalHeatingInformationStatus": "Nuværende elvarmestatus: ",
+      "yes": "Ja",
+      "no": "Nej",
+      "electricalHeatingInformationDate": "Elvarmedato: {{ electricalHeatingDate }}",
+      "electricalHeatingInformationCustomer": "Kunde: {{ customerName }}",
+      "electricalHeatingInformationSupplierPeriod": "Elleverandørperiode: {{ energySupplierPeriodFrom }} - {{ energySupplierPeriodTo }}",
+      "electricalHeatingUserAddressEligibilityDate": "Adressens berretigelsedato (jf. BBR): {{ addressEligibilityDate }}",
+      "electricalHeatingUserChargeReductionPeriod": "Periode der søges reduceret ekafgift for: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}",
+      "electricalHeatingUserContent": "{{ content }}"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",

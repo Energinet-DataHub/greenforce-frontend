@@ -864,7 +864,16 @@
         "attachedBbrDocumentation": "I have attached documentation for eligibility date from BBR",
         "yes": "Yes",
         "no": "No"
-      }
+      },
+      "electricalHeatingInformationStatus": "Current electrical heating status: ",
+      "yes": "Yes",
+      "no": "No",
+      "electricalHeatingInformationDate": "Electrical heating date: {{ electricalHeatingDate }}",
+      "electricalHeatingInformationCustomer": "Customer: {{ customerName }}",
+      "electricalHeatingInformationSupplierPeriod": "Energy supplier period: {{ energySupplierPeriodFrom }} - {{ energySupplierPeriodTo }}",
+      "electricalHeatingUserAddressEligibilityDate": "Address eligibility date (acc. to BBR): {{ addressEligibilityDate }}",
+      "electricalHeatingUserChargeReductionPeriod": "Period for which reduced electricity tax is requested: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}",
+      "electricalHeatingUserContent": "{{ content }}"
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
