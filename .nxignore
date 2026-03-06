@@ -4,3 +4,4 @@
 libs/gf/msw/test-util-msw-setup/src/assets/mockServiceWorker.js
 !libs/dh/shared/data-access-graphql/schema.graphql
 !libs/dh/shared/domain/src/generated/graphql
+libs/dh/shared/feature-graphql-codegen/dist
