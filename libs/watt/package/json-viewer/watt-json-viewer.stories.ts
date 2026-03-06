@@ -134,7 +134,22 @@ const diff = {
   longText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
 };
 
-export const Overview: StoryFn<WattJsonViewer> = () => ({
+export const View: StoryFn<WattJsonViewer> = () => ({
+  props: { json: exampleJson },
+  template: `
+    <vater-flex inset="m" align="end" gap="m">
+      <vater-stack direction="row" gap="s">
+        <watt-button (click)="viewer.expandAll()">Expand all</watt-button>
+        <watt-button (click)="viewer.collapseAll()">Collapse all</watt-button>
+      </vater-stack>
+      <watt-card vater fill="both" scrollable>
+        <watt-json-viewer #viewer [json]="json" [maxDepth]="5" />
+      </watt-card>
+    </vater-flex>
+  `,
+});
+
+export const Compare: StoryFn<WattJsonViewer> = () => ({
   props: { json: exampleJson, compare: diff },
   template: `
     <vater-flex inset="m" align="end" gap="m">

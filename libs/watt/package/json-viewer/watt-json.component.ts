@@ -25,7 +25,7 @@ import {
   linkedSignal,
 } from '@angular/core';
 import { VATER } from '@energinet/watt/vater';
-import { WattJsonSide } from './watt-json-side.component';
+import { WattJsonRow } from './watt-json-row.component';
 import { interleave, isNonEmpty, isEqual } from './watt-json.utils';
 
 export type TreeState = {
@@ -38,21 +38,36 @@ export type TreeState = {
   selector: 'watt-json',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [VATER, WattJsonSide],
+  imports: [VATER, WattJsonRow],
   styles: `
     watt-json {
       cursor: default;
     }
 
-    .watt-json-row:hover {
-      background: var(--watt-color-neutral-grey-100);
+    .watt-json-row {
+      position: relative;
+    }
+
+    .watt-json-row::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0);
+      pointer-events: none;
+    }
+
+    .watt-json-row:hover::after {
+      background-color: rgba(0, 0, 0, 0.1);
+      outline: 1px solid var(--watt-color-neutral-grey-500);
+      outline-offset: -1px;
     }
   `,
   host: { '[style.--watt-json-level]': 'level()' },
   template: `
     @if (!isRoot()) {
-      <vater-flex class="watt-json-row" direction="row" gap="dividers" (click)="toggleExpanded()">
-        <watt-json-side
+      <vater-flex class="watt-json-row" direction="row" (click)="toggleExpanded()">
+        <watt-json-row
           [label]="label()"
           [isOriginal]="true"
           [isSame]="isSame()"
@@ -60,7 +75,7 @@ export type TreeState = {
           [value]="left()"
         />
         @if (diff()) {
-          <watt-json-side
+          <watt-json-row
             [label]="label()"
             [isOriginal]="false"
             [isSame]="isSame()"
