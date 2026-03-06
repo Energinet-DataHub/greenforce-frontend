@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input, Signal } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { WattIcon, WattIconComponent, WattIconSize } from '@energinet/watt/icon';
 
 export type WattBadgeType =
@@ -47,7 +47,7 @@ export type WattBadgeSize = 'normal' | 'large';
   host: {
     '[class]': 'badgeType()',
     '[class.watt-badge-large]': 'isLarge()',
-    '[class.watt-badge-icon]': 'icon()',
+    '[class.watt-badge-icon]': '!!icon()',
   },
 })
 export class WattBadgeComponent {
@@ -56,5 +56,5 @@ export class WattBadgeComponent {
   icon = input<WattIcon>();
   badgeType = computed(() => `watt-badge-${this.type()}`);
   isLarge = computed(() => this.size() === 'large');
-  iconSize: Signal<WattIconSize> = computed(() => (this.isLarge() ? 'm' : 's'));
+  iconSize = computed<WattIconSize>(() => (this.isLarge() ? 'm' : 's'));
 }
