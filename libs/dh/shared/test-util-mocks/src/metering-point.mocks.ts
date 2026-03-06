@@ -41,7 +41,6 @@ import {
   mockRequestEndOfSupplyMutation,
   mockSendActorConversationMessageMutation,
   mockStartConversationMutation,
-  mockStartElectricalHeatingConversationMutation,
   mockUpdateInternalConversationNoteMutation,
   mockGetElectricalHeatingQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
@@ -77,7 +76,6 @@ export function meteringPointMocks(apiBase: string) {
     requestConnectionStateChange(),
     requestEndOfSupply(),
     createConversation(),
-    createElectricalHeatingConversation(),
     getConversations(),
     getConversation(),
     getElectricalHeatingInformation(),
@@ -849,22 +847,6 @@ function createConversation() {
         startConversation: {
           __typename: 'StartConversationPayload',
           string: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        },
-      },
-    });
-  });
-}
-
-function createElectricalHeatingConversation() {
-  return mockStartElectricalHeatingConversationMutation(async () => {
-    await delay(mswConfig.delay);
-
-    return HttpResponse.json({
-      data: {
-        __typename: 'Mutation',
-        startElectricalHeatingConversation: {
-          __typename: 'StartElectricalHeatingConversationPayload',
-          string: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
         },
       },
     });
