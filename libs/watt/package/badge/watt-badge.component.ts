@@ -47,7 +47,7 @@ export type WattBadgeSize = 'normal' | 'large';
   host: {
     '[class]': 'badgeType()',
     '[class.watt-badge-large]': 'isLarge()',
-    '[class.watt-badge-icon]': 'icon()',
+    '[class.watt-badge-icon]': '!!icon()',
   },
 })
 export class WattBadgeComponent {
