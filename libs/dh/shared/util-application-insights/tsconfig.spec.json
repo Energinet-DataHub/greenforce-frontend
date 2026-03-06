@@ -5,6 +5,6 @@
     "types": ["vitest/globals", "vitest/importMeta", "vite/client", "node", "vitest"],
     "target": "es2016"
   },
-  "files": ["src/test-setup.ts"],
-  "include": ["vite.config.mts", "**/*.test.ts", "**/*.spec.ts", "**/*.d.ts"]
+  "files": ["tests/test-setup.ts"],
+  "include": ["vite.config.mts", "tests/**/*.test.ts", "tests/**/*.spec.ts"]
 }

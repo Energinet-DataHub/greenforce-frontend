@@ -28,7 +28,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 // Use the shared MSW polyfill path (relative to this config file)
 const mswPolyfillPath = resolve(
   __dirname,
-  '../../../libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js'
+  '../../../libs/gf/test-util-vitest/src/msw-global-polyfill.js'
 );
 
 export default defineConfig(() => ({

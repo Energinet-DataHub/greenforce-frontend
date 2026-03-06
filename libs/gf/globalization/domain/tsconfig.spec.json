@@ -2,9 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-    "module": "commonjs",
-    "types": ["vitest/globals", "node"],
-    "target": "es2016"
+    "types": ["vitest/globals", "node"]
   },
-  "include": ["vite.config.mts", "**/*.spec.ts", "**/*.d.ts"]
+  "files": ["tests/test-setup.ts"],
+  "include": ["vite.config.mts", "tests/**/*.test.ts", "tests/**/*.spec.ts"]
 }

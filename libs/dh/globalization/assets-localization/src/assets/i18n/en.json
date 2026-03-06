@@ -822,7 +822,11 @@
         }
       },
       "messagePlaceholder": "Write a message",
-      "sendButton": "Send",
+      "sendButton": "Send message",
+      "attachFileButton": "Attach file",
+      "invalidFileType": "File type not allowed. Allowed file types are: .bmp, .csv, .jpeg, .jpg, .pdf, .png, .txt",
+      "fileTooLarge": "The file you are trying to attach is too large. Maximum file size is 25 MB.",
+      "uploadError": "Failed to upload file. Please try again.",
       "emptyState": {
         "noCases": "No cases found",
         "noCaseSelected": "No case selected"
@@ -972,7 +976,7 @@
         "UpdateMasterDataConsumer": "Update of customer master data (BRS-015)",
         "CustomerMoveIn": "Move-in (BRS-009)",
         "CloseDownMeteringPoint": "Close down metering point (BRS-007)",
-        "ChangeConnectionState": "Disconnection and reconnection of metering point (BRS-013)",
+        "ChangeConnectionStatus": "Disconnection and reconnection of metering point (BRS-013)",
         "UpdateMeteringPointMasterData": "Update of metering point master data (BRS-006)"
       },
       "reasonCode": {
@@ -984,7 +988,7 @@
         "SecondaryMoveIn": "Secondary move-in (D29)",
         "Move": "Move (E01)",
         "CloseDownMeteringPoint": "Close down metering point (D14)",
-        "ChangeConnectionState": "Change Connection Status (E79)",
+        "ChangeConnectionStatus": "Change Connection Status (E79)",
         "UpdateMeteringPointMasterData": "Update master data metering point (E32)"
       },
       "filters": {
@@ -1015,7 +1019,7 @@
           "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_3 }}",
           "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_4 }}"
         },
-        "ChangeConnectionState": {
+        "ChangeConnectionStatus": {
           "BRS_007_008_013_V1_STEP_1": "Request for change of connection status (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Confirmation of request for change of connection status (RSM-021)",
           "BRS_007_008_013_V1_STEP_3": "Rejection of request for change of connection status (RSM-021)",
@@ -2437,7 +2441,6 @@
       "noData": "No data",
       "itemsAndCount": "{{ items }}, +{{ remainingCount }} more",
       "drawer": {
-        "monthlySum": "Monthly sum",
         "combined": "Kombineret",
         "gridAreas": "Grid areas"
       },

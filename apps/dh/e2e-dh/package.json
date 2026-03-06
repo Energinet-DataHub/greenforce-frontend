@@ -1,6 +1,6 @@
 {
   "engines": {
-    "node": "22.17.1"
+    "node": "24.14.0"
   },
   "dependencies": {
     "@nx/cypress": "22.2.3",
@@ -11,6 +11,6 @@
   },
   "volta": {
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
-    "node": "22.17.1"
+    "node": "24.14.0"
   }
 }

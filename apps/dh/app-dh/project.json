@@ -80,8 +80,8 @@
               "with": "apps/dh/app-dh/src/configuration/load-dh-app-environment.prod.ts"
             },
             {
-              "replace": "libs/dh/shared/environments/src/lib/environment.ts",
-              "with": "libs/dh/shared/environments/src/lib/environment.prod.ts"
+              "replace": "libs/dh/shared/environments/src/environment.ts",
+              "with": "libs/dh/shared/environments/src/environment.prod.ts"
             }
           ],
           "allowedCommonJsDependencies": ["crypto-js", "dayjs", "flat", "qs"],
@@ -109,8 +109,8 @@
           "namedChunks": true,
           "fileReplacements": [
             {
-              "replace": "libs/dh/shared/environments/src/lib/environment.ts",
-              "with": "libs/dh/shared/environments/src/lib/environment.mocked.ts"
+              "replace": "libs/dh/shared/environments/src/environment.ts",
+              "with": "libs/dh/shared/environments/src/environment.mocked.ts"
             }
           ],
           "allowedCommonJsDependencies": [

@@ -121,11 +121,6 @@ import { DhReportStatus } from '../report-status.component';
               />
 
               <watt-description-list-item
-                [label]="t('drawer.monthlySum')"
-                [value]="(report().includeMonthlyAmount ? 'yes' : 'no') | transloco"
-              />
-
-              <watt-description-list-item
                 [label]="t('drawer.combined')"
                 [value]="(report().combineResultInASingleFile ? 'yes' : 'no') | transloco"
               />

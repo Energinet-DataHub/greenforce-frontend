@@ -25,6 +25,7 @@ import {
   ElementRef,
   inject,
   input,
+  signal,
   viewChild,
 } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
@@ -57,6 +58,7 @@ import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
 import { DhActorConversationInternalNoteModalComponent } from './actor-conversation-internal-note-modal.component';
+import { injectUploadMessageDocument } from './upload-message-document';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 
@@ -169,8 +171,9 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
           (ngSubmit)="sendMessage()"
         >
           <dh-actor-conversation-message-form
-            [loading]="sendActorConversationMessageMutation.loading()"
+            [loading]="uploading() || sendActorConversationMessageMutation.loading()"
             [closed]="!!conversation()?.closed"
+            [uploadError]="uploadError()"
             [formControl]="formControl"
           />
         </form>
@@ -180,6 +183,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
 })
 export class DhActorConversationDetailsComponent {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly uploadMessageDocument = injectUploadMessageDocument();
   private readonly modalService = inject(WattModalService);
   private readonly scrollAnchor = viewChild<ElementRef<HTMLElement>>('scrollAnchor');
   private readonly closeConversationMutation = mutation(CloseConversationDocument);
@@ -211,13 +215,21 @@ export class DhActorConversationDetailsComponent {
   private readonly syncAnonymousEffect = effect(() => {
     const anonymous = this.conversation()?.wasLatestMessageAnonymous;
     if (anonymous !== undefined) {
-      this.formControl.patchValue({ content: this.formControl.value.content, anonymous });
+      this.formControl.patchValue({
+        content: this.formControl.value.content,
+        anonymous,
+        files: this.formControl.value.files ?? [],
+      });
     }
   });
+
+  uploading = signal(false);
+  uploadError = signal(false);
 
   formControl = this.fb.control<MessageFormValue>({
     content: '',
     anonymous: false,
+    files: [],
   });
 
   async closeConversation() {
@@ -249,16 +261,35 @@ export class DhActorConversationDetailsComponent {
   }
 
   async sendMessage() {
-    const { content, anonymous } = this.formControl.getRawValue();
+    const { content, anonymous, files } = this.formControl.getRawValue();
 
-    assertIsDefined(content);
     assertIsDefined(anonymous);
+
+    if (!content && !(files ?? []).length) return;
+    if (this.uploading()) return;
+
+    this.uploadError.set(false);
+    this.uploading.set(true);
+
+    let attachedDocumentIds: string[];
+    try {
+      attachedDocumentIds = await Promise.all(
+        (files ?? []).map((file) => this.uploadMessageDocument(file))
+      );
+    } catch {
+      this.uploadError.set(true);
+      this.uploading.set(false);
+      return;
+    }
+
+    this.uploading.set(false);
 
     await this.sendActorConversationMessageMutation.mutate({
       variables: {
         conversationId: this.conversationId(),
         anonymous,
-        content,
+        content: content ?? '',
+        attachedDocumentIds,
       },
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
@@ -266,6 +297,7 @@ export class DhActorConversationDetailsComponent {
     this.formControl.patchValue({
       content: '',
       anonymous: this.formControl.value.anonymous ?? false,
+      files: [],
     });
   }
 }
