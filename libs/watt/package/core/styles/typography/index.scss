@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+@use "../breakpoints/breakpoints.import" as breakpoints;
 @use "./typography.import" as typography;
 
 body h1,
@@ -47,7 +48,14 @@ body h6,
   @include typography.watt-text-l;
 }
 
-body,
+body {
+  @include typography.watt-text-m;
+
+  @include breakpoints.media("XSmall") {
+    @include typography.watt-text-s;
+  }
+}
+
 .watt-text-m {
   @include typography.watt-text-m;
 }
