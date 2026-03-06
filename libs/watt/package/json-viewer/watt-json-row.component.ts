@@ -23,20 +23,38 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { isNonEmpty } from './watt-json.utils';
 
-/**
- * Matches JSON tokens for syntax highlighting:
- * - `"(?:[^"\\]|\\.)*":?` - Strings and keys (supports escaped quotes)
- * - `-?\d+\.?\d*` - Numbers (including negative and decimals)
- * - `\b(true|false|null)\b` - Keywords
- */
 const JSON_TOKEN_REGEX = /"(?:[^"\\]|\\.)*":?|-?\d+\.?\d*|\b(true|false|null)\b/g;
 
 @Component({
-  selector: 'watt-json-colorize',
+  selector: 'watt-json-row',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [WattIconComponent],
   styles: `
+    watt-json-row {
+      position: relative;
+      padding-left: calc(var(--watt-json-level) * 20px);
+      padding-right: calc(var(--watt-json-level) * 20px);
+      color: var(--watt-color-primary);
+    }
+
+    watt-json-row > watt-icon {
+      position: absolute;
+      top: 2px;
+      transform: translateX(-100%);
+    }
+
+    .watt-json-row-added:not(:empty) {
+      background-color: var(--watt-color-state-success-light);
+    }
+
+    .watt-json-row-removed:not(:empty) {
+      background-color: var(--watt-color-state-danger-light);
+    }
+
     .watt-json-invalid {
       color: var(--watt-on-light-low-emphasis);
     }
@@ -57,15 +75,33 @@ const JSON_TOKEN_REGEX = /"(?:[^"\\]|\\.)*":?|-?\d+\.?\d*|\b(true|false|null)\b/
       color: var(--watt-color-state-danger);
     }
   `,
-  template: `<span [innerHTML]="colorized()"></span>`,
+  host: {
+    '[class.watt-json-row-added]': '!isOriginal() && !isSame()',
+    '[class.watt-json-row-removed]': 'isOriginal() && !isSame()',
+  },
+  template: `
+    @if (value() !== undefined) {
+      @if (expandable()) {
+        <watt-icon size="s" [name]="expanded() ? 'down' : 'right'" />
+      }
+      <span>{{ label() }}: </span>
+      <span [hidden]="expandable() && expanded()" [innerHTML]="colorized()"></span>
+    }
+  `,
 })
-export class WattJsonColorize {
-  readonly json = input.required<unknown>();
+export class WattJsonRow {
+  readonly label = input<string>();
+  readonly isOriginal = input.required<boolean>();
+  readonly isSame = input.required<boolean>();
+  readonly expanded = input.required<boolean>();
+  readonly value = input<unknown>();
+
+  protected readonly expandable = computed(() => isNonEmpty(this.value()));
   protected readonly colorized = computed(() => {
     try {
-      const json = JSON.stringify(this.json(), null, ' ');
+      const json = JSON.stringify(this.value(), null, ' ');
       return json === undefined
-        ? `<span class='watt-json-invalid'>${this.json()?.toString() || typeof this.json()}</span>`
+        ? `<span class='watt-json-invalid'>${this.value()?.toString() || typeof this.value()}</span>`
         : json.replace(JSON_TOKEN_REGEX, (match) => {
             switch (true) {
               case match.endsWith(':'):
