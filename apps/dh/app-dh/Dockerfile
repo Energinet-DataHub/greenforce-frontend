@@ -23,6 +23,7 @@ COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile --yarn
 
 COPY nx.json tsconfig.base.json .graphqlrc.yml codegen.ts .eslintrc.json ./
+COPY tools ./tools
 COPY apps/dh ./apps/dh
 
 COPY libs ./libs
