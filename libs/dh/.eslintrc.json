@@ -1,5 +1,5 @@
 {
-  "extends": ["../../../../.eslintrc.json"],
+  "extends": ["../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
@@ -21,8 +21,7 @@
             "prefix": "dh",
             "style": "kebab-case"
           }
-        ],
-        "no-dupe-keys": ["error"]
+        ]
       }
     },
     {
