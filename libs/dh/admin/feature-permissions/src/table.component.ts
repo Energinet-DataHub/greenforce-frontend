@@ -28,7 +28,7 @@ import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/wat
 
 import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { GetFilteredPermissionsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { DhPermissionsDownloadComponent } from './download.component';

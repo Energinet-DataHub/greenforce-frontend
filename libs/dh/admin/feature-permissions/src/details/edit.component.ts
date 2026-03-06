@@ -43,7 +43,7 @@ import {
   ApiErrorCollection,
   readApiErrorResponse,
 } from '@energinet-datahub/dh/market-participant/domain';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 @Component({
   selector: 'dh-permission-edit',

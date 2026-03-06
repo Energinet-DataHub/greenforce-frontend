@@ -26,7 +26,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 @Component({
   selector: 'dh-edit-process',

@@ -32,7 +32,7 @@ import { WattTabComponent, WattTabsComponent } from '@energinet/watt/tabs';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/domain-shared';
 
 import {
   PermissionDetailsDto,
@@ -50,7 +50,7 @@ import {
 
 import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { GraphQLFormattedError } from 'graphql';
 
 @Component({

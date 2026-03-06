@@ -20,7 +20,11 @@ import { Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
-import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import {
+  BasePaths,
+  ReportsSubPaths,
+  getPath,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({

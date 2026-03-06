@@ -8,6 +8,9 @@
     },
     {
       "path": "./tsconfig.worker.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
     }
   ],
   "compilerOptions": {

@@ -22,7 +22,7 @@ import userEvent from '@testing-library/user-event';
 
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
+import { UpdateUserRoles } from '@energinet-datahub/dh/admin/domain-shared';
 
 import { DhUserRolesComponent } from '../src/user-roles.component';
 import { DhUserByIdMarketParticipant } from '../src/types';

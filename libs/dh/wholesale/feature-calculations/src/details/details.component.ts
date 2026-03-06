@@ -44,7 +44,7 @@ import {
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattToastService } from '@energinet/watt/toast';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet/watt/modal';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
 
 @Component({
   imports: [

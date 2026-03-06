@@ -23,10 +23,10 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/date';
 
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared'; // TODO: Move to shared
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared'; // TODO: Move to shared
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMeteringPointProcessOverviewSteps } from './steps';

@@ -26,7 +26,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WATT_TABLE } from '@energinet/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 
-import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
+import { UpdateUserRoles } from '@energinet-datahub/dh/admin/domain-shared';
 import { ActorUserRoles } from '@energinet-datahub/dh/admin/data-access-api';
 
 import { DhBasicUserRolesTableComponent } from './basic-user-roles-table.component';

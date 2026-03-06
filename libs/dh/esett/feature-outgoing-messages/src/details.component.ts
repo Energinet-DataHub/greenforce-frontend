@@ -44,7 +44,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   DhDownloadButtonComponent,
   DhEmDashFallbackPipe,

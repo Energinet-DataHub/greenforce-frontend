@@ -18,7 +18,7 @@
 //#endregion
 import { Routes } from '@angular/router';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 
 export const meteringPointProcessOverviewRoutes: Routes = [
   {

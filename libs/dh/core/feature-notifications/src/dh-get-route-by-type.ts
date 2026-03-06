@@ -23,7 +23,7 @@ import {
   getPath,
   MarketParticipantSubPaths,
   ReportsSubPaths,
-} from '@energinet-datahub/dh/core/routing';
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhNotification } from './dh-notification';
 

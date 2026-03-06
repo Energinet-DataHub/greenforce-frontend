@@ -39,8 +39,8 @@ import {
   GetActorsAndUserRolesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { UpdateUserRoles } from '@energinet-datahub/dh/admin/domain-shared';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhUserRolesContainerComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';

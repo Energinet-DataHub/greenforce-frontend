@@ -51,7 +51,7 @@ import { DhOutgoingMessageDownloadComponent } from './download.component';
 import { DhOutgoingMessageStatusBadgeComponent } from './status.component';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { RouterOutlet } from '@angular/router';
 
 type DhOutgoingMessages = NonNullable<

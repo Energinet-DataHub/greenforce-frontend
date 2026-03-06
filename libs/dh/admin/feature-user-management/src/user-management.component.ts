@@ -20,7 +20,7 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { WattModalService } from '@energinet/watt/modal';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhUsersComponent } from './table/table.component';

@@ -24,7 +24,7 @@ import {
   ReportsSubPaths,
   MeteringPointSubPaths,
   getPath,
-} from '@energinet-datahub/dh/core/routing';
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhCoreLoginComponent } from './dh-core-login.component';
