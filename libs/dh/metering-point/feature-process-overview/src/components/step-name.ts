@@ -31,8 +31,8 @@ import { TranslocoPipe } from '@jsverse/transloco';
       @case ('ConnectMeteringPoint') {
         {{ 'meteringPoint.processOverview.steps.ConnectMeteringPoint.' + step() | transloco }}
       }
-      @case ('ChangeConnectionState') {
-        {{ 'meteringPoint.processOverview.steps.ChangeConnectionState.' + step() | transloco }}
+      @case ('ChangeConnectionStatus') {
+        {{ 'meteringPoint.processOverview.steps.ChangeConnectionStatus.' + step() | transloco }}
       }
       @default {
         {{ 'meteringPoint.processOverview.steps.' + step() | transloco }}
