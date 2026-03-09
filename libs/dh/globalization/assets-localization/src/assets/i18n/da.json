@@ -865,7 +865,7 @@
         "yes": "Ja",
         "no": "Nej"
       },
-      "electricalHeatingInformationStatus": "Nuværende elvarmestatus: ",
+      "electricalHeatingInformationStatus": "Nuværende elvarmestatus: {{ electricalHeatingStatus }}",
       "yes": "Ja",
       "no": "Nej",
       "electricalHeatingInformationDate": "Elvarmedato: {{ electricalHeatingDate }}",

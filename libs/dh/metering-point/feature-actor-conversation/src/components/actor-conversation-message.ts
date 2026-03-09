@@ -101,51 +101,51 @@ import { injectDownloadMessageDocument } from './download-message-document';
         @case ('ELECTRICAL_HEATING_INFORMATION') {
           <vater-stack align="start" class="watt-space-inset-m">
             <span class="italic"
-            >{{
-                t('electricalHeatingInformationStatus')
-              }}{{
-                message().electricalHeatingInformation?.isElectricalHeatingActive
-                  ? t('yes')
-                  : t('no')
-              }}</span
-            >
-            <span class="italic">{{
-                t('electricalHeatingInformationDate', {
-                  electricalHeatingDate:
-                    message().electricalHeatingInformation?.electricalHeatingFrom | wattDate,
+              >{{
+                t('electricalHeatingInformationStatus', {
+                  electricalHeatingStatus: message().electricalHeatingInformation
+                    ?.isElectricalHeatingActive
+                    ? t('yes')
+                    : t('no')
                 })
               }}</span>
             <span class="italic">{{
-                t('electricalHeatingInformationCustomer', {
-                  customerName: message().electricalHeatingInformation?.customerName,
-                })
-              }}</span>
+              t('electricalHeatingInformationDate', {
+                electricalHeatingDate:
+                  message().electricalHeatingInformation?.electricalHeatingFrom | wattDate,
+              })
+            }}</span>
             <span class="italic">{{
-                t('electricalHeatingInformationSupplierPeriod', {
-                  energySupplierPeriodFrom:
-                    message().electricalHeatingInformation?.supplierPeriods?.at(0)?.from | wattDate,
-                  energySupplierPeriodTo:
-                    message().electricalHeatingInformation?.supplierPeriods?.at(0)?.to | wattDate,
-                })
-              }}</span>
+              t('electricalHeatingInformationCustomer', {
+                customerName: message().electricalHeatingInformation?.customerName,
+              })
+            }}</span>
+            <span class="italic">{{
+              t('electricalHeatingInformationSupplierPeriod', {
+                energySupplierPeriodFrom:
+                  message().electricalHeatingInformation?.supplierPeriods?.at(0)?.from | wattDate,
+                energySupplierPeriodTo:
+                  message().electricalHeatingInformation?.supplierPeriods?.at(0)?.to | wattDate,
+              })
+            }}</span>
           </vater-stack>
         }
         @case ('ELECTRICAL_HEATING_USER_MESSAGE') {
           <vater-stack align="start" class="watt-space-inset-m">
             <span>{{
-                t('electricalHeatingUserAddressEligibilityDate', {
-                  addressEligibilityDate:
-                    message().electricalHeatingUserMessage?.electricalHeatingFrom | wattDate,
-                })
-              }}</span>
+              t('electricalHeatingUserAddressEligibilityDate', {
+                addressEligibilityDate:
+                  message().electricalHeatingUserMessage?.electricalHeatingFrom | wattDate,
+              })
+            }}</span>
             <span class="watt-space-stack-ml">{{
-                t('electricalHeatingUserChargeReductionPeriod', {
-                  chargeReductionPeriodFrom:
-                    message().electricalHeatingUserMessage?.reductionPeriod?.from | wattDate,
-                  chargeReductionPeriodTo:
-                    (message().electricalHeatingUserMessage?.reductionPeriod?.to | wattDate) ?? '',
-                })
-              }}</span>
+              t('electricalHeatingUserChargeReductionPeriod', {
+                chargeReductionPeriodFrom:
+                  message().electricalHeatingUserMessage?.reductionPeriod?.from | wattDate,
+                chargeReductionPeriodTo:
+                  (message().electricalHeatingUserMessage?.reductionPeriod?.to | wattDate) ?? '',
+              })
+            }}</span>
             <span>{{ message().electricalHeatingUserMessage?.content }}</span>
           </vater-stack>
         }
