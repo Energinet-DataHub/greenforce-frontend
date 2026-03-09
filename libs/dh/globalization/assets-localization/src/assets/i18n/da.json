@@ -872,7 +872,7 @@
       "electricalHeatingInformationCustomer": "Kunde: {{ customerName }}",
       "electricalHeatingInformationSupplierPeriod": "Elleverandørperiode: {{ energySupplierPeriodFrom }} - {{ energySupplierPeriodTo }}",
       "electricalHeatingUserAddressEligibilityDate": "Adressens berretigelsedato (jf. BBR): {{ addressEligibilityDate }}",
-      "electricalHeatingUserChargeReductionPeriod": "Periode der søges reduceret ekafgift for: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}"
+      "electricalHeatingUserChargeReductionPeriod": "Periode der søges reduceret elafgift for: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}"
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
