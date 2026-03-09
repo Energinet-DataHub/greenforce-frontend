@@ -38,13 +38,13 @@ public static partial class ActorConversationNode
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
 
         var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
+        var marketParticipantNumber = user.GetMarketParticipantNumber();
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
         var authRequest = new ReadActorConversationRequest
         {
-            ActorNumber = actorNumber,
+            ActorNumber = marketParticipantNumber,
             MarketRole = marketRole,
             MeteringPointId = meteringPointIdentification,
             UserId = userId,
@@ -60,7 +60,12 @@ public static partial class ActorConversationNode
 
         var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
 
-        return await authClient.ApiGetConversationAsync(conversationId, userId.ToString(), actorNumber, ct);
+        return await authClient.ApiGetConversationAsync(
+            conversationId,
+            userId.ToString(),
+            marketParticipantNumber,
+            MapMarketRoleToActorType(marketRole).ToString(),
+            ct);
     }
 
     public static string GetDisplayId(
@@ -107,5 +112,16 @@ public static partial class ActorConversationNode
         descriptor.Field(f => f.Subject);
         descriptor.Field(f => f.Closed);
         descriptor.Field(f => f.Messages);
+    }
+
+    private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)
+    {
+        return marketRole switch
+        {
+            EicFunctionAuth.EnergySupplier => MarketRole.EnergySupplier,
+            EicFunctionAuth.GridAccessProvider => MarketRole.GridAccessProvider,
+            EicFunctionAuth.DataHubAdministrator => MarketRole.Energinet,
+            _ => throw new InvalidOperationException($"Unsupported market role: {marketRole}"),
+        };
     }
 }

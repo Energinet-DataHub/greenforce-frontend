@@ -47,10 +47,10 @@ import {
   messageMaxLength,
 } from '../types';
 import {
-  ActorType,
   ConversationSubject,
   GetConversationsDocument,
   GetElectricalHeatingDocument,
+  MarketRole,
   StartConversationDocument,
   StartElectricalHeatingConversationInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -193,7 +193,7 @@ export class DhActorConversationNewConversationComponent {
     () =>
       new FormGroup({
         subject: dhMakeFormControl<ConversationSubject | null>(null, Validators.required),
-        receiver: dhMakeFormControl<ActorType | null>(null, Validators.required),
+        receiver: dhMakeFormControl<MarketRole | null>(null, Validators.required),
         energySupplierDate: dhMakeFormControl<Date | null>(null),
         internalNote: dhMakeFormControl<string | null>(
           null,
@@ -223,7 +223,7 @@ export class DhActorConversationNewConversationComponent {
 
   private readonly syncEnergySupplierDateValidators = effect(() => {
     const energySupplierDateControl = this.newConversationForm().controls.energySupplierDate;
-    if (this.receiverValue() === ActorType.EnergySupplier) {
+    if (this.receiverValue() === MarketRole.EnergySupplier) {
       energySupplierDateControl.addValidators(Validators.required);
     } else {
       energySupplierDateControl.removeValidators(Validators.required);

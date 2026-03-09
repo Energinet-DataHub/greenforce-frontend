@@ -33,19 +33,19 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     {
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ApiHealthAsync(string? userId, string? actorNumber);
+        System.Threading.Tasks.Task<string> ApiHealthAsync(string? userId, string? marketParticipantNumber, string? marketRole);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ApiHealthAsync(string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<string> ApiHealthAsync(string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
 
         /// <remarks>
         /// Adds a message to an existing conversation
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiAddConversationMessageAsync(string? userId, string? actorNumber, AddConversationMessageRequest body);
+        System.Threading.Tasks.Task ApiAddConversationMessageAsync(string? userId, string? marketParticipantNumber, string? marketRole, AddConversationMessageRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <remarks>
@@ -53,14 +53,14 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiAddConversationMessageAsync(string? userId, string? actorNumber, AddConversationMessageRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task ApiAddConversationMessageAsync(string? userId, string? marketParticipantNumber, string? marketRole, AddConversationMessageRequest body, System.Threading.CancellationToken cancellationToken);
 
         /// <remarks>
         /// Uploads a document
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? actorNumber, FileParameter file);
+        System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <remarks>
@@ -68,14 +68,14 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? actorNumber, FileParameter file, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file, System.Threading.CancellationToken cancellationToken);
 
         /// <remarks>
         /// Closes a conversation, creating a closed conversation message by the user
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiCloseConversationAsync(string? userId, string? actorNumber, CloseConversationRequest body);
+        System.Threading.Tasks.Task ApiCloseConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, CloseConversationRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <remarks>
@@ -83,7 +83,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiCloseConversationAsync(string? userId, string? actorNumber, CloseConversationRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task ApiCloseConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, CloseConversationRequest body, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
         /// Get all actor numbers that have a conversation.
@@ -93,7 +93,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? actorNumber);
+        System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? marketParticipantNumber, string? marketRole);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -104,7 +104,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
         /// Gets the specified conversation.
@@ -114,7 +114,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetConversationQueryResponse> ApiGetConversationAsync(System.Guid conversationId, string? userId, string? actorNumber);
+        System.Threading.Tasks.Task<GetConversationQueryResponse> ApiGetConversationAsync(System.Guid conversationId, string? userId, string? marketParticipantNumber, string? marketRole);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -125,7 +125,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetConversationQueryResponse> ApiGetConversationAsync(System.Guid conversationId, string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<GetConversationQueryResponse> ApiGetConversationAsync(System.Guid conversationId, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
         /// Get all conversations or just conversations for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied.
@@ -151,7 +151,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="subjects">Filter for only listed Conversationsubjects. passed as querystring of same name. ex subject=QuestionForEnerginet&amp;amp;subjects=ElectricalHeating</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? actorNumber);
+        System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? marketParticipantNumber, string? marketRole);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -178,7 +178,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="subjects">Filter for only listed Conversationsubjects. passed as querystring of same name. ex subject=QuestionForEnerginet&amp;amp;subjects=ElectricalHeating</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
         /// Gets information regarding electrical heating on a measuring point
@@ -188,7 +188,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetElectricalHeatingInformationQueryResponse> ApiGetElectricalHeatingInformationAsync(string meteringPointIdentification, string? userId, string? actorNumber);
+        System.Threading.Tasks.Task<GetElectricalHeatingInformationQueryResponse> ApiGetElectricalHeatingInformationAsync(string meteringPointIdentification, string? userId, string? marketParticipantNumber, string? marketRole);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -199,23 +199,23 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetElectricalHeatingInformationQueryResponse> ApiGetElectricalHeatingInformationAsync(string meteringPointIdentification, string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<GetElectricalHeatingInformationQueryResponse> ApiGetElectricalHeatingInformationAsync(string meteringPointIdentification, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? actorNumber);
+        System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
 
         /// <remarks>
         /// Marks a conversation as read by the invoking actor
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiMarkConversationReadAsync(string? userId, string? actorNumber, MarkConversationReadRequest body);
+        System.Threading.Tasks.Task ApiMarkConversationReadAsync(string? userId, string? marketParticipantNumber, string? marketRole, MarkConversationReadRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <remarks>
@@ -223,14 +223,14 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiMarkConversationReadAsync(string? userId, string? actorNumber, MarkConversationReadRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task ApiMarkConversationReadAsync(string? userId, string? marketParticipantNumber, string? marketRole, MarkConversationReadRequest body, System.Threading.CancellationToken cancellationToken);
 
         /// <remarks>
         /// Marks a conversation as unread by the invoking actor
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiMarkConversationUnreadAsync(string? userId, string? actorNumber, MarkConversationUnreadRequest body);
+        System.Threading.Tasks.Task ApiMarkConversationUnreadAsync(string? userId, string? marketParticipantNumber, string? marketRole, MarkConversationUnreadRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <remarks>
@@ -238,7 +238,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiMarkConversationUnreadAsync(string? userId, string? actorNumber, MarkConversationUnreadRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task ApiMarkConversationUnreadAsync(string? userId, string? marketParticipantNumber, string? marketRole, MarkConversationUnreadRequest body, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
         /// Starts a conversation
@@ -264,7 +264,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="body">Specifies the new Conversation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<StartNewConversationCommandResponse> ApiStartConversationAsync(string? userId, string? actorNumber, StartConversationRequest body);
+        System.Threading.Tasks.Task<StartNewConversationCommandResponse> ApiStartConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, StartConversationRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -291,7 +291,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="body">Specifies the new Conversation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<StartNewConversationCommandResponse> ApiStartConversationAsync(string? userId, string? actorNumber, StartConversationRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<StartNewConversationCommandResponse> ApiStartConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, StartConversationRequest body, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
         /// Starts a new conversation regarding electrical heating price reduction.
@@ -301,7 +301,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<StartElectricalHeatingConversationCommandResponse> ApiStartElectricalHeatingConversationAsync(string? userId, string? actorNumber, StartElectricalHeatingConversationRequest body);
+        System.Threading.Tasks.Task<StartElectricalHeatingConversationCommandResponse> ApiStartElectricalHeatingConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, StartElectricalHeatingConversationRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -312,29 +312,14 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<StartElectricalHeatingConversationCommandResponse> ApiStartElectricalHeatingConversationAsync(string? userId, string? actorNumber, StartElectricalHeatingConversationRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<StartElectricalHeatingConversationCommandResponse> ApiStartElectricalHeatingConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, StartElectricalHeatingConversationRequest body, System.Threading.CancellationToken cancellationToken);
 
         /// <remarks>
         /// Updates an internal note for the invoking participant of a conversation
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TestActorRetrievalResult> ApiTestActorRetrievalAsync(string meteringPointIdentification, string? userId, string? actorNumber);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <remarks>
-        /// Updates an internal note for the invoking participant of a conversation
-        /// </remarks>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<TestActorRetrievalResult> ApiTestActorRetrievalAsync(string meteringPointIdentification, string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken);
-
-        /// <remarks>
-        /// Updates an internal note for the invoking participant of a conversation
-        /// </remarks>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiUpdateInternalNoteAsync(string? userId, string? actorNumber, UpdateInternalNoteRequest body);
+        System.Threading.Tasks.Task<TestActorRetrievalResult> ApiTestActorRetrievalAsync(string meteringPointIdentification, string? userId, string? marketParticipantNumber, string? marketRole);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <remarks>
@@ -342,7 +327,22 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiUpdateInternalNoteAsync(string? userId, string? actorNumber, UpdateInternalNoteRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<TestActorRetrievalResult> ApiTestActorRetrievalAsync(string meteringPointIdentification, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
+
+        /// <remarks>
+        /// Updates an internal note for the invoking participant of a conversation
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ApiUpdateInternalNoteAsync(string? userId, string? marketParticipantNumber, string? marketRole, UpdateInternalNoteRequest body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <remarks>
+        /// Updates an internal note for the invoking participant of a conversation
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ApiUpdateInternalNoteAsync(string? userId, string? marketParticipantNumber, string? marketRole, UpdateInternalNoteRequest body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -380,15 +380,15 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> ApiHealthAsync(string? userId, string? actorNumber)
+        public virtual System.Threading.Tasks.Task<string> ApiHealthAsync(string? userId, string? marketParticipantNumber, string? marketRole)
         {
-            return ApiHealthAsync(userId, actorNumber, System.Threading.CancellationToken.None);
+            return ApiHealthAsync(userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> ApiHealthAsync(string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<string> ApiHealthAsync(string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -400,8 +400,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
@@ -464,9 +467,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ApiAddConversationMessageAsync(string? userId, string? actorNumber, AddConversationMessageRequest body)
+        public virtual System.Threading.Tasks.Task ApiAddConversationMessageAsync(string? userId, string? marketParticipantNumber, string? marketRole, AddConversationMessageRequest body)
         {
-            return ApiAddConversationMessageAsync(userId, actorNumber, body, System.Threading.CancellationToken.None);
+            return ApiAddConversationMessageAsync(userId, marketParticipantNumber, marketRole, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -475,7 +478,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ApiAddConversationMessageAsync(string? userId, string? actorNumber, AddConversationMessageRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ApiAddConversationMessageAsync(string? userId, string? marketParticipantNumber, string? marketRole, AddConversationMessageRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -490,8 +493,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
@@ -565,9 +571,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? actorNumber, FileParameter file)
+        public virtual System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file)
         {
-            return ApiAddMessageDocumentAsync(userId, actorNumber, file, System.Threading.CancellationToken.None);
+            return ApiAddMessageDocumentAsync(userId, marketParticipantNumber, marketRole, file, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -576,7 +582,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? actorNumber, FileParameter file, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -588,8 +594,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     var boundary_ = System.Guid.NewGuid().ToString();
                     var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);
                     content_.Headers.Remove("Content-Type");
@@ -680,9 +689,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ApiCloseConversationAsync(string? userId, string? actorNumber, CloseConversationRequest body)
+        public virtual System.Threading.Tasks.Task ApiCloseConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, CloseConversationRequest body)
         {
-            return ApiCloseConversationAsync(userId, actorNumber, body, System.Threading.CancellationToken.None);
+            return ApiCloseConversationAsync(userId, marketParticipantNumber, marketRole, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -691,7 +700,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ApiCloseConversationAsync(string? userId, string? actorNumber, CloseConversationRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ApiCloseConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, CloseConversationRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -706,8 +715,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
@@ -785,9 +797,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? actorNumber)
+        public virtual System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? marketParticipantNumber, string? marketRole)
         {
-            return ApiGetActorNumbersAsync(userId, actorNumber, System.Threading.CancellationToken.None);
+            return ApiGetActorNumbersAsync(userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -799,7 +811,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -811,8 +823,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -891,9 +906,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetConversationQueryResponse> ApiGetConversationAsync(System.Guid conversationId, string? userId, string? actorNumber)
+        public virtual System.Threading.Tasks.Task<GetConversationQueryResponse> ApiGetConversationAsync(System.Guid conversationId, string? userId, string? marketParticipantNumber, string? marketRole)
         {
-            return ApiGetConversationAsync(conversationId, userId, actorNumber, System.Threading.CancellationToken.None);
+            return ApiGetConversationAsync(conversationId, userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -905,7 +920,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetConversationQueryResponse> ApiGetConversationAsync(System.Guid conversationId, string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetConversationQueryResponse> ApiGetConversationAsync(System.Guid conversationId, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
         {
             if (conversationId == null)
                 throw new System.ArgumentNullException("conversationId");
@@ -920,8 +935,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -1017,9 +1035,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="subjects">Filter for only listed Conversationsubjects. passed as querystring of same name. ex subject=QuestionForEnerginet&amp;amp;subjects=ElectricalHeating</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? actorNumber)
+        public virtual System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? marketParticipantNumber, string? marketRole)
         {
-            return ApiGetConversationsAsync(meteringPointIdentification, searchValue, myConversations, unread, opened, closed, subjects, userId, actorNumber, System.Threading.CancellationToken.None);
+            return ApiGetConversationsAsync(meteringPointIdentification, searchValue, myConversations, unread, opened, closed, subjects, userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1047,7 +1065,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="subjects">Filter for only listed Conversationsubjects. passed as querystring of same name. ex subject=QuestionForEnerginet&amp;amp;subjects=ElectricalHeating</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1059,8 +1077,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -1179,9 +1200,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetElectricalHeatingInformationQueryResponse> ApiGetElectricalHeatingInformationAsync(string meteringPointIdentification, string? userId, string? actorNumber)
+        public virtual System.Threading.Tasks.Task<GetElectricalHeatingInformationQueryResponse> ApiGetElectricalHeatingInformationAsync(string meteringPointIdentification, string? userId, string? marketParticipantNumber, string? marketRole)
         {
-            return ApiGetElectricalHeatingInformationAsync(meteringPointIdentification, userId, actorNumber, System.Threading.CancellationToken.None);
+            return ApiGetElectricalHeatingInformationAsync(meteringPointIdentification, userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1193,7 +1214,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetElectricalHeatingInformationQueryResponse> ApiGetElectricalHeatingInformationAsync(string meteringPointIdentification, string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetElectricalHeatingInformationQueryResponse> ApiGetElectricalHeatingInformationAsync(string meteringPointIdentification, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
         {
             if (meteringPointIdentification == null)
                 throw new System.ArgumentNullException("meteringPointIdentification");
@@ -1208,8 +1229,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -1283,15 +1307,15 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? actorNumber)
+        public virtual System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole)
         {
-            return ApiGetMessageDocumentAsync(documentId, userId, actorNumber, System.Threading.CancellationToken.None);
+            return ApiGetMessageDocumentAsync(documentId, userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
         {
             if (documentId == null)
                 throw new System.ArgumentNullException("documentId");
@@ -1306,8 +1330,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -1384,9 +1411,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ApiMarkConversationReadAsync(string? userId, string? actorNumber, MarkConversationReadRequest body)
+        public virtual System.Threading.Tasks.Task ApiMarkConversationReadAsync(string? userId, string? marketParticipantNumber, string? marketRole, MarkConversationReadRequest body)
         {
-            return ApiMarkConversationReadAsync(userId, actorNumber, body, System.Threading.CancellationToken.None);
+            return ApiMarkConversationReadAsync(userId, marketParticipantNumber, marketRole, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1395,7 +1422,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ApiMarkConversationReadAsync(string? userId, string? actorNumber, MarkConversationReadRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ApiMarkConversationReadAsync(string? userId, string? marketParticipantNumber, string? marketRole, MarkConversationReadRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -1410,8 +1437,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
@@ -1486,9 +1516,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ApiMarkConversationUnreadAsync(string? userId, string? actorNumber, MarkConversationUnreadRequest body)
+        public virtual System.Threading.Tasks.Task ApiMarkConversationUnreadAsync(string? userId, string? marketParticipantNumber, string? marketRole, MarkConversationUnreadRequest body)
         {
-            return ApiMarkConversationUnreadAsync(userId, actorNumber, body, System.Threading.CancellationToken.None);
+            return ApiMarkConversationUnreadAsync(userId, marketParticipantNumber, marketRole, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1497,7 +1527,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ApiMarkConversationUnreadAsync(string? userId, string? actorNumber, MarkConversationUnreadRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ApiMarkConversationUnreadAsync(string? userId, string? marketParticipantNumber, string? marketRole, MarkConversationUnreadRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -1512,8 +1542,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
@@ -1607,9 +1640,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="body">Specifies the new Conversation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<StartNewConversationCommandResponse> ApiStartConversationAsync(string? userId, string? actorNumber, StartConversationRequest body)
+        public virtual System.Threading.Tasks.Task<StartNewConversationCommandResponse> ApiStartConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, StartConversationRequest body)
         {
-            return ApiStartConversationAsync(userId, actorNumber, body, System.Threading.CancellationToken.None);
+            return ApiStartConversationAsync(userId, marketParticipantNumber, marketRole, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1637,7 +1670,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="body">Specifies the new Conversation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<StartNewConversationCommandResponse> ApiStartConversationAsync(string? userId, string? actorNumber, StartConversationRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<StartNewConversationCommandResponse> ApiStartConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, StartConversationRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -1652,8 +1685,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
@@ -1746,9 +1782,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<StartElectricalHeatingConversationCommandResponse> ApiStartElectricalHeatingConversationAsync(string? userId, string? actorNumber, StartElectricalHeatingConversationRequest body)
+        public virtual System.Threading.Tasks.Task<StartElectricalHeatingConversationCommandResponse> ApiStartElectricalHeatingConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, StartElectricalHeatingConversationRequest body)
         {
-            return ApiStartElectricalHeatingConversationAsync(userId, actorNumber, body, System.Threading.CancellationToken.None);
+            return ApiStartElectricalHeatingConversationAsync(userId, marketParticipantNumber, marketRole, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1760,7 +1796,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<StartElectricalHeatingConversationCommandResponse> ApiStartElectricalHeatingConversationAsync(string? userId, string? actorNumber, StartElectricalHeatingConversationRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<StartElectricalHeatingConversationCommandResponse> ApiStartElectricalHeatingConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, StartElectricalHeatingConversationRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -1775,8 +1811,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
@@ -1866,9 +1905,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<TestActorRetrievalResult> ApiTestActorRetrievalAsync(string meteringPointIdentification, string? userId, string? actorNumber)
+        public virtual System.Threading.Tasks.Task<TestActorRetrievalResult> ApiTestActorRetrievalAsync(string meteringPointIdentification, string? userId, string? marketParticipantNumber, string? marketRole)
         {
-            return ApiTestActorRetrievalAsync(meteringPointIdentification, userId, actorNumber, System.Threading.CancellationToken.None);
+            return ApiTestActorRetrievalAsync(meteringPointIdentification, userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1877,7 +1916,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<TestActorRetrievalResult> ApiTestActorRetrievalAsync(string meteringPointIdentification, string? userId, string? actorNumber, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<TestActorRetrievalResult> ApiTestActorRetrievalAsync(string meteringPointIdentification, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
         {
             if (meteringPointIdentification == null)
                 throw new System.ArgumentNullException("meteringPointIdentification");
@@ -1892,8 +1931,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -1970,9 +2012,9 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ApiUpdateInternalNoteAsync(string? userId, string? actorNumber, UpdateInternalNoteRequest body)
+        public virtual System.Threading.Tasks.Task ApiUpdateInternalNoteAsync(string? userId, string? marketParticipantNumber, string? marketRole, UpdateInternalNoteRequest body)
         {
-            return ApiUpdateInternalNoteAsync(userId, actorNumber, body, System.Threading.CancellationToken.None);
+            return ApiUpdateInternalNoteAsync(userId, marketParticipantNumber, marketRole, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1981,7 +2023,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ApiUpdateInternalNoteAsync(string? userId, string? actorNumber, UpdateInternalNoteRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ApiUpdateInternalNoteAsync(string? userId, string? marketParticipantNumber, string? marketRole, UpdateInternalNoteRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -1996,8 +2038,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (userId != null)
                         request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
 
-                    if (actorNumber != null)
-                        request_.Headers.TryAddWithoutValidation("ActorNumber", ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture));
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
@@ -2235,21 +2280,26 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
 
     }
 
-    /// <summary>
-    /// Application layer receiver type
-    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum ActorType
+    public partial class ActorIdentifierDto
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"EnergySupplier")]
-        EnergySupplier = 0,
+        [Newtonsoft.Json.JsonProperty("actorNumber", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string ActorNumber { get; set; } = default!;
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Energinet")]
-        Energinet = 1,
+        [Newtonsoft.Json.JsonProperty("actorType", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string ActorType { get; set; } = default!;
 
-        [System.Runtime.Serialization.EnumMember(Value = @"GridAccessProvider")]
-        GridAccessProvider = 2,
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
 
     }
 
@@ -2429,11 +2479,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     {
 
         /// <summary>
-        /// Actor numbers with at least one conversation.
+        /// Actor identifiers with at least one conversation.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("actorNumbers", Required = Newtonsoft.Json.Required.Always)]
+        [Newtonsoft.Json.JsonProperty("actorIdentifiers", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
-        public System.Collections.Generic.ICollection<string> ActorNumbers { get; set; } = new System.Collections.ObjectModel.Collection<string>();
+        public System.Collections.Generic.ICollection<ActorIdentifierDto> ActorIdentifiers { get; set; } = new System.Collections.ObjectModel.Collection<ActorIdentifierDto>();
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
@@ -2551,7 +2601,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         [Newtonsoft.Json.JsonProperty("senderType", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public ActorType SenderType { get; set; } = default!;
+        public MarketRole SenderType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("messageType", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
@@ -2867,6 +2917,24 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     }
 
     /// <summary>
+    /// Application layer receiver type
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum MarketRole
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"EnergySupplier")]
+        EnergySupplier = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Energinet")]
+        Energinet = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"GridAccessProvider")]
+        GridAccessProvider = 2,
+
+    }
+
+    /// <summary>
     /// Message type
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -2929,12 +2997,12 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         [Newtonsoft.Json.JsonProperty("senderActorType", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public ActorType SenderActorType { get; set; } = default!;
+        public MarketRole SenderActorType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("receiverActorType", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public ActorType ReceiverActorType { get; set; } = default!;
+        public MarketRole ReceiverActorType { get; set; } = default!;
 
         /// <summary>
         /// MeteringPointIdentification

@@ -21,7 +21,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER } from '@energinet/watt/vater';
 import { WATT_RADIO } from '@energinet/watt/radio';
-import { ActorType, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { EicFunction, MarketRole } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 
@@ -80,7 +80,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
 })
 export class DhActorConversationReceiverRadioGroupComponent {
   marketRole = input.required<EicFunction | null | undefined>();
-  receiverControl = input.required<FormControl<ActorType | null>>();
+  receiverControl = input.required<FormControl<MarketRole | null>>();
   dateControl = input.required<FormControl<Date | null>>();
-  actorType = ActorType;
+  actorType = MarketRole;
 }
