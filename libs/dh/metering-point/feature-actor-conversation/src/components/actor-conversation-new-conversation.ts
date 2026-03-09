@@ -193,7 +193,7 @@ export class DhActorConversationNewConversationComponent {
     () =>
       new FormGroup({
         subject: dhMakeFormControl<ConversationSubject | null>(null, Validators.required),
-        receiver: dhMakeFormControl<ActorType | null>(null, Validators.required),
+        receiver: dhMakeFormControl<MarketRole | null>(null, Validators.required),
         energySupplierDate: dhMakeFormControl<Date | null>(null),
         internalNote: dhMakeFormControl<string | null>(
           null,
