@@ -76,6 +76,8 @@ public static partial class ConversationMessageDtoType
         descriptor.Field(f => f.UserId);
         descriptor.Field(f => f.Anonymous);
         descriptor.Field(f => f.Attachments);
+        descriptor.Field(f => f.ElectricalHeatingUserMessage);
+        descriptor.Field(f => f.ElectricalHeatingInformation);
     }
 
     private static EicFunction MapActorTypeToEicFunction(MarketRole actorType)

@@ -428,6 +428,8 @@ type ConversationMessage {
   userId: String
   anonymous: Boolean!
   attachments: [ConversationAttachment!]!
+  electricalHeatingUserMessage: ElectricalHeatingUserMessage
+  electricalHeatingInformation: ElectricalHeatingMessage
 }
 
 type Conversations {
@@ -516,6 +518,12 @@ type ElectricalHeatingMessage {
   isElectricalHeatingActive: Boolean!
   electricalHeatingFrom: DateTime
   supplierPeriods: [ElectricityHeatingMessagePeriod!]!
+}
+
+type ElectricalHeatingUserMessage {
+  content: String!
+  reductionPeriod: ElectricityHeatingMessagePeriod!
+  electricalHeatingFrom: DateTime!
 }
 
 type ElectricityHeatingMessagePeriod {
