@@ -17,4 +17,3 @@
  */
 //#endregion
 export { DhActorConversationShellComponent } from './src/components/actor-conversation-shell.component';
-

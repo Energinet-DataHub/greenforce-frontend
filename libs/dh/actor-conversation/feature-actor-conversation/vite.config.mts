@@ -40,7 +40,8 @@ export default defineConfig(() => ({
     setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/dh/actor-conversation/feature-actor-conversation',
+      reportsDirectory:
+        '../../../../coverage/libs/dh/actor-conversation/feature-actor-conversation',
       provider: 'v8' as const,
     },
     pool: 'forks',
@@ -49,4 +50,3 @@ export default defineConfig(() => ({
     server: { deps: { inline: [/fesm2022/] } },
   },
 }));
-
