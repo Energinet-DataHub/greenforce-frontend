@@ -1,6 +1,6 @@
 {
   "name": "dh-actor-conversation",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/dh/actor-conversation/src",
   "prefix": "dh",
   "projectType": "library",
