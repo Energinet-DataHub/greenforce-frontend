@@ -29,11 +29,12 @@ import {
   mockGetContactCprQuery,
   mockGetConversationQuery,
   mockGetConversationsQuery,
+  mockGetElectricalHeatingQuery,
   mockGetMeasurementPointsQuery,
   mockGetMeasurementsQuery,
   mockGetMeteringPointByIdQuery,
-  mockGetOperationToolsMeteringPointQuery,
   mockGetMeteringPointsByGridAreaQuery,
+  mockGetOperationToolsMeteringPointQuery,
   mockGetRelatedMeteringPointsByIdQuery,
   mockMarkConversationReadMutation,
   mockMarkConversationUnReadMutation,
@@ -42,7 +43,6 @@ import {
   mockSendActorConversationMessageMutation,
   mockStartConversationMutation,
   mockUpdateInternalConversationNoteMutation,
-  mockGetElectricalHeatingQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -741,6 +741,53 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: false,
+              attachments: [],
+            },
+            {
+              __typename: 'ConversationMessage',
+              senderType: 'ENERGY_SUPPLIER',
+              messageType: 'ELECTRICAL_HEATING_INFORMATION',
+              createdTime: new Date(),
+              actorName: 'Sort Strøm',
+              userName: 'Hanne Hansen',
+              isSentByCurrentActor: true,
+
+              anonymous: false,
+              electricalHeatingInformation: {
+                __typename: 'ElectricalHeatingMessage',
+                isElectricalHeatingActive: true,
+                electricalHeatingFrom: new Date(),
+                customerName: 'Test Testesen',
+                supplierPeriods: [
+                  {
+                    __typename: 'ElectricityHeatingMessagePeriod',
+                    from: new Date(),
+                    to: new Date(),
+                  },
+                ],
+              },
+              attachments: [],
+            },
+            {
+              __typename: 'ConversationMessage',
+              senderType: 'ENERGY_SUPPLIER',
+              messageType: 'ELECTRICAL_HEATING_USER_MESSAGE',
+              createdTime: new Date(),
+              actorName: 'Sort Strøm',
+              userName: 'Hanne Hansen',
+              isSentByCurrentActor: true,
+              anonymous: false,
+              electricalHeatingUserMessage: {
+                __typename: 'ElectricalHeatingUserMessage',
+                electricalHeatingFrom: new Date(),
+                reductionPeriod: {
+                  __typename: 'ElectricityHeatingMessagePeriod',
+                  from: new Date(),
+                  to: new Date(),
+                },
+                content:
+                  'Forresten, kunden har også elektrisk opvarmning. Kan I se, om det er aktivt?',
+              },
               attachments: [],
             },
             {
