@@ -18,10 +18,16 @@
 //#endregion
 
 import { Routes } from '@angular/router';
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 
 const routes: Routes = [
   {
     path: '',
+    canActivate: [
+      PermissionGuard(['metering-point:actor-conversation']),
+      dhReleaseToggleGuard('PM62-ACTOR-CONVERSATION-CENTRAL'),
+    ],
     data: {
       titleTranslationKey: 'meteringPoint.actorConversation.topBarTitle',
     },
