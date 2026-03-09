@@ -4,7 +4,7 @@ mutation StartConversation(
   $internalNote: String
   $content: String!
   $anonymous: Boolean!
-  $receiver: ActorType!
+  $receiver: MarketRole!
   $energySupplierDate: DateTime
   $attachedDocumentIds: [UUID!]!
   $electricalHeatingInput: StartElectricalHeatingConversationInput

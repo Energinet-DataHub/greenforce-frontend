@@ -423,7 +423,7 @@ type ConversationMessage {
   messageType: MessageType!
   "Created time"
   createdTime: DateTime!
-  senderType: ActorType!
+  senderType: MarketRole!
   "Sender user id"
   userId: String
   anonymous: Boolean!
@@ -2390,7 +2390,7 @@ input StartConversationInput {
   internalNote: String
   content: String!
   anonymous: Boolean!
-  receiver: ActorType!
+  receiver: MarketRole!
   energySupplierDate: DateTime
   attachedDocumentIds: [UUID!]!
 }
@@ -2572,13 +2572,6 @@ enum ActorAuditedChange {
   CONSOLIDATION_COMPLETED
   ADDITIONAL_RECIPIENT_METERING_POINT_ADDED
   ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
-}
-
-"Application layer receiver type"
-enum ActorType {
-  ENERGY_SUPPLIER
-  ENERGINET
-  GRID_ACCESS_PROVIDER
 }
 
 enum AddressTypeV1 {
@@ -3203,6 +3196,13 @@ enum MarketParticipantStatus {
   Passive
   ToBeDiscontinued
   Discontinued
+}
+
+"Application layer receiver type"
+enum MarketRole {
+  ENERGY_SUPPLIER
+  ENERGINET
+  GRID_ACCESS_PROVIDER
 }
 
 enum MeasurementsReportMarketRole {
