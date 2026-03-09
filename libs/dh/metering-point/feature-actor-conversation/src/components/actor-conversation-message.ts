@@ -100,15 +100,14 @@ import { injectDownloadMessageDocument } from './download-message-document';
         }
         @case ('ELECTRICAL_HEATING_INFORMATION') {
           <vater-stack align="start" class="watt-space-inset-m">
-            <span class="italic"
-              >{{
-                t('electricalHeatingInformationStatus', {
-                  electricalHeatingStatus: message().electricalHeatingInformation
-                    ?.isElectricalHeatingActive
-                    ? t('yes')
-                    : t('no')
-                })
-              }}</span>
+            <span class="italic">{{
+              t('electricalHeatingInformationStatus', {
+                electricalHeatingStatus: message().electricalHeatingInformation
+                  ?.isElectricalHeatingActive
+                  ? t('yes')
+                  : t('no'),
+              })
+            }}</span>
             <span class="italic">{{
               t('electricalHeatingInformationDate', {
                 electricalHeatingDate:
