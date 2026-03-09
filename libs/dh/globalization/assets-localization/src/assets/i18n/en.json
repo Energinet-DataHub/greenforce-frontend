@@ -865,7 +865,7 @@
         "yes": "Yes",
         "no": "No"
       },
-      "electricalHeatingInformationStatus": "Current electrical heating status: ",
+      "electricalHeatingInformationStatus": "Current electrical heating status: {{ electricalHeatingStatus }}",
       "yes": "Yes",
       "no": "No",
       "electricalHeatingInformationDate": "Electrical heating date: {{ electricalHeatingDate }}",
