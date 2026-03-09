@@ -871,7 +871,7 @@
       "electricalHeatingInformationDate": "Electrical heating date: {{ electricalHeatingDate }}",
       "electricalHeatingInformationCustomer": "Customer: {{ customerName }}",
       "electricalHeatingInformationSupplierPeriod": "Energy supplier period: {{ energySupplierPeriodFrom }} - {{ energySupplierPeriodTo }}",
-      "electricalHeatingUserAddressEligibilityDate": "Address eligibility date (acc. to BBR): {{ addressEligibilityDate }}",
+      "electricalHeatingUserAddressEligibilityDate": "Address eligibility date (cf. BBR): {{ addressEligibilityDate }}",
       "electricalHeatingUserChargeReductionPeriod": "Period for which reduced electricity tax is requested: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}"
     },
     "relatedMeteringPointsTitle": "Related metering points",
