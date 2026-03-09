@@ -211,7 +211,7 @@ export const dhMeteringPointRoutes: Routes = [
               dhReleaseToggleGuard('PM62-ACTOR-CONVERSATION'),
             ],
             loadComponent: () =>
-              import('@energinet-datahub/dh/actor-conversation/feature-actor-conversation').then(
+              import('@energinet-datahub/dh/actor-conversation').then(
                 (m) => m.DhActorConversationShellComponent
               ),
           },
