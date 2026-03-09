@@ -16,6 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-export { DhActorConversationShellComponent } from './src/components/actor-conversation-shell.component';
-export { actorConversationRoutes as default } from './src/routes';
+
+import { Routes } from '@angular/router';
+
+export const actorConversationRoutes: Routes = [
+  {
+    path: '',
+    data: {
+      titleTranslationKey: 'meteringPoint.actorConversation.topBarTitle',
+    },
+    loadComponent: () =>
+      import('./components/actor-conversation-shell.component').then(
+        (m) => m.DhActorConversationShellComponent
+      ),
+  },
+];
 

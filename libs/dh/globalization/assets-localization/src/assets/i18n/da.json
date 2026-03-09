@@ -785,6 +785,7 @@
       }
     },
     "actorConversation": {
+      "topBarTitle": "Aktør Dialog",
       "searchPlaceholder": "Søg på sags-ID eller intern note",
       "cases": "Sager",
       "newCaseButton": "Ny sag",
