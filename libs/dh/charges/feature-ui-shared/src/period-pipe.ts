@@ -37,8 +37,12 @@ export class DhChargesPeriodPipe implements PipeTransform {
         return `${start.format('HH')} — ${end.format('HH')}`;
       case 'DAILY':
         return start.format('DD');
-      case 'MONTHLY':
-        return capitalize(start.format('MMMM'));
+      case 'MONTHLY': {
+        const month = capitalize(start.format('MMMM'));
+        return end.diff(start, 'month') > 0
+          ? month
+          : `${month} (${start.format('DD')} — ${end.subtract(1, 'ms').format('DD')})`;
+      }
       default:
         return `${start.format('DD-MM-YYYY HH:mm')} — ${end.format('DD-MM-YYYY HH:mm')}`;
     }

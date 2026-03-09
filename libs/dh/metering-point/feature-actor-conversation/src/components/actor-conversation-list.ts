@@ -89,13 +89,14 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
           [formControl]="searchControl"
           (search)="filter.emit($event)"
         />
-        <watt-dropdown
-          [formControl]="formControl"
-          [options]="options()"
-          [multiple]="true"
-          [chipMode]="true"
-          [placeholder]="t('filters.placeholder')"
-        />
+        <!-- TODO MASEP: Incomment when filter functionality is implemented -->
+<!--        <watt-dropdown-->
+<!--          [formControl]="formControl"-->
+<!--          [options]="options()"-->
+<!--          [multiple]="true"-->
+<!--          [chipMode]="true"-->
+<!--          [placeholder]="t('filters.placeholder')"-->
+<!--        />-->
       </vater-stack>
       <watt-separator weight="regular" />
     </vater-stack>
