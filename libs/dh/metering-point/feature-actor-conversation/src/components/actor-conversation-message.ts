@@ -101,7 +101,8 @@ import { injectDownloadMessageDocument } from './download-message-document';
         @case ('ELECTRICAL_HEATING_INFORMATION') {
           <vater-stack align="start" class="watt-space-inset-m">
             <span class="italic"
-              >{{ t('electricalHeatingInformationStatus')
+            >{{
+                t('electricalHeatingInformationStatus')
               }}{{
                 message().electricalHeatingInformation?.isElectricalHeatingActive
                   ? t('yes')
@@ -109,47 +110,43 @@ import { injectDownloadMessageDocument } from './download-message-document';
               }}</span
             >
             <span class="italic">{{
-              t('electricalHeatingInformationDate', {
-                electricalHeatingDate:
-                  message().electricalHeatingInformation?.electricalHeatingFrom | wattDate,
-              })
-            }}</span>
+                t('electricalHeatingInformationDate', {
+                  electricalHeatingDate:
+                    message().electricalHeatingInformation?.electricalHeatingFrom | wattDate,
+                })
+              }}</span>
             <span class="italic">{{
-              t('electricalHeatingInformationCustomer', {
-                customerName: message().electricalHeatingInformation?.customerName,
-              })
-            }}</span>
+                t('electricalHeatingInformationCustomer', {
+                  customerName: message().electricalHeatingInformation?.customerName,
+                })
+              }}</span>
             <span class="italic">{{
-              t('electricalHeatingInformationSupplierPeriod', {
-                energySupplierPeriodFrom:
-                  message().electricalHeatingInformation?.supplierPeriods?.at(0)?.from | wattDate,
-                energySupplierPeriodTo:
-                  message().electricalHeatingInformation?.supplierPeriods?.at(0)?.to | wattDate,
-              })
-            }}</span>
+                t('electricalHeatingInformationSupplierPeriod', {
+                  energySupplierPeriodFrom:
+                    message().electricalHeatingInformation?.supplierPeriods?.at(0)?.from | wattDate,
+                  energySupplierPeriodTo:
+                    message().electricalHeatingInformation?.supplierPeriods?.at(0)?.to | wattDate,
+                })
+              }}</span>
           </vater-stack>
         }
         @case ('ELECTRICAL_HEATING_USER_MESSAGE') {
           <vater-stack align="start" class="watt-space-inset-m">
             <span>{{
-              t('electricalHeatingUserAddressEligibilityDate', {
-                addressEligibilityDate:
-                  message().electricalHeatingUserMessage?.electricalHeatingFrom | wattDate,
-              })
-            }}</span>
+                t('electricalHeatingUserAddressEligibilityDate', {
+                  addressEligibilityDate:
+                    message().electricalHeatingUserMessage?.electricalHeatingFrom | wattDate,
+                })
+              }}</span>
             <span class="watt-space-stack-ml">{{
-              t('electricalHeatingUserChargeReductionPeriod', {
-                chargeReductionPeriodFrom:
-                  message().electricalHeatingUserMessage?.reductionPeriod?.from | wattDate,
-                chargeReductionPeriodTo:
-                  (message().electricalHeatingUserMessage?.reductionPeriod?.to | wattDate) ?? '',
-              })
-            }}</span>
-            <span>{{
-              t('electricalHeatingUserContent', {
-                content: message().electricalHeatingUserMessage?.content,
-              })
-            }}</span>
+                t('electricalHeatingUserChargeReductionPeriod', {
+                  chargeReductionPeriodFrom:
+                    message().electricalHeatingUserMessage?.reductionPeriod?.from | wattDate,
+                  chargeReductionPeriodTo:
+                    (message().electricalHeatingUserMessage?.reductionPeriod?.to | wattDate) ?? '',
+                })
+              }}</span>
+            <span>{{ message().electricalHeatingUserMessage?.content }}</span>
           </vater-stack>
         }
         @case ('CLOSING_MESSAGE') {
