@@ -38,13 +38,13 @@ public static partial class ActorConversationOperations
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
 
         var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
+        var marketParticipantNumber = user.GetMarketParticipantNumber();
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
         var authRequest = new CreateActorConversationRequest
         {
-            ActorNumber = actorNumber,
+            ActorNumber = marketParticipantNumber,
             MarketRole = marketRole,
             MeteringPointId = startConversationInput.MeteringPointIdentification,
             UserId = userId,
@@ -80,7 +80,8 @@ public static partial class ActorConversationOperations
 
             var response = await authClient.ApiStartElectricalHeatingConversationAsync(
                 userId.ToString(),
-                actorNumber,
+                marketParticipantNumber,
+                MapMarketRoleToActorType(marketRole).ToString(),
                 startRequest,
                 ct);
 
@@ -107,7 +108,8 @@ public static partial class ActorConversationOperations
 
             var response = await authClient.ApiStartConversationAsync(
                 userId.ToString(),
-                actorNumber,
+                marketParticipantNumber,
+                MapMarketRoleToActorType(marketRole).ToString(),
                 startRequest,
                 ct);
 
@@ -126,12 +128,13 @@ public static partial class ActorConversationOperations
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
         var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
+        var marketParticipantNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
         var authRequest = new AddActorConversationMessageRequest
         {
-            ActorNumber = actorNumber,
+            ActorNumber = marketParticipantNumber,
             UserId = userId,
         };
 
@@ -159,7 +162,8 @@ public static partial class ActorConversationOperations
 
         await authClient.ApiAddConversationMessageAsync(
             userId.ToString(),
-            actorNumber,
+            marketParticipantNumber,
+            MapMarketRoleToActorType(marketRole).ToString(),
             messageRequest,
             ct);
 
@@ -177,12 +181,13 @@ public static partial class ActorConversationOperations
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
         var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
+        var marketParticipantNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
         var authRequest = new AddActorConversationMessageRequest
         {
-            ActorNumber = actorNumber,
+            ActorNumber = marketParticipantNumber,
             UserId = userId,
         };
 
@@ -198,7 +203,8 @@ public static partial class ActorConversationOperations
 
         await authClient.ApiUpdateInternalNoteAsync(
             userId.ToString(),
-            actorNumber,
+            marketParticipantNumber,
+            MapMarketRoleToActorType(marketRole).ToString(),
             new UpdateInternalNoteRequest
             {
                 ConversationId = updateInternalConversationNoteInput.ConversationId,
@@ -220,13 +226,14 @@ public static partial class ActorConversationOperations
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
         var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
+        var marketParticipantNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
         // Auth is not used for this operation, so just sets a randomsignature
         var authRequest = new AddActorConversationMessageRequest
         {
-            ActorNumber = actorNumber,
+            ActorNumber = marketParticipantNumber,
             UserId = userId,
         };
 
@@ -242,7 +249,8 @@ public static partial class ActorConversationOperations
 
         await authClient.ApiMarkConversationReadAsync(
             userId.ToString(),
-            actorNumber,
+            marketParticipantNumber,
+            MapMarketRoleToActorType(marketRole).ToString(),
             new MarkConversationReadRequest
             {
                 ConversationId = conversationId,
@@ -263,13 +271,14 @@ public static partial class ActorConversationOperations
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
         var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
+        var marketParticipantNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
         // Auth is not used for this operation, so just sets a randomsignature
         var authRequest = new AddActorConversationMessageRequest
         {
-            ActorNumber = actorNumber,
+            ActorNumber = marketParticipantNumber,
             UserId = userId,
         };
 
@@ -285,7 +294,8 @@ public static partial class ActorConversationOperations
 
         await authClient.ApiMarkConversationUnreadAsync(
             userId.ToString(),
-            actorNumber,
+            marketParticipantNumber,
+            MapMarketRoleToActorType(marketRole).ToString(),
             new MarkConversationUnreadRequest
             {
                 ConversationId = conversationId,
@@ -307,12 +317,13 @@ public static partial class ActorConversationOperations
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
 
         var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
+        var marketParticipantNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
         var authRequest = new CloseActorConversationRequest
         {
-            ActorNumber = actorNumber,
+            ActorNumber = marketParticipantNumber,
             UserId = userId,
         };
 
@@ -330,7 +341,8 @@ public static partial class ActorConversationOperations
         {
             await authClient.ApiCloseConversationAsync(
                 userId.ToString(),
-                actorNumber,
+                marketParticipantNumber,
+                MapMarketRoleToActorType(marketRole).ToString(),
                 new CloseConversationRequest
                 {
                     ConversationId = conversationId,
@@ -344,13 +356,13 @@ public static partial class ActorConversationOperations
         }
     }
 
-    private static ActorType MapMarketRoleToActorType(EicFunctionAuth marketRole)
+    private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)
     {
         return marketRole switch
         {
-            EicFunctionAuth.EnergySupplier => ActorType.EnergySupplier,
-            EicFunctionAuth.GridAccessProvider => ActorType.GridAccessProvider,
-            EicFunctionAuth.DataHubAdministrator => ActorType.Energinet,
+            EicFunctionAuth.EnergySupplier => MarketRole.EnergySupplier,
+            EicFunctionAuth.GridAccessProvider => MarketRole.GridAccessProvider,
+            EicFunctionAuth.DataHubAdministrator => MarketRole.Energinet,
             _ => throw new InvalidOperationException($"Unsupported market role: {marketRole}"),
         };
     }

@@ -80,13 +80,13 @@ public static partial class ConversationMessageDtoType
         descriptor.Field(f => f.ElectricalHeatingInformation);
     }
 
-    private static EicFunction MapActorTypeToEicFunction(ActorType actorType)
+    private static EicFunction MapActorTypeToEicFunction(MarketRole actorType)
     {
         return actorType switch
         {
-            ActorType.EnergySupplier => EicFunction.EnergySupplier,
-            ActorType.Energinet => EicFunction.DataHubAdministrator,
-            ActorType.GridAccessProvider => EicFunction.GridAccessProvider,
+            MarketRole.EnergySupplier => EicFunction.EnergySupplier,
+            MarketRole.Energinet => EicFunction.DataHubAdministrator,
+            MarketRole.GridAccessProvider => EicFunction.GridAccessProvider,
             _ => throw new ArgumentOutOfRangeException(nameof(actorType), actorType, "Unknown ActorType"),
         };
     }

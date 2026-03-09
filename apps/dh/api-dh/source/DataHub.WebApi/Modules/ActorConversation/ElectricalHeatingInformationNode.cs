@@ -37,13 +37,13 @@ public static partial class ElectricalHeatingInformationNode
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
 
         var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
+        var marketParticipantNumber = user.GetMarketParticipantNumber();
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
         var authRequest = new ReadActorConversationRequest
         {
-            ActorNumber = actorNumber,
+            ActorNumber = marketParticipantNumber,
             MarketRole = marketRole,
             MeteringPointId = meteringPointIdentification,
             UserId = userId,
@@ -63,9 +63,21 @@ public static partial class ElectricalHeatingInformationNode
         var electricalHeatingInformation = await authClient.ApiGetElectricalHeatingInformationAsync(
             meteringPointIdentification,
             userId.ToString(),
-            actorNumber,
+            marketParticipantNumber,
+            MapMarketRoleToActorType(marketRole).ToString(),
             ct);
 
         return electricalHeatingInformation;
+    }
+
+    private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)
+    {
+        return marketRole switch
+        {
+            EicFunctionAuth.EnergySupplier => MarketRole.EnergySupplier,
+            EicFunctionAuth.GridAccessProvider => MarketRole.GridAccessProvider,
+            EicFunctionAuth.DataHubAdministrator => MarketRole.Energinet,
+            _ => throw new InvalidOperationException($"Unsupported market role: {marketRole}"),
+        };
     }
 }

@@ -38,14 +38,14 @@ public static partial class ActorConversationsNode
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
 
         var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
+        var marketParticipantNumber = user.GetMarketParticipantNumber();
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
         // TODO: Will be replaced with the ActorConversationsRequest when implemented
         var authRequest = new CreateActorConversationRequest
         {
-            ActorNumber = actorNumber,
+            ActorNumber = marketParticipantNumber,
             MarketRole = marketRole,
             MeteringPointId = meteringPointIdentification,
             UserId = userId,
@@ -71,7 +71,8 @@ public static partial class ActorConversationsNode
             null,
             null,
             userId: userId.ToString(),
-            actorNumber: actorNumber);
+            marketRole: MapMarketRoleToActorType(marketRole).ToString(),
+            marketParticipantNumber: marketParticipantNumber);
     }
 
     static partial void Configure(
@@ -83,5 +84,16 @@ public static partial class ActorConversationsNode
 
         descriptor
             .Field(f => f.Conversations);
+    }
+
+    private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)
+    {
+        return marketRole switch
+        {
+            EicFunctionAuth.EnergySupplier => MarketRole.EnergySupplier,
+            EicFunctionAuth.GridAccessProvider => MarketRole.GridAccessProvider,
+            EicFunctionAuth.DataHubAdministrator => MarketRole.Energinet,
+            _ => throw new InvalidOperationException($"Unsupported market role: {marketRole}"),
+        };
     }
 }
