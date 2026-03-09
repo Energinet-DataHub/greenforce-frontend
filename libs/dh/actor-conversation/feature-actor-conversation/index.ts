@@ -17,5 +17,5 @@
  */
 //#endregion
 export { DhActorConversationShellComponent } from './src/components/actor-conversation-shell.component';
-export { actorConversationRoutes as default } from './src/routes';
+export { default } from './src/routes';
 

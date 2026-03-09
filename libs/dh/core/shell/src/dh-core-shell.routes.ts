@@ -107,7 +107,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('actor-conversation'),
-        loadChildren: () => import('@energinet-datahub/dh/actor-conversation'),
+        loadChildren: () => import('@energinet-datahub/dh/actor-conversation/feature-actor-conversation'),
         canActivate: [MsalGuard],
       },
       { path: '**', component: Dh404Component },

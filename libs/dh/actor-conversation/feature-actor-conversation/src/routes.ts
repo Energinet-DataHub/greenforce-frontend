@@ -19,7 +19,7 @@
 
 import { Routes } from '@angular/router';
 
-export const actorConversationRoutes: Routes = [
+const routes: Routes = [
   {
     path: '',
     data: {
@@ -32,3 +32,4 @@ export const actorConversationRoutes: Routes = [
   },
 ];
 
+export default routes;
