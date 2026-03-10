@@ -88,8 +88,12 @@
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/index.ts"
       ],
-      "@energinet-datahub/dh/grid-areas": ["libs/dh/grid-areas/index.ts"],
-      "@energinet-datahub/dh/imbalance-prices": ["libs/dh/imbalance-prices/index.ts"],
+      "@energinet-datahub/dh/grid-areas": [
+        "libs/dh/market-participant/feature-grid-areas/index.ts"
+      ],
+      "@energinet-datahub/dh/imbalance-prices": [
+        "libs/dh/imbalance-prices/feature-imbalance-prices/index.ts"
+      ],
       "@energinet-datahub/dh/market-participant/domain": [
         "libs/dh/market-participant/domain/index.ts"
       ],
@@ -229,13 +233,14 @@
       ],
       "@energinet-datahub/gf/globalization/domain": ["libs/gf/globalization/domain/index.ts"],
       "@energinet-datahub/gf/msw/test-util-msw-setup": ["libs/gf/msw/test-util-msw-setup/index.ts"],
-      "@energinet-datahub/gf/test-util": ["libs/gf/test-util/index.ts"],
-      "@energinet-datahub/gf/test-util-matchers": ["libs/gf/test-util-matchers/index.ts"],
-      "@energinet-datahub/gf/test-util-msw": ["libs/gf/msw/test-util-msw/index.ts"],
-      "@energinet-datahub/gf/test-util-staging": ["libs/gf/test-util-staging/index.ts"],
-      "@energinet-datahub/gf/test-util-vitest": ["libs/gf/test-util-vitest/index.ts"],
-      "@energinet-datahub/gf/util-browser": ["libs/gf/util-browser/index.ts"],
-      "@energinet-datahub/gf/util-cookie-information": ["libs/gf/util-cookie-information/index.ts"],
+      "@energinet-datahub/gf/test-util": ["libs/gf/shared/test-util/index.ts"],
+      "@energinet-datahub/gf/test-util-matchers": ["libs/gf/shared/test-util-matchers/index.ts"],
+      "@energinet-datahub/gf/test-util-staging": ["libs/gf/shared/test-util-staging/index.ts"],
+      "@energinet-datahub/gf/test-util-vitest": ["libs/gf/shared/test-util-vitest/index.ts"],
+      "@energinet-datahub/gf/util-browser": ["libs/gf/shared/util-browser/index.ts"],
+      "@energinet-datahub/gf/util-cookie-information": [
+        "libs/gf/shared/util-cookie-information/index.ts"
+      ],
       "@energinet-datahub/tools/github": ["tools/github"],
       "@energinet-datahub/tools/license": ["tools/license"],
       "@energinet-datahub/tools/package": ["tools/package"],

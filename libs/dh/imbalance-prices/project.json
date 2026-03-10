@@ -1,8 +1,0 @@
-{
-  "name": "dh-imbalance-prices",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/imbalance-prices/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:imbalance-prices", "type:feature"]
-}
