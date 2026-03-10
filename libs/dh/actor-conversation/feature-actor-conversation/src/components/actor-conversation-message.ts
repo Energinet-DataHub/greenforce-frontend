@@ -81,14 +81,14 @@ import { injectDownloadMessageDocument } from './download-message-document';
           <span>{{ t('receivers.' + message().senderType) }}</span>
           <span>{{ message().createdTime | wattDate: 'short' }}</span>
         </vater-stack>
-        <vater-stack direction="row" gap="s">
-          @if (message().actorName && message().userName) {
-            <span>{{ message().actorName + ', ' + message().userName }}</span>
-          }
-          @if (message().actorName && message().userName && message().anonymous) {
-            <span>{{ t('sentAnonymously') }}</span>
-          }
-        </vater-stack>
+        @if (message().actorName && message().userName) {
+          <span>
+              {{ message().actorName + ', ' + message().userName }}
+            @if (message().actorName && message().userName && message().anonymous) {
+              {{ t('sentAnonymously') }}
+            }
+            </span>
+        }
       </vater-stack>
       <watt-separator />
       <vater-stack align="start" fill="horizontal" class="watt-space-inset-m">
