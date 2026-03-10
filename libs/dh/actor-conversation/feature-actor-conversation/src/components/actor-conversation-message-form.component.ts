@@ -83,6 +83,10 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
     .file-input {
       display: none;
     }
+
+    .block {
+      display: block !important;
+    }
   `,
   template: `
     <vater-stack
@@ -121,7 +125,7 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
           <watt-input-chip [label]="file.name" (removed)="removeFile(file)" />
         }
 
-        <watt-field-hint class="watt-text-s">
+        <watt-field-hint class="watt-text-s block">
           {{ t('personalDataNoticePrefix') }}
           <a
             class="watt-link-s"
