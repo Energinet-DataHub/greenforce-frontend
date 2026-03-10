@@ -247,6 +247,7 @@
         "menuGroupLabel": "Aktører",
         "userManagement": "Brugeradministration",
         "marketParticipantMasterData": "Aktørstamdata",
+        "actor-conversation": "Aktør Dialog",
         "gridAreas": "Netområder"
       },
       "eSett": "eSett",
@@ -784,6 +785,7 @@
       }
     },
     "actorConversation": {
+      "topBarTitle": "Aktør Dialog",
       "searchPlaceholder": "Søg på sags-ID eller intern note",
       "cases": "Sager",
       "newCaseButton": "Ny sag",

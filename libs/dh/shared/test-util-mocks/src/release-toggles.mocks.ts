@@ -43,6 +43,7 @@ function getReleaseTogglesQuery() {
           'PM60-CHARGE-LINKS-UI',
           'PM120-DH3-METERING-POINTS-UI',
           'PM62-ACTOR-CONVERSATION',
+          'PM62-ACTOR-CONVERSATION-CENTRAL',
         ],
       },
     });
