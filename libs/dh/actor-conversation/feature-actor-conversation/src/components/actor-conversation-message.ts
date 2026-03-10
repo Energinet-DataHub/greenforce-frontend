@@ -69,6 +69,14 @@ import { injectDownloadMessageDocument } from './download-message-document';
     .message-content-padding {
       padding: var(--watt-space-sm) var(--watt-space-m);
     }
+
+    .font-weight-semi-bold {
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .grey-700 {
+      color: var(--watt-color-neutral-grey-700);
+    }
   `,
   host: {
     '[style.align-self]': 'messageAlignment()',
@@ -82,8 +90,8 @@ import { injectDownloadMessageDocument } from './download-message-document';
     >
       <vater-stack fill="horizontal" align="start" class="message-content-padding" gap="xs">
         <vater-stack direction="row" justify="space-between" fill="horizontal" gap="m">
-          <span>{{ t('receivers.' + message().senderType) }}</span>
-          <span>{{ message().createdTime | wattDate: 'short' }}</span>
+          <span class="font-weight-semi-bold">{{ t('receivers.' + message().senderType) }}</span>
+          <span class="grey-700">{{ message().createdTime | wattDate: 'short' }}</span>
         </vater-stack>
         @if (message().actorName && message().userName) {
           <span>
