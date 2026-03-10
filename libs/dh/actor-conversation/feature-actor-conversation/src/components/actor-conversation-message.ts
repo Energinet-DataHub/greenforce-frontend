@@ -65,6 +65,10 @@ import { injectDownloadMessageDocument } from './download-message-document';
     .italic {
       font-style: italic;
     }
+
+    .message-content-padding {
+      padding: var(--watt-space-sm) var(--watt-space-m);
+    }
   `,
   host: {
     '[style.align-self]': 'messageAlignment()',
@@ -72,26 +76,26 @@ import { injectDownloadMessageDocument } from './download-message-document';
   },
   template: `
     <vater-stack
-      class="message-container"
+      class="message-container watt-text-s"
       [style.background-color]="backgroundColor()"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
-      <vater-stack fill="horizontal" align="start" class="watt-space-inset-m">
+      <vater-stack fill="horizontal" align="start" class="message-content-padding" gap="xs">
         <vater-stack direction="row" justify="space-between" fill="horizontal" gap="m">
           <span>{{ t('receivers.' + message().senderType) }}</span>
           <span>{{ message().createdTime | wattDate: 'short' }}</span>
         </vater-stack>
         @if (message().actorName && message().userName) {
           <span>
-              {{ message().actorName + ', ' + message().userName }}
+            {{ message().actorName + ', ' + message().userName }}
             @if (message().actorName && message().userName && message().anonymous) {
               {{ t('sentAnonymously') }}
             }
-            </span>
+          </span>
         }
       </vater-stack>
       <watt-separator />
-      <vater-stack align="start" fill="horizontal" class="watt-space-inset-m">
+      <vater-stack align="start" fill="horizontal" class="message-content-padding">
         @switch (message().messageType) {
           @case ('USER_MESSAGE') {
             <span vater fill="horizontal">
