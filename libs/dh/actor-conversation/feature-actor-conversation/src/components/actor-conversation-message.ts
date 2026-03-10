@@ -83,11 +83,11 @@ import { injectDownloadMessageDocument } from './download-message-document';
         </vater-stack>
         @if (message().actorName && message().userName) {
           <span>
-              {{ message().actorName + ', ' + message().userName }}
+            {{ message().actorName + ', ' + message().userName }}
             @if (message().actorName && message().userName && message().anonymous) {
               {{ t('sentAnonymously') }}
             }
-            </span>
+          </span>
         }
       </vater-stack>
       <watt-separator />
