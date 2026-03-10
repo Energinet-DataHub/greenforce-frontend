@@ -111,7 +111,7 @@ limitations under the License.
       }}</watt-nav-list-item>
 
       <ng-container *dhReleaseToggle="'PM62-ACTOR-CONVERSATION-CENTRAL'">
-        <watt-nav-list-item [link]="getLink('actor-conversation')"
+        <watt-nav-list-item *dhPermissionRequired="['metering-point:actor-conversation']" [link]="getLink('actor-conversation')"
           >{{ transloco("marketParticipant.actor-conversation") }}
         </watt-nav-list-item>
       </ng-container>
