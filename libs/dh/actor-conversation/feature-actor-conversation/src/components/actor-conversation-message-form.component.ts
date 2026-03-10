@@ -88,6 +88,7 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
     <vater-stack
       fill="horizontal"
       align="end"
+      gap="s"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <watt-textarea-field
