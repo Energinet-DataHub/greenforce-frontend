@@ -26,7 +26,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhUserRole } from '@energinet-datahub/dh/admin/data-access-api';
-import { DhRoleStatusComponent } from '@energinet-datahub/dh/admin/domain-shared';
+import { DhRoleStatusComponent } from '@energinet-datahub/dh/admin/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { GetFilteredUserRolesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';

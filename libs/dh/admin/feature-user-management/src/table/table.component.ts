@@ -33,7 +33,7 @@ import { GetUsersQueryVariables, SortEnumType } from '@energinet-datahub/dh/shar
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/domain-shared';
+import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/ui-shared';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { GetUsersDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
