@@ -138,6 +138,9 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
             <dh-energy-supplier
               *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
               [energySupplier]="energySupplier()"
+              [productObligation]="meteringPoint()?.metadata?.productObligation"
+              [meteringPointType]="meteringPoint()?.metadata?.type"
+              [meteringPointConnectionState]="meteringPoint()?.metadata?.connectionState"
             />
           }
 
@@ -167,7 +170,6 @@ export class DhMeteringPointMasterDataComponent {
   }));
 
   meteringPoint = computed(() => this.query.data()?.meteringPoint);
-  isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 
   energySupplier = computed<EnergySupplier>(() => ({
     gln: this.meteringPoint()?.commercialRelation?.energySupplier,
