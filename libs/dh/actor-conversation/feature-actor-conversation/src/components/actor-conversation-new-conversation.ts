@@ -99,7 +99,7 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
         sticky="top"
         direction="row"
         fill="horizontal"
-        align="center"
+        align="start"
         justify="space-between"
         class="header-background"
       >

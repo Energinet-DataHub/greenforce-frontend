@@ -67,7 +67,6 @@ import { injectDownloadMessageDocument } from './download-message-document';
     }
   `,
   host: {
-    class: 'watt-space-inset-m',
     '[style.align-self]': 'messageAlignment()',
     '[style.max-width]': '"66%"',
   },

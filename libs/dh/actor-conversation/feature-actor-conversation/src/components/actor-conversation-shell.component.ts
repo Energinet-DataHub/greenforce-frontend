@@ -84,7 +84,7 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
               <dh-actor-conversation-new-conversation
                 vater
                 fill="both"
-                class="watt-space-inset-m"
+                class="watt-space-inset-ml"
                 [meteringPointId]="meteringPointId()"
                 (closeNewConversation)="newConversationVisible.set(false)"
               />

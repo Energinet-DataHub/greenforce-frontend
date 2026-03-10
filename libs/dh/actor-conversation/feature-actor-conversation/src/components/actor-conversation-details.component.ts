@@ -88,6 +88,10 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
     .sticky-background {
       background-color: var(--bg-card);
     }
+
+    .no-padding-bottom {
+      padding-bottom: 0;
+    }
   `,
   template: `
     <dh-result vater fill="vertical" [query]="conversationQuery">
@@ -103,7 +107,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
               fill="horizontal"
               direction="row"
               justify="space-between"
-              class="watt-space-inset-stretch-m"
+              class="watt-space-inset-reverse-stretch-m"
             >
               <vater-stack gap="s" align="start">
                 <vater-stack direction="row" gap="xs">
@@ -142,12 +146,12 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
                   <watt-icon name="moreVertical" />
                 </watt-button>
                 <watt-menu #menu>
-                  <watt-menu-item (click)="openInternalNoteModal(conversation.internalNote)">{{
-                    t('internalNoteLabel')
-                  }}</watt-menu-item>
-                  <watt-menu-item (click)="unreadConversation()">{{
-                    t('markAsUnreadButton')
-                  }}</watt-menu-item>
+                  <watt-menu-item (click)="openInternalNoteModal(conversation.internalNote)"
+                    >{{ t('internalNoteLabel') }}
+                  </watt-menu-item>
+                  <watt-menu-item (click)="unreadConversation()"
+                    >{{ t('markAsUnreadButton') }}
+                  </watt-menu-item>
                 </watt-menu>
               </vater-stack>
             </vater-stack>
@@ -155,10 +159,17 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
           </vater-stack>
 
           <!-- Content - Scrollable message area -->
-          <vater-flex direction="column" fill="both" scrollable>
-            @for (message of conversation.messages; track message) {
-              <dh-actor-conversation-message [message]="message" />
-            }
+          <vater-flex
+            direction="column"
+            fill="both"
+            scrollable
+            class="watt-space-inset-reverse-stretch-m no-padding-bottom"
+          >
+            <vater-stack direction="column" gap="m">
+              @for (message of conversation.messages; track message) {
+                <dh-actor-conversation-message [message]="message" />
+              }
+            </vater-stack>
             <div #scrollAnchor></div>
           </vater-flex>
         }
@@ -166,7 +177,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
         <form
           vater
           sticky="bottom"
-          class="watt-space-inset-stretch-m sticky-background"
+          class="watt-space-inset-ml sticky-background"
           fill="horizontal"
           (ngSubmit)="sendMessage()"
         >
