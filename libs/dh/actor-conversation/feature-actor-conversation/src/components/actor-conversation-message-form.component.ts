@@ -126,12 +126,12 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
           <a
             class="watt-link-s"
             target="_blank"
-            href="https://www.datatilsynet.dk/regler-og-vejledning/grundlaeggende-begreber/hvad-er-personoplysninger">
-            {{ t('personalDataNoticeLink') }}
-          </a
+            href="https://www.datatilsynet.dk/regler-og-vejledning/grundlaeggende-begreber/hvad-er-personoplysninger"
+          >
+            {{ t('personalDataNoticeLink') }} </a
           >{{ t('personalDataNoticeMidfix') }}
           <strong class="watt-text-s-highlighted">{{ t('personalDataNoticeNot') }}</strong
-        >{{ t('personalDataNoticeSuffix') }}
+          >{{ t('personalDataNoticeSuffix') }}
         </watt-field-hint>
       </watt-textarea-field>
 
