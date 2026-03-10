@@ -27,7 +27,6 @@
       "@energinet-datahub/dh/admin/data-access-graphql": [
         "libs/dh/admin/data-access-graphql/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/ui-shared": ["libs/dh/admin/ui-shared/index.ts"],
       "@energinet-datahub/dh/admin/feature-permissions": [
         "libs/dh/admin/feature-permissions/index.ts"
       ],
@@ -38,6 +37,7 @@
         "libs/dh/admin/feature-user-roles/index.ts"
       ],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/index.ts"],
+      "@energinet-datahub/dh/admin/ui-shared": ["libs/dh/admin/ui-shared/index.ts"],
       "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/index.ts"],
       "@energinet-datahub/dh/charges/feature-charges": ["libs/dh/charges/feature-charges/index.ts"],
       "@energinet-datahub/dh/charges/feature-parse-series": [
