@@ -137,6 +137,7 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
             <watt-text-field
               [formControl]="newConversationForm().controls.internalNote"
               [label]="t('internalNoteLabelWithDisclaimer')"
+              [maxLength]="internalNoteMaxLength"
               data-testid="actor-conversation-internal-note-input"
             />
           </vater-stack>
@@ -165,6 +166,8 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
   `,
 })
 export class DhActorConversationNewConversationComponent {
+  internalNoteMaxLength = internalNoteMaxLength;
+
   private readonly uploadMessageDocument = injectUploadMessageDocument();
   private readonly startConversationErrorToast = injectToast(
     'meteringPoint.actorConversation.startConversationError'
