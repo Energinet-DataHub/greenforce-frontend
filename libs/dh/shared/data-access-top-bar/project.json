@@ -1,8 +1,0 @@
-{
-  "name": "dh-shared-data-access-top-bar",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/dh/shared/data-access-top-bar/src",
-  "prefix": "dh",
-  "tags": ["product:dh", "domain:shared", "type:data-access"]
-}
