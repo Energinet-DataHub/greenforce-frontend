@@ -1058,6 +1058,7 @@
         "BRS_002_CANCELENDOFSUPPLY_V1_STEP_2": "Godkend annullering af leveranceophør (RSM-024)",
         "BRS_002_CANCELENDOFSUPPLY_V1_STEP_4": "Information om annullering af leveranceophør (RSM-025)",
         "BRS_002_REJECTENDOFSUPPLY_V1_STEP_1": "Afvis anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REJECTENDOFSUPPLY_V1_STEP_2": "Afvis anmodning om afbrydelse (RSM-020)",
         "BRS_002_CONFIRMENDOFSUPPLY_V1_STEP_1": "Afvis anmodning om afbrydelse (RSM-020)",
         "BRS_002_CONFIRMENDOFSUPPLY_V1_STEP_2": "Afvis anmodning om afbrydelse (RSM-020)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Anmodning om oprettelse af målepunkt (RSM-021)",
