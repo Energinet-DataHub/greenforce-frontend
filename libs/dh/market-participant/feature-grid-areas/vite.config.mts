@@ -6,7 +6,7 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh/market-participant/feature-delegation',
+  cacheDir: '../../../../node_modules/.vite/libs/dh/market-participant/feature-grid-areas',
   plugins: [angular({ tsconfig: './tsconfig.json' }), nxViteTsPaths()],
   test: {
     passWithNoTests: true,
@@ -19,7 +19,7 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       reporter: ['html', 'json', 'text-summary'],
-      reportsDirectory: '../../../../coverage/libs/dh/market-participant/feature-delegation',
+      reportsDirectory: '../../../../coverage/libs/dh/market-participant/feature-grid-areas',
     },
     pool: 'forks',
   },
