@@ -163,6 +163,7 @@
     "./tools/plugins/implicit-libs.ts",
     {
       "plugin": "@nx/eslint/plugin",
+      "exclude": ["libs/watt/package/**/*"],
       "options": {
         "targetName": "lint"
       }
