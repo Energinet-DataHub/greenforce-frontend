@@ -15,7 +15,7 @@ interface ActorRequestQueryResult implements OrchestrationInstance {
   startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: ProcessState!
+  state: OrchestrationState!
   steps: [OrchestrationInstanceStep!]!
 }
 
@@ -28,7 +28,7 @@ interface Calculation implements OrchestrationInstance {
   startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: ProcessState!
+  state: OrchestrationState!
   steps: [OrchestrationInstanceStep!]!
 }
 
@@ -43,7 +43,7 @@ interface OrchestrationInstance {
   startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: ProcessState!
+  state: OrchestrationState!
   steps: [OrchestrationInstanceStep!]!
 }
 
@@ -282,7 +282,7 @@ type CapacitySettlementCalculation implements Calculation & OrchestrationInstanc
   startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: ProcessState!
+  state: OrchestrationState!
   steps: [OrchestrationInstanceStep!]!
 }
 
@@ -497,7 +497,7 @@ type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance
   startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: ProcessState!
+  state: OrchestrationState!
   steps: [OrchestrationInstanceStep!]!
 }
 
@@ -1093,7 +1093,7 @@ type MeteringPointProcess {
   reasonCode: String!
   createdAt: DateTime!
   cutoffDate: DateTime
-  state: ProcessState!
+  state: MeteringPointProcessState!
 }
 
 type MeteringPointProcessStep {
@@ -1108,7 +1108,7 @@ type MeteringPointProcessStep {
   comment: String
   completedAt: DateTime
   dueDate: DateTime
-  state: ProcessState!
+  state: MeteringPointProcessState!
   messageId: String
   description: String!
 }
@@ -1127,7 +1127,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
   startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: ProcessState!
+  state: OrchestrationState!
   steps: [OrchestrationInstanceStep!]!
 }
 
@@ -1200,7 +1200,7 @@ type NetConsumptionCalculation implements Calculation & OrchestrationInstance {
   startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: ProcessState!
+  state: OrchestrationState!
   steps: [OrchestrationInstanceStep!]!
 }
 
@@ -1487,7 +1487,7 @@ type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult 
   startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: ProcessState!
+  state: OrchestrationState!
   steps: [OrchestrationInstanceStep!]!
 }
 
@@ -1503,7 +1503,7 @@ type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult
   startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: ProcessState!
+  state: OrchestrationState!
   steps: [OrchestrationInstanceStep!]!
 }
 
@@ -1800,7 +1800,7 @@ type WholesaleAndEnergyCalculation implements Calculation & OrchestrationInstanc
   startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: ProcessState!
+  state: OrchestrationState!
   steps: [OrchestrationInstanceStep!]!
 }
 
@@ -1917,7 +1917,7 @@ input CalculationSortInput {
 
 input CalculationsQueryInput {
   gridAreaCodes: [String!]
-  state: ProcessState
+  state: OrchestrationState
   executionType: CalculationExecutionType
   calculationTypes: [CalculationTypeQueryParameterV1!]
   period: DateRange
@@ -3270,6 +3270,15 @@ enum MeteringPointDocumentType {
   NOTIFY_BILLING_MASTER_DATA
 }
 
+enum MeteringPointProcessState {
+  pending
+  running
+  failed
+  canceled
+  succeeded
+  rejected
+}
+
 enum MeteringPointType {
   ALL
   PRODUCTION
@@ -3290,6 +3299,15 @@ enum NotificationType {
   ActorConsolidationScheduled
   GridLossValidationError
   SystemCorrectionValidationError
+}
+
+enum OrchestrationState {
+  scheduled
+  pending
+  running
+  failed
+  canceled
+  succeeded
 }
 
 enum OrganizationAuditedChange {
@@ -3316,16 +3334,6 @@ enum PriceType {
   MONTHLY_SUBSCRIPTION
   MONTHLY_FEE
   MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
-}
-
-enum ProcessState {
-  scheduled
-  pending
-  running
-  failed
-  canceled
-  succeeded
-  rejected
 }
 
 enum ProcessStepState {

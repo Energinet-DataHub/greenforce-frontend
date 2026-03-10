@@ -28,7 +28,7 @@ import {
   CalculationTypeQueryParameterV1,
   GetGridAreasDocument,
   GetProcessesQueryVariables,
-  ProcessState,
+  OrchestrationState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -126,7 +126,7 @@ export class DhProcessesFilters {
     period: new FormControl<WattRange<Date> | null>(null),
     gridAreaCodes: new FormControl<string[] | null>(null),
     calculationTypes: new FormControl<CalculationTypeQueryParameterV1[] | null>(null),
-    state: new FormControl<ProcessState | null>(null),
+    state: new FormControl<OrchestrationState | null>(null),
   });
   values = toSignal<GetProcessesQueryVariables>(
     this.form.valueChanges.pipe(
@@ -147,7 +147,7 @@ export class DhProcessesFilters {
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationTypeQueryParameterV1);
   executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
-  executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
+  executionStateOptions = dhEnumToWattDropdownOptions(OrchestrationState);
   gridAreaOptions = computed(
     () =>
       this.gridAreasQuery.data()?.gridAreas.map((x) => ({

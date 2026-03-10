@@ -20,7 +20,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
-using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 using NodaTime;
 
 using WorkflowAction = Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model.WorkflowAction;
@@ -90,7 +90,7 @@ public static partial class MeteringPointProcessNode
             DueDate: null, // DueDate was removed in ProcessManager 8.1.0
             ActorNumber: step.Actor?.ActorNumber.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
-            State: MapStepStateToProcessState(step.Lifecycle.State),
+            State: MapStepStateToMeteringPointProcessState(step.Lifecycle.State),
             MessageId: step.ArchivedMessageId?.ToString(),
             Description: step.Description));
     }
@@ -152,39 +152,39 @@ public static partial class MeteringPointProcessNode
             ReasonCode: businessReasonString,
             ActorNumber: actorIdentity?.ActorNumber.Value ?? string.Empty,
             ActorRole: actorIdentity?.ActorRole.Name ?? string.Empty,
-            State: MapWorkflowStateToProcessState(lifecycle.State, lifecycle.TerminationState),
+            State: MapWorkflowStateToMeteringPointProcessState(lifecycle.State, lifecycle.TerminationState),
             Action: action,
             WorkflowSteps: workflowSteps);
     }
 
-    private static ProcessState MapWorkflowStateToProcessState(
+    private static MeteringPointProcessState MapWorkflowStateToMeteringPointProcessState(
         WorkflowInstanceLifecycleState workflowState,
         WorkflowInstanceTerminationState? terminationState) =>
         workflowState switch
         {
-            WorkflowInstanceLifecycleState.Pending or WorkflowInstanceLifecycleState.Sleeping => ProcessState.Pending,
-            WorkflowInstanceLifecycleState.Active => ProcessState.Running,
+            WorkflowInstanceLifecycleState.Pending or WorkflowInstanceLifecycleState.Sleeping => MeteringPointProcessState.Pending,
+            WorkflowInstanceLifecycleState.Active => MeteringPointProcessState.Running,
             WorkflowInstanceLifecycleState.Terminated => MapWorkflowTerminationState(terminationState),
-            _ => ProcessState.Pending,
+            _ => MeteringPointProcessState.Pending,
         };
 
-    private static ProcessState MapStepStateToProcessState(
+    private static MeteringPointProcessState MapStepStateToMeteringPointProcessState(
         WorkflowStepInstanceLifecycleState stepState) =>
         stepState switch
         {
-            WorkflowStepInstanceLifecycleState.Pending => ProcessState.Pending,
-            WorkflowStepInstanceLifecycleState.Completed => ProcessState.Succeeded,
-            _ => ProcessState.Pending,
+            WorkflowStepInstanceLifecycleState.Pending => MeteringPointProcessState.Pending,
+            WorkflowStepInstanceLifecycleState.Completed => MeteringPointProcessState.Succeeded,
+            _ => MeteringPointProcessState.Pending,
         };
 
-    private static ProcessState MapWorkflowTerminationState(WorkflowInstanceTerminationState? terminationState) =>
+    private static MeteringPointProcessState MapWorkflowTerminationState(WorkflowInstanceTerminationState? terminationState) =>
         terminationState switch
         {
-            WorkflowInstanceTerminationState.Succeeded => ProcessState.Succeeded,
-            WorkflowInstanceTerminationState.Failed => ProcessState.Failed,
-            WorkflowInstanceTerminationState.Canceled => ProcessState.Canceled,
-            WorkflowInstanceTerminationState.Rejected => ProcessState.Rejected,
-            _ => ProcessState.Failed,
+            WorkflowInstanceTerminationState.Succeeded => MeteringPointProcessState.Succeeded,
+            WorkflowInstanceTerminationState.Failed => MeteringPointProcessState.Failed,
+            WorkflowInstanceTerminationState.Canceled => MeteringPointProcessState.Canceled,
+            WorkflowInstanceTerminationState.Rejected => MeteringPointProcessState.Rejected,
+            _ => MeteringPointProcessState.Failed,
         };
 
     /// <summary>

@@ -36,3 +36,4 @@ export * from './src/inject-relative-navigate';
 export * from './src/dh-metering-point-ids.validator';
 export * from './src/generate-csv-file';
 export * from './src/dh-reset-filters-button.component';
+export * from './src/dh-state-badge';
