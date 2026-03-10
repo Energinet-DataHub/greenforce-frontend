@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { Component, computed, input } from '@angular/core';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet/watt/card';
 import {
@@ -26,6 +26,10 @@ import {
 } from '@energinet/watt/description-list';
 import { WattDatePipe } from '@energinet/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  ElectricityMarketViewConnectionState,
+  ElectricityMarketViewMeteringPointType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { EnergySupplier } from '../types';
 
@@ -33,6 +37,7 @@ import type { EnergySupplier } from '../types';
   selector: 'dh-energy-supplier',
   imports: [
     TranslocoDirective,
+    TranslocoPipe,
 
     WATT_CARD,
     WattDatePipe,
@@ -59,14 +64,35 @@ import type { EnergySupplier } from '../types';
             • {{ energySupplier()?.name }}
           }
         </watt-description-list-item>
+
         <watt-description-list-item
           [label]="t('startDateLabel')"
           [value]="energySupplier()?.validFrom | wattDate | dhEmDashFallback"
         />
+
+        @if (showProductObligation()) {
+          <watt-description-list-item [label]="t('productObligationLabel')">
+            {{ (productObligation() ? 'yes' : 'no') | transloco }}
+          </watt-description-list-item>
+
+          <watt-description-list-item
+            [label]="t('cutOffDateLabel')"
+            [value]="null | dhEmDashFallback"
+          />
+        }
       </watt-description-list>
     </watt-card>
   `,
 })
 export class DhEnergySupplierComponent {
-  energySupplier = input.required<EnergySupplier | undefined | null>();
+  energySupplier = input<EnergySupplier | undefined | null>();
+  productObligation = input<boolean | undefined | null>();
+  meteringPointType = input<ElectricityMarketViewMeteringPointType | undefined>();
+  meteringPointConnectionState = input<ElectricityMarketViewConnectionState | undefined | null>();
+
+  showProductObligation = computed(
+    () =>
+      this.meteringPointType() === 'Production' &&
+      this.meteringPointConnectionState() !== 'CLOSED_DOWN'
+  );
 }

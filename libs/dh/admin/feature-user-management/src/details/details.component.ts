@@ -38,7 +38,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattToastService, WattToastType } from '@energinet/watt/toast';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet/watt/drawer';
 
-import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/domain-shared';
+import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/ui-shared';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {

@@ -691,7 +691,9 @@
       "energySupplier": {
         "title": "{{ meteringPoint.overview.shared.energySupplier }}",
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
-        "startDateLabel": "Startdato"
+        "startDateLabel": "Startdato",
+        "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
+        "cutOffDateLabel": "Skæringsdato"
       },
       "status": {
         "CLOSED_DOWN": "Nedlagt",
