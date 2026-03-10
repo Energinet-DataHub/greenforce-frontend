@@ -98,6 +98,22 @@ public static partial class MarketParticipantDataLoaders
     }
 
     [DataLoader]
+    public static async Task<IReadOnlyDictionary<Guid, GetUserResponse>> GetUserByIdAsync(
+        IReadOnlyList<Guid> keys,
+        [Service] IMarketParticipantClient_V1 client,
+        CancellationToken ct)
+    {
+        var result = new Dictionary<Guid, GetUserResponse>();
+        foreach (var key in keys)
+        {
+            var user = await client.UserAsync(key, ct).ConfigureAwait(false);
+            result[key] = user;
+        }
+
+        return result;
+    }
+
+    [DataLoader]
     public static async Task<IReadOnlyDictionary<(string ActorNumber, EicFunction EicFunction), ActorNameDto?>> GetMarketParticipantNameByMarketRoleAsync(
         IReadOnlyList<(string ActorNumber, EicFunction EicFunction)> keys,
         [Service] IMarketParticipantClient_V1 client,

@@ -46,7 +46,7 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
-    WattSpinnerComponent,
+    WattSpinnerComponent, 
     DhActorConversationDetailsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
