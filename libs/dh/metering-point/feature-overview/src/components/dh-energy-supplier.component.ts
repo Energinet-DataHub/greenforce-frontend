@@ -30,7 +30,6 @@ import {
   ElectricityMarketViewConnectionState,
   ElectricityMarketViewMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import type { EnergySupplier } from '../types';
 
@@ -44,7 +43,6 @@ import type { EnergySupplier } from '../types';
     WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    DhPermissionRequiredDirective,
     DhEmDashFallbackPipe,
   ],
   styles: `
@@ -73,16 +71,14 @@ import type { EnergySupplier } from '../types';
         />
 
         @if (showProductObligation()) {
-          <ng-container *dhPermissionRequired="['metering-point:production-obligation-manage']">
-            <watt-description-list-item [label]="t('productObligationLabel')">
-              {{ (productObligation() ? 'yes' : 'no') | transloco }}
-            </watt-description-list-item>
+          <watt-description-list-item [label]="t('productObligationLabel')">
+            {{ (productObligation() ? 'yes' : 'no') | transloco }}
+          </watt-description-list-item>
 
-            <watt-description-list-item
-              [label]="t('cutOffDateLabel')"
-              [value]="null | dhEmDashFallback"
-            />
-          </ng-container>
+          <watt-description-list-item
+            [label]="t('cutOffDateLabel')"
+            [value]="null | dhEmDashFallback"
+          />
         }
       </watt-description-list>
     </watt-card>
