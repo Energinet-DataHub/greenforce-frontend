@@ -17,6 +17,23 @@ query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
       userName
       isSentByCurrentActor
       anonymous
+      electricalHeatingInformation {
+        isElectricalHeatingActive
+        electricalHeatingFrom
+        customerName
+        supplierPeriods {
+          from
+          to
+        }
+      }
+      electricalHeatingUserMessage {
+        electricalHeatingFrom
+        reductionPeriod {
+          from
+          to
+        }
+        content
+      }
       attachments {
         documentId
         documentName

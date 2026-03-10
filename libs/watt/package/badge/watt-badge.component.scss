@@ -63,6 +63,12 @@
       var(--watt-color-neutral-grey-300) 80px
     );
   }
+
+  &.watt-badge-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--watt-space-xs);
+  }
 }
 
 @keyframes shine {
