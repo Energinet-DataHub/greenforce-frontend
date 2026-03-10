@@ -690,7 +690,9 @@
       "energySupplier": {
         "title": "{{ meteringPoint.overview.shared.energySupplier }}",
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
-        "startDateLabel": "Start date"
+        "startDateLabel": "Start date",
+        "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
+        "cutOffDateLabel": "Cut-off date"
       },
       "status": {
         "CLOSED_DOWN": "Closed down",
