@@ -36,6 +36,6 @@ jobs:
       # Convert tokens according to Style Dictionary config
       - run: npx style-dictionary build --config style-dictionary-config.json
       # Add files that were created during a run, e.g. created files from style dictionary or token-transformer.
-      - uses: stefanzweifel/git-auto-commit-action@v6
+      - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Update Tokens
