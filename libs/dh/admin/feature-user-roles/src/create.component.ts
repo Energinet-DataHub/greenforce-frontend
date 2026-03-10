@@ -65,7 +65,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/domain-shared';
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-shared';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import {
