@@ -1,6 +1,6 @@
 {
-  "extends": ["../../../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
+  "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*", "**/generated/**/*", "**/dist/**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -21,8 +21,7 @@
             "prefix": "dh",
             "style": "kebab-case"
           }
-        ],
-        "no-dupe-keys": ["error"]
+        ]
       }
     },
     {

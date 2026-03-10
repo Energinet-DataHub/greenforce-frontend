@@ -33,7 +33,7 @@ import {
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { DhRoleStatusComponent } from '@energinet-datahub/dh/admin/domain-shared';
+import { DhRoleStatusComponent } from '@energinet-datahub/dh/admin/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 

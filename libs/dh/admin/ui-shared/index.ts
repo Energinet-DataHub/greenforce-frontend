@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export { DhRoleStatusComponent } from './dh-role-status.component';
-export { DhUserStatusComponent } from './dh-user-status.component';
-export { DhPermissionsTableComponent } from './dh-permissions-table.component';
-export * from './types/dh-update-user-role.type';
+export { DhRoleStatusComponent } from './src/dh-role-status.component';
+export { DhUserStatusComponent } from './src/dh-user-status.component';
+export { DhPermissionsTableComponent } from './src/dh-permissions-table.component';
+export * from './src/types/dh-update-user-role.type';

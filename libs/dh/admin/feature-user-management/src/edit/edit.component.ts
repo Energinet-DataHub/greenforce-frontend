@@ -39,7 +39,7 @@ import {
   GetActorsAndUserRolesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { UpdateUserRoles } from '@energinet-datahub/dh/admin/domain-shared';
+import { UpdateUserRoles } from '@energinet-datahub/dh/admin/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhUserRolesContainerComponent } from '@energinet-datahub/dh/admin/feature-user-roles';

@@ -32,7 +32,7 @@ import { WattTabComponent, WattTabsComponent } from '@energinet/watt/tabs';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/domain-shared';
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-shared';
 
 import {
   PermissionDetailsDto,
