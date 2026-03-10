@@ -3492,6 +3492,7 @@ enum WorkflowAction {
   NO_ACTION
   SEND_INFORMATION
   CANCEL_WORKFLOW
+  CONFIRM_WORKFLOW
 }
 
 "The authorize directive."
