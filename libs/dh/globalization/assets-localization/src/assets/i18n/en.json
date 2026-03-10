@@ -247,6 +247,7 @@
         "menuGroupLabel": "Market participants",
         "userManagement": "User Management",
         "marketParticipantMasterData": "Market participants master data",
+        "actor-conversation": "Actor Conversation",
         "gridAreas": "Grid Areas"
       },
       "eSett": "eSett",
@@ -784,6 +785,7 @@
       }
     },
     "actorConversation": {
+      "topBarTitle": "Actor Conversation",
       "searchPlaceholder": "Search for case-ID or internal note",
       "cases": "Cases",
       "newCaseButton": "New case",

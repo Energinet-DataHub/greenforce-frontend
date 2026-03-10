@@ -45,10 +45,10 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Set up Docker Build
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Build
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: ${{ github.workspace }}
           file: apps/dh/app-dh/Dockerfile
@@ -72,17 +72,17 @@ jobs:
       - name: Setup Release
         shell: bash
         run: |
-            publishdir="${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}"
-            mkdir -p $publishdir
+          publishdir="${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}"
+          mkdir -p $publishdir
 
-            # Extract built assets from Docker image
-            docker create --name temp-container app:latest
-            docker cp temp-container:/usr/share/nginx/html/. $publishdir/${{ env.APP_NAME }}
-            docker cp temp-container:/usr/share/sbom.spdx.json ${{ github.workspace }}/sbom.spdx.json
-            docker rm temp-container
+          # Extract built assets from Docker image
+          docker create --name temp-container app:latest
+          docker cp temp-container:/usr/share/nginx/html/. $publishdir/${{ env.APP_NAME }}
+          docker cp temp-container:/usr/share/sbom.spdx.json ${{ github.workspace }}/sbom.spdx.json
+          docker rm temp-container
 
-            cp -R ${{ github.workspace }}/apps/dh/e2e-dh $publishdir
-            rm $publishdir/${{ env.APP_NAME }}/50x.html
+          cp -R ${{ github.workspace }}/apps/dh/e2e-dh $publishdir
+          rm $publishdir/${{ env.APP_NAME }}/50x.html
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
@@ -92,7 +92,7 @@ jobs:
           directory: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
 
       - name: Attest SBOM
-        uses: actions/attest-sbom@v3
+        uses: actions/attest@v4
         with:
           subject-path: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
           sbom-path: ${{ github.workspace }}/sbom.spdx.json
