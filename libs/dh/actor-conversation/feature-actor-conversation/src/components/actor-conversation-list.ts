@@ -36,7 +36,7 @@ import {
   DhResultComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSimpleSearchComponent } from '@energinet/watt/search';
-import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/dropdown';
+import { WattDropdownOptionGroup } from '@energinet/watt/dropdown';
 
 @Component({
   selector: 'dh-actor-conversation-list',
@@ -50,7 +50,6 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
     DhResultComponent,
     ReactiveFormsModule,
     WattSimpleSearchComponent,
-    WattDropdownComponent,
     WattSeparatorComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
