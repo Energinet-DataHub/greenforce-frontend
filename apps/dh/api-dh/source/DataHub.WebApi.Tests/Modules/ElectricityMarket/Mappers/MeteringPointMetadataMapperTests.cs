@@ -141,7 +141,8 @@ public class MeteringPointMetadataMapperTests
 
         var electricalHeatingPeriod = new MeteringPointDtoV2.ElectricalHeatingPeriodDto(
             _heatingValidFrom,
-            _heatingValidTo);
+            _heatingValidTo,
+            IsActive: true);
 
         var commercialRelation = new MeteringPointDtoV2.CommercialRelationDto(
             _validFrom,
@@ -231,7 +232,7 @@ public class MeteringPointMetadataMapperTests
             () => Assert.NotEmpty(commercialRelationResult.ActiveElectricalHeatingPeriods!.Id),
             () => Assert.Equal(_heatingValidFrom, commercialRelationResult.ActiveElectricalHeatingPeriods!.ValidFrom),
             () => Assert.Equal(_heatingValidTo, commercialRelationResult.ActiveElectricalHeatingPeriods!.ValidTo),
-            () => Assert.False(commercialRelationResult.ActiveElectricalHeatingPeriods!.IsActive),
+            () => Assert.True(commercialRelationResult.ActiveElectricalHeatingPeriods!.IsActive),
             () => Assert.Null(commercialRelationResult.ActiveElectricalHeatingPeriods!.TransactionType));
     }
 
