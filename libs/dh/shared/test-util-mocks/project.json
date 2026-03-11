@@ -1,8 +1,0 @@
-{
-  "name": "dh-shared-test-util-mocks",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/dh/shared/test-util-mocks/src",
-  "prefix": "dh",
-  "tags": ["product:dh", "scope:shared", "type:test-util"]
-}

@@ -1,10 +1,6 @@
 {
   "name": "dh-shared-domain",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/dh/shared/domain/src",
-  "prefix": "dh",
-  "tags": ["product:dh", "scope:shared", "type:domain"],
   "implicitDependencies": ["api-dh"],
   "targets": {
     "generate": {
