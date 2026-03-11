@@ -107,7 +107,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
               fill="horizontal"
               direction="row"
               justify="space-between"
-              class="watt-space-inset-reverse-stretch-m"
+              class="watt-space-reverse-inset-stretch-m"
             >
               <vater-stack gap="s" align="start">
                 <vater-stack direction="row" gap="xs">
@@ -163,7 +163,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
             direction="column"
             fill="both"
             scrollable
-            class="watt-space-inset-reverse-stretch-m no-padding-bottom"
+            class="watt-space-reverse-inset-stretch-m no-padding-bottom"
           >
             <vater-stack direction="column" gap="m">
               @for (message of conversation.messages; track message) {
