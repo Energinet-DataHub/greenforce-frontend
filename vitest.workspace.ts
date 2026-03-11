@@ -17,9 +17,6 @@
  */
 //#endregion
 export default [
-  // Shared product-level configs — cover all implicit dh/gf libs via env vars
-  'libs/dh/vite.config.mts',
-  'libs/gf/vite.config.mts',
   // App — has its own MSW polyfill + resolve.alias; kept as-is
   'apps/dh/app-dh/vite.config.mts',
   // watt — buildable ng-packagr library with its own vitest config

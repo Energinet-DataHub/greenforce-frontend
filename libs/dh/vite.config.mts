@@ -26,6 +26,23 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 /**
+ * Walk upward from `startDir` until a directory containing `nx.json` is found.
+ * Falls back to `NX_WORKSPACE_ROOT` (set by `nx run`) when present so that
+ * the config is correct regardless of the working directory it is evaluated from
+ * (e.g. when used via vitest.workspace.ts or run from a product-level directory).
+ */
+function findWorkspaceRoot(startDir: string): string {
+  if (process.env['NX_WORKSPACE_ROOT']) return process.env['NX_WORKSPACE_ROOT'];
+  let dir = startDir;
+  for (;;) {
+    if (existsSync(join(dir, 'nx.json'))) return dir;
+    const parent = join(dir, '..');
+    if (parent === dir) return startDir; // filesystem root — give up
+    dir = parent;
+  }
+}
+
+/**
  * Shared Vitest config for all implicit `dh` libs.
  *
  * Per-lib variation is communicated via environment variables set by the
@@ -35,11 +52,13 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
  *   VITEST_USE_ANGULAR   – "true" | "false"       (default: "true")
  *
  * Vitest runs each lib with `cwd` set to the lib's project root, so
- * `process.cwd()` here always equals the lib's root directory.
+ * `process.cwd()` here always equals the lib's root directory when invoked
+ * via `nx run`. The config also handles being evaluated from other working
+ * directories by walking upward to locate `nx.json`.
  */
 export default defineConfig(() => {
   const libRoot = process.cwd();
-  const workspaceRoot = join(libRoot, '../../../..');
+  const workspaceRoot = findWorkspaceRoot(libRoot);
   const libRelative = relative(workspaceRoot, libRoot); // e.g. "libs/dh/admin/feature-user-management"
 
   const environment = (process.env['VITEST_ENVIRONMENT'] ?? 'happy-dom') as 'happy-dom' | 'node';
@@ -48,21 +67,18 @@ export default defineConfig(() => {
   const setupFile = join(libRoot, 'tests/test-setup.ts');
   const setupFiles = existsSync(setupFile) ? ['tests/test-setup.ts'] : [];
 
-  const angularPlugins = useAngular ? [angular({ tsconfig: './tsconfig.json' })] : [];
+  // Prefer tsconfig.spec.json (includes test file globs); fall back to tsconfig.json
+  const tsconfig = existsSync(join(libRoot, 'tsconfig.spec.json'))
+    ? './tsconfig.spec.json'
+    : './tsconfig.json';
 
-  // Angular libs need forks pool + Zone.js-safe settings
-  const angularTestOptions = useAngular
-    ? {
-        pool: 'forks' as const,
-        isolate: false,
-        maxWorkers: 1,
-        server: { deps: { inline: [/fesm2022/] } },
-      }
-    : {};
+  const angularPlugins = useAngular ? [angular({ tsconfig })] : [];
 
   return {
     root: libRoot,
     cacheDir: join(workspaceRoot, 'node_modules/.vite', libRelative),
+    // Required for libs that transitively import `msw/browser` (via gf/msw/test-util-msw-setup)
+    resolve: { conditions: ['development', 'browser'] },
     plugins: [...angularPlugins, nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
     test: {
       passWithNoTests: true,
@@ -76,7 +92,7 @@ export default defineConfig(() => {
         reportsDirectory: join(workspaceRoot, 'coverage', libRelative),
         provider: 'v8' as const,
       },
-      ...angularTestOptions,
+      pool: 'forks' as const,
     },
   };
 });
