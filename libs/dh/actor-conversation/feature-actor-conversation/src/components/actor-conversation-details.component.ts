@@ -51,6 +51,7 @@ import {
   GetConversationDocument,
   GetConversationsDocument,
   MarkConversationUnReadDocument,
+  ParticipantType,
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattModalService } from '@energinet/watt/modal';
@@ -111,9 +112,9 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
             >
               <vater-stack gap="s" align="start">
                 <vater-stack direction="row" gap="xs">
-                  <span class="watt-text-s">Sort Strøm(MOCK)</span>
+                  <span class="watt-text-s">{{ initiatorName() }} {{ t('receivers.' + initiatorRole()) }}</span>
                   <watt-icon name="right" size="xs" />
-                  <span class="watt-text-s">Netvirksomhed(MOCK)</span>
+                  <span class="watt-text-s">{{ receiverName() }} {{ t('receivers.' + receiverRole()) }}</span>
                 </vater-stack>
                 <vater-stack direction="row" gap="s">
                   <h3 watt-heading>
@@ -222,6 +223,16 @@ export class DhActorConversationDetailsComponent {
   }));
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
+  private readonly initiator = computed(
+    () => this.conversation()?.participants.find((p) => p.type === ParticipantType.Initiator)
+  );
+  initiatorName = computed(() => this.initiator()?.actorName ?? null);
+  initiatorRole = computed(() => this.initiator()?.role ?? null);
+  private readonly receiver = computed(
+    () => this.conversation()?.participants.find((p) => p.type === ParticipantType.Receiver)
+  );
+  receiverName = computed(() => this.receiver()?.actorName ?? null);
+  receiverRole = computed(() => this.receiver()?.role ?? null);
 
   private readonly syncAnonymousEffect = effect(() => {
     const anonymous = this.conversation()?.wasLatestMessageAnonymous;

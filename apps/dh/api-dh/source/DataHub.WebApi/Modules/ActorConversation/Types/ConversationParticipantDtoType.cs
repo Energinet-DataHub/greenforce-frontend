@@ -13,16 +13,43 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
 [ObjectType<GetConversationQueryResponseParticipant>]
 public static partial class ConversationParticipantDtoType
 {
+    public static async Task<string?> GetActorNameAsync(
+        [Parent] GetConversationQueryResponseParticipant participant,
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader,
+        CancellationToken ct)
+    {
+        var actor = await dataLoader.LoadAsync(
+            (participant.MarketParticipantNumber ?? string.Empty, MapRoleToEicFunction(participant.Role)),
+            ct);
+        return actor?.Name.Value;
+    }
+
     static partial void Configure(IObjectTypeDescriptor<GetConversationQueryResponseParticipant> descriptor)
     {
         descriptor.Field(f => f.Role);
         descriptor.Field(f => f.MarketParticipantNumber);
         descriptor.Field(f => f.Type);
+        descriptor
+            .Field("actorName")
+            .ResolveWith<ConversationParticipantDtoType>(x => GetActorNameAsync(default!, default!, default));
+    }
+
+    private static EicFunction MapRoleToEicFunction(MarketRole role)
+    {
+        return role switch
+        {
+            MarketRole.EnergySupplier => EicFunction.EnergySupplier,
+            MarketRole.Energinet => EicFunction.DataHubAdministrator,
+            MarketRole.GridAccessProvider => EicFunction.GridAccessProvider,
+            _ => throw new ArgumentOutOfRangeException(nameof(role), role, "Unknown MarketRole"),
+        };
     }
 }
