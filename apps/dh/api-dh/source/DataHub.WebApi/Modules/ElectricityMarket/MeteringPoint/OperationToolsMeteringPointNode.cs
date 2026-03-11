@@ -33,7 +33,7 @@ public static class OperationToolsMeteringPointNode
     [Authorize(Roles = ["metering-point:search"])]
     public static async Task<string> GetDebugViewAsync(
         string meteringPointId,
-        IElectricityMarketClient_V1 electricityMarketClient,
+        [Service] IElectricityMarketClient_V1 electricityMarketClient,
         CancellationToken ct) => await electricityMarketClient
             .MeteringPointDebugViewAsync(meteringPointId, ct)
             .Then(r => r.Result);
@@ -42,7 +42,7 @@ public static class OperationToolsMeteringPointNode
     [Authorize(Roles = ["metering-point:search"])]
     public static async Task<IEnumerable<MeteringPointsGroupByPackageNumber>> GetMeteringPointsByGridAreaCodeAsync(
         string gridAreaCode,
-        IElectricityMarketClient_V1 electricityMarketClient,
+        [Service] IElectricityMarketClient_V1 electricityMarketClient,
         CancellationToken ct) => await electricityMarketClient
             .MeteringPointDebugAsync(gridAreaCode, ct)
             .Then(r => r
