@@ -36,7 +36,7 @@ export default defineConfig(() => ({
   cacheDir:
     '../../../../../node_modules/.vite/libs/dh/market-participant/feature-market-participant',
   plugins: [
-    angular({ tsconfig: './tsconfig.json' }),
+    angular({ tsconfig: './tsconfig.spec.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],
