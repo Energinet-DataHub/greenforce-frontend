@@ -1,8 +1,0 @@
-{
-  "name": "gf-test-util-matchers",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/gf/test-util-matchers/src",
-  "prefix": "gf-test",
-  "tags": ["product:gf", "domain:shared", "type:test-util"]
-}

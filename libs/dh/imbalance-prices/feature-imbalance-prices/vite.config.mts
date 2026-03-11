@@ -6,21 +6,21 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh/market-participant/feature-delegation',
+  cacheDir: '../../../../node_modules/.vite/libs/dh/imbalance-prices/feature-imbalance-prices',
   plugins: [angular({ tsconfig: './tsconfig.json' }), nxViteTsPaths()],
   test: {
     passWithNoTests: true,
     globals: true,
     watch: false,
     environment: 'happy-dom',
-    setupFiles: ['tests/test-setup.ts'],
+    setupFiles: './tests/test-setup.ts',
     include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
     coverage: {
-      enabled: true,
-      provider: 'v8',
-      reporter: ['html', 'json', 'text-summary'],
-      reportsDirectory: '../../../../coverage/libs/dh/market-participant/feature-delegation',
+      provider: 'v8' as const,
+      reportsDirectory: '../../../../coverage/libs/dh/imbalance-prices/feature-imbalance-prices',
     },
     pool: 'forks',
+    isolate: false,
+    maxWorkers: 1,
   },
 });
