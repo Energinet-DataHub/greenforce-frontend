@@ -37,9 +37,6 @@ public static partial class ConversationParticipantDtoType
         descriptor.Field(f => f.Role);
         descriptor.Field(f => f.MarketParticipantNumber);
         descriptor.Field(f => f.Type);
-        descriptor
-            .Field("actorName")
-            .ResolveWith<ConversationParticipantDtoType>(x => GetActorNameAsync(default!, default!, default));
     }
 
     private static EicFunction MapRoleToEicFunction(MarketRole role)
