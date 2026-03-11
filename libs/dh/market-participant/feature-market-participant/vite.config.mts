@@ -19,7 +19,7 @@
 /// <reference types='vitest' />
 /// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
-import analog from '@analogjs/vite-plugin-angular';
+import angular from '@analogjs/vite-plugin-angular';
 import { resolve } from 'path';
 
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
@@ -36,7 +36,7 @@ export default defineConfig(() => ({
   cacheDir:
     '../../../../../node_modules/.vite/libs/dh/market-participant/feature-market-participant',
   plugins: [
-    analog({ tsconfig: './tsconfig.spec.json' }),
+    angular({ tsconfig: './tsconfig.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],

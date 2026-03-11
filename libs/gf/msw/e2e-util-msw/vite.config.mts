@@ -27,7 +27,7 @@ export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/gf/msw/e2e-util-msw',
   plugins: [
-    angular({ tsconfig: './tsconfig.spec.json' }),
+    angular({ tsconfig: './tsconfig.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],

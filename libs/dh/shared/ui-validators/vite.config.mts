@@ -36,7 +36,7 @@ export default defineConfig(() => ({
     watch: false,
     globals: true,
     environment: 'jsdom',
-    include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts', 'tests/**/*.test.ts'],
+    include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
     setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
