@@ -16,8 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, Injectable, inject } from '@angular/core';
+import { computed, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { filter, map, startWith } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 import { dayjs, WattRange } from '@energinet/watt/date';
 import {
   ArchivedMessageDocumentType,
@@ -31,15 +34,11 @@ import {
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map, startWith } from 'rxjs';
 import { exists, keyExists } from '@energinet-datahub/dh/shared/util-operators';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Injectable()
 export class DhMessageArchiveSearchFormService {
-  private featureFlagsService = inject(DhFeatureFlagsService);
   private marketParticipantsQuery = query(GetMarketParticipantsDocument);
   private marketParticipants = computed(
     () => this.marketParticipantsQuery.data()?.marketParticipants ?? []

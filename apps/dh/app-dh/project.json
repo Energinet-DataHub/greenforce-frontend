@@ -18,7 +18,6 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "allowedCommonJsDependencies": ["flat", "msw", "dayjs", "qs"],
         "assets": [
           {
             "input": "libs/dh/shared/assets/src/favicon",
@@ -84,7 +83,7 @@
               "with": "libs/dh/shared/environments/src/environment.prod.ts"
             }
           ],
-          "allowedCommonJsDependencies": ["crypto-js", "dayjs", "flat", "qs"],
+          "allowedCommonJsDependencies": ["dayjs", "papaparse", "chardet"],
           "outputHashing": "all",
           "serviceWorker": "apps/dh/app-dh/ngsw-config.json",
           "sourceMap": {
@@ -98,8 +97,7 @@
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true,
-          "allowedCommonJsDependencies": ["flat", "msw", "dayjs"]
+          "namedChunks": true
         },
         "mocked": {
           "aot": false,
@@ -112,14 +110,6 @@
               "replace": "libs/dh/shared/environments/src/environment.ts",
               "with": "libs/dh/shared/environments/src/environment.mocked.ts"
             }
-          ],
-          "allowedCommonJsDependencies": [
-            "@mswjs/cookies",
-            "@mswjs/interceptors",
-            "msw",
-            "flat",
-            "crypto-js",
-            "dayjs"
           ]
         }
       },
