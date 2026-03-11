@@ -76,6 +76,17 @@
   border-color: purple;
 }
 
+.inset-reverse-stretch-box {
+  position: relative;
+  width: 150px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-color: fuchsia;
+}
+
 .stack-box {
   position: relative;
   width: 150px;

@@ -83,11 +83,16 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
     .file-input {
       display: none;
     }
+
+    .block {
+      display: block !important;
+    }
   `,
   template: `
     <vater-stack
       fill="horizontal"
       align="end"
+      gap="s"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <watt-textarea-field
@@ -120,7 +125,18 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
           <watt-input-chip [label]="file.name" (removed)="removeFile(file)" />
         }
 
-        <watt-field-hint [innerHTML]="t('personalDataNotice')" style="display: block !important;" />
+        <watt-field-hint class="watt-text-s block">
+          {{ t('personalDataNoticePrefix') }}
+          <a
+            class="watt-link-s"
+            target="_blank"
+            href="https://www.datatilsynet.dk/regler-og-vejledning/grundlaeggende-begreber/hvad-er-personoplysninger"
+          >
+            {{ t('personalDataNoticeLink') }} </a
+          >{{ t('personalDataNoticeMidfix') }}
+          <strong class="watt-text-s-highlighted">{{ t('personalDataNoticeNot') }}</strong
+          >{{ t('personalDataNoticeSuffix') }}
+        </watt-field-hint>
       </watt-textarea-field>
 
       <vater-stack direction="row" justify="space-between" fill="horizontal">

@@ -37,6 +37,11 @@ const spacingScales: Scale[] = [
     sizeRem: 0.5,
   },
   {
+    name: 'space-sm',
+    sizePx: 12,
+    sizeRem: 0.75,
+  },
+  {
     name: 'space-m',
     sizePx: 16,
     sizeRem: 1,

@@ -65,34 +65,45 @@ import { injectDownloadMessageDocument } from './download-message-document';
     .italic {
       font-style: italic;
     }
+
+    .message-content-padding {
+      padding: var(--watt-space-sm) var(--watt-space-m);
+    }
+
+    .font-weight-semi-bold {
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .grey-700 {
+      color: var(--watt-color-neutral-grey-700);
+    }
   `,
   host: {
-    class: 'watt-space-inset-m',
     '[style.align-self]': 'messageAlignment()',
     '[style.max-width]': '"66%"',
   },
   template: `
     <vater-stack
-      class="message-container"
+      class="message-container watt-text-s"
       [style.background-color]="backgroundColor()"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
-      <vater-stack fill="horizontal" align="start" class="watt-space-inset-m">
+      <vater-stack fill="horizontal" align="start" class="message-content-padding" gap="xs">
         <vater-stack direction="row" justify="space-between" fill="horizontal" gap="m">
-          <span>{{ t('receivers.' + message().senderType) }}</span>
-          <span>{{ message().createdTime | wattDate: 'short' }}</span>
+          <span class="font-weight-semi-bold">{{ t('receivers.' + message().senderType) }}</span>
+          <span class="grey-700">{{ message().createdTime | wattDate: 'short' }}</span>
         </vater-stack>
-        <vater-stack direction="row" gap="s">
-          @if (message().actorName && message().userName) {
-            <span>{{ message().actorName + ', ' + message().userName }}</span>
-          }
-          @if (message().actorName && message().userName && message().anonymous) {
-            <span>{{ t('sentAnonymously') }}</span>
-          }
-        </vater-stack>
+        @if (message().actorName && message().userName) {
+          <span>
+            {{ message().actorName + ', ' + message().userName }}
+            @if (message().actorName && message().userName && message().anonymous) {
+              {{ t('sentAnonymously') }}
+            }
+          </span>
+        }
       </vater-stack>
       <watt-separator />
-      <vater-stack align="start" fill="horizontal" class="watt-space-inset-m">
+      <vater-stack align="start" fill="horizontal" class="message-content-padding">
         @switch (message().messageType) {
           @case ('USER_MESSAGE') {
             <span vater fill="horizontal">
