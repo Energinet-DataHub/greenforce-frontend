@@ -1,8 +1,0 @@
-{
-  "name": "dh-esett-shell",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/esett/shell/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:esett", "type:shell"]
-}
