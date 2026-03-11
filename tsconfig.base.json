@@ -24,9 +24,6 @@
         "libs/dh/actor-conversation/feature-actor-conversation/index.ts"
       ],
       "@energinet-datahub/dh/admin/data-access-api": ["libs/dh/admin/data-access-api/index.ts"],
-      "@energinet-datahub/dh/admin/data-access-graphql": [
-        "libs/dh/admin/data-access-graphql/src/index.ts"
-      ],
       "@energinet-datahub/dh/admin/feature-permissions": [
         "libs/dh/admin/feature-permissions/index.ts"
       ],
@@ -59,9 +56,6 @@
       ],
       "@energinet-datahub/dh/developer/feature-operation": [
         "libs/dh/developer/feature-operation/index.ts"
-      ],
-      "@energinet-datahub/dh/esett/data-access-outgoing-messages": [
-        "libs/dh/esett/data-access-outgoing-messages/src/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-balance-responsible": [
         "libs/dh/esett/feature-balance-responsible/index.ts"
@@ -105,9 +99,6 @@
       ],
       "@energinet-datahub/dh/market-participant/feature-organizations": [
         "libs/dh/market-participant/feature-organizations/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/shell": [
-        "libs/dh/market-participant/shell/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/ui-shared": [
         "libs/dh/market-participant/ui-shared/index.ts"
@@ -180,9 +171,6 @@
         "libs/dh/shared/feature-authorization/index.ts"
       ],
       "@energinet-datahub/dh/shared/feature-flags": ["libs/dh/shared/feature-flags/index.ts"],
-      "@energinet-datahub/dh/shared/feature-graphql-codegen": [
-        "libs/dh/shared/feature-graphql-codegen/src/index.ts"
-      ],
       "@energinet-datahub/dh/shared/feature-highlight": [
         "libs/dh/shared/feature-highlight/index.ts"
       ],
@@ -191,7 +179,6 @@
       ],
       "@energinet-datahub/dh/shared/test-util": ["libs/dh/shared/test-util/index.ts"],
       "@energinet-datahub/dh/shared/test-util-mocks": ["libs/dh/shared/test-util-mocks/index.ts"],
-      "@energinet-datahub/dh/shared/ui-search": ["libs/dh/shared/ui-search/src/index.ts"],
       "@energinet-datahub/dh/shared/ui-util": ["libs/dh/shared/ui-util/index.ts"],
       "@energinet-datahub/dh/shared/ui-validators": ["libs/dh/shared/ui-validators/index.ts"],
       "@energinet-datahub/dh/shared/util-apollo": ["libs/dh/shared/util-apollo/index.ts"],
@@ -210,21 +197,16 @@
         "libs/dh/shared/util-release-toggle/index.ts"
       ],
       "@energinet-datahub/dh/shared/util-reports": ["libs/dh/shared/util-reports/index.ts"],
-      "@energinet-datahub/dh/shared/util-table": ["libs/dh/shared/util-table/index.ts"],
       "@energinet-datahub/dh/shared/util-text": ["libs/dh/shared/util-text/index.ts"],
       "@energinet-datahub/dh/wholesale/domain": ["libs/dh/wholesale/domain/index.ts"],
       "@energinet-datahub/dh/wholesale/feature-calculations": [
         "libs/dh/wholesale/feature-calculations/index.ts"
-      ],
-      "@energinet-datahub/dh/wholesale/feature-request-calculation": [
-        "libs/dh/wholesale/feature-request-calculation/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/feature-requests": [
         "libs/dh/wholesale/feature-requests/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/shell": ["libs/dh/wholesale/shell/index.ts"],
       "@energinet-datahub/dh/wholesale/ui-shared": ["libs/dh/wholesale/ui-shared/index.ts"],
-      "@energinet-datahub/gf/e2e-util-msw": ["libs/gf/msw/e2e-util-msw/index.ts"],
       "@energinet-datahub/gf/globalization/configuration-danish-locale": [
         "libs/gf/globalization/configuration-danish-locale/index.ts"
       ],
@@ -264,14 +246,12 @@
       "@energinet/watt/date": ["libs/watt/package/core/date/index.ts"],
       "@energinet/watt/datepicker": ["libs/watt/package/picker/datepicker/index.ts"],
       "@energinet/watt/datetime-field": ["libs/watt/package/datetime-field/index.ts"],
-      "@energinet/watt/datetimepicker": ["libs/watt/package/picker/datetimepicker/index.ts"],
       "@energinet/watt/description-list": ["libs/watt/package/description-list/index.ts"],
       "@energinet/watt/drawer": ["libs/watt/package/drawer/index.ts"],
       "@energinet/watt/dropdown": ["libs/watt/package/dropdown/index.ts"],
       "@energinet/watt/dropzone": ["libs/watt/package/dropzone/index.ts"],
       "@energinet/watt/empty-state": ["libs/watt/package/empty-state/index.ts"],
       "@energinet/watt/expandable-card": ["libs/watt/package/expandable-card/index.ts"],
-      "@energinet/watt/expansion": ["libs/watt/package/expansion/index.ts"],
       "@energinet/watt/field": ["libs/watt/package/field/index.ts"],
       "@energinet/watt/file-field": ["libs/watt/package/file-field/index.ts"],
       "@energinet/watt/heading": ["libs/watt/package/heading/index.ts"],
