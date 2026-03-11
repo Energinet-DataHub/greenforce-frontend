@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhSettlementReports as default } from './components/settlement-reports.component';
+export { DhSettlementReports as default } from './src/components/settlement-reports.component';

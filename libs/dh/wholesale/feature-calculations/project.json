@@ -1,9 +1,0 @@
-{
-  "name": "dh-wholesale-feature-calculations",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/dh/wholesale/feature-calculations/src",
-  "prefix": "dh",
-  "tags": ["product:dh", "domain:wholesale", "type:feature"],
-  "targets": {}
-}
