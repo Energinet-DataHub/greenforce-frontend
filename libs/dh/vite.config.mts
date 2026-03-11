@@ -48,7 +48,12 @@ export default defineConfig(() => {
   const setupFile = join(libRoot, 'tests/test-setup.ts');
   const setupFiles = existsSync(setupFile) ? ['tests/test-setup.ts'] : [];
 
-  const angularPlugins = useAngular ? [angular({ tsconfig: './tsconfig.json' })] : [];
+  // Prefer tsconfig.spec.json (includes test file globs); fall back to tsconfig.json
+  const tsconfig = existsSync(join(libRoot, 'tsconfig.spec.json'))
+    ? './tsconfig.spec.json'
+    : './tsconfig.json';
+
+  const angularPlugins = useAngular ? [angular({ tsconfig })] : [];
 
   // Angular libs need forks pool + Zone.js-safe settings
   const angularTestOptions = useAngular
