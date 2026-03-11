@@ -25,14 +25,10 @@ import { TranslocoPipe } from '@jsverse/transloco';
   imports: [TranslocoPipe],
   template: `
     @switch (reasonCode()) {
-      @case ('CloseDownMeteringPoint') {
-        {{ 'meteringPoint.processOverview.steps.CloseDownMeteringPoint.' + step() | transloco }}
-      }
-      @case ('ConnectMeteringPoint') {
-        {{ 'meteringPoint.processOverview.steps.ConnectMeteringPoint.' + step() | transloco }}
-      }
+      @case ('CloseDownMeteringPoint')
+      @case ('ConnectMeteringPoint')
       @case ('ChangeConnectionStatus') {
-        {{ 'meteringPoint.processOverview.steps.ChangeConnectionStatus.' + step() | transloco }}
+        {{ 'meteringPoint.processOverview.steps.' + reasonCode() + '.' + step() | transloco }}
       }
       @default {
         {{ 'meteringPoint.processOverview.steps.' + step() | transloco }}

@@ -31,34 +31,20 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
     <ng-container *transloco="let t; prefix: 'eSett.outgoingMessages.shared.documentStatus'">
       @switch (_status) {
-        @case ('RECEIVED') {
-          <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
-            {{ t(_status) }}
-          </watt-badge>
-        }
-        @case ('AWAITING_DISPATCH') {
-          <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
-            {{ t(_status) }}
-          </watt-badge>
-        }
-        @case ('BIZ_TALK_ACCEPTED') {
-          <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
-            {{ t(_status) }}
-          </watt-badge>
-        }
+        @case ('RECEIVED')
+        @case ('AWAITING_DISPATCH')
+        @case ('BIZ_TALK_ACCEPTED')
         @case ('AWAITING_REPLY') {
           <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
             {{ t(_status) }}
           </watt-badge>
         }
-        @case ('ACCEPTED') {
+        @case ('ACCEPTED')
+        @case ('MANUALLY_HANDLED') {
           <watt-badge type="success">{{ t(_status) }}</watt-badge>
         }
         @case ('REJECTED') {
           <watt-badge type="warning">{{ t(_status) }}</watt-badge>
-        }
-        @case ('MANUALLY_HANDLED') {
-          <watt-badge type="success">{{ t(_status) }}</watt-badge>
         }
         @default {
           {{ _status | dhEmDashFallback }}
