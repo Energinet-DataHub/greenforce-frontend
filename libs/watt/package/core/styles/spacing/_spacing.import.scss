@@ -67,11 +67,11 @@
 }
 
 // Inset Reverse Stretch
-@mixin inset-reverse-stretch-s {
+@mixin reverse-inset-stretch-s {
   padding: var(--watt-space-s) #{spaceVariables.$watt-space-baseline * 3};
 }
 
-@mixin inset-reverse-stretch-m {
+@mixin reverse-inset-stretch-m {
   padding: var(--watt-space-m) #{spaceVariables.$watt-space-baseline * 6};
 }
 
