@@ -142,7 +142,12 @@ function getMeteringPointProcessOverview() {
     await delay(mswConfig.delay);
 
     // Generate more varied mock data for testing sorting
-    const reasonCodes = ['EndOfSupply', 'NewMeteringPoint', 'ConnectMeteringPoint'];
+    const reasonCodes = [
+      'EndOfSupply',
+      'NewMeteringPoint',
+      'ConnectMeteringPoint',
+      'ProductionObligation',
+    ];
 
     const states = [
       ProcessState.Pending,
@@ -221,7 +226,13 @@ function getMeteringPointProcessById(apiBase: string) {
     await delay(mswConfig.delay);
 
     const processId = args.variables.id;
-    const reasonCodes = ['EndOfSupply', 'NewMeteringPoint', 'ConnectMeteringPoint'];
+    const reasonCodes = [
+      'EndOfSupply',
+      'NewMeteringPoint',
+      'ConnectMeteringPoint',
+      'ProductionObligation',
+    ];
+
     const initiators = [
       { id: '0199ed3d-f1b2-7180-9546-39b5836fb575', displayName: '905495045940594 • Radius' },
       { id: '0199ed3d-f1b2-7180-9546-39b5836fb576', displayName: '5790001330552 • Energinet' },

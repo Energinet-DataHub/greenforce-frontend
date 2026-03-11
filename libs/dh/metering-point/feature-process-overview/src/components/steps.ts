@@ -157,6 +157,7 @@ export class DhMeteringPointProcessOverviewSteps {
       'CloseDownMeteringPoint',
       'ChangeConnectionStatus',
       'UpdateMeteringPointMasterData',
+      'ProductionObligation',
     ];
     const isShortLivedProcess = shortLivedProcessesByReasonCode.includes(reasonCode);
 
