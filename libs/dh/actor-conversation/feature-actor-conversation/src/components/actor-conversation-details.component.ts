@@ -112,13 +112,23 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
             >
               <vater-stack gap="s" align="start">
                 <vater-stack direction="row" gap="xs">
-                  <span class="watt-text-s"
-                    >{{ initiatorName() }} {{ t('receivers.' + initiatorRole()) }}</span
-                  >
+                  @let initiatorRole = t('role.' + initiator()?.role);
+                  <span class="watt-text-s">
+                    @if (initiator()?.actorName; as actorName) {
+                      {{ actorName }} ({{ initiatorRole }})
+                    } @else {
+                      {{ initiatorRole }}
+                    }
+                  </span>
                   <watt-icon name="right" size="xs" />
-                  <span class="watt-text-s"
-                    >{{ receiverName() }} {{ t('receivers.' + receiverRole()) }}</span
-                  >
+                  @let receiverRole = t('role.' + receiver()?.role);
+                  <span class="watt-text-s">
+                    @if (receiver()?.actorName; as actorName) {
+                      {{ actorName }} ({{ receiverRole }})
+                    } @else {
+                      {{ receiverRole }}
+                    }
+                  </span>
                 </vater-stack>
                 <vater-stack direction="row" gap="s">
                   <h3 watt-heading>
@@ -227,16 +237,13 @@ export class DhActorConversationDetailsComponent {
   }));
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
-  private readonly initiator = computed(() =>
-    this.conversation()?.participants.find((p) => p.type === ParticipantType.Initiator)
-  );
-  initiatorName = computed(() => this.initiator()?.actorName ?? null);
-  initiatorRole = computed(() => this.initiator()?.role ?? null);
-  private readonly receiver = computed(() =>
-    this.conversation()?.participants.find((p) => p.type === ParticipantType.Receiver)
-  );
-  receiverName = computed(() => this.receiver()?.actorName ?? null);
-  receiverRole = computed(() => this.receiver()?.role ?? null);
+
+  readonly initiator = this.getParticipant(ParticipantType.Initiator);
+  readonly receiver = this.getParticipant(ParticipantType.Receiver);
+
+  private getParticipant(type: ParticipantType) {
+    return computed(() => this.conversation()?.participants.find((p) => p.type === type));
+  }
 
   private readonly syncAnonymousEffect = effect(() => {
     const anonymous = this.conversation()?.wasLatestMessageAnonymous;
