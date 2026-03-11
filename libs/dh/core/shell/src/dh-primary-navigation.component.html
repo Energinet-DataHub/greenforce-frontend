@@ -130,19 +130,11 @@ limitations under the License.
     <watt-nav-list
       [title]="transloco('developer.operationTools.menuGroupLabel')"
       [expandable]="true"
-      *dhPermissionRequired="[
-        'fas',
-        'metering-point:operation-tools-view',
-        'metering-point:operation-tools-manage',
-      ]"
+      *dhPermissionRequired="['fas', 'operation-tools:view', 'operation-tools:manage']"
     >
       <watt-nav-list-item
         [link]="getOperationToolsLink('metering-point')"
-        *dhPermissionRequired="[
-          'fas',
-          'metering-point:operation-tools-view',
-          'metering-point:operation-tools-manage',
-        ]"
+        *dhPermissionRequired="['fas', 'operation-tools:view', 'operation-tools:manage']"
       >
         {{ transloco("developer.operationTools.meteringPoint") }}
       </watt-nav-list-item>
