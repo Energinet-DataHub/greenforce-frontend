@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.MarketParticipant.Authorization.Model;
-using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
@@ -30,7 +28,7 @@ public static partial class ActorConversationsNode
     public static async Task<GetConversationsQueryResponse> GetConversationsForMeteringPointAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IActorConversationClient_V1 actorConversationClient,
         string meteringPointIdentification,
         string? searchTerm,
         CancellationToken ct)
@@ -42,27 +40,7 @@ public static partial class ActorConversationsNode
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
-        // TODO: Will be replaced with the ActorConversationsRequest when implemented
-        var authRequest = new CreateActorConversationRequest
-        {
-            ActorNumber = marketParticipantNumber,
-            MarketRole = marketRole,
-            MeteringPointId = meteringPointIdentification,
-            UserId = userId,
-        };
-
-        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
-        {
-            throw new InvalidOperationException(
-                "User is not authorized to access conversations for the requested metering point.");
-        }
-
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
-
-        return await authClient.ApiGetConversationsAsync(
+        return await actorConversationClient.ApiGetConversationsAsync(
             meteringPointIdentification,
             searchTerm,
             null,
