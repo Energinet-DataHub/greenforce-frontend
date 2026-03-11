@@ -226,6 +226,13 @@ watt-button {
         visibility: hidden;
       }
     }
+
+    &:has(.content-wrapper .text-content:empty) {
+      padding: 0;
+      .content-wrapper {
+        gap: 0;
+      }
+    }
   }
 
   &.watt-button-size--small {
