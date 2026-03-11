@@ -2631,7 +2631,7 @@
           "pending": "Validating period",
           "empty": "Period required",
           "warning": {
-            "AGGREGATION": "Existing calculations has been carried out for the period",
+            "AGGREGATION": "Existing calculations have been carried out for the period",
             "BALANCE_FIXING": "Balance fixing has been carried out for the period",
             "WHOLESALE_FIXING": "Wholesale fixing has been carried out for the period",
             "FIRST_CORRECTION_SETTLEMENT": "Correction settlement has been carried out for the period",
