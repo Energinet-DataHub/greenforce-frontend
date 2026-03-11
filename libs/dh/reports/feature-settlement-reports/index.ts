@@ -16,7 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-import da from './assets/i18n/da.json';
-import en from './assets/i18n/en.json';
-
-export { da, en };
+export { DhSettlementReports as default } from './src/components/settlement-reports.component';

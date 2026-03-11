@@ -16,4 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/index';
+import da from './src/assets/i18n/da.json';
+import en from './src/assets/i18n/en.json';
+
+export { da, en };
