@@ -41,6 +41,8 @@ public static class ClaimsPrincipalMocks
                     new Claim(ClaimTypes.Role, "measurements:manage"),
                     new Claim(ClaimTypes.Role, "missing-measurements-log:view"),
                     new Claim(ClaimTypes.Role, "charges:view"),
+                    new Claim(ClaimTypes.Role, "operation-tools:view"),
+                    new Claim(ClaimTypes.Role, "operation-tools:manage"),
                 },
                 "MockedAuthenticationType"));
 
