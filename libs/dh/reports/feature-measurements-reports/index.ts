@@ -16,5 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './gf-browser-configuration.provider';
-export * from './window.service';
+export { DhMeasurementsReports as default } from './src/components/measurements-reports.component';

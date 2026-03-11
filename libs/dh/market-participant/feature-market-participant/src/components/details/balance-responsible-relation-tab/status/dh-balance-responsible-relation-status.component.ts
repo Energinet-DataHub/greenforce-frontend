@@ -35,7 +35,7 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
     <ng-container
       *transloco="
         let t;
-        read: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.statusOptions'
+        prefix: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.statusOptions'
       "
     >
       @switch (status()) {

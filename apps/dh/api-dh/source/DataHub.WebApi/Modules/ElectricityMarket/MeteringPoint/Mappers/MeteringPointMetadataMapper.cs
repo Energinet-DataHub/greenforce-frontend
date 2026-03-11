@@ -156,7 +156,7 @@ public static class MeteringPointMetadataMapper
             Id = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, electricalHeatingPeriod.ValidFrom, electricalHeatingPeriod.ValidTo),
             ValidFrom = electricalHeatingPeriod.ValidFrom,
             ValidTo = electricalHeatingPeriod.ValidTo,
-            IsActive = false, // TODO: We don't have this value from the backend yet
+            IsActive = electricalHeatingPeriod.IsActive,
             TransactionType = null, // TODO: We don't have this value from the backend yet
         };
     }
