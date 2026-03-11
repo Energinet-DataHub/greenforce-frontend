@@ -18,6 +18,7 @@
 //#endregion
 import { Component, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
+
 import { WattBadgeComponent } from '@energinet/watt/badge';
 import { ChargeStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -31,31 +32,26 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   `,
   imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
   template: `
-    @let _status = status();
     <ng-container *transloco="let t; prefix: 'charges.charges.table.chargeStatus'">
-      @switch (_status) {
+      @switch (status()) {
         @case ('AWAITING') {
           <watt-badge type="info">
-            {{ t(_status) }}
+            {{ t(status()) }}
           </watt-badge>
         }
-        @case ('CLOSED') {
-          <watt-badge type="neutral">
-            {{ t(_status) }}
-          </watt-badge>
-        }
+        @case ('CLOSED')
         @case ('CANCELLED') {
           <watt-badge type="neutral">
-            {{ t(_status) }}
+            {{ t(status()) }}
           </watt-badge>
         }
         @case ('CURRENT') {
           <watt-badge type="success">
-            {{ t(_status) }}
+            {{ t(status()) }}
           </watt-badge>
         }
         @default {
-          {{ _status | dhEmDashFallback }}
+          {{ status() | dhEmDashFallback }}
         }
       }
     </ng-container>
