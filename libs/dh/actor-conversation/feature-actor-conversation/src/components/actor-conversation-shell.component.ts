@@ -86,7 +86,7 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
                 fill="both"
                 class="watt-space-inset-ml"
                 [meteringPointId]="meteringPointId()"
-                (closeNewConversation)="newConversationVisible.set(false)"
+                (closeNewConversation)="closeNewConversation($event)"
               />
             }
             @case ('noConversations') {
@@ -165,6 +165,13 @@ export class DhActorConversationShellComponent {
 
   search(term: string) {
     this.searchTerm.set(term);
+  }
+
+  closeNewConversation(newConversationId?: string) {
+    this.newConversationVisible.set(false);
+    if (newConversationId) {
+      this.selectedConversationId.set(newConversationId);
+    }
   }
 
   async selectConversation(conversation: Conversation) {

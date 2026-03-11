@@ -104,7 +104,7 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
         class="header-background"
       >
         <h3 watt-heading>{{ t('newCaseTitle') }}</h3>
-        <watt-button (click)="closeNewConversation.emit()" variant="secondary">
+        <watt-button (click)="closeNewConversation.emit(undefined)" variant="secondary">
           {{ t('cancelButtonLabel') }}
         </watt-button>
       </vater-stack>
@@ -186,7 +186,7 @@ export class DhActorConversationNewConversationComponent {
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
   );
 
-  closeNewConversation = output();
+  closeNewConversation = output<string | undefined>();
   meteringPointId = input.required<string>();
 
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
@@ -293,7 +293,7 @@ export class DhActorConversationNewConversationComponent {
       };
     }
 
-    await this.startConversationMutation.mutate({
+    const result = await this.startConversationMutation.mutate({
       variables: {
         meteringPointIdentification: this.meteringPointId(),
         subject,
@@ -306,8 +306,10 @@ export class DhActorConversationNewConversationComponent {
         electricalHeatingInput,
       },
       refetchQueries: [GetConversationsDocument],
+      awaitRefetchQueries: true,
     });
 
-    this.closeNewConversation.emit();
+    const newConversationId = result.data?.startConversation?.string;
+    this.closeNewConversation.emit(newConversationId ?? undefined);
   }
 }
