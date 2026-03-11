@@ -2678,7 +2678,7 @@
           "message": {
             "label": "This will issue new data to the actors",
             "body": {
-              "AGGREAGTION": "Running an aggregation will result in all associated actors receiving new data for their settlements.",
+              "AGGREGATION": "Running an aggregation will result in all associated actors receiving new data for their settlements.",
               "BALANCE_FIXING": "Rerunning a balance fixing will result in all associated actors receiving new data for their settlements.",
               "WHOLESALE_FIXING": "Rerunning a wholesale fixing will result in all associated actors receiving new data for their settlements.",
               "FIRST_CORRECTION_SETTLEMENT": "Rerunning a 1. correction settlement will result in all associated actors receiving new data for their settlements.",
