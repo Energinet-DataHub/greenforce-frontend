@@ -96,7 +96,7 @@ import { injectDownloadMessageDocument } from './download-message-document';
         @if (message().actorName && message().userName) {
           <span>
             {{ message().actorName + ', ' + message().userName }}
-            @if (message().actorName && message().userName && message().anonymous) {
+            @if (message().anonymous) {
               {{ t('sentAnonymously') }}
             }
           </span>
