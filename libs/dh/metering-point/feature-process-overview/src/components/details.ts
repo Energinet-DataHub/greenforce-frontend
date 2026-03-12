@@ -63,14 +63,19 @@ import { DhMeteringPointProcessOverviewSteps } from './steps';
             [label]="t('details.list.createdAt')"
             [value]="createdAt() | wattDate: 'long' | dhEmDashFallback"
           />
+
           <watt-description-list-item
             [label]="t('details.list.cutoff')"
             [value]="cutoffDate() | wattDate | dhEmDashFallback"
           />
-          <watt-description-list-item
-            [label]="t('details.list.reasonCode')"
-            [value]="reasonCode() ? t('reasonCode.' + reasonCode()) : (null | dhEmDashFallback)"
-          />
+
+          @if (reasonCode() !== 'ProductionObligation') {
+            <watt-description-list-item
+              [label]="t('details.list.reasonCode')"
+              [value]="reasonCode() ? t('reasonCode.' + reasonCode()) : (null | dhEmDashFallback)"
+            />
+          }
+
           <watt-description-list-item
             [label]="t('details.list.initiator')"
             [value]="initiator() | dhEmDashFallback"

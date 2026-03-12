@@ -3,11 +3,11 @@
     "node": "24.14.0"
   },
   "dependencies": {
-    "@nx/cypress": "22.2.3",
+    "@nx/cypress": "22.5.4",
     "@testing-library/cypress": "10.1.0",
     "cypress": "15.10.0",
     "typescript": "5.9.3",
-    "vite": "7.1.11"
+    "vite": "7.3.1"
   },
   "volta": {
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",

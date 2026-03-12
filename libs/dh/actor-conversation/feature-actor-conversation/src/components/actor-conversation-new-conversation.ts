@@ -99,17 +99,16 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
         sticky="top"
         direction="row"
         fill="horizontal"
-        align="center"
-        offset="m"
+        align="start"
         justify="space-between"
         class="header-background"
       >
         <h3 watt-heading>{{ t('newCaseTitle') }}</h3>
-        <watt-button (click)="closeNewConversation.emit()" variant="secondary">
+        <watt-button (click)="closeNewConversation.emit(undefined)" variant="secondary">
           {{ t('cancelButtonLabel') }}
         </watt-button>
       </vater-stack>
-      <vater-grid columns="1fr 2fr" rows="auto 1fr" offset="m" gap="m">
+      <vater-grid columns="1fr 2fr" rows="auto 1fr" gap="m">
         <vater-grid-area column="1" row="1">
           <vater-stack direction="column" gap="m" align="start">
             <watt-dropdown
@@ -138,6 +137,7 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
             <watt-text-field
               [formControl]="newConversationForm().controls.internalNote"
               [label]="t('internalNoteLabelWithDisclaimer')"
+              [maxLength]="internalNoteMaxLength"
               data-testid="actor-conversation-internal-note-input"
             />
           </vater-stack>
@@ -166,6 +166,8 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
   `,
 })
 export class DhActorConversationNewConversationComponent {
+  internalNoteMaxLength = internalNoteMaxLength;
+
   private readonly uploadMessageDocument = injectUploadMessageDocument();
   private readonly startConversationErrorToast = injectToast(
     'meteringPoint.actorConversation.startConversationError'
@@ -184,7 +186,7 @@ export class DhActorConversationNewConversationComponent {
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
   );
 
-  closeNewConversation = output();
+  closeNewConversation = output<string | undefined>();
   meteringPointId = input.required<string>();
 
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
@@ -291,7 +293,7 @@ export class DhActorConversationNewConversationComponent {
       };
     }
 
-    await this.startConversationMutation.mutate({
+    const result = await this.startConversationMutation.mutate({
       variables: {
         meteringPointIdentification: this.meteringPointId(),
         subject,
@@ -304,8 +306,10 @@ export class DhActorConversationNewConversationComponent {
         electricalHeatingInput,
       },
       refetchQueries: [GetConversationsDocument],
+      awaitRefetchQueries: true,
     });
 
-    this.closeNewConversation.emit();
+    const newConversationId = result.data?.startConversation?.string;
+    this.closeNewConversation.emit(newConversationId ?? undefined);
   }
 }

@@ -846,7 +846,11 @@
       "anonymousCheckbox": "Send anonymt",
       "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren",
       "closedNotice": "Sender du en besked, bliver sagen aktiv igen.",
-      "personalDataNotice": "Skriv ikke unødige <a target=\"_blank\" href=\"https://www.datatilsynet.dk/regler-og-vejledning/grundlaeggende-begreber/hvad-er-personoplysninger\">personoplysninger</a>, og del <strong>ikke</strong> fortrolige eller følsomme oplysninger, f.eks. CPR-nummer, helbredsoplysninger eller etnicitet.",
+      "personalDataNoticePrefix": "Skriv ikke unødige ",
+      "personalDataNoticeLink": "personoplysninger",
+      "personalDataNoticeMidfix": ", og del ",
+      "personalDataNoticeNot": "ikke",
+      "personalDataNoticeSuffix": " fortrolige eller følsomme oplysninger, f.eks. CPR-nummer, helbredsoplysninger eller etnicitet.",
       "closingMessage": "Sag afsluttet",
       "filters": {
         "placeholder": "Filtre",
@@ -1005,7 +1009,8 @@
         "CustomerMoveIn": "Tilflytning (BRS-009)",
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (BRS-007)",
         "ChangeConnectionStatus": "Afbrydelse og gentilslutning af målepunkt (BRS-013)",
-        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)"
+        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)",
+        "ProductionObligation": "Ændring af aftagepligt (BRS-036)"
       },
       "reasonCode": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1041,11 +1046,7 @@
           "BRS_007_008_013_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
           "BRS_007_008_013_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
-          "BRS_007_008_013_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)",
-          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_1 }}",
-          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_2 }}",
-          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_3 }}",
-          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_4 }}"
+          "BRS_007_008_013_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)"
         },
         "ChangeConnectionStatus": {
           "BRS_007_008_013_V1_STEP_1": "Anmodning om ændring af tilslutningsstatus (RSM-021)",

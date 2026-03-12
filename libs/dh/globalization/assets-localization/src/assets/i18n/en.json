@@ -846,7 +846,11 @@
       "anonymousCheckbox": "Send anonymously",
       "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver",
       "closedNotice": "If you send a message, the case will become active again.",
-      "personalDataNotice": "Do not write unnecessary <a target=\"_blank\" href=\"https://www.datatilsynet.dk/regler-og-vejledning/grundlaeggende-begreber/hvad-er-personoplysninger\">personal data</a>, and do <strong>not</strong> share confidential or sensitive information, e.g. CPR number, health information or ethnicity.",
+      "personalDataNoticePrefix": "Do not write unnecessary ",
+      "personalDataNoticeLink": "personal data",
+      "personalDataNoticeMidfix": ", and do ",
+      "personalDataNoticeNot": "not",
+      "personalDataNoticeSuffix": " share confidential or sensitive information, e.g. CPR number, health information or ethnicity.",
       "closingMessage": "Case closed",
       "filters": {
         "placeholder": "Filters",
@@ -1005,7 +1009,8 @@
         "CustomerMoveIn": "Move-in (BRS-009)",
         "CloseDownMeteringPoint": "Close down metering point (BRS-007)",
         "ChangeConnectionStatus": "Disconnection and reconnection of metering point (BRS-013)",
-        "UpdateMeteringPointMasterData": "Update of metering point master data (BRS-006)"
+        "UpdateMeteringPointMasterData": "Update of metering point master data (BRS-006)",
+        "ProductionObligation": "Change of production obligation (BRS-036)"
       },
       "reasonCode": {
         "EndOfSupply": "End of supply (E20)",
@@ -1041,11 +1046,7 @@
           "BRS_007_008_013_V1_STEP_1": "Request for connection of metering point (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
           "BRS_007_008_013_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
-          "BRS_007_008_013_V1_STEP_4": "Notification of connection of metering point (RSM-022)",
-          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_1 }}",
-          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_2 }}",
-          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_3 }}",
-          "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "{{ meteringPoint.processOverview.steps.ConnectMeteringPoint.BRS_007_008_013_V1_STEP_4 }}"
+          "BRS_007_008_013_V1_STEP_4": "Notification of connection of metering point (RSM-022)"
         },
         "ChangeConnectionStatus": {
           "BRS_007_008_013_V1_STEP_1": "Request for change of connection status (RSM-021)",

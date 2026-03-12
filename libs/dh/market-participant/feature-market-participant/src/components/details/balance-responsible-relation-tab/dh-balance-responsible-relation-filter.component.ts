@@ -74,7 +74,7 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
     fill="horizontal"
     *transloco="
       let t;
-      read: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation'
+      prefix: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation'
     "
     [formGroup]="filtersForm"
   >

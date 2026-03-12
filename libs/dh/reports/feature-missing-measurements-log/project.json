@@ -1,8 +1,0 @@
-{
-  "name": "dh-reports-feature-missing-measurements-log",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/reports/feature-missing-measurements-log/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:reports", "type:feature"]
-}

@@ -70,8 +70,8 @@ import { WattDatePipe } from '@energinet/watt/date';
       color: var(--watt-color-primary);
     }
 
-    .grey-600 {
-      color: var(--watt-color-neutral-grey-600);
+    .grey-700 {
+      color: var(--watt-color-neutral-grey-700);
     }
   `,
   template: `
@@ -96,9 +96,9 @@ import { WattDatePipe } from '@energinet/watt/date';
         justify="space-between"
         class="min-height-line-height-xs"
       >
-        <span class="watt-text-s grey-600">{{ conversation().displayId }}</span>
+        <span class="watt-text-s grey-700">{{ conversation().displayId }}</span>
         @if (conversation().lastUpdated) {
-          <span class="watt-text-s grey-600">{{
+          <span class="watt-text-s grey-700">{{
             conversation().lastUpdated | wattDate: 'long'
           }}</span>
         }
