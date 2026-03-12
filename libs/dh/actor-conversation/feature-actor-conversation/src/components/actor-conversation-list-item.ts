@@ -84,8 +84,10 @@ import { WattDatePipe } from '@energinet/watt/date';
       <vater-stack fill="horizontal" direction="row" justify="space-between">
         @if (!conversation().read) {
           <dh-circle class="unread-indicator" />
+          <h5 class="no-margin">{{ t('subjects.' + conversation().subject) }}</h5>
+        } @else {
+          <span>{{ t('subjects.' + conversation().subject) }}</span>
         }
-        <h5 class="no-margin">{{ t('subjects.' + conversation().subject) }}</h5>
         @if (conversation().closed) {
           <span>{{ t('closed') }}</span>
         }
