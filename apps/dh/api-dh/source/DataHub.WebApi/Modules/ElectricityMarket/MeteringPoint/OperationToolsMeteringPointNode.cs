@@ -51,6 +51,26 @@ public static class OperationToolsMeteringPointNode
                 .OrderBy(x => x.PackageNumber));
 
     [Query]
+    [Authorize(Roles = ["operation-tools:manage"])]
+    [UseRevisionLog]
+    public static async Task<MeteringPointCountDto> GetMeteringPointCountAsync(
+        [Service] IElectricityMarketClient_V1 electricityMarketClient,
+        CancellationToken ct) => await electricityMarketClient.MeteringPointCountAsync(ct);
+
+    [Query]
+    [Authorize(Roles = ["operation-tools:manage"])]
+    [UseRevisionLog]
+    public static async Task<long> GetMeteringPointMigratedCountAsync(
+        IElectricityMarketClient electricityMarketClient,
+        CancellationToken ct)
+    {
+        var result = await electricityMarketClient.SendAsync(new GetMeteringPointMigratedCountQueryV1(), ct);
+        return !result.IsSuccess || !result.HasData
+            ? throw new InvalidOperationException($"Failed to get metering point migrated count: {result.DiagnosticMessage}.")
+            : result.Data.Count;
+    }
+
+    [Query]
     [Authorize(Roles = ["metering-point:search"])]
     [UseRevisionLog]
     public static async Task<GetMeteringPointDebugResultDtoV1?> GetOperationToolsMeteringPointAsync(
@@ -62,19 +82,6 @@ public static class OperationToolsMeteringPointNode
         return !result.IsSuccess
             ? throw new InvalidOperationException($"Failed to get metering point {id}: {result.DiagnosticMessage}.")
             : result.Data;
-    }
-
-    [Query]
-    [Authorize(Roles = ["operation-tools:view"])]
-    [UseRevisionLog]
-    public static async Task<long> GetMeteringPointMigratedCountAsync(
-        IElectricityMarketClient electricityMarketClient,
-        CancellationToken ct)
-    {
-        var result = await electricityMarketClient.SendAsync(new GetMeteringPointMigratedCountQueryV1(), ct);
-        return !result.IsSuccess || !result.HasData
-            ? throw new InvalidOperationException($"Failed to get metering point migrated count: {result.DiagnosticMessage}.")
-            : result.Data.Count;
     }
 
     [Mutation]
@@ -122,4 +129,14 @@ public static class OperationToolsMeteringPointNode
         CancellationToken ct) => await electricityMarketClient
             .SendAsync(new DeleteAllEventSourcingDataCommandV1(), ct)
             .Then(r => r.IsSuccess);
+
+    [Mutation]
+    [Authorize(Roles = ["operation-tools:manage"])]
+    [UseRevisionLog]
+    public static async Task<bool> SyncJobSetJobVersionEventStoreExportAsync(
+        DateTimeOffset? version,
+        [Service] IElectricityMarketClient_V1 electricityMarketClient,
+        CancellationToken ct) => await electricityMarketClient
+            .SyncjobSetJobVersionEventStoreExportAsync(version, ct)
+            .Then(() => true);
 }
