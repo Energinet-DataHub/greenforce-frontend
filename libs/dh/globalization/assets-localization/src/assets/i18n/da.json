@@ -807,7 +807,7 @@
       },
       "receiverLabel": "Til",
       "onDate": "På dato",
-      "receivers": {
+      "role": {
         "ENERGY_SUPPLIER": "Elleverandør",
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Netvirksomhed"

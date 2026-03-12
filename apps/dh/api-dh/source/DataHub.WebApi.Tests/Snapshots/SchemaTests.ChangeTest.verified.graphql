@@ -392,6 +392,12 @@ type Conversation {
   closed: Boolean!
   "Messages associated with a conversation"
   messages: [ConversationMessage!]!
+  participants: [GetConversationQueryResponseParticipant!]!
+  """
+  Indicates id you are part of this conversation.
+  Energinet can see conversations they are not part of.
+  """
+  partOfConversations: Boolean!
 }
 
 type ConversationAttachment {
@@ -780,6 +786,14 @@ type FilteredUserRolesEdge {
   node: UserRoleDto!
 }
 
+type GetConversationQueryResponseParticipant {
+  actorName: String
+  role: MarketRole!
+  marketParticipantNumber: String
+  type: ParticipantType!
+  additionalProperties: [KeyValuePairOfStringAndObject!]!
+}
+
 type GetMeteringPointDebugResultDtoV1 {
   meteringPointJson: String!
   meteringPointWithRelationsJson: String
@@ -900,6 +914,10 @@ type KeyValuePairOfStringAndIEnumerableOfString {
 type KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation {
   key: String!
   value: [RequestSettlementReportGridAreaCalculation!]!
+}
+
+type KeyValuePairOfStringAndObject {
+  key: String!
 }
 
 type ManuallyHandleOutgoingMessagePayload {
@@ -3295,6 +3313,11 @@ enum NotificationType {
 enum OrganizationAuditedChange {
   DOMAIN
   NAME
+}
+
+enum ParticipantType {
+  INITIATOR
+  RECEIVER
 }
 
 enum PermissionAuditedChange {

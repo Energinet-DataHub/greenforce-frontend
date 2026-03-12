@@ -2538,6 +2538,10 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         [System.ComponentModel.DataAnnotations.Required]
         public System.Collections.Generic.ICollection<GetConversationQueryResponseConversationMessage> Messages { get; set; } = new System.Collections.ObjectModel.Collection<GetConversationQueryResponseConversationMessage>();
 
+        [Newtonsoft.Json.JsonProperty("participants", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<GetConversationQueryResponseParticipant> Participants { get; set; } = new System.Collections.ObjectModel.Collection<GetConversationQueryResponseParticipant>();
+
         /// <summary>
         /// Indicates id you are part of this conversation.
         /// <br/>Energinet can see conversations they are not part of.
@@ -2708,6 +2712,34 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         [Newtonsoft.Json.JsonProperty("to", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public System.DateTimeOffset To { get; set; } = default!;
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetConversationQueryResponseParticipant
+    {
+
+        [Newtonsoft.Json.JsonProperty("marketParticipantNumber", Required = Newtonsoft.Json.Required.AllowNull)]
+        public string? MarketParticipantNumber { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("role", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public MarketRole Role { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ParticipantType Type { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
@@ -2952,6 +2984,18 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
 
         [System.Runtime.Serialization.EnumMember(Value = @"ElectricalHeatingUserMessage")]
         ElectricalHeatingUserMessage = 3,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ParticipantType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Initiator")]
+        Initiator = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Receiver")]
+        Receiver = 1,
 
     }
 
