@@ -12,6 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetDataForActorDialogue.V2;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Shared;
+using Energinet.DataHub.ElectricityMarket.Client;
+using Energinet.DataHub.MarketParticipant.Authorization.Model;
+using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
@@ -76,6 +81,54 @@ public static partial class ActorConversationNode
         return latestMessageByCurrentActor.Anonymous;
     }
 
+    public static async Task<MeterPointInfoDto> GetMeteringPointInformationAsync(
+        [Parent] GetConversationQueryResponse conversation,
+        [Service] IElectricityMarketClient electricityMarketClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization)
+    {
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
+
+        // Get data from electricitymarket
+        var res = await electricityMarketClient.SendAsync(new GetDataForActorDialogueQueryV2(conversation.MeteringPointIdentification, DateTimeOffset.UtcNow), CancellationToken.None);
+        if (!res.IsSuccess || res.Data is null || res.Data.EnergySupplierId is null)
+        {
+            // TODO: log?
+            return new MeterPointInfoDto
+            {
+                ConnectionState = null,
+                Type = null,
+                TimeResolution = null,
+                Address = null,
+            };
+        }
+
+        // Get if user is allowe to see all data
+        var accessValidationRequest = new MeteringPointMasterDataAccessValidationRequest
+        {
+            MeteringPointId = conversation.MeteringPointIdentification,
+            ActorNumber = actorNumber,
+            MarketRole = marketRole,
+        };
+        var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
+        var allowedToSeeMeterData = signature.Signature != null && signature.Result == SignatureResult.Valid;
+
+        return new MeterPointInfoDto
+        {
+            ConnectionState = allowedToSeeMeterData ? res.Data.ConnectionState : null,
+            Type = res.Data.Type,
+            TimeResolution = res.Data.TimeResolution,
+            Address = $"{res.Data.StreetName} {res.Data.BuildingNumber}, {res.Data.PostalCode} {res.Data.CityName}",
+        };
+    }
+
     static partial void Configure(
         IObjectTypeDescriptor<GetConversationQueryResponse> descriptor)
     {
@@ -105,5 +158,16 @@ public static partial class ActorConversationNode
             EicFunctionAuth.DataHubAdministrator => MarketRole.Energinet,
             _ => throw new InvalidOperationException($"Unsupported market role: {marketRole}"),
         };
+    }
+
+    public class MeterPointInfoDto
+    {
+        public required MeteringPointType? Type { get; set; }
+
+        public required ConnectionState? ConnectionState { get; set; }
+
+        public required TimeResolution? TimeResolution { get; set; }
+
+        public required string? Address { get; set; }
     }
 }
