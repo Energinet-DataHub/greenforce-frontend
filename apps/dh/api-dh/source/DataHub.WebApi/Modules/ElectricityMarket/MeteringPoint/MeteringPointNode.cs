@@ -19,6 +19,7 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointC
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestDisconnectMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestReconnectMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Commands;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetContactCpr.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetRelatedMeteringPoints.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
@@ -82,17 +83,44 @@ public static partial class MeteringPointNode
 
     [Query]
     [Authorize(Roles = ["cpr:view"])]
-    public static async Task<Clients.ElectricityMarket.v1.CPRResponse> GetMeteringPointContactCprAsync(
+    public static async Task<ContactCprResponse> GetMeteringPointContactCprAsync(
         string meteringPointId,
-        long contactId,
+        string contactId,
+        bool searchMigratedMeteringPoints,
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IFeatureManager featureManager,
+        [Service] IElectricityMarketClient electricityMarketClient)
     {
         if (httpContextAccessor.HttpContext == null)
         {
             throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
+
+        if (isNewMeteringPointsModelEnabled && searchMigratedMeteringPoints == false)
+        {
+            var result = await electricityMarketClient.SendAsync(
+                    new GetContactCprQueryV1(
+                        meteringPointId,
+                        Guid.Parse(contactId)),
+                    ct)
+                .ConfigureAwait(false);
+
+            if (!result.IsSuccess)
+            {
+                throw new InvalidOperationException($"GetContactCprQueryV1 (MeteringPointId={meteringPointId}, ContactId={contactId}) failed with error: " + result.DiagnosticMessage);
+            }
+
+            if (!result.HasData || result.Data is null)
+            {
+                throw new InvalidOperationException($"GetContactCprQueryV1 returned no data (MeteringPointId={meteringPointId}, ContactId={contactId})");
+            }
+
+            return new ContactCprResponse(result.Data.Cpr);
         }
 
         var user = httpContextAccessor.HttpContext.User;
@@ -116,7 +144,8 @@ public static partial class MeteringPointNode
                 MarketRole = Enum.Parse<EicFunction>(user.GetMarketParticipantMarketRole()),
             };
             var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature.Signature);
-            return await authClient.MeteringPointContactCprAsync(meteringPointId, contactId, request, ct).ConfigureAwait(false);
+            var em1Result = await authClient.MeteringPointContactCprAsync(meteringPointId, long.Parse(contactId), request, ct).ConfigureAwait(false);
+            return new ContactCprResponse(em1Result.Result);
         }
 
         throw new InvalidOperationException("User is not authorized to access the requested metering point.");
@@ -349,8 +378,8 @@ public static partial class MeteringPointNode
             [Service] IElectricityMarketClient electricityMarketClient)
     {
         var result = await electricityMarketClient
-        .SendAsync(new GetMeteringPointQueryV2(meteringPointId, actorNumber, eicFunction.MapToDto()), ct)
-        .ConfigureAwait(false);
+            .SendAsync(new GetMeteringPointQueryV2(meteringPointId, actorNumber, eicFunction.MapToDto()), ct)
+            .ConfigureAwait(false);
 
         var meteringPoint = result.Data?.MeteringPoint ?? throw new InvalidOperationException("No MeteringPoint was returned");
 

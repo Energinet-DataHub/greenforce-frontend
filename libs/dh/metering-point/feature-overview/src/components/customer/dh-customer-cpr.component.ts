@@ -69,12 +69,14 @@ export class DhCustomerCprComponent {
 
   meteringPointId = input.required<string>();
   contactId = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
 
   showCPR(): void {
     this.query.query({
       variables: {
         meteringPointId: this.meteringPointId(),
         contactId: this.contactId(),
+        searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
       },
     });
   }
