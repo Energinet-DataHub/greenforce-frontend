@@ -1112,6 +1112,11 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
+type MeteringPointCountDto {
+  totalCount: Long!
+  quarantinedCount: Long!
+}
+
 type MeteringPointIdentificationDto {
   identification: String!
 }
@@ -1186,6 +1191,7 @@ type Mutation {
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueuePayload! @authorize(roles: [ "operation-tools:manage" ])
   clearMigrationEventsDeadLetterQueue: ClearMigrationEventsDeadLetterQueuePayload! @authorize(roles: [ "operation-tools:manage" ])
   deleteAllEventSourcingData: DeleteAllEventSourcingDataPayload! @authorize(roles: [ "operation-tools:manage" ])
+  syncJobSetJobVersionEventStoreExport(input: SyncJobSetJobVersionEventStoreExportInput!): SyncJobSetJobVersionEventStoreExportPayload! @authorize(roles: [ "operation-tools:manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1403,8 +1409,9 @@ type Query {
   selectableDatesForEndOfSupply: [DateTime!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:manage" ])
+  meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:manage" ])
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
-  meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -1702,6 +1709,10 @@ type StopDelegationPayload {
 type Subscription {
   notificationAdded: NotificationDto!
   calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
+}
+
+type SyncJobSetJobVersionEventStoreExportPayload {
+  boolean: Boolean
 }
 
 type UpdateChargePayload {
@@ -2485,6 +2496,10 @@ input StreetDetailV1Input {
   streetCode: String
   suiteNumber: String
   floor: String
+}
+
+input SyncJobSetJobVersionEventStoreExportInput {
+  version: DateTime
 }
 
 input TownDetailV1Input {
