@@ -1121,7 +1121,7 @@ type MeteringPointProcess {
   steps: [MeteringPointProcessStep!]!
   availableActions: [WorkflowAction!]
   id: String!
-  reasonCode: String!
+  businessReason: ProcessManagerBusinessReason!
   createdAt: DateTime!
   cutoffDate: DateTime
   state: MeteringPointProcessState!
@@ -1996,6 +1996,7 @@ input ChangeCustomerCharacteristicsInput {
   firstCustomerName: String
   secondCustomerCpr: String
   secondCustomerName: String
+  processId: String
   protectedName: Boolean
   electricalHeating: Boolean!
   usagePointLocations: [UsagePointLocationV1Input!]
@@ -3393,6 +3394,33 @@ enum PriceType {
   MONTHLY_SUBSCRIPTION
   MONTHLY_FEE
   MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
+}
+
+enum ProcessManagerBusinessReason {
+  BalanceFixing
+  PreliminaryAggregation
+  WholesaleFixing
+  Correction
+  PeriodicMetering
+  PeriodicFlexMetering
+  YearlyMetering
+  EndOfSupply
+  UpdateChargeLinks
+  UpdateChargeInformation
+  UpdateChargeSeries
+  CustomerMoveIn
+  SecondaryMoveIn
+  UpdateMasterDataConsumer
+  NewMeteringPoint
+  Move
+  ConnectMeteringPoint
+  ChangeConnectionStatus
+  CloseDownMeteringPoint
+  UpdateMeteringPointMasterData
+  ElectricalHeating
+  ChangeOfEnergySupplier
+  ProcessCancelledByRequestingParty
+  ProductionObligation
 }
 
 enum ProcessStepState {
