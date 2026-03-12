@@ -25,4 +25,5 @@ import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-
 
 // Note: This library cannot use setUpTestbed from gf-test-util-staging
 // because gf-test-util-staging depends on gf-util-browser, which would create a circular dependency.
+getTestBed().resetTestEnvironment();
 getTestBed().initTestEnvironment(BrowserTestingModule, platformBrowserTesting());

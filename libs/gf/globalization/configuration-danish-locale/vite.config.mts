@@ -27,7 +27,7 @@ export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/gf/globalization/configuration-danish-locale',
   plugins: [
-    angular({ tsconfig: './tsconfig.json' }),
+    angular({ tsconfig: './tsconfig.spec.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],
@@ -44,8 +44,5 @@ export default defineConfig(() => ({
       provider: 'v8' as const,
     },
     pool: 'forks',
-    isolate: false,
-    maxWorkers: 1,
-    server: { deps: { inline: [/fesm2022/] } },
   },
 }));
