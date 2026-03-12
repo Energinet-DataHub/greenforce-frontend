@@ -996,7 +996,7 @@
     "processOverview": {
       "columns": {
         "createdAt": "Registreret i DataHub",
-        "reasonCode": "Type",
+        "businessReason": "Type",
         "state": "Status",
         "cutoffDate": "Skæringsdato",
         "initiator": "Initierende aktør",
@@ -1013,7 +1013,7 @@
         "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)",
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)"
       },
-      "reasonCode": {
+      "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
         "NewMeteringPoint": "Nyt målepunkt (E02)",
         "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)",
@@ -1086,6 +1086,11 @@
         "BRS_009_MOVEIN_V1_STEP_10": "Information om tilflytning (RSM-004)",
         "BRS_009_MOVEIN_V1_STEP_11": "Information om kundestamdata (RSM-028)",
         "BRS_009_MOVEIN_V1_STEP_12": "Information om stop af leverance (RSM-004)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_3": "Information om kundestamdata (RSM-028)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_10": "Information om tilflytning (RSM-004)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_11": "Information om kundestamdata (RSM-028)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
@@ -1097,7 +1102,7 @@
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
-          "reasonCode": "Årsagskode",
+          "businessReason": "Årsagskode",
           "initiator": "Initierende aktør"
         },
         "columns": {

@@ -996,7 +996,7 @@
     "processOverview": {
       "columns": {
         "createdAt": "Registered in DataHub",
-        "reasonCode": "Type",
+        "businessReason": "Type",
         "state": "State",
         "cutoffDate": "Cut-off date",
         "initiator": "Initiating participant",
@@ -1013,7 +1013,7 @@
         "UpdateMeteringPointMasterData": "Update of metering point master data (BRS-006)",
         "ProductionObligation": "Change of production obligation (BRS-036)"
       },
-      "reasonCode": {
+      "businessReason": {
         "EndOfSupply": "End of supply (E20)",
         "NewMeteringPoint": "New metering point (E02)",
         "ConnectMeteringPoint": "Connect metering point (D15)",
@@ -1086,6 +1086,11 @@
         "BRS_009_MOVEIN_V1_STEP_10": "Notification of move-in (RSM-004)",
         "BRS_009_MOVEIN_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
         "BRS_009_MOVEIN_V1_STEP_12": "Notification of end of supply (RSM-004)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_1": "Request change customer characteristics (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_3": "Characteristics of a Customer at an AP (RSM-028)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_10": "Notification of move-in (RSM-004)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
@@ -1097,7 +1102,7 @@
         "list": {
           "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",
-          "reasonCode": "Reason code",
+          "businessReason": "Reason code",
           "initiator": "Initiating participant"
         },
         "columns": {

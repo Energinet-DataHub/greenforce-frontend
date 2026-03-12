@@ -459,6 +459,45 @@
         }
       }
     },
+    "/metering-point/count": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "count",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointCountDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointCountDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointCountDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/metering-point/{identification}/manual-correction": {
       "get": {
         "tags": [
@@ -673,6 +712,36 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/syncjob/set-job-version/event-store-export": {
+      "post": {
+        "tags": [
+          "SyncJob"
+        ],
+        "operationId": "event-store-export",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -1185,6 +1254,20 @@
           "locationDescription": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "MeteringPointCountDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quarantinedCount": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },

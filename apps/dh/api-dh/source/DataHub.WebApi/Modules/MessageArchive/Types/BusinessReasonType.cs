@@ -12,19 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 
-namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 
-public record MeteringPointProcess(
-    string Id,
-    DateTimeOffset CreatedAt,
-    DateTimeOffset? CutoffDate,
-    BusinessReason BusinessReason,
-    string ActorNumber,
-    string ActorRole,
-    MeteringPointProcessState State,
-    WorkflowAction[]? Actions = null,
-    IReadOnlyCollection<WorkflowStepInstanceDto>? WorkflowSteps = null);
+public class BusinessReasonType : EnumType<BusinessReason>
+{
+    protected override void Configure(IEnumTypeDescriptor<BusinessReason> descriptor)
+    {
+        descriptor.Name("ProcessManagerBusinessReason");
+
+        foreach (var businessReason in EnumerationRecordType.GetAll<BusinessReason>())
+        {
+            descriptor
+                .Value(businessReason)
+                .Name(businessReason.Name);
+        }
+    }
+}
