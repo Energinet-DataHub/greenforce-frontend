@@ -103,8 +103,15 @@ export const createNodesV2: CreateNodesV2 = [
         const type = deriveType(name);
         const angular = useAngular(type, product, domain, name);
         const environment = vitestEnvironment(angular);
-        // Path from the lib root (cwd) to the shared product-level config
-        const sharedConfig = `../../../../${libs}/${product}/vite.config.mts`;
+        // feature-market-participant has its own vitest.config.mts (MSW overrides)
+        const hasLocalVitestConfig =
+          product === 'dh' &&
+          domain === 'market-participant' &&
+          name === 'feature-market-participant';
+        // Path from the lib root (cwd) to the vitest/vite config to use
+        const vitestConfig = hasLocalVitestConfig
+          ? './vitest.config.mts'
+          : `../../../../${libs}/${product}/vite.config.mts`;
 
         return [
           indexPath,
@@ -136,7 +143,7 @@ export const createNodesV2: CreateNodesV2 = [
                     outputs: ['{options.outputFile}'],
                   },
                   test: {
-                    command: `vitest --config ${sharedConfig}`,
+                    command: `vitest --config ${vitestConfig}`,
                     options: {
                       cwd: projectRoot,
                       env: {
