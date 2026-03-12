@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.DeleteAllEvent
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.GetMeteringPointMigratedCount.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.RebuildProjections.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ReplayMigrationEventsDeadLetterQueue.V1;
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
@@ -190,5 +192,61 @@ public class OperationToolsMeteringPointRevisionLogTests
             .ReturnsAsync(Result.Success());
 
         await RevisionLogTestHelper.ExecuteAndAssertAsync(server, operation, []);
+    }
+
+    [Fact]
+    [RevisionLogTest("OperationToolsMeteringPointNode.GetMeteringPointCountAsync")]
+    public async Task GetMeteringPointCount()
+    {
+        var operation =
+            """
+                query {
+                  meteringPointCount {
+                    totalCount
+                    quarantinedCount
+                  }
+                }
+            """;
+
+        var server = new GraphQLTestService();
+
+        server.ElectricityMarketClientV1Mock.Setup(
+                c => c.MeteringPointCountAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+            .ReturnsAsync(new MeteringPointCountDto { TotalCount = 1000, QuarantinedCount = 5 });
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(server, operation, []);
+    }
+
+    [Fact]
+    [RevisionLogTest("OperationToolsMeteringPointNode.SyncJobSetJobVersionEventStoreExportAsync")]
+    public async Task SyncJobSetJobVersionEventStoreExport()
+    {
+        var operation =
+            """
+                mutation($input: SyncJobSetJobVersionEventStoreExportInput!) {
+                  syncJobSetJobVersionEventStoreExport(input: $input) {
+                    boolean
+                  }
+                }
+            """;
+
+        var server = new GraphQLTestService();
+
+        server.ElectricityMarketClientV1Mock.Setup(
+                c => c.SyncjobSetJobVersionEventStoreExportAsync(It.IsAny<DateTimeOffset?>(), It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+            .Returns(Task.CompletedTask);
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
+            operation,
+            new()
+            {
+                {
+                    "input", new Dictionary<string, object?>
+                    {
+                        { "version", "2024-01-15T10:30:00Z" },
+                    }
+                },
+            });
     }
 }
