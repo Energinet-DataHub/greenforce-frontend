@@ -33,14 +33,20 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,
   GetMeteringPointProcessOverviewDocument,
   GetMeteringPointProcessOverviewQuery,
+  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  BasePaths,
+  getPath,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 type MeteringPointProcess = NonNullable<
   GetMeteringPointProcessOverviewQuery['meteringPointProcessOverview']
@@ -163,10 +169,12 @@ type MeteringPointProcess = NonNullable<
   `,
 })
 export class DhMeteringPointProcessOverviewTable {
+  private readonly router = inject(Router);
   protected readonly navigation = inject(DhNavigationService);
   private readonly permissionService = inject(PermissionService);
 
   readonly meteringPointId = input.required<string>();
+  readonly internalMeteringPointId = input.required<string>();
   readonly id = input<string>();
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
@@ -212,9 +220,15 @@ export class DhMeteringPointProcessOverviewTable {
   variables = computed(() => ({ ...this.filters(), meteringPointId: this.meteringPointId() }));
   refetch = effect(() => this.query.refetch(this.variables()));
 
-  onActionClick(event: Event, processId: string, action: string) {
+  onActionClick(event: Event, processId: string, action: WorkflowAction) {
     event.stopPropagation();
-    console.log('Action clicked:', action, 'for process:', processId);
-    // TODO: Implement action handling logic
+    if (action === WorkflowAction.SendInformation) {
+      this.router.navigate([
+        getPath<BasePaths>('metering-point'),
+        this.internalMeteringPointId(),
+        getPath<MeteringPointSubPaths>('update-customer-details'),
+        processId,
+      ]);
+    }
   }
 }

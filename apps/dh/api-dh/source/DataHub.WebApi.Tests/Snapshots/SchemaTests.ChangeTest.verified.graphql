@@ -1947,6 +1947,7 @@ input ChangeCustomerCharacteristicsInput {
   firstCustomerName: String
   secondCustomerCpr: String
   secondCustomerName: String
+  processId: String
   protectedName: Boolean
   electricalHeating: Boolean!
   usagePointLocations: [UsagePointLocationV1Input!]

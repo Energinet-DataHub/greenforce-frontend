@@ -25,5 +25,5 @@ public record MeteringPointProcess(
     string ActorNumber,
     string ActorRole,
     ProcessState State,
-    WorkflowAction? Action = null,
+    WorkflowAction[]? Actions = null,
     IReadOnlyCollection<WorkflowStepInstanceDto>? WorkflowSteps = null);

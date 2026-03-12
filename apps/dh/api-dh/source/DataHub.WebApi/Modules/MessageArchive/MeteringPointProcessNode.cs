@@ -100,7 +100,7 @@ public static partial class MeteringPointProcessNode
     {
         // Return the action from the workflow instance as an array
         // Filter out NoAction to return an empty array when there are no actions
-        return process.Action is null or WorkflowAction.NoAction ? [] : [process.Action.Value];
+        return process.Actions is null ? [] : process.Actions.Where(a => a != WorkflowAction.NoAction);
     }
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
@@ -123,7 +123,7 @@ public static partial class MeteringPointProcessNode
             workflowInstance.Lifecycle,
             workflowInstance.BusinessReason.Name,
             workflowInstance.ExpectedValidityDate,
-            action: workflowInstance.Action,
+            actions: workflowInstance.Actions.ToArray(),
             workflowSteps: null);
 
     private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps) =>
@@ -132,7 +132,7 @@ public static partial class MeteringPointProcessNode
             workflowInstanceWithSteps.Lifecycle,
             workflowInstanceWithSteps.BusinessReason.Name,
             workflowInstanceWithSteps.ExpectedValidityDate,
-            action: null,
+            actions: workflowInstanceWithSteps.Actions.ToArray(),
             workflowSteps: workflowInstanceWithSteps.Steps);
 
     private static MeteringPointProcess CreateMeteringPointProcess(
@@ -140,7 +140,7 @@ public static partial class MeteringPointProcessNode
         WorkflowInstanceLifecycleDto lifecycle,
         string businessReasonString,
         DateTimeOffset? cuteoffDate = null,
-        WorkflowAction? action = null,
+        WorkflowAction[]? actions = null,
         IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null)
     {
         var actorIdentity = lifecycle.CreatedBy as ActorIdentityDto;
@@ -153,7 +153,7 @@ public static partial class MeteringPointProcessNode
             ActorNumber: actorIdentity?.ActorNumber.Value ?? string.Empty,
             ActorRole: actorIdentity?.ActorRole.Name ?? string.Empty,
             State: MapWorkflowStateToProcessState(lifecycle.State, lifecycle.TerminationState),
-            Action: action,
+            Actions: actions,
             WorkflowSteps: workflowSteps);
     }
 
