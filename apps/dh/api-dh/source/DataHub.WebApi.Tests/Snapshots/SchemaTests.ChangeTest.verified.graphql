@@ -226,10 +226,6 @@ type BalanceResponsiblePageResult {
   totalCount: Int!
 }
 
-type CPRResponse {
-  result: String!
-}
-
 type CVROrganizationResult {
   name: String!
   hasResult: Boolean!
@@ -387,6 +383,10 @@ type CollectionSegmentInfo {
   hasNextPage: Boolean!
   "Indicates whether more items exist prior the set defined by the clients arguments."
   hasPreviousPage: Boolean!
+}
+
+type ContactCprResponse {
+  result: String!
 }
 
 type Conversation {
@@ -1396,7 +1396,7 @@ type Query {
   measurementPoints(observationTime: DateTime! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
-  meteringPointContactCpr(meteringPointId: String! contactId: Long!): CPRResponse! @authorize(roles: [ "cpr:view" ])
+  meteringPointContactCpr(meteringPointId: String! contactId: String! searchMigratedMeteringPoints: Boolean!): ContactCprResponse! @authorize(roles: [ "cpr:view" ])
   meteringPointExists(searchMigratedMeteringPoints: Boolean! internalMeteringPointId: String meteringPointId: String): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String! searchMigratedMeteringPoints: Boolean): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String! searchMigratedMeteringPoints: Boolean): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])

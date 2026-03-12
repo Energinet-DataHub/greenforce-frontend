@@ -580,7 +580,7 @@ function getContactCPR() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPointContactCpr: { __typename: 'CPRResponse', result: '1234567890' },
+        meteringPointContactCpr: { __typename: 'ContactCprResponse', result: '1111110000' },
       },
     });
   });

@@ -133,6 +133,7 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
             <dh-customer-overview
               *dhCanSee="'customer-overview-card'; meteringPoint: meteringPoint()"
               [meteringPoint]="meteringPoint()"
+              [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
             />
 
             <dh-energy-supplier
