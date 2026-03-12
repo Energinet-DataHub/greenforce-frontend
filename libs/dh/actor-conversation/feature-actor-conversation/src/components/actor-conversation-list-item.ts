@@ -89,13 +89,14 @@ import { WattDatePipe } from '@energinet/watt/date';
           <span>{{ t('subjects.' + conversation().subject) }}</span>
         }
         @if (conversation().closed) {
-          <span>{{ t('closed') }}</span>
+          <span class="watt-text-s">{{ t('closed') }}</span>
         }
       </vater-stack>
       <vater-stack
         fill="horizontal"
         direction="row"
         justify="space-between"
+        align="center"
         class="min-height-line-height-xs"
       >
         <span class="watt-text-s grey-700">{{ conversation().displayId }}</span>
