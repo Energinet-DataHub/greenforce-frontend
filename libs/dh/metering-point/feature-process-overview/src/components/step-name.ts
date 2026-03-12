@@ -17,6 +17,7 @@
  */
 //#endregion
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { ProcessManagerBusinessReason } from '@energinet-datahub/dh/shared/domain/graphql';
 import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
@@ -24,11 +25,11 @@ import { TranslocoPipe } from '@jsverse/transloco';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe],
   template: `
-    @switch (reasonCode()) {
+    @switch (businessReason()) {
       @case ('CloseDownMeteringPoint')
       @case ('ConnectMeteringPoint')
       @case ('ChangeConnectionStatus') {
-        {{ 'meteringPoint.processOverview.steps.' + reasonCode() + '.' + step() | transloco }}
+        {{ 'meteringPoint.processOverview.steps.' + businessReason() + '.' + step() | transloco }}
       }
       @default {
         {{ 'meteringPoint.processOverview.steps.' + step() | transloco }}
@@ -37,6 +38,6 @@ import { TranslocoPipe } from '@jsverse/transloco';
   `,
 })
 export class DhStepName {
-  readonly reasonCode = input<string>();
+  readonly businessReason = input<ProcessManagerBusinessReason>();
   readonly step = input<string>();
 }

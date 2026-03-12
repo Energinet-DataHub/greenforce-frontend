@@ -995,7 +995,7 @@
     "processOverview": {
       "columns": {
         "createdAt": "Registered in DataHub",
-        "reasonCode": "Type",
+        "businessReason": "Type",
         "state": "State",
         "cutoffDate": "Cut-off date",
         "initiator": "Initiating participant",
@@ -1012,7 +1012,7 @@
         "UpdateMeteringPointMasterData": "Update of metering point master data (BRS-006)",
         "ProductionObligation": "Change of production obligation (BRS-036)"
       },
-      "reasonCode": {
+      "businessReason": {
         "EndOfSupply": "End of supply (E20)",
         "NewMeteringPoint": "New metering point (E02)",
         "ConnectMeteringPoint": "Connect metering point (D15)",
@@ -1101,7 +1101,7 @@
         "list": {
           "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",
-          "reasonCode": "Reason code",
+          "businessReason": "Reason code",
           "initiator": "Initiating participant"
         },
         "columns": {

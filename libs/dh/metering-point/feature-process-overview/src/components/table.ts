@@ -42,7 +42,7 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 import {
   EicFunction,
   GetMeteringPointProcessOverviewDocument,
-  GetMeteringPointProcessOverviewQuery,
+  ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -50,11 +50,7 @@ import {
   getPath,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
-
-type MeteringPointProcess = NonNullable<
-  GetMeteringPointProcessOverviewQuery['meteringPointProcessOverview']
->[number];
-
+import { MeteringPointProcess } from '../types';
 @Component({
   selector: 'dh-metering-point-process-overview-table',
   imports: [
@@ -126,8 +122,8 @@ type MeteringPointProcess = NonNullable<
         <ng-container *wattTableCell="columns.cutoffDate; let process">
           {{ process.cutoffDate | wattDate | dhEmDashFallback }}
         </ng-container>
-        <ng-container *wattTableCell="columns.reasonCode; let process">
-          {{ t('processType.' + process.reasonCode) }}
+        <ng-container *wattTableCell="columns.businessReason; let process">
+          {{ t('processType.' + process.businessReason) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
           <dh-state-badge [status]="process.state" *transloco="let t; prefix: 'shared.states'">
@@ -148,7 +144,7 @@ type MeteringPointProcess = NonNullable<
                 @if (canPerformActions()) {
                   <watt-button
                     variant="secondary"
-                    (click)="onActionClick($event, process.id, action)"
+                    (click)="onActionClick($event, process, action)"
                     size="small"
                   >
                     {{ t(action) }}
@@ -203,7 +199,7 @@ export class DhMeteringPointProcessOverviewTable {
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
     cutoffDate: { accessor: 'cutoffDate' },
-    reasonCode: { accessor: 'reasonCode' },
+    businessReason: { accessor: 'businessReason' },
     state: { accessor: (process) => translate(`shared.states.${process.state}`) },
     initiator: { accessor: (process) => process.initiator?.displayName },
     actions: { accessor: (process) => process.availableActions?.length ?? 0 },
@@ -220,14 +216,17 @@ export class DhMeteringPointProcessOverviewTable {
   variables = computed(() => ({ ...this.filters(), meteringPointId: this.meteringPointId() }));
   refetch = effect(() => this.query.refetch(this.variables()));
 
-  onActionClick(event: Event, processId: string, action: WorkflowAction) {
+  onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
-    if (action === WorkflowAction.SendInformation) {
+    if (
+      action === WorkflowAction.SendInformation &&
+      process.businessReason === ProcessManagerBusinessReason.CustomerMoveIn
+    ) {
       this.router.navigate([
         getPath<BasePaths>('metering-point'),
         this.internalMeteringPointId(),
         getPath<MeteringPointSubPaths>('update-customer-details'),
-        processId,
+        process.id,
       ]);
     }
   }

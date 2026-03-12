@@ -995,7 +995,7 @@
     "processOverview": {
       "columns": {
         "createdAt": "Registreret i DataHub",
-        "reasonCode": "Type",
+        "businessReason": "Type",
         "state": "Status",
         "cutoffDate": "Skæringsdato",
         "initiator": "Initierende aktør",
@@ -1012,7 +1012,7 @@
         "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)",
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)"
       },
-      "reasonCode": {
+      "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
         "NewMeteringPoint": "Nyt målepunkt (E02)",
         "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)",
@@ -1101,7 +1101,7 @@
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
-          "reasonCode": "Årsagskode",
+          "businessReason": "Årsagskode",
           "initiator": "Initierende aktør"
         },
         "columns": {
