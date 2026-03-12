@@ -1376,6 +1376,7 @@
           "subject",
           "closed",
           "messages",
+          "participants",
           "partOfConversations"
         ],
         "properties": {
@@ -1405,6 +1406,12 @@
             "description": "Messages associated with a conversation",
             "items": {
               "$ref": "#/components/schemas/GetConversationQueryResponseConversationMessage"
+            }
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetConversationQueryResponseParticipant"
             }
           },
           "partOfConversations": {
@@ -1567,6 +1574,26 @@
           "to": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "GetConversationQueryResponseParticipant": {
+        "type": "object",
+        "required": [
+          "marketParticipantNumber",
+          "role",
+          "type"
+        ],
+        "properties": {
+          "marketParticipantNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "$ref": "#/components/schemas/MarketRole"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ParticipantType"
           }
         }
       },
@@ -1733,6 +1760,13 @@
           "ClosingMessage",
           "ElectricalHeatingInformation",
           "ElectricalHeatingUserMessage"
+        ]
+      },
+      "ParticipantType": {
+        "type": "string",
+        "enum": [
+          "Initiator",
+          "Receiver"
         ]
       },
       "ProblemDetails": {

@@ -23,7 +23,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/date';
 
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared'; // TODO: Move to shared
+import { DhStateBadge } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
@@ -39,16 +39,16 @@ import { DhMeteringPointProcessOverviewSteps } from './steps';
     WATT_DRAWER,
     WattDatePipe,
     DhEmDashFallbackPipe,
-    DhProcessStateBadge,
+    DhStateBadge,
     DhMeteringPointProcessOverviewSteps,
   ],
   template: `
     <watt-drawer autoOpen [key]="id()" (closed)="navigation.navigate('list')">
       <watt-drawer-topbar>
         @if (isLoading() || state()) {
-          <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
+          <dh-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
             {{ t(state() ?? 'indeterminate') }}
-          </dh-process-state-badge>
+          </dh-state-badge>
         }
       </watt-drawer-topbar>
       <watt-drawer-heading>

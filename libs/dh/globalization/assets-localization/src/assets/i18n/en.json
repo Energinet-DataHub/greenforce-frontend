@@ -103,7 +103,8 @@
       "running": "Running",
       "failed": "Failed",
       "canceled": "Canceled",
-      "succeeded": "Completed"
+      "succeeded": "Completed",
+      "rejected": "Rejected"
     },
     "calculationTypes": {
       "AGGREGATION": "Aggregation",
@@ -807,7 +808,7 @@
       },
       "receiverLabel": "To",
       "onDate": "On date",
-      "receivers": {
+      "role": {
         "ENERGY_SUPPLIER": "Energy supplier",
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Grid access provider"

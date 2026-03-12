@@ -25,7 +25,7 @@ import {
   MeteringPointType,
   PriceAreaCode,
   PriceType,
-  ProcessState,
+  OrchestrationState,
   ProcessStepState,
   RequestCalculatedEnergyTimeSeriesResult,
   RequestCalculatedWholesaleServicesResult,
@@ -44,7 +44,7 @@ const processes: (
     startedAt: new Date('2022-01-01T00:00:00Z'),
     calculationType: CalculationTypeQueryParameterV1.Aggregation,
     createdAt: new Date('2022-01-01T00:00:00Z'),
-    state: ProcessState.Running,
+    state: OrchestrationState.Running,
     executionType: CalculationExecutionType.External,
     steps: [
       {
@@ -67,7 +67,7 @@ const processes: (
     createdAt: new Date('2022-01-01T00:00:00Z'),
     startedAt: new Date('2022-01-01T00:00:00Z'),
     meteringPointType: MeteringPointType.Production,
-    state: ProcessState.Running,
+    state: OrchestrationState.Running,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -89,7 +89,7 @@ const processes: (
     createdAt: new Date('2022-01-01T00:00:00Z'),
     startedAt: new Date('2022-01-01T00:00:00Z'),
     priceType: PriceType.MonthlySubscription,
-    state: ProcessState.Running,
+    state: OrchestrationState.Running,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -132,7 +132,7 @@ const processes: (
       start: new Date('2022-01-01T00:00:00Z'),
     },
     createdAt: new Date('2022-01-01T00:00:00Z'),
-    state: ProcessState.Running,
+    state: OrchestrationState.Running,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',

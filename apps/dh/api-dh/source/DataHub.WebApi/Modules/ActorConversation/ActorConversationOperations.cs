@@ -122,7 +122,7 @@ public static partial class ActorConversationOperations
     public static async Task<bool> SendActorConversationMessageAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IActorConversationClient_V1 actorConversationClient,
         SendActorConversationMessageInput sendActorConversationMessageInput,
         CancellationToken ct)
     {
@@ -131,23 +131,6 @@ public static partial class ActorConversationOperations
         var marketParticipantNumber = user.GetMarketParticipantNumber();
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
-
-        var authRequest = new AddActorConversationMessageRequest
-        {
-            ActorNumber = marketParticipantNumber,
-            UserId = userId,
-        };
-
-        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
-        {
-            throw new InvalidOperationException("User is not authorized to access the requested conversation.");
-        }
-
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
-
         var messageRequest = new AddConversationMessageRequest
         {
             ConversationId = sendActorConversationMessageInput.ConversationId,
@@ -160,7 +143,7 @@ public static partial class ActorConversationOperations
             messageRequest.AttachedDocumentIds.Add(documentId);
         }
 
-        await authClient.ApiAddConversationMessageAsync(
+        await actorConversationClient.ApiAddConversationMessageAsync(
             userId.ToString(),
             marketParticipantNumber,
             MapMarketRoleToActorType(marketRole).ToString(),
@@ -175,7 +158,7 @@ public static partial class ActorConversationOperations
     public static async Task<bool> UpdateInternalConversationNoteAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IActorConversationClient_V1 actorConversationClient,
         UpdateInternalConversationNoteInput updateInternalConversationNoteInput,
         CancellationToken ct)
     {
@@ -185,23 +168,7 @@ public static partial class ActorConversationOperations
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
-        var authRequest = new AddActorConversationMessageRequest
-        {
-            ActorNumber = marketParticipantNumber,
-            UserId = userId,
-        };
-
-        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
-        {
-            throw new InvalidOperationException("User is not authorized to update internal conversation note.");
-        }
-
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
-
-        await authClient.ApiUpdateInternalNoteAsync(
+        await actorConversationClient.ApiUpdateInternalNoteAsync(
             userId.ToString(),
             marketParticipantNumber,
             MapMarketRoleToActorType(marketRole).ToString(),
@@ -220,7 +187,7 @@ public static partial class ActorConversationOperations
     public static async Task<bool> MarkConversationReadAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
         CancellationToken ct)
     {
@@ -237,17 +204,7 @@ public static partial class ActorConversationOperations
             UserId = userId,
         };
 
-        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
-        {
-            throw new InvalidOperationException("User is not authorized to mark conversation read.");
-        }
-
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
-
-        await authClient.ApiMarkConversationReadAsync(
+        await actorConversationClient.ApiMarkConversationReadAsync(
             userId.ToString(),
             marketParticipantNumber,
             MapMarketRoleToActorType(marketRole).ToString(),
@@ -265,7 +222,7 @@ public static partial class ActorConversationOperations
     public static async Task<bool> MarkConversationUnReadAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
         CancellationToken ct)
     {
@@ -282,17 +239,7 @@ public static partial class ActorConversationOperations
             UserId = userId,
         };
 
-        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
-        {
-            throw new InvalidOperationException("User is not authorized to mark conversation unread.");
-        }
-
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
-
-        await authClient.ApiMarkConversationUnreadAsync(
+        await actorConversationClient.ApiMarkConversationUnreadAsync(
             userId.ToString(),
             marketParticipantNumber,
             MapMarketRoleToActorType(marketRole).ToString(),
@@ -310,7 +257,7 @@ public static partial class ActorConversationOperations
     public static async Task<bool> CloseConversationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
         CancellationToken ct)
     {
@@ -327,19 +274,9 @@ public static partial class ActorConversationOperations
             UserId = userId,
         };
 
-        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
-        {
-            throw new InvalidOperationException("User is not authorized to access the requested conversation.");
-        }
-
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
-
         try
         {
-            await authClient.ApiCloseConversationAsync(
+            await actorConversationClient.ApiCloseConversationAsync(
                 userId.ToString(),
                 marketParticipantNumber,
                 MapMarketRoleToActorType(marketRole).ToString(),
