@@ -151,7 +151,7 @@ public static class MeteringPointConstants
         RelationType relationType,
         MeteringPointDtoV2.ContactAddressDto? legalContact,
         MeteringPointDtoV2.ContactAddressDto? technicalContact)
-        => new(Guid.NewGuid(), isProtectedName, relationType, name, cvr, legalContact, technicalContact); // TODO
+        => new(isProtectedName, relationType, name, cvr, legalContact, technicalContact);
 
     public static Clients.ElectricityMarket.v1.CustomerContactDto CreateLegalContactAddressEm1()
         => new()
