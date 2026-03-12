@@ -1,0 +1,5 @@
+mutation ChangeProductionObligation($input: ChangeProductionObligationInput!) {
+  changeProductionObligation(input: $input) {
+    success: boolean
+  }
+}

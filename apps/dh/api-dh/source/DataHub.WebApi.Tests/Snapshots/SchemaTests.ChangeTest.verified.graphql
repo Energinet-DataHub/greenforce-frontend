@@ -286,6 +286,10 @@ type ChangeCustomerCharacteristicsPayload {
   boolean: Boolean
 }
 
+type ChangeProductionObligationPayload {
+  boolean: Boolean
+}
+
 type Charge {
   series(interval: DateRange!): [ChargeSeriesPoint!]!
   owner: MarketParticipant
@@ -1181,6 +1185,7 @@ type Mutation {
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
+  changeProductionObligation(input: ChangeProductionObligationInput!): ChangeProductionObligationPayload! @authorize(roles: [ "metering-point:production-obligation-manage" ])
   requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   rebuildProjections(input: RebuildProjectionsInput!): RebuildProjectionsPayload! @authorize(roles: [ "operation-tools:manage" ])
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueuePayload! @authorize(roles: [ "operation-tools:manage" ])
@@ -2000,6 +2005,12 @@ input ChangeCustomerCharacteristicsInput {
   protectedName: Boolean
   electricalHeating: Boolean!
   usagePointLocations: [UsagePointLocationV1Input!]
+}
+
+input ChangeProductionObligationInput {
+  meteringPointId: String!
+  cutOffDate: DateTime!
+  newProductionObligationState: Boolean!
 }
 
 input ChargeIdentifierDtoSortInput {

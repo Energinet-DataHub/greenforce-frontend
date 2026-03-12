@@ -17,8 +17,8 @@
  */
 //#endregion
 import { Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
@@ -27,8 +27,15 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { dayjs } from '@energinet/watt/date';
 import { WATT_RADIO } from '@energinet/watt/radio';
+import { WattToastService } from '@energinet/watt/toast';
 
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  ChangeProductionObligationDocument,
+  ChangeProductionObligationMutation,
+  GetMeteringPointProcessOverviewDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-manage-production-obligation',
@@ -79,7 +86,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
           {{ t('cancel') }}
         </watt-button>
 
-        <watt-button formId="production-obligation-form" type="submit">
+        <watt-button formId="production-obligation-form" [loading]="loading()" type="submit">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -90,6 +97,9 @@ export class DhManageProductionObligation extends WattTypedModal<{
   meteringPointId: string;
   currentProductionObligation: boolean;
 }> {
+  private readonly mutation = mutation(ChangeProductionObligationDocument);
+  private readonly toastService = inject(WattToastService);
+
   private today = dayjs().startOf('day');
   private yesterday = this.today.subtract(1, 'day');
 
@@ -97,6 +107,8 @@ export class DhManageProductionObligation extends WattTypedModal<{
     productionObligation: dhMakeFormControl(!this.modalData.currentProductionObligation),
     cutOffDate: dhMakeFormControl(this.today.toDate(), Validators.required),
   });
+
+  loading = this.mutation.loading;
 
   maxDate = this.today.add(60, 'day').toDate();
   minDate = this.yesterday.toDate();
@@ -106,8 +118,39 @@ export class DhManageProductionObligation extends WattTypedModal<{
       return;
     }
 
-    const { productionObligation, cutOffDate } = this.form.getRawValue();
+    const { productionObligation: newProductionObligationState, cutOffDate } =
+      this.form.getRawValue();
 
-    console.log('Saving with values', { productionObligation, cutOffDate });
+    const result = await this.mutation.mutate({
+      variables: {
+        input: {
+          meteringPointId: this.modalData.meteringPointId,
+          newProductionObligationState,
+          cutOffDate,
+        },
+      },
+      refetchQueries: ({ data }) => {
+        if (this.isUpdateSuccessful(data)) {
+          return [GetMeteringPointProcessOverviewDocument];
+        }
+
+        return [];
+      },
+    });
+
+    if (this.isUpdateSuccessful(result.data)) {
+      this.toastService.open({
+        message: translate('meteringPoint.manageProductionObligation.saveSuccess'),
+        type: 'success',
+      });
+
+      this.dialogRef.close(true);
+    }
+  }
+
+  private isUpdateSuccessful(
+    mutationResult: MutationResult<ChangeProductionObligationMutation>['data']
+  ) {
+    return mutationResult?.changeProductionObligation.success;
   }
 }
