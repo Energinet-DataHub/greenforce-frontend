@@ -1,5 +1,9 @@
-query GetContactCPR($meteringPointId: String!, $contactId: Long!) {
-  meteringPointContactCpr(meteringPointId: $meteringPointId, contactId: $contactId) {
+query GetContactCPR(
+  $meteringPointId: String!
+  $contactId: String!
+  $searchMigratedMeteringPoints: Boolean!
+) {
+  meteringPointContactCpr(meteringPointId: $meteringPointId, contactId: $contactId, searchMigratedMeteringPoints: $searchMigratedMeteringPoints) {
     result
   }
 }
