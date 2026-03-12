@@ -103,7 +103,8 @@
       "running": "Kører",
       "failed": "Fejlet",
       "canceled": "Annulleret",
-      "succeeded": "Afsluttet"
+      "succeeded": "Afsluttet",
+      "rejected": "Afvist"
     },
     "calculationTypes": {
       "AGGREGATION": "Aggregering",
@@ -807,7 +808,7 @@
       },
       "receiverLabel": "Til",
       "onDate": "På dato",
-      "receivers": {
+      "role": {
         "ENERGY_SUPPLIER": "Elleverandør",
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Netvirksomhed"

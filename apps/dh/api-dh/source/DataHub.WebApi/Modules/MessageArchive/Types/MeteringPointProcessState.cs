@@ -12,18 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 
-namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
-
-public record MeteringPointProcessStep(
-    string Id,
-    string Step,
-    string? Comment,
-    DateTimeOffset? CompletedAt,
-    DateTimeOffset? DueDate,
-    string ActorNumber,
-    string ActorRole,
-    MeteringPointProcessState State,
-    string? MessageId,
-    string Description);
+public enum MeteringPointProcessState
+{
+    [GraphQLName("pending")]
+    Pending,
+    [GraphQLName("running")]
+    Running,
+    [GraphQLName("failed")]
+    Failed,
+    [GraphQLName("canceled")]
+    Canceled,
+    [GraphQLName("succeeded")]
+    Succeeded,
+    [GraphQLName("rejected")]
+    Rejected,
+}

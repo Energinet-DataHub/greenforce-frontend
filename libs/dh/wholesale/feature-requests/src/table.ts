@@ -35,7 +35,7 @@ import {
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
+import { DhStateBadge } from '@energinet-datahub/dh/shared/ui-util';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 type Request = ExtractNodeType<GetRequestsDataSource>;
@@ -53,7 +53,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
     WattButtonComponent,
     VaterUtilityDirective,
     WattDataTableComponent,
-    DhProcessStateBadge,
+    DhStateBadge,
     DhPermissionRequiredDirective,
     WattDataActionsComponent,
   ],
@@ -118,9 +118,9 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         </ng-container>
 
         <ng-container *wattTableCell="columns['state']; let row">
-          <dh-process-state-badge [status]="row.state">
+          <dh-state-badge [status]="row.state">
             {{ 'shared.states.' + row.state | transloco }}
-          </dh-process-state-badge>
+          </dh-state-badge>
         </ng-container>
       </watt-table>
     </watt-data-table>

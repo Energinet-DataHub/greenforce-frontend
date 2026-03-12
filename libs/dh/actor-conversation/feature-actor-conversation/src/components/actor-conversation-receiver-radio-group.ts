@@ -45,7 +45,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
       >
         <vater-stack align="start">
           <watt-radio [value]="actorType.EnergySupplier">
-            {{ t('receivers.ENERGY_SUPPLIER') }}
+            {{ t('role.ENERGY_SUPPLIER') }}
           </watt-radio>
           @if (receiverControl().value === 'ENERGY_SUPPLIER') {
             <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
@@ -56,20 +56,20 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
           @switch (marketRole()) {
             @case ('EnergySupplier') {
               <watt-radio [value]="actorType.GridAccessProvider">
-                {{ t('receivers.GRID_ACCESS_PROVIDER') }}
+                {{ t('role.GRID_ACCESS_PROVIDER') }}
               </watt-radio>
               <watt-radio [value]="actorType.Energinet">
-                {{ t('receivers.ENERGINET') }}
+                {{ t('role.ENERGINET') }}
               </watt-radio>
             }
             @case ('DataHubAdministrator') {
               <watt-radio [value]="actorType.GridAccessProvider">
-                {{ t('receivers.GRID_ACCESS_PROVIDER') }}
+                {{ t('role.GRID_ACCESS_PROVIDER') }}
               </watt-radio>
             }
             @case ('GridAccessProvider') {
               <watt-radio [value]="actorType.Energinet">
-                {{ t('receivers.ENERGINET') }}
+                {{ t('role.ENERGINET') }}
               </watt-radio>
             }
           }

@@ -32,9 +32,12 @@ import { WattIconComponent } from '@energinet/watt/icon';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhEmDashFallbackPipe,
+  DhStateBadge,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,
@@ -63,7 +66,7 @@ type MeteringPointProcess = NonNullable<
     WattDatePipe,
     WattFormChipDirective,
     DhEmDashFallbackPipe,
-    DhProcessStateBadge,
+    DhStateBadge,
   ],
   providers: [DhNavigationService],
   template: `
@@ -121,12 +124,9 @@ type MeteringPointProcess = NonNullable<
           {{ t('processType.' + process.reasonCode) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
-          <dh-process-state-badge
-            [status]="process.state"
-            *transloco="let t; prefix: 'shared.states'"
-          >
+          <dh-state-badge [status]="process.state" *transloco="let t; prefix: 'shared.states'">
             {{ t(process.state) }}
-          </dh-process-state-badge>
+          </dh-state-badge>
         </ng-container>
         <ng-container *wattTableCell="columns.initiator; let process">
           {{ process.initiator?.displayName | dhEmDashFallback }}
