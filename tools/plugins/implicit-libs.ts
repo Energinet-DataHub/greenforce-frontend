@@ -52,6 +52,38 @@ function deriveType(name: string): string {
   return name;
 }
 
+/**
+ * Determines the Vitest environment for a lib.
+ * - feature / ui → happy-dom (browser-like DOM)
+ * - explicit happy-dom overrides: gf/shared/util-browser (tests access document)
+ * - everything else → node
+ */
+function vitestEnvironment(
+  type: string,
+  product: string,
+  domain: string,
+  name: string
+): 'happy-dom' | 'node' {
+  if (type === 'feature' || type === 'ui') return 'happy-dom';
+  // Explicit overrides: util libs whose tests require a DOM environment
+  if (product === 'gf' && domain === 'shared' && name === 'util-browser') return 'happy-dom';
+  return 'node';
+}
+
+/**
+ * Whether to enable the Angular Vitest plugin for a lib.
+ * - configuration / assets → false (no Angular compilation needed)
+ * - explicit no-Angular libs (dh/shared/util-text, dh/wholesale/domain) → false
+ * - everything else → true
+ */
+function useAngular(type: string, product: string, domain: string, name: string): boolean {
+  if (type === 'configuration' || type === 'assets') return false;
+  // Explicit overrides: libs that have only pure-TS code and no Angular
+  if (product === 'dh' && domain === 'shared' && name === 'util-text') return false;
+  if (product === 'dh' && domain === 'wholesale' && name === 'domain') return false;
+  return true;
+}
+
 export const createNodesV2: CreateNodesV2 = [
   // Match all libs at the standard 3-level depth: libs/{product}/{domain}/{name}/index.ts
   // Products covered: dh, gf  (watt is excluded — it is a buildable ng-packagr library)
@@ -73,6 +105,10 @@ export const createNodesV2: CreateNodesV2 = [
         const projectRoot = `${libs}/${product}/${domain}/${name}`;
         const projectName = `${product}-${domain}-${name}`;
         const type = deriveType(name);
+        const environment = vitestEnvironment(type, product, domain, name);
+        const angular = useAngular(type, product, domain, name);
+        // Path from the lib root (cwd) to the shared product-level config
+        const sharedConfig = `../../../../${libs}/${product}/vite.config.mts`;
 
         return [
           indexPath,
@@ -104,10 +140,13 @@ export const createNodesV2: CreateNodesV2 = [
                     outputs: ['{options.outputFile}'],
                   },
                   test: {
-                    command: 'vitest',
+                    command: `vitest --config ${sharedConfig}`,
                     options: {
                       cwd: projectRoot,
-                      root: '.',
+                      env: {
+                        VITEST_ENVIRONMENT: environment,
+                        VITEST_USE_ANGULAR: String(angular),
+                      },
                     },
                     metadata: { technologies: ['vitest'] },
                     cache: true,
