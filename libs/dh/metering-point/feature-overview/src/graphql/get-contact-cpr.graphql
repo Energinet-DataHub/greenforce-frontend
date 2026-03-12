@@ -3,7 +3,11 @@ query GetContactCPR(
   $contactId: String!
   $searchMigratedMeteringPoints: Boolean!
 ) {
-  meteringPointContactCpr(meteringPointId: $meteringPointId, contactId: $contactId, searchMigratedMeteringPoints: $searchMigratedMeteringPoints) {
+  meteringPointContactCpr(
+    meteringPointId: $meteringPointId
+    contactId: $contactId
+    searchMigratedMeteringPoints: $searchMigratedMeteringPoints
+  ) {
     result
   }
 }
