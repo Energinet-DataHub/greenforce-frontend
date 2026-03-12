@@ -28,9 +28,7 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { dayjs } from '@energinet/watt/date';
 import { WATT_RADIO } from '@energinet/watt/radio';
 
-import { RequestConnectionStateChangeDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-manage-production-obligation',
@@ -81,7 +79,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
           {{ t('cancel') }}
         </watt-button>
 
-        <watt-button formId="production-obligation-form" [loading]="loading()" type="submit">
+        <watt-button formId="production-obligation-form" type="submit">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -92,20 +90,16 @@ export class DhManageProductionObligation extends WattTypedModal<{
   meteringPointId: string;
   currentProductionObligation: boolean;
 }> {
-  private readonly mutation = mutation(RequestConnectionStateChangeDocument);
-
-  private today = dayjs().startOf('day').toDate();
-  private yesterday = dayjs(this.today).subtract(1, 'day').toDate();
-
-  loading = this.mutation.loading;
+  private today = dayjs().startOf('day');
+  private yesterday = this.today.subtract(1, 'day');
 
   form = new FormGroup({
     productionObligation: dhMakeFormControl(!this.modalData.currentProductionObligation),
-    cutOffDate: dhMakeFormControl(this.today, Validators.required),
+    cutOffDate: dhMakeFormControl(this.today.toDate(), Validators.required),
   });
 
-  maxDate = dayjs(this.today).add(60, 'day').toDate();
-  minDate = this.yesterday;
+  maxDate = this.today.add(60, 'day').toDate();
+  minDate = this.yesterday.toDate();
 
   async save() {
     if (this.form.invalid) {
