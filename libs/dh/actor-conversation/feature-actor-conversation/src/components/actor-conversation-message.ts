@@ -90,7 +90,7 @@ import { injectDownloadMessageDocument } from './download-message-document';
     >
       <vater-stack fill="horizontal" align="start" class="message-content-padding" gap="xs">
         <vater-stack direction="row" justify="space-between" fill="horizontal" gap="m">
-          <span class="font-weight-semi-bold">{{ t('receivers.' + message().senderType) }}</span>
+          <span class="font-weight-semi-bold">{{ t('role.' + message().senderType) }}</span>
           <span class="grey-700">{{ message().createdTime | wattDate: 'short' }}</span>
         </vater-stack>
         @if (message().actorName && message().userName) {

@@ -661,6 +661,20 @@ function getConversation() {
           subject: match?.subject ?? 'INTERRUPTION_RECONNECTION',
           closed: match?.closed ?? false,
           wasLatestMessageAnonymous: true,
+          participants: [
+            {
+              __typename: 'GetConversationQueryResponseParticipant',
+              type: 'INITIATOR',
+              role: 'ENERGY_SUPPLIER',
+              actorName: 'Sort Strøm',
+            },
+            {
+              __typename: 'GetConversationQueryResponseParticipant',
+              type: 'RECEIVER',
+              role: 'GRID_ACCESS_PROVIDER',
+              actorName: 'Grøn Strøm',
+            },
+          ],
           messages: [
             {
               __typename: 'ConversationMessage',
