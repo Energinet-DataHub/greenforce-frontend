@@ -364,6 +364,15 @@ type ChargesEdge {
   node: Charge!
 }
 
+type ClearMigrationEventsDeadLetterQueuePayload {
+  clearMigrationEventsDeadLetterQueueResultDtoV1: ClearMigrationEventsDeadLetterQueueResultDtoV1
+}
+
+type ClearMigrationEventsDeadLetterQueueResultDtoV1 {
+  dlqCount: Long!
+  processedCount: Int!
+}
+
 type CloseConversationPayload {
   boolean: Boolean
 }
@@ -478,6 +487,10 @@ type DeactivateUserPayload {
 type DeactivateUserRolePayload {
   boolean: Boolean
   errors: [DeactivateUserRoleError!]
+}
+
+type DeleteAllEventSourcingDataPayload {
+  boolean: Boolean
 }
 
 type DismissAllNotificationsPayload {
@@ -1169,6 +1182,10 @@ type Mutation {
   executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
+  rebuildProjections(input: RebuildProjectionsInput!): RebuildProjectionsPayload! @authorize(roles: [ "operation-tools:manage" ])
+  replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueuePayload! @authorize(roles: [ "operation-tools:manage" ])
+  clearMigrationEventsDeadLetterQueue: ClearMigrationEventsDeadLetterQueuePayload! @authorize(roles: [ "operation-tools:manage" ])
+  deleteAllEventSourcingData: DeleteAllEventSourcingDataPayload! @authorize(roles: [ "operation-tools:manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1387,6 +1404,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
+  meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -1463,6 +1481,10 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
+type RebuildProjectionsPayload {
+  boolean: Boolean
+}
+
 "Represents a metering point's data"
 type RelatedMeteringPointDto {
   """
@@ -1491,6 +1513,15 @@ type RelatedMeteringPointsDto {
 type RemoveMeteringPointsFromAdditionalRecipientPayload {
   boolean: Boolean
   errors: [RemoveMeteringPointsFromAdditionalRecipientError!]
+}
+
+type ReplayMigrationEventsDeadLetterQueuePayload {
+  replayMigrationEventsDeadLetterQueueResultDtoV1: ReplayMigrationEventsDeadLetterQueueResultDtoV1
+}
+
+type ReplayMigrationEventsDeadLetterQueueResultDtoV1 {
+  dlqCount: Long!
+  processedCount: Int!
 }
 
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & OrchestrationInstance {
@@ -2266,6 +2297,11 @@ input ReActivateUserInput {
 
 input ReInviteUserInput {
   userId: UUID!
+}
+
+input RebuildProjectionsInput {
+  projection: ProjectionType!
+  timeout: Int!
 }
 
 input RemoveMeteringPointsFromAdditionalRecipientInput {
@@ -3366,6 +3402,11 @@ enum ProcessStepState {
   skipped
   canceled
   succeeded
+}
+
+enum ProjectionType {
+  METERING_POINT
+  METERING_POINT_WITH_RELATIONS
 }
 
 enum Quality {

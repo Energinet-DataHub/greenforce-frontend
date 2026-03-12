@@ -1,0 +1,9 @@
+﻿{
+  "activity": "deleteAllEventSourcingData",
+  "payload": {
+    "query": "mutation { deleteAllEventSourcingData { boolean } }",
+    "variables": {}
+  },
+  "affectedEntityType": "OperationToolsMeteringPoint",
+  "affectedEntityKey": null
+}
