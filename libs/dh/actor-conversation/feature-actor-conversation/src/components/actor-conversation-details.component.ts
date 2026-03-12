@@ -151,24 +151,27 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
 
                 @if (this.meteringPointId() == null) {
                   <vater-stack direction="row" gap="m">
-                  <vater-stack direction="row" gap="xs">
-                    <label>{{ conversation.address }}</label>
+                    <vater-stack direction="row" gap="xs">
+                      <label>{{ conversation.address }}</label>
+                    </vater-stack>
+                    <vater-stack direction="row" gap="xs">
+                      <label>{{ t('connectionStatusLabel') }}</label>
+                      <span class="watt-text-s">{{
+                        t('connectionStatus.' + conversation.ConnectionState)
+                      }}</span>
+                    </vater-stack>
+                    <vater-stack direction="row" gap="xs">
+                      <label>{{ t('meterTypeLabel') }}</label>
+                      <span class="watt-text-s">{{ t('meterType.' + conversation.Type) }}</span>
+                    </vater-stack>
+                    <vater-stack direction="row" gap="xs">
+                      <label>{{ t('timeResolutionLabel') }}</label>
+                      <span class="watt-text-s">{{
+                        t('timeResolution.' + conversation.TimeResolution)
+                      }}</span>
+                    </vater-stack>
                   </vater-stack>
-                  <vater-stack direction="row" gap="xs">
-                    <label>{{ t('connectionStatusLabel') }}</label>
-                    <span class="watt-text-s">{{ t('connectionStatus.' + conversation.ConnectionState) }}</span>
-                  </vater-stack>
-                  <vater-stack direction="row" gap="xs">
-                    <label>{{ t('meterTypeLabel') }}</label>
-                    <span class="watt-text-s">{{ t('meterType.' + conversation.Type) }}</span>
-                  </vater-stack>
-                  <vater-stack direction="row" gap="xs">
-                    <label>{{ t('timeResolutionLabel') }}</label>
-                    <span class="watt-text-s">{{ t('timeResolution.' + conversation.TimeResolution) }}</span>
-                  </vater-stack>
-                </vater-stack>
                 }
-
               </vater-stack>
 
               <vater-stack direction="row" gap="m">
