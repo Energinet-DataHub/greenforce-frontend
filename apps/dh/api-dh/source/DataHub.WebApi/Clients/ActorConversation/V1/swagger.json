@@ -185,7 +185,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultOfAddMessageDocumentRequest"
+                  "$ref": "#/components/schemas/ActionResultOfAddMessageDocumentCommandResponse"
                 }
               }
             }
@@ -1210,14 +1210,14 @@
       "ActionResult": {
         "type": "object"
       },
-      "ActionResultOfAddMessageDocumentRequest": {
+      "ActionResultOfAddMessageDocumentCommandResponse": {
         "type": "object",
         "properties": {
           "result": {
             "$ref": "#/components/schemas/ActionResult"
           },
           "value": {
-            "$ref": "#/components/schemas/AddMessageDocumentRequest"
+            "$ref": "#/components/schemas/AddMessageDocumentCommandResponse"
           }
         }
       },
@@ -1268,14 +1268,15 @@
           }
         }
       },
-      "AddMessageDocumentRequest": {
+      "AddMessageDocumentCommandResponse": {
         "type": "object",
         "required": [
-          "file"
+          "documentId"
         ],
         "properties": {
-          "file": {
-            "$ref": "#/components/schemas/IFormFile"
+          "documentId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
