@@ -48,7 +48,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
     WattTooltipDirective,
   ],
   styles: `
-    form {
+    #production-obligation-form {
       width: 50%;
     }
   `,
