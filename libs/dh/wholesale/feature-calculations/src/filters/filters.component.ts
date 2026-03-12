@@ -38,7 +38,7 @@ import {
   CalculationsQueryInput,
   CalculationTypeQueryParameterV1,
   GetGridAreasDocument,
-  ProcessState,
+  OrchestrationState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -130,7 +130,7 @@ export class DhCalculationsFiltersComponent {
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationTypeQueryParameterV1);
   executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
-  executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
+  executionStateOptions = dhEnumToWattDropdownOptions(OrchestrationState);
   gridAreaOptions = computed(
     () =>
       this.gridAreaQuery.data()?.gridAreas.map((gridArea) => ({

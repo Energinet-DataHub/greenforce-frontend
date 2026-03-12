@@ -21,7 +21,7 @@ import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw'
 import { mswConfig } from '@energinet-datahub/gf/msw/test-util-msw-setup';
 import {
   DocumentType,
-  ProcessState,
+  MeteringPointProcessState,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -150,11 +150,11 @@ function getMeteringPointProcessOverview() {
     ];
 
     const states = [
-      ProcessState.Pending,
-      ProcessState.Running,
-      ProcessState.Succeeded,
-      ProcessState.Failed,
-      ProcessState.Canceled,
+      MeteringPointProcessState.Pending,
+      MeteringPointProcessState.Running,
+      MeteringPointProcessState.Succeeded,
+      MeteringPointProcessState.Failed,
+      MeteringPointProcessState.Canceled,
     ];
 
     const initiators = [
@@ -185,14 +185,14 @@ function getMeteringPointProcessOverview() {
       // Add actions to some processes (not failed/canceled/succeeded ones)
       const currentState = states[index % states.length];
       const hasNoActions =
-        currentState === ProcessState.Failed ||
-        currentState === ProcessState.Canceled ||
-        currentState === ProcessState.Succeeded;
+        currentState === MeteringPointProcessState.Failed ||
+        currentState === MeteringPointProcessState.Canceled ||
+        currentState === MeteringPointProcessState.Succeeded;
       const availableActions = hasNoActions ? [] : [actions[index % actions.length]];
 
       // Vary cutoff date - typically a few days after created date
       let cutoffDate = null;
-      if (currentState !== ProcessState.Pending) {
+      if (currentState !== MeteringPointProcessState.Pending) {
         cutoffDate = new Date(createdAt);
         cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
       }
@@ -257,7 +257,7 @@ function getMeteringPointProcessById(apiBase: string) {
           id: processId,
           createdAt,
           cutoffDate,
-          state: ProcessState.Succeeded,
+          state: MeteringPointProcessState.Succeeded,
           reasonCode: reasonCodes[processIndex % reasonCodes.length],
           initiator: {
             __typename: 'MarketParticipant' as const,
@@ -271,7 +271,7 @@ function getMeteringPointProcessById(apiBase: string) {
               comment: 'OBS: Sendt til foged',
               completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24), // 1 day later
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2), // 2 days later
-              state: ProcessState.Succeeded,
+              state: MeteringPointProcessState.Succeeded,
               description:
                 'Første step i processen, hvor vi har sendt en anmodning om end of supply til den relevante aktør.',
               documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
@@ -288,7 +288,7 @@ function getMeteringPointProcessById(apiBase: string) {
               comment: 'Afventer bekræftelse',
               completedAt: null,
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5), // 5 days later
-              state: ProcessState.Pending,
+              state: MeteringPointProcessState.Pending,
               description:
                 'Andet step i processen, hvor vi afventer en bekræftelse fra den relevante aktør om modtagelsen af anmodningen.',
               documentUrl: null,

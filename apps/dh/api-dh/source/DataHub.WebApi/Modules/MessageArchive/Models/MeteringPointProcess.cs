@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
-using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
@@ -24,6 +24,6 @@ public record MeteringPointProcess(
     string ReasonCode,
     string ActorNumber,
     string ActorRole,
-    ProcessState State,
+    MeteringPointProcessState State,
     WorkflowAction? Action = null,
     IReadOnlyCollection<WorkflowStepInstanceDto>? WorkflowSteps = null);

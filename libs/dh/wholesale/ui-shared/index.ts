@@ -16,6 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/badge';
 export * from './src/gridareas-dropdown';
 export * from './src/period-field';

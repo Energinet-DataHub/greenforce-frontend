@@ -103,7 +103,8 @@
       "running": "Running",
       "failed": "Failed",
       "canceled": "Canceled",
-      "succeeded": "Completed"
+      "succeeded": "Completed",
+      "rejected": "Rejected"
     },
     "calculationTypes": {
       "AGGREGATION": "Aggregation",

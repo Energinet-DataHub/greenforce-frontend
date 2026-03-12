@@ -103,7 +103,8 @@
       "running": "Kører",
       "failed": "Fejlet",
       "canceled": "Annulleret",
-      "succeeded": "Afsluttet"
+      "succeeded": "Afsluttet",
+      "rejected": "Afvist"
     },
     "calculationTypes": {
       "AGGREGATION": "Aggregering",

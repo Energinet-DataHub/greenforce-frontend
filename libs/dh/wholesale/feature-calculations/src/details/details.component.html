@@ -43,9 +43,9 @@ limitations under the License.
   *transloco="let t; prefix: 'wholesale.calculations'"
 >
   <watt-drawer-topbar>
-    <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
+    <dh-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
       {{ t(state() ?? "indeterminate") }}
-    </dh-process-state-badge>
+    </dh-state-badge>
   </watt-drawer-topbar>
   @if (guid && cancelable()) {
     <watt-drawer-actions>

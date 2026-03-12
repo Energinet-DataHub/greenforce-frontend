@@ -17,30 +17,32 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { ProcessState } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  MeteringPointProcessState,
+  OrchestrationState,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattBadgeComponent, WattBadgeType } from '@energinet/watt/badge';
 
-/* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   imports: [WattBadgeComponent],
-  selector: 'dh-process-state-badge',
+  selector: 'dh-state-badge',
   template: `<watt-badge [type]="type()"><ng-content /></watt-badge>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhProcessStateBadge {
-  status = input<ProcessState>();
+export class DhStateBadge {
+  status = input<OrchestrationState | MeteringPointProcessState>();
   type = computed<WattBadgeType>(() => {
     switch (this.status()) {
-      case ProcessState.Scheduled:
-      case ProcessState.Pending:
-      case ProcessState.Canceled:
+      case 'scheduled':
+      case 'pending':
+      case 'canceled':
         return 'neutral';
-      case ProcessState.Running:
+      case 'running':
         return 'info';
-      case ProcessState.Failed:
+      case 'failed':
+      case 'rejected':
         return 'danger';
-      case ProcessState.Succeeded:
+      case 'succeeded':
         return 'success';
       default:
         return 'skeleton';

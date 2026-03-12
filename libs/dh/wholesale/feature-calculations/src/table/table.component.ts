@@ -37,7 +37,7 @@ import {
 import { WATT_MENU } from '@energinet/watt/menu';
 
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
+import { DhStateBadge } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   SortEnumType,
@@ -71,7 +71,7 @@ import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capa
     WattDataTableComponent,
     WattDataFiltersComponent,
 
-    DhProcessStateBadge,
+    DhStateBadge,
     DhPermissionRequiredDirective,
     DhCalculationsFiltersComponent,
     DhCapacitySettlementsUploaderComponent,
