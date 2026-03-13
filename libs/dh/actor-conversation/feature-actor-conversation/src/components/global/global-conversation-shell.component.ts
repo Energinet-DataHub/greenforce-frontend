@@ -125,4 +125,3 @@ export class DhGlobalConversationShellComponent {
   protected readonly store = inject(ActorConversationStore);
   // No metering point ID — store defaults to undefined, showing all conversations
 }
-

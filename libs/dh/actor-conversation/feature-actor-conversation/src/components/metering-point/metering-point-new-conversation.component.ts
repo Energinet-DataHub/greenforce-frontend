@@ -121,9 +121,7 @@ import { DhActorConversationElectricalHeatingFormComponent } from '../actor-conv
               data-testid="actor-conversation-subject-dropdown"
             />
             @if (isElectricalHeating()) {
-              <watt-slide-toggle
-                [formControl]="newConversationForm.controls.reducedElectricityTax"
-              >
+              <watt-slide-toggle [formControl]="newConversationForm.controls.reducedElectricityTax">
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
@@ -315,4 +313,3 @@ export class DhMeteringPointNewConversationComponent {
     this.closeNewConversation.emit(newConversationId ?? undefined);
   }
 }
-

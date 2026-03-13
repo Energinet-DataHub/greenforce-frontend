@@ -132,4 +132,3 @@ export class DhMeteringPointConversationShellComponent {
     this.store.setMeteringPointId(this.meteringPointId());
   });
 }
-

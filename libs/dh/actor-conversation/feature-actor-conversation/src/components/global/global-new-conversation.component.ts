@@ -118,9 +118,7 @@ import {
       <vater-grid columns="1fr 2fr" rows="auto 1fr" gap="m">
         <vater-grid-area column="1" row="1">
           <vater-stack direction="column" gap="m" align="start">
-            <watt-text-field
-              [formControl]="newConversationForm.controls.meteringPointId"
-            />
+            <watt-text-field [formControl]="newConversationForm.controls.meteringPointId" />
 
             <vater-stack direction="row" gap="m">
               <watt-separator orientation="vertical" />
@@ -129,10 +127,7 @@ import {
                   [label]="'Adresse'"
                   [value]="'Energivej\\n7000 Fredericia'"
                 />
-                <watt-description-list-item
-                  [label]="'Målepunktstype'"
-                  [value]="'Forbrug (E17)'"
-                />
+                <watt-description-list-item [label]="'Målepunktstype'" [value]="'Forbrug (E17)'" />
               </watt-description-list>
             </vater-stack>
 
@@ -146,9 +141,7 @@ import {
               data-testid="actor-conversation-subject-dropdown"
             />
             @if (isElectricalHeating()) {
-              <watt-slide-toggle
-                [formControl]="newConversationForm.controls.reducedElectricityTax"
-              >
+              <watt-slide-toggle [formControl]="newConversationForm.controls.reducedElectricityTax">
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
@@ -207,9 +200,7 @@ export class DhGlobalNewConversationComponent {
     () => this.newConversationForm.controls.meteringPointId
   );
 
-  meteringPointIdFromSearch = computed(
-    () => this.meteringPointIdFormValue() ?? undefined
-  );
+  meteringPointIdFromSearch = computed(() => this.meteringPointIdFormValue() ?? undefined);
 
   electricHeatingInformationQuery = query(GetElectricalHeatingDocument, () => ({
     variables: {
@@ -354,4 +345,3 @@ export class DhGlobalNewConversationComponent {
     this.closeNewConversation.emit(newConversationId ?? undefined);
   }
 }
-
