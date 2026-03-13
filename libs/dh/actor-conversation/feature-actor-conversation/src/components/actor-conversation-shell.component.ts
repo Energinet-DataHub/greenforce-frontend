@@ -43,7 +43,6 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
     WattButtonComponent,
     DhActorConversationListComponent,
     DhActorConversationNewConversationComponent,
-    TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
     WattSpinnerComponent,
@@ -114,7 +113,6 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
                 <dh-actor-conversation-details
                   vater
                   fill="both"
-                  [meteringPointId]="meteringPointId()"
                   [conversationId]="conversationId"
                 />
               } @else {
@@ -138,7 +136,7 @@ export class DhActorConversationShellComponent {
   }));
   readConversationMutation = mutation(MarkConversationReadDocument);
 
-  meteringPointId = input.required<string>();
+  meteringPointId = input<string | undefined>();
   newConversationVisible = signal(false);
 
   conversations = computed(

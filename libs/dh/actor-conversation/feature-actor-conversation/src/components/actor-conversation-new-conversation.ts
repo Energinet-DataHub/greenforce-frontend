@@ -62,6 +62,11 @@ import { injectUploadMessageDocument } from './upload-message-document';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+} from '@energinet/watt/description-list';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -79,6 +84,9 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
     WattSlideToggleComponent,
     DhActorConversationReceiverRadioGroupComponent,
     DhActorConversationElectricalHeatingFormComponent,
+    WattSeparatorComponent,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -88,7 +96,7 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
   `,
   template: `
     <form
-      [formGroup]="newConversationForm()"
+      [formGroup]="newConversationForm"
       (ngSubmit)="startConversation()"
       vater-grid
       fill="vertical"
@@ -111,8 +119,25 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
       <vater-grid columns="1fr 2fr" rows="auto 1fr" gap="m">
         <vater-grid-area column="1" row="1">
           <vater-stack direction="column" gap="m" align="start">
+            @if (meteringPointId() === undefined) {
+              <watt-text-field [formControl]="newConversationForm.controls.meteringPointId" />
+
+              <vater-stack direction="row" gap="m">
+                <watt-separator orientation="vertical" />
+                <watt-description-list [groupsPerRow]="1">
+                  <watt-description-list-item
+                    [label]="'Adresse'"
+                    [value]="'Energivej\\n7000 Fredericia'"
+                  />
+                  <watt-description-list-item
+                    [label]="'Målepunktstype'"
+                    [value]="'Forbrug (E17)'"
+                  />
+                </watt-description-list>
+              </vater-stack>
+            }
             <watt-dropdown
-              [formControl]="newConversationForm().controls.subject"
+              [formControl]="newConversationForm.controls.subject"
               [options]="subjects"
               [label]="t('subjectLabel')"
               [showResetOption]="false"
@@ -121,21 +146,19 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
               data-testid="actor-conversation-subject-dropdown"
             />
             @if (isElectricalHeating()) {
-              <watt-slide-toggle
-                [formControl]="newConversationForm().controls.reducedElectricityTax"
-              >
+              <watt-slide-toggle [formControl]="newConversationForm.controls.reducedElectricityTax">
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
             <vater-flex fill="horizontal" direction="row" gap="m" align="start">
               <dh-actor-conversation-receiver-radio-group
                 [marketRole]="currentActorMarketRole"
-                [receiverControl]="newConversationForm().controls.receiver"
-                [dateControl]="newConversationForm().controls.energySupplierDate"
+                [receiverControl]="newConversationForm.controls.receiver"
+                [dateControl]="newConversationForm.controls.energySupplierDate"
               />
             </vater-flex>
             <watt-text-field
-              [formControl]="newConversationForm().controls.internalNote"
+              [formControl]="newConversationForm.controls.internalNote"
               [label]="t('internalNoteLabelWithDisclaimer')"
               [maxLength]="internalNoteMaxLength"
               data-testid="actor-conversation-internal-note-input"
@@ -149,14 +172,14 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
               fill="horizontal"
               [loading]="uploading() || startConversationMutation.loading()"
               [uploadError]="uploadError()"
-              [formControl]="newConversationForm().controls.message"
+              [formControl]="newConversationForm.controls.message"
             />
           </vater-stack>
         </vater-grid-area>
         @if (shouldShowEletricalHeatingForm()) {
           <vater-grid-area column="2" row="1">
             <dh-actor-conversation-electrical-heating-form
-              [formControl]="newConversationForm().controls.electricalHeating"
+              [formControl]="newConversationForm.controls.electricalHeating"
               [electricalHeatingInformation]="electricalHeatingInformation()"
             />
           </vater-grid-area>
@@ -179,7 +202,8 @@ export class DhActorConversationNewConversationComponent {
   startConversationMutation = mutation(StartConversationDocument);
   electricHeatingInformationQuery = query(GetElectricalHeatingDocument, () => ({
     variables: {
-      meteringPointIdentification: this.meteringPointId(),
+      meteringPointIdentification:
+        this.meteringPointId() ?? this.newConversationForm.controls.meteringPointId.value,
     },
   }));
   electricalHeatingInformation = computed(
@@ -187,36 +211,53 @@ export class DhActorConversationNewConversationComponent {
   );
 
   closeNewConversation = output<string | undefined>();
-  meteringPointId = input.required<string>();
+  meteringPointId = input<string | undefined>();
+  meteringPoint = signal(false);
 
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
 
-  newConversationForm = computed(
-    () =>
-      new FormGroup({
-        subject: dhMakeFormControl<ConversationSubject | null>(null, Validators.required),
-        receiver: dhMakeFormControl<MarketRole | null>(null, Validators.required),
-        energySupplierDate: dhMakeFormControl<Date | null>(null),
-        internalNote: dhMakeFormControl<string | null>(
-          null,
-          Validators.maxLength(internalNoteMaxLength)
-        ),
-        reducedElectricityTax: dhMakeFormControl<boolean>(false),
-        electricalHeating: dhMakeFormControl<ElectricalHeatingFormValue | null>(null),
-        message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false, files: [] }, [
-          (control) =>
-            control.value.content || control.value.files?.length ? null : { required: true },
-          Validators.maxLength(messageMaxLength),
-        ]),
-      })
+  newConversationForm = new FormGroup({
+    meteringPointId: dhMakeFormControl<string>(''),
+    subject: dhMakeFormControl<ConversationSubject | null>(null, Validators.required),
+    receiver: dhMakeFormControl<MarketRole | null>(null, Validators.required),
+    energySupplierDate: dhMakeFormControl<Date | null>(null),
+    internalNote: dhMakeFormControl<string | null>(
+      null,
+      Validators.maxLength(internalNoteMaxLength)
+    ),
+    reducedElectricityTax: dhMakeFormControl<boolean>(false),
+    electricalHeating: dhMakeFormControl<ElectricalHeatingFormValue | null>(null),
+    message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false, files: [] }, [
+      (control) =>
+        control.value.content || control.value.files?.length ? null : { required: true },
+      Validators.maxLength(messageMaxLength),
+    ]),
+  });
+
+  private readonly syncMeteringPointIdValidators = effect(() => {
+    const meteringPointIdControl = this.newConversationForm.controls.meteringPointId;
+    if (this.meteringPointId() === undefined) {
+      meteringPointIdControl.addValidators(Validators.required);
+    } else {
+      meteringPointIdControl.removeValidators(Validators.required);
+    }
+    meteringPointIdControl.updateValueAndValidity();
+  });
+
+  private readonly meteringPointIdFormValue = dhFormControlToSignal(
+    () => this.newConversationForm.controls.meteringPointId
+  );
+
+  meteringPointIdFromSearch = computed(
+    () => this.meteringPointId() ?? this.meteringPointIdFormValue() ?? undefined
   );
 
   private readonly subjectValue = dhFormControlToSignal(
-    () => this.newConversationForm().controls.subject
+    () => this.newConversationForm.controls.subject
   );
 
   private readonly receiverValue = dhFormControlToSignal(
-    () => this.newConversationForm().controls.receiver
+    () => this.newConversationForm.controls.receiver
   );
 
   isElectricalHeating = computed(
@@ -224,7 +265,7 @@ export class DhActorConversationNewConversationComponent {
   );
 
   private readonly syncEnergySupplierDateValidators = effect(() => {
-    const energySupplierDateControl = this.newConversationForm().controls.energySupplierDate;
+    const energySupplierDateControl = this.newConversationForm.controls.energySupplierDate;
     if (this.receiverValue() === MarketRole.EnergySupplier) {
       energySupplierDateControl.addValidators(Validators.required);
     } else {
@@ -235,7 +276,7 @@ export class DhActorConversationNewConversationComponent {
   });
 
   private readonly reducedElectricityTaxValue = dhFormControlToSignal(
-    () => this.newConversationForm().controls.reducedElectricityTax
+    () => this.newConversationForm.controls.reducedElectricityTax
   );
 
   shouldShowEletricalHeatingForm = computed(
@@ -243,7 +284,7 @@ export class DhActorConversationNewConversationComponent {
   );
 
   private readonly syncElectricalHeatingValidators = effect(() => {
-    const electricalHeatingControl = this.newConversationForm().controls.electricalHeating;
+    const electricalHeatingControl = this.newConversationForm.controls.electricalHeating;
     if (this.shouldShowEletricalHeatingForm()) {
       electricalHeatingControl.addValidators(Validators.required);
     } else {
@@ -254,13 +295,16 @@ export class DhActorConversationNewConversationComponent {
   });
 
   async startConversation() {
-    if (this.newConversationForm().invalid) return;
+    if (this.newConversationForm.invalid) return;
 
     const { subject, receiver, internalNote, message, energySupplierDate, electricalHeating } =
-      this.newConversationForm().getRawValue();
+      this.newConversationForm.getRawValue();
 
     if (!receiver || !subject) return;
     if (this.uploading()) return;
+
+    const meteringPointIdentification = this.meteringPointIdFromSearch();
+    assertIsDefined(meteringPointIdentification);
 
     const { content, anonymous, files } = message ?? {};
 
@@ -295,7 +339,7 @@ export class DhActorConversationNewConversationComponent {
 
     const result = await this.startConversationMutation.mutate({
       variables: {
-        meteringPointIdentification: this.meteringPointId(),
+        meteringPointIdentification,
         subject,
         internalNote,
         content: content ?? '',

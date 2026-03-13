@@ -29,7 +29,7 @@ public static partial class ActorConversationsNode
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
-        string meteringPointIdentification,
+        string? meteringPointIdentification,
         string? searchTerm,
         CancellationToken ct)
     {
