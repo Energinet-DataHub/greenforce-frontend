@@ -220,6 +220,10 @@ watt-button {
         display: flex;
         gap: var(--watt-space-s);
         white-space: nowrap;
+
+        .text-content {
+          display: contents;
+        }
       }
 
       .content-wrapper--loading {
