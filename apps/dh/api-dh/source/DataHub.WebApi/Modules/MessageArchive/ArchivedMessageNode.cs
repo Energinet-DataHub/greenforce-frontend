@@ -23,6 +23,7 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 using HotChocolate.Types.Pagination;
 using NodaTime;
 using BusinessReason = Energinet.DataHub.WebApi.Modules.MessageArchive.Enums.BusinessReason;
+using EicFunction = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 
