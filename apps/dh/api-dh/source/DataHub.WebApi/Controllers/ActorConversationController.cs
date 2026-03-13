@@ -190,6 +190,9 @@ public sealed class ActorConversationController : ControllerBase
 
         var contentDisposition = response.Content.Headers.ContentDisposition?.FileNameStar
             ?? response.Content.Headers.ContentDisposition?.FileName;
+        
+        Response.Headers.XContentTypeOptions = "no-sniff";
+        Response.Headers.ContentSecurityPolicy = "default-src 'none'";
 
         return File(stream, contentType, contentDisposition);
     }
