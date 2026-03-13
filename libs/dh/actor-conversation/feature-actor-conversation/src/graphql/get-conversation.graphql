@@ -6,6 +6,11 @@ query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
     subject
     closed
     wasLatestMessageAnonymous
+    participants {
+      type
+      role
+      actorName
+    }
     messages {
       senderType
       userMessage {

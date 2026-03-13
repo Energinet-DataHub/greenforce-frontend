@@ -27,7 +27,7 @@ export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/dh/core/ui-toolbar',
   plugins: [
-    angular({ tsconfig: './tsconfig.json' }),
+    angular({ tsconfig: './tsconfig.spec.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],
@@ -35,7 +35,7 @@ export default defineConfig(() => ({
     passWithNoTests: true,
     watch: false,
     globals: true,
-    environment: 'jsdom',
+    environment: 'happy-dom',
     include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],

@@ -176,7 +176,7 @@ public class MeteringPointMetadataMapperTests
             // Legal contact
             () => Assert.Null(legalCustomerResult.TechnicalContact),
             () => Assert.NotNull(legalCustomerResult.LegalContact),
-            () => Assert.NotEmpty(legalCustomerResult.Id),
+            () => Assert.Equal(legalContact.Id.ToString(), legalCustomerResult.Id),
             () => Assert.Equal(CompanyName, legalCustomerResult.Name),
             () => Assert.Equal(CompanyCvr, legalCustomerResult.Cvr),
             () => Assert.False(legalCustomerResult.IsProtectedName),
@@ -203,7 +203,7 @@ public class MeteringPointMetadataMapperTests
             // Technical contact
             () => Assert.Null(technicalCustomerResult.LegalContact),
             () => Assert.NotNull(technicalCustomerResult.TechnicalContact),
-            () => Assert.NotEmpty(technicalCustomerResult.Id),
+            () => Assert.Equal(technicalContact.Id.ToString(), technicalCustomerResult.Id),
             () => Assert.Equal(CompanyNameTwo, technicalCustomerResult.Name),
             () => Assert.Equal(CompanyCvrTwo, technicalCustomerResult.Cvr),
             () => Assert.True(technicalCustomerResult.IsProtectedName),
@@ -268,7 +268,7 @@ public class MeteringPointMetadataMapperTests
         var technicalContactId = customer.TechnicalContact?.Id;
 
         Assert.Multiple(
-            () => Assert.NotNull(customerId),
+            () => Assert.Equal(contact.Id.ToString(), customerId),
             () => Assert.NotNull(legalContactId),
             () => Assert.NotNull(technicalContactId),
             () => Assert.NotEqual(customerId, legalContactId),
@@ -312,8 +312,8 @@ public class MeteringPointMetadataMapperTests
         var customer2 = periods[1].Customers.First();
 
         Assert.Multiple(
-            () => Assert.NotNull(customer1.Id),
-            () => Assert.NotNull(customer2.Id),
+            () => Assert.Equal(contact1.Id.ToString(), customer1.Id),
+            () => Assert.Equal(contact2.Id.ToString(), customer2.Id),
             () => Assert.NotEqual(customer1.Id, customer2.Id));
     }
 

@@ -21,7 +21,8 @@ import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw'
 import { mswConfig } from '@energinet-datahub/gf/msw/test-util-msw-setup';
 import {
   DocumentType,
-  ProcessState,
+  MeteringPointProcessState,
+  ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -141,20 +142,12 @@ function getMeteringPointProcessOverview() {
   return mockGetMeteringPointProcessOverviewQuery(async () => {
     await delay(mswConfig.delay);
 
-    // Generate more varied mock data for testing sorting
-    const reasonCodes = [
-      'EndOfSupply',
-      'NewMeteringPoint',
-      'ConnectMeteringPoint',
-      'ProductionObligation',
-    ];
-
     const states = [
-      ProcessState.Pending,
-      ProcessState.Running,
-      ProcessState.Succeeded,
-      ProcessState.Failed,
-      ProcessState.Canceled,
+      MeteringPointProcessState.Pending,
+      MeteringPointProcessState.Running,
+      MeteringPointProcessState.Succeeded,
+      MeteringPointProcessState.Failed,
+      MeteringPointProcessState.Canceled,
     ];
 
     const initiators = [
@@ -185,14 +178,14 @@ function getMeteringPointProcessOverview() {
       // Add actions to some processes (not failed/canceled/succeeded ones)
       const currentState = states[index % states.length];
       const hasNoActions =
-        currentState === ProcessState.Failed ||
-        currentState === ProcessState.Canceled ||
-        currentState === ProcessState.Succeeded;
+        currentState === MeteringPointProcessState.Failed ||
+        currentState === MeteringPointProcessState.Canceled ||
+        currentState === MeteringPointProcessState.Succeeded;
       const availableActions = hasNoActions ? [] : [actions[index % actions.length]];
 
       // Vary cutoff date - typically a few days after created date
       let cutoffDate = null;
-      if (currentState !== ProcessState.Pending) {
+      if (currentState !== MeteringPointProcessState.Pending) {
         cutoffDate = new Date(createdAt);
         cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
       }
@@ -200,7 +193,9 @@ function getMeteringPointProcessOverview() {
       return {
         __typename: 'MeteringPointProcess' as const,
         id: `process-${String(index + 1).padStart(3, '0')}`,
-        reasonCode: reasonCodes[index % reasonCodes.length],
+        businessReason: Object.values(ProcessManagerBusinessReason)[
+          index % Object.values(ProcessManagerBusinessReason).length
+        ],
         createdAt,
         cutoffDate,
         state: currentState,
@@ -226,12 +221,6 @@ function getMeteringPointProcessById(apiBase: string) {
     await delay(mswConfig.delay);
 
     const processId = args.variables.id;
-    const reasonCodes = [
-      'EndOfSupply',
-      'NewMeteringPoint',
-      'ConnectMeteringPoint',
-      'ProductionObligation',
-    ];
 
     const initiators = [
       { id: '0199ed3d-f1b2-7180-9546-39b5836fb575', displayName: '905495045940594 • Radius' },
@@ -257,8 +246,8 @@ function getMeteringPointProcessById(apiBase: string) {
           id: processId,
           createdAt,
           cutoffDate,
-          state: ProcessState.Succeeded,
-          reasonCode: reasonCodes[processIndex % reasonCodes.length],
+          businessReason: ProcessManagerBusinessReason.EndOfSupply,
+          state: MeteringPointProcessState.Succeeded,
           initiator: {
             __typename: 'MarketParticipant' as const,
             ...initiators[processIndex % initiators.length],
@@ -271,7 +260,7 @@ function getMeteringPointProcessById(apiBase: string) {
               comment: 'OBS: Sendt til foged',
               completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24), // 1 day later
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2), // 2 days later
-              state: ProcessState.Succeeded,
+              state: MeteringPointProcessState.Succeeded,
               description:
                 'Første step i processen, hvor vi har sendt en anmodning om end of supply til den relevante aktør.',
               documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
@@ -288,7 +277,7 @@ function getMeteringPointProcessById(apiBase: string) {
               comment: 'Afventer bekræftelse',
               completedAt: null,
               dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5), // 5 days later
-              state: ProcessState.Pending,
+              state: MeteringPointProcessState.Pending,
               description:
                 'Andet step i processen, hvor vi afventer en bekræftelse fra den relevante aktør om modtagelsen af anmodningen.',
               documentUrl: null,

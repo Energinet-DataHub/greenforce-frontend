@@ -51,6 +51,7 @@ import {
   GetConversationDocument,
   GetConversationsDocument,
   MarkConversationUnReadDocument,
+  ParticipantType,
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattModalService } from '@energinet/watt/modal';
@@ -111,9 +112,23 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
             >
               <vater-stack gap="s" align="start">
                 <vater-stack direction="row" gap="xs">
-                  <span class="watt-text-s">Sort Strøm(MOCK)</span>
+                  @let initiatorRole = t('role.' + initiator()?.role);
+                  <span class="watt-text-s">
+                    @if (initiator()?.actorName; as actorName) {
+                      {{ actorName }} ({{ initiatorRole }})
+                    } @else {
+                      {{ initiatorRole }}
+                    }
+                  </span>
                   <watt-icon name="right" size="xs" />
-                  <span class="watt-text-s">Netvirksomhed(MOCK)</span>
+                  @let receiverRole = t('role.' + receiver()?.role);
+                  <span class="watt-text-s">
+                    @if (receiver()?.actorName; as actorName) {
+                      {{ actorName }} ({{ receiverRole }})
+                    } @else {
+                      {{ receiverRole }}
+                    }
+                  </span>
                 </vater-stack>
                 <vater-stack direction="row" gap="s">
                   <h3 watt-heading>
@@ -222,6 +237,13 @@ export class DhActorConversationDetailsComponent {
   }));
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
+
+  readonly initiator = this.getParticipant(ParticipantType.Initiator);
+  readonly receiver = this.getParticipant(ParticipantType.Receiver);
+
+  private getParticipant(type: ParticipantType) {
+    return computed(() => this.conversation()?.participants.find((p) => p.type === type));
+  }
 
   private readonly syncAnonymousEffect = effect(() => {
     const anonymous = this.conversation()?.wasLatestMessageAnonymous;

@@ -177,7 +177,7 @@ public static class MeteringPointMetadataMapper
     {
         return new CustomerDto
         {
-            Id = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, "Cus" + index),
+            Id = contactDto.Id.ToString(),
             Name = contactDto.Name ?? string.Empty,
             Cvr = contactDto.Cvr,
             IsProtectedName = contactDto.IsProtectedName,

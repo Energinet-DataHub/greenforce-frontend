@@ -27,7 +27,7 @@ import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import { GetProcessesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
+import { DhStateBadge } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import { Process } from '../types';
@@ -50,7 +50,7 @@ type Variables = Partial<GetProcessesQueryVariables>;
 
     VaterUtilityDirective,
 
-    DhProcessStateBadge,
+    DhStateBadge,
     DhProcessesFilters,
   ],
   providers: [DhNavigationService],
@@ -84,9 +84,9 @@ type Variables = Partial<GetProcessesQueryVariables>;
           {{ element.scheduledAt | wattDate }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let element">
-          <dh-process-state-badge [status]="element.state">{{
+          <dh-state-badge [status]="element.state">{{
             'shared.states.' + element.state | transloco
-          }}</dh-process-state-badge>
+          }}</dh-state-badge>
         </ng-container>
         <ng-container *wattTableCell="columns.terminatedAt; let element">
           {{ element.terminatedAt | wattDate }}

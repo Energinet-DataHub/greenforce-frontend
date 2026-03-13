@@ -17,31 +17,32 @@
  */
 //#endregion
 /// <reference types='vitest' />
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
-import analog from '@analogjs/vite-plugin-angular';
+import angular from '@analogjs/vite-plugin-angular';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/dh-charges-feature-parse-series',
+  cacheDir: '../../../../node_modules/.vite/libs/dh/charges/feature-parse-series',
   plugins: [
-    analog({ tsconfig: './tsconfig.spec.json' }),
+    angular({ tsconfig: './tsconfig.spec.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],
   test: {
-    watch: false,
     passWithNoTests: true,
-    reporters: ['default'],
+    watch: false,
     globals: true,
-    pool: 'forks',
-    environment: 'jsdom',
-    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    environment: 'happy-dom',
+    include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
     setupFiles: ['tests/test-setup.ts'],
+    reporters: ['default'],
     coverage: {
       reportsDirectory: '../../../../coverage/libs/dh/charges/feature-parse-series',
-      provider: 'v8',
+      provider: 'v8' as const,
     },
+    pool: 'forks',
   },
 }));

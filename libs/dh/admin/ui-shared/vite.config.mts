@@ -21,17 +21,23 @@
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
-export default defineConfig({
+export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/dh/admin/ui-shared',
-  plugins: [angular(), nxViteTsPaths()],
+  plugins: [
+    angular({ tsconfig: './tsconfig.spec.json' }),
+    nxViteTsPaths(),
+    nxCopyAssetsPlugin(['*.md']),
+  ],
   test: {
     passWithNoTests: true,
     watch: false,
     globals: true,
-    environment: 'jsdom',
+    environment: 'happy-dom',
     include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
+    reporters: ['default'],
     coverage: {
       reportsDirectory: '../../../../coverage/libs/dh/admin/ui-shared',
       provider: 'v8' as const,
@@ -39,10 +45,6 @@ export default defineConfig({
     pool: 'forks',
     isolate: false,
     maxWorkers: 1,
-    server: {
-      deps: {
-        inline: [/fesm2022/],
-      },
-    },
+    server: { deps: { inline: [/fesm2022/] } },
   },
-});
+}));

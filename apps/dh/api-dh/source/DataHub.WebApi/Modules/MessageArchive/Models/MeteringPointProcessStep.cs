@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
@@ -24,6 +24,6 @@ public record MeteringPointProcessStep(
     DateTimeOffset? DueDate,
     string ActorNumber,
     string ActorRole,
-    ProcessState State,
+    MeteringPointProcessState State,
     string? MessageId,
     string Description);

@@ -15,12 +15,13 @@
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
-using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 using NodaTime;
 
 using WorkflowAction = Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model.WorkflowAction;
@@ -90,7 +91,7 @@ public static partial class MeteringPointProcessNode
             DueDate: null, // DueDate was removed in ProcessManager 8.1.0
             ActorNumber: step.Actor?.ActorNumber.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
-            State: MapStepStateToProcessState(step.Lifecycle.State),
+            State: MapStepStateToMeteringPointProcessState(step.Lifecycle.State),
             MessageId: step.ArchivedMessageId?.ToString(),
             Description: step.Description));
     }
@@ -100,7 +101,7 @@ public static partial class MeteringPointProcessNode
     {
         // Return the action from the workflow instance as an array
         // Filter out NoAction to return an empty array when there are no actions
-        return process.Action is null or WorkflowAction.NoAction ? [] : [process.Action.Value];
+        return process.Actions is null ? [] : process.Actions.Where(a => a != WorkflowAction.NoAction);
     }
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
@@ -108,7 +109,7 @@ public static partial class MeteringPointProcessNode
         descriptor.Name("MeteringPointProcess");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Id);
-        descriptor.Field(f => f.ReasonCode);
+        descriptor.Field(f => f.BusinessReason);
         descriptor.Field(f => f.CreatedAt);
         descriptor.Field(f => f.CutoffDate);
         descriptor.Field(f => f.State);
@@ -122,8 +123,9 @@ public static partial class MeteringPointProcessNode
             workflowInstance.Id,
             workflowInstance.Lifecycle,
             workflowInstance.BusinessReason.Name,
+            workflowInstance.BusinessReason,
             workflowInstance.ExpectedValidityDate,
-            action: workflowInstance.Action,
+            actions: workflowInstance.Actions.ToArray(),
             workflowSteps: null);
 
     private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps) =>
@@ -131,16 +133,18 @@ public static partial class MeteringPointProcessNode
             workflowInstanceWithSteps.Id,
             workflowInstanceWithSteps.Lifecycle,
             workflowInstanceWithSteps.BusinessReason.Name,
+            workflowInstanceWithSteps.BusinessReason,
             workflowInstanceWithSteps.ExpectedValidityDate,
-            action: null,
+            actions: workflowInstanceWithSteps.Actions.ToArray(),
             workflowSteps: workflowInstanceWithSteps.Steps);
 
     private static MeteringPointProcess CreateMeteringPointProcess(
         Guid id,
         WorkflowInstanceLifecycleDto lifecycle,
         string businessReasonString,
+        BusinessReason businessReason,
         DateTimeOffset? cuteoffDate = null,
-        WorkflowAction? action = null,
+        WorkflowAction[]? actions = null,
         IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null)
     {
         var actorIdentity = lifecycle.CreatedBy as ActorIdentityDto;
@@ -149,41 +153,42 @@ public static partial class MeteringPointProcessNode
             Id: id.ToString(),
             CreatedAt: lifecycle.CreatedAt,
             CutoffDate: cuteoffDate,
-            ReasonCode: businessReasonString,
+            BusinessReason: businessReason,
             ActorNumber: actorIdentity?.ActorNumber.Value ?? string.Empty,
             ActorRole: actorIdentity?.ActorRole.Name ?? string.Empty,
-            State: MapWorkflowStateToProcessState(lifecycle.State, lifecycle.TerminationState),
-            Action: action,
+            State: MapWorkflowStateToMeteringPointProcessState(lifecycle.State, lifecycle.TerminationState),
+            Actions: actions,
             WorkflowSteps: workflowSteps);
     }
 
-    private static ProcessState MapWorkflowStateToProcessState(
+    private static MeteringPointProcessState MapWorkflowStateToMeteringPointProcessState(
         WorkflowInstanceLifecycleState workflowState,
         WorkflowInstanceTerminationState? terminationState) =>
         workflowState switch
         {
-            WorkflowInstanceLifecycleState.Pending or WorkflowInstanceLifecycleState.Sleeping => ProcessState.Pending,
-            WorkflowInstanceLifecycleState.Active => ProcessState.Running,
+            WorkflowInstanceLifecycleState.Pending or WorkflowInstanceLifecycleState.Sleeping => MeteringPointProcessState.Pending,
+            WorkflowInstanceLifecycleState.Active => MeteringPointProcessState.Running,
             WorkflowInstanceLifecycleState.Terminated => MapWorkflowTerminationState(terminationState),
-            _ => ProcessState.Pending,
+            _ => MeteringPointProcessState.Pending,
         };
 
-    private static ProcessState MapStepStateToProcessState(
+    private static MeteringPointProcessState MapStepStateToMeteringPointProcessState(
         WorkflowStepInstanceLifecycleState stepState) =>
         stepState switch
         {
-            WorkflowStepInstanceLifecycleState.Pending => ProcessState.Pending,
-            WorkflowStepInstanceLifecycleState.Completed => ProcessState.Succeeded,
-            _ => ProcessState.Pending,
+            WorkflowStepInstanceLifecycleState.Pending => MeteringPointProcessState.Pending,
+            WorkflowStepInstanceLifecycleState.Completed => MeteringPointProcessState.Succeeded,
+            _ => MeteringPointProcessState.Pending,
         };
 
-    private static ProcessState MapWorkflowTerminationState(WorkflowInstanceTerminationState? terminationState) =>
+    private static MeteringPointProcessState MapWorkflowTerminationState(WorkflowInstanceTerminationState? terminationState) =>
         terminationState switch
         {
-            WorkflowInstanceTerminationState.Succeeded => ProcessState.Succeeded,
-            WorkflowInstanceTerminationState.Failed => ProcessState.Failed,
-            WorkflowInstanceTerminationState.Canceled => ProcessState.Canceled,
-            _ => ProcessState.Failed,
+            WorkflowInstanceTerminationState.Succeeded => MeteringPointProcessState.Succeeded,
+            WorkflowInstanceTerminationState.Failed => MeteringPointProcessState.Failed,
+            WorkflowInstanceTerminationState.Canceled => MeteringPointProcessState.Canceled,
+            WorkflowInstanceTerminationState.Rejected => MeteringPointProcessState.Rejected,
+            _ => MeteringPointProcessState.Failed,
         };
 
     /// <summary>

@@ -27,7 +27,7 @@ const MOVE_IN_TEST_CVRS = new Set(['11111111', '22222222']);
 export function dhMoveInCvrValidator(appEnv: DhAppEnvironment): ValidatorFn {
   const baseValidator = dhCvrValidator();
 
-  const bypassAllowed = appEnv !== DhAppEnvironment.prod;
+  const bypassAllowed = appEnv !== DhAppEnvironment.prod && appEnv !== DhAppEnvironment.preprod;
 
   return (control: AbstractControl): ValidationErrors | null => {
     const value = String(control.value ?? '');

@@ -26,8 +26,9 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/dh/metering-point/feature-overview',
+  resolve: { conditions: ['development', 'browser'] },
   plugins: [
-    angular({ tsconfig: './tsconfig.json' }),
+    angular({ tsconfig: './tsconfig.spec.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],
@@ -35,7 +36,7 @@ export default defineConfig(() => ({
     passWithNoTests: true,
     watch: false,
     globals: true,
-    environment: 'jsdom',
+    environment: 'happy-dom',
     include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
     setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],

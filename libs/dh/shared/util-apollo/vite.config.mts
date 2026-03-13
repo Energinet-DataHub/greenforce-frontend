@@ -31,7 +31,7 @@ export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/dh/shared/util-apollo',
   plugins: [
-    angular({ tsconfig: './tsconfig.json' }),
+    angular({ tsconfig: './tsconfig.spec.json' }),
     nxViteTsPaths(),
     nxCopyAssetsPlugin(['*.md']),
   ],
@@ -39,7 +39,7 @@ export default defineConfig(() => ({
     passWithNoTests: true,
     watch: false,
     globals: true,
-    environment: 'jsdom',
+    environment: 'happy-dom',
     include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
     setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
@@ -48,8 +48,5 @@ export default defineConfig(() => ({
       provider: 'v8' as const,
     },
     pool: 'forks',
-    isolate: false,
-    maxWorkers: 1,
-    server: { deps: { inline: [/fesm2022/] } },
   },
 }));

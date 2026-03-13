@@ -68,6 +68,7 @@ public static class MoveInOperations
         string? firstCustomerName,
         string? secondCustomerCpr,
         string? secondCustomerName,
+        string? processId,
         bool? protectedName,
         bool electricalHeating,
         IReadOnlyCollection<UsagePointLocationV1>? usagePointLocations,
@@ -85,7 +86,7 @@ public static class MoveInOperations
                 SecondCustomerName: secondCustomerName,
                 ProtectedName: protectedName,
                 ElectricalHeating: electricalHeating,
-                ProcessId: string.Empty,
+                ProcessId: processId,
                 UsagePointLocations: usagePointLocations));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);

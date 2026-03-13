@@ -21,6 +21,7 @@ import { delay, http, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/msw/test-util-msw-setup';
 
 import {
+  mockChangeProductionObligationMutation,
   mockCloseConversationMutation,
   mockDoesInternalMeteringPointIdExistQuery,
   mockGetAggregatedMeasurementsForAllYearsQuery,
@@ -74,6 +75,7 @@ export function meteringPointMocks(apiBase: string) {
     getRelatedMeteringPoints(),
     getOperationToolsMeteringPoint(),
     requestConnectionStateChange(),
+    changeProductionObligation(),
     requestEndOfSupply(),
     createConversation(),
     getConversations(),
@@ -580,7 +582,7 @@ function getContactCPR() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPointContactCpr: { __typename: 'CPRResponse', result: '1234567890' },
+        meteringPointContactCpr: { __typename: 'ContactCprResponse', result: '1111110000' },
       },
     });
   });
@@ -661,6 +663,20 @@ function getConversation() {
           subject: match?.subject ?? 'INTERRUPTION_RECONNECTION',
           closed: match?.closed ?? false,
           wasLatestMessageAnonymous: true,
+          participants: [
+            {
+              __typename: 'GetConversationQueryResponseParticipant',
+              type: 'INITIATOR',
+              role: 'ENERGY_SUPPLIER',
+              actorName: 'Sort Strøm',
+            },
+            {
+              __typename: 'GetConversationQueryResponseParticipant',
+              type: 'RECEIVER',
+              role: 'GRID_ACCESS_PROVIDER',
+              actorName: 'Grøn Strøm',
+            },
+          ],
           messages: [
             {
               __typename: 'ConversationMessage',
@@ -861,6 +877,22 @@ function requestConnectionStateChange() {
         __typename: 'Mutation',
         requestConnectionStateChange: {
           __typename: 'RequestConnectionStateChangePayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function changeProductionObligation() {
+  return mockChangeProductionObligationMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        changeProductionObligation: {
+          __typename: 'ChangeProductionObligationPayload',
           success: true,
         },
       },

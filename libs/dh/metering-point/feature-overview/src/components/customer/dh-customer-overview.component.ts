@@ -89,6 +89,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
                       *dhCanSee="'cpr'; meteringPoint: localMeteringPoint"
                       [meteringPointId]="localMeteringPoint.meteringPointId"
                       [contactId]="contact.id"
+                      [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
                     />
                   }
                 </ng-container>
@@ -114,6 +115,7 @@ export class DhCustomerOverviewComponent {
   private modalService = inject(WattModalService);
 
   meteringPoint = input.required<MeteringPointDetails | undefined>();
+  searchMigratedMeteringPoints = input.required<boolean>();
 
   contacts = computed(
     () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []

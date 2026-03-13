@@ -23,7 +23,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/date';
 
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared'; // TODO: Move to shared
+import { DhStateBadge } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
@@ -39,21 +39,21 @@ import { DhMeteringPointProcessOverviewSteps } from './steps';
     WATT_DRAWER,
     WattDatePipe,
     DhEmDashFallbackPipe,
-    DhProcessStateBadge,
+    DhStateBadge,
     DhMeteringPointProcessOverviewSteps,
   ],
   template: `
     <watt-drawer autoOpen [key]="id()" (closed)="navigation.navigate('list')">
       <watt-drawer-topbar>
         @if (isLoading() || state()) {
-          <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
+          <dh-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
             {{ t(state() ?? 'indeterminate') }}
-          </dh-process-state-badge>
+          </dh-state-badge>
         }
       </watt-drawer-topbar>
       <watt-drawer-heading>
         <h3 *transloco="let t; prefix: 'meteringPoint.processOverview'">
-          {{ reasonCode() && t('processType.' + reasonCode()) | dhEmDashFallback }}
+          {{ businessReason() && t('processType.' + businessReason()) | dhEmDashFallback }}
         </h3>
         <watt-description-list
           [groupsPerRow]="4"
@@ -69,10 +69,14 @@ import { DhMeteringPointProcessOverviewSteps } from './steps';
             [value]="cutoffDate() | wattDate | dhEmDashFallback"
           />
 
-          @if (reasonCode() !== 'ProductionObligation') {
+          @if (businessReason() !== 'ProductionObligation') {
             <watt-description-list-item
-              [label]="t('details.list.reasonCode')"
-              [value]="reasonCode() ? t('reasonCode.' + reasonCode()) : (null | dhEmDashFallback)"
+              [label]="t('details.list.businessReason')"
+              [value]="
+                businessReason()
+                  ? t('businessReason.' + businessReason())
+                  : (null | dhEmDashFallback)
+              "
             />
           }
 
@@ -85,7 +89,7 @@ import { DhMeteringPointProcessOverviewSteps } from './steps';
       <watt-drawer-content>
         <dh-metering-point-process-overview-steps
           [steps]="steps()"
-          [reasonCode]="reasonCode()"
+          [businessReason]="businessReason()"
           [loading]="isLoading()"
           [error]="process.error()"
         />
@@ -108,7 +112,7 @@ export class DhMeteringPointProcessOverviewDetails {
   state = computed(() => this.process.data()?.meteringPointProcessById?.state);
   createdAt = computed(() => this.process.data()?.meteringPointProcessById?.createdAt);
   cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
-  reasonCode = computed(() => this.process.data()?.meteringPointProcessById?.reasonCode);
+  businessReason = computed(() => this.process.data()?.meteringPointProcessById?.businessReason);
   initiator = computed(() => this.process.data()?.meteringPointProcessById?.initiator?.displayName);
 
   // Only return steps when we have process data, otherwise empty to keep loading state

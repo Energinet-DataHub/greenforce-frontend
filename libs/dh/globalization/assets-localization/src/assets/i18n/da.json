@@ -103,7 +103,8 @@
       "running": "Kører",
       "failed": "Fejlet",
       "canceled": "Annulleret",
-      "succeeded": "Afsluttet"
+      "succeeded": "Afsluttet",
+      "rejected": "Afvist"
     },
     "calculationTypes": {
       "AGGREGATION": "Aggregering",
@@ -692,6 +693,7 @@
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
         "startDateLabel": "Startdato",
         "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
+        "changeProductObligationLink": "Ændre aftagepligt",
         "cutOffDateLabel": "Skæringsdato"
       },
       "status": {
@@ -807,7 +809,7 @@
       },
       "receiverLabel": "Til",
       "onDate": "På dato",
-      "receivers": {
+      "role": {
         "ENERGY_SUPPLIER": "Elleverandør",
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Netvirksomhed"
@@ -994,7 +996,7 @@
     "processOverview": {
       "columns": {
         "createdAt": "Registreret i DataHub",
-        "reasonCode": "Type",
+        "businessReason": "Type",
         "state": "Status",
         "cutoffDate": "Skæringsdato",
         "initiator": "Initierende aktør",
@@ -1011,7 +1013,7 @@
         "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)",
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)"
       },
-      "reasonCode": {
+      "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
         "NewMeteringPoint": "Nyt målepunkt (E02)",
         "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)",
@@ -1039,7 +1041,7 @@
           "BRS_007_008_013_V1_STEP_1": "Anmodning om nedlæggelse af målepunkt (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Godkendelse af nedlæggelse af målepunkt (RSM-021)",
           "BRS_007_008_013_V1_STEP_3": "Afvisning af nedlæggelse af målepunkt (RSM-021)",
-          "BRS_007_008_013_V1_STEP_4": "Information om nedlæggelse af målepunkt (RSM-004)"
+          "BRS_007_008_013_V1_STEP_5": "Information om nedlæggelse af målepunkt (RSM-004)"
         },
         "ConnectMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
@@ -1084,6 +1086,11 @@
         "BRS_009_MOVEIN_V1_STEP_10": "Information om tilflytning (RSM-004)",
         "BRS_009_MOVEIN_V1_STEP_11": "Information om kundestamdata (RSM-028)",
         "BRS_009_MOVEIN_V1_STEP_12": "Information om stop af leverance (RSM-004)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_3": "Information om kundestamdata (RSM-028)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_10": "Information om tilflytning (RSM-004)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_11": "Information om kundestamdata (RSM-028)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
@@ -1095,7 +1102,7 @@
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
-          "reasonCode": "Årsagskode",
+          "businessReason": "Årsagskode",
           "initiator": "Initierende aktør"
         },
         "columns": {
@@ -1375,6 +1382,15 @@
       "cancel": "Annuller",
       "save": "Gem ændringer",
       "saveSuccess": "Tilslutningsstatus opdateres"
+    },
+    "manageProductionObligation": {
+      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductObligationLink }}",
+      "tooltip": "Processen tager få minutter. Det ønskede \n resultat vises her, og afvisningsårsager \n findes i forretningsbeskeder.",
+      "changeToLabel": "Ændre aftagepligt til",
+      "cutOffDate": "Skæringsdato",
+      "cancel": "Annuller",
+      "save": "Gem ændringer",
+      "saveSuccess": "Aftagepligt opdateres"
     },
     "endOfSupply": {
       "modalTitle": "Start leveranceophør",

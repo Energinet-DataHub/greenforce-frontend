@@ -210,6 +210,7 @@ export class DhUpdateCustomerDataComponent {
   navigate = injectRelativeNavigate();
   isBusinessCustomer = computed(() => this.legalCustomer()?.cvr !== null);
   meteringPointId = input.required<string>();
+  processId = input<string>();
   internalMeteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
@@ -353,7 +354,9 @@ export class DhUpdateCustomerDataComponent {
       variables: {
         input: {
           meteringPointId: this.meteringPointId(),
-          businessReason: ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer,
+          businessReason: this.processId()
+            ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
+            : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer,
           electricalHeating: this.query.data()?.meteringPoint.haveElectricalHeating ?? false,
           firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
           secondCustomerCpr: !this.isBusinessCustomer() ? cpr2 : undefined,
@@ -361,6 +364,7 @@ export class DhUpdateCustomerDataComponent {
           secondCustomerName: !this.isBusinessCustomer() ? customerName2 : companyName,
           firstCustomerCvr: this.isBusinessCustomer() ? cvr : undefined,
           protectedName: nameProtection,
+          processId: this.processId(),
           usagePointLocations: [
             mapUsagePointLocation(
               legalContactDetails,
