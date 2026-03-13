@@ -26,6 +26,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/dh/market-participant/feature-delegation',
+  resolve: { conditions: ['development', 'browser'] },
   plugins: [
     angular({ tsconfig: './tsconfig.spec.json' }),
     nxViteTsPaths(),

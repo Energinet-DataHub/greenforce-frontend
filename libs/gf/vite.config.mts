@@ -51,10 +51,21 @@ function findWorkspaceRoot(startDir: string): string {
  *   VITEST_ENVIRONMENT   – "happy-dom" | "node"  (default: "happy-dom")
  *   VITEST_USE_ANGULAR   – "true" | "false"       (default: "true")
  *
- * Vitest runs each lib with `cwd` set to the lib's project root, so
- * `process.cwd()` here always equals the lib's root directory when invoked
- * via `nx run`. The config also handles being evaluated from other working
- * directories by walking upward to locate `nx.json`.
+ * HOW THIS CONFIG IS INVOKED
+ * --------------------------
+ * This file must only be used via `nx run <lib>:test`, which sets
+ * `process.cwd()` to the individual lib's root directory. The `root`,
+ * `include`, and `setupFiles` options are all derived from `process.cwd()`
+ * at runtime — they point at the lib being tested, not at this file's
+ * location on disk.
+ *
+ * DO NOT add this file to vitest.workspace.ts (or test.projects).
+ * When Vitest loads a workspace entry it sets `process.cwd()` to the
+ * workspace root, so `root` would resolve to the workspace root and
+ * `include: ['src/**\/*.spec.ts', 'tests/**\/*.spec.ts']` would find 0 tests.
+ *
+ * To run all gf lib tests use:
+ *   nx run-many -t test --projects="tag:gf"
  */
 export default defineConfig(() => {
   const libRoot = process.cwd();
