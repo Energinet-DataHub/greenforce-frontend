@@ -19,11 +19,12 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
+import { VATER } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattCardComponent } from '@energinet/watt/card';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -31,24 +32,21 @@ import {
   DeleteAllEventSourcingDataDocument,
   ProjectionType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-metering-point-actions',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
+    VATER,
     WattButtonComponent,
     WattCardComponent,
     WattDropdownComponent,
+    WattHeadingComponent,
     WattTextFieldComponent,
-    VaterFlexComponent,
-    VaterUtilityDirective,
   ],
   styles: `
-    :host {
-      display: block;
-    }
-
     .result-box {
       padding: var(--watt-space-m);
       background-color: var(--watt-color-neutral-grey-100);
@@ -63,49 +61,45 @@ import {
     }
   `,
   template: `
-    <div vater inset="ml">
-      <vater-flex direction="column" gap="l">
+    <vater-grid inset="ml" columns="1fr 1fr" rows="auto 1fr" gap="ml">
+      <watt-card>
+        <vater-flex direction="column" gap="m">
+          <h3 watt-heading>Rebuild Projection</h3>
+
+          <watt-dropdown
+            [formControl]="projectionTypeControl"
+            [options]="projectionTypeOptions"
+            placeholder="Select projection type"
+          />
+
+          <watt-text-field label="Timeout (seconds)" type="number" [formControl]="timeoutControl" />
+
+          <watt-button
+            variant="secondary"
+            [loading]="rebuildProjectionsMutation.loading()"
+            [disabled]="!projectionTypeControl.value"
+            (click)="rebuildProjections()"
+          >
+            Rebuild Projection
+          </watt-button>
+
+          @if (rebuildResult()) {
+            <div class="result-box"><strong>Result:</strong> {{ rebuildResult() }}</div>
+          }
+        </vater-flex>
+      </watt-card>
+
+      <vater-grid-area column="1 / 3" row="2">
         <watt-card>
           <vater-flex direction="column" gap="m">
-            <h3>Rebuild Projection</h3>
-
-            <watt-dropdown
-              [formControl]="projectionTypeControl"
-              [options]="projectionTypeOptions"
-              placeholder="Select projection type"
-            />
-
-            <watt-text-field
-              label="Timeout (seconds)"
-              type="number"
-              [formControl]="timeoutControl"
-            />
-
-            <watt-button
-              variant="secondary"
-              [loading]="rebuildProjectionsMutation.loading()"
-              [disabled]="!projectionTypeControl.value"
-              (click)="rebuildProjections()"
-            >
-              Rebuild Projection
-            </watt-button>
-
-            @if (rebuildResult()) {
-              <div class="result-box"><strong>Result:</strong> {{ rebuildResult() }}</div>
-            }
-          </vater-flex>
-        </watt-card>
-
-        <watt-card>
-          <vater-flex direction="column" gap="m">
-            <h3>Danger Zone</h3>
+            <h3 watt-heading>Danger Zone</h3>
 
             <div class="danger-zone">
               <vater-flex direction="column" gap="m">
-                <p>
+                <div>
                   <strong>Warning:</strong> This action will delete ALL event sourcing data. This
                   cannot be undone!
-                </p>
+                </div>
 
                 <watt-button
                   variant="secondary"
@@ -122,8 +116,8 @@ import {
             </div>
           </vater-flex>
         </watt-card>
-      </vater-flex>
-    </div>
+      </vater-grid-area>
+    </vater-grid>
   `,
 })
 export class DhMeteringPointActionsComponent {
@@ -131,7 +125,7 @@ export class DhMeteringPointActionsComponent {
   deleteAllDataMutation = mutation(DeleteAllEventSourcingDataDocument);
 
   projectionTypeControl = new FormControl<ProjectionType | null>(null);
-  timeoutControl = new FormControl<number>(60);
+  timeoutControl = new FormControl('5');
 
   projectionTypeOptions = [
     { value: ProjectionType.MeteringPoint, displayValue: 'Metering Point' },
@@ -146,14 +140,10 @@ export class DhMeteringPointActionsComponent {
 
   rebuildProjections(): void {
     const projection = this.projectionTypeControl.value;
-    const timeout = this.timeoutControl.value ?? 60;
-
-    if (!projection) return;
-
+    const timeout = parseInt(this.timeoutControl.value || '5');
+    assertIsDefined(projection);
     this.rebuildProjectionsMutation.mutate({
-      variables: {
-        input: { projection, timeout },
-      },
+      variables: { input: { projection, timeout } },
       onCompleted: (data) => {
         const success = data.rebuildProjections.success;
         this.rebuildResult.set(success ? 'Success' : 'Failed');

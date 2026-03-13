@@ -20,10 +20,10 @@ import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
+import { VATER } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattCardComponent } from '@energinet/watt/card';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { VATER } from '@energinet/watt/vater';
 
 import { query, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -35,6 +35,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattFieldHintComponent } from '@energinet/watt/field';
 import { dayjs } from '@energinet/watt/date';
+import { WattHeadingComponent } from '@energinet/watt/heading';
 
 @Component({
   selector: 'dh-metering-point-migration',
@@ -42,11 +43,12 @@ import { dayjs } from '@energinet/watt/date';
   imports: [
     DecimalPipe,
     ReactiveFormsModule,
+    VATER,
     WattButtonComponent,
     WattCardComponent,
     WattDatepickerComponent,
     WattFieldHintComponent,
-    VATER,
+    WattHeadingComponent,
   ],
   styles: `
     :host {
@@ -68,10 +70,10 @@ import { dayjs } from '@energinet/watt/date';
   `,
   template: `
     <div vater inset="ml">
-      <vater-flex direction="column" gap="l">
+      <vater-flex direction="column" gap="ml">
         <watt-card>
           <vater-flex direction="column" gap="m">
-            <h3>Migration Counts Comparison</h3>
+            <h3 watt-heading>Migration Counts Comparison</h3>
 
             <div class="counts-grid">
               <div class="result-box">
@@ -108,7 +110,7 @@ import { dayjs } from '@energinet/watt/date';
         <vater-flex direction="row" gap="ml">
           <watt-card>
             <vater-flex direction="column" gap="m">
-              <h3>Dead Letter Queue for Migration Events</h3>
+              <h3 watt-heading>Dead Letter Queue for Migration Events</h3>
 
               <vater-stack direction="row" gap="m">
                 <watt-button
@@ -140,7 +142,7 @@ import { dayjs } from '@energinet/watt/date';
 
           <watt-card>
             <vater-flex direction="column" gap="m">
-              <h3>Set start time for migration job in EM1</h3>
+              <h3 watt-heading>Set start time for migration job in EM1</h3>
 
               <watt-datepicker [formControl]="versionDateControl" [label]="'Start time (optional)'">
                 <watt-field-hint>
