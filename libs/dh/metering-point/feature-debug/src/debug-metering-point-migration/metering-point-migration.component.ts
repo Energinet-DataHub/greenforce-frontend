@@ -75,11 +75,11 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
                 <div class="result-box">
                   <strong>{{ t('countsComparison.em1Label') }}</strong>
                   <br />
-                  @if (em1MigratedCount.loading()) {
+                  @if (em1Count.loading()) {
                     {{ t('countsComparison.loading') }}
-                  } @else if (em1MigratedCount.hasError()) {
+                  } @else if (em1Count.hasError()) {
                     {{ t('countsComparison.error') }}
-                  } @else if (em1MigratedCount.data()?.meteringPointCount; as data) {
+                  } @else if (em1Count.data()?.meteringPointCount; as data) {
                     {{ t('countsComparison.total') }} {{ data.totalCount | number }}<br />
                     {{ t('countsComparison.quarantined') }} {{ data.quarantinedCount | number }}
                   }
@@ -87,11 +87,11 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
                 <div class="result-box">
                   <strong>{{ t('countsComparison.em2Label') }}</strong
                   ><br />
-                  @if (em2MigratedCount.loading()) {
+                  @if (em2Count.loading()) {
                     {{ t('countsComparison.loading') }}
-                  } @else if (em2MigratedCount.hasError()) {
+                  } @else if (em2Count.hasError()) {
                     {{ t('countsComparison.error') }}
-                  } @else if (em2MigratedCount.data(); as data) {
+                  } @else if (em2Count.data(); as data) {
                     {{ data.meteringPointMigratedCount | number }}
                   }
                 </div>
@@ -234,8 +234,8 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
   `,
 })
 export class DhMeteringPointMigrationComponent {
-  em1MigratedCount = query(GetMeteringPointCountDocument);
-  em2MigratedCount = query(GetMeteringPointMigratedCountDocument);
+  em1Count = query(GetMeteringPointCountDocument);
+  em2Count = query(GetMeteringPointMigratedCountDocument);
   replayDlq = mutation(ReplayMigrationEventsDlqDocument);
   clearDlq = mutation(ClearMigrationEventsDlqDocument);
   syncJob = mutation(SyncJobSetVersionDocument);
@@ -248,8 +248,8 @@ export class DhMeteringPointMigrationComponent {
   });
 
   refreshCounts() {
-    this.em1MigratedCount.refetch();
-    this.em2MigratedCount.refetch();
+    this.em1Count.refetch();
+    this.em2Count.refetch();
   }
 
   onReplayDlqConfirm(confirmed: boolean): void {
