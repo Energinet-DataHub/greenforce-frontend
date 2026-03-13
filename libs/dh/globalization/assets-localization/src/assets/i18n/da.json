@@ -2644,6 +2644,7 @@
           "pending": "Validerer periode",
           "empty": "Periode påkrævet",
           "warning": {
+            "AGGREGATION": "Der findes kørte beregninger for perioden",
             "BALANCE_FIXING": "Der er kørt balancefiksering for perioden",
             "WHOLESALE_FIXING": "Der er kørt engrosfiksering for perioden",
             "FIRST_CORRECTION_SETTLEMENT": "Der er kørt korrektionsafregning for perioden",
@@ -2668,6 +2669,7 @@
         "errors": {
           "resolutionTransition": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{transitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{transitionDate}} for at fortsætte.",
           "existing": {
+            "AGGREGATION": "Der findes kørte beregninger i den valgte periode! Senest kørte beregning er {{period}}.",
             "BALANCE_FIXING": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{period}}.",
             "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{period}}.",
             "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 1. korrektionsafregning er senest kørt {{period}}.",
@@ -2678,6 +2680,7 @@
         },
         "warning": {
           "title": {
+            "AGGREGATION": "Kør aggregering?",
             "BALANCE_FIXING": "Genkør balancefiksering?",
             "WHOLESALE_FIXING": "Genkør engrosfiksering?",
             "FIRST_CORRECTION_SETTLEMENT": "Genkør 1. korrektionsafregning?",
@@ -2688,6 +2691,7 @@
           "message": {
             "label": "Dette vil give aktørerne nye data",
             "body": {
+              "AGGREGATION": "Kørsel af denne aggregering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "BALANCE_FIXING": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "WHOLESALE_FIXING": "Genkørsel af en engrosfiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "FIRST_CORRECTION_SETTLEMENT": "Genkørsel af en 1. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
@@ -2697,6 +2701,7 @@
             }
           },
           "body": {
+            "AGGREGATION": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte beregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
             "BALANCE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "WHOLESALE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte engrosfikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "FIRST_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 1. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
@@ -2706,6 +2711,7 @@
           },
           "confirmation": "Er du sikker på, at du vil køre denne beregning?",
           "hint": {
+            "AGGREGATION": "Indtast JEG VIL KØRE AGGREGERING for at bekræfte",
             "BALANCE_FIXING": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
             "WHOLESALE_FIXING": "Indtast JEG VIL GENKØRE ENGROSFIKSERING for at bekræfte",
             "FIRST_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 1. KORREKTIONSAFREGNING for at bekræfte",
@@ -2714,6 +2720,7 @@
             "CAPACITY_SETTLEMENT": "Indtast JEG VIL GENKØRE EFFEKTBETALING for at bekræfte"
           },
           "validation": {
+            "AGGREGATION": "JEG VIL KØRE AGGREGERING",
             "BALANCE_FIXING": "JEG VIL GENKØRE BALANCEFIKSERING",
             "WHOLESALE_FIXING": "JEG VIL GENKØRE ENGROSFIKSERING",
             "FIRST_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 1. KORREKTIONSAFREGNING",

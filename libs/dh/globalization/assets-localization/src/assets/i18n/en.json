@@ -2644,6 +2644,7 @@
           "pending": "Validating period",
           "empty": "Period required",
           "warning": {
+            "AGGREGATION": "Existing calculations have been carried out for the period",
             "BALANCE_FIXING": "Balance fixing has been carried out for the period",
             "WHOLESALE_FIXING": "Wholesale fixing has been carried out for the period",
             "FIRST_CORRECTION_SETTLEMENT": "Correction settlement has been carried out for the period",
@@ -2668,6 +2669,7 @@
         "errors": {
           "resolutionTransition": "Calculation cannot be initiated. The selected date range crosses the {{transitionDate}} threshold, which is not permitted due to the resolution changing from hourly to quarterly. Please choose a start and end date either entirely before or after {{transitionDate}} to proceed.",
           "existing": {
+            "AGGREGATION": "There are existing calculations in the chosen period! Latest calculation was executed {{period}}.",
             "BALANCE_FIXING": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{period}}.",
             "WHOLESALE_FIXING": "There are existing wholesale fixings in the chosen period! Latest wholesale fixing was executed {{period}}.",
             "FIRST_CORRECTION_SETTLEMENT": "There are existing 1. correction settlements in the chosen period! Latest 1. correction settlement was executed {{period}}.",
@@ -2678,6 +2680,7 @@
         },
         "warning": {
           "title": {
+            "AGGREGATION": "Run aggregation?",
             "BALANCE_FIXING": "Rerun balance fixing?",
             "WHOLESALE_FIXING": "Rerun wholesale fixing?",
             "FIRST_CORRECTION_SETTLEMENT": "Rerun 1. correction settlement?",
@@ -2688,6 +2691,7 @@
           "message": {
             "label": "This will issue new data to the actors",
             "body": {
+              "AGGREGATION": "Running an aggregation will result in all associated actors receiving new data for their settlements.",
               "BALANCE_FIXING": "Rerunning a balance fixing will result in all associated actors receiving new data for their settlements.",
               "WHOLESALE_FIXING": "Rerunning a wholesale fixing will result in all associated actors receiving new data for their settlements.",
               "FIRST_CORRECTION_SETTLEMENT": "Rerunning a 1. correction settlement will result in all associated actors receiving new data for their settlements.",
@@ -2697,6 +2701,7 @@
             }
           },
           "body": {
+            "AGGREGATION": "You are about to issue new data for already settled periods. This will invalidate previous calculations and new data will be issued to the actors.",
             "BALANCE_FIXING": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
             "WHOLESALE_FIXING": "You are about to issue new data for already settled periods. This will invalidate previous wholesale fixings and new data will be issued to the actors.",
             "FIRST_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous 1. correction settlements and new data will be issued to the actors.",
@@ -2706,6 +2711,7 @@
           },
           "confirmation": "Are you sure you want to run this calculation?",
           "hint": {
+            "AGGREGATION": "Enter I WANT TO RUN AGGREGATION to confirm",
             "BALANCE_FIXING": "Enter I WANT TO RERUN BALANCE FIXING to confirm",
             "WHOLESALE_FIXING": "Enter I WANT TO RERUN WHOLESALE FIXING to confirm",
             "FIRST_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN 1. CORRECTION SETTLEMENT to confirm",
@@ -2714,6 +2720,7 @@
             "CAPACITY_SETTLEMENT": "Enter I WANT TO RERUN CAPACITY SETTLEMENT to confirm"
           },
           "validation": {
+            "AGGREGATION": "I WANT TO RUN AGGREGATION",
             "BALANCE_FIXING": "I WANT TO RERUN BALANCE FIXING",
             "WHOLESALE_FIXING": "I WANT TO RERUN WHOLESALE FIXING",
             "FIRST_CORRECTION_SETTLEMENT": "I WANT TO RERUN 1. CORRECTION SETTLEMENT",
