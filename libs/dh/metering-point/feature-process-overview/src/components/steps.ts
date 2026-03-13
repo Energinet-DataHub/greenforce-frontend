@@ -30,6 +30,7 @@ import { WattDataTableComponent } from '@energinet/watt/data';
 
 import {
   GetMeteringPointProcessByIdQuery,
+  ProcessManagerBusinessReason,
   ProcessStepState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -97,7 +98,7 @@ type MeteringPointProcessStep = NonNullable<
             justify="space-between"
           >
             <div vater fill="horizontal">
-              <dh-step-name [reasonCode]="reasonCode()" [step]="process.step" />
+              <dh-step-name [businessReason]="businessReason()" [step]="process.step" />
 
               @if (process.comment) {
                 <div class="watt-text-s-highlighted">{{ process.comment }}</div>
@@ -127,7 +128,7 @@ export class DhMeteringPointProcessOverviewSteps {
   private readonly transloco = inject(TranslocoService);
 
   readonly steps = input.required<MeteringPointProcessStep[]>();
-  readonly reasonCode = input<string>();
+  readonly businessReason = input<ProcessManagerBusinessReason>();
   readonly loading = input(false);
   readonly error = input<unknown>();
 
@@ -143,23 +144,21 @@ export class DhMeteringPointProcessOverviewSteps {
   };
 
   displayedColumns = computed(() => {
-    const reasonCode = this.reasonCode();
+    const businessReason = this.businessReason();
 
     const allColumns = Object.keys(this.columns);
 
-    if (!reasonCode) {
+    if (!businessReason) {
       return allColumns;
     }
 
-    const shortLivedProcessesByReasonCode = [
-      'NewMeteringPoint',
-      'ConnectMeteringPoint',
-      'CloseDownMeteringPoint',
-      'ChangeConnectionStatus',
-      'UpdateMeteringPointMasterData',
-      'ProductionObligation',
-    ];
-    const isShortLivedProcess = shortLivedProcessesByReasonCode.includes(reasonCode);
+    const isShortLivedProcess =
+      businessReason === ProcessManagerBusinessReason.NewMeteringPoint ||
+      businessReason === ProcessManagerBusinessReason.ConnectMeteringPoint ||
+      businessReason === ProcessManagerBusinessReason.CloseDownMeteringPoint ||
+      businessReason === ProcessManagerBusinessReason.ChangeConnectionStatus ||
+      businessReason === ProcessManagerBusinessReason.UpdateMeteringPointMasterData ||
+      businessReason === ProcessManagerBusinessReason.ProductionObligation;
 
     return allColumns.filter((column) => !(isShortLivedProcess && column === 'dueDate'));
   });

@@ -22,6 +22,7 @@ import { mswConfig } from '@energinet-datahub/gf/msw/test-util-msw-setup';
 import {
   DocumentType,
   MeteringPointProcessState,
+  ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -141,14 +142,6 @@ function getMeteringPointProcessOverview() {
   return mockGetMeteringPointProcessOverviewQuery(async () => {
     await delay(mswConfig.delay);
 
-    // Generate more varied mock data for testing sorting
-    const reasonCodes = [
-      'EndOfSupply',
-      'NewMeteringPoint',
-      'ConnectMeteringPoint',
-      'ProductionObligation',
-    ];
-
     const states = [
       MeteringPointProcessState.Pending,
       MeteringPointProcessState.Running,
@@ -200,7 +193,9 @@ function getMeteringPointProcessOverview() {
       return {
         __typename: 'MeteringPointProcess' as const,
         id: `process-${String(index + 1).padStart(3, '0')}`,
-        reasonCode: reasonCodes[index % reasonCodes.length],
+        businessReason: Object.values(ProcessManagerBusinessReason)[
+          index % Object.values(ProcessManagerBusinessReason).length
+        ],
         createdAt,
         cutoffDate,
         state: currentState,
@@ -226,12 +221,6 @@ function getMeteringPointProcessById(apiBase: string) {
     await delay(mswConfig.delay);
 
     const processId = args.variables.id;
-    const reasonCodes = [
-      'EndOfSupply',
-      'NewMeteringPoint',
-      'ConnectMeteringPoint',
-      'ProductionObligation',
-    ];
 
     const initiators = [
       { id: '0199ed3d-f1b2-7180-9546-39b5836fb575', displayName: '905495045940594 • Radius' },
@@ -257,8 +246,8 @@ function getMeteringPointProcessById(apiBase: string) {
           id: processId,
           createdAt,
           cutoffDate,
+          businessReason: ProcessManagerBusinessReason.EndOfSupply,
           state: MeteringPointProcessState.Succeeded,
-          reasonCode: reasonCodes[processIndex % reasonCodes.length],
           initiator: {
             __typename: 'MarketParticipant' as const,
             ...initiators[processIndex % initiators.length],
