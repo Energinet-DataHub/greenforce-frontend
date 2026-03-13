@@ -121,7 +121,6 @@ public static partial class ActorConversationOperations
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> SendActorConversationMessageAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
         SendActorConversationMessageInput sendActorConversationMessageInput,
         CancellationToken ct)
@@ -157,7 +156,6 @@ public static partial class ActorConversationOperations
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> UpdateInternalConversationNoteAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
         UpdateInternalConversationNoteInput updateInternalConversationNoteInput,
         CancellationToken ct)
@@ -186,7 +184,6 @@ public static partial class ActorConversationOperations
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> MarkConversationReadAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
         CancellationToken ct)
@@ -221,7 +218,6 @@ public static partial class ActorConversationOperations
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> MarkConversationUnReadAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
         CancellationToken ct)
@@ -256,7 +252,6 @@ public static partial class ActorConversationOperations
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> CloseConversationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
         CancellationToken ct)
