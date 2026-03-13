@@ -1,8 +1,6 @@
 mutation ReplayMigrationEventsDlq {
   replayMigrationEventsDeadLetterQueue {
-    replayMigrationEventsDeadLetterQueueResultDtoV1 {
-      dlqCount
-      processedCount
-    }
+    dlqCount
+    processedCount
   }
 }

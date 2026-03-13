@@ -1,8 +1,6 @@
 mutation ClearMigrationEventsDlq {
   clearMigrationEventsDeadLetterQueue {
-    clearMigrationEventsDeadLetterQueueResultDtoV1 {
-      dlqCount
-      processedCount
-    }
+    dlqCount
+    processedCount
   }
 }

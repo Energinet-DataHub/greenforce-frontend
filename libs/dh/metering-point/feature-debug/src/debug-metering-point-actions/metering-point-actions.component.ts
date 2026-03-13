@@ -16,8 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -25,6 +27,7 @@ import { WattCardComponent } from '@energinet/watt/card';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WATT_MODAL } from '@energinet/watt/modal';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -33,18 +36,26 @@ import {
   ProjectionType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-metering-point-actions',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
+    TranslocoDirective,
     VATER,
+    WATT_MODAL,
     WattButtonComponent,
     WattCardComponent,
     WattDropdownComponent,
     WattHeadingComponent,
     WattTextFieldComponent,
+    DhDropdownTranslatorDirective,
   ],
   styles: `
     .result-box {
@@ -61,114 +72,150 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     }
   `,
   template: `
-    <vater-grid inset="ml" columns="1fr 1fr" rows="auto 1fr" gap="ml">
-      <watt-card>
-        <vater-flex direction="column" gap="m">
-          <h3 watt-heading>Rebuild Projection</h3>
-
-          <watt-dropdown
-            [formControl]="projectionTypeControl"
-            [options]="projectionTypeOptions"
-            placeholder="Select projection type"
-          />
-
-          <watt-text-field label="Timeout (seconds)" type="number" [formControl]="timeoutControl" />
-
-          <watt-button
-            variant="secondary"
-            [loading]="rebuildProjectionsMutation.loading()"
-            [disabled]="!projectionTypeControl.value"
-            (click)="rebuildProjections()"
-          >
-            Rebuild Projection
-          </watt-button>
-
-          @if (rebuildResult()) {
-            <div class="result-box"><strong>Result:</strong> {{ rebuildResult() }}</div>
-          }
-        </vater-flex>
-      </watt-card>
-
-      <vater-grid-area column="1 / 3" row="2">
+    <ng-container *transloco="let t; prefix: 'meteringPointDebug.actions'">
+      <vater-grid inset="ml" columns="1fr 1fr" rows="auto 1fr" gap="ml">
         <watt-card>
           <vater-flex direction="column" gap="m">
-            <h3 watt-heading>Danger Zone</h3>
+            <h3 watt-heading>{{ t('rebuildProjection.title') }}</h3>
 
-            <div class="danger-zone">
-              <vater-flex direction="column" gap="m">
+            <watt-dropdown
+              [formControl]="projectionTypeControl"
+              [options]="projectionTypeOptions"
+              [placeholder]="t('rebuildProjection.selectPlaceholder')"
+              dhDropdownTranslator
+              translateKey="meteringPointDebug.actions.rebuildProjection.projectionTypes"
+            />
+
+            <watt-text-field
+              [label]="t('rebuildProjection.timeout')"
+              type="number"
+              [formControl]="timeoutControl"
+            />
+
+            <watt-button
+              variant="secondary"
+              [loading]="rebuildProjections.loading()"
+              [disabled]="!projectionTypeControl.value"
+              (click)="rebuildModal.open()"
+            >
+              {{ t('rebuildProjection.button') }}
+            </watt-button>
+
+            @if (rebuildProjections.data(); as data) {
+              <div class="result-box">
+                <strong>{{ t('result') }}</strong>
+                {{ data.rebuildProjections.success ? t('success') : t('failed') }}
+              </div>
+            }
+
+            @if (rebuildProjections.error(); as error) {
+              <div class="result-box">
+                <strong>{{ t('error') }}</strong> {{ error.message }}
+              </div>
+            }
+          </vater-flex>
+        </watt-card>
+
+        <vater-grid-area column="1 / 3" row="2">
+          <watt-card>
+            <vater-flex direction="column" gap="m">
+              <h3 watt-heading>{{ t('dangerZone.title') }}</h3>
+
+              <vater-flex class="danger-zone" direction="column" gap="m">
                 <div>
-                  <strong>Warning:</strong> This action will delete ALL event sourcing data. This
-                  cannot be undone!
+                  <strong>{{ t('dangerZone.warning') }}</strong>
+                  {{ t('dangerZone.warningMessage') }}
                 </div>
 
                 <watt-button
                   variant="secondary"
-                  [loading]="deleteAllDataMutation.loading()"
-                  (click)="deleteAllEventSourcingData()"
+                  [loading]="deleteAllData.loading()"
+                  (click)="deleteModal.open()"
                 >
-                  Delete All Event Sourcing Data
+                  {{ t('dangerZone.deleteButton') }}
                 </watt-button>
 
-                @if (deleteResult()) {
-                  <div class="result-box"><strong>Result:</strong> {{ deleteResult() }}</div>
+                @if (deleteAllData.data(); as data) {
+                  <div class="result-box">
+                    <strong>{{ t('result') }}</strong>
+                    {{ data.deleteAllEventSourcingData.success ? t('success') : t('failed') }}
+                  </div>
+                }
+
+                @if (deleteAllData.error(); as error) {
+                  <div class="result-box">
+                    <strong>{{ t('error') }}</strong> {{ error.message }}
+                  </div>
                 }
               </vater-flex>
-            </div>
-          </vater-flex>
-        </watt-card>
-      </vater-grid-area>
-    </vater-grid>
+            </vater-flex>
+          </watt-card>
+        </vater-grid-area>
+      </vater-grid>
+
+      <watt-modal
+        #rebuildModal
+        size="small"
+        [title]="t('rebuildProjection.modal.title')"
+        (closed)="onConfirmRebuild($event)"
+      >
+        {{ t('rebuildProjection.modal.message') }}
+        <watt-modal-actions>
+          <watt-button variant="secondary" (click)="rebuildModal.close(false)">
+            {{ t('modal.cancel') }}
+          </watt-button>
+          <watt-button (click)="rebuildModal.close(true)">
+            {{ t('modal.confirm') }}
+          </watt-button>
+        </watt-modal-actions>
+      </watt-modal>
+
+      <watt-modal
+        #deleteModal
+        size="small"
+        [title]="t('dangerZone.modal.title')"
+        (closed)="onConfirmDelete($event)"
+      >
+        <vater-flex direction="column" gap="m">
+          <div>{{ t('dangerZone.modal.message') }}</div>
+          <div>{{ t('dangerZone.modal.instruction') }}</div>
+          <watt-text-field [formControl]="deleteConfirmControl" />
+        </vater-flex>
+        <watt-modal-actions>
+          <watt-button variant="secondary" (click)="deleteModal.close(false)">
+            {{ t('modal.cancel') }}
+          </watt-button>
+          <watt-button
+            variant="primary"
+            [disabled]="deleteConfirmControl.value !== t('dangerZone.modal.validation')"
+            (click)="deleteModal.close(true)"
+          >
+            {{ t('dangerZone.modal.confirmDelete') }}
+          </watt-button>
+        </watt-modal-actions>
+      </watt-modal>
+    </ng-container>
   `,
 })
 export class DhMeteringPointActionsComponent {
-  rebuildProjectionsMutation = mutation(RebuildProjectionsDocument);
-  deleteAllDataMutation = mutation(DeleteAllEventSourcingDataDocument);
+  rebuildProjections = mutation(RebuildProjectionsDocument);
+  deleteAllData = mutation(DeleteAllEventSourcingDataDocument);
+  projectionTypeControl = dhMakeFormControl<ProjectionType>();
+  timeoutControl = dhMakeFormControl('5');
+  deleteConfirmControl = dhMakeFormControl('');
+  projectionTypeOptions = dhEnumToWattDropdownOptions(ProjectionType);
 
-  projectionTypeControl = new FormControl<ProjectionType | null>(null);
-  timeoutControl = new FormControl('5');
-
-  projectionTypeOptions = [
-    { value: ProjectionType.MeteringPoint, displayValue: 'Metering Point' },
-    {
-      value: ProjectionType.MeteringPointWithRelations,
-      displayValue: 'Metering Point With Relations',
-    },
-  ];
-
-  rebuildResult = signal<string | null>(null);
-  deleteResult = signal<string | null>(null);
-
-  rebuildProjections(): void {
+  onConfirmRebuild(confirmed: boolean): void {
+    if (!confirmed) return;
     const projection = this.projectionTypeControl.value;
     const timeout = parseInt(this.timeoutControl.value || '5');
     assertIsDefined(projection);
-    this.rebuildProjectionsMutation.mutate({
-      variables: { input: { projection, timeout } },
-      onCompleted: (data) => {
-        const success = data.rebuildProjections.success;
-        this.rebuildResult.set(success ? 'Success' : 'Failed');
-      },
-      onError: (error) => {
-        this.rebuildResult.set(`Error: ${error.message}`);
-      },
-    });
+    this.rebuildProjections.mutate({ variables: { input: { projection, timeout } } });
   }
 
-  deleteAllEventSourcingData(): void {
-    if (
-      !confirm('Are you sure you want to delete ALL event sourcing data? This cannot be undone!')
-    ) {
-      return;
-    }
-
-    this.deleteAllDataMutation.mutate({
-      onCompleted: (data) => {
-        const success = data.deleteAllEventSourcingData.success;
-        this.deleteResult.set(success ? 'Success' : 'Failed');
-      },
-      onError: (error) => {
-        this.deleteResult.set(`Error: ${error.message}`);
-      },
-    });
+  onConfirmDelete(confirmed: boolean): void {
+    if (!confirmed) return;
+    this.deleteAllData.mutate();
+    this.deleteConfirmControl.reset();
   }
 }

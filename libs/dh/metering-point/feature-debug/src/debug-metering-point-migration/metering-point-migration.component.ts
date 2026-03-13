@@ -17,13 +17,16 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattCardComponent } from '@energinet/watt/card';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WATT_MODAL } from '@energinet/watt/modal';
 
 import { query, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -43,7 +46,9 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
   imports: [
     DecimalPipe,
     ReactiveFormsModule,
+    TranslocoDirective,
     VATER,
+    WATT_MODAL,
     WattButtonComponent,
     WattCardComponent,
     WattDatepickerComponent,
@@ -51,175 +56,218 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
     WattHeadingComponent,
   ],
   styles: `
-    :host {
-      display: block;
-    }
-
     .result-box {
       padding: var(--watt-space-m);
       background-color: var(--watt-color-neutral-grey-100);
       border-radius: var(--watt-space-xs);
       font-family: monospace;
     }
-
-    .counts-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--watt-space-m);
-    }
   `,
   template: `
-    <div vater inset="ml">
-      <vater-flex direction="column" gap="ml">
-        <watt-card>
-          <vater-flex direction="column" gap="m">
-            <h3 watt-heading>Migration Counts Comparison</h3>
-
-            <div class="counts-grid">
-              <div class="result-box">
-                <strong>Migrated Count (EM1):</strong><br />
-                @if (v1CountQuery.loading()) {
-                  Loading...
-                } @else if (v1CountQuery.hasError()) {
-                  Error loading count
-                } @else {
-                  Total: {{ v1TotalCount() | number }}<br />
-                  Quarantined: {{ v1QuarantinedCount() | number }}
-                }
-              </div>
-              <div class="result-box">
-                <strong>Migrated Count (EM2):</strong><br />
-                @if (migratedCountQuery.loading()) {
-                  Loading...
-                } @else if (migratedCountQuery.hasError()) {
-                  Error loading count
-                } @else {
-                  {{ migratedCount() | number }}
-                }
-              </div>
-            </div>
-
-            <vater-flex direction="row" gap="m">
-              <watt-button variant="secondary" (click)="refreshCounts()">
-                Refresh Counts
-              </watt-button>
-            </vater-flex>
-          </vater-flex>
-        </watt-card>
-
-        <vater-flex direction="row" gap="ml">
+    <ng-container *transloco="let t; prefix: 'meteringPointDebug.migration'">
+      <div vater inset="ml">
+        <vater-flex direction="column" gap="ml">
           <watt-card>
             <vater-flex direction="column" gap="m">
-              <h3 watt-heading>Dead Letter Queue for Migration Events</h3>
+              <h3 watt-heading>{{ t('countsComparison.title') }}</h3>
 
-              <vater-stack direction="row" gap="m">
-                <watt-button
-                  variant="secondary"
-                  [loading]="replayDlqMutation.loading()"
-                  (click)="replayDlq()"
-                >
-                  Replay DLQ Events
-                </watt-button>
-
-                <watt-button
-                  variant="secondary"
-                  [loading]="clearDlqMutation.loading()"
-                  (click)="clearDlq()"
-                >
-                  Clear DLQ
-                </watt-button>
-              </vater-stack>
-
-              @if (dlqResult()) {
+              <vater-flex direction="row" gap="m">
                 <div class="result-box">
-                  <strong>Last Operation Result:</strong><br />
-                  DLQ Count: {{ dlqResult()?.dlqCount }}<br />
-                  Processed Count: {{ dlqResult()?.processedCount }}
+                  <strong>{{ t('countsComparison.em1Label') }}</strong>
+                  <br />
+                  @if (em1MigratedCount.loading()) {
+                    {{ t('countsComparison.loading') }}
+                  } @else if (em1MigratedCount.hasError()) {
+                    {{ t('countsComparison.error') }}
+                  } @else if (em1MigratedCount.data()?.meteringPointCount; as data) {
+                    {{ t('countsComparison.total') }} {{ data.totalCount | number }}<br />
+                    {{ t('countsComparison.quarantined') }} {{ data.quarantinedCount | number }}
+                  }
                 </div>
-              }
+                <div class="result-box">
+                  <strong>{{ t('countsComparison.em2Label') }}</strong
+                  ><br />
+                  @if (em2MigratedCount.loading()) {
+                    {{ t('countsComparison.loading') }}
+                  } @else if (em2MigratedCount.hasError()) {
+                    {{ t('countsComparison.error') }}
+                  } @else if (em2MigratedCount.data(); as data) {
+                    {{ data.meteringPointMigratedCount | number }}
+                  }
+                </div>
+              </vater-flex>
+
+              <vater-flex direction="row" gap="m">
+                <watt-button variant="secondary" (click)="refreshCounts()">
+                  {{ t('countsComparison.refreshButton') }}
+                </watt-button>
+              </vater-flex>
             </vater-flex>
           </watt-card>
 
-          <watt-card>
-            <vater-flex direction="column" gap="m">
-              <h3 watt-heading>Set start time for migration job in EM1</h3>
+          <vater-flex direction="row" gap="ml">
+            <watt-card>
+              <vater-flex direction="column" gap="m">
+                <h3 watt-heading>{{ t('dlq.title') }}</h3>
 
-              <watt-datepicker [formControl]="versionDateControl" [label]="'Start time (optional)'">
-                <watt-field-hint>
-                  If no start time is provided, everything will be migrated!
-                </watt-field-hint>
-              </watt-datepicker>
+                <vater-stack direction="row" gap="m">
+                  <watt-button
+                    variant="secondary"
+                    [loading]="replayDlq.loading()"
+                    (click)="replayDlqModal.open()"
+                  >
+                    {{ t('dlq.replayButton') }}
+                  </watt-button>
 
-              <watt-button
-                variant="secondary"
-                [loading]="syncJobMutation.loading()"
-                (click)="runSyncJob()"
-              >
-                Set start time
-              </watt-button>
+                  <watt-button
+                    variant="secondary"
+                    [loading]="clearDlq.loading()"
+                    (click)="clearDlqModal.open()"
+                  >
+                    {{ t('dlq.clearButton') }}
+                  </watt-button>
+                </vater-stack>
 
-              @if (syncJobResult()) {
-                <div class="result-box"><strong>Result:</strong> {{ syncJobResult() }}</div>
-              }
-            </vater-flex>
-          </watt-card>
+                @if (dlqResult()) {
+                  <div class="result-box">
+                    <strong>{{ t('dlq.lastOperationResult') }}</strong>
+                    <br />
+                    {{ t('dlq.dlqCount') }} {{ dlqResult()?.dlqCount }}<br />
+                    {{ t('dlq.processedCount') }} {{ dlqResult()?.processedCount }}
+                  </div>
+                }
+              </vater-flex>
+            </watt-card>
+
+            <watt-card>
+              <vater-flex direction="column" gap="m">
+                <h3 watt-heading>{{ t('syncJob.title') }}</h3>
+
+                <watt-datepicker
+                  [formControl]="versionDateControl"
+                  [label]="t('syncJob.startTimeLabel')"
+                >
+                  <watt-field-hint>
+                    {{ t('syncJob.hint') }}
+                  </watt-field-hint>
+                </watt-datepicker>
+
+                <watt-button
+                  variant="secondary"
+                  [loading]="syncJob.loading()"
+                  (click)="syncJobModal.open()"
+                >
+                  {{ t('syncJob.setStartTimeButton') }}
+                </watt-button>
+
+                @if (syncJob.data(); as data) {
+                  <div class="result-box">
+                    <strong>{{ t('result') }}</strong>
+                    {{
+                      data.syncJobSetJobVersionEventStoreExport.success ? t('success') : t('failed')
+                    }}
+                  </div>
+                }
+
+                @if (syncJob.error(); as error) {
+                  <div class="result-box">
+                    <strong>{{ t('error') }}</strong> {{ error.message }}
+                  </div>
+                }
+              </vater-flex>
+            </watt-card>
+          </vater-flex>
         </vater-flex>
-      </vater-flex>
-    </div>
+      </div>
+
+      <watt-modal
+        #replayDlqModal
+        size="small"
+        [title]="t('dlq.modal.replayTitle')"
+        (closed)="onReplayDlqConfirm($event)"
+      >
+        <p>{{ t('dlq.modal.replayMessage') }}</p>
+        <watt-modal-actions>
+          <watt-button variant="secondary" (click)="replayDlqModal.close(false)">
+            {{ t('modal.cancel') }}
+          </watt-button>
+          <watt-button (click)="replayDlqModal.close(true)">
+            {{ t('modal.confirm') }}
+          </watt-button>
+        </watt-modal-actions>
+      </watt-modal>
+
+      <watt-modal
+        #clearDlqModal
+        size="small"
+        [title]="t('dlq.modal.clearTitle')"
+        (closed)="onClearDlqConfirm($event)"
+      >
+        <p>{{ t('dlq.modal.clearMessage') }}</p>
+        <watt-modal-actions>
+          <watt-button variant="secondary" (click)="clearDlqModal.close(false)">
+            {{ t('modal.cancel') }}
+          </watt-button>
+          <watt-button (click)="clearDlqModal.close(true)">
+            {{ t('modal.confirm') }}
+          </watt-button>
+        </watt-modal-actions>
+      </watt-modal>
+
+      <watt-modal
+        #syncJobModal
+        size="small"
+        [title]="t('syncJob.modal.title')"
+        (closed)="onSyncJobConfirm($event)"
+      >
+        <p>{{ t('syncJob.modal.message') }}</p>
+        <watt-modal-actions>
+          <watt-button variant="secondary" (click)="syncJobModal.close(false)">
+            {{ t('modal.cancel') }}
+          </watt-button>
+          <watt-button (click)="syncJobModal.close(true)">
+            {{ t('modal.confirm') }}
+          </watt-button>
+        </watt-modal-actions>
+      </watt-modal>
+    </ng-container>
   `,
 })
 export class DhMeteringPointMigrationComponent {
-  migratedCountQuery = query(GetMeteringPointMigratedCountDocument);
-  v1CountQuery = query(GetMeteringPointCountDocument);
-  replayDlqMutation = mutation(ReplayMigrationEventsDlqDocument);
-  clearDlqMutation = mutation(ClearMigrationEventsDlqDocument);
-  syncJobMutation = mutation(SyncJobSetVersionDocument);
-
+  em1MigratedCount = query(GetMeteringPointCountDocument);
+  em2MigratedCount = query(GetMeteringPointMigratedCountDocument);
+  replayDlq = mutation(ReplayMigrationEventsDlqDocument);
+  clearDlq = mutation(ClearMigrationEventsDlqDocument);
+  syncJob = mutation(SyncJobSetVersionDocument);
   versionDateControl = new FormControl<Date | null>(dayjs().subtract(1, 'month').toDate());
 
-  migratedCount = computed(() => this.migratedCountQuery.data()?.meteringPointMigratedCount ?? 0);
-  v1TotalCount = computed(() => this.v1CountQuery.data()?.meteringPointCount?.totalCount ?? 0);
-  v1QuarantinedCount = computed(
-    () => this.v1CountQuery.data()?.meteringPointCount?.quarantinedCount ?? 0
-  );
-
   dlqResult = computed(() => {
-    const replayResult =
-      this.replayDlqMutation.data()?.replayMigrationEventsDeadLetterQueue
-        ?.replayMigrationEventsDeadLetterQueueResultDtoV1;
-    const clearResult =
-      this.clearDlqMutation.data()?.clearMigrationEventsDeadLetterQueue
-        ?.clearMigrationEventsDeadLetterQueueResultDtoV1;
+    const replayResult = this.replayDlq.data()?.replayMigrationEventsDeadLetterQueue;
+    const clearResult = this.clearDlq.data()?.clearMigrationEventsDeadLetterQueue;
     return replayResult ?? clearResult;
   });
 
-  syncJobResult = signal<string | null>(null);
-
-  refreshCounts(): void {
-    this.migratedCountQuery.refetch();
-    this.v1CountQuery.refetch();
+  refreshCounts() {
+    this.em1MigratedCount.refetch();
+    this.em2MigratedCount.refetch();
   }
 
-  replayDlq(): void {
-    this.replayDlqMutation.mutate();
+  onReplayDlqConfirm(confirmed: boolean): void {
+    if (!confirmed) return;
+    this.replayDlq.mutate();
   }
 
-  clearDlq(): void {
-    this.clearDlqMutation.mutate();
+  onClearDlqConfirm(confirmed: boolean): void {
+    if (!confirmed) return;
+    this.clearDlq.mutate();
   }
 
-  runSyncJob(): void {
+  onSyncJobConfirm(confirmed: boolean): void {
+    if (!confirmed) return;
     const versionDate = this.versionDateControl.value;
-    this.syncJobMutation.mutate({
+    this.syncJob.mutate({
       variables: {
         input: { version: versionDate ?? undefined },
-      },
-      onCompleted: (data) => {
-        const success = data.syncJobSetJobVersionEventStoreExport.success;
-        this.syncJobResult.set(success ? 'Success' : 'Failed');
-      },
-      onError: (error) => {
-        this.syncJobResult.set(`Error: ${error.message}`);
       },
     });
   }

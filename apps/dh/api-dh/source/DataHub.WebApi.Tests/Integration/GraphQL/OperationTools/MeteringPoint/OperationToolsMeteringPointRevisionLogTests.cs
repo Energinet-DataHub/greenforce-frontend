@@ -127,10 +127,8 @@ public class OperationToolsMeteringPointRevisionLogTests
             """
                 mutation {
                   replayMigrationEventsDeadLetterQueue {
-                    replayMigrationEventsDeadLetterQueueResultDtoV1 {
-                      dlqCount
-                      processedCount
-                    }
+                    dlqCount
+                    processedCount
                   }
                 }
             """;
@@ -154,10 +152,8 @@ public class OperationToolsMeteringPointRevisionLogTests
             """
                 mutation {
                   clearMigrationEventsDeadLetterQueue {
-                    clearMigrationEventsDeadLetterQueueResultDtoV1 {
-                      dlqCount
-                      processedCount
-                    }
+                    dlqCount
+                    processedCount
                   }
                 }
             """;

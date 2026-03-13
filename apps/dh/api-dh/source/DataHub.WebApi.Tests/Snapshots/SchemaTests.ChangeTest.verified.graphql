@@ -364,10 +364,6 @@ type ChargesEdge {
   node: Charge!
 }
 
-type ClearMigrationEventsDeadLetterQueuePayload {
-  clearMigrationEventsDeadLetterQueueResultDtoV1: ClearMigrationEventsDeadLetterQueueResultDtoV1
-}
-
 type ClearMigrationEventsDeadLetterQueueResultDtoV1 {
   dlqCount: Long!
   processedCount: Int!
@@ -1188,8 +1184,8 @@ type Mutation {
   requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   rebuildProjections(input: RebuildProjectionsInput!): RebuildProjectionsPayload! @authorize(roles: [ "operation-tools:manage" ])
-  replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueuePayload! @authorize(roles: [ "operation-tools:manage" ])
-  clearMigrationEventsDeadLetterQueue: ClearMigrationEventsDeadLetterQueuePayload! @authorize(roles: [ "operation-tools:manage" ])
+  replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
+  clearMigrationEventsDeadLetterQueue: ClearMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
   deleteAllEventSourcingData: DeleteAllEventSourcingDataPayload! @authorize(roles: [ "operation-tools:manage" ])
   syncJobSetJobVersionEventStoreExport(input: SyncJobSetJobVersionEventStoreExportInput!): SyncJobSetJobVersionEventStoreExportPayload! @authorize(roles: [ "operation-tools:manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
@@ -1520,10 +1516,6 @@ type RelatedMeteringPointsDto {
 type RemoveMeteringPointsFromAdditionalRecipientPayload {
   boolean: Boolean
   errors: [RemoveMeteringPointsFromAdditionalRecipientError!]
-}
-
-type ReplayMigrationEventsDeadLetterQueuePayload {
-  replayMigrationEventsDeadLetterQueueResultDtoV1: ReplayMigrationEventsDeadLetterQueueResultDtoV1
 }
 
 type ReplayMigrationEventsDeadLetterQueueResultDtoV1 {

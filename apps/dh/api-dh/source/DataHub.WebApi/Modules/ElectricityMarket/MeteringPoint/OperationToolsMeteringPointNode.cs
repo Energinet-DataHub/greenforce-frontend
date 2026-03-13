@@ -96,6 +96,7 @@ public static class OperationToolsMeteringPointNode
             .Then(r => r.IsSuccess);
 
     [Mutation]
+    [UseMutationConvention(Disable = true)]
     [Authorize(Roles = ["operation-tools:manage"])]
     [UseRevisionLog]
     public static async Task<ReplayMigrationEventsDeadLetterQueueResultDtoV1> ReplayMigrationEventsDeadLetterQueueAsync(
@@ -109,6 +110,7 @@ public static class OperationToolsMeteringPointNode
     }
 
     [Mutation]
+    [UseMutationConvention(Disable = true)]
     [Authorize(Roles = ["operation-tools:manage"])]
     [UseRevisionLog]
     public static async Task<ClearMigrationEventsDeadLetterQueueResultDtoV1> ClearMigrationEventsDeadLetterQueueAsync(
