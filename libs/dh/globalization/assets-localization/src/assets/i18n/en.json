@@ -3280,10 +3280,87 @@
       "collapseAll": "Collapse all"
     },
     "migration": {
-      "tabLabel": "Migration"
+      "tabLabel": "Migration",
+      "countsComparison": {
+        "title": "Migration Counts Comparison",
+        "em1Label": "Migrated Count (EM1):",
+        "em2Label": "Migrated Count (EM2):",
+        "loading": "Loading...",
+        "error": "Error loading count",
+        "total": "Total:",
+        "quarantined": "Quarantined:",
+        "refreshButton": "Refresh"
+      },
+      "dlq": {
+        "title": "Dead Letter Queue for Migration Events",
+        "replayButton": "Replay DLQ Events",
+        "clearButton": "Clear DLQ",
+        "lastOperationResult": "Last Operation Result:",
+        "dlqCount": "DLQ Count:",
+        "processedCount": "Processed Count:",
+        "modal": {
+          "replayTitle": "Replay DLQ Events",
+          "replayMessage": "Are you sure you want to replay all events from the dead letter queue?",
+          "clearTitle": "Clear DLQ",
+          "clearMessage": "Are you sure you want to clear all events from the dead letter queue? This action cannot be undone."
+        }
+      },
+      "syncJob": {
+        "title": "Set start time for migration job in EM1",
+        "startTimeLabel": "Start time (optional)",
+        "hint": "If no start time is provided, everything will be migrated!",
+        "setStartTimeButton": "Set start time",
+        "modal": {
+          "title": "Set Start Time",
+          "message": "Are you sure you want to set the start time for the migration job?"
+        }
+      },
+      "modal": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "result": "Result:",
+      "success": "Success",
+      "failed": "Failed",
+      "error": "Error:"
     },
     "actions": {
-      "tabLabel": "Actions"
+      "tabLabel": "Actions",
+      "rebuildProjection": {
+        "title": "Rebuild Projection",
+        "selectPlaceholder": "Select projection type",
+        "timeout": "Timeout (seconds)",
+        "button": "Rebuild Projection",
+        "projectionTypes": {
+          "METERING_POINT": "Metering Point",
+          "METERING_POINT_WITH_RELATIONS": "Metering Point With Relations"
+        },
+        "modal": {
+          "title": "Rebuild Projection",
+          "message": "Are you sure you want to rebuild the projection?"
+        }
+      },
+      "dangerZone": {
+        "title": "Danger Zone",
+        "warning": "Warning:",
+        "warningMessage": "This action will delete ALL event sourcing data. This cannot be undone!",
+        "deleteButton": "Delete All Event Sourcing Data",
+        "modal": {
+          "title": "Delete All Event Sourcing Data",
+          "message": "This action will permanently delete ALL event sourcing data. This cannot be undone!",
+          "validation": "I WANT TO DELETE ALL DATA",
+          "instruction": "To confirm, type I WANT TO DELETE ALL DATA below:",
+          "confirmDelete": "Delete All Data"
+        }
+      },
+      "modal": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "result": "Result:",
+      "success": "Success",
+      "failed": "Failed",
+      "error": "Error:"
     },
     "meteringPoints": {
       "tabLabel": "Find metering points",
