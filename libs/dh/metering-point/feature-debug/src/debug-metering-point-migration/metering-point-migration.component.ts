@@ -254,11 +254,13 @@ export class DhMeteringPointMigrationComponent {
 
   onReplayDlqConfirm(confirmed: boolean): void {
     if (!confirmed) return;
+    this.clearDlq.reset();
     this.replayDlq.mutate();
   }
 
   onClearDlqConfirm(confirmed: boolean): void {
     if (!confirmed) return;
+    this.replayDlq.reset();
     this.clearDlq.mutate();
   }
 
