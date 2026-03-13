@@ -35,7 +35,7 @@ export default defineConfig(() => ({
     passWithNoTests: true,
     watch: false,
     globals: true,
-    environment: 'jsdom',
+    environment: 'happy-dom',
     include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts', 'tests/**/*.test.ts'],
     setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
