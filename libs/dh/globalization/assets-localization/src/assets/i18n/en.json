@@ -693,6 +693,7 @@
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
         "startDateLabel": "Start date",
         "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
+        "changeProductObligationLink": "Change product obligation",
         "cutOffDateLabel": "Cut-off date"
       },
       "status": {
@@ -1380,6 +1381,15 @@
       "cancel": "Cancel",
       "save": "Save changes",
       "saveSuccess": "Connection status is being updated"
+    },
+    "manageProductionObligation": {
+      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductObligationLink }}",
+      "tooltip": "The process takes a few minutes. The desired \n result is displayed here, and rejection reasons \n can be found in business messages.",
+      "changeToLabel": "Change production obligation to",
+      "cutOffDate": "Cut-off date",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saveSuccess": "Production obligation is being updated"
     },
     "endOfSupply": {
       "modalTitle": "Start end of supply",

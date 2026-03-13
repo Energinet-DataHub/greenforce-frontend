@@ -21,6 +21,7 @@ import { delay, http, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/msw/test-util-msw-setup';
 
 import {
+  mockChangeProductionObligationMutation,
   mockCloseConversationMutation,
   mockDoesInternalMeteringPointIdExistQuery,
   mockGetAggregatedMeasurementsForAllYearsQuery,
@@ -74,6 +75,7 @@ export function meteringPointMocks(apiBase: string) {
     getRelatedMeteringPoints(),
     getOperationToolsMeteringPoint(),
     requestConnectionStateChange(),
+    changeProductionObligation(),
     requestEndOfSupply(),
     createConversation(),
     getConversations(),
@@ -875,6 +877,22 @@ function requestConnectionStateChange() {
         __typename: 'Mutation',
         requestConnectionStateChange: {
           __typename: 'RequestConnectionStateChangePayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function changeProductionObligation() {
+  return mockChangeProductionObligationMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        changeProductionObligation: {
+          __typename: 'ChangeProductionObligationPayload',
           success: true,
         },
       },

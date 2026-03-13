@@ -338,6 +338,17 @@ public static partial class MeteringPointNode
     }
 
     [Mutation]
+    [Authorize(Roles = ["metering-point:production-obligation-manage"])]
+    public static async Task<bool> ChangeProductionObligationAsync(
+        string meteringPointId,
+        DateTimeOffset cutOffDate,
+        bool newProductionObligationState,
+        CancellationToken ct)
+    {
+        return await Task.FromResult(true);
+    }
+
+    [Mutation]
     [Authorize(Policy = nameof(EicFunction.EnergySupplier))]
     public static async Task<bool> RequestEndOfSupplyAsync(
         string meteringPointId,

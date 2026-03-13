@@ -693,6 +693,7 @@
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
         "startDateLabel": "Startdato",
         "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
+        "changeProductObligationLink": "Ændre aftagepligt",
         "cutOffDateLabel": "Skæringsdato"
       },
       "status": {
@@ -1381,6 +1382,15 @@
       "cancel": "Annuller",
       "save": "Gem ændringer",
       "saveSuccess": "Tilslutningsstatus opdateres"
+    },
+    "manageProductionObligation": {
+      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductObligationLink }}",
+      "tooltip": "Processen tager få minutter. Det ønskede \n resultat vises her, og afvisningsårsager \n findes i forretningsbeskeder.",
+      "changeToLabel": "Ændre aftagepligt til",
+      "cutOffDate": "Skæringsdato",
+      "cancel": "Annuller",
+      "save": "Gem ændringer",
+      "saveSuccess": "Aftagepligt opdateres"
     },
     "endOfSupply": {
       "modalTitle": "Start leveranceophør",
