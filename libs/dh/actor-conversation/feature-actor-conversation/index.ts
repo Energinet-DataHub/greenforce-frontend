@@ -16,5 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export { DhActorConversationShellComponent } from './src/components/actor-conversation-shell.component';
+export { DhMeteringPointConversationShellComponent } from './src/components/metering-point/metering-point-conversation-shell.component';
+export { DhGlobalConversationShellComponent } from './src/components/global/global-conversation-shell.component';
 export { default } from './src/routes';

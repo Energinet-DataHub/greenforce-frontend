@@ -32,8 +32,8 @@ const routes: Routes = [
       titleTranslationKey: 'meteringPoint.actorConversation.topBarTitle',
     },
     loadComponent: () =>
-      import('./components/actor-conversation-shell.component').then(
-        (m) => m.DhActorConversationShellComponent
+      import('./components/global/global-conversation-shell.component').then(
+        (m) => m.DhGlobalConversationShellComponent
       ),
   },
 ];
