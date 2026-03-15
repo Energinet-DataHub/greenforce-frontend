@@ -286,6 +286,10 @@ type ChangeCustomerCharacteristicsPayload {
   boolean: Boolean
 }
 
+type ChangeProductionObligationPayload {
+  boolean: Boolean
+}
+
 type Charge {
   series(interval: DateRange!): [ChargeSeriesPoint!]!
   owner: MarketParticipant
@@ -362,10 +366,6 @@ type ChargesEdge {
   cursor: String!
   "The item at the end of the edge."
   node: Charge!
-}
-
-type ClearMigrationEventsDeadLetterQueuePayload {
-  clearMigrationEventsDeadLetterQueueResultDtoV1: ClearMigrationEventsDeadLetterQueueResultDtoV1
 }
 
 type ClearMigrationEventsDeadLetterQueueResultDtoV1 {
@@ -1112,6 +1112,11 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
+type MeteringPointCountDto {
+  totalCount: Long!
+  quarantinedCount: Long!
+}
+
 type MeteringPointIdentificationDto {
   identification: String!
 }
@@ -1121,7 +1126,7 @@ type MeteringPointProcess {
   steps: [MeteringPointProcessStep!]!
   availableActions: [WorkflowAction!]
   id: String!
-  reasonCode: String!
+  businessReason: ProcessManagerBusinessReason!
   createdAt: DateTime!
   cutoffDate: DateTime
   state: MeteringPointProcessState!
@@ -1181,11 +1186,13 @@ type Mutation {
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
+  changeProductionObligation(input: ChangeProductionObligationInput!): ChangeProductionObligationPayload! @authorize(roles: [ "metering-point:production-obligation-manage" ])
   requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   rebuildProjections(input: RebuildProjectionsInput!): RebuildProjectionsPayload! @authorize(roles: [ "operation-tools:manage" ])
-  replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueuePayload! @authorize(roles: [ "operation-tools:manage" ])
-  clearMigrationEventsDeadLetterQueue: ClearMigrationEventsDeadLetterQueuePayload! @authorize(roles: [ "operation-tools:manage" ])
+  replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
+  clearMigrationEventsDeadLetterQueue: ClearMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
   deleteAllEventSourcingData: DeleteAllEventSourcingDataPayload! @authorize(roles: [ "operation-tools:manage" ])
+  syncJobSetJobVersionEventStoreExport(input: SyncJobSetJobVersionEventStoreExportInput!): SyncJobSetJobVersionEventStoreExportPayload! @authorize(roles: [ "operation-tools:manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1403,8 +1410,9 @@ type Query {
   selectableDatesForEndOfSupply: [DateTime!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:manage" ])
+  meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:manage" ])
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
-  meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -1513,10 +1521,6 @@ type RelatedMeteringPointsDto {
 type RemoveMeteringPointsFromAdditionalRecipientPayload {
   boolean: Boolean
   errors: [RemoveMeteringPointsFromAdditionalRecipientError!]
-}
-
-type ReplayMigrationEventsDeadLetterQueuePayload {
-  replayMigrationEventsDeadLetterQueueResultDtoV1: ReplayMigrationEventsDeadLetterQueueResultDtoV1
 }
 
 type ReplayMigrationEventsDeadLetterQueueResultDtoV1 {
@@ -1702,6 +1706,10 @@ type StopDelegationPayload {
 type Subscription {
   notificationAdded: NotificationDto!
   calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
+}
+
+type SyncJobSetJobVersionEventStoreExportPayload {
+  boolean: Boolean
 }
 
 type UpdateChargePayload {
@@ -1996,9 +2004,16 @@ input ChangeCustomerCharacteristicsInput {
   firstCustomerName: String
   secondCustomerCpr: String
   secondCustomerName: String
+  processId: String
   protectedName: Boolean
   electricalHeating: Boolean!
   usagePointLocations: [UsagePointLocationV1Input!]
+}
+
+input ChangeProductionObligationInput {
+  meteringPointId: String!
+  cutOffDate: DateTime!
+  newProductionObligationState: Boolean!
 }
 
 input ChargeIdentifierDtoSortInput {
@@ -2485,6 +2500,10 @@ input StreetDetailV1Input {
   streetCode: String
   suiteNumber: String
   floor: String
+}
+
+input SyncJobSetJobVersionEventStoreExportInput {
+  version: DateTime
 }
 
 input TownDetailV1Input {
@@ -3393,6 +3412,33 @@ enum PriceType {
   MONTHLY_SUBSCRIPTION
   MONTHLY_FEE
   MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
+}
+
+enum ProcessManagerBusinessReason {
+  BalanceFixing
+  PreliminaryAggregation
+  WholesaleFixing
+  Correction
+  PeriodicMetering
+  PeriodicFlexMetering
+  YearlyMetering
+  EndOfSupply
+  UpdateChargeLinks
+  UpdateChargeInformation
+  UpdateChargeSeries
+  CustomerMoveIn
+  SecondaryMoveIn
+  UpdateMasterDataConsumer
+  NewMeteringPoint
+  Move
+  ConnectMeteringPoint
+  ChangeConnectionStatus
+  CloseDownMeteringPoint
+  UpdateMeteringPointMasterData
+  ElectricalHeating
+  ChangeOfEnergySupplier
+  ProcessCancelledByRequestingParty
+  ProductionObligation
 }
 
 enum ProcessStepState {

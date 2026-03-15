@@ -693,6 +693,7 @@
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
         "startDateLabel": "Start date",
         "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
+        "changeProductObligationLink": "Change product obligation",
         "cutOffDateLabel": "Cut-off date"
       },
       "status": {
@@ -995,7 +996,7 @@
     "processOverview": {
       "columns": {
         "createdAt": "Registered in DataHub",
-        "reasonCode": "Type",
+        "businessReason": "Type",
         "state": "State",
         "cutoffDate": "Cut-off date",
         "initiator": "Initiating participant",
@@ -1012,7 +1013,7 @@
         "UpdateMeteringPointMasterData": "Update of metering point master data (BRS-006)",
         "ProductionObligation": "Change of production obligation (BRS-036)"
       },
-      "reasonCode": {
+      "businessReason": {
         "EndOfSupply": "End of supply (E20)",
         "NewMeteringPoint": "New metering point (E02)",
         "ConnectMeteringPoint": "Connect metering point (D15)",
@@ -1040,7 +1041,7 @@
           "BRS_007_008_013_V1_STEP_1": "Request for close-down of metering point (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Confirmation of request for close-down of metering point (RSM-021)",
           "BRS_007_008_013_V1_STEP_3": "Rejection of request for close-down of metering point (RSM-021)",
-          "BRS_007_008_013_V1_STEP_4": "Notification of close-down of metering point (RSM-004)"
+          "BRS_007_008_013_V1_STEP_5": "Notification of close-down of metering point (RSM-004)"
         },
         "ConnectMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Request for connection of metering point (RSM-021)",
@@ -1085,6 +1086,11 @@
         "BRS_009_MOVEIN_V1_STEP_10": "Notification of move-in (RSM-004)",
         "BRS_009_MOVEIN_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
         "BRS_009_MOVEIN_V1_STEP_12": "Notification of end of supply (RSM-004)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_1": "Request change customer characteristics (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_3": "Characteristics of a Customer at an AP (RSM-028)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_10": "Notification of move-in (RSM-004)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
@@ -1096,7 +1102,7 @@
         "list": {
           "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",
-          "reasonCode": "Reason code",
+          "businessReason": "Reason code",
           "initiator": "Initiating participant"
         },
         "columns": {
@@ -1375,6 +1381,15 @@
       "cancel": "Cancel",
       "save": "Save changes",
       "saveSuccess": "Connection status is being updated"
+    },
+    "manageProductionObligation": {
+      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductObligationLink }}",
+      "tooltip": "The process takes a few minutes. The desired \n result is displayed here, and rejection reasons \n can be found in business messages.",
+      "changeToLabel": "Change production obligation to",
+      "cutOffDate": "Cut-off date",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saveSuccess": "Production obligation is being updated"
     },
     "endOfSupply": {
       "modalTitle": "Start end of supply",
@@ -3265,10 +3280,87 @@
       "collapseAll": "Collapse all"
     },
     "migration": {
-      "tabLabel": "Migration"
+      "tabLabel": "Migration",
+      "countsComparison": {
+        "title": "Migration Counts Comparison",
+        "em1Label": "Migrated Count (EM1):",
+        "em2Label": "Migrated Count (EM2):",
+        "loading": "Loading...",
+        "error": "Error loading count",
+        "total": "Total:",
+        "quarantined": "Quarantined:",
+        "refreshButton": "Refresh"
+      },
+      "dlq": {
+        "title": "Dead Letter Queue for Migration Events",
+        "replayButton": "Replay DLQ Events",
+        "clearButton": "Clear DLQ",
+        "lastOperationResult": "Last Operation Result:",
+        "dlqCount": "DLQ Count:",
+        "processedCount": "Processed Count:",
+        "modal": {
+          "replayTitle": "Replay DLQ Events",
+          "replayMessage": "Are you sure you want to replay all events from the dead letter queue?",
+          "clearTitle": "Clear DLQ",
+          "clearMessage": "Are you sure you want to clear all events from the dead letter queue? This action cannot be undone."
+        }
+      },
+      "syncJob": {
+        "title": "Set start time for migration job in EM1",
+        "startTimeLabel": "Start time (optional)",
+        "hint": "If no start time is provided, everything will be migrated!",
+        "setStartTimeButton": "Set start time",
+        "modal": {
+          "title": "Set Start Time",
+          "message": "Are you sure you want to set the start time for the migration job?"
+        }
+      },
+      "modal": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "result": "Result:",
+      "success": "Success",
+      "failed": "Failed",
+      "error": "Error:"
     },
     "actions": {
-      "tabLabel": "Actions"
+      "tabLabel": "Actions",
+      "rebuildProjection": {
+        "title": "Rebuild Projection",
+        "selectPlaceholder": "Select projection type",
+        "timeout": "Timeout (seconds)",
+        "button": "Rebuild Projection",
+        "projectionTypes": {
+          "METERING_POINT": "Metering Point",
+          "METERING_POINT_WITH_RELATIONS": "Metering Point With Relations"
+        },
+        "modal": {
+          "title": "Rebuild Projection",
+          "message": "Are you sure you want to rebuild the projection?"
+        }
+      },
+      "dangerZone": {
+        "title": "Danger Zone",
+        "warning": "Warning:",
+        "warningMessage": "This action will delete ALL event sourcing data. This cannot be undone!",
+        "deleteButton": "Delete All Event Sourcing Data",
+        "modal": {
+          "title": "Delete All Event Sourcing Data",
+          "message": "This action will permanently delete ALL event sourcing data. This cannot be undone!",
+          "validation": "I WANT TO DELETE ALL DATA",
+          "instruction": "To confirm, type I WANT TO DELETE ALL DATA below:",
+          "confirmDelete": "Delete All Data"
+        }
+      },
+      "modal": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "result": "Result:",
+      "success": "Success",
+      "failed": "Failed",
+      "error": "Error:"
     },
     "meteringPoints": {
       "tabLabel": "Find metering points",

@@ -15,6 +15,7 @@
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
@@ -100,7 +101,7 @@ public static partial class MeteringPointProcessNode
     {
         // Return the action from the workflow instance as an array
         // Filter out NoAction to return an empty array when there are no actions
-        return process.Action is null or WorkflowAction.NoAction ? [] : [process.Action.Value];
+        return process.Actions is null ? [] : process.Actions.Where(a => a != WorkflowAction.NoAction);
     }
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
@@ -108,7 +109,7 @@ public static partial class MeteringPointProcessNode
         descriptor.Name("MeteringPointProcess");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Id);
-        descriptor.Field(f => f.ReasonCode);
+        descriptor.Field(f => f.BusinessReason);
         descriptor.Field(f => f.CreatedAt);
         descriptor.Field(f => f.CutoffDate);
         descriptor.Field(f => f.State);
@@ -122,8 +123,9 @@ public static partial class MeteringPointProcessNode
             workflowInstance.Id,
             workflowInstance.Lifecycle,
             workflowInstance.BusinessReason.Name,
+            workflowInstance.BusinessReason,
             workflowInstance.ExpectedValidityDate,
-            action: workflowInstance.Action,
+            actions: workflowInstance.Actions.ToArray(),
             workflowSteps: null);
 
     private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps) =>
@@ -131,16 +133,18 @@ public static partial class MeteringPointProcessNode
             workflowInstanceWithSteps.Id,
             workflowInstanceWithSteps.Lifecycle,
             workflowInstanceWithSteps.BusinessReason.Name,
+            workflowInstanceWithSteps.BusinessReason,
             workflowInstanceWithSteps.ExpectedValidityDate,
-            action: null,
+            actions: workflowInstanceWithSteps.Actions.ToArray(),
             workflowSteps: workflowInstanceWithSteps.Steps);
 
     private static MeteringPointProcess CreateMeteringPointProcess(
         Guid id,
         WorkflowInstanceLifecycleDto lifecycle,
         string businessReasonString,
+        BusinessReason businessReason,
         DateTimeOffset? cuteoffDate = null,
-        WorkflowAction? action = null,
+        WorkflowAction[]? actions = null,
         IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null)
     {
         var actorIdentity = lifecycle.CreatedBy as ActorIdentityDto;
@@ -149,11 +153,11 @@ public static partial class MeteringPointProcessNode
             Id: id.ToString(),
             CreatedAt: lifecycle.CreatedAt,
             CutoffDate: cuteoffDate,
-            ReasonCode: businessReasonString,
+            BusinessReason: businessReason,
             ActorNumber: actorIdentity?.ActorNumber.Value ?? string.Empty,
             ActorRole: actorIdentity?.ActorRole.Name ?? string.Empty,
             State: MapWorkflowStateToMeteringPointProcessState(lifecycle.State, lifecycle.TerminationState),
-            Action: action,
+            Actions: actions,
             WorkflowSteps: workflowSteps);
     }
 

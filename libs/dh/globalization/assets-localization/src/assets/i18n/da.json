@@ -693,6 +693,7 @@
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
         "startDateLabel": "Startdato",
         "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
+        "changeProductObligationLink": "Ændre aftagepligt",
         "cutOffDateLabel": "Skæringsdato"
       },
       "status": {
@@ -995,7 +996,7 @@
     "processOverview": {
       "columns": {
         "createdAt": "Registreret i DataHub",
-        "reasonCode": "Type",
+        "businessReason": "Type",
         "state": "Status",
         "cutoffDate": "Skæringsdato",
         "initiator": "Initierende aktør",
@@ -1012,7 +1013,7 @@
         "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)",
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)"
       },
-      "reasonCode": {
+      "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
         "NewMeteringPoint": "Nyt målepunkt (E02)",
         "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)",
@@ -1040,7 +1041,7 @@
           "BRS_007_008_013_V1_STEP_1": "Anmodning om nedlæggelse af målepunkt (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Godkendelse af nedlæggelse af målepunkt (RSM-021)",
           "BRS_007_008_013_V1_STEP_3": "Afvisning af nedlæggelse af målepunkt (RSM-021)",
-          "BRS_007_008_013_V1_STEP_4": "Information om nedlæggelse af målepunkt (RSM-004)"
+          "BRS_007_008_013_V1_STEP_5": "Information om nedlæggelse af målepunkt (RSM-004)"
         },
         "ConnectMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
@@ -1085,6 +1086,11 @@
         "BRS_009_MOVEIN_V1_STEP_10": "Information om tilflytning (RSM-004)",
         "BRS_009_MOVEIN_V1_STEP_11": "Information om kundestamdata (RSM-028)",
         "BRS_009_MOVEIN_V1_STEP_12": "Information om stop af leverance (RSM-004)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_3": "Information om kundestamdata (RSM-028)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_10": "Information om tilflytning (RSM-004)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_11": "Information om kundestamdata (RSM-028)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
@@ -1096,7 +1102,7 @@
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
-          "reasonCode": "Årsagskode",
+          "businessReason": "Årsagskode",
           "initiator": "Initierende aktør"
         },
         "columns": {
@@ -1376,6 +1382,15 @@
       "cancel": "Annuller",
       "save": "Gem ændringer",
       "saveSuccess": "Tilslutningsstatus opdateres"
+    },
+    "manageProductionObligation": {
+      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductObligationLink }}",
+      "tooltip": "Processen tager få minutter. Det ønskede \n resultat vises her, og afvisningsårsager \n findes i forretningsbeskeder.",
+      "changeToLabel": "Ændre aftagepligt til",
+      "cutOffDate": "Skæringsdato",
+      "cancel": "Annuller",
+      "save": "Gem ændringer",
+      "saveSuccess": "Aftagepligt opdateres"
     },
     "endOfSupply": {
       "modalTitle": "Start leveranceophør",
@@ -3265,10 +3280,87 @@
       "collapseAll": "Skjul alle"
     },
     "migration": {
-      "tabLabel": "Migrering"
+      "tabLabel": "Migrering",
+      "countsComparison": {
+        "title": "Sammenligning af migreringstal",
+        "em1Label": "Migreret antal (EM1):",
+        "em2Label": "Migreret antal (EM2):",
+        "loading": "Indlæser...",
+        "error": "Fejl ved indlæsning af antal",
+        "total": "Total:",
+        "quarantined": "I karantæne:",
+        "refreshButton": "Opdater"
+      },
+      "dlq": {
+        "title": "Dead Letter Queue for migreringsevents",
+        "replayButton": "Genafspil DLQ-events",
+        "clearButton": "Ryd DLQ",
+        "lastOperationResult": "Seneste operationsresultat:",
+        "dlqCount": "DLQ antal:",
+        "processedCount": "Behandlet antal:",
+        "modal": {
+          "replayTitle": "Genafspil DLQ-events",
+          "replayMessage": "Er du sikker på, at du vil genafspille alle events fra dead letter køen?",
+          "clearTitle": "Ryd DLQ",
+          "clearMessage": "Er du sikker på, at du vil rydde alle events fra dead letter køen? Denne handling kan ikke fortrydes."
+        }
+      },
+      "syncJob": {
+        "title": "Sæt starttidspunkt for migreringsjob i EM1",
+        "startTimeLabel": "Starttidspunkt (valgfrit)",
+        "hint": "Hvis intet starttidspunkt er angivet, migreres alt!",
+        "setStartTimeButton": "Sæt starttidspunkt",
+        "modal": {
+          "title": "Sæt starttidspunkt",
+          "message": "Er du sikker på, at du vil sætte starttidspunktet for migreringsjobbet?"
+        }
+      },
+      "modal": {
+        "cancel": "Annuller",
+        "confirm": "Bekræft"
+      },
+      "result": "Resultat:",
+      "success": "Succes",
+      "failed": "Fejlede",
+      "error": "Fejl:"
     },
     "actions": {
-      "tabLabel": "Handlinger"
+      "tabLabel": "Handlinger",
+      "rebuildProjection": {
+        "title": "Genopbyg projektion",
+        "selectPlaceholder": "Vælg projektionstype",
+        "timeout": "Timeout (sekunder)",
+        "button": "Genopbyg projektion",
+        "projectionTypes": {
+          "METERING_POINT": "Målepunkt",
+          "METERING_POINT_WITH_RELATIONS": "Målepunkt med relationer"
+        },
+        "modal": {
+          "title": "Genopbyg projektion",
+          "message": "Er du sikker på, at du vil genopbygge projektionen?"
+        }
+      },
+      "dangerZone": {
+        "title": "Farezone",
+        "warning": "Advarsel:",
+        "warningMessage": "Denne handling vil slette ALLE event sourcing data. Dette kan ikke fortrydes!",
+        "deleteButton": "Slet alle event sourcing data",
+        "modal": {
+          "title": "Slet alle event sourcing data",
+          "message": "Denne handling vil permanent slette ALLE event sourcing data. Dette kan ikke fortrydes!",
+          "validation": "JEG VIL SLETTE ALLE DATA",
+          "instruction": "For at bekræfte, skriv JEG VIL SLETTE ALLE DATA nedenfor:",
+          "confirmDelete": "Slet alle data"
+        }
+      },
+      "modal": {
+        "cancel": "Annuller",
+        "confirm": "Bekræft"
+      },
+      "result": "Resultat:",
+      "success": "Succes",
+      "failed": "Fejlede",
+      "error": "Fejl:"
     },
     "meteringPoints": {
       "tabLabel": "Find målepunkter",

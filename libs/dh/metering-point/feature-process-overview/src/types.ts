@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import '@analogjs/vitest-angular/setup-zone';
-import '@angular/compiler';
+import { GetMeteringPointProcessOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
-
-setUpTestbed();
+export type MeteringPointProcess = ResultOf<
+  typeof GetMeteringPointProcessOverviewDocument
+>['meteringPointProcessOverview']['0'];
