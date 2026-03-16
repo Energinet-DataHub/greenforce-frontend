@@ -16,4 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export { DhNavigationService } from './navigation.service';
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+
+import '@testing-library/jest-dom/vitest';
