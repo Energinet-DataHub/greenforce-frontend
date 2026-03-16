@@ -1033,7 +1033,7 @@
       "actions": {
         "SEND_INFORMATION": "Send information",
         "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information",
-        "CANCEL_WORKFLOW": "Cancel workflow",
+        "CANCEL_WORKFLOW": "Cancel",
         "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
       },
       "cancelProcess": {

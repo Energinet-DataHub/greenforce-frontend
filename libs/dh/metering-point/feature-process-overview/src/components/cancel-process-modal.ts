@@ -41,7 +41,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
       #modal
     >
       <p class="warning-body">
-        <watt-icon name="warning" size="l" />
+        <watt-icon name="warning" size="xl" />
         {{ t('body', { processType: modalData.processType }) }}
       </p>
 

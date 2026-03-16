@@ -1033,7 +1033,7 @@
       "actions": {
         "SEND_INFORMATION": "Send information",
         "FAS_SEND_INFORMATION": "Net og el kan sende information",
-        "CANCEL_WORKFLOW": "Annuller workflow",
+        "CANCEL_WORKFLOW": "Annuller",
         "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
       },
       "cancelProcess": {
