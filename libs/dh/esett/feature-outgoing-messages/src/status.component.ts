@@ -33,7 +33,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       @switch (_status) {
         @case ('RECEIVED')
         @case ('AWAITING_DISPATCH')
-        @case ('BIZ_TALK_ACCEPTED')
+        @case ('SERVICE_BUS_ACCEPTED')
         @case ('AWAITING_REPLY') {
           <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
             {{ t(_status) }}
@@ -74,7 +74,7 @@ export class DhOutgoingMessageStatusBadgeComponent {
         return secondsPassed > 30; // 30 seconds to convert.
       case 'AWAITING_DISPATCH':
         return secondsPassed > 60 * 30; // 30 minutes to dispatch.
-      case 'BIZ_TALK_ACCEPTED':
+      case 'SERVICE_BUS_ACCEPTED':
         return secondsPassed > 60 * 30; // 30 minutes to dispatch.
       case 'AWAITING_REPLY':
         return secondsPassed > 60 * 60; // 1 hour to reply.
