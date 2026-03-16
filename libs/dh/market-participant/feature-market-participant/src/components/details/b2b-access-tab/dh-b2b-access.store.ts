@@ -102,11 +102,11 @@ export class DhMarketPartyB2BAccessStore {
     this.client
       .post(uploadUrl, formData)
       .pipe(
-        tapResponse(
-          () => onSuccess(),
-          (errorResponse: HttpErrorResponse) =>
-            onError(this.createApiErrorCollection(errorResponse))
-        ),
+        tapResponse({
+          next: () => onSuccess(),
+          error: (errorResponse: HttpErrorResponse) =>
+            onError(this.createApiErrorCollection(errorResponse)),
+        }),
         finalize(() => this.uploadInProgress.set(false))
       )
       .subscribe();
@@ -135,11 +135,11 @@ export class DhMarketPartyB2BAccessStore {
       .delete(deleteUrl)
       .pipe(
         switchMap(() => this.client.post(uploadUrl, formData)),
-        tapResponse(
-          () => onSuccess(),
-          (errorResponse: HttpErrorResponse) =>
-            onError(this.createApiErrorCollection(errorResponse))
-        ),
+        tapResponse({
+          next: () => onSuccess(),
+          error: (errorResponse: HttpErrorResponse) =>
+            onError(this.createApiErrorCollection(errorResponse)),
+        }),
         finalize(() => this.uploadInProgress.set(false))
       )
       .subscribe();
@@ -175,8 +175,8 @@ export class DhMarketPartyB2BAccessStore {
             variables: { input: { marketParticipantId } },
           })
         ),
-        tapResponse(
-          (clientSecret) => {
+        tapResponse({
+          next: (clientSecret) => {
             if (clientSecret.error) return onError();
 
             this.clientSecret.set(
@@ -185,8 +185,8 @@ export class DhMarketPartyB2BAccessStore {
 
             onSuccess();
           },
-          () => onError()
-        ),
+          error: () => onError(),
+        }),
         finalize(() => this.generateSecretInProgress.set(false))
       )
       .subscribe();
@@ -212,15 +212,15 @@ export class DhMarketPartyB2BAccessStore {
     this.client
       .delete(removeUrl)
       .pipe(
-        tapResponse(
-          () => {
+        tapResponse({
+          next: () => {
             this.clientSecret.set(undefined);
             this.marketParticipantCredentialQuery.refetch();
 
             onSuccess();
           },
-          () => onError()
-        ),
+          error: () => onError(),
+        }),
         finalize(() => this.removeInProgress.set(false))
       )
       .subscribe();

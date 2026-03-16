@@ -88,10 +88,10 @@ export class DhMeteringPointsMasterDataUploaderComponent {
     this.httpClient
       .post(this.uploadUrl, formData)
       .pipe(
-        tapResponse(
-          (importCount) => this.onUploadSuccessFn(importCount.toString()),
-          () => this.onUploadErrorFn()
-        )
+        tapResponse({
+          next: (importCount) => this.onUploadSuccessFn(importCount.toString()),
+          error: () => this.onUploadErrorFn(),
+        })
       )
       .subscribe();
   }

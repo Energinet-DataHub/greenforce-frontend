@@ -1094,7 +1094,11 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
-        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)"
+        "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)",
+        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_1": "Anmodning om ændring af aftagepligt (RSM-021)",
+        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_2": "Godkendelse af ændring af aftagepligt (RSM-021)",
+        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_3": "Afvisning af ændring af aftagepligt (RSM-021)",
+        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)"
       },
       "details": {
         "notFound": "Process ikke fundet",
@@ -3280,10 +3284,87 @@
       "collapseAll": "Skjul alle"
     },
     "migration": {
-      "tabLabel": "Migrering"
+      "tabLabel": "Migrering",
+      "countsComparison": {
+        "title": "Sammenligning af migreringstal",
+        "em1Label": "Migreret antal (EM1):",
+        "em2Label": "Migreret antal (EM2):",
+        "loading": "Indlæser...",
+        "error": "Fejl ved indlæsning af antal",
+        "total": "Total:",
+        "quarantined": "I karantæne:",
+        "refreshButton": "Opdater"
+      },
+      "dlq": {
+        "title": "Dead Letter Queue for migreringsevents",
+        "replayButton": "Genafspil DLQ-events",
+        "clearButton": "Ryd DLQ",
+        "lastOperationResult": "Seneste operationsresultat:",
+        "dlqCount": "DLQ antal:",
+        "processedCount": "Behandlet antal:",
+        "modal": {
+          "replayTitle": "Genafspil DLQ-events",
+          "replayMessage": "Er du sikker på, at du vil genafspille alle events fra dead letter køen?",
+          "clearTitle": "Ryd DLQ",
+          "clearMessage": "Er du sikker på, at du vil rydde alle events fra dead letter køen? Denne handling kan ikke fortrydes."
+        }
+      },
+      "syncJob": {
+        "title": "Sæt starttidspunkt for migreringsjob i EM1",
+        "startTimeLabel": "Starttidspunkt (valgfrit)",
+        "hint": "Hvis intet starttidspunkt er angivet, migreres alt!",
+        "setStartTimeButton": "Sæt starttidspunkt",
+        "modal": {
+          "title": "Sæt starttidspunkt",
+          "message": "Er du sikker på, at du vil sætte starttidspunktet for migreringsjobbet?"
+        }
+      },
+      "modal": {
+        "cancel": "Annuller",
+        "confirm": "Bekræft"
+      },
+      "result": "Resultat:",
+      "success": "Succes",
+      "failed": "Fejlede",
+      "error": "Fejl:"
     },
     "actions": {
-      "tabLabel": "Handlinger"
+      "tabLabel": "Handlinger",
+      "rebuildProjection": {
+        "title": "Genopbyg projektion",
+        "selectPlaceholder": "Vælg projektionstype",
+        "timeout": "Timeout (sekunder)",
+        "button": "Genopbyg projektion",
+        "projectionTypes": {
+          "METERING_POINT": "Målepunkt",
+          "METERING_POINT_WITH_RELATIONS": "Målepunkt med relationer"
+        },
+        "modal": {
+          "title": "Genopbyg projektion",
+          "message": "Er du sikker på, at du vil genopbygge projektionen?"
+        }
+      },
+      "dangerZone": {
+        "title": "Farezone",
+        "warning": "Advarsel:",
+        "warningMessage": "Denne handling vil slette ALLE event sourcing data. Dette kan ikke fortrydes!",
+        "deleteButton": "Slet alle event sourcing data",
+        "modal": {
+          "title": "Slet alle event sourcing data",
+          "message": "Denne handling vil permanent slette ALLE event sourcing data. Dette kan ikke fortrydes!",
+          "validation": "JEG VIL SLETTE ALLE DATA",
+          "instruction": "For at bekræfte, skriv JEG VIL SLETTE ALLE DATA nedenfor:",
+          "confirmDelete": "Slet alle data"
+        }
+      },
+      "modal": {
+        "cancel": "Annuller",
+        "confirm": "Bekræft"
+      },
+      "result": "Resultat:",
+      "success": "Succes",
+      "failed": "Fejlede",
+      "error": "Fejl:"
     },
     "meteringPoints": {
       "tabLabel": "Find målepunkter",

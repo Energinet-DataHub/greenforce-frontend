@@ -94,8 +94,8 @@ export class DhActorTokenService {
               null
             )
             .pipe(
-              tapResponse(
-                () => {
+              tapResponse({
+                next: () => {
                   const account = this.msalService.instance.getActiveAccount();
                   if (account?.idTokenClaims) {
                     const givenName = account?.idTokenClaims['given_name'];
@@ -106,7 +106,7 @@ export class DhActorTokenService {
                   }
                 },
                 // Error callback called for every failed request to the token endpoint
-                (error) => {
+                error: (error) => {
                   // Prevent multiple logs of the same event in AppInsights
                   if (this.logoutInProgress === false) {
                     if (error instanceof Error) {
@@ -133,8 +133,8 @@ export class DhActorTokenService {
 
                     this.logoutInProgress = true;
                   }
-                }
-              ),
+                },
+              }),
               map(({ token }) => token)
             )
         )
