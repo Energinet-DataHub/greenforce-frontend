@@ -185,13 +185,13 @@ function getMeteringPointProcessOverview() {
         currentState === MeteringPointProcessState.Failed ||
         currentState === MeteringPointProcessState.Canceled ||
         currentState === MeteringPointProcessState.Succeeded;
-      const availableActions =
-        // Ensure EndOfSupply processes always show CancelWorkflow (when state allows actions)
-        businessReason === ProcessManagerBusinessReason.EndOfSupply && !hasNoActions
+      const availableActions = hasNoActions
+        ? []
+        : businessReason === ProcessManagerBusinessReason.EndOfSupply
           ? [WorkflowAction.CancelWorkflow]
-          : hasNoActions
-            ? []
-            : [actions[index % actions.length]];
+          : businessReason === ProcessManagerBusinessReason.CustomerMoveIn
+            ? [WorkflowAction.SendInformation]
+            : [];
 
       // Vary cutoff date - typically a few days after created date
       let cutoffDate = null;
