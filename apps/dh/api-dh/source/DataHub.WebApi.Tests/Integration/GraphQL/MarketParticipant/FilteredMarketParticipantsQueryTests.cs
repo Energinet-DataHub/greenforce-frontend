@@ -71,7 +71,7 @@ public class FilteredMarketParticipantsQueryTests
             };
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>()))
+            .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), null))
             .ReturnsAsync(actors);
 
         server.MarketParticipantClientV1Mock

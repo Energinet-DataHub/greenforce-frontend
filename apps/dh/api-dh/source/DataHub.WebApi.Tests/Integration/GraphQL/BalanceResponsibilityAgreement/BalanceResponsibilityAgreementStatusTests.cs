@@ -62,7 +62,7 @@ public class BalanceResponsibilityAgreementStatusTests
         var server = new GraphQLTestService();
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(_marketParticipantId, It.IsAny<CancellationToken>()))
+            .Setup(x => x.ActorGetAsync(_marketParticipantId, It.IsAny<CancellationToken>(), null))
             .ReturnsAsync(new ActorDto()
             {
                 ActorId = _marketParticipantId,

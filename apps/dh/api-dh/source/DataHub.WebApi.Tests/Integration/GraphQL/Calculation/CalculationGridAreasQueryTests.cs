@@ -61,7 +61,7 @@ public class CalculationGridAreasQueryTests
             ]);
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync())
+            .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync([]);
 
         var result = await server.ExecuteRequestAsync(

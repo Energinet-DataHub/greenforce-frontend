@@ -79,7 +79,7 @@ public class SettlementReportsGridAreaCalculationsForPeriodTests
             });
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(actorId))
+            .Setup(x => x.ActorGetAsync(actorId, null))
             .ReturnsAsync(new ActorDto
             {
                 MarketRole = new ActorMarketRoleDto
@@ -148,7 +148,7 @@ public class SettlementReportsGridAreaCalculationsForPeriodTests
             });
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(actorId))
+            .Setup(x => x.ActorGetAsync(actorId, null))
             .ReturnsAsync(new ActorDto
             {
                 MarketRole = new ActorMarketRoleDto
@@ -159,7 +159,7 @@ public class SettlementReportsGridAreaCalculationsForPeriodTests
             });
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.GridAreaGetAsync(CancellationToken.None))
+            .Setup(x => x.GridAreaGetAsync(CancellationToken.None, null))
             .ReturnsAsync([]);
 
         var result = await server.ExecuteRequestAsync(b => b.SetDocument(Query), TestContext.Current.CancellationToken);

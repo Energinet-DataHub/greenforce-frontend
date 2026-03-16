@@ -60,7 +60,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentCommandResponse> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file);
+        System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <remarks>
@@ -68,7 +68,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentCommandResponse> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file, System.Threading.CancellationToken cancellationToken);
 
         /// <remarks>
         /// Closes a conversation, creating a closed conversation message by the user
@@ -571,7 +571,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentCommandResponse> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file)
+        public virtual System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file)
         {
             return ApiAddMessageDocumentAsync(userId, marketParticipantNumber, marketRole, file, System.Threading.CancellationToken.None);
         }
@@ -582,7 +582,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentCommandResponse> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -647,7 +647,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ActionResultOfAddMessageDocumentCommandResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ActionResultOfAddMessageDocumentRequest>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2260,14 +2260,14 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ActionResultOfAddMessageDocumentCommandResponse
+    public partial class ActionResultOfAddMessageDocumentRequest
     {
 
         [Newtonsoft.Json.JsonProperty("result", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ActionResult Result { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public AddMessageDocumentCommandResponse Value { get; set; } = default!;
+        public AddMessageDocumentRequest Value { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
@@ -2347,12 +2347,12 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class AddMessageDocumentCommandResponse
+    public partial class AddMessageDocumentRequest
     {
 
-        [Newtonsoft.Json.JsonProperty("documentId", Required = Newtonsoft.Json.Required.Always)]
+        [Newtonsoft.Json.JsonProperty("file", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid DocumentId { get; set; } = default!;
+        public byte[] File { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 

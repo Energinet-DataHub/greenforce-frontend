@@ -54,7 +54,7 @@ public class MarketParticipantGridAreasQueryTest
         var server = new GraphQLTestService();
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(_marketParticipantId, It.IsAny<CancellationToken>()))
+            .Setup(x => x.ActorGetAsync(_marketParticipantId, It.IsAny<CancellationToken>(), It.IsAny<string>()))
             .ReturnsAsync(new ActorDto
             {
                 MarketRole =

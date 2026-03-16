@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.4",
+  "openapi": "3.0.1",
   "info": {
     "title": "EsettExchangeWebApi",
     "version": "1.0"
@@ -936,7 +936,7 @@
           "AwaitingReply",
           "Accepted",
           "Rejected",
-          "ServiceBusAccepted",
+          "BizTalkAccepted",
           "ManuallyHandled"
         ],
         "enum": [
@@ -1157,7 +1157,7 @@
               "AwaitingReply",
               "Accepted",
               "Rejected",
-              "ServiceBusAccepted",
+              "BizTalkAccepted",
               "ManuallyHandled"
             ],
             "allOf": [
@@ -1290,7 +1290,7 @@
               "AwaitingReply",
               "Accepted",
               "Rejected",
-              "ServiceBusAccepted",
+              "BizTalkAccepted",
               "ManuallyHandled"
             ],
             "allOf": [

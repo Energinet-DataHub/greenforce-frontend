@@ -127,7 +127,7 @@ public class CalculateGridAreaStatusTest
         };
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>()))
+            .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync(actors);
 
         server.GridAreasClientMock
