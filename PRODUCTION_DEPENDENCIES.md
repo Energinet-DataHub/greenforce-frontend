@@ -26,7 +26,7 @@
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.3.11 | MIT |
 | [@microsoft/clarity](undefined) | 1.0.2 | MIT |
 | [@ngneat/overview](https://github.com/ngneat/overview) | 6.1.1 | MIT |
-| [@ngrx/operators](https://github.com/ngrx/platform) | 19.0.1 | MIT |
+| [@ngrx/operators](https://github.com/ngrx/platform) | 21.0.1 | MIT |
 | [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 5.1.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
 | [chardet](https://github.com/runk/node-chardet) | 2.1.1 | MIT |
