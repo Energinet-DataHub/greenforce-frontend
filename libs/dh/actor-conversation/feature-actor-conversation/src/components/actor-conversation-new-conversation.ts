@@ -63,7 +63,10 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
-import { WattDescriptionListComponent, WattDescriptionListItemComponent } from '@energinet/watt/description-list';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+} from '@energinet/watt/description-list';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -117,9 +120,7 @@ import { WattDescriptionListComponent, WattDescriptionListItemComponent } from '
         <vater-grid-area column="1" row="1">
           <vater-stack direction="column" gap="m" align="start">
             @if (meteringPointId() === undefined) {
-              <watt-text-field
-                [formControl]="newConversationForm.controls.meteringPointId"
-              />
+              <watt-text-field [formControl]="newConversationForm.controls.meteringPointId" />
 
               <vater-stack direction="row" gap="m">
                 <watt-separator orientation="vertical" />
@@ -145,9 +146,7 @@ import { WattDescriptionListComponent, WattDescriptionListItemComponent } from '
               data-testid="actor-conversation-subject-dropdown"
             />
             @if (isElectricalHeating()) {
-              <watt-slide-toggle
-                [formControl]="newConversationForm.controls.reducedElectricityTax"
-              >
+              <watt-slide-toggle [formControl]="newConversationForm.controls.reducedElectricityTax">
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
@@ -203,7 +202,8 @@ export class DhActorConversationNewConversationComponent {
   startConversationMutation = mutation(StartConversationDocument);
   electricHeatingInformationQuery = query(GetElectricalHeatingDocument, () => ({
     variables: {
-      meteringPointIdentification: this.meteringPointId() ?? this.newConversationForm.controls.meteringPointId.value,
+      meteringPointIdentification:
+        this.meteringPointId() ?? this.newConversationForm.controls.meteringPointId.value,
     },
   }));
   electricalHeatingInformation = computed(
@@ -221,7 +221,10 @@ export class DhActorConversationNewConversationComponent {
     subject: dhMakeFormControl<ConversationSubject | null>(null, Validators.required),
     receiver: dhMakeFormControl<MarketRole | null>(null, Validators.required),
     energySupplierDate: dhMakeFormControl<Date | null>(null),
-    internalNote: dhMakeFormControl<string | null>(null, Validators.maxLength(internalNoteMaxLength)),
+    internalNote: dhMakeFormControl<string | null>(
+      null,
+      Validators.maxLength(internalNoteMaxLength)
+    ),
     reducedElectricityTax: dhMakeFormControl<boolean>(false),
     electricalHeating: dhMakeFormControl<ElectricalHeatingFormValue | null>(null),
     message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false, files: [] }, [
