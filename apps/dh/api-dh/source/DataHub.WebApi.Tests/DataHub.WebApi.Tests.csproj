@@ -27,6 +27,7 @@ limitations under the License.
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
+    <UseAppHost>true</UseAppHost>
   </PropertyGroup>
 
   <ItemGroup>
@@ -71,5 +72,19 @@ limitations under the License.
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
+    <None Remove="Snapshots\FilteredMarketParticipantsQueryTests.GetFilteredMarketParticipantsAsync-isFas-True_isFas=True.verified.json" />
+    <None Remove="Snapshots\FilteredMarketParticipantsQueryTests.GetFilteredMarketParticipantsAsync-isFas-False_isFas=False.verified.json" />
+    <None Remove="Snapshots\CalculationStepsQueryTests.ExternalTerminatedAndUserCanceled_lifecycleState=Terminated_terminationState=UserCanceled.verified.json" />
+    <None Remove="Snapshots\CalculationStepsQueryTests.ExternalTerminatedAndSucceeded_lifecycleState=Terminated_terminationState=Succeeded.verified.json" />
+    <None Remove="Snapshots\CalculationStepsQueryTests.ExternalTerminatedAndFailed_lifecycleState=Terminated_terminationState=Failed.verified.json" />
+    <None Remove="Snapshots\CalculationStepsQueryTests.ExternalRunning_lifecycleState=Running_terminationState=null.verified.json" />
+    <None Remove="Snapshots\CalculationStepsQueryTests.ExternalQueued_lifecycleState=Queued_terminationState=null.verified.json" />
+    <None Remove="Snapshots\CalculationStepsQueryTests.EnqueuingTerminatedAndSucceeded_lifecycleState=Terminated_terminationState=Succeeded.verified.json" />
+    <None Remove="Snapshots\CalculationStepsQueryTests.EnqueuingTerminatedAndFailed_lifecycleState=Terminated_terminationState=Failed.verified.json" />
+    <None Remove="Snapshots\CalculationStepsQueryTests.EnqueuingRunning_lifecycleState=Running_terminationState=null.verified.json" />
+    <None Remove="Snapshots\CalculationAuthOperationTests.ExecuteCalculationSubscriptions_Authenticated_userIdentity=Authenticated.verified.txt" />
+    <None Remove="Snapshots\CalculationAuthOperationTests.ExecuteCalculationSubscriptions_Anonymous_userIdentity=Anonymous.verified.txt" />
+    <None Remove="Snapshots\CalculationAuthOperationTests.ExecuteCalculationSubscriptions_Administrator_userIdentity=Administrator.verified.txt" />
+    <None Remove="Snapshots\BalanceResponsibilityAgreementStatusTests.Awaiting_testname=Awaiting_validFrom=2026-03-21T16-03-04.3956011+1_validTo=null.verified.json" />
   </ItemGroup>
 </Project>
