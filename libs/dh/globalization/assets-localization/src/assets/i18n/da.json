@@ -1036,6 +1036,17 @@
         "CANCEL_WORKFLOW": "Annuller workflow",
         "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
       },
+      "cancelProcess": {
+        "title": "Annuller {{processType}}",
+        "body": "Er du sikker på du vil stoppe processen for {{processType}}?",
+        "cancel": "Luk vindue",
+        "confirm": "Jeg er sikker",
+        "successToast": "Annullering af {{processType}} indsendt",
+        "errorToast": "Annullering af {{processType}} fejlede"
+      },
+      "processTypeName": {
+        "EndOfSupply": "leveranceophør"
+      },
       "steps": {
         "CloseDownMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Anmodning om nedlæggelse af målepunkt (RSM-021)",
