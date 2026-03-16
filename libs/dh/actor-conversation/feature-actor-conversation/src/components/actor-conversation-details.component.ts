@@ -153,7 +153,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
                     <span class="watt-text-s">{{ conversation.internalNote }}</span>
                   </vater-stack>
                 </vater-stack>
-                <vater-flex direction="row" gap="m" wrap autoSize align="start">
+                <vater-stack direction="row" gap="m" wrap align="start">
                   <label>571313100000000000 • Energivej 1, 7000 Fredericia</label>
                   <vater-stack direction="row" gap="xs">
                     <label>Tilslutningsstatus</label>
@@ -167,7 +167,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
                     <label>Tidsopløsning</label>
                     <span class="watt-text-s">Time</span>
                   </vater-stack>
-                </vater-flex>
+                </vater-stack>
               </vater-stack>
 
               <vater-stack direction="row" gap="m">
