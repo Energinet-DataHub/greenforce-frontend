@@ -141,7 +141,11 @@
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": [],
+    "sharedGlobals": [
+      "{workspaceRoot}/tools/plugins/implicit-libs.ts",
+      "{workspaceRoot}/libs/dh/vite.config.mts",
+      "{workspaceRoot}/libs/gf/vite.config.mts"
+    ],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
