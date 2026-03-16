@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://localhost:7125/"
+      "url": "http://app-api-actcon-d-we-001.azurewebsites.net/"
     }
   ],
   "paths": {
@@ -185,7 +185,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultOfAddMessageDocumentCommandResponse"
+                  "$ref": "#/components/schemas/AddMessageDocumentCommandResponse"
                 }
               }
             }
@@ -441,7 +441,7 @@
         "tags": [
           "GetAllConversations, GetConversationsForMeteringPoint"
         ],
-        "summary": "Get all conversations or just conversations for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied.\r\nThe result can be further narrowed by either searching or filtering or both.\r\n- Search\r\n  - Supports searching for a MeteringPoint and searching into DisplayId and InternalNote for the logged in actor.\r\n  - The search for the MeteringPoint is an exact search based on the 18 digits GSRN.\r\n  - The search value is supplied as querystring 'searchValue'.\r\n- Filtering\r\n  - The list can further be narrowed down via filters.\r\n  - Provides with supports for filtering myConversations, unread, opened, closed and subjects.\r\n  - Filters are supplied as querystring, ex. myconversations=true to get my conversations only.",
+        "summary": "Get all conversations or just conversations for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied.\nThe result can be further narrowed by either searching or filtering or both.\n- Search\n  - Supports searching for a MeteringPoint and searching into DisplayId and InternalNote for the logged in actor.\n  - The search for the MeteringPoint is an exact search based on the 18 digits GSRN.\n  - The search value is supplied as querystring 'searchValue'.\n- Filtering\n  - The list can further be narrowed down via filters.\n  - Provides with supports for filtering myConversations, unread, opened, closed and subjects.\n  - Filters are supplied as querystring, ex. myconversations=true to get my conversations only.",
         "description": "Get all conversations across all meteringpoints or for a single MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied",
         "operationId": "GetConversations",
         "parameters": [
@@ -728,10 +728,19 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/octet-stream": {
+              "text/plain": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "$ref": "#/components/schemas/FileContentResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileContentResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileContentResult"
                 }
               }
             }
@@ -739,7 +748,17 @@
           "404": {
             "description": "Not Found",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -891,7 +910,7 @@
           "Start"
         ],
         "summary": "Starts a conversation",
-        "description": "Example request for QuestionForEnerginet:\r\n\r\n```\r\n   {\r\n      \"subject\": \"QuestionForEnerginet\",\r\n      \"senderActorType\": \"Energinet\",\r\n      \"receiverActorType\": \"GridAccessProvider\",\r\n      \"meteringPointIdentification\": \"570715000000033841\",\r\n      \"senderActorNumber\": \"5790001330552\",\r\n      \"senderUserId\": \"user@elsupplier.dk\",\r\n      \"senderUserName\": \"EL supplier\"\r\n      \"internalNote\": \"Note from the sender\",\r\n      \"content\": \"No metereddata available!!!\",\r\n      \"anonymous\": false\r\n    }\r\n ```",
+        "description": "Example request for QuestionForEnerginet:\n\n```\n   {\n      \"subject\": \"QuestionForEnerginet\",\n      \"senderActorType\": \"Energinet\",\n      \"receiverActorType\": \"GridAccessProvider\",\n      \"meteringPointIdentification\": \"570715000000033841\",\n      \"senderActorNumber\": \"5790001330552\",\n      \"senderUserId\": \"user@elsupplier.dk\",\n      \"senderUserName\": \"EL supplier\"\n      \"internalNote\": \"Note from the sender\",\n      \"content\": \"No metereddata available!!!\",\n      \"anonymous\": false\n    }\n ```",
         "operationId": "StartConversation",
         "parameters": [
           {
@@ -1188,20 +1207,6 @@
   },
   "components": {
     "schemas": {
-      "ActionResult": {
-        "type": "object"
-      },
-      "ActionResultOfAddMessageDocumentCommandResponse": {
-        "type": "object",
-        "properties": {
-          "result": {
-            "$ref": "#/components/schemas/ActionResult"
-          },
-          "value": {
-            "$ref": "#/components/schemas/AddMessageDocumentCommandResponse"
-          }
-        }
-      },
       "ActorIdentifierDto": {
         "type": "object",
         "required": [
@@ -1221,7 +1226,6 @@
         "type": "object",
         "required": [
           "conversationId",
-          "content",
           "anonymous",
           "attachedDocumentIds"
         ],
@@ -1233,7 +1237,8 @@
           },
           "content": {
             "type": "string",
-            "description": "The message content, thus the body itself.\r\nCan contain at most 5000 characters and should not be empty."
+            "description": "The message content, thus the body itself.\nCan contain at most 5000 characters and should not be empty, but may be if there are attachments",
+            "nullable": true
           },
           "anonymous": {
             "type": "boolean",
@@ -1398,7 +1403,7 @@
           },
           "partOfConversations": {
             "type": "boolean",
-            "description": "Indicates id you are part of this conversation.\r\nEnerginet can see conversations they are not part of."
+            "description": "Indicates id you are part of this conversation.\nEnerginet can see conversations they are not part of."
           }
         }
       },
@@ -1525,13 +1530,13 @@
       "GetConversationQueryResponseElectricalHeatingUserMessage": {
         "type": "object",
         "required": [
-          "content",
           "reductionPeriod",
           "electricalHeatingFrom"
         ],
         "properties": {
           "content": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "reductionPeriod": {
             "$ref": "#/components/schemas/GetConversationQueryResponseElectricityHeatingPeriod"
@@ -1581,13 +1586,10 @@
       },
       "GetConversationQueryResponseUserMessage": {
         "type": "object",
-        "required": [
-          "content"
-        ],
         "properties": {
           "content": {
             "type": "string",
-            "description": "Message content"
+            "nullable": true
           }
         }
       },
@@ -1784,7 +1786,6 @@
           "senderActorType",
           "receiverActorType",
           "meteringPointIdentification",
-          "content",
           "anonymous",
           "attachedDocumentIds"
         ],
@@ -1800,16 +1801,17 @@
           },
           "meteringPointIdentification": {
             "type": "string",
-            "description": "MeteringPointIdentification\r\n18 digits GSRN number consisting of digits only."
+            "description": "MeteringPointIdentification\n18 digits GSRN number consisting of digits only."
           },
           "internalNote": {
             "type": "string",
-            "description": "Optional Internal note from the Organization, that created the Conversation.\r\nCan contain at most 80 characters and will be assumed empty, if not specified",
+            "description": "Optional Internal note from the Organization, that created the Conversation.\nCan contain at most 80 characters and will be assumed empty, if not specified",
             "nullable": true
           },
           "content": {
             "type": "string",
-            "description": "The message content, thus the body itself.\r\nCan contain at most 5000 characters and should not be empty."
+            "description": "The message content, thus the body itself.\nCan contain at most 5000 characters and should not be empty, but may be if there are attachments",
+            "nullable": true
           },
           "anonymous": {
             "type": "boolean",
@@ -1846,7 +1848,6 @@
         "type": "object",
         "required": [
           "meteringPointIdentification",
-          "content",
           "anonymous",
           "electricalHeatingFrom",
           "electricalHeatingReductionPeriodFrom",
@@ -1862,7 +1863,8 @@
             "nullable": true
           },
           "content": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "anonymous": {
             "type": "boolean"
@@ -1959,7 +1961,7 @@
           },
           "internalNote": {
             "type": "string",
-            "description": "Optional Internal note from the active participant\r\nCan contain at most 80 characters and will be assumed empty, if not specified",
+            "description": "Optional Internal note from the active participant\nCan contain at most 80 characters and will be assumed empty, if not specified",
             "nullable": true
           }
         }

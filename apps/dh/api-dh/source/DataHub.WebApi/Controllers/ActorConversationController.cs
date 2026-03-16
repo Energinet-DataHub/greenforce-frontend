@@ -87,22 +87,7 @@ public sealed class ActorConversationController : ControllerBase
         {
             var response = await _actorConversationClient.ApiAddMessageDocumentAsync(userId.ToString(), actorNumber, mappedRole.ToString(), fileParameter, ct);
 
-            if (response.Value != null)
-            {
-                return Ok(response.Value.DocumentId);
-            }
-
-            // The upstream API returns a flat {"documentId": "..."} instead of the ActionResult wrapper
-            // {"result": ..., "value": {"documentId": "..."}} that the swagger schema declares.
-            // Until the swagger is corrected, the documentId lands in AdditionalProperties.
-            if (response.AdditionalProperties.TryGetValue("documentId", out var docId) &&
-                docId is string docIdStr &&
-                Guid.TryParse(docIdStr, out var documentId))
-            {
-                return Ok(documentId);
-            }
-
-            return BadRequest("Unexpected response format from upstream.");
+            return Ok(response.DocumentId);
         }
         catch (ApiException ex)
         {
@@ -136,26 +121,14 @@ public sealed class ActorConversationController : ControllerBase
 
         try
         {
-            using var response = await _actorConversationClient.ApiGetMessageDocumentAsync(documentId, userId.ToString(), actorNumber, mappedRole.ToString(), ct);
-
-            var contentType = response.Headers.TryGetValue("Content-Type", out var contentTypeValues)
-                ? contentTypeValues.FirstOrDefault() ?? "application/octet-stream"
-                : "application/octet-stream";
-
-            var fileName = (string?)null;
-            if (response.Headers.TryGetValue("Content-Disposition", out var dispositionValues))
+            var response = await _actorConversationClient.ApiGetMessageDocumentAsync(documentId, userId.ToString(), actorNumber, mappedRole.ToString(), ct);
+            if (response == null || response.ContentType == null)
             {
-                var header = dispositionValues.FirstOrDefault();
-                if (header != null &&
-                    System.Net.Http.Headers.ContentDispositionHeaderValue.TryParse(header, out var disposition))
-                {
-                    fileName = disposition.FileNameStar ?? disposition.FileName;
-                }
+                return NotFound();
             }
 
             // Read into byte array because the FileResponse is disposed at method exit
-            var bytes = await ReadStreamToByteArrayAsync(response.Stream, ct);
-            return File(bytes, contentType, fileName);
+            return File(response.FileContents, response.ContentType, response.FileDownloadName);
         }
         catch (ApiException ex)
         {
