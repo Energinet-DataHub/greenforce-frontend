@@ -53,35 +53,34 @@ function deriveType(name: string): string {
 }
 
 /**
- * Determines the Vitest environment for a lib.
- * - feature / ui → happy-dom (browser-like DOM)
- * - explicit happy-dom overrides: gf/shared/util-browser (tests access document)
- * - everything else → node
- */
-function vitestEnvironment(
-  type: string,
-  product: string,
-  domain: string,
-  name: string
-): 'happy-dom' | 'node' {
-  if (type === 'feature' || type === 'ui') return 'happy-dom';
-  // Explicit overrides: util libs whose tests require a DOM environment
-  if (product === 'gf' && domain === 'shared' && name === 'util-browser') return 'happy-dom';
-  return 'node';
-}
-
-/**
  * Whether to enable the Angular Vitest plugin for a lib.
- * - configuration / assets → false (no Angular compilation needed)
+ * - configuration / assets → false by default (no Angular compilation needed)
+ * - explicit Angular overrides for configuration libs that use TestBed in tests
  * - explicit no-Angular libs (dh/shared/util-text, dh/wholesale/domain) → false
  * - everything else → true
  */
 function useAngular(type: string, product: string, domain: string, name: string): boolean {
-  if (type === 'configuration' || type === 'assets') return false;
+  if (type === 'configuration' || type === 'assets') {
+    // These configuration libs use Angular TestBed in their tests
+    if (product === 'gf' && domain === 'globalization' && name === 'configuration-danish-locale')
+      return true;
+    if (product === 'dh' && domain === 'globalization' && name === 'configuration-localization')
+      return true;
+    return false;
+  }
   // Explicit overrides: libs that have only pure-TS code and no Angular
   if (product === 'dh' && domain === 'shared' && name === 'util-text') return false;
   if (product === 'dh' && domain === 'wholesale' && name === 'domain') return false;
   return true;
+}
+
+/**
+ * Determines the Vitest environment for a lib.
+ * - happy-dom whenever Angular plugin is active (TestBed requires a DOM)
+ * - node otherwise (pure TS / non-Angular libs)
+ */
+function vitestEnvironment(angular: boolean): 'happy-dom' | 'node' {
+  return angular ? 'happy-dom' : 'node';
 }
 
 export const createNodesV2: CreateNodesV2 = [
@@ -105,8 +104,8 @@ export const createNodesV2: CreateNodesV2 = [
         const projectRoot = `${libs}/${product}/${domain}/${name}`;
         const projectName = `${product}-${domain}-${name}`;
         const type = deriveType(name);
-        const environment = vitestEnvironment(type, product, domain, name);
         const angular = useAngular(type, product, domain, name);
+        const environment = vitestEnvironment(angular);
         // Path from the lib root (cwd) to the shared product-level config
         const sharedConfig = `../../../../${libs}/${product}/vite.config.mts`;
 
