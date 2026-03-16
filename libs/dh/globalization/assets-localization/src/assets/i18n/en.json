@@ -1041,7 +1041,7 @@
         "body": "Are you sure you want to stop the {{processType}} process?",
         "cancel": "Close window",
         "confirm": "I'm sure",
-        "loadingToast": "Cancelling {{processType}}...",
+        "loadingToast": "Submitting cancelling of {{processType}}...",
         "successToast": "Cancellation of {{processType}} submitted",
         "errorToast": "Cancellation of {{processType}} failed"
       },

@@ -1041,7 +1041,7 @@
         "body": "Er du sikker på du vil stoppe processen for {{processType}}?",
         "cancel": "Luk vindue",
         "confirm": "Jeg er sikker",
-        "loadingToast": "Annullerer {{processType}}...",
+        "loadingToast": "Indsender annullering af {{processType}}...",
         "successToast": "Annullering af {{processType}} indsendt",
         "errorToast": "Annullering af {{processType}} fejlede"
       },
