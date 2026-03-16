@@ -27,8 +27,10 @@ import { WattIconComponent } from '@energinet/watt/icon';
   selector: 'dh-cancel-process-modal',
   imports: [TranslocoDirective, WATT_MODAL, WattButtonComponent, WattIconComponent],
   styles: `
-    :host {
-      display: block;
+    .warning-body {
+      display: flex;
+      align-items: center;
+      gap: var(--watt-space-s);
     }
   `,
   template: `
@@ -37,8 +39,8 @@ import { WattIconComponent } from '@energinet/watt/icon';
       [title]="t('title', { processType: modalData.processType })"
       #modal
     >
-      <p>
-        <watt-icon name="warning" />
+      <p class="warning-body">
+        <watt-icon name="warning" size="s" />
         {{ t('body', { processType: modalData.processType }) }}
       </p>
 
