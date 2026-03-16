@@ -26,6 +26,7 @@ namespace Energinet.DataHub.WebApi.Controllers;
 public sealed class ActorConversationController : ControllerBase
 {
     private const long MaxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
+    private const long MaxRequestSizeBytes = MaxFileSizeBytes + (64 * 1024); // Extra headroom for multipart headers
 
     private static readonly HashSet<string> AllowedFileExtensions = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -48,7 +49,7 @@ public sealed class ActorConversationController : ControllerBase
     /// </summary>
     [HttpPost]
     [Route("UploadMessageDocument")]
-    [RequestSizeLimit(MaxFileSizeBytes)]
+    [RequestSizeLimit(MaxRequestSizeBytes)]
     public async Task<ActionResult<Guid>> UploadMessageDocumentAsync(
         IFormFile document,
         CancellationToken ct)
@@ -69,14 +70,44 @@ public sealed class ActorConversationController : ControllerBase
         var user = _httpContextAccessor.HttpContext.User;
         var actorNumber = user.GetMarketParticipantNumber();
         var userId = user.GetUserId();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
+        if (!Enum.TryParse<EicFunctionAuth>(user.GetMarketParticipantMarketRole(), out var marketRole))
+        {
+            return Forbid();
+        }
+
+        if (!TryMapMarketRole(marketRole, out var mappedRole))
+        {
+            return Forbid();
+        }
 
         await using var stream = document.OpenReadStream();
-        var fileparameter = new FileParameter(stream, document.FileName, document.ContentType);
+        var fileParameter = new FileParameter(stream, document.FileName, document.ContentType);
 
-        var response = await _actorConversationClient.ApiAddMessageDocumentAsync(userId.ToString(), actorNumber, MapMarketRoleToActorType(marketRole).ToString(), fileparameter);
+        try
+        {
+            var response = await _actorConversationClient.ApiAddMessageDocumentAsync(userId.ToString(), actorNumber, mappedRole.ToString(), fileParameter, ct);
 
-        return Ok(response.Value.DocumentId);
+            if (response.Value != null)
+            {
+                return Ok(response.Value.DocumentId);
+            }
+
+            // The upstream API returns a flat {"documentId": "..."} instead of the ActionResult wrapper
+            // {"result": ..., "value": {"documentId": "..."}} that the swagger schema declares.
+            // Until the swagger is corrected, the documentId lands in AdditionalProperties.
+            if (response.AdditionalProperties.TryGetValue("documentId", out var docId) &&
+                docId is string docIdStr &&
+                Guid.TryParse(docIdStr, out var documentId))
+            {
+                return Ok(documentId);
+            }
+
+            return BadRequest("Unexpected response format from upstream.");
+        }
+        catch (ApiException ex)
+        {
+            return StatusCode(ex.StatusCode, ex.Response);
+        }
     }
 
     /// <summary>
@@ -93,27 +124,68 @@ public sealed class ActorConversationController : ControllerBase
         var user = _httpContextAccessor.HttpContext.User;
         var actorNumber = user.GetMarketParticipantNumber();
         var userId = user.GetUserId();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
-
-        var response = await _actorConversationClient.ApiGetMessageDocumentAsync(documentId, userId.ToString(), actorNumber, MapMarketRoleToActorType(marketRole).ToString());
-
-        if (response.ContentType is null)
+        if (!Enum.TryParse<EicFunctionAuth>(user.GetMarketParticipantMarketRole(), out var marketRole))
         {
-            var errorBody = response;
-            return StatusCode(500);
+            return Forbid();
         }
 
-        return File(response.FileContents, response.ContentType, response.FileDownloadName);
+        if (!TryMapMarketRole(marketRole, out var mappedRole))
+        {
+            return Forbid();
+        }
+
+        try
+        {
+            using var response = await _actorConversationClient.ApiGetMessageDocumentAsync(documentId, userId.ToString(), actorNumber, mappedRole.ToString(), ct);
+
+            var contentType = response.Headers.TryGetValue("Content-Type", out var contentTypeValues)
+                ? contentTypeValues.FirstOrDefault() ?? "application/octet-stream"
+                : "application/octet-stream";
+
+            var fileName = (string?)null;
+            if (response.Headers.TryGetValue("Content-Disposition", out var dispositionValues))
+            {
+                var header = dispositionValues.FirstOrDefault();
+                if (header != null &&
+                    System.Net.Http.Headers.ContentDispositionHeaderValue.TryParse(header, out var disposition))
+                {
+                    fileName = disposition.FileNameStar ?? disposition.FileName;
+                }
+            }
+
+            // Read into byte array because the FileResponse is disposed at method exit
+            var bytes = await ReadStreamToByteArrayAsync(response.Stream, ct);
+            return File(bytes, contentType, fileName);
+        }
+        catch (ApiException ex)
+        {
+            return StatusCode(ex.StatusCode, ex.Response);
+        }
     }
 
-    private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)
+    private static async Task<byte[]> ReadStreamToByteArrayAsync(Stream stream, CancellationToken ct)
     {
-        return marketRole switch
+        using var memoryStream = new MemoryStream();
+        await stream.CopyToAsync(memoryStream, ct);
+        return memoryStream.ToArray();
+    }
+
+    private static bool TryMapMarketRole(EicFunctionAuth marketRole, out MarketRole mapped)
+    {
+        switch (marketRole)
         {
-            EicFunctionAuth.EnergySupplier => MarketRole.EnergySupplier,
-            EicFunctionAuth.GridAccessProvider => MarketRole.GridAccessProvider,
-            EicFunctionAuth.DataHubAdministrator => MarketRole.Energinet,
-            _ => throw new InvalidOperationException($"Unsupported market role: {marketRole}"),
-        };
+            case EicFunctionAuth.EnergySupplier:
+                mapped = MarketRole.EnergySupplier;
+                return true;
+            case EicFunctionAuth.GridAccessProvider:
+                mapped = MarketRole.GridAccessProvider;
+                return true;
+            case EicFunctionAuth.DataHubAdministrator:
+                mapped = MarketRole.Energinet;
+                return true;
+            default:
+                mapped = default;
+                return false;
+        }
     }
 }

@@ -728,19 +728,10 @@
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/FileContentResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FileContentResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FileContentResult"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -748,17 +739,7 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
