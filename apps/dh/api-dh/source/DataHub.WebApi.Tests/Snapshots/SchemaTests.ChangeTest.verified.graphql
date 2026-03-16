@@ -540,7 +540,7 @@ type ElectricalHeatingMessage {
 }
 
 type ElectricalHeatingUserMessage {
-  content: String!
+  content: String
   reductionPeriod: ElectricityHeatingMessagePeriod!
   electricalHeatingFrom: DateTime!
 }
