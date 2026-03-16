@@ -28,26 +28,34 @@ import { WATT_CARD } from '@energinet/watt/card';
 import { ActorConversationState, Conversation } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { DhActorConversationListComponent } from './actor-conversation-list';
 import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { DhActorConversationDetailsComponent } from './actor-conversation-details.component';
+import { WattSimpleSearchComponent } from '@energinet/watt/search';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { dhFormControlToSignal, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
+import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
   imports: [
+    ReactiveFormsModule,
     TranslocoDirective,
     VATER,
     WATT_CARD,
     WattEmptyStateComponent,
     WattButtonComponent,
-    DhActorConversationListComponent,
+    WattSimpleSearchComponent,
+    DhResultComponent,
     DhActorConversationNewConversationComponent,
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
     WattSpinnerComponent,
+    WattSeparatorComponent,
     DhActorConversationDetailsComponent,
+    DhActorConversationListItemComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -58,6 +66,14 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
     .list-min-width {
       min-width: 400px;
     }
+
+    .new-conversation {
+      background-color: var(--bg-card);
+    }
+
+    .conversations {
+      list-style: none;
+    }
   `,
   template: `
     <watt-card vater contain fill="vertical">
@@ -67,17 +83,64 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
         gap="dividers"
         *transloco="let t; prefix: 'meteringPoint.actorConversation'"
       >
-        <dh-actor-conversation-list
-          vater
-          scrollable
-          class="list-min-width"
-          [conversationsQuery]="conversationsQuery"
-          [newConversationVisible]="newConversationVisible()"
-          [selectedConversationId]="selectedConversationId()"
-          (createNewConversation)="newConversation()"
-          (filter)="search($event)"
-          (selectConversation)="selectConversation($event)"
-        />
+        <div vater scrollable>
+          <vater-stack sticky="top" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+            <vater-stack
+              fill="horizontal"
+              class="new-conversation watt-space-inset-ml"
+              gap="m"
+              align="start"
+            >
+              <vater-stack fill="horizontal" direction="row" justify="space-between" align="center">
+                <h3 watt-heading>{{ t('cases') }}</h3>
+                <watt-button
+                  (click)="newConversation()"
+                  icon="plus"
+                  variant="text"
+                  data-testid="new-conversation-button"
+                >
+                  {{ t('newCaseButton') }}
+                </watt-button>
+              </vater-stack>
+              <watt-simple-search
+                vater
+                fill="horizontal"
+                [label]="t('searchPlaceholder')"
+                [formControl]="searchFormControl"
+              />
+              <!-- TODO MASEP: Incomment when filter functionality is implemented -->
+              <!--        <watt-dropdown-->
+              <!--          [formControl]="formControl"-->
+              <!--          [options]="options()"-->
+              <!--          [multiple]="true"-->
+              <!--          [chipMode]="true"-->
+              <!--          [placeholder]="t('filters.placeholder')"-->
+              <!--        />-->
+            </vater-stack>
+            <watt-separator weight="regular" />
+          </vater-stack>
+
+          <dh-result [query]="conversationsQuery">
+            <vater-grid gap="dividers" autoRows="minmax(var(--case-min-row-height), 1fr)">
+              <ul vater fragment class="conversations">
+                @if (newConversationVisible()) {
+                  <li>
+                    <dh-actor-conversation-list-item [selected]="newConversationVisible()" />
+                  </li>
+                }
+                @for (conversationItem of conversations(); track conversationItem.id) {
+                  <li>
+                    <dh-actor-conversation-list-item
+                      [conversation]="conversationItem"
+                      [selected]="selectedConversationId() === conversationItem.id"
+                      (click)="selectedConversationId.set(conversationItem.id)"
+                    />
+                  </li>
+                }
+              </ul>
+            </vater-grid>
+          </dh-result>
+        </div>
         <vater-stack scrollable *transloco="let t; prefix: 'meteringPoint.actorConversation'">
           @switch (state()) {
             @case ('newConversationOpen') {
@@ -114,7 +177,6 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
                 <dh-actor-conversation-details
                   vater
                   fill="both"
-                  [meteringPointId]="meteringPointId()"
                   [conversationId]="conversationId"
                 />
               } @else {
@@ -127,8 +189,9 @@ import { DhActorConversationDetailsComponent } from './actor-conversation-detail
     </watt-card>
   `,
 })
-export class DhActorConversationShellComponent {
-  searchTerm = signal<string | undefined>(undefined);
+export class DhActorConversation {
+  searchFormControl = new FormControl('');
+  searchTerm = dhFormControlToSignal(this.searchFormControl);
 
   conversationsQuery = query(GetConversationsDocument, () => ({
     variables: {
