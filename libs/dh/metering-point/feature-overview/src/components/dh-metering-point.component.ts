@@ -129,7 +129,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
         EicFunction.SystemOperator,
       ];
 
-    <div class="page-grid">
+    <div class="page-grid" vater inset="0">
       <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
         <div *transloco="let t; prefix: 'meteringPoint.overview'">
           <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">

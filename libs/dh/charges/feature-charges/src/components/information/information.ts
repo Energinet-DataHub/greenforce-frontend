@@ -90,7 +90,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         </watt-breadcrumb>
       </watt-breadcrumbs>
     </dh-toolbar-portal>
-    <vater-flex fill="vertical" *transloco="let t; prefix: 'charges'">
+    <vater-flex inset="0" *transloco="let t; prefix: 'charges'">
       <vater-stack class="page-header" direction="row" gap="m" wrap align="end">
         @if (charge(); as charge) {
           <header>

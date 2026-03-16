@@ -212,7 +212,7 @@ export const dhMeteringPointRoutes: Routes = [
             ],
             loadComponent: () =>
               import('@energinet-datahub/dh/actor-conversation/feature-actor-conversation').then(
-                (m) => m.DhActorConversationShellComponent
+                (m) => m.DhActorConversation
               ),
           },
         ],
