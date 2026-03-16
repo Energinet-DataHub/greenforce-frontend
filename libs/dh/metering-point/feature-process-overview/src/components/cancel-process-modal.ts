@@ -43,11 +43,11 @@ import { WattIconComponent } from '@energinet/watt/icon';
       </p>
 
       <watt-modal-actions>
-        <watt-button size="small" variant="secondary" (click)="modal.close(false)">
+        <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('cancel') }}
         </watt-button>
 
-        <watt-button size="small" variant="primary" (click)="modal.close(true)">
+        <watt-button (click)="modal.close(true)">
           {{ t('confirm') }}
         </watt-button>
       </watt-modal-actions>
