@@ -93,6 +93,10 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
     .no-padding-bottom {
       padding-bottom: 0;
     }
+
+    .no-min-width {
+      min-width: 0;
+    }
   `,
   template: `
     <dh-result vater fill="vertical" [query]="conversationQuery">
@@ -108,9 +112,10 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
               fill="horizontal"
               direction="row"
               justify="space-between"
+              gap="m"
               class="watt-space-reverse-inset-stretch-m"
             >
-              <vater-stack gap="s" align="start">
+              <vater-stack gap="s" align="start" fill="horizontal" class="no-min-width">
                 <vater-stack direction="row" gap="xs">
                   @let initiatorRole = t('role.' + initiator()?.role);
                   <span class="watt-text-s">
@@ -148,6 +153,21 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
                     <span class="watt-text-s">{{ conversation.internalNote }}</span>
                   </vater-stack>
                 </vater-stack>
+                <vater-flex direction="row" gap="m" wrap autoSize align="start">
+                  <label>571313100000000000 • Energivej 1, 7000 Fredericia</label>
+                  <vater-stack direction="row" gap="xs">
+                    <label>Tilslutningsstatus</label>
+                    <span class="watt-text-s">Tilsluttet</span>
+                  </vater-stack>
+                  <vater-stack direction="row" gap="xs">
+                    <label>Målepunktstype</label>
+                    <span class="watt-text-s">Forbrug (E17)</span>
+                  </vater-stack>
+                  <vater-stack direction="row" gap="xs">
+                    <label>Tidsopløsning</label>
+                    <span class="watt-text-s">Time</span>
+                  </vater-stack>
+                </vater-flex>
               </vater-stack>
 
               <vater-stack direction="row" gap="m">
