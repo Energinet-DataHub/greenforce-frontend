@@ -34,12 +34,12 @@ import { WattIconComponent } from '@energinet/watt/icon';
   template: `
     <watt-modal
       *transloco="let t; prefix: 'meteringPoint.processOverview.cancelProcess'"
-      [title]="t('title', { processType: dialogData.processType })"
+      [title]="t('title', { processType: modalData.processType })"
       #modal
     >
       <p>
         <watt-icon name="warning" />
-        {{ t('body', { processType: dialogData.processType }) }}
+        {{ t('body', { processType: modalData.processType }) }}
       </p>
 
       <watt-modal-actions>
