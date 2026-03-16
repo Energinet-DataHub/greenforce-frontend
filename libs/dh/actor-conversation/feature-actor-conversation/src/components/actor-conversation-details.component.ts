@@ -97,6 +97,11 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
     .no-min-width {
       min-width: 0;
     }
+
+    .wrap-gap {
+      column-gap: var(--watt-space-m);
+      row-gap: var(--watt-space-xs);
+    }
   `,
   template: `
     <dh-result vater fill="vertical" [query]="conversationQuery">
@@ -153,7 +158,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
                     <span class="watt-text-s">{{ conversation.internalNote }}</span>
                   </vater-stack>
                 </vater-stack>
-                <vater-stack direction="row" gap="m" wrap align="start">
+                <vater-stack direction="row" wrap align="start" class="wrap-gap">
                   <label>571313100000000000 • Energivej 1, 7000 Fredericia</label>
                   <vater-stack direction="row" gap="xs">
                     <label>Tilslutningsstatus</label>
