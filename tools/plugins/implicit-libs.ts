@@ -68,9 +68,6 @@ function useAngular(type: string, product: string, domain: string, name: string)
       return true;
     return false;
   }
-  // Explicit overrides: libs that have only pure-TS code and no Angular
-  if (product === 'dh' && domain === 'shared' && name === 'util-text') return false;
-  if (product === 'dh' && domain === 'wholesale' && name === 'domain') return false;
   return true;
 }
 
