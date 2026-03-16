@@ -177,7 +177,6 @@ import { DhActorConversationListItemComponent } from './actor-conversation-list-
                 <dh-actor-conversation-details
                   vater
                   fill="both"
-                  [meteringPointId]="meteringPointId()"
                   [conversationId]="conversationId"
                 />
               } @else {
