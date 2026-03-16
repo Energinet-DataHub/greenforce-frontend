@@ -171,17 +171,15 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   validate = ({ value }: AbstractControl<WattRange<string>>) => {
     if (!value?.end || !value?.start) return null;
     if (!this.rangeMonthOnlyMode()) return null;
-    const start = dayjs(value.start);
-    const end = dayjs(value.end);
+    const start = dayjs.utc(value.start);
+    const end = dayjs.utc(value.end);
     return start.isSame(start.startOf('month')) && end.isSame(start.endOf('month'))
       ? null
       : { monthOnly: true };
   };
 
   protected initSingleInput() {
-    const matDatepickerInput = this.matDatepickerInput();
-    if (this.initialValue && matDatepickerInput) {
-      matDatepickerInput.value = this.initialValue;
+    if (this.initialValue) {
       this.datepickerClosed();
     }
   }
@@ -199,6 +197,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     }
 
     const date = this.parseDateShortFormat(dateString);
+    if (!dayjs(date).isValid()) return;
     this.control?.setValue(this.formatDateFromViewToModel(date));
   }
 
@@ -209,11 +208,9 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     if (!actualInput) return;
 
     if (matDatepickerInput && matDatepickerInput.value) {
-      this.control?.setValue(matDatepickerInput.value);
-
-      actualInput.nativeElement.value = this.formatDateTimeFromModelToView(
-        this.formatDateFromViewToModel(matDatepickerInput.value)
-      );
+      const isoDate = this.formatDateFromViewToModel(matDatepickerInput.value);
+      this.control?.setValue(isoDate);
+      actualInput.nativeElement.value = this.formatDateTimeFromModelToView(isoDate);
     } else {
       actualInput.nativeElement.value = '';
       this.control?.setValue(null);
@@ -235,12 +232,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   }
 
   protected initRangeInput() {
-    const matStartDate = this.matStartDate();
-    const matEndDate = this.matEndDate();
-
-    if (this.initialValue && matStartDate && matEndDate) {
-      matStartDate.value = (this.initialValue as WattDateRange).start;
-      matEndDate.value = (this.initialValue as WattDateRange).end;
+    if (this.initialValue) {
       this.rangePickerClosed();
     }
   }
@@ -269,11 +261,13 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
 
     const start = this.parseDateShortFormat(startDateString);
     const endDateString = value.slice(this.placeholder().length + this.rangeSeparator.length);
-    let end = this.setEndDateToDanishTimeZone(endDateString);
+    const end = this.parseDateShortFormat(endDateString);
 
-    if (end !== null) {
-      end = this.setToEndOfDay(end);
-      this.control?.setValue({ start, end });
+    if (dayjs(start).isValid() && dayjs(end).isValid()) {
+      this.control?.setValue({
+        start: this.formatDateFromViewToModel(start),
+        end: this.formatEndDateFromViewToModel(end),
+      });
     }
   }
 
@@ -284,6 +278,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     if (!actualInput) return;
 
     if (matDateRangeInput?.value?.start && matDateRangeInput?.value?.end) {
+      // Use midnight for display (end-of-day would shift to next day in timezones ahead of UTC)
       actualInput.nativeElement.value =
         this.formatDateTimeFromModelToView(
           this.formatDateFromViewToModel(matDateRangeInput.value?.start)
@@ -293,9 +288,10 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
           this.formatDateFromViewToModel(matDateRangeInput.value.end)
         );
 
+      // Use end-of-day for the model value so the entire end date is included
       this.control?.setValue({
         start: this.formatDateFromViewToModel(matDateRangeInput.value.start),
-        end: this.formatDateFromViewToModel(matDateRangeInput.value.end),
+        end: this.formatEndDateFromViewToModel(matDateRangeInput.value.end),
       });
     } else {
       actualInput.nativeElement.value = '';
@@ -343,7 +339,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     const currentDate = this.matDatepickerInput()?.value;
 
     if (currentDate) {
-      const newDate = dayjs(currentDate).add(value, 'day').toISOString();
+      const newDate = this.formatDateFromViewToModel(dayjs(currentDate).add(value, 'day').toDate());
       const newDateFormatted = this.formatDateTimeFromModelToView(newDate);
 
       this.inputChanged(newDateFormatted);
@@ -385,38 +381,39 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     matDateInput: D
   ): void {
     nativeInput.value = value ? this.formatDateTimeFromModelToView(value) : '';
-    matDateInput.value = value ? dayjs(value).utc().toDate() : null;
+
+    if (value) {
+      // Parse UTC date and create a local Date with the same calendar date,
+      // so Material's datepicker displays the correct date regardless of timezone.
+      const d = dayjs.utc(value);
+      matDateInput.value = new Date(d.year(), d.month(), d.date());
+    } else {
+      matDateInput.value = null;
+    }
   }
 
   /**
    * @ignore
-   * Formats Date to full ISO 8601 format (e.g. `2022-08-31T22:00:00.000Z`)
+   * Formats Date to full ISO 8601 format at UTC midnight (e.g. `2022-09-01T00:00:00.000Z`).
+   * Extracts the local calendar date and creates UTC midnight, preventing timezone
+   * offsets from shifting the date when converting between local time and UTC.
    */
   private formatDateFromViewToModel(value: Date): string {
-    return dayjs(value).utc().toISOString();
+    return new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate())).toISOString();
+  }
+
+  /**
+   * @ignore
+   * Formats Date to UTC end-of-day (e.g. `2022-09-01T23:59:59.999Z`).
+   * Used for range end dates so the entire selected day is included.
+   */
+  private formatEndDateFromViewToModel(value: Date): string {
+    return new Date(
+      Date.UTC(value.getFullYear(), value.getMonth(), value.getDate(), 23, 59, 59, 999)
+    ).toISOString();
   }
 
   private formatDateTimeFromModelToView(value: string): string {
     return dayjs(value).tz(danishTimeZoneIdentifier).format(dateShortFormat);
-  }
-
-  private toDanishTimeZone(value: Date): Date {
-    return dayjs(value.toISOString()).tz(danishTimeZoneIdentifier).toDate();
-  }
-
-  private setToEndOfDay(value: Date): Date {
-    return dayjs(value).endOf('day').toDate();
-  }
-
-  private setEndDateToDanishTimeZone(value: string): Date | null {
-    const dateBasedOnShortFormat = this.parseDateShortFormat(value);
-
-    let maybeDateInDanishTimeZone: Date | null = null;
-
-    if (dayjs(dateBasedOnShortFormat).isValid()) {
-      maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnShortFormat);
-    }
-
-    return maybeDateInDanishTimeZone;
   }
 }
