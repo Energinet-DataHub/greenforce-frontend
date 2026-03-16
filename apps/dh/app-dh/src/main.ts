@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { enableProdMode, isDevMode } from '@angular/core';
+import { enableProdMode, isDevMode, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import {
   provideRouter,
@@ -48,20 +48,11 @@ if (environment.production) {
   enableProdMode();
 }
 
-if (environment.authDisabled) {
-  const searchParams = new URLSearchParams(window.location.search);
-  const debugToken = searchParams.get('debugToken');
-
-  if (debugToken) {
-    localStorage.setItem('access_token', debugToken);
-  }
-}
-
 if (ngDevMode && environment.mocked) {
   // Dynamically import the MSW setup to avoid loading it in production
   Promise.all([
-    import('@energinet-datahub/gf/util-msw'),
-    import('@energinet-datahub/dh/shared/data-access-mocks'),
+    import('@energinet-datahub/gf/msw/test-util-msw-setup'),
+    import('@energinet-datahub/dh/shared/test-util-mocks'),
   ]).then(([{ setupServiceWorker }, { mocks }]) => {
     setupServiceWorker(dhLocalApiEnvironment.apiBase, mocks).then(bootstrapApp);
   });
@@ -74,6 +65,7 @@ function bootstrapApp() {
     .then(([dhApiEnvironment, dhB2CEnvironment, dhAppEnvironment]) => {
       bootstrapApplication(DataHubAppComponent, {
         providers: [
+          provideZoneChangeDetection(),
           { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
           { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
           { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },

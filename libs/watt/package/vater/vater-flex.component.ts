@@ -27,15 +27,15 @@ import { VaterLayoutDirective } from './vater-layout.directive';
   hostDirectives: [
     {
       directive: VaterFlexboxDirective,
-      inputs: ['align', 'direction', 'justify', 'wrap'],
+      inputs: ['direction', 'wrap'],
     },
     {
       directive: VaterLayoutDirective,
-      inputs: ['gap', 'offset'],
+      inputs: ['gap', 'offset', 'justify', 'align'],
     },
     {
       directive: VaterUtilityDirective,
-      inputs: ['center', 'fill', 'inset', 'scrollable'],
+      inputs: ['center', 'fill', 'inset', 'scrollable', 'sticky'],
     },
   ],
   host: { '[class.vater-flex-auto]': 'autoSize()' },

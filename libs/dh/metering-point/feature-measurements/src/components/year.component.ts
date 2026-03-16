@@ -40,7 +40,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -139,7 +139,7 @@ export class DhMeasurementsYearComponent {
         this.measurements()
           .map((x) => x.quantity)
           .filter((quantity) => quantity !== null && quantity !== undefined)
-          .reduce((acc, quantity) => acc + Number(quantity), 0)
+          .reduce((acc, quantity) => Number.parseFloat((acc + Number(quantity)).toFixed(10)), 0)
       )} ${this.unit()}`
   );
   private unit = computed(() => {

@@ -1,0 +1,9 @@
+﻿{
+  "activity": "meteringPointMigratedCount",
+  "payload": {
+    "query": "{ meteringPointMigratedCount }",
+    "variables": {}
+  },
+  "affectedEntityType": "OperationToolsMeteringPoint",
+  "affectedEntityKey": null
+}

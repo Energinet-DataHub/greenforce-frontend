@@ -25,7 +25,6 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { EnergySupplier } from './../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
@@ -134,11 +133,16 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
             <dh-customer-overview
               *dhCanSee="'customer-overview-card'; meteringPoint: meteringPoint()"
               [meteringPoint]="meteringPoint()"
+              [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
             />
 
             <dh-energy-supplier
               *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
               [energySupplier]="energySupplier()"
+              [meteringPointId]="meteringPointId()"
+              [productObligation]="meteringPoint()?.metadata?.productObligation"
+              [meteringPointType]="meteringPoint()?.metadata?.type"
+              [meteringPointConnectionState]="meteringPoint()?.metadata?.connectionState"
             />
           }
 
@@ -155,7 +159,6 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
 })
 export class DhMeteringPointMasterDataComponent {
   private readonly actor = inject(DhActorStorage).getSelectedActor();
-  private readonly environment = inject(dhAppEnvironmentToken);
 
   meteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
@@ -165,12 +168,10 @@ export class DhMeteringPointMasterDataComponent {
       meteringPointId: this.meteringPointId(),
       actorGln: this.actor.gln,
       searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
-      environment: this.environment.current,
     },
   }));
 
   meteringPoint = computed(() => this.query.data()?.meteringPoint);
-  isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 
   energySupplier = computed<EnergySupplier>(() => ({
     gln: this.meteringPoint()?.commercialRelation?.energySupplier,

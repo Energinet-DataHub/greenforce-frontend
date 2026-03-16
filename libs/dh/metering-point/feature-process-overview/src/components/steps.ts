@@ -20,18 +20,23 @@ import { HttpClient } from '@angular/common/http';
 import { Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { firstValueFrom } from 'rxjs';
+
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
-import { WattDataTableComponent } from '@energinet/watt/data';
-import {
-  GetMeteringPointProcessByIdQuery,
-  ProcessStepState,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WattToastService } from '@energinet/watt/toast';
+import { WattDataTableComponent } from '@energinet/watt/data';
+
+import {
+  GetMeteringPointProcessByIdQuery,
+  ProcessManagerBusinessReason,
+  ProcessStepState,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+
+import { DhStepName } from './step-name';
 
 type MeteringPointProcessStep = NonNullable<
   GetMeteringPointProcessByIdQuery['meteringPointProcessById']
@@ -44,11 +49,13 @@ type MeteringPointProcessStep = NonNullable<
     TranslocoPipe,
     VaterFlexComponent,
     VaterUtilityDirective,
+
     WATT_TABLE,
     WattDataTableComponent,
     WattDatePipe,
     WattIconComponent,
     DhEmDashFallbackPipe,
+    DhStepName,
   ],
   styles: `
     tr.pending-step {
@@ -91,7 +98,8 @@ type MeteringPointProcessStep = NonNullable<
             justify="space-between"
           >
             <div vater fill="horizontal">
-              {{ 'meteringPoint.processOverview.steps.' + process.step | transloco }}
+              <dh-step-name [businessReason]="businessReason()" [step]="process.step" />
+
               @if (process.comment) {
                 <div class="watt-text-s-highlighted">{{ process.comment }}</div>
               }
@@ -120,7 +128,7 @@ export class DhMeteringPointProcessOverviewSteps {
   private readonly transloco = inject(TranslocoService);
 
   readonly steps = input.required<MeteringPointProcessStep[]>();
-  readonly reasonCode = input<string>();
+  readonly businessReason = input<ProcessManagerBusinessReason>();
   readonly loading = input(false);
   readonly error = input<unknown>();
 
@@ -136,16 +144,21 @@ export class DhMeteringPointProcessOverviewSteps {
   };
 
   displayedColumns = computed(() => {
-    const reasonCode = this.reasonCode();
+    const businessReason = this.businessReason();
 
     const allColumns = Object.keys(this.columns);
 
-    if (!reasonCode) {
+    if (!businessReason) {
       return allColumns;
     }
 
-    const shortLivedProcessesByReasonCode = ['NewMeteringPoint', 'ConnectMeteringPoint'];
-    const isShortLivedProcess = shortLivedProcessesByReasonCode.includes(reasonCode);
+    const isShortLivedProcess =
+      businessReason === ProcessManagerBusinessReason.NewMeteringPoint ||
+      businessReason === ProcessManagerBusinessReason.ConnectMeteringPoint ||
+      businessReason === ProcessManagerBusinessReason.CloseDownMeteringPoint ||
+      businessReason === ProcessManagerBusinessReason.ChangeConnectionStatus ||
+      businessReason === ProcessManagerBusinessReason.UpdateMeteringPointMasterData ||
+      businessReason === ProcessManagerBusinessReason.ProductionObligation;
 
     return allColumns.filter((column) => !(isShortLivedProcess && column === 'dueDate'));
   });

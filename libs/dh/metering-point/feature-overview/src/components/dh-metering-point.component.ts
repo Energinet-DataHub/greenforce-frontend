@@ -20,16 +20,13 @@ import { Router, RouterLink } from '@angular/router';
 import { Component, computed, inject, input } from '@angular/core';
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import {
-  VaterStackComponent,
-  VaterSpacerComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VATER } from '@energinet/watt/vater';
 
 import { WATT_CARD } from '@energinet/watt/card';
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
 
 import {
   DhActorStorage,
@@ -44,10 +41,14 @@ import {
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
-import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import {
+  BasePaths,
+  getPath,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
+import { DhApplicationInsightsTrackDirective } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
@@ -65,9 +66,8 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     WATT_LINK_TABS,
     WATT_BREADCRUMBS,
     WATT_DESCRIPTION_LIST,
-    VaterStackComponent,
-    VaterSpacerComponent,
-    VaterUtilityDirective,
+    VATER,
+    WattCopyToClipboardDirective,
     DhCanSeeDirective,
     DhToolbarPortalComponent,
     DhEmDashFallbackPipe,
@@ -77,6 +77,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     DhMarketRoleRequiredDirective,
     DhMeteringPointStatusComponent,
     DhMeteringPointActionsComponent,
+    DhApplicationInsightsTrackDirective,
   ],
   styles: `
     @use '@energinet/watt/utils' as watt;
@@ -122,12 +123,14 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
         EicFunction.SystemOperator,
       ];
 
-    <div class="page-grid">
+    <div class="page-grid" vater inset="0">
       <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
         <div *transloco="let t; prefix: 'meteringPoint.overview'">
           <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
             <span>
-              {{ meteringPointId() }}
+              <span wattCopyToClipboard dhAppInsightsTrack="Copy metering point">{{
+                meteringPointId()
+              }}</span>
               <ng-content *dhMarketRoleRequired="rolesWithAccess">
                 • <dh-address-inline [address]="this.metadata()?.installationAddress" />
               </ng-content>
@@ -170,9 +173,11 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
 
         <dh-metering-point-actions
           [meteringPointId]="meteringPointId()"
+          [internalMeteringPointId]="internalMeteringPointId()"
           [type]="metadata()?.type"
           [subType]="metadata()?.subType"
           [connectionState]="metadata()?.connectionState"
+          [isEnergySupplierResponsible]="isEnergySupplierResponsible()"
           [installationAddress]="metadata()?.installationAddress"
           [createdDate]="meteringPoint()?.createdDate"
         />
@@ -226,18 +231,17 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
 export class DhMeteringPointComponent {
   private readonly router = inject(Router);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
-  private readonly environment = inject(dhAppEnvironmentToken);
 
   meteringPointId = input.required<string>();
   internalMeteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
+    fetchPolicy: 'cache-and-network',
     variables: {
       meteringPointId: this.meteringPointId(),
       actorGln: this.actor.gln,
       searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
-      environment: this.environment.current,
     },
   }));
   meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
@@ -246,7 +250,7 @@ export class DhMeteringPointComponent {
 
   commercialRelation = computed(() => this.meteringPoint()?.commercialRelation);
   metadata = computed(() => this.meteringPoint()?.metadata);
-  isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
+  isEnergySupplierResponsible = computed(() => !!this.meteringPoint()?.isEnergySupplier);
 
   breadcrumbLabel = translateSignal('meteringPoint.breadcrumb');
 

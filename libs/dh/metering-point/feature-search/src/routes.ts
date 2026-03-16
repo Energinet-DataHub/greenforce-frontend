@@ -40,7 +40,7 @@ import {
   combinePaths,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
-} from '@energinet-datahub/dh/core/routing';
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 import {
   EicFunction,
@@ -48,8 +48,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { dhIsEM1InternalId } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
@@ -199,7 +198,14 @@ export const dhMeteringPointRoutes: Routes = [
               ),
           },
           {
-            path: getPath<MeteringPointSubPaths>('update-customer-details'),
+            path: `${getPath<MeteringPointSubPaths>('update-customer-details')}`,
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-move-in').then(
+                (m) => m.DhUpdateCustomerDataComponent
+              ),
+          },
+          {
+            path: `${getPath<MeteringPointSubPaths>('update-customer-details')}/:processId`,
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-move-in').then(
                 (m) => m.DhUpdateCustomerDataComponent
@@ -212,8 +218,8 @@ export const dhMeteringPointRoutes: Routes = [
               dhReleaseToggleGuard('PM62-ACTOR-CONVERSATION'),
             ],
             loadComponent: () =>
-              import('@energinet-datahub/dh/metering-point/feature-actor-conversation').then(
-                (m) => m.DhActorConversationShellComponent
+              import('@energinet-datahub/dh/actor-conversation/feature-actor-conversation').then(
+                (m) => m.DhActorConversation
               ),
           },
         ],
@@ -285,8 +291,6 @@ function meteringPointCreateGuard(): CanActivateFn {
  */
 function meteringPointIdResolver(): ResolveFn<string> {
   return (route: ActivatedRouteSnapshot) => {
-    const environment = inject(dhAppEnvironmentToken);
-
     const idParam: string = route.params[dhInternalMeteringPointIdParam];
     const isEM1Id = dhIsEM1InternalId(idParam);
 
@@ -294,7 +298,6 @@ function meteringPointIdResolver(): ResolveFn<string> {
       variables: {
         internalMeteringPointId: idParam,
         searchMigratedMeteringPoints: isEM1Id,
-        environment: environment.current,
       },
     })
       .result()

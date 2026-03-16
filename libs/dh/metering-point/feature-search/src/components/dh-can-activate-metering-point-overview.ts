@@ -19,7 +19,11 @@
 import { ActivatedRouteSnapshot, CanActivateFn, Router, UrlTree } from '@angular/router';
 import { inject } from '@angular/core';
 
-import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import {
+  BasePaths,
+  getPath,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -27,7 +31,6 @@ import {
   dhIsEM1InternalId,
   dhIsEM2EncodedId,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 
@@ -35,7 +38,6 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
   route: ActivatedRouteSnapshot
 ): Promise<UrlTree | boolean> | UrlTree => {
   const router = inject(Router);
-  const environment = inject(dhAppEnvironmentToken);
 
   const searchRoute = router.createUrlTree([
     getPath<BasePaths>('metering-point'),
@@ -54,10 +56,10 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
 
   if (isEM1Id || isEM2Id) {
     return query(DoesInternalMeteringPointIdExistDocument, {
+      fetchPolicy: 'cache-and-network',
       variables: {
         internalMeteringPointId: idParam,
         searchMigratedMeteringPoints: isEM1Id,
-        environment: environment.current,
       },
     })
       .result()

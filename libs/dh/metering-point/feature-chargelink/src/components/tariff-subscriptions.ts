@@ -30,8 +30,8 @@ import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/tabl
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import {
   ChargeType,

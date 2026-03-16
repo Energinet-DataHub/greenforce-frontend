@@ -1,0 +1,15 @@
+{
+  "name": "@energinet-datahub/tools/environment",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/environment/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "switch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bun ./tools/environment/src/switch-environment.ts"
+      }
+    }
+  }
+}

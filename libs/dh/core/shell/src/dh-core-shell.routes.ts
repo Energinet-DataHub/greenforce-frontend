@@ -1,0 +1,117 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import { MsalGuard } from '@azure/msal-angular';
+import { Routes } from '@angular/router';
+
+import {
+  BasePaths,
+  ReportsSubPaths,
+  MeteringPointSubPaths,
+  getPath,
+} from '@energinet-datahub/dh/core/configuration-routing';
+
+import { DhCoreShellComponent } from './dh-core-shell.component';
+import { DhCoreLoginComponent } from './dh-core-login.component';
+import { Dh404Component } from './dh-404.component';
+
+export const dhCoreShellRoutes: Routes = [
+  {
+    path: getPath<BasePaths>('login'),
+    pathMatch: 'full',
+    component: DhCoreLoginComponent,
+  },
+  {
+    path: '',
+    component: DhCoreShellComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: `${getPath<BasePaths>('metering-point')}/${getPath<MeteringPointSubPaths>('search')}`,
+        pathMatch: 'full',
+      },
+      {
+        path: getPath<BasePaths>('message-archive'),
+        loadChildren: () => import('@energinet-datahub/dh/message-archive/shell'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('metering-point'),
+        loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-search'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('esett'),
+        loadChildren: () => import('@energinet-datahub/dh/esett/shell'),
+        canActivate: [MsalGuard],
+      },
+      // Note: Legacy route for imbalance prices, will be removed in the future
+      {
+        path: getPath<BasePaths>('imbalance-prices'),
+        redirectTo: `${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('settlements')}/${getPath<ReportsSubPaths>('imbalance-prices')}`,
+      },
+      {
+        path: getPath<BasePaths>('dev-examples'),
+        loadChildren: () => import('@energinet-datahub/dh/developer/feature-examples'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('reports'),
+        loadChildren: () => import('@energinet-datahub/dh/reports/feature-reports'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('market-participant'),
+        loadChildren: () => import('@energinet-datahub/dh/feature-market-participant'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('grid-areas'),
+        loadChildren: () => import('@energinet-datahub/dh/grid-areas'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('wholesale'),
+        loadChildren: () => import('@energinet-datahub/dh/wholesale/shell'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('admin'),
+        loadChildren: () => import('@energinet-datahub/dh/admin/shell'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('charges'),
+        loadChildren: () => import('@energinet-datahub/dh/charges/feature-charges'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('operation-tools'),
+        loadChildren: () => import('@energinet-datahub/dh/developer/feature-operation'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('actor-conversation'),
+        loadChildren: () =>
+          import('@energinet-datahub/dh/actor-conversation/feature-actor-conversation'),
+        canActivate: [MsalGuard],
+      },
+      { path: '**', component: Dh404Component },
+    ],
+  },
+];

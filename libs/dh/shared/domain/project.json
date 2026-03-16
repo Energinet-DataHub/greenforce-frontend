@@ -1,22 +1,8 @@
 {
   "name": "dh-shared-domain",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/dh/shared/domain/src",
-  "prefix": "dh",
-  "tags": ["product:dh", "scope:shared", "type:domain"],
   "implicitDependencies": ["api-dh"],
   "targets": {
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/domain"],
-      "options": {
-        "config": "libs/dh/shared/domain/vite.config.mts"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
     "generate": {
       "executor": "nx:run-commands",
       "cache": true,
@@ -25,7 +11,7 @@
         "{workspaceRoot}/codegen.ts",
         "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
         "{workspaceRoot}/libs/**/*.graphql",
-        "!{projectRoot}/src/lib/generated/graphql/**/*"
+        "!{projectRoot}/src/generated/graphql/**/*"
       ],
       "dependsOn": [
         {
@@ -34,10 +20,10 @@
         }
       ],
       "outputs": [
-        "{projectRoot}/src/lib/generated/graphql/types.ts",
-        "{projectRoot}/src/lib/generated/graphql/data-source.ts",
-        "{projectRoot}/src/lib/generated/graphql/introspection.ts",
-        "{projectRoot}/src/lib/generated/graphql/msw.ts"
+        "{projectRoot}/src/generated/graphql/types.ts",
+        "{projectRoot}/src/generated/graphql/data-source.ts",
+        "{projectRoot}/src/generated/graphql/introspection.ts",
+        "{projectRoot}/src/generated/graphql/msw.ts"
       ],
       "options": {
         "commands": ["graphql-codegen"]
@@ -49,9 +35,9 @@
       "inputs": [
         "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql",
         "{workspaceRoot}/codegen.ts",
-        "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
-        "{workspaceRoot}/libs/**/*.graphql",
-        "!{projectRoot}/src/lib/generated/graphql/**/*"
+        "{workspaceRoot}/dh/shared/feature-graphql-codegen/**/*.js",
+        "{workspaceRoot}/**/*.graphql",
+        "!{projectRoot}/src/generated/graphql/**/*"
       ],
       "dependsOn": [
         {
@@ -60,10 +46,10 @@
         }
       ],
       "outputs": [
-        "{projectRoot}/src/lib/generated/graphql/types.ts",
-        "{projectRoot}/src/lib/generated/graphql/data-source.ts",
-        "{projectRoot}/src/lib/generated/graphql/introspection.ts",
-        "{projectRoot}/src/lib/generated/graphql/msw.ts"
+        "{projectRoot}/src/generated/graphql/types.ts",
+        "{projectRoot}/src/generated/graphql/data-source.ts",
+        "{projectRoot}/src/generated/graphql/introspection.ts",
+        "{projectRoot}/src/generated/graphql/msw.ts"
       ],
       "options": {
         "commands": ["graphql-codegen"],

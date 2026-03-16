@@ -28,24 +28,29 @@ import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/tabl
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattIconComponent } from '@energinet/watt/icon';
 
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { RouterOutlet } from '@angular/router';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+import {
+  DhEmDashFallbackPipe,
+  DhStateBadge,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { Router, RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,
   GetMeteringPointProcessOverviewDocument,
-  GetMeteringPointProcessOverviewQuery,
+  ProcessManagerBusinessReason,
+  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattIconComponent } from '@energinet/watt/icon';
-
-type MeteringPointProcess = NonNullable<
-  GetMeteringPointProcessOverviewQuery['meteringPointProcessOverview']
->[number];
-
+import {
+  BasePaths,
+  getPath,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
+import { MeteringPointProcess } from '../types';
 @Component({
   selector: 'dh-metering-point-process-overview-table',
   imports: [
@@ -63,7 +68,7 @@ type MeteringPointProcess = NonNullable<
     WattDatePipe,
     WattFormChipDirective,
     DhEmDashFallbackPipe,
-    DhProcessStateBadge,
+    DhStateBadge,
   ],
   providers: [DhNavigationService],
   template: `
@@ -115,18 +120,15 @@ type MeteringPointProcess = NonNullable<
           {{ process.createdAt | wattDate: 'long' | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.cutoffDate; let process">
-          {{ process.cutoffDate | wattDate: 'long' | dhEmDashFallback }}
+          {{ process.cutoffDate | wattDate | dhEmDashFallback }}
         </ng-container>
-        <ng-container *wattTableCell="columns.reasonCode; let process">
-          {{ t('processType.' + process.reasonCode) }}
+        <ng-container *wattTableCell="columns.businessReason; let process">
+          {{ t('processType.' + process.businessReason) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
-          <dh-process-state-badge
-            [status]="process.state"
-            *transloco="let t; prefix: 'shared.states'"
-          >
+          <dh-state-badge [status]="process.state" *transloco="let t; prefix: 'shared.states'">
             {{ t(process.state) }}
-          </dh-process-state-badge>
+          </dh-state-badge>
         </ng-container>
         <ng-container *wattTableCell="columns.initiator; let process">
           {{ process.initiator?.displayName | dhEmDashFallback }}
@@ -142,7 +144,7 @@ type MeteringPointProcess = NonNullable<
                 @if (canPerformActions()) {
                   <watt-button
                     variant="secondary"
-                    (click)="onActionClick($event, process.id, action)"
+                    (click)="onActionClick($event, process, action)"
                     size="small"
                   >
                     {{ t(action) }}
@@ -163,10 +165,12 @@ type MeteringPointProcess = NonNullable<
   `,
 })
 export class DhMeteringPointProcessOverviewTable {
+  private readonly router = inject(Router);
   protected readonly navigation = inject(DhNavigationService);
   private readonly permissionService = inject(PermissionService);
 
   readonly meteringPointId = input.required<string>();
+  readonly internalMeteringPointId = input.required<string>();
   readonly id = input<string>();
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
@@ -195,7 +199,7 @@ export class DhMeteringPointProcessOverviewTable {
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
     cutoffDate: { accessor: 'cutoffDate' },
-    reasonCode: { accessor: 'reasonCode' },
+    businessReason: { accessor: 'businessReason' },
     state: { accessor: (process) => translate(`shared.states.${process.state}`) },
     initiator: { accessor: (process) => process.initiator?.displayName },
     actions: { accessor: (process) => process.availableActions?.length ?? 0 },
@@ -212,9 +216,18 @@ export class DhMeteringPointProcessOverviewTable {
   variables = computed(() => ({ ...this.filters(), meteringPointId: this.meteringPointId() }));
   refetch = effect(() => this.query.refetch(this.variables()));
 
-  onActionClick(event: Event, processId: string, action: string) {
+  onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
-    console.log('Action clicked:', action, 'for process:', processId);
-    // TODO: Implement action handling logic
+    if (
+      action === WorkflowAction.SendInformation &&
+      process.businessReason === ProcessManagerBusinessReason.CustomerMoveIn
+    ) {
+      this.router.navigate([
+        getPath<BasePaths>('metering-point'),
+        this.internalMeteringPointId(),
+        getPath<MeteringPointSubPaths>('update-customer-details'),
+        process.id,
+      ]);
+    }
   }
 }

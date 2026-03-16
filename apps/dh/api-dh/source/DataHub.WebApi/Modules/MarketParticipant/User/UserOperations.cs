@@ -101,9 +101,10 @@ public static class UserOperations
     [Mutation]
     [Error(typeof(ApiException))]
     public static async Task<bool> ResetMitIdAsync(
+        Guid userId,
         [Service] IMarketParticipantClient_V1 client)
     {
-        await client.UserResetMitidAsync();
+        await client.UserResetMitidAsync(userId);
         return true;
     }
 }

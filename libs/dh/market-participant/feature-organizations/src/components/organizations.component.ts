@@ -27,7 +27,7 @@ import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/wat
 
 import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { GetPaginatedOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetPaginatedOrganizationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 

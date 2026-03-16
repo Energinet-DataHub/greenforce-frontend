@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { DecimalPipe, TitleCasePipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { Component, computed, input, model } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -32,7 +32,7 @@ import {
   ChargeSeriesPoint,
   ChargeSeriesPointChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { WattCardComponent } from '@energinet/watt/card';
 import { WattBadgeComponent } from '@energinet/watt/badge';
 
@@ -40,7 +40,6 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
   selector: 'dh-charges-series-details',
   imports: [
     DecimalPipe,
-    TitleCasePipe,
     TranslocoDirective,
     WATT_DESCRIPTION_LIST,
     WATT_DRAWER,
@@ -63,7 +62,10 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
       <watt-drawer-heading>
         @switch (resolution()) {
           @case ('MONTHLY') {
-            <h1>{{ start() | wattDate: 'monthYear' | titlecase }}</h1>
+            <h1>
+              {{ series()?.period | dhChargesPeriod: resolution() }}
+              {{ start() | wattDate: 'year' }}
+            </h1>
           }
           @case ('DAILY') {
             <h1>{{ start() | wattDate }}</h1>

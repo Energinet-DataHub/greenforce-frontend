@@ -2954,13 +2954,22 @@
         }
       }
     },
-    "/user/reset-mitid": {
+    "/user/{userId}/reset-mitid": {
       "post": {
         "tags": [
           "User"
         ],
         "operationId": "reset-mitid",
         "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           {
             "name": "api-version",
             "in": "query",

@@ -197,6 +197,17 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
               [value]="meteringPoint()?.connectionDate | wattDate | dhEmDashFallback"
             />
             <watt-description-list-item
+              [label]="t('disconnectedDate')"
+              [value]="
+                (meteringPoint()?.metadata?.connectionState === 'DISCONNECTED'
+                  ? meteringPoint()?.disconnectedDate
+                  : null
+                )
+                  | wattDate
+                  | dhEmDashFallback
+              "
+            />
+            <watt-description-list-item
               [label]="t('closedDownDate')"
               [value]="meteringPoint()?.closedDownDate | wattDate | dhEmDashFallback"
             />

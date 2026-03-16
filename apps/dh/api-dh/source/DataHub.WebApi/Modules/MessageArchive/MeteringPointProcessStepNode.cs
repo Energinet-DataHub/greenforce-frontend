@@ -60,5 +60,6 @@ public static partial class MeteringPointProcessStepNode
         descriptor.Field(f => f.DueDate);
         descriptor.Field(f => f.State);
         descriptor.Field(f => f.MessageId);
+        descriptor.Field(f => f.Description);
     }
 }

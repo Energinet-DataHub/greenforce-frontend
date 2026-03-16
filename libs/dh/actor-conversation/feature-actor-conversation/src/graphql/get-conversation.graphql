@@ -1,0 +1,48 @@
+query GetConversation($conversationId: UUID!) {
+  conversation(conversationId: $conversationId) {
+    id
+    displayId
+    internalNote
+    subject
+    closed
+    wasLatestMessageAnonymous
+    participants {
+      type
+      role
+      actorName
+    }
+    messages {
+      senderType
+      userMessage {
+        content
+      }
+      messageType
+      createdTime
+      actorName
+      userName
+      isSentByCurrentActor
+      anonymous
+      electricalHeatingInformation {
+        isElectricalHeatingActive
+        electricalHeatingFrom
+        customerName
+        supplierPeriods {
+          from
+          to
+        }
+      }
+      electricalHeatingUserMessage {
+        electricalHeatingFrom
+        reductionPeriod {
+          from
+          to
+        }
+        content
+      }
+      attachments {
+        documentId
+        documentName
+      }
+    }
+  }
+}

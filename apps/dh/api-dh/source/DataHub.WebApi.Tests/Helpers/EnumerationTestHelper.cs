@@ -27,7 +27,7 @@ public static class EnumerationTestHelper
     {
         foreach (var e in Enum.GetNames(type))
         {
-            var name = e.ToString();
+            var name = e;
             Assert.NotNull(name);
 
             try

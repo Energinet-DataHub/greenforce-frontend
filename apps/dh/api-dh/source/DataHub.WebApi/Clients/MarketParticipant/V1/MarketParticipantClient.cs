@@ -553,12 +553,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UserResetMitidAsync(string? api_version = null);
+        System.Threading.Tasks.Task UserResetMitidAsync(System.Guid userId, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UserResetMitidAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task UserResetMitidAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -5804,16 +5804,19 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task UserResetMitidAsync(string? api_version = null)
+        public virtual System.Threading.Tasks.Task UserResetMitidAsync(System.Guid userId, string? api_version = null)
         {
-            return UserResetMitidAsync(System.Threading.CancellationToken.None, api_version);
+            return UserResetMitidAsync(userId, System.Threading.CancellationToken.None, api_version);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task UserResetMitidAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task UserResetMitidAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
+            if (userId == null)
+                throw new System.ArgumentNullException("userId");
+
             var client_ = _httpClient;
             var disposeClient_ = false;
             try
@@ -5825,8 +5828,10 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "user/reset-mitid"
-                    urlBuilder_.Append("user/reset-mitid");
+                    // Operation Path: "user/{userId}/reset-mitid"
+                    urlBuilder_.Append("user/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/reset-mitid");
                     urlBuilder_.Append('?');
                     if (api_version != null)
                     {

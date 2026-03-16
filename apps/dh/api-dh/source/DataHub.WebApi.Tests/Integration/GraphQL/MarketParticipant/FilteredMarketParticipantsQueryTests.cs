@@ -24,7 +24,7 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Actor;
+namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.MarketParticipant;
 
 public class FilteredMarketParticipantsQueryTests
 {

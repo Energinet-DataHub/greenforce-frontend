@@ -21,10 +21,10 @@ public interface IUser
     /// <summary>
     /// User Id
     /// </summary>
-    public Guid Id { get; }
+    Guid Id { get; }
 
     /// <summary>
     /// What market participant is administrating this user
     /// </summary>
-    public Guid AdministratedBy { get; }
+    Guid AdministratedBy { get; }
 }

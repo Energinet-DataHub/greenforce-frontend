@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://app-api-actcon-d-we-001.azurewebsites.net/"
+      "url": "https://localhost:7125/"
     }
   ],
   "paths": {
@@ -16,6 +16,32 @@
           "ActorConversation"
         ],
         "operationId": "health",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -30,23 +56,49 @@
         }
       }
     },
-    "/api/CloseConversation": {
+    "/api/AddConversationMessage": {
       "post": {
         "tags": [
-          "CloseConversation"
+          "AddConversationMessage"
         ],
-        "description": "Closes a conversation, creating a closed conversation message by the user",
-        "operationId": "CloseConversation",
+        "description": "Adds a message to an existing conversation",
+        "operationId": "AddConversationMessage",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CloseConversationRequest"
+                "$ref": "#/components/schemas/AddConversationMessageRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CloseConversationRequest"
+                "$ref": "#/components/schemas/AddConversationMessageRequest"
               }
             }
           },
@@ -79,13 +131,231 @@
         }
       }
     },
-    "/api/GetConversation/api/GetConversation/{conversationId}": {
+    "/api/AddMessageDocument": {
+      "post": {
+        "tags": [
+          "AddMessageDocument"
+        ],
+        "description": "Uploads a document",
+        "operationId": "AddMessageDocument",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "File": {
+                    "$ref": "#/components/schemas/IFormFile"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultOfAddMessageDocumentRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CloseConversation": {
+      "post": {
+        "tags": [
+          "CloseConversation"
+        ],
+        "description": "Closes a conversation, creating a closed conversation message by the user",
+        "operationId": "CloseConversation",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseConversationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseConversationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetActorNumbers": {
+      "get": {
+        "tags": [
+          "GetActorNumbers"
+        ],
+        "summary": "Get all actor numbers that have a conversation.",
+        "description": "Returns a distinct list of actor numbers for actors that participate in at least one conversation.",
+        "operationId": "GetActorNumbers",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorNumbersQueryResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorNumbersQueryResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorNumbersQueryResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetConversation/{conversationId}": {
       "get": {
         "tags": [
           "GetConversation"
         ],
         "summary": "Gets the specified conversation.",
-        "description": "Gets the specified conversation",
+        "description": "Gets the specified conversation.",
         "operationId": "GetConversation",
         "parameters": [
           {
@@ -96,6 +366,30 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
           }
         ],
         "responses": {
@@ -104,17 +398,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationDto"
+                  "$ref": "#/components/schemas/GetConversationQueryResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationDto"
+                  "$ref": "#/components/schemas/GetConversationQueryResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationDto"
+                  "$ref": "#/components/schemas/GetConversationQueryResponse"
                 }
               }
             }
@@ -147,15 +441,95 @@
         "tags": [
           "GetAllConversations, GetConversationsForMeteringPoint"
         ],
-        "summary": "Get all conversations.",
-        "description": "Get all conversations  or conversations just for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied ",
+        "summary": "Get all conversations or just conversations for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied.\r\nThe result can be further narrowed by either searching or filtering or both.\r\n- Search\r\n  - Supports searching for a MeteringPoint and searching into DisplayId and InternalNote for the logged in actor.\r\n  - The search for the MeteringPoint is an exact search based on the 18 digits GSRN.\r\n  - The search value is supplied as querystring 'searchValue'.\r\n- Filtering\r\n  - The list can further be narrowed down via filters.\r\n  - Provides with supports for filtering myConversations, unread, opened, closed and subjects.\r\n  - Filters are supplied as querystring, ex. myconversations=true to get my conversations only.",
+        "description": "Get all conversations across all meteringpoints or for a single MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied",
         "operationId": "GetConversations",
         "parameters": [
           {
             "name": "meteringPointIdentification",
             "in": "query",
+            "description": "GSRN consists of 18 digits supplied as querystring by name 'meteringPointIdentification'. Null to retrieve across all meteringpoints or search for a meteringpoint.",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "searchValue",
+            "in": "query",
+            "description": "Search string supplied as querystring by name 'searchValue' to be searched for into DisplayId and InternalNote for the logged in actor.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "myConversations",
+            "in": "query",
+            "description": "Filter for only my conversations, thus participated either as sender, replied a message, closed the conversation. Passed as querystring of same name, ex. myConversations=true .",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "unread",
+            "in": "query",
+            "description": "Filter for only unread conversations. Passed as querystring of same name, ex. unread=true.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "opened",
+            "in": "query",
+            "description": "Filter for only opened or active conversations. Passed as querystring of same name, ex. opened=true.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "closed",
+            "in": "query",
+            "description": "Filter for only closed conversations. Passed as querystring of same name, ex. closed=true.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "subjects",
+            "in": "query",
+            "description": "Filter for only listed Conversationsubjects. passed as querystring of same name. ex subject=QuestionForEnerginet&amp;subjects=ElectricalHeating",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ConversationSubject"
+              }
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
             }
           }
         ],
@@ -165,17 +539,364 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationsDto"
+                  "$ref": "#/components/schemas/GetConversationsQueryResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationsDto"
+                  "$ref": "#/components/schemas/GetConversationsQueryResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConversationsDto"
+                  "$ref": "#/components/schemas/GetConversationsQueryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetElectricalHeatingInformation/{meteringPointIdentification}": {
+      "get": {
+        "tags": [
+          "GetElectricalHeatingInformation"
+        ],
+        "summary": "Gets information regarding electrical heating on a measuring point",
+        "description": "Gets information regarding electrical heating on a measuring point",
+        "operationId": "GetElectricalHeatingInformation",
+        "parameters": [
+          {
+            "name": "meteringPointIdentification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetElectricalHeatingInformationQueryResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetElectricalHeatingInformationQueryResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetElectricalHeatingInformationQueryResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetMessageDocument/{documentId}": {
+      "get": {
+        "tags": [
+          "GetMessageDocument"
+        ],
+        "operationId": "GetMessageDocument",
+        "parameters": [
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileContentResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileContentResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileContentResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MarkConversationRead": {
+      "post": {
+        "tags": [
+          "MarkConversationRead"
+        ],
+        "description": "Marks a conversation as read by the invoking actor",
+        "operationId": "MarkConversationRead",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkConversationReadRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkConversationReadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MarkConversationUnread": {
+      "post": {
+        "tags": [
+          "MarkConversationUnread"
+        ],
+        "description": "Marks a conversation as unread by the invoking actor",
+        "operationId": "MarkConversationUnread",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkConversationUnreadRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkConversationUnreadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -189,8 +910,34 @@
           "Start"
         ],
         "summary": "Starts a conversation",
-        "description": "Example request for QuestionForEnerginet:\n\n```\n   {\n      \"subject\": \"QuestionForEnerginet\",\n      \"meteringPointIdentification\": \"570715000000033841\",\n      \"glnNumberForReceivers\": [ \"5790001330552\"],\n      \"internalNote\": \"\",\n      \"conversationMessage\": {\n          \"senderEmail\": \"noreply@energinet.dk\",\n          \"senderGlnNumber\": \"5790001330553\",\n          \"anonymous\": true,\n          \"content\": \"Test message\",\n          \"createdBy\": \"User id of the sender\"\n       }\n    }\n ```",
+        "description": "Example request for QuestionForEnerginet:\r\n\r\n```\r\n   {\r\n      \"subject\": \"QuestionForEnerginet\",\r\n      \"senderActorType\": \"Energinet\",\r\n      \"receiverActorType\": \"GridAccessProvider\",\r\n      \"meteringPointIdentification\": \"570715000000033841\",\r\n      \"senderActorNumber\": \"5790001330552\",\r\n      \"senderUserId\": \"user@elsupplier.dk\",\r\n      \"senderUserName\": \"EL supplier\"\r\n      \"internalNote\": \"Note from the sender\",\r\n      \"content\": \"No metereddata available!!!\",\r\n      \"anonymous\": false\r\n    }\r\n ```",
         "operationId": "StartConversation",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
         "requestBody": {
           "description": "Specifies the new Conversation.",
           "content": {
@@ -211,37 +958,243 @@
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/StartConversationResponse"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StartConversationResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/StartConversationResponse"
+                  "$ref": "#/components/schemas/StartNewConversationCommandResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "The specified conversation does not meet the requirements",
+            "description": "Bad Request",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
-              },
-              "text/json": {
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/StartElectricalHeatingConversation": {
+      "post": {
+        "tags": [
+          "Start"
+        ],
+        "summary": "Starts a new conversation regarding electrical heating price reduction.",
+        "description": "Starts a new conversation regarding electrical heating price reduction.",
+        "operationId": "StartElectricalHeatingConversation",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartElectricalHeatingConversationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartElectricalHeatingConversationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartElectricalHeatingConversationCommandResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TestActorRetrieval/{meteringPointIdentification}": {
+      "get": {
+        "tags": [
+          "TestActorRetrieval"
+        ],
+        "description": "Updates an internal note for the invoking participant of a conversation",
+        "operationId": "TestActorRetrieval",
+        "parameters": [
+          {
+            "name": "meteringPointIdentification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestActorRetrievalResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UpdateInternalNote": {
+      "post": {
+        "tags": [
+          "UpdateInternalNote"
+        ],
+        "description": "Updates an internal note for the invoking participant of a conversation",
+        "operationId": "UpdateInternalNote",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateInternalNoteRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateInternalNoteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -254,20 +1207,42 @@
   },
   "components": {
     "schemas": {
-      "ActorType": {
-        "enum": [
-          "EnergySupplier",
-          "Energinet",
-          "GridAccessProvider"
-        ]
+      "ActionResult": {
+        "type": "object"
       },
-      "CloseConversationRequest": {
+      "ActionResultOfAddMessageDocumentRequest": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "$ref": "#/components/schemas/ActionResult"
+          },
+          "value": {
+            "$ref": "#/components/schemas/AddMessageDocumentRequest"
+          }
+        }
+      },
+      "ActorIdentifierDto": {
+        "type": "object",
+        "required": [
+          "actorNumber",
+          "actorType"
+        ],
+        "properties": {
+          "actorNumber": {
+            "type": "string"
+          },
+          "actorType": {
+            "type": "string"
+          }
+        }
+      },
+      "AddConversationMessageRequest": {
         "type": "object",
         "required": [
           "conversationId",
-          "senderActorNumber",
-          "senderUserId",
-          "senderUserName"
+          "content",
+          "anonymous",
+          "attachedDocumentIds"
         ],
         "properties": {
           "conversationId": {
@@ -275,30 +1250,134 @@
             "description": "Conversation subject.",
             "format": "uuid"
           },
-          "senderActorNumber": {
+          "content": {
             "type": "string",
-            "description": "GLN or EIC number of the actor of the sender"
+            "description": "The message content, thus the body itself.\r\nCan contain at most 5000 characters and should not be empty."
           },
-          "senderUserId": {
-            "type": "string",
-            "description": "UserId of the user, who created the message."
+          "anonymous": {
+            "type": "boolean",
+            "description": "Specifies whether the message is anonymous with respect to the Sender information."
           },
-          "senderUserName": {
-            "type": "string",
-            "description": "Username of the sender"
+          "attachedDocumentIds": {
+            "type": "array",
+            "description": "The documents that should be attached to this message",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         }
       },
-      "ConversationDto": {
+      "AddMessageDocumentRequest": {
         "type": "object",
-        "description": "Conversation",
+        "required": [
+          "file"
+        ],
+        "properties": {
+          "file": {
+            "$ref": "#/components/schemas/IFormFile"
+          }
+        }
+      },
+      "CloseConversationRequest": {
+        "type": "object",
+        "required": [
+          "conversationId"
+        ],
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "description": "Conversation subject.",
+            "format": "uuid"
+          }
+        }
+      },
+      "ConversationSubject": {
+        "type": "string",
+        "description": "Application layer conversation subject",
+        "enum": [
+          "QuestionForEnerginet",
+          "InterruptionReconnection",
+          "ElectricalHeating",
+          "WrongfulMoveOrSupplierChange",
+          "CustomerMasterData",
+          "MeasurementData",
+          "MeasurementPointMasterData",
+          "PriceLinking"
+        ]
+      },
+      "EntityTagHeaderValue": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "$ref": "#/components/schemas/StringSegment"
+          },
+          "isWeak": {
+            "type": "boolean"
+          }
+        }
+      },
+      "FileContentResult": {
+        "type": "object",
+        "properties": {
+          "fileContents": {
+            "type": "string",
+            "format": "byte"
+          },
+          "contentType": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileDownloadName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastModified": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "entityTag": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/EntityTagHeaderValue"
+              }
+            ]
+          },
+          "enableRangeProcessing": {
+            "type": "boolean"
+          }
+        }
+      },
+      "GetActorNumbersQueryResponse": {
+        "type": "object",
+        "required": [
+          "actorIdentifiers"
+        ],
+        "properties": {
+          "actorIdentifiers": {
+            "type": "array",
+            "description": "Actor identifiers with at least one conversation.",
+            "items": {
+              "$ref": "#/components/schemas/ActorIdentifierDto"
+            }
+          }
+        }
+      },
+      "GetConversationQueryResponse": {
+        "type": "object",
         "required": [
           "meteringPointIdentification",
           "displayId",
           "internalNote",
           "subject",
           "closed",
-          "messages"
+          "messages",
+          "participants",
+          "partOfConversations"
         ],
         "properties": {
           "meteringPointIdentification": {
@@ -326,12 +1405,226 @@
             "type": "array",
             "description": "Messages associated with a conversation",
             "items": {
-              "$ref": "#/components/schemas/ConversationMessageDto"
+              "$ref": "#/components/schemas/GetConversationQueryResponseConversationMessage"
+            }
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetConversationQueryResponseParticipant"
+            }
+          },
+          "partOfConversations": {
+            "type": "boolean",
+            "description": "Indicates id you are part of this conversation.\r\nEnerginet can see conversations they are not part of."
+          }
+        }
+      },
+      "GetConversationQueryResponseAttachment": {
+        "type": "object",
+        "required": [
+          "documentId",
+          "documentName"
+        ],
+        "properties": {
+          "documentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "documentName": {
+            "type": "string"
+          }
+        }
+      },
+      "GetConversationQueryResponseConversationMessage": {
+        "type": "object",
+        "description": "Conversation message",
+        "required": [
+          "userId",
+          "actorNumber",
+          "senderType",
+          "messageType",
+          "createdTime",
+          "anonymous",
+          "attachments"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Sender user id",
+            "nullable": true
+          },
+          "actorNumber": {
+            "type": "string",
+            "description": "Sendor actor number",
+            "nullable": true
+          },
+          "senderType": {
+            "$ref": "#/components/schemas/MarketRole"
+          },
+          "messageType": {
+            "$ref": "#/components/schemas/MessageType"
+          },
+          "createdTime": {
+            "type": "string",
+            "description": "Created time",
+            "format": "date-time"
+          },
+          "anonymous": {
+            "type": "boolean"
+          },
+          "userMessage": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/GetConversationQueryResponseUserMessage"
+              }
+            ]
+          },
+          "electricalHeatingUserMessage": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/GetConversationQueryResponseElectricalHeatingUserMessage"
+              }
+            ]
+          },
+          "electricalHeatingInformation": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/GetConversationQueryResponseElectricalHeatingInformation"
+              }
+            ]
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetConversationQueryResponseAttachment"
             }
           }
         }
       },
-      "ConversationInfoDto": {
+      "GetConversationQueryResponseElectricalHeatingInformation": {
+        "type": "object",
+        "required": [
+          "customerName",
+          "supplierPeriods",
+          "isElectricalHeatingActive",
+          "electricalHeatingFrom"
+        ],
+        "properties": {
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplierPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetConversationQueryResponseElectricityHeatingPeriod"
+            }
+          },
+          "isElectricalHeatingActive": {
+            "type": "boolean"
+          },
+          "electricalHeatingFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "GetConversationQueryResponseElectricalHeatingUserMessage": {
+        "type": "object",
+        "required": [
+          "content",
+          "reductionPeriod",
+          "electricalHeatingFrom"
+        ],
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "reductionPeriod": {
+            "$ref": "#/components/schemas/GetConversationQueryResponseElectricityHeatingPeriod"
+          },
+          "electricalHeatingFrom": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetConversationQueryResponseElectricityHeatingPeriod": {
+        "type": "object",
+        "required": [
+          "from",
+          "to"
+        ],
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetConversationQueryResponseParticipant": {
+        "type": "object",
+        "required": [
+          "marketParticipantNumber",
+          "role",
+          "type"
+        ],
+        "properties": {
+          "marketParticipantNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "$ref": "#/components/schemas/MarketRole"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ParticipantType"
+          }
+        }
+      },
+      "GetConversationQueryResponseUserMessage": {
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Message content"
+          }
+        }
+      },
+      "GetConversationsQueryResponse": {
+        "type": "object",
+        "required": [
+          "conversations"
+        ],
+        "properties": {
+          "conversations": {
+            "type": "array",
+            "description": "List of Conversations",
+            "items": {
+              "$ref": "#/components/schemas/GetConversationsQueryResponseConversationInfo"
+            }
+          }
+        }
+      },
+      "GetConversationsQueryResponseConversationInfo": {
         "type": "object",
         "description": "Conversation info",
         "required": [
@@ -376,70 +1669,105 @@
           }
         }
       },
-      "ConversationMessageDto": {
+      "GetElectricalHeatingInformationQueryResponse": {
         "type": "object",
-        "description": "Conversation message",
         "required": [
-          "senderUserName",
-          "senderActorName",
-          "senderType",
-          "content",
-          "messageType",
-          "createdTime"
+          "customerName",
+          "supplierPeriods",
+          "isElectricalHeatingActive",
+          "electricalHeatingFrom"
         ],
         "properties": {
-          "senderUserName": {
+          "customerName": {
             "type": "string",
-            "description": "Sender user name",
             "nullable": true
           },
-          "senderActorName": {
+          "supplierPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetElectricalHeatingInformationQueryResponsePeriod"
+            }
+          },
+          "isElectricalHeatingActive": {
+            "type": "boolean"
+          },
+          "electricalHeatingFrom": {
             "type": "string",
-            "description": "Sendor actor name",
+            "format": "date-time",
             "nullable": true
-          },
-          "senderType": {
-            "$ref": "#/components/schemas/ActorType"
-          },
-          "content": {
+          }
+        }
+      },
+      "GetElectricalHeatingInformationQueryResponsePeriod": {
+        "type": "object",
+        "required": [
+          "from",
+          "to"
+        ],
+        "properties": {
+          "from": {
             "type": "string",
-            "description": "Message content"
+            "format": "date-time"
           },
-          "messageType": {
-            "$ref": "#/components/schemas/MessageType"
-          },
-          "createdTime": {
+          "to": {
             "type": "string",
-            "description": "Created time",
             "format": "date-time"
           }
         }
       },
-      "ConversationsDto": {
+      "IFormFile": {
+        "type": "string",
+        "format": "binary"
+      },
+      "MarkConversationReadRequest": {
         "type": "object",
-        "description": "Conversations",
         "required": [
-          "conversations"
+          "conversationId"
         ],
         "properties": {
-          "conversations": {
-            "type": "array",
-            "description": "List of Conversations",
-            "items": {
-              "$ref": "#/components/schemas/ConversationInfoDto"
-            }
+          "conversationId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
-      "ConversationSubject": {
-        "description": "Conversation subjects",
+      "MarkConversationUnreadRequest": {
+        "type": "object",
+        "required": [
+          "conversationId"
+        ],
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "MarketRole": {
+        "type": "string",
+        "description": "Application layer receiver type",
         "enum": [
-          "QuestionForEnerginet"
+          "EnergySupplier",
+          "Energinet",
+          "GridAccessProvider"
         ]
       },
       "MessageType": {
-        "type": "integer",
-        "description": "Message type"
+        "type": "string",
+        "description": "Message type",
+        "enum": [
+          "UserMessage",
+          "ClosingMessage",
+          "ElectricalHeatingInformation",
+          "ElectricalHeatingUserMessage"
+        ]
+      },
+      "ParticipantType": {
+        "type": "string",
+        "enum": [
+          "Initiator",
+          "Receiver"
+        ]
       },
       "ProblemDetails": {
         "type": "object",
@@ -471,60 +1799,57 @@
         "type": "object",
         "required": [
           "subject",
+          "senderActorType",
           "receiverActorType",
           "meteringPointIdentification",
-          "senderActorNumber",
-          "senderActorName",
-          "senderUserId",
-          "senderUserName",
           "content",
-          "anonymous"
+          "anonymous",
+          "attachedDocumentIds"
         ],
         "properties": {
           "subject": {
             "$ref": "#/components/schemas/ConversationSubject"
           },
+          "senderActorType": {
+            "$ref": "#/components/schemas/MarketRole"
+          },
           "receiverActorType": {
-            "$ref": "#/components/schemas/ActorType"
+            "$ref": "#/components/schemas/MarketRole"
           },
           "meteringPointIdentification": {
             "type": "string",
-            "description": "MeteringPointIdentification\n18 digits GSRN number consisting of digits only."
-          },
-          "senderActorNumber": {
-            "type": "string",
-            "description": "GLN or EIC number of the actor of the sender"
-          },
-          "senderActorName": {
-            "type": "string",
-            "description": "Name of the organization of the sender"
-          },
-          "senderUserId": {
-            "type": "string",
-            "description": "UserId of the user, who created the message."
-          },
-          "senderUserName": {
-            "type": "string",
-            "description": "Username of the sender"
+            "description": "MeteringPointIdentification\r\n18 digits GSRN number consisting of digits only."
           },
           "internalNote": {
             "type": "string",
-            "description": "Optional Internal note from the Organization, that created the Conversation.\nCan contain at most 80 characters and will be assumed empty, if not specified",
+            "description": "Optional Internal note from the Organization, that created the Conversation.\r\nCan contain at most 80 characters and will be assumed empty, if not specified",
             "nullable": true
           },
           "content": {
             "type": "string",
-            "description": "The message content, thus the body itself.\nCan contain at most 5000 characters and should not be empty."
+            "description": "The message content, thus the body itself.\r\nCan contain at most 5000 characters and should not be empty."
           },
           "anonymous": {
             "type": "boolean",
             "description": "Specifies whether the message is anonymous with respect to the Sender information."
+          },
+          "attachedDocumentIds": {
+            "type": "array",
+            "description": "The documents that should be attached to the message that starts the conversation",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "energySupplierDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
-      "StartConversationResponse": {
+      "StartElectricalHeatingConversationCommandResponse": {
         "type": "object",
-        "description": "Response for the request for starting a conversation",
         "required": [
           "conversationId"
         ],
@@ -532,6 +1857,128 @@
           "conversationId": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "StartElectricalHeatingConversationRequest": {
+        "type": "object",
+        "required": [
+          "meteringPointIdentification",
+          "content",
+          "anonymous",
+          "electricalHeatingFrom",
+          "electricalHeatingReductionPeriodFrom",
+          "electricalHeatingReductionPeriodTo",
+          "attachedDocumentIds"
+        ],
+        "properties": {
+          "meteringPointIdentification": {
+            "type": "string"
+          },
+          "internalNote": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string"
+          },
+          "anonymous": {
+            "type": "boolean"
+          },
+          "electricalHeatingFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "electricalHeatingReductionPeriodFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "electricalHeatingReductionPeriodTo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "attachedDocumentIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "StartNewConversationCommandResponse": {
+        "type": "object",
+        "required": [
+          "conversationId"
+        ],
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "StringSegment": {
+        "type": "object",
+        "properties": {
+          "buffer": {
+            "type": "string",
+            "nullable": true
+          },
+          "offset": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
+          },
+          "length": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasValue": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TestActorRetrievalResult": {
+        "type": "object",
+        "properties": {
+          "energySupplierActorNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "gridAccesProviderActorNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "energySupplierExceptionMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "gridAccessproviderExceptionMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateInternalNoteRequest": {
+        "type": "object",
+        "required": [
+          "conversationId",
+          "internalNote"
+        ],
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "description": "Conversation subject.",
+            "format": "uuid"
+          },
+          "internalNote": {
+            "type": "string",
+            "description": "Optional Internal note from the active participant\r\nCan contain at most 80 characters and will be assumed empty, if not specified",
+            "nullable": true
           }
         }
       }
@@ -542,7 +1989,16 @@
       "name": "ActorConversation"
     },
     {
+      "name": "AddConversationMessage"
+    },
+    {
+      "name": "AddMessageDocument"
+    },
+    {
       "name": "CloseConversation"
+    },
+    {
+      "name": "GetActorNumbers"
     },
     {
       "name": "GetConversation"
@@ -551,7 +2007,25 @@
       "name": "GetAllConversations, GetConversationsForMeteringPoint"
     },
     {
+      "name": "GetElectricalHeatingInformation"
+    },
+    {
+      "name": "GetMessageDocument"
+    },
+    {
+      "name": "MarkConversationRead"
+    },
+    {
+      "name": "MarkConversationUnread"
+    },
+    {
       "name": "Start"
+    },
+    {
+      "name": "TestActorRetrieval"
+    },
+    {
+      "name": "UpdateInternalNote"
     }
   ]
 }

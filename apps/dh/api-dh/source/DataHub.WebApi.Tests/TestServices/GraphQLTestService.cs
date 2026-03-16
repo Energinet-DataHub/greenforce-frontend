@@ -16,10 +16,12 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Mappers;
 using Energinet.DataHub.Reports.Client;
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
@@ -29,6 +31,7 @@ using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
+using Energinet.DataHub.WebApi.Registration;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Http;
@@ -63,6 +66,8 @@ public class GraphQLTestService
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
         ChargesClientMock = new Mock<IChargesClient>();
         ChargeLinkClientMock = new Mock<IChargeLinkClient>();
+        ElectricityMarketClientMock = new Mock<IElectricityMarketClient>();
+        ElectricityMarketClientV1Mock = new Mock<IElectricityMarketClient_V1>();
 
         Services = new ServiceCollection()
             .AddLogging()
@@ -111,6 +116,8 @@ public class GraphQLTestService
             .AddSingleton(MeasurementsResponseMapperMock.Object)
             .AddSingleton(ChargesClientMock.Object)
             .AddSingleton(ChargeLinkClientMock.Object)
+            .AddSingleton(ElectricityMarketClientMock.Object)
+            .AddSingleton(ElectricityMarketClientV1Mock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -153,6 +160,10 @@ public class GraphQLTestService
 
     public Mock<IChargeLinkClient> ChargeLinkClientMock { get; set; }
 
+    public Mock<IElectricityMarketClient> ElectricityMarketClientMock { get; set; }
+
+    public Mock<IElectricityMarketClient_V1> ElectricityMarketClientV1Mock { get; set; }
+
     public IServiceCollection Services { get; set; }
 
     public async Task<IExecutionResult> ExecuteRequestAsync(
@@ -178,7 +189,7 @@ public class GraphQLTestService
         }
     }
 
-    public async Task<HotChocolate.ISchema> GetSchemaAsync() =>
+    public async Task<ISchema> GetSchemaAsync() =>
         await Services
             .BuildServiceProvider()
             .GetRequiredService<RequestExecutorProxy>()
