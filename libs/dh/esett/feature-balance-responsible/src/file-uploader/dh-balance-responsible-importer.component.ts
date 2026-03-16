@@ -101,9 +101,11 @@ export class DhBalanceResponsibleImporterComponent {
     this.client
       .post(uploadUrl, formData)
       .pipe(
-        tapResponse(this.onUploadSuccess, (errorResponse: HttpErrorResponse) =>
-          this.onUploadError(this.createApiErrorCollection(errorResponse))
-        ),
+        tapResponse({
+          next: () => this.onUploadSuccess(),
+          error: (errorResponse: HttpErrorResponse) =>
+            this.onUploadError(this.createApiErrorCollection(errorResponse)),
+        }),
         finalize(() => this.uploadInProgress.set(false))
       )
       .subscribe();

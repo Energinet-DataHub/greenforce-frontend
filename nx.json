@@ -170,6 +170,7 @@
     },
     {
       "plugin": "@nx/vite/plugin",
+      "exclude": ["libs/dh/vite.config.mts", "libs/gf/vite.config.mts"],
       "options": {
         "testTargetName": "test"
       }

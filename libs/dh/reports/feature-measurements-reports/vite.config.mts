@@ -37,7 +37,7 @@ export default defineConfig(() => ({
     globals: true,
     environment: 'happy-dom',
     include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
-    setupFiles: ['src/test-setup.ts'],
+    setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
       reportsDirectory: '../../../../coverage/libs/dh/reports/feature-measurements-reports',

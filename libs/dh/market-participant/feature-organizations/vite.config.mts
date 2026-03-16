@@ -26,6 +26,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/dh/market-participant/feature-organizations',
+  resolve: { conditions: ['development', 'browser'] },
   plugins: [
     angular({ tsconfig: './tsconfig.json' }),
     nxViteTsPaths(),
@@ -37,7 +38,7 @@ export default defineConfig(() => ({
     globals: true,
     environment: 'happy-dom',
     include: ['src/**/*.spec.ts', 'tests/**/*.spec.ts'],
-    setupFiles: ['src/test-setup.ts'],
+    setupFiles: ['tests/test-setup.ts'],
     reporters: ['default'],
     coverage: {
       reportsDirectory: '../../../../coverage/libs/dh/market-participant/feature-organizations',
