@@ -24,51 +24,7 @@ import {
   input,
 } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { isNonEmpty } from './watt-json.utils';
-
-function* tokenize(
-  value: unknown,
-  budget: number
-): Generator<{ kind: string; value: unknown }, number> {
-  switch (true) {
-    case value === null:
-    case typeof value === 'boolean':
-      yield { kind: 'keyword', value };
-      return budget - String(value).length;
-    case typeof value === 'number':
-      yield { kind: 'number', value };
-      return budget - String(value).length;
-    case typeof value === 'string':
-      const truncated = value.length > budget ? value.slice(0, budget) + '…' : value;
-      yield { kind: 'string', value: JSON.stringify(truncated) };
-      return budget - truncated.length + 2;
-    case typeof value === 'object':
-      const isArray = Array.isArray(value);
-      const [firstKey] = Object.keys(value);
-      yield { kind: 'punctuation', value: isArray ? '[' : '{' };
-      for (const [key, child] of Object.entries(value)) {
-        if (key !== firstKey) {
-          yield { kind: 'punctuation', value: ', ' };
-          budget -= 2;
-        }
-        if (budget <= 0) {
-          yield { kind: 'punctuation', value: '…' };
-          break;
-        }
-        if (!isArray) {
-          yield { kind: 'key', value: key };
-          yield { kind: 'punctuation', value: ': ' };
-          budget -= key.length + 2;
-        }
-        budget = yield* tokenize(child, budget);
-      }
-      yield { kind: 'punctuation', value: isArray ? ']' : '}' };
-      return budget - 2;
-  }
-
-  yield { kind: 'invalid', value: String(value) };
-  return budget - String(value).length;
-}
+import { isNonEmpty, tokenize } from './watt-json.utils';
 
 @Component({
   selector: 'watt-json-row',
@@ -97,7 +53,8 @@ function* tokenize(
       background-color: var(--watt-color-state-danger-light);
     }
 
-    .watt-json-invalid {
+    .watt-json-function,
+    .watt-json-undefined {
       color: var(--watt-on-light-low-emphasis);
     }
 

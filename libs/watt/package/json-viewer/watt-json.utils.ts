@@ -41,3 +41,52 @@ export function interleave<T>(a: T[], b: T[]): T[] {
     .flatMap((_, i) => [a[i], b[i]])
     .filter((k) => k !== undefined);
 }
+
+/** Truncates a string to maxLength, appending '…' if truncated. */
+export function truncate(value: string, maxLength: number) {
+  return value.length > maxLength ? value.slice(0, maxLength) + '…' : value;
+}
+
+/**
+ * Generator that produces syntax-highlighted tokens for a JSON value.
+ * Uses a character budget to limit output length, yielding tokens and
+ * returning the remaining budget via the generator return value.
+ */
+export function* tokenize(
+  value: unknown,
+  budget: number
+): Generator<{ kind: string; value: string }, number> {
+  /** Creates a token and deducts its length from the budget. */
+  const token = (kind: string, value: string) => {
+    budget -= value.length;
+    return { kind, value };
+  };
+
+  if (typeof value === 'string') yield token('string', JSON.stringify(truncate(value, budget)));
+  else if (typeof value !== 'object') yield token(typeof value, String(value));
+  else if (value === null) yield token('keyword', String(null));
+  else {
+    const [firstKey] = Object.keys(value);
+    const isArray = Array.isArray(value);
+    yield token('punctuation', isArray ? '[' : '{');
+
+    for (const [key, child] of Object.entries(value)) {
+      if (key !== firstKey) yield token('punctuation', ', ');
+      if (budget <= 0) {
+        yield token('punctuation', '…');
+        break;
+      }
+
+      if (!isArray) {
+        yield token('key', key);
+        yield token('punctuation', ': ');
+      }
+
+      budget = yield* tokenize(child, budget);
+    }
+
+    yield token('punctuation', isArray ? ']' : '}');
+  }
+
+  return budget;
+}
