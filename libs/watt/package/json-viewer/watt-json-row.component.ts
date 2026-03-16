@@ -26,7 +26,49 @@ import {
 import { WattIconComponent } from '@energinet/watt/icon';
 import { isNonEmpty } from './watt-json.utils';
 
-const JSON_TOKEN_REGEX = /"(?:[^"\\]|\\.)*":?|-?\d+\.?\d*|\b(true|false|null)\b/g;
+function* tokenize(
+  value: unknown,
+  budget: number
+): Generator<{ kind: string; value: unknown }, number> {
+  switch (true) {
+    case value === null:
+    case typeof value === 'boolean':
+      yield { kind: 'keyword', value };
+      return budget - String(value).length;
+    case typeof value === 'number':
+      yield { kind: 'number', value };
+      return budget - String(value).length;
+    case typeof value === 'string':
+      const truncated = value.length > budget ? value.slice(0, budget) + '…' : value;
+      yield { kind: 'string', value: JSON.stringify(truncated) };
+      return budget - truncated.length + 2;
+    case typeof value === 'object':
+      const isArray = Array.isArray(value);
+      const [firstKey] = Object.keys(value);
+      yield { kind: 'punctuation', value: isArray ? '[' : '{' };
+      for (const [key, child] of Object.entries(value)) {
+        if (key !== firstKey) {
+          yield { kind: 'punctuation', value: ', ' };
+          budget -= 2;
+        }
+        if (budget <= 0) {
+          yield { kind: 'punctuation', value: '…' };
+          break;
+        }
+        if (!isArray) {
+          yield { kind: 'key', value: key };
+          yield { kind: 'punctuation', value: ': ' };
+          budget -= key.length + 2;
+        }
+        budget = yield* tokenize(child, budget);
+      }
+      yield { kind: 'punctuation', value: isArray ? ']' : '}' };
+      return budget - 2;
+  }
+
+  yield { kind: 'invalid', value: String(value) };
+  return budget - String(value).length;
+}
 
 @Component({
   selector: 'watt-json-row',
@@ -59,6 +101,10 @@ const JSON_TOKEN_REGEX = /"(?:[^"\\]|\\.)*":?|-?\d+\.?\d*|\b(true|false|null)\b/
       color: var(--watt-on-light-low-emphasis);
     }
 
+    .watt-json-punctuation {
+      color: var(--watt-on-light-medium-emphasis);
+    }
+
     .watt-json-key {
       color: var(--watt-color-primary);
     }
@@ -85,7 +131,11 @@ const JSON_TOKEN_REGEX = /"(?:[^"\\]|\\.)*":?|-?\d+\.?\d*|\b(true|false|null)\b/
         <watt-icon size="s" [name]="expanded() ? 'down' : 'right'" />
       }
       <span>{{ label() }}: </span>
-      <span [hidden]="expandable() && expanded()" [innerHTML]="colorized()"></span>
+      <span [hidden]="expanded()">
+        @for (token of tokens(); track $index) {
+          <span [class]="'watt-json-' + token.kind">{{ token.value }}</span>
+        }
+      </span>
     }
   `,
 })
@@ -97,25 +147,7 @@ export class WattJsonRow {
   readonly value = input<unknown>();
 
   protected readonly expandable = computed(() => isNonEmpty(this.value()));
-  protected readonly colorized = computed(() => {
-    try {
-      const json = JSON.stringify(this.value(), null, ' ');
-      return json === undefined
-        ? `<span class='watt-json-invalid'>${this.value()?.toString() || typeof this.value()}</span>`
-        : json.replace(JSON_TOKEN_REGEX, (match) => {
-            switch (true) {
-              case match.endsWith(':'):
-                return `<span class='watt-json-key'>${match.slice(1, -2)}</span>:`;
-              case match.startsWith('"'):
-                return `<span class='watt-json-string'>${match}</span>`;
-              case /\d/.test(match):
-                return `<span class='watt-json-number'>${match}</span>`;
-              default:
-                return `<span class='watt-json-keyword'>${match}</span>`;
-            }
-          });
-    } catch {
-      return `<span class='watt-json-invalid'>[Circular]</span>`;
-    }
-  });
+  protected readonly tokens = computed(() => [
+    ...tokenize(this.value(), this.expandable() ? 80 : Infinity),
+  ]);
 }
