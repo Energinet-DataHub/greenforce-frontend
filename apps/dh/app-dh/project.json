@@ -93,14 +93,12 @@
           }
         },
         "development": {
-          "aot": false,
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
         },
         "mocked": {
-          "aot": false,
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true,
