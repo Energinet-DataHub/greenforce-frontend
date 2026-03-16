@@ -177,11 +177,21 @@ function getMeteringPointProcessOverview() {
 
       // Add actions to some processes (not failed/canceled/succeeded ones)
       const currentState = states[index % states.length];
+      const businessReason =
+        Object.values(ProcessManagerBusinessReason)[
+          index % Object.values(ProcessManagerBusinessReason).length
+        ];
       const hasNoActions =
         currentState === MeteringPointProcessState.Failed ||
         currentState === MeteringPointProcessState.Canceled ||
         currentState === MeteringPointProcessState.Succeeded;
-      const availableActions = hasNoActions ? [] : [actions[index % actions.length]];
+      const availableActions =
+        // Ensure EndOfSupply processes always show CancelWorkflow (when state allows actions)
+        businessReason === ProcessManagerBusinessReason.EndOfSupply && !hasNoActions
+          ? [WorkflowAction.CancelWorkflow]
+          : hasNoActions
+            ? []
+            : [actions[index % actions.length]];
 
       // Vary cutoff date - typically a few days after created date
       let cutoffDate = null;
@@ -193,9 +203,7 @@ function getMeteringPointProcessOverview() {
       return {
         __typename: 'MeteringPointProcess' as const,
         id: `process-${String(index + 1).padStart(3, '0')}`,
-        businessReason: Object.values(ProcessManagerBusinessReason)[
-          index % Object.values(ProcessManagerBusinessReason).length
-        ],
+        businessReason,
         createdAt,
         cutoffDate,
         state: currentState,
@@ -207,10 +215,25 @@ function getMeteringPointProcessOverview() {
       };
     });
 
+    // Add an explicit EndOfSupply process with CancelWorkflow action
+    const endOfSupplyProcess = {
+      __typename: 'MeteringPointProcess' as const,
+      id: 'process-eos-cancel',
+      businessReason: ProcessManagerBusinessReason.EndOfSupply,
+      createdAt: new Date('2025-02-15T10:00:00Z'),
+      cutoffDate: new Date('2025-02-20T10:00:00Z'),
+      state: MeteringPointProcessState.Running,
+      availableActions: [WorkflowAction.CancelWorkflow],
+      initiator: {
+        __typename: 'MarketParticipant' as const,
+        ...initiators[0],
+      },
+    };
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPointProcessOverview: mockProcesses,
+        meteringPointProcessOverview: [endOfSupplyProcess, ...mockProcesses],
       },
     });
   });
