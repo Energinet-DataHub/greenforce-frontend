@@ -185,13 +185,14 @@ export class DhMeteringPointProcessOverviewDetails {
           ),
         });
       case MutationStatus.Resolved:
-        return this.toast.update({
+        this.toast.update({
           type: 'success',
           message: this.transloco.translate(
             'meteringPoint.processOverview.cancelProcess.successToast',
             { processType }
           ),
         });
+        return this.navigation.navigate('list');
     }
   });
 
@@ -215,9 +216,6 @@ export class DhMeteringPointProcessOverviewDetails {
               processId: this.id(),
             },
           });
-
-          // Close the drawer and navigate back to the list
-          this.navigation.navigate('list');
         }
       },
     });
