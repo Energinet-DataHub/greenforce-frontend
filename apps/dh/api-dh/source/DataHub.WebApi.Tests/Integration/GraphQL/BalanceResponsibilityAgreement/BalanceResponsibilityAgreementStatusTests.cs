@@ -78,7 +78,7 @@ public class BalanceResponsibilityAgreementStatusTests
             });
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.BalanceResponsibilityRelationsAsync(_marketParticipantId, default))
+            .Setup(x => x.BalanceResponsibilityRelationsAsync(_marketParticipantId, CancellationToken.None))
             .ReturnsAsync([
                 new BalanceResponsibilityRelationDto()
                     {
