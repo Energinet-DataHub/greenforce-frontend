@@ -248,6 +248,7 @@ function getMeteringPointProcessById(apiBase: string) {
           cutoffDate,
           businessReason: ProcessManagerBusinessReason.EndOfSupply,
           state: MeteringPointProcessState.Succeeded,
+          availableActions: [WorkflowAction.CancelWorkflow],
           initiator: {
             __typename: 'MarketParticipant' as const,
             ...initiators[processIndex % initiators.length],
