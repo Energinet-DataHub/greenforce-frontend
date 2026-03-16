@@ -198,7 +198,13 @@ export class DhMeteringPointProcessOverviewTable {
     );
     switch (status) {
       case MutationStatus.Loading:
-        return this.toast.open({ type: 'loading', message: processType });
+        return this.toast.open({
+          type: 'loading',
+          message: this.transloco.translate(
+            'meteringPoint.processOverview.cancelProcess.loadingToast',
+            { processType }
+          ),
+        });
       case MutationStatus.Error:
         return this.toast.update({
           type: 'danger',
