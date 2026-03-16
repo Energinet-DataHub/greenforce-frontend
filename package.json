@@ -85,7 +85,7 @@
     "@microsoft/applicationinsights-web": "3.3.11",
     "@microsoft/clarity": "1.0.2",
     "@ngneat/overview": "6.1.1",
-    "@ngrx/operators": "19.0.1",
+    "@ngrx/operators": "21.0.1",
     "@ngxpert/hot-toast": "5.1.1",
     "@popperjs/core": "2.11.8",
     "chardet": "2.1.1",
@@ -101,7 +101,7 @@
     "zone.js": "0.16.1"
   },
   "devDependencies": {
-    "@actions/core": "1.10.1",
+    "@actions/core": "3.0.0",
     "@analogjs/vitest-angular": "2.2.3",
     "@angular-devkit/build-angular": "21.1.5",
     "@angular-eslint/eslint-plugin": "21.2.0",
@@ -168,7 +168,7 @@
     "@vitest/ui": "4.0.18",
     "cross-env": "7.0.3",
     "crypto-js": "4.2.0",
-    "cypress": "15.10.0",
+    "cypress": "15.11.0",
     "dependency-cruiser": "16.10.0",
     "eslint": "8.57.0",
     "eslint-config-prettier": "10.1.8",
