@@ -100,7 +100,7 @@ import { DhCancelProcessModal } from './cancel-process-modal';
       <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
         @if (showCancelButton()) {
           <watt-button variant="secondary" (click)="openCancelProcessModal()">
-            {{ t('cancelProcess.title', { processType: t('processTypeName.' + businessReason()) }) }}
+            {{ t('actions.CANCEL_WORKFLOW') }}
           </watt-button>
         }
       </watt-drawer-actions>
