@@ -29,7 +29,7 @@ const routes: Routes = [
     redirectTo: getPath<OperationToolsSubPaths>('metering-point'),
   },
   {
-    canActivate: [PermissionGuard(['fas', 'operation-tools:view', 'operation-tools:manage'])],
+    canActivate: [PermissionGuard(['operation-tools:view', 'operation-tools:manage'])],
     path: getPath<OperationToolsSubPaths>('metering-point'),
     loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-debug'),
   },
