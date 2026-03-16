@@ -74,7 +74,8 @@ import { isNonEmpty, tokenize } from './watt-json.utils';
       color: var(--watt-color-state-warning);
     }
 
-    .watt-json-keyword {
+    .watt-json-boolean,
+    .watt-json-null {
       color: var(--watt-color-state-danger);
     }
   `,

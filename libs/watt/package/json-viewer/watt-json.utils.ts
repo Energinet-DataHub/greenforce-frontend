@@ -44,7 +44,7 @@ export function interleave<T>(a: T[], b: T[]): T[] {
 
 /** Truncates a string to maxLength, appending '…' if truncated. */
 export function truncate(value: string, maxLength: number) {
-  return value.length > maxLength ? value.slice(0, maxLength) + '…' : value;
+  return value.length > maxLength ? value.slice(0, Math.max(maxLength - 1, 0)) + '…' : value;
 }
 
 /**
@@ -65,7 +65,7 @@ export function* tokenize(
 
   if (typeof value === 'string') yield token('string', JSON.stringify(truncate(value, budget)));
   else if (typeof value !== 'object') yield token(typeof value, String(value));
-  else if (value === null) yield token('keyword', String(null));
+  else if (value === null) yield token('null', String(null));
   else {
     const [firstKey] = Object.keys(value);
     const isArray = Array.isArray(value);
