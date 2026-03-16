@@ -34,12 +34,12 @@ limitations under the License.
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
-  <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
-    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net100) run Clients/ESettExchange/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; dotnet build" Condition="!Exists('Clients/ESettExchange/V1/swagger.json')" />
-    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net100) run Clients/ImbalancePrices/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; dotnet build" Condition="!Exists('Clients/ImbalancePrices/V1/swagger.json')" />
-    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net100) run Clients/MarketParticipant/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; dotnet build" Condition="!Exists('Clients/MarketParticipant/V1/swagger.json')" />
-    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net100) run Clients/ElectricityMarket/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; dotnet build" Condition="!Exists('Clients/ElectricityMarket/V1/swagger.json')" />
-    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net100) run Clients/ActorConversation/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; dotnet build" Condition="!Exists('Clients/ActorConversation/V1/swagger.json')" />
+  <Target Name="NSwag" BeforeTargets="CoreCompile" Condition="'$(Configuration)' == 'Debug' and '$(DesignTimeBuild)' != 'true'">
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net100) run Clients/ESettExchange/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/ESettExchange/V1/swagger.json')" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net100) run Clients/ImbalancePrices/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/ImbalancePrices/V1/swagger.json')" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net100) run Clients/MarketParticipant/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/MarketParticipant/V1/swagger.json')" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net100) run Clients/ElectricityMarket/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/ElectricityMarket/V1/swagger.json')" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net100) run Clients/ActorConversation/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/ActorConversation/V1/swagger.json')" />
   </Target>
 
   <Target Name="SwaggerGen" AfterTargets="PostBuildEvent" Condition="'$(SkipSwaggerGen)' != 'true'">
