@@ -30,7 +30,6 @@ limitations under the License.
 
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.Query" Version="1.6.0" />
-    <PackageReference Include="Verify.Xunit" Version="28.4.0" />
     <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="11.0.0" />
     <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="11.0.0" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.5" />
@@ -50,7 +49,8 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+    <PackageReference Include="Verify.XunitV3" Version="31.13.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
