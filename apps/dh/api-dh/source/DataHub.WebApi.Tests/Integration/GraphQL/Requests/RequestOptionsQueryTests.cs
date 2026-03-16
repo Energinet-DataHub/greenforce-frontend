@@ -55,7 +55,7 @@ public class RequestOptionsQueryTests
         var marketRole = new ActorMarketRoleDto { EicFunction = eicFunction };
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(actorId, null))
+            .Setup(x => x.ActorGetAsync(actorId))
             .ReturnsAsync(new ActorDto() { ActorId = actorId, MarketRole = marketRole });
 
         server.HttpContextAccessorMock
