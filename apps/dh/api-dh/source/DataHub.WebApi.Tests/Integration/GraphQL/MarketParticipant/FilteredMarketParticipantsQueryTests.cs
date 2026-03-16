@@ -91,7 +91,7 @@ public class FilteredMarketParticipantsQueryTests
             .Setup(x => x.HttpContext)
             .Returns(context);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_filteredMarketParticipants));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_filteredMarketParticipants), TestContext.Current.CancellationToken);
 
         await result.MatchSnapshotAsync($"GetFilteredMarketParticipantsAsync-isFas-{isFas}");
     }

@@ -133,7 +133,7 @@ public class CalculateGridAreaStatusTest
         server.GridAreasClientMock
             .Setup(x => x.GetGridAreasAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(gridAreas);
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_getGridAreasWithStatus));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_getGridAreasWithStatus), TestContext.Current.CancellationToken);
 
         await result.MatchSnapshotAsync($"GetGridAreasWithStatus");
     }

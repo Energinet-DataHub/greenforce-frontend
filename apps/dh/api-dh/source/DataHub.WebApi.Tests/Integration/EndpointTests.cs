@@ -36,14 +36,14 @@ public class EndpointTests
             var url = "swagger/v1/swagger.json";
 
             // Act
-            var actualResponse = await Client.GetAsync(url);
+            var actualResponse = await Client.GetAsync(url, TestContext.Current.CancellationToken);
 
             // Assert
             using var assertionScope = new AssertionScope();
             actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
             actualResponse.Content.Headers.ContentType!.MediaType.Should().Be("application/json");
 
-            var content = await actualResponse.Content.ReadAsStringAsync();
+            var content = await actualResponse.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
             content.Should().Contain("\"openapi\": \"3.");
         }
 
@@ -54,7 +54,7 @@ public class EndpointTests
             var url = "swagger";
 
             // Act
-            var actualResponse = await Client.GetAsync(url);
+            var actualResponse = await Client.GetAsync(url, TestContext.Current.CancellationToken);
 
             // Assert
             using var assertionScope = new AssertionScope();

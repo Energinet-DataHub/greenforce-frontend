@@ -62,9 +62,11 @@ public class RequestOptionsQueryTests
             .Setup(x => x.HttpContext)
             .Returns(new DefaultHttpContext { User = claimsPrincipal });
 
-        var result = await server.ExecuteRequestAsync(b => b
+        var result = await server.ExecuteRequestAsync(
+            b => b
             .SetDocument(_requestOptionsQuery)
-            .SetUser(claimsPrincipal));
+            .SetUser(claimsPrincipal),
+            TestContext.Current.CancellationToken);
 
         await result.MatchSnapshotAsync($"GetRequestOptionsAs{eicFunction}");
     }

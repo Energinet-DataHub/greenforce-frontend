@@ -127,7 +127,7 @@ public class SettlementReportsGridAreaCalculationsForPeriodTests
                         PeriodEndDate: DateTimeOffset.UtcNow.AddDays(30))),
             ]);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(Query));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(Query), TestContext.Current.CancellationToken);
         await result.MatchSnapshotAsync();
     }
 
@@ -162,7 +162,7 @@ public class SettlementReportsGridAreaCalculationsForPeriodTests
             .Setup(x => x.GridAreaGetAsync(CancellationToken.None))
             .ReturnsAsync([]);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(Query));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(Query), TestContext.Current.CancellationToken);
         var errors = ((OperationResult)result).Errors ?? [];
         Assert.Single(errors, err => err.Exception is UnauthorizedAccessException);
     }

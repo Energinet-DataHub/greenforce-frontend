@@ -60,9 +60,11 @@ public class CalculationStepsQueryTests
                     terminationState,
                     isInternalCalculation: true));
 
-        var result = await server.ExecuteRequestAsync(b => b
+        var result = await server.ExecuteRequestAsync(
+            b => b
             .SetDocument(_calculationByIdQuery)
-            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()),
+            TestContext.Current.CancellationToken);
 
         await result.MatchSnapshotAsync($"Internal{lifecycleState}{GetSnapshotNameSuffix(terminationState)}");
     }
@@ -84,9 +86,11 @@ public class CalculationStepsQueryTests
             .Setup(x => x.GetCalculationByIdAsync(OrchestrationInstanceFactory.Id, default))
             .ReturnsAsync(CalculationFactory.Create(lifecycleState, terminationState));
 
-        var result = await server.ExecuteRequestAsync(b => b
+        var result = await server.ExecuteRequestAsync(
+            b => b
             .SetDocument(_calculationByIdQuery)
-            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()),
+            TestContext.Current.CancellationToken);
 
         var snapshotNameSuffix = terminationState is null
             ? string.Empty
@@ -112,9 +116,11 @@ public class CalculationStepsQueryTests
                     lifecycleState,
                     terminationState));
 
-        var result = await server.ExecuteRequestAsync(b => b
+        var result = await server.ExecuteRequestAsync(
+            b => b
             .SetDocument(_calculationByIdQuery)
-            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()),
+            TestContext.Current.CancellationToken);
 
         await result.MatchSnapshotAsync($"Enqueuing{lifecycleState}{GetSnapshotNameSuffix(terminationState)}");
     }

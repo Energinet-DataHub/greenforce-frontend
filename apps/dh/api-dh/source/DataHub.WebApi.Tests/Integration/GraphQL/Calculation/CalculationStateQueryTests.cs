@@ -53,9 +53,11 @@ public class CalculationStateQueryTests
             .Setup(x => x.GetCalculationByIdAsync(OrchestrationInstanceFactory.Id, default))
             .ReturnsAsync(CalculationFactory.Create(lifecycleState, terminationState));
 
-        var result = await server.ExecuteRequestAsync(b => b
+        var result = await server.ExecuteRequestAsync(
+            b => b
             .SetDocument(_calculationByIdQuery)
-            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()),
+            TestContext.Current.CancellationToken);
 
         var snapshotNameSuffix = terminationState is null
             ? string.Empty

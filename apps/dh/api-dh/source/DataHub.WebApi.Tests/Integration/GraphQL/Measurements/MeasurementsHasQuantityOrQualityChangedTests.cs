@@ -89,9 +89,11 @@ public class MeasurementsHasQuantityOrQualityChangedTests
             .Setup(x => x.GetCurrentByPeriodAsync(getCurrentByPeriodQuery, It.IsAny<CancellationToken>()))
             .ReturnsAsync(resultWrapper);
 
-        var result = await server.ExecuteRequestAsync(b => b
+        var result = await server.ExecuteRequestAsync(
+            b => b
             .SetDocument(_query)
-            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()),
+            TestContext.Current.CancellationToken);
 
         await result.MatchSnapshotAsync(test_case);
     }
