@@ -1,5 +1,5 @@
-query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
-  conversation(conversationId: $conversationId, meteringPointIdentification: $meteringPointId) {
+query GetConversation($conversationId: UUID!) {
+  conversation(conversationId: $conversationId) {
     id
     displayId
     internalNote

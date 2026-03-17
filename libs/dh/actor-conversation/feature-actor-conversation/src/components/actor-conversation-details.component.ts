@@ -227,12 +227,10 @@ export class DhActorConversationDetailsComponent {
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
   conversationId = input.required<string>();
-  meteringPointId = input.required<string>();
 
   conversationQuery = query(GetConversationDocument, () => ({
     variables: {
       conversationId: this.conversationId(),
-      meteringPointId: this.meteringPointId(),
     },
   }));
 

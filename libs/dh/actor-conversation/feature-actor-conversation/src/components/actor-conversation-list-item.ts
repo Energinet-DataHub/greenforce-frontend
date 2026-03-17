@@ -110,6 +110,14 @@ import { WattDatePipe } from '@energinet/watt/date';
   `,
 })
 export class DhActorConversationListItemComponent {
-  conversation = input.required<Conversation | NewConversation>();
+  conversation = input<Conversation | NewConversation>({
+    __typename: 'ConversationInfo',
+    closed: false,
+    read: true,
+    lastUpdated: undefined,
+    id: '',
+    displayId: '',
+    subject: 'newCase',
+  });
   selected = input<boolean>(false);
 }

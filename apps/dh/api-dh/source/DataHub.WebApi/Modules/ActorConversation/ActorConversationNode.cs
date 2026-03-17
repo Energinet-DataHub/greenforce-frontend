@@ -30,7 +30,6 @@ public static partial class ActorConversationNode
         [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
-        string meteringPointIdentification,
         CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
