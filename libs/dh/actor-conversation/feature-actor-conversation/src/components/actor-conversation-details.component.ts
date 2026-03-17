@@ -170,7 +170,7 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
                 >
                   @if (meteringPointConversationInfo(); as meteringPointInfo) {
                     <label
-                      >{{ meteringPointInfo.id }} •
+                      >{{ meteringPointInfo.meteringPointId }} •
                       {{ meteringPointInfo.metadata.installationAddress?.streetName }}
                       {{ meteringPointInfo.metadata.installationAddress?.buildingNumber }} ,
                       {{ meteringPointInfo.metadata.installationAddress?.municipalityCode }}
