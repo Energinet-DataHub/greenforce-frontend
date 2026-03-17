@@ -24,7 +24,6 @@ import {
   ChangeDetectionStrategy,
   effect,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
