@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.Core.App.Common.Calendar;
 using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestChangeProductionObligation;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestCloseDownMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestDisconnectMeteringPoint;
@@ -343,9 +344,17 @@ public static partial class MeteringPointNode
         string meteringPointId,
         DateTimeOffset cutOffDate,
         bool newProductionObligationState,
+        IB2CClient ediB2CClient,
         CancellationToken ct)
     {
-        return await Task.FromResult(true);
+        var command = new RequestChangeProductionObligationCommandV1(
+            new RequestChangeProductionObligationRequestV1(meteringPointId, cutOffDate, newProductionObligationState));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        return result.IsSuccess
+            ? true
+            : throw new GraphQLException("Command RequestChangeProductionObligation failed");
     }
 
     [Mutation]
