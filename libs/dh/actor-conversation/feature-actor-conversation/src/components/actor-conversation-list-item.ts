@@ -40,6 +40,10 @@ import { WattDatePipe } from '@energinet/watt/date';
     '[style.position]': '"relative"',
   },
   styles: `
+    :host {
+      height: 100%;
+    }
+
     :host(.selected) {
       background-color: var(--watt-color-primary-ultralight);
     }
@@ -60,10 +64,6 @@ import { WattDatePipe } from '@energinet/watt/date';
       margin: 0;
     }
 
-    .title-min-height {
-      min-height: 24px;
-    }
-
     .unread-indicator {
       position: absolute;
       left: var(--watt-space-s);
@@ -81,12 +81,7 @@ import { WattDatePipe } from '@energinet/watt/date';
       class="inset-stretch-inverted"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
-      <vater-stack
-        fill="horizontal"
-        direction="row"
-        justify="space-between"
-        class="title-min-height"
-      >
+      <vater-stack fill="horizontal" direction="row" justify="space-between">
         @if (!conversation().read) {
           <dh-circle class="unread-indicator" />
           <h5 class="no-margin">{{ t('subjects.' + conversation().subject) }}</h5>
