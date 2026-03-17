@@ -16,4 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export * from './dhPaths';
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+
+import '@testing-library/jest-dom/vitest';

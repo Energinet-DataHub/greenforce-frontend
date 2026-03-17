@@ -1,4 +1,4 @@
-query GetConversations($meteringPointIdentification: String!, $searchTerm: String) {
+query GetConversations($meteringPointIdentification: String, $searchTerm: String) {
   conversationsForMeteringPoint(
     meteringPointIdentification: $meteringPointIdentification
     searchTerm: $searchTerm
