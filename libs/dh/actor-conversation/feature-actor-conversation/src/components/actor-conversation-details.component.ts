@@ -63,7 +63,7 @@ import { DhActorConversationInternalNoteModalComponent } from './actor-conversat
 import { injectUploadMessageDocument } from './upload-message-document';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
-import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 
 @Component({
   selector: 'dh-actor-conversation-details',
@@ -86,7 +86,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
     VaterFlexComponent,
     WattHeadingComponent,
     WattSeparatorComponent,
-    WattSpinnerComponent,
+    WattSkeletonComponent,
   ],
   styles: `
     .sticky-background {
@@ -179,7 +179,10 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
                     <vater-stack direction="row" gap="xs">
                       <label>{{ t('meteringPointInfo.connectionState') }}</label>
                       <span class="watt-text-s">{{
-                        tBase('meteringPoint.overview.status.' + meteringPointInfo.metadata.connectionState)
+                        tBase(
+                          'meteringPoint.overview.status.' +
+                            meteringPointInfo.metadata.connectionState
+                        )
                       }}</span>
                     </vater-stack>
                     <vater-stack direction="row" gap="xs">
@@ -196,8 +199,12 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
                     </vater-stack>
                   </vater-stack>
                 } @else {
-                  <vater-stack fill="horizontal">
-                    <watt-spinner />
+                  <vater-stack fill="horizontal" direction="row" gap="m">
+                    <watt-skeleton />
+                    <watt-skeleton />
+                    <watt-skeleton />
+                    <watt-skeleton />
+                    <watt-skeleton />
                   </vater-stack>
                 }
               </vater-stack>
