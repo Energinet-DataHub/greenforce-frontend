@@ -3427,6 +3427,7 @@ enum ProcessManagerBusinessReason {
   UpdateChargeSeries
   CustomerMoveIn
   SecondaryMoveIn
+  CustomerMoveOut
   UpdateMasterDataConsumer
   NewMeteringPoint
   Move
@@ -3611,6 +3612,7 @@ enum WorkflowAction {
   SEND_INFORMATION
   CANCEL_WORKFLOW
   CONFIRM_WORKFLOW
+  REJECT_REQUEST
 }
 
 "The authorize directive."

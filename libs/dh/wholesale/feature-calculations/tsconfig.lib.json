@@ -10,7 +10,6 @@
   "exclude": [
     "tests/**/*.spec.ts",
     "tests/test-setup.ts",
-    "vite.config.mts",
     "tests/**/*.test.ts",
     "cypress/**/*",
     "cypress.config.ts",

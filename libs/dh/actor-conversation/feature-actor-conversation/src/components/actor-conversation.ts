@@ -67,6 +67,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
     DhActorConversationDetailsComponent,
     DhActorConversationListItemComponent,
     ActorConversationFilter,
+    WattHeadingComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
