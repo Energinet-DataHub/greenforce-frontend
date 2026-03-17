@@ -81,7 +81,12 @@ import { WattDatePipe } from '@energinet/watt/date';
       class="inset-stretch-inverted"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
-      <vater-stack fill="horizontal" direction="row" justify="space-between" class="title-min-height">
+      <vater-stack
+        fill="horizontal"
+        direction="row"
+        justify="space-between"
+        class="title-min-height"
+      >
         @if (!conversation().read) {
           <dh-circle class="unread-indicator" />
           <h5 class="no-margin">{{ t('subjects.' + conversation().subject) }}</h5>
@@ -92,12 +97,7 @@ import { WattDatePipe } from '@energinet/watt/date';
           <span class="watt-text-s">{{ t('closed') }}</span>
         }
       </vater-stack>
-      <vater-stack
-        fill="horizontal"
-        direction="row"
-        justify="space-between"
-        align="center"
-      >
+      <vater-stack fill="horizontal" direction="row" justify="space-between" align="center">
         <span class="watt-text-s grey-700">{{ conversation().displayId }}</span>
         @if (conversation().lastUpdated) {
           <span class="watt-text-s grey-700">{{
