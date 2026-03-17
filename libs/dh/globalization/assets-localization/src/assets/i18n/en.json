@@ -889,7 +889,7 @@
         "type": "Metering point type",
         "address": "Address",
         "resolution": "Resolution",
-        "notValidated": "Search for a metering point before continuing",
+        "notValidated": "Please search for a metering point",
         "notFound": "No metering point found for the given ID"
       }
     },

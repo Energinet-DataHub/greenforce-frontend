@@ -889,7 +889,7 @@
         "type": "Målepunktstype",
         "address": "Adresse",
         "resolution": "Tidsopløsning",
-        "notValidated": "Søg efter et målepunkt før du fortsætter",
+        "notValidated": "Søg venligst efter et målepunkt",
         "notFound": "Intet målepunkt fundet for det angivne ID"
       }
     },
