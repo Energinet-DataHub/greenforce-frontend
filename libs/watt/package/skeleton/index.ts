@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { WattSkeletonLineComponent } from './watt-skeleton-line.component';
+export { WattSkeletonComponent } from './watt-skeleton.component';
 

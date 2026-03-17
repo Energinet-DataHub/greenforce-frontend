@@ -23,9 +23,9 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
  * `import { WattSkeletonLineComponent } from '@energinet/watt/skeleton';`
  */
 @Component({
-  selector: 'watt-skeleton-line',
+  selector: 'watt-skeleton',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./watt-skeleton-line.component.scss'],
+  styleUrls: ['./watt-skeleton.component.scss'],
   template: '',
   host: {
     '[style.width]': 'width()',
@@ -33,7 +33,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     '[style.border-radius]': 'borderRadius()',
   },
 })
-export class WattSkeletonLineComponent {
+export class WattSkeletonComponent {
   /** Width of the skeleton line. Accepts any valid CSS value, e.g. '100%', '200px'. */
   width = input<string>('100%');
 

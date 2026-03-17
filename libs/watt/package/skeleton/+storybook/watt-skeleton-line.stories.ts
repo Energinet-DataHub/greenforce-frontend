@@ -19,16 +19,16 @@
 import { Meta, StoryFn, StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { WATT_CARD } from '@energinet/watt/card';
-import { WattSkeletonLineComponent } from '../index';
+import { WattSkeletonComponent } from '../index';
 
-const meta: Meta<WattSkeletonLineComponent> = {
+const meta: Meta<WattSkeletonComponent> = {
   title: 'Components/Skeleton',
   decorators: [
     moduleMetadata({
-      imports: [WattSkeletonLineComponent, WATT_CARD],
+      imports: [WattSkeletonComponent, WATT_CARD],
     }),
   ],
-  component: WattSkeletonLineComponent,
+  component: WattSkeletonComponent,
   argTypes: {
     width: { control: 'text' },
     height: { control: 'text' },
@@ -38,7 +38,7 @@ const meta: Meta<WattSkeletonLineComponent> = {
 
 export default meta;
 
-type Story = StoryObj<WattSkeletonLineComponent>;
+type Story = StoryObj<WattSkeletonComponent>;
 
 export const Default: Story = {
   args: {
@@ -67,9 +67,9 @@ export const Pill: Story = {
 export const MultipleLines: StoryFn = () => ({
   template: `
     <div style="display: flex; flex-direction: column; gap: var(--watt-space-s); width: 300px;">
-      <watt-skeleton-line width="80%" height="1em" />
-      <watt-skeleton-line width="100%" height="1em" />
-      <watt-skeleton-line width="60%" height="1em" />
+      <watt-skeleton width="80%" height="1em" />
+      <watt-skeleton width="100%" height="1em" />
+      <watt-skeleton width="60%" height="1em" />
     </div>
   `,
 });
@@ -78,11 +78,11 @@ export const CardPlaceholder: StoryFn = () => ({
   template: `
     <watt-card style="width: 320px;">
       <div style="display: flex; flex-direction: column; gap: var(--watt-space-m);">
-        <watt-skeleton-line width="40%" height="1.5em" />
-        <watt-skeleton-line width="100%" height="1em" />
-        <watt-skeleton-line width="100%" height="1em" />
-        <watt-skeleton-line width="70%" height="1em" />
-        <watt-skeleton-line width="90px" height="32px" />
+        <watt-skeleton width="40%" height="1.5em" />
+        <watt-skeleton width="100%" height="1em" />
+        <watt-skeleton width="100%" height="1em" />
+        <watt-skeleton width="70%" height="1em" />
+        <watt-skeleton width="90px" height="32px" />
       </div>
     </watt-card>
   `,
