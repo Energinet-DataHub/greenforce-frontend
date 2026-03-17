@@ -43,4 +43,3 @@ export class WattSkeletonComponent {
   /** Border radius of the skeleton line. Accepts any valid CSS value, e.g. '4px', '50%'. */
   borderRadius = input<string>('4px');
 }
-

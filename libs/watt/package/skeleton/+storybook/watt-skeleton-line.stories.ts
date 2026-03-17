@@ -87,5 +87,3 @@ export const CardPlaceholder: StoryFn = () => ({
     </watt-card>
   `,
 });
-
-

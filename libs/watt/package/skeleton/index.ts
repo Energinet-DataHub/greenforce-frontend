@@ -17,4 +17,3 @@
  */
 //#endregion
 export { WattSkeletonComponent } from './watt-skeleton.component';
-
