@@ -50,6 +50,7 @@ import {
   CloseConversationDocument,
   GetConversationDocument,
   GetConversationsDocument,
+  GetMeteringPointConversationInfoDocument,
   MarkConversationUnReadDocument,
   ParticipantType,
   SendActorConversationMessageDocument,
@@ -158,21 +159,25 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
                     <span class="watt-text-s">{{ conversation.internalNote }}</span>
                   </vater-stack>
                 </vater-stack>
-                <vater-stack direction="row" wrap align="start" class="wrap-gap">
-                  <label>571313100000000000 • Energivej 1, 7000 Fredericia</label>
-                  <vater-stack direction="row" gap="xs">
-                    <label>Tilslutningsstatus</label>
-                    <span class="watt-text-s">Tilsluttet</span>
+                @if (meteringPointConversationInfo()?.metadata; as metadata) {
+                  <vater-stack direction="row" wrap align="start" class="wrap-gap">
+                    <label>{{ conversation.meteringPointIdentification }}
+                      • {{ metadata.installationAddress?.streetName }} {{ metadata.installationAddress?.buildingNumber }}
+                      , {{ metadata.installationAddress?.municipalityCode }} {{ metadata.installationAddress?.cityName }}</label>
+                    <vater-stack direction="row" gap="xs">
+                      <label>Tilslutningsstatus</label>
+                      <span class="watt-text-s">{{ metadata.connectionState }}</span>
+                    </vater-stack>
+                    <vater-stack direction="row" gap="xs">
+                      <label>Målepunktstype</label>
+                      <span class="watt-text-s">{{ metadata.type }}</span>
+                    </vater-stack>
+                    <vater-stack direction="row" gap="xs">
+                      <label>Tidsopløsning</label>
+                      <span class="watt-text-s">{{ metadata.resolution }}</span>
+                    </vater-stack>
                   </vater-stack>
-                  <vater-stack direction="row" gap="xs">
-                    <label>Målepunktstype</label>
-                    <span class="watt-text-s">Forbrug (E17)</span>
-                  </vater-stack>
-                  <vater-stack direction="row" gap="xs">
-                    <label>Tidsopløsning</label>
-                    <span class="watt-text-s">Time</span>
-                  </vater-stack>
-                </vater-stack>
+                }
               </vater-stack>
 
               <vater-stack direction="row" gap="m">
@@ -180,17 +185,17 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
                   [disabled]="conversation.closed"
                   (click)="closeConversation()"
                   variant="secondary"
-                  >{{ t('closeCaseButton') }}
+                >{{ t('closeCaseButton') }}
                 </watt-button>
                 <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
                   <watt-icon name="moreVertical" />
                 </watt-button>
                 <watt-menu #menu>
                   <watt-menu-item (click)="openInternalNoteModal(conversation.internalNote)"
-                    >{{ t('internalNoteLabel') }}
+                  >{{ t('internalNoteLabel') }}
                   </watt-menu-item>
                   <watt-menu-item (click)="unreadConversation()"
-                    >{{ t('markAsUnreadButton') }}
+                  >{{ t('markAsUnreadButton') }}
                   </watt-menu-item>
                 </watt-menu>
               </vater-stack>
@@ -260,6 +265,20 @@ export class DhActorConversationDetailsComponent {
   }));
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
+
+  meteringPointConversationInfoQuery = query(GetMeteringPointConversationInfoDocument, () => {
+    const meteringPointId = this.conversation()?.meteringPointIdentification;
+    if (!meteringPointId) return { skip: true as const };
+    return {
+      variables: {
+        meteringPointId,
+      },
+    };
+  });
+
+  meteringPointConversationInfo = computed(
+    () => this.meteringPointConversationInfoQuery.data()?.meteringPoint
+  );
 
   readonly initiator = this.getParticipant(ParticipantType.Initiator);
   readonly receiver = this.getParticipant(ParticipantType.Receiver);

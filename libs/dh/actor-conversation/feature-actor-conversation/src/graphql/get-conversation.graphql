@@ -2,6 +2,7 @@ query GetConversation($conversationId: UUID!) {
   conversation(conversationId: $conversationId) {
     id
     displayId
+    meteringPointIdentification
     internalNote
     subject
     closed

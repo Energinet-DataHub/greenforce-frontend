@@ -659,6 +659,7 @@ function getConversation() {
           __typename: 'Conversation',
           displayId: match?.displayId ?? '00001',
           id: variables.conversationId,
+          meteringPointIdentification: '222222222222222222',
           internalNote: 'CS00123645',
           subject: match?.subject ?? 'INTERRUPTION_RECONNECTION',
           closed: match?.closed ?? false,
