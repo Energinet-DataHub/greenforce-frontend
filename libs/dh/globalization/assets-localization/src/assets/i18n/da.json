@@ -78,6 +78,7 @@
     "localhost": "lokalt",
     "d-001": "dev-001",
     "d-002": "dev-002",
+    "d-003": "dev-003",
     "t-001": "test-001",
     "t-002": "test-002",
     "b-001": "preprod",
@@ -2270,7 +2271,7 @@
           "RECEIVED": "Modtaget",
           "AWAITING_DISPATCH": "Afventer afsendelse",
           "AWAITING_REPLY": "Afventer svar fra eSett",
-          "BIZ_TALK_ACCEPTED": "Afventer svar fra ECP",
+          "SERVICE_BUS_ACCEPTED": "Afventer svar fra ECP",
           "ACCEPTED": "Accepteret",
           "REJECTED": "Afvist",
           "MANUALLY_HANDLED": "Manuelt løst"

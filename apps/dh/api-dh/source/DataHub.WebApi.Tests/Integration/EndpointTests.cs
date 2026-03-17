@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
@@ -36,14 +37,14 @@ public class EndpointTests
             var url = "swagger/v1/swagger.json";
 
             // Act
-            var actualResponse = await Client.GetAsync(url);
+            var actualResponse = await Client.GetAsync(url, CancellationToken.None);
 
             // Assert
             using var assertionScope = new AssertionScope();
             actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
             actualResponse.Content.Headers.ContentType!.MediaType.Should().Be("application/json");
 
-            var content = await actualResponse.Content.ReadAsStringAsync();
+            var content = await actualResponse.Content.ReadAsStringAsync(CancellationToken.None);
             content.Should().Contain("\"openapi\": \"3.");
         }
 
@@ -54,7 +55,7 @@ public class EndpointTests
             var url = "swagger";
 
             // Act
-            var actualResponse = await Client.GetAsync(url);
+            var actualResponse = await Client.GetAsync(url, CancellationToken.None);
 
             // Assert
             using var assertionScope = new AssertionScope();

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Tests.Extensions;
@@ -62,9 +63,11 @@ public class RequestOptionsQueryTests
             .Setup(x => x.HttpContext)
             .Returns(new DefaultHttpContext { User = claimsPrincipal });
 
-        var result = await server.ExecuteRequestAsync(b => b
+        var result = await server.ExecuteRequestAsync(
+            b => b
             .SetDocument(_requestOptionsQuery)
-            .SetUser(claimsPrincipal));
+            .SetUser(claimsPrincipal),
+            CancellationToken.None);
 
         await result.MatchSnapshotAsync($"GetRequestOptionsAs{eicFunction}");
     }
