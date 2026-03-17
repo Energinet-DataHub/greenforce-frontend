@@ -1,0 +1,240 @@
+import {
+  inject,
+  output,
+  signal,
+  computed,
+  Component,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { VATER } from '@energinet/watt/vater';
+import { WATT_MENU } from '@energinet/watt/menu';
+import { WattChipComponent } from '@energinet/watt/chip';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+import { WattSimpleSearchComponent } from '@energinet/watt/search';
+
+export type ActorConversationFilterValue = {
+  search: string;
+  myCases: boolean;
+  showOnlyUnread: boolean;
+  statusActive: boolean;
+  statusClosed: boolean;
+  subjects: ConversationSubject[];
+};
+
+type FilterChipKey =
+  | 'myCases'
+  | 'showOnlyUnread'
+  | 'statusActive'
+  | 'statusClosed'
+  | `subject:${ConversationSubject}`;
+
+type FilterChip = {
+  key: FilterChipKey;
+  label: string;
+};
+
+@Component({
+  selector: 'dh-actor-conversation-filter',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+    VATER,
+    WATT_MENU,
+    WattChipComponent,
+    WattButtonComponent,
+    WattSimpleSearchComponent,
+    WattCheckboxComponent,
+  ],
+  styles: `
+    :host {
+      width: 100%;
+
+      .watt-space-inset-m {
+        watt-checkbox {
+          width: 100%;
+        }
+      }
+
+      watt-simple-search {
+        width: 100%;
+      }
+    }
+  `,
+  template: `
+    <ng-container *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+      <vater-stack direction="column" gap="m" fill="horizontal">
+        <vater-stack direction="row" gap="s" justify="space-between" fill="horizontal">
+          <watt-simple-search [label]="t('searchPlaceholder')" (search)="search($event)" />
+          <watt-button icon="filter" variant="secondary" [wattMenuTriggerFor]="filterMenu" />
+
+          <watt-menu #filterMenu>
+            <vater-stack align="start" gap="m" fill="horizontal" class="watt-space-inset-m">
+              <watt-checkbox
+                (click)="$event.stopPropagation()"
+                [formControl]="form.controls.myCases"
+              >
+                {{ t('filters.myCases') }}
+              </watt-checkbox>
+              <watt-checkbox
+                (click)="$event.stopPropagation()"
+                [formControl]="form.controls.showOnlyUnread"
+              >
+                {{ t('filters.showOnlyUnread') }}
+              </watt-checkbox>
+            </vater-stack>
+
+            <watt-menu-group [label]="t('filters.status')">
+              <vater-stack align="start" gap="m" fill="horizontal" class="watt-space-inset-m">
+                <watt-checkbox
+                  (click)="$event.stopPropagation()"
+                  [formControl]="form.controls.statusActive"
+                >
+                  {{ t('active') }}
+                </watt-checkbox>
+
+                <watt-checkbox
+                  (click)="$event.stopPropagation()"
+                  [formControl]="form.controls.statusClosed"
+                >
+                  {{ t('closed') }}
+                </watt-checkbox>
+              </vater-stack>
+            </watt-menu-group>
+
+            <watt-menu-group [label]="t('subjectLabel')">
+              <vater-stack align="start" gap="m" fill="horizontal" class="watt-space-inset-m">
+                @for (subject of subjects; track subject) {
+                  <watt-checkbox
+                    (click)="$event.stopPropagation()"
+                    [formControl]="subjectControls[subject]"
+                  >
+                    {{ t('subjects.' + subject) }}
+                  </watt-checkbox>
+                }
+              </vater-stack>
+            </watt-menu-group>
+          </watt-menu>
+        </vater-stack>
+
+        @if (activeFilterChips().length > 0) {
+          <vater-stack direction="row" gap="s" align="start" wrap fill="horizontal">
+            @for (chip of activeFilterChips(); track chip.key) {
+              <watt-chip [selected]="true" (click)="removeFilter(chip.key)" variant="dismissible">{{
+                chip.label
+              }}</watt-chip>
+            }
+          </vater-stack>
+        }
+      </vater-stack>
+    </ng-container>
+  `,
+})
+export class ActorConversationFilter {
+  private transloco = inject(TranslocoService);
+
+  filterChange = output<ActorConversationFilterValue>();
+
+  subjects = Object.values(ConversationSubject);
+
+  subjectControls = Object.fromEntries(
+    Object.values(ConversationSubject).map((subject) => [subject, dhMakeFormControl(false)])
+  ) as Record<ConversationSubject, ReturnType<typeof dhMakeFormControl<boolean>>>;
+
+  form = new FormGroup({
+    search: dhMakeFormControl(''),
+    myCases: dhMakeFormControl(false),
+    showOnlyUnread: dhMakeFormControl(false),
+    statusActive: dhMakeFormControl(false),
+    statusClosed: dhMakeFormControl(false),
+    subjects: new FormGroup(this.subjectControls),
+  });
+
+  private formValue = toSignal(this.form.valueChanges, { initialValue: this.form.value });
+
+  constructor() {
+    // Emit filter changes when form changes
+    this.form.valueChanges.subscribe(() => this.emitFilterChange());
+  }
+
+  search(search: string) {
+    this.form.controls.search.setValue(search);
+  }
+
+  activeFilterChips = computed(() => {
+    const chips: FilterChip[] = [];
+    const value = this.formValue();
+
+    if (value.myCases) {
+      chips.push({
+        key: 'myCases',
+        label: this.transloco.translate('meteringPoint.actorConversation.filters.myCases'),
+      });
+    }
+    if (value.showOnlyUnread) {
+      chips.push({
+        key: 'showOnlyUnread',
+        label: this.transloco.translate('meteringPoint.actorConversation.filters.showOnlyUnread'),
+      });
+    }
+    if (value.statusActive) {
+      chips.push({
+        key: 'statusActive',
+        label: this.transloco.translate('meteringPoint.actorConversation.active'),
+      });
+    }
+    if (value.statusClosed) {
+      chips.push({
+        key: 'statusClosed',
+        label: this.transloco.translate('meteringPoint.actorConversation.closed'),
+      });
+    }
+
+    // Add subject chips
+    for (const subject of this.subjects) {
+      if (value.subjects?.[subject]) {
+        chips.push({
+          key: `subject:${subject}`,
+          label: this.transloco.translate(`meteringPoint.actorConversation.subjects.${subject}`),
+        });
+      }
+    }
+
+    return chips;
+  });
+
+  removeFilter(key: FilterChipKey): void {
+    if (key.startsWith('subject:')) {
+      const subject = key.replace('subject:', '') as ConversationSubject;
+      this.subjectControls[subject].setValue(false);
+    } else {
+      const control =
+        this.form.controls[key as 'myCases' | 'showOnlyUnread' | 'statusActive' | 'statusClosed'];
+      control.setValue(false);
+    }
+  }
+
+  private emitFilterChange(): void {
+    const subjects = Object.entries(this.subjectControls)
+      .filter(([, ctrl]) => ctrl.value)
+      .map(([subject]) => subject as ConversationSubject);
+
+    this.filterChange.emit({
+      search: this.form.controls.search.value,
+      myCases: this.form.controls.myCases.value,
+      showOnlyUnread: this.form.controls.showOnlyUnread.value,
+      statusActive: this.form.controls.statusActive.value,
+      statusClosed: this.form.controls.statusClosed.value,
+      subjects,
+    });
+  }
+}
