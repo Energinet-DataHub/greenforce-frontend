@@ -26,10 +26,16 @@ import {
   getPath,
   MeteringPointDebugSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-metering-point-debug',
-  imports: [TranslocoDirective, WATT_LINK_TABS, VaterUtilityDirective],
+  imports: [
+    TranslocoDirective,
+    WATT_LINK_TABS,
+    VaterUtilityDirective,
+    DhPermissionRequiredDirective,
+  ],
   template: `
     <watt-link-tabs vater inset="0" *transloco="let t; prefix: 'meteringPointDebug'">
       <watt-link-tab [label]="t('meteringPoints.tabLabel')" [link]="getLink('metering-points')" />
@@ -42,7 +48,11 @@ import {
         [link]="getLink('failed-measurements')"
       />
       <watt-link-tab [label]="t('migration.tabLabel')" [link]="getLink('migration')" />
-      <watt-link-tab [label]="t('actions.tabLabel')" [link]="getLink('actions')" />
+      <watt-link-tab
+        *dhPermissionRequired="['operation-tools:manage']"
+        [label]="t('actions.tabLabel')"
+        [link]="getLink('actions')"
+      />
       <watt-link-tab [label]="t('meteringPoint.tabLabel')" [link]="getLink('metering-point')" />
     </watt-link-tabs>
   `,
