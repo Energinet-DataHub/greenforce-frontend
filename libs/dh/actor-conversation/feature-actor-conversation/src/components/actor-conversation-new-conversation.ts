@@ -152,7 +152,19 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
                   </watt-description-list>
                 </vater-stack>
               } @else if (meteringPointInfoLoading()) {
-                <watt-skeleton />
+                <vater-stack direction="row">
+                  <watt-separator orientation="vertical" />
+                  <vater-stack gap="ml" class="watt-space-inset-m">
+                    <vater-stack gap="xs">
+                      <watt-skeleton width="150px" height="18px" />
+                      <watt-skeleton width="150px" height="18px" />
+                    </vater-stack>
+                    <vater-stack gap="xs">
+                      <watt-skeleton width="150px" height="18px" />
+                      <watt-skeleton width="150px" height="18px" />
+                    </vater-stack>
+                  </vater-stack>
+                </vater-stack>
               }
             }
             <watt-dropdown
@@ -282,15 +294,17 @@ export class DhActorConversationNewConversationComponent {
   meteringPointInfo = computed(() => {
     if (!this.searchMeteringPointId()) return undefined;
     const info = this.meteringPointNewConversationInfoQuery.data()?.meteringPoint;
-    if (info) untracked(() => {
-      this.hasMeteringPointIdBeenValidated = true;
-      this.meteringPointIdSearch.setErrors(null);
-      this.newConversationForm.controls.meteringPointId.setValue(info.id);
-    });
-    if (!info && !this.meteringPointNewConversationInfoQuery.loading()) untracked(() => {
-      this.meteringPointIdSearch.setErrors({ notFound: true });
-      this.meteringPointIdSearch.markAsTouched();
-    });
+    if (info)
+      untracked(() => {
+        this.hasMeteringPointIdBeenValidated = true;
+        this.meteringPointIdSearch.setErrors(null);
+        this.newConversationForm.controls.meteringPointId.setValue(info.id);
+      });
+    if (!info && !this.meteringPointNewConversationInfoQuery.loading())
+      untracked(() => {
+        this.meteringPointIdSearch.setErrors({ notFound: true });
+        this.meteringPointIdSearch.markAsTouched();
+      });
     return info;
   });
 
