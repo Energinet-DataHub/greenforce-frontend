@@ -16,23 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
 
-import { Routes } from '@angular/router';
-
-import { OperationToolsSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
-import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-
-const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: getPath<OperationToolsSubPaths>('metering-point'),
-  },
-  {
-    canActivate: [PermissionGuard(['operation-tools:view'])],
-    path: getPath<OperationToolsSubPaths>('metering-point'),
-    loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-debug'),
-  },
-];
-
-export default routes;
+import '@testing-library/jest-dom/vitest';

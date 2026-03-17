@@ -50,7 +50,8 @@ public static partial class ActorConversationsNode
             null,
             userId: userId.ToString(),
             marketRole: MapMarketRoleToActorType(marketRole).ToString(),
-            marketParticipantNumber: marketParticipantNumber);
+            marketParticipantNumber: marketParticipantNumber,
+            cancellationToken: ct);
     }
 
     static partial void Configure(

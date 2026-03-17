@@ -45,7 +45,7 @@ jobs:
             1. **Checkout this branch:**
                \`\`\`bash
                git fetch origin
-               git checkout <branch-name>
+               git checkout ${context.payload.pull_request.head.ref}
                \`\`\`
 
             2. **Build and start the containers:**

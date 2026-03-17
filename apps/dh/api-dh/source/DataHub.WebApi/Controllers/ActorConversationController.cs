@@ -12,13 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Text.Json;
-using Energinet.DataHub.MarketParticipant.Authorization.Model;
-using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
-using Energinet.DataHub.MarketParticipant.Authorization.Services;
+using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Controllers;
 
@@ -28,6 +26,7 @@ namespace Energinet.DataHub.WebApi.Controllers;
 public sealed class ActorConversationController : ControllerBase
 {
     private const long MaxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
+    private const long MaxRequestSizeBytes = MaxFileSizeBytes + (64 * 1024); // Extra headroom for multipart headers
 
     private static readonly HashSet<string> AllowedFileExtensions = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -35,17 +34,14 @@ public sealed class ActorConversationController : ControllerBase
     };
 
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IRequestAuthorization _requestAuthorization;
-    private readonly AuthorizedHttpClientFactory _authorizedHttpClientFactory;
+    private readonly IActorConversationClient_V1 _actorConversationClient;
 
     public ActorConversationController(
         IHttpContextAccessor httpContextAccessor,
-        IRequestAuthorization requestAuthorization,
-        AuthorizedHttpClientFactory authorizedHttpClientFactory)
+        IActorConversationClient_V1 actorConversationClient)
     {
         _httpContextAccessor = httpContextAccessor;
-        _requestAuthorization = requestAuthorization;
-        _authorizedHttpClientFactory = authorizedHttpClientFactory;
+        _actorConversationClient = actorConversationClient;
     }
 
     /// <summary>
@@ -53,7 +49,7 @@ public sealed class ActorConversationController : ControllerBase
     /// </summary>
     [HttpPost]
     [Route("UploadMessageDocument")]
-    [RequestSizeLimit(MaxFileSizeBytes)]
+    [RequestSizeLimit(MaxRequestSizeBytes)]
     public async Task<ActionResult<Guid>> UploadMessageDocumentAsync(
         IFormFile document,
         CancellationToken ct)
@@ -74,72 +70,29 @@ public sealed class ActorConversationController : ControllerBase
         var user = _httpContextAccessor.HttpContext.User;
         var actorNumber = user.GetMarketParticipantNumber();
         var userId = user.GetUserId();
-
-        var authRequest = new AddActorConversationMessageRequest
-        {
-            ActorNumber = actorNumber,
-            UserId = userId,
-        };
-
-        var signature = await _requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        if (!Enum.TryParse<EicFunctionAuth>(user.GetMarketParticipantMarketRole(), out var marketRole))
         {
             return Forbid();
         }
 
-        using var httpClient = _authorizedHttpClientFactory.CreateActorConversationHttpClientWithSignature(signature.Signature);
+        if (!TryMapMarketRole(marketRole, out var mappedRole))
+        {
+            return Forbid();
+        }
 
-        using var content = new MultipartFormDataContent();
         await using var stream = document.OpenReadStream();
-        var streamContent = new StreamContent(stream);
-        if (!string.IsNullOrEmpty(document.ContentType))
+        var fileParameter = new FileParameter(stream, document.FileName, document.ContentType);
+
+        try
         {
-            streamContent.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(document.ContentType);
+            var response = await _actorConversationClient.ApiAddMessageDocumentAsync(userId.ToString(), actorNumber, mappedRole.ToString(), fileParameter, ct);
+
+            return Ok(response.DocumentId);
         }
-
-        content.Add(streamContent, "File", document.FileName);
-
-        using var request = new HttpRequestMessage(HttpMethod.Post, "api/AddMessageDocument");
-        request.Headers.TryAddWithoutValidation("UserId", userId.ToString());
-        request.Headers.TryAddWithoutValidation("ActorNumber", actorNumber);
-        request.Content = content;
-
-        var response = await httpClient.SendAsync(request, ct);
-
-        if (!response.IsSuccessStatusCode)
+        catch (ApiException ex)
         {
-            var errorBody = await response.Content.ReadAsStringAsync(ct);
-            return StatusCode((int)response.StatusCode, errorBody);
+            return StatusCode(ex.StatusCode, ex.Response);
         }
-
-        var responseBody = await response.Content.ReadAsStringAsync(ct);
-
-        using var doc = JsonDocument.Parse(responseBody);
-        var root = doc.RootElement;
-
-        // If the response is a bare GUID string
-        if (root.ValueKind == JsonValueKind.String &&
-            Guid.TryParse(root.GetString(), out var bareGuid))
-        {
-            return Ok(bareGuid);
-        }
-
-        // If the response is an object, find the first GUID-like property
-        if (root.ValueKind == JsonValueKind.Object)
-        {
-            foreach (var property in root.EnumerateObject())
-            {
-                if (property.Value.ValueKind == JsonValueKind.String &&
-                    Guid.TryParse(property.Value.GetString(), out var guid))
-                {
-                    return Ok(guid);
-                }
-            }
-        }
-
-        return BadRequest($"Unexpected response format from upstream: {responseBody}");
     }
 
     /// <summary>
@@ -156,41 +109,56 @@ public sealed class ActorConversationController : ControllerBase
         var user = _httpContextAccessor.HttpContext.User;
         var actorNumber = user.GetMarketParticipantNumber();
         var userId = user.GetUserId();
-
-        var authRequest = new AddActorConversationMessageRequest
-        {
-            ActorNumber = actorNumber,
-            UserId = userId,
-        };
-
-        var signature = await _requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
+        if (!Enum.TryParse<EicFunctionAuth>(user.GetMarketParticipantMarketRole(), out var marketRole))
         {
             return Forbid();
         }
 
-        using var httpClient = _authorizedHttpClientFactory.CreateActorConversationHttpClientWithSignature(signature.Signature);
-
-        using var request = new HttpRequestMessage(HttpMethod.Get, $"api/GetMessageDocument/{documentId}");
-        request.Headers.TryAddWithoutValidation("UserId", userId.ToString());
-        request.Headers.TryAddWithoutValidation("ActorNumber", actorNumber);
-
-        var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
-
-        if (!response.IsSuccessStatusCode)
+        if (!TryMapMarketRole(marketRole, out var mappedRole))
         {
-            var errorBody = await response.Content.ReadAsStringAsync(ct);
-            return StatusCode((int)response.StatusCode, errorBody);
+            return Forbid();
         }
 
-        var contentType = response.Content.Headers.ContentType?.ToString() ?? "application/octet-stream";
-        var stream = await response.Content.ReadAsStreamAsync(ct);
+        try
+        {
+            var response = await _actorConversationClient.ApiGetMessageDocumentAsync(documentId, userId.ToString(), actorNumber, mappedRole.ToString(), ct);
+            if (response == null || response.ContentType == null)
+            {
+                return NotFound();
+            }
 
-        var contentDisposition = response.Content.Headers.ContentDisposition?.FileNameStar
-            ?? response.Content.Headers.ContentDisposition?.FileName;
+            // Read into byte array because the FileResponse is disposed at method exit
+            return File(response.FileContents, response.ContentType, response.FileDownloadName);
+        }
+        catch (ApiException ex)
+        {
+            return StatusCode(ex.StatusCode, ex.Response);
+        }
+    }
 
-        return File(stream, contentType, contentDisposition);
+    private static async Task<byte[]> ReadStreamToByteArrayAsync(Stream stream, CancellationToken ct)
+    {
+        using var memoryStream = new MemoryStream();
+        await stream.CopyToAsync(memoryStream, ct);
+        return memoryStream.ToArray();
+    }
+
+    private static bool TryMapMarketRole(EicFunctionAuth marketRole, out MarketRole mapped)
+    {
+        switch (marketRole)
+        {
+            case EicFunctionAuth.EnergySupplier:
+                mapped = MarketRole.EnergySupplier;
+                return true;
+            case EicFunctionAuth.GridAccessProvider:
+                mapped = MarketRole.GridAccessProvider;
+                return true;
+            case EicFunctionAuth.DataHubAdministrator:
+                mapped = MarketRole.Energinet;
+                return true;
+            default:
+                mapped = default;
+                return false;
+        }
     }
 }

@@ -540,7 +540,7 @@ type ElectricalHeatingMessage {
 }
 
 type ElectricalHeatingUserMessage {
-  content: String!
+  content: String
   reductionPeriod: ElectricityHeatingMessagePeriod!
   electricalHeatingFrom: DateTime!
 }
@@ -1410,8 +1410,8 @@ type Query {
   selectableDatesForEndOfSupply: [DateTime!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
-  meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:manage" ])
-  meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:manage" ])
+  meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:view" ])
+  meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
@@ -1782,8 +1782,7 @@ type UserAuditedChangeAuditLogDto {
 }
 
 type UserMessage {
-  "Message content"
-  content: String!
+  content: String
 }
 
 type UserOverviewItemDto {

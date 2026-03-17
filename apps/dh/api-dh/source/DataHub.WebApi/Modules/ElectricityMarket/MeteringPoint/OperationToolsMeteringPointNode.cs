@@ -51,14 +51,14 @@ public static class OperationToolsMeteringPointNode
                 .OrderBy(x => x.PackageNumber));
 
     [Query]
-    [Authorize(Roles = ["operation-tools:manage"])]
+    [Authorize(Roles = ["operation-tools:view"])]
     [UseRevisionLog]
     public static async Task<MeteringPointCountDto> GetMeteringPointCountAsync(
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
         CancellationToken ct) => await electricityMarketClient.MeteringPointCountAsync(ct);
 
     [Query]
-    [Authorize(Roles = ["operation-tools:manage"])]
+    [Authorize(Roles = ["operation-tools:view"])]
     [UseRevisionLog]
     public static async Task<long> GetMeteringPointMigratedCountAsync(
         IElectricityMarketClient electricityMarketClient,
