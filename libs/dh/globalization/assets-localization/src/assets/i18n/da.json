@@ -888,7 +888,9 @@
         "connectionState": "Tilslutningsstatus",
         "type": "Målepunktstype",
         "address": "Adresse",
-        "resolution": "Tidsopløsning"
+        "resolution": "Tidsopløsning",
+        "notValidated": "Søg efter et målepunkt før du fortsætter",
+        "notFound": "Intet målepunkt fundet for det angivne ID"
       }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",

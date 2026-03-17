@@ -888,7 +888,9 @@
         "connectionState": "Connection status",
         "type": "Metering point type",
         "address": "Address",
-        "resolution": "Resolution"
+        "resolution": "Resolution",
+        "notValidated": "Search for a metering point before continuing",
+        "notFound": "No metering point found for the given ID"
       }
     },
     "relatedMeteringPointsTitle": "Related metering points",
