@@ -882,7 +882,12 @@
       "electricalHeatingInformationCustomer": "Customer: {{ customerName }}",
       "electricalHeatingInformationSupplierPeriod": "Energy supplier period: {{ energySupplierPeriodFrom }} - {{ energySupplierPeriodTo }}",
       "electricalHeatingUserAddressEligibilityDate": "Address eligibility date (cf. BBR): {{ addressEligibilityDate }}",
-      "electricalHeatingUserChargeReductionPeriod": "Period for which reduced electricity tax is requested: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}"
+      "electricalHeatingUserChargeReductionPeriod": "Period for which reduced electricity tax is requested: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}",
+      "meteringPointInfo": {
+        "connectionState": "Connection status",
+        "type": "Metering point type",
+        "resolution": "Resolution"
+      }
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",

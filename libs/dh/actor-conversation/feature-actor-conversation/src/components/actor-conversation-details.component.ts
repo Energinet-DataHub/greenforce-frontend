@@ -63,6 +63,7 @@ import { DhActorConversationInternalNoteModalComponent } from './actor-conversat
 import { injectUploadMessageDocument } from './upload-message-document';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 @Component({
   selector: 'dh-actor-conversation-details',
@@ -85,6 +86,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
     VaterFlexComponent,
     WattHeadingComponent,
     WattSeparatorComponent,
+    WattSpinnerComponent,
   ],
   styles: `
     .sticky-background {
@@ -159,23 +161,43 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
                     <span class="watt-text-s">{{ conversation.internalNote }}</span>
                   </vater-stack>
                 </vater-stack>
-                @if (meteringPointConversationInfo()?.metadata; as metadata) {
-                  <vater-stack direction="row" wrap align="start" class="wrap-gap">
-                    <label>{{ conversation.meteringPointIdentification }}
-                      • {{ metadata.installationAddress?.streetName }} {{ metadata.installationAddress?.buildingNumber }}
-                      , {{ metadata.installationAddress?.municipalityCode }} {{ metadata.installationAddress?.cityName }}</label>
+                @if (meteringPointConversationInfo(); as meteringPointInfo) {
+                  <vater-stack
+                    direction="row"
+                    wrap
+                    align="start"
+                    class="wrap-gap"
+                    *transloco="let tBase"
+                  >
+                    <label
+                      >{{ conversation.meteringPointIdentification }} •
+                      {{ meteringPointInfo.metadata.installationAddress?.streetName }}
+                      {{ meteringPointInfo.metadata.installationAddress?.buildingNumber }} ,
+                      {{ meteringPointInfo.metadata.installationAddress?.municipalityCode }}
+                      {{ meteringPointInfo.metadata.installationAddress?.cityName }}</label
+                    >
                     <vater-stack direction="row" gap="xs">
-                      <label>Tilslutningsstatus</label>
-                      <span class="watt-text-s">{{ metadata.connectionState }}</span>
+                      <label>{{ t('meteringPointInfo.connectionState') }}</label>
+                      <span class="watt-text-s">{{
+                        tBase('meteringPoint.overview.status.' + meteringPointInfo.metadata.connectionState)
+                      }}</span>
                     </vater-stack>
                     <vater-stack direction="row" gap="xs">
-                      <label>Målepunktstype</label>
-                      <span class="watt-text-s">{{ metadata.type }}</span>
+                      <label>{{ t('meteringPointInfo.type') }}</label>
+                      <span class="watt-text-s">{{
+                        tBase('meteringPointType.' + meteringPointInfo.metadata.type)
+                      }}</span>
                     </vater-stack>
                     <vater-stack direction="row" gap="xs">
-                      <label>Tidsopløsning</label>
-                      <span class="watt-text-s">{{ metadata.resolution }}</span>
+                      <label>{{ t('meteringPointInfo.resolution') }}</label>
+                      <span class="watt-text-s">{{
+                        tBase('resolution.' + meteringPointInfo.metadata.resolution)
+                      }}</span>
                     </vater-stack>
+                  </vater-stack>
+                } @else {
+                  <vater-stack fill="horizontal">
+                    <watt-spinner />
                   </vater-stack>
                 }
               </vater-stack>
@@ -185,17 +207,17 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
                   [disabled]="conversation.closed"
                   (click)="closeConversation()"
                   variant="secondary"
-                >{{ t('closeCaseButton') }}
+                  >{{ t('closeCaseButton') }}
                 </watt-button>
                 <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
                   <watt-icon name="moreVertical" />
                 </watt-button>
                 <watt-menu #menu>
                   <watt-menu-item (click)="openInternalNoteModal(conversation.internalNote)"
-                  >{{ t('internalNoteLabel') }}
+                    >{{ t('internalNoteLabel') }}
                   </watt-menu-item>
                   <watt-menu-item (click)="unreadConversation()"
-                  >{{ t('markAsUnreadButton') }}
+                    >{{ t('markAsUnreadButton') }}
                   </watt-menu-item>
                 </watt-menu>
               </vater-stack>
@@ -266,8 +288,10 @@ export class DhActorConversationDetailsComponent {
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
 
+  meteringPointId = computed(() => this.conversation()?.meteringPointIdentification);
+
   meteringPointConversationInfoQuery = query(GetMeteringPointConversationInfoDocument, () => {
-    const meteringPointId = this.conversation()?.meteringPointIdentification;
+    const meteringPointId = this.meteringPointId();
     if (!meteringPointId) return { skip: true as const };
     return {
       variables: {
