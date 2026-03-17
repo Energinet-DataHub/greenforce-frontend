@@ -86,27 +86,6 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         System.Threading.Tasks.Task ApiCloseConversationAsync(string? userId, string? marketParticipantNumber, string? marketRole, CloseConversationRequest body, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
-        /// Get all actor numbers that have a conversation.
-        /// </summary>
-        /// <remarks>
-        /// Returns a distinct list of actor numbers for actors that participate in at least one conversation.
-        /// </remarks>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? marketParticipantNumber, string? marketRole);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Get all actor numbers that have a conversation.
-        /// </summary>
-        /// <remarks>
-        /// Returns a distinct list of actor numbers for actors that participate in at least one conversation.
-        /// </remarks>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
-
-        /// <summary>
         /// Gets the specified conversation.
         /// </summary>
         /// <remarks>
@@ -201,14 +180,35 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetElectricalHeatingInformationQueryResponse> ApiGetElectricalHeatingInformationAsync(string meteringPointIdentification, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Get all marketparticipants that have a conversation.
+        /// </summary>
+        /// <remarks>
+        /// Returns a distinct list of marketparticipants that participate in at least one conversation.
+        /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole);
+        System.Threading.Tasks.Task<GetMarketParticipantsQueryResponse> ApiGetMarketParticipantsAsync(string? userId, string? marketParticipantNumber, string? marketRole);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get all marketparticipants that have a conversation.
+        /// </summary>
+        /// <remarks>
+        /// Returns a distinct list of marketparticipants that participate in at least one conversation.
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<GetMarketParticipantsQueryResponse> ApiGetMarketParticipantsAsync(string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<FileResponse> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<FileResponse> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
 
         /// <remarks>
         /// Marks a conversation as read by the invoking actor
@@ -790,115 +790,6 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         }
 
         /// <summary>
-        /// Get all actor numbers that have a conversation.
-        /// </summary>
-        /// <remarks>
-        /// Returns a distinct list of actor numbers for actors that participate in at least one conversation.
-        /// </remarks>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? marketParticipantNumber, string? marketRole)
-        {
-            return ApiGetActorNumbersAsync(userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Get all actor numbers that have a conversation.
-        /// </summary>
-        /// <remarks>
-        /// Returns a distinct list of actor numbers for actors that participate in at least one conversation.
-        /// </remarks>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetActorNumbersQueryResponse> ApiGetActorNumbersAsync(string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
-        {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-
-                    if (userId != null)
-                        request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
-
-                    if (marketParticipantNumber != null)
-                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
-
-                    if (marketRole != null)
-                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    var urlBuilder_ = new System.Text.StringBuilder();
-                
-                    // Operation Path: "api/GetActorNumbers"
-                    urlBuilder_.Append("api/GetActorNumbers");
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<GetActorNumbersQueryResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        if (status_ == 500)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Internal Server Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await ReadAsStringAsync(response_.Content, cancellationToken).ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-
-        /// <summary>
         /// Gets the specified conversation.
         /// </summary>
         /// <remarks>
@@ -1305,9 +1196,118 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
             }
         }
 
+        /// <summary>
+        /// Get all marketparticipants that have a conversation.
+        /// </summary>
+        /// <remarks>
+        /// Returns a distinct list of marketparticipants that participate in at least one conversation.
+        /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole)
+        public virtual System.Threading.Tasks.Task<GetMarketParticipantsQueryResponse> ApiGetMarketParticipantsAsync(string? userId, string? marketParticipantNumber, string? marketRole)
+        {
+            return ApiGetMarketParticipantsAsync(userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get all marketparticipants that have a conversation.
+        /// </summary>
+        /// <remarks>
+        /// Returns a distinct list of marketparticipants that participate in at least one conversation.
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<GetMarketParticipantsQueryResponse> ApiGetMarketParticipantsAsync(string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+
+                    if (userId != null)
+                        request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                
+                    // Operation Path: "api/GetMarketParticipants"
+                    urlBuilder_.Append("api/GetMarketParticipants");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<GetMarketParticipantsQueryResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Internal Server Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await ReadAsStringAsync(response_.Content, cancellationToken).ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<FileResponse> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole)
         {
             return ApiGetMessageDocumentAsync(documentId, userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
         }
@@ -1315,7 +1315,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileContentResult> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<FileResponse> ApiGetMessageDocumentAsync(System.Guid documentId, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
         {
             if (documentId == null)
                 throw new System.ArgumentNullException("documentId");
@@ -1336,7 +1336,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (marketRole != null)
                         request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
                     request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
@@ -1367,24 +1367,22 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 200 || status_ == 206)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<FileContentResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await ReadAsStreamAsync(response_.Content, cancellationToken).ConfigureAwait(false);
+                            var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                            disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                            return fileResponse_;
                         }
                         else
                         if (status_ == 404)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<FileResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<FileResponse>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -2245,29 +2243,6 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ActorIdentifierDto
-    {
-
-        [Newtonsoft.Json.JsonProperty("actorNumber", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string ActorNumber { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("actorType", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string ActorType { get; set; } = default!;
-
-        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
-            set { _additionalProperties = value; }
-        }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class AddConversationMessageRequest
     {
 
@@ -2384,69 +2359,44 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class EntityTagHeaderValue
+    public partial class ElectricalHeatingInfo
     {
 
-        [Newtonsoft.Json.JsonProperty("tag", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public StringSegment Tag { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("customerName", Required = Newtonsoft.Json.Required.AllowNull)]
+        public string? CustomerName { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("isWeak", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsWeak { get; set; } = default!;
-
-        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
-            set { _additionalProperties = value; }
-        }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class FileContentResult
-    {
-
-        [Newtonsoft.Json.JsonProperty("fileContents", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public byte[] FileContents { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("contentType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? ContentType { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("fileDownloadName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? FileDownloadName { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("lastModified", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset? LastModified { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("entityTag", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public EntityTagHeaderValue? EntityTag { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("enableRangeProcessing", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool EnableRangeProcessing { get; set; } = default!;
-
-        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
-            set { _additionalProperties = value; }
-        }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetActorNumbersQueryResponse
-    {
-
-        /// <summary>
-        /// Actor identifiers with at least one conversation.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("actorIdentifiers", Required = Newtonsoft.Json.Required.Always)]
+        [Newtonsoft.Json.JsonProperty("supplierPeriods", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
-        public System.Collections.Generic.ICollection<ActorIdentifierDto> ActorIdentifiers { get; set; } = new System.Collections.ObjectModel.Collection<ActorIdentifierDto>();
+        public System.Collections.Generic.ICollection<ElectricalHeatingPeriod> SupplierPeriods { get; set; } = new System.Collections.ObjectModel.Collection<ElectricalHeatingPeriod>();
+
+        [Newtonsoft.Json.JsonProperty("isElectricalHeatingActive", Required = Newtonsoft.Json.Required.Always)]
+        public bool IsElectricalHeatingActive { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("electricalHeatingFrom", Required = Newtonsoft.Json.Required.AllowNull)]
+        public System.DateTimeOffset? ElectricalHeatingFrom { get; set; } = default!;
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ElectricalHeatingPeriod
+    {
+
+        [Newtonsoft.Json.JsonProperty("from", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.DateTimeOffset From { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("to", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.DateTimeOffset To { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
@@ -2869,6 +2819,28 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetMarketParticipantsQueryResponse
+    {
+
+        /// <summary>
+        /// MarketParticipant identifiers with at least one conversation.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("marketParticipantIdentifiers", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<MarketParticipantIdentifierDto> MarketParticipantIdentifiers { get; set; } = new System.Collections.ObjectModel.Collection<MarketParticipantIdentifierDto>();
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class MarkConversationReadRequest
     {
 
@@ -2894,6 +2866,29 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         [Newtonsoft.Json.JsonProperty("conversationId", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public System.Guid ConversationId { get; set; } = default!;
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MarketParticipantIdentifierDto
+    {
+
+        [Newtonsoft.Json.JsonProperty("marketParticipantNumber", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string MarketParticipantNumber { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("marketParticipantRole", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string MarketParticipantRole { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
@@ -3138,36 +3133,6 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class StringSegment
-    {
-
-        [Newtonsoft.Json.JsonProperty("buffer", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Buffer { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("offset", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public object Offset { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("length", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public object Length { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Value { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("hasValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool HasValue { get; set; } = default!;
-
-        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
-            set { _additionalProperties = value; }
-        }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class TestActorRetrievalResult
     {
 
@@ -3182,6 +3147,12 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
 
         [Newtonsoft.Json.JsonProperty("gridAccessproviderExceptionMessage", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? GridAccessproviderExceptionMessage { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("electricalHeatingInformation", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ElectricalHeatingInfo? ElectricalHeatingInformation { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("electricalHeatingExceptionMessage", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? ElectricalHeatingExceptionMessage { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
@@ -3223,6 +3194,41 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
 
     }
 
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class FileResponse : System.IDisposable
+    {
+        private System.IDisposable? _client;
+        private System.IDisposable? _response;
+
+        public int StatusCode { get; private set; }
+
+        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+
+        public System.IO.Stream Stream { get; private set; }
+
+        public bool IsPartial
+        {
+            get { return StatusCode == 206; }
+        }
+
+        public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable? client, System.IDisposable? response)
+        {
+            StatusCode = statusCode;
+            Headers = headers;
+            Stream = stream;
+            _client = client;
+            _response = response;
+        }
+
+        public void Dispose()
+        {
+            Stream.Dispose();
+            if (_response != null)
+                _response.Dispose();
+            if (_client != null)
+                _client.Dispose();
+        }
+    }
 
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
