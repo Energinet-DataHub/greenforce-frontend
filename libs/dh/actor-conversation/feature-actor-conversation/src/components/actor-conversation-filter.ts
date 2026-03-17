@@ -16,14 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  inject,
-  output,
-  signal,
-  computed,
-  Component,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { inject, output, computed, Component, ChangeDetectionStrategy } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 

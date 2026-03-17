@@ -17,34 +17,37 @@
  */
 //#endregion
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
   input,
-  linkedSignal,
   signal,
+  computed,
+  Component,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { VATER, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { TranslocoDirective } from '@jsverse/transloco';
+
 import {
   GetConversationsDocument,
   MarkConversationReadDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState, Conversation } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
-import { DhActorConversationDetailsComponent } from './actor-conversation-details.component';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { dhFormControlToSignal, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { WattSeparatorComponent } from '@energinet/watt/separator';
-import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
-import { ActorConversationFilter, ActorConversationFilterValue } from './actor-conversation-filter';
 import { WattHeadingComponent } from '@energinet/watt/heading';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
+import { VATER, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+
+import { ActorConversationState, Conversation } from '../types';
+import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
+import { DhActorConversationDetailsComponent } from './actor-conversation-details.component';
+import { ActorConversationFilter, ActorConversationFilterValue } from './actor-conversation-filter';
+import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -52,22 +55,22 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
+
     VATER,
     WATT_CARD,
-    WattEmptyStateComponent,
     WattButtonComponent,
     WattHeadingComponent,
-    DhResultComponent,
-    DhActorConversationNewConversationComponent,
-    TranslocoDirective,
     VaterStackComponent,
-    VaterUtilityDirective,
     WattSpinnerComponent,
+    WattHeadingComponent,
+    VaterUtilityDirective,
     WattSeparatorComponent,
+    WattEmptyStateComponent,
+    DhResultComponent,
+    ActorConversationFilter,
     DhActorConversationDetailsComponent,
     DhActorConversationListItemComponent,
-    ActorConversationFilter,
-    WattHeadingComponent,
+    DhActorConversationNewConversationComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
