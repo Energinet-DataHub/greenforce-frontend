@@ -848,7 +848,7 @@ function getConversation() {
 
 function getMeteringPointConversationInformation() {
   return mockGetMeteringPointConversationInfoQuery(async () => {
-    await delay(mswConfig.delay);
+    await delay(3000);
 
     return HttpResponse.json({
       data: {

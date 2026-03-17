@@ -161,14 +161,14 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
                     <span class="watt-text-s">{{ conversation.internalNote }}</span>
                   </vater-stack>
                 </vater-stack>
-                @if (meteringPointConversationInfo(); as meteringPointInfo) {
-                  <vater-stack
-                    direction="row"
-                    wrap
-                    align="start"
-                    class="wrap-gap"
-                    *transloco="let tBase"
-                  >
+                <vater-stack
+                  direction="row"
+                  wrap
+                  align="start"
+                  class="wrap-gap"
+                  *transloco="let tBase"
+                >
+                  @if (meteringPointConversationInfo(); as meteringPointInfo) {
                     <label
                       >{{ conversation.meteringPointIdentification }} •
                       {{ meteringPointInfo.metadata.installationAddress?.streetName }}
@@ -197,16 +197,13 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
                         tBase('resolution.' + meteringPointInfo.metadata.resolution)
                       }}</span>
                     </vater-stack>
-                  </vater-stack>
-                } @else {
-                  <vater-stack fill="horizontal" direction="row" gap="m">
-                    <watt-skeleton />
-                    <watt-skeleton />
-                    <watt-skeleton />
-                    <watt-skeleton />
-                    <watt-skeleton />
-                  </vater-stack>
-                }
+                  } @else {
+                    <watt-skeleton width="325px" height="20px" />
+                    <watt-skeleton width="200px" height="20px" />
+                    <watt-skeleton width="200px" height="20px" />
+                    <watt-skeleton width="200px" height="20px" />
+                  }
+                </vater-stack>
               </vater-stack>
 
               <vater-stack direction="row" gap="m">
