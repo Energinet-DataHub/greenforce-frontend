@@ -60,7 +60,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file);
+        System.Threading.Tasks.Task<AddMessageDocumentCommandResponse> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <remarks>
@@ -68,7 +68,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AddMessageDocumentCommandResponse> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file, System.Threading.CancellationToken cancellationToken);
 
         /// <remarks>
         /// Closes a conversation, creating a closed conversation message by the user
@@ -571,7 +571,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file)
+        public virtual System.Threading.Tasks.Task<AddMessageDocumentCommandResponse> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file)
         {
             return ApiAddMessageDocumentAsync(userId, marketParticipantNumber, marketRole, file, System.Threading.CancellationToken.None);
         }
@@ -582,7 +582,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// </remarks>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ActionResultOfAddMessageDocumentRequest> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AddMessageDocumentCommandResponse> ApiAddMessageDocumentAsync(string? userId, string? marketParticipantNumber, string? marketRole, FileParameter file, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -647,7 +647,7 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ActionResultOfAddMessageDocumentRequest>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<AddMessageDocumentCommandResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2245,42 +2245,6 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ActionResult
-    {
-
-        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
-            set { _additionalProperties = value; }
-        }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ActionResultOfAddMessageDocumentRequest
-    {
-
-        [Newtonsoft.Json.JsonProperty("result", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ActionResult Result { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public AddMessageDocumentRequest Value { get; set; } = default!;
-
-        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
-            set { _additionalProperties = value; }
-        }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ActorIdentifierDto
     {
 
@@ -2316,11 +2280,10 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
 
         /// <summary>
         /// The message content, thus the body itself.
-        /// <br/>Can contain at most 5000 characters and should not be empty.
+        /// <br/>Can contain at most 5000 characters and should not be empty, but may be if there are attachments
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Content { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Content { get; set; } = default!;
 
         /// <summary>
         /// Specifies whether the message is anonymous with respect to the Sender information.
@@ -2347,12 +2310,12 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class AddMessageDocumentRequest
+    public partial class AddMessageDocumentCommandResponse
     {
 
-        [Newtonsoft.Json.JsonProperty("file", Required = Newtonsoft.Json.Required.Always)]
+        [Newtonsoft.Json.JsonProperty("documentId", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public byte[] File { get; set; } = default!;
+        public System.Guid DocumentId { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
@@ -2678,9 +2641,8 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     public partial class GetConversationQueryResponseElectricalHeatingUserMessage
     {
 
-        [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Content { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("reductionPeriod", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -2756,12 +2718,8 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     public partial class GetConversationQueryResponseUserMessage
     {
 
-        /// <summary>
-        /// Message content
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Content { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Content { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
@@ -3065,11 +3023,10 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
 
         /// <summary>
         /// The message content, thus the body itself.
-        /// <br/>Can contain at most 5000 characters and should not be empty.
+        /// <br/>Can contain at most 5000 characters and should not be empty, but may be if there are attachments
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Content { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Content { get; set; } = default!;
 
         /// <summary>
         /// Specifies whether the message is anonymous with respect to the Sender information.
@@ -3128,9 +3085,8 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         [Newtonsoft.Json.JsonProperty("internalNote", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? InternalNote { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Content { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("content", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Content { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("anonymous", Required = Newtonsoft.Json.Required.Always)]
         public bool Anonymous { get; set; } = default!;
