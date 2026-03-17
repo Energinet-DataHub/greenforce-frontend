@@ -91,9 +91,10 @@ public class CalculationAuthOperationTests
     public async Task ExecuteCalculationQueriesAsync(UserIdentity userIdentity)
     {
         var server = new GraphQLTestService();
-        var result = await server.ExecuteRequestAsync(b => b
-            .SetDocument(_calculationQueries)
-            .SetUser(ClaimsPrincipalMocks.Create(userIdentity)));
+        var result = await server.ExecuteRequestAsync(
+            b =>
+            b.SetDocument(_calculationQueries).SetUser(ClaimsPrincipalMocks.Create(userIdentity)),
+            CancellationToken.None);
 
         await result.MatchSnapshotAsync($"ExecuteCalculationQueries_{userIdentity}");
     }
@@ -104,9 +105,11 @@ public class CalculationAuthOperationTests
     public async Task ExecuteCalculationMutationsAsync(UserIdentity userIdentity)
     {
         var server = new GraphQLTestService();
-        var result = await server.ExecuteRequestAsync(b => b
+        var result = await server.ExecuteRequestAsync(
+            b => b
             .SetDocument(_calculationMutations)
-            .SetUser(ClaimsPrincipalMocks.Create(userIdentity)));
+            .SetUser(ClaimsPrincipalMocks.Create(userIdentity)),
+            CancellationToken.None);
 
         await result.MatchSnapshotAsync($"ExecuteCalculationMutations_{userIdentity}");
     }

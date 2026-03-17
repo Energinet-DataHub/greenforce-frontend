@@ -2275,7 +2275,7 @@
           "RECEIVED": "Modtaget",
           "AWAITING_DISPATCH": "Afventer afsendelse",
           "AWAITING_REPLY": "Afventer svar fra eSett",
-          "BIZ_TALK_ACCEPTED": "Afventer svar fra ECP",
+          "SERVICE_BUS_ACCEPTED": "Afventer svar fra ECP",
           "ACCEPTED": "Accepteret",
           "REJECTED": "Afvist",
           "MANUALLY_HANDLED": "Manuelt løst"
