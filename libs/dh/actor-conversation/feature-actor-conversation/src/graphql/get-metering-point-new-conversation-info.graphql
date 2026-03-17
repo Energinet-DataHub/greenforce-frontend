@@ -1,0 +1,16 @@
+query GetMeteringPointNewConversationInfo($meteringPointId: String!) {
+  meteringPoint(meteringPointId: $meteringPointId) {
+    id
+    metadata {
+      id
+      installationAddress {
+        id
+        streetName
+        buildingNumber
+        municipalityCode
+        cityName
+      }
+      type
+    }
+  }
+}

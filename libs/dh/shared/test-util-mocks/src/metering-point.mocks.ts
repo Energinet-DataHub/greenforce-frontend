@@ -35,6 +35,7 @@ import {
   mockGetMeasurementsQuery,
   mockGetMeteringPointByIdQuery,
   mockGetMeteringPointConversationInfoQuery,
+  mockGetMeteringPointNewConversationInfoQuery,
   mockGetMeteringPointsByGridAreaQuery,
   mockGetOperationToolsMeteringPointQuery,
   mockGetRelatedMeteringPointsByIdQuery,
@@ -82,6 +83,7 @@ export function meteringPointMocks(apiBase: string) {
     getConversations(),
     getConversation(),
     getMeteringPointConversationInformation(),
+    getMeteringPointNewConversationInformation(),
     getElectricalHeatingInformation(),
     sendMessage(),
     closeConversation(),
@@ -870,6 +872,35 @@ function getMeteringPointConversationInformation() {
             connectionState: ElectricityMarketConnectionStateType.Connected,
             type: ElectricityMarketMeteringPointType.Consumption,
             resolution: Resolution.QuarterHourly,
+          },
+        },
+      },
+    });
+  });
+}
+
+function getMeteringPointNewConversationInformation() {
+  return mockGetMeteringPointNewConversationInfoQuery(async () => {
+    await delay(3000);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPoint: {
+          id: '222222222222222222',
+          __typename: 'ElectricityMarketViewMeteringPointDto',
+          metadata: {
+            __typename: 'ElectricityMarketViewMeteringPointMetadataDto',
+            id: '1',
+            installationAddress: {
+              __typename: 'ElectricityMarketViewInstallationAddressDto',
+              id: '1',
+              streetName: 'Gade Vej Alle',
+              buildingNumber: '4',
+              municipalityCode: '5000',
+              cityName: 'City',
+            },
+            type: ElectricityMarketMeteringPointType.Consumption,
           },
         },
       },
