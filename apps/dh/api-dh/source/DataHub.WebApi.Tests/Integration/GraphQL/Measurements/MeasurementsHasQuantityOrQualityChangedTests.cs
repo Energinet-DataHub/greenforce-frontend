@@ -93,7 +93,7 @@ public class MeasurementsHasQuantityOrQualityChangedTests
             b => b
             .SetDocument(_query)
             .SetUser(ClaimsPrincipalMocks.CreateAdministrator()),
-            TestContext.Current.CancellationToken);
+            CancellationToken.None);
 
         await result.MatchSnapshotAsync(test_case);
     }

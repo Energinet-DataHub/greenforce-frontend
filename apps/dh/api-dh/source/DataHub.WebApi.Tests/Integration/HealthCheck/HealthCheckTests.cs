@@ -30,24 +30,24 @@ public class HealthCheckTests(
     [Fact]
     public async Task When_RequestLivenessStatus_Then_ResponseIsOkAndHealthy()
     {
-        var actualResponse = await Client.GetAsync(HealthChecksConstants.LiveHealthCheckEndpointRoute, TestContext.Current.CancellationToken);
+        var actualResponse = await Client.GetAsync(HealthChecksConstants.LiveHealthCheckEndpointRoute, CancellationToken.None);
 
         // Assert
         actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var actualContent = await actualResponse.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        var actualContent = await actualResponse.Content.ReadAsStringAsync(CancellationToken.None);
         actualContent.Should().StartWith("{\"status\":\"Healthy\"");
     }
 
     [Fact]
     public async Task When_RequestReadinessStatus_Then_ResponseIsOkAndHealthy()
     {
-        var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute, TestContext.Current.CancellationToken);
+        var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute, CancellationToken.None);
 
         // Assert
         actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var actualContent = await actualResponse.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        var actualContent = await actualResponse.Content.ReadAsStringAsync(CancellationToken.None);
         actualContent.Should().StartWith("{\"status\":\"Healthy\"");
     }
 
@@ -56,12 +56,12 @@ public class HealthCheckTests(
     {
         fixture.SetServiceAsUnavailable();
 
-        var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute, TestContext.Current.CancellationToken);
+        var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute, CancellationToken.None);
 
         // Assert
         actualResponse.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
 
-        var actualContent = await actualResponse.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        var actualContent = await actualResponse.Content.ReadAsStringAsync(CancellationToken.None);
         actualContent.Should().StartWith("{\"status\":\"Unhealthy\"");
     }
 

@@ -68,7 +68,7 @@ public class CalculationGridAreasQueryTests
             b => b
             .SetDocument(_calculationByIdQuery)
             .SetUser(ClaimsPrincipalMocks.CreateAdministrator()),
-            TestContext.Current.CancellationToken);
+            CancellationToken.None);
 
         await result.MatchSnapshotAsync();
     }

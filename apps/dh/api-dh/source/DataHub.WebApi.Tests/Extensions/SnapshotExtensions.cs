@@ -29,17 +29,17 @@ public static class SnapshotExtensions
         await Verifier.Verify(target: value.ToJson(), extension: "json");
 
     public static async Task MatchSnapshotAsync(this IExecutionResult value, string name) =>
-        await Verifier.Verify(target: value.ToJson(), extension: "json").UseMethodName(name).IgnoreParameters();
+        await Verifier.Verify(target: value.ToJson(), extension: "json").UseMethodName(name);
 
     public static async Task MatchSnapshotAsync(this object value) =>
         await Verifier.Verify(target: value);
 
     public static async Task MatchSnapshotAsync(this object value, string name) =>
-        await Verifier.Verify(target: value).UseMethodName(name).IgnoreParameters();
+        await Verifier.Verify(target: value).UseMethodName(name);
 
     public static async Task MatchSnapshotAsync(this string value, string extension) =>
         await Verifier.Verify(target: value, extension: extension);
 
     public static async Task MatchSnapshotAsync(this string value, string extension, string name) =>
-        await Verifier.Verify(target: value, extension: extension).UseMethodName(name).IgnoreParameters();
+        await Verifier.Verify(target: value, extension: extension).UseMethodName(name);
 }

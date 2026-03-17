@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OrchestrationInstance.Model;
 using Energinet.DataHub.WebApi.Tests.Extensions;
@@ -57,7 +58,7 @@ public class CalculationStateQueryTests
             b => b
             .SetDocument(_calculationByIdQuery)
             .SetUser(ClaimsPrincipalMocks.CreateAdministrator()),
-            TestContext.Current.CancellationToken);
+            CancellationToken.None);
 
         var snapshotNameSuffix = terminationState is null
             ? string.Empty

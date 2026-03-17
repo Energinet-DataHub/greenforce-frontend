@@ -94,7 +94,7 @@ public class CalculationAuthOperationTests
         var result = await server.ExecuteRequestAsync(
             b =>
             b.SetDocument(_calculationQueries).SetUser(ClaimsPrincipalMocks.Create(userIdentity)),
-            TestContext.Current.CancellationToken);
+            CancellationToken.None);
 
         await result.MatchSnapshotAsync($"ExecuteCalculationQueries_{userIdentity}");
     }
@@ -109,7 +109,7 @@ public class CalculationAuthOperationTests
             b => b
             .SetDocument(_calculationMutations)
             .SetUser(ClaimsPrincipalMocks.Create(userIdentity)),
-            TestContext.Current.CancellationToken);
+            CancellationToken.None);
 
         await result.MatchSnapshotAsync($"ExecuteCalculationMutations_{userIdentity}");
     }

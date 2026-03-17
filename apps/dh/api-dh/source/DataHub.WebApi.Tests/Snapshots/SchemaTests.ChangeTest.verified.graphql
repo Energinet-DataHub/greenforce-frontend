@@ -1782,8 +1782,7 @@ type UserAuditedChangeAuditLogDto {
 }
 
 type UserMessage {
-  "Message content"
-  content: String!
+  content: String
 }
 
 type UserOverviewItemDto {
