@@ -854,11 +854,14 @@ function getMeteringPointConversationInformation() {
       data: {
         __typename: 'Query',
         meteringPoint: {
+          id: '222222222222222222',
           __typename: 'ElectricityMarketViewMeteringPointDto',
           metadata: {
             __typename: 'ElectricityMarketViewMeteringPointMetadataDto',
+            id: '1',
             installationAddress: {
               __typename: 'ElectricityMarketViewInstallationAddressDto',
+              id: '1',
               streetName: 'Gade Vej Alle',
               buildingNumber: '4',
               municipalityCode: '5000',
