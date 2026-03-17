@@ -41,7 +41,12 @@ import {
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ElectricalHeatingFormValue, internalNoteMaxLength, MessageFormValue, messageMaxLength, } from '../types';
+import {
+  ElectricalHeatingFormValue,
+  internalNoteMaxLength,
+  MessageFormValue,
+  messageMaxLength,
+} from '../types';
 import {
   ConversationSubject,
   GetConversationsDocument,
@@ -58,11 +63,12 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { injectUploadMessageDocument } from './upload-message-document';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import {
-  DhActorConversationElectricalHeatingFormComponent
-} from './actor-conversation-electrical-heating-form.component';
+import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
-import { WattDescriptionListComponent, WattDescriptionListItemComponent, } from '@energinet/watt/description-list';
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+} from '@energinet/watt/description-list';
 import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 
