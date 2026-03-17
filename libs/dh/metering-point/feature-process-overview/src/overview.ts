@@ -20,7 +20,7 @@ import { Component, computed, effect, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { combineLatest, filter, map } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective, TranslocoService, translate } from '@jsverse/transloco';
+import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
@@ -29,32 +29,25 @@ import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/wat
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { WattModalService } from '@energinet/watt/modal';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { MutationStatus, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DhEmDashFallbackPipe,
   DhStateBadge,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattToastService } from '@energinet/watt/toast';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  CancelEndOfSupplyDocument,
   EicFunction,
   GetMeteringPointProcessOverviewDocument,
-  ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import {
-  BasePaths,
-  getPath,
-  MeteringPointSubPaths,
-} from '@energinet-datahub/dh/core/configuration-routing';
-import { MeteringPointProcess } from '../types';
-import { DhCancelProcessModal } from './cancel-process-modal';
+import { MeteringPointProcess } from './types';
+import { DhActionsRegistry } from './actions/registry';
+import { SupportedActionsPipe } from './actions/supported-actions.pipe';
+
 @Component({
   selector: 'dh-metering-point-process-overview-table',
   imports: [
@@ -73,6 +66,7 @@ import { DhCancelProcessModal } from './cancel-process-modal';
     WattFormChipDirective,
     DhEmDashFallbackPipe,
     DhStateBadge,
+    SupportedActionsPipe,
   ],
   providers: [DhNavigationService],
   template: `
@@ -144,7 +138,7 @@ import { DhCancelProcessModal } from './cancel-process-modal';
               gap="s"
               *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
             >
-              @for (action of process.availableActions; track action) {
+              @for (action of (process.availableActions | supportedActions: process.businessReason); track action) {
                 @if (canPerformActions()) {
                   <watt-button
                     variant="secondary"
@@ -169,11 +163,9 @@ import { DhCancelProcessModal } from './cancel-process-modal';
   `,
 })
 export class DhMeteringPointProcessOverviewTable {
-  private readonly router = inject(Router);
   protected readonly navigation = inject(DhNavigationService);
+  private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
-  private readonly modalService = inject(WattModalService);
-  private readonly transloco = inject(TranslocoService);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -187,42 +179,6 @@ export class DhMeteringPointProcessOverviewTable {
     ]).pipe(map(([isNet, isEl]) => isNet || isEl)),
     { initialValue: false }
   );
-
-  private readonly toast = inject(WattToastService);
-
-  cancelEndOfSupply = mutation(CancelEndOfSupplyDocument);
-  cancelToastEffect = effect(() => {
-    const status = this.cancelEndOfSupply.status();
-    const processType = this.transloco.translate(
-      `meteringPoint.processOverview.processTypeName.EndOfSupply`
-    );
-    switch (status) {
-      case MutationStatus.Loading:
-        return this.toast.open({
-          type: 'loading',
-          message: this.transloco.translate(
-            'meteringPoint.processOverview.cancelProcess.loadingToast',
-            { processType }
-          ),
-        });
-      case MutationStatus.Error:
-        return this.toast.update({
-          type: 'danger',
-          message: this.transloco.translate(
-            'meteringPoint.processOverview.cancelProcess.errorToast',
-            { processType }
-          ),
-        });
-      case MutationStatus.Resolved:
-        return this.toast.update({
-          type: 'success',
-          message: this.transloco.translate(
-            'meteringPoint.processOverview.cancelProcess.successToast',
-            { processType }
-          ),
-        });
-    }
-  });
 
   initialDateRange = {
     start: dayjs().subtract(3, 'months').startOf('day').toDate(),
@@ -260,50 +216,10 @@ export class DhMeteringPointProcessOverviewTable {
 
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
-    if (
-      action === WorkflowAction.SendInformation &&
-      process.businessReason === ProcessManagerBusinessReason.CustomerMoveIn
-    ) {
-      this.router.navigate([
-        getPath<BasePaths>('metering-point'),
-        this.internalMeteringPointId(),
-        getPath<MeteringPointSubPaths>('update-customer-details'),
-        process.id,
-      ]);
-    }
-
-    if (
-      action === WorkflowAction.CancelWorkflow &&
-      process.businessReason === ProcessManagerBusinessReason.EndOfSupply
-    ) {
-      this.openCancelProcessModal(
-        this.meteringPointId(),
-        process.id,
-        process.businessReason
-      );
-    }
-  }
-
-  openCancelProcessModal(
-    meteringPointId: string,
-    processId: string,
-    businessReason: ProcessManagerBusinessReason
-  ) {
-    const processType = this.transloco.translate(
-      `meteringPoint.processOverview.processTypeName.${businessReason}`
-    );
-
-    this.modalService.open({
-      component: DhCancelProcessModal,
-      data: { processType },
-      onClosed: (confirmed) => {
-        if (confirmed) {
-          this.cancelEndOfSupply.mutate({
-            refetchQueries: [GetMeteringPointProcessOverviewDocument],
-            variables: { meteringPointId, processId },
-          });
-        }
-      },
+    this.actionService.execute(action, process.businessReason, {
+      meteringPointId: this.meteringPointId(),
+      internalMeteringPointId: this.internalMeteringPointId(),
+      processId: process.id,
     });
   }
 }

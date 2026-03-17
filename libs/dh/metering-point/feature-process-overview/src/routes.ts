@@ -28,12 +28,12 @@ export const meteringPointProcessOverviewRoutes: Routes = [
     ],
     path: '',
     loadComponent: () =>
-      import('./components/table').then((m) => m.DhMeteringPointProcessOverviewTable),
+      import('./overview').then((m) => m.DhMeteringPointProcessOverviewTable),
     children: [
       {
         path: 'details/:id',
         loadComponent: () =>
-          import('./components/details').then((m) => m.DhMeteringPointProcessOverviewDetails),
+          import('./details/details').then((m) => m.DhMeteringPointProcessOverviewDetails),
       },
     ],
   },

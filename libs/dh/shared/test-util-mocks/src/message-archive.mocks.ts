@@ -164,8 +164,6 @@ function getMeteringPointProcessOverview() {
     // Create base date for generating varied dates
     const baseDate = new Date('2025-01-01T10:00:00Z');
 
-    const actions = [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow];
-
     // Generate 30 mock processes with varied data
     const mockProcesses = Array.from({ length: 30 }, (_, index) => {
       // Vary created date - spread over 60 days

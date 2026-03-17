@@ -16,30 +16,26 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, input } from '@angular/core';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { Component, computed, inject, input } from '@angular/core';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattModalService } from '@energinet/watt/modal';
-import { WattToastService } from '@energinet/watt/toast';
 
-import { DhStateBadge } from '@energinet-datahub/dh/shared/ui-util';
-import { MutationStatus, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhStateBadge, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  CancelEndOfSupplyDocument,
   GetMeteringPointProcessByIdDocument,
-  GetMeteringPointProcessOverviewDocument,
-  ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMeteringPointProcessOverviewSteps } from './steps';
-import { DhCancelProcessModal } from './cancel-process-modal';
+import { DhActionsRegistry } from '../actions/registry';
+import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
+
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',
@@ -52,6 +48,7 @@ import { DhCancelProcessModal } from './cancel-process-modal';
     DhStateBadge,
     DhMeteringPointProcessOverviewSteps,
     WattButtonComponent,
+    SupportedActionsPipe,
   ],
   template: `
     <watt-drawer autoOpen [key]="id()" (closed)="navigation.navigate('list')">
@@ -98,9 +95,9 @@ import { DhCancelProcessModal } from './cancel-process-modal';
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
-        @if (showCancelButton()) {
-          <watt-button variant="secondary" (click)="openCancelProcessModal()">
-            {{ t('actions.CANCEL_WORKFLOW') }}
+        @for (action of (process.data()?.meteringPointProcessById?.availableActions | supportedActions: businessReason()); track action) {
+          <watt-button variant="secondary" (click)="executeAction(action)">
+            {{ t('actions.' + action) }}
           </watt-button>
         }
       </watt-drawer-actions>
@@ -119,6 +116,7 @@ export class DhMeteringPointProcessOverviewDetails {
   readonly id = input.required<string>();
   readonly meteringPointId = input.required<string>();
   protected navigation = inject(DhNavigationService);
+  private readonly actionService = inject(DhActionsRegistry);
 
   process = query(GetMeteringPointProcessByIdDocument, () => ({
     fetchPolicy: 'cache-and-network',
@@ -134,90 +132,24 @@ export class DhMeteringPointProcessOverviewDetails {
   businessReason = computed(() => this.process.data()?.meteringPointProcessById?.businessReason);
   initiator = computed(() => this.process.data()?.meteringPointProcessById?.initiator?.displayName);
 
-  // Only return steps when we have process data, otherwise empty to keep loading state
   steps = computed(() => {
     const data = this.process.data();
     if (!data?.meteringPointProcessById) return [];
     return data.meteringPointProcessById.steps ?? [];
   });
 
-  // Show loading until we have data or an error
   isLoading = computed(() => {
     return !this.process.called() || this.process.loading();
   });
 
-  private readonly modalService = inject(WattModalService);
-  private readonly transloco = inject(TranslocoService);
-  private readonly toast = inject(WattToastService);
-
-  availableActions = computed(
-    () => this.process.data()?.meteringPointProcessById?.availableActions ?? []
-  );
-
-  showCancelButton = computed(
-    () =>
-      this.businessReason() === ProcessManagerBusinessReason.EndOfSupply &&
-      this.availableActions().includes(WorkflowAction.CancelWorkflow)
-  );
-
-  cancelEndOfSupply = mutation(CancelEndOfSupplyDocument);
-
-  cancelToastEffect = effect(() => {
-    const status = this.cancelEndOfSupply.status();
-    const processType = this.transloco.translate(
-      `meteringPoint.processOverview.processTypeName.${this.businessReason()}`
-    );
-    switch (status) {
-      case MutationStatus.Loading:
-        return this.toast.open({
-          type: 'loading',
-          message: this.transloco.translate(
-            'meteringPoint.processOverview.cancelProcess.loadingToast',
-            { processType }
-          ),
-        });
-      case MutationStatus.Error:
-        return this.toast.update({
-          type: 'danger',
-          message: this.transloco.translate(
-            'meteringPoint.processOverview.cancelProcess.errorToast',
-            { processType }
-          ),
-        });
-      case MutationStatus.Resolved:
-        this.toast.update({
-          type: 'success',
-          message: this.transloco.translate(
-            'meteringPoint.processOverview.cancelProcess.successToast',
-            { processType }
-          ),
-        });
-        return this.navigation.navigate('list');
-    }
-  });
-
-  openCancelProcessModal() {
-    const processType = this.transloco.translate(
-      `meteringPoint.processOverview.processTypeName.${this.businessReason()}`
-    );
-
-    this.modalService.open({
-      component: DhCancelProcessModal,
-      data: { processType },
-      onClosed: (confirmed) => {
-        if (confirmed) {
-          this.cancelEndOfSupply.mutate({
-            refetchQueries: [
-              GetMeteringPointProcessByIdDocument,
-              GetMeteringPointProcessOverviewDocument,
-            ],
-            variables: {
-              meteringPointId: this.meteringPointId(),
-              processId: this.id(),
-            },
-          });
-        }
-      },
+  executeAction(action: WorkflowAction) {
+    const reason = this.businessReason();
+    if (!reason) return;
+    this.actionService.execute(action, reason, {
+      meteringPointId: this.meteringPointId(),
+      internalMeteringPointId: '',
+      processId: this.id(),
+      onSuccess: () => this.navigation.navigate('list'),
     });
   }
 }
