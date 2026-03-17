@@ -16,13 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, output, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  inject,
+  output,
+  computed,
+  Component,
+  ChangeDetectionStrategy,
+  effect,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { dhFormToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { ConversationSubject } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { VATER } from '@energinet/watt/vater';
@@ -159,7 +166,7 @@ export class ActorConversationFilter {
 
   subjectControls = Object.fromEntries(
     Object.values(ConversationSubject).map((subject) => [subject, dhMakeFormControl(false)])
-  ) as Record<ConversationSubject, ReturnType<typeof dhMakeFormControl<boolean>>>;
+  );
 
   form = new FormGroup({
     search: dhMakeFormControl(''),
@@ -170,11 +177,25 @@ export class ActorConversationFilter {
     subjects: new FormGroup(this.subjectControls),
   });
 
-  private formValue = toSignal(this.form.valueChanges, { initialValue: this.form.value });
+  private formValue = dhFormToSignal(this.form);
 
   constructor() {
-    // Emit filter changes when form changes
-    this.form.valueChanges.subscribe(() => this.emitFilterChange());
+    effect(() => {
+      const value = this.formValue();
+
+      const subjects = Object.entries(this.subjectControls)
+        .filter(([, ctrl]) => ctrl.value)
+        .map(([subject]) => subject as ConversationSubject);
+
+      this.filterChange.emit({
+        search: value.search ?? '',
+        myCases: value.myCases ?? false,
+        showOnlyUnread: value.showOnlyUnread ?? false,
+        statusActive: value.statusActive ?? false,
+        statusClosed: value.statusClosed ?? false,
+        subjects,
+      });
+    });
   }
 
   search(search: string) {
@@ -232,20 +253,5 @@ export class ActorConversationFilter {
         this.form.controls[key as 'myCases' | 'showOnlyUnread' | 'statusActive' | 'statusClosed'];
       control.setValue(false);
     }
-  }
-
-  private emitFilterChange(): void {
-    const subjects = Object.entries(this.subjectControls)
-      .filter(([, ctrl]) => ctrl.value)
-      .map(([subject]) => subject as ConversationSubject);
-
-    this.filterChange.emit({
-      search: this.form.controls.search.value,
-      myCases: this.form.controls.myCases.value,
-      showOnlyUnread: this.form.controls.showOnlyUnread.value,
-      statusActive: this.form.controls.statusActive.value,
-      statusClosed: this.form.controls.statusClosed.value,
-      subjects,
-    });
   }
 }
