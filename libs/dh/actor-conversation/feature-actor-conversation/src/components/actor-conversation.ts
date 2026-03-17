@@ -36,6 +36,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { dhFormControlToSignal, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
+import { WattHeadingComponent } from '@energinet/watt/heading';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -55,6 +56,7 @@ import { DhActorConversationListItemComponent } from './actor-conversation-list-
     WattSeparatorComponent,
     DhActorConversationDetailsComponent,
     DhActorConversationListItemComponent,
+    WattHeadingComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `

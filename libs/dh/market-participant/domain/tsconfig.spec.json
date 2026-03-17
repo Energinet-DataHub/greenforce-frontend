@@ -7,11 +7,5 @@
     "target": "es2020"
   },
   "files": ["tests/test-setup.ts"],
-  "include": [
-    "vite.config.mts",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts",
-    "tests/**/*.spec.ts",
-    "tests/**/*.test.ts"
-  ]
+  "include": ["src/**/*.spec.ts", "src/**/*.test.ts", "tests/**/*.spec.ts", "tests/**/*.test.ts"]
 }
