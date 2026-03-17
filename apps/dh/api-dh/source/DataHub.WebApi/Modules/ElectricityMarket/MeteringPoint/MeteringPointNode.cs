@@ -354,7 +354,8 @@ public static partial class MeteringPointNode
 
         return result.IsSuccess
             ? true
-            : throw new GraphQLException("Command RequestChangeProductionObligation failed");
+            : throw new GraphQLException(
+                $"Command RequestChangeProductionObligation failed for meteringPointId '{meteringPointId}', cutOffDate '{cutOffDate:O}', newProductionObligationState '{newProductionObligationState}'. EDI response: {result}");
     }
 
     [Mutation]
@@ -369,7 +370,8 @@ public static partial class MeteringPointNode
         var result = await ediB2CClient.SendAsync(command, ct);
         return result.IsSuccess
             ? true
-            : throw new GraphQLException("Command RequestEndOfSupply failed");
+            : throw new GraphQLException(
+                $"Command RequestEndOfSupply failed for meteringPointId '{meteringPointId}', terminationDate '{terminationDate:O}'. EDI response: {result}");
     }
 
     [Query]
