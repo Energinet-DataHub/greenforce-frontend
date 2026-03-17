@@ -21,6 +21,7 @@ using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Mappers;
 using Energinet.DataHub.Reports.Client;
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
@@ -66,6 +67,7 @@ public class GraphQLTestService
         ChargesClientMock = new Mock<IChargesClient>();
         ChargeLinkClientMock = new Mock<IChargeLinkClient>();
         ElectricityMarketClientMock = new Mock<IElectricityMarketClient>();
+        ElectricityMarketClientV1Mock = new Mock<IElectricityMarketClient_V1>();
 
         Services = new ServiceCollection()
             .AddLogging()
@@ -115,6 +117,7 @@ public class GraphQLTestService
             .AddSingleton(ChargesClientMock.Object)
             .AddSingleton(ChargeLinkClientMock.Object)
             .AddSingleton(ElectricityMarketClientMock.Object)
+            .AddSingleton(ElectricityMarketClientV1Mock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -158,6 +161,8 @@ public class GraphQLTestService
     public Mock<IChargeLinkClient> ChargeLinkClientMock { get; set; }
 
     public Mock<IElectricityMarketClient> ElectricityMarketClientMock { get; set; }
+
+    public Mock<IElectricityMarketClient_V1> ElectricityMarketClientV1Mock { get; set; }
 
     public IServiceCollection Services { get; set; }
 

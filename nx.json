@@ -141,12 +141,17 @@
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": [],
+    "sharedGlobals": [
+      "{workspaceRoot}/tools/plugins/implicit-libs.ts",
+      "{workspaceRoot}/libs/dh/vite.config.mts",
+      "{workspaceRoot}/libs/gf/vite.config.mts"
+    ],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/vite.config.mts",
+      "!{projectRoot}/vitest.config.mts",
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
@@ -154,7 +159,8 @@
       "!{projectRoot}/**/*.cy.[jt]s?(x)",
       "!{projectRoot}/cypress.config.[jt]s",
       "!{projectRoot}/tsconfig.storybook.json",
-      "!{projectRoot}/src/test-setup.[jt]s"
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/tests/test-setup.[jt]s"
     ]
   },
   "defaultBase": "main",
@@ -170,6 +176,7 @@
     },
     {
       "plugin": "@nx/vite/plugin",
+      "exclude": ["libs/dh/vite.config.mts", "libs/gf/vite.config.mts"],
       "options": {
         "testTargetName": "test"
       }

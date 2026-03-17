@@ -8,7 +8,7 @@ Feature flags are not supposed to live long; therefore, they have a **maximum li
 
 ## Create a feature flag
 
-Feature flags are located here: `libs/dh/shared/feature-flags/src/lib/feature-flags.ts` -> Find the constant: `dhFeatureFlagsConfig`
+Feature flags are located here: `libs/dh/shared/feature-flags/src/dh-feature-flags.ts` -> Find the constant: `dhFeatureFlagsConfig`
 
 The feature flags require two properties, `created` and `disabledEnvironments`.
 
