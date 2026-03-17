@@ -6,5 +6,5 @@
     "target": "ES2022"
   },
   "files": ["tests/test-setup.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts", "vite.config.mts"]
+  "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

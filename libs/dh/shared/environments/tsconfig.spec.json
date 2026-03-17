@@ -5,5 +5,5 @@
     "types": ["vitest/globals", "vitest/importMeta", "vite/client", "node", "vitest"]
   },
   "files": ["tests/test-setup.ts"],
-  "include": ["vite.config.mts", "tests/**/*.test.ts", "tests/**/*.spec.ts"]
+  "include": ["tests/**/*.test.ts", "tests/**/*.spec.ts"]
 }
