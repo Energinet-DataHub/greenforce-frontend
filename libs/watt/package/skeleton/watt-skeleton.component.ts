@@ -20,7 +20,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 /**
  * Usage:
- * `import { WattSkeletonLineComponent } from '@energinet/watt/skeleton';`
+ * `import { WattSkeletonComponent } from '@energinet/watt/skeleton';`
  */
 @Component({
   selector: 'watt-skeleton',
