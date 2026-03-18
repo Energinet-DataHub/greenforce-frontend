@@ -188,7 +188,9 @@ export class DhActorConversationNewConversationComponent {
 
   electricHeatingInformationQuery = lazyQuery(GetElectricalHeatingDocument, () => {
     const meteringPointIdentification =
-      this.meteringPointId() ?? this.newConversationForm.controls.meteringPointId.value ?? undefined;
+      this.meteringPointId() ??
+      this.newConversationForm.controls.meteringPointId.value ??
+      undefined;
     if (!meteringPointIdentification) return { skip: true as const };
     return { variables: { meteringPointIdentification } };
   });

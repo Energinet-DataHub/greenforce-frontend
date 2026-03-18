@@ -58,8 +58,12 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { style: 'width: 100%' },
   template: `
-    <vater-stack direction="column" gap="m" align="start"
-                 *transloco="let t; prefix: 'meteringPoint.actorConversation'">
+    <vater-stack
+      direction="column"
+      gap="m"
+      align="start"
+      *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+    >
       <vater-stack direction="row" gap="m" align="start" fill="horizontal">
         <watt-text-field maxLength="18" [formControl]="searchControl">
           @if (searchControl.hasError('notFound')) {
@@ -78,12 +82,12 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
             <watt-description-list-item
               [label]="t('meteringPointInfo.address')"
               [value]="
-                  info.metadata.installationAddress?.streetName +
-                  ' ' +
-                  info.metadata.installationAddress?.buildingNumber +
-                  ', ' +
-                  info.metadata.installationAddress?.cityName
-                "
+                info.metadata.installationAddress?.streetName +
+                ' ' +
+                info.metadata.installationAddress?.buildingNumber +
+                ', ' +
+                info.metadata.installationAddress?.cityName
+              "
             />
             <watt-description-list-item
               [label]="t('meteringPointInfo.type')"
@@ -181,4 +185,3 @@ export class DhActorConversationMeteringPointSearchComponent {
     }
   }
 }
-
