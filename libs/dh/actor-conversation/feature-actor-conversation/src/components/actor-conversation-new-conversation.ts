@@ -20,7 +20,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
   input,
   output,
@@ -38,6 +37,7 @@ import {
   dhEnumToWattDropdownOptions,
   dhFormControlToSignal,
   dhMakeFormControl,
+  dhSyncControlValidators,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -233,15 +233,11 @@ export class DhActorConversationNewConversationComponent {
     this.newConversationForm.controls.meteringPointId.setValue(meteringPointId ?? null);
   }
 
-  private readonly syncMeteringPointIdValidators = effect(() => {
-    const meteringPointIdControl = this.newConversationForm.controls.meteringPointId;
-    if (this.meteringPointId() === undefined) {
-      meteringPointIdControl.addValidators(Validators.required);
-    } else {
-      meteringPointIdControl.removeValidators(Validators.required);
-    }
-    meteringPointIdControl.updateValueAndValidity();
-  });
+  private readonly syncMeteringPointIdValidators = dhSyncControlValidators(
+    () => this.newConversationForm.controls.meteringPointId,
+    Validators.required,
+    () => this.meteringPointId() === undefined
+  );
 
   private readonly subjectValue = dhFormControlToSignal(
     () => this.newConversationForm.controls.subject
@@ -255,31 +251,23 @@ export class DhActorConversationNewConversationComponent {
     () => this.subjectValue() === ConversationSubject.ElectricalHeating
   );
 
-  private readonly syncEnergySupplierDateValidators = effect(() => {
-    const energySupplierDateControl = this.newConversationForm.controls.energySupplierDate;
-    if (this.receiverValue() === MarketRole.EnergySupplier) {
-      energySupplierDateControl.addValidators(Validators.required);
-    } else {
-      energySupplierDateControl.removeValidators(Validators.required);
-      energySupplierDateControl.reset();
-    }
-    energySupplierDateControl.updateValueAndValidity();
-  });
+  private readonly syncEnergySupplierDateValidators = dhSyncControlValidators(
+    () => this.newConversationForm.controls.energySupplierDate,
+    Validators.required,
+    () => this.receiverValue() === MarketRole.EnergySupplier,
+    { reset: true }
+  );
 
   shouldShowEletricalHeatingForm = computed(
     () => this.isElectricalHeating() && this.reducedElectricityTaxValue()
   );
 
-  private readonly syncElectricalHeatingValidators = effect(() => {
-    const electricalHeatingControl = this.newConversationForm.controls.electricalHeating;
-    if (this.shouldShowEletricalHeatingForm()) {
-      electricalHeatingControl.addValidators(Validators.required);
-    } else {
-      electricalHeatingControl.removeValidators(Validators.required);
-      electricalHeatingControl.reset();
-    }
-    electricalHeatingControl.updateValueAndValidity();
-  });
+  private readonly syncElectricalHeatingValidators = dhSyncControlValidators(
+    () => this.newConversationForm.controls.electricalHeating,
+    Validators.required,
+    () => this.shouldShowEletricalHeatingForm(),
+    { reset: true }
+  );
 
   async startConversation() {
     if (this.meteringPointId() === undefined && !this.meteringPointSearch()?.isValidated) {
