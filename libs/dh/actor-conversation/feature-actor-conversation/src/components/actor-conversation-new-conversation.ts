@@ -127,12 +127,15 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
+
             <vater-flex fill="horizontal" direction="row" gap="m" align="start">
-              <dh-actor-conversation-receiver-radio-group
-                [marketRole]="currentActorMarketRole"
-                [receiverControl]="newConversationForm().controls.receiver"
-                [dateControl]="newConversationForm().controls.energySupplierDate"
-              />
+              @if (!shouldShowEletricalHeatingForm()) {
+                <dh-actor-conversation-receiver-radio-group
+                  [marketRole]="currentActorMarketRole"
+                  [receiverControl]="newConversationForm().controls.receiver"
+                  [dateControl]="newConversationForm().controls.energySupplierDate"
+                />
+              }
             </vater-flex>
             <watt-text-field
               [formControl]="newConversationForm().controls.internalNote"
@@ -210,6 +213,14 @@ export class DhActorConversationNewConversationComponent {
         ]),
       })
   );
+
+  private readonly reducedElectricityTaxValueEffect = effect(() => {
+    if (this.isElectricalHeating() && this.reducedElectricityTaxValue()) {
+      this.newConversationForm().controls.receiver.setValue(MarketRole.GridAccessProvider);
+    } else {
+      this.newConversationForm().controls.receiver.reset();
+    }
+  });
 
   private readonly subjectValue = dhFormControlToSignal(
     () => this.newConversationForm().controls.subject
