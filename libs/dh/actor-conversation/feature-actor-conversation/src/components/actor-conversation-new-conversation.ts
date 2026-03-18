@@ -136,7 +136,7 @@ import { DhActorConversationMeteringPointSearchComponent } from './actor-convers
             }
 
             <vater-flex fill="horizontal" direction="row" gap="m" align="start">
-              @if (!shouldShowEletricalHeatingForm()) {
+              @if (!shouldShowElectricalHeatingForm()) {
                 <dh-actor-conversation-receiver-radio-group
                   [marketRole]="currentActorMarketRole"
                   [receiverControl]="newConversationForm.controls.receiver"
@@ -163,7 +163,7 @@ import { DhActorConversationMeteringPointSearchComponent } from './actor-convers
             />
           </vater-stack>
         </vater-grid-area>
-        @if (shouldShowEletricalHeatingForm()) {
+        @if (shouldShowElectricalHeatingForm()) {
           <vater-grid-area column="2" row="1">
             <dh-actor-conversation-electrical-heating-form
               [formControl]="newConversationForm.controls.electricalHeating"
@@ -270,14 +270,14 @@ export class DhActorConversationNewConversationComponent {
     { reset: true }
   );
 
-  shouldShowEletricalHeatingForm = computed(
+  shouldShowElectricalHeatingForm = computed(
     () => this.isElectricalHeating() && this.reducedElectricityTaxValue()
   );
 
   private readonly syncElectricalHeatingValidators = dhSyncControlValidators(
     () => this.newConversationForm.controls.electricalHeating,
     Validators.required,
-    () => this.shouldShowEletricalHeatingForm(),
+    () => this.shouldShowElectricalHeatingForm(),
     { reset: true }
   );
 
@@ -320,7 +320,7 @@ export class DhActorConversationNewConversationComponent {
     this.uploading.set(false);
 
     let electricalHeatingInput: StartElectricalHeatingConversationInput | undefined;
-    if (this.shouldShowEletricalHeatingForm() && electricalHeating) {
+    if (this.shouldShowElectricalHeatingForm() && electricalHeating) {
       assertIsDefined(electricalHeating.addressEligibilityDate);
       assertIsDefined(electricalHeating.periodStart);
       electricalHeatingInput = {
