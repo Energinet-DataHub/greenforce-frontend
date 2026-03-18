@@ -144,11 +144,11 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
                     <watt-description-list-item
                       [label]="t('meteringPointInfo.address')"
                       [value]="
-                        info.metadata?.installationAddress?.streetName +
+                        info.metadata.installationAddress?.streetName +
                         ' ' +
-                        info.metadata?.installationAddress?.buildingNumber +
+                        info.metadata.installationAddress?.buildingNumber +
                         ', ' +
-                        info.metadata?.installationAddress?.cityName
+                        info.metadata.installationAddress?.cityName
                       "
                     />
                     <watt-description-list-item
