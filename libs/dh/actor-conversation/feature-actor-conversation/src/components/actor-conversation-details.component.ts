@@ -251,6 +251,11 @@ export class DhActorConversationDetailsComponent {
     }
   });
 
+  private readonly clearMessageFormEffect = effect(() => {
+    this.conversationId();
+    this.clearMessageForm();
+  });
+
   private readonly syncAnonymousEffect = effect(() => {
     const anonymous = this.conversation()?.wasLatestMessageAnonymous;
     if (anonymous !== undefined) {
@@ -333,6 +338,10 @@ export class DhActorConversationDetailsComponent {
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
 
+    this.clearMessageForm();
+  }
+
+  private clearMessageForm() {
     this.formControl.patchValue({
       content: '',
       anonymous: this.formControl.value.anonymous ?? false,
