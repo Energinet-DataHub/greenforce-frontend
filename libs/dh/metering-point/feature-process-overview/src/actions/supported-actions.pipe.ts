@@ -29,8 +29,8 @@ import { DhActionsRegistry } from './registry';
 export class SupportedActionsPipe implements PipeTransform {
   private readonly registry = inject(DhActionsRegistry);
 
-  transform(availableActions: WorkflowAction[] | null, businessReason: ProcessManagerBusinessReason): WorkflowAction[] {
-    if (!availableActions) return [];
+  transform(availableActions: WorkflowAction[] | null, businessReason?: ProcessManagerBusinessReason): WorkflowAction[] {
+    if (!availableActions || !businessReason) return [];
     return this.registry.getSupportedActions(availableActions, businessReason);
   }
 }
