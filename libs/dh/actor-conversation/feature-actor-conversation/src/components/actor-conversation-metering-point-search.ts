@@ -96,7 +96,7 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
             />
             <watt-description-list-item
               [label]="t('meteringPointInfo.type')"
-              [value]="tBase('meteringPointType.' + info.metadata?.type)"
+              [value]="tBase('meteringPointType.' + info.metadata.type)"
             />
           </watt-description-list>
         </vater-stack>
