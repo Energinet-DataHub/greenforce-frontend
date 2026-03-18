@@ -75,7 +75,9 @@ function useAngular(type: string, product: string, domain: string, name: string)
  * Determines the Vitest environment for a lib.
  * - happy-dom whenever Angular plugin is active (TestBed requires a DOM)
  * - node otherwise (pure TS / non-Angular libs)
- * - jsdom for libs that need MutationObserver support (required by Testing Library's waitFor)
+ * - jsdom for libs whose tests rely on Testing Library's waitFor/findBy* queries,
+ *   which need a fully-conformant MutationObserver (happy-dom's implementation
+ *   doesn't trigger callbacks correctly for Angular change detection)
  */
 function vitestEnvironment(
   angular: boolean,
@@ -83,8 +85,6 @@ function vitestEnvironment(
   domain: string,
   name: string
 ): 'happy-dom' | 'jsdom' | 'node' {
-  // These libs require jsdom because their tests use Testing Library's waitFor/findBy*
-  // queries, which depend on MutationObserver (not supported by happy-dom).
   if (product === 'dh' && domain === 'metering-point' && name === 'feature-process-overview')
     return 'jsdom';
   return angular ? 'happy-dom' : 'node';
