@@ -5,7 +5,7 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": [],
+    "types": []
   },
   "exclude": ["tests/test-setup.ts", "**/*.spec.ts"],
   "include": ["**/*.ts"]
