@@ -25,6 +25,13 @@
   );
 }
 
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+    background-position: 0 0;
+  }
+}
+
 @keyframes watt-skeleton-shine {
   0% {
     background-position: 100% 0;
