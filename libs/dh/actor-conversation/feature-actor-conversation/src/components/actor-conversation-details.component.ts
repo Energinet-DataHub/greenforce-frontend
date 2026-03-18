@@ -17,34 +17,24 @@
  */
 //#endregion
 import {
+  afterRenderEffect,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
   effect,
+  ElementRef,
   inject,
   input,
   signal,
-  ViewEncapsulation,
-  computed,
-  Component,
   viewChild,
-  ElementRef,
-  afterRenderEffect,
-  ChangeDetectionStrategy,
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import {
-  VaterFlexComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
-import {
-  WattMenuComponent,
-  WattMenuItemComponent,
-  WattMenuTriggerDirective,
-} from '@energinet/watt/menu';
-import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective, } from '@energinet/watt/vater';
+import { WattMenuComponent, WattMenuItemComponent, WattMenuTriggerDirective, } from '@energinet/watt/menu';
 import { MessageFormValue } from '../types';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -56,26 +46,19 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 
 import {
-  ParticipantType,
+  CloseConversationDocument,
   GetConversationDocument,
   GetConversationsDocument,
   GetMeteringPointConversationInfoDocument,
-  CloseConversationDocument,
   MarkConversationUnReadDocument,
+  ParticipantType,
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-
-import { MessageFormValue } from '../types';
 import { injectUploadMessageDocument } from './upload-message-document';
 import { DhActorConversationMessageComponent } from './actor-conversation-message';
-import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 import { DhActorConversationInternalNoteModalComponent } from './actor-conversation-internal-note-modal.component';
-import { injectUploadMessageDocument } from './upload-message-document';
-import { WattHeadingComponent } from '@energinet/watt/heading';
-import { WattSeparatorComponent } from '@energinet/watt/separator';
 import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
