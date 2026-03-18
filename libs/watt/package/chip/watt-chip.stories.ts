@@ -143,6 +143,19 @@ export const Enabled: StoryObj<WattChipComponent> = {
   }),
 };
 
+export const Dismissible: StoryObj<WattChipComponent> = {
+  render: () => ({
+    template: `
+      <div style="display: flex; gap: var(--watt-space-s)">
+        <watt-chip [selected]="true" variant="dismissible">data.dk</watt-chip>
+        <watt-chip [selected]="true" variant="dismissible">todo.dk</watt-chip>
+        <watt-chip [selected]="true" variant="dismissible">funny.dk</watt-chip>
+        <watt-chip [selected]="true"variant="dismissible">domain.dk</watt-chip>
+      </div>
+    `,
+  }),
+};
+
 export const Input: StoryObj<WattInputChipComponent> = {
   render: () => ({
     props: {
