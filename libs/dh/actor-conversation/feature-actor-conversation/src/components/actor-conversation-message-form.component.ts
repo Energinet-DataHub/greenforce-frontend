@@ -21,6 +21,7 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
+  effect,
   forwardRef,
   inject,
   input,
@@ -181,6 +182,7 @@ export class DhActorConversationMessageFormComponent implements ControlValueAcce
   private readonly cdr = inject(ChangeDetectorRef);
   loading = input<boolean>(false);
   closed = input<boolean>(false);
+  disableAnonymous = input<boolean>(false);
   uploadError = input<boolean>(false);
 
   form = new FormGroup({
@@ -194,6 +196,14 @@ export class DhActorConversationMessageFormComponent implements ControlValueAcce
   acceptedFileTypes = allowedFileExtensions.join(',');
 
   value = toSignal(this.form.valueChanges);
+
+  disableAnonymousControlEffect = effect(() => {
+    if (this.disableAnonymous()) {
+      this.form.controls.anonymous.disable();
+    } else {
+      this.form.controls.anonymous.enable();
+    }
+  });
 
   messageValueChanged = toObservable(
     computed<MessageFormValue>(() => {
