@@ -888,7 +888,8 @@ function getMeteringPointNewConversationInformation() {
       data: {
         __typename: 'Query',
         meteringPoint: {
-          id: '222222222222222222',
+          id: '1',
+          meteringPointId: '222222222222222222',
           __typename: 'ElectricityMarketViewMeteringPointDto',
           metadata: {
             __typename: 'ElectricityMarketViewMeteringPointMetadataDto',
@@ -910,8 +911,8 @@ function getMeteringPointNewConversationInformation() {
 }
 
 function getElectricalHeatingInformation() {
-  await delay(mswConfig.delay);
   return mockGetElectricalHeatingQuery(async () => {
+  await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
