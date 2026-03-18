@@ -25,7 +25,7 @@ import {
   input,
   output,
   signal,
-  untracked,
+  viewChild,
 } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
@@ -51,26 +51,19 @@ import {
   ConversationSubject,
   GetConversationsDocument,
   GetElectricalHeatingDocument,
-  GetMeteringPointNewConversationInfoDocument,
   MarketRole,
   StartConversationDocument,
   StartElectricalHeatingConversationInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 import { DhActorConversationReceiverRadioGroupComponent } from './actor-conversation-receiver-radio-group';
-import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { injectUploadMessageDocument } from './upload-message-document';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
-import { WattSeparatorComponent } from '@energinet/watt/separator';
-import {
-  WattDescriptionListComponent,
-  WattDescriptionListItemComponent,
-} from '@energinet/watt/description-list';
-import { WattSkeletonComponent } from '@energinet/watt/skeleton';
-import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { DhActorConversationMeteringPointSearchComponent } from './actor-conversation-metering-point-search';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -88,11 +81,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
     WattSlideToggleComponent,
     DhActorConversationReceiverRadioGroupComponent,
     DhActorConversationElectricalHeatingFormComponent,
-    WattSeparatorComponent,
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
-    WattSkeletonComponent,
-    WattFieldErrorComponent,
+    DhActorConversationMeteringPointSearchComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -126,52 +115,9 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
         <vater-grid-area column="1" row="1">
           <vater-stack direction="column" gap="m" align="start">
             @if (meteringPointId() === undefined) {
-              <vater-stack direction="row" gap="m" align="start" fill="horizontal">
-                <watt-text-field maxLength="18" [formControl]="meteringPointIdSearch">
-                  @if (meteringPointIdSearch.hasError('notFound')) {
-                    <watt-field-error>{{ t('meteringPointInfo.notFound') }}</watt-field-error>
-                  } @else {
-                    <watt-field-error>{{ t('meteringPointInfo.notValidated') }}</watt-field-error>
-                  }
-                </watt-text-field>
-                <watt-button icon="search" variant="secondary" (click)="searchMeteringPoint()" />
-              </vater-stack>
-
-              @if (meteringPointInfo(); as info) {
-                <vater-stack direction="row" gap="m">
-                  <watt-separator orientation="vertical" />
-                  <watt-description-list [groupsPerRow]="1" *transloco="let tBase">
-                    <watt-description-list-item
-                      [label]="t('meteringPointInfo.address')"
-                      [value]="
-                        info.metadata.installationAddress?.streetName +
-                        ' ' +
-                        info.metadata.installationAddress?.buildingNumber +
-                        ', ' +
-                        info.metadata.installationAddress?.cityName
-                      "
-                    />
-                    <watt-description-list-item
-                      [label]="t('meteringPointInfo.type')"
-                      [value]="tBase('meteringPointType.' + info.metadata?.type)"
-                    />
-                  </watt-description-list>
-                </vater-stack>
-              } @else if (meteringPointInfoLoading()) {
-                <vater-stack direction="row">
-                  <watt-separator orientation="vertical" />
-                  <vater-stack gap="ml" class="watt-space-inset-m">
-                    <vater-stack gap="xs">
-                      <watt-skeleton width="150px" height="18px" />
-                      <watt-skeleton width="150px" height="18px" />
-                    </vater-stack>
-                    <vater-stack gap="xs">
-                      <watt-skeleton width="150px" height="18px" />
-                      <watt-skeleton width="150px" height="18px" />
-                    </vater-stack>
-                  </vater-stack>
-                </vater-stack>
-              }
+              <dh-actor-conversation-metering-point-search
+                (meteringPointIdValidated)="onMeteringPointIdValidated($event)"
+              />
             }
             <watt-dropdown
               [formControl]="newConversationForm.controls.subject"
@@ -237,9 +183,12 @@ export class DhActorConversationNewConversationComponent {
   uploading = signal(false);
   uploadError = signal(false);
   startConversationMutation = mutation(StartConversationDocument);
+
+  private readonly meteringPointSearch = viewChild(DhActorConversationMeteringPointSearchComponent);
+
   electricHeatingInformationQuery = lazyQuery(GetElectricalHeatingDocument, () => {
     const meteringPointIdentification =
-      this.meteringPointId() ?? this.searchMeteringPointId() ?? undefined;
+      this.meteringPointId() ?? this.newConversationForm.controls.meteringPointId.value ?? undefined;
     if (!meteringPointIdentification) return { skip: true as const };
     return { variables: { meteringPointIdentification } };
   });
@@ -270,63 +219,8 @@ export class DhActorConversationNewConversationComponent {
     ]),
   });
 
-  // Separate control for the search text field — not part of the form
-  meteringPointIdSearch = dhMakeFormControl<string>('');
-
-  private readonly meteringPointIdSearchValue = dhFormControlToSignal(
-    () => this.meteringPointIdSearch
-  );
-
-  private readonly searchMeteringPointId = signal<string | undefined>(undefined);
-  private hasMeteringPointIdBeenValidated = false;
-
-  private readonly clearOnSearchValueChange = effect(() => {
-    this.meteringPointIdSearchValue();
-    untracked(() => {
-      this.hasMeteringPointIdBeenValidated = false;
-      this.searchMeteringPointId.set(undefined);
-      this.newConversationForm.controls.meteringPointId.reset();
-      this.meteringPointIdSearch.setErrors(null);
-      this.meteringPointIdSearch.markAsUntouched();
-    });
-  });
-
-  meteringPointNewConversationInfoQuery = query(GetMeteringPointNewConversationInfoDocument, () => {
-    const meteringPointId = this.searchMeteringPointId();
-    if (!meteringPointId) return { skip: true as const };
-    return { variables: { meteringPointId } }
-  });
-
-  meteringPointInfo = computed(() => {
-    if (!this.searchMeteringPointId()) return undefined;
-    return this.meteringPointNewConversationInfoQuery.data()?.meteringPoint ?? undefined;
-  });
-
-  private readonly onMeteringPointInfoChange = effect(() => {
-    const id = this.searchMeteringPointId();
-    const meteringPoint = this.meteringPointNewConversationInfoQuery.data()?.meteringPoint;
-    const loading = this.meteringPointNewConversationInfoQuery.loading();
-
-    if (!id || loading) return;
-
-    if (meteringPoint) {
-      this.hasMeteringPointIdBeenValidated = true;
-      this.meteringPointIdSearch.setErrors(null);
-      this.newConversationForm.controls.meteringPointId.setValue(meteringPoint.meteringPointId);
-    } else {
-      this.meteringPointIdSearch.setErrors({ notFound: true });
-      this.meteringPointIdSearch.markAsTouched();
-    }
-  });
-
-  meteringPointInfoLoading = this.meteringPointNewConversationInfoQuery.loading;
-
-  searchMeteringPoint() {
-    const value = this.meteringPointIdSearch.value;
-    if (value) {
-      this.meteringPointIdSearch.setErrors(null);
-      this.searchMeteringPointId.set(value);
-    }
+  onMeteringPointIdValidated(meteringPointId: string | undefined): void {
+    this.newConversationForm.controls.meteringPointId.setValue(meteringPointId ?? null);
   }
 
   private readonly syncMeteringPointIdValidators = effect(() => {
@@ -382,9 +276,8 @@ export class DhActorConversationNewConversationComponent {
   });
 
   async startConversation() {
-    if (this.meteringPointId() === undefined && !this.hasMeteringPointIdBeenValidated) {
-      this.meteringPointIdSearch.setErrors({ notValidated: true });
-      this.meteringPointIdSearch.markAsTouched();
+    if (this.meteringPointId() === undefined && !this.meteringPointSearch()?.isValidated) {
+      this.meteringPointSearch()?.markNotValidated();
       return;
     }
 
