@@ -8,10 +8,12 @@ query GetConversation($conversationId: UUID!) {
     closed
     wasLatestMessageAnonymous
     participants {
+      id
       type
       role
       actorName
     }
+    partOfConversations
     messages {
       senderType
       userMessage {
