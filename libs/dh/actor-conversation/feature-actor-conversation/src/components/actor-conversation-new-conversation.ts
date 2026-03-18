@@ -299,20 +299,25 @@ export class DhActorConversationNewConversationComponent {
 
   meteringPointInfo = computed(() => {
     if (!this.searchMeteringPointId()) return undefined;
-    const info = this.meteringPointNewConversationInfoQuery.data()?.meteringPoint;
-    if (info)
-      untracked(() => {
-        this.hasMeteringPointIdBeenValidated = true;
-        this.meteringPointIdSearch.setErrors(null);
-        this.newConversationForm.controls.meteringPointId.setValue(info.id);
-      });
-    if (!info && !this.meteringPointNewConversationInfoQuery.loading())
-      untracked(() => {
-        this.meteringPointIdSearch.setErrors({ notFound: true });
-        this.meteringPointIdSearch.markAsTouched();
-      });
-    return info;
+    return this.meteringPointNewConversationInfoQuery.data()?.meteringPoint ?? undefined;
   });
+
+  private readonly onMeteringPointInfoChange = effect(() => {
+    const id = this.searchMeteringPointId();
+    const meteringPoint = this.meteringPointNewConversationInfoQuery.data()?.meteringPoint;
+    const loading = this.meteringPointNewConversationInfoQuery.loading();
+
+    if (!id || loading) return;
+
+    if (meteringPoint) {
+      this.hasMeteringPointIdBeenValidated = true;
+      this.meteringPointIdSearch.setErrors(null);
+      this.newConversationForm.controls.meteringPointId.setValue(meteringPoint.meteringPointId);
+    } else {
+      this.meteringPointIdSearch.setErrors({ notFound: true });
+      this.meteringPointIdSearch.markAsTouched();
+    }
+  })
 
   meteringPointInfoLoading = this.meteringPointNewConversationInfoQuery.loading;
 
