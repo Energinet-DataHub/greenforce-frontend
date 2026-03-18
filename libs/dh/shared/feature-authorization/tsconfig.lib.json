@@ -2,13 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-    "target": "ESNext",
     "module": "ESNext",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": [],
-    "lib": ["dom", "ESNext"]
+    "types": []
   },
   "exclude": ["tests/**/*.spec.ts", "tests/test-setup.ts", "tests/**/*.test.ts"],
   "include": ["src/**/*.ts"]
