@@ -1,12 +1,9 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../../../dist/out-tsc",
-    "declaration": true,
-    "declarationMap": true,
-    "inlineSources": true,
-    "types": []
-  },
-  "exclude": ["**/*.worker.ts"],
-  "include": ["**/*.ts"]
+  "extends": "../../tsconfig.lib.json",
+  "exclude": [
+    "**/*.worker.ts"
+  ],
+  "include": [
+    "**/*.ts"
+  ]
 }

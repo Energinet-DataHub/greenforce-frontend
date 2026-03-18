@@ -1,9 +1,11 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../../../../dist/out-tsc",
-    "types": ["vitest/globals", "node"]
-  },
-  "files": ["tests/test-setup.ts"],
-  "include": ["tests/**/*.spec.ts", "tests/**/*.test.ts", "tests/**/*.d.ts"]
+  "extends": "../../tsconfig.spec.json",
+  "files": [
+    "tests/test-setup.ts"
+  ],
+  "include": [
+    "tests/**/*.spec.ts",
+    "tests/**/*.test.ts",
+    "tests/**/*.d.ts"
+  ]
 }
