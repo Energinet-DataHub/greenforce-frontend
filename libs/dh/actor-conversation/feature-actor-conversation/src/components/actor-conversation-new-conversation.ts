@@ -58,7 +58,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 import { DhActorConversationReceiverRadioGroupComponent } from './actor-conversation-receiver-radio-group';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { injectUploadMessageDocument } from './upload-message-document';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
@@ -237,7 +237,7 @@ export class DhActorConversationNewConversationComponent {
   uploading = signal(false);
   uploadError = signal(false);
   startConversationMutation = mutation(StartConversationDocument);
-  electricHeatingInformationQuery = query(GetElectricalHeatingDocument, () => {
+  electricHeatingInformationQuery = lazyQuery(GetElectricalHeatingDocument, () => {
     const meteringPointIdentification =
       this.meteringPointId() ?? this.searchMeteringPointId() ?? undefined;
     if (!meteringPointIdentification) return { skip: true as const };
@@ -294,7 +294,7 @@ export class DhActorConversationNewConversationComponent {
   meteringPointNewConversationInfoQuery = query(GetMeteringPointNewConversationInfoDocument, () => {
     const meteringPointId = this.searchMeteringPointId();
     if (!meteringPointId) return { skip: true as const };
-    return { variables: { meteringPointId } };
+    return { variables: { meteringPointId } }
   });
 
   meteringPointInfo = computed(() => {
