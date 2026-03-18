@@ -1,5 +1,5 @@
 query GetMeteringPointNewConversationInfo($meteringPointId: String!) {
-  meteringPoint(meteringPointId: $meteringPointId) {
+  meteringPoint(meteringPointId: $meteringPointId, searchMigratedMeteringPoints: false) {
     id
     meteringPointId
     metadata {

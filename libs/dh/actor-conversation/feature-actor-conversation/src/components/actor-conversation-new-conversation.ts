@@ -200,7 +200,7 @@ export class DhActorConversationNewConversationComponent {
       this.newConversationForm.controls.meteringPointId.value ??
       undefined;
     if (!meteringPointIdentification) return;
-    this.electricHeatingInformationQuery.query({ variables: { meteringPointIdentification } });
+    this.electricHeatingInformationQuery.refetch({ meteringPointIdentification });
   });
 
   electricalHeatingInformation = computed(

@@ -74,7 +74,7 @@ export class DhActorConversationReceiverRadioGroupComponent {
   dateControl = input.required<FormControl<Date | null>>();
 
   protected readonly showGridAccessProvider = computed(
-    () => this.marketRole() !== 'GridAccessProvider'
+    () => this.marketRole() !== EicFunction.GridAccessProvider
   );
 
   protected readonly showEnerginet = computed(() => this.marketRole() !== 'DataHubAdministrator');

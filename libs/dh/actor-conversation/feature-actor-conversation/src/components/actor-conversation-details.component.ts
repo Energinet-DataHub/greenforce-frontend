@@ -306,7 +306,7 @@ export class DhActorConversationDetailsComponent {
   private readonly fetchMeteringPointConversationInfo = effect(() => {
     const meteringPointId = this.meteringPointId();
     if (!meteringPointId) return;
-    this.meteringPointConversationInfoQuery.query({ variables: { meteringPointId } });
+    this.meteringPointConversationInfoQuery.refetch({ meteringPointId });
   });
 
   meteringPointConversationInfo = computed(
