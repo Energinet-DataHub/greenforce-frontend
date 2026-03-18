@@ -854,12 +854,22 @@ function getElectricalHeatingInformation() {
           __typename: 'ElectricalHeatingInformation',
           customerName: 'Test Testesen',
           isElectricalHeatingActive: true,
-          electricalHeatingFrom: new Date(),
+          electricalHeatingFrom: new Date('2024-01-01'),
           supplierPeriods: [
             {
               __typename: 'ElectricalHeatingInformationPeriod',
-              from: new Date(),
-              to: new Date(),
+              from: new Date('2024-01-01'),
+              to: new Date('2024-02-28'),
+            },
+            {
+              __typename: 'ElectricalHeatingInformationPeriod',
+              from: new Date('2024-04-01'),
+              to: new Date('2024-06-19'),
+            },
+            {
+              __typename: 'ElectricalHeatingInformationPeriod',
+              from: new Date('2026-01-01'),
+              to: new Date('9999-01-01'),
             },
           ],
         },
