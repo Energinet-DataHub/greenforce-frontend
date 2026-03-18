@@ -30,7 +30,7 @@ import {
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { DhMeteringPointProcessOverviewTable } from '../src/overview';
@@ -43,6 +43,12 @@ async function setup(
 ) {
   const { isFas = false, hasMarketRole = true } = permissionOverrides;
 
+  const permissionMock = {
+    isFas: () => new BehaviorSubject(isFas),
+    hasMarketRole: () => new BehaviorSubject(hasMarketRole),
+    hasPermission: () => new BehaviorSubject(true),
+  };
+
   const { fixture } = await render(DhMeteringPointProcessOverviewTable, {
     providers: [
       provideHttpClient(withInterceptorsFromDi()),
@@ -50,17 +56,11 @@ async function setup(
       provideMsalTesting(),
       WattModalService,
       { provide: ComponentFixtureAutoDetect, useValue: true },
+      { provide: PermissionService, useValue: permissionMock },
     ],
-    componentProviders: [
-      {
-        provide: PermissionService,
-        useValue: {
-          isFas: () => of(isFas),
-          hasMarketRole: () => of(hasMarketRole),
-          hasPermission: () => of(true),
-        },
-      },
-    ],
+    configureTestBed: (testBed) => {
+      testBed.overrideProvider(PermissionService, { useValue: permissionMock });
+    },
     imports: [getTranslocoTestingModule()],
     componentInputs: {
       meteringPointId: 'mp-123',
