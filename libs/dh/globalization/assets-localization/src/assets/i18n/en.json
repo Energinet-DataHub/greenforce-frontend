@@ -891,7 +891,7 @@
         "address": "Address",
         "resolution": "Resolution",
         "notValidated": "Please search for a metering point",
-        "notFound": "No metering point found for the given ID"
+        "notFound": "Metering point ID does not exist"
       }
     },
     "relatedMeteringPointsTitle": "Related metering points",

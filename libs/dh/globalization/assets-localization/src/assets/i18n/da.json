@@ -891,7 +891,7 @@
         "address": "Adresse",
         "resolution": "Tidsopløsning",
         "notValidated": "Søg venligst efter et målepunkt",
-        "notFound": "Intet målepunkt fundet for det angivne ID"
+        "notFound": "Målepunkts-ID findes ikke"
       }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
