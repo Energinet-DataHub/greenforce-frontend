@@ -87,7 +87,18 @@ describe('Process overview', () => {
   });
 
   it('should show cancel button and open modal when clicked', async () => {
-    await setup();
+    const fixture = await setup();
+    const component = fixture.componentInstance as any;
+
+    // Diagnostic: check mock injection and signal values
+    console.log('[DIAG] canPerformActions:', component.canPerformActions());
+    console.log('[DIAG] isFas:', component.isFas());
+    const ps = fixture.debugElement.injector.get(PermissionService);
+    console.log('[DIAG] hasMarketRole is mock:', typeof ps.hasMarketRole === 'function');
+    let hmrValue: unknown;
+    ps.hasMarketRole('test' as any).subscribe((v: unknown) => (hmrValue = v));
+    console.log('[DIAG] hasMarketRole() emitted:', hmrValue);
+    console.log('[DIAG] actions column HTML:', document.querySelector('[role="treegrid"] [role="row"]')?.innerHTML?.substring(0, 500));
 
     await waitFor(() =>
       expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
