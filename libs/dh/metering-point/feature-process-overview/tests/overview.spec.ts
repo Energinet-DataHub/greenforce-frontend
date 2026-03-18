@@ -50,6 +50,8 @@ async function setup(
       provideMsalTesting(),
       WattModalService,
       { provide: ComponentFixtureAutoDetect, useValue: true },
+    ],
+    componentProviders: [
       {
         provide: PermissionService,
         useValue: {
@@ -86,11 +88,11 @@ describe('Process overview', () => {
 
   it('should show cancel button and open modal when clicked', async () => {
     await setup();
+
     await waitFor(() =>
       expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
     );
     const cancelButtons = screen.getAllByRole('button', { name: /Cancel/i });
-    expect(cancelButtons.length).toBeGreaterThan(0);
 
     userEvent.click(cancelButtons[0]);
 
@@ -107,7 +109,9 @@ describe('Process overview', () => {
     vi.spyOn(router, 'navigate').mockResolvedValue(true);
 
     await waitFor(() =>
-      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+      expect(
+        screen.getAllByRole('button', { name: /Send information/i }).length
+      ).toBeGreaterThan(0)
     );
     const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
 
