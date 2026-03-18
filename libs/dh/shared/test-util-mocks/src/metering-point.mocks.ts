@@ -912,7 +912,7 @@ function getMeteringPointNewConversationInformation() {
 
 function getElectricalHeatingInformation() {
   return mockGetElectricalHeatingQuery(async () => {
-  await delay(mswConfig.delay);
+    await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {

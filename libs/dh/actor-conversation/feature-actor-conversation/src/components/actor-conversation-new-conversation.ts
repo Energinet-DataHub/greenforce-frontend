@@ -317,7 +317,7 @@ export class DhActorConversationNewConversationComponent {
       this.meteringPointIdSearch.setErrors({ notFound: true });
       this.meteringPointIdSearch.markAsTouched();
     }
-  })
+  });
 
   meteringPointInfoLoading = this.meteringPointNewConversationInfoQuery.loading;
 
