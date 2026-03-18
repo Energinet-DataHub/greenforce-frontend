@@ -1,7 +1,8 @@
 {
   "extends": "../../tsconfig.lib.json",
   "compilerOptions": {
-    "sourceMap": false
+    "sourceMap": false,
+    "inlineSources": false
   },
   "exclude": ["src/**/*.spec.ts", "tests/test-setup.ts", "src/**/*.test.ts"],
   "include": ["src/**/*.ts"]
