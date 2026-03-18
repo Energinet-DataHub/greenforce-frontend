@@ -199,9 +199,9 @@ export class DhActorConversationMessageFormComponent implements ControlValueAcce
 
   disableAnonymousControlEffect = effect(() => {
     if (this.disableAnonymous()) {
-      this.form.controls.anonymous.disable();
+      this.form.controls.anonymous.disable({ emitEvent: false });
     } else {
-      this.form.controls.anonymous.enable();
+      this.form.controls.anonymous.enable({ emitEvent: false });
     }
   });
 
@@ -266,5 +266,6 @@ export class DhActorConversationMessageFormComponent implements ControlValueAcce
   registerOnChange = (fn: (value: MessageFormValue | null) => void) =>
     this.messageValueChanged.subscribe(fn);
   registerOnTouched = (fn: () => void) => this.form.valueChanges.pipe(skip(1)).subscribe(fn);
-  setDisabledState = (disabled: boolean) => (disabled ? this.form.disable() : this.form.enable());
+  setDisabledState = (disabled: boolean) =>
+    disabled ? this.form.disable({ emitEvent: false }) : this.form.enable({ emitEvent: false });
 }
