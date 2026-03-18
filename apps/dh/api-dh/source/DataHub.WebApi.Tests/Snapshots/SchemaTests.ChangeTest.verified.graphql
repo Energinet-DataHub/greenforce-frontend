@@ -407,6 +407,8 @@ type Conversation {
   Energinet can see conversations they are not part of.
   """
   partOfConversations: Boolean!
+  "MeteringPoint identification"
+  meteringPointIdentification: String!
 }
 
 type ConversationAttachment {

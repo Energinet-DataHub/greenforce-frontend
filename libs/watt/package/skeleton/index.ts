@@ -16,15 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-import { FormControl, Validators } from '@angular/forms';
-
-/**
- * Helper function for changing required state of a FormControl.
- * @deprecated Use `dhSetControlValidators(control, Validators.required, required)` instead.
- */
-export const setControlRequired = (control: FormControl, required: boolean) => {
-  if (required == control.hasValidator(Validators.required)) return;
-  if (required) control.addValidators(Validators.required);
-  else control.removeValidators(Validators.required);
-  control.updateValueAndValidity();
-};
+export { WattSkeletonComponent } from './watt-skeleton.component';
