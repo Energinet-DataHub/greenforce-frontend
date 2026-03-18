@@ -108,7 +108,7 @@ import { DhActorConversationElectricalHeatingFormComponent } from './actor-conve
           {{ t('cancelButtonLabel') }}
         </watt-button>
       </vater-stack>
-      <vater-grid columns="1fr 2fr" rows="auto 1fr" gap="m">
+      <vater-grid columns="1fr 2fr" rows="auto 1fr" gap="xl">
         <vater-grid-area column="1" row="1">
           <vater-stack direction="column" gap="m" align="start">
             <watt-dropdown
