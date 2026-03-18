@@ -76,12 +76,6 @@ type FilterChip = {
     :host {
       width: 100%;
 
-      .watt-space-inset-m {
-        watt-checkbox {
-          width: 100%;
-        }
-      }
-
       watt-simple-search {
         width: 100%;
       }
