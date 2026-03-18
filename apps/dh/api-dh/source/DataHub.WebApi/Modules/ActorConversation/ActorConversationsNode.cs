@@ -30,7 +30,7 @@ public static partial class ActorConversationsNode
         [Service] IActorConversationClient_V1 actorConversationClient,
         string? meteringPointIdentification,
         string? searchTerm,
-        bool? myconversations,
+        bool? ownConversations,
         bool? unread,
         bool? opened,
         bool? closed,
@@ -47,7 +47,7 @@ public static partial class ActorConversationsNode
         return await actorConversationClient.ApiGetConversationsAsync(
             meteringPointIdentification: meteringPointIdentification,
             searchValue: searchTerm,
-            myConversations: myconversations,
+            myConversations: ownConversations,
             unread: unread,
             opened: opened,
             closed: closed,

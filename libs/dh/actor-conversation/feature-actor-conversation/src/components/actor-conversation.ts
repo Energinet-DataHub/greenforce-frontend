@@ -202,7 +202,7 @@ export class DhActorConversation {
     this.conversationsQuery.refetch({
       meteringPointIdentification: this.meteringPointId(),
       closed: filterValue.statusClosed,
-      myconversations: filterValue.myCases,
+      ownConversations: filterValue.ownCases,
       opened: filterValue.statusActive,
       unread: filterValue.showOnlyUnread,
       searchTerm: filterValue.search,

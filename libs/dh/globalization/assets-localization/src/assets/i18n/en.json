@@ -857,7 +857,7 @@
       "filters": {
         "placeholder": "Filters",
         "general": "General",
-        "myCases": "My cases",
+        "ownCases": "My cases",
         "showOnlyUnread": "Show only unread",
         "status": "Status"
       },

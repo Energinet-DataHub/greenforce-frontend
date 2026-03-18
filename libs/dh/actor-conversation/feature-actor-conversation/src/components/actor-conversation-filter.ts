@@ -40,7 +40,7 @@ import { WattSimpleSearchComponent } from '@energinet/watt/search';
 
 export type ActorConversationFilterValue = {
   search: string;
-  myCases: boolean;
+  ownCases: boolean;
   showOnlyUnread: boolean;
   statusActive: boolean;
   statusClosed: boolean;
@@ -48,7 +48,7 @@ export type ActorConversationFilterValue = {
 };
 
 type FilterChipKey =
-  | 'myCases'
+  | 'ownCases'
   | 'showOnlyUnread'
   | 'statusActive'
   | 'statusClosed'
@@ -98,9 +98,9 @@ type FilterChip = {
             <vater-stack align="start" gap="m" fill="horizontal" class="watt-space-inset-m">
               <watt-checkbox
                 (click)="$event.stopPropagation()"
-                [formControl]="form.controls.myCases"
+                [formControl]="form.controls.ownCases"
               >
-                {{ t('filters.myCases') }}
+                {{ t('filters.ownCases') }}
               </watt-checkbox>
               <watt-checkbox
                 (click)="$event.stopPropagation()"
@@ -169,7 +169,7 @@ export class ActorConversationFilter {
 
   form = new FormGroup({
     search: dhMakeFormControl(''),
-    myCases: dhMakeFormControl(false),
+    ownCases: dhMakeFormControl(false),
     showOnlyUnread: dhMakeFormControl(false),
     statusActive: dhMakeFormControl(false),
     statusClosed: dhMakeFormControl(false),
@@ -188,7 +188,7 @@ export class ActorConversationFilter {
 
       this.filterChange.emit({
         search: value.search ?? '',
-        myCases: value.myCases ?? false,
+        ownCases: value.ownCases ?? false,
         showOnlyUnread: value.showOnlyUnread ?? false,
         statusActive: value.statusActive ?? false,
         statusClosed: value.statusClosed ?? false,
@@ -205,10 +205,10 @@ export class ActorConversationFilter {
     const chips: FilterChip[] = [];
     const value = this.formValue();
 
-    if (value.myCases) {
+    if (value.ownCases) {
       chips.push({
-        key: 'myCases',
-        label: this.transloco.translate('meteringPoint.actorConversation.filters.myCases'),
+        key: 'ownCases',
+        label: this.transloco.translate('meteringPoint.actorConversation.filters.ownCases'),
       });
     }
     if (value.showOnlyUnread) {
@@ -249,7 +249,7 @@ export class ActorConversationFilter {
       this.subjectControls[subject].setValue(false);
     } else {
       const control =
-        this.form.controls[key as 'myCases' | 'showOnlyUnread' | 'statusActive' | 'statusClosed'];
+        this.form.controls[key as 'ownCases' | 'showOnlyUnread' | 'statusActive' | 'statusClosed'];
       control.setValue(false);
     }
   }
