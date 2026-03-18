@@ -41,7 +41,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
       vater-stack
       direction="row"
       gap="s"
-      class="watt-space-inset-squish-s watt-space-stack-s protected-address"
+      class="watt-space-inset-squish-s watt-space-stack-m protected-address"
     >
       <watt-icon size="s" name="warning" />
       <span class="watt-text-s">{{ t('protectedAddress') }}</span>
