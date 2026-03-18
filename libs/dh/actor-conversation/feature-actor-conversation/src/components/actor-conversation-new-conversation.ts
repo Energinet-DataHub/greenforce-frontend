@@ -186,14 +186,22 @@ export class DhActorConversationNewConversationComponent {
 
   private readonly meteringPointSearch = viewChild(DhActorConversationMeteringPointSearchComponent);
 
-  electricHeatingInformationQuery = lazyQuery(GetElectricalHeatingDocument, () => {
+  electricHeatingInformationQuery = lazyQuery(GetElectricalHeatingDocument);
+
+  private readonly reducedElectricityTaxValue = dhFormControlToSignal(
+    () => this.newConversationForm.controls.reducedElectricityTax
+  );
+
+  private readonly fetchElectricalHeatingInformation = effect(() => {
+    if (!this.reducedElectricityTaxValue()) return;
     const meteringPointIdentification =
       this.meteringPointId() ??
       this.newConversationForm.controls.meteringPointId.value ??
       undefined;
-    if (!meteringPointIdentification) return { skip: true as const };
-    return { variables: { meteringPointIdentification } };
+    if (!meteringPointIdentification) return;
+    this.electricHeatingInformationQuery.query({ variables: { meteringPointIdentification } });
   });
+
   electricalHeatingInformation = computed(
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
   );
@@ -258,9 +266,6 @@ export class DhActorConversationNewConversationComponent {
     energySupplierDateControl.updateValueAndValidity();
   });
 
-  private readonly reducedElectricityTaxValue = dhFormControlToSignal(
-    () => this.newConversationForm.controls.reducedElectricityTax
-  );
 
   shouldShowEletricalHeatingForm = computed(
     () => this.isElectricalHeating() && this.reducedElectricityTaxValue()

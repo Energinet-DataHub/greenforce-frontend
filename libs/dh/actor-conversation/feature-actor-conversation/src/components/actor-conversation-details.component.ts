@@ -46,7 +46,7 @@ import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angul
 import { TranslocoDirective } from '@jsverse/transloco';
 import { MessageFormValue } from '../types';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   CloseConversationDocument,
   GetConversationDocument,
@@ -299,14 +299,12 @@ export class DhActorConversationDetailsComponent {
 
   meteringPointId = computed(() => this.conversation()?.meteringPointIdentification);
 
-  meteringPointConversationInfoQuery = query(GetMeteringPointConversationInfoDocument, () => {
+  meteringPointConversationInfoQuery = lazyQuery(GetMeteringPointConversationInfoDocument);
+
+  private readonly fetchMeteringPointConversationInfo = effect(() => {
     const meteringPointId = this.meteringPointId();
-    if (!meteringPointId) return { skip: true as const };
-    return {
-      variables: {
-        meteringPointId,
-      },
-    };
+    if (!meteringPointId) return;
+    this.meteringPointConversationInfoQuery.query({ variables: { meteringPointId } });
   });
 
   meteringPointConversationInfo = computed(

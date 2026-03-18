@@ -38,7 +38,7 @@ import {
 } from '@energinet/watt/description-list';
 import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import { GetMeteringPointNewConversationInfoDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
@@ -123,10 +123,12 @@ export class DhActorConversationMeteringPointSearchComponent {
   private readonly searchedId = signal<string | undefined>(undefined);
   private _validated = false;
 
-  private readonly infoQuery = query(GetMeteringPointNewConversationInfoDocument, () => {
+  private readonly infoQuery = lazyQuery(GetMeteringPointNewConversationInfoDocument);
+
+  private readonly fetchMeteringPointInfo = effect(() => {
     const meteringPointId = this.searchedId();
-    if (!meteringPointId) return { skip: true as const };
-    return { variables: { meteringPointId } };
+    if (!meteringPointId) return;
+    this.infoQuery.query({ variables: { meteringPointId } });
   });
 
   readonly meteringPointInfo = computed(() => {
