@@ -33,8 +33,16 @@ import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angul
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterFlexComponent, VaterStackComponent, VaterUtilityDirective, } from '@energinet/watt/vater';
-import { WattMenuComponent, WattMenuItemComponent, WattMenuTriggerDirective, } from '@energinet/watt/menu';
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet/watt/vater';
+import {
+  WattMenuComponent,
+  WattMenuItemComponent,
+  WattMenuTriggerDirective,
+} from '@energinet/watt/menu';
 import { MessageFormValue } from '../types';
 import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
 import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
