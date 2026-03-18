@@ -150,7 +150,7 @@ export const Dismissible: StoryObj<WattChipComponent> = {
         <watt-chip [selected]="true" variant="dismissible">data.dk</watt-chip>
         <watt-chip [selected]="true" variant="dismissible">todo.dk</watt-chip>
         <watt-chip [selected]="true" variant="dismissible">funny.dk</watt-chip>
-        <watt-chip [selected]="true"variant="dismissible">domain.dk</watt-chip>
+        <watt-chip [selected]="true" variant="dismissible">domain.dk</watt-chip>
       </div>
     `,
   }),
