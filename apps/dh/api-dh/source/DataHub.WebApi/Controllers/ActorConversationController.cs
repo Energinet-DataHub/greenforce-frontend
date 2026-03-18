@@ -121,14 +121,26 @@ public sealed class ActorConversationController : ControllerBase
 
         try
         {
-            var response = await _actorConversationClient.ApiGetMessageDocumentAsync(documentId, userId.ToString(), actorNumber, mappedRole.ToString(), ct);
-            if (response == null || response.ContentType == null)
+            using var response = await _actorConversationClient.ApiGetMessageDocumentAsync(documentId, userId.ToString(), actorNumber, mappedRole.ToString(), ct);
+
+            var contentType = response.Headers.TryGetValue("Content-Type", out var contentTypeValues)
+                ? contentTypeValues.FirstOrDefault() ?? "application/octet-stream"
+                : "application/octet-stream";
+
+            var fileName = (string?)null;
+            if (response.Headers.TryGetValue("Content-Disposition", out var dispositionValues))
             {
-                return NotFound();
+                var header = dispositionValues.FirstOrDefault();
+                if (header != null &&
+                    System.Net.Http.Headers.ContentDispositionHeaderValue.TryParse(header, out var disposition))
+                {
+                    fileName = disposition.FileNameStar ?? disposition.FileName;
+                }
             }
 
             // Read into byte array because the FileResponse is disposed at method exit
-            return File(response.FileContents, response.ContentType, response.FileDownloadName);
+            var bytes = await ReadStreamToByteArrayAsync(response.Stream, ct);
+            return File(bytes, contentType, fileName);
         }
         catch (ApiException ex)
         {
