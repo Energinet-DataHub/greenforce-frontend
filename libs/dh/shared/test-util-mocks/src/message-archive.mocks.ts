@@ -170,37 +170,40 @@ function getMeteringPointProcessOverview() {
 
     const baseDate = new Date('2025-01-01T10:00:00Z');
 
-    const mockProcesses = Array.from({ length: translatedBusinessReasons.length * 3 }, (_, index) => {
-      const daysOffset = Math.floor(index * 2);
-      const hoursOffset = (index * 3) % 24;
-      const createdAt = new Date(baseDate);
-      createdAt.setDate(createdAt.getDate() + daysOffset);
-      createdAt.setHours(createdAt.getHours() + hoursOffset);
+    const mockProcesses = Array.from(
+      { length: translatedBusinessReasons.length * 3 },
+      (_, index) => {
+        const daysOffset = Math.floor(index * 2);
+        const hoursOffset = (index * 3) % 24;
+        const createdAt = new Date(baseDate);
+        createdAt.setDate(createdAt.getDate() + daysOffset);
+        createdAt.setHours(createdAt.getHours() + hoursOffset);
 
-      const currentState = states[index % states.length];
-      const businessReason = translatedBusinessReasons[index % translatedBusinessReasons.length];
-      const availableActions = getAvailableActions(businessReason, currentState);
+        const currentState = states[index % states.length];
+        const businessReason = translatedBusinessReasons[index % translatedBusinessReasons.length];
+        const availableActions = getAvailableActions(businessReason, currentState);
 
-      let cutoffDate = null;
-      if (currentState !== MeteringPointProcessState.Pending) {
-        cutoffDate = new Date(createdAt);
-        cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
+        let cutoffDate = null;
+        if (currentState !== MeteringPointProcessState.Pending) {
+          cutoffDate = new Date(createdAt);
+          cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
+        }
+
+        return {
+          __typename: 'MeteringPointProcess' as const,
+          id: `process-${String(index + 1).padStart(3, '0')}`,
+          businessReason,
+          createdAt,
+          cutoffDate,
+          state: currentState,
+          availableActions,
+          initiator: {
+            __typename: 'MarketParticipant' as const,
+            ...initiators[index % initiators.length],
+          },
+        };
       }
-
-      return {
-        __typename: 'MeteringPointProcess' as const,
-        id: `process-${String(index + 1).padStart(3, '0')}`,
-        businessReason,
-        createdAt,
-        cutoffDate,
-        state: currentState,
-        availableActions,
-        initiator: {
-          __typename: 'MarketParticipant' as const,
-          ...initiators[index % initiators.length],
-        },
-      };
-    });
+    );
 
     // Explicit processes with actions for testing
     const endOfSupplyProcess = {
@@ -240,16 +243,34 @@ function getMeteringPointProcessOverview() {
   });
 }
 
-const knownProcesses: Record<string, { businessReason: ProcessManagerBusinessReason; state: MeteringPointProcessState }> = {
-  'process-eos-cancel': { businessReason: ProcessManagerBusinessReason.EndOfSupply, state: MeteringPointProcessState.Running },
-  'process-cmi-info': { businessReason: ProcessManagerBusinessReason.CustomerMoveIn, state: MeteringPointProcessState.Running },
+const knownProcesses: Record<
+  string,
+  { businessReason: ProcessManagerBusinessReason; state: MeteringPointProcessState }
+> = {
+  'process-eos-cancel': {
+    businessReason: ProcessManagerBusinessReason.EndOfSupply,
+    state: MeteringPointProcessState.Running,
+  },
+  'process-cmi-info': {
+    businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
+    state: MeteringPointProcessState.Running,
+  },
 };
 
-function getAvailableActions(businessReason: ProcessManagerBusinessReason, state: MeteringPointProcessState): WorkflowAction[] {
-  const terminalStates: MeteringPointProcessState[] = [MeteringPointProcessState.Failed, MeteringPointProcessState.Canceled, MeteringPointProcessState.Succeeded];
+function getAvailableActions(
+  businessReason: ProcessManagerBusinessReason,
+  state: MeteringPointProcessState
+): WorkflowAction[] {
+  const terminalStates: MeteringPointProcessState[] = [
+    MeteringPointProcessState.Failed,
+    MeteringPointProcessState.Canceled,
+    MeteringPointProcessState.Succeeded,
+  ];
   if (terminalStates.includes(state)) return [];
-  if (businessReason === ProcessManagerBusinessReason.EndOfSupply) return [WorkflowAction.CancelWorkflow];
-  if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn) return [WorkflowAction.SendInformation];
+  if (businessReason === ProcessManagerBusinessReason.EndOfSupply)
+    return [WorkflowAction.CancelWorkflow];
+  if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
+    return [WorkflowAction.SendInformation];
   return [];
 }
 
@@ -286,7 +307,9 @@ function getMeteringPointProcessById(apiBase: string) {
 
     // Derive businessReason and state consistently with overview mock
     const known = knownProcesses[processId];
-    const businessReason = known?.businessReason ?? translatedBusinessReasons[(processIndex - 1) % translatedBusinessReasons.length];
+    const businessReason =
+      known?.businessReason ??
+      translatedBusinessReasons[(processIndex - 1) % translatedBusinessReasons.length];
     const state = known?.state ?? allStates[(processIndex - 1) % allStates.length];
     const availableActions = getAvailableActions(businessReason, state);
 

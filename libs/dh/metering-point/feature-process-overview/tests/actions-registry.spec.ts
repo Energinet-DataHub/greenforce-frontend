@@ -47,11 +47,13 @@ function createMockHandlers(handlers: ActionHandlerMap) {
 describe('DhActionsRegistry', () => {
   beforeEach(() => TestBed.resetTestingModule());
 
-  function setupRegistry(options: {
-    featureFlagsEnabled?: boolean;
-    endOfSupplyHandlers?: ActionHandlerMap;
-    customerMoveInHandlers?: ActionHandlerMap;
-  } = {}) {
+  function setupRegistry(
+    options: {
+      featureFlagsEnabled?: boolean;
+      endOfSupplyHandlers?: ActionHandlerMap;
+      customerMoveInHandlers?: ActionHandlerMap;
+    } = {}
+  ) {
     const {
       featureFlagsEnabled = true,
       endOfSupplyHandlers = {
@@ -146,10 +148,7 @@ describe('DhActionsRegistry', () => {
     it('should return empty array when no available actions', () => {
       const registry = setupRegistry();
 
-      const result = registry.getSupportedActions(
-        [],
-        ProcessManagerBusinessReason.EndOfSupply
-      );
+      const result = registry.getSupportedActions([], ProcessManagerBusinessReason.EndOfSupply);
 
       expect(result).toEqual([]);
     });
@@ -164,7 +163,11 @@ describe('DhActionsRegistry', () => {
         },
       });
 
-      registry.execute(WorkflowAction.CancelWorkflow, ProcessManagerBusinessReason.EndOfSupply, mockContext);
+      registry.execute(
+        WorkflowAction.CancelWorkflow,
+        ProcessManagerBusinessReason.EndOfSupply,
+        mockContext
+      );
 
       expect(callback).toHaveBeenCalledWith(mockContext);
     });
@@ -173,7 +176,11 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry();
 
       expect(() =>
-        registry.execute(WorkflowAction.CancelWorkflow, ProcessManagerBusinessReason.NewMeteringPoint, mockContext)
+        registry.execute(
+          WorkflowAction.CancelWorkflow,
+          ProcessManagerBusinessReason.NewMeteringPoint,
+          mockContext
+        )
       ).not.toThrow();
     });
 
@@ -181,7 +188,11 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry();
 
       expect(() =>
-        registry.execute(WorkflowAction.SendInformation, ProcessManagerBusinessReason.EndOfSupply, mockContext)
+        registry.execute(
+          WorkflowAction.SendInformation,
+          ProcessManagerBusinessReason.EndOfSupply,
+          mockContext
+        )
       ).not.toThrow();
     });
 

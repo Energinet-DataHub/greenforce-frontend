@@ -36,7 +36,6 @@ import { DhMeteringPointProcessOverviewSteps } from './steps';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
 
-
 @Component({
   selector: 'dh-metering-point-process-overview-details',
   imports: [
@@ -95,7 +94,11 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
-        @for (action of (process.data()?.meteringPointProcessById?.availableActions | supportedActions: businessReason()); track action) {
+        @for (
+          action of process.data()?.meteringPointProcessById?.availableActions
+            | supportedActions: businessReason();
+          track action
+        ) {
           <watt-button variant="secondary" (click)="executeAction(action)">
             {{ t('actions.' + action) }}
           </watt-button>

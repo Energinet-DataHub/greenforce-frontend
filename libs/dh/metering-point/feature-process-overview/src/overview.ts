@@ -138,7 +138,10 @@ import { SupportedActionsPipe } from './actions/supported-actions.pipe';
               gap="s"
               *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
             >
-              @for (action of (process.availableActions | supportedActions: process.businessReason); track action) {
+              @for (
+                action of process.availableActions | supportedActions: process.businessReason;
+                track action
+              ) {
                 @if (canPerformActions()) {
                   <watt-button
                     variant="secondary"

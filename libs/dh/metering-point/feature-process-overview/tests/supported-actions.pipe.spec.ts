@@ -20,9 +20,7 @@ import { Component } from '@angular/core';
 
 import { render, screen } from '@testing-library/angular';
 
-import {
-  getTranslocoTestingModule,
-} from '@energinet-datahub/dh/shared/test-util';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
 import {
   ProcessManagerBusinessReason,
   WorkflowAction,
@@ -34,7 +32,7 @@ import { SupportedActionsPipe } from '../src/actions/supported-actions.pipe';
 @Component({
   imports: [SupportedActionsPipe],
   template: `
-    @for (action of (actions | supportedActions: businessReason); track action) {
+    @for (action of actions | supportedActions: businessReason; track action) {
       <span>{{ action }}</span>
     } @empty {
       <span>No actions</span>
@@ -52,7 +50,10 @@ async function setup(overrides: Partial<TestHost> = {}) {
       {
         provide: DhActionsRegistry,
         useValue: {
-          getSupportedActions: (actions: WorkflowAction[], reason: ProcessManagerBusinessReason) => {
+          getSupportedActions: (
+            actions: WorkflowAction[],
+            reason: ProcessManagerBusinessReason
+          ) => {
             const registered: Partial<Record<ProcessManagerBusinessReason, WorkflowAction[]>> = {
               [ProcessManagerBusinessReason.EndOfSupply]: [WorkflowAction.CancelWorkflow],
               [ProcessManagerBusinessReason.CustomerMoveIn]: [WorkflowAction.SendInformation],

@@ -35,10 +35,12 @@ import { Router } from '@angular/router';
 
 import { DhMeteringPointProcessOverviewTable } from '../src/overview';
 
-async function setup(permissionOverrides: Partial<{
-  isFas: boolean;
-  hasMarketRole: boolean;
-}> = {}) {
+async function setup(
+  permissionOverrides: Partial<{
+    isFas: boolean;
+    hasMarketRole: boolean;
+  }> = {}
+) {
   const { isFas = false, hasMarketRole = true } = permissionOverrides;
 
   const { fixture } = await render(DhMeteringPointProcessOverviewTable, {
@@ -64,7 +66,9 @@ async function setup(permissionOverrides: Partial<{
     },
   });
 
-  await waitFor(() => expect(document.querySelector('[role="treegrid"] [role="row"]')).not.toBeNull());
+  await waitFor(() =>
+    expect(document.querySelector('[role="treegrid"] [role="row"]')).not.toBeNull()
+  );
 
   return fixture;
 }
@@ -82,7 +86,9 @@ describe('Process overview', () => {
 
   it('should show cancel button and open modal when clicked', async () => {
     await setup();
-    await waitFor(() => expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0));
+    await waitFor(() =>
+      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+    );
     const cancelButtons = screen.getAllByRole('button', { name: /Cancel/i });
     expect(cancelButtons.length).toBeGreaterThan(0);
 
@@ -91,7 +97,7 @@ describe('Process overview', () => {
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
     await waitFor(() => {
       const buttons = Array.from(document.querySelectorAll('[role="dialog"] button'));
-      expect(buttons.some(b => /sure/i.test(b.textContent || ''))).toBe(true);
+      expect(buttons.some((b) => /sure/i.test(b.textContent || ''))).toBe(true);
     });
   });
 
@@ -100,7 +106,9 @@ describe('Process overview', () => {
     const router = fixture.debugElement.injector.get(Router);
     vi.spyOn(router, 'navigate').mockResolvedValue(true);
 
-    await waitFor(() => expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0));
+    await waitFor(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
     const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
 
     userEvent.click(sendInfoButtons[0]);
@@ -121,7 +129,9 @@ describe('Process overview', () => {
 
   it('should show warning text instead of buttons for FAS users', async () => {
     await setup({ isFas: true, hasMarketRole: false });
-    await waitFor(() => expect(screen.getAllByText(/can cancel workflow/i).length).toBeGreaterThan(0));
+    await waitFor(() =>
+      expect(screen.getAllByText(/can cancel workflow/i).length).toBeGreaterThan(0)
+    );
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
   });
 });

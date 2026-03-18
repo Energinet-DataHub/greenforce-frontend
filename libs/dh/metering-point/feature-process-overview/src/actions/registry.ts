@@ -19,7 +19,10 @@
 import { inject, Injectable } from '@angular/core';
 
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import { ProcessManagerBusinessReason, WorkflowAction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ProcessManagerBusinessReason,
+  WorkflowAction,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { ProcessActionContext } from './context';
 import { EndOfSupplyActions } from './end-of-supply/end-of-supply';
@@ -51,7 +54,11 @@ export class DhActionsRegistry {
     });
   }
 
-  execute(action: WorkflowAction, businessReason: ProcessManagerBusinessReason, context: ProcessActionContext): void {
+  execute(
+    action: WorkflowAction,
+    businessReason: ProcessManagerBusinessReason,
+    context: ProcessActionContext
+  ): void {
     this.registry[businessReason]?.[action]?.callback(context);
   }
 }
