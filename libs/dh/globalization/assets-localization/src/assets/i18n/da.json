@@ -78,6 +78,7 @@
     "localhost": "lokalt",
     "d-001": "dev-001",
     "d-002": "dev-002",
+    "d-003": "dev-003",
     "t-001": "test-001",
     "t-002": "test-002",
     "b-001": "preprod",
@@ -248,7 +249,7 @@
         "menuGroupLabel": "Aktører",
         "userManagement": "Brugeradministration",
         "marketParticipantMasterData": "Aktørstamdata",
-        "actor-conversation": "Aktør Dialog",
+        "actor-conversation": "Aktørdialog",
         "gridAreas": "Netområder"
       },
       "eSett": "eSett",
@@ -789,7 +790,7 @@
       }
     },
     "actorConversation": {
-      "topBarTitle": "Aktør Dialog",
+      "topBarTitle": "Aktørdialog",
       "searchPlaceholder": "Søg på sags-ID eller intern note",
       "cases": "Sager",
       "newCaseButton": "Ny sag",
@@ -856,7 +857,7 @@
       "filters": {
         "placeholder": "Filtre",
         "general": "Generelt",
-        "myCases": "Mine sager",
+        "ownCases": "Mine sager",
         "showOnlyUnread": "Vis kun ulæste",
         "status": "Status"
       },
@@ -1488,6 +1489,7 @@
       "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
       "UPDATE_CHARGE_LINKS": "Anmodning om opdatering af pristilknytninger (RSM-030)",
+      "B2C_UPDATE_CHARGE_LINKS": "UI: Anmodning om opdatering af pristilknytninger (RSM-030)",
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Godkendelse af opdatering af pristilknytninger (RSM-030)",
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af opdatering af pristilknytninger (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Information om pristilknytninger (RSM-031)",
@@ -2282,7 +2284,7 @@
           "RECEIVED": "Modtaget",
           "AWAITING_DISPATCH": "Afventer afsendelse",
           "AWAITING_REPLY": "Afventer svar fra eSett",
-          "BIZ_TALK_ACCEPTED": "Afventer svar fra ECP",
+          "SERVICE_BUS_ACCEPTED": "Afventer svar fra ECP",
           "ACCEPTED": "Accepteret",
           "REJECTED": "Afvist",
           "MANUALLY_HANDLED": "Manuelt løst"

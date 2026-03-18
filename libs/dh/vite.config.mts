@@ -72,7 +72,10 @@ export default defineConfig(() => {
   const workspaceRoot = findWorkspaceRoot(libRoot);
   const libRelative = relative(workspaceRoot, libRoot); // e.g. "libs/dh/admin/feature-user-management"
 
-  const environment = (process.env['VITEST_ENVIRONMENT'] ?? 'happy-dom') as 'happy-dom' | 'node';
+  const environment = (process.env['VITEST_ENVIRONMENT'] ?? 'happy-dom') as
+    | 'happy-dom'
+    | 'jsdom'
+    | 'node';
   const useAngular = process.env['VITEST_USE_ANGULAR'] !== 'false';
 
   const setupFile = join(libRoot, 'tests/test-setup.ts');

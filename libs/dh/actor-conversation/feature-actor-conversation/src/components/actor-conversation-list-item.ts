@@ -40,6 +40,10 @@ import { WattDatePipe } from '@energinet/watt/date';
     '[style.position]': '"relative"',
   },
   styles: `
+    :host {
+      height: 100%;
+    }
+
     :host(.selected) {
       background-color: var(--watt-color-primary-ultralight);
     }
@@ -60,10 +64,6 @@ import { WattDatePipe } from '@energinet/watt/date';
       margin: 0;
     }
 
-    .min-height-line-height-xs {
-      min-height: 22px;
-    }
-
     .unread-indicator {
       position: absolute;
       left: var(--watt-space-s);
@@ -77,7 +77,7 @@ import { WattDatePipe } from '@energinet/watt/date';
   template: `
     <vater-flex
       align="start"
-      gap="xs"
+      gap="s"
       class="inset-stretch-inverted"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
@@ -92,13 +92,7 @@ import { WattDatePipe } from '@energinet/watt/date';
           <span class="watt-text-s">{{ t('closed') }}</span>
         }
       </vater-stack>
-      <vater-stack
-        fill="horizontal"
-        direction="row"
-        justify="space-between"
-        align="center"
-        class="min-height-line-height-xs"
-      >
+      <vater-stack fill="horizontal" direction="row" justify="space-between" align="center">
         <span class="watt-text-s grey-700">{{ conversation().displayId }}</span>
         @if (conversation().lastUpdated) {
           <span class="watt-text-s grey-700">{{
@@ -110,6 +104,14 @@ import { WattDatePipe } from '@energinet/watt/date';
   `,
 })
 export class DhActorConversationListItemComponent {
-  conversation = input.required<Conversation | NewConversation>();
+  conversation = input<Conversation | NewConversation>({
+    __typename: 'ConversationInfo',
+    closed: false,
+    read: true,
+    lastUpdated: undefined,
+    id: '',
+    displayId: '',
+    subject: 'newCase',
+  });
   selected = input<boolean>(false);
 }

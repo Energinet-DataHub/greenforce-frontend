@@ -78,6 +78,7 @@
     "localhost": "local",
     "d-001": "dev-001",
     "d-002": "dev-002",
+    "d-003": "dev-003",
     "t-001": "test-001",
     "t-002": "test-002",
     "b-001": "preprod",
@@ -856,7 +857,7 @@
       "filters": {
         "placeholder": "Filters",
         "general": "General",
-        "myCases": "My cases",
+        "ownCases": "My cases",
         "showOnlyUnread": "Show only unread",
         "status": "Status"
       },
@@ -1488,6 +1489,7 @@
       "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)",
       "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
       "UPDATE_CHARGE_LINKS": "Request change billing master data (RSM-030)",
+      "B2C_UPDATE_CHARGE_LINKS": "UI: Request change billing master data (RSM-030)",
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm request change billing master data (RSM-030)",
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
@@ -2282,7 +2284,7 @@
           "RECEIVED": "Received",
           "AWAITING_DISPATCH": "Awaiting dispatch",
           "AWAITING_REPLY": "Awaiting reply from eSett",
-          "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP",
+          "SERVICE_BUS_ACCEPTED": "Awaiting reply from ECP",
           "ACCEPTED": "Accepted",
           "REJECTED": "Rejected",
           "MANUALLY_HANDLED": "Solved manually"

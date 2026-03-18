@@ -17,6 +17,7 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1;
 using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
@@ -27,6 +28,7 @@ public static class MoveInOperations
 {
     [Mutation]
     [Authorize(Roles = ["metering-point:move-in"])]
+    [UseRevisionLog]
     public static async Task<bool> InitiateMoveInAsync(
         string meteringPointId,
         ChangeOfSupplierBusinessReason businessReason,
@@ -60,6 +62,7 @@ public static class MoveInOperations
 
     [Mutation]
     [Authorize(Roles = ["metering-point:move-in"])]
+    [UseRevisionLog]
     public static async Task<bool> ChangeCustomerCharacteristicsAsync(
         string meteringPointId,
         ChangeCustomerCharacteristicsBusinessReason businessReason,

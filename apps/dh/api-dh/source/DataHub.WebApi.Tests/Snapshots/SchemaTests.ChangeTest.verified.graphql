@@ -540,7 +540,7 @@ type ElectricalHeatingMessage {
 }
 
 type ElectricalHeatingUserMessage {
-  content: String!
+  content: String
   reductionPeriod: ElectricityHeatingMessagePeriod!
   electricalHeatingFrom: DateTime!
 }
@@ -1388,8 +1388,8 @@ type ProcessesEdge {
 }
 
 type Query {
-  conversation(conversationId: UUID! meteringPointIdentification: String!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
-  conversationsForMeteringPoint(meteringPointIdentification: String! searchTerm: String): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
+  conversation(conversationId: UUID!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
+  conversationsForMeteringPoint(meteringPointIdentification: String searchTerm: String ownConversations: Boolean unread: Boolean opened: Boolean closed: Boolean subjects: [ConversationSubject!]): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
   electricalHeatingInformation(meteringPointIdentification: String!): ElectricalHeatingInformation @authorize(roles: [ "metering-point:actor-conversation" ])
   charges(filter: String query: ChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
@@ -1410,8 +1410,8 @@ type Query {
   selectableDatesForEndOfSupply: [DateTime!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
-  meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:manage" ])
-  meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:manage" ])
+  meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:view" ])
+  meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
@@ -1782,8 +1782,7 @@ type UserAuditedChangeAuditLogDto {
 }
 
 type UserMessage {
-  "Message content"
-  content: String!
+  content: String
 }
 
 type UserOverviewItemDto {
@@ -2839,7 +2838,7 @@ enum DocumentStatus {
   AWAITING_REPLY
   ACCEPTED
   REJECTED
-  BIZ_TALK_ACCEPTED
+  SERVICE_BUS_ACCEPTED
   MANUALLY_HANDLED
 }
 
@@ -3428,6 +3427,7 @@ enum ProcessManagerBusinessReason {
   UpdateChargeSeries
   CustomerMoveIn
   SecondaryMoveIn
+  CustomerMoveOut
   UpdateMasterDataConsumer
   NewMeteringPoint
   Move
@@ -3612,6 +3612,7 @@ enum WorkflowAction {
   SEND_INFORMATION
   CANCEL_WORKFLOW
   CONFIRM_WORKFLOW
+  REJECT_REQUEST
 }
 
 "The authorize directive."

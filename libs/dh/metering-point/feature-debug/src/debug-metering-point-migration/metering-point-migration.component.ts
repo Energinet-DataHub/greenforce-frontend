@@ -39,6 +39,7 @@ import {
 import { WattFieldHintComponent } from '@energinet/watt/field';
 import { dayjs } from '@energinet/watt/date';
 import { WattHeadingComponent } from '@energinet/watt/heading';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-metering-point-migration',
@@ -54,6 +55,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
     WattDatepickerComponent,
     WattFieldHintComponent,
     WattHeadingComponent,
+    DhPermissionRequiredDirective,
   ],
   styles: `
     .result-box {
@@ -105,7 +107,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
             </vater-flex>
           </watt-card>
 
-          <vater-flex direction="row" gap="ml">
+          <vater-flex direction="row" gap="ml" *dhPermissionRequired="['operation-tools:manage']">
             <watt-card>
               <vater-flex direction="column" gap="m">
                 <h3 watt-heading>{{ t('dlq.title') }}</h3>

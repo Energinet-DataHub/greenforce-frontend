@@ -52,6 +52,44 @@ function deriveType(name: string): string {
   return name;
 }
 
+/**
+ * Whether to enable the Angular Vitest plugin for a lib.
+ * - configuration / assets → false by default (no Angular compilation needed)
+ * - explicit Angular overrides for configuration libs that use TestBed in tests
+ * - explicit no-Angular libs (dh/shared/util-text, dh/wholesale/domain) → false
+ * - everything else → true
+ */
+function useAngular(type: string, product: string, domain: string, name: string): boolean {
+  if (type === 'configuration' || type === 'assets') {
+    // These configuration libs use Angular TestBed in their tests
+    if (product === 'gf' && domain === 'globalization' && name === 'configuration-danish-locale')
+      return true;
+    if (product === 'dh' && domain === 'globalization' && name === 'configuration-localization')
+      return true;
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Determines the Vitest environment for a lib.
+ * - happy-dom whenever Angular plugin is active (TestBed requires a DOM)
+ * - node otherwise (pure TS / non-Angular libs)
+ * - jsdom for libs that need MutationObserver support (required by Testing Library's waitFor)
+ */
+function vitestEnvironment(
+  angular: boolean,
+  product: string,
+  domain: string,
+  name: string
+): 'happy-dom' | 'jsdom' | 'node' {
+  // These libs require jsdom because their tests use Testing Library's waitFor/findBy*
+  // queries, which depend on MutationObserver (not supported by happy-dom).
+  if (product === 'dh' && domain === 'metering-point' && name === 'feature-process-overview')
+    return 'jsdom';
+  return angular ? 'happy-dom' : 'node';
+}
+
 export const createNodesV2: CreateNodesV2 = [
   // Match all libs at the standard 3-level depth: libs/{product}/{domain}/{name}/index.ts
   // Products covered: dh, gf  (watt is excluded — it is a buildable ng-packagr library)
@@ -73,6 +111,10 @@ export const createNodesV2: CreateNodesV2 = [
         const projectRoot = `${libs}/${product}/${domain}/${name}`;
         const projectName = `${product}-${domain}-${name}`;
         const type = deriveType(name);
+        const angular = useAngular(type, product, domain, name);
+        const environment = vitestEnvironment(angular, product, domain, name);
+        // Path from the lib root (cwd) to the shared product-level config
+        const sharedConfig = `../../../../${libs}/${product}/vite.config.mts`;
 
         return [
           indexPath,
@@ -104,10 +146,13 @@ export const createNodesV2: CreateNodesV2 = [
                     outputs: ['{options.outputFile}'],
                   },
                   test: {
-                    command: 'vitest',
+                    command: `vitest --config ${sharedConfig}`,
                     options: {
                       cwd: projectRoot,
-                      root: '.',
+                      env: {
+                        VITEST_ENVIRONMENT: environment,
+                        VITEST_USE_ANGULAR: String(angular),
+                      },
                     },
                     metadata: { technologies: ['vitest'] },
                     cache: true,
