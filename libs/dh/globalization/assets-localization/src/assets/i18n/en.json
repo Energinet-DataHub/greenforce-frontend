@@ -796,6 +796,7 @@
       "newCaseButton": "New case",
       "newCaseTitle": "New case",
       "cancelButtonLabel": "Cancel",
+      "meteringPointIdLabel": "Metering point ID",
       "subjectLabel": "Subject",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc question",

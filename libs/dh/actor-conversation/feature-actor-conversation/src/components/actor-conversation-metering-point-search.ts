@@ -57,6 +57,11 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { style: 'width: 100%' },
+  styles: `
+    .search-button {
+      margin-top: var(--watt-space-xs);
+    }
+  `,
   template: `
     <vater-stack
       direction="column"
@@ -64,15 +69,19 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
       align="start"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
-      <vater-stack direction="row" gap="m" align="start" fill="horizontal">
-        <watt-text-field maxLength="18" [formControl]="searchControl">
+      <vater-stack direction="row" gap="s" align="center" fill="horizontal">
+        <watt-text-field
+          maxLength="18"
+          [formControl]="searchControl"
+          [label]="t('meteringPointIdLabel')"
+        >
           @if (searchControl.hasError('notFound')) {
             <watt-field-error>{{ t('meteringPointInfo.notFound') }}</watt-field-error>
           } @else {
             <watt-field-error>{{ t('meteringPointInfo.notValidated') }}</watt-field-error>
           }
         </watt-text-field>
-        <watt-button icon="search" variant="secondary" (click)="search()" />
+        <watt-button icon="search" variant="secondary" (click)="search()" class="search-button" />
       </vater-stack>
 
       @if (meteringPointInfo(); as info) {

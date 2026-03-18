@@ -796,6 +796,7 @@
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag",
       "cancelButtonLabel": "Annuller",
+      "meteringPointIdLabel": "Målepunkts-ID",
       "subjectLabel": "Emne",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
