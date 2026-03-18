@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER } from '@energinet/watt/vater';
@@ -44,7 +44,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
         data-testid="actor-conversation-receiver-radio-group"
       >
         <vater-stack align="start">
-          <watt-radio [value]="actorType.EnergySupplier">
+          <watt-radio value="ENERGY_SUPPLIER">
             {{ t('role.ENERGY_SUPPLIER') }}
           </watt-radio>
           @if (receiverControl().value === 'ENERGY_SUPPLIER') {
@@ -53,25 +53,15 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
               <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
             </vater-stack>
           }
-          @switch (marketRole()) {
-            @case ('EnergySupplier') {
-              <watt-radio [value]="actorType.GridAccessProvider">
-                {{ t('role.GRID_ACCESS_PROVIDER') }}
-              </watt-radio>
-              <watt-radio [value]="actorType.Energinet">
-                {{ t('role.ENERGINET') }}
-              </watt-radio>
-            }
-            @case ('DataHubAdministrator') {
-              <watt-radio [value]="actorType.GridAccessProvider">
-                {{ t('role.GRID_ACCESS_PROVIDER') }}
-              </watt-radio>
-            }
-            @case ('GridAccessProvider') {
-              <watt-radio [value]="actorType.Energinet">
-                {{ t('role.ENERGINET') }}
-              </watt-radio>
-            }
+          @if (showGridAccessProvider()) {
+            <watt-radio value="GRID_ACCESS_PROVIDER">
+              {{ t('role.GRID_ACCESS_PROVIDER') }}
+            </watt-radio>
+          }
+          @if (showEnerginet()) {
+            <watt-radio value="ENERGINET">
+              {{ t('role.ENERGINET') }}
+            </watt-radio>
           }
         </vater-stack>
       </watt-radio-group>
@@ -82,5 +72,10 @@ export class DhActorConversationReceiverRadioGroupComponent {
   marketRole = input.required<EicFunction | null | undefined>();
   receiverControl = input.required<FormControl<MarketRole | null>>();
   dateControl = input.required<FormControl<Date | null>>();
-  actorType = MarketRole;
+
+  protected readonly showGridAccessProvider = computed(
+    () => this.marketRole() !== EicFunction.GridAccessProvider
+  );
+
+  protected readonly showEnerginet = computed(() => this.marketRole() !== 'DataHubAdministrator');
 }
