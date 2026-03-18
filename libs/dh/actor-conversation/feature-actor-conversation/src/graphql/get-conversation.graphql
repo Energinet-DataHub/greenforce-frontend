@@ -11,6 +11,7 @@ query GetConversation($conversationId: UUID!) {
       role
       actorName
     }
+    partOfConversations
     messages {
       senderType
       userMessage {
