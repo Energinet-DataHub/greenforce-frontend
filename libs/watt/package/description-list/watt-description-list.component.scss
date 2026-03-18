@@ -14,6 +14,10 @@
 watt-description-list {
   display: block;
 
+  dl {
+    margin: 0; // 👈 add this
+  }
+
   &.watt-description-list-flow {
     dl {
       display: grid;
