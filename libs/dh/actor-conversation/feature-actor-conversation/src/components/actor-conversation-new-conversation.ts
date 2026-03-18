@@ -271,7 +271,7 @@ export class DhActorConversationNewConversationComponent {
   );
 
   async startConversation() {
-    if (this.meteringPointId() === undefined && !this.meteringPointSearch()?.isValidated) {
+    if (this.meteringPointId() === undefined && !this.meteringPointSearch()?.isValidated()) {
       this.meteringPointSearch()?.markNotValidated();
       return;
     }

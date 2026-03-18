@@ -22,10 +22,9 @@ import {
   computed,
   effect,
   output,
-  signal,
   untracked,
 } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -57,11 +56,6 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { style: 'width: 100%' },
-  styles: `
-    .search-button {
-      margin-top: var(--watt-space-xs);
-    }
-  `,
   template: `
     <vater-stack
       direction="column"
@@ -75,13 +69,15 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
           [formControl]="searchControl"
           [label]="t('meteringPointIdLabel')"
         >
+        <watt-button icon="search" variant="icon" (click)="search()" />
           @if (searchControl.hasError('notFound')) {
             <watt-field-error>{{ t('meteringPointInfo.notFound') }}</watt-field-error>
+          } @else if (searchControl.hasError('minlength') || searchControl.hasError('maxlength')) {
+            <watt-field-error>{{ t('meteringPointInfo.invalidLength') }}</watt-field-error>
           } @else {
             <watt-field-error>{{ t('meteringPointInfo.notValidated') }}</watt-field-error>
           }
         </watt-text-field>
-        <watt-button icon="search" variant="secondary" (click)="search()" class="search-button" />
       </vater-stack>
 
       @if (meteringPointInfo(); as info) {
@@ -123,66 +119,45 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
   `,
 })
 export class DhActorConversationMeteringPointSearchComponent {
-  /** Emits the validated metering point ID, or `undefined` when the search is cleared. */
   readonly meteringPointIdValidated = output<string | undefined>();
 
-  readonly searchControl = dhMakeFormControl<string>('');
+  readonly searchControl = dhMakeFormControl<string>('', [
+    Validators.required,
+    Validators.minLength(18),
+    Validators.maxLength(18),
+  ]);
 
   private readonly searchControlValue = dhFormControlToSignal(() => this.searchControl);
-  private readonly searchedId = signal<string | undefined>(undefined);
-  private _validated = false;
 
-  private readonly infoQuery = lazyQuery(GetMeteringPointNewConversationInfoDocument);
-
-  private readonly fetchMeteringPointInfo = effect(() => {
-    const meteringPointId = this.searchedId();
-    if (!meteringPointId) return;
-    this.infoQuery.query({ variables: { meteringPointId } });
+  private readonly infoQuery = lazyQuery(GetMeteringPointNewConversationInfoDocument, {
+    onCompleted: (data) => {
+      this.searchControl.setErrors(null);
+      this.meteringPointIdValidated.emit(data.meteringPoint?.meteringPointId);
+    },
+    onError: () => {
+      this.meteringPointIdValidated.emit(undefined);
+      this.searchControl.setErrors({ notFound: true });
+      this.searchControl.markAsTouched();
+    },
   });
 
-  readonly meteringPointInfo = computed(() => {
-    if (!this.searchedId()) return undefined;
-    return this.infoQuery.data()?.meteringPoint ?? undefined;
-  });
-
+  readonly meteringPointInfo = computed(() => this.infoQuery.data()?.meteringPoint ?? undefined);
   readonly loading = this.infoQuery.loading;
+
+  readonly isValidated = computed(
+    () => this.infoQuery.called() && !this.infoQuery.loading() && !!this.meteringPointInfo()
+  );
 
   private readonly clearOnSearchValueChange = effect(() => {
     this.searchControlValue();
     untracked(() => {
-      this._validated = false;
-      this.searchedId.set(undefined);
+      this.infoQuery.reset();
       this.searchControl.setErrors(null);
       this.searchControl.markAsUntouched();
       this.meteringPointIdValidated.emit(undefined);
     });
   });
 
-  private readonly onInfoChange = effect(() => {
-    const id = this.searchedId();
-    const meteringPoint = this.infoQuery.data()?.meteringPoint;
-    const isLoading = this.infoQuery.loading();
-
-    if (!id || isLoading) return;
-
-    if (meteringPoint) {
-      this._validated = true;
-      this.searchControl.setErrors(null);
-      this.meteringPointIdValidated.emit(meteringPoint.meteringPointId);
-    } else {
-      this._validated = false;
-      this.meteringPointIdValidated.emit(undefined);
-      this.searchControl.setErrors({ notFound: true });
-      this.searchControl.markAsTouched();
-    }
-  });
-
-  /** Returns whether the current value has been validated via a successful search. */
-  get isValidated(): boolean {
-    return this._validated;
-  }
-
-  /** Marks the field as not-yet-validated (call when the parent form is submitted without a prior search). */
   markNotValidated(): void {
     this.searchControl.setErrors({ notValidated: true });
     this.searchControl.markAsTouched();
@@ -192,7 +167,7 @@ export class DhActorConversationMeteringPointSearchComponent {
     const value = this.searchControl.value;
     if (value) {
       this.searchControl.setErrors(null);
-      this.searchedId.set(value);
+      this.infoQuery.query({ variables: { meteringPointId: value } });
     }
   }
 }

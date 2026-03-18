@@ -892,7 +892,8 @@
         "address": "Address",
         "resolution": "Resolution",
         "notValidated": "Please search for a metering point",
-        "notFound": "Metering point ID does not exist"
+        "notFound": "Metering point ID does not exist",
+        "invalidLength": "Metering point ID consists of 18 digits"
       }
     },
     "relatedMeteringPointsTitle": "Related metering points",
