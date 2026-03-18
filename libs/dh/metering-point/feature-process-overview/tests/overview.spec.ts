@@ -109,9 +109,7 @@ describe('Process overview', () => {
     vi.spyOn(router, 'navigate').mockResolvedValue(true);
 
     await waitFor(() =>
-      expect(
-        screen.getAllByRole('button', { name: /Send information/i }).length
-      ).toBeGreaterThan(0)
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
     );
     const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
 
