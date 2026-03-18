@@ -18,10 +18,7 @@
 //#endregion
 import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
-import {
-  WattDescriptionListComponent,
-  WattDescriptionListItemComponent,
-} from '..';
+import { WattDescriptionListComponent, WattDescriptionListItemComponent } from '..';
 
 const meta: Meta<WattDescriptionListComponent<string>> = {
   title: 'Components/Description List',
@@ -57,7 +54,10 @@ const items = [
 ];
 
 const itemsTemplate = items
-  .map((i) => `<watt-description-list-item label="${i.label}" [value]="'${i.value}'"></watt-description-list-item>`)
+  .map(
+    (i) =>
+      `<watt-description-list-item label="${i.label}" [value]="'${i.value}'"></watt-description-list-item>`
+  )
   .join('\n      ');
 
 const Template: StoryFn<WattDescriptionListComponent<string>> = (args) => ({
