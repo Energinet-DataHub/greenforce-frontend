@@ -98,7 +98,10 @@ describe('Process overview', () => {
     let hmrValue: unknown;
     ps.hasMarketRole('test' as any).subscribe((v: unknown) => (hmrValue = v));
     console.log('[DIAG] hasMarketRole() emitted:', hmrValue);
-    console.log('[DIAG] actions column HTML:', document.querySelector('[role="treegrid"] [role="row"]')?.innerHTML?.substring(0, 500));
+    console.log(
+      '[DIAG] actions column HTML:',
+      document.querySelector('[role="treegrid"] [role="row"]')?.innerHTML?.substring(0, 500)
+    );
 
     await waitFor(() =>
       expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
