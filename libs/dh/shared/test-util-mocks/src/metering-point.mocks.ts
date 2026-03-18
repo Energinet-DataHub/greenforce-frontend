@@ -663,6 +663,7 @@ function getConversation() {
           subject: match?.subject ?? 'INTERRUPTION_RECONNECTION',
           closed: match?.closed ?? false,
           wasLatestMessageAnonymous: true,
+          partOfConversations: true,
           participants: [
             {
               __typename: 'GetConversationQueryResponseParticipant',
