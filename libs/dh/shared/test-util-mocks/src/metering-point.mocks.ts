@@ -856,8 +856,9 @@ function getMeteringPointConversationInformation() {
       data: {
         __typename: 'Query',
         meteringPoint: {
-          id: '222222222222222222',
+          id: '1',
           __typename: 'ElectricityMarketViewMeteringPointDto',
+          meteringPointId: '222222222222222222',
           metadata: {
             __typename: 'ElectricityMarketViewMeteringPointMetadataDto',
             id: '1',
