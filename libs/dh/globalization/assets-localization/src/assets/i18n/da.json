@@ -817,6 +817,7 @@
       },
       "reducedElectricityTaxToggle": "Jeg vil ansøge om reduceret elafgift",
       "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
+      "idLabel": "ID",
       "internalNoteLabel": "Intern note",
       "editInternalNote": {
         "title": "Intern note",

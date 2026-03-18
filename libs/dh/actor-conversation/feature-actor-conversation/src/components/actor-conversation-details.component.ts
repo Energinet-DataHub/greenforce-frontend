@@ -26,6 +26,7 @@ import {
   inject,
   input,
   signal,
+  ViewEncapsulation,
   viewChild,
 } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
@@ -64,10 +65,12 @@ import { injectUploadMessageDocument } from './upload-message-document';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 import { WattSkeletonComponent } from '@energinet/watt/skeleton';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
 @Component({
   selector: 'dh-actor-conversation-details',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     WattIconComponent,
     VaterStackComponent,
@@ -87,23 +90,26 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
     WattHeadingComponent,
     WattSeparatorComponent,
     WattSkeletonComponent,
+    WATT_DESCRIPTION_LIST,
   ],
   styles: `
-    .sticky-background {
-      background-color: var(--bg-card);
-    }
+    dh-actor-conversation-details {
+      .sticky-background {
+        background-color: var(--bg-card);
+      }
 
-    .no-padding-bottom {
-      padding-bottom: 0;
-    }
+      .no-padding-bottom {
+        padding-bottom: 0;
+      }
 
-    .no-min-width {
-      min-width: 0;
-    }
+      .wrap-gap {
+        column-gap: var(--watt-space-m);
+        row-gap: var(--watt-space-xs);
+      }
 
-    .wrap-gap {
-      column-gap: var(--watt-space-m);
-      row-gap: var(--watt-space-xs);
+      watt-description-list dl {
+        margin: 0;
+      }
     }
   `,
   template: `
@@ -116,14 +122,14 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
         @if (conversation(); as conversation) {
           <!-- Header -->
           <vater-stack fill="horizontal" sticky="top" class="sticky-background">
-            <vater-stack
+            <vater-flex
               fill="horizontal"
               direction="row"
               justify="space-between"
               gap="m"
               class="watt-space-reverse-inset-stretch-m"
             >
-              <vater-stack gap="s" align="start" fill="horizontal" class="no-min-width">
+              <vater-stack gap="s" align="start" fill="horizontal">
                 <vater-stack direction="row" gap="xs">
                   @let initiatorRole = t('role.' + initiator()?.role);
                   <span class="watt-text-s">
@@ -151,59 +157,58 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
                     <watt-badge type="neutral">{{ t('closed') }}</watt-badge>
                   }
                 </vater-stack>
-                <vater-stack direction="row" gap="m">
-                  <vater-stack direction="row" gap="xs">
-                    <label>ID</label>
-                    <span class="watt-text-s">{{ conversation.displayId }}</span>
-                  </vater-stack>
-                  <vater-stack direction="row" gap="xs">
-                    <label>{{ t('internalNoteLabel') }}</label>
-                    <span class="watt-text-s">{{ conversation.internalNote }}</span>
-                  </vater-stack>
-                </vater-stack>
-                <vater-stack
-                  direction="row"
-                  wrap
-                  align="start"
-                  class="wrap-gap"
-                  *transloco="let tBase"
-                >
-                  @if (meteringPointConversationInfo(); as meteringPointInfo) {
-                    <label
-                      >{{ meteringPointInfo.meteringPointId }} •
-                      {{ meteringPointInfo.metadata.installationAddress?.streetName }}
-                      {{ meteringPointInfo.metadata.installationAddress?.buildingNumber }} ,
-                      {{ meteringPointInfo.metadata.installationAddress?.municipalityCode }}
-                      {{ meteringPointInfo.metadata.installationAddress?.cityName }}</label
-                    >
-                    <vater-stack direction="row" gap="xs">
-                      <label>{{ t('meteringPointInfo.connectionState') }}</label>
-                      <span class="watt-text-s">{{
+                <watt-description-list variant="inline-flow">
+                  <watt-description-list-item
+                    [label]="t('idLabel')"
+                    [value]="conversation.displayId"
+                  />
+                  <watt-description-list-item
+                    [label]="t('internalNoteLabel')"
+                    [value]="conversation.internalNote"
+                  />
+                </watt-description-list>
+                @if (meteringPointConversationInfo(); as meteringPointInfo) {
+                  <watt-description-list variant="inline-flow" *transloco="let tBase">
+                    <watt-description-list-item
+                      [label]="t('meteringPointInfo.address')"
+                      [value]="
+                        meteringPointInfo.meteringPointId +
+                        ' • ' +
+                        (meteringPointInfo.metadata.installationAddress?.streetName ?? '') +
+                        ' ' +
+                        (meteringPointInfo.metadata.installationAddress?.buildingNumber ?? '') +
+                        ' , ' +
+                        (meteringPointInfo.metadata.installationAddress?.municipalityCode ?? '') +
+                        ' ' +
+                        (meteringPointInfo.metadata.installationAddress?.cityName ?? '')
+                      "
+                    />
+                    <watt-description-list-item
+                      [label]="t('meteringPointInfo.connectionState')"
+                      [value]="
                         tBase(
                           'meteringPoint.overview.status.' +
                             meteringPointInfo.metadata.connectionState
                         )
-                      }}</span>
-                    </vater-stack>
-                    <vater-stack direction="row" gap="xs">
-                      <label>{{ t('meteringPointInfo.type') }}</label>
-                      <span class="watt-text-s">{{
-                        tBase('meteringPointType.' + meteringPointInfo.metadata.type)
-                      }}</span>
-                    </vater-stack>
-                    <vater-stack direction="row" gap="xs">
-                      <label>{{ t('meteringPointInfo.resolution') }}</label>
-                      <span class="watt-text-s">{{
-                        tBase('resolution.' + meteringPointInfo.metadata.resolution)
-                      }}</span>
-                    </vater-stack>
-                  } @else {
-                    <watt-skeleton width="325px" height="20px" />
+                      "
+                    />
+                    <watt-description-list-item
+                      [label]="t('meteringPointInfo.type')"
+                      [value]="tBase('meteringPointType.' + meteringPointInfo.metadata.type)"
+                    />
+                    <watt-description-list-item
+                      [label]="t('meteringPointInfo.resolution')"
+                      [value]="tBase('resolution.' + meteringPointInfo.metadata.resolution)"
+                    />
+                  </watt-description-list>
+                } @else {
+                  <vater-stack direction="row" wrap align="start" class="wrap-gap">
+                    <watt-skeleton width="400px" height="20px" />
                     <watt-skeleton width="200px" height="20px" />
                     <watt-skeleton width="200px" height="20px" />
                     <watt-skeleton width="200px" height="20px" />
-                  }
-                </vater-stack>
+                  </vater-stack>
+                }
               </vater-stack>
 
               <vater-stack direction="row" gap="m">
@@ -225,7 +230,7 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
                   </watt-menu-item>
                 </watt-menu>
               </vater-stack>
-            </vater-stack>
+            </vater-flex>
             <watt-separator />
           </vater-stack>
 
