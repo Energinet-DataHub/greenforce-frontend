@@ -77,6 +77,10 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
     watt-datepicker {
       width: auto;
     }
+
+    .supplier-period {
+      display: block;
+    }
   `,
   template: `
     <vater-stack
@@ -99,11 +103,12 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
           [label]="t('customer')"
           [value]="electricalHeatingInformation()?.customerName"
         />
-        @for (period of supplierPeriods(); track $index) {
-          <watt-description-list-item
-            [label]="$index === 0 ? t('supplierInPeriod') : ''"
-            [value]="period"
-          />
+        @if (supplierPeriods().length > 0) {
+          <watt-description-list-item [label]="t('supplierInPeriod')">
+            @for (period of supplierPeriods(); track $index) {
+              <span class="supplier-period">{{ period }}</span>
+            }
+          </watt-description-list-item>
         }
       </watt-description-list>
 
