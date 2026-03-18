@@ -79,9 +79,11 @@ public class CalculationsClient(
         {
             PeriodStartDate = interval.Start.ToDateTimeOffset(),
             PeriodEndDate = interval.End.ToDateTimeOffset(),
-            CalculationTypes = [startCalculationType.ToQueryParameterV1()],
             LifecycleStates = [OrchestrationInstanceLifecycleState.Terminated],
             TerminationState = OrchestrationInstanceTerminationState.Succeeded,
+            CalculationTypes = startCalculationType == StartCalculationType.Aggregation
+                ? null
+                : [startCalculationType.ToQueryParameterV1()],
         };
 
         var calculations = await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
