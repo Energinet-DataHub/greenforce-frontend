@@ -256,6 +256,10 @@ type CancelChargeLinkPayload {
   boolean: Boolean
 }
 
+type CancelEndOfSupplyPayload {
+  boolean: Boolean
+}
+
 type CancelMeasurementsReportPayload {
   boolean: Boolean
 }
@@ -1225,6 +1229,7 @@ type Mutation {
   dismissAllNotifications(input: DismissAllNotificationsInput!): DismissAllNotificationsPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
+  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
@@ -1981,6 +1986,11 @@ input CalculationsQueryInput {
 
 input CancelChargeLinkInput {
   id: String!
+}
+
+input CancelEndOfSupplyInput {
+  meteringPointId: String!
+  processId: UUID!
 }
 
 input CancelMeasurementsReportInput {

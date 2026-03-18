@@ -2,7 +2,7 @@
 
 Actions are organized by `BusinessReason`, each in its own folder as an `@Injectable({ providedIn: 'root' })` service.
 
-```
+```text
 actions/
 ├── registry.ts                         # Central registry
 ├── context.ts                          # ProcessActionContext interface

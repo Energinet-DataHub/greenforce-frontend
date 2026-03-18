@@ -59,6 +59,9 @@ export class DhActionsRegistry {
     businessReason: ProcessManagerBusinessReason,
     context: ProcessActionContext
   ): void {
-    this.registry[businessReason]?.[action]?.callback(context);
+    const handler = this.registry[businessReason]?.[action];
+    if (handler && this.featureFlags.isEnabled(handler.featureFlag)) {
+      handler.callback(context);
+    }
   }
 }

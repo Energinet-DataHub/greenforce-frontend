@@ -265,6 +265,7 @@ function getAvailableActions(
     MeteringPointProcessState.Failed,
     MeteringPointProcessState.Canceled,
     MeteringPointProcessState.Succeeded,
+    MeteringPointProcessState.Rejected,
   ];
   if (terminalStates.includes(state)) return [];
   if (businessReason === ProcessManagerBusinessReason.EndOfSupply)
@@ -307,10 +308,11 @@ function getMeteringPointProcessById(apiBase: string) {
 
     // Derive businessReason and state consistently with overview mock
     const known = knownProcesses[processId];
+    const safeIndex = Math.max(processIndex, 1) - 1;
     const businessReason =
       known?.businessReason ??
-      translatedBusinessReasons[(processIndex - 1) % translatedBusinessReasons.length];
-    const state = known?.state ?? allStates[(processIndex - 1) % allStates.length];
+      translatedBusinessReasons[safeIndex % translatedBusinessReasons.length];
+    const state = known?.state ?? allStates[safeIndex % allStates.length];
     const availableActions = getAvailableActions(businessReason, state);
 
     return HttpResponse.json({

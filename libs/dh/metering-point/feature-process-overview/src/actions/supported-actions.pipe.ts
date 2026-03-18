@@ -30,7 +30,7 @@ export class SupportedActionsPipe implements PipeTransform {
   private readonly registry = inject(DhActionsRegistry);
 
   transform(
-    availableActions: WorkflowAction[] | null,
+    availableActions: WorkflowAction[] | null | undefined,
     businessReason?: ProcessManagerBusinessReason
   ): WorkflowAction[] {
     if (!availableActions || !businessReason) return [];
