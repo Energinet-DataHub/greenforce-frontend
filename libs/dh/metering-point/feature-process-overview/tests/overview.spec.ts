@@ -91,17 +91,21 @@ describe('Process overview', () => {
     const component = fixture.componentInstance as any;
 
     // Diagnostic: check mock injection and signal values
-    console.log('[DIAG] canPerformActions:', component.canPerformActions());
-    console.log('[DIAG] isFas:', component.isFas());
     const ps = fixture.debugElement.injector.get(PermissionService);
-    console.log('[DIAG] hasMarketRole is mock:', typeof ps.hasMarketRole === 'function');
     let hmrValue: unknown;
     ps.hasMarketRole('test' as any).subscribe((v: unknown) => (hmrValue = v));
+    console.log('[DIAG] canPerformActions:', component.canPerformActions());
+    console.log('[DIAG] isFas:', component.isFas());
     console.log('[DIAG] hasMarketRole() emitted:', hmrValue);
-    console.log(
-      '[DIAG] actions column HTML:',
-      document.querySelector('[role="treegrid"] [role="row"]')?.innerHTML?.substring(0, 500)
-    );
+
+    // Check all rows and their actions cell content
+    const allRows = document.querySelectorAll('[role="treegrid"] [role="row"]');
+    console.log('[DIAG] total rows:', allRows.length);
+    allRows.forEach((row, i) => {
+      const cells = row.querySelectorAll('[role="gridcell"]');
+      const lastCell = cells[cells.length - 1];
+      console.log(`[DIAG] row ${i}: gridcells=${cells.length}, lastCell=${lastCell?.innerHTML?.substring(0, 300)}`);
+    });
 
     await waitFor(() =>
       expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
