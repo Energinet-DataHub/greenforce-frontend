@@ -104,7 +104,9 @@ describe('Process overview', () => {
     allRows.forEach((row, i) => {
       const cells = row.querySelectorAll('[role="gridcell"]');
       const lastCell = cells[cells.length - 1];
-      console.log(`[DIAG] row ${i}: gridcells=${cells.length}, lastCell=${lastCell?.innerHTML?.substring(0, 300)}`);
+      console.log(
+        `[DIAG] row ${i}: gridcells=${cells.length}, lastCell=${lastCell?.innerHTML?.substring(0, 300)}`
+      );
     });
 
     await waitFor(() =>
