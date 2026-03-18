@@ -266,7 +266,6 @@ export class DhActorConversationNewConversationComponent {
     energySupplierDateControl.updateValueAndValidity();
   });
 
-
   shouldShowEletricalHeatingForm = computed(
     () => this.isElectricalHeating() && this.reducedElectricityTaxValue()
   );
