@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -30,7 +30,6 @@ import {
   UpdateInternalConversationNoteDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { internalNoteMaxLength } from '../types';
 
 @Component({
@@ -73,10 +72,6 @@ export class DhActorConversationInternalNoteModalComponent extends WattTypedModa
 }> {
   private readonly fb = inject(NonNullableFormBuilder);
   updateMutation = mutation(UpdateInternalConversationNoteDocument);
-  private readonly updateToast = injectToast(
-    'meteringPoint.actorConversation.editInternalNote.toast'
-  );
-  private readonly updateToastEffect = effect(() => this.updateToast(this.updateMutation.status()));
   internalNoteMaxLength = internalNoteMaxLength;
 
   form = this.fb.group({
