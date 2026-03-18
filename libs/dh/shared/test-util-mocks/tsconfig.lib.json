@@ -2,12 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-    "target": "ES2023",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
     "types": [],
-    "lib": ["dom", "ES2023"]
   },
   "exclude": ["tests/**/*.spec.ts", "tests/test-setup.ts", "tests/**/*.test.ts"],
   "include": ["src/**/*.ts"]
