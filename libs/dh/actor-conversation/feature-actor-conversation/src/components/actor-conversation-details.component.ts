@@ -216,9 +216,6 @@ export class DhActorConversationDetailsComponent {
   private readonly closeToast = injectToast(
     'meteringPoint.actorConversation.conversationCloseError'
   );
-  private readonly closeToastEffect = effect(() =>
-    this.closeToast(this.closeConversationMutation.status())
-  );
   private readonly scrollEffect = afterRenderEffect(() => {
     if (this.conversation()) {
       this.scrollAnchor()?.nativeElement.scrollIntoView();
