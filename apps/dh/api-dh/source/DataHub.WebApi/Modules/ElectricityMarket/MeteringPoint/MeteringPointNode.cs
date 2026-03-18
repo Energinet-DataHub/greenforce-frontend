@@ -348,7 +348,7 @@ public static partial class MeteringPointNode
         CancellationToken ct)
     {
         var command = new RequestChangeProductionObligationCommandV1(
-            new RequestChangeProductionObligationRequestV1(meteringPointId, cutOffDate, newProductionObligationState));
+            new RequestChangeProductionObligationRequestV1(meteringPointId, cutOffDate, true));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
