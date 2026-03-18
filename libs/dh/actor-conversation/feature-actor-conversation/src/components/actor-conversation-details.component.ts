@@ -57,9 +57,9 @@ import {
   MarkConversationUnReadDocument,
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 
 import { MessageFormValue } from '../types';
 import { injectUploadMessageDocument } from './upload-message-document';
@@ -217,12 +217,6 @@ export class DhActorConversationDetailsComponent {
   private readonly modalService = inject(WattModalService);
   private readonly scrollAnchor = viewChild<ElementRef<HTMLElement>>('scrollAnchor');
   private readonly closeConversationMutation = mutation(CloseConversationDocument);
-  private readonly closeToast = injectToast(
-    'meteringPoint.actorConversation.conversationCloseError'
-  );
-  private readonly closeToastEffect = effect(() =>
-    this.closeToast(this.closeConversationMutation.status())
-  );
   private readonly scrollEffect = afterRenderEffect(() => {
     if (this.conversation()) {
       this.scrollAnchor()?.nativeElement.scrollIntoView();
