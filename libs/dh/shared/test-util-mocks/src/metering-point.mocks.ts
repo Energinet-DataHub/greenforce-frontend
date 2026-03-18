@@ -850,7 +850,7 @@ function getConversation() {
 
 function getMeteringPointConversationInformation() {
   return mockGetMeteringPointConversationInfoQuery(async () => {
-    await delay(3000);
+    await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
@@ -882,7 +882,7 @@ function getMeteringPointConversationInformation() {
 
 function getMeteringPointNewConversationInformation() {
   return mockGetMeteringPointNewConversationInfoQuery(async () => {
-    await delay(3000);
+    await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
@@ -910,8 +910,8 @@ function getMeteringPointNewConversationInformation() {
 }
 
 function getElectricalHeatingInformation() {
+  await delay(mswConfig.delay);
   return mockGetElectricalHeatingQuery(async () => {
-    await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
