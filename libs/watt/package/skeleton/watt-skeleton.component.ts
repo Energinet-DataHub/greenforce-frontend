@@ -31,6 +31,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     '[style.width]': 'width()',
     '[style.height]': 'height()',
     '[style.border-radius]': 'borderRadius()',
+    'aria-hidden': 'true',
+    role: 'presentation',
   },
 })
 export class WattSkeletonComponent {
