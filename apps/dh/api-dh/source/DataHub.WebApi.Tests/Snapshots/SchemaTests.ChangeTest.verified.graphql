@@ -801,8 +801,8 @@ type FilteredUserRolesEdge {
 
 type GetConversationQueryResponseParticipant {
   actorName: String
+  id: String
   role: MarketRole!
-  marketParticipantNumber: String
   type: ParticipantType!
   additionalProperties: [KeyValuePairOfStringAndObject!]!
 }
