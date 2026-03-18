@@ -857,7 +857,7 @@
       "filters": {
         "placeholder": "Filtre",
         "general": "Generelt",
-        "myCases": "Mine sager",
+        "ownCases": "Mine sager",
         "showOnlyUnread": "Vis kun ulæste",
         "status": "Status"
       },
