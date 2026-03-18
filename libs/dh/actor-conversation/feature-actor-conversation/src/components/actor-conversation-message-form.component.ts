@@ -199,6 +199,7 @@ export class DhActorConversationMessageFormComponent implements ControlValueAcce
 
   disableAnonymousControlEffect = effect(() => {
     if (this.disableAnonymous()) {
+      this.form.controls.anonymous.setValue(false);
       this.form.controls.anonymous.disable();
     } else {
       this.form.controls.anonymous.enable();
