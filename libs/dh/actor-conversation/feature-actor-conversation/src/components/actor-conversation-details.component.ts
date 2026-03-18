@@ -17,74 +17,78 @@
  */
 //#endregion
 import {
-  afterRenderEffect,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
   effect,
-  ElementRef,
   inject,
   input,
   signal,
+  computed,
+  Component,
   viewChild,
+  ElementRef,
+  afterRenderEffect,
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { WattIconComponent } from '@energinet/watt/icon';
+import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+
+import { TranslocoDirective } from '@jsverse/transloco';
+
 import {
   VaterFlexComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
-import { WattBadgeComponent } from '@energinet/watt/badge';
-import { WattButtonComponent } from '@energinet/watt/button';
 import {
   WattMenuComponent,
   WattMenuItemComponent,
   WattMenuTriggerDirective,
 } from '@energinet/watt/menu';
-import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { MessageFormValue } from '../types';
-import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  CloseConversationDocument,
-  GetConversationDocument,
-  GetConversationsDocument,
-  MarkConversationUnReadDocument,
-  MarketRole,
-  ParticipantType,
-  SendActorConversationMessageDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WattModalService } from '@energinet/watt/modal';
-import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhActorConversationMessageComponent } from './actor-conversation-message';
-import { DhActorConversationInternalNoteModalComponent } from './actor-conversation-internal-note-modal.component';
-import { injectUploadMessageDocument } from './upload-message-document';
+import { WattBadgeComponent } from '@energinet/watt/badge';
+import { WattButtonComponent } from '@energinet/watt/button';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
+
+import {
+  ParticipantType,
+  GetConversationDocument,
+  GetConversationsDocument,
+  CloseConversationDocument,
+  MarkConversationUnReadDocument,
+  MarketRole,
+  SendActorConversationMessageDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+
+import { MessageFormValue } from '../types';
+import { injectUploadMessageDocument } from './upload-message-document';
+import { DhActorConversationMessageComponent } from './actor-conversation-message';
+import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
+import { DhActorConversationInternalNoteModalComponent } from './actor-conversation-internal-note-modal.component';
 
 @Component({
   selector: 'dh-actor-conversation-details',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    WattIconComponent,
-    VaterStackComponent,
-    WattBadgeComponent,
-    WattButtonComponent,
-    WattMenuComponent,
-    WattMenuItemComponent,
-    WattMenuTriggerDirective,
-    VaterUtilityDirective,
+    FormsModule,
     TranslocoDirective,
     ReactiveFormsModule,
-    DhActorConversationMessageFormComponent,
-    FormsModule,
+    WattMenuComponent,
+    WattIconComponent,
+    WattBadgeComponent,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattHeadingComponent,
+    WattMenuItemComponent,
+    WattSeparatorComponent,
+    WattMenuTriggerDirective,
+    VaterFlexComponent,
+    VaterUtilityDirective,
     DhResultComponent,
     DhActorConversationMessageComponent,
-    VaterFlexComponent,
-    WattHeadingComponent,
-    WattSeparatorComponent,
+    DhActorConversationMessageFormComponent,
   ],
   styles: `
     .sticky-background {
@@ -220,6 +224,8 @@ export class DhActorConversationDetailsComponent {
       this.scrollAnchor()?.nativeElement.scrollIntoView();
     }
   });
+
+  isPathOfConversation = computed(() => this.conversation()?.partOfConversations);
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
   conversationId = input.required<string>();
@@ -240,6 +246,14 @@ export class DhActorConversationDetailsComponent {
   private getParticipant(type: ParticipantType) {
     return computed(() => this.conversation()?.participants.find((p) => p.type === type));
   }
+
+  private readonly partOfConversationEffect = effect(() => {
+    if (this.isPathOfConversation()) {
+      this.formControl.enable();
+    } else {
+      this.formControl.disable();
+    }
+  });
 
   private readonly syncAnonymousEffect = effect(() => {
     const anonymous = this.conversation()?.wasLatestMessageAnonymous;
