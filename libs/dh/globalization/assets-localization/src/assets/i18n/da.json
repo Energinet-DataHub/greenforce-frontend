@@ -858,7 +858,7 @@
       "filters": {
         "placeholder": "Filtre",
         "general": "Generelt",
-        "myCases": "Mine sager",
+        "ownCases": "Mine sager",
         "showOnlyUnread": "Vis kun ulæste",
         "status": "Status"
       },
@@ -1486,6 +1486,7 @@
       "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
       "UPDATE_CHARGE_LINKS": "Anmodning om opdatering af pristilknytninger (RSM-030)",
+      "B2C_UPDATE_CHARGE_LINKS": "UI: Anmodning om opdatering af pristilknytninger (RSM-030)",
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Godkendelse af opdatering af pristilknytninger (RSM-030)",
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af opdatering af pristilknytninger (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Information om pristilknytninger (RSM-031)",

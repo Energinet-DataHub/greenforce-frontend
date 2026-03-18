@@ -16,64 +16,84 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
-import { VATER, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  input,
+  signal,
+  computed,
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { TranslocoDirective } from '@jsverse/transloco';
+
 import {
   GetConversationsDocument,
   MarkConversationReadDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+
 import { WATT_CARD } from '@energinet/watt/card';
-import { ActorConversationState, Conversation } from '../types';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
-import { DhActorConversationDetailsComponent } from './actor-conversation-details.component';
-import { WattSimpleSearchComponent } from '@energinet/watt/search';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { dhFormControlToSignal, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { WattSeparatorComponent } from '@energinet/watt/separator';
-import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
 import { WattHeadingComponent } from '@energinet/watt/heading';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
+import { VATER, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+
+import { ActorConversationState, Conversation } from '../types';
+import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
+import { DhActorConversationDetailsComponent } from './actor-conversation-details.component';
+import { ActorConversationFilter, ActorConversationFilterValue } from './actor-conversation-filter';
+import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
+  encapsulation: ViewEncapsulation.None,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
+
     VATER,
     WATT_CARD,
-    WattEmptyStateComponent,
     WattButtonComponent,
-    WattSimpleSearchComponent,
-    DhResultComponent,
-    DhActorConversationNewConversationComponent,
+    WattHeadingComponent,
     VaterStackComponent,
-    VaterUtilityDirective,
     WattSpinnerComponent,
+    WattHeadingComponent,
+    VaterUtilityDirective,
     WattSeparatorComponent,
+    WattEmptyStateComponent,
+    DhResultComponent,
+    ActorConversationFilter,
     DhActorConversationDetailsComponent,
     DhActorConversationListItemComponent,
-    WattHeadingComponent,
+    DhActorConversationNewConversationComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
-    :host {
+    dh-actor-conversation-shell {
       --case-min-row-height: 82px;
-    }
 
-    .list-min-width {
-      min-width: 400px;
-    }
+      watt-button.watt-button--text {
+        .mdc-button {
+          padding: 0;
+        }
+      }
 
-    .new-conversation {
-      background-color: var(--bg-card);
-    }
+      .list-min-width {
+        min-width: 400px;
+      }
 
-    .conversations {
-      list-style: none;
+      .new-conversation {
+        background-color: var(--bg-card);
+      }
+
+      .conversations {
+        list-style: none;
+      }
     }
   `,
   template: `
@@ -88,7 +108,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
           <vater-stack sticky="top" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
             <vater-stack
               fill="horizontal"
-              class="new-conversation watt-space-inset-ml"
+              class="new-conversation watt-space-inset-m"
               gap="m"
               align="start"
             >
@@ -103,20 +123,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
                   {{ t('newCaseButton') }}
                 </watt-button>
               </vater-stack>
-              <watt-simple-search
-                vater
-                fill="horizontal"
-                [label]="t('searchPlaceholder')"
-                [formControl]="searchFormControl"
-              />
-              <!-- TODO MASEP: Incomment when filter functionality is implemented -->
-              <!--        <watt-dropdown-->
-              <!--          [formControl]="formControl"-->
-              <!--          [options]="options()"-->
-              <!--          [multiple]="true"-->
-              <!--          [chipMode]="true"-->
-              <!--          [placeholder]="t('filters.placeholder')"-->
-              <!--        />-->
+              <dh-actor-conversation-filter (filterChange)="filterChanged($event)" />
             </vater-stack>
             <watt-separator weight="regular" />
           </vater-stack>
@@ -191,13 +198,21 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
   `,
 })
 export class DhActorConversation {
-  searchFormControl = new FormControl('');
-  searchTerm = dhFormControlToSignal(this.searchFormControl);
+  filterChanged(filterValue: ActorConversationFilterValue) {
+    this.conversationsQuery.refetch({
+      meteringPointIdentification: this.meteringPointId(),
+      closed: filterValue.statusClosed,
+      ownConversations: filterValue.ownCases,
+      opened: filterValue.statusActive,
+      unread: filterValue.showOnlyUnread,
+      searchTerm: filterValue.search,
+      subjects: filterValue.subjects,
+    });
+  }
 
   conversationsQuery = query(GetConversationsDocument, () => ({
     variables: {
       meteringPointIdentification: this.meteringPointId(),
-      searchTerm: this.searchTerm(),
     },
   }));
   readConversationMutation = mutation(MarkConversationReadDocument);
@@ -225,10 +240,6 @@ export class DhActorConversation {
   newConversation() {
     this.newConversationVisible.set(true);
     this.selectedConversationId.set(undefined);
-  }
-
-  search(term: string) {
-    this.searchTerm.set(term);
   }
 
   closeNewConversation(newConversationId?: string) {
