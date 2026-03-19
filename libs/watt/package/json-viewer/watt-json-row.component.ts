@@ -89,7 +89,7 @@ import { isNonEmpty, tokenize } from './watt-json.utils';
         <watt-icon size="s" [name]="expanded() ? 'down' : 'right'" />
       }
       <span>{{ label() }}: </span>
-      <span [hidden]="expanded()">
+      <span [hidden]="expandable() && expanded()">
         @for (token of tokens(); track $index) {
           <span [class]="'watt-json-' + token.kind">{{ token.value }}</span>
         }
