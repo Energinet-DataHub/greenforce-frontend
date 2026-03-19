@@ -30,8 +30,6 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { HttpClient } from '@angular/common/http';
 
 import { toFile } from './stream-to-file';
-/* eslint-disable sonarjs/no-identical-functions */
-/* eslint-disable sonarjs/no-duplicate-string */
 export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVariables> {
   private env = inject(dhAppEnvironmentToken);
   private toastService = inject(WattToastService);
