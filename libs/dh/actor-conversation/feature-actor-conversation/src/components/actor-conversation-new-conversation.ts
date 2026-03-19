@@ -134,12 +134,15 @@ import { DhActorConversationMeteringPointSearchComponent } from './actor-convers
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
+
             <vater-flex fill="horizontal" direction="row" gap="m" align="start">
-              <dh-actor-conversation-receiver-radio-group
-                [marketRole]="currentActorMarketRole"
-                [receiverControl]="newConversationForm.controls.receiver"
-                [dateControl]="newConversationForm.controls.energySupplierDate"
-              />
+              @if (!shouldShowElectricalHeatingForm()) {
+                <dh-actor-conversation-receiver-radio-group
+                  [marketRole]="currentActorMarketRole"
+                  [receiverControl]="newConversationForm.controls.receiver"
+                  [dateControl]="newConversationForm.controls.energySupplierDate"
+                />
+              }
             </vater-flex>
             <watt-text-field
               [formControl]="newConversationForm.controls.internalNote"
@@ -161,7 +164,7 @@ import { DhActorConversationMeteringPointSearchComponent } from './actor-convers
             />
           </vater-stack>
         </vater-grid-area>
-        @if (shouldShowEletricalHeatingForm()) {
+        @if (shouldShowElectricalHeatingForm()) {
           <vater-grid-area column="2" row="1">
             <dh-actor-conversation-electrical-heating-form
               [formControl]="newConversationForm.controls.electricalHeating"
@@ -241,6 +244,14 @@ export class DhActorConversationNewConversationComponent {
     () => this.meteringPointId() === undefined
   );
 
+  private readonly reducedElectricityTaxValueEffect = effect(() => {
+    if (this.isElectricalHeating() && this.reducedElectricityTaxValue()) {
+      this.newConversationForm.controls.receiver.setValue(MarketRole.GridAccessProvider);
+    } else {
+      this.newConversationForm.controls.receiver.reset();
+    }
+  });
+
   private readonly subjectValue = dhFormControlToSignal(
     () => this.newConversationForm.controls.subject
   );
@@ -262,14 +273,14 @@ export class DhActorConversationNewConversationComponent {
     { reset: true }
   );
 
-  shouldShowEletricalHeatingForm = computed(
+  shouldShowElectricalHeatingForm = computed(
     () => this.isElectricalHeating() && this.reducedElectricityTaxValue()
   );
 
   private readonly syncElectricalHeatingValidators = dhSyncControlValidators(
     () => this.newConversationForm.controls.electricalHeating,
     Validators.required,
-    () => this.shouldShowEletricalHeatingForm(),
+    () => this.shouldShowElectricalHeatingForm(),
     { reset: true }
   );
 
@@ -312,7 +323,7 @@ export class DhActorConversationNewConversationComponent {
     this.uploading.set(false);
 
     let electricalHeatingInput: StartElectricalHeatingConversationInput | undefined;
-    if (this.shouldShowEletricalHeatingForm() && electricalHeating) {
+    if (this.shouldShowElectricalHeatingForm() && electricalHeating) {
       assertIsDefined(electricalHeating.addressEligibilityDate);
       assertIsDefined(electricalHeating.periodStart);
       electricalHeatingInput = {
