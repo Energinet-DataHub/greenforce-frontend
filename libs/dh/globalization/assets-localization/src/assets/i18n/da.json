@@ -3289,7 +3289,7 @@
       "tabLabel": "Målepunkt (EM1)"
     },
     "meteringPointEvents": {
-      "tabLabel": "Dataudtræk",
+      "tabLabel": "Målepunkt",
       "searchLabel": "Målepunkts-ID",
       "segments": {
         "meteringPoint": "Målepunkt",

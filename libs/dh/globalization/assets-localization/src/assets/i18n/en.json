@@ -3289,7 +3289,7 @@
       "tabLabel": "Metering point (EM1)"
     },
     "meteringPointEvents": {
-      "tabLabel": "Data lookup",
+      "tabLabel": "Metering point",
       "searchLabel": "Metering point ID",
       "segments": {
         "meteringPoint": "Metering point",
