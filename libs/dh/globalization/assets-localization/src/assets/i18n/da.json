@@ -3349,7 +3349,7 @@
       "rebuildProjection": {
         "title": "Genopbyg projektion",
         "selectPlaceholder": "Vælg projektionstype",
-        "timeout": "Timeout (sekunder)",
+        "timeout": "Timeout (minutter)",
         "button": "Genopbyg projektion",
         "projectionTypes": {
           "METERING_POINT": "Målepunkt",

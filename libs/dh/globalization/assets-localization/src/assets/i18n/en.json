@@ -3349,7 +3349,7 @@
       "rebuildProjection": {
         "title": "Rebuild Projection",
         "selectPlaceholder": "Select projection type",
-        "timeout": "Timeout (seconds)",
+        "timeout": "Timeout (minutes)",
         "button": "Rebuild Projection",
         "projectionTypes": {
           "METERING_POINT": "Metering Point",
