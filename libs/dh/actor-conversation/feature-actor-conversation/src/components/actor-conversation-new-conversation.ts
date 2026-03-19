@@ -209,11 +209,10 @@ export class DhActorConversationNewConversationComponent {
   );
 
   hasMeteringPoint = computed(
-    () => this.meteringPointId() !== undefined || !!this.meteringPointSearch()?.meteringPointInfo()
+    () => !!this.meteringPointSearch()?.meteringPointInfo()
   );
 
   isConsumptionMeteringPoint = computed(() => {
-    if (this.meteringPointId() !== undefined) return true;
     const info = this.meteringPointSearch()?.meteringPointInfo();
     return info?.metadata.type === ElectricityMarketMeteringPointType.Consumption;
   });
