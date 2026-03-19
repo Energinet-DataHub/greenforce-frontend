@@ -129,7 +129,7 @@ import { DhActorConversationMeteringPointSearchComponent } from './actor-convers
               translateKey="meteringPoint.actorConversation.subjects"
               data-testid="actor-conversation-subject-dropdown"
             />
-            @if (isElectricalHeating()) {
+            @if (isElectricalHeating() && hasMeteringPoint()) {
               <watt-slide-toggle [formControl]="newConversationForm.controls.reducedElectricityTax">
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
@@ -197,6 +197,14 @@ export class DhActorConversationNewConversationComponent {
     () => this.newConversationForm.controls.reducedElectricityTax
   );
 
+  private readonly meteringPointIdValue = dhFormControlToSignal(
+    () => this.newConversationForm.controls.meteringPointId
+  );
+
+  hasMeteringPoint = computed(
+    () => this.meteringPointId() !== undefined || !!this.meteringPointIdValue()
+  );
+
   private readonly fetchElectricalHeatingInformation = effect(() => {
     if (!this.reducedElectricityTaxValue()) return;
     const meteringPointIdentification =
@@ -236,6 +244,9 @@ export class DhActorConversationNewConversationComponent {
 
   onMeteringPointIdValidated(meteringPointId: string | undefined): void {
     this.newConversationForm.controls.meteringPointId.setValue(meteringPointId ?? null);
+    if (!meteringPointId) {
+      this.newConversationForm.controls.reducedElectricityTax.setValue(false);
+    }
   }
 
   private readonly syncMeteringPointIdValidators = dhSyncControlValidators(
