@@ -200,7 +200,6 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
   submitInProgress = signal(false);
   noCalculationsFound = signal(false);
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   async submit() {
     if (this.form.invalid || this.submitInProgress()) {
       return;
@@ -270,7 +269,6 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
     }
   }
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   private requestSettlementReport() {
     const {
       calculationType,
