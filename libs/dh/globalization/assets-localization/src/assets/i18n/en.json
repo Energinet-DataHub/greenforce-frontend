@@ -78,6 +78,7 @@
     "localhost": "local",
     "d-001": "dev-001",
     "d-002": "dev-002",
+    "d-003": "dev-003",
     "t-001": "test-001",
     "t-002": "test-002",
     "b-001": "preprod",
@@ -795,6 +796,7 @@
       "newCaseButton": "New case",
       "newCaseTitle": "New case",
       "cancelButtonLabel": "Cancel",
+      "meteringPointIdLabel": "Metering point ID",
       "subjectLabel": "Subject",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc question",
@@ -816,6 +818,7 @@
       },
       "reducedElectricityTaxToggle": "I want to apply for reduced electricity tax",
       "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
+      "idLabel": "ID",
       "internalNoteLabel": "Internal note",
       "editInternalNote": {
         "title": "Internal note",
@@ -856,7 +859,7 @@
       "filters": {
         "placeholder": "Filters",
         "general": "General",
-        "myCases": "My cases",
+        "ownCases": "My cases",
         "showOnlyUnread": "Show only unread",
         "status": "Status"
       },
@@ -882,7 +885,16 @@
       "electricalHeatingInformationCustomer": "Customer: {{ customerName }}",
       "electricalHeatingInformationSupplierPeriod": "Energy supplier period: {{ energySupplierPeriodFrom }} - {{ energySupplierPeriodTo }}",
       "electricalHeatingUserAddressEligibilityDate": "Address eligibility date (cf. BBR): {{ addressEligibilityDate }}",
-      "electricalHeatingUserChargeReductionPeriod": "Period for which reduced electricity tax is requested: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}"
+      "electricalHeatingUserChargeReductionPeriod": "Period for which reduced electricity tax is requested: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}",
+      "meteringPointInfo": {
+        "connectionState": "Connection status",
+        "type": "Metering point type",
+        "address": "Address",
+        "resolution": "Resolution",
+        "notValidated": "Please search for a metering point",
+        "notFound": "Metering point ID does not exist",
+        "invalidLength": "Metering point ID consists of 18 digits"
+      }
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
@@ -1098,10 +1110,10 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)",
-        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_1": "Request for change of production obligation (RSM-021)",
-        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_2": "Confirmation of request for change of production obligation (RSM-021)",
-        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_3": "Rejection of request for change of production obligation (RSM-021)",
-        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_4": "Notification of change of production obligation (RSM-022)"
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_1": "Request for change of production obligation (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Confirmation of request for change of production obligation (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Rejection of request for change of production obligation (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Notification of change of production obligation (RSM-022)"
       },
       "details": {
         "notFound": "Process not found",
@@ -1476,6 +1488,7 @@
       "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)",
       "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
       "UPDATE_CHARGE_LINKS": "Request change billing master data (RSM-030)",
+      "B2C_UPDATE_CHARGE_LINKS": "UI: Request change billing master data (RSM-030)",
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm request change billing master data (RSM-030)",
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
@@ -2270,7 +2283,7 @@
           "RECEIVED": "Received",
           "AWAITING_DISPATCH": "Awaiting dispatch",
           "AWAITING_REPLY": "Awaiting reply from eSett",
-          "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP",
+          "SERVICE_BUS_ACCEPTED": "Awaiting reply from ECP",
           "ACCEPTED": "Accepted",
           "REJECTED": "Rejected",
           "MANUALLY_HANDLED": "Solved manually"

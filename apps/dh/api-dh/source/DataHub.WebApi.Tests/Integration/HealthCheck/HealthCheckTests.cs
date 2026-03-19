@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.App.Common.Diagnostics.HealthChecks;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
@@ -29,24 +30,24 @@ public class HealthCheckTests(
     [Fact]
     public async Task When_RequestLivenessStatus_Then_ResponseIsOkAndHealthy()
     {
-        var actualResponse = await Client.GetAsync(HealthChecksConstants.LiveHealthCheckEndpointRoute);
+        var actualResponse = await Client.GetAsync(HealthChecksConstants.LiveHealthCheckEndpointRoute, CancellationToken.None);
 
         // Assert
         actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var actualContent = await actualResponse.Content.ReadAsStringAsync();
+        var actualContent = await actualResponse.Content.ReadAsStringAsync(CancellationToken.None);
         actualContent.Should().StartWith("{\"status\":\"Healthy\"");
     }
 
     [Fact]
     public async Task When_RequestReadinessStatus_Then_ResponseIsOkAndHealthy()
     {
-        var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
+        var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute, CancellationToken.None);
 
         // Assert
         actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var actualContent = await actualResponse.Content.ReadAsStringAsync();
+        var actualContent = await actualResponse.Content.ReadAsStringAsync(CancellationToken.None);
         actualContent.Should().StartWith("{\"status\":\"Healthy\"");
     }
 
@@ -55,12 +56,12 @@ public class HealthCheckTests(
     {
         fixture.SetServiceAsUnavailable();
 
-        var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
+        var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute, CancellationToken.None);
 
         // Assert
         actualResponse.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
 
-        var actualContent = await actualResponse.Content.ReadAsStringAsync();
+        var actualContent = await actualResponse.Content.ReadAsStringAsync(CancellationToken.None);
         actualContent.Should().StartWith("{\"status\":\"Unhealthy\"");
     }
 

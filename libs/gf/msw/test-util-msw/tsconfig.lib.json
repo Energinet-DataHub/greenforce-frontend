@@ -2,13 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-    "target": "ESNext",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": [],
-    "lib": ["dom", "ES2018"]
+    "types": []
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["tests/**/*.spec.ts", "tests/test-setup.ts", "vite.config.mts", "tests/**/*.test.ts"]
+  "exclude": ["tests/**/*.spec.ts", "tests/test-setup.ts", "tests/**/*.test.ts"]
 }

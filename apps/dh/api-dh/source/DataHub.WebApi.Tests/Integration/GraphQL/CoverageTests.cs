@@ -18,7 +18,6 @@ using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using Energinet.DataHub.WebApi.Tests.Traits;
 using FluentAssertions;
 using Xunit;
-using Xunit.Sdk;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL;
 
@@ -37,9 +36,8 @@ public class CoverageTests
         var tests = typeof(CoverageTests).Assembly
             .GetTypes()
             .SelectMany(t => t.GetMethods())
-            .SelectMany(TraitHelper.GetTraits)
-            .Where(t => t.Key == RevisionLogTestTraitDiscoverer.Key)
-            .Select(t => t.Value)
+            .SelectMany(m => m.GetCustomAttributes(typeof(RevisionLogTestAttribute), inherit: true).OfType<RevisionLogTestAttribute>())
+            .Select(t => t.Method)
             .ToHashSet();
 
         operations

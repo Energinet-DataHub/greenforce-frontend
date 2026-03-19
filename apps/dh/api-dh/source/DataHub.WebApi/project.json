@@ -8,7 +8,7 @@
   "targets": {
     "build": {
       "outputs": [
-        "{projectRoot}/bin/Release/net9.0",
+        "{projectRoot}/bin/Release/net10.0",
         "{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"
       ],
       "executor": "nx:run-commands",
@@ -19,7 +19,7 @@
     "serve": {
       "continuous": true,
       "outputs": [
-        "{projectRoot}/bin/Debug/net9.0",
+        "{projectRoot}/bin/Debug/net10.0",
         "{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"
       ],
       "executor": "nx:run-commands",

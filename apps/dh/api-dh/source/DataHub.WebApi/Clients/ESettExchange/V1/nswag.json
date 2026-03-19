@@ -1,9 +1,9 @@
 {
-  "runtime": "Net80",
+  "runtime": "Net100",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "http://localhost:6003/swagger/v1/swagger.json",
+      "url": "https://app-webapi-esett-d-we-002.azurewebsites.net/swagger/v1/swagger.json",
       "output": "swagger.json",
       "newLineBehavior": "Auto"
     }

@@ -207,7 +207,7 @@ public class OperationToolsMeteringPointRevisionLogTests
         var server = new GraphQLTestService();
 
         server.ElectricityMarketClientV1Mock.Setup(
-                c => c.MeteringPointCountAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+                c => c.MeteringPointCountAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(new MeteringPointCountDto { TotalCount = 1000, QuarantinedCount = 5 });
 
         await RevisionLogTestHelper.ExecuteAndAssertAsync(server, operation, []);
@@ -229,7 +229,7 @@ public class OperationToolsMeteringPointRevisionLogTests
         var server = new GraphQLTestService();
 
         server.ElectricityMarketClientV1Mock.Setup(
-                c => c.SyncjobSetJobVersionEventStoreExportAsync(It.IsAny<DateTimeOffset?>(), It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+                c => c.SyncjobSetJobVersionEventStoreExportAsync(It.IsAny<DateTimeOffset?>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
         await RevisionLogTestHelper.ExecuteAndAssertAsync(

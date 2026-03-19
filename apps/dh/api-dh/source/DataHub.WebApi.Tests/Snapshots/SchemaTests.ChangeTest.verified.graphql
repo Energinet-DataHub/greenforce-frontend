@@ -407,6 +407,8 @@ type Conversation {
   Energinet can see conversations they are not part of.
   """
   partOfConversations: Boolean!
+  "MeteringPoint identification"
+  meteringPointIdentification: String!
 }
 
 type ConversationAttachment {
@@ -540,7 +542,7 @@ type ElectricalHeatingMessage {
 }
 
 type ElectricalHeatingUserMessage {
-  content: String!
+  content: String
   reductionPeriod: ElectricityHeatingMessagePeriod!
   electricalHeatingFrom: DateTime!
 }
@@ -801,8 +803,8 @@ type FilteredUserRolesEdge {
 
 type GetConversationQueryResponseParticipant {
   actorName: String
+  id: String
   role: MarketRole!
-  marketParticipantNumber: String
   type: ParticipantType!
   additionalProperties: [KeyValuePairOfStringAndObject!]!
 }
@@ -1389,7 +1391,7 @@ type ProcessesEdge {
 
 type Query {
   conversation(conversationId: UUID!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
-  conversationsForMeteringPoint(meteringPointIdentification: String searchTerm: String): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
+  conversationsForMeteringPoint(meteringPointIdentification: String searchTerm: String ownConversations: Boolean unread: Boolean opened: Boolean closed: Boolean subjects: [ConversationSubject!]): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
   electricalHeatingInformation(meteringPointIdentification: String!): ElectricalHeatingInformation @authorize(roles: [ "metering-point:actor-conversation" ])
   charges(filter: String query: ChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
@@ -1782,8 +1784,7 @@ type UserAuditedChangeAuditLogDto {
 }
 
 type UserMessage {
-  "Message content"
-  content: String!
+  content: String
 }
 
 type UserOverviewItemDto {
@@ -2839,7 +2840,7 @@ enum DocumentStatus {
   AWAITING_REPLY
   ACCEPTED
   REJECTED
-  BIZ_TALK_ACCEPTED
+  SERVICE_BUS_ACCEPTED
   MANUALLY_HANDLED
 }
 
@@ -3428,6 +3429,7 @@ enum ProcessManagerBusinessReason {
   UpdateChargeSeries
   CustomerMoveIn
   SecondaryMoveIn
+  CustomerMoveOut
   UpdateMasterDataConsumer
   NewMeteringPoint
   Move
@@ -3612,6 +3614,7 @@ enum WorkflowAction {
   SEND_INFORMATION
   CANCEL_WORKFLOW
   CONFIRM_WORKFLOW
+  REJECT_REQUEST
 }
 
 "The authorize directive."

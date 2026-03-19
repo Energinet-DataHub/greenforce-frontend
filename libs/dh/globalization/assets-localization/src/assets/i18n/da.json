@@ -78,6 +78,7 @@
     "localhost": "lokalt",
     "d-001": "dev-001",
     "d-002": "dev-002",
+    "d-003": "dev-003",
     "t-001": "test-001",
     "t-002": "test-002",
     "b-001": "preprod",
@@ -795,6 +796,7 @@
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag",
       "cancelButtonLabel": "Annuller",
+      "meteringPointIdLabel": "Målepunkts-ID",
       "subjectLabel": "Emne",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
@@ -816,6 +818,7 @@
       },
       "reducedElectricityTaxToggle": "Jeg vil ansøge om reduceret elafgift",
       "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
+      "idLabel": "ID",
       "internalNoteLabel": "Intern note",
       "editInternalNote": {
         "title": "Intern note",
@@ -856,7 +859,7 @@
       "filters": {
         "placeholder": "Filtre",
         "general": "Generelt",
-        "myCases": "Mine sager",
+        "ownCases": "Mine sager",
         "showOnlyUnread": "Vis kun ulæste",
         "status": "Status"
       },
@@ -882,7 +885,16 @@
       "electricalHeatingInformationCustomer": "Kunde: {{ customerName }}",
       "electricalHeatingInformationSupplierPeriod": "Elleverandørperiode: {{ energySupplierPeriodFrom }} - {{ energySupplierPeriodTo }}",
       "electricalHeatingUserAddressEligibilityDate": "Adressens berettigelsesdato (jf. BBR): {{ addressEligibilityDate }}",
-      "electricalHeatingUserChargeReductionPeriod": "Periode der søges reduceret elafgift for: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}"
+      "electricalHeatingUserChargeReductionPeriod": "Periode der søges reduceret elafgift for: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}",
+      "meteringPointInfo": {
+        "connectionState": "Tilslutningsstatus",
+        "type": "Målepunktstype",
+        "address": "Adresse",
+        "resolution": "Tidsopløsning",
+        "notValidated": "Søg venligst efter et målepunkt",
+        "notFound": "Målepunkts-ID findes ikke",
+        "invalidLength": "Målepunkts-ID består af 18 cifre"
+      }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
@@ -1098,10 +1110,10 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)",
-        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_1": "Anmodning om ændring af aftagepligt (RSM-021)",
-        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_2": "Godkendelse af ændring af aftagepligt (RSM-021)",
-        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_3": "Afvisning af ændring af aftagepligt (RSM-021)",
-        "BRS_036_PRODUCTIONOBLIGATION_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)"
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_1": "Anmodning om ændring af aftagepligt (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Godkendelse af ændring af aftagepligt (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Afvisning af ændring af aftagepligt (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)"
       },
       "details": {
         "notFound": "Process ikke fundet",
@@ -1476,6 +1488,7 @@
       "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
       "UPDATE_CHARGE_LINKS": "Anmodning om opdatering af pristilknytninger (RSM-030)",
+      "B2C_UPDATE_CHARGE_LINKS": "UI: Anmodning om opdatering af pristilknytninger (RSM-030)",
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Godkendelse af opdatering af pristilknytninger (RSM-030)",
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af opdatering af pristilknytninger (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Information om pristilknytninger (RSM-031)",
@@ -2270,7 +2283,7 @@
           "RECEIVED": "Modtaget",
           "AWAITING_DISPATCH": "Afventer afsendelse",
           "AWAITING_REPLY": "Afventer svar fra eSett",
-          "BIZ_TALK_ACCEPTED": "Afventer svar fra ECP",
+          "SERVICE_BUS_ACCEPTED": "Afventer svar fra ECP",
           "ACCEPTED": "Accepteret",
           "REJECTED": "Afvist",
           "MANUALLY_HANDLED": "Manuelt løst"
