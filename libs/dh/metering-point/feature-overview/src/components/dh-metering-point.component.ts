@@ -126,7 +126,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     <div class="page-grid" vater inset="0">
       <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
         <div *transloco="let t; prefix: 'meteringPoint.overview'">
-          <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
+          <h2 vater-stack direction="row" gap="m" class="watt-space-stack-m">
             <span>
               <span wattCopyToClipboard dhAppInsightsTrack="Copy metering point">{{
                 meteringPointId()
