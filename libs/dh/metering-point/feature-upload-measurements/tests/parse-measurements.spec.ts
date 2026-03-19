@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-/* eslint-disable sonarjs/no-duplicate-string */
 import { SendMeasurementsResolution } from '@energinet-datahub/dh/shared/domain/graphql';
 import { parseMeasurements } from '../src/parse-measurements';
 import { lastValueFrom } from 'rxjs';

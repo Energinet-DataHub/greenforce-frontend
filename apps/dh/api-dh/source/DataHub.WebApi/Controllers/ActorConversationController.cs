@@ -138,6 +138,9 @@ public sealed class ActorConversationController : ControllerBase
                 }
             }
 
+            Response.Headers.XContentTypeOptions = "no-sniff";
+            Response.Headers.ContentSecurityPolicy = "default-src 'none'";
+
             // Read into byte array because the FileResponse is disposed at method exit
             var bytes = await ReadStreamToByteArrayAsync(response.Stream, ct);
             return File(bytes, contentType, fileName);

@@ -25,6 +25,7 @@ import {
   ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { da } from '@energinet-datahub/dh/globalization/assets-localization';
 import {
   mockGetArchivedMessagesQuery,
   mockGetArchivedMessagesForMeteringPointQuery,
@@ -34,6 +35,11 @@ import {
 
 import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
 import { document, documentJson } from './data/message-archived-document';
+
+// Derive valid business reasons from translation keys — stays in sync automatically
+const translatedBusinessReasons = Object.keys(
+  da.meteringPoint.processOverview.processType
+) as ProcessManagerBusinessReason[];
 
 export function messageArchiveMocks(apiBase: string) {
   return [
@@ -148,6 +154,7 @@ function getMeteringPointProcessOverview() {
       MeteringPointProcessState.Succeeded,
       MeteringPointProcessState.Failed,
       MeteringPointProcessState.Canceled,
+      MeteringPointProcessState.Rejected,
     ];
 
     const initiators = [
@@ -161,59 +168,111 @@ function getMeteringPointProcessOverview() {
       },
     ];
 
-    // Create base date for generating varied dates
     const baseDate = new Date('2025-01-01T10:00:00Z');
 
-    const actions = [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow];
+    const mockProcesses = Array.from(
+      { length: translatedBusinessReasons.length * 3 },
+      (_, index) => {
+        const daysOffset = Math.floor(index * 2);
+        const hoursOffset = (index * 3) % 24;
+        const createdAt = new Date(baseDate);
+        createdAt.setDate(createdAt.getDate() + daysOffset);
+        createdAt.setHours(createdAt.getHours() + hoursOffset);
 
-    // Generate 30 mock processes with varied data
-    const mockProcesses = Array.from({ length: 30 }, (_, index) => {
-      // Vary created date - spread over 60 days
-      const daysOffset = Math.floor(index * 2);
-      const hoursOffset = (index * 3) % 24;
-      const createdAt = new Date(baseDate);
-      createdAt.setDate(createdAt.getDate() + daysOffset);
-      createdAt.setHours(createdAt.getHours() + hoursOffset);
+        const currentState = states[index % states.length];
+        const businessReason = translatedBusinessReasons[index % translatedBusinessReasons.length];
+        const availableActions = getAvailableActions(businessReason, currentState);
 
-      // Add actions to some processes (not failed/canceled/succeeded ones)
-      const currentState = states[index % states.length];
-      const hasNoActions =
-        currentState === MeteringPointProcessState.Failed ||
-        currentState === MeteringPointProcessState.Canceled ||
-        currentState === MeteringPointProcessState.Succeeded;
-      const availableActions = hasNoActions ? [] : [actions[index % actions.length]];
+        let cutoffDate = null;
+        if (currentState !== MeteringPointProcessState.Pending) {
+          cutoffDate = new Date(createdAt);
+          cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
+        }
 
-      // Vary cutoff date - typically a few days after created date
-      let cutoffDate = null;
-      if (currentState !== MeteringPointProcessState.Pending) {
-        cutoffDate = new Date(createdAt);
-        cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
+        return {
+          __typename: 'MeteringPointProcess' as const,
+          id: `process-${String(index + 1).padStart(3, '0')}`,
+          businessReason,
+          createdAt,
+          cutoffDate,
+          state: currentState,
+          availableActions,
+          initiator: {
+            __typename: 'MarketParticipant' as const,
+            ...initiators[index % initiators.length],
+          },
+        };
       }
+    );
 
-      return {
-        __typename: 'MeteringPointProcess' as const,
-        id: `process-${String(index + 1).padStart(3, '0')}`,
-        businessReason: Object.values(ProcessManagerBusinessReason)[
-          index % Object.values(ProcessManagerBusinessReason).length
-        ],
-        createdAt,
-        cutoffDate,
-        state: currentState,
-        availableActions,
-        initiator: {
-          __typename: 'MarketParticipant' as const,
-          ...initiators[index % initiators.length],
-        },
-      };
-    });
+    // Explicit processes with actions for testing
+    const endOfSupplyProcess = {
+      __typename: 'MeteringPointProcess' as const,
+      id: 'process-eos-cancel',
+      businessReason: ProcessManagerBusinessReason.EndOfSupply,
+      createdAt: new Date('2025-02-15T10:00:00Z'),
+      cutoffDate: new Date('2025-02-20T10:00:00Z'),
+      state: MeteringPointProcessState.Running,
+      availableActions: [WorkflowAction.CancelWorkflow, WorkflowAction.SendInformation],
+      initiator: {
+        __typename: 'MarketParticipant' as const,
+        ...initiators[0],
+      },
+    };
+
+    const customerMoveInProcess = {
+      __typename: 'MeteringPointProcess' as const,
+      id: 'process-cmi-info',
+      businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
+      createdAt: new Date('2025-02-16T10:00:00Z'),
+      cutoffDate: new Date('2025-02-21T10:00:00Z'),
+      state: MeteringPointProcessState.Running,
+      availableActions: [WorkflowAction.SendInformation],
+      initiator: {
+        __typename: 'MarketParticipant' as const,
+        ...initiators[1],
+      },
+    };
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPointProcessOverview: mockProcesses,
+        meteringPointProcessOverview: [endOfSupplyProcess, customerMoveInProcess, ...mockProcesses],
       },
     });
   });
+}
+
+const knownProcesses: Record<
+  string,
+  { businessReason: ProcessManagerBusinessReason; state: MeteringPointProcessState }
+> = {
+  'process-eos-cancel': {
+    businessReason: ProcessManagerBusinessReason.EndOfSupply,
+    state: MeteringPointProcessState.Running,
+  },
+  'process-cmi-info': {
+    businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
+    state: MeteringPointProcessState.Running,
+  },
+};
+
+function getAvailableActions(
+  businessReason: ProcessManagerBusinessReason,
+  state: MeteringPointProcessState
+): WorkflowAction[] {
+  const terminalStates: MeteringPointProcessState[] = [
+    MeteringPointProcessState.Failed,
+    MeteringPointProcessState.Canceled,
+    MeteringPointProcessState.Succeeded,
+    MeteringPointProcessState.Rejected,
+  ];
+  if (terminalStates.includes(state)) return [];
+  if (businessReason === ProcessManagerBusinessReason.EndOfSupply)
+    return [WorkflowAction.CancelWorkflow];
+  if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
+    return [WorkflowAction.SendInformation];
+  return [];
 }
 
 function getMeteringPointProcessById(apiBase: string) {
@@ -230,13 +289,31 @@ function getMeteringPointProcessById(apiBase: string) {
     ];
 
     // Extract index from process ID (e.g., "process-001" -> 1)
-    const match = /\d+/.exec(processId);
-    const processIndex = match ? Number.parseInt(match[0], 10) : 0;
+    const numericMatch = processId.match(/\d+/);
+    const processIndex = numericMatch ? Number.parseInt(numericMatch[0], 10) : 0;
     const createdAt = new Date('2025-01-01T10:00:00Z');
     createdAt.setDate(createdAt.getDate() + processIndex * 2);
 
     const cutoffDate = new Date(createdAt);
     cutoffDate.setDate(cutoffDate.getDate() + 3);
+
+    const allStates = [
+      MeteringPointProcessState.Pending,
+      MeteringPointProcessState.Running,
+      MeteringPointProcessState.Succeeded,
+      MeteringPointProcessState.Failed,
+      MeteringPointProcessState.Canceled,
+      MeteringPointProcessState.Rejected,
+    ];
+
+    // Derive businessReason and state consistently with overview mock
+    const known = knownProcesses[processId];
+    const safeIndex = Math.max(processIndex, 1) - 1;
+    const businessReason =
+      known?.businessReason ??
+      translatedBusinessReasons[safeIndex % translatedBusinessReasons.length];
+    const state = known?.state ?? allStates[safeIndex % allStates.length];
+    const availableActions = getAvailableActions(businessReason, state);
 
     return HttpResponse.json({
       data: {
@@ -246,8 +323,9 @@ function getMeteringPointProcessById(apiBase: string) {
           id: processId,
           createdAt,
           cutoffDate,
-          businessReason: ProcessManagerBusinessReason.EndOfSupply,
-          state: MeteringPointProcessState.Succeeded,
+          businessReason,
+          state,
+          availableActions,
           initiator: {
             __typename: 'MarketParticipant' as const,
             ...initiators[processIndex % initiators.length],
@@ -258,8 +336,8 @@ function getMeteringPointProcessById(apiBase: string) {
               id: `step-${processId}-1`,
               step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1',
               comment: 'OBS: Sendt til foged',
-              completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24), // 1 day later
-              dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2), // 2 days later
+              completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24),
+              dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2),
               state: MeteringPointProcessState.Succeeded,
               description:
                 'Første step i processen, hvor vi har sendt en anmodning om end of supply til den relevante aktør.',
@@ -276,7 +354,7 @@ function getMeteringPointProcessById(apiBase: string) {
               step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2',
               comment: 'Afventer bekræftelse',
               completedAt: null,
-              dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5), // 5 days later
+              dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5),
               state: MeteringPointProcessState.Pending,
               description:
                 'Andet step i processen, hvor vi afventer en bekræftelse fra den relevante aktør om modtagelsen af anmodningen.',

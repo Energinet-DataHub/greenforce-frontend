@@ -5,6 +5,7 @@ query GetMeteringPointProcessById($id: String!) {
     cutoffDate
     businessReason
     state
+    availableActions
     steps {
       id
       step

@@ -60,7 +60,6 @@ export function truncate(value: string, maxLength: number) {
  * Uses a character budget to limit output length, yielding tokens and
  * returning the remaining budget via the generator return value.
  */
-// eslint-disable-next-line sonarjs/cognitive-complexity
 export function* tokenize(
   value: unknown,
   budget: number
