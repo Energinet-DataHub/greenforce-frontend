@@ -97,6 +97,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     <form
       [formGroup]="newConversationForm"
       (ngSubmit)="startConversation()"
+      (keydown.enter)="$event.preventDefault()"
       vater-grid
       fill="vertical"
       rows="minmax(var(--case-min-row-height), auto) 1fr"

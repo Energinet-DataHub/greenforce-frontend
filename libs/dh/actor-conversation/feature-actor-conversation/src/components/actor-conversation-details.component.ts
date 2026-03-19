@@ -255,6 +255,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
           class="watt-space-inset-ml sticky-background"
           fill="horizontal"
           (ngSubmit)="sendMessage()"
+          (keydown.enter)="$event.preventDefault()"
         >
           <dh-actor-conversation-message-form
             [loading]="uploading() || sendActorConversationMessageMutation.loading()"
