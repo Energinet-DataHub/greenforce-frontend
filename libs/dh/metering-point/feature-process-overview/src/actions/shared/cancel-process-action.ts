@@ -22,7 +22,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import { WattModalService } from '@energinet/watt/modal';
 import { WattToastService } from '@energinet/watt/toast';
 
-import { DhCancelProcessModal } from './cancel-process-modal';
+import { DhCancelProcessModal } from '../../components/cancel-process-modal';
 import { ProcessActionContext } from '../context';
 
 /**

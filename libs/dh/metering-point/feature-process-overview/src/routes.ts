@@ -27,12 +27,15 @@ export const meteringPointProcessOverviewRoutes: Routes = [
       dhReleaseToggleGuard('PM116-PROCESSOVERVIEW'),
     ],
     path: '',
-    loadComponent: () => import('./overview').then((m) => m.DhMeteringPointProcessOverviewTable),
+    loadComponent: () =>
+      import('./components/overview').then((m) => m.DhMeteringPointProcessOverviewTable),
     children: [
       {
         path: 'details/:id',
         loadComponent: () =>
-          import('./details/details').then((m) => m.DhMeteringPointProcessOverviewDetails),
+          import('./components/details/details').then(
+            (m) => m.DhMeteringPointProcessOverviewDetails
+          ),
       },
     ],
   },

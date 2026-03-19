@@ -33,8 +33,8 @@ import {
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import { DhMeteringPointProcessOverviewSteps } from './steps';
-import { DhActionsRegistry } from '../actions/registry';
-import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
+import { DhActionsRegistry } from '../../actions/registry';
+import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',

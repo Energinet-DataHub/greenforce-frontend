@@ -34,7 +34,7 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { DhMeteringPointProcessOverviewTable } from '../src/overview';
+import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
 
 async function setup(
   permissionOverrides: Partial<{

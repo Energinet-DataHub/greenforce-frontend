@@ -30,7 +30,7 @@ import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
-import { DhMeteringPointProcessOverviewDetails } from '../src/details/details';
+import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 
 async function setup(processId = 'process-eos-cancel') {
   const { fixture } = await render(DhMeteringPointProcessOverviewDetails, {
