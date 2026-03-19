@@ -34,7 +34,6 @@ describe(WattCheckboxComponent, () => {
     expect(view.queryByLabelText(labelText)).not.toBeNull();
   });
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   describe('Reactive forms', () => {
     async function setup({ value, disabled = false }: { value: boolean; disabled?: boolean }) {
       const labelText = 'Are you awesome?';

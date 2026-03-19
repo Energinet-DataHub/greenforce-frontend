@@ -46,7 +46,6 @@ export function dhGroupByType(
   return groups;
 }
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 export function dhGroupByMarketParticipant(
   groupsByType: DhBalanceResponsibleRelationsByType,
   propertyToGroupBy: keyof Pick<
