@@ -147,7 +147,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
                   [dateControl]="newConversationForm.controls.energySupplierDate"
                 />
               } @else {
-                <watt-description-list class="watt-space-stack-m" >
+                <watt-description-list class="watt-space-stack-m">
                   <watt-description-list-item
                     [label]="t('receiverLabel')"
                     [value]="t('role.GRID_ACCESS_PROVIDER')"
