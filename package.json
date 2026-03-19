@@ -43,7 +43,7 @@
     "nx": "nx",
     "start": "nx serve",
     "dh:dev": "nx run app-dh:serve:development",
-    "dh:mock": "nx run app-dh:serve:mocked",
+    "dh:mock": "nx run app-dh:serve:mocked --exclude-task-dependencies",
     "dh:build": "nx run app-dh:build:production",
     "api:dev": "nx serve api-dh",
     "api:test": "dotnet test apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release --filter 'DisplayName!~TelemetryTests' --logger 'console;verbosity=detailed'",
