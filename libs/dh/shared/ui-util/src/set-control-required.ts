@@ -18,7 +18,10 @@
 //#endregion
 import { FormControl, Validators } from '@angular/forms';
 
-/** Helper function for changing required state of a FormControl. */
+/**
+ * Helper function for changing required state of a FormControl.
+ * @deprecated Use `dhSetControlValidators(control, Validators.required, required)` instead.
+ */
 export const setControlRequired = (control: FormControl, required: boolean) => {
   if (required == control.hasValidator(Validators.required)) return;
   if (required) control.addValidators(Validators.required);

@@ -1,7 +1,7 @@
 ﻿{
   "activity": "clearMigrationEventsDeadLetterQueue",
   "payload": {
-    "query": "mutation { clearMigrationEventsDeadLetterQueue { clearMigrationEventsDeadLetterQueueResultDtoV1 { dlqCount processedCount } } }",
+    "query": "mutation { clearMigrationEventsDeadLetterQueue { dlqCount processedCount } }",
     "variables": {}
   },
   "affectedEntityType": "OperationToolsMeteringPoint",

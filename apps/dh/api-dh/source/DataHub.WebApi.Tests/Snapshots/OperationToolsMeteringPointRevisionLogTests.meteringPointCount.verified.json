@@ -1,0 +1,9 @@
+﻿{
+  "activity": "meteringPointCount",
+  "payload": {
+    "query": "{ meteringPointCount { totalCount quarantinedCount } }",
+    "variables": {}
+  },
+  "affectedEntityType": "OperationToolsMeteringPoint",
+  "affectedEntityKey": null
+}

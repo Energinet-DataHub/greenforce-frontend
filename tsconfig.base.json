@@ -44,7 +44,7 @@
         "libs/dh/charges/feature-ui-shared/index.ts"
       ],
       "@energinet-datahub/dh/core/configuration-routing": [
-        "libs/dh/core/configuration-routing/src/index.ts"
+        "libs/dh/core/configuration-routing/index.ts"
       ],
       "@energinet-datahub/dh/core/feature-notifications": [
         "libs/dh/core/feature-notifications/index.ts"
@@ -186,9 +186,7 @@
         "libs/dh/shared/util-application-insights/index.ts"
       ],
       "@energinet-datahub/dh/shared/util-assert": ["libs/dh/shared/util-assert/index.ts"],
-      "@energinet-datahub/dh/shared/util-navigation": [
-        "libs/dh/shared/util-navigation/src/index.ts"
-      ],
+      "@energinet-datahub/dh/shared/util-navigation": ["libs/dh/shared/util-navigation/index.ts"],
       "@energinet-datahub/dh/shared/util-new-version-manager": [
         "libs/dh/shared/util-new-version-manager/index.ts"
       ],
@@ -278,6 +276,7 @@
       "@energinet/watt/segmented-buttons": ["libs/watt/package/segmented-buttons/index.ts"],
       "@energinet/watt/separator": ["libs/watt/package/separator/index.ts"],
       "@energinet/watt/shell": ["libs/watt/package/shell/index.ts"],
+      "@energinet/watt/skeleton": ["libs/watt/package/skeleton/index.ts"],
       "@energinet/watt/slide-toggle": ["libs/watt/package/slide-toggle/index.ts"],
       "@energinet/watt/slider": ["libs/watt/package/slider/index.ts"],
       "@energinet/watt/spinner": ["libs/watt/package/spinner/index.ts"],

@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: Post Docker testing guide
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             await github.rest.issues.createComment({
@@ -45,7 +45,7 @@ jobs:
             1. **Checkout this branch:**
                \`\`\`bash
                git fetch origin
-               git checkout <branch-name>
+               git checkout ${context.payload.pull_request.head.ref}
                \`\`\`
 
             2. **Build and start the containers:**

@@ -1,16 +1,19 @@
-query GetConversation($conversationId: UUID!, $meteringPointId: String!) {
-  conversation(conversationId: $conversationId, meteringPointIdentification: $meteringPointId) {
+query GetConversation($conversationId: UUID!) {
+  conversation(conversationId: $conversationId) {
     id
     displayId
+    meteringPointIdentification
     internalNote
     subject
     closed
     wasLatestMessageAnonymous
     participants {
+      id
       type
       role
       actorName
     }
+    partOfConversations
     messages {
       senderType
       userMessage {

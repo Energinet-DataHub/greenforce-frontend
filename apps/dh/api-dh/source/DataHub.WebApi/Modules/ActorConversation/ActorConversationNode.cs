@@ -30,7 +30,6 @@ public static partial class ActorConversationNode
         [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
-        string meteringPointIdentification,
         CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
@@ -94,6 +93,7 @@ public static partial class ActorConversationNode
         descriptor.Field(f => f.Messages);
         descriptor.Field(f => f.Participants);
         descriptor.Field(f => f.PartOfConversations);
+        descriptor.Field(f => f.MeteringPointIdentification);
     }
 
     private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)

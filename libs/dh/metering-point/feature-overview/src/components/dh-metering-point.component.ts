@@ -20,11 +20,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Component, computed, inject, input } from '@angular/core';
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import {
-  VaterStackComponent,
-  VaterSpacerComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
+import { VATER } from '@energinet/watt/vater';
 
 import { WATT_CARD } from '@energinet/watt/card';
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
@@ -70,9 +66,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     WATT_LINK_TABS,
     WATT_BREADCRUMBS,
     WATT_DESCRIPTION_LIST,
-    VaterStackComponent,
-    VaterSpacerComponent,
-    VaterUtilityDirective,
+    VATER,
     WattCopyToClipboardDirective,
     DhCanSeeDirective,
     DhToolbarPortalComponent,
@@ -129,10 +123,10 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
         EicFunction.SystemOperator,
       ];
 
-    <div class="page-grid">
+    <div class="page-grid" vater inset="0">
       <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
         <div *transloco="let t; prefix: 'meteringPoint.overview'">
-          <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
+          <h2 vater-stack direction="row" gap="m" class="watt-space-stack-m">
             <span>
               <span wattCopyToClipboard dhAppInsightsTrack="Copy metering point">{{
                 meteringPointId()

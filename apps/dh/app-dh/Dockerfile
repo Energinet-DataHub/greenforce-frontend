@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0-noble AS dotnet-build
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS dotnet-build
 
 WORKDIR /app
 
