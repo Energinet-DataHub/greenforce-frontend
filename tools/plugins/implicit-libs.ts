@@ -75,18 +75,8 @@ function useAngular(type: string, product: string, domain: string, name: string)
  * Determines the Vitest environment for a lib.
  * - happy-dom whenever Angular plugin is active (TestBed requires a DOM)
  * - node otherwise (pure TS / non-Angular libs)
- * - jsdom for libs whose tests rely on Testing Library's waitFor/findBy* queries,
- *   which need a fully-conformant MutationObserver (happy-dom's implementation
- *   doesn't trigger callbacks correctly for Angular change detection)
  */
-function vitestEnvironment(
-  angular: boolean,
-  product: string,
-  domain: string,
-  name: string
-): 'happy-dom' | 'jsdom' | 'node' {
-  if (product === 'dh' && domain === 'metering-point' && name === 'feature-process-overview')
-    return 'jsdom';
+function vitestEnvironment(angular: boolean): 'happy-dom' | 'node' {
   return angular ? 'happy-dom' : 'node';
 }
 
@@ -112,7 +102,7 @@ export const createNodesV2: CreateNodesV2 = [
         const projectName = `${product}-${domain}-${name}`;
         const type = deriveType(name);
         const angular = useAngular(type, product, domain, name);
-        const environment = vitestEnvironment(angular, product, domain, name);
+        const environment = vitestEnvironment(angular);
         // Path from the lib root (cwd) to the shared product-level config
         const sharedConfig = `../../../../${libs}/${product}/vite.config.mts`;
 

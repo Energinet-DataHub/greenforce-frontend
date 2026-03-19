@@ -19,11 +19,12 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 
 import {
   getTranslocoTestingModule,
   provideMsalTesting,
+  waitForAsync,
 } from '@energinet-datahub/dh/shared/test-util';
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
@@ -48,7 +49,7 @@ async function setup(processId = 'process-eos-cancel') {
     },
   });
 
-  await waitFor(() => expect(document.querySelector('watt-drawer')).not.toBeNull());
+  await waitForAsync(() => expect(document.querySelector('watt-drawer')).not.toBeNull());
 
   return fixture;
 }
@@ -61,37 +62,33 @@ describe('Process overview details', () => {
 
   it('should show a state badge', async () => {
     await setup();
-    await waitFor(() => expect(document.querySelector('dh-state-badge')).not.toBeNull());
+    expect(document.querySelector('dh-state-badge')).not.toBeNull();
   });
 
   it('should display process steps', async () => {
     await setup();
-    await waitFor(() =>
-      expect(document.querySelector('dh-metering-point-process-overview-steps')).not.toBeNull()
-    );
+    expect(document.querySelector('dh-metering-point-process-overview-steps')).not.toBeNull();
   });
 
   it('should show action buttons for EndOfSupply process', async () => {
     await setup('process-eos-cancel');
-    await waitFor(() =>
+    await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
     );
   });
 
   it('should show send information button for CustomerMoveIn process', async () => {
     await setup('process-cmi-info');
-    await waitFor(() =>
+    await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
     );
   });
 
   it('should show initiator in description list', async () => {
     await setup();
-    await waitFor(() => {
-      const terms = screen.getAllByRole('term');
-      expect(terms.some((term) => /Initiating participant/i.test(term.textContent || ''))).toBe(
-        true
-      );
-    });
+    const terms = screen.getAllByRole('term');
+    expect(terms.some((term) => /Initiating participant/i.test(term.textContent || ''))).toBe(
+      true
+    );
   });
 });

@@ -20,12 +20,13 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { vi } from 'vitest';
 
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import {
   getTranslocoTestingModule,
   provideMsalTesting,
+  waitForAsync,
 } from '@energinet-datahub/dh/shared/test-util';
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
@@ -66,7 +67,7 @@ async function setup(
     },
   });
 
-  await waitFor(() =>
+  await waitForAsync(() =>
     expect(document.querySelector('[role="treegrid"] [role="gridcell"]')).not.toBeNull()
   );
 
@@ -87,15 +88,15 @@ describe('Process overview', () => {
   it('should show cancel button and open modal when clicked', async () => {
     await setup();
 
-    await waitFor(() =>
+    await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
     );
     const cancelButtons = screen.getAllByRole('button', { name: /Cancel/i });
 
     userEvent.click(cancelButtons[0]);
 
-    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
-    await waitFor(() => {
+    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    await waitForAsync(() => {
       const buttons = Array.from(document.querySelectorAll('[role="dialog"] button'));
       expect(buttons.some((b) => /sure/i.test(b.textContent || ''))).toBe(true);
     });
@@ -106,7 +107,7 @@ describe('Process overview', () => {
     const router = fixture.debugElement.injector.get(Router);
     vi.spyOn(router, 'navigate').mockResolvedValue(true);
 
-    await waitFor(() =>
+    await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
     );
     const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
@@ -129,7 +130,7 @@ describe('Process overview', () => {
 
   it('should show warning text instead of buttons for FAS users', async () => {
     await setup({ isFas: true, hasMarketRole: false });
-    await waitFor(() =>
+    await waitForAsync(() =>
       expect(screen.getAllByText(/can cancel workflow/i).length).toBeGreaterThan(0)
     );
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);

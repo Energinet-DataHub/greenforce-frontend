@@ -18,3 +18,4 @@
 //#endregion
 export * from './src/get-transloco-testing.module';
 export * from './src/msal-fake.service';
+export * from './src/wait-for-async';
