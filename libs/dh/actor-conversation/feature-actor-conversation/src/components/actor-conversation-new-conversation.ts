@@ -157,6 +157,7 @@ import { DhActorConversationMeteringPointSearchComponent } from './actor-convers
               [loading]="uploading() || startConversationMutation.loading()"
               [uploadError]="uploadError()"
               [formControl]="newConversationForm.controls.message"
+              [disableAnonymous]="disableAnonymous()"
             />
           </vater-stack>
         </vater-grid-area>
@@ -247,6 +248,8 @@ export class DhActorConversationNewConversationComponent {
   private readonly receiverValue = dhFormControlToSignal(
     () => this.newConversationForm.controls.receiver
   );
+
+  disableAnonymous = computed(() => this.receiverValue() === MarketRole.Energinet);
 
   isElectricalHeating = computed(
     () => this.subjectValue() === ConversationSubject.ElectricalHeating

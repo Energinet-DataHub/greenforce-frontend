@@ -59,6 +59,7 @@ import {
   GetConversationsDocument,
   GetMeteringPointConversationInfoDocument,
   MarkConversationUnReadDocument,
+  MarketRole,
   ParticipantType,
   SendActorConversationMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -268,6 +269,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
             [closed]="!!conversation()?.closed"
             [uploadError]="uploadError()"
             [formControl]="formControl"
+            [disableAnonymous]="disableAnonymous()"
           />
         </form>
       </vater-flex>
@@ -315,6 +317,8 @@ export class DhActorConversationDetailsComponent {
 
   readonly initiator = this.getParticipant(ParticipantType.Initiator);
   readonly receiver = this.getParticipant(ParticipantType.Receiver);
+
+  disableAnonymous = computed(() => this.receiver()?.role === MarketRole.Energinet);
 
   private getParticipant(type: ParticipantType) {
     return computed(() => this.conversation()?.participants.find((p) => p.type === type));

@@ -69,7 +69,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
   `,
 })
 export class DhActorConversationReceiverRadioGroupComponent {
-  marketRole = input.required<EicFunction | null | undefined>();
+  marketRole = input.required<EicFunction>();
   receiverControl = input.required<FormControl<MarketRole | null>>();
   dateControl = input.required<FormControl<Date | null>>();
 
