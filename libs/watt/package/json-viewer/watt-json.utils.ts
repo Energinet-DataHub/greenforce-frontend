@@ -18,13 +18,16 @@
 //#endregion
 
 /** Compares two values. When deep is false, objects/arrays compare by type only. */
-export function isEqual(a: unknown, b: unknown, { deep }: { deep: boolean }): boolean {
+export function isEqual(
+  a: unknown,
+  b: unknown,
+  { deep, ignoreCase }: { deep: boolean; ignoreCase: boolean }
+): boolean {
+  if (typeof a !== typeof b) return false;
+  const eq = (a: string, b: string) => (ignoreCase ? a.toLowerCase() === b.toLowerCase() : a === b);
+  const replacer = !deep ? (_: string, v: unknown) => (Array.isArray(v) ? [] : {}) : undefined;
   try {
-    if (typeof a !== typeof b) return false;
-    if (typeof a !== 'object') return a === b;
-    if (a === null || b === null) return a === b;
-    const replacer = !deep ? (_: string, v: unknown) => (Array.isArray(v) ? [] : {}) : undefined;
-    return JSON.stringify(a, replacer) === JSON.stringify(b, replacer);
+    return eq(JSON.stringify(a, replacer), JSON.stringify(b, replacer));
   } catch {
     return a === b;
   }

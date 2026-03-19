@@ -93,6 +93,7 @@ export type TreeState = {
           [json]="child.json"
           [baseline]="child.baseline"
           [diff]="diff()"
+          [ignoreCase]="ignoreCase()"
           [tree]="tree()"
           [level]="level() + 1"
         />
@@ -105,6 +106,7 @@ export class WattJson {
   readonly json = input<unknown>();
   readonly baseline = input<unknown>();
   readonly diff = input(false);
+  readonly ignoreCase = input(false);
   readonly tree = input.required<TreeState>();
   readonly level = input(0);
 
@@ -119,7 +121,10 @@ export class WattJson {
   protected readonly isRoot = computed(() => this.level() === 0);
   protected readonly isSame = computed(() => {
     if (!this.diff()) return true;
-    return isEqual(this.baseline(), this.json(), { deep: !this.expanded() });
+    return isEqual(this.baseline(), this.json(), {
+      deep: !this.expanded(),
+      ignoreCase: this.ignoreCase(),
+    });
   });
 
   protected readonly expandable = computed(() => this.children().length > 0);
