@@ -87,8 +87,6 @@ describe('Process overview details', () => {
   it('should show initiator in description list', async () => {
     await setup();
     const terms = screen.getAllByRole('term');
-    expect(terms.some((term) => /Initiating participant/i.test(term.textContent || ''))).toBe(
-      true
-    );
+    expect(terms.some((term) => /Initiating participant/i.test(term.textContent || ''))).toBe(true);
   });
 });
