@@ -618,7 +618,7 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found",
-      "searchMigratedMeteringPoints": "Search migrated metering points",
+      "searchMigratedMeteringPoints": "Search in EM1",
       "searchMigratedMeteringPointsPreProd": "Search phase 2 test metering points"
     },
     "tabs": {
