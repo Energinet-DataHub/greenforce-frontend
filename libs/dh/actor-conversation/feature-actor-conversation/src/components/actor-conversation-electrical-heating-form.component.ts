@@ -84,7 +84,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
   `,
   template: `
     <vater-stack
-      gap="s"
+      gap="m"
       *transloco="let t; prefix: 'meteringPoint.actorConversation.electricalHeatingForm'"
       align="start"
     >
