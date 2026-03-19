@@ -30,7 +30,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint;
 public static class OperationToolsMeteringPointNode
 {
     [Query]
-    [Authorize(Roles = ["metering-point:search"])]
+    [Authorize(Roles = ["operation-tools:view"])]
     public static async Task<string> GetDebugViewAsync(
         string meteringPointId,
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
@@ -39,7 +39,7 @@ public static class OperationToolsMeteringPointNode
             .Then(r => r.Result);
 
     [Query]
-    [Authorize(Roles = ["metering-point:search"])]
+    [Authorize(Roles = ["operation-tools:view"])]
     [UseRevisionLog]
     public static async Task<string> GetMeteringPointDebugJsonAsync(
         string id,
@@ -48,7 +48,7 @@ public static class OperationToolsMeteringPointNode
             .MeteringPointDebugJsonAsync(id, ct);
 
     [Query]
-    [Authorize(Roles = ["metering-point:search"])]
+    [Authorize(Roles = ["operation-tools:view"])]
     public static async Task<IEnumerable<MeteringPointsGroupByPackageNumber>> GetMeteringPointsByGridAreaCodeAsync(
         string gridAreaCode,
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
@@ -80,7 +80,7 @@ public static class OperationToolsMeteringPointNode
     }
 
     [Query]
-    [Authorize(Roles = ["metering-point:search"])]
+    [Authorize(Roles = ["operation-tools:view"])]
     [UseRevisionLog]
     public static async Task<GetMeteringPointDebugResultDtoV1?> GetOperationToolsMeteringPointAsync(
         string id,
