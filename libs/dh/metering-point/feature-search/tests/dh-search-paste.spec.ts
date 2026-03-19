@@ -19,7 +19,7 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
-import { render, screen } from '@testing-library/angular';
+import { render } from '@testing-library/angular';
 
 import {
   getTranslocoTestingModule,
@@ -42,6 +42,7 @@ function createPasteEventWithText(text: string): ClipboardEvent {
   });
   // happy-dom's DataTransfer may not fully support setData/getData,
   // so we override getData to return the desired text.
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   vi.spyOn(event.clipboardData!, 'getData').mockReturnValue(text);
   return event;
 }
