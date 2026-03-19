@@ -60,7 +60,7 @@ export type WattButtonSize = 'small' | 'medium';
           <watt-icon [name]="icon()" />
         }
         @if (variant() !== 'icon') {
-          <ng-content />
+          <span class="text-content"><ng-content /></span>
         }
       </div>
     </button>

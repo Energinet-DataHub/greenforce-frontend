@@ -27,7 +27,6 @@ import {
   input,
   signal,
   viewChild,
-  ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
@@ -74,7 +73,6 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 @Component({
   selector: 'dh-actor-conversation-details',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   imports: [
     FormsModule,
     TranslocoDirective,
@@ -100,23 +98,17 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     DhActorConversationMessageFormComponent,
   ],
   styles: `
-    dh-actor-conversation-details {
-      .sticky-background {
-        background-color: var(--bg-card);
-      }
+    .sticky-background {
+      background-color: var(--bg-card);
+    }
 
-      .no-padding-bottom {
-        padding-bottom: 0;
-      }
+    .no-padding-bottom {
+      padding-bottom: 0;
+    }
 
-      .wrap-gap {
-        column-gap: var(--watt-space-m);
-        row-gap: var(--watt-space-xs);
-      }
-
-      watt-description-list dl {
-        margin: 0;
-      }
+    .wrap-gap {
+      column-gap: var(--watt-space-m);
+      row-gap: var(--watt-space-xs);
     }
   `,
   template: `

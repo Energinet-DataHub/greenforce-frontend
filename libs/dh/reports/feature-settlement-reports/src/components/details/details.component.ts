@@ -79,7 +79,9 @@ import { DhReportStatus } from '../report-status.component';
       </watt-drawer-topbar>
 
       <watt-drawer-heading>
-        <h2 class="report-heading">{{ t('calculationTypes.' + report().calculationType) }}</h2>
+        <h2 class="report-heading watt-space-stack-m">
+          {{ t('calculationTypes.' + report().calculationType) }}
+        </h2>
         <watt-description-list variant="inline-flow">
           <watt-description-list-item [label]="t('columns.startedAt')">
             {{ report().executionTime.start | wattDate: 'long' }}
