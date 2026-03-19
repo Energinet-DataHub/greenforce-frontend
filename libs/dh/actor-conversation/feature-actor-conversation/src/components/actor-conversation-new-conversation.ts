@@ -50,6 +50,7 @@ import {
 } from '../types';
 import {
   ConversationSubject,
+  ElectricityMarketMeteringPointType,
   GetConversationsDocument,
   GetElectricalHeatingDocument,
   MarketRole,
@@ -131,7 +132,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
               translateKey="meteringPoint.actorConversation.subjects"
               data-testid="actor-conversation-subject-dropdown"
             />
-            @if (isElectricalHeating() && hasMeteringPoint()) {
+            @if (isElectricalHeating() && hasMeteringPoint() && isConsumptionMeteringPoint()) {
               <watt-slide-toggle [formControl]="newConversationForm.controls.reducedElectricityTax">
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
@@ -206,13 +207,15 @@ export class DhActorConversationNewConversationComponent {
     () => this.newConversationForm.controls.reducedElectricityTax
   );
 
-  private readonly meteringPointIdValue = dhFormControlToSignal(
-    () => this.newConversationForm.controls.meteringPointId
+  hasMeteringPoint = computed(
+    () => this.meteringPointId() !== undefined || !!this.meteringPointSearch()?.meteringPointInfo()
   );
 
-  hasMeteringPoint = computed(
-    () => this.meteringPointId() !== undefined || !!this.meteringPointIdValue()
-  );
+  isConsumptionMeteringPoint = computed(() => {
+    if (this.meteringPointId() !== undefined) return true;
+    const info = this.meteringPointSearch()?.meteringPointInfo();
+    return info?.metadata.type === ElectricityMarketMeteringPointType.Consumption;
+  });
 
   private readonly fetchElectricalHeatingInformation = effect(() => {
     if (!this.reducedElectricityTaxValue()) return;
