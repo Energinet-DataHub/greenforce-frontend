@@ -3297,7 +3297,10 @@
         "relations": "Relationer"
       },
       "expandAll": "Udvid alle",
-      "collapseAll": "Skjul alle"
+      "collapseAll": "Skjul alle",
+      "compareEm1": "Sammenlign med EM1",
+      "matchCase": "Forskel på store/små",
+      "ignoreCase": "Ignorer store/små"
     },
     "migration": {
       "tabLabel": "Migrering",

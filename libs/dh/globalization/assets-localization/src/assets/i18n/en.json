@@ -3297,7 +3297,10 @@
         "relations": "Relations"
       },
       "expandAll": "Expand all",
-      "collapseAll": "Collapse all"
+      "collapseAll": "Collapse all",
+      "compareEm1": "Compare to EM1",
+      "matchCase": "Match case",
+      "ignoreCase": "Ignore case"
     },
     "migration": {
       "tabLabel": "Migration",
