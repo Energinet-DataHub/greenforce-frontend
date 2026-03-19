@@ -16,8 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-/* eslint-disable sonarjs/no-duplicate-string */
-
 import { TestBed } from '@angular/core/testing';
 import { TranslocoService, TranslocoTestingOptions } from '@jsverse/transloco';
 

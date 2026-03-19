@@ -17,8 +17,6 @@
  */
 //#endregion
 
-/* eslint-disable sonarjs/no-duplicate-string */
-
 import {
   MarketParticipant,
   ActorAuditedChange,
