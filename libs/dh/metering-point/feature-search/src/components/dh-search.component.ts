@@ -187,9 +187,11 @@ export class DhSearchComponent {
   }
 
   onPaste(event: ClipboardEvent) {
+    const pasted = event.clipboardData?.getData('text');
+    if (!pasted) return;
+
     event.preventDefault();
-    const pasted = event.clipboardData?.getData('text') ?? '';
-    this.searchControl.setValue(pasted.replace(/\D/g, ''));
+    this.searchControl.setValue(pasted.replace(/\D/g, '').substring(0, 18));
   }
 
   async onSubmit() {
