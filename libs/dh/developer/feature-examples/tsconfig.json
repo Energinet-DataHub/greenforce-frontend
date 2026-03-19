@@ -1,15 +1,5 @@
 {
-  "extends": "../../../../tsconfig.base.json",
-  "compilerOptions": {
-    "target": "es2022",
-    "useDefineForClassFields": false,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": false,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
-  },
+  "extends": "../../tsconfig.json",
   "files": [],
   "include": [],
   "references": [
@@ -19,11 +9,5 @@
     {
       "path": "./tsconfig.spec.json"
     }
-  ],
-  "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+  ]
 }

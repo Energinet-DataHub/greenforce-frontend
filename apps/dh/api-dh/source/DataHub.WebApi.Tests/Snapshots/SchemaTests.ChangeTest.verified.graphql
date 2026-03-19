@@ -411,6 +411,8 @@ type Conversation {
   Energinet can see conversations they are not part of.
   """
   partOfConversations: Boolean!
+  "MeteringPoint identification"
+  meteringPointIdentification: String!
 }
 
 type ConversationAttachment {
@@ -805,8 +807,8 @@ type FilteredUserRolesEdge {
 
 type GetConversationQueryResponseParticipant {
   actorName: String
+  id: String
   role: MarketRole!
-  marketParticipantNumber: String
   type: ParticipantType!
   additionalProperties: [KeyValuePairOfStringAndObject!]!
 }

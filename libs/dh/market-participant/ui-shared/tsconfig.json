@@ -1,17 +1,5 @@
 {
-  "extends": "../../../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "files": [],
-  "include": ["**/*.ts"],
-  "compilerOptions": {
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "target": "es2020"
-  },
-  "angularCompilerOptions": {
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+  "include": ["**/*.ts"]
 }
