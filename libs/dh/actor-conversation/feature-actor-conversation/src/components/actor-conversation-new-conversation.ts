@@ -50,6 +50,7 @@ import {
 } from '../types';
 import {
   ConversationSubject,
+  ElectricityMarketMeteringPointType,
   GetConversationsDocument,
   GetElectricalHeatingDocument,
   MarketRole,
@@ -65,6 +66,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
 import { DhActorConversationMeteringPointSearchComponent } from './actor-conversation-metering-point-search';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -83,6 +85,7 @@ import { DhActorConversationMeteringPointSearchComponent } from './actor-convers
     DhActorConversationReceiverRadioGroupComponent,
     DhActorConversationElectricalHeatingFormComponent,
     DhActorConversationMeteringPointSearchComponent,
+    WATT_DESCRIPTION_LIST,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -94,6 +97,7 @@ import { DhActorConversationMeteringPointSearchComponent } from './actor-convers
     <form
       [formGroup]="newConversationForm"
       (ngSubmit)="startConversation()"
+      (keydown.enter)="$event.preventDefault()"
       vater-grid
       fill="vertical"
       rows="minmax(var(--case-min-row-height), auto) 1fr"
@@ -112,7 +116,7 @@ import { DhActorConversationMeteringPointSearchComponent } from './actor-convers
           {{ t('cancelButtonLabel') }}
         </watt-button>
       </vater-stack>
-      <vater-grid columns="1fr 2fr" rows="auto 1fr" gap="m">
+      <vater-grid columns="1fr 2fr" rows="auto 1fr" gap="xl">
         <vater-grid-area column="1" row="1">
           <vater-stack direction="column" gap="m" align="start">
             @if (meteringPointId() === undefined) {
@@ -129,7 +133,7 @@ import { DhActorConversationMeteringPointSearchComponent } from './actor-convers
               translateKey="meteringPoint.actorConversation.subjects"
               data-testid="actor-conversation-subject-dropdown"
             />
-            @if (isElectricalHeating()) {
+            @if (isElectricalHeating() && hasMeteringPoint() && isConsumptionMeteringPoint()) {
               <watt-slide-toggle [formControl]="newConversationForm.controls.reducedElectricityTax">
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
@@ -142,6 +146,13 @@ import { DhActorConversationMeteringPointSearchComponent } from './actor-convers
                   [receiverControl]="newConversationForm.controls.receiver"
                   [dateControl]="newConversationForm.controls.energySupplierDate"
                 />
+              } @else {
+                <watt-description-list class="watt-space-stack-m">
+                  <watt-description-list-item
+                    [label]="t('receiverLabel')"
+                    [value]="t('role.GRID_ACCESS_PROVIDER')"
+                  />
+                </watt-description-list>
               }
             </vater-flex>
             <watt-text-field
@@ -197,6 +208,13 @@ export class DhActorConversationNewConversationComponent {
     () => this.newConversationForm.controls.reducedElectricityTax
   );
 
+  hasMeteringPoint = computed(() => !!this.meteringPointSearch()?.meteringPointInfo());
+
+  isConsumptionMeteringPoint = computed(() => {
+    const info = this.meteringPointSearch()?.meteringPointInfo();
+    return info?.metadata.type === ElectricityMarketMeteringPointType.Consumption;
+  });
+
   private readonly fetchElectricalHeatingInformation = effect(() => {
     if (!this.reducedElectricityTaxValue()) return;
     const meteringPointIdentification =
@@ -236,6 +254,9 @@ export class DhActorConversationNewConversationComponent {
 
   onMeteringPointIdValidated(meteringPointId: string | undefined): void {
     this.newConversationForm.controls.meteringPointId.setValue(meteringPointId ?? null);
+    if (!meteringPointId) {
+      this.newConversationForm.controls.reducedElectricityTax.setValue(false);
+    }
   }
 
   private readonly syncMeteringPointIdValidators = dhSyncControlValidators(

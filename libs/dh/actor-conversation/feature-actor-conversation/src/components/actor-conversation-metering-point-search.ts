@@ -68,6 +68,7 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
           maxLength="18"
           [formControl]="searchControl"
           [label]="t('meteringPointIdLabel')"
+          (keydown.enter)="search()"
         >
           <watt-button icon="search" variant="icon" (click)="search()" />
           @if (searchControl.hasError('notFound')) {

@@ -20,6 +20,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   computed,
   effect,
   forwardRef,
@@ -101,6 +102,7 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
         [formControl]="form.controls.message"
         [small]="true"
         data-testid="actor-conversation-message-textarea"
+        (keydown)="onKeyDown($event)"
       >
         @if (closed()) {
           <watt-textarea-notice
@@ -180,6 +182,7 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
 })
 export class DhActorConversationMessageFormComponent implements ControlValueAccessor {
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly elementRef = inject(ElementRef);
   loading = input<boolean>(false);
   closed = input<boolean>(false);
   disableAnonymous = input<boolean>(false);
@@ -242,6 +245,17 @@ export class DhActorConversationMessageFormComponent implements ControlValueAcce
 
   removeFile(file: File): void {
     this.selectedFiles.update((current) => current.filter((f) => f !== file));
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      if (event.ctrlKey) {
+        const form = (this.elementRef.nativeElement as HTMLElement).closest('form');
+        form?.requestSubmit();
+      } else {
+        event.preventDefault();
+      }
+    }
   }
 
   private isAllowedFileType(file: File): boolean {
