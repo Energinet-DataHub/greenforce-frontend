@@ -208,9 +208,7 @@ export class DhActorConversationNewConversationComponent {
     () => this.newConversationForm.controls.reducedElectricityTax
   );
 
-  hasMeteringPoint = computed(
-    () => !!this.meteringPointSearch()?.meteringPointInfo()
-  );
+  hasMeteringPoint = computed(() => !!this.meteringPointSearch()?.meteringPointInfo());
 
   isConsumptionMeteringPoint = computed(() => {
     const info = this.meteringPointSearch()?.meteringPointInfo();
