@@ -170,7 +170,6 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
     }
   }
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   private findMinDate(newConnectionState: ElectricityMarketViewConnectionState): Date {
     const daysSinceCreated = dayjs(this.today).diff(
       dayjs(this.modalData.currentCreatedDate),

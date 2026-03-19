@@ -307,7 +307,6 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     }
   }
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   async submit() {
     if (this.form.invalid || this.submitInProgress()) {
       return;

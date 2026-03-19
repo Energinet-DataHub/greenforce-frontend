@@ -41,6 +41,7 @@ import { injectDownloadMessageDocument } from './download-message-document';
     .message-container {
       border-radius: var(--watt-radius-m);
       border: 1px solid var(--watt-color-neutral-grey-300);
+      overflow-wrap: anywhere;
     }
 
     .attachment-link {
