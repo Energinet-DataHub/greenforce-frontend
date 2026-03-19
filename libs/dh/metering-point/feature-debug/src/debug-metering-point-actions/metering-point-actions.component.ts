@@ -201,7 +201,7 @@ export class DhMeteringPointActionsComponent {
   rebuildProjections = mutation(RebuildProjectionsDocument);
   deleteAllData = mutation(DeleteAllEventSourcingDataDocument);
   projectionTypeControl = dhMakeFormControl<ProjectionType>();
-  timeoutControl = dhMakeFormControl('5');
+  timeoutControl = dhMakeFormControl('30');
   deleteConfirmControl = dhMakeFormControl('');
   projectionTypeOptions = dhEnumToWattDropdownOptions(ProjectionType);
 
