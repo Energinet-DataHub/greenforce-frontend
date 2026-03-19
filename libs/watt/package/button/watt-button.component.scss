@@ -220,10 +220,21 @@ watt-button {
         display: flex;
         gap: var(--watt-space-s);
         white-space: nowrap;
+
+        .text-content {
+          display: contents;
+        }
       }
 
       .content-wrapper--loading {
         visibility: hidden;
+      }
+    }
+
+    &:has(.content-wrapper .text-content:empty) {
+      padding: 0;
+      .content-wrapper {
+        gap: 0;
       }
     }
   }
