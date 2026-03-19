@@ -142,9 +142,8 @@ export class DhActorConversationElectricalHeatingFormComponent implements Contro
     if (!periods || periods.length === 0) return [];
     const now = new Date();
     return periods.map((p) => {
-      const from = wattFormatDate(p.from);
-      const to = p.to && new Date(p.to) <= now ? wattFormatDate(p.to) : null;
-      return `${from} — ${to ?? ''}`.trimEnd();
+      const to = p.to && new Date(p.to) <= now ? p.to : null;
+      return wattFormatDate({ start: p.from, end: to }) ?? '';
     });
   });
   form = new FormGroup({
