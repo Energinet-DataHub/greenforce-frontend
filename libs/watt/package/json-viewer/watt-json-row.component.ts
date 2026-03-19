@@ -80,8 +80,8 @@ import { isNonEmpty, tokenize } from './watt-json.utils';
     }
   `,
   host: {
-    '[class.watt-json-row-added]': '!isOriginal() && !isSame()',
-    '[class.watt-json-row-removed]': 'isOriginal() && !isSame()',
+    '[class.watt-json-row-added]': '!isBaseline() && !isSame()',
+    '[class.watt-json-row-removed]': 'isBaseline() && !isSame()',
   },
   template: `
     @if (value() !== undefined) {
@@ -99,13 +99,15 @@ import { isNonEmpty, tokenize } from './watt-json.utils';
 })
 export class WattJsonRow {
   readonly label = input<string>();
-  readonly isOriginal = input.required<boolean>();
+  readonly isBaseline = input.required<boolean>();
   readonly isSame = input.required<boolean>();
   readonly expanded = input.required<boolean>();
   readonly value = input<unknown>();
+  readonly diff = input(false);
 
   protected readonly expandable = computed(() => isNonEmpty(this.value()));
+  protected readonly budget = computed(() => (this.diff() ? 40 : 80));
   protected readonly tokens = computed(() => [
-    ...tokenize(this.value(), this.expandable() ? 80 : Infinity),
+    ...tokenize(this.value(), this.expandable() ? this.budget() : Infinity),
   ]);
 }
