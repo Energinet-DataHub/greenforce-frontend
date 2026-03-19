@@ -176,14 +176,13 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
                 @if (meteringPointConversationInfo(); as meteringPointInfo) {
                   <watt-description-list variant="inline-flow" *transloco="let tBase">
                     <watt-description-list-item
-                      [label]="t('meteringPointInfo.address')"
-                      [value]="
+                      [label]="
                         meteringPointInfo.meteringPointId +
                         ' • ' +
                         (meteringPointInfo.metadata.installationAddress?.streetName ?? '') +
                         ' ' +
                         (meteringPointInfo.metadata.installationAddress?.buildingNumber ?? '') +
-                        ' , ' +
+                        ', ' +
                         (meteringPointInfo.metadata.installationAddress?.municipalityCode ?? '') +
                         ' ' +
                         (meteringPointInfo.metadata.installationAddress?.cityName ?? '')

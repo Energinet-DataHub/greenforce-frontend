@@ -818,7 +818,7 @@
       },
       "reducedElectricityTaxToggle": "I want to apply for reduced electricity tax",
       "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
-      "idLabel": "ID",
+      "idLabel": "Case ID",
       "internalNoteLabel": "Internal note",
       "editInternalNote": {
         "title": "Internal note",
@@ -889,7 +889,6 @@
       "meteringPointInfo": {
         "connectionState": "Connection status",
         "type": "Metering point type",
-        "address": "Address",
         "resolution": "Resolution",
         "notValidated": "Please search for a metering point",
         "notFound": "Metering point ID does not exist",
