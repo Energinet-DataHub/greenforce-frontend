@@ -40,6 +40,15 @@ public static class OperationToolsMeteringPointNode
 
     [Query]
     [Authorize(Roles = ["metering-point:search"])]
+    [UseRevisionLog]
+    public static async Task<string> GetMeteringPointDebugJsonAsync(
+        string id,
+        [Service] IElectricityMarketClient_V1 electricityMarketClient,
+        CancellationToken ct) => await electricityMarketClient
+            .MeteringPointDebugJsonAsync(id, ct);
+
+    [Query]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<IEnumerable<MeteringPointsGroupByPackageNumber>> GetMeteringPointsByGridAreaCodeAsync(
         string gridAreaCode,
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
