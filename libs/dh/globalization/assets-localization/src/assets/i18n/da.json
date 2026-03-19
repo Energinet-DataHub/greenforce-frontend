@@ -818,7 +818,7 @@
       },
       "reducedElectricityTaxToggle": "Jeg vil ansøge om reduceret elafgift",
       "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
-      "idLabel": "ID",
+      "idLabel": "Sags-ID",
       "internalNoteLabel": "Intern note",
       "editInternalNote": {
         "title": "Intern note",
@@ -889,8 +889,8 @@
       "meteringPointInfo": {
         "connectionState": "Tilslutningsstatus",
         "type": "Målepunktstype",
-        "address": "Adresse",
         "resolution": "Tidsopløsning",
+        "address": "Adresse",
         "notValidated": "Søg venligst efter et målepunkt",
         "notFound": "Målepunkts-ID findes ikke",
         "invalidLength": "Målepunkts-ID består af 18 cifre"
