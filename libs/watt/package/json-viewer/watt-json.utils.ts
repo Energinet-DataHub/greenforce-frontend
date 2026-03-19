@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+//
 
 /** Compares two values. When deep is false, objects/arrays compare by type only. */
 export function isEqual(
@@ -25,7 +26,11 @@ export function isEqual(
 ): boolean {
   if (typeof a !== typeof b) return false;
   const eq = (a: string, b: string) => (ignoreCase ? a.toLowerCase() === b.toLowerCase() : a === b);
-  const replacer = !deep ? (_: string, v: unknown) => (Array.isArray(v) ? [] : {}) : undefined;
+  const replacer = (_: string, v: unknown) => {
+    if (Array.isArray(v)) return deep ? v : [];
+    if (v && typeof v === 'object') return deep ? Object.fromEntries(Object.entries(v).sort()) : {};
+    return v;
+  };
   try {
     return eq(JSON.stringify(a, replacer), JSON.stringify(b, replacer));
   } catch {
