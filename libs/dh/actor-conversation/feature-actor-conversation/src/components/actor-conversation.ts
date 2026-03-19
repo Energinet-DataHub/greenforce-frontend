@@ -141,7 +141,7 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
                     <dh-actor-conversation-list-item
                       [conversation]="conversationItem"
                       [selected]="selectedConversationId() === conversationItem.id"
-                      (click)="selectedConversationId.set(conversationItem.id)"
+                      (click)="selectConversation(conversationItem)"
                     />
                   </li>
                 }
