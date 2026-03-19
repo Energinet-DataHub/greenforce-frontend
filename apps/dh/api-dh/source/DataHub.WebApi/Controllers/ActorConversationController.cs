@@ -137,7 +137,7 @@ public sealed class ActorConversationController : ControllerBase
                     fileName = disposition.FileNameStar ?? disposition.FileName;
                 }
             }
-            
+
             Response.Headers.XContentTypeOptions = "no-sniff";
             Response.Headers.ContentSecurityPolicy = "default-src 'none'";
 
