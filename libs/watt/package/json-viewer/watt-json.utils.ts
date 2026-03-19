@@ -19,11 +19,7 @@
 //
 
 /** Compares two values. When deep is false, objects/arrays compare by type only. */
-export function isEqual(
-  a: unknown,
-  b: unknown,
-  { deep, ignoreCase }: { deep: boolean; ignoreCase: boolean }
-): boolean {
+export function isEqual(a: unknown, b: unknown, { deep = true, ignoreCase = false }): boolean {
   if (typeof a !== typeof b) return false;
   const eq = (a: string, b: string) => (ignoreCase ? a.toLowerCase() === b.toLowerCase() : a === b);
   const replacer = (_: string, v: unknown) => {
