@@ -217,7 +217,7 @@ export class DhActorConversation {
   }));
   readConversationMutation = mutation(MarkConversationReadDocument);
 
-  meteringPointId = input.required<string>();
+  meteringPointId = input<string | undefined>();
   newConversationVisible = signal(false);
 
   conversations = computed(
