@@ -890,6 +890,7 @@
         "connectionState": "Connection status",
         "type": "Metering point type",
         "resolution": "Resolution",
+        "address": "Address",
         "notValidated": "Please search for a metering point",
         "notFound": "Metering point ID does not exist",
         "invalidLength": "Metering point ID consists of 18 digits"
