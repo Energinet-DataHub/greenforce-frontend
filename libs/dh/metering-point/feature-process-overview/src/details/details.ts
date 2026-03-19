@@ -59,7 +59,7 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
         }
       </watt-drawer-topbar>
       <watt-drawer-heading>
-        <h3 *transloco="let t; prefix: 'meteringPoint.processOverview'">
+        <h3 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
           {{ businessReason() && t('processType.' + businessReason()) | dhEmDashFallback }}
         </h3>
         <watt-description-list

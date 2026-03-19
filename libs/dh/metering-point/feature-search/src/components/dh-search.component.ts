@@ -85,6 +85,7 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
             [placeholder]="t('placeholder')"
             [autoFocus]="true"
             (keydown.enter)="onSubmit()"
+            (paste)="onPaste($event)"
             [showErrors]="submitted()"
           >
             @if (loading()) {
@@ -183,6 +184,14 @@ export class DhSearchComponent {
     this.modalService.open({
       component: DhCreateMeteringPointModalComponent,
     });
+  }
+
+  onPaste(event: ClipboardEvent) {
+    const pasted = event.clipboardData?.getData('text');
+    if (!pasted) return;
+
+    event.preventDefault();
+    this.searchControl.setValue(pasted.replace(/\D/g, '').substring(0, 18));
   }
 
   async onSubmit() {
