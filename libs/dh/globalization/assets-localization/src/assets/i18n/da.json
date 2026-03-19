@@ -890,6 +890,7 @@
         "connectionState": "Tilslutningsstatus",
         "type": "Målepunktstype",
         "resolution": "Tidsopløsning",
+        "address": "Adresse",
         "notValidated": "Søg venligst efter et målepunkt",
         "notFound": "Målepunkts-ID findes ikke",
         "invalidLength": "Målepunkts-ID består af 18 cifre"
