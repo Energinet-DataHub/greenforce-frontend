@@ -95,7 +95,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
 
           <hr class="watt-divider" />
 
-          <h4 class="watt-space-stack-s">{{ t('detailsSubtitle') }}</h4>
+          <h4 class="watt-space-stack-ml">{{ t('detailsSubtitle') }}</h4>
 
           <watt-description-list variant="stack" [itemSeparators]="false">
             <watt-description-list-item [label]="t('meteringPointType')">
@@ -218,7 +218,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
 
         <div class="grid-column">
           <ng-container *dhCanSee="'power-plant-section'; meteringPoint: meteringPoint()">
-            <h4 class="watt-space-stack-s">{{ t('powerPlantSubTitle') }}</h4>
+            <h4 class="watt-space-stack-ml">{{ t('powerPlantSubTitle') }}</h4>
 
             <watt-description-list variant="stack" [itemSeparators]="false">
               <watt-description-list-item [label]="t('netSettlementGroup')">
@@ -284,7 +284,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
             <hr class="watt-divider" />
           </ng-container>
 
-          <h4 class="watt-space-stack-s">{{ t('otherSubTitle') }}</h4>
+          <h4 class="watt-space-stack-ml">{{ t('otherSubTitle') }}</h4>
 
           <watt-description-list variant="stack" [itemSeparators]="false">
             <watt-description-list-item [label]="t('resolutionLabel')">
