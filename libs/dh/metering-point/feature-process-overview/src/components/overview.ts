@@ -37,20 +37,17 @@ import {
   DhStateBadge,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,
   GetMeteringPointProcessOverviewDocument,
-  ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import {
-  BasePaths,
-  getPath,
-  MeteringPointSubPaths,
-} from '@energinet-datahub/dh/core/configuration-routing';
 import { MeteringPointProcess } from '../types';
+import { DhActionsRegistry } from '../actions/registry';
+import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
+
 @Component({
   selector: 'dh-metering-point-process-overview-table',
   imports: [
@@ -69,6 +66,7 @@ import { MeteringPointProcess } from '../types';
     WattFormChipDirective,
     DhEmDashFallbackPipe,
     DhStateBadge,
+    SupportedActionsPipe,
   ],
   providers: [DhNavigationService],
   template: `
@@ -140,7 +138,10 @@ import { MeteringPointProcess } from '../types';
               gap="s"
               *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
             >
-              @for (action of process.availableActions; track action) {
+              @for (
+                action of process.availableActions | supportedActions: process.businessReason;
+                track action
+              ) {
                 @if (canPerformActions()) {
                   <watt-button
                     variant="secondary"
@@ -165,8 +166,8 @@ import { MeteringPointProcess } from '../types';
   `,
 })
 export class DhMeteringPointProcessOverviewTable {
-  private readonly router = inject(Router);
   protected readonly navigation = inject(DhNavigationService);
+  private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
 
   readonly meteringPointId = input.required<string>();
@@ -218,16 +219,10 @@ export class DhMeteringPointProcessOverviewTable {
 
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
-    if (
-      action === WorkflowAction.SendInformation &&
-      process.businessReason === ProcessManagerBusinessReason.CustomerMoveIn
-    ) {
-      this.router.navigate([
-        getPath<BasePaths>('metering-point'),
-        this.internalMeteringPointId(),
-        getPath<MeteringPointSubPaths>('update-customer-details'),
-        process.id,
-      ]);
-    }
+    this.actionService.execute(action, process.businessReason, {
+      meteringPointId: this.meteringPointId(),
+      internalMeteringPointId: this.internalMeteringPointId(),
+      processId: process.id,
+    });
   }
 }

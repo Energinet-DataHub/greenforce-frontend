@@ -1045,8 +1045,20 @@
       "actions": {
         "SEND_INFORMATION": "Send information",
         "FAS_SEND_INFORMATION": "Net og el kan sende information",
-        "CANCEL_WORKFLOW": "Annuller workflow",
+        "CANCEL_WORKFLOW": "Annuller",
         "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
+      },
+      "cancelProcess": {
+        "title": "Annuller {{processType}}",
+        "body": "Er du sikker på du vil stoppe processen for {{processType}}?",
+        "cancel": "Luk vindue",
+        "confirm": "Jeg er sikker",
+        "loadingToast": "Indsender annullering af {{processType}}...",
+        "successToast": "Annullering af {{processType}} indsendt",
+        "errorToast": "Annullering af {{processType}} fejlede"
+      },
+      "processTypeName": {
+        "EndOfSupply": "leveranceophør"
       },
       "steps": {
         "CloseDownMeteringPoint": {

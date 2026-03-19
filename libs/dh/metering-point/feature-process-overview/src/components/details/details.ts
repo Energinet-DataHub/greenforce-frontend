@@ -22,14 +22,19 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/date';
+import { WattButtonComponent } from '@energinet/watt/button';
 
-import { DhStateBadge } from '@energinet-datahub/dh/shared/ui-util';
+import { DhStateBadge, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetMeteringPointProcessByIdDocument,
+  WorkflowAction,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMeteringPointProcessOverviewSteps } from './steps';
+import { DhActionsRegistry } from '../../actions/registry';
+import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',
@@ -41,6 +46,8 @@ import { DhMeteringPointProcessOverviewSteps } from './steps';
     DhEmDashFallbackPipe,
     DhStateBadge,
     DhMeteringPointProcessOverviewSteps,
+    WattButtonComponent,
+    SupportedActionsPipe,
   ],
   template: `
     <watt-drawer autoOpen [key]="id()" (closed)="navigation.navigate('list')">
@@ -86,6 +93,17 @@ import { DhMeteringPointProcessOverviewSteps } from './steps';
           />
         </watt-description-list>
       </watt-drawer-heading>
+      <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
+        @for (
+          action of process.data()?.meteringPointProcessById?.availableActions
+            | supportedActions: businessReason();
+          track action
+        ) {
+          <watt-button variant="secondary" (click)="executeAction(action)">
+            {{ t('actions.' + action) }}
+          </watt-button>
+        }
+      </watt-drawer-actions>
       <watt-drawer-content>
         <dh-metering-point-process-overview-steps
           [steps]="steps()"
@@ -99,7 +117,9 @@ import { DhMeteringPointProcessOverviewSteps } from './steps';
 })
 export class DhMeteringPointProcessOverviewDetails {
   readonly id = input.required<string>();
+  readonly meteringPointId = input.required<string>();
   protected navigation = inject(DhNavigationService);
+  private readonly actionService = inject(DhActionsRegistry);
 
   process = query(GetMeteringPointProcessByIdDocument, () => ({
     fetchPolicy: 'cache-and-network',
@@ -115,15 +135,24 @@ export class DhMeteringPointProcessOverviewDetails {
   businessReason = computed(() => this.process.data()?.meteringPointProcessById?.businessReason);
   initiator = computed(() => this.process.data()?.meteringPointProcessById?.initiator?.displayName);
 
-  // Only return steps when we have process data, otherwise empty to keep loading state
   steps = computed(() => {
     const data = this.process.data();
     if (!data?.meteringPointProcessById) return [];
     return data.meteringPointProcessById.steps ?? [];
   });
 
-  // Show loading until we have data or an error
   isLoading = computed(() => {
     return !this.process.called() || this.process.loading();
   });
+
+  executeAction(action: WorkflowAction) {
+    const reason = this.businessReason();
+    if (!reason) return;
+    this.actionService.execute(action, reason, {
+      meteringPointId: this.meteringPointId(),
+      internalMeteringPointId: '',
+      processId: this.id(),
+      onSuccess: () => this.navigation.navigate('list'),
+    });
+  }
 }

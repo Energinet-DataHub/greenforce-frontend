@@ -16,6 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/get-transloco-testing.module';
-export * from './src/msal-fake.service';
-export * from './src/wait-for-async';
+export interface ProcessActionContext {
+  meteringPointId: string;
+  internalMeteringPointId: string;
+  processId: string;
+  onSuccess?: () => void;
+}
