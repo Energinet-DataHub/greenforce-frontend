@@ -1,11 +1,5 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../../../dist/out-tsc",
-    "module": "ESNext",
-    "types": ["vitest/globals", "node"],
-    "target": "es2016"
-  },
+  "extends": "../../tsconfig.spec.json",
   "files": ["tests/test-setup.ts"],
   "include": ["tests/**/*.test.ts", "tests/**/*.spec.ts"]
 }
