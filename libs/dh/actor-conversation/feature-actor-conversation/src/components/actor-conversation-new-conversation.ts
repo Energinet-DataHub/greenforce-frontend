@@ -23,7 +23,6 @@ import {
   effect,
   inject,
   input,
-  linkedSignal,
   output,
   signal,
 } from '@angular/core';
@@ -46,7 +45,6 @@ import {
   internalNoteMaxLength,
   MessageFormValue,
   messageMaxLength,
-  ValidatedMeteringPointId,
 } from '../types';
 import {
   ConversationSubject,
@@ -68,6 +66,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
 import { DhActorConversationMeteringPointSearchComponent } from './actor-conversation-metering-point-search';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+import { dhMeteringPointIdValidator } from '@energinet-datahub/dh/metering-point/feature-search';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -123,6 +122,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
             @if (meteringPointId() === undefined) {
               <dh-actor-conversation-metering-point-search
                 (meteringPointIdValidated)="onMeteringPointIdValidated($event)"
+                [searchControl]="newConversationForm.controls.meteringPointId"
               />
             }
             <watt-dropdown
@@ -135,7 +135,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
               data-testid="actor-conversation-subject-dropdown"
             />
 
-            @if (isElectricalHeating() && isMeteringPointTypeComsumption()) {
+            @if (isElectricalHeating() && isMeteringPointTypeConsumption()) {
               <watt-slide-toggle [formControl]="newConversationForm.controls.reducedElectricityTax">
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
@@ -219,7 +219,7 @@ export class DhActorConversationNewConversationComponent {
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
   );
 
-  isMeteringPointTypeComsumption = computed(
+  isMeteringPointTypeConsumption = computed(
     () =>
       this.meteringPointTypeQuery.data()?.meteringPoint.metadata.type ===
       ElectricityMarketViewMeteringPointType.Consumption
@@ -227,11 +227,17 @@ export class DhActorConversationNewConversationComponent {
 
   closeNewConversation = output<string | undefined>();
   meteringPointId = input<string | undefined>();
-  meteringPointIdentification = linkedSignal(() => this.meteringPointId());
+  meteringPointIdentification = dhFormControlToSignal(
+    () => this.newConversationForm.controls.meteringPointId
+  );
 
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
 
   newConversationForm = new FormGroup({
+    meteringPointId: dhMakeFormControl<string | null>(this.meteringPointId(), [
+      Validators.required,
+      dhMeteringPointIdValidator(),
+    ]),
     subject: dhMakeFormControl<ConversationSubject | null>(null, Validators.required),
     receiver: dhMakeFormControl<MarketRole | null>(null, Validators.required),
     energySupplierDate: dhMakeFormControl<Date | null>(null),
@@ -248,11 +254,8 @@ export class DhActorConversationNewConversationComponent {
     ]),
   });
 
-  onMeteringPointIdValidated({ validated, meteringPointId }: ValidatedMeteringPointId): void {
-    if (validated) {
-      this.meteringPointIdentification.set(meteringPointId);
-    }
-
+  onMeteringPointIdValidated(meteringPointId: string | null) {
+    this.newConversationForm.controls.meteringPointId.setValue(meteringPointId);
     this.newConversationForm.controls.reducedElectricityTax.setValue(false);
   }
 
@@ -299,19 +302,23 @@ export class DhActorConversationNewConversationComponent {
   async startConversation() {
     if (this.newConversationForm.invalid) return;
 
-    const { subject, receiver, internalNote, message, energySupplierDate, electricalHeating } =
-      this.newConversationForm.getRawValue();
+    const {
+      subject,
+      meteringPointId,
+      receiver,
+      internalNote,
+      message,
+      energySupplierDate,
+      electricalHeating,
+    } = this.newConversationForm.getRawValue();
 
     if (!receiver || !subject) return;
     if (this.uploading()) return;
 
-    const meteringPointIdentification = this.meteringPointIdentification();
-
-    if (meteringPointIdentification === undefined) return;
-
     const { content, anonymous, files } = message ?? {};
 
     assertIsDefined(anonymous);
+    assertIsDefined(meteringPointId);
 
     this.uploadError.set(false);
     this.uploading.set(true);
@@ -342,7 +349,7 @@ export class DhActorConversationNewConversationComponent {
 
     const result = await this.startConversationMutation.mutate({
       variables: {
-        meteringPointIdentification,
+        meteringPointIdentification: meteringPointId,
         subject,
         internalNote,
         content: content ?? '',

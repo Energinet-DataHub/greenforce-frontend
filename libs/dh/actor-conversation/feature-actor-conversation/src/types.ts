@@ -57,10 +57,5 @@ export interface ElectricalHeatingFormValue {
   attachedBbrDocumentation: boolean;
 }
 
-export type ValidatedMeteringPointId = {
-  validated: boolean;
-  meteringPointId?: string;
-};
-
 export const internalNoteMaxLength = 35;
 export const messageMaxLength = 35;
