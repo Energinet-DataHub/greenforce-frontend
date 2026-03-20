@@ -26,7 +26,6 @@ import {
   linkedSignal,
   output,
   signal,
-  viewChild,
 } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
@@ -47,13 +46,11 @@ import {
   internalNoteMaxLength,
   MessageFormValue,
   messageMaxLength,
-  MeteringPointInfo,
   ValidatedMeteringPointId,
 } from '../types';
 import {
   ConversationSubject,
   ElectricityMarketViewMeteringPointType,
-  ElectricityMarketMeteringPointType,
   GetConversationsDocument,
   GetElectricalHeatingDocument,
   GetMeteringPointTypeDocument,
@@ -211,13 +208,6 @@ export class DhActorConversationNewConversationComponent {
     () => this.newConversationForm.controls.reducedElectricityTax
   );
 
-  hasMeteringPoint = computed(() => !!this.meteringPointSearch()?.meteringPointInfo());
-
-  isConsumptionMeteringPoint = computed(() => {
-    const info = this.meteringPointSearch()?.meteringPointInfo();
-    return info?.metadata.type === ElectricityMarketMeteringPointType.Consumption;
-  });
-
   private readonly fetchElectricalHeatingInformation = effect(() => {
     if (!this.reducedElectricityTaxValue()) return;
     const meteringPointIdentification = this.meteringPointIdentification();
@@ -261,9 +251,9 @@ export class DhActorConversationNewConversationComponent {
   onMeteringPointIdValidated({ validated, meteringPointId }: ValidatedMeteringPointId): void {
     if (validated) {
       this.meteringPointIdentification.set(meteringPointId);
-    } else {
-      this.newConversationForm.controls.reducedElectricityTax.setValue(false);
     }
+
+    this.newConversationForm.controls.reducedElectricityTax.setValue(false);
   }
 
   private readonly reducedElectricityTaxValueEffect = effect(() => {
