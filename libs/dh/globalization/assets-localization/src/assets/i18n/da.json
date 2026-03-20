@@ -618,7 +618,7 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "Intet resultat fundet",
-      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter",
+      "searchMigratedMeteringPoints": "Søg i EM1",
       "searchMigratedMeteringPointsPreProd": "Søg i fase 2 testmålepunkter"
     },
     "tabs": {
@@ -3304,7 +3304,7 @@
       "tabLabel": "Målepunkt (EM1)"
     },
     "meteringPointEvents": {
-      "tabLabel": "Dataudtræk",
+      "tabLabel": "Målepunkt",
       "searchLabel": "Målepunkts-ID",
       "segments": {
         "meteringPoint": "Målepunkt",
@@ -3312,7 +3312,10 @@
         "relations": "Relationer"
       },
       "expandAll": "Udvid alle",
-      "collapseAll": "Skjul alle"
+      "collapseAll": "Skjul alle",
+      "compareEm1": "Sammenlign med EM1",
+      "matchCase": "Forskel på store/små",
+      "ignoreCase": "Ignorer store/små"
     },
     "migration": {
       "tabLabel": "Migrering",
@@ -3350,6 +3353,19 @@
           "message": "Er du sikker på, at du vil sætte starttidspunktet for migreringsjobbet?"
         }
       },
+      "dangerZone": {
+        "title": "Farezone",
+        "warning": "Advarsel:",
+        "warningMessage": "Denne handling vil slette ALLE event sourcing data. Dette kan ikke fortrydes!",
+        "deleteButton": "Slet alle event sourcing data",
+        "modal": {
+          "title": "Slet alle event sourcing data",
+          "message": "Denne handling vil permanent slette ALLE event sourcing data. Dette kan ikke fortrydes!",
+          "validation": "JEG VIL SLETTE ALLE DATA",
+          "instruction": "For at bekræfte, skriv JEG VIL SLETTE ALLE DATA nedenfor:",
+          "confirmDelete": "Slet alle data"
+        }
+      },
       "modal": {
         "cancel": "Annuller",
         "confirm": "Bekræft"
@@ -3364,7 +3380,7 @@
       "rebuildProjection": {
         "title": "Genopbyg projektion",
         "selectPlaceholder": "Vælg projektionstype",
-        "timeout": "Timeout (sekunder)",
+        "timeout": "Timeout (minutter)",
         "button": "Genopbyg projektion",
         "projectionTypes": {
           "METERING_POINT": "Målepunkt",
@@ -3376,17 +3392,7 @@
         }
       },
       "dangerZone": {
-        "title": "Farezone",
-        "warning": "Advarsel:",
-        "warningMessage": "Denne handling vil slette ALLE event sourcing data. Dette kan ikke fortrydes!",
-        "deleteButton": "Slet alle event sourcing data",
-        "modal": {
-          "title": "Slet alle event sourcing data",
-          "message": "Denne handling vil permanent slette ALLE event sourcing data. Dette kan ikke fortrydes!",
-          "validation": "JEG VIL SLETTE ALLE DATA",
-          "instruction": "For at bekræfte, skriv JEG VIL SLETTE ALLE DATA nedenfor:",
-          "confirmDelete": "Slet alle data"
-        }
+        "title": "Farezone"
       },
       "modal": {
         "cancel": "Annuller",

@@ -1415,11 +1415,12 @@ type Query {
   relatedMeteringPoints(meteringPointId: String! searchMigratedMeteringPoints: Boolean): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String! searchMigratedMeteringPoints: Boolean): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   selectableDatesForEndOfSupply: [DateTime!]!
-  debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
-  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  debugView(meteringPointId: String!): String! @authorize(roles: [ "operation-tools:view" ])
+  meteringPointDebugJson(id: String!): String! @authorize(roles: [ "operation-tools:view" ])
+  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "operation-tools:view" ])
   meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:view" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
-  operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "metering-point:search" ])
+  operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "operation-tools:view" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!

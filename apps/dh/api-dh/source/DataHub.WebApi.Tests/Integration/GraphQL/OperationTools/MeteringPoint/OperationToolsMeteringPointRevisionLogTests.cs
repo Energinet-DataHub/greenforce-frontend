@@ -65,6 +65,29 @@ public class OperationToolsMeteringPointRevisionLogTests
     }
 
     [Fact]
+    [RevisionLogTest("OperationToolsMeteringPointNode.GetMeteringPointDebugJsonAsync")]
+    public async Task GetMeteringPointDebugJson()
+    {
+        var operation =
+            $$"""
+                query($id: String!) {
+                  meteringPointDebugJson(id: $id)
+                }
+              """;
+
+        var server = new GraphQLTestService();
+
+        server.ElectricityMarketClientV1Mock.Setup(
+                c => c.MeteringPointDebugJsonAsync(It.IsAny<string>(), It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+            .ReturnsAsync("{\"test\":\"value\"}");
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
+            operation,
+            new() { { "id", "570000000000000008" } });
+    }
+
+    [Fact]
     [RevisionLogTest("OperationToolsMeteringPointNode.GetMeteringPointMigratedCountAsync")]
     public async Task GetMeteringPointMigratedCount()
     {

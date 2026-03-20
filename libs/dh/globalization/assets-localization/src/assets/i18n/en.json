@@ -618,7 +618,7 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found",
-      "searchMigratedMeteringPoints": "Search migrated metering points",
+      "searchMigratedMeteringPoints": "Search in EM1",
       "searchMigratedMeteringPointsPreProd": "Search phase 2 test metering points"
     },
     "tabs": {
@@ -3304,7 +3304,7 @@
       "tabLabel": "Metering point (EM1)"
     },
     "meteringPointEvents": {
-      "tabLabel": "Data lookup",
+      "tabLabel": "Metering point",
       "searchLabel": "Metering point ID",
       "segments": {
         "meteringPoint": "Metering point",
@@ -3312,7 +3312,10 @@
         "relations": "Relations"
       },
       "expandAll": "Expand all",
-      "collapseAll": "Collapse all"
+      "collapseAll": "Collapse all",
+      "compareEm1": "Compare to EM1",
+      "matchCase": "Match case",
+      "ignoreCase": "Ignore case"
     },
     "migration": {
       "tabLabel": "Migration",
@@ -3350,6 +3353,19 @@
           "message": "Are you sure you want to set the start time for the migration job?"
         }
       },
+      "dangerZone": {
+        "title": "Danger Zone",
+        "warning": "Warning:",
+        "warningMessage": "This action will delete ALL event sourcing data. This cannot be undone!",
+        "deleteButton": "Delete All Event Sourcing Data",
+        "modal": {
+          "title": "Delete All Event Sourcing Data",
+          "message": "This action will permanently delete ALL event sourcing data. This cannot be undone!",
+          "validation": "I WANT TO DELETE ALL DATA",
+          "instruction": "To confirm, type I WANT TO DELETE ALL DATA below:",
+          "confirmDelete": "Delete All Data"
+        }
+      },
       "modal": {
         "cancel": "Cancel",
         "confirm": "Confirm"
@@ -3364,7 +3380,7 @@
       "rebuildProjection": {
         "title": "Rebuild Projection",
         "selectPlaceholder": "Select projection type",
-        "timeout": "Timeout (seconds)",
+        "timeout": "Timeout (minutes)",
         "button": "Rebuild Projection",
         "projectionTypes": {
           "METERING_POINT": "Metering Point",
@@ -3376,17 +3392,7 @@
         }
       },
       "dangerZone": {
-        "title": "Danger Zone",
-        "warning": "Warning:",
-        "warningMessage": "This action will delete ALL event sourcing data. This cannot be undone!",
-        "deleteButton": "Delete All Event Sourcing Data",
-        "modal": {
-          "title": "Delete All Event Sourcing Data",
-          "message": "This action will permanently delete ALL event sourcing data. This cannot be undone!",
-          "validation": "I WANT TO DELETE ALL DATA",
-          "instruction": "To confirm, type I WANT TO DELETE ALL DATA below:",
-          "confirmDelete": "Delete All Data"
-        }
+        "title": "Danger Zone"
       },
       "modal": {
         "cancel": "Cancel",
