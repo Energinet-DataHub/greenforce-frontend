@@ -63,6 +63,7 @@ import { MeteringPointInfo, ValidatedMeteringPointId } from '../types';
           maxLength="18"
           [formControl]="searchControl"
           [label]="t('meteringPointIdLabel')"
+          (keydown.enter)="search()"
         >
           <watt-button icon="search" variant="icon" (click)="search()" />
           @if (searchControl.hasError('notFound')) {

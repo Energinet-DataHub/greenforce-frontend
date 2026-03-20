@@ -618,7 +618,7 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found",
-      "searchMigratedMeteringPoints": "Search migrated metering points",
+      "searchMigratedMeteringPoints": "Search in EM1",
       "searchMigratedMeteringPointsPreProd": "Search phase 2 test metering points"
     },
     "tabs": {
@@ -792,6 +792,7 @@
     "actorConversation": {
       "topBarTitle": "Actor Conversation",
       "searchPlaceholder": "Search for case-ID or internal note",
+      "searchPlaceholderWithMeteringPointId": "Search for case-ID, metering point ID or internal note",
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case",
@@ -868,7 +869,7 @@
         "currentElectricalHeatingStatus": "Current electrical heating status",
         "electricalHeatingDate": "Electrical heating date",
         "customer": "Customer",
-        "supplierInPeriod": "Energy supplier in period",
+        "supplierInPeriod": "Energy supplier in period(s)",
         "addressEligibilityDate": "Address eligibility date (cf. BBR)",
         "periodTitle": "Period for which reduced electricity tax is applied",
         "periodStart": "Start",
@@ -1087,12 +1088,14 @@
         "BRS_002_CANCELENDOFSUPPLY_V1_STEP_4": "Information about cancellation of end of supply (RSM-025)",
         "BRS_002_REJECTENDOFSUPPLY_V1_STEP_1": "Reject request for end of supply (RSM-020)",
         "BRS_002_REJECTENDOFSUPPLY_V1_STEP_2": "Reject request for end of supply (RSM-020)",
-        "BRS_002_CONFIRMENDOFSUPPLY_V1_STEP_1": "Reject request for end of supply (RSM-020)",
+        "BRS_002_CONFIRMENDOFSUPPLY_V1_STEP_1": "Request for change of connection status (RSM-021)",
         "BRS_002_CONFIRMENDOFSUPPLY_V1_STEP_2": "Reject request for end of supply (RSM-020)",
         "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4": "Notify cancellation of end of supply (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_1": "Request for disconnection (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_2": "Confirmation of request for disconnection (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_4": "Request for disconnection (RSM-020)",
+        "BRS_002_CONFIRMENDOFSUPPLY_V1_STEP_4": "Notification of actual end date (RSM-004)",
+        "BRS_002_CONFIRMENDOFSUPPLY_V1_STEP_5": "Notification of customer master data (RSM-028)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Confirmation of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
@@ -3301,7 +3304,7 @@
       "tabLabel": "Metering point (EM1)"
     },
     "meteringPointEvents": {
-      "tabLabel": "Data lookup",
+      "tabLabel": "Metering point",
       "searchLabel": "Metering point ID",
       "segments": {
         "meteringPoint": "Metering point",
@@ -3309,7 +3312,10 @@
         "relations": "Relations"
       },
       "expandAll": "Expand all",
-      "collapseAll": "Collapse all"
+      "collapseAll": "Collapse all",
+      "compareEm1": "Compare to EM1",
+      "matchCase": "Match case",
+      "ignoreCase": "Ignore case"
     },
     "migration": {
       "tabLabel": "Migration",
@@ -3347,6 +3353,19 @@
           "message": "Are you sure you want to set the start time for the migration job?"
         }
       },
+      "dangerZone": {
+        "title": "Danger Zone",
+        "warning": "Warning:",
+        "warningMessage": "This action will delete ALL event sourcing data. This cannot be undone!",
+        "deleteButton": "Delete All Event Sourcing Data",
+        "modal": {
+          "title": "Delete All Event Sourcing Data",
+          "message": "This action will permanently delete ALL event sourcing data. This cannot be undone!",
+          "validation": "I WANT TO DELETE ALL DATA",
+          "instruction": "To confirm, type I WANT TO DELETE ALL DATA below:",
+          "confirmDelete": "Delete All Data"
+        }
+      },
       "modal": {
         "cancel": "Cancel",
         "confirm": "Confirm"
@@ -3361,7 +3380,7 @@
       "rebuildProjection": {
         "title": "Rebuild Projection",
         "selectPlaceholder": "Select projection type",
-        "timeout": "Timeout (seconds)",
+        "timeout": "Timeout (minutes)",
         "button": "Rebuild Projection",
         "projectionTypes": {
           "METERING_POINT": "Metering Point",
@@ -3373,17 +3392,7 @@
         }
       },
       "dangerZone": {
-        "title": "Danger Zone",
-        "warning": "Warning:",
-        "warningMessage": "This action will delete ALL event sourcing data. This cannot be undone!",
-        "deleteButton": "Delete All Event Sourcing Data",
-        "modal": {
-          "title": "Delete All Event Sourcing Data",
-          "message": "This action will permanently delete ALL event sourcing data. This cannot be undone!",
-          "validation": "I WANT TO DELETE ALL DATA",
-          "instruction": "To confirm, type I WANT TO DELETE ALL DATA below:",
-          "confirmDelete": "Delete All Data"
-        }
+        "title": "Danger Zone"
       },
       "modal": {
         "cancel": "Cancel",

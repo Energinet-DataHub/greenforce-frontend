@@ -23,6 +23,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   effect,
+  input,
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -85,7 +86,7 @@ type FilterChip = {
     <ng-container *transloco="let t; prefix: 'meteringPoint.actorConversation'">
       <vater-stack direction="column" gap="m" fill="horizontal">
         <vater-stack direction="row" gap="s" justify="space-between" fill="horizontal">
-          <watt-simple-search [label]="t('searchPlaceholder')" (search)="search($event)" />
+          <watt-simple-search [label]="t(searchPlaceholderKey())" (search)="search($event)" />
           <watt-button icon="filter" variant="secondary" [wattMenuTriggerFor]="filterMenu" />
 
           <watt-menu #filterMenu>
@@ -153,7 +154,14 @@ type FilterChip = {
 export class ActorConversationFilter {
   private transloco = inject(TranslocoService);
 
+  canSearchForMeteringPointId = input<boolean>();
   filterChange = output<ActorConversationFilterValue>();
+
+  searchPlaceholderKey = computed(() =>
+    this.canSearchForMeteringPointId()
+      ? 'searchPlaceholderWithMeteringPointId'
+      : 'searchPlaceholder'
+  );
 
   subjects = Object.values(ConversationSubject);
 

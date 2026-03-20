@@ -95,12 +95,12 @@ public class ChargesClient(
     public async Task<Charge?> GetChargeByIdAsync(ChargeIdentifierDto id, CancellationToken ct = default)
     {
         var result = await client.GetChargeInformationAsync(
-            new(0, 1, new(id.Code, [id.Owner], [id.TypeDto]), ChargeInformationSortProperty.Type, false),
+            new(0, 10000, new(id.Code, [id.Owner], [id.TypeDto]), ChargeInformationSortProperty.Type, false),
             ct);
 
         return !result.IsSuccess
             ? throw new GraphQLException(result.DiagnosticMessage)
-            : result.Data?.Select(MapChargeInformationDtoToCharge).SingleOrDefault(defaultValue: null);
+            : result.Data?.Select(MapChargeInformationDtoToCharge).FirstOrDefault(c => c.Code == id.Code);
     }
 
     public async Task<IEnumerable<Charge>> GetChargesByTypeAsync(ChargeType type, CancellationToken ct = default)

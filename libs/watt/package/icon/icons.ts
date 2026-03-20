@@ -102,4 +102,5 @@ export const WattIconMap = {
   factory: 'factory',
   nest_eco_leaf: 'nest_eco_leaf',
   flash_on: 'flash_on',
+  matchCase: 'match_case',
 };
