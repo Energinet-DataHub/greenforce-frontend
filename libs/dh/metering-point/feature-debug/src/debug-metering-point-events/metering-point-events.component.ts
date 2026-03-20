@@ -209,7 +209,7 @@ function normalizeEm1(value: unknown): unknown {
             "
             [empty]="!operationToolsMeteringPoint.data()?.operationToolsMeteringPoint"
             [loading]="operationToolsMeteringPoint.loading() || debugJsonQuery.loading()"
-            [hasError]="operationToolsMeteringPoint.hasError()"
+            [hasError]="operationToolsMeteringPoint.hasError() || debugJsonQuery.hasError()"
           >
             <watt-json-viewer
               #viewer
