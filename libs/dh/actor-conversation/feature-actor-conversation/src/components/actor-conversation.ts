@@ -84,7 +84,7 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
       }
 
       .list-min-width {
-        min-width: 400px;
+        min-width: 450px;
       }
 
       .new-conversation {
@@ -104,7 +104,7 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
         gap="dividers"
         *transloco="let t; prefix: 'meteringPoint.actorConversation'"
       >
-        <div vater scrollable>
+        <div vater scrollable class="list-min-width">
           <vater-stack sticky="top" *transloco="let t; prefix: 'meteringPoint.actorConversation'">
             <vater-stack
               fill="horizontal"
@@ -123,7 +123,10 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
                   {{ t('newCaseButton') }}
                 </watt-button>
               </vater-stack>
-              <dh-actor-conversation-filter (filterChange)="filterChanged($event)" />
+              <dh-actor-conversation-filter
+                [canSearchForMeteringPointId]="meteringPointId() === undefined"
+                (filterChange)="filterChanged($event)"
+              />
             </vater-stack>
             <watt-separator weight="regular" />
           </vater-stack>

@@ -792,6 +792,7 @@
     "actorConversation": {
       "topBarTitle": "Actor Conversation",
       "searchPlaceholder": "Search for case-ID or internal note",
+      "searchPlaceholderWithMeteringPointId": "Search for case-ID, metering point ID or internal note",
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case",
