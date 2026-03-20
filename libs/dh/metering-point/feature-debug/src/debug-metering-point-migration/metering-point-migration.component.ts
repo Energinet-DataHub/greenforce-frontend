@@ -338,7 +338,10 @@ export class DhMeteringPointMigrationComponent {
   }
 
   onConfirmDelete(confirmed: boolean): void {
-    if (!confirmed) return;
+    if (!confirmed) {
+      this.deleteConfirmControl.reset();
+      return;
+    }
     this.deleteAllData.mutate();
     this.deleteConfirmControl.reset();
   }
