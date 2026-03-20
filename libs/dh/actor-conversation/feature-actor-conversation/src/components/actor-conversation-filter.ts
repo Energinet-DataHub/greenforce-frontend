@@ -22,7 +22,8 @@ import {
   computed,
   Component,
   ChangeDetectionStrategy,
-  effect, input,
+  effect,
+  input,
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
