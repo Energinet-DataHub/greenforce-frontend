@@ -33,7 +33,7 @@ import { GetMeteringPointNewConversationInfoDocument } from '@energinet-datahub/
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { dhMeteringPointIdValidator } from '@energinet-datahub/dh/metering-point/feature-search';
-import { MeteringPointInfo, ValidatedMeteringPointId } from '../types';
+import { ValidatedMeteringPointId } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-metering-point-search',

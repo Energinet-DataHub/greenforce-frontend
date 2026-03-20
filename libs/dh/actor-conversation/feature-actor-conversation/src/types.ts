@@ -19,7 +19,6 @@
 import {
   GetConversationDocument,
   GetConversationsDocument,
-  GetMeteringPointNewConversationInfoDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
@@ -29,10 +28,6 @@ export type ActorConversations = ResultOf<
 >['conversationsForMeteringPoint']['conversations'];
 
 export type ActorConversationDetail = ResultOf<typeof GetConversationDocument>['conversation'];
-
-export type MeteringPointInfo = ResultOf<
-  typeof GetMeteringPointNewConversationInfoDocument
->['meteringPoint'];
 
 export enum ActorConversationState {
   noConversations = 'noConversations',
