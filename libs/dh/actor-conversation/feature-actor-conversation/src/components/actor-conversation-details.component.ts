@@ -166,7 +166,10 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
                     [value]="conversation.internalNote"
                   />
                 </watt-description-list>
-                @if (meteringPointConversationInfo(); as meteringPointInfo) {
+                @if (
+                  meteringPointId() === undefined && meteringPointConversationInfo();
+                  as meteringPointInfo
+                ) {
                   <watt-description-list variant="inline-flow" *transloco="let tBase">
                     <watt-description-list-item
                       [label]="
@@ -199,7 +202,9 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
                       [value]="tBase('resolution.' + meteringPointInfo.metadata.resolution)"
                     />
                   </watt-description-list>
-                } @else {
+                } @else if (
+                  meteringPointId() === undefined && meteringPointConversationInfoQuery.loading()
+                ) {
                   <vater-stack direction="row" wrap align="start" class="wrap-gap">
                     <watt-skeleton width="400px" height="20px" />
                     <watt-skeleton width="200px" height="20px" />
@@ -284,6 +289,7 @@ export class DhActorConversationDetailsComponent {
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
   conversationId = input.required<string>();
+  meteringPointId = input<string | undefined>();
 
   conversationQuery = query(GetConversationDocument, () => ({
     variables: {
@@ -293,12 +299,14 @@ export class DhActorConversationDetailsComponent {
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
 
-  meteringPointId = computed(() => this.conversation()?.meteringPointIdentification);
+  meteringPointIdFromConversation = computed(
+    () => this.conversation()?.meteringPointIdentification
+  );
 
   meteringPointConversationInfoQuery = lazyQuery(GetMeteringPointConversationInfoDocument);
 
   private readonly fetchMeteringPointConversationInfo = effect(() => {
-    const meteringPointId = this.meteringPointId();
+    const meteringPointId = this.meteringPointIdFromConversation();
     if (!meteringPointId) return;
     this.meteringPointConversationInfoQuery.refetch({ meteringPointId });
   });

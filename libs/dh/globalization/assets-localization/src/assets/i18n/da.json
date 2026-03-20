@@ -792,6 +792,7 @@
     "actorConversation": {
       "topBarTitle": "Aktørdialog",
       "searchPlaceholder": "Søg på sags-ID eller intern note",
+      "searchPlaceholderWithMeteringPointId": "Søg på sags-ID, målepunkts-ID eller intern note",
       "cases": "Sager",
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag",
