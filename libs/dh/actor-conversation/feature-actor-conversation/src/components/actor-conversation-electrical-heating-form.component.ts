@@ -36,14 +36,14 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { skip } from 'rxjs';
 
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet/watt/description-list';
-import { WattDatePipe } from '@energinet/watt/date';
+import { WattDatePipe, wattFormatDate } from '@energinet/watt/date';
 import { ElectricalHeatingFormValue } from '../types';
 import { ElectricalHeatingInformation } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
@@ -67,6 +67,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattDatePipe,
+    VaterFlexComponent,
   ],
   styles: `
     h3 {
@@ -76,10 +77,14 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
     watt-datepicker {
       width: auto;
     }
+
+    .supplier-period {
+      display: block;
+    }
   `,
   template: `
     <vater-stack
-      gap="s"
+      gap="m"
       *transloco="let t; prefix: 'meteringPoint.actorConversation.electricalHeatingForm'"
       align="start"
     >
@@ -98,14 +103,13 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
           [label]="t('customer')"
           [value]="electricalHeatingInformation()?.customerName"
         />
-        <watt-description-list-item
-          [label]="t('supplierInPeriod')"
-          [value]="
-            (getFirstSupplierPeriodFromDate() | wattDate) +
-            ' - ' +
-            (getFirstSupplierPeriodToDate() | wattDate)
-          "
-        />
+        @if (supplierPeriods().length > 0) {
+          <watt-description-list-item [label]="t('supplierInPeriod')">
+            @for (period of supplierPeriods(); track $index) {
+              <span class="supplier-period">{{ period }}</span>
+            }
+          </watt-description-list-item>
+        }
       </watt-description-list>
 
       <watt-datepicker
@@ -114,10 +118,10 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
       />
 
       <span class="watt-label">{{ t('periodTitle') }}</span>
-      <vater-stack direction="row" gap="m">
+      <vater-flex direction="row" gap="m">
         <watt-datepicker [label]="t('periodStart')" [formControl]="form.controls.periodStart" />
         <watt-datepicker [label]="t('periodEnd')" [formControl]="form.controls.periodEnd" />
-      </vater-stack>
+      </vater-flex>
 
       <vater-stack gap="s" align="start">
         <watt-checkbox [formControl]="form.controls.attachedBbrNotification">
@@ -133,15 +137,14 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 export class DhActorConversationElectricalHeatingFormComponent implements ControlValueAccessor {
   private readonly cdr = inject(ChangeDetectorRef);
   electricalHeatingInformation = input<ElectricalHeatingInformation>();
-  getFirstSupplierPeriodFromDate = computed(() => {
+  supplierPeriods = computed(() => {
     const periods = this.electricalHeatingInformation()?.supplierPeriods;
-    if (!periods || periods.length === 0) return null;
-    return periods[0].from;
-  });
-  getFirstSupplierPeriodToDate = computed(() => {
-    const periods = this.electricalHeatingInformation()?.supplierPeriods;
-    if (!periods || periods.length === 0) return null;
-    return periods[0].to;
+    if (!periods || periods.length === 0) return [];
+    const now = new Date();
+    return periods.map((p) => {
+      const to = p.to && new Date(p.to) <= now ? p.to : null;
+      return wattFormatDate({ start: p.from, end: to }) ?? '';
+    });
   });
   form = new FormGroup({
     addressEligibilityDate: dhMakeFormControl<Date | null>(null, Validators.required),

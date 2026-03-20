@@ -868,7 +868,7 @@
         "currentElectricalHeatingStatus": "Nuværende elvarme status",
         "electricalHeatingDate": "Elvarme dato",
         "customer": "Kunde",
-        "supplierInPeriod": "Elleverandør i periode",
+        "supplierInPeriod": "Elleverandør i periode(r)",
         "addressEligibilityDate": "Adressens berettigelsesdato (jf. BBR)",
         "periodTitle": "Periode der søges reduceret elafgift for",
         "periodStart": "Start",

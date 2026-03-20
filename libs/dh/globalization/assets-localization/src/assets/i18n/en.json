@@ -868,7 +868,7 @@
         "currentElectricalHeatingStatus": "Current electrical heating status",
         "electricalHeatingDate": "Electrical heating date",
         "customer": "Customer",
-        "supplierInPeriod": "Energy supplier in period",
+        "supplierInPeriod": "Energy supplier in period(s)",
         "addressEligibilityDate": "Address eligibility date (cf. BBR)",
         "periodTitle": "Period for which reduced electricity tax is applied",
         "periodStart": "Start",
