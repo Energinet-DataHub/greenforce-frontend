@@ -27,6 +27,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattCardComponent } from '@energinet/watt/card';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WATT_MODAL } from '@energinet/watt/modal';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
 
 import { query, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -35,11 +36,13 @@ import {
   ReplayMigrationEventsDlqDocument,
   ClearMigrationEventsDlqDocument,
   SyncJobSetVersionDocument,
+  DeleteAllEventSourcingDataDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattFieldHintComponent } from '@energinet/watt/field';
 import { dayjs } from '@energinet/watt/date';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-metering-point-migration',
@@ -55,9 +58,16 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     WattDatepickerComponent,
     WattFieldHintComponent,
     WattHeadingComponent,
+    WattTextFieldComponent,
     DhPermissionRequiredDirective,
   ],
   styles: `
+    .danger-zone {
+      border: 2px solid var(--watt-color-state-danger);
+      padding: var(--watt-space-m);
+      border-radius: var(--watt-space-xs);
+    }
+
     .result-box {
       padding: var(--watt-space-m);
       background-color: var(--watt-color-neutral-grey-100);
@@ -179,6 +189,40 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
               </vater-flex>
             </watt-card>
           </vater-flex>
+
+          <watt-card>
+            <vater-flex direction="column" gap="m">
+              <h3 watt-heading>{{ t('dangerZone.title') }}</h3>
+
+              <vater-flex class="danger-zone" direction="column" gap="m">
+                <div>
+                  <strong>{{ t('dangerZone.warning') }}</strong>
+                  {{ t('dangerZone.warningMessage') }}
+                </div>
+
+                <watt-button
+                  variant="secondary"
+                  [loading]="deleteAllData.loading()"
+                  (click)="deleteModal.open()"
+                >
+                  {{ t('dangerZone.deleteButton') }}
+                </watt-button>
+
+                @if (deleteAllData.data(); as data) {
+                  <div class="result-box">
+                    <strong>{{ t('result') }}</strong>
+                    {{ data.deleteAllEventSourcingData.success ? t('success') : t('failed') }}
+                  </div>
+                }
+
+                @if (deleteAllData.error(); as error) {
+                  <div class="result-box">
+                    <strong>{{ t('error') }}</strong> {{ error.message }}
+                  </div>
+                }
+              </vater-flex>
+            </vater-flex>
+          </watt-card>
         </vater-flex>
       </div>
 
@@ -232,6 +276,31 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
           </watt-button>
         </watt-modal-actions>
       </watt-modal>
+
+      <watt-modal
+        #deleteModal
+        size="small"
+        [title]="t('dangerZone.modal.title')"
+        (closed)="onConfirmDelete($event)"
+      >
+        <vater-flex direction="column" gap="m">
+          <div>{{ t('dangerZone.modal.message') }}</div>
+          <div>{{ t('dangerZone.modal.instruction') }}</div>
+          <watt-text-field [formControl]="deleteConfirmControl" />
+        </vater-flex>
+        <watt-modal-actions>
+          <watt-button variant="secondary" (click)="deleteModal.close(false)">
+            {{ t('modal.cancel') }}
+          </watt-button>
+          <watt-button
+            variant="primary"
+            [disabled]="deleteConfirmControl.value !== t('dangerZone.modal.validation')"
+            (click)="deleteModal.close(true)"
+          >
+            {{ t('dangerZone.modal.confirmDelete') }}
+          </watt-button>
+        </watt-modal-actions>
+      </watt-modal>
     </ng-container>
   `,
 })
@@ -241,7 +310,9 @@ export class DhMeteringPointMigrationComponent {
   replayDlq = mutation(ReplayMigrationEventsDlqDocument);
   clearDlq = mutation(ClearMigrationEventsDlqDocument);
   syncJob = mutation(SyncJobSetVersionDocument);
+  deleteAllData = mutation(DeleteAllEventSourcingDataDocument);
   versionDateControl = new FormControl<Date | null>(dayjs().subtract(1, 'month').toDate());
+  deleteConfirmControl = dhMakeFormControl('');
 
   dlqResult = computed(() => {
     const replayResult = this.replayDlq.data()?.replayMigrationEventsDeadLetterQueue;
@@ -264,6 +335,12 @@ export class DhMeteringPointMigrationComponent {
     if (!confirmed) return;
     this.replayDlq.reset();
     this.clearDlq.mutate();
+  }
+
+  onConfirmDelete(confirmed: boolean): void {
+    if (!confirmed) return;
+    this.deleteAllData.mutate();
+    this.deleteConfirmControl.reset();
   }
 
   onSyncJobConfirm(confirmed: boolean): void {

@@ -3352,6 +3352,19 @@
           "message": "Er du sikker på, at du vil sætte starttidspunktet for migreringsjobbet?"
         }
       },
+      "dangerZone": {
+        "title": "Farezone",
+        "warning": "Advarsel:",
+        "warningMessage": "Denne handling vil slette ALLE event sourcing data. Dette kan ikke fortrydes!",
+        "deleteButton": "Slet alle event sourcing data",
+        "modal": {
+          "title": "Slet alle event sourcing data",
+          "message": "Denne handling vil permanent slette ALLE event sourcing data. Dette kan ikke fortrydes!",
+          "validation": "JEG VIL SLETTE ALLE DATA",
+          "instruction": "For at bekræfte, skriv JEG VIL SLETTE ALLE DATA nedenfor:",
+          "confirmDelete": "Slet alle data"
+        }
+      },
       "modal": {
         "cancel": "Annuller",
         "confirm": "Bekræft"
@@ -3378,17 +3391,7 @@
         }
       },
       "dangerZone": {
-        "title": "Farezone",
-        "warning": "Advarsel:",
-        "warningMessage": "Denne handling vil slette ALLE event sourcing data. Dette kan ikke fortrydes!",
-        "deleteButton": "Slet alle event sourcing data",
-        "modal": {
-          "title": "Slet alle event sourcing data",
-          "message": "Denne handling vil permanent slette ALLE event sourcing data. Dette kan ikke fortrydes!",
-          "validation": "JEG VIL SLETTE ALLE DATA",
-          "instruction": "For at bekræfte, skriv JEG VIL SLETTE ALLE DATA nedenfor:",
-          "confirmDelete": "Slet alle data"
-        }
+        "title": "Farezone"
       },
       "modal": {
         "cancel": "Annuller",

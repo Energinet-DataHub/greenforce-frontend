@@ -3352,6 +3352,19 @@
           "message": "Are you sure you want to set the start time for the migration job?"
         }
       },
+      "dangerZone": {
+        "title": "Danger Zone",
+        "warning": "Warning:",
+        "warningMessage": "This action will delete ALL event sourcing data. This cannot be undone!",
+        "deleteButton": "Delete All Event Sourcing Data",
+        "modal": {
+          "title": "Delete All Event Sourcing Data",
+          "message": "This action will permanently delete ALL event sourcing data. This cannot be undone!",
+          "validation": "I WANT TO DELETE ALL DATA",
+          "instruction": "To confirm, type I WANT TO DELETE ALL DATA below:",
+          "confirmDelete": "Delete All Data"
+        }
+      },
       "modal": {
         "cancel": "Cancel",
         "confirm": "Confirm"
@@ -3378,17 +3391,7 @@
         }
       },
       "dangerZone": {
-        "title": "Danger Zone",
-        "warning": "Warning:",
-        "warningMessage": "This action will delete ALL event sourcing data. This cannot be undone!",
-        "deleteButton": "Delete All Event Sourcing Data",
-        "modal": {
-          "title": "Delete All Event Sourcing Data",
-          "message": "This action will permanently delete ALL event sourcing data. This cannot be undone!",
-          "validation": "I WANT TO DELETE ALL DATA",
-          "instruction": "To confirm, type I WANT TO DELETE ALL DATA below:",
-          "confirmDelete": "Delete All Data"
-        }
+        "title": "Danger Zone"
       },
       "modal": {
         "cancel": "Cancel",
