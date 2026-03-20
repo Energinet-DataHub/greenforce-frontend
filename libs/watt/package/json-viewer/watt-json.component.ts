@@ -74,6 +74,7 @@ export type TreeState = {
             [isSame]="isSame()"
             [expanded]="expanded()"
             [value]="baseline()"
+            [diff]="diff()"
           />
         }
         <watt-json-row
@@ -82,6 +83,7 @@ export type TreeState = {
           [isSame]="isSame()"
           [expanded]="expanded()"
           [value]="json()"
+          [diff]="diff()"
         />
       </vater-flex>
     }
