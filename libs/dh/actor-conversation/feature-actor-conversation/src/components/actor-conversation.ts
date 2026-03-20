@@ -186,6 +186,7 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
                   vater
                   fill="both"
                   [conversationId]="conversationId"
+                  [meteringPointId]="meteringPointId()"
                 />
               } @else {
                 <watt-spinner vater center />
