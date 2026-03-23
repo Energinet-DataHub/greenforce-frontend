@@ -16,10 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import '@analogjs/vitest-angular/setup-zone';
-import '@angular/compiler';
-import '@testing-library/jest-dom/vitest';
+import { Routes } from '@angular/router';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
-
-setUpTestbed();
+export const dhMessageArchiveShellRoutes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./components/page.component'),
+    pathMatch: 'full',
+    data: {
+      titleTranslationKey: 'messageArchive.topBarTitle',
+    },
+  },
+];

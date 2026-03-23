@@ -26,12 +26,12 @@ import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { VaterStackComponent } from '@energinet/watt/vater';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
-import { DhMessageArchiveSearchFormService } from './form.service';
+import { DhMessageArchiveSearchFormService } from '../form.service';
 import {
   DocumentType,
   GetArchivedMessagesQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { getDocumentTypeIdentifier } from '@energinet-datahub/dh/message-archive/domain';
+import { getDocumentTypeIdentifier } from '../types';
 
 @Component({
   selector: 'dh-message-archive-search-filters',
