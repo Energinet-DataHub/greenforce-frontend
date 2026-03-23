@@ -25,7 +25,6 @@ import {
   GetFilteredUserRolesQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhUserRole } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhRoleStatusComponent } from '@energinet-datahub/dh/admin/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -45,6 +44,7 @@ import { DhUserRolesFilterComponent } from './filter.component';
 import { DhUserRolesDownloadComponent } from './download.component';
 import { WattModalService } from '@energinet/watt/modal';
 import { DhCreateUserRoleComponent } from './create.component';
+import { DhUserRole } from './types';
 
 type Variables = Partial<GetFilteredUserRolesQueryVariables>;
 

@@ -34,8 +34,8 @@ import {
   WattTableDataSource,
 } from '@energinet/watt/table';
 
-import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
 import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { UserRoleItem } from '../types';
 
 @Component({
   selector: 'dh-assignable-user-roles',
