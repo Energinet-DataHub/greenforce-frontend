@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, viewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
+import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
@@ -105,7 +105,7 @@ export interface RejectProcessResult {
       </form>
 
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(false)">
+        <watt-button variant="secondary" (click)="cancel()">
           {{ t('cancel') }}
         </watt-button>
 
@@ -119,7 +119,6 @@ export interface RejectProcessResult {
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhRejectProcessModal extends WattTypedModal<RejectProcessModalData> {
   private readonly fb = inject(NonNullableFormBuilder);
-  readonly modal = viewChild.required<WattModalComponent>('modal');
 
   readonly reasonCodeOptions = dhEnumToWattDropdownOptions(ReasonCodeV1);
 
@@ -127,6 +126,10 @@ export class DhRejectProcessModal extends WattTypedModal<RejectProcessModalData>
     reasonCode: this.fb.control<ReasonCodeV1 | null>(null, Validators.required),
     description: this.fb.control<string | null>(null),
   });
+
+  cancel() {
+    this.dialogRef.close();
+  }
 
   submit() {
     if (this.form.invalid) return;

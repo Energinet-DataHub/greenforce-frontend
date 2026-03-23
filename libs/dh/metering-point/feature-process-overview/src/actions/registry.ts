@@ -57,12 +57,9 @@ export class DhActionsRegistry {
   private hasRequiredMarketRole(handler: ActionHandler): boolean {
     if (!handler.marketRoles?.length) return true;
     return handler.marketRoles.some((role) => {
-      switch (role) {
-        case EicFunction.GridAccessProvider:
-          return this.isGridAccessProvider();
-        default:
-          return false;
-      }
+      if (role === EicFunction.GridAccessProvider) return this.isGridAccessProvider();
+      console.error('[DhActionsRegistry] Unsupported market role:', role);
+      return false;
     });
   }
 
