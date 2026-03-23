@@ -40,7 +40,7 @@ import { GetUsersDataSource } from '@energinet-datahub/dh/shared/domain/graphql/
 import { DhUserLatestLoginComponent } from '../user-latest-login.component';
 import { DhUsersOverviewFiltersComponent } from '../filters/filters.component';
 import { DhDownloadUsersCsvComponent } from './download-users-csv.component';
-import { DhUser } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhUser } from '../types';
 
 type Variables = Partial<GetUsersQueryVariables>;
 

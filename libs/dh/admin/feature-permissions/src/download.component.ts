@@ -38,9 +38,9 @@ import { translate, TranslocoPipe } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet/watt/vater';
 
-import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { Permission } from './types';
 
 @Component({
   selector: 'dh-permissions-download',
