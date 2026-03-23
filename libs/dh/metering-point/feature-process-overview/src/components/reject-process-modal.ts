@@ -85,11 +85,7 @@ export interface RejectProcessResult {
         </div>
       </vater-stack>
 
-      <form
-        id="reject-process-form"
-        [formGroup]="form"
-        (ngSubmit)="submit()"
-      >
+      <form id="reject-process-form" [formGroup]="form" (ngSubmit)="submit()">
         <vater-stack direction="column" gap="m">
           <watt-dropdown
             dhDropdownTranslator

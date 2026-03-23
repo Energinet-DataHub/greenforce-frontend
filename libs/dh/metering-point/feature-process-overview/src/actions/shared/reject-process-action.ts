@@ -23,10 +23,7 @@ import { TranslocoService } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet/watt/toast';
 
-import {
-  DhRejectProcessModal,
-  RejectProcessResult,
-} from '../../components/reject-process-modal';
+import { DhRejectProcessModal, RejectProcessResult } from '../../components/reject-process-modal';
 import { ProcessActionContext } from '../context';
 
 /**
