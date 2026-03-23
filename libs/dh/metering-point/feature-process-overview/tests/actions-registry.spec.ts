@@ -18,12 +18,15 @@
 //#endregion
 import { TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
+import { of } from 'rxjs';
 
 import {
+  EicFunction,
   ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhActionsRegistry, ActionHandlerMap } from '../src/actions/registry';
 import { EndOfSupplyActions } from '../src/actions/end-of-supply/end-of-supply';
@@ -50,12 +53,14 @@ describe('DhActionsRegistry', () => {
   function setupRegistry(
     options: {
       featureFlagsEnabled?: boolean;
+      isGridAccessProvider?: boolean;
       endOfSupplyHandlers?: ActionHandlerMap;
       customerMoveInHandlers?: ActionHandlerMap;
     } = {}
   ) {
     const {
       featureFlagsEnabled = true,
+      isGridAccessProvider = true,
       endOfSupplyHandlers = {
         [WorkflowAction.CancelWorkflow]: {
           featureFlag: 'end-of-supply',
@@ -74,6 +79,13 @@ describe('DhActionsRegistry', () => {
         {
           provide: DhFeatureFlagsService,
           useValue: { isEnabled: () => featureFlagsEnabled },
+        },
+        {
+          provide: PermissionService,
+          useValue: {
+            hasMarketRole: (role: EicFunction) =>
+              of(role === EicFunction.GridAccessProvider ? isGridAccessProvider : false),
+          },
         },
         {
           provide: EndOfSupplyActions,

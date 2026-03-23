@@ -152,6 +152,7 @@ export class DhMeteringPointProcessOverviewDetails {
       meteringPointId: this.meteringPointId(),
       internalMeteringPointId: '',
       processId: this.id(),
+      cutoffDate: this.cutoffDate(),
       onSuccess: () => this.navigation.navigate('list'),
     });
   }

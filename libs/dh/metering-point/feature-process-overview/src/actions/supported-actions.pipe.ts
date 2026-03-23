@@ -25,7 +25,7 @@ import {
 
 import { DhActionsRegistry } from './registry';
 
-@Pipe({ name: 'supportedActions' })
+@Pipe({ name: 'supportedActions', pure: false })
 export class SupportedActionsPipe implements PipeTransform {
   private readonly registry = inject(DhActionsRegistry);
 

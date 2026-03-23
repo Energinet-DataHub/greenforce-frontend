@@ -213,7 +213,7 @@ function getMeteringPointProcessOverview() {
       createdAt: new Date('2025-02-15T10:00:00Z'),
       cutoffDate: new Date('2025-02-20T10:00:00Z'),
       state: MeteringPointProcessState.Running,
-      availableActions: [WorkflowAction.CancelWorkflow, WorkflowAction.SendInformation],
+      availableActions: [WorkflowAction.CancelWorkflow, WorkflowAction.ConfirmWorkflow],
       initiator: {
         __typename: 'MarketParticipant' as const,
         ...initiators[0],
@@ -269,7 +269,7 @@ function getAvailableActions(
   ];
   if (terminalStates.includes(state)) return [];
   if (businessReason === ProcessManagerBusinessReason.EndOfSupply)
-    return [WorkflowAction.CancelWorkflow];
+    return [WorkflowAction.CancelWorkflow, WorkflowAction.ConfirmWorkflow];
   if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
     return [WorkflowAction.SendInformation];
   return [];

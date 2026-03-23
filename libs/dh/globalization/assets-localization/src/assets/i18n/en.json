@@ -1047,7 +1047,9 @@
         "SEND_INFORMATION": "Send information",
         "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information",
         "CANCEL_WORKFLOW": "Cancel",
-        "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
+        "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow",
+        "CONFIRM_WORKFLOW": "Request disconnection",
+        "FAS_CONFIRM_WORKFLOW": "Grid operator can request disconnection"
       },
       "cancelProcess": {
         "title": "Cancel {{processType}}",
@@ -1057,6 +1059,15 @@
         "loadingToast": "Submitting cancellation of {{processType}}...",
         "successToast": "Cancellation of {{processType}} submitted",
         "errorToast": "Cancellation of {{processType}} failed"
+      },
+      "disconnectProcess": {
+        "title": "Request disconnection",
+        "validityDateLabel": "Validity date",
+        "electricalHeatingWarning": "Please note that if there is electrical heating on the metering point, it will take an additional 2 days before DataHub carries out the disconnection.",
+        "cancel": "Cancel",
+        "confirm": "Request disconnection",
+        "successToast": "Request to disconnect metering point submitted",
+        "errorToast": "Request to disconnect metering point failed"
       },
       "processTypeName": {
         "EndOfSupply": "end of supply"
