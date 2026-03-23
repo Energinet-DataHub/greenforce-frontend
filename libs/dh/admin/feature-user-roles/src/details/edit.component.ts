@@ -48,10 +48,10 @@ import {
   readApiErrorResponse,
 } from '@energinet-datahub/dh/market-participant/domain';
 
-import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { GraphQLFormattedError } from 'graphql';
+import { DhUserRoleWithPermissions } from '../types';
 
 @Component({
   selector: 'dh-edit-user-role',

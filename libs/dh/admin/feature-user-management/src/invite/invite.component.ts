@@ -43,7 +43,6 @@ import { WATT_STEPPER } from '@energinet/watt/stepper';
 import { WattValidationMessageComponent } from '@energinet/watt/validation-message';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
-import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
 import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
@@ -61,6 +60,7 @@ import {
 
 import { DhAssignableUserRolesComponent } from './assignable-user-roles.component';
 import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './invite.validators';
+import { UserRoleItem } from '../types';
 
 @Component({
   selector: 'dh-invite-user',
