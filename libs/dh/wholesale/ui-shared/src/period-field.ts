@@ -28,6 +28,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { skip } from 'rxjs';
 
 import {
+  CalculationExecutionType,
   PeriodInput,
   RequestCalculationType,
   StartCalculationType,
@@ -103,6 +104,7 @@ import { NgTemplateOutlet } from '@angular/common';
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhCalculationsPeriodField implements ControlValueAccessor {
   calculationType = input.required<StartCalculationType | RequestCalculationType>();
+  executionType = input<CalculationExecutionType | null>(null);
   min = input<Date>();
   max = input<Date>();
   pending = input(false);
@@ -117,6 +119,7 @@ export class DhCalculationsPeriodField implements ControlValueAccessor {
   periodChange = toObservable(
     computed<PeriodInput | null>(() => {
       // dependencies
+      this.executionType(); // emit new value when executionType changes
       this.calculationType(); // emit new value when calculationType changes
       const value = this.value(); // or when value changes
       const monthOnly = this.monthOnly();
