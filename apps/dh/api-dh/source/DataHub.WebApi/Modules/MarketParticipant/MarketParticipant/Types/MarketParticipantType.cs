@@ -114,7 +114,6 @@ public static partial class MarketParticipantType
         [Service] IHttpContextAccessor httpContextAccessor) => actorDto switch
         {
             null => string.Empty,
-            var actor when string.IsNullOrWhiteSpace(actor.MarketRole.EicFunction.ToString()) => $"{actor.ActorNumber.Value} • {actor.Name.Value}",
             var actor => $"{actor.ActorNumber.Value} • {actor.Name.Value} ({TranslateMarketRole(actor.MarketRole.EicFunction, httpContextAccessor)})",
         };
 

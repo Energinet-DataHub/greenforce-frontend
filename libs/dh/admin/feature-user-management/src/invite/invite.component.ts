@@ -30,7 +30,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
-import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { GraphQLFormattedError } from 'graphql';
 
 import { WattToastService } from '@energinet/watt/toast';
