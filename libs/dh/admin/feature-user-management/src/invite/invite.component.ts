@@ -113,8 +113,7 @@ export class DhInviteUserComponent extends WattTypedModal {
 
   actorOptions = computed<WattDropdownOptions>(() =>
     this.actors().map((actor) => ({
-      displayValue:
-        actor.name + ' (' + translate(`marketParticipant.marketRoles.${actor.marketRole}`) + ')',
+      displayValue: actor.displayName,
       value: actor.id,
     }))
   );

@@ -68,7 +68,7 @@ export function dhGroupByMarketParticipant(
       } else {
         marketParticipants.push({
           id: relation[propertyToGroupBy]?.id ?? '',
-          displayName: relation[propertyToGroupBy]?.actorName.value ?? '',
+          displayName: relation[propertyToGroupBy]?.displayName ?? '',
           relations: [relation],
           allRelationsHaveExpired: false,
         });

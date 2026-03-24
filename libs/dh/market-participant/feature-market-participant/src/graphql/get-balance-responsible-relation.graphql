@@ -12,15 +12,11 @@ query GetBalanceResponsibleRelation($id: UUID!) {
       meteringPointType
       balanceResponsibleWithName {
         id
-        actorName {
-          value
-        }
+        displayName
       }
       energySupplierWithName {
         id
-        actorName {
-          value
-        }
+        displayName
       }
     }
   }

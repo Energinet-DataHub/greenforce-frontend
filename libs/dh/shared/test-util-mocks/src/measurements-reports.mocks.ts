@@ -47,7 +47,7 @@ function getMeasurementsReports(apiBase: string) {
             actor: {
               __typename: 'MarketParticipant',
               id: '1',
-              name: 'Test Actor',
+              displayName: 'Test Actor',
             },
             meteringPointTypes: [MeasurementsReportMeteringPointType.Consumption],
             meteringPointIds: null,
@@ -66,7 +66,7 @@ function getMeasurementsReports(apiBase: string) {
             actor: {
               __typename: 'MarketParticipant',
               id: '1',
-              name: 'Test Actor',
+              displayName: 'Test Actor',
             },
             meteringPointTypes: [
               MeasurementsReportMeteringPointType.Consumption,
@@ -90,7 +90,7 @@ function getMeasurementsReports(apiBase: string) {
             actor: {
               __typename: 'MarketParticipant',
               id: '2',
-              name: 'Test Actor 2',
+              displayName: 'Test Actor 2',
             },
             meteringPointTypes: [
               MeasurementsReportMeteringPointType.Consumption,

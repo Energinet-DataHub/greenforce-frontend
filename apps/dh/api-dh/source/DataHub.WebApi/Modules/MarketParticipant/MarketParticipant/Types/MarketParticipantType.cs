@@ -111,8 +111,15 @@ public static partial class MarketParticipantType
         [Parent] ActorDto actorDto) => actorDto switch
         {
             null => string.Empty,
-            var actor when string.IsNullOrWhiteSpace(actor.MarketRole.EicFunction.ToString()) => actor.Name.Value,
-            var actor => $"{actor.MarketRole.EicFunction} • {actor.Name.Value}",
+            var actor when string.IsNullOrWhiteSpace(actor.MarketRole.EicFunction.ToString()) => $"{actor.ActorNumber.Value} • {actor.Name.Value}",
+            var actor => $"{actor.ActorNumber.Value} • {actor.Name.Value} ({actor.MarketRole.EicFunction})",
+        };
+
+    public static string DisplayNameWithoutMarketRole(
+        [Parent] ActorDto actorDto) => actorDto switch
+        {
+            null => string.Empty,
+            var actor => $"{actor.ActorNumber.Value} • {actor.Name.Value}",
         };
 
     public static async Task<ICollection<string>> AdditionalRecipientForMeasurementsAsync(

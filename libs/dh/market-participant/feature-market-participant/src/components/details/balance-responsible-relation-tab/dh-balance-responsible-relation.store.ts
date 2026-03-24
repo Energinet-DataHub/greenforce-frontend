@@ -124,9 +124,9 @@ export class DhBalanceResponsibleRelationsStore {
       .mapLines((relations) =>
         relations.map((balanceResponsibleRelation) => [
           `"${balanceResponsibleRelation.balanceResponsibleWithName?.id ?? ''}"`,
-          `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
+          `"${balanceResponsibleRelation.balanceResponsibleWithName?.displayName ?? ''}"`,
           `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
-          `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
+          `"${balanceResponsibleRelation.energySupplierWithName?.displayName ?? ''}"`,
           `"${balanceResponsibleRelation.gridArea?.code ?? ''}"`,
           `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
           `"${balanceResponsibleRelation.status}"`,
@@ -157,7 +157,7 @@ const applySearch = (
 
   if (
     actor?.marketRole === EicFunction.EnergySupplier &&
-    balanceResponsibleWithName?.actorName.value
+    balanceResponsibleWithName?.displayName
       ?.toLocaleLowerCase()
       .includes(search.toLocaleLowerCase())
   ) {
@@ -166,8 +166,6 @@ const applySearch = (
 
   return (
     actor?.marketRole === EicFunction.BalanceResponsibleParty &&
-    energySupplierWithName?.actorName.value
-      ?.toLocaleLowerCase()
-      .includes(search.toLocaleLowerCase())
+    energySupplierWithName?.displayName?.toLocaleLowerCase().includes(search.toLocaleLowerCase())
   );
 };

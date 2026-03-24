@@ -62,6 +62,7 @@ const actor: MarketParticipant = {
   __typename: 'MarketParticipant',
   id: '2',
   displayName: 'Jane Smith • 9876543210987 • DataHubAdministrator',
+  displayNameWithoutMarketRole: 'Jane Smith • 9876543210987',
   glnOrEicNumber: '9876543210987',
   gridAreas: [
     {
@@ -180,6 +181,7 @@ export const users: UserOverviewItemDto[] = [
         __typename: 'MarketParticipant',
         id: '3',
         displayName: 'Alice Johnson • 1122334455667 • BalanceResponsibleParty',
+        displayNameWithoutMarketRole: 'Alice Johnson • 1122334455667',
         glnOrEicNumber: '1122334455667',
         delegations: [],
         gridAreas: [
@@ -265,6 +267,7 @@ export const users: UserOverviewItemDto[] = [
         __typename: 'MarketParticipant',
         id: '4',
         displayName: 'Bob Brown • 2233445566778 • BalanceResponsibleParty',
+        displayNameWithoutMarketRole: 'Bob Brown • 2233445566778',
         glnOrEicNumber: '2233445566778',
         delegations: [],
         gridAreas: [
@@ -350,6 +353,7 @@ export const users: UserOverviewItemDto[] = [
         __typename: 'MarketParticipant',
         id: '5',
         displayName: 'Charlie Davis • 3344556677889 • BalanceResponsibleParty',
+        displayNameWithoutMarketRole: 'Charlie Davis • 3344556677889',
         glnOrEicNumber: '3344556677889',
         delegations: [],
         gridAreas: [
@@ -435,6 +439,7 @@ export const users: UserOverviewItemDto[] = [
         __typename: 'MarketParticipant',
         id: '6',
         displayName: 'Diana Evans • 4455667788990 • BalanceResponsibleParty',
+        displayNameWithoutMarketRole: 'Diana Evans • 4455667788990',
         glnOrEicNumber: '4455667788990',
         delegations: [],
         gridAreas: [

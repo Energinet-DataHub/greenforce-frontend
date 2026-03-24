@@ -46,26 +46,26 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns.electricitySupplier; let message">
-      @if (message.energySupplierName) {
-        {{ message.supplier }} • {{ message.energySupplierName }}
+      @if (message.energySupplierName?.displayName) {
+        {{ message.energySupplierName?.displayName }}
       } @else {
         <watt-badge type="danger">{{ message.supplier }}</watt-badge>
       }
     </ng-container>
 
     <ng-container *wattTableCell="columns.balanceResponsible; let message">
-      @if (message.balanceResponsibleName) {
-        {{ message.balanceResponsible }} • {{ message.balanceResponsibleName }}
+      @if (message.balanceResponsibleName?.displayName) {
+        {{ message.balanceResponsibleName?.displayName }}
       } @else {
         <watt-badge type="danger">{{ message.balanceResponsible }}</watt-badge>
       }
     </ng-container>
 
     <ng-container *wattTableCell="columns.gridArea; let message">
-      @if (message.gridArea) {
-        {{ message.gridArea.code }} • {{ message.gridArea.name }}
+      @if (message.gridArea?.displayName) {
+        {{ message.gridArea?.displayName }}
       } @else {
-        <watt-badge type="danger">{{ message.gridArea }}</watt-badge>
+        <watt-badge type="danger">{{ message.gridArea?.id }}</watt-badge>
       }
     </ng-container>
 

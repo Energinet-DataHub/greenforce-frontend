@@ -99,7 +99,7 @@ export class DhGridAreasComponent {
   navigation = inject(DhNavigationService);
   columns: WattTableColumnDef<GridArea> = {
     code: { accessor: 'code' },
-    actor: { accessor: 'actor' },
+    owner: { accessor: (gridArea) => gridArea.owner?.displayName ?? '' },
     organization: { accessor: 'organizationName' },
     priceArea: { accessor: 'priceAreaCode' },
     type: { accessor: 'type' },
@@ -148,7 +148,7 @@ export class DhGridAreasComponent {
       .mapLines((gridAreas) =>
         gridAreas.map((gridArea) => [
           `"${gridArea.code}"`,
-          `"${gridArea.actor}"`,
+          `"${gridArea.owner?.displayName ?? ''}"`,
           `"${gridArea.organizationName}"`,
           `"${gridArea.priceAreaCode}"`,
           `"${translate(typesPath + '.' + gridArea.type)}"`,

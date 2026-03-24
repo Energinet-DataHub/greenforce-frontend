@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.RequirementSpecificationMapping.RSM004.V2;
+
 namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 public partial class GridAreaDto : IGridArea

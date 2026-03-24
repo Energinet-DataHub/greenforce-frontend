@@ -67,8 +67,8 @@ limitations under the License.
       {{ gridArea.code }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns.actor; let gridArea">
-      {{ gridArea.actor }}
+    <ng-container *wattTableCell="columns.owner; let gridArea">
+      {{ gridArea.owner?.displayName }}
     </ng-container>
 
     <ng-container *wattTableCell="columns.organizationName; let gridArea">

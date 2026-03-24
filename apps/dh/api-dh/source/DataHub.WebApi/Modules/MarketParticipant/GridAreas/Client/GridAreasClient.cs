@@ -43,18 +43,16 @@ public class GridAreasClient(
                     actor.MarketRole.EicFunction == EicFunction.GridAccessProvider &&
                     actor.MarketRole.GridAreas.Any(ga => ga.Id == gridArea.Id));
 
-                return owner == null
-                    ? gridArea
-                    : new GridAreaDto
-                    {
-                        Id = gridArea.Id,
-                        Code = gridArea.Code,
-                        Name = owner.Name.Value,
-                        PriceAreaCode = gridArea.PriceAreaCode,
-                        ValidFrom = gridArea.ValidFrom,
-                        ValidTo = gridArea.ValidTo,
-                        Type = gridArea.Type,
-                    };
+                return new GridAreaDto()
+                {
+                    Id = gridArea.Id,
+                    Code = gridArea.Code,
+                    Name = gridArea.Name,
+                    PriceAreaCode = gridArea.PriceAreaCode,
+                    ValidFrom = gridArea.ValidFrom,
+                    ValidTo = gridArea.ValidTo,
+                    Type = gridArea.Type,
+                };
             });
     }
 

@@ -2215,7 +2215,7 @@
       "fileName": "DataHub netområder - {{ shared.downloadNameParams }}",
       "columns": {
         "code": "Netområde",
-        "actor": "Netvirksomhed",
+        "owner": "Netvirksomhed",
         "organization": "Organisation",
         "status": "Status",
         "type": "Type",

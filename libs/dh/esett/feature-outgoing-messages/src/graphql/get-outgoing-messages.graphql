@@ -32,7 +32,8 @@ query GetOutgoingMessages(
       documentId
       actorNumber
       energySupplier {
-        value
+        id
+        displayName
       }
       calculationType
       timeSeriesType

@@ -16,7 +16,7 @@ query GetMeteringPointProcessById($id: String!) {
 
       actor {
         id
-        name
+        displayName
       }
       state
       documentUrl
