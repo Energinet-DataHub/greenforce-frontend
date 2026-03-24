@@ -20,5 +20,6 @@ export interface ProcessActionContext {
   meteringPointId: string;
   internalMeteringPointId: string;
   processId: string;
+  cutoffDate?: Date | null;
   onSuccess?: () => void;
 }
