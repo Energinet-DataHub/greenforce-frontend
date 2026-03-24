@@ -68,7 +68,7 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns.owner; let gridArea">
-      {{ gridArea.owner?.displayName }}
+      {{ gridArea.owner?.displayNameWithoutMarketRole }}
     </ng-container>
 
     <ng-container *wattTableCell="columns.organizationName; let gridArea">

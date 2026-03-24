@@ -37,7 +37,7 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
         owner: {
           __typename: 'MarketParticipant',
           id: '3',
-          displayName: 'Actor 3',
+          displayNameWithoutMarketRole: 'Actor 3',
         },
         organizationName: 'Org 3',
         validFrom: new Date('2023-12-31T23:00:00.000Z'),
@@ -55,7 +55,7 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
         owner: {
           __typename: 'MarketParticipant',
           id: '1',
-          displayName: 'Actor 1',
+          displayNameWithoutMarketRole: 'Actor 1',
         },
         organizationName: 'Org 1',
         validFrom: new Date('2021-08-17T12:30:00'),
@@ -73,7 +73,7 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
         owner: {
           __typename: 'MarketParticipant',
           id: '2',
-          displayName: 'Actor 2',
+          displayNameWithoutMarketRole: 'Actor 2',
         },
         organizationName: 'Org 2',
         validFrom: new Date('2021-08-14T12:30:00'),
@@ -91,7 +91,7 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
         owner: {
           __typename: 'MarketParticipant',
           id: '4',
-          displayName: 'Actor 4',
+          displayNameWithoutMarketRole: 'Actor 4',
         },
         organizationName: 'Org 4',
         validFrom: new Date('2021-08-15T12:30:00'),
@@ -109,7 +109,7 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
         owner: {
           __typename: 'MarketParticipant',
           id: '5',
-          displayName: 'Actor 5',
+          displayNameWithoutMarketRole: 'Actor 5',
         },
         organizationName: 'Org 5',
         validFrom: new Date('2021-08-17T12:30:00'),
@@ -127,7 +127,7 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
         owner: {
           __typename: 'MarketParticipant',
           id: '6',
-          displayName: 'Actor 6',
+          displayNameWithoutMarketRole: 'Actor 6',
         },
         organizationName: 'Org 6',
         validFrom: new Date('2021-08-19T12:30:00'),
