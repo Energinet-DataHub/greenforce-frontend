@@ -137,6 +137,9 @@ function normalizeEm1(value: unknown): unknown {
         result[key] = Number(child);
       } else if (key === 'settlementGroup' && typeof child === 'number') {
         result[key] = settlementGroupMapping[child];
+      } else if (key === 'energySupplierPeriods' && Array.isArray(child)) {
+        const sorted = child.toSorted((a, b) => String(a?.validFrom).localeCompare(b?.validFrom));
+        result[key] = normalizeEm1(sorted);
       } else {
         result[key] = normalizeEm1(child);
       }
