@@ -313,9 +313,9 @@ type Charge {
 
 type ChargeLink {
   history: [ChargeLinkHistory!]!
-  charge: Charge
+  charge: Charge!
   amount: Int!
-  period: ChargeLinkPeriod
+  period: ChargeLinkPeriod!
   id: String!
 }
 
