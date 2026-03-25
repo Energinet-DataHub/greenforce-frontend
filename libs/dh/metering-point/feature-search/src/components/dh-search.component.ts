@@ -40,8 +40,8 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component';
+import { dhMeteringPointIdValidator } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-search',
