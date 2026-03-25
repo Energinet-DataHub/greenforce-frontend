@@ -78,10 +78,7 @@ public static partial class MeteringPointNode
         FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.ClosedDown);
 
     public static DateTimeOffset? DisconnectedDate([Parent] MeteringPointDto meteringPoint) =>
-        meteringPoint.MetadataTimeline
-            .Where(mp => mp.ConnectionState == ConnectionState.Disconnected)
-            .OrderByDescending(mp => mp.ValidFrom)
-            .FirstOrDefault()?.ValidFrom;
+        FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.Disconnected, latest: true);
 
     #endregion
 
@@ -438,12 +435,12 @@ public static partial class MeteringPointNode
         return findWhenHeatingChanged.LastOrDefault();
     }
 
-    private static DateTimeOffset? FindConnectionStateDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods, ConnectionState connectionState)
+    private static DateTimeOffset? FindConnectionStateDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods, ConnectionState connectionState, bool latest = false)
     {
-        return meteringPointPeriods
-            .Where(mp => mp.ConnectionState == connectionState)
-            .OrderBy(mp => mp.ValidFrom)
-            .FirstOrDefault()?.ValidFrom;
+        var filtered = meteringPointPeriods.Where(mp => mp.ConnectionState == connectionState);
+        return latest
+            ? filtered.MaxBy(mp => mp.ValidFrom)?.ValidFrom
+            : filtered.OrderBy(mp => mp.ValidFrom).FirstOrDefault()?.ValidFrom;
     }
 
     private static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
