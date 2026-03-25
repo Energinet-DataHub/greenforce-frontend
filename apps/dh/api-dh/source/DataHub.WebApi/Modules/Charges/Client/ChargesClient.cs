@@ -19,6 +19,7 @@ using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using NodaTime;
@@ -31,7 +32,8 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 public class ChargesClient(
     DataHub.Charges.Client.IChargesClient client,
     IB2CClient ediClient,
-    IHttpContextAccessor httpContext) : IChargesClient
+    IHttpContextAccessor httpContext,
+    ISystemOperatorService systemOperatorService) : IChargesClient
 {
     public async Task<IEnumerable<Charge>> GetChargesAsync(
         string? filter,
@@ -105,8 +107,20 @@ public class ChargesClient(
 
     public async Task<IEnumerable<Charge>> GetChargesByTypeAsync(ChargeType type, CancellationToken ct = default)
     {
-        var owner = httpContext?.HttpContext?.User?.GetMarketParticipantNumber();
-        ArgumentNullException.ThrowIfNull(owner);
+        var user = httpContext?.HttpContext?.User;
+        ArgumentNullException.ThrowIfNull(user);
+
+        var marketRole = user.GetMarketParticipantMarketRole();
+        string owner;
+
+        if (marketRole == nameof(EicFunction.EnergySupplier))
+        {
+            owner = await systemOperatorService.GetSystemOperatorActorNumberAsync(ct).ConfigureAwait(false);
+        }
+        else
+        {
+            owner = user.GetMarketParticipantNumber();
+        }
 
         var result = await client.GetChargeInformationAsync(
             new(0, 10_000, new(string.Empty, [owner], [type.Type]), ChargeInformationSortProperty.Type, false),

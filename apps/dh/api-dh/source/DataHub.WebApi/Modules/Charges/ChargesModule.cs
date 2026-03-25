@@ -27,6 +27,8 @@ public class ChargesModule : IModule
         IServiceCollection services,
         IConfiguration configuration) =>
         services
+            .AddMemoryCache()
+            .AddScoped<ISystemOperatorService, SystemOperatorService>()
             .AddScoped<IChargesClient, ChargesClient>()
             .AddChargesClient();
 
