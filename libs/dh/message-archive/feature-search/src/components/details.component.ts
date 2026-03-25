@@ -32,13 +32,13 @@ import { WattDatePipe, wattFormatDate } from '@energinet/watt/date';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet/watt/drawer';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
-import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 import {
   DhDownloadButtonComponent,
   DhEmDashFallbackPipe,
   toFile,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { ArchivedMessage } from '../types';
 
 @Component({
   selector: 'dh-message-archive-search-details',

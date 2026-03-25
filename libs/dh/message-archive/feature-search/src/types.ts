@@ -18,6 +18,9 @@
 //#endregion
 import { DocumentType } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import type { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import type { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
 export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
   switch (documentType as DocumentType) {
     case DocumentType.B2CRequestChangeOfSupplier:
@@ -64,3 +67,5 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-034';
   }
 };
+
+export type ArchivedMessage = ExtractNodeType<GetArchivedMessagesDataSource>;
