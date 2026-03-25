@@ -105,11 +105,11 @@ import { DhChargesSeriesDetails } from './series-details';
         <ng-container *wattTableCell="columns.price; let series">
           {{ series.price | number: '1.6-6' }}
         </ng-container>
-        <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
+        <!-- <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
           @if (series.hasChanged) {
             <dh-circle />
           }
-        </ng-container>
+        </ng-container> -->
         <ng-container *wattTableCell="columns.history; header: ''; let series">
           @if (showHistory()) {
             <vater-stack scrollable direction="row" gap="ml">
@@ -159,13 +159,13 @@ export class DhChargesSeriesTable {
       size: 'minmax(200px, auto)',
       sort: false,
     },
-    hasChanged: {
-      accessor: 'hasChanged',
-      tooltip: this.transloco.translate('charges.series.columns.tooltip'),
-      size: 'min-content',
-      align: 'center',
-      sort: false,
-    },
+    // hasChanged: {
+    //   accessor: 'hasChanged',
+    //   tooltip: this.transloco.translate('charges.series.columns.tooltip'),
+    //   size: 'min-content',
+    //   align: 'center',
+    //   sort: false,
+    // },
     history: { accessor: null, size: '1fr', sort: false },
   };
 
