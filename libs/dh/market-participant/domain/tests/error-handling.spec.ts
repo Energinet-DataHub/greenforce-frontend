@@ -21,7 +21,7 @@ import { TranslocoService, TranslocoTestingOptions } from '@jsverse/transloco';
 
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
 
-import { ApiErrorCollection, readApiErrorResponse } from './error-handling';
+import { ApiErrorCollection, readApiErrorResponse } from '../src/error-handling';
 
 function generateErrors(args: { [key: string]: string | number } = {}): ApiErrorCollection[] {
   return [
