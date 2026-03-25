@@ -95,7 +95,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
   `,
   template: `
     <form
-      [formGroup]="newConversationForm"
+      [formGroup]="newConversationForm()"
       (ngSubmit)="startConversation()"
       (keydown.enter)="$event.preventDefault()"
       vater-grid
@@ -122,11 +122,11 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
             @if (meteringPointId() === undefined) {
               <dh-actor-conversation-metering-point-search
                 (meteringPointIdValidated)="onMeteringPointIdValidated($event)"
-                [searchControl]="newConversationForm.controls.meteringPointId"
+                [searchControl]="newConversationForm().controls.meteringPointId"
               />
             }
             <watt-dropdown
-              [formControl]="newConversationForm.controls.subject"
+              [formControl]="newConversationForm().controls.subject"
               [options]="subjects"
               [label]="t('subjectLabel')"
               [showResetOption]="false"
@@ -136,7 +136,9 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
             />
 
             @if (isElectricalHeating() && isMeteringPointTypeConsumption()) {
-              <watt-slide-toggle [formControl]="newConversationForm.controls.reducedElectricityTax">
+              <watt-slide-toggle
+                [formControl]="newConversationForm().controls.reducedElectricityTax"
+              >
                 {{ t('reducedElectricityTaxToggle') }}
               </watt-slide-toggle>
             }
@@ -145,8 +147,8 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
               @if (!shouldShowElectricalHeatingForm()) {
                 <dh-actor-conversation-receiver-radio-group
                   [marketRole]="currentActorMarketRole"
-                  [receiverControl]="newConversationForm.controls.receiver"
-                  [dateControl]="newConversationForm.controls.energySupplierDate"
+                  [receiverControl]="newConversationForm().controls.receiver"
+                  [dateControl]="newConversationForm().controls.energySupplierDate"
                 />
               } @else {
                 <watt-description-list class="watt-space-stack-m">
@@ -158,7 +160,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
               }
             </vater-flex>
             <watt-text-field
-              [formControl]="newConversationForm.controls.internalNote"
+              [formControl]="newConversationForm().controls.internalNote"
               [label]="t('internalNoteLabelWithDisclaimer')"
               [maxLength]="internalNoteMaxLength"
               data-testid="actor-conversation-internal-note-input"
@@ -172,7 +174,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
               fill="horizontal"
               [loading]="uploading() || startConversationMutation.loading()"
               [uploadError]="uploadError()"
-              [formControl]="newConversationForm.controls.message"
+              [formControl]="newConversationForm().controls.message"
               [disableAnonymous]="disableAnonymous()"
             />
           </vater-stack>
@@ -180,7 +182,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
         @if (shouldShowElectricalHeatingForm()) {
           <vater-grid-area column="2" row="1">
             <dh-actor-conversation-electrical-heating-form
-              [formControl]="newConversationForm.controls.electricalHeating"
+              [formControl]="newConversationForm().controls.electricalHeating"
               [electricalHeatingInformation]="electricalHeatingInformation()"
             />
           </vater-grid-area>
@@ -205,7 +207,7 @@ export class DhActorConversationNewConversationComponent {
   }));
 
   private readonly reducedElectricityTaxValue = dhFormControlToSignal(
-    () => this.newConversationForm.controls.reducedElectricityTax
+    () => this.newConversationForm().controls.reducedElectricityTax
   );
 
   private readonly fetchElectricalHeatingInformation = effect(() => {
@@ -228,51 +230,54 @@ export class DhActorConversationNewConversationComponent {
   closeNewConversation = output<string | undefined>();
   meteringPointId = input<string | undefined>();
   meteringPointIdentification = dhFormControlToSignal(
-    () => this.newConversationForm.controls.meteringPointId
+    () => this.newConversationForm().controls.meteringPointId
   );
 
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
 
-  newConversationForm = new FormGroup({
-    meteringPointId: dhMakeFormControl<string | null>(this.meteringPointId(), [
-      Validators.required,
-      dhMeteringPointIdValidator(),
-    ]),
-    subject: dhMakeFormControl<ConversationSubject | null>(null, Validators.required),
-    receiver: dhMakeFormControl<MarketRole | null>(null, Validators.required),
-    energySupplierDate: dhMakeFormControl<Date | null>(null),
-    internalNote: dhMakeFormControl<string | null>(
-      null,
-      Validators.maxLength(internalNoteMaxLength)
-    ),
-    reducedElectricityTax: dhMakeFormControl<boolean>(false),
-    electricalHeating: dhMakeFormControl<ElectricalHeatingFormValue | null>(null),
-    message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false, files: [] }, [
-      (control) =>
-        control.value.content || control.value.files?.length ? null : { required: true },
-      Validators.maxLength(messageMaxLength),
-    ]),
-  });
+  newConversationForm = computed(
+    () =>
+      new FormGroup({
+        meteringPointId: dhMakeFormControl<string | null>(this.meteringPointId(), [
+          Validators.required,
+          dhMeteringPointIdValidator(),
+        ]),
+        subject: dhMakeFormControl<ConversationSubject | null>(null, Validators.required),
+        receiver: dhMakeFormControl<MarketRole | null>(null, Validators.required),
+        energySupplierDate: dhMakeFormControl<Date | null>(null),
+        internalNote: dhMakeFormControl<string | null>(
+          null,
+          Validators.maxLength(internalNoteMaxLength)
+        ),
+        reducedElectricityTax: dhMakeFormControl<boolean>(false),
+        electricalHeating: dhMakeFormControl<ElectricalHeatingFormValue | null>(null),
+        message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false, files: [] }, [
+          (control) =>
+            control.value.content || control.value.files?.length ? null : { required: true },
+          Validators.maxLength(messageMaxLength),
+        ]),
+      })
+  );
 
   onMeteringPointIdValidated(meteringPointId: string | null) {
-    this.newConversationForm.controls.meteringPointId.setValue(meteringPointId);
-    this.newConversationForm.controls.reducedElectricityTax.setValue(false);
+    this.newConversationForm().controls.meteringPointId.setValue(meteringPointId);
+    this.newConversationForm().controls.reducedElectricityTax.setValue(false);
   }
 
   private readonly reducedElectricityTaxValueEffect = effect(() => {
     if (this.isElectricalHeating() && this.reducedElectricityTaxValue()) {
-      this.newConversationForm.controls.receiver.setValue(MarketRole.GridAccessProvider);
+      this.newConversationForm().controls.receiver.setValue(MarketRole.GridAccessProvider);
     } else {
-      this.newConversationForm.controls.receiver.reset();
+      this.newConversationForm().controls.receiver.reset();
     }
   });
 
   private readonly subjectValue = dhFormControlToSignal(
-    () => this.newConversationForm.controls.subject
+    () => this.newConversationForm().controls.subject
   );
 
   private readonly receiverValue = dhFormControlToSignal(
-    () => this.newConversationForm.controls.receiver
+    () => this.newConversationForm().controls.receiver
   );
 
   disableAnonymous = computed(() => this.receiverValue() === MarketRole.Energinet);
@@ -282,7 +287,7 @@ export class DhActorConversationNewConversationComponent {
   );
 
   private readonly syncEnergySupplierDateValidators = dhSyncControlValidators(
-    () => this.newConversationForm.controls.energySupplierDate,
+    () => this.newConversationForm().controls.energySupplierDate,
     Validators.required,
     () => this.receiverValue() === MarketRole.EnergySupplier,
     { reset: true }
@@ -293,14 +298,14 @@ export class DhActorConversationNewConversationComponent {
   );
 
   private readonly syncElectricalHeatingValidators = dhSyncControlValidators(
-    () => this.newConversationForm.controls.electricalHeating,
+    () => this.newConversationForm().controls.electricalHeating,
     Validators.required,
     () => this.shouldShowElectricalHeatingForm(),
     { reset: true }
   );
 
   async startConversation() {
-    if (this.newConversationForm.invalid) return;
+    if (this.newConversationForm().invalid) return;
 
     const {
       subject,
@@ -310,7 +315,7 @@ export class DhActorConversationNewConversationComponent {
       message,
       energySupplierDate,
       electricalHeating,
-    } = this.newConversationForm.getRawValue();
+    } = this.newConversationForm().getRawValue();
 
     if (!receiver || !subject) return;
     if (this.uploading()) return;
