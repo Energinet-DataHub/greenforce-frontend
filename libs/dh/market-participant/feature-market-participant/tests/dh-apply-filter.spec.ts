@@ -18,8 +18,11 @@
 //#endregion
 import { BalanceResponsibilityAgreementStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhBalanceResponsibleRelation, DhBalanceResponsibleRelationFilters } from './types';
-import { dhApplyFilter } from './dh-apply-filter';
+import {
+  DhBalanceResponsibleRelation,
+  DhBalanceResponsibleRelationFilters,
+} from '../src/components/details/balance-responsible-relation-tab/types';
+import { dhApplyFilter } from '../src/components/details/balance-responsible-relation-tab/dh-apply-filter';
 
 const balanceResponsibleGuid = 'balance-responsible-guid';
 const energySupplierGuid = 'energy-supplier-guid';
