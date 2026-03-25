@@ -16,15 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  output,
-  untracked,
-} from '@angular/core';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -38,7 +31,6 @@ import {
 import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import { GetMeteringPointNewConversationInfoDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-actor-conversation-metering-point-search',
@@ -66,17 +58,17 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
       <vater-stack direction="row" gap="s" align="center" fill="horizontal">
         <watt-text-field
           maxLength="18"
-          [formControl]="searchControl"
+          [formControl]="searchControl()"
           [label]="t('meteringPointIdLabel')"
           (keydown.enter)="search()"
         >
           <watt-button icon="search" variant="icon" (click)="search()" />
-          @if (searchControl.hasError('notFound')) {
-            <watt-field-error>{{ t('meteringPointInfo.notFound') }}</watt-field-error>
-          } @else if (searchControl.hasError('minlength') || searchControl.hasError('maxlength')) {
+          @if (searchControl().hasError('meteringPointIdLength')) {
             <watt-field-error>{{ t('meteringPointInfo.invalidLength') }}</watt-field-error>
-          } @else {
+          } @else if (searchControl().hasError('containsLetters')) {
             <watt-field-error>{{ t('meteringPointInfo.notValidated') }}</watt-field-error>
+          } @else if (searchControl().hasError('notFound')) {
+            <watt-field-error>{{ t('meteringPointInfo.notFound') }}</watt-field-error>
           }
         </watt-text-field>
       </vater-stack>
@@ -101,7 +93,7 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
             />
           </watt-description-list>
         </vater-stack>
-      } @else if (loading()) {
+      } @else if (query.loading()) {
         <vater-stack direction="row">
           <watt-separator orientation="vertical" />
           <vater-stack gap="ml" class="watt-space-inset-m">
@@ -120,55 +112,28 @@ import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/
   `,
 })
 export class DhActorConversationMeteringPointSearchComponent {
-  readonly meteringPointIdValidated = output<string | undefined>();
+  readonly meteringPointIdValidated = output<string | null>();
 
-  readonly searchControl = dhMakeFormControl<string>('', [
-    Validators.required,
-    Validators.minLength(18),
-    Validators.maxLength(18),
-  ]);
+  readonly searchControl = input.required<FormControl<string | null>>();
 
-  private readonly searchControlValue = dhFormControlToSignal(() => this.searchControl);
+  readonly query = lazyQuery(GetMeteringPointNewConversationInfoDocument);
 
-  private readonly infoQuery = lazyQuery(GetMeteringPointNewConversationInfoDocument, {
-    onCompleted: (data) => {
-      this.searchControl.setErrors(null);
-      this.meteringPointIdValidated.emit(data.meteringPoint?.meteringPointId);
-    },
-    onError: () => {
-      this.meteringPointIdValidated.emit(undefined);
-      this.searchControl.setErrors({ notFound: true });
-      this.searchControl.markAsTouched();
-    },
-  });
+  readonly meteringPointInfo = computed(() => this.query.data()?.meteringPoint);
 
-  readonly meteringPointInfo = computed(() => this.infoQuery.data()?.meteringPoint ?? undefined);
-  readonly loading = this.infoQuery.loading;
+  async search() {
+    const searchControl = this.searchControl();
 
-  readonly isValidated = computed(
-    () => this.infoQuery.called() && !this.infoQuery.loading() && !!this.meteringPointInfo()
-  );
+    const { valid, value } = searchControl;
+    if (value && valid) {
+      searchControl.setErrors(null);
+      const meteringPoint = await this.query.refetch({ meteringPointId: value });
+      const meteringPointId = meteringPoint.data?.meteringPoint?.meteringPointId;
 
-  private readonly clearOnSearchValueChange = effect(() => {
-    this.searchControlValue();
-    untracked(() => {
-      this.infoQuery.reset();
-      this.searchControl.setErrors(null);
-      this.searchControl.markAsUntouched();
-      this.meteringPointIdValidated.emit(undefined);
-    });
-  });
+      this.meteringPointIdValidated.emit(value);
 
-  markNotValidated(): void {
-    this.searchControl.setErrors({ notValidated: true });
-    this.searchControl.markAsTouched();
-  }
-
-  search(): void {
-    const value = this.searchControl.value;
-    if (value) {
-      this.searchControl.setErrors(null);
-      this.infoQuery.query({ variables: { meteringPointId: value } });
+      if (!meteringPointId) {
+        searchControl.setErrors({ notFound: true });
+      }
     }
   }
 }

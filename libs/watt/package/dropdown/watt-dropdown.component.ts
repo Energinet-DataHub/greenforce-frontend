@@ -233,7 +233,11 @@ export class WattDropdownComponent<T = string> implements ControlValueAccessor, 
   }
 
   writeValue(value: WattDropdownValue) {
-    this.matSelectControl.setValue(value);
+    this.matSelectControl.setValue(value, { emitEvent: false });
+
+    if (this.multiple()) {
+      this.determineToggleAllCheckboxState();
+    }
   }
 
   registerOnChange(onChangeFn: (value: WattDropdownValue) => void) {
