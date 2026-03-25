@@ -18,7 +18,7 @@
 //#endregion
 import { Component } from '@angular/core';
 
-import { DhMessageArchiveSearchFormService } from './form.service';
+import { DhMessageArchiveSearchFormService } from '../form.service';
 import { DhMessageArchiveSearchDetailsComponent } from './details.component';
 import { DhMessageArchiveSearchStartComponent } from './start.component';
 import { DhMessageArchiveSearchTableComponent } from './table.component';
@@ -37,4 +37,4 @@ import { DhMessageArchiveSearchTableComponent } from './table.component';
     <dh-message-archive-search-table #table (open)="details.open($event)" (new)="start.open()" />
   `,
 })
-export class DhMessageArchiveSearchPageComponent {}
+export default class DhMessageArchiveSearchPageComponent {}

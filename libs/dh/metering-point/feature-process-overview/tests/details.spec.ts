@@ -21,6 +21,8 @@ import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
 import { render, screen } from '@testing-library/angular';
 
+import { of } from 'rxjs';
+
 import {
   getTranslocoTestingModule,
   provideMsalTesting,
@@ -29,6 +31,7 @@ import {
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 
@@ -41,6 +44,14 @@ async function setup(processId = 'process-eos-cancel') {
       WattModalService,
       DhNavigationService,
       { provide: ComponentFixtureAutoDetect, useValue: true },
+      {
+        provide: PermissionService,
+        useValue: {
+          isFas: () => of(false),
+          hasMarketRole: () => of(true),
+          hasPermission: () => of(true),
+        },
+      },
     ],
     imports: [getTranslocoTestingModule()],
     componentInputs: {
@@ -74,6 +85,13 @@ describe('Process overview details', () => {
     await setup('process-eos-cancel');
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+    );
+  });
+
+  it('should show reject request button for EndOfSupply process', async () => {
+    await setup('process-eos-cancel');
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
     );
   });
 

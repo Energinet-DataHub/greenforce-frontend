@@ -1226,6 +1226,7 @@ type Mutation {
   cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
+  rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(policy: "GridAccessProvider")
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
@@ -1490,6 +1491,10 @@ type ReadinessStatusDto {
 }
 
 type RebuildProjectionsPayload {
+  boolean: Boolean
+}
+
+type RejectEndOfSupplyPayload {
   boolean: Boolean
 }
 
@@ -2322,6 +2327,13 @@ input ReInviteUserInput {
 input RebuildProjectionsInput {
   projection: ProjectionType!
   timeout: Int!
+}
+
+input RejectEndOfSupplyInput {
+  meteringPointId: String!
+  processId: UUID!
+  reasonCode: ReasonCodeV1!
+  description: String
 }
 
 input RemoveMeteringPointsFromAdditionalRecipientInput {
@@ -3466,6 +3478,15 @@ enum Quality {
   ESTIMATED
   CALCULATED
   MEASURED
+}
+
+enum ReasonCodeV1 {
+  THE_MUNICIPALITY_MUST_BE_INVOLVED_IN_THE_DISCONNECTION
+  THE_POLICE_MUST_BE_INVOLVED_IN_THE_DISCONNECTION
+  THE_BAILIFFS_COURT_MUST_BE_INVOLVED_IN_THE_DISCONNECTION
+  OTHER_REJECTION_REASON
+  REJECTION5
+  NO_ACCESS_TO_THE_METER
 }
 
 enum RequestCalculationType {

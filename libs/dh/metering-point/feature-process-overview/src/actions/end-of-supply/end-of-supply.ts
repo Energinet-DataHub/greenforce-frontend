@@ -20,8 +20,10 @@ import { Injectable } from '@angular/core';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  EicFunction,
   ProcessManagerBusinessReason,
   CancelEndOfSupplyDocument,
+  RejectEndOfSupplyDocument,
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
   WorkflowAction,
@@ -29,12 +31,34 @@ import {
 
 import type { ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
+import { rejectProcessAction } from '../shared/reject-process-action';
 
 @Injectable({ providedIn: 'root' })
 export class EndOfSupplyActions {
   private readonly cancelEndOfSupply = mutation(CancelEndOfSupplyDocument);
+  private readonly rejectEndOfSupply = mutation(RejectEndOfSupplyDocument);
 
   readonly handlers: ActionHandlerMap = {
+    [WorkflowAction.RejectRequest]: {
+      featureFlag: 'end-of-supply',
+      marketRoles: [EicFunction.GridAccessProvider],
+      callback: rejectProcessAction((ctx, result, onCompleted, onError) => {
+        this.rejectEndOfSupply.mutate({
+          refetchQueries: [
+            GetMeteringPointProcessByIdDocument,
+            GetMeteringPointProcessOverviewDocument,
+          ],
+          variables: {
+            meteringPointId: ctx.meteringPointId,
+            processId: ctx.processId,
+            reasonCode: result.reasonCode,
+            description: result.description,
+          },
+          onCompleted,
+          onError,
+        });
+      }),
+    },
     [WorkflowAction.CancelWorkflow]: {
       featureFlag: 'end-of-supply',
       callback: cancelProcessAction(

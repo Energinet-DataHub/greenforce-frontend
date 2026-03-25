@@ -27,8 +27,8 @@ import { WattModalActionsComponent, WattModalComponent } from '@energinet/watt/m
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { GetArchivedMessagesQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhMessageArchiveSearchFormService } from './form.service';
-import { DhDateTimeRangeField } from './datetime-range-field';
+import { DhMessageArchiveSearchFormService } from '../form.service';
+import { DhDateTimeRangeField } from '../datetime-range-field';
 
 @Component({
   selector: 'dh-message-archive-search-start',

@@ -40,11 +40,11 @@ import {
   SortEnumType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
 import { WattToastService } from '@energinet/watt/toast';
+import { ArchivedMessage } from '../types';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
 

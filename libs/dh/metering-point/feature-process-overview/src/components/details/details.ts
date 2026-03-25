@@ -148,10 +148,12 @@ export class DhMeteringPointProcessOverviewDetails {
   executeAction(action: WorkflowAction) {
     const reason = this.businessReason();
     if (!reason) return;
+
     this.actionService.execute(action, reason, {
       meteringPointId: this.meteringPointId(),
       internalMeteringPointId: '',
       processId: this.id(),
+      cutoffDate: this.cutoffDate(),
       onSuccess: () => this.navigation.navigate('list'),
     });
   }

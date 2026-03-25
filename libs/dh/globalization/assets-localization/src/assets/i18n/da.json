@@ -1047,7 +1047,31 @@
         "SEND_INFORMATION": "Send information",
         "FAS_SEND_INFORMATION": "Net og el kan sende information",
         "CANCEL_WORKFLOW": "Annuller",
-        "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
+        "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
+        "REJECT_REQUEST": "Afvis anmodning",
+        "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
+      },
+      "rejectProcess": {
+        "title": "Leveranceophør - serviceanmodning afvist",
+        "requestedService": "Anmodet serviceydelse",
+        "cutoffDate": "Skæringsdato",
+        "response": "Svar",
+        "responseValue": "Afvist",
+        "reasonCodeLabel": "Afvisningsårsag",
+        "reasonCodePlaceholder": "Vælg",
+        "descriptionLabel": "Bemærkning",
+        "cancel": "Luk vindue",
+        "confirm": "Send afvisning",
+        "successToast": "Afvisning af leveranceophør indsendt",
+        "errorToast": "Afvisning af leveranceophør fejlede",
+        "reasonCodes": {
+          "THE_MUNICIPALITY_MUST_BE_INVOLVED_IN_THE_DISCONNECTION": "Kommunen skal inddrages i afbrydelsen (D41)",
+          "THE_POLICE_MUST_BE_INVOLVED_IN_THE_DISCONNECTION": "Politiet skal inddrages i afbrydelsen (D42)",
+          "THE_BAILIFFS_COURT_MUST_BE_INVOLVED_IN_THE_DISCONNECTION": "Fogedretten skal inddrages i afbrydelsen (D43)",
+          "OTHER_REJECTION_REASON": "Anden afvisningsårsag (D44)",
+          "NO_ACCESS_TO_THE_METER": "Ingen adgang til måler (D58)",
+          "REJECTION5": "Afvisningsårsag 5 (D45)"
+        }
       },
       "cancelProcess": {
         "title": "Annuller {{processType}}",
