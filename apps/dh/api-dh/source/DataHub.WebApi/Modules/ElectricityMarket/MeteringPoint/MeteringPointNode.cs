@@ -78,7 +78,7 @@ public static partial class MeteringPointNode
         FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.ClosedDown);
 
     public static DateTimeOffset? DisconnectedDate([Parent] MeteringPointDto meteringPoint) =>
-        FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.Disconnected);
+        FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.Disconnected, latest: true);
 
     #endregion
 
@@ -286,52 +286,52 @@ public static partial class MeteringPointNode
         switch (newConnectionState)
         {
             case ConnectionState.Connected:
-            {
-                switch (currentConnectionState)
                 {
-                    case ConnectionState.New:
+                    switch (currentConnectionState)
                     {
-                        var command = new RequestConnectMeteringPointCommandV1(
-                            new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+                        case ConnectionState.New:
+                            {
+                                var command = new RequestConnectMeteringPointCommandV1(
+                                    new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
 
-                        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+                                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-                        return result.IsSuccess;
+                                return result.IsSuccess;
+                            }
+
+                        case ConnectionState.Disconnected:
+                            {
+                                var command = new RequestReconnectMeteringPointCommandV1(
+                                    new RequestReconnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+                                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+                                return result.IsSuccess;
+                            }
                     }
 
-                    case ConnectionState.Disconnected:
-                    {
-                        var command = new RequestReconnectMeteringPointCommandV1(
-                            new RequestReconnectMeteringPointRequestV1(meteringPointId, validityDate));
-
-                        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
-
-                        return result.IsSuccess;
-                    }
+                    return false;
                 }
 
-                return false;
-            }
-
             case ConnectionState.Disconnected:
-            {
-                var command = new RequestDisconnectMeteringPointCommandV1(
-                new RequestDisconnectMeteringPointRequestV1(meteringPointId, validityDate));
+                {
+                    var command = new RequestDisconnectMeteringPointCommandV1(
+                    new RequestDisconnectMeteringPointRequestV1(meteringPointId, validityDate));
 
-                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+                    var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-                return result.IsSuccess;
-            }
+                    return result.IsSuccess;
+                }
 
             case ConnectionState.ClosedDown:
-            {
-                var command = new RequestCloseDownMeteringPointCommandV1(
-                new RequestCloseDownMeteringPointRequestV1(meteringPointId, validityDate));
+                {
+                    var command = new RequestCloseDownMeteringPointCommandV1(
+                    new RequestCloseDownMeteringPointRequestV1(meteringPointId, validityDate));
 
-                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+                    var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-                return result.IsSuccess;
-            }
+                    return result.IsSuccess;
+                }
 
             default:
                 return false;
@@ -435,12 +435,12 @@ public static partial class MeteringPointNode
         return findWhenHeatingChanged.LastOrDefault();
     }
 
-    private static DateTimeOffset? FindConnectionStateDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods, ConnectionState connectionState)
+    private static DateTimeOffset? FindConnectionStateDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods, ConnectionState connectionState, bool latest = false)
     {
-        return meteringPointPeriods
-            .Where(mp => mp.ConnectionState == connectionState)
-            .OrderBy(mp => mp.ValidFrom)
-            .FirstOrDefault()?.ValidFrom;
+        var filtered = meteringPointPeriods.Where(mp => mp.ConnectionState == connectionState);
+        return latest
+            ? filtered.MaxBy(mp => mp.ValidFrom)?.ValidFrom
+            : filtered.OrderBy(mp => mp.ValidFrom).FirstOrDefault()?.ValidFrom;
     }
 
     private static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(

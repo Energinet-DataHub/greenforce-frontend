@@ -223,6 +223,7 @@ export class DhMeteringPointProcessOverviewTable {
       meteringPointId: this.meteringPointId(),
       internalMeteringPointId: this.internalMeteringPointId(),
       processId: process.id,
+      cutoffDate: process.cutoffDate,
     });
   }
 }
