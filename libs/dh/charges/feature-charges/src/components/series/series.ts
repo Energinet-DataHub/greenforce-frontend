@@ -34,7 +34,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  DhCircleComponent,
+  // DhCircleComponent,
   DhDownloadButtonComponent,
   GenerateCSV,
 } from '@energinet-datahub/dh/shared/ui-util';
@@ -56,7 +56,7 @@ import { DhChargesSeriesDetails } from './series-details';
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSlideToggleComponent,
-    DhCircleComponent,
+    // DhCircleComponent,
     DhChargesIntervalField,
     DhChargesPeriodPipe,
     DhChargesSeriesDetails,
