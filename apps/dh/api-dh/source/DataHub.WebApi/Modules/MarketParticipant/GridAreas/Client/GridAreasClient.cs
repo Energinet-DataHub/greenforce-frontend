@@ -52,6 +52,8 @@ public class GridAreasClient(
                     ValidFrom = gridArea.ValidFrom,
                     ValidTo = gridArea.ValidTo,
                     Type = gridArea.Type,
+                    ActorName = owner?.Name?.Value,
+                    ActorNumber = owner?.ActorNumber?.Value,
                 };
             });
     }

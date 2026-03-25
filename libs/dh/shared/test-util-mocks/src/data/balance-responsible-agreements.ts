@@ -33,6 +33,7 @@ const gridArea: GridAreaDto = {
   name: 'Grid Area 1',
   code: '001',
   displayName: 'Grid Area 1',
+  displayCodeGlnActor: '001 • 123 • hello',
   priceAreaCode: PriceAreaCode.Dk1,
   validFrom: new Date('2024-03-01T00:00+03:00'),
   validTo: new Date('2024-03-01T00:00+04:00'),

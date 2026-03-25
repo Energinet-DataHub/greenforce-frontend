@@ -837,7 +837,10 @@ type GridAreaDto {
   validFrom: DateTime!
   validTo: DateTime
   toBeDiscontinued: Boolean!
+  actorNumber: String
+  actorName: String
   displayName: String!
+  displayCodeGlnActor: String!
   status: GridAreaStatus!
 }
 
@@ -857,6 +860,7 @@ type GridAreaOverviewItemDto {
   type: GridAreaType!
   toBeDiscontinued: Boolean!
   displayName: String!
+  displayCodeGlnActor: String!
   status: GridAreaStatus!
 }
 

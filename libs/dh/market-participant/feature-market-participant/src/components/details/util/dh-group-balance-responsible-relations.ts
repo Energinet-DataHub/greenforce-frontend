@@ -23,7 +23,7 @@ import {
   DhBalanceResponsibleRelations,
   DhBalanceResponsibleRelationsByType,
   DhBalanceResponsibleRelationsGrouped,
-} from '../balance-responsible-relation-tab/dh-balance-responsible-relation';
+} from '../balance-responsible-relation-tab/types';
 
 export function dhGroupByType(
   relations: DhBalanceResponsibleRelations
@@ -68,7 +68,7 @@ export function dhGroupByMarketParticipant(
       } else {
         marketParticipants.push({
           id: relation[propertyToGroupBy]?.id ?? '',
-          displayName: relation[propertyToGroupBy]?.displayName ?? '',
+          displayName: relation[propertyToGroupBy]?.displayNameWithoutMarketRole ?? '',
           relations: [relation],
           allRelationsHaveExpired: false,
         });

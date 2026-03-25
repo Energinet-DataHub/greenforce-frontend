@@ -39,7 +39,7 @@ query GetOutgoingMessages(
       timeSeriesType
       gridArea {
         id
-        displayName
+        displayCodeGlnActor
       }
       gridAreaCodeOut
       documentStatus
