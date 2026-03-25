@@ -131,10 +131,13 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               <span wattCopyToClipboard dhAppInsightsTrack="Copy metering point">{{
                 meteringPointId()
               }}</span>
-              <ng-content *dhMarketRoleRequired="rolesWithAccess">
-                • <dh-address-inline [address]="this.metadata()?.installationAddress" />
-              </ng-content>
+              @if (this.metadata()?.installationAddress) {
+                <ng-content *dhMarketRoleRequired="rolesWithAccess">
+                  • <dh-address-inline [address]="this.metadata()?.installationAddress" />
+                </ng-content>
+              }
             </span>
+
             <dh-metering-point-status [status]="metadata()?.connectionState" />
           </h2>
           <watt-description-list variant="inline-flow">
