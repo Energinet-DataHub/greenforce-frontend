@@ -76,7 +76,9 @@ import { WattIconComponent } from '@energinet/watt/icon';
                 <watt-icon name="moreVertical" />
               </watt-button>
               <watt-menu #actions>
-                <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
+                @if (chargeType() !== 'TARIFF' && chargeType() !== 'TARIFF_TAX') {
+                  <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
+                }
                 <watt-menu-item [routerLink]="['stop']">{{ t('stop') }}</watt-menu-item>
                 <watt-menu-item [routerLink]="['cancel']">{{ t('cancel') }}</watt-menu-item>
               </watt-menu>
@@ -116,6 +118,7 @@ export default class DhChargeLinkDetails {
   }));
   dataSource = dataSource(() => this.chargeLinkWithHistory()?.history || []);
   chargeLinkWithHistory = computed(() => this.query.data()?.chargeLinkById);
+  chargeType = computed(() => this.chargeLinkWithHistory()?.charge?.type);
   navigation = inject(DhNavigationService);
   id = input.required<string>();
 
