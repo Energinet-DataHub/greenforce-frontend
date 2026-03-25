@@ -27,10 +27,10 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import {
-  injectToast,
-  dhMakeFormControl,
   dhFormControlToSignal,
+  dhMakeFormControl,
   injectRelativeNavigate,
+  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { WATT_CARD } from '@energinet/watt/card';
@@ -40,10 +40,10 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 
 import {
   AddressTypeV1,
-  GetMeteringPointByIdDocument,
   ChangeCustomerCharacteristicsBusinessReason,
-  RequestChangeCustomerCharacteristicsDocument,
+  GetMeteringPointByIdDocument,
   GetTemporaryStorageDataDocument,
+  RequestChangeCustomerCharacteristicsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { sync } from '../util/sync-controls';
@@ -55,13 +55,8 @@ import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details
 import { createContactAddressDetailsForm } from '../util/create-contact-address-details-form';
 import { createCustomerContactDetailsForm } from '../util/create-customer-contact-details-form';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
-import {
-  BasePaths,
-  getPath,
-  MeteringPointSubPaths,
-} from '@energinet-datahub/dh/core/configuration-routing';
+import { BasePaths, getPath, MeteringPointSubPaths, } from '@energinet-datahub/dh/core/configuration-routing';
 import { Router } from '@angular/router';
-import { CustomerWithContacts } from '../types';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -198,32 +193,14 @@ export class DhUpdateCustomerDataComponent {
       transactionId: this.processId() ?? '',
     },
   }));
-  private readonly customers = computed(() => {
-    if (this.processId()) {
-      const data = this.temporaryStorageCustomerQuery.data()?.temporaryStorageData;
-      if (!data) return undefined;
-      return this.getCustomersWithContacts(data.firstCustomerName, data.isBusinessCustomer);
-    }
-    return this.getMeteringPointQuery.data()?.meteringPoint.commercialRelation
-      ?.activeEnergySupplyPeriod?.customers;
-  });
-
-  private getCustomersWithContacts(
-    name: string,
-    isBusinessCustomer: boolean
-  ): CustomerWithContacts[] {
-    return [
-      {
-        id: '',
-        relationType: 'JURIDICAL',
-        name,
-        cvr: isBusinessCustomer ? '' : null,
-        isProtectedName: false,
-        legalContact: null,
-        technicalContact: null,
-      },
-    ] as CustomerWithContacts[];
-  }
+  private readonly temporaryStorageCustomer = computed(
+    () => this.temporaryStorageCustomerQuery.data()?.temporaryStorageData
+  );
+  private readonly customers = computed(
+    () =>
+      this.getMeteringPointQuery.data()?.meteringPoint.commercialRelation?.activeEnergySupplyPeriod
+        ?.customers
+  );
 
   private readonly legalCustomer = computed(() =>
     this.customers()?.find((customer) => customer.relationType === 'JURIDICAL')
@@ -241,7 +218,9 @@ export class DhUpdateCustomerDataComponent {
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
   navigate = injectRelativeNavigate();
-  isBusinessCustomer = computed(() => this.legalCustomer()?.cvr !== null);
+  isBusinessCustomer = computed(
+    () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
+  );
   meteringPointId = input.required<string>();
   processId = input<string>();
   internalMeteringPointId = input.required<string>();
@@ -302,6 +281,21 @@ export class DhUpdateCustomerDataComponent {
   private readonly legalCustomerNameChanged = dhFormControlToSignal(
     () => this.form().controls.privateCustomerDetails.controls.customerName1
   );
+
+  private readonly prefillCustomerNameFromTemporaryStorage = effect(() => {
+    const data = this.temporaryStorageCustomer();
+    if (!data) return;
+
+    if (data.isBusinessCustomer) {
+      this.form().controls.businessCustomerDetails.controls.companyName.setValue(
+        data.firstCustomerName
+      );
+    } else {
+      this.form().controls.privateCustomerDetails.controls.customerName1.setValue(
+        data.firstCustomerName
+      );
+    }
+  });
 
   /** Sync technical */
   private readonly technicalNameSameAsContactNameToggle = dhFormControlToSignal(
