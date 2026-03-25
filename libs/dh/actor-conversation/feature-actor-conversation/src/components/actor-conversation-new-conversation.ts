@@ -37,6 +37,7 @@ import {
   dhEnumToWattDropdownOptions,
   dhFormControlToSignal,
   dhMakeFormControl,
+  dhMeteringPointIdValidator,
   dhSyncControlValidators,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -66,7 +67,6 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
 import { DhActorConversationMeteringPointSearchComponent } from './actor-conversation-metering-point-search';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
-import { dhMeteringPointIdValidator } from '@energinet-datahub/dh/metering-point/feature-search';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',

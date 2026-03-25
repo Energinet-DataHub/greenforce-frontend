@@ -17,4 +17,3 @@
  */
 //#endregion
 export { dhMeteringPointRoutes as default } from './src/routes';
-export { dhMeteringPointIdValidator } from './src/components/dh-metering-point.validator';
