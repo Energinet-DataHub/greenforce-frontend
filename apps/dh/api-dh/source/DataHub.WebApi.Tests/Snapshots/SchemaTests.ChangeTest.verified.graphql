@@ -2101,7 +2101,7 @@ input CreateChargeInput {
   validFrom: DateTime!
   vat: Boolean!
   transparentInvoicing: Boolean
-  spotDependingPrice: Boolean!
+  spotDependingPrice: Boolean
 }
 
 input CreateChargeLinkInput {
