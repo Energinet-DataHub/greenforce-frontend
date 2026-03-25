@@ -3,7 +3,7 @@
     "node": "24.14.0"
   },
   "dependencies": {
-    "@nx/cypress": "22.5.4",
+    "@nx/cypress": "22.6.1",
     "@testing-library/cypress": "10.1.0",
     "cypress": "15.11.0",
     "typescript": "5.9.3",
