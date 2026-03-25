@@ -50,7 +50,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
     SupportedActionsPipe,
   ],
   template: `
-    <watt-drawer autoOpen [key]="id()" (closed)="navigation.navigate('list')">
+    <watt-drawer size="large" autoOpen [key]="id()" (closed)="navigation.navigate('list')">
       <watt-drawer-topbar>
         @if (isLoading() || state()) {
           <dh-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
@@ -148,10 +148,12 @@ export class DhMeteringPointProcessOverviewDetails {
   executeAction(action: WorkflowAction) {
     const reason = this.businessReason();
     if (!reason) return;
+
     this.actionService.execute(action, reason, {
       meteringPointId: this.meteringPointId(),
       internalMeteringPointId: '',
       processId: this.id(),
+      cutoffDate: this.cutoffDate(),
       onSuccess: () => this.navigation.navigate('list'),
     });
   }

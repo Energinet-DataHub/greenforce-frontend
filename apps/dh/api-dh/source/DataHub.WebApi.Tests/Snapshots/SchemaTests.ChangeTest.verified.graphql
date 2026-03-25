@@ -88,10 +88,6 @@ type ActorCredentialsDto {
   clientSecretCredentials: ActorClientSecretCredentialsDto
 }
 
-type ActorNameDto {
-  value: String!
-}
-
 type AddChargeSeriesPayload {
   boolean: Boolean
 }
@@ -190,8 +186,8 @@ type AuditIdentityDto {
 
 type BalanceResponsibilityAgreement {
   gridArea: GridAreaDto
-  energySupplierWithName: MarketParticipantNameWithId
-  balanceResponsibleWithName: MarketParticipantNameWithId
+  energySupplierWithName: MarketParticipant
+  balanceResponsibleWithName: MarketParticipant
   meteringPointType: MarketParticipantMeteringPointType!
   validPeriod: DateRange!
   status: BalanceResponsibilityAgreementStatus!
@@ -200,8 +196,8 @@ type BalanceResponsibilityAgreement {
 type BalanceResponsible {
   storageDocumentUrl: String
   gridArea: GridAreaDto
-  energySupplierName: String
-  balanceResponsibleName: String
+  energySupplierName: MarketParticipant
+  balanceResponsibleName: MarketParticipant
   validPeriod: DateRange!
   id: String!
   receivedDateTime: DateTime!
@@ -569,7 +565,7 @@ type ElectricityMarketViewAnnualDate {
 }
 
 type ElectricityMarketViewCommercialRelationDto {
-  energySupplierName: ActorNameDto
+  energySupplierName: MarketParticipant
   id: String!
   energySupplier: String!
   startDate: DateTime!
@@ -725,7 +721,7 @@ type EsettOutgoingMessage {
 
 type ExchangeEventSearchResult {
   gridArea: GridAreaDto
-  energySupplier: ActorNameDto
+  energySupplier: MarketParticipant
   documentId: String!
   actorNumber: String
   gridAreaCodeOut: String
@@ -841,12 +837,15 @@ type GridAreaDto {
   validFrom: DateTime!
   validTo: DateTime
   toBeDiscontinued: Boolean!
+  actorNumber: String
+  actorName: String
   displayName: String!
+  displayCodeGlnActor: String!
   status: GridAreaStatus!
 }
 
 type GridAreaOverviewItemDto {
-  actor: String!
+  owner: MarketParticipant
   auditLog: [GridAreaAuditedChangeAuditLogDto!]!
   id: UUID!
   code: String!
@@ -861,6 +860,7 @@ type GridAreaOverviewItemDto {
   type: GridAreaType!
   toBeDiscontinued: Boolean!
   displayName: String!
+  displayCodeGlnActor: String!
   status: GridAreaStatus!
 }
 
@@ -967,6 +967,7 @@ type MarketParticipant {
   auditLogs: [ActorAuditedChangeAuditLogDto!]!
   delegations: [MessageDelegationType!]!
   displayName: String!
+  displayNameWithoutMarketRole: String!
   additionalRecipientForMeasurements: [String!]!
   publicMail: MarketParticipantPublicMail
   contact: ActorContactDto
@@ -992,11 +993,6 @@ type MarketParticipantDelegationAuditLog {
   stopsAt: String
   gridAreaName: String!
   processType: String!
-}
-
-type MarketParticipantNameWithId {
-  id: UUID!
-  actorName: ActorNameDto!
 }
 
 type MarketParticipantPublicMail {
@@ -1234,6 +1230,7 @@ type Mutation {
   cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
+  rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(policy: "GridAccessProvider")
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
@@ -1501,6 +1498,10 @@ type RebuildProjectionsPayload {
   boolean: Boolean
 }
 
+type RejectEndOfSupplyPayload {
+  boolean: Boolean
+}
+
 "Represents a metering point's data"
 type RelatedMeteringPointDto {
   """
@@ -1644,6 +1645,7 @@ type ResetTwoFactorAuthenticationPayload {
 }
 
 type SelectionActorDto {
+  displayName: String!
   id: UUID!
   gln: String!
   actorName: String!
@@ -2329,6 +2331,13 @@ input ReInviteUserInput {
 input RebuildProjectionsInput {
   projection: ProjectionType!
   timeout: Int!
+}
+
+input RejectEndOfSupplyInput {
+  meteringPointId: String!
+  processId: UUID!
+  reasonCode: ReasonCodeV1!
+  description: String
 }
 
 input RemoveMeteringPointsFromAdditionalRecipientInput {
@@ -3473,6 +3482,15 @@ enum Quality {
   ESTIMATED
   CALCULATED
   MEASURED
+}
+
+enum ReasonCodeV1 {
+  THE_MUNICIPALITY_MUST_BE_INVOLVED_IN_THE_DISCONNECTION
+  THE_POLICE_MUST_BE_INVOLVED_IN_THE_DISCONNECTION
+  THE_BAILIFFS_COURT_MUST_BE_INVOLVED_IN_THE_DISCONNECTION
+  OTHER_REJECTION_REASON
+  REJECTION5
+  NO_ACCESS_TO_THE_METER
 }
 
 enum RequestCalculationType {

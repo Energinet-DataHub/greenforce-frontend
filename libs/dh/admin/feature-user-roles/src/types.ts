@@ -18,8 +18,30 @@
 //#endregion
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetActorsAndUserRolesDocument,
+  GetFilteredUserRolesDocument,
+  GetUserRoleWithPermissionsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhUserByIdMarketParticipant = ResultOf<
   typeof GetActorsAndUserRolesDocument
 >['userById']['actors'][0];
+
+export type DhUserRoles = NonNullable<
+  NonNullable<ResultOf<typeof GetFilteredUserRolesDocument>['filteredUserRoles']>['nodes']
+>;
+
+export type DhUserRole = NonNullable<DhUserRoles>[0];
+
+export type DhUserRoleWithPermissions = ResultOf<
+  typeof GetUserRoleWithPermissionsDocument
+>['userRoleById'];
+
+export type DhUserRolePermissionDetails = DhUserRoleWithPermissions['permissions'][0];
+
+export type ActorUserRoles = ResultOf<
+  typeof GetActorsAndUserRolesDocument
+>['userById']['actors'][0]['userRoles'];
+
+export type ActorUserRole = ActorUserRoles[0];

@@ -108,11 +108,18 @@ public static partial class MarketParticipantType
             });
 
     public static string DisplayName(
+        [Parent] ActorDto actorDto,
+        [Service] IHttpContextAccessor httpContextAccessor) => actorDto switch
+        {
+            null => string.Empty,
+            var actor => $"{actor.ActorNumber.Value} • {actor.Name.Value} ({MarketRoleTranslator.Translate(actor.MarketRole.EicFunction, httpContextAccessor)})",
+        };
+
+    public static string DisplayNameWithoutMarketRole(
         [Parent] ActorDto actorDto) => actorDto switch
         {
             null => string.Empty,
-            var actor when string.IsNullOrWhiteSpace(actor.MarketRole.EicFunction.ToString()) => actor.Name.Value,
-            var actor => $"{actor.MarketRole.EicFunction} • {actor.Name.Value}",
+            var actor => $"{actor.ActorNumber.Value} • {actor.Name.Value}",
         };
 
     public static async Task<ICollection<string>> AdditionalRecipientForMeasurementsAsync(

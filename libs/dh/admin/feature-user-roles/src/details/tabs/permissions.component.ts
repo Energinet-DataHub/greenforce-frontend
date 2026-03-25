@@ -21,11 +21,7 @@ import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet/watt/table';
-
-import {
-  DhUserRoleWithPermissions,
-  DhUserRolePermissionDetails,
-} from '@energinet-datahub/dh/admin/data-access-api';
+import { DhUserRolePermissionDetails, DhUserRoleWithPermissions } from '../../types';
 
 @Component({
   selector: 'dh-role-permissions',

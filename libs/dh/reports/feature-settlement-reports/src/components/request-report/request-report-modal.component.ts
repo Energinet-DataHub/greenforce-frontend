@@ -137,7 +137,11 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
 
   private readonly toastService = inject(WattToastService);
   private readonly modalService = inject(WattModalService);
-  private readonly actorOptions = getActorOptions([EicFunction.EnergySupplier]);
+  private readonly actorOptions = getActorOptions(
+    [EicFunction.EnergySupplier],
+    'glnOrEicNumber',
+    'displayNameWithoutMarketRole'
+  );
 
   private modal = viewChild.required(WattModalComponent);
 

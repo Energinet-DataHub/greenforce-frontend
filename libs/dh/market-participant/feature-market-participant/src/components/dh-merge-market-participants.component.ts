@@ -30,10 +30,10 @@ import { dayjs } from '@energinet/watt/date';
 import {
   EicFunction,
   GetMarketParticipantsDocument,
-  GetMarketParticipantsForEicFunctionDocument,
   GetGridAreasDocument,
   MergeMarketParticipantsDocument,
   GetPaginatedMarketParticipantsDocument,
+  GetMarketParticipantsForEicFunctionForMergeDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { VaterStackComponent } from '@energinet/watt/vater';
@@ -42,7 +42,7 @@ import { WattToastService } from '@energinet/watt/toast';
 import { dhUniqueMarketParticipantsValidator } from '../validators/dh-unique-market-participants.validator';
 
 type MarketParticipant = ResultOf<
-  typeof GetMarketParticipantsForEicFunctionDocument
+  typeof GetMarketParticipantsForEicFunctionForMergeDocument
 >['marketParticipantsForEicFunction'][0];
 
 @Component({
@@ -120,7 +120,7 @@ type MarketParticipant = ResultOf<
 export class DhMergeMarketParticipantsComponent extends WattTypedModal {
   private toastService = inject(WattToastService);
 
-  private marketParticipantsQuery = query(GetMarketParticipantsForEicFunctionDocument, {
+  private marketParticipantsQuery = query(GetMarketParticipantsForEicFunctionForMergeDocument, {
     variables: {
       eicFunctions: [EicFunction.GridAccessProvider],
     },
@@ -187,8 +187,8 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
     }
   }
 
-  private marketParticipantDisplayValue({ glnOrEicNumber, name, gridAreas }: MarketParticipant) {
-    const formattedMarketParticipant = `${glnOrEicNumber} • ${name}`;
+  private marketParticipantDisplayValue({ displayName, gridAreas }: MarketParticipant) {
+    const formattedMarketParticipant = displayName;
 
     if (gridAreas.length === 0) {
       return formattedMarketParticipant;

@@ -213,7 +213,7 @@ function getMeteringPointProcessOverview() {
       createdAt: new Date('2025-02-15T10:00:00Z'),
       cutoffDate: new Date('2025-02-20T10:00:00Z'),
       state: MeteringPointProcessState.Running,
-      availableActions: [WorkflowAction.CancelWorkflow, WorkflowAction.SendInformation],
+      availableActions: [WorkflowAction.CancelWorkflow, WorkflowAction.RejectRequest],
       initiator: {
         __typename: 'MarketParticipant' as const,
         ...initiators[0],
@@ -269,7 +269,7 @@ function getAvailableActions(
   ];
   if (terminalStates.includes(state)) return [];
   if (businessReason === ProcessManagerBusinessReason.EndOfSupply)
-    return [WorkflowAction.CancelWorkflow];
+    return [WorkflowAction.CancelWorkflow, WorkflowAction.RejectRequest];
   if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
     return [WorkflowAction.SendInformation];
   return [];
@@ -345,7 +345,7 @@ function getMeteringPointProcessById(apiBase: string) {
               actor: {
                 __typename: 'MarketParticipant' as const,
                 id: initiators[processIndex % initiators.length].id,
-                name: initiators[processIndex % initiators.length].displayName.split(' • ')[1],
+                displayName: initiators[processIndex % initiators.length].displayName,
               },
             },
             {
@@ -362,7 +362,7 @@ function getMeteringPointProcessById(apiBase: string) {
               actor: {
                 __typename: 'MarketParticipant' as const,
                 id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
-                name: 'Energinet',
+                displayName: '5790001330552 • Energinet',
               },
             },
           ],

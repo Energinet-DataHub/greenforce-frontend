@@ -113,7 +113,7 @@ type MeteringPointProcessStep = NonNullable<
           {{ process.dueDate | wattDate: 'long' | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.actor; let process">
-          {{ process.actor?.name | dhEmDashFallback }}
+          {{ process.actor?.displayName | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
           {{ 'meteringPoint.processOverview.details.stepStates.' + process.state | transloco }}

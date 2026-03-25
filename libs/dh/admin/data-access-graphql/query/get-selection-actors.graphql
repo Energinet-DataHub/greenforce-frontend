@@ -1,9 +1,0 @@
-query GetSelectionMarketParticipants {
-  selectionMarketParticipants {
-    id
-    gln
-    actorName
-    organizationName
-    marketRole
-  }
-}

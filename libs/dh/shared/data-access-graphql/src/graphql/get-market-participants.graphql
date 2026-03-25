@@ -5,6 +5,7 @@ query GetMarketParticipants {
     name
     marketRole
     status
+    displayName
     publicMail {
       mail
     }

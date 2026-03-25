@@ -30,7 +30,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
-import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { GraphQLFormattedError } from 'graphql';
 
 import { WattToastService } from '@energinet/watt/toast';
@@ -43,7 +43,6 @@ import { WATT_STEPPER } from '@energinet/watt/stepper';
 import { WattValidationMessageComponent } from '@energinet/watt/validation-message';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
-import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
 import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
@@ -61,6 +60,7 @@ import {
 
 import { DhAssignableUserRolesComponent } from './assignable-user-roles.component';
 import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './invite.validators';
+import { UserRoleItem } from '../types';
 
 @Component({
   selector: 'dh-invite-user',
@@ -113,8 +113,7 @@ export class DhInviteUserComponent extends WattTypedModal {
 
   actorOptions = computed<WattDropdownOptions>(() =>
     this.actors().map((actor) => ({
-      displayValue:
-        actor.name + ' (' + translate(`marketParticipant.marketRoles.${actor.marketRole}`) + ')',
+      displayValue: actor.displayName,
       value: actor.id,
     }))
   );
