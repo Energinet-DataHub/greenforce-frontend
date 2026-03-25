@@ -20,12 +20,13 @@ import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/msw/test-util-msw-setup';
 import {
+  mockGetTemporaryStorageDataQuery,
   mockInitiateMoveInMutation,
   mockRequestChangeCustomerCharacteristicsMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 export function moveInMocks() {
-  return [initiateMoveInMutation(), changeCustomerCharacteristics()];
+  return [initiateMoveInMutation(), changeCustomerCharacteristics(), getTemporaryStorageData()];
 }
 
 function initiateMoveInMutation() {
@@ -58,4 +59,21 @@ function changeCustomerCharacteristics() {
       },
     });
   });
+}
+
+function getTemporaryStorageData() {
+  return mockGetTemporaryStorageDataQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        temporaryStorageData: {
+          __typename: 'RequestTemporaryStorageResult',
+          firstCustomerName: 'John Doe',
+          isBusinessCustomer: false,
+        }
+      }
+    })
+  })
 }
