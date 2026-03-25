@@ -253,7 +253,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
           </vater-flex>
         }
         <!-- Footer - Message input form -->
-        @if (isPathOfConversation()) {
+        @if (isPartOfConversation()) {
           <form
             vater
             sticky="bottom"
@@ -287,7 +287,7 @@ export class DhActorConversationDetailsComponent {
     }
   });
 
-  isPathOfConversation = computed(() => this.conversation()?.partOfConversations);
+  isPartOfConversation = computed(() => this.conversation()?.partOfConversations);
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
   conversationId = input.required<string>();
