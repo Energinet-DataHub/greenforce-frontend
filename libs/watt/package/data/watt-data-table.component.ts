@@ -36,7 +36,7 @@ import { WATT_CARD_VARIANT, WattCardComponent } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet/watt/paginator';
-import { WattSearchComponent, WattSimpleSearchComponent } from '@energinet/watt/search';
+import { WattSimpleSearchComponent } from '@energinet/watt/search';
 import { WattTableComponent } from '@energinet/watt/table';
 import { WattIcon } from '@energinet/watt/icon';
 
@@ -188,8 +188,9 @@ export class WattDataTableComponent {
 
   table = contentChild.required(WattTableComponent<unknown>, { descendants: true });
 
-  search = viewChild(WattSearchComponent);
+  search = viewChild(WattSimpleSearchComponent);
   reset = () => this.search()?.clear();
+  focusSearch = () => this.search()?.focus();
 
   onSearch(value: string) {
     this.table().dataSource().filter = value;
