@@ -24,7 +24,7 @@ public static partial class SelectionMarketParticipantType
     [Service] IHttpContextAccessor httpContextAccessor) => selectionActor switch
     {
         null => string.Empty,
-        var actor when string.IsNullOrWhiteSpace(actor.MarketRole.ToString()) => $"{actor.Gln} • {actor.ActorName}",
+        var actor when actor.MarketRole == default => $"{actor.Gln} • {actor.ActorName}",
         var actor => $"{actor.Gln} • {actor.ActorName} ({MarketRoleTranslator.Translate(actor.MarketRole, httpContextAccessor)})",
     };
 }
