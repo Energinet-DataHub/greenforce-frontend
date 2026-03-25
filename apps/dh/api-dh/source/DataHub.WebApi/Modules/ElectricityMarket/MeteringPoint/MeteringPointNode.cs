@@ -78,7 +78,10 @@ public static partial class MeteringPointNode
         FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.ClosedDown);
 
     public static DateTimeOffset? DisconnectedDate([Parent] MeteringPointDto meteringPoint) =>
-        FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.Disconnected);
+        meteringPoint.MetadataTimeline
+            .Where(mp => mp.ConnectionState == ConnectionState.Disconnected)
+            .OrderByDescending(mp => mp.ValidFrom)
+            .FirstOrDefault()?.ValidFrom;
 
     #endregion
 
@@ -286,52 +289,52 @@ public static partial class MeteringPointNode
         switch (newConnectionState)
         {
             case ConnectionState.Connected:
-            {
-                switch (currentConnectionState)
                 {
-                    case ConnectionState.New:
+                    switch (currentConnectionState)
                     {
-                        var command = new RequestConnectMeteringPointCommandV1(
-                            new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+                        case ConnectionState.New:
+                            {
+                                var command = new RequestConnectMeteringPointCommandV1(
+                                    new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
 
-                        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+                                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-                        return result.IsSuccess;
+                                return result.IsSuccess;
+                            }
+
+                        case ConnectionState.Disconnected:
+                            {
+                                var command = new RequestReconnectMeteringPointCommandV1(
+                                    new RequestReconnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+                                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+                                return result.IsSuccess;
+                            }
                     }
 
-                    case ConnectionState.Disconnected:
-                    {
-                        var command = new RequestReconnectMeteringPointCommandV1(
-                            new RequestReconnectMeteringPointRequestV1(meteringPointId, validityDate));
-
-                        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
-
-                        return result.IsSuccess;
-                    }
+                    return false;
                 }
 
-                return false;
-            }
-
             case ConnectionState.Disconnected:
-            {
-                var command = new RequestDisconnectMeteringPointCommandV1(
-                new RequestDisconnectMeteringPointRequestV1(meteringPointId, validityDate));
+                {
+                    var command = new RequestDisconnectMeteringPointCommandV1(
+                    new RequestDisconnectMeteringPointRequestV1(meteringPointId, validityDate));
 
-                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+                    var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-                return result.IsSuccess;
-            }
+                    return result.IsSuccess;
+                }
 
             case ConnectionState.ClosedDown:
-            {
-                var command = new RequestCloseDownMeteringPointCommandV1(
-                new RequestCloseDownMeteringPointRequestV1(meteringPointId, validityDate));
+                {
+                    var command = new RequestCloseDownMeteringPointCommandV1(
+                    new RequestCloseDownMeteringPointRequestV1(meteringPointId, validityDate));
 
-                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+                    var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-                return result.IsSuccess;
-            }
+                    return result.IsSuccess;
+                }
 
             default:
                 return false;
