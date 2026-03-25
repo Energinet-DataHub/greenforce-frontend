@@ -110,7 +110,7 @@ export class DhManageProductionObligation extends WattTypedModal<{
 
   loading = this.mutation.loading;
 
-  maxDate = this.today.add(60, 'day').toDate();
+  maxDate = this.today.add(100, 'day').toDate();
   minDate = this.yesterday.toDate();
 
   async save() {
