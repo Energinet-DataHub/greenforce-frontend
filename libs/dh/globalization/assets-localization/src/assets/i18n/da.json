@@ -1024,7 +1024,8 @@
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (BRS-007)",
         "ChangeConnectionStatus": "Afbrydelse og gentilslutning af målepunkt (BRS-013)",
         "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)",
-        "ProductionObligation": "Ændring af aftagepligt (BRS-036)"
+        "ProductionObligation": "Ændring af aftagepligt (BRS-036)",
+        "ElectricalHeating": "Håndtering af elvarme (BRS-041)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1036,7 +1037,8 @@
         "Move": "Flytning (E01)",
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (D14)",
         "ChangeConnectionStatus": "Ændring af tilslutningsstatus (E79)",
-        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (E32)"
+        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (E32)",
+        "ElectricalHeating": "Elvarme (D20)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -1104,22 +1106,22 @@
           "BRS_007_008_013_V1_STEP_3": "Afvisning af ændring af tilslutningsstatus (RSM-021)",
           "BRS_007_008_013_V1_STEP_4": "Information om ændring af tilslutningsstatus (RSM-022)"
         },
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
-        "BRS_002_CANCELENDOFSUPPLY_V1_STEP_1": "Anmod om annullering af leveranceophør (RSM-024)",
-        "BRS_002_CANCELENDOFSUPPLY_V1_STEP_2": "Godkend annullering af leveranceophør (RSM-024)",
-        "BRS_002_CANCELENDOFSUPPLY_V1_STEP_4": "Information om annullering af leveranceophør (RSM-025)",
-        "BRS_002_REJECTENDOFSUPPLY_V1_STEP_1": "Afvis anmodning om afbrydelse (RSM-020)",
-        "BRS_002_REJECTENDOFSUPPLY_V1_STEP_2": "Afvis anmodning om afbrydelse (RSM-020)",
-        "BRS_002_CONFIRMENDOFSUPPLY_V1_STEP_1": "Anmodning om ændring af tilslutningsstatus (RSM-021)",
-        "BRS_002_CONFIRMENDOFSUPPLY_V1_STEP_2": "Afvis anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTFORCANCELLATIONOFENDOFSUPPLY_V1_STEP_1": "Anmod om annullering af leveranceophør (RSM-024)",
+        "BRS_002_REQUESTFORCANCELLATIONOFENDOFSUPPLY_V1_STEP_2": "Godkend annullering af leveranceophør (RSM-024)",
+        "BRS_002_REQUESTFORCANCELLATIONOFENDOFSUPPLY_V1_STEP_4": "Information om annullering af leveranceophør (RSM-025)",
+        "BRS_002_REJECTIONOFREQUESTFORDISCONNECTION_V1_STEP_1": "Afvis anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REJECTIONOFREQUESTFORDISCONNECTION_V1_STEP_2": "Afvis anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_1": "Anmodning om ændring af tilslutningsstatus (RSM-021)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_2": "Afvis anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_4": "Information om faktisk stopdato (RSM-004)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_5": "Information om kundestamdata (RSM-028)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_1": "Anmodning om afbrydelse (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_2": "Godkendelse af anmodning om afbrydelse (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
-        "BRS_002_CONFIRMENDOFSUPPLY_V1_STEP_4": "Information om faktisk stopdato (RSM-004)",
-        "BRS_002_CONFIRMENDOFSUPPLY_V1_STEP_5": "Information om kundestamdata (RSM-028)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Anmodning om oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
@@ -1152,7 +1154,10 @@
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_1": "Anmodning om ændring af aftagepligt (RSM-021)",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Godkendelse af ændring af aftagepligt (RSM-021)",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Afvisning af ændring af aftagepligt (RSM-021)",
-        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)"
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)",
+        "BRS_041_V1_STEP_1": "Anmodning om ændring af elvarmestatus (RSM-027)",
+        "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
+        "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)"
       },
       "details": {
         "notFound": "Process ikke fundet",
@@ -2239,7 +2244,7 @@
       "fileName": "DataHub netområder - {{ shared.downloadNameParams }}",
       "columns": {
         "code": "Netområde",
-        "actor": "Netvirksomhed",
+        "owner": "Netvirksomhed",
         "organization": "Organisation",
         "status": "Status",
         "type": "Type",

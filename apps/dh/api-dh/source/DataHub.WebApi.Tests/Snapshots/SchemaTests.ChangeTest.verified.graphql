@@ -88,10 +88,6 @@ type ActorCredentialsDto {
   clientSecretCredentials: ActorClientSecretCredentialsDto
 }
 
-type ActorNameDto {
-  value: String!
-}
-
 type AddChargeSeriesPayload {
   boolean: Boolean
 }
@@ -190,8 +186,8 @@ type AuditIdentityDto {
 
 type BalanceResponsibilityAgreement {
   gridArea: GridAreaDto
-  energySupplierWithName: MarketParticipantNameWithId
-  balanceResponsibleWithName: MarketParticipantNameWithId
+  energySupplierWithName: MarketParticipant
+  balanceResponsibleWithName: MarketParticipant
   meteringPointType: MarketParticipantMeteringPointType!
   validPeriod: DateRange!
   status: BalanceResponsibilityAgreementStatus!
@@ -200,8 +196,8 @@ type BalanceResponsibilityAgreement {
 type BalanceResponsible {
   storageDocumentUrl: String
   gridArea: GridAreaDto
-  energySupplierName: String
-  balanceResponsibleName: String
+  energySupplierName: MarketParticipant
+  balanceResponsibleName: MarketParticipant
   validPeriod: DateRange!
   id: String!
   receivedDateTime: DateTime!
@@ -569,7 +565,7 @@ type ElectricityMarketViewAnnualDate {
 }
 
 type ElectricityMarketViewCommercialRelationDto {
-  energySupplierName: ActorNameDto
+  energySupplierName: MarketParticipant
   id: String!
   energySupplier: String!
   startDate: DateTime!
@@ -725,7 +721,7 @@ type EsettOutgoingMessage {
 
 type ExchangeEventSearchResult {
   gridArea: GridAreaDto
-  energySupplier: ActorNameDto
+  energySupplier: MarketParticipant
   documentId: String!
   actorNumber: String
   gridAreaCodeOut: String
@@ -841,12 +837,15 @@ type GridAreaDto {
   validFrom: DateTime!
   validTo: DateTime
   toBeDiscontinued: Boolean!
+  actorNumber: String
+  actorName: String
   displayName: String!
+  displayCodeGlnActor: String!
   status: GridAreaStatus!
 }
 
 type GridAreaOverviewItemDto {
-  actor: String!
+  owner: MarketParticipant
   auditLog: [GridAreaAuditedChangeAuditLogDto!]!
   id: UUID!
   code: String!
@@ -861,6 +860,7 @@ type GridAreaOverviewItemDto {
   type: GridAreaType!
   toBeDiscontinued: Boolean!
   displayName: String!
+  displayCodeGlnActor: String!
   status: GridAreaStatus!
 }
 
@@ -967,6 +967,7 @@ type MarketParticipant {
   auditLogs: [ActorAuditedChangeAuditLogDto!]!
   delegations: [MessageDelegationType!]!
   displayName: String!
+  displayNameWithoutMarketRole: String!
   additionalRecipientForMeasurements: [String!]!
   publicMail: MarketParticipantPublicMail
   contact: ActorContactDto
@@ -992,11 +993,6 @@ type MarketParticipantDelegationAuditLog {
   stopsAt: String
   gridAreaName: String!
   processType: String!
-}
-
-type MarketParticipantNameWithId {
-  id: UUID!
-  actorName: ActorNameDto!
 }
 
 type MarketParticipantPublicMail {
@@ -1473,6 +1469,7 @@ type Query {
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(calculationType: StartCalculationType! period: PeriodInput!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  temporaryStorageData(meteringPointId: String! transactionId: String!): RequestTemporaryStorageResult @authorize(roles: [ "metering-point:move-in" ])
   processes(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ProcessSortInput!]): ProcessesConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   processById(id: UUID!): OrchestrationInstance!
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection @authorize(roles: [ "calculations:manage", "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
@@ -1614,6 +1611,11 @@ type RequestSettlementReportPayload {
   boolean: Boolean
 }
 
+type RequestTemporaryStorageResult {
+  firstCustomerName: String!
+  isBusinessCustomer: Boolean!
+}
+
 "A connection to a list of items."
 type RequestsConnection {
   "Information to aid in pagination."
@@ -1649,6 +1651,7 @@ type ResetTwoFactorAuthenticationPayload {
 }
 
 type SelectionActorDto {
+  displayName: String!
   id: UUID!
   gln: String!
   actorName: String!
@@ -3464,6 +3467,7 @@ enum ProcessManagerBusinessReason {
   ChangeOfEnergySupplier
   ProcessCancelledByRequestingParty
   ProductionObligation
+  NoDisconnectionOfMeteringPoint
 }
 
 enum ProcessStepState {

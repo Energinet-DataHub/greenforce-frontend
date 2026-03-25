@@ -253,22 +253,24 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
           </vater-flex>
         }
         <!-- Footer - Message input form -->
-        <form
-          vater
-          sticky="bottom"
-          class="watt-space-inset-ml sticky-background"
-          fill="horizontal"
-          (ngSubmit)="sendMessage()"
-          (keydown.enter)="$event.preventDefault()"
-        >
-          <dh-actor-conversation-message-form
-            [loading]="uploading() || sendActorConversationMessageMutation.loading()"
-            [closed]="!!conversation()?.closed"
-            [uploadError]="uploadError()"
-            [formControl]="formControl"
-            [disableAnonymous]="disableAnonymous()"
-          />
-        </form>
+        @if (isPartOfConversation()) {
+          <form
+            vater
+            sticky="bottom"
+            class="watt-space-inset-ml sticky-background"
+            fill="horizontal"
+            (ngSubmit)="sendMessage()"
+            (keydown.enter)="$event.preventDefault()"
+          >
+            <dh-actor-conversation-message-form
+              [loading]="uploading() || sendActorConversationMessageMutation.loading()"
+              [closed]="!!conversation()?.closed"
+              [uploadError]="uploadError()"
+              [formControl]="formControl"
+              [disableAnonymous]="disableAnonymous()"
+            />
+          </form>
+        }
       </vater-flex>
     </dh-result>
   `,
@@ -285,7 +287,7 @@ export class DhActorConversationDetailsComponent {
     }
   });
 
-  isPathOfConversation = computed(() => this.conversation()?.partOfConversations);
+  isPartOfConversation = computed(() => this.conversation()?.partOfConversations);
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
   conversationId = input.required<string>();
@@ -323,14 +325,6 @@ export class DhActorConversationDetailsComponent {
   private getParticipant(type: ParticipantType) {
     return computed(() => this.conversation()?.participants.find((p) => p.type === type));
   }
-
-  private readonly partOfConversationEffect = effect(() => {
-    if (this.isPathOfConversation()) {
-      this.formControl.enable();
-    } else {
-      this.formControl.disable();
-    }
-  });
 
   private readonly clearMessageFormEffect = effect(() => {
     this.conversationId();

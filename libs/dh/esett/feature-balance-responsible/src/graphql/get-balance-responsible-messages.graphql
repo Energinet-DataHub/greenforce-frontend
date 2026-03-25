@@ -8,9 +8,15 @@ query GetBalanceResponsibleMessages(
     items {
       id
       receivedDateTime
-      energySupplierName
+      energySupplierName {
+        id
+        displayName
+      }
       supplier
-      balanceResponsibleName
+      balanceResponsibleName {
+        id
+        displayName
+      }
       storageDocumentUrl
       balanceResponsible
       meteringPointType
@@ -19,6 +25,7 @@ query GetBalanceResponsibleMessages(
         id
         code
         name
+        displayName
       }
     }
     pageInfo {

@@ -27,10 +27,10 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import {
-  injectToast,
-  dhMakeFormControl,
   dhFormControlToSignal,
+  dhMakeFormControl,
   injectRelativeNavigate,
+  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { WATT_CARD } from '@energinet/watt/card';
@@ -40,8 +40,9 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 
 import {
   AddressTypeV1,
-  GetMeteringPointByIdDocument,
   ChangeCustomerCharacteristicsBusinessReason,
+  GetMeteringPointByIdDocument,
+  GetTemporaryStorageDataDocument,
   RequestChangeCustomerCharacteristicsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -109,17 +110,17 @@ import { Router } from '@angular/router';
         <vater-stack class="margin-medium" direction="row" justify="space-between">
           <vater-stack direction="row" gap="m">
             <h3>{{ t('updateCustomerData') }}</h3>
-            @if (query.loading()) {
+            @if (getMeteringPointQuery.loading()) {
               <watt-spinner [diameter]="22" />
             }
           </vater-stack>
           <vater-stack direction="row" gap="m">
-            <watt-button (click)="navigate('..')" variant="secondary">{{
-              t('cancel')
-            }}</watt-button>
-            <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()">{{
-              t('updateCustomerData')
-            }}</watt-button>
+            <watt-button (click)="navigate('..')" variant="secondary"
+              >{{ t('cancel') }}
+            </watt-button>
+            <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
+              >{{ t('updateCustomerData') }}
+            </watt-button>
           </vater-stack>
         </vater-stack>
       </watt-card>
@@ -182,16 +183,29 @@ export class DhUpdateCustomerDataComponent {
     this.toast(this.requestChangeCustomerCharacteristics.status())
   );
   requestChangeCustomerCharacteristics = mutation(RequestChangeCustomerCharacteristicsDocument);
-  query = query(GetMeteringPointByIdDocument, () => ({
+  getMeteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
       searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
       actorGln: this.actor.gln,
     },
   }));
-  private readonly customers = computed(
-    () => this.query.data()?.meteringPoint.commercialRelation?.activeEnergySupplyPeriod?.customers
+  temporaryStorageCustomerQuery = query(GetTemporaryStorageDataDocument, () => ({
+    skip: !this.processId(),
+    variables: {
+      meteringPointId: this.meteringPointId(),
+      transactionId: this.processId() ?? '',
+    },
+  }));
+  private readonly temporaryStorageCustomer = computed(
+    () => this.temporaryStorageCustomerQuery.data()?.temporaryStorageData
   );
+  private readonly customers = computed(
+    () =>
+      this.getMeteringPointQuery.data()?.meteringPoint.commercialRelation?.activeEnergySupplyPeriod
+        ?.customers
+  );
+
   private readonly legalCustomer = computed(() =>
     this.customers()?.find((customer) => customer.relationType === 'JURIDICAL')
   );
@@ -202,13 +216,15 @@ export class DhUpdateCustomerDataComponent {
     this.customers()?.find((customer) => customer.relationType === 'SECONDARY')
   );
   private readonly installationAddress = computed(
-    () => this.query.data()?.meteringPoint.metadata?.installationAddress
+    () => this.getMeteringPointQuery.data()?.meteringPoint.metadata?.installationAddress
   );
   private readonly technicalContact = computed(() => this.technicalCustomer()?.technicalContact);
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
   navigate = injectRelativeNavigate();
-  isBusinessCustomer = computed(() => this.legalCustomer()?.cvr !== null);
+  isBusinessCustomer = computed(
+    () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
+  );
   meteringPointId = input.required<string>();
   processId = input<string>();
   internalMeteringPointId = input.required<string>();
@@ -269,6 +285,21 @@ export class DhUpdateCustomerDataComponent {
   private readonly legalCustomerNameChanged = dhFormControlToSignal(
     () => this.form().controls.privateCustomerDetails.controls.customerName1
   );
+
+  private readonly prefillCustomerNameFromTemporaryStorage = effect(() => {
+    const data = this.temporaryStorageCustomer();
+    if (!data) return;
+
+    if (data.isBusinessCustomer) {
+      this.form().controls.businessCustomerDetails.controls.companyName.setValue(
+        data.firstCustomerName
+      );
+    } else {
+      this.form().controls.privateCustomerDetails.controls.customerName1.setValue(
+        data.firstCustomerName
+      );
+    }
+  });
 
   /** Sync technical */
   private readonly technicalNameSameAsContactNameToggle = dhFormControlToSignal(
@@ -357,7 +388,8 @@ export class DhUpdateCustomerDataComponent {
           businessReason: this.processId()
             ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
             : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer,
-          electricalHeating: this.query.data()?.meteringPoint.haveElectricalHeating ?? false,
+          electricalHeating:
+            this.getMeteringPointQuery.data()?.meteringPoint.haveElectricalHeating ?? false,
           firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
           secondCustomerCpr: !this.isBusinessCustomer() ? cpr2 : undefined,
           firstCustomerName: !this.isBusinessCustomer() ? customerName1 : companyName,

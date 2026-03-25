@@ -25,7 +25,10 @@ query GetGridAreaOverview(
       priceAreaCode
       validFrom
       validTo
-      actor
+      owner {
+        id
+        displayNameWithoutMarketRole
+      }
       organizationName
       type
       fullFlexDate

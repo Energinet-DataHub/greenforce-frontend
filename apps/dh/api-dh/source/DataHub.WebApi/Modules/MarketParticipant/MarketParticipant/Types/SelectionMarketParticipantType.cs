@@ -14,6 +14,17 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Types;
 
-public sealed record MarketParticipantNameWithId(Guid Id, ActorNameDto ActorName);
+[ObjectType<SelectionActorDto>]
+public static partial class SelectionMarketParticipantType
+{
+    public static string DisplayName(
+    [Parent] SelectionActorDto selectionActor,
+    [Service] IHttpContextAccessor httpContextAccessor) => selectionActor switch
+    {
+        null => string.Empty,
+        var actor when actor.MarketRole == default => $"{actor.Gln} • {actor.ActorName}",
+        var actor => $"{actor.Gln} • {actor.ActorName} ({MarketRoleTranslator.Translate(actor.MarketRole, httpContextAccessor)})",
+    };
+}

@@ -86,7 +86,7 @@ import { DhCancelReportRequest } from './cancel-report-request.component';
         </ng-container>
 
         <ng-container *wattTableCell="columns['actorName']; let entry">
-          {{ entry.actor?.name }}
+          {{ entry.actor?.displayName }}
         </ng-container>
 
         <ng-container *wattTableCell="columns['calculationType']; let entry">
@@ -149,7 +149,7 @@ export class DhSettlementReports {
   activeRow = model<DhSettlementReport>();
   columns: WattTableColumnDef<DhSettlementReport> = {
     startedAt: { accessor: (report) => report.executionTime.start },
-    actorName: { accessor: (report) => report.actor?.name },
+    actorName: { accessor: (report) => report.actor?.displayName },
     calculationType: { accessor: 'calculationType' },
     period: { accessor: (report) => report.period.start },
     numberOfGridAreasInReport: { accessor: 'numberOfGridAreasInReport' },

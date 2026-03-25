@@ -110,7 +110,7 @@ export type InstallationAddress = Metadata['installationAddress'];
 
 export type EnergySupplier = {
   gln?: CommercialRelation['energySupplier'];
-  name?: NonNullable<CommercialRelation['energySupplierName']>['value'];
+  name?: NonNullable<CommercialRelation['energySupplierName']>['displayName'];
   validFrom?: ActiveEnergySupplyPeriod['validFrom'];
 };
 

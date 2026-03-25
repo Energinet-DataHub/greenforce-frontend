@@ -66,7 +66,7 @@ export class DhMessageArchiveSearchFormService {
   actorOptions = computed(() =>
     this.marketParticipants().map((actor) => ({
       value: actor.id,
-      displayValue: actor.name || actor.glnOrEicNumber,
+      displayValue: actor.displayName,
     }))
   );
 
