@@ -78,10 +78,8 @@ export default defineConfig(() => {
   const setupFile = join(libRoot, 'tests/test-setup.ts');
   const setupFiles = existsSync(setupFile) ? ['tests/test-setup.ts'] : [];
 
-  // Prefer tsconfig.spec.json (includes test file globs); fall back to tsconfig.json
-  const tsconfig = existsSync(join(libRoot, 'tsconfig.spec.json'))
-    ? './tsconfig.spec.json'
-    : './tsconfig.json';
+  // Use the shared product-level tsconfig.spec.json for Angular compilation
+  const tsconfig = '../../tsconfig.spec.json';
 
   const angularPlugins = useAngular ? [angular({ tsconfig })] : [];
 
