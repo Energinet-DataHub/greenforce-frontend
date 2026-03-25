@@ -90,7 +90,7 @@ import { DhReportStatus } from '../report-status.component';
             <dh-duration [value]="report().executionTime" />
           </watt-description-list-item>
           <watt-description-list-item [label]="t('columns.actorName')">
-            {{ report().actor?.name }}
+            {{ report().actor?.displayName }}
           </watt-description-list-item>
         </watt-description-list>
       </watt-drawer-heading>

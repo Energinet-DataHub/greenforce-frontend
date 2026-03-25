@@ -4,7 +4,7 @@ query GetMeasurementsReports {
     createdDateTime
     actor {
       id
-      name
+      displayName
     }
     meteringPointTypes
     meteringPointIds

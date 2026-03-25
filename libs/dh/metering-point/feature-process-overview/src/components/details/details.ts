@@ -50,7 +50,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
     SupportedActionsPipe,
   ],
   template: `
-    <watt-drawer autoOpen [key]="id()" (closed)="navigation.navigate('list')">
+    <watt-drawer size="large" autoOpen [key]="id()" (closed)="navigation.navigate('list')">
       <watt-drawer-topbar>
         @if (isLoading() || state()) {
           <dh-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">

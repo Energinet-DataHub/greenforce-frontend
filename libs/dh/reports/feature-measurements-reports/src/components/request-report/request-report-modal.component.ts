@@ -147,7 +147,11 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
 
   private readonly requestReportMutation = mutation(RequestMeasurementsReportDocument);
 
-  private energySupplierOptionsSignal = getActorOptions([EicFunction.EnergySupplier]);
+  private energySupplierOptionsSignal = getActorOptions(
+    [EicFunction.EnergySupplier],
+    'glnOrEicNumber',
+    'displayNameWithoutMarketRole'
+  );
 
   private modal = viewChild.required(WattModalComponent);
 

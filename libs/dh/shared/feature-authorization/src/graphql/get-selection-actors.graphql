@@ -5,5 +5,6 @@ query GetSelectionMarketParticipants {
     actorName
     organizationName
     marketRole
+    displayName
   }
 }

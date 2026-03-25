@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { Component, computed, inject } from '@angular/core';
+import { afterNextRender, Component, computed, inject, viewChild } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
@@ -89,6 +89,15 @@ export class DhMarketParticipantsComponent {
   private readonly navigationService = inject(DhNavigationService);
   private readonly modalService = inject(WattModalService);
   private readonly appInsights = inject(DhApplicationInsights);
+  private readonly dataTable = viewChild(WattDataTableComponent);
+
+  constructor() {
+    afterNextRender(() => {
+      if (!this.navigationService.id()) {
+        this.dataTable()?.focusSearch();
+      }
+    });
+  }
 
   dataSource = new GetPaginatedMarketParticipantsDataSource();
 

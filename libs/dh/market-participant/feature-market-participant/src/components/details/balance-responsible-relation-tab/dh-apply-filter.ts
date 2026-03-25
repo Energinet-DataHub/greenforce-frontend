@@ -16,10 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  DhBalanceResponsibleRelation,
-  DhBalanceResponsibleRelationFilters,
-} from './dh-balance-responsible-relation';
+import { DhBalanceResponsibleRelation, DhBalanceResponsibleRelationFilters } from './types';
 
 export const dhApplyFilter = (
   filters: DhBalanceResponsibleRelationFilters,
