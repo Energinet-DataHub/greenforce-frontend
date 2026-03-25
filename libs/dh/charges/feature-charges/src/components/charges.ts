@@ -20,7 +20,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { VATER } from '@energinet/watt/vater';
 
 import {
   WattTableColumnDef,
@@ -44,6 +44,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 
 import { Charge } from '../types';
 import { DhChargesFilters } from './charges-filters';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
 @Component({
   selector: 'dh-charges',
@@ -53,19 +54,20 @@ import { DhChargesFilters } from './charges-filters';
     RouterOutlet,
     TranslocoDirective,
     TranslocoPipe,
-    VaterStackComponent,
-    VaterUtilityDirective,
+    VATER,
     WattButtonComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattIconComponent,
     WattTableCellDirective,
     WattTableComponent,
+    WattTooltipDirective,
     DhChargesStatus,
     DhChargesFilters,
     DhPermissionRequiredDirective,
     DhChargesStatus,
     WattDataActionsComponent,
+    WattTooltipDirective,
   ],
   providers: [DhNavigationService],
   template: `
@@ -108,9 +110,17 @@ import { DhChargesFilters } from './charges-filters';
         <ng-container *wattTableCell="columns.type; let element">
           {{ 'charges.chargeTypes.' + element.type | transloco }}
         </ng-container>
-        <ng-container *wattTableCell="columns.status; let element">
+        <vater-stack direction="row" gap="xs" *wattTableCell="columns.status; let element">
           <dh-charges-status [status]="element.status" />
-        </ng-container>
+          @if (hasPendingPeriod(element)) {
+            <watt-icon
+              size="s"
+              [style.color]="'var(--watt-color-primary)'"
+              name="time"
+              [wattTooltip]="'Har afventende periode'"
+            />
+          }
+        </vater-stack>
         <ng-container *wattTableCell="columns.resolution; let element">
           {{ 'charges.resolutions.' + element.resolution | transloco }}
         </ng-container>
@@ -132,6 +142,9 @@ export class DhCharges {
     resolution: { accessor: 'resolution' },
     status: { accessor: 'status' },
   };
+
+  hasPendingPeriod = (charge: Charge) =>
+    charge.status !== 'AWAITING' && charge.periods.some((p) => p.status === 'AWAITING');
 
   fetch = (query: ChargesQueryInput) => this.dataSource.refetch({ query });
 

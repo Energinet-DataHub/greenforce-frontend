@@ -45,7 +45,7 @@ public record Charge(
 
     public bool TransparentInvoicing => LatestPeriod.TransparentInvoicing;
 
-    public ChargeStatus Status => LatestPeriod.Status;
+    public ChargeStatus Status => ActivePeriod?.Status ?? LatestPeriod.Status;
 
     public string FilterText => $"{Code} {Name} {Description}";
 }
