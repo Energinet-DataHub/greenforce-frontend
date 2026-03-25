@@ -31,7 +31,7 @@ public class ChargeLinkClient(
     public async Task<IEnumerable<ChargeLinkDto>> GetChargeLinksByMeteringPointIdAsync(
         string meteringPointId,
         CancellationToken ct = default) => await chargesClient
-            .GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(meteringPointId), ct)
+            .GetChargeLinksAsync(new(meteringPointId), ct)
             .Then(r => r.Data ?? []);
 
     public async Task<ChargeLinkDto?> GetChargeLinkByIdAsync(ChargeLinkId id, CancellationToken ct = default)

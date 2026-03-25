@@ -16,6 +16,7 @@ using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
@@ -90,12 +91,11 @@ public static partial class ChargeLinkOperations
                 string.Empty,
                 string.Empty))];
 
-    public static async Task<Charge> GetChargeAsync(
+    public static async Task<Charge?> GetChargeAsync(
         [Parent] ChargeLinkDto chargeLink,
         IChargesClient client,
         CancellationToken ct)
-        => await client.GetChargeByIdAsync(chargeLink.ChargeIdentifier, ct)
-            ?? throw new GraphQLException("Charge not found");
+        => await client.GetChargeByIdAsync(chargeLink.ChargeIdentifier, ct);
 
     public static int GetAmount([Parent] ChargeLinkDto chargeLink)
         => chargeLink.GetPeriod().Factor;
