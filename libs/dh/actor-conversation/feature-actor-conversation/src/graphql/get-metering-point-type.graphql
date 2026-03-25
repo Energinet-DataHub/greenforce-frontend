@@ -1,0 +1,10 @@
+query GetMeteringPointType($meteringPointId: String!) {
+  meteringPoint(meteringPointId: $meteringPointId, searchMigratedMeteringPoints: false) {
+    id
+    meteringPointId
+    metadata {
+      id
+      type
+    }
+  }
+}

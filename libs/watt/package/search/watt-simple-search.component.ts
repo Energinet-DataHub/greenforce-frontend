@@ -91,6 +91,10 @@ export class WattSimpleSearchComponent {
     this.search$.next(processed);
   }
 
+  focus(): void {
+    this.input().nativeElement.focus();
+  }
+
   clear(): void {
     const element = this.input().nativeElement;
     if (element.value === '') return;
