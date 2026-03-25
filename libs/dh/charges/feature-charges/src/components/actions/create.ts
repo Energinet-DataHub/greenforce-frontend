@@ -200,7 +200,7 @@ export default class DhChargesCreate {
           Validators.required
         ),
         spotDependingPrice: dhMakeFormControl<boolean>(
-          { value: null, disabled: this.type() == 'TARIFF_TAX' },
+          { value: null, disabled: this.type() !== 'TARIFF' },
           Validators.required
         ),
       })
