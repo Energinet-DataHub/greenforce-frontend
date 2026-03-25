@@ -105,11 +105,8 @@ public class ChargesClient(
 
     public async Task<IEnumerable<Charge>> GetChargesByTypeAsync(ChargeType type, CancellationToken ct = default)
     {
-        var owner = httpContext?.HttpContext?.User?.GetMarketParticipantNumber();
-        ArgumentNullException.ThrowIfNull(owner);
-
         var result = await client.GetChargeInformationAsync(
-            new(0, 10_000, new(string.Empty, [owner], [type.Type]), ChargeInformationSortProperty.Type, false),
+            new(0, 10_000, new(string.Empty, [], [type.Type]), ChargeInformationSortProperty.Type, false),
             ct);
 
         return !result.IsSuccess
