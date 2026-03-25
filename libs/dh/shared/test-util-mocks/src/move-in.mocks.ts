@@ -72,8 +72,8 @@ function getTemporaryStorageData() {
           __typename: 'RequestTemporaryStorageResult',
           firstCustomerName: 'John Doe',
           isBusinessCustomer: false,
-        }
-      }
-    })
-  })
+        },
+      },
+    });
+  });
 }

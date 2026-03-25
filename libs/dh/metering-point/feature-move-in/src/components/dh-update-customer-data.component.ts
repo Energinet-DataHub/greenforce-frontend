@@ -116,13 +116,11 @@ import { CustomerWithContacts } from '../types';
             }
           </vater-stack>
           <vater-stack direction="row" gap="m">
-            <watt-button (click)="navigate('..')" variant="secondary">{{
-                t('cancel')
-              }}
+            <watt-button (click)="navigate('..')" variant="secondary"
+              >{{ t('cancel') }}
             </watt-button>
-            <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()">{{
-                t('updateCustomerData')
-              }}
+            <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
+              >{{ t('updateCustomerData') }}
             </watt-button>
           </vater-stack>
         </vater-stack>
@@ -204,13 +202,16 @@ export class DhUpdateCustomerDataComponent {
     if (this.processId()) {
       const data = this.temporaryStorageCustomerQuery.data()?.temporaryStorageData;
       if (!data) return undefined;
-      return this.getCustomersWithContacts(data.firstCustomerName, data.isBusinessCustomer)
+      return this.getCustomersWithContacts(data.firstCustomerName, data.isBusinessCustomer);
     }
-    return this.getMeteringPointQuery.data()?.meteringPoint.commercialRelation?.activeEnergySupplyPeriod
-      ?.customers;
+    return this.getMeteringPointQuery.data()?.meteringPoint.commercialRelation
+      ?.activeEnergySupplyPeriod?.customers;
   });
 
-  private getCustomersWithContacts(name: string, isBusinessCustomer: boolean): CustomerWithContacts[] {
+  private getCustomersWithContacts(
+    name: string,
+    isBusinessCustomer: boolean
+  ): CustomerWithContacts[] {
     return [
       {
         id: '',
@@ -389,7 +390,8 @@ export class DhUpdateCustomerDataComponent {
           businessReason: this.processId()
             ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
             : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer,
-          electricalHeating: this.getMeteringPointQuery.data()?.meteringPoint.haveElectricalHeating ?? false,
+          electricalHeating:
+            this.getMeteringPointQuery.data()?.meteringPoint.haveElectricalHeating ?? false,
           firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
           secondCustomerCpr: !this.isBusinessCustomer() ? cpr2 : undefined,
           firstCustomerName: !this.isBusinessCustomer() ? customerName1 : companyName,
