@@ -288,7 +288,7 @@ const chargeLinks: ChargeLink[] = [
     amount: 75.5,
     period: {
       __typename: 'ChargeLinkPeriod',
-      amount: 1,
+      amount: 75.5,
       interval: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     },
     history: [
