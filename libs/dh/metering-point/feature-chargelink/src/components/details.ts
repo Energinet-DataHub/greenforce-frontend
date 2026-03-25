@@ -124,7 +124,7 @@ export default class DhChargeLinkDetails {
 
   columns = {
     submittedAt: { accessor: (row) => row.submittedAt },
-    description: { accessor: (row) => row.description },
+    // description: { accessor: (row) => row.description },
     menu: { accessor: null, header: '', size: 'min-content' },
   } satisfies WattTableColumnDef<History>;
 }
