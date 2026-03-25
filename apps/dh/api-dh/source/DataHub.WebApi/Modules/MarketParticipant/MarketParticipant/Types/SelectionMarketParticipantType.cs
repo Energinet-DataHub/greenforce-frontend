@@ -20,10 +20,11 @@ namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Types;
 public static partial class SelectionMarketParticipantType
 {
     public static string DisplayName(
-    [Parent] SelectionActorDto selectionActor) => selectionActor switch
+    [Parent] SelectionActorDto selectionActor,
+    [Service] IHttpContextAccessor httpContextAccessor) => selectionActor switch
     {
         null => string.Empty,
         var actor when string.IsNullOrWhiteSpace(actor.MarketRole.ToString()) => $"{actor.Gln} • {actor.ActorName}",
-        var actor => $"{actor.Gln} • {actor.ActorName} ({actor.MarketRole})",
+        var actor => $"{actor.Gln} • {actor.ActorName} ({MarketRoleTranslator.Translate(actor.MarketRole, httpContextAccessor)})",
     };
 }
