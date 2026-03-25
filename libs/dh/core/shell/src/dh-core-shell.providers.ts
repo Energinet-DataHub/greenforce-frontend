@@ -41,7 +41,10 @@ import {
   dhB2CEnvironmentToken,
   environment,
 } from '@energinet-datahub/dh/shared/environments';
-import { dhLanguageServiceInitializer } from '@energinet-datahub/dh/globalization/feature-language-picker';
+import {
+  dhLanguageServiceInitializer,
+  dhLanguageInterceptor,
+} from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { highlightWorkerProvider } from '@energinet-datahub/dh/shared/feature-highlight';
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
@@ -59,6 +62,7 @@ const interceptors = [
   },
   // dhAuthorizationInterceptor must be registered after MsalInterceptor
   dhAuthorizationInterceptor,
+  dhLanguageInterceptor,
 ];
 
 const msalProviders = [

@@ -21,10 +21,7 @@ import { Component, effect, input } from '@angular/core';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 import { WattDatePipe } from '@energinet/watt/date';
 
-import {
-  DhBalanceResponsibleRelation,
-  DhBalanceResponsibleRelations,
-} from '../dh-balance-responsible-relation';
+import { DhBalanceResponsibleRelation, DhBalanceResponsibleRelations } from '../types';
 import { DhBalanceResponsibleRelationStatusComponent } from '../status/dh-balance-responsible-relation-status.component';
 
 @Component({
@@ -53,7 +50,7 @@ import { DhBalanceResponsibleRelationStatusComponent } from '../status/dh-balanc
       </ng-container>
 
       <ng-container *wattTableCell="columns['gridArea']; let entry">
-        {{ entry.gridArea?.displayName }}
+        {{ entry.gridArea?.displayCodeGlnActor }}
       </ng-container>
 
       <ng-container *wattTableCell="columns['status']; let entry">

@@ -39,6 +39,13 @@ public class GridAreaInterface
         var gridArea => $"{gridArea.Code} • {gridArea.Name}",
     };
 
+    public string DisplayCodeGlnActor([Parent] IGridArea gridarea) => gridarea switch
+    {
+        null => string.Empty,
+        var gridArea when string.IsNullOrWhiteSpace(gridArea.ActorNumber) || string.IsNullOrWhiteSpace(gridArea.ActorName) => DisplayName(gridArea),
+        var gridArea => $"{gridArea.Code} • {gridArea.ActorNumber} • {gridArea.ActorName}",
+    };
+
     public GridAreaStatus Status(
         [Parent] IGridArea gridarea) => gridarea.Status();
 

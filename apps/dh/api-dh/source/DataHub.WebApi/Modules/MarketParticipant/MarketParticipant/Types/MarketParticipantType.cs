@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Frozen;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
+using Microsoft.AspNetCore.Http;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Types;
@@ -108,11 +110,18 @@ public static partial class MarketParticipantType
             });
 
     public static string DisplayName(
+        [Parent] ActorDto actorDto,
+        [Service] IHttpContextAccessor httpContextAccessor) => actorDto switch
+        {
+            null => string.Empty,
+            var actor => $"{actor.ActorNumber.Value} • {actor.Name.Value} ({TranslateMarketRole(actor.MarketRole.EicFunction, httpContextAccessor)})",
+        };
+
+    public static string DisplayNameWithoutMarketRole(
         [Parent] ActorDto actorDto) => actorDto switch
         {
             null => string.Empty,
-            var actor when string.IsNullOrWhiteSpace(actor.MarketRole.EicFunction.ToString()) => actor.Name.Value,
-            var actor => $"{actor.MarketRole.EicFunction} • {actor.Name.Value}",
+            var actor => $"{actor.ActorNumber.Value} • {actor.Name.Value}",
         };
 
     public static async Task<ICollection<string>> AdditionalRecipientForMeasurementsAsync(
@@ -154,5 +163,49 @@ public static partial class MarketParticipantType
             .Field(f => f.MarketRole)
             .Name("marketRole")
             .Resolve(context => context.Parent<ActorDto>().MarketRole.EicFunction);
+    }
+
+    private static readonly FrozenDictionary<(EicFunction, string), string> MarketRoleTranslations =
+        new Dictionary<(EicFunction, string), string>
+        {
+            [(EicFunction.BalanceResponsibleParty, "da")] = "Balanceansvarlig",
+            [(EicFunction.BillingAgent, "da")] = "Faktureringsagent",
+            [(EicFunction.EnergySupplier, "da")] = "Elleverandør",
+            [(EicFunction.GridAccessProvider, "da")] = "Netvirksomhed",
+            [(EicFunction.ImbalanceSettlementResponsible, "da")] = "Ubalanceafregningsansvarlig",
+            [(EicFunction.MeteredDataAdministrator, "da")] = "Beskedsadministrator - aggregeringer",
+            [(EicFunction.MeteredDataResponsible, "da")] = "Måledataansvarlig",
+            [(EicFunction.MeteringPointAdministrator, "da")] = "Beskedadministrator",
+            [(EicFunction.MeterOperator, "da")] = "Måleoperatør",
+            [(EicFunction.SystemOperator, "da")] = "Systemoperatør",
+            [(EicFunction.DanishEnergyAgency, "da")] = "Energistyrelsen",
+            [(EicFunction.DataHubAdministrator, "da")] = "DataHub systemadministrator",
+            [(EicFunction.IndependentAggregator, "da")] = "Uafhængig aggregator",
+            [(EicFunction.SerialEnergyTrader, "da")] = "Seriel elhandler",
+            [(EicFunction.Delegated, "da")] = "Delegeret",
+            [(EicFunction.ItSupplier, "da")] = "IT-leverandør",
+            [(EicFunction.BalanceResponsibleParty, "en")] = "Balance responsible party",
+            [(EicFunction.BillingAgent, "en")] = "Billing agent",
+            [(EicFunction.EnergySupplier, "en")] = "Energy supplier",
+            [(EicFunction.GridAccessProvider, "en")] = "Grid access provider",
+            [(EicFunction.ImbalanceSettlementResponsible, "en")] = "Imbalance settlement responsible",
+            [(EicFunction.MeteredDataAdministrator, "en")] = "Metered data administrator",
+            [(EicFunction.MeteredDataResponsible, "en")] = "Metered data responsible",
+            [(EicFunction.MeteringPointAdministrator, "en")] = "Metering point administrator",
+            [(EicFunction.MeterOperator, "en")] = "Meter Operator",
+            [(EicFunction.SystemOperator, "en")] = "System operator",
+            [(EicFunction.DanishEnergyAgency, "en")] = "The Danish Energy Agency",
+            [(EicFunction.DataHubAdministrator, "en")] = "DataHub system administrator",
+            [(EicFunction.IndependentAggregator, "en")] = "Independent aggregator",
+            [(EicFunction.SerialEnergyTrader, "en")] = "Serial Energy Trader",
+            [(EicFunction.Delegated, "en")] = "Delegated",
+            [(EicFunction.ItSupplier, "en")] = "IT supplier",
+        }.ToFrozenDictionary();
+
+    private static string TranslateMarketRole(EicFunction eicFunction, IHttpContextAccessor httpContextAccessor)
+    {
+        var lang = httpContextAccessor.HttpContext?.Request.Headers.AcceptLanguage.ToString();
+        var key = lang?.StartsWith("en", StringComparison.OrdinalIgnoreCase) == true ? "en" : "da";
+        return MarketRoleTranslations.GetValueOrDefault((eicFunction, key), eicFunction.ToString());
     }
 }

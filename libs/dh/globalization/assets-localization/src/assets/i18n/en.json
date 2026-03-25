@@ -2239,7 +2239,7 @@
       "fileName": "DataHub grid areas - {{ shared.downloadNameParams }}",
       "columns": {
         "code": "Grid area",
-        "actor": "Grid access provider",
+        "owner": "Grid access provider",
         "organization": "Organisation",
         "status": "Status",
         "type": "Type",

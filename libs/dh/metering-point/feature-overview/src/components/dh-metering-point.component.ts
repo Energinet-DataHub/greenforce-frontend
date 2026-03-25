@@ -149,7 +149,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()"
               [label]="t('shared.energySupplier')"
             >
-              {{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
+              {{ commercialRelation()?.energySupplierName?.displayName | dhEmDashFallback }}
             </watt-description-list-item>
 
             <watt-description-list-item [label]="t('details.meteringPointSubType')">

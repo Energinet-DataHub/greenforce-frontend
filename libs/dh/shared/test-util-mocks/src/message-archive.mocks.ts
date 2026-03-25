@@ -345,7 +345,7 @@ function getMeteringPointProcessById(apiBase: string) {
               actor: {
                 __typename: 'MarketParticipant' as const,
                 id: initiators[processIndex % initiators.length].id,
-                name: initiators[processIndex % initiators.length].displayName.split(' • ')[1],
+                displayName: initiators[processIndex % initiators.length].displayName,
               },
             },
             {
@@ -362,7 +362,7 @@ function getMeteringPointProcessById(apiBase: string) {
               actor: {
                 __typename: 'MarketParticipant' as const,
                 id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
-                name: 'Energinet',
+                displayName: '5790001330552 • Energinet',
               },
             },
           ],

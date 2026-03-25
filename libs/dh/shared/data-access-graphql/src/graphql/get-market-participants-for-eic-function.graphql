@@ -2,12 +2,7 @@ query GetMarketParticipantsForEicFunction($eicFunctions: [EicFunction!]) {
   marketParticipantsForEicFunction(eicFunctions: $eicFunctions) {
     id
     glnOrEicNumber
-    name
-    marketRole
-    status
-    gridAreas {
-      id
-      code
-    }
+    displayName
+    displayNameWithoutMarketRole
   }
 }

@@ -1,7 +1,7 @@
 query GetFilteredMarketParticipants {
   filteredMarketParticipants {
     id
-    name
+    displayName
     marketRole
     organization {
       id

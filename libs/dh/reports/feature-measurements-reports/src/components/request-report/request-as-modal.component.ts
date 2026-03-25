@@ -86,7 +86,8 @@ export class DhRequestAsModal extends WattTypedModal {
       EicFunction.SystemOperator,
       EicFunction.DanishEnergyAgency,
     ],
-    'actorId'
+    'actorId',
+    'displayNameWithoutMarketRole'
   );
 
   submitInProgress = signal(false);
