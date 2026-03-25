@@ -114,9 +114,11 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
               <watt-description-list-item [label]="t('charge.transparentInvoicing')">
                 {{ charge.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
               </watt-description-list-item>
-              <watt-description-list-item [label]="t('charge.spotDependingPrice')">
-                {{ charge.spotDependingPrice ? ('yes' | transloco) : ('no' | transloco) }}
-              </watt-description-list-item>
+              @if (charge.type === 'TARIFF') {
+                <watt-description-list-item [label]="t('charge.spotDependingPrice')">
+                  {{ charge.spotDependingPrice ? ('yes' | transloco) : ('no' | transloco) }}
+                </watt-description-list-item>
+              }
             </watt-description-list>
           </header>
         }
