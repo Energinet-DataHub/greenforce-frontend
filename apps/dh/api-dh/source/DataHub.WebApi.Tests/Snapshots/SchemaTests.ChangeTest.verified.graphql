@@ -313,7 +313,7 @@ type Charge {
 
 type ChargeLink {
   history: [ChargeLinkHistory!]!
-  charge: Charge!
+  charge: Charge
   amount: Int!
   period: ChargeLinkPeriod!
   id: String!
