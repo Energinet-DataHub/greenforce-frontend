@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
+
 import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
-
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
@@ -27,7 +27,6 @@ import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
-import { dayjs } from '@energinet/watt/date';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -73,8 +72,6 @@ import { ChangeOfSupplierBusinessReason } from '@energinet-datahub/dh/shared/dom
       <watt-datepicker
         class="cutOffDate"
         [label]="t('cutOffDate')"
-        [min]="sevenDaysAgo"
-        [max]="sixtyDaysFromNow"
         [formControl]="form.controls.cutOffDate"
       />
 
@@ -172,9 +169,6 @@ import { ChangeOfSupplierBusinessReason } from '@energinet-datahub/dh/shared/dom
 })
 export class DhStartMoveInFormComponent {
   startMoveInForm = input.required<FormGroup<StartMoveInFormType>>();
-
-  sevenDaysAgo = dayjs().subtract(7, 'day').toDate();
-  sixtyDaysFromNow = dayjs().add(60, 'day').toDate();
 
   businessReasonDropdownOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
     ChangeOfSupplierBusinessReason,

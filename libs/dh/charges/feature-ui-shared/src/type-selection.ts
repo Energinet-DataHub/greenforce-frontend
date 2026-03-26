@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 //#endregione';
-import { ChangeDetectionStrategy, Component, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, model } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ChargeType, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-charges-type-selection',
@@ -30,9 +31,11 @@ import { ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
     @if (!value()) {
       <vater-stack align="stretch" gap="m" offset="m">
         @for (chargeType of chargeTypes; track chargeType) {
-          <watt-button variant="selection" icon="right" (click)="value.set(chargeType)">
-            {{ 'charges.chargeTypes.' + chargeType | transloco }}
-          </watt-button>
+          @if (chargeType !== 'TARIFF_TAX' || canSeeTariffTax) {
+            <watt-button variant="selection" icon="right" (click)="value.set(chargeType)">
+              {{ 'charges.chargeTypes.' + chargeType | transloco }}
+            </watt-button>
+          }
         }
       </vater-stack>
     } @else {
@@ -41,6 +44,11 @@ import { ChargeType } from '@energinet-datahub/dh/shared/domain/graphql';
   `,
 })
 export class DhChargesTypeSelection {
+  selectedActor = inject(DhActorStorage).getSelectedActor();
+  canSeeTariffTax =
+    this.selectedActor.marketRole === EicFunction.SystemOperator ||
+    this.selectedActor.marketRole === EicFunction.EnergySupplier;
+
   chargeTypes = [ChargeType.Tariff, ChargeType.TariffTax, ChargeType.Subscription, ChargeType.Fee];
   value = model<ChargeType | null>(null);
 }

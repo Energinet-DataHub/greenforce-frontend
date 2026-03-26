@@ -25,4 +25,4 @@ public record CreateChargeInput(
     DateTimeOffset ValidFrom,
     bool Vat,
     bool? TransparentInvoicing,
-    bool SpotDependingPrice);
+    bool? SpotDependingPrice);
