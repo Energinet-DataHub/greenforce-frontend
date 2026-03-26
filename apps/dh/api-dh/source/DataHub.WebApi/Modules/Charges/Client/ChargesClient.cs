@@ -152,7 +152,7 @@ public class ChargesClient(
                 VatPayer: input.Vat ? VatPayerV2.D02 : VatPayerV2.D01,
                 TransparentInvoicing: input.TransparentInvoicing,
                 TaxIndicator: input.Type.IsTax,
-                PricingCategory: MapBoolToPricingCategoryV2(input.SpotDependingPrice))),
+                PricingCategory: MapToPricingCategoryV2(input.SpotDependingPrice))),
             ct);
 
         return result.IsSuccess;
@@ -174,7 +174,7 @@ public class ChargesClient(
                 VatPayer: input.Vat ? VatPayerV2.D02 : VatPayerV2.D01,
                 TransparentInvoicing: input.TransparentInvoicing,
                 TaxIndicator: null,
-                PricingCategory: MapBoolToPricingCategoryV2(charge.SpotDependingPrice))),
+                PricingCategory: MapToPricingCategoryV2(charge.SpotDependingPrice))),
             ct);
 
         return result.IsSuccess;
@@ -198,7 +198,7 @@ public class ChargesClient(
                 VatPayer: charge.VatInclusive ? VatPayerV2.D02 : VatPayerV2.D01,
                 TransparentInvoicing: charge.TransparentInvoicing,
                 TaxIndicator: charge.TaxIndicator,
-                PricingCategory: MapBoolToPricingCategoryV2(charge.SpotDependingPrice))),
+                PricingCategory: MapToPricingCategoryV2(charge.SpotDependingPrice))),
             ct);
 
         return result.IsSuccess;
@@ -243,8 +243,8 @@ public class ChargesClient(
                 .OrderByDescending(x => x.StartDate)
                 .ThenByDescending(x => x.EndDate)]);
 
-    private static PricingCategoryV2 MapBoolToPricingCategoryV2(bool spotDependingPrice)
-        => spotDependingPrice
+    private static PricingCategoryV2 MapToPricingCategoryV2(bool? spotDependingPrice)
+        => spotDependingPrice.GetValueOrDefault(false)
             ? PricingCategoryV2.SpotDependeningPrice
             : PricingCategoryV2.NotSpotDependingPrice;
 }

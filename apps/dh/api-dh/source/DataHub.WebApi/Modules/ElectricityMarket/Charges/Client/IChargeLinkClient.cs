@@ -31,6 +31,13 @@ public interface IChargeLinkClient
         CancellationToken ct = default);
 
     /// <summary>
+    /// Get a charge link by its id.
+    /// </summary>
+    Task<ChargeLinkDto?> GetChargeLinkByIdAsync(
+        ChargeLinkId id,
+        CancellationToken ct = default);
+
+    /// <summary>
     /// Stops a charge link at a given date.
     /// </summary>
     Task<bool> StopChargeLinkAsync(
