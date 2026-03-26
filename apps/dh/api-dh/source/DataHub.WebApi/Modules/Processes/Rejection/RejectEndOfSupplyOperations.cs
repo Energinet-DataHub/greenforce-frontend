@@ -28,6 +28,7 @@ public static class RejectEndOfSupplyOperations
         string meteringPointId,
         Guid processId,
         ReasonCodeV1 reasonCode,
+        string reasonMessage,
         string? description,
         IB2CClient ediB2CClient,
         CancellationToken ct)
@@ -39,7 +40,7 @@ public static class RejectEndOfSupplyOperations
                 ProcessReference: processId,
                 OriginalTransactionId: processId.ToString(),
                 Description: description,
-                Reasons: [new RejectReasonV1(reasonCode, description ?? string.Empty)]));
+                Reasons: [new RejectReasonV1(reasonCode, reasonMessage)]));
 
         var result = await ediB2CClient.SendAsync(command, ct);
 
