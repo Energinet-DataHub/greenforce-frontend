@@ -60,10 +60,12 @@ class MockPlatformLocation {
     return this._state;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pushState(state: unknown, _title: string, _url: string): void {
     this._state = state as Record<string, unknown>;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   replaceState(state: unknown, _title: string, _url: string): void {
     this._state = state as Record<string, unknown>;
   }
@@ -96,6 +98,7 @@ class MockPlatformLocation {
     // Mock implementation
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   historyGo(_relativePosition: number): void {
     // Mock implementation
   }
