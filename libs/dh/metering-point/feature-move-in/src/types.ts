@@ -36,7 +36,7 @@ export type StartMoveInFormType = {
   businessCustomer?: FormGroup<{
     companyName: FormControl<string>;
     cvr: FormControl<string>;
-    isForeignCompany: FormControl<boolean>;
+    isFictitiousCvr: FormControl<boolean>;
   }>;
 };
 

@@ -1301,7 +1301,7 @@
         "cpr": "CPR",
         "companyName": "Company name",
         "cvr": "CVR",
-        "foreignCompany": "Foreign company",
+        "fictitiousCvr": "Fictitious CVR",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "cprError": {
           "containsLetters": "Can only contain letters",

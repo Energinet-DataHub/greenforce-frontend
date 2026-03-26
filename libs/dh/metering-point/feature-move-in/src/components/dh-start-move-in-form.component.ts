@@ -158,8 +158,8 @@ import { ChangeOfSupplierBusinessReason } from '@energinet-datahub/dh/shared/dom
                 }
               </watt-field-error>
             </watt-text-field>
-            <watt-checkbox [formControl]="businessCustomer.controls.isForeignCompany">
-              {{ t('foreignCompany') }}
+            <watt-checkbox [formControl]="businessCustomer.controls.isFictitiousCvr">
+              {{ t('fictitiousCvr') }}
             </watt-checkbox>
           </vater-stack>
         }
