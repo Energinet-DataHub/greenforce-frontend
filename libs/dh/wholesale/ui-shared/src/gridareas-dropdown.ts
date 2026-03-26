@@ -16,15 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  untracked,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import {
@@ -83,23 +75,21 @@ export class DhCalculationsGridAreasDropdown {
 
   constructor() {
     effect(() => {
+      const control = this.control();
       const period = this.period();
-      untracked(() => {
-        const control = this.control();
-        const disabled = this.disabled();
+      const disabled = this.disabled();
 
-        if (!disabled && period) {
-          control.enable();
-          this.gridAreasQuery.refetch({ period, environment: this.environment.current });
-        } else {
-          control.disable();
-          this.gridAreasQuery.reset();
-        }
+      if (!disabled && period) {
+        control.enable();
+        this.gridAreasQuery.refetch({ period, environment: this.environment.current });
+      } else {
+        control.disable();
+        this.gridAreasQuery.reset();
+      }
 
-        // User did not touch the field yet
-        control.reset();
-        control.markAsUntouched();
-      });
+      // User did not touch the field yet
+      control.reset();
+      control.markAsUntouched();
     });
 
     effect(() => {

@@ -28,6 +28,7 @@ import {
   DestroyRef,
   ViewEncapsulation,
   computed,
+  untracked,
 } from '@angular/core';
 
 import {
@@ -235,9 +236,11 @@ export class WattDropdownComponent<T = string> implements ControlValueAccessor, 
   writeValue(value: WattDropdownValue) {
     this.matSelectControl.setValue(value, { emitEvent: false });
 
-    if (this.multiple()) {
-      this.determineToggleAllCheckboxState();
-    }
+    untracked(() => {
+      if (this.multiple()) {
+        this.determineToggleAllCheckboxState();
+      }
+    });
   }
 
   registerOnChange(onChangeFn: (value: WattDropdownValue) => void) {
