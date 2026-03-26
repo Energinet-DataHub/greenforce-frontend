@@ -18,6 +18,7 @@ using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Models;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 
@@ -29,18 +30,23 @@ public class ChargeLinkClient(
 {
     public async Task<IEnumerable<ChargeLinkDto>> GetChargeLinksByMeteringPointIdAsync(
         string meteringPointId,
-        CancellationToken ct = default)
-    {
-        var result = await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(meteringPointId), ct);
-        return result.Data ?? Enumerable.Empty<ChargeLinkDto>();
-    }
+        CancellationToken ct = default) => await chargesClient
+            .GetChargeLinksAsync(new(meteringPointId), ct)
+            .Then(r => r.Data ?? [])
+            .Then(r => r.Where(c => c.ChargeLinkPeriods.Count > 0));
+
+    public async Task<ChargeLinkDto?> GetChargeLinkByIdAsync(ChargeLinkId id, CancellationToken ct = default)
+        => await GetChargeLinksByMeteringPointIdAsync(id.MeteringPointId, ct)
+            .Then(r => r.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId));
 
     public async Task<bool> StopChargeLinkAsync(
         ChargeLinkId id,
         DateTimeOffset stopDate,
         CancellationToken ct = default)
     {
-        var chargeLink = (await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(id.MeteringPointId), ct)).Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)?.GetPeriod() ?? throw new InvalidOperationException($"Charge link with id {id} not found.");
+        var chargeLink = await GetChargeLinkByIdAsync(id, ct);
+        var period = chargeLink?.GetPeriod()
+            ?? throw new InvalidOperationException($"Charge link with id {id} not found.");
 
         var result = await b2cClient.SendAsync(
             new StopChargeLinkCommandV1(new(
@@ -49,7 +55,7 @@ public class ChargeLinkClient(
                 ToRequestChangeBillingMasterDataChargeType(id.ChargeId.TypeDto),
                 id.MeteringPointId,
                 stopDate,
-                chargeLink.Factor.ToString())),
+                period.Factor.ToString())),
             ct);
 
         return result.IsSuccess;
@@ -57,7 +63,9 @@ public class ChargeLinkClient(
 
     public async Task<bool> CancelChargeLinkAsync(ChargeLinkId id, CancellationToken ct = default)
     {
-        var chargeLink = (await chargesClient.GetChargeLinksAsync(new ChargeLinksSearchCriteriaDto(id.MeteringPointId), ct)).Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)?.GetPeriod() ?? throw new InvalidOperationException($"Charge link with id {id} not found.");
+        var chargeLink = await GetChargeLinkByIdAsync(id, ct);
+        var period = chargeLink?.GetPeriod()
+            ?? throw new InvalidOperationException($"Charge link with id {id} not found.");
 
         var result = await b2cClient.SendAsync(
             new StopChargeLinkCommandV1(new(
@@ -65,8 +73,8 @@ public class ChargeLinkClient(
                 id.ChargeId.Owner,
                 ToRequestChangeBillingMasterDataChargeType(id.ChargeId.TypeDto),
                 id.MeteringPointId,
-                chargeLink.From.ToDateTimeOffset(),
-                chargeLink.Factor.ToString())),
+                period.From.ToDateTimeOffset(),
+                period.Factor.ToString())),
             ct);
 
         return result.IsSuccess;
@@ -111,7 +119,7 @@ public class ChargeLinkClient(
         return result.IsSuccess;
     }
 
-    private ChargeTypeV1 ToRequestChangeBillingMasterDataChargeType(ChargeTypeDto type) => type switch
+    private static ChargeTypeV1 ToRequestChangeBillingMasterDataChargeType(ChargeTypeDto type) => type switch
     {
         ChargeTypeDto.Tariff => ChargeTypeV1.Tariff,
         ChargeTypeDto.Subscription => ChargeTypeV1.Subscription,
