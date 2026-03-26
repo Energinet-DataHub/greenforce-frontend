@@ -45,8 +45,8 @@ import {
   dhLanguageServiceInitializer,
   dhLanguageInterceptor,
 } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import { provideHiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
+import { provideHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 import { highlightWorkerProvider } from '@energinet-datahub/dh/shared/feature-highlight';
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';

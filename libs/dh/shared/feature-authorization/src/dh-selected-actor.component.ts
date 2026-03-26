@@ -29,10 +29,10 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { GetSelectionMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { windowLocationToken } from './window-location';
 import { DhActorStorage } from './dh-actor-storage';
-import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
 
 export type SelectionMarketParticipant = ResultOf<
   typeof GetSelectionMarketParticipantsDocument

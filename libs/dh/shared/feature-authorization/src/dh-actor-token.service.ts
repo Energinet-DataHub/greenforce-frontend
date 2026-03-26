@@ -32,9 +32,9 @@ import { SeverityLevel } from '@microsoft/applicationinsights-web';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhActorStorage } from './dh-actor-storage';
-import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
 
 type CachedEntry = { token: string; value: Observable<string> } | undefined;
 

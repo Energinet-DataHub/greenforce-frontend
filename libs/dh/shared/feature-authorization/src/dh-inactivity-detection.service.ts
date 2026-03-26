@@ -32,9 +32,9 @@ import {
 import { MsalService } from '@azure/msal-angular';
 
 import { WattModalService } from '@energinet/watt/modal';
+import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
-import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
 
 enum ActivityState {
   Inactive,

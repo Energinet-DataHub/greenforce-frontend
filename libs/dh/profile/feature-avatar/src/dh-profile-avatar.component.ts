@@ -28,7 +28,7 @@ import { DhProfileModalComponent } from '@energinet-datahub/dh/profile/feature-p
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
-import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/routing';
+import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 @Component({
   selector: 'dh-profile-avatar',
