@@ -25,6 +25,8 @@ import {
   PlatformLocation,
 } from '@angular/common';
 
+import { sessionStorageToken } from '@energinet-datahub/dh/shared/feature-authorization';
+
 /**
  * Key used to store the hidden URL in the history state object.
  * This is prefixed with double underscore to avoid conflicts with user state.
@@ -120,6 +122,7 @@ function joinWithSlash(start: string, end: string): string {
 @Injectable({ providedIn: 'root' })
 export class HiddenLocationStrategy extends LocationStrategy implements OnDestroy {
   private readonly platformLocation = inject(PlatformLocation);
+  private readonly sessionStorage = inject(sessionStorageToken);
   private readonly baseHref: string;
   private readonly removeListenerFns: Array<() => void> = [];
   private readonly document = inject(DOCUMENT);
@@ -145,13 +148,13 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
    * @returns The current session ID.
    */
   private initializeSessionId(): string {
-    const existingSessionId = sessionStorage.getItem(SESSION_STORAGE_KEY);
+    const existingSessionId = this.sessionStorage.getItem(SESSION_STORAGE_KEY);
     if (existingSessionId) {
       return existingSessionId;
     }
 
     const newSessionId = generateSessionId();
-    sessionStorage.setItem(SESSION_STORAGE_KEY, newSessionId);
+    this.sessionStorage.setItem(SESSION_STORAGE_KEY, newSessionId);
     return newSessionId;
   }
 
@@ -178,10 +181,10 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
    * ```
    */
   clearSession(): void {
-    sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    this.sessionStorage.removeItem(SESSION_STORAGE_KEY);
     // Generate a new session ID for any subsequent navigations
     this.sessionId = generateSessionId();
-    sessionStorage.setItem(SESSION_STORAGE_KEY, this.sessionId);
+    this.sessionStorage.setItem(SESSION_STORAGE_KEY, this.sessionId);
   }
 
   /**
@@ -423,7 +426,7 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
  * @publicApi
  */
 export function provideHiddenLocationStrategy(): Provider {
-  return { provide: LocationStrategy, useClass: HiddenLocationStrategy };
+  return { provide: LocationStrategy, useExisting: HiddenLocationStrategy };
 }
 
 /**
