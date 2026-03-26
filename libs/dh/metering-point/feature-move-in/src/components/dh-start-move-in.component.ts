@@ -87,14 +87,14 @@ export class DhStartMoveInComponent extends WattTypedModal<{
     customerType: this.fb.control(this.customerTypeInitialValue),
   });
 
-  readonly isForeignCompanyFormControl = this.fb.control<boolean>(false);
+  readonly isFictitiousCvrFormControl = this.fb.control<boolean>(false);
 
   private customerTypeChanged = toSignal(this.startMoveInForm.controls.customerType.valueChanges, {
     initialValue: this.customerTypeInitialValue,
   });
 
-  private isForeignCompanyChanged = toSignal<boolean>(
-    this.isForeignCompanyFormControl.valueChanges
+  private isFictitiousCvrChanged = toSignal<boolean>(
+    this.isFictitiousCvrFormControl.valueChanges
   );
 
   private customerTypeEffect = effect(() => {
@@ -112,7 +112,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
             Validators.required,
             dhMoveInCvrValidator(this.appEnv),
           ]),
-          isForeignCompany: this.isForeignCompanyFormControl,
+          isFictitiousCvr: this.isFictitiousCvrFormControl,
         })
       );
 
@@ -121,9 +121,9 @@ export class DhStartMoveInComponent extends WattTypedModal<{
     }
   });
 
-  private isForeignCompanyEffect = effect(() => {
-    const isForeignCompany = this.isForeignCompanyChanged();
-    if (isForeignCompany) {
+  private isFictitiousCvrEffect = effect(() => {
+    const isFictitiousCvr = this.isFictitiousCvrChanged();
+    if (isFictitiousCvr) {
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.disable();
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.setValue('11111111');
     } else {

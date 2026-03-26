@@ -1301,7 +1301,7 @@
         "cpr": "CPR",
         "companyName": "Navn",
         "cvr": "CVR",
-        "foreignCompany": "Udenlandsk virksomhed",
+        "fictitiousCvr": "Fiktivt CVR",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "cprError": {
           "containsLetters": "Må ikke indeholde bogstaver",
