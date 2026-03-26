@@ -1,0 +1,26 @@
+query GetGridAreaDetails($id: UUID!) {
+  gridAreaOverviewItemById(gridAreaId: $id) {
+    id
+    name
+    status
+    code
+    owner {
+      id
+      displayNameWithoutMarketRole
+    }
+    organizationName
+    priceAreaCode
+    type
+    validFrom
+    validTo
+    auditLog {
+      auditedBy
+      change
+      timestamp
+      isInitialAssignment
+      currentOwner
+      previousOwner
+      consolidatedAt
+    }
+  }
+}

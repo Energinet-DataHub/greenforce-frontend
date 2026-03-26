@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -30,7 +30,18 @@ import { WattToastService } from '@energinet/watt/toast';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { dayjs } from '@energinet/watt/date';
 
-import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import {
+  BasePaths,
+  getPath,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  RequestEndOfSupplyDocument,
+  GetMeteringPointProcessOverviewDocument,
+  GetSelectableDatesForEndOfSupplyDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-end-of-supply',
@@ -61,14 +72,13 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
         <vater-stack direction="column" gap="m" align="start">
           <watt-datepicker
             [label]="t('dateLabel')"
-            [min]="minDate"
+            [min]="minDate()"
             [max]="maxDate"
+            [dateFilter]="dateFilter()"
             [formControl]="form.controls.cutOffDate"
           >
             <watt-field-hint>{{ t('dateHint') }}</watt-field-hint>
           </watt-datepicker>
-
-          <p>{{ t('consequencesInfo') }}</p>
 
           <watt-checkbox [formControl]="form.controls.confirm">
             {{ t('confirmCheckbox') }}
@@ -81,46 +91,86 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
           {{ t('cancel') }}
         </watt-button>
 
-        <watt-button type="submit" formId="end-of-supply-form">
+        <watt-button type="submit" formId="end-of-supply-form" [loading]="loading()">
           {{ t('submit') }}
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
-export class DhEndOfSupplyComponent extends WattTypedModal<{ meteringPointId: string }> {
+export class DhEndOfSupplyComponent extends WattTypedModal<{
+  meteringPointId: string;
+  internalMeteringPointId: string;
+}> {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly toastService = inject(WattToastService);
-  private readonly transloco = inject(TranslocoService);
   private readonly router = inject(Router);
+  private readonly requestEndOfSupply = mutation(RequestEndOfSupplyDocument);
+  private readonly selectableDatesQuery = query(GetSelectableDatesForEndOfSupplyDocument);
 
   readonly modal = viewChild.required(WattModalComponent);
 
-  readonly minDate = dayjs().add(3, 'day').toDate();
   readonly maxDate = dayjs().add(60, 'day').toDate();
+  readonly loading = this.requestEndOfSupply.loading;
+
+  private readonly selectableDates = computed(() => {
+    const dates = this.selectableDatesQuery.data()?.selectableDatesForEndOfSupply;
+    if (!dates?.length) return undefined;
+    return new Set(dates.map((d) => dayjs(d).format('YYYY-MM-DD')));
+  });
+
+  readonly minDate = computed(() => {
+    const dates = this.selectableDatesQuery.data()?.selectableDatesForEndOfSupply;
+    return dates?.[0] ? dayjs(dates[0]).toDate() : dayjs().add(1, 'day').toDate();
+  });
+  readonly dateFilter = computed(() => {
+    const selectable = this.selectableDates();
+    if (!selectable) return undefined;
+    return (date: Date | null) => !!date && selectable.has(dayjs(date).format('YYYY-MM-DD'));
+  });
 
   readonly form = this.fb.group({
     cutOffDate: this.fb.control<Date | null>(null, Validators.required),
     confirm: this.fb.control<boolean>(false, Validators.requiredTrue),
   });
 
-  submit() {
+  async submit() {
     if (this.form.invalid) return;
 
-    this.toastService.open({
-      type: 'success',
-      message: this.transloco.translate('meteringPoint.endOfSupply.submitSuccess'),
-      actionLabel: this.transloco.translate('meteringPoint.endOfSupply.submitSuccessAction'),
-      action: (ref) => {
-        this.router.navigate([
-          getPath<BasePaths>('metering-point'),
-          this.modalData.meteringPointId,
-          getPath<MeteringPointSubPaths>('process-overview'),
-        ]);
-        ref.dismiss();
+    const { cutOffDate } = this.form.getRawValue();
+    assertIsDefined(cutOffDate);
+
+    await this.requestEndOfSupply.mutate({
+      refetchQueries: [GetMeteringPointProcessOverviewDocument],
+      variables: {
+        input: {
+          meteringPointId: this.modalData.meteringPointId,
+          terminationDate: cutOffDate,
+        },
+      },
+      onError: () => {
+        this.modal().close(false);
+        this.toastService.open({
+          type: 'danger',
+          message: translate('meteringPoint.endOfSupply.submitError'),
+        });
+      },
+      onCompleted: () => {
+        this.modal().close(true);
+        this.toastService.open({
+          type: 'success',
+          message: translate('meteringPoint.endOfSupply.submitSuccess'),
+          actionLabel: translate('meteringPoint.endOfSupply.submitSuccessAction'),
+          action: (ref) => {
+            this.router.navigate([
+              getPath<BasePaths>('metering-point'),
+              this.modalData.internalMeteringPointId,
+              getPath<MeteringPointSubPaths>('process-overview'),
+            ]);
+            ref.dismiss();
+          },
+        });
       },
     });
-
-    this.modal().close(true);
   }
 }

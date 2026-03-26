@@ -1,0 +1,8 @@
+query GetMarketParticipantsForEicFunction($eicFunctions: [EicFunction!]) {
+  marketParticipantsForEicFunction(eicFunctions: $eicFunctions) {
+    id
+    glnOrEicNumber
+    displayName
+    displayNameWithoutMarketRole
+  }
+}

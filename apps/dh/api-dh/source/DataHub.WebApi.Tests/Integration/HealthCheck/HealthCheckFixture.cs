@@ -15,7 +15,6 @@
 using System;
 using System.Net;
 using Energinet.DataHub.Core.App.Common.Extensions.Options;
-using Energinet.DataHub.Core.FunctionApp.TestCommon.AppConfiguration;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;

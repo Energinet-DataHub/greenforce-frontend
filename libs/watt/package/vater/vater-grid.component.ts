@@ -26,16 +26,19 @@ import { VaterLayoutDirective } from './vater-layout.directive';
   hostDirectives: [
     {
       directive: VaterLayoutDirective,
-      inputs: ['gap', 'offset'],
+      inputs: ['gap', 'offset', 'justify', 'align'],
     },
     {
       directive: VaterUtilityDirective,
-      inputs: ['center', 'fill', 'inset', 'scrollable'],
+      inputs: ['center', 'fill', 'inset', 'scrollable', 'sticky'],
     },
   ],
   host: {
     '[style.gridTemplateColumns]': 'templateColumns()',
     '[style.gridTemplateRows]': 'templateRows()',
+    '[style.gridAutoColumns]': 'autoColumns()',
+    '[style.gridAutoRows]': 'autoRows()',
+    '[style.gridAutoFlow]': 'flow()',
   },
   styles: `
     vater-grid,
@@ -47,14 +50,23 @@ import { VaterLayoutDirective } from './vater-layout.directive';
 })
 export class VaterGridComponent {
   /** Column template (`grid-template-columns`) or number of equal sized columns. */
-  columns = input<string | number>(1);
+  columns = input<string | number>();
 
   /** Row template (`grid-template-rows`) or number of equal sized rows. */
-  rows = input<string | number>(1);
+  rows = input<string | number>();
+
+  /** Column template for implicitly-created columns (`grid-auto-columns`). */
+  autoColumns = input<string>();
+
+  /** Row template for implicitly-created rows (`grid-auto-rows`). */
+  autoRows = input<string>();
+
+  /** Specifies how auto-placed items flows into the grid (`grid-auto-flow`). */
+  flow = input<'row' | 'column'>();
 
   // Computed templates
   protected templateColumns = computed(() => this.makeTrackList(this.columns()));
   protected templateRows = computed(() => this.makeTrackList(this.rows()));
-  private makeTrackList = (input: string | number) =>
-    typeof input === 'string' ? input : '1fr '.repeat(input).trim();
+  private makeTrackList = (input?: string | number) =>
+    typeof input === 'number' ? 'auto '.repeat(input).trim() : input;
 }

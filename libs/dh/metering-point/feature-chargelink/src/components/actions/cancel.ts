@@ -29,7 +29,7 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
 import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({

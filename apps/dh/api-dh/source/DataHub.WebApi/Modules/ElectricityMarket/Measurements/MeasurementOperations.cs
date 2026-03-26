@@ -23,7 +23,6 @@ using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.WebApi.Common.Exceptions;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Types;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
@@ -37,7 +36,7 @@ public static partial class MeasurementOperations
 {
     // TODO: Find a way to handle failed measurements
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<IEnumerable<MeasurementAggregationByDateDto>> GetAggregatedMeasurementsForMonthAsync(
         bool showOnlyChangedValues,
         GetMonthlyAggregateByDateQuery query,
@@ -48,7 +47,7 @@ public static partial class MeasurementOperations
 
         if (maybeMeasurements.IsFailure)
         {
-            return Enumerable.Empty<MeasurementAggregationByDateDto>();
+            return [];
         }
 
         // TODO: Comment backend when ContainsUpdatedValues is implemented
@@ -56,11 +55,11 @@ public static partial class MeasurementOperations
         // {
         //     return measurements.Where(x => x.ContainsUpdatedValues);
         // }
-        return maybeMeasurements.Value!.PadWithEmptyPositions(query.YearMonth);
+        return maybeMeasurements.Value.PadWithEmptyPositions(query.YearMonth);
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<IEnumerable<MeasurementAggregationByMonthDto>> GetAggregatedMeasurementsForYearAsync(
         GetYearlyAggregateByMonthQuery query,
         CancellationToken ct,
@@ -70,14 +69,14 @@ public static partial class MeasurementOperations
 
         if (maybeMeasurements.IsFailure)
         {
-            return Enumerable.Empty<MeasurementAggregationByMonthDto>();
+            return [];
         }
 
-        return maybeMeasurements.Value!.PadWithEmptyPositions(query.Year);
+        return maybeMeasurements.Value.PadWithEmptyPositions(query.Year);
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<IEnumerable<MeasurementAggregationByYearDto>> GetAggregatedMeasurementsForAllYearsAsync(
         GetAggregateByYearQuery query,
         CancellationToken ct,
@@ -87,14 +86,14 @@ public static partial class MeasurementOperations
 
         if (maybeMeasurements.IsFailure)
         {
-            return Enumerable.Empty<MeasurementAggregationByYearDto>();
+            return [];
         }
 
         return maybeMeasurements.Value!;
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<MeasurementDto> GetMeasurementsAsync(
         bool showOnlyChangedValues,
         bool showHistoricalValues,
@@ -115,7 +114,7 @@ public static partial class MeasurementOperations
 
         if (maybeMeasurements.IsFailure)
         {
-            return new MeasurementDto(Enumerable.Empty<MeasurementPositionDto>());
+            return new MeasurementDto([]);
         }
 
         var measurementPositions = maybeMeasurements.Value!.MeasurementPositions.Select(position =>
@@ -132,14 +131,14 @@ public static partial class MeasurementOperations
                 .Where(position => position.MeasurementPoints
                     .Select(p => new { p.Quantity, p.Quality })
                     .Distinct()
-                    .Count() > 1) ?? Enumerable.Empty<MeasurementPositionDto>());
+                    .Count() > 1));
         }
 
         return new MeasurementDto(measurementPositions.PadWithEmptyPositions(query.Date));
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<IEnumerable<MeasurementPointDto>> GetMeasurementPointsAsync(
         DateTimeOffset observationTime,
         GetByDayQuery query,
@@ -150,7 +149,7 @@ public static partial class MeasurementOperations
 
         if (maybeMeasurements.IsFailure)
         {
-            return Enumerable.Empty<MeasurementPointDto>();
+            return [];
         }
 
         return maybeMeasurements.Value!.MeasurementPositions
@@ -161,7 +160,7 @@ public static partial class MeasurementOperations
     [Mutation]
     [UseMutationConvention(Disable = true)]
     [UseRevisionLog]
-    [Authorize(Roles = new[] { "measurements:manage" })]
+    [Authorize(Roles = ["measurements:manage"])]
     public static async Task<bool> SendMeasurementsAsync(
         SendMeasurementsRequestV2 input,
         CancellationToken ct,

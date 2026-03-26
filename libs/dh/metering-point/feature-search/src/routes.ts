@@ -40,7 +40,7 @@ import {
   combinePaths,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
-} from '@energinet-datahub/dh/core/routing';
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 import {
   EicFunction,
@@ -48,19 +48,18 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
+import { dhIsEM1InternalId } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   dhMeteringPointTypeParam,
-  dhExternalOrInternalMeteringPointIdParam,
+  dhInternalMeteringPointIdParam,
 } from './components/dh-metering-point-params';
 
 import { DhSearchComponent } from './components/dh-search.component';
 import { DhCreateMeteringPoint } from './components/dh-create-metering-point.component';
 import { dhSupportedMeteringPointTypes } from './components/dh-supported-metering-point-types';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
-import { dhIsValidMeteringPointId } from '@energinet-datahub/dh/shared/ui-util';
 
 const marketRolesWithDataAccess = [
   EicFunction.EnergySupplier,
@@ -96,7 +95,7 @@ export const dhMeteringPointRoutes: Routes = [
         component: DhCreateMeteringPoint,
       },
       {
-        path: `:${dhExternalOrInternalMeteringPointIdParam}`,
+        path: `:${dhInternalMeteringPointIdParam}`,
         canActivate: [dhCanActivateMeteringPointOverview],
         resolve: {
           meteringPointId: meteringPointIdResolver(),
@@ -199,7 +198,14 @@ export const dhMeteringPointRoutes: Routes = [
               ),
           },
           {
-            path: getPath<MeteringPointSubPaths>('update-customer-details'),
+            path: `${getPath<MeteringPointSubPaths>('update-customer-details')}`,
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-move-in').then(
+                (m) => m.DhUpdateCustomerDataComponent
+              ),
+          },
+          {
+            path: `${getPath<MeteringPointSubPaths>('update-customer-details')}/:processId`,
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-move-in').then(
                 (m) => m.DhUpdateCustomerDataComponent
@@ -212,8 +218,8 @@ export const dhMeteringPointRoutes: Routes = [
               dhReleaseToggleGuard('PM62-ACTOR-CONVERSATION'),
             ],
             loadComponent: () =>
-              import('@energinet-datahub/dh/metering-point/feature-actor-conversation').then(
-                (m) => m.DhActorConversationShellComponent
+              import('@energinet-datahub/dh/actor-conversation/feature-actor-conversation').then(
+                (m) => m.DhActorConversation
               ),
           },
         ],
@@ -237,7 +243,7 @@ function redirectToLandingPage(): RedirectFunction {
       marketRolesWithDataAccess.map((role) => permissionService.hasMarketRole(role))
     );
 
-    const externalOrInternalMeteringPointId = params[dhExternalOrInternalMeteringPointIdParam];
+    const internalMeteringPointId = params[dhInternalMeteringPointIdParam];
 
     return hasMarketRoles$.pipe(
       map((hasMarketRoles) => {
@@ -245,7 +251,7 @@ function redirectToLandingPage(): RedirectFunction {
           return router.createUrlTree([
             '/',
             getPath<BasePaths>('metering-point'),
-            externalOrInternalMeteringPointId,
+            internalMeteringPointId,
             getPath<MeteringPointSubPaths>('master-data'),
           ]);
         }
@@ -253,7 +259,7 @@ function redirectToLandingPage(): RedirectFunction {
         return router.createUrlTree([
           '/',
           getPath<BasePaths>('metering-point'),
-          externalOrInternalMeteringPointId,
+          internalMeteringPointId,
           getPath<MeteringPointSubPaths>('messages'),
         ]);
       })
@@ -281,23 +287,17 @@ function meteringPointCreateGuard(): CanActivateFn {
 }
 
 /**
- * Resolves the metering point ID from either external or internal metering point ID.
+ * Resolves the external metering point ID from internal metering point ID.
  */
 function meteringPointIdResolver(): ResolveFn<string> {
   return (route: ActivatedRouteSnapshot) => {
-    const environment = inject(dhAppEnvironmentToken);
-
-    const idParam: string = route.params[dhExternalOrInternalMeteringPointIdParam];
-
-    if (dhIsValidMeteringPointId(idParam)) {
-      return idParam;
-    }
+    const idParam: string = route.params[dhInternalMeteringPointIdParam];
+    const isEM1Id = dhIsEM1InternalId(idParam);
 
     return query(DoesInternalMeteringPointIdExistDocument, {
       variables: {
         internalMeteringPointId: idParam,
-        searchMigratedMeteringPoints: true,
-        environment: environment.current,
+        searchMigratedMeteringPoints: isEM1Id,
       },
     })
       .result()
@@ -307,12 +307,12 @@ function meteringPointIdResolver(): ResolveFn<string> {
 
 /**
  * Figures out whether the intention is to search a migrated metering point by looking at a route param.
- * If the param is not a valid metering point ID, we assume it's an internal ID and thus a migrated metering point.
+ * If the param is a valid EM1 internal ID, we assume a migrated metering point.
  */
 function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
   return (route: ActivatedRouteSnapshot) => {
-    const idParam: string = route.params[dhExternalOrInternalMeteringPointIdParam];
+    const idParam: string = route.params[dhInternalMeteringPointIdParam];
 
-    return dhIsValidMeteringPointId(idParam) === false;
+    return dhIsEM1InternalId(idParam);
   };
 }

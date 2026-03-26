@@ -28,7 +28,10 @@ import { WattDatePipe } from '@energinet/watt/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import {
+  combineWithIdPaths,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -116,7 +119,10 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
         [emptyText]="'meteringPoint.relatedMeteringPointsEmpty' | transloco"
       >
         <div class="grid-container">
-          @for (meteringPoint of relatedMeteringPointsList(); track meteringPoint.identification) {
+          @for (
+            meteringPoint of relatedMeteringPointsList();
+            track meteringPoint.meteringPointIdentification
+          ) {
             <div class="grid-row" [routerLink]="getLink('master-data', meteringPoint.id)">
               <div class="grid-cell">
                 <span class="watt-text-m watt-on-light--high-emphasis">
@@ -124,7 +130,7 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
                 </span>
                 <br />
                 <span class="watt-text-s watt-on-light--medium-emphasis">
-                  {{ meteringPoint.identification }}
+                  {{ meteringPoint.meteringPointIdentification }}
                 </span>
               </div>
 
@@ -148,6 +154,9 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
                     @case ('CLOSED_DOWN') {
                       {{ meteringPoint.closedDownDate | wattDate }}
                     }
+                    @case ('DISCONNECTED') {
+                      {{ meteringPoint.disconnectionDate | wattDate }}
+                    }
                     @default {
                       {{ meteringPoint.createdDate | wattDate }}
                     }
@@ -156,7 +165,7 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
               </div>
 
               <div class="grid-cell">
-                @if (meteringPointId() === meteringPoint.identification) {
+                @if (meteringPointIdentification() === meteringPoint.meteringPointIdentification) {
                   <span class="dh-one-time-badge watt-label watt-space-inset-squish-xs">
                     {{ 'meteringPoint.selectedRelatedMeteringPoint' | transloco }}
                   </span>
@@ -172,13 +181,17 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
   `,
 })
 export class DhRelatedMeteringPointsComponent {
+  meteringPointIdentification = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
+
   query = query(GetRelatedMeteringPointsByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId() },
+    variables: {
+      meteringPointIdentification: this.meteringPointIdentification(),
+      searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
+    },
   }));
 
   private maybeRelatedMeteringPoints = computed(() => this.query.data()?.relatedMeteringPoints);
-
-  meteringPointId = input.required<string>();
 
   showHistorical = signal(false);
 
@@ -194,9 +207,6 @@ export class DhRelatedMeteringPointsComponent {
       ...(relatedMeteringPoints.relatedByGsrn ?? []),
       // Historical
       ...(this.showHistorical() ? (relatedMeteringPoints.historicalMeteringPoints ?? []) : []),
-      ...(this.showHistorical()
-        ? (relatedMeteringPoints.historicalMeteringPointsByGsrn ?? [])
-        : []),
     ];
   });
 
@@ -205,10 +215,7 @@ export class DhRelatedMeteringPointsComponent {
 
     if (!relatedMeteringPoints) return false;
 
-    return (
-      relatedMeteringPoints.historicalMeteringPoints?.length > 0 ||
-      relatedMeteringPoints.historicalMeteringPointsByGsrn?.length > 0
-    );
+    return relatedMeteringPoints.historicalMeteringPoints?.length > 0;
   });
 
   toggleHistorical() {

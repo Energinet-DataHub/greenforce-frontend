@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.Core.App.Common.Extensions.Builder;
 using Energinet.DataHub.WebApi.Options;
-using Microsoft.Extensions.Options;
 
 namespace Energinet.DataHub.WebApi.Registration;
 

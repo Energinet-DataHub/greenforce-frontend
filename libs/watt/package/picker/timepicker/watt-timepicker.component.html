@@ -15,18 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-field [id]="id" [control]="control" [label]="label()">
-  @if (!range) {
+  @if (!range()) {
     <input
       inert
       matInput
       aria-label="time-input"
       autocomplete="off"
       spellcheck="false"
-      [disabled]="disabled"
+      [disabled]="disabled()"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
     />
-    <input #timeInput class="mask-input" [disabled]="disabled" />
+    <input #timeInput class="mask-input" [disabled]="disabled()" />
     <watt-placeholder-mask
       [primaryInputElement]="timeInput"
       [mask]="inputMask"
@@ -37,7 +37,7 @@ limitations under the License.
     <mat-date-range-input
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
-      [disabled]="disabled"
+      [disabled]="disabled()"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
     >
@@ -58,7 +58,7 @@ limitations under the License.
         spellcheck="false"
       />
     </mat-date-range-input>
-    <input #timeInput class="mask-input" [disabled]="disabled" />
+    <input #timeInput class="mask-input" [disabled]="disabled()" />
     <watt-placeholder-mask
       [primaryInputElement]="timeInput"
       [mask]="rangeInputMask"
@@ -69,8 +69,8 @@ limitations under the License.
     <watt-button
       variant="icon"
       icon="time"
-      [disabled]="disabled"
-      [attr.aria-pressed]="sliderOpen"
+      [disabled]="disabled()"
+      [attr.aria-pressed]="sliderOpen()"
       (click)="toggleSlider()"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
@@ -79,7 +79,7 @@ limitations under the License.
     <ng-template
       cdkConnectedOverlay
       [cdkConnectedOverlayOrigin]="trigger"
-      [cdkConnectedOverlayOpen]="sliderOpen"
+      [cdkConnectedOverlayOpen]="sliderOpen()"
       [cdkConnectedOverlayOffsetY]="12"
     >
       <div

@@ -23,7 +23,7 @@ import {
   SendMeasurementsResolution,
   SendMeasurementsMeteringPointType,
   SendMeasurementsMeasurementUnit,
-  MeteringPointMeasureUnit,
+  ElectricityMarketViewMeteringPointMeasureUnit,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { MeasureDataResult } from './models/measure-data-result';
 import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
@@ -107,11 +107,13 @@ export class DhUploadMeasurementsService {
     }
   };
 
-  private mapMeasurementUnit(unit: MeteringPointMeasureUnit): SendMeasurementsMeasurementUnit {
+  private mapMeasurementUnit(
+    unit: ElectricityMarketViewMeteringPointMeasureUnit
+  ): SendMeasurementsMeasurementUnit {
     switch (unit) {
-      case MeteringPointMeasureUnit.KvArh:
+      case ElectricityMarketViewMeteringPointMeasureUnit.KvArh:
         return SendMeasurementsMeasurementUnit.KiloVoltAmpereReactiveHour;
-      case MeteringPointMeasureUnit.KWh:
+      case ElectricityMarketViewMeteringPointMeasureUnit.KWh:
         return SendMeasurementsMeasurementUnit.KilowattHour;
       default:
         // Default to kWh for any other unit types
@@ -128,7 +130,7 @@ export class DhUploadMeasurementsService {
   send(
     meteringPointId: string,
     meteringPointType: ElectricityMarketMeteringPointType,
-    measurementUnit: MeteringPointMeasureUnit,
+    measurementUnit: ElectricityMarketViewMeteringPointMeasureUnit,
     resolution: SendMeasurementsResolution,
     result: MeasureDataResult
   ) {

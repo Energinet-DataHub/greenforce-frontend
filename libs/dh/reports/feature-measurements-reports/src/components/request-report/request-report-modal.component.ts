@@ -36,7 +36,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { MutationResult } from 'apollo-angular';
 import { debounceTime, distinctUntilChanged, Observable, switchMap, tap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -63,7 +62,7 @@ import {
   RequestMeasurementsReportDocument,
   RequestMeasurementsReportMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
   DhDropdownTranslatorDirective,
@@ -148,7 +147,11 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
 
   private readonly requestReportMutation = mutation(RequestMeasurementsReportDocument);
 
-  private energySupplierOptionsSignal = getActorOptions([EicFunction.EnergySupplier]);
+  private energySupplierOptionsSignal = getActorOptions(
+    [EicFunction.EnergySupplier],
+    'glnOrEicNumber',
+    'displayNameWithoutMarketRole'
+  );
 
   private modal = viewChild.required(WattModalComponent);
 
@@ -308,7 +311,6 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     }
   }
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   async submit() {
     if (this.form.invalid || this.submitInProgress()) {
       return;

@@ -21,7 +21,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ElectricityMarketViewWashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { MeteringPointDetails } from '../types';
@@ -124,7 +124,7 @@ export class DhMeteringPointHighlightsComponent {
   notActualAddress = computed(
     () =>
       this.meteringPointDetails()?.metadata.installationAddress?.washInstructions ===
-      WashInstructions.NotWashable
+      ElectricityMarketViewWashInstructions.NotWashable
   );
 
   annualSettlement = computed(

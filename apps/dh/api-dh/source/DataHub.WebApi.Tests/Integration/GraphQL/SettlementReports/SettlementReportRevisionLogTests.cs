@@ -110,7 +110,6 @@ public class SettlementReportRevisionLogTests
                   ]
                   combineResultInASingleFile: false
                   preventLargeTextFiles: false
-                  includeMonthlySums: true
                   includeBasisData: false
                   energySupplier: "5790001330552"
                   csvLanguage: "en"

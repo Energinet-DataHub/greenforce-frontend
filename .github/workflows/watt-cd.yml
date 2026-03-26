@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     # Job steps
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -63,7 +63,7 @@ jobs:
 
       # 👇 Adds Chromatic as a step in the workflow
       - name: Publish to Chromatic
-        uses: chromaui/action@v13
+        uses: chromaui/action@v15
         # Chromatic GitHub Action options
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -80,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate Github token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         id: generate_token
         with:
           app-id: ${{ vars.dh3serviceaccount_appid }}
@@ -88,7 +88,7 @@ jobs:
           owner: Energinet-DataHub
 
       - name: Check out source code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.head_ref }}
@@ -115,7 +115,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v16
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@workflows/v1
     with:
       team_name: TeamFrontend
       subject: "Deployment dispatch failed: Watt + UI"

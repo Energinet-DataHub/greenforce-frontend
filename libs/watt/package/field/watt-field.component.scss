@@ -167,7 +167,7 @@ watt-field {
     }
   }
 
-  &:not(.watt-field--box) .watt-field-wrapper {
+  &:not(.watt-field--box) > :is(label, .watt-label) > vater-flex > .watt-field-wrapper {
     border: none;
     padding: 0;
   }

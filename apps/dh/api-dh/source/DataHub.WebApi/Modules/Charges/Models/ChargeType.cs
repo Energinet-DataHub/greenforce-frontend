@@ -14,7 +14,7 @@
 //
 using ExternalChargeType = Energinet.DataHub.Charges.Abstractions.Shared.ChargeTypeDto;
 using RequestChangeBillingMasterDataChargeType = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Models.ChargeTypeV1;
-using RequestChangeOfPriceListChargeType = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models.ChargeTypeV1;
+using RequestChangeOfPriceListChargeType = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models.ChargeTypeV2;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
@@ -23,20 +23,20 @@ public record ChargeType(
     ExternalChargeType Type,
     bool IsTax)
 {
-    public static readonly ChargeType Tariff = new ChargeType(nameof(Tariff), ExternalChargeType.Tariff, false);
-    public static readonly ChargeType TariffTax = new ChargeType(nameof(TariffTax), ExternalChargeType.Tariff, true);
-    public static readonly ChargeType Subscription = new ChargeType(nameof(Subscription), ExternalChargeType.Subscription, false);
-    public static readonly ChargeType Fee = new ChargeType(nameof(Fee), ExternalChargeType.Fee, false);
+    public static readonly ChargeType Tariff = new(nameof(Tariff), ExternalChargeType.Tariff, false);
+    public static readonly ChargeType TariffTax = new(nameof(TariffTax), ExternalChargeType.Tariff, true);
+    public static readonly ChargeType Subscription = new(nameof(Subscription), ExternalChargeType.Subscription, false);
+    public static readonly ChargeType Fee = new(nameof(Fee), ExternalChargeType.Fee, false);
 
     public override string ToString() => Name;
 
     public static ChargeType Make(ExternalChargeType chargeType, bool isTax) =>
         chargeType switch
         {
-            ExternalChargeType.Tariff when isTax is true => ChargeType.TariffTax,
-            ExternalChargeType.Tariff => ChargeType.Tariff,
-            ExternalChargeType.Subscription => ChargeType.Subscription,
-            ExternalChargeType.Fee => ChargeType.Fee,
+            ExternalChargeType.Tariff when isTax => TariffTax,
+            ExternalChargeType.Tariff => Tariff,
+            ExternalChargeType.Subscription => Subscription,
+            ExternalChargeType.Fee => Fee,
         };
 
     public RequestChangeOfPriceListChargeType ToRequestChangeOfPriceListChargeType() => Type switch

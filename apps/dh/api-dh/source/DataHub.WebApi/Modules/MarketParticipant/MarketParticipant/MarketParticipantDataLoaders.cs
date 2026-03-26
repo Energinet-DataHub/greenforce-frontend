@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant;
 
@@ -82,23 +81,39 @@ public static partial class MarketParticipantDataLoaders
     }
 
     [DataLoader]
-    public static async Task<IReadOnlyDictionary<Guid, MarketParticipantNameWithId?>> GetMarketParticipantNameByIdBatchAsync(
+    public static async Task<IReadOnlyDictionary<Guid, ActorDto?>> GetMarketParticipantNameByIdBatchAsync(
         IReadOnlyList<Guid> keys,
         [Service] IMarketParticipantClient_V1 client,
         CancellationToken ct)
     {
-        var result = new Dictionary<Guid, MarketParticipantNameWithId?>();
+        var result = new Dictionary<Guid, ActorDto?>();
         var marketParticipants = await client.ActorGetAsync(ct).ConfigureAwait(false);
         foreach (var marketParticipant in marketParticipants.Where(x => keys.Contains(x.ActorId)))
         {
-            result.Add(marketParticipant.ActorId, new MarketParticipantNameWithId(marketParticipant.ActorId, marketParticipant.Name));
+            result.Add(marketParticipant.ActorId, marketParticipant);
         }
 
         return result;
     }
 
     [DataLoader]
-    public static async Task<IReadOnlyDictionary<(string ActorNumber, EicFunction EicFunction), ActorNameDto?>> GetMarketParticipantNameByMarketRoleAsync(
+    public static async Task<IReadOnlyDictionary<Guid, GetUserResponse>> GetUserByIdAsync(
+        IReadOnlyList<Guid> keys,
+        [Service] IMarketParticipantClient_V1 client,
+        CancellationToken ct)
+    {
+        var result = new Dictionary<Guid, GetUserResponse>();
+        foreach (var key in keys)
+        {
+            var user = await client.UserAsync(key, ct).ConfigureAwait(false);
+            result[key] = user;
+        }
+
+        return result;
+    }
+
+    [DataLoader]
+    public static async Task<IReadOnlyDictionary<(string ActorNumber, EicFunction EicFunction), ActorDto?>> GetMarketParticipantNameByMarketRoleAsync(
         IReadOnlyList<(string ActorNumber, EicFunction EicFunction)> keys,
         [Service] IMarketParticipantClient_V1 client,
         CancellationToken ct)
@@ -106,11 +121,11 @@ public static partial class MarketParticipantDataLoaders
         var marketParticipantNumbers = keys.Select(x => x.ActorNumber).ToHashSet();
 
         var marketParticipants = await client.ActorGetAsync(ct).ConfigureAwait(false);
-        var dictionary = new Dictionary<(string, EicFunction), ActorNameDto?>();
+        var dictionary = new Dictionary<(string, EicFunction), ActorDto?>();
 
         foreach (var marketParticipant in marketParticipants.Where(x => marketParticipantNumbers.Contains(x.ActorNumber.Value)))
         {
-            dictionary.TryAdd((marketParticipant.ActorNumber.Value, marketParticipant.MarketRole.EicFunction), marketParticipant.Name);
+            dictionary.TryAdd((marketParticipant.ActorNumber.Value, marketParticipant.MarketRole.EicFunction), marketParticipant);
         }
 
         return dictionary;

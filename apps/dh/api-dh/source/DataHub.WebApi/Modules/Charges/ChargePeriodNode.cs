@@ -26,7 +26,6 @@ public static partial class ChargePeriodNode
         descriptor.Field(f => f.Description);
         descriptor.Field(f => f.TransparentInvoicing);
         descriptor.Field(f => f.VatInclusive);
-        descriptor.Field(f => f.PredictablePrice);
         descriptor.Field(f => f.Period);
         descriptor.Field(f => f.Status);
     }

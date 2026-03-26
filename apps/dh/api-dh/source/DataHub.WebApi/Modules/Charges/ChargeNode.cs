@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Shared;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
@@ -31,7 +31,7 @@ public static partial class ChargeNode
     [Query]
     [UsePaging]
     [UseSorting]
-    [Authorize(Roles = new[] { "charges:view" })]
+    [Authorize(Roles = ["charges:view"])]
     public static async Task<IEnumerable<Charge>> GetChargesAsync(
         string? filter,
         ChargesQuery? query,
@@ -45,12 +45,12 @@ public static partial class ChargeNode
                 query?.Resolution,
                 query?.VatInclusive,
                 query?.TransparentInvoicing,
-                query?.PredictablePrice,
+                query?.SpotDependingPrice,
                 query?.MissingPriceSeries,
                 ct);
 
     [Query]
-    [Authorize(Roles = new[] { "charges:view" })]
+    [Authorize(Roles = ["charges:view"])]
     public static async Task<Charge?> GetChargeByIdAsync(
         IChargesClient client,
         ChargeIdentifierDto id,
@@ -58,7 +58,7 @@ public static partial class ChargeNode
             await client.GetChargeByIdAsync(id, ct);
 
     [Query]
-    [Authorize(Roles = new[] { "charges:view" })]
+    [Authorize(Roles = ["charges:view"])]
     public static async Task<IEnumerable<Charge>> GetChargesByTypeAsync(
         IChargesClient client,
         ChargeType type,
@@ -66,7 +66,7 @@ public static partial class ChargeNode
             await client.GetChargesByTypeAsync(type, ct);
 
     [Mutation]
-    [Authorize(Roles = new[] { "charges:manage" })]
+    [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> CreateChargeAsync(
         IChargesClient client,
         CreateChargeInput input,
@@ -74,7 +74,7 @@ public static partial class ChargeNode
             await client.CreateChargeAsync(input, ct);
 
     [Mutation]
-    [Authorize(Roles = new[] { "charges:manage" })]
+    [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> UpdateChargeAsync(
         IChargesClient client,
         UpdateChargeInput input,
@@ -82,7 +82,7 @@ public static partial class ChargeNode
             await client.UpdateChargeAsync(input, ct);
 
     [Mutation]
-    [Authorize(Roles = new[] { "charges:manage" })]
+    [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> StopChargeAsync(
         IChargesClient client,
         ChargeIdentifierDto id,
@@ -91,13 +91,13 @@ public static partial class ChargeNode
             await client.StopChargeAsync(id, terminationDate, ct);
 
     [Mutation]
-    [Authorize(Roles = new[] { "charges:manage" })]
+    [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> AddChargeSeriesAsync(
         IChargesClient client,
         ChargeIdentifierDto id,
         DateTimeOffset start,
         DateTimeOffset end,
-        List<ChargePointV1> points,
+        List<ChargePointV2> points,
         CancellationToken ct) =>
             await client.AddChargeSeriesAsync(id, start, end, points, ct);
 
@@ -132,6 +132,6 @@ public static partial class ChargeNode
         descriptor.Field(f => f.Status);
         descriptor.Field(f => f.VatInclusive);
         descriptor.Field(f => f.TransparentInvoicing);
-        descriptor.Field(f => f.PredictablePrice);
+        descriptor.Field(f => f.SpotDependingPrice);
     }
 }

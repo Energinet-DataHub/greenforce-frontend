@@ -17,7 +17,7 @@ using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Types;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Mappers;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 
 public static class MeasurementExtensions
 {
@@ -63,7 +63,7 @@ public static class MeasurementExtensions
             Quality.Measured => QualityV1.Measured,
         };
 
-    public static MeasurementV1 MapToSendMeasurementsV1(this Modules.ElectricityMarket.Measurements.Types.Measurement source)
+    public static MeasurementV1 MapToSendMeasurementsV1(this Measurement source)
     {
         ArgumentNullException.ThrowIfNull(source);
 

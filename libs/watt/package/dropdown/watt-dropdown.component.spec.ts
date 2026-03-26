@@ -16,8 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-/* eslint-disable sonarjs/cognitive-complexity */
-/* eslint-disable sonarjs/no-duplicate-string */
 import { Component } from '@angular/core';
 import { FormControl, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { render, screen } from '@testing-library/angular';

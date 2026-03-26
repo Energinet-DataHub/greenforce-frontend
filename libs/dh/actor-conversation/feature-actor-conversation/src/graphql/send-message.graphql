@@ -1,0 +1,17 @@
+mutation SendActorConversationMessage(
+  $conversationId: UUID!
+  $content: String!
+  $anonymous: Boolean!
+  $attachedDocumentIds: [UUID!]!
+) {
+  sendActorConversationMessage(
+    sendActorConversationMessageInput: {
+      conversationId: $conversationId
+      anonymous: $anonymous
+      content: $content
+      attachedDocumentIds: $attachedDocumentIds
+    }
+  ) {
+    boolean
+  }
+}

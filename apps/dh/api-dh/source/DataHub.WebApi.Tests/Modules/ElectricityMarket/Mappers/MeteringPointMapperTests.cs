@@ -13,8 +13,8 @@
 // limitations under the License.
 
 using System;
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.ElectricityMarket.Mappers;
@@ -166,8 +166,8 @@ public class MeteringPointMapperTests
     }
 
     [Theory]
-    [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Technical, CustomerRelationType.Contact1)]
-    [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Juridical, CustomerRelationType.Contact4)]
+    [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Technical, CustomerRelationType.Technical)]
+    [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Juridical, CustomerRelationType.Juridical)]
     [InlineData(DataHub.ElectricityMarket.Abstractions.Shared.RelationType.Secondary, CustomerRelationType.Secondary)]
     public void MapToDto_RelationTypeMapper_ReturnsCorrectMapping(DataHub.ElectricityMarket.Abstractions.Shared.RelationType actual, CustomerRelationType expected)
     {

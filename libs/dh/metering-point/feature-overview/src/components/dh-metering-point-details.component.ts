@@ -95,7 +95,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
 
           <hr class="watt-divider" />
 
-          <h4 class="watt-space-stack-s">{{ t('detailsSubtitle') }}</h4>
+          <h4 class="watt-space-stack-ml">{{ t('detailsSubtitle') }}</h4>
 
           <watt-description-list variant="stack" [itemSeparators]="false">
             <watt-description-list-item [label]="t('meteringPointType')">
@@ -143,7 +143,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
               }
             </ng-container>
 
-            <watt-description-list-item [label]="t('powerLimit')">
+            <watt-description-list-item [label]="t('powerLimitKw')">
               @if (meteringPointDetails()?.powerLimitKw) {
                 {{
                   t('powerLimitValueKw', {
@@ -155,11 +155,11 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
               }
             </watt-description-list-item>
 
-            <watt-description-list-item [label]="t('powerLimit')">
+            <watt-description-list-item [label]="t('powerLimitA')">
               @if (meteringPointDetails()?.powerLimitAmp) {
                 {{
                   t('powerLimitValueAmpere', {
-                    value: meteringPointDetails()?.powerLimitAmp | number: '1',
+                    value: meteringPointDetails()?.powerLimitAmp | number: '1.0-0',
                   })
                 }}
               } @else {
@@ -197,6 +197,17 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
               [value]="meteringPoint()?.connectionDate | wattDate | dhEmDashFallback"
             />
             <watt-description-list-item
+              [label]="t('disconnectedDate')"
+              [value]="
+                (meteringPoint()?.metadata?.connectionState === 'DISCONNECTED'
+                  ? meteringPoint()?.disconnectedDate
+                  : null
+                )
+                  | wattDate
+                  | dhEmDashFallback
+              "
+            />
+            <watt-description-list-item
               [label]="t('closedDownDate')"
               [value]="meteringPoint()?.closedDownDate | wattDate | dhEmDashFallback"
             />
@@ -207,7 +218,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
 
         <div class="grid-column">
           <ng-container *dhCanSee="'power-plant-section'; meteringPoint: meteringPoint()">
-            <h4 class="watt-space-stack-s">{{ t('powerPlantSubTitle') }}</h4>
+            <h4 class="watt-space-stack-ml">{{ t('powerPlantSubTitle') }}</h4>
 
             <watt-description-list variant="stack" [itemSeparators]="false">
               <watt-description-list-item [label]="t('netSettlementGroup')">
@@ -238,7 +249,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
                 @if (meteringPointDetails()?.capacity) {
                   {{
                     t('powerPlantCapacityValue', {
-                      value: meteringPointDetails()?.capacity | number: '1.1',
+                      value: meteringPointDetails()?.capacity,
                     })
                   }}
                 } @else {
@@ -273,7 +284,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
             <hr class="watt-divider" />
           </ng-container>
 
-          <h4 class="watt-space-stack-s">{{ t('otherSubTitle') }}</h4>
+          <h4 class="watt-space-stack-ml">{{ t('otherSubTitle') }}</h4>
 
           <watt-description-list variant="stack" [itemSeparators]="false">
             <watt-description-list-item [label]="t('resolutionLabel')">

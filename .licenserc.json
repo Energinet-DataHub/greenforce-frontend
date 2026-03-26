@@ -6,7 +6,7 @@
     "apps/dh/api-dh/source/DataHub.WebApi/Generated/",
     "libs/dh/shared/assets/src/favicon/*",
     "libs/dh/shared/feature-graphql-codegen/dist/**/*",
-    "libs/gf/msw/util-msw/src/assets/*"
+    "libs/gf/msw/test-util-msw-setup/src/assets/*"
   ],
   "**/*.{cs,scss}": [
     "// Copyright 2020 Energinet DataHub A/S",

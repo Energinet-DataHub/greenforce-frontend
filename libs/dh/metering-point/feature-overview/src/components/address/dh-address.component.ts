@@ -19,7 +19,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { InstallationAddress } from '../../types';
-import { CustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ElectricityMarketViewCustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-address',
@@ -43,5 +43,5 @@ import { CustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql'
   `,
 })
 export class DhAddressComponent {
-  address = input.required<InstallationAddress | CustomerContactDto>();
+  address = input.required<InstallationAddress | ElectricityMarketViewCustomerContactDto>();
 }

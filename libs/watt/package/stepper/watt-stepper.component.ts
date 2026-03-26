@@ -17,24 +17,20 @@
  */
 //#endregion
 import {
-  AfterViewInit,
   Component,
-  ContentChildren,
-  DestroyRef,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  QueryList,
-  ViewChild,
+  computed,
+  contentChildren,
+  effect,
+  input,
+  output,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { NgTemplateOutlet } from '@angular/common';
-import { CdkStepper, STEPPER_GLOBAL_OPTIONS, StepperSelectionEvent } from '@angular/cdk/stepper';
+import { CdkStepper, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { RxPush } from '@rx-angular/template/push';
-import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
+import { filter, switchMap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
@@ -46,7 +42,7 @@ import { WattStepperStepComponent } from './watt-stepper-step.component';
   templateUrl: './watt-stepper.component.html',
   styleUrls: ['./watt-stepper.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [NgTemplateOutlet, RxPush, MatStepperModule, WattIconComponent, WattButtonComponent],
+  imports: [NgTemplateOutlet, MatStepperModule, WattIconComponent, WattButtonComponent],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -56,56 +52,55 @@ import { WattStepperStepComponent } from './watt-stepper-step.component';
     { provide: MatStepper, useExisting: WattStepperComponent },
   ],
 })
-export class WattStepperComponent extends MatStepper implements AfterViewInit {
-  @Output() completed = new EventEmitter<void>();
-  @Input() isCompleting = false;
+export class WattStepperComponent extends MatStepper {
+  stepper = viewChild.required(MatStepper);
+  private stepperSelectionChange = toSignal(
+    toObservable(this.stepper).pipe(
+      filter(Boolean),
+      switchMap((stepper) => stepper.selectionChange)
+    )
+  );
 
-  @ContentChildren(WattStepperStepComponent, { descendants: true })
-  declare _steps: QueryList<WattStepperStepComponent>;
+  completed = output<void>();
+  isCompleting = input(false);
+  wattSteps = contentChildren(WattStepperStepComponent, { descendants: true });
+  onFirstStep = computed(() => (this.stepperSelectionChange()?.selectedIndex ?? 0) === 0);
+  onLastStep = computed(
+    () =>
+      (this.stepperSelectionChange()?.selectedIndex ?? 0) ===
+      this.wattSteps()?.filter((x) => x.enabled()).length - 1
+  );
 
-  @ViewChild(MatStepper) stepper!: MatStepper;
+  constructor() {
+    super();
 
-  selectedIndexChanged$!: Observable<StepperSelectionEvent>;
-  onFirstStep$!: Observable<boolean>;
-  onLastStep$!: Observable<boolean>;
-
-  private destroyRef = inject(DestroyRef);
-
-  override reset() {
-    this.stepper.reset();
+    effect(() => {
+      const change = this.stepperSelectionChange();
+      if (change) {
+        this.wattSteps()[change.selectedIndex]?.entering.emit(change.selectedStep);
+        this.wattSteps()[change.previouslySelectedIndex]?.leaving.emit(
+          change.previouslySelectedStep
+        );
+      }
+    });
   }
 
-  override ngAfterViewInit(): void {
-    this.selectedIndexChanged$ = from(this.stepper.selectionChange);
-    this.onLastStep$ = this.selectedIndexChanged$.pipe(
-      withLatestFrom(of(this._steps)),
-      map(([index, steps]) => index.selectedIndex === steps.filter((x) => x.enabled()).length - 1),
-      startWith(false)
-    );
-    this.onFirstStep$ = this.selectedIndexChanged$.pipe(
-      map((index) => index.selectedIndex === 0),
-      startWith(true)
-    );
-
-    // Emit entering and leaving events
-    this.selectedIndexChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((change) => {
-      this._steps.get(change.selectedIndex)?.entering.emit(change.selectedStep);
-      this._steps.get(change.previouslySelectedIndex)?.leaving.emit(change.previouslySelectedStep);
-    });
+  override reset() {
+    this.stepper().reset();
   }
 
   nextStep(step: WattStepperStepComponent): void {
     step.next.emit();
-    this.stepper.selected?.stepControl?.markAllAsTouched();
-    this.stepper.next();
+    this.stepper().selected?.stepControl?.markAllAsTouched();
+    this.stepper().next();
   }
 
   previousStep(): void {
-    this.stepper.previous();
+    this.stepper().previous();
   }
 
   complete(): void {
-    this.stepper.selected?.stepControl?.markAllAsTouched();
+    this.stepper().selected?.stepControl?.markAllAsTouched();
     this.completed.emit();
   }
 }

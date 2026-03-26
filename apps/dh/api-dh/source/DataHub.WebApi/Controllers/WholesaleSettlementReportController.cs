@@ -35,14 +35,12 @@ public sealed class WholesaleSettlementReportController : ControllerBase
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
     private readonly IRevisionLogClient _revisionLogClient;
 
-    private readonly ISettlementReportClient _settlementReportClient;
     private readonly IOptions<SubSystemBaseUrls> _baseUrls;
 
     public WholesaleSettlementReportController(
         IOptions<SubSystemBaseUrls> subSystemBaseUrls,
         IMarketParticipantClient_V1 marketParticipantClient,
         IRevisionLogClient revisionLogClient,
-        ISettlementReportClient settlementReportClient,
         IHttpClientFactory httpClientFactory,
         IHttpContextAccessor httpContextAccessor,
         IOptions<SubSystemBaseUrls> baseUrls)
@@ -52,7 +50,6 @@ public sealed class WholesaleSettlementReportController : ControllerBase
         _httpContextAccessor = httpContextAccessor;
         _marketParticipantClient = marketParticipantClient;
         _revisionLogClient = revisionLogClient;
-        _settlementReportClient = settlementReportClient;
         _baseUrls = baseUrls;
     }
 

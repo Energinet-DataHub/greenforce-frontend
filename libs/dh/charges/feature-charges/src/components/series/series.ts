@@ -18,14 +18,9 @@
 //#endregion
 import { DecimalPipe } from '@angular/common';
 import { input, signal, computed, Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import {
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet/watt/vater';
-import { WattButtonComponent } from '@energinet/watt/button';
+import { VATER } from '@energinet/watt/vater';
 import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
 import { dayjs } from '@energinet/watt/core/date';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
@@ -38,11 +33,15 @@ import {
   ChargeSeriesPointChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhCircleComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  // DhCircleComponent,
+  DhDownloadButtonComponent,
+  GenerateCSV,
+} from '@energinet-datahub/dh/shared/ui-util';
 import {
   DhChargesIntervalField,
   DhChargesPeriodPipe,
-} from '@energinet-datahub/dh/charges/ui-shared';
+} from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { DhChargesSeriesDetails } from './series-details';
 
@@ -52,19 +51,16 @@ import { DhChargesSeriesDetails } from './series-details';
   imports: [
     DecimalPipe,
     TranslocoDirective,
-    TranslocoPipe,
-    VaterSpacerComponent,
-    VaterStackComponent,
-    VaterUtilityDirective,
+    VATER,
     WATT_TABLE,
-    WattButtonComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSlideToggleComponent,
-    DhCircleComponent,
+    // DhCircleComponent,
     DhChargesIntervalField,
     DhChargesPeriodPipe,
     DhChargesSeriesDetails,
+    DhDownloadButtonComponent,
   ],
   template: `
     <watt-data-table
@@ -77,7 +73,7 @@ import { DhChargesSeriesDetails } from './series-details';
       *transloco="let t; prefix: 'charges.series'"
     >
       <watt-data-filters>
-        <vater-stack wrap direction="row" align="baseline" gap="m">
+        <vater-stack fill="horizontal" wrap direction="row" align="baseline" gap="m">
           <dh-charges-interval-field
             [resolution]="resolution()"
             (intervalChange)="query.refetch({ interval: $event })"
@@ -88,9 +84,7 @@ import { DhChargesSeriesDetails } from './series-details';
             </watt-slide-toggle>
           }
           <vater-spacer />
-          <watt-button icon="download" variant="text" (click)="download()">
-            {{ 'shared.download' | transloco }}
-          </watt-button>
+          <dh-download-button (click)="download()" />
         </vater-stack>
       </watt-data-filters>
 
@@ -111,11 +105,11 @@ import { DhChargesSeriesDetails } from './series-details';
         <ng-container *wattTableCell="columns.price; let series">
           {{ series.price | number: '1.6-6' }}
         </ng-container>
-        <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
+        <!-- <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
           @if (series.hasChanged) {
             <dh-circle />
           }
-        </ng-container>
+        </ng-container> -->
         <ng-container *wattTableCell="columns.history; header: ''; let series">
           @if (showHistory()) {
             <vater-stack scrollable direction="row" gap="ml">
@@ -165,13 +159,13 @@ export class DhChargesSeriesTable {
       size: 'minmax(200px, auto)',
       sort: false,
     },
-    hasChanged: {
-      accessor: 'hasChanged',
-      tooltip: this.transloco.translate('charges.series.columns.tooltip'),
-      size: 'min-content',
-      align: 'center',
-      sort: false,
-    },
+    // hasChanged: {
+    //   accessor: 'hasChanged',
+    //   tooltip: this.transloco.translate('charges.series.columns.tooltip'),
+    //   size: 'min-content',
+    //   align: 'center',
+    //   sort: false,
+    // },
     history: { accessor: null, size: '1fr', sort: false },
   };
 
@@ -193,7 +187,7 @@ export class DhChargesSeriesTable {
           `"${this.charge()?.owner?.name}"`,
           `"${this.charge()?.owner?.glnOrEicNumber}"`,
           `"${translate('charges.chargeTypes.' + this.charge()?.type)}"`,
-          `"${this.charge()?.id}"`,
+          `"${this.charge()?.code}"`,
           `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
           `"${dayjs(x.period.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
           `"${dayjs(x.period.end).format('YYYY-MM-DDTHH:mm:ss')}"`,

@@ -13,12 +13,12 @@
     "@nx/angular:application": {
       "style": "scss",
       "linter": "eslint",
-      "unitTestRunner": "vitest",
+      "unitTestRunner": "vitest-analog",
       "e2eTestRunner": "cypress"
     },
     "@nx/angular:library": {
       "linter": "eslint",
-      "unitTestRunner": "vitest"
+      "unitTestRunner": "vitest-analog"
     },
     "@schematics/angular:component": {
       "style": "scss",
@@ -128,7 +128,7 @@
       "inputs": ["default", "^production"],
       "cache": true
     },
-    "@nx/eslint:lint": {
+    "lint": {
       "dependsOn": [
         {
           "projects": ["dh-shared-domain"],
@@ -137,20 +137,21 @@
       ],
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
       "cache": true
-    },
-    "@nx/vitest:test": {
-      "cache": true,
-      "inputs": ["default", "^production"]
     }
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": [],
+    "sharedGlobals": [
+      "{workspaceRoot}/tools/plugins/implicit-libs.ts",
+      "{workspaceRoot}/libs/dh/vite.config.mts",
+      "{workspaceRoot}/libs/gf/vite.config.mts"
+    ],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/vite.config.mts",
+      "!{projectRoot}/vitest.config.mts",
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
@@ -158,9 +159,42 @@
       "!{projectRoot}/**/*.cy.[jt]s?(x)",
       "!{projectRoot}/cypress.config.[jt]s",
       "!{projectRoot}/tsconfig.storybook.json",
-      "!{projectRoot}/src/test-setup.[jt]s"
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/tests/test-setup.[jt]s"
     ]
   },
   "defaultBase": "main",
-  "nxCloudId": "6124f33c6b561869a0db14ff"
+  "nxCloudId": "6124f33c6b561869a0db14ff",
+  "plugins": [
+    "./tools/plugins/implicit-libs.ts",
+    {
+      "plugin": "@nx/eslint/plugin",
+      "exclude": ["libs/watt/package/**/*"],
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/vite/plugin",
+      "exclude": ["libs/dh/vite.config.mts", "libs/gf/vite.config.mts"],
+      "options": {
+        "testTargetName": "test"
+      }
+    },
+    {
+      "plugin": "@nx/cypress/plugin",
+      "options": {
+        "targetName": "e2e",
+        "componentTestingTargetName": "component-test"
+      }
+    },
+    {
+      "plugin": "@nx/storybook/plugin",
+      "options": {
+        "serveStorybookTargetName": "storybook",
+        "buildStorybookTargetName": "build-storybook"
+      }
+    }
+  ],
+  "analytics": false
 }

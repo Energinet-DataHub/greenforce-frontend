@@ -47,8 +47,9 @@ export class WattPlaceholderMaskComponent {
   primaryFiller = signal<string | null>(null);
 
   maskEffect = effect((onCleanup) => {
-    const mask = this.mask();
     const placeholder = this.placeholder();
+    if (!placeholder) return;
+    const mask = this.mask();
     const primaryMask: MaskitoOptions = {
       ...mask,
       preprocessors: [

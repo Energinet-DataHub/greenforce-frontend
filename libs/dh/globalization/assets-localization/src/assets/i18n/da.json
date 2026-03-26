@@ -29,6 +29,7 @@
   "notificationsCenter": {
     "headline": "Notifikationer",
     "noNotifications": "Ingen notifikationer",
+    "markAllAsRead": "Marker alle som læst",
     "notification": {
       "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
@@ -77,6 +78,7 @@
     "localhost": "lokalt",
     "d-001": "dev-001",
     "d-002": "dev-002",
+    "d-003": "dev-003",
     "t-001": "test-001",
     "t-002": "test-002",
     "b-001": "preprod",
@@ -102,7 +104,8 @@
       "running": "Kører",
       "failed": "Fejlet",
       "canceled": "Annulleret",
-      "succeeded": "Afsluttet"
+      "succeeded": "Afsluttet",
+      "rejected": "Afvist"
     },
     "calculationTypes": {
       "AGGREGATION": "Aggregering",
@@ -225,6 +228,12 @@
   },
   "sidebar": {
     "navigation": {
+      "developer": {
+        "operationTools": {
+          "menuGroupLabel": "Driftsværktøjer",
+          "meteringPoint": "Målepunkt"
+        }
+      },
       "devExamples": {
         "menuGroupLabel": "Dev eksempler",
         "processes": "Processer"
@@ -240,6 +249,7 @@
         "menuGroupLabel": "Aktører",
         "userManagement": "Brugeradministration",
         "marketParticipantMasterData": "Aktørstamdata",
+        "actor-conversation": "Aktørdialog",
         "gridAreas": "Netområder"
       },
       "eSett": "eSett",
@@ -249,7 +259,6 @@
         "settlements": "Afregninger",
         "missingMeasurementsLog": "Anmod om hullerlog"
       },
-      "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
         "calculations": "Beregninger",
         "overview": "Oversigt",
@@ -424,9 +433,9 @@
           "transparentInvoicingGroupName": "Viderefakturering",
           "transparentInvoicing": "Skal viderefaktureres",
           "not_transparentInvoicing": "Skal ikke viderefaktureres",
-          "predictablePriceGroupName": "Spotafhængig pris",
-          "predictablePrice": "Spotafhængig pris",
-          "not_predictablePrice": "Ikke spotafhængig pris",
+          "spotDependingPriceGroupName": "Spotafhængig pris",
+          "spotDependingPrice": "Spotafhængig pris",
+          "not_spotDependingPrice": "Ikke spotafhængig pris",
           "missingPriceSeriesGroupName": "Prisserie",
           "missingPriceSeries": "Mangler prisserie",
           "not_missingPriceSeries": "Har prisserie"
@@ -461,9 +470,9 @@
           "transparentInvoicing": "Viderefakturering",
           "withTransparentInvoicing": "Ja",
           "withoutTransparentInvoicing": "Nej",
-          "predictablePrice": "Forudsigelig pris",
-          "withPredictablePrice": "Ja",
-          "withoutPredictablePrice": "Nej",
+          "spotDependingPrice": "Spotafhængig pris",
+          "withSpotDependingPrice": "Ja",
+          "withoutSpotDependingPrice": "Nej",
           "validFrom": "Gyldig fra",
           "cutoffDate": "Skæringsdato"
         },
@@ -524,6 +533,7 @@
       "owner": "Ejer",
       "resolution": "Prisopløsning",
       "transparentInvoicing": "Viderefakturering",
+      "spotDependingPrice": "Spotafhængig pris",
       "vat": "Moms",
       "tabs": {
         "pricesLabel": "Priser",
@@ -608,7 +618,8 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "Intet resultat fundet",
-      "searchMigratedMeteringPoints": "Søg i migrerede målepunkter"
+      "searchMigratedMeteringPoints": "Søg i EM1",
+      "searchMigratedMeteringPointsPreProd": "Søg i fase 2 testmålepunkter"
     },
     "tabs": {
       "masterData": {
@@ -681,11 +692,14 @@
       "energySupplier": {
         "title": "{{ meteringPoint.overview.shared.energySupplier }}",
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
-        "startDateLabel": "Startdato"
+        "startDateLabel": "Startdato",
+        "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
+        "changeProductObligationLink": "Ændre aftagepligt",
+        "cutOffDateLabel": "Skæringsdato"
       },
       "status": {
         "CLOSED_DOWN": "Nedlagt",
-        "NEW": "Ny",
+        "NEW": "Nyoprettet",
         "CONNECTED": "Tilsluttet",
         "DISCONNECTED": "Afbrudt",
         "UNKNOWN": "Ukendt"
@@ -711,7 +725,8 @@
         "settlementMethod": "Afregningsform",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Elvarmedato",
-        "powerLimit": "Effektgrænse",
+        "powerLimitKw": "Effektgrænse kW",
+        "powerLimitA": "Effektgrænse A",
         "powerLimitValueKw": "{{ value }} kW",
         "powerLimitValueAmpere": "{{ value }} ampere",
         "disconnectionType": "Afbrydelsesart",
@@ -731,7 +746,8 @@
         "measureUnit": "Enhed",
         "product": "Produkt",
         "connectionDate": "Tilsluttet",
-        "closedDownDate": "Nedlagt"
+        "closedDownDate": "Nedlagt",
+        "disconnectedDate": "Afbrudt"
       },
       "customerContactDetails": {
         "title": "Kontakter",
@@ -774,30 +790,111 @@
       }
     },
     "actorConversation": {
+      "topBarTitle": "Aktørdialog",
+      "searchPlaceholder": "Søg på sags-ID eller intern note",
+      "searchPlaceholderWithMeteringPointId": "Søg på sags-ID, målepunkts-ID eller intern note",
       "cases": "Sager",
       "newCaseButton": "Ny sag",
       "newCaseTitle": "Ny sag",
+      "cancelButtonLabel": "Annuller",
+      "meteringPointIdLabel": "Målepunkts-ID",
       "subjectLabel": "Emne",
       "subjects": {
-        "misc": "Ad hoc spørgsmål",
-        "disconnectionOrReconnection": "Afbrydelse/Gentilslutning",
-        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Fejlaftig flytning/leverandørskifte",
-        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
-        "measurements": "{{ shared.terminology.measurements }}",
-        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "chargeLink": "{{ shared.terminology.chargeLink }}"
+        "QUESTION_FOR_ENERGINET": "Ad hoc spørgsmål",
+        "INTERRUPTION_RECONNECTION": "Afbrydelse/Gentilslutning",
+        "ELECTRICAL_HEATING": "Elvarme",
+        "WRONGFUL_MOVE_OR_SUPPLIER_CHANGE": "Fejlagtig flytning/leverandørskifte",
+        "CUSTOMER_MASTER_DATA": "Kundestamdata",
+        "MEASUREMENT_DATA": "Måledata",
+        "MEASUREMENT_POINT_MASTER_DATA": "Målepunktsstamdata",
+        "PRICE_LINKING": "Pristilknytning",
+        "newCase": "Ny sag"
       },
-      "receiverLabel": "Modtager",
-      "receivers": {
-        "energinet": "Energinet"
+      "receiverLabel": "Til",
+      "onDate": "På dato",
+      "role": {
+        "ENERGY_SUPPLIER": "Elleverandør",
+        "ENERGINET": "Energinet",
+        "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
+      "reducedElectricityTaxToggle": "Jeg vil ansøge om reduceret elafgift",
+      "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
+      "idLabel": "Sags-ID",
       "internalNoteLabel": "Intern note",
-      "messageLabel": "Besked",
-      "sendButton": "Send",
+      "editInternalNote": {
+        "title": "Intern note",
+        "closeButton": "Luk",
+        "saveButton": "Gem ændringer",
+        "toast": {
+          "loading": "Intern note opdateres...",
+          "success": "Intern note opdateret",
+          "error": "Der opstod en fejl under opdatering af intern note"
+        }
+      },
+      "messagePlaceholder": "Skriv en besked",
+      "sendButton": "Send besked",
+      "attachFileButton": "Vedhæft fil",
+      "invalidFileType": "Filtype ikke tilladt. De tilladte filtyper er: .bmp, .csv, .jpeg, .jpg, .pdf, .png, .txt",
+      "fileTooLarge": "Filen du prøver at vedhæfte er for stor. Filen må maks være 25 MB.",
+      "uploadError": "Filen kunne ikke uploades. Prøv venligst igen.",
       "emptyState": {
         "noCases": "Der er ingen sager på målepunktet",
         "noCaseSelected": "Ingen sag valgt"
+      },
+      "active": "Aktiv",
+      "closed": "Afsluttet",
+      "closeCaseButton": "Afslut sag",
+      "markAsUnreadButton": "Marker som ulæst",
+      "sentAnonymously": "(sendt anonymt)",
+      "startConversationError": "Et eller flere felter er ikke udfyldt korrekt.\n\nDet kan f.eks. være en kombination af emne og modtager, der er ugyldig, eller at det ikke er muligt at sende anonymt til den valgte modtager.",
+      "conversationCloseError": "Der opstod en fejl under afslutning af sagen",
+      "anonymousCheckbox": "Send anonymt",
+      "anonymousTooltip": "Aktør og dit navn vil ikke blive vist til modtageren",
+      "closedNotice": "Sender du en besked, bliver sagen aktiv igen.",
+      "personalDataNoticePrefix": "Skriv ikke unødige ",
+      "personalDataNoticeLink": "personoplysninger",
+      "personalDataNoticeMidfix": ", og del ",
+      "personalDataNoticeNot": "ikke",
+      "personalDataNoticeSuffix": " fortrolige eller følsomme oplysninger, f.eks. CPR-nummer, helbredsoplysninger eller etnicitet.",
+      "closingMessage": "Sag afsluttet",
+      "filters": {
+        "placeholder": "Filtre",
+        "general": "Generelt",
+        "ownCases": "Mine sager",
+        "showOnlyUnread": "Vis kun ulæste",
+        "status": "Status"
+      },
+      "electricalHeatingForm": {
+        "title": "Ansøg om reduceret elafgift",
+        "currentElectricalHeatingStatus": "Nuværende elvarme status",
+        "electricalHeatingDate": "Elvarme dato",
+        "customer": "Kunde",
+        "supplierInPeriod": "Elleverandør i periode(r)",
+        "addressEligibilityDate": "Adressens berettigelsesdato (jf. BBR)",
+        "periodTitle": "Periode der søges reduceret elafgift for",
+        "periodStart": "Start",
+        "periodEnd": "Slut",
+        "attachedBbrNotification": "Jeg har vedhæftet aktuel BBR-meddelelse",
+        "attachedBbrDocumentation": "Jeg har vedhæftet dokumentation for berettigelsesdato fra BBR",
+        "yes": "Ja",
+        "no": "Nej"
+      },
+      "electricalHeatingInformationStatus": "Nuværende elvarmestatus: {{ electricalHeatingStatus }}",
+      "yes": "Ja",
+      "no": "Nej",
+      "electricalHeatingInformationDate": "Elvarmedato: {{ electricalHeatingDate }}",
+      "electricalHeatingInformationCustomer": "Kunde: {{ customerName }}",
+      "electricalHeatingInformationSupplierPeriod": "Elleverandørperiode: {{ energySupplierPeriodFrom }} - {{ energySupplierPeriodTo }}",
+      "electricalHeatingUserAddressEligibilityDate": "Adressens berettigelsesdato (jf. BBR): {{ addressEligibilityDate }}",
+      "electricalHeatingUserChargeReductionPeriod": "Periode der søges reduceret elafgift for: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}",
+      "meteringPointInfo": {
+        "connectionState": "Tilslutningsstatus",
+        "type": "Målepunktstype",
+        "resolution": "Tidsopløsning",
+        "address": "Adresse",
+        "notValidated": "Søg venligst efter et målepunkt",
+        "notFound": "Målepunkts-ID findes ikke",
+        "invalidLength": "Målepunkts-ID består af 18 cifre"
       }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
@@ -912,7 +1009,7 @@
     "processOverview": {
       "columns": {
         "createdAt": "Registreret i DataHub",
-        "reasonCode": "Type",
+        "businessReason": "Type",
         "state": "Status",
         "cutoffDate": "Skæringsdato",
         "initiator": "Initierende aktør",
@@ -923,16 +1020,25 @@
         "NewMeteringPoint": "Oprettelse af målepunkt (BRS-004)",
         "ConnectMeteringPoint": "Tilslutning af nyoprettet målepunkt (BRS-008)",
         "UpdateMasterDataConsumer": "Opdatering af kundestamdata (BRS-015)",
-        "CustomerMoveIn": "Tilflytning (BRS-009)"
+        "CustomerMoveIn": "Tilflytning (BRS-009)",
+        "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (BRS-007)",
+        "ChangeConnectionStatus": "Afbrydelse og gentilslutning af målepunkt (BRS-013)",
+        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)",
+        "ProductionObligation": "Ændring af aftagepligt (BRS-036)",
+        "ElectricalHeating": "Håndtering af elvarme (BRS-041)"
       },
-      "reasonCode": {
+      "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
         "NewMeteringPoint": "Nyt målepunkt (E02)",
         "ConnectMeteringPoint": "Tilslutning af målepunkt (D15)",
         "UpdateMasterDataConsumer": "Opdatering af kundestamdata (E34)",
         "CustomerMoveIn": "Almindelig tilflytning (E65)",
         "SecondaryMoveIn": "Sekundær tilflytning (D29)",
-        "Move": "Flytning (E01)"
+        "Move": "Flytning (E01)",
+        "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (D14)",
+        "ChangeConnectionStatus": "Ændring af tilslutningsstatus (E79)",
+        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (E32)",
+        "ElectricalHeating": "Elvarme (D20)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -942,39 +1048,116 @@
       "actions": {
         "SEND_INFORMATION": "Send information",
         "FAS_SEND_INFORMATION": "Net og el kan sende information",
-        "CANCEL_WORKFLOW": "Annuller workflow",
-        "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow"
+        "CANCEL_WORKFLOW": "Annuller",
+        "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
+        "REJECT_REQUEST": "Afvis anmodning",
+        "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
+      },
+      "rejectProcess": {
+        "title": "Leveranceophør - serviceanmodning afvist",
+        "requestedService": "Anmodet serviceydelse",
+        "cutoffDate": "Skæringsdato",
+        "response": "Svar",
+        "responseValue": "Afvist",
+        "reasonCodeLabel": "Afvisningsårsag",
+        "reasonCodePlaceholder": "Vælg",
+        "descriptionLabel": "Bemærkning",
+        "cancel": "Luk vindue",
+        "confirm": "Send afvisning",
+        "successToast": "Afvisning af leveranceophør indsendt",
+        "errorToast": "Afvisning af leveranceophør fejlede",
+        "reasonCodes": {
+          "THE_MUNICIPALITY_MUST_BE_INVOLVED_IN_THE_DISCONNECTION": "Kommunen skal inddrages i afbrydelsen (D41)",
+          "THE_POLICE_MUST_BE_INVOLVED_IN_THE_DISCONNECTION": "Politiet skal inddrages i afbrydelsen (D42)",
+          "THE_BAILIFFS_COURT_MUST_BE_INVOLVED_IN_THE_DISCONNECTION": "Fogedretten skal inddrages i afbrydelsen (D43)",
+          "OTHER_REJECTION_REASON": "Anden afvisningsårsag (D44)",
+          "NO_ACCESS_TO_THE_METER": "Ingen adgang til måler (D58)",
+          "REJECTION5": "Afvisningsårsag 5 (D45)"
+        }
+      },
+      "cancelProcess": {
+        "title": "Annuller {{processType}}",
+        "body": "Er du sikker på du vil stoppe processen for {{processType}}?",
+        "cancel": "Luk vindue",
+        "confirm": "Jeg er sikker",
+        "loadingToast": "Indsender annullering af {{processType}}...",
+        "successToast": "Annullering af {{processType}} indsendt",
+        "errorToast": "Annullering af {{processType}} fejlede"
+      },
+      "processTypeName": {
+        "EndOfSupply": "leveranceophør"
       },
       "steps": {
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
+        "CloseDownMeteringPoint": {
+          "BRS_007_008_013_V1_STEP_1": "Anmodning om nedlæggelse af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Godkendelse af nedlæggelse af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Afvisning af nedlæggelse af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_5": "Information om nedlæggelse af målepunkt (RSM-004)"
+        },
+        "ConnectMeteringPoint": {
+          "BRS_007_008_013_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)"
+        },
+        "ChangeConnectionStatus": {
+          "BRS_007_008_013_V1_STEP_1": "Anmodning om ændring af tilslutningsstatus (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Godkendelse af ændring af tilslutningsstatus (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Afvisning af ændring af tilslutningsstatus (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Information om ændring af tilslutningsstatus (RSM-022)"
+        },
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTFORCANCELLATIONOFENDOFSUPPLY_V1_STEP_1": "Anmod om annullering af leveranceophør (RSM-024)",
+        "BRS_002_REQUESTFORCANCELLATIONOFENDOFSUPPLY_V1_STEP_2": "Godkend annullering af leveranceophør (RSM-024)",
+        "BRS_002_REQUESTFORCANCELLATIONOFENDOFSUPPLY_V1_STEP_4": "Information om annullering af leveranceophør (RSM-025)",
+        "BRS_002_REJECTIONOFREQUESTFORDISCONNECTION_V1_STEP_1": "Afvis anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REJECTIONOFREQUESTFORDISCONNECTION_V1_STEP_2": "Afvis anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_1": "Anmodning om ændring af tilslutningsstatus (RSM-021)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_2": "Afvis anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_4": "Information om faktisk stopdato (RSM-004)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_5": "Information om kundestamdata (RSM-028)",
+        "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_1": "Anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_2": "Godkendelse af anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Anmodning om oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Information om nyt målepunkt (RSM-022)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Anmodning om tilslutning af målepunkt (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Godkendelse af tilslutning af målepunkt (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Afvisning af tilslutning af målepunkt (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Information om tilslutning af målepunkt (RSM-022)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Information om pristilknytning (RSM-031)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_1": "Anmodning om opdatering af målepunktsstamdata (RSM-021)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_2": "Godkendelse af opdatering af målepunktsstamdata (RSM-021)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_3": "Afvisning af opdatering af målepunktsstamdata (RSM-021)",
         "BRS_009_MOVEIN_V1_STEP_1": "Anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Godkendelse af anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Afvisning af anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_4": "Information om målepunktsstamdata (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_5": "Information om kundestamdata (RSM-028)",
-        "BRS_009_MOVEIN_V1_STEP_6": "Information om pristilknytninger (RSM-031)",
+        "BRS_009_MOVEIN_V1_STEP_6": "Information om pristilknytning (RSM-031)",
         "BRS_009_MOVEIN_V1_STEP_7": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_009_MOVEIN_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_009_MOVEIN_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
-        "BRS_009_MOVEIN_V1_STEP_10": "Generisk information (RSM-004)",
+        "BRS_009_MOVEIN_V1_STEP_10": "Information om tilflytning (RSM-004)",
         "BRS_009_MOVEIN_V1_STEP_11": "Information om kundestamdata (RSM-028)",
-        "BRS_009_MOVEIN_V1_STEP_12": "Generisk information (RSM-004)",
+        "BRS_009_MOVEIN_V1_STEP_12": "Information om stop af leverance (RSM-004)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_3": "Information om kundestamdata (RSM-028)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_10": "Information om tilflytning (RSM-004)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_11": "Information om kundestamdata (RSM-028)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)",
-        "UNKNOWN": "Ukendt trin"
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_1": "Anmodning om ændring af aftagepligt (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Godkendelse af ændring af aftagepligt (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Afvisning af ændring af aftagepligt (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)",
+        "BRS_041_V1_STEP_1": "Anmodning om ændring af elvarmestatus (RSM-027)",
+        "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
+        "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)"
       },
       "details": {
         "notFound": "Process ikke fundet",
@@ -982,7 +1165,7 @@
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
-          "reasonCode": "Årsagskode",
+          "businessReason": "Årsagskode",
           "initiator": "Initierende aktør"
         },
         "columns": {
@@ -1095,10 +1278,16 @@
         }
       }
     },
-
     "moveIn": {
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "updateCustomerData": "Opdater kundestamdata",
+      "updateCustomer": {
+        "toast": {
+          "loading": "Kundestamdata opdateres...",
+          "success": "Kundestamdata opdateret",
+          "error": "Opdatering mislykkedes"
+        }
+      },
       "customerDetails": {
         "label": "Kundedetaljer",
         "cutOffDate": "Skæringsdato",
@@ -1257,12 +1446,20 @@
       "save": "Gem ændringer",
       "saveSuccess": "Tilslutningsstatus opdateres"
     },
+    "manageProductionObligation": {
+      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductObligationLink }}",
+      "tooltip": "Processen tager få minutter. Det ønskede \n resultat vises her, og afvisningsårsager \n findes i forretningsbeskeder.",
+      "changeToLabel": "Ændre aftagepligt til",
+      "cutOffDate": "Skæringsdato",
+      "cancel": "Annuller",
+      "save": "Gem ændringer",
+      "saveSuccess": "Aftagepligt opdateres"
+    },
     "endOfSupply": {
       "modalTitle": "Start leveranceophør",
       "dateLabel": "Angiv skæringsdato",
       "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
-      "consequencesInfo": "Her skal stå en tekst...",
-      "confirmCheckbox": "Jeg er indforstået med konsekvenserne",
+      "confirmCheckbox": "Vær opmærksom på, at når du starter et leveranceophør anmoder du om at slukke strømmen på målepunktet.",
       "cancel": "Annuller",
       "submit": "Start leveranceophør",
       "submitSuccess": "Leveranceophør indsendt.",
@@ -1273,7 +1470,6 @@
   "messageArchive": {
     "topBarTitle": "Fremsøg forretningsbeskeder",
     "new": "Ny søgning",
-    "results": "Resultater",
     "searchById": "Søg på ID",
     "refetching": "Henter forretningsbeskeder...",
     "drawer": {
@@ -1319,8 +1515,7 @@
       "created": "Sendt",
       "messageId": "Besked ID",
       "sender": "Afsender",
-      "receiver": "Modtager",
-      "download": "Download"
+      "receiver": "Modtager"
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
@@ -1337,6 +1532,7 @@
       "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
       "UPDATE_CHARGE_LINKS": "Anmodning om opdatering af pristilknytninger (RSM-030)",
+      "B2C_UPDATE_CHARGE_LINKS": "UI: Anmodning om opdatering af pristilknytninger (RSM-030)",
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Godkendelse af opdatering af pristilknytninger (RSM-030)",
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af opdatering af pristilknytninger (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Information om pristilknytninger (RSM-031)",
@@ -1347,10 +1543,40 @@
       "NOTIFY_PRICE_LIST": "Information om priser (RSM-034)"
     },
     "businessReason": {
-      "D03": "Aggregering (D03)",
+      "D03": "Foreløbig aggregering (D03)",
       "D04": "Balancefiksering (D04)",
-      "D05": "Engrosafregning (D05)",
-      "D32": "Korrektioner (D32)"
+      "D05": "Engrosfiksering (D05)",
+      "D07": "Genoptagelse af leverance (D07)",
+      "D08": "Opdatering af prisserie (D08)",
+      "D11": "Misligholdt proces (D11)",
+      "D14": "Nedlæggelse af målepunkt (D14)",
+      "D15": "Tilslutning af målepunkt (D15)",
+      "D17": "Opdatering af pristilknytninger (D17)",
+      "D18": "Opdatering af prisinformation (D18)",
+      "D20": "Elvarme (D20)",
+      "D22": "Anmodning om serviceydelse (D22)",
+      "D24": "Hullerlog (D24)",
+      "D29": "Sekundær tilflytning (D29)",
+      "D31": "Overdragelse af målepunkt (D31)",
+      "D32": "Korrektionsafregning (D32)",
+      "D33": "Fejlagtig flytning (D33)",
+      "D34": "Accept af korrektion (D34)",
+      "D35": "Afvisning af korrektion (D35)",
+      "D39": "Aftagepligt (D39)",
+      "D47": "Hullerlog (D47)",
+      "D48": "Prisserie (D48)",
+      "E01": "Flytning (E01)",
+      "E02": "Nyt målepunkt (E02)",
+      "E03": "Skift af elleverandør (E03)",
+      "E0G": "Stamdata (E0G)",
+      "E20": "Leveranceophør (E20)",
+      "E23": "Periodisk forbrugsopgørelse (E23)",
+      "E30": "Historiske data (E30)",
+      "E32": "Opdatering af målepunktsstamdata (E32)",
+      "E34": "Opdatering af kundestamdata (E34)",
+      "E65": "Almindelig tilflytning (E65)",
+      "E66": "Fraflytning (E66)",
+      "E79": "Ændring af tilslutningsstatus (E79)"
     },
     "search": {
       "topBarTitle": "Fremsøg forretningsbeskeder",
@@ -1683,8 +1909,7 @@
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
-        "reset": "{{ shared.form.reset }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
       },
       "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {
@@ -2019,7 +2244,7 @@
       "fileName": "DataHub netområder - {{ shared.downloadNameParams }}",
       "columns": {
         "code": "Netområde",
-        "actor": "Netvirksomhed",
+        "owner": "Netvirksomhed",
         "organization": "Organisation",
         "status": "Status",
         "type": "Type",
@@ -2082,10 +2307,10 @@
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
       "status": {
-        "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 2, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
+        "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 3, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
         "CONVERTER": "Status bliver rød hvis NBS-beskeder ikke kan dannes, fordi der enten er en fejl i konverteringen eller netområdet i beskeden ikke har en netvirksomhed tilknyttet.",
-        "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til BizTalk, fordi der enten ikke er forbindelse, BizTalk ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
-        "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra BizTalk, fordi der enten ikke er forbindelse, BizTalk/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
+        "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til Servicebus/eSett, fordi der enten ikke er forbindelse, fordi servicebus/eSett ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
+        "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra Servicebus, fordi der enten ikke er forbindelse, Servicebus/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
       },
       "fileName": "DataHub eSett udgående beskeder - {{ shared.downloadNameParams }}",
       "shared": {
@@ -2102,7 +2327,7 @@
           "RECEIVED": "Modtaget",
           "AWAITING_DISPATCH": "Afventer afsendelse",
           "AWAITING_REPLY": "Afventer svar fra eSett",
-          "BIZ_TALK_ACCEPTED": "Afventer svar fra ECP",
+          "SERVICE_BUS_ACCEPTED": "Afventer svar fra ECP",
           "ACCEPTED": "Accepteret",
           "REJECTED": "Afvist",
           "MANUALLY_HANDLED": "Manuelt løst"
@@ -2308,8 +2533,9 @@
         "title": "Er du sikker på, at du vil afbryde denne rapport?",
         "confirm": "Afbryd rapport",
         "cancel": "Fortryd",
-        "requestSuccess": "Afregningsrapport afbrudt.",
-        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
+        "loading": "Afbryder afregningsrapport...",
+        "success": "Afregningsrapport afbrudt.",
+        "error": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
       },
       "columns": {
         "startedAt": "Bestilt",
@@ -2324,7 +2550,6 @@
       "noData": "Ingen data",
       "itemsAndCount": "{{ items }}, +{{ remainingCount }} flere",
       "drawer": {
-        "monthlySum": "Månedssummer",
         "combined": "Kombineret",
         "gridAreas": "Netområder"
       },
@@ -2350,7 +2575,6 @@
         "includeBasisData": "Inkluder datagrundlag",
         "allowLargeTextFiles": "Tillad store filer",
         "period": "Beregningsperiode",
-        "includeMonthlySum": "Inkluder månedssummer",
         "useApi": "Bestil rapport via. ny løsning",
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",
@@ -2460,6 +2684,7 @@
       "search": "Søg på ID",
       "new": "Ny beregning",
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
+      "actionsButton": "Handlinger",
       "capacitySettlements": {
         "uploadButton": "Upload fil til effektbetaling",
         "uploadInProgress": "Upload i gang",
@@ -2914,7 +3139,8 @@
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret",
               "USER_LOGIN_FEDERATION_REQUESTED": "<b>{{ auditedBy }}</b> har anmodet om at knytte MitID til brugeren",
-              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> har succesfuldt knyttet MitID til brugeren"
+              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> har succesfuldt knyttet MitID til brugeren",
+              "USER_LOGIN_FEDERATION_RESET": "<b>{{ auditedBy }}</b> har nulstillet MitID for brugeren"
             }
           }
         },
@@ -3102,15 +3328,112 @@
     }
   },
   "meteringPointDebug": {
-    "topBarTitle": "Debug målepunkt",
+    "topBarTitle": "Målepunkt",
     "meteringPoint": {
-      "tabLabel": "Målepunkt"
+      "tabLabel": "Målepunkt (EM1)"
     },
     "meteringPointEvents": {
-      "tabLabel": "Målepunkt events"
+      "tabLabel": "Målepunkt",
+      "searchLabel": "Målepunkts-ID",
+      "segments": {
+        "meteringPoint": "Målepunkt",
+        "events": "Events",
+        "relations": "Relationer"
+      },
+      "expandAll": "Udvid alle",
+      "collapseAll": "Skjul alle",
+      "compareEm1": "Sammenlign med EM1",
+      "matchCase": "Forskel på store/små",
+      "ignoreCase": "Ignorer store/små"
+    },
+    "migration": {
+      "tabLabel": "Migrering",
+      "countsComparison": {
+        "title": "Sammenligning af migreringstal",
+        "em1Label": "Migreret antal (EM1):",
+        "em2Label": "Migreret antal (EM2):",
+        "loading": "Indlæser...",
+        "error": "Fejl ved indlæsning af antal",
+        "total": "Total:",
+        "quarantined": "I karantæne:",
+        "refreshButton": "Opdater"
+      },
+      "dlq": {
+        "title": "Dead Letter Queue for migreringsevents",
+        "replayButton": "Genafspil DLQ-events",
+        "clearButton": "Ryd DLQ",
+        "lastOperationResult": "Seneste operationsresultat:",
+        "dlqCount": "DLQ antal:",
+        "processedCount": "Behandlet antal:",
+        "modal": {
+          "replayTitle": "Genafspil DLQ-events",
+          "replayMessage": "Er du sikker på, at du vil genafspille alle events fra dead letter køen?",
+          "clearTitle": "Ryd DLQ",
+          "clearMessage": "Er du sikker på, at du vil rydde alle events fra dead letter køen? Denne handling kan ikke fortrydes."
+        }
+      },
+      "syncJob": {
+        "title": "Sæt starttidspunkt for migreringsjob i EM1",
+        "startTimeLabel": "Starttidspunkt (valgfrit)",
+        "hint": "Hvis intet starttidspunkt er angivet, migreres alt!",
+        "setStartTimeButton": "Sæt starttidspunkt",
+        "modal": {
+          "title": "Sæt starttidspunkt",
+          "message": "Er du sikker på, at du vil sætte starttidspunktet for migreringsjobbet?"
+        }
+      },
+      "dangerZone": {
+        "title": "Farezone",
+        "warning": "Advarsel:",
+        "warningMessage": "Denne handling vil slette ALLE event sourcing data. Dette kan ikke fortrydes!",
+        "deleteButton": "Slet alle event sourcing data",
+        "modal": {
+          "title": "Slet alle event sourcing data",
+          "message": "Denne handling vil permanent slette ALLE event sourcing data. Dette kan ikke fortrydes!",
+          "validation": "JEG VIL SLETTE ALLE DATA",
+          "instruction": "For at bekræfte, skriv JEG VIL SLETTE ALLE DATA nedenfor:",
+          "confirmDelete": "Slet alle data"
+        }
+      },
+      "modal": {
+        "cancel": "Annuller",
+        "confirm": "Bekræft"
+      },
+      "result": "Resultat:",
+      "success": "Succes",
+      "failed": "Fejlede",
+      "error": "Fejl:"
+    },
+    "actions": {
+      "tabLabel": "Handlinger",
+      "rebuildProjection": {
+        "title": "Genopbyg projektion",
+        "selectPlaceholder": "Vælg projektionstype",
+        "timeout": "Timeout (minutter)",
+        "button": "Genopbyg projektion",
+        "projectionTypes": {
+          "METERING_POINT": "Målepunkt",
+          "METERING_POINT_WITH_RELATIONS": "Målepunkt med relationer"
+        },
+        "modal": {
+          "title": "Genopbyg projektion",
+          "message": "Er du sikker på, at du vil genopbygge projektionen?"
+        }
+      },
+      "dangerZone": {
+        "title": "Farezone"
+      },
+      "modal": {
+        "cancel": "Annuller",
+        "confirm": "Bekræft"
+      },
+      "result": "Resultat:",
+      "success": "Succes",
+      "failed": "Fejlede",
+      "error": "Fejl:"
     },
     "meteringPoints": {
-      "tabLabel": "Målepunkter",
+      "tabLabel": "Find målepunkter",
       "gridArea": "Netområde",
       "packageNumber": "Pakkenr: {{ packageNumber }}"
     },
@@ -3186,7 +3509,6 @@
         "period": "Beregningsperiode"
       },
       "table": {
-        "headline": "Processer",
         "searchLabel": "Søg på ID",
         "columns": {
           "id": "Id",

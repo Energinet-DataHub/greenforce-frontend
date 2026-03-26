@@ -31,17 +31,17 @@ import {
   getPath,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
-} from '@energinet-datahub/dh/core/routing';
+} from '@energinet-datahub/dh/core/configuration-routing';
 
 import {
   EicFunction,
-  ConnectionState,
-  MeteringPointSubType,
+  ElectricityMarketViewConnectionState,
+  ElectricityMarketViewMeteringPointSubType,
   ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   DhActorStorage,
@@ -95,9 +95,11 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
           <watt-menu-item (click)="startMoveIn()">
             {{ t('moveIn') }}
           </watt-menu-item>
-          <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
-            {{ t('updateCustomerData') }}
-          </watt-menu-item>
+          @if (isEnergySupplierResponsible()) {
+            <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
+              {{ t('updateCustomerData') }}
+            </watt-menu-item>
+          }
         }
 
         @if (showCreateChargeLinkButton()) {
@@ -136,17 +138,21 @@ export class DhMeteringPointActionsComponent {
   private readonly permissionService = inject(PermissionService);
   private readonly actor = inject(DhActorStorage);
 
-  isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
+  isCalculatedMeteringPoint = computed(
+    () => this.subType() === ElectricityMarketViewMeteringPointSubType.Calculated
+  );
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
   getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
   createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;
 
   meteringPointId = input.required<string>();
+  internalMeteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
-  subType = input<MeteringPointSubType | null>();
-  connectionState = input<ConnectionState | null>();
+  subType = input<ElectricityMarketViewMeteringPointSubType | null>();
+  connectionState = input<ElectricityMarketViewConnectionState | null>();
   createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();
+  isEnergySupplierResponsible = input.required<boolean>();
 
   private readonly hasGridAccessProviderRole = toSignal(
     this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
@@ -196,8 +202,8 @@ export class DhMeteringPointActionsComponent {
     return (
       this.hasMeteringPointMoveInPermission() &&
       this.releaseToggleService.isEnabled('MoveInBrs009') &&
-      (this.connectionState() === ConnectionState.New ||
-        this.connectionState() === ConnectionState.Connected) &&
+      (this.connectionState() === ElectricityMarketViewConnectionState.New ||
+        this.connectionState() === ElectricityMarketViewConnectionState.Connected) &&
       (this.type() === ElectricityMarketMeteringPointType.Consumption ||
         this.type() === ElectricityMarketMeteringPointType.Production)
     );
@@ -212,12 +218,19 @@ export class DhMeteringPointActionsComponent {
 
   showConnectionStateManageButton = computed(
     () =>
-      this.hasConnectionStateManagePermission() && this.connectionState() === ConnectionState.New
+      this.hasConnectionStateManagePermission() &&
+      (this.connectionState() === ElectricityMarketViewConnectionState.New ||
+        this.connectionState() === ElectricityMarketViewConnectionState.Connected ||
+        this.connectionState() === ElectricityMarketViewConnectionState.Disconnected)
   );
+
   showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
 
   showEndOfSupplyButton = computed(
-    () => this.hasEnergySupplierRole() && this.featureFlagsService.isEnabled('end-of-supply')
+    () =>
+      this.hasEnergySupplierRole() &&
+      this.isEnergySupplierResponsible() &&
+      this.featureFlagsService.isEnabled('end-of-supply')
   );
 
   showActionsButton = computed(() => {
@@ -247,6 +260,7 @@ export class DhMeteringPointActionsComponent {
       component: DhEndOfSupplyComponent,
       data: {
         meteringPointId: this.meteringPointId(),
+        internalMeteringPointId: this.internalMeteringPointId(),
       },
     });
   }
@@ -264,6 +278,7 @@ export class DhMeteringPointActionsComponent {
         currentConnectionState,
         currentCreatedDate,
         meteringPointId: this.meteringPointId(),
+        meteringPointType: this.type(),
       },
     });
   }

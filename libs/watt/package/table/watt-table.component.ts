@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/common';
+import { KeyValue, KeyValuePipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -208,7 +208,6 @@ export class WattTableToolbarDirective<T> {
  */
 @Component({
   imports: [
-    NgClass,
     NgTemplateOutlet,
     KeyValuePipe,
     FormsModule,

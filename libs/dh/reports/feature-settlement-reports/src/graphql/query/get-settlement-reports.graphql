@@ -3,7 +3,7 @@ query GetSettlementReports {
     id
     actor {
       id
-      name
+      displayName
     }
     calculationType
     period
@@ -14,7 +14,6 @@ query GetSettlementReports {
     settlementReportDownloadUrl
     executionTime
     combineResultInASingleFile
-    includeMonthlyAmount
     gridAreas
   }
 }

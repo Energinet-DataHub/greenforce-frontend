@@ -35,13 +35,17 @@ import {
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhToolbarPortalComponent } from '@energinet-datahub/dh/core/ui-toolbar-portal';
-import { BasePaths, ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import {
+  BasePaths,
+  ChargesSubPaths,
+  getPath,
+} from '@energinet-datahub/dh/core/configuration-routing';
 
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
@@ -86,11 +90,11 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         </watt-breadcrumb>
       </watt-breadcrumbs>
     </dh-toolbar-portal>
-    <vater-flex fill="vertical" *transloco="let t; prefix: 'charges'">
+    <vater-flex inset="0" *transloco="let t; prefix: 'charges'">
       <vater-stack class="page-header" direction="row" gap="m" wrap align="end">
         @if (charge(); as charge) {
           <header>
-            <vater-stack direction="row" gap="m">
+            <vater-stack direction="row" gap="m" class="watt-space-stack-m">
               <h2 [style.margin]="0">{{ charge.displayName }}</h2>
               <dh-charges-status [status]="charge.status" />
             </vater-stack>
@@ -110,6 +114,11 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
               <watt-description-list-item [label]="t('charge.transparentInvoicing')">
                 {{ charge.transparentInvoicing ? ('yes' | transloco) : ('no' | transloco) }}
               </watt-description-list-item>
+              @if (charge.type === 'TARIFF') {
+                <watt-description-list-item [label]="t('charge.spotDependingPrice')">
+                  {{ charge.spotDependingPrice ? ('yes' | transloco) : ('no' | transloco) }}
+                </watt-description-list-item>
+              }
             </watt-description-list>
           </header>
         }

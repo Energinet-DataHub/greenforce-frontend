@@ -18,13 +18,13 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappe
 
 public static class MeteringPointSubTypeMapper
 {
-    public static Clients.ElectricityMarket.v1.MeteringPointSubType? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType subType)
+    public static MeteringPointSubType? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType subType)
     {
         return subType switch
         {
-            DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Physical => Clients.ElectricityMarket.v1.MeteringPointSubType.Physical,
-            DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Virtual => Clients.ElectricityMarket.v1.MeteringPointSubType.Virtual,
-            DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Calculated => Clients.ElectricityMarket.v1.MeteringPointSubType.Calculated,
+            DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Physical => MeteringPointSubType.Physical,
+            DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Virtual => MeteringPointSubType.Virtual,
+            DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Calculated => MeteringPointSubType.Calculated,
             DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointSubType.Unknown => null,
         };
     }

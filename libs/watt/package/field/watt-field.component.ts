@@ -28,6 +28,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
@@ -39,7 +40,6 @@ import { WattRangeValidators } from '@energinet/watt/validators';
 
 import { WattFieldIntlService } from './watt-field-intl.service';
 import { WattFieldErrorComponent } from './watt-field-error.component';
-import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'watt-field',

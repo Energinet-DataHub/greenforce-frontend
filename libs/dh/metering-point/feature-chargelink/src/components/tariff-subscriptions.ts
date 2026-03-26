@@ -30,8 +30,8 @@ import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/tabl
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import {
   ChargeType,
@@ -46,6 +46,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { Charge } from '../types';
+
 @Component({
   selector: 'dh-metering-point-charge-links-tariff-subscriptions',
   imports: [
@@ -99,7 +100,13 @@ import { Charge } from '../types';
         </ng-container>
 
         <ng-container *wattTableCell="columns.period; let element">
-          {{ element.period?.interval | wattDate }}
+          {{ element.period.interval | wattDate }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns.amount; let element">
+          @if (element.charge?.type === 'SUBSCRIPTION') {
+            {{ element.amount }}
+          }
         </ng-container>
 
         <ng-container *wattTableCell="columns.transparentInvoicing; let element">
@@ -108,9 +115,7 @@ import { Charge } from '../types';
           }
         </ng-container>
         <ng-container *wattTableCell="columns.status; let element">
-          @if (
-            element.period?.interval?.start?.getTime() === element.period?.interval?.end?.getTime()
-          ) {
+          @if (element.period.interval.start.getTime() === element.period.interval.end?.getTime()) {
             <dh-charges-status [status]="'CANCELLED'" />
           }
         </ng-container>
@@ -151,7 +156,7 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
       accessor: (chargeLink) => chargeLink.charge?.transparentInvoicing ?? false,
     },
     amount: { accessor: 'amount' },
-    period: { accessor: (chargeLink) => chargeLink.period?.interval },
+    period: { accessor: (chargeLink) => chargeLink.period.interval },
     status: { header: '', accessor: (charge) => charge.charge?.status },
   };
 

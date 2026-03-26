@@ -1,0 +1,5 @@
+mutation RequestEndOfSupply($input: RequestEndOfSupplyInput!) {
+  requestEndOfSupply(input: $input) {
+    success: boolean
+  }
+}

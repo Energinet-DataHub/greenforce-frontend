@@ -18,7 +18,7 @@
 //#endregion
 import { Routes } from '@angular/router';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 
 export const meteringPointProcessOverviewRoutes: Routes = [
   {
@@ -28,12 +28,14 @@ export const meteringPointProcessOverviewRoutes: Routes = [
     ],
     path: '',
     loadComponent: () =>
-      import('./components/table').then((m) => m.DhMeteringPointProcessOverviewTable),
+      import('./components/overview').then((m) => m.DhMeteringPointProcessOverviewTable),
     children: [
       {
         path: 'details/:id',
         loadComponent: () =>
-          import('./components/details').then((m) => m.DhMeteringPointProcessOverviewDetails),
+          import('./components/details/details').then(
+            (m) => m.DhMeteringPointProcessOverviewDetails
+          ),
       },
     ],
   },

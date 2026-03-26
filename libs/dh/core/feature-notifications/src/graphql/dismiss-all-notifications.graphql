@@ -1,0 +1,5 @@
+mutation DismissAllNotifications($input: DismissAllNotificationsInput!) {
+  dismissAllNotifications(input: $input) {
+    success: boolean
+  }
+}

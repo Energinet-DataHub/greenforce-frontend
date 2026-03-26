@@ -15,6 +15,8 @@
 using Energinet.DataHub.WebApi.Common;
 using HotChocolate.Execution.Configuration;
 
+namespace Energinet.DataHub.WebApi.Registration;
+
 public static class ModuleExtensions
 {
     public static IServiceCollection RegisterModules(

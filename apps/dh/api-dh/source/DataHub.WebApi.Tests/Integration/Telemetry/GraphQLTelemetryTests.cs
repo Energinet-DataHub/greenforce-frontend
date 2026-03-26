@@ -21,11 +21,10 @@ using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.FeatureManagement;
 using Moq;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Telemetry;
+namespace Energinet.DataHub.WebApi.Tests.Integration.Telemetry;
 
 public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixture)
     : WebApiTestBase(factory), IClassFixture<TelemetryFixture>
@@ -33,8 +32,6 @@ public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixtu
     private TelemetryFixture Fixture { get; } = fixture;
 
     private Guid CalculationId { get; } = Guid.NewGuid();
-
-    private Mock<IFeatureManager> FeatureManagerMock { get; } = new();
 
     private Mock<ICalculationsClient> CalculationsClientMock { get; } = new();
 

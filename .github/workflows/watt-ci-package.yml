@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate Github token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         id: generate_token
         with:
           app-id: ${{ vars.dh3serviceaccount_appid }}
@@ -50,7 +50,7 @@ jobs:
           owner: Energinet-DataHub
 
       - name: Check out source code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.head_ref }}

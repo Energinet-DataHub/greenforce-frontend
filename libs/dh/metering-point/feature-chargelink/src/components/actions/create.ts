@@ -42,9 +42,9 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/drop
 
 import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import {
   ChargeType,
@@ -152,7 +152,9 @@ export default class DhMeteringPointCreateChargeLink {
       chargeId: this.fb.control<string>('', Validators.required),
       factor: this.fb.control<string | null>(
         null,
-        this.selectedType() !== 'TARIFF' ? [Validators.required, Validators.min(1)] : null
+        this.selectedType() !== 'TARIFF' && this.selectedType() !== 'TARIFF_TAX'
+          ? [Validators.required, Validators.min(1)]
+          : null
       ),
       startDate: this.fb.control<Date | null>(null, Validators.required),
     })

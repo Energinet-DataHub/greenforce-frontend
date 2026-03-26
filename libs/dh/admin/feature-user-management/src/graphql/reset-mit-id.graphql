@@ -1,0 +1,8 @@
+mutation ResetMitId($input: ResetMitIdInput!) {
+  resetMitId(input: $input) {
+    success: boolean
+    errors {
+      ...Errors
+    }
+  }
+}

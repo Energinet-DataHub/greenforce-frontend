@@ -19,7 +19,7 @@ limitations under the License.
   justify="center"
   *transloco="
     let t;
-    read: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation'
+    prefix: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation'
   "
 >
   <vater-stack direction="row" gap="s" class="watt-space-stack-m">
@@ -28,9 +28,7 @@ limitations under the License.
       (filtersChanges)="store.updateFilters($event)"
     />
 
-    <watt-button icon="download" variant="text" (click)="store.download()">{{
-      "shared.download" | transloco
-    }}</watt-button>
+    <dh-download-button (click)="store.download()" />
   </vater-stack>
 
   @if (store.isLoading()) {

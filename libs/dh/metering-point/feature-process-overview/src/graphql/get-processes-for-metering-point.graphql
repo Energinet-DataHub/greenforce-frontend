@@ -3,7 +3,7 @@ query GetMeteringPointProcessOverview($meteringPointId: String!, $created: DateR
     id
     createdAt
     cutoffDate
-    reasonCode
+    businessReason
     state
     initiator {
       id

@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-template #modal>
-  <div class="watt-modal" [ngClass]="'watt-modal--' + size()">
+  <div class="watt-modal" [class]="'watt-modal--' + size()">
     @if (!disableClose() && !hideCloseButton()) {
       <watt-button
         variant="icon"
@@ -29,7 +29,7 @@ limitations under the License.
     @if (!loading()) {
       <ng-content select="h2">
         @if (title()) {
-          <h2 class="watt-modal-title" [ngClass]="{ 'watt-modal-title-icon': titleIcon() }">
+          <h2 class="watt-modal-title" [class.watt-modal-title-icon]="titleIcon()">
             @if (titleIcon()) {
               <watt-icon [name]="titleIcon()" size="l" />
             }

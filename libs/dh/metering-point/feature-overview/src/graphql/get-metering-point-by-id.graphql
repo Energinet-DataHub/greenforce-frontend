@@ -1,4 +1,4 @@
-fragment CustomerContact on CustomerContactDto {
+fragment CustomerContact on ElectricityMarketViewCustomerContactDto {
   id
   phone
   email
@@ -11,6 +11,7 @@ fragment CustomerContact on CustomerContactDto {
   postBox
   countryCode
   darReference
+  attention
   isProtectedAddress
   citySubDivisionName
   name
@@ -22,12 +23,10 @@ fragment CustomerContact on CustomerContactDto {
 query GetMeteringPointById(
   $meteringPointId: String!
   $actorGln: String!
-  $environment: String
   $searchMigratedMeteringPoints: Boolean
 ) {
   meteringPoint(
     meteringPointId: $meteringPointId
-    environment: $environment
     searchMigratedMeteringPoints: $searchMigratedMeteringPoints
   ) {
     id
@@ -41,12 +40,14 @@ query GetMeteringPointById(
     createdDate
     closedDownDate
     connectionDate
+    disconnectedDate
     commercialRelation {
       id
       startDate
       energySupplier
       energySupplierName {
-        value
+        id
+        displayName
       }
       activeElectricalHeatingPeriods {
         id
@@ -85,10 +86,7 @@ query GetMeteringPointById(
         displayName
       }
       parentMeteringPoint
-      internalMeteringPointParentId(
-        environment: $environment
-        searchMigratedMeteringPoints: $searchMigratedMeteringPoints
-      )
+      internalMeteringPointParentId(searchMigratedMeteringPoints: $searchMigratedMeteringPoints)
       ownedBy
       connectionState
       netSettlementGroup

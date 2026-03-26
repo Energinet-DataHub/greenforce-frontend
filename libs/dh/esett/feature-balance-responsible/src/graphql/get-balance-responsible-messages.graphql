@@ -1,0 +1,39 @@
+query GetBalanceResponsibleMessages(
+  $skip: Int
+  $take: Int
+  $order: BalanceResponsibleSortInput
+  $locale: String!
+) {
+  balanceResponsible(skip: $skip, take: $take, order: $order) {
+    items {
+      id
+      receivedDateTime
+      energySupplierName {
+        id
+        displayName
+      }
+      supplier
+      balanceResponsibleName {
+        id
+        displayName
+      }
+      storageDocumentUrl
+      balanceResponsible
+      meteringPointType
+      validPeriod
+      gridArea {
+        id
+        code
+        name
+        displayName
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+    balanceResponsiblesUrl(locale: $locale)
+    balanceResponsibleImportUrl
+    totalCount
+  }
+}

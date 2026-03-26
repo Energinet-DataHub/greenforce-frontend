@@ -15,7 +15,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Model
 
 public class InstallationAddressDto
 {
-    public long Id { get; set; }
+    public required string Id { get; set; }
 
     public string? StreetCode { get; set; }
 
@@ -27,7 +27,7 @@ public class InstallationAddressDto
 
     public string? CitySubDivisionName { get; set; }
 
-    public System.Guid? DarReference { get; set; }
+    public Guid? DarReference { get; set; }
 
     public WashInstructions? WashInstructions { get; set; }
 

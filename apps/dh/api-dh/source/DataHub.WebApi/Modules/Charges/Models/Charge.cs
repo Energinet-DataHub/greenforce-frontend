@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Shared;
+using NodaTime.Extensions;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
@@ -22,6 +23,7 @@ public record Charge(
     ChargeIdentifierDto Id,
     Resolution Resolution,
     bool TaxIndicator,
+    bool SpotDependingPrice,
     IReadOnlyCollection<ChargeInformationPeriodDto> PeriodDtos)
 {
     public string Code => Id.Code;
@@ -32,6 +34,9 @@ public record Charge(
 
     public ChargePeriod LatestPeriod => Periods.First();
 
+    public ChargePeriod? ActivePeriod
+        => Periods.FirstOrDefault(p => p.Period.Contains(DateTimeOffset.Now.ToInstant()));
+
     public string Name => LatestPeriod.Name;
 
     public string Description => LatestPeriod.Description;
@@ -39,8 +44,6 @@ public record Charge(
     public bool VatInclusive => LatestPeriod.VatInclusive;
 
     public bool TransparentInvoicing => LatestPeriod.TransparentInvoicing;
-
-    public bool PredictablePrice => LatestPeriod.PredictablePrice;
 
     public ChargeStatus Status => LatestPeriod.Status;
 

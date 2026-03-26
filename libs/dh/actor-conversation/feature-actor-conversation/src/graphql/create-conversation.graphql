@@ -1,0 +1,27 @@
+mutation StartConversation(
+  $subject: ConversationSubject!
+  $meteringPointIdentification: String!
+  $internalNote: String
+  $content: String!
+  $anonymous: Boolean!
+  $receiver: MarketRole!
+  $energySupplierDate: DateTime
+  $attachedDocumentIds: [UUID!]!
+  $electricalHeatingInput: StartElectricalHeatingConversationInput
+) {
+  startConversation(
+    startConversationInput: {
+      subject: $subject
+      meteringPointIdentification: $meteringPointIdentification
+      internalNote: $internalNote
+      content: $content
+      anonymous: $anonymous
+      receiver: $receiver
+      energySupplierDate: $energySupplierDate
+      attachedDocumentIds: $attachedDocumentIds
+    }
+    electricalHeatingConversationInput: $electricalHeatingInput
+  ) {
+    string
+  }
+}

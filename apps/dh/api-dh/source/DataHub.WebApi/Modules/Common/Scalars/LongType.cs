@@ -14,6 +14,8 @@
 
 using HotChocolate.Language;
 
+namespace Energinet.DataHub.WebApi.Modules.Common.Scalars;
+
 public sealed class LongType : ScalarType<long, StringValueNode>
 {
     public LongType()

@@ -18,12 +18,12 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappe
 
 public static class ConnectionTypeMapper
 {
-    public static Clients.ElectricityMarket.v1.ConnectionType? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType connectionType)
+    public static ConnectionType? MapToDto(this DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType connectionType)
     {
         return connectionType switch
         {
-            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Direct => Clients.ElectricityMarket.v1.ConnectionType.Direct,
-            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Installation => Clients.ElectricityMarket.v1.ConnectionType.Installation,
+            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Direct => ConnectionType.Direct,
+            DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Installation => ConnectionType.Installation,
             DataHub.ElectricityMarket.Abstractions.Shared.ConnectionType.Unknown => null,
         };
     }

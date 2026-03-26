@@ -17,9 +17,8 @@
  */
 //#endregion
 import { Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
-import { MutationResult } from 'apollo-angular';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTypedModal, WATT_MODAL } from '@energinet/watt/modal';
@@ -32,16 +31,18 @@ import { dayjs } from '@energinet/watt/date';
 
 import {
   RequestConnectionStateChangeDocument,
-  ConnectionState,
   RequestConnectionStateChangeMutation,
   GetMeteringPointProcessOverviewDocument,
+  ElectricityMarketViewConnectionState,
+  ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  dhFormControlToSignal,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-connection-state-manage',
@@ -87,8 +88,8 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
           <watt-datepicker
             [label]="t('validityDate')"
             [formControl]="form.controls.validityDate"
-            [min]="minDate"
-            [max]="today"
+            [min]="minDate()"
+            [max]="maxDate"
           />
         }
       </form>
@@ -111,23 +112,32 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
   `,
 })
 export class DhConnectionStateManageComponent extends WattTypedModal<{
-  currentConnectionState: ConnectionState;
+  currentConnectionState: ElectricityMarketViewConnectionState;
   currentCreatedDate: Date;
   meteringPointId: string;
+  meteringPointType: ElectricityMarketMeteringPointType;
 }> {
   private readonly mutation = mutation(RequestConnectionStateChangeDocument);
   private readonly toastService = inject(WattToastService);
 
-  today = new Date();
-  minDate = this.findMinDate();
+  private today = dayjs().startOf('day').toDate();
+  private yesterday = dayjs(this.today).subtract(1, 'day').toDate();
+
+  loading = this.mutation.loading;
 
   form = new FormGroup({
-    state: dhMakeFormControl<ConnectionState>(this.modalData.currentConnectionState),
+    state: dhMakeFormControl<ElectricityMarketViewConnectionState>(
+      this.modalData.currentConnectionState
+    ),
     validityDate: dhMakeFormControl<Date>(this.today, Validators.required),
   });
 
-  stateControlOptions = dhEnumToWattDropdownOptions(ConnectionState, this.statesToExclude());
-  loading = this.mutation.loading;
+  private stateChange = dhFormControlToSignal(this.form.controls.state);
+
+  maxDate = this.today;
+  minDate = computed(() => this.findMinDate(this.stateChange()));
+
+  stateControlOptions = dhEnumToWattDropdownOptions(this.statesToShow());
 
   async save() {
     const { validityDate } = this.form.getRawValue();
@@ -136,6 +146,8 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
       variables: {
         input: {
           meteringPointId: this.modalData.meteringPointId,
+          currentConnectionState: this.modalData.currentConnectionState,
+          newConnectionState: this.form.controls.state.value,
           validityDate,
         },
       },
@@ -158,26 +170,79 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
     }
   }
 
-  private findMinDate() {
+  private findMinDate(newConnectionState: ElectricityMarketViewConnectionState): Date {
     const daysSinceCreated = dayjs(this.today).diff(
       dayjs(this.modalData.currentCreatedDate),
       'days'
     );
-    const maxDaysBackInTime = 7;
 
-    if (daysSinceCreated < maxDaysBackInTime) {
-      return this.modalData.currentCreatedDate;
+    // Handle DISCONNECTED -> CONNECTED transition
+    if (this.modalData.currentConnectionState === 'DISCONNECTED') {
+      if (newConnectionState === 'CONNECTED') {
+        return this.yesterday;
+      }
     }
 
-    return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
+    switch (newConnectionState) {
+      // Handle NEW -> CONNECTED transition
+      case 'CONNECTED': {
+        const maxDaysBackInTime = 7;
+
+        if (daysSinceCreated < maxDaysBackInTime) {
+          return this.modalData.currentCreatedDate;
+        }
+
+        return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
+      }
+      // Handle CONNECTED -> DISCONNECTED transition
+      case 'DISCONNECTED': {
+        return this.yesterday;
+      }
+      // Handle NEW -> CLOSED_DOWN and
+      // Handle CONNECTED -> CLOSED_DOWN and
+      // Handle DISCONNECTED -> CLOSED_DOWN transitions
+      case 'CLOSED_DOWN': {
+        const maxDaysBackInTime =
+          this.modalData.meteringPointType === ElectricityMarketMeteringPointType.ElectricalHeating
+            ? 23
+            : 1;
+
+        if (daysSinceCreated < maxDaysBackInTime) {
+          return this.modalData.currentCreatedDate;
+        }
+
+        return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
+      }
+      default:
+        return this.today;
+    }
   }
 
-  private statesToExclude(): ConnectionState[] | undefined {
-    if (this.modalData.currentConnectionState === ConnectionState.New) {
-      return [ConnectionState.NotUsed, ConnectionState.ClosedDown, ConnectionState.Disconnected];
+  private statesToShow(): Partial<{
+    [K in keyof typeof ElectricityMarketViewConnectionState]: (typeof ElectricityMarketViewConnectionState)[K];
+  }> {
+    switch (this.modalData.currentConnectionState) {
+      case 'NEW':
+        return {
+          New: 'NEW',
+          Connected: 'CONNECTED',
+          ClosedDown: 'CLOSED_DOWN',
+        };
+      case 'CONNECTED':
+        return {
+          Connected: 'CONNECTED',
+          Disconnected: 'DISCONNECTED',
+          ClosedDown: 'CLOSED_DOWN',
+        };
+      case 'DISCONNECTED':
+        return {
+          Disconnected: 'DISCONNECTED',
+          Connected: 'CONNECTED',
+          ClosedDown: 'CLOSED_DOWN',
+        };
+      default:
+        return {};
     }
-
-    return undefined;
   }
 
   private isUpdateSuccessful(

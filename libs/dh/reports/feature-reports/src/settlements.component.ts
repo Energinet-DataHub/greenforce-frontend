@@ -20,14 +20,19 @@ import { Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
-import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import {
+  BasePaths,
+  ReportsSubPaths,
+  getPath,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { VATER } from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-settlements',
-  imports: [TranslocoDirective, WATT_LINK_TABS, DhPermissionRequiredDirective],
+  imports: [TranslocoDirective, WATT_LINK_TABS, DhPermissionRequiredDirective, VATER],
   template: `
-    <watt-link-tabs *transloco="let t; prefix: 'reports.tabs'">
+    <watt-link-tabs vater inset="0" *transloco="let t; prefix: 'reports.tabs'">
       <watt-link-tab
         *dhPermissionRequired="['settlement-reports:manage']"
         [label]="t('settlementReports')"

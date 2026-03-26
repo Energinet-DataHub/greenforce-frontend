@@ -63,7 +63,18 @@ public static partial class GridAreaOverviewItemNode
         return filtered;
     }
 
-    public static string Actor([Parent] GridAreaOverviewItemDto gridArea) => gridArea.Actor();
+    public static async Task<ActorDto?> OwnerAsync(
+        [Parent] GridAreaOverviewItemDto gridArea,
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader,
+        CancellationToken ct)
+    {
+        if (gridArea.ActorNumber == null)
+        {
+            return null;
+        }
+
+        return await dataLoader.LoadAsync((gridArea.ActorNumber, EicFunction.GridAccessProvider), ct);
+    }
 
     public static async Task<IEnumerable<GridAreaAuditedChangeAuditLogDto>> AuditLogAsync(
         [Parent] GridAreaOverviewItemDto gridArea,

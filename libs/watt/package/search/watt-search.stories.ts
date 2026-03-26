@@ -16,13 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 
 import { WattSearchComponent } from './watt-search.component';
+import { WattSimpleSearchComponent } from './watt-simple-search.component';
 
 const meta: Meta<WattSearchComponent> = {
   title: 'Components/Search',
   component: WattSearchComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [WattSimpleSearchComponent],
+    }),
+  ],
 };
 
 export default meta;
@@ -31,8 +37,9 @@ export const Overview: StoryObj<WattSearchComponent> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="display: flex; justify-content: end">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
         <watt-search label="Search" />
+        <watt-simple-search label="Search" />
       </div>
     `,
   }),

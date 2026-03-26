@@ -21,9 +21,8 @@ limitations under the License.
   [searchLabel]="'shared.search' | transloco"
   [error]="dataSource.error"
   [ready]="dataSource.called"
+  [enableCount]="false"
 >
-  <h3>{{ t("actors") }}</h3>
-
   <watt-data-actions>
     <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
       {{ t("actionsButton") }}

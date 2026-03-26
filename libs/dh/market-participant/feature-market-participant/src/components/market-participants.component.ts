@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { Component, computed, inject } from '@angular/core';
+import { afterNextRender, Component, computed, inject, viewChild } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
@@ -35,7 +35,7 @@ import {
   WattDataActionsComponent,
 } from '@energinet/watt/data';
 
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
@@ -89,6 +89,15 @@ export class DhMarketParticipantsComponent {
   private readonly navigationService = inject(DhNavigationService);
   private readonly modalService = inject(WattModalService);
   private readonly appInsights = inject(DhApplicationInsights);
+  private readonly dataTable = viewChild(WattDataTableComponent);
+
+  constructor() {
+    afterNextRender(() => {
+      if (!this.navigationService.id()) {
+        this.dataTable()?.focusSearch();
+      }
+    });
+  }
 
   dataSource = new GetPaginatedMarketParticipantsDataSource();
 

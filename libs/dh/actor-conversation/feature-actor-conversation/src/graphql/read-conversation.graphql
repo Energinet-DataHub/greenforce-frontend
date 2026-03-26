@@ -1,0 +1,5 @@
+mutation MarkConversationRead($conversationId: UUID!) {
+  markConversationRead(input: { conversationId: $conversationId }) {
+    boolean
+  }
+}

@@ -17,8 +17,7 @@
  */
 //#endregion
 import { Component, effect, inject, input, viewChild } from '@angular/core';
-import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
-import { MutationResult } from 'apollo-angular';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import {
   WATT_TABLE,
@@ -32,8 +31,8 @@ import { WattToastService } from '@energinet/watt/toast';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDataTableComponent, WattDataActionsComponent } from '@energinet/watt/data';
 
-import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
   GetMarketParticipantAuditLogsDocument,
@@ -46,13 +45,13 @@ import {
   selector: 'dh-metering-point-ids-overview',
   imports: [
     TranslocoDirective,
-    TranslocoPipe,
 
     VaterStackComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
     WattButtonComponent,
     WATT_TABLE,
+    DhDownloadButtonComponent,
   ],
   styles: `
     :host {
@@ -69,14 +68,7 @@ import {
         <h3>{{ t('modalTitle') }}</h3>
 
         <watt-data-actions>
-          <watt-button
-            class="download-button"
-            icon="download"
-            variant="text"
-            (click)="download()"
-            >{{ 'shared.download' | transloco }}</watt-button
-          >
-
+          <dh-download-button class="download-button" (click)="download()" />
           <ng-content />
         </watt-data-actions>
 

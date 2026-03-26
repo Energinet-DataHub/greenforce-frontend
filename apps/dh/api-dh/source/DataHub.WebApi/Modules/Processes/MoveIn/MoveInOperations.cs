@@ -17,6 +17,7 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1;
 using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
@@ -26,7 +27,8 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 public static class MoveInOperations
 {
     [Mutation]
-    [Authorize(Roles = new[] { "metering-point:move-in" })]
+    [Authorize(Roles = ["metering-point:move-in"])]
+    [UseRevisionLog]
     public static async Task<bool> InitiateMoveInAsync(
         string meteringPointId,
         ChangeOfSupplierBusinessReason businessReason,
@@ -59,16 +61,17 @@ public static class MoveInOperations
     }
 
     [Mutation]
-    [Authorize(Roles = new[] { "metering-point:move-in" })]
+    [Authorize(Roles = ["metering-point:move-in"])]
+    [UseRevisionLog]
     public static async Task<bool> ChangeCustomerCharacteristicsAsync(
         string meteringPointId,
         ChangeCustomerCharacteristicsBusinessReason businessReason,
-        DateTimeOffset startDate,
         string? firstCustomerCpr,
         string? firstCustomerCvr,
         string? firstCustomerName,
         string? secondCustomerCpr,
         string? secondCustomerName,
+        string? processId,
         bool? protectedName,
         bool electricalHeating,
         IReadOnlyCollection<UsagePointLocationV1>? usagePointLocations,
@@ -79,7 +82,6 @@ public static class MoveInOperations
             RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV1(
                 MeteringPointId: meteringPointId,
                 BusinessReason: businessReason,
-                StartDate: startDate,
                 FirstCustomerCpr: firstCustomerCpr,
                 FirstCustomerCvr: firstCustomerCvr,
                 FirstCustomerName: firstCustomerName,
@@ -87,7 +89,7 @@ public static class MoveInOperations
                 SecondCustomerName: secondCustomerName,
                 ProtectedName: protectedName,
                 ElectricalHeating: electricalHeating,
-                ProcessId: string.Empty,
+                ProcessId: processId,
                 UsagePointLocations: usagePointLocations));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);

@@ -24,7 +24,6 @@ import {
 } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, viewChild, inject } from '@angular/core';
 
-import { MutationResult } from 'apollo-angular';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet/watt/toast';
@@ -34,7 +33,7 @@ import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet/watt/field';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetMarketParticipantAuditLogsDocument,
   GetAdditionalRecipientOfMeasurementsDocument,

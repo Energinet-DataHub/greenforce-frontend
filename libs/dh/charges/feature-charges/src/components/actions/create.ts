@@ -30,7 +30,7 @@ import { WATT_RADIO, WattRadioComponent } from '@energinet/watt/radio';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
-import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { injectToast, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -42,7 +42,7 @@ import {
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 @Component({
   selector: 'dh-charges-create',
@@ -137,19 +137,19 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
               </watt-radio>
             </watt-radio-group>
           }
-          <!-- @if (!form().controls.predictablePrice.disabled) {
+          @if (!form().controls.spotDependingPrice.disabled) {
             <watt-radio-group
-              [label]="t('predictablePrice')"
-              [formControl]="form().controls.predictablePrice"
+              [label]="t('spotDependingPrice')"
+              [formControl]="form().controls.spotDependingPrice"
             >
               <watt-radio [value]="true">
-                {{ t('withPredictablePrice') }}
+                {{ t('withSpotDependingPrice') }}
               </watt-radio>
               <watt-radio [value]="false">
-                {{ t('withoutPredictablePrice') }}
+                {{ t('withoutSpotDependingPrice') }}
               </watt-radio>
             </watt-radio-group>
-          } -->
+          }
           <!-- datepicker does not support updating formControl -->
           @if (type()) {
             <watt-datepicker [label]="t('validFrom')" [formControl]="form().controls.validFrom" />
@@ -196,20 +196,20 @@ export default class DhChargesCreate {
         ),
         vat: dhMakeFormControl<boolean>(null, Validators.required),
         transparentInvoicing: dhMakeFormControl<boolean>(
-          { value: null, disabled: this.type() == 'FEE' },
+          { value: null, disabled: this.type() === 'FEE' },
           Validators.required
         ),
-        // predictablePrice: dhMakeFormControl<boolean>(
-        //   { value: null, disabled: this.type() == 'TARIFF_TAX' },
-        //   Validators.required
-        // ),
+        spotDependingPrice: dhMakeFormControl<boolean>(
+          { value: null, disabled: this.type() !== 'TARIFF' },
+          Validators.required
+        ),
       })
   );
 
   async save() {
     if (!this.form().valid) return;
 
-    const { resolution, transparentInvoicing, type, validFrom, vat, ...input } =
+    const { resolution, transparentInvoicing, spotDependingPrice, type, validFrom, vat, ...input } =
       this.form().getRawValue();
 
     assertIsDefined(resolution);
@@ -222,6 +222,7 @@ export default class DhChargesCreate {
         input: {
           resolution,
           transparentInvoicing,
+          spotDependingPrice,
           type,
           validFrom,
           vat,

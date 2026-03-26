@@ -29,7 +29,7 @@ import {
   viewChild,
   signal,
 } from '@angular/core';
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { WattResizeObserverDirective } from '@energinet/watt/utils/resize-observer';
@@ -55,7 +55,6 @@ export type WattModalSize = 'small' | 'medium' | 'large';
   styleUrls: ['./watt-modal.component.scss'],
   templateUrl: './watt-modal.component.html',
   imports: [
-    NgClass,
     NgTemplateOutlet,
     WattResizeObserverDirective,
     WattButtonComponent,
