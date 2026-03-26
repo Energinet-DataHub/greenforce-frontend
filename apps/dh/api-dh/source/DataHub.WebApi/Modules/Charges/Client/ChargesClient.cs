@@ -118,8 +118,7 @@ public class ChargesClient(
             ? [owner]
             : (await marketParticipantClient.ActorGetAsync(ct))
                 .Where(a => a.Status == "Active" && a.MarketRole?.EicFunction == EicFunction.SystemOperator)
-                .Select(a => a.ActorNumber.Value)
-                .Prepend(owner);
+                .Select(a => a.ActorNumber.Value);
 
         var result = await client.GetChargeInformationAsync(
             new(0, 10_000, new(string.Empty, owners, [type.Type]), ChargeInformationSortProperty.Type, false),
