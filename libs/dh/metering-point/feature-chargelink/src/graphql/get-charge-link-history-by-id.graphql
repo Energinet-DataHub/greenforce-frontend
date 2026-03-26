@@ -4,6 +4,7 @@ query GetChargeLinkHistory($id: String!) {
     charge {
       id
       displayName
+      type
       owner {
         id
         displayName

@@ -37,6 +37,6 @@ public class MoveInClient(
             transactionId);
 
         return await processManagerClient
-            .SearchOrchestrationInstanceByCustomQueryAsync<RequestTemporaryStorageResult>(query, ct);
+            .SearchWorkflowInstanceByCustomQueryAsync<RequestTemporaryStorageResult>(query, ct);
     }
 }
