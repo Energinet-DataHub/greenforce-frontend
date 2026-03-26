@@ -111,13 +111,13 @@ import { ChangeOfSupplierBusinessReason } from '@energinet-datahub/dh/shared/dom
             group="customer-type"
             [formControl]="form.controls.customerType"
             value="private"
-          >{{ t('private') }}
+            >{{ t('private') }}
           </watt-radio>
           <watt-radio
             group="customer-type"
             [formControl]="form.controls.customerType"
             value="business"
-          >{{ t('business') }}
+            >{{ t('business') }}
           </watt-radio>
         </vater-stack>
       </vater-stack>
