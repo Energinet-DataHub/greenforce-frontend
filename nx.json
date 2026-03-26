@@ -195,6 +195,5 @@
         "buildStorybookTargetName": "build-storybook"
       }
     }
-  ],
-  "analytics": false
+  ]
 }
