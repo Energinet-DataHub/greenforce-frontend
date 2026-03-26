@@ -67,7 +67,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
 import { DhActorConversationMeteringPointSearchComponent } from './actor-conversation-metering-point-search';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
-import dayjs from 'dayjs';
+import { dayjs } from '@energinet/watt/core/date';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
