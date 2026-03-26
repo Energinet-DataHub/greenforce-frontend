@@ -18,7 +18,7 @@
 //#endregion
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -40,6 +40,7 @@ export interface RejectProcessModalData {
 
 export interface RejectProcessResult {
   reasonCode: ReasonCodeV1;
+  reasonMessage: string;
   description: string | null;
 }
 
@@ -119,6 +120,7 @@ export interface RejectProcessResult {
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhRejectProcessModal extends WattTypedModal<RejectProcessModalData> {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly transloco = inject(TranslocoService);
 
   readonly reasonCodeOptions = dhEnumToWattDropdownOptions(ReasonCodeV1);
 
@@ -137,6 +139,11 @@ export class DhRejectProcessModal extends WattTypedModal<RejectProcessModalData>
     const { reasonCode, description } = this.form.getRawValue();
     if (!reasonCode) return;
 
-    this.dialogRef.close({ reasonCode, description } satisfies RejectProcessResult);
+    // The reason message is derived from the translation of the reason code, where we remove trailing "(Dxxx)".
+    const reasonMessage = this.transloco
+      .translate(`meteringPoint.processOverview.rejectProcess.reasonCodes.${reasonCode}`)
+      .replace(/\s*\(D\d+\)$/, '');
+
+    this.dialogRef.close({ reasonCode, reasonMessage, description } satisfies RejectProcessResult);
   }
 }
