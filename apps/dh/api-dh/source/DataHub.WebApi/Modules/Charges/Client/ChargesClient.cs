@@ -114,21 +114,12 @@ public class ChargesClient(
             httpContext?.HttpContext?.User?.GetMarketParticipantMarketRole()
                 ?? throw new InvalidOperationException("No market role claim"));
 
-        string[] owners;
-        if (marketRole == EicFunction.EnergySupplier)
-        {
-            // EnergySupplier must be able to see SystemOperator prices during price linking
-            var actors = await marketParticipantClient.ActorGetAsync(ct);
-            var systemOperators = actors
+        var owners = marketRole != EicFunction.EnergySupplier
+            ? [owner]
+            : (await marketParticipantClient.ActorGetAsync(ct))
                 .Where(a => a.Status == "Active" && a.MarketRole?.EicFunction == EicFunction.SystemOperator)
-                .ToList() ?? throw new InvalidOperationException("No active SystemOperator found");
-
-            owners = [owner, ..systemOperators.Select(so => so.ActorNumber.Value)];
-        }
-        else
-        {
-            owners = [owner];
-        }
+                .Select(a => a.ActorNumber.Value)
+                .Prepend(owner);
 
         var result = await client.GetChargeInformationAsync(
             new(0, 10_000, new(string.Empty, owners, [type.Type]), ChargeInformationSortProperty.Type, false),
