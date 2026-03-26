@@ -33,6 +33,7 @@ import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { VaterStackComponent } from '@energinet/watt/vater';
+import { localStorageToken } from '@energinet-datahub/dh/shared/util-browser';
 
 @Component({
   selector: 'dh-core-login',
@@ -119,6 +120,7 @@ import { VaterStackComponent } from '@energinet/watt/vater';
 export class DhCoreLoginComponent implements AfterViewInit {
   private activatedRoute = inject(ActivatedRoute);
   private config = inject(dhB2CEnvironmentToken);
+  private localStorage = inject(localStorageToken);
 
   progressBarValue = signal(0);
   showProgressBar = signal(false);
@@ -126,7 +128,7 @@ export class DhCoreLoginComponent implements AfterViewInit {
   mitIdButton = viewChild.required(DhMitIDButtonComponent);
 
   ngAfterViewInit(): void {
-    const mitIdRelogin = Boolean(localStorage.getItem('mitIdRelogin'));
+    const mitIdRelogin = Boolean(this.localStorage.getItem('mitIdRelogin'));
 
     if (mitIdRelogin) {
       this.showProgressBar.set(true);
@@ -136,7 +138,7 @@ export class DhCoreLoginComponent implements AfterViewInit {
       }, 200);
 
       setTimeout(() => {
-        localStorage.removeItem('mitIdRelogin');
+        this.localStorage.removeItem('mitIdRelogin');
 
         this.mitIdButton().redirectToMitIdSignup();
         this.showProgressBar.set(false);
