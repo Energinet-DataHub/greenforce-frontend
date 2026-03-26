@@ -93,9 +93,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
     initialValue: this.customerTypeInitialValue,
   });
 
-  private isFictitiousCvrChanged = toSignal<boolean>(
-    this.isFictitiousCvrFormControl.valueChanges
-  );
+  private isFictitiousCvrChanged = toSignal<boolean>(this.isFictitiousCvrFormControl.valueChanges);
 
   private customerTypeEffect = effect(() => {
     const customerType = this.customerTypeChanged();
