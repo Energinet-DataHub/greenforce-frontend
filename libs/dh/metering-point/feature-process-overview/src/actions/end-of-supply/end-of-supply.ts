@@ -52,6 +52,7 @@ export class EndOfSupplyActions {
             meteringPointId: ctx.meteringPointId,
             processId: ctx.processId,
             reasonCode: result.reasonCode,
+            reasonMessage: result.reasonMessage,
             description: result.description,
           },
           onCompleted,
