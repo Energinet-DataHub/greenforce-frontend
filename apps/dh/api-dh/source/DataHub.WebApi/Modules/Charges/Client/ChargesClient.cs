@@ -117,14 +117,13 @@ public class ChargesClient(
         string[] owners;
         if (marketRole == EicFunction.EnergySupplier)
         {
-            // EnergySupplier must be able to see Energinet’s (SystemOperator) prices during price linking
+            // EnergySupplier must be able to see SystemOperator prices during price linking
             var actors = await marketParticipantClient.ActorGetAsync(ct);
-            var systemOperator = actors.FirstOrDefault(a =>
-                a.Status == "Active" &&
-                a.MarketRole?.EicFunction == EicFunction.SystemOperator)
-                ?? throw new InvalidOperationException("No active SystemOperator actor found");
+            var systemOperators = actors
+                .Where(a => a.Status == "Active" && a.MarketRole?.EicFunction == EicFunction.SystemOperator)
+                .ToList() ?? throw new InvalidOperationException("No active SystemOperator found");
 
-            owners = [owner, systemOperator.ActorNumber.Value];
+            owners = [owner, ..systemOperators.Select(so => so.ActorNumber.Value)];
         }
         else
         {
