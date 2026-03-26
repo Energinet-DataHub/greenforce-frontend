@@ -139,6 +139,7 @@ export class DhRejectProcessModal extends WattTypedModal<RejectProcessModalData>
     const { reasonCode, description } = this.form.getRawValue();
     if (!reasonCode) return;
 
+    // The reason message is derived from the translation of the reason code, where we remove trailing "(Dxxx)".
     const reasonMessage = this.transloco
       .translate(`meteringPoint.processOverview.rejectProcess.reasonCodes.${reasonCode}`)
       .replace(/\s*\(D\d+\)$/, '');
