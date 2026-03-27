@@ -34,7 +34,6 @@ documentation.json
 !**/configuration/**/*.docker.json
 
 # GraphQL generated files
-schema.graphql
 libs/dh/shared/domain/src/generated/graphql
 
 # nested node_modules
@@ -129,3 +128,6 @@ vitest.config.*.timestamp*
 
 # Docker environment variables
 .env
+
+# .NET
+/artifacts/
