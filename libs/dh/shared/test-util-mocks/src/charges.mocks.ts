@@ -526,6 +526,15 @@ function getChargesByType() {
             __typename: 'Charge',
             value: charge.id,
             displayValue: charge.displayName,
+            periods: [
+              {
+                __typename: 'ChargePeriod',
+                period: {
+                  start: new Date('2026-01-01T00:00:00Z'),
+                  end: new Date('2026-12-31T23:59:59Z'),
+                },
+              },
+            ],
           })),
       },
     });
