@@ -4,11 +4,7 @@ mutation DisconnectMeteringPoint(
   $validityDate: DateTime!
 ) {
   disconnectMeteringPoint(
-    input: {
-      meteringPointId: $meteringPointId
-      processId: $processId
-      validityDate: $validityDate
-    }
+    input: { meteringPointId: $meteringPointId, processId: $processId, validityDate: $validityDate }
   ) {
     boolean
   }
