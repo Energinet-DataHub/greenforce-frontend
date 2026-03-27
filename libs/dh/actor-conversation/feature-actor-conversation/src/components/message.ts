@@ -159,7 +159,9 @@ import { injectDownloadMessageDocument } from './download-message-document';
                   (message().electricalHeatingUserMessage?.reductionPeriod?.to | wattDate) ?? '',
               })
             }}</span>
-            <span>{{ message().electricalHeatingUserMessage?.content }}</span>
+            <span class="display-line-break">{{
+              message().electricalHeatingUserMessage?.content
+            }}</span>
           }
           @case ('CLOSING_MESSAGE') {
             <span vater fill="horizontal" class="italic">
