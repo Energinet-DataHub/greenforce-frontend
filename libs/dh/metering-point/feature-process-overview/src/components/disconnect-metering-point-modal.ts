@@ -17,27 +17,13 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { dayjs } from '@energinet/watt/core/date';
 import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WattFieldErrorComponent } from '@energinet/watt/field';
-
-function isTodayOrYesterday(date: Date): boolean {
-  const today = dayjs().startOf('day');
-  const yesterday = today.subtract(1, 'day');
-  const d = dayjs(date).startOf('day');
-  return d.isSame(today) || d.isSame(yesterday);
-}
 
 export interface DisconnectMeteringPointModalData {
   cutoffDate?: Date | null;
@@ -56,7 +42,6 @@ export interface DisconnectMeteringPointResult {
     WATT_MODAL,
     WattButtonComponent,
     WattDatepickerComponent,
-    WattFieldErrorComponent,
   ],
   template: `
     <watt-modal
@@ -68,14 +53,9 @@ export interface DisconnectMeteringPointResult {
         <watt-datepicker
           [label]="t('validityDateLabel')"
           [formControl]="form.controls.validityDate"
-          [dateFilter]="dateFilter"
-        >
-          @if (form.controls.validityDate.hasError('invalidDate')) {
-            <watt-field-error>
-              {{ t('invalidDateError') }}
-            </watt-field-error>
-          }
-        </watt-datepicker>
+          [min]="minDate"
+          [max]="maxDate"
+        />
       </form>
 
       <watt-modal-actions>
@@ -97,21 +77,14 @@ export class DhDisconnectMeteringPointModal
 {
   private readonly fb = inject(NonNullableFormBuilder);
 
-  readonly form = this.fb.group({
-    validityDate: this.fb.control<Date | null>(new Date(), [
-      Validators.required,
-      // Custom validator to check if the date is today or yesterday
-      (control: AbstractControl<Date | null>): ValidationErrors | null => {
-        if (!control.value) return null;
-        return isTodayOrYesterday(control.value) ? null : { invalidDate: true };
-      },
-    ]),
-  });
+  private readonly today = dayjs().startOf('day').toDate();
 
-  readonly dateFilter = (date: Date | null): boolean => {
-    if (!date) return false;
-    return isTodayOrYesterday(date);
-  };
+  readonly minDate = dayjs(this.today).subtract(1, 'day').toDate();
+  readonly maxDate = this.today;
+
+  readonly form = this.fb.group({
+    validityDate: this.fb.control<Date | null>(this.today, Validators.required),
+  });
 
   ngOnInit() {
     if (this.modalData.cutoffDate) {
