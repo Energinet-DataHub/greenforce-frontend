@@ -19,7 +19,7 @@
 export { dayjs, __ngPackagrDayjsTypeScriptWorkaround } from './dayjs';
 export { danishDatetimeProviders } from './watt-danish-datetime.providers';
 export { WattDateAdapter, WattSupportedLocales } from './watt-date-adapter';
-export { type WattRange, type WattDateRange } from './watt-date-range';
+export { type WattRange, type WattDateRange, contains } from './watt-date-range';
 export { WattDatePipe } from './watt-date.pipe';
 export { wattFormatDate } from './watt-format-date';
 export { WattLocaleService } from './watt-locale.service';
