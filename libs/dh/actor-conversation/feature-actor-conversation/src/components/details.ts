@@ -267,7 +267,7 @@ export class DhActorConversationDetails {
         content: content ?? '',
         attachedDocumentIds,
       },
-      refetchQueries: [GetConversationDocument],
+      refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
 
     this.clearMessageForm();
