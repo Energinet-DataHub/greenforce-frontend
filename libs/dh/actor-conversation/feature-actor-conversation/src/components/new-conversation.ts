@@ -67,6 +67,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import { DhActorConversationElectricalHeatingForm } from './electrical-heating-form';
 import { DhActorConversationMeteringPointSearch } from './metering-point-search';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+import { dayjs } from '@energinet/watt/core/date';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
@@ -243,7 +244,7 @@ export class DhActorConversationNewConversation {
         ]),
         subject: dhMakeFormControl<ConversationSubject | null>(null, Validators.required),
         receiver: dhMakeFormControl<MarketRole | null>(null, Validators.required),
-        energySupplierDate: dhMakeFormControl<Date | null>(null),
+        energySupplierDate: dhMakeFormControl<Date>(dayjs().toDate()),
         internalNote: dhMakeFormControl<string | null>(
           null,
           Validators.maxLength(internalNoteMaxLength)
