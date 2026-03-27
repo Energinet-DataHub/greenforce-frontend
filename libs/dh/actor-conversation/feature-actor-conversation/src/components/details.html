@@ -121,7 +121,7 @@ limitations under the License.
         direction="column"
         fill="both"
         scrollable
-        class="watt-space-reverse-inset-stretch-m no-padding-bottom"
+        class="watt-space-reverse-inset-stretch-m"
       >
         <vater-stack direction="column" gap="m">
           @for (message of conversation.messages; track message) {
@@ -132,14 +132,15 @@ limitations under the License.
       </vater-flex>
     }
     <!-- Footer - Message input form -->
-    @if (isPartOfConversation()) {
-      <form
-        vater
-        sticky="bottom"
-        class="watt-space-inset-ml sticky-background"
-        fill="horizontal"
-        (ngSubmit)="sendMessage()"
-      >
+
+    <form
+      vater
+      sticky="bottom"
+      class="watt-space-inset-ml sticky-background no-padding-top"
+      fill="horizontal"
+      (ngSubmit)="sendMessage()"
+    >
+      @if (isPartOfConversation()) {
         <dh-actor-conversation-message-form
           [loading]="uploading() || sendActorConversationMessageMutation.loading()"
           [closed]="!!conversation()?.closed"
@@ -147,7 +148,7 @@ limitations under the License.
           [formControl]="formControl"
           [disableAnonymous]="disableAnonymous()"
         />
-      </form>
-    }
+      }
+    </form>
   </vater-flex>
 </dh-result>
