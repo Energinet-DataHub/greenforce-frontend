@@ -5,5 +5,9 @@
   "tags": ["product:dh", "type:api"],
   "sourceRoot": "apps/dh/api-dh/source",
   "prefix": "dh",
-  "targets": {}
+  "targets": {
+    "build": {
+      "dependsOn": ["restore", "^build"]
+    }
+  }
 }
