@@ -104,6 +104,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       />
       <dh-calculations-period-field
         [formControl]="form.controls.period"
+        [executionType]="form.controls.executionType.value"
         [calculationType]="calculationType()"
         [pending]="form.controls.period.status === 'PENDING'"
         [min]="minDate"
@@ -127,7 +128,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         [hidden]="!hasGridAreas()"
         [disabled]="!hasGridAreas()"
         [control]="form.controls.gridAreaCodes"
-        [period]="this.form.controls.period.value"
+        [period]="form.controls.period.value"
       />
     </form>
   `,
@@ -154,6 +155,7 @@ export class DhCalculationsCreateFormComponent {
       .toDate()
   );
 
+  executionType = dhFormControlToSignal(this.form.controls.executionType);
   calculationType = dhFormControlToSignal(this.form.controls.calculationType);
   hasGridAreas = computed(() => this.calculationType() !== StartCalculationType.CapacitySettlement);
   hideSchedule = computed(() => this.calculationType() === StartCalculationType.CapacitySettlement);

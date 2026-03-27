@@ -26,6 +26,9 @@ type MarketParticipant = ResultOf<
   typeof GetMarketParticipantsForEicFunctionDocument
 >['marketParticipantsForEicFunction'][0];
 
+type ValueType = 'glnOrEicNumber' | 'actorId';
+type DisplayNameType = 'displayName' | 'displayNameWithoutMarketRole';
+
 import {
   EicFunction,
   GetMarketParticipantsForEicFunctionDocument,
@@ -35,7 +38,8 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 export function getActorOptions(
   eicFunctions: EicFunction[],
-  valueType: 'glnOrEicNumber' | 'actorId' = 'glnOrEicNumber'
+  valueType: ValueType = 'glnOrEicNumber',
+  displayNameType: DisplayNameType = 'displayName'
 ): Signal<WattDropdownOptions> {
   const queryResult = query(GetMarketParticipantsForEicFunctionDocument, {
     variables: { eicFunctions },
@@ -44,16 +48,18 @@ export function getActorOptions(
   return computed(() => {
     const actors = queryResult.data()?.marketParticipantsForEicFunction ?? [];
 
-    return toDropdownOptions(actors, valueType);
+    return toDropdownOptions(actors, valueType, displayNameType);
   });
 }
 
 function toDropdownOptions(
   values: MarketParticipant[],
-  valueType: 'glnOrEicNumber' | 'actorId' = 'glnOrEicNumber'
+  valueType: ValueType = 'glnOrEicNumber',
+  displayNameType: DisplayNameType = 'displayName'
 ): WattDropdownOptions {
   return values.map((value) => ({
     value: valueType === 'glnOrEicNumber' ? value.glnOrEicNumber : value.id,
-    displayValue: `${value.glnOrEicNumber} • ${value.name}`,
+    displayValue:
+      displayNameType === 'displayName' ? value.displayName : value.displayNameWithoutMarketRole,
   }));
 }

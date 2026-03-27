@@ -75,7 +75,7 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared
         </ng-container>
 
         <ng-container *wattTableCell="columns.date; let element">
-          {{ element.period?.interval | wattDate }}
+          {{ element.period.interval | wattDate }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.status; let element">

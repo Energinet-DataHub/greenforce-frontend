@@ -74,8 +74,8 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOver
 
           <vater-stack wrap direction="row" gap="ml">
             <vater-stack direction="row" gap="s">
-              <span class="watt-label">{{ t('columns.actor') }}</span>
-              <span>{{ gridAreaView.actor }}</span>
+              <span class="watt-label">{{ t('columns.owner') }}</span>
+              <span>{{ gridAreaView.owner?.displayNameWithoutMarketRole }}</span>
             </vater-stack>
 
             <vater-stack direction="row" gap="s">

@@ -19,6 +19,7 @@ using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using NodaTime;
@@ -31,7 +32,8 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 public class ChargesClient(
     DataHub.Charges.Client.IChargesClient client,
     IB2CClient ediClient,
-    IHttpContextAccessor httpContext) : IChargesClient
+    IHttpContextAccessor httpContext,
+    IMarketParticipantClient_V1 marketParticipantClient) : IChargesClient
 {
     public async Task<IEnumerable<Charge>> GetChargesAsync(
         string? filter,
@@ -108,8 +110,18 @@ public class ChargesClient(
         var owner = httpContext?.HttpContext?.User?.GetMarketParticipantNumber();
         ArgumentNullException.ThrowIfNull(owner);
 
+        var marketRole = Enum.Parse<EicFunction>(
+            httpContext?.HttpContext?.User?.GetMarketParticipantMarketRole()
+                ?? throw new InvalidOperationException("No market role claim"));
+
+        var owners = marketRole != EicFunction.EnergySupplier
+            ? [owner]
+            : (await marketParticipantClient.ActorGetAsync(ct))
+                .Where(a => a.Status == "Active" && a.MarketRole?.EicFunction == EicFunction.SystemOperator)
+                .Select(a => a.ActorNumber.Value);
+
         var result = await client.GetChargeInformationAsync(
-            new(0, 10_000, new(string.Empty, [owner], [type.Type]), ChargeInformationSortProperty.Type, false),
+            new(0, 10_000, new(string.Empty, owners, [type.Type]), ChargeInformationSortProperty.Type, false),
             ct);
 
         return !result.IsSuccess
@@ -152,7 +164,7 @@ public class ChargesClient(
                 VatPayer: input.Vat ? VatPayerV2.D02 : VatPayerV2.D01,
                 TransparentInvoicing: input.TransparentInvoicing,
                 TaxIndicator: input.Type.IsTax,
-                PricingCategory: MapBoolToPricingCategoryV2(input.SpotDependingPrice))),
+                PricingCategory: MapToPricingCategoryV2(input.SpotDependingPrice))),
             ct);
 
         return result.IsSuccess;
@@ -174,7 +186,7 @@ public class ChargesClient(
                 VatPayer: input.Vat ? VatPayerV2.D02 : VatPayerV2.D01,
                 TransparentInvoicing: input.TransparentInvoicing,
                 TaxIndicator: null,
-                PricingCategory: MapBoolToPricingCategoryV2(charge.SpotDependingPrice))),
+                PricingCategory: MapToPricingCategoryV2(charge.SpotDependingPrice))),
             ct);
 
         return result.IsSuccess;
@@ -198,7 +210,7 @@ public class ChargesClient(
                 VatPayer: charge.VatInclusive ? VatPayerV2.D02 : VatPayerV2.D01,
                 TransparentInvoicing: charge.TransparentInvoicing,
                 TaxIndicator: charge.TaxIndicator,
-                PricingCategory: MapBoolToPricingCategoryV2(charge.SpotDependingPrice))),
+                PricingCategory: MapToPricingCategoryV2(charge.SpotDependingPrice))),
             ct);
 
         return result.IsSuccess;
@@ -243,8 +255,8 @@ public class ChargesClient(
                 .OrderByDescending(x => x.StartDate)
                 .ThenByDescending(x => x.EndDate)]);
 
-    private static PricingCategoryV2 MapBoolToPricingCategoryV2(bool spotDependingPrice)
-        => spotDependingPrice
+    private static PricingCategoryV2 MapToPricingCategoryV2(bool? spotDependingPrice)
+        => spotDependingPrice.GetValueOrDefault(false)
             ? PricingCategoryV2.SpotDependeningPrice
             : PricingCategoryV2.NotSpotDependingPrice;
 }

@@ -80,7 +80,8 @@ export class DhRequestAsModal extends WattTypedModal {
 
   actorOptions = getActorOptions(
     [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
-    'actorId'
+    'actorId',
+    'displayNameWithoutMarketRole'
   );
 
   submitInProgress = signal(false);

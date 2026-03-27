@@ -196,11 +196,11 @@ export default class DhChargesCreate {
         ),
         vat: dhMakeFormControl<boolean>(null, Validators.required),
         transparentInvoicing: dhMakeFormControl<boolean>(
-          { value: null, disabled: this.type() == 'FEE' },
+          { value: null, disabled: this.type() === 'FEE' },
           Validators.required
         ),
         spotDependingPrice: dhMakeFormControl<boolean>(
-          { value: null, disabled: this.type() == 'TARIFF_TAX' },
+          { value: null, disabled: this.type() !== 'TARIFF' },
           Validators.required
         ),
       })
@@ -222,7 +222,7 @@ export default class DhChargesCreate {
         input: {
           resolution,
           transparentInvoicing,
-          spotDependingPrice: spotDependingPrice ?? false,
+          spotDependingPrice,
           type,
           validFrom,
           vat,

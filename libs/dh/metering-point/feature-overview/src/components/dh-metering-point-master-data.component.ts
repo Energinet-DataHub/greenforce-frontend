@@ -175,7 +175,7 @@ export class DhMeteringPointMasterDataComponent {
 
   energySupplier = computed<EnergySupplier>(() => ({
     gln: this.meteringPoint()?.commercialRelation?.energySupplier,
-    name: this.meteringPoint()?.commercialRelation?.energySupplierName?.value,
+    name: this.meteringPoint()?.commercialRelation?.energySupplierName?.displayName,
     validFrom: this.meteringPoint()?.commercialRelation?.startDate,
   }));
 }

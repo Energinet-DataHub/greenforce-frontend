@@ -47,7 +47,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('message-archive'),
-        loadChildren: () => import('@energinet-datahub/dh/message-archive/shell'),
+        loadChildren: () => import('@energinet-datahub/dh/message-archive/feature-search'),
         canActivate: [MsalGuard],
       },
       {

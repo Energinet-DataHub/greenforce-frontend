@@ -131,10 +131,13 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               <span wattCopyToClipboard dhAppInsightsTrack="Copy metering point">{{
                 meteringPointId()
               }}</span>
-              <ng-content *dhMarketRoleRequired="rolesWithAccess">
-                • <dh-address-inline [address]="this.metadata()?.installationAddress" />
-              </ng-content>
+              @if (metadata()?.installationAddress; as address) {
+                <ng-content *dhMarketRoleRequired="rolesWithAccess">
+                  • <dh-address-inline [address]="address" />
+                </ng-content>
+              }
             </span>
+
             <dh-metering-point-status [status]="metadata()?.connectionState" />
           </h2>
           <watt-description-list variant="inline-flow">
@@ -149,7 +152,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()"
               [label]="t('shared.energySupplier')"
             >
-              {{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
+              {{ commercialRelation()?.energySupplierName?.displayName | dhEmDashFallback }}
             </watt-description-list-item>
 
             <watt-description-list-item [label]="t('details.meteringPointSubType')">

@@ -36,7 +36,7 @@ export type StartMoveInFormType = {
   businessCustomer?: FormGroup<{
     companyName: FormControl<string>;
     cvr: FormControl<string>;
-    isForeignCompany: FormControl<boolean>;
+    isFictitiousCvr: FormControl<boolean>;
   }>;
 };
 
@@ -110,7 +110,7 @@ export type InstallationAddress = Metadata['installationAddress'];
 
 export type EnergySupplier = {
   gln?: CommercialRelation['energySupplier'];
-  name?: NonNullable<CommercialRelation['energySupplierName']>['value'];
+  name?: NonNullable<CommercialRelation['energySupplierName']>['displayName'];
   validFrom?: ActiveEnergySupplyPeriod['validFrom'];
 };
 

@@ -13,18 +13,18 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
+using NodaTime;
+using NodaTime.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 
 public static class ChargeLinkExtensions
 {
-    public static ChargeLinkPeriodDto? GetPeriod(this ChargeLinkDto chargeLink)
-    {
-        return chargeLink.ChargeLinkPeriods
+    public static ChargeLinkPeriodDto GetPeriod(this ChargeLinkDto chargeLink)
+        => chargeLink.ChargeLinkPeriods
             .OrderByDescending(p => p.From)
-            .FirstOrDefault();
-    }
+            .First();
 
-    public static bool IsCurrent(this ChargeLinkPeriodDto period) =>
-        period.From.ToDateTimeOffset() <= DateTimeOffset.Now && (period.To == null || period.To?.ToDateTimeOffset() > DateTimeOffset.Now);
+    public static bool IsCurrent(this ChargeLinkPeriodDto period)
+        => new Interval(period.From, period.To).Contains(DateTimeOffset.Now.ToInstant());
 }

@@ -32,13 +32,14 @@ query GetOutgoingMessages(
       documentId
       actorNumber
       energySupplier {
-        value
+        id
+        displayName
       }
       calculationType
       timeSeriesType
       gridArea {
         id
-        displayName
+        displayCodeGlnActor
       }
       gridAreaCodeOut
       documentStatus

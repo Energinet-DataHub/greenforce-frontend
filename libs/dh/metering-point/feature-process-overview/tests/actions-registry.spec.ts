@@ -164,6 +164,59 @@ describe('DhActionsRegistry', () => {
 
       expect(result).toEqual([]);
     });
+
+    it('should return action when user has required market role', () => {
+      const registry = setupRegistry({
+        isGridAccessProvider: true,
+        endOfSupplyHandlers: {
+          [WorkflowAction.RejectRequest]: {
+            featureFlag: 'end-of-supply',
+            marketRoles: [EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.RejectRequest],
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([WorkflowAction.RejectRequest]);
+    });
+
+    it('should filter out action when user lacks required market role', () => {
+      const registry = setupRegistry({
+        isGridAccessProvider: false,
+        endOfSupplyHandlers: {
+          [WorkflowAction.RejectRequest]: {
+            featureFlag: 'end-of-supply',
+            marketRoles: [EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.RejectRequest],
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('should allow action without marketRoles regardless of user role', () => {
+      const registry = setupRegistry({
+        isGridAccessProvider: false,
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.CancelWorkflow],
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([WorkflowAction.CancelWorkflow]);
+    });
   });
 
   describe('execute', () => {
@@ -206,6 +259,28 @@ describe('DhActionsRegistry', () => {
           mockContext
         )
       ).not.toThrow();
+    });
+
+    it('should not call handler when user lacks required market role', () => {
+      const callback = vi.fn();
+      const registry = setupRegistry({
+        isGridAccessProvider: false,
+        endOfSupplyHandlers: {
+          [WorkflowAction.RejectRequest]: {
+            featureFlag: 'end-of-supply',
+            marketRoles: [EicFunction.GridAccessProvider],
+            callback,
+          },
+        },
+      });
+
+      registry.execute(
+        WorkflowAction.RejectRequest,
+        ProcessManagerBusinessReason.EndOfSupply,
+        mockContext
+      );
+
+      expect(callback).not.toHaveBeenCalled();
     });
 
     it('should pass onSuccess callback through context', () => {

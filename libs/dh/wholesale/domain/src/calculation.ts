@@ -39,12 +39,12 @@ export const getMaxDate = () => dayjs().startOf('month').subtract(1, 'ms').toDat
 export const externalOnly = Object.values(StartCalculationType).filter((calculationType) => {
   switch (calculationType) {
     case StartCalculationType.Aggregation:
-      return false;
-    case StartCalculationType.BalanceFixing:
     case StartCalculationType.WholesaleFixing:
     case StartCalculationType.FirstCorrectionSettlement:
     case StartCalculationType.SecondCorrectionSettlement:
     case StartCalculationType.ThirdCorrectionSettlement:
+      return false;
+    case StartCalculationType.BalanceFixing:
     case StartCalculationType.CapacitySettlement:
       return true;
   }
