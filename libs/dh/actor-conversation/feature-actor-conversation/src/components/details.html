@@ -59,14 +59,7 @@ limitations under the License.
           </watt-description-list>
           @if (meteringPointConversationInfo(); as meteringPointInfo ) {
           <watt-description-list variant="inline-flow" *transloco="let tBase">
-            @let meteringPointInstall = meteringPointInfo.metadata.installationAddress?.streetName
-            !== '' ? `${meteringPointInfo.meteringPointId} •
-            ${meteringPointInfo.metadata.installationAddress?.streetName}
-            ${meteringPointInfo.metadata.installationAddress?.buildingNumber},
-            ${meteringPointInfo.metadata.installationAddress?.municipalityCode}
-            ${meteringPointInfo.metadata.installationAddress?.cityName}` :
-            `${meteringPointInfo.meteringPointId}`;
-            <watt-description-list-item [label]="meteringPointInstall" />
+            <watt-description-list-item [label]="meteringPointInstallLabel()" />
             <watt-description-list-item
               [label]="t('meteringPointInfo.connectionState')"
               [value]="

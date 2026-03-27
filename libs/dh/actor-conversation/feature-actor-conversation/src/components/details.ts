@@ -157,6 +157,23 @@ export class DhActorConversationDetails {
     () => this.meteringPointConversationInfoQuery.data()?.meteringPoint
   );
 
+  meteringPointInstallLabel = computed(() => {
+    const info = this.meteringPointConversationInfo();
+    if (!info) return '';
+
+    const id = info.meteringPointId;
+    const address = info.metadata.installationAddress;
+
+    if (!address?.streetName?.trim()) return id;
+
+    const isPresent = (v: string | null | undefined): v is string => v != null && v !== '';
+    const streetPart = [address.streetName, address.buildingNumber].filter(isPresent).join(' ');
+    const cityPart = [address.municipalityCode, address.cityName].filter(isPresent).join(' ');
+    const addressParts = [streetPart, cityPart].filter(isPresent).join(', ');
+
+    return `${id} • ${addressParts}`;
+  });
+
   readonly initiator = this.getParticipant(ParticipantType.Initiator);
   readonly receiver = this.getParticipant(ParticipantType.Receiver);
 
