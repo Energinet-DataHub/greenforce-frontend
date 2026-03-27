@@ -17,13 +17,27 @@
  */
 //#endregion
 import { Component, inject, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { dayjs } from '@energinet/watt/core/date';
 import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+
+function isTodayOrYesterday(date: Date): boolean {
+  const today = dayjs().startOf('day');
+  const yesterday = today.subtract(1, 'day');
+  const d = dayjs(date).startOf('day');
+  return d.isSame(today) || d.isSame(yesterday);
+}
 
 export interface DisconnectMeteringPointModalData {
   cutoffDate?: Date | null;
@@ -41,7 +55,7 @@ export interface DisconnectMeteringPointResult {
     WATT_MODAL,
     WattButtonComponent,
     WattDatepickerComponent,
-    VaterStackComponent,
+    WattFieldErrorComponent,
   ],
   template: `
     <watt-modal
@@ -50,14 +64,17 @@ export interface DisconnectMeteringPointResult {
       size="small"
     >
       <form id="disconnect-form" [formGroup]="form" (ngSubmit)="submit()">
-        <vater-stack direction="column">
-          <watt-datepicker
-            [label]="t('validityDateLabel')"
-            [formControl]="form.controls.validityDate"
-          />
-
-          <p class="watt-text-s">{{ t('electricalHeatingWarning') }}</p>
-        </vater-stack>
+        <watt-datepicker
+          [label]="t('validityDateLabel')"
+          [formControl]="form.controls.validityDate"
+          [dateFilter]="dateFilter"
+        >
+          @if (form.controls.validityDate.hasError('invalidDate')) {
+            <watt-field-error>
+              {{ t('invalidDateError') }}
+            </watt-field-error>
+          }
+        </watt-datepicker>
       </form>
 
       <watt-modal-actions>
@@ -80,8 +97,20 @@ export class DhDisconnectMeteringPointModal
   private readonly fb = inject(NonNullableFormBuilder);
 
   readonly form = this.fb.group({
-    validityDate: this.fb.control<Date | null>(null, Validators.required),
+    validityDate: this.fb.control<Date | null>(new Date(), [
+      Validators.required,
+      // Custom validator to check if the date is today or yesterday
+      (control: AbstractControl<Date | null>): ValidationErrors | null => {
+        if (!control.value) return null;
+        return isTodayOrYesterday(control.value) ? null : { invalidDate: true };
+      },
+    ]),
   });
+
+  readonly dateFilter = (date: Date | null): boolean => {
+    if (!date) return false;
+    return isTodayOrYesterday(date);
+  };
 
   ngOnInit() {
     if (this.modalData.cutoffDate) {

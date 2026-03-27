@@ -1063,11 +1063,11 @@
       "disconnectProcess": {
         "title": "Request disconnection",
         "validityDateLabel": "Validity date",
-        "electricalHeatingWarning": "Please note that if there is electrical heating on the metering point, it will take an additional 2 days before DataHub carries out the disconnection.",
         "cancel": "Cancel",
         "confirm": "Request disconnection",
         "successToast": "Request to disconnect metering point submitted",
-        "errorToast": "Request to disconnect metering point failed"
+        "errorToast": "Request to disconnect metering point failed",
+        "invalidDateError": "The date must be today or yesterday"
       },
       "processTypeName": {
         "EndOfSupply": "end of supply"
