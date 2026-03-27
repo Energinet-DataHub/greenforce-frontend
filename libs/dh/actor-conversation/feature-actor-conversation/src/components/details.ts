@@ -102,8 +102,8 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
       background-color: var(--bg-card);
     }
 
-    .no-padding-bottom {
-      padding-bottom: 0;
+    .no-padding-top {
+      padding-top: 0;
     }
 
     .wrap-gap {
