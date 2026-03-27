@@ -111,7 +111,7 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
     </vater-stack>
   `,
 })
-export class DhActorConversationMeteringPointSearchComponent {
+export class DhActorConversationMeteringPointSearch {
   readonly meteringPointIdValidated = output<string | null>();
 
   readonly searchControl = input.required<FormControl<string | null>>();

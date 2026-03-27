@@ -54,7 +54,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DhActorConversationElectricalHeatingFormComponent),
+      useExisting: forwardRef(() => DhActorConversationElectricalHeatingForm),
       multi: true,
     },
   ],
@@ -134,7 +134,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
     </vater-stack>
   `,
 })
-export class DhActorConversationElectricalHeatingFormComponent implements ControlValueAccessor {
+export class DhActorConversationElectricalHeatingForm implements ControlValueAccessor {
   private readonly cdr = inject(ChangeDetectorRef);
   electricalHeatingInformation = input<ElectricalHeatingInformation>();
   supplierPeriods = computed(() => {

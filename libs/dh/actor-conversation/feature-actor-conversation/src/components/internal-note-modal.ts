@@ -66,7 +66,7 @@ import { internalNoteMaxLength } from '../types';
     </watt-modal>
   `,
 })
-export class DhActorConversationInternalNoteModalComponent extends WattTypedModal<{
+export class DhActorConversationInternalNoteModal extends WattTypedModal<{
   conversationId: string;
   internalNote: string | null;
 }> {
