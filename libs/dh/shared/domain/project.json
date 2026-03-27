@@ -39,12 +39,7 @@
         "{workspaceRoot}/**/*.graphql",
         "!{projectRoot}/src/generated/graphql/**/*"
       ],
-      "dependsOn": [
-        {
-          "projects": ["api-dh"],
-          "target": "serve"
-        }
-      ],
+      "dependsOn": ["generate"],
       "outputs": [
         "{projectRoot}/src/generated/graphql/types.ts",
         "{projectRoot}/src/generated/graphql/data-source.ts",
