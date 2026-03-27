@@ -39,7 +39,7 @@ export default defineConfig({
     passWithNoTests: true,
     watch: false,
     globals: true,
-    environment: 'jsdom',
+    environment: 'happy-dom',
     include: ['package/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     setupFiles: ['test/test-setup.ts'],
     reporters: ['default'],
@@ -48,6 +48,7 @@ export default defineConfig({
       provider: 'v8',
     },
     pool: 'forks',
+    fileParallelism: false,
     testTimeout: 10_000,
   },
   define: {

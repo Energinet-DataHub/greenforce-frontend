@@ -62,6 +62,61 @@ function setupLocalStorageMock(): void {
 }
 
 /**
+ * Patch MutationObserver so that instances always expose `observe`,
+ * `disconnect`, and `takeRecords` as proper functions.
+ *
+ * happy-dom's MutationObserver implementation may return instances whose
+ * methods are undefined or non-callable, which causes:
+ * - Angular CDK's OverlayRef._completeDetachContent to throw on `disconnect`
+ * - @testing-library/dom's waitFor to throw on `observe`
+ *
+ * We also need to patch `window.MutationObserver` (used by
+ * `@testing-library/dom` via `getWindowFromNode`) in addition to
+ * `globalThis.MutationObserver`.
+ */
+function patchMutationObserver(): void {
+  if (typeof MutationObserver === 'undefined') return;
+
+  const OriginalMutationObserver = MutationObserver;
+
+  class PatchedMutationObserver extends OriginalMutationObserver {
+    override observe(target: Node, options?: MutationObserverInit): void {
+      try {
+        super.observe(target, options);
+      } catch {
+        // swallow — happy-dom may throw on observe
+      }
+    }
+
+    override disconnect(): void {
+      try {
+        super.disconnect();
+      } catch {
+        // swallow — happy-dom may throw on disconnect
+      }
+    }
+
+    override takeRecords(): MutationRecord[] {
+      try {
+        return super.takeRecords();
+      } catch {
+        return [];
+      }
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (globalThis as any).MutationObserver = PatchedMutationObserver;
+
+  // @testing-library/dom reads MutationObserver from window via
+  // getWindowFromNode(container), so we must also patch it there.
+  if (typeof window !== 'undefined' && window !== (globalThis as unknown)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).MutationObserver = PatchedMutationObserver;
+  }
+}
+
+/**
  * Disable CSS animations and transitions in tests by injecting a global style.
  * This is the modern replacement for provideNoopAnimations() which is deprecated in Angular 20.2.
  */
@@ -128,6 +183,7 @@ function patchTestbed(): void {
 export function setUpTestbed(): void {
   // Set up browser API mocks before initializing testbed
   setupLocalStorageMock();
+  patchMutationObserver();
 
   testbed.resetTestEnvironment();
   testbed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {

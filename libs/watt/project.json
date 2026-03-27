@@ -6,6 +6,9 @@
   "prefix": "watt",
   "tags": ["product:watt"],
   "targets": {
+    "test": {
+      "inputs": ["{projectRoot}/**/*"]
+    },
     "storybook": {
       "options": {
         "port": 4400
