@@ -49,6 +49,7 @@ import {
 } from '../types';
 import {
   ConversationSubject,
+  EicFunction,
   ElectricityMarketViewMeteringPointType,
   GetConversationsDocument,
   GetElectricalHeatingDocument,
@@ -135,7 +136,7 @@ import { dayjs } from '@energinet/watt/core/date';
               data-testid="actor-conversation-subject-dropdown"
             />
 
-            @if (isElectricalHeating() && isMeteringPointTypeConsumption()) {
+            @if (showReducedElectricityTaxToggle()) {
               <watt-slide-toggle
                 [formControl]="newConversationForm().controls.reducedElectricityTax"
               >
@@ -192,33 +193,40 @@ import { dayjs } from '@energinet/watt/core/date';
   `,
 })
 export class DhActorConversationNewConversation {
-  internalNoteMaxLength = internalNoteMaxLength;
-
   private readonly uploadMessageDocument = injectUploadMessageDocument();
-  public readonly currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
-
-  uploading = signal(false);
-  uploadError = signal(false);
-  startConversationMutation = mutation(StartConversationDocument);
-
   private readonly electricHeatingInformationQuery = lazyQuery(GetElectricalHeatingDocument);
   private readonly meteringPointTypeQuery = query(GetMeteringPointTypeDocument, () => ({
     variables: { meteringPointId: this.meteringPointIdentification() ?? '' },
   }));
 
+  private readonly subjectValue = dhFormControlToSignal(
+    () => this.newConversationForm().controls.subject
+  );
+
+  private readonly receiverValue = dhFormControlToSignal(
+    () => this.newConversationForm().controls.receiver
+  );
+
   private readonly reducedElectricityTaxValue = dhFormControlToSignal(
     () => this.newConversationForm().controls.reducedElectricityTax
   );
 
-  private readonly fetchElectricalHeatingInformation = effect(() => {
-    if (!this.reducedElectricityTaxValue()) return;
-    const meteringPointIdentification = this.meteringPointIdentification();
-    if (!meteringPointIdentification) return;
-    this.electricHeatingInformationQuery.refetch({ meteringPointIdentification });
-  });
+  internalNoteMaxLength = internalNoteMaxLength;
+  currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
+
+  uploading = signal(false);
+  uploadError = signal(false);
+  startConversationMutation = mutation(StartConversationDocument);
 
   electricalHeatingInformation = computed(
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
+  );
+
+  showReducedElectricityTaxToggle = computed(
+    () =>
+      this.isElectricalHeating() &&
+      this.isMeteringPointTypeConsumption() &&
+      this.currentActorMarketRole === EicFunction.EnergySupplier
   );
 
   isMeteringPointTypeConsumption = computed(
@@ -231,6 +239,16 @@ export class DhActorConversationNewConversation {
   meteringPointId = input<string | undefined>();
   meteringPointIdentification = dhFormControlToSignal(
     () => this.newConversationForm().controls.meteringPointId
+  );
+
+  shouldShowElectricalHeatingForm = computed(
+    () => this.isElectricalHeating() && this.reducedElectricityTaxValue()
+  );
+
+  disableAnonymous = computed(() => this.receiverValue() === MarketRole.Energinet);
+
+  isElectricalHeating = computed(
+    () => this.subjectValue() === ConversationSubject.ElectricalHeating
   );
 
   subjects = dhEnumToWattDropdownOptions(ConversationSubject);
@@ -264,28 +282,6 @@ export class DhActorConversationNewConversation {
     this.newConversationForm().controls.reducedElectricityTax.setValue(false);
   }
 
-  private readonly reducedElectricityTaxValueEffect = effect(() => {
-    if (this.isElectricalHeating() && this.reducedElectricityTaxValue()) {
-      this.newConversationForm().controls.receiver.setValue(MarketRole.GridAccessProvider);
-    } else {
-      this.newConversationForm().controls.receiver.reset();
-    }
-  });
-
-  private readonly subjectValue = dhFormControlToSignal(
-    () => this.newConversationForm().controls.subject
-  );
-
-  private readonly receiverValue = dhFormControlToSignal(
-    () => this.newConversationForm().controls.receiver
-  );
-
-  disableAnonymous = computed(() => this.receiverValue() === MarketRole.Energinet);
-
-  isElectricalHeating = computed(
-    () => this.subjectValue() === ConversationSubject.ElectricalHeating
-  );
-
   private readonly syncEnergySupplierDateValidators = dhSyncControlValidators(
     () => this.newConversationForm().controls.energySupplierDate,
     Validators.required,
@@ -293,9 +289,12 @@ export class DhActorConversationNewConversation {
     { reset: true }
   );
 
-  shouldShowElectricalHeatingForm = computed(
-    () => this.isElectricalHeating() && this.reducedElectricityTaxValue()
-  );
+  private readonly fetchElectricalHeatingInformation = effect(() => {
+    if (!this.reducedElectricityTaxValue()) return;
+    const meteringPointIdentification = this.meteringPointIdentification();
+    if (!meteringPointIdentification) return;
+    this.electricHeatingInformationQuery.refetch({ meteringPointIdentification });
+  });
 
   private readonly syncElectricalHeatingValidators = dhSyncControlValidators(
     () => this.newConversationForm().controls.electricalHeating,
@@ -303,6 +302,14 @@ export class DhActorConversationNewConversation {
     () => this.shouldShowElectricalHeatingForm(),
     { reset: true }
   );
+
+  private readonly reducedElectricityTaxValueEffect = effect(() => {
+    if (this.isElectricalHeating() && this.reducedElectricityTaxValue()) {
+      this.newConversationForm().controls.receiver.setValue(MarketRole.GridAccessProvider);
+    } else {
+      this.newConversationForm().controls.receiver.reset();
+    }
+  });
 
   async startConversation() {
     if (this.newConversationForm().invalid) return;

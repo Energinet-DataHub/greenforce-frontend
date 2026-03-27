@@ -526,6 +526,7 @@ function getChargesByType() {
             __typename: 'Charge',
             value: charge.id,
             displayValue: charge.displayName,
+            periods: charge.periods ?? [],
           })),
       },
     });
