@@ -1,10 +1,6 @@
-mutation DisconnectMeteringPoint(
-  $meteringPointId: String!
-  $processId: UUID!
-  $validityDate: DateTime!
-) {
+mutation DisconnectMeteringPoint($meteringPointId: String!, $validityDate: DateTime!) {
   disconnectMeteringPoint(
-    input: { meteringPointId: $meteringPointId, processId: $processId, validityDate: $validityDate }
+    input: { meteringPointId: $meteringPointId, validityDate: $validityDate }
   ) {
     boolean
   }

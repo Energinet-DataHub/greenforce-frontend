@@ -25,7 +25,6 @@ public static class DisconnectMeteringPointOperations
     [Authorize(Policy = nameof(EicFunction.GridAccessProvider))]
     public static async Task<bool> DisconnectMeteringPointAsync(
         string meteringPointId,
-        Guid processId,
         DateTimeOffset validityDate,
         IB2CClient ediB2CClient,
         CancellationToken ct)

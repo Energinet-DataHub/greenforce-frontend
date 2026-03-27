@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
@@ -38,6 +38,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [
     TranslocoDirective,

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
   NonNullableFormBuilder,
@@ -49,6 +49,7 @@ export interface DisconnectMeteringPointResult {
 
 @Component({
   selector: 'dh-disconnect-metering-point-modal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
