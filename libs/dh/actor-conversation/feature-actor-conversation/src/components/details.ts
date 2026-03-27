@@ -43,7 +43,7 @@ import {
   WattMenuTriggerDirective,
 } from '@energinet/watt/menu';
 import { MessageFormValue } from '../types';
-import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
+import { DhActorConversationMessageForm } from './message-form';
 import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattModalService } from '@energinet/watt/modal';
@@ -65,8 +65,8 @@ import {
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { injectUploadMessageDocument } from './upload-message-document';
-import { DhActorConversationMessageComponent } from './actor-conversation-message';
-import { DhActorConversationInternalNoteModalComponent } from './actor-conversation-internal-note-modal.component';
+import { DhActorConversationMessage } from './message';
+import { DhActorConversationInternalNoteModal } from './internal-note-modal';
 import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
@@ -89,13 +89,13 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     VaterFlexComponent,
     VaterUtilityDirective,
     DhResultComponent,
-    DhActorConversationMessageComponent,
+    DhActorConversationMessage,
     VaterFlexComponent,
     WattHeadingComponent,
     WattSeparatorComponent,
     WattSkeletonComponent,
     WATT_DESCRIPTION_LIST,
-    DhActorConversationMessageFormComponent,
+    DhActorConversationMessageForm,
   ],
   styles: `
     .sticky-background {
@@ -111,170 +111,9 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
       row-gap: var(--watt-space-xs);
     }
   `,
-  template: `
-    <dh-result vater fill="vertical" [query]="conversationQuery">
-      <vater-flex
-        direction="column"
-        fill="both"
-        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
-      >
-        @if (conversation(); as conversation) {
-          <!-- Header -->
-          <vater-stack fill="horizontal" sticky="top" class="sticky-background">
-            <vater-flex
-              fill="horizontal"
-              direction="row"
-              justify="space-between"
-              gap="m"
-              class="watt-space-reverse-inset-stretch-m"
-            >
-              <vater-stack gap="s" align="start" fill="horizontal">
-                <vater-stack direction="row" gap="xs">
-                  @let initiatorRole = t('role.' + initiator()?.role);
-                  <span class="watt-text-s">
-                    @if (initiator()?.actorName; as actorName) {
-                      {{ actorName }} ({{ initiatorRole }})
-                    } @else {
-                      {{ initiatorRole }}
-                    }
-                  </span>
-                  <watt-icon name="right" size="xs" />
-                  @let receiverRole = t('role.' + receiver()?.role);
-                  <span class="watt-text-s">
-                    @if (receiver()?.actorName; as actorName) {
-                      {{ actorName }} ({{ receiverRole }})
-                    } @else {
-                      {{ receiverRole }}
-                    }
-                  </span>
-                </vater-stack>
-                <vater-stack direction="row" gap="s">
-                  <h3 watt-heading>
-                    {{ t('subjects.' + conversation.subject) }}
-                  </h3>
-                  @if (conversation.closed) {
-                    <watt-badge type="neutral">{{ t('closed') }}</watt-badge>
-                  }
-                </vater-stack>
-                <watt-description-list variant="inline-flow">
-                  <watt-description-list-item
-                    [label]="t('idLabel')"
-                    [value]="conversation.displayId"
-                  />
-                  <watt-description-list-item
-                    [label]="t('internalNoteLabel')"
-                    [value]="conversation.internalNote"
-                  />
-                </watt-description-list>
-                @if (
-                  meteringPointId() === undefined && meteringPointConversationInfo();
-                  as meteringPointInfo
-                ) {
-                  <watt-description-list variant="inline-flow" *transloco="let tBase">
-                    <watt-description-list-item
-                      [label]="
-                        meteringPointInfo.meteringPointId +
-                        ' • ' +
-                        (meteringPointInfo.metadata.installationAddress?.streetName ?? '') +
-                        ' ' +
-                        (meteringPointInfo.metadata.installationAddress?.buildingNumber ?? '') +
-                        ', ' +
-                        (meteringPointInfo.metadata.installationAddress?.municipalityCode ?? '') +
-                        ' ' +
-                        (meteringPointInfo.metadata.installationAddress?.cityName ?? '')
-                      "
-                    />
-                    <watt-description-list-item
-                      [label]="t('meteringPointInfo.connectionState')"
-                      [value]="
-                        tBase(
-                          'meteringPoint.overview.status.' +
-                            meteringPointInfo.metadata.connectionState
-                        )
-                      "
-                    />
-                    <watt-description-list-item
-                      [label]="t('meteringPointInfo.type')"
-                      [value]="tBase('meteringPointType.' + meteringPointInfo.metadata.type)"
-                    />
-                    <watt-description-list-item
-                      [label]="t('meteringPointInfo.resolution')"
-                      [value]="tBase('resolution.' + meteringPointInfo.metadata.resolution)"
-                    />
-                  </watt-description-list>
-                } @else if (
-                  meteringPointId() === undefined && meteringPointConversationInfoQuery.loading()
-                ) {
-                  <vater-stack direction="row" wrap align="start" class="wrap-gap">
-                    <watt-skeleton width="400px" height="20px" />
-                    <watt-skeleton width="200px" height="20px" />
-                    <watt-skeleton width="200px" height="20px" />
-                    <watt-skeleton width="200px" height="20px" />
-                  </vater-stack>
-                }
-              </vater-stack>
-
-              <vater-stack direction="row" gap="m">
-                <watt-button
-                  [disabled]="conversation.closed"
-                  (click)="closeConversation()"
-                  variant="secondary"
-                  >{{ t('closeCaseButton') }}
-                </watt-button>
-                <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
-                  <watt-icon name="moreVertical" />
-                </watt-button>
-                <watt-menu #menu>
-                  <watt-menu-item (click)="openInternalNoteModal(conversation.internalNote)"
-                    >{{ t('internalNoteLabel') }}
-                  </watt-menu-item>
-                  <watt-menu-item (click)="unreadConversation()"
-                    >{{ t('markAsUnreadButton') }}
-                  </watt-menu-item>
-                </watt-menu>
-              </vater-stack>
-            </vater-flex>
-            <watt-separator />
-          </vater-stack>
-
-          <!-- Content - Scrollable message area -->
-          <vater-flex
-            direction="column"
-            fill="both"
-            scrollable
-            class="watt-space-reverse-inset-stretch-m no-padding-bottom"
-          >
-            <vater-stack direction="column" gap="m">
-              @for (message of conversation.messages; track message) {
-                <dh-actor-conversation-message [message]="message" />
-              }
-            </vater-stack>
-            <div #scrollAnchor></div>
-          </vater-flex>
-        }
-        <!-- Footer - Message input form -->
-        @if (isPartOfConversation()) {
-          <form
-            vater
-            sticky="bottom"
-            class="watt-space-inset-ml sticky-background"
-            fill="horizontal"
-            (ngSubmit)="sendMessage()"
-          >
-            <dh-actor-conversation-message-form
-              [loading]="uploading() || sendActorConversationMessageMutation.loading()"
-              [closed]="!!conversation()?.closed"
-              [uploadError]="uploadError()"
-              [formControl]="formControl"
-              [disableAnonymous]="disableAnonymous()"
-            />
-          </form>
-        }
-      </vater-flex>
-    </dh-result>
-  `,
+  templateUrl: './details.html',
 })
-export class DhActorConversationDetailsComponent {
+export class DhActorConversationDetails {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly uploadMessageDocument = injectUploadMessageDocument();
   private readonly modalService = inject(WattModalService);
@@ -317,6 +156,23 @@ export class DhActorConversationDetailsComponent {
   meteringPointConversationInfo = computed(
     () => this.meteringPointConversationInfoQuery.data()?.meteringPoint
   );
+
+  meteringPointInstallLabel = computed(() => {
+    const info = this.meteringPointConversationInfo();
+    if (!info) return '';
+
+    const id = info.meteringPointId;
+    const address = info.metadata.installationAddress;
+
+    if (!address?.streetName?.trim()) return id;
+
+    const isPresent = (v: string | null | undefined): v is string => v != null && v !== '';
+    const streetPart = [address.streetName, address.buildingNumber].filter(isPresent).join(' ');
+    const cityPart = [address.municipalityCode, address.cityName].filter(isPresent).join(' ');
+    const addressParts = [streetPart, cityPart].filter(isPresent).join(', ');
+
+    return `${id} • ${addressParts}`;
+  });
 
   readonly initiator = this.getParticipant(ParticipantType.Initiator);
   readonly receiver = this.getParticipant(ParticipantType.Receiver);
@@ -363,7 +219,7 @@ export class DhActorConversationDetailsComponent {
 
   openInternalNoteModal(internalNote: string | null | undefined) {
     this.modalService.open({
-      component: DhActorConversationInternalNoteModalComponent,
+      component: DhActorConversationInternalNoteModal,
       data: {
         conversationId: this.conversationId(),
         internalNote: internalNote ?? null,

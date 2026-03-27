@@ -103,7 +103,7 @@ import { WattDatePipe } from '@energinet/watt/date';
     </vater-flex>
   `,
 })
-export class DhActorConversationListItemComponent {
+export class DhActorConversationListItem {
   conversation = input<Conversation | NewConversation>({
     __typename: 'ConversationInfo',
     closed: false,

@@ -57,15 +57,15 @@ import {
   StartConversationDocument,
   StartElectricalHeatingConversationInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhActorConversationMessageFormComponent } from './actor-conversation-message-form.component';
-import { DhActorConversationReceiverRadioGroupComponent } from './actor-conversation-receiver-radio-group';
+import { DhActorConversationMessageForm } from './message-form';
+import { DhActorConversationReceiverRadioGroup } from './receiver-radio-group';
 import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { injectUploadMessageDocument } from './upload-message-document';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhActorConversationElectricalHeatingFormComponent } from './actor-conversation-electrical-heating-form.component';
-import { DhActorConversationMeteringPointSearchComponent } from './actor-conversation-metering-point-search';
+import { DhActorConversationElectricalHeatingForm } from './electrical-heating-form';
+import { DhActorConversationMeteringPointSearch } from './metering-point-search';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { dayjs } from '@energinet/watt/core/date';
 
@@ -81,11 +81,11 @@ import { dayjs } from '@energinet/watt/core/date';
     WattTextFieldComponent,
     DhDropdownTranslatorDirective,
     VaterUtilityDirective,
-    DhActorConversationMessageFormComponent,
+    DhActorConversationMessageForm,
     WattSlideToggleComponent,
-    DhActorConversationReceiverRadioGroupComponent,
-    DhActorConversationElectricalHeatingFormComponent,
-    DhActorConversationMeteringPointSearchComponent,
+    DhActorConversationReceiverRadioGroup,
+    DhActorConversationElectricalHeatingForm,
+    DhActorConversationMeteringPointSearch,
     WATT_DESCRIPTION_LIST,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -191,7 +191,7 @@ import { dayjs } from '@energinet/watt/core/date';
     </form>
   `,
 })
-export class DhActorConversationNewConversationComponent {
+export class DhActorConversationNewConversation {
   internalNoteMaxLength = internalNoteMaxLength;
 
   private readonly uploadMessageDocument = injectUploadMessageDocument();

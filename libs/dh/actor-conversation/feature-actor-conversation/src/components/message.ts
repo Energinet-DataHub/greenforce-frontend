@@ -190,7 +190,7 @@ import { injectDownloadMessageDocument } from './download-message-document';
     </vater-stack>
   `,
 })
-export class DhActorConversationMessageComponent {
+export class DhActorConversationMessage {
   message = input.required<ConversationMessage>();
   messageAlignment = computed(() => (this.message().isSentByCurrentActor ? 'end' : 'start'));
   backgroundColor = computed(() =>
