@@ -74,7 +74,7 @@
         "@nx/angular": "22.6.1",
         "@nx/cypress": "22.6.1",
         "@nx/devkit": "22.6.1",
-        "@nx/dotnet": "22.5.4",
+        "@nx/dotnet": "22.6.1",
         "@nx/eslint": "22.6.1",
         "@nx/eslint-plugin": "22.6.1",
         "@nx/js": "22.6.1",
@@ -1047,7 +1047,7 @@
 
     "@nx/devkit": ["@nx/devkit@22.6.1", "", { "dependencies": { "@zkochan/js-yaml": "0.0.7", "ejs": "^3.1.7", "enquirer": "~2.3.6", "minimatch": "10.2.4", "semver": "^7.6.3", "tslib": "^2.3.0", "yargs-parser": "21.1.1" }, "peerDependencies": { "nx": ">= 21 <= 23 || ^22.0.0-0" } }, "sha512-/mwG9zWY1phsWvMKzP0yZ4pE6aH0kLH31DuCYj4eLbhuUu0STL3xSdjPPzhDHf71R4K3YnuvG97e2qiGDbG5Qw=="],
 
-    "@nx/dotnet": ["@nx/dotnet@22.5.4", "", { "dependencies": { "@nx/devkit": "22.5.4", "ignore": "^7.0.5", "tslib": "^2.3.0" } }, "sha512-EEbdN8oimhpoURUKqRNgwkuXdiGMia8A1no35Yk+NIEz7Da+pdz5OwBWIM0eVTUFPUrQUSSaAmQBF9Y/vbIk7g=="],
+    "@nx/dotnet": ["@nx/dotnet@22.6.1", "", { "dependencies": { "@nx/devkit": "22.6.1", "ignore": "^7.0.5", "tslib": "^2.3.0" } }, "sha512-vdbEdqPNzMiWPbedUXPvQJ3YtyZcTequlDBWHf8Xg1uY/wpslJ+PLOwUtTfZO2aWwbmBXHvYspUqKGvylYSv5w=="],
 
     "@nx/eslint": ["@nx/eslint@22.6.1", "", { "dependencies": { "@nx/devkit": "22.6.1", "@nx/js": "22.6.1", "semver": "^7.6.3", "tslib": "^2.3.0", "typescript": "~5.9.2" }, "peerDependencies": { "@zkochan/js-yaml": "0.0.7", "eslint": "^8.0.0 || ^9.0.0 || ^10.0.0" }, "optionalPeers": ["@zkochan/js-yaml"] }, "sha512-+0y+808naJCJoxlvTrWk9PZ8d+XE0QO9af9CAOXXKDugxBRkUZ5gHEXQ10xw1Z6DxZCHzJbPndorRwpR6C2/Sw=="],
 
@@ -4723,8 +4723,6 @@
 
     "@nx/devkit/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 
-    "@nx/dotnet/@nx/devkit": ["@nx/devkit@22.5.4", "", { "dependencies": { "@zkochan/js-yaml": "0.0.7", "ejs": "^3.1.7", "enquirer": "~2.3.6", "minimatch": "10.2.4", "semver": "^7.6.3", "tslib": "^2.3.0", "yargs-parser": "21.1.1" }, "peerDependencies": { "nx": ">= 21 <= 23 || ^22.0.0-0" } }, "sha512-+QCmpQZQmEGvi8IurC6bOgUTk+Q0dQo7wkp6V04lskXBztSyasBS0BGy5ic90kY05UlQUd++zRA1VY0jc+Yz5Q=="],
-
     "@nx/dotnet/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 
     "@nx/eslint/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
@@ -6008,8 +6006,6 @@
     "@nx-dotnet/utils/fast-glob/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
 
     "@nx/angular/webpack-merge/flat": ["flat@5.0.2", "", { "bin": { "flat": "cli.js" } }, "sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ=="],
-
-    "@nx/dotnet/@nx/devkit/semver": ["semver@7.7.4", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA=="],
 
     "@nx/eslint-plugin/@typescript-eslint/utils/@typescript-eslint/scope-manager": ["@typescript-eslint/scope-manager@8.54.0", "", { "dependencies": { "@typescript-eslint/types": "8.54.0", "@typescript-eslint/visitor-keys": "8.54.0" } }, "sha512-27rYVQku26j/PbHYcVfRPonmOlVI6gihHtXFbTdB5sb6qA0wdAQAbyXFVarQ5t4HRojIz64IV90YtsjQSSGlQg=="],
 
