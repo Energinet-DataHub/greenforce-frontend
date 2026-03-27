@@ -160,7 +160,10 @@
       "!{projectRoot}/cypress.config.[jt]s",
       "!{projectRoot}/tsconfig.storybook.json",
       "!{projectRoot}/src/test-setup.[jt]s",
-      "!{projectRoot}/tests/test-setup.[jt]s"
+      "!{projectRoot}/tests/test-setup.[jt]s",
+      "!{projectRoot}/**/*.Tests/**/*",
+      "!{projectRoot}/**/bin/**/*",
+      "!{projectRoot}/**/obj/**/*"
     ]
   },
   "defaultBase": "main",
@@ -193,6 +196,20 @@
       "options": {
         "serveStorybookTargetName": "storybook",
         "buildStorybookTargetName": "build-storybook"
+      }
+    },
+    {
+      "plugin": "@nx/dotnet",
+      "options": {
+        "build": {
+          "outputs": [
+            "{projectRoot}/bin/Release/net10.0",
+            "{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"
+          ]
+        },
+        "watch": {
+          "targetName": "serve"
+        }
       }
     }
   ],

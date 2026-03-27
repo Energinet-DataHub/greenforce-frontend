@@ -5,27 +5,5 @@
   "tags": ["product:dh", "type:api"],
   "sourceRoot": "apps/dh/api-dh/source",
   "prefix": "dh",
-  "targets": {
-    "build": {
-      "outputs": [
-        "{projectRoot}/bin/Release/net10.0",
-        "{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"
-      ],
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "dotnet build apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Release"
-      }
-    },
-    "serve": {
-      "continuous": true,
-      "outputs": [
-        "{projectRoot}/bin/Debug/net10.0",
-        "{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"
-      ],
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --non-interactive --configuration=Debug"
-      }
-    }
-  }
+  "targets": {}
 }
