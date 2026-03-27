@@ -25,6 +25,11 @@ RUN bun install --frozen-lockfile --yarn
 COPY nx.json tsconfig.base.json .graphqlrc.yml codegen.ts .eslintrc.json ./
 COPY tools ./tools
 COPY apps/dh ./apps/dh
+# Remove .csproj source files — dotnet was already built in the dotnet-build stage.
+# The @nx/dotnet plugin's MSBuild analyzer requires the .NET runtime, which is not
+# available in this Node.js build stage. Removing .csproj files prevents the plugin
+# from attempting to analyze them.
+RUN find ./apps/dh -name "*.csproj" -delete
 
 COPY libs ./libs
 COPY --from=dotnet-build /app/libs/dh/shared/data-access-graphql/schema.graphql ./libs/dh/shared/data-access-graphql/schema.graphql
