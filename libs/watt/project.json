@@ -7,7 +7,7 @@
   "tags": ["product:watt"],
   "targets": {
     "test": {
-      "inputs": ["{projectRoot}/**/*"]
+      "inputs": ["default", "^production"]
     },
     "storybook": {
       "options": {
