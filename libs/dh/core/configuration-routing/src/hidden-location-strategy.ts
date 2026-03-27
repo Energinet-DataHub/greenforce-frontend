@@ -25,7 +25,7 @@ import {
   PlatformLocation,
 } from '@angular/common';
 
-import { sessionStorageToken } from '@energinet-datahub/dh/shared/feature-authorization';
+import { sessionStorageToken } from '@energinet-datahub/dh/shared/util-browser';
 
 /**
  * Key used to store the hidden URL in the history state object.
