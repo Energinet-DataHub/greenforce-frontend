@@ -19,10 +19,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { APP_BASE_HREF, DOCUMENT, LocationStrategy, PlatformLocation } from '@angular/common';
-import { MockLocationStrategy, provideLocationMocks } from '@angular/common/testing';
 
 import { SessionStorageFake } from '@energinet-datahub/gf/test-util';
-import { sessionStorageToken } from '@energinet-datahub/dh/shared/feature-authorization';
+import { sessionStorageToken } from '@energinet-datahub/dh/shared/util-browser';
 
 import {
   HiddenLocationStrategy,

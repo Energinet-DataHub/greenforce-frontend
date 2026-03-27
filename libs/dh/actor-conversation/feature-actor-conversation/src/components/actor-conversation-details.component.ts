@@ -260,7 +260,6 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
             class="watt-space-inset-ml sticky-background"
             fill="horizontal"
             (ngSubmit)="sendMessage()"
-            (keydown.enter)="$event.preventDefault()"
           >
             <dh-actor-conversation-message-form
               [loading]="uploading() || sendActorConversationMessageMutation.loading()"
@@ -294,6 +293,8 @@ export class DhActorConversationDetailsComponent {
   meteringPointId = input<string | undefined>();
 
   conversationQuery = query(GetConversationDocument, () => ({
+    returnPartialData: true,
+    fetchPolicy: 'cache-and-network',
     variables: {
       conversationId: this.conversationId(),
     },
@@ -410,7 +411,7 @@ export class DhActorConversationDetailsComponent {
         content: content ?? '',
         attachedDocumentIds,
       },
-      refetchQueries: [GetConversationDocument, GetConversationsDocument],
+      refetchQueries: [GetConversationDocument],
     });
 
     this.clearMessageForm();

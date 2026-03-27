@@ -203,6 +203,7 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
 })
 export class DhActorConversation {
   filterChanged(filterValue: ActorConversationFilterValue) {
+    this.selectedConversationId.set(undefined);
     this.conversationsQuery.refetch({
       meteringPointIdentification: this.meteringPointId(),
       closed: filterValue.statusClosed,

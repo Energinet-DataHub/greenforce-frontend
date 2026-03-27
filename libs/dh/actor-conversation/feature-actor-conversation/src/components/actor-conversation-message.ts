@@ -67,6 +67,10 @@ import { injectDownloadMessageDocument } from './download-message-document';
       font-style: italic;
     }
 
+    .display-line-break {
+      white-space: pre-wrap;
+    }
+
     .message-content-padding {
       padding: var(--watt-space-sm) var(--watt-space-m);
     }
@@ -107,7 +111,7 @@ import { injectDownloadMessageDocument } from './download-message-document';
       <vater-stack align="start" fill="horizontal" class="message-content-padding">
         @switch (message().messageType) {
           @case ('USER_MESSAGE') {
-            <span vater fill="horizontal">
+            <span vater fill="horizontal" class="display-line-break">
               {{ message().userMessage?.content }}
             </span>
           }

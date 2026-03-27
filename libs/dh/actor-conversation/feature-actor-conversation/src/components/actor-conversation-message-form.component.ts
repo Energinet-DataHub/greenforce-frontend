@@ -248,13 +248,9 @@ export class DhActorConversationMessageFormComponent implements ControlValueAcce
   }
 
   onKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
-      if (event.ctrlKey) {
-        const form = (this.elementRef.nativeElement as HTMLElement).closest('form');
-        form?.requestSubmit();
-      } else {
-        event.preventDefault();
-      }
+    if ((event.key === 'Enter' && event.ctrlKey) || (event.key === 'Enter' && event.metaKey)) {
+      const form = (this.elementRef.nativeElement as HTMLElement).closest('form');
+      form?.requestSubmit();
     }
   }
 

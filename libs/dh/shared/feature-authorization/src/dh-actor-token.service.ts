@@ -32,6 +32,7 @@ import { SeverityLevel } from '@microsoft/applicationinsights-web';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { localStorageToken } from '@energinet-datahub/dh/shared/util-browser';
 import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhActorStorage } from './dh-actor-storage';
@@ -49,7 +50,8 @@ export class DhActorTokenService {
   private apiToken = inject(dhApiEnvironmentToken);
   private httpClient = inject(HttpClient);
   private appInsights = inject(DhApplicationInsights);
-  private readonly hiddenLocationStrategy = injectHiddenLocationStrategy();
+  private localStorage = inject(localStorageToken);
+  private hiddenLocationStrategy = injectHiddenLocationStrategy();
 
   private logoutInProgress = false;
 
@@ -102,7 +104,7 @@ export class DhActorTokenService {
                   if (account?.idTokenClaims) {
                     const givenName = account?.idTokenClaims['given_name'];
                     if (!givenName) {
-                      localStorage.setItem('mitIdRelogin', 'true');
+                      this.localStorage.setItem('mitIdRelogin', 'true');
                       this.hiddenLocationStrategy.clearSession();
                       this.msalService.instance.logoutRedirect();
                     }
