@@ -34,8 +34,8 @@ export type WattDateRange = WattRange<string>;
  */
 export function contains(interval: WattRange<Date>, date: Date) {
   const day = dayjs(date);
-  const isAfterStart = day.isAfter(interval.start);
-  const isBeforeEnd = day.isBefore(interval.end);
-  if (!interval.end) return isAfterStart;
-  return isAfterStart && isBeforeEnd;
+  const isSameOrAfterStart = day.isSame(interval.start) || day.isAfter(interval.start);
+  if (!interval.end) return isSameOrAfterStart;
+  const isSameOrBeforeEnd = day.isSame(interval.end) || day.isBefore(interval.end);
+  return isSameOrAfterStart && isSameOrBeforeEnd;
 }
