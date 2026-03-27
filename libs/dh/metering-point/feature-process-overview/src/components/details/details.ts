@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
