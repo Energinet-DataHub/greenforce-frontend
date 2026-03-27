@@ -24,8 +24,7 @@
       ],
       "executor": "nx:run-commands",
       "options": {
-        "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --non-interactive --configuration=Debug",
-        "readyWhen": "Application started"
+        "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --non-interactive --configuration=Debug"
       }
     }
   }
