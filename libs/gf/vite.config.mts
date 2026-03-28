@@ -100,6 +100,14 @@ export default defineConfig(() => {
         provider: 'v8' as const,
       },
       pool: 'forks' as const,
+      server: {
+        deps: {
+          // Inline Angular fesm2022 packages through Vite's transform pipeline so the
+          // Angular compiler runs once in the Vite server process (shared across all
+          // forks) rather than being re-run in every forked worker process.
+          inline: [/fesm2022/],
+        },
+      },
     },
   };
 });
