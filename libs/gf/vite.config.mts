@@ -100,6 +100,12 @@ export default defineConfig(() => {
         provider: 'v8' as const,
       },
       pool: 'forks' as const,
+      // One worker so the Vite server's in-memory transform cache warms up
+      // after the first file and is reused for all subsequent files — avoids
+      // re-compiling Angular fesm2022 packages for every test file.
+      maxWorkers: 1,
+      // Run test files sequentially (one at a time) to maximise Vite cache reuse.
+      fileParallelism: false,
       server: {
         deps: {
           // Inline Angular fesm2022 packages through Vite's transform pipeline so the
