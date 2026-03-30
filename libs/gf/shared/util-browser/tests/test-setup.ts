@@ -20,7 +20,7 @@ import '@angular/compiler';
 import '@analogjs/vitest-angular/setup-zone';
 import '@testing-library/jest-dom/vitest';
 
-import { afterEach, beforeEach } from 'vitest';
+import { beforeEach } from 'vitest';
 import { getTestBed, ɵgetCleanupHook as getCleanupHook } from '@angular/core/testing';
 import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 
@@ -39,6 +39,11 @@ if (!(globalThis as Record<symbol, unknown>)[INIT_MARKER]) {
 
 // With isolate: false, Angular's module-level globalThis.afterEach(getCleanupHook(true))
 // is only registered on the first file's root suite. clearCollectorContext() wipes it
-// before each subsequent file. Re-register here so resetTestingModule() always runs.
-beforeEach(getCleanupHook(false));
-afterEach(getCleanupHook(true));
+// before each subsequent file.
+//
+// We put resetTestingModule() in beforeEach (not afterEach) so that zone.js microtasks
+// from the previous test complete naturally before we destroy ApplicationRef — avoiding
+// NG0406 warnings from CDK overlay's microtask-scheduled cleanup.
+beforeEach(() => {
+  getCleanupHook(true)();
+});

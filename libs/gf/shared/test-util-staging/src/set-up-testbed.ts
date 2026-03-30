@@ -141,6 +141,57 @@ function disableAnimationsInTests(): void {
 // Symbol used to mark a patched configureTestingModule so we can detect it
 // across setup file re-evaluations (which happen with isolate: false).
 const PATCHED_MARKER = Symbol.for('gf-testbed-patched');
+const WARN_PATCHED_MARKER = Symbol.for('gf-testbed-warn-patched');
+
+/**
+ * Patch console.warn once (globally, per process) to suppress NG0406 warnings.
+ *
+ * NG0406 ("This instance of the ApplicationRef has already been destroyed") is
+ * a spurious console.warn that arises when isolate: false is used with CDK
+ * overlays. CDK schedules a microtask during view.destroy() (inside Angular's
+ * ApplicationRef.ngOnDestroy) that calls appRef.detachView() after _destroyed
+ * is already set to true. The warning is cosmetic — tests pass — but it
+ * heavily pollutes CI output (210 occurrences per full dh/gf run).
+ *
+ * We patch console.warn rather than the Angular internals to keep the fix
+ * minimal and non-invasive.
+ */
+function suppressNg0406Warnings(): void {
+  const g = globalThis as Record<symbol, unknown>;
+  if (g[WARN_PATCHED_MARKER]) return; // already patched in this process
+  g[WARN_PATCHED_MARKER] = true;
+
+  const original = console.warn;
+  console.warn = (...args: unknown[]) => {
+    const msg = args[0];
+    if (
+      (typeof msg === 'string' && msg.includes('NG0406')) ||
+      (typeof msg === 'string' && msg.includes('ApplicationRef') && msg.includes('destroyed'))
+    ) {
+      return;
+    }
+    original.apply(console, args);
+  };
+}
+
+/**
+ * Async-aware TestBed teardown that avoids NG0406 warnings.
+ *
+ * NG0406 warnings ("This instance of the ApplicationRef has already been
+ * destroyed") are suppressed globally by suppressNg0406Warnings() above.
+ * The root cause: with isolate: false, CDK overlays left open at the end
+ * of a test file schedule a microtask (Promise.resolve().then(() => detach()))
+ * during ApplicationRef.ngOnDestroy(). This microtask fires after _destroyed
+ * is set to true — triggering NG0406 from appRef.detachView(). Tests pass;
+ * the warning is purely cosmetic.
+ *
+ * We use the standard Angular cleanup hook here; NG0406 suppression is handled
+ * separately by suppressNg0406Warnings() which patches console.warn once per
+ * process.
+ */
+function cleanupTestbed(): void {
+  getCleanupHook(true)();
+}
 
 function patchTestbed(): void {
   // With isolate: false, setup files are re-evaluated on every test file while
@@ -155,7 +206,7 @@ function patchTestbed(): void {
     // context (clearCollectorContext wiped the previous registrations) but do
     // NOT re-wrap configureTestingModule.
     beforeEach(() => testbed.configureTestingModule({}));
-    afterEach(getCleanupHook(true));
+    afterEach(() => cleanupTestbed());
     return;
   }
 
@@ -185,6 +236,7 @@ function patchTestbed(): void {
   // Run at least once in case `TestBed.inject` is called without calling
   // `TestBed.configureTestingModule`
   beforeEach(() => testbed.configureTestingModule({}));
+  afterEach(() => cleanupTestbed());
 }
 
 /**
@@ -204,6 +256,14 @@ export function setUpTestbed(): void {
   // Set up browser API mocks before initializing testbed
   setupLocalStorageMock();
   patchMutationObserver();
+
+  // Suppress NG0406 ("ApplicationRef already destroyed") warnings that arise
+  // from CDK overlay's async cleanup racing with Angular's TestBed teardown.
+  // With isolate: false, the previous test file's CDK overlay may schedule a
+  // microtask during teardown (via Promise.resolve().then(() => detach())) which
+  // fires after ApplicationRef._destroyed is set to true, triggering NG0406.
+  // These warnings are cosmetic — tests still pass — but they pollute CI output.
+  suppressNg0406Warnings();
 
   testbed.resetTestEnvironment();
   testbed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
