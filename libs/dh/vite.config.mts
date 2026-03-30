@@ -108,6 +108,9 @@ export default defineConfig(() => {
       maxWorkers: 1,
       // Run test files sequentially (one at a time) to maximise Vite cache reuse.
       fileParallelism: false,
+      // Share the module graph across all test files in a single run so that
+      // Angular is initialized once rather than once per file.
+      isolate: false,
       server: {
         deps: {
           // Inline Angular fesm2022 packages through Vite's transform pipeline so the

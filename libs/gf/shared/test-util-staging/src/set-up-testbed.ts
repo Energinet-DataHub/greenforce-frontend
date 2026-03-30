@@ -16,13 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { beforeEach } from 'vitest';
+import { afterEach, beforeEach } from 'vitest';
 
 import {
   ComponentFixtureAutoDetect,
   getTestBed,
   TestBed,
   TestModuleMetadata,
+  ɵgetCleanupHook as getCleanupHook,
 } from '@angular/core/testing';
 import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
@@ -137,34 +138,53 @@ function disableAnimationsInTests(): void {
   }
 }
 
+// Symbol used to mark a patched configureTestingModule so we can detect it
+// across setup file re-evaluations (which happen with isolate: false).
+const PATCHED_MARKER = Symbol.for('gf-testbed-patched');
+
 function patchTestbed(): void {
-  const isUnpatched = testbed.configureTestingModule === realConfigureTestingModule;
-
-  if (isUnpatched) {
-    testbed.configureTestingModule = (moduleDef: TestModuleMetadata): TestBed => {
-      realConfigureTestingModule.call(testbed, {
-        ...moduleDef,
-        imports: [MatIconTestingModule, ...(moduleDef.imports ?? [])],
-        providers: [
-          // Use automatic change detection in tests
-          { provide: ComponentFixtureAutoDetect, useValue: true },
-          ...(moduleDef.providers ?? []),
-          browserConfigurationProviders,
-          // Mark as NoopAnimations for Angular Material components that check this token
-          { provide: ANIMATION_MODULE_TYPE, useValue: 'NoopAnimations' },
-          provideRouter([]),
-        ],
-      });
-
-      return testbed;
-    };
-
-    // Run at least once in case `TestBed.inject` is called without calling
-    // `TestBed.configureTestingModule`
-    beforeEach(() => {
-      testbed.configureTestingModule({});
-    });
+  // With isolate: false, setup files are re-evaluated on every test file while
+  // the TestBed singleton persists. After initTestEnvironment(), the TestBed's
+  // configureTestingModule instance property may still be a previously-patched
+  // wrapper. Detect that via the PATCHED_MARKER to avoid double-wrapping.
+  const currentCTM = testbed.configureTestingModule as typeof testbed.configureTestingModule & {
+    [PATCHED_MARKER]?: true;
+  };
+  if (currentCTM[PATCHED_MARKER]) {
+    // Already patched — re-register the beforeEach/afterEach for this file
+    // context (clearCollectorContext wiped the previous registrations) but do
+    // NOT re-wrap configureTestingModule.
+    beforeEach(() => testbed.configureTestingModule({}));
+    afterEach(getCleanupHook(true));
+    return;
   }
+
+  // First time patching in this process: capture the real Angular CTM.
+  const realCTM = testbed.configureTestingModule;
+
+  const patched = (moduleDef: TestModuleMetadata): TestBed => {
+    realCTM.call(testbed, {
+      ...moduleDef,
+      imports: [MatIconTestingModule, ...(moduleDef.imports ?? [])],
+      providers: [
+        // Use automatic change detection in tests
+        { provide: ComponentFixtureAutoDetect, useValue: true },
+        ...(moduleDef.providers ?? []),
+        browserConfigurationProviders,
+        // Mark as NoopAnimations for Angular Material components that check this token
+        { provide: ANIMATION_MODULE_TYPE, useValue: 'NoopAnimations' },
+        provideRouter([]),
+      ],
+    });
+
+    return testbed;
+  };
+  (patched as typeof patched & { [PATCHED_MARKER]?: true })[PATCHED_MARKER] = true;
+  testbed.configureTestingModule = patched;
+
+  // Run at least once in case `TestBed.inject` is called without calling
+  // `TestBed.configureTestingModule`
+  beforeEach(() => testbed.configureTestingModule({}));
 }
 
 /**
@@ -199,4 +219,3 @@ export function setUpTestbed(): void {
 }
 
 const testbed = getTestBed();
-const realConfigureTestingModule = getTestBed().configureTestingModule;

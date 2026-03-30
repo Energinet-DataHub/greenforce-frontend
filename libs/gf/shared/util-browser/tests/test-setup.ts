@@ -20,10 +20,25 @@ import '@angular/compiler';
 import '@analogjs/vitest-angular/setup-zone';
 import '@testing-library/jest-dom/vitest';
 
-import { getTestBed } from '@angular/core/testing';
+import { afterEach, beforeEach } from 'vitest';
+import { getTestBed, ɵgetCleanupHook as getCleanupHook } from '@angular/core/testing';
 import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 
 // Note: This library cannot use setUpTestbed from gf-test-util-staging
 // because gf-test-util-staging depends on gf-util-browser, which would create a circular dependency.
-getTestBed().resetTestEnvironment();
-getTestBed().initTestEnvironment(BrowserTestingModule, platformBrowserTesting());
+
+// Symbol used to detect already-initialized TestBed across setup-file re-evaluations
+// (which happen per test file with isolate: false).
+const INIT_MARKER = Symbol.for('gf-util-browser-testenv-init');
+
+if (!(globalThis as Record<symbol, unknown>)[INIT_MARKER]) {
+  (globalThis as Record<symbol, unknown>)[INIT_MARKER] = true;
+  getTestBed().resetTestEnvironment();
+  getTestBed().initTestEnvironment(BrowserTestingModule, platformBrowserTesting());
+}
+
+// With isolate: false, Angular's module-level globalThis.afterEach(getCleanupHook(true))
+// is only registered on the first file's root suite. clearCollectorContext() wipes it
+// before each subsequent file. Re-register here so resetTestingModule() always runs.
+beforeEach(getCleanupHook(false));
+afterEach(getCleanupHook(true));
