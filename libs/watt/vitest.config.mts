@@ -48,8 +48,24 @@ export default defineConfig({
       provider: 'v8',
     },
     pool: 'forks',
+    // One worker so the Vite server's in-memory transform cache warms up
+    // after the first file and is reused for all subsequent files — avoids
+    // re-compiling Angular fesm2022 packages for every test file.
+    maxWorkers: 1,
+    // Run test files sequentially (one at a time) to maximise Vite cache reuse.
     fileParallelism: false,
+    // Share the module graph across all test files in a single run so that
+    // Angular is initialized once rather than once per file.
+    isolate: false,
     testTimeout: 10_000,
+    server: {
+      deps: {
+        // Inline Angular fesm2022 packages through Vite's transform pipeline so the
+        // Angular compiler runs once in the Vite server process (shared across all
+        // forks) rather than being re-run in every forked worker process.
+        inline: [/fesm2022/],
+      },
+    },
   },
   define: {
     'import.meta.vitest': undefined,
