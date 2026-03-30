@@ -18,7 +18,7 @@
 //#endregion
 /// <reference types='vitest' />
 /// <reference types="vitest/config" />
-import { existsSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
@@ -78,10 +78,39 @@ export default defineConfig(() => {
   const setupFile = join(libRoot, 'tests/test-setup.ts');
   const setupFiles = existsSync(setupFile) ? ['tests/test-setup.ts'] : [];
 
-  // Use the shared product-level tsconfig.spec.json for Angular compilation
-  const tsconfig = '../../tsconfig.spec.json';
+  // Write a per-lib scoped tsconfig so the Angular compiler only processes
+  // this lib's files (~5-20 files) rather than all files under libs/gf/.
+  // Without this, `readConfiguration` on the shared ../../tsconfig.spec.json
+  // (which has no `include` restriction) returns every .ts file in libs/gf/ as
+  // rootNames, making NgtscProgram compile the entire product on every lib run.
+  const cacheDir = join(workspaceRoot, 'node_modules/.vite', libRelative);
+  mkdirSync(cacheDir, { recursive: true });
+  const scopedTsconfig = join(cacheDir, 'tsconfig.vitest.json');
+  // Mirror the old per-lib tsconfig.spec.json approach: only include spec files
+  // as rootNames and strip inherited options that bloat NgtscProgram init time.
+  //
+  // Root cause: libs/gf/tsconfig.json inherits from tsconfig.base.json which
+  // sets 164 `paths` aliases + moduleResolution=Bundler. These make NgtscProgram
+  // ~5x slower (1300ms vs 235ms old per-lib). Paths are resolved by Vite at
+  // module-request time; the Angular compiler does not need them.
+  const setupTs = existsSync(join(libRoot, 'tests/test-setup.ts'))
+    ? [`${libRoot}/tests/test-setup.ts`]
+    : [];
+  writeFileSync(
+    scopedTsconfig,
+    JSON.stringify({
+      extends: join(libRoot, '../../tsconfig.spec.json'),
+      compilerOptions: {
+        // Restore classic/Node module resolution — Bundler adds ~600ms to NgtscProgram init.
+        // Paths are kept so workspace alias imports compile correctly.
+        moduleResolution: 'node',
+      },
+      files: setupTs,
+      include: [`${libRoot}/tests/**/*.spec.ts`, `${libRoot}/src/**/*.spec.ts`],
+    })
+  );
 
-  const angularPlugins = useAngular ? [angular({ tsconfig })] : [];
+  const angularPlugins = useAngular ? [angular({ tsconfig: scopedTsconfig })] : [];
 
   return {
     root: libRoot,
@@ -109,14 +138,6 @@ export default defineConfig(() => {
       // Share the module graph across all test files in a single run so that
       // Angular is initialized once rather than once per file.
       isolate: false,
-      server: {
-        deps: {
-          // Inline Angular fesm2022 packages through Vite's transform pipeline so the
-          // Angular compiler runs once in the Vite server process (shared across all
-          // forks) rather than being re-run in every forked worker process.
-          inline: [/fesm2022/],
-        },
-      },
     },
   };
 });

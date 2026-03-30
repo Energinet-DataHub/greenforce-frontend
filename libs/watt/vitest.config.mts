@@ -58,14 +58,6 @@ export default defineConfig({
     // Angular is initialized once rather than once per file.
     isolate: false,
     testTimeout: 10_000,
-    server: {
-      deps: {
-        // Inline Angular fesm2022 packages through Vite's transform pipeline so the
-        // Angular compiler runs once in the Vite server process (shared across all
-        // forks) rather than being re-run in every forked worker process.
-        inline: [/fesm2022/],
-      },
-    },
   },
   define: {
     'import.meta.vitest': undefined,
