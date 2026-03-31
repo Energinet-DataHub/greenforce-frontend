@@ -20,20 +20,24 @@ import { Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
-import { MarketParticipantSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
+import {
+  MarketParticipantSubPaths,
+  combinePaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
+import { VATER } from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-market-participant',
   template: `
     <ng-container *transloco="let t; prefix: 'marketParticipant.actors.tabs'">
-      <watt-link-tabs>
+      <watt-link-tabs vater inset="0">
         <watt-link-tab [label]="t('actors.tabLabel')" [link]="getLink('actors')" />
         <watt-link-tab [label]="t('organizations.tabLabel')" [link]="getLink('organizations')" />
         <watt-link-tab [label]="t('marketRoles.tabLabel')" [link]="getLink('market-roles')" />
       </watt-link-tabs>
     </ng-container>
   `,
-  imports: [TranslocoDirective, WATT_LINK_TABS],
+  imports: [TranslocoDirective, WATT_LINK_TABS, VATER],
 })
 export class DhMarketParticipantComponent {
   getLink = (path: MarketParticipantSubPaths) => combinePaths('market-participant', path);

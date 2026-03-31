@@ -28,5 +28,9 @@ public class StartConversationInput
 
     public required bool Anonymous { get; set; }
 
-    public required ActorType Receiver { get; set; }
+    public required MarketRole Receiver { get; set; }
+
+    public DateTimeOffset? EnergySupplierDate { get; set; }
+
+    public ICollection<Guid> AttachedDocumentIds { get; set; } = [];
 }

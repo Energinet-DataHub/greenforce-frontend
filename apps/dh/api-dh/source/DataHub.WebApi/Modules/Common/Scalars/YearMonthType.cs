@@ -16,6 +16,8 @@ using HotChocolate.Language;
 using NodaTime;
 using NodaTime.Text;
 
+namespace Energinet.DataHub.WebApi.Modules.Common.Scalars;
+
 public sealed class YearMonthType : ScalarType<YearMonth, StringValueNode>
 {
     public YearMonthType()
@@ -44,7 +46,7 @@ public sealed class YearMonthType : ScalarType<YearMonth, StringValueNode>
         => YearMonthPattern.Iso.Parse(valueSyntax.Value).GetValueOrThrow();
 
     protected override StringValueNode ParseValue(YearMonth runtimeValue)
-        => new StringValueNode(runtimeValue.ToString(YearMonthPattern.Iso.PatternText, null));
+        => new(runtimeValue.ToString(YearMonthPattern.Iso.PatternText, null));
 
     protected override bool IsInstanceOfType(StringValueNode valueSyntax)
         => YearMonthPattern.Iso.Parse(valueSyntax.Value).Success;

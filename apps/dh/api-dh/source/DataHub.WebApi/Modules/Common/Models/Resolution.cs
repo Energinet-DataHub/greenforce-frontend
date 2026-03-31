@@ -14,8 +14,6 @@
 
 using System.Runtime.CompilerServices;
 using Energinet.DataHub.WebApi.Modules.Common.Utilities;
-using NodaTime;
-using NodaTime.Text;
 
 namespace Energinet.DataHub.WebApi.Modules.Common.Models;
 

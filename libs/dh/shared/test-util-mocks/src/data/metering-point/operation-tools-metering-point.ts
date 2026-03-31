@@ -1,0 +1,99 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import { GetMeteringPointDebugResultDtoV1 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export const operationToolsMeteringPoint: GetMeteringPointDebugResultDtoV1 = {
+  __typename: 'GetMeteringPointDebugResultDtoV1',
+  meteringPointJson: `{
+    "meteringPointId": "111111111111111111",
+    "meteringPointPeriods": [
+      {
+        "validFrom": "2022-12-31T23:00:00.000Z",
+        "validTo": "2023-12-31T23:00:00.000Z",
+        "type": "Consumption",
+        "connectionState": "New"
+      },
+      {
+        "validFrom": "2023-12-31T23:00:00.000Z",
+        "validTo": "9999-12-31T23:59:59.000Z",
+        "type": "Consumption",
+        "connectionState": "Connected"
+      }
+    ],
+    "commercialRelations": [
+      {
+        "customerId": "111",
+        "energySupplierId": "2222222222222222",
+        "validFrom": "2023-12-31T23:00:00.000Z",
+        "validTo": "9999-12-31T23:59:59.000Z",
+        "energySupplierPeriods": [
+          {
+            "validFrom": "2023-12-31T23:00:00.000Z",
+            "validTo": "9999-12-31T23:59:59.000Z",
+            "contacts": []
+          }
+        ]
+      }
+    ]
+  }`,
+  meteringPointWithRelationsJson: `{
+    "id": "111111111111111111",
+    "relationType": "Parent",
+    "relations": [
+      {
+        "meteringPointId": "222222222222222222",
+        "validFrom": "2022-12-31T23:00:00Z",
+        "validTo": "2023-12-31T23:00:00Z",
+        "relationType": "Child"
+      },
+      {
+        "meteringPointId": "333333333333333333",
+        "validFrom": "2023-12-31T23:00:00Z",
+        "validTo": "9999-12-31T23:59:59Z",
+        "relationType": "Child"
+      }
+    ]
+  }`,
+  events: [
+    {
+      __typename: 'ElectricityMarketV2EventDto',
+      id: 'event-1',
+      type: 'MeteringPointCreatedEventV1',
+      timestamp: new Date('2023-01-01T12:00:00Z'),
+      dataJson:
+        '{ "id": "111111111", "type": "Consumption", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "New" }',
+    },
+    {
+      __typename: 'ElectricityMarketV2EventDto',
+      id: 'event-2',
+      type: 'MoveInInitiatedEventV1',
+      timestamp: new Date('2023-01-04T07:00:00Z'),
+      dataJson:
+        '{ "customerId": "111", "validityDate": "2023-01-04T00:00:00Z", "energySupplierId": "2222222222222222" }',
+    },
+    {
+      __typename: 'ElectricityMarketV2EventDto',
+      id: 'event-3',
+      type: 'MeteringPointConnectedEventV1',
+      timestamp: new Date('2023-01-01T12:00:00Z'),
+      dataJson:
+        '{ "id": "111111111", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "Connected" }',
+    },
+  ],
+};

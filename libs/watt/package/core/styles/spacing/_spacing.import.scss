@@ -66,6 +66,15 @@
   padding: #{spaceVariables.$watt-space-baseline * 6} var(--watt-space-m);
 }
 
+// Inset Reverse Stretch
+@mixin reverse-inset-stretch-s {
+  padding: var(--watt-space-s) #{spaceVariables.$watt-space-baseline * 3};
+}
+
+@mixin reverse-inset-stretch-m {
+  padding: var(--watt-space-m) #{spaceVariables.$watt-space-baseline * 6};
+}
+
 // Stack
 @mixin stack-xxs {
   margin: 0 0 math.div(spaceVariables.$watt-space-baseline, 2) 0;

@@ -128,6 +128,6 @@ describe(WattButtonComponent, () => {
     });
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
-    expect(screen.getByText('Text')).toHaveClass('content-wrapper--loading');
+    expect(screen.getByText('Text').closest('.content-wrapper--loading')).toBeInTheDocument();
   });
 });

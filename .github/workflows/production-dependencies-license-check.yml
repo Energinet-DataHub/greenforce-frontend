@@ -35,7 +35,7 @@ jobs:
       dependencies-have-changed: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed }}
 
     steps:
-      - uses: actions/create-github-app-token@v2
+      - uses: actions/create-github-app-token@v3
         name: Generate Github token
         id: generate_token
         with:

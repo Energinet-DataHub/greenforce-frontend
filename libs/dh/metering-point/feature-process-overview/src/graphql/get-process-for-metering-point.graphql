@@ -3,17 +3,20 @@ query GetMeteringPointProcessById($id: String!) {
     id
     createdAt
     cutoffDate
-    reasonCode
+    businessReason
     state
+    availableActions
     steps {
       id
       step
       comment
+      description
       completedAt
       dueDate
+
       actor {
         id
-        name
+        displayName
       }
       state
       documentUrl

@@ -30,6 +30,7 @@ import {
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { contains } from '@energinet/watt/core/date';
 import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent } from '@energinet/watt/vater';
@@ -40,17 +41,18 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
-import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { dhFormControlToSignal, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import {
   ChargeType,
   GetChargeByTypeDocument,
   CreateChargeLinkDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 @Component({
   selector: 'dh-metering-point-create-charge-link',
   imports: [
@@ -101,6 +103,7 @@ import {
             [formGroup]="form()"
             (ngSubmit)="createLink()"
           >
+            <watt-datepicker [formControl]="form().controls.startDate" [label]="t('startDate')" />
             <watt-dropdown
               [formControl]="form().controls.chargeId"
               [options]="chargeOptions()"
@@ -116,8 +119,6 @@ import {
                 }
               </watt-text-field>
             }
-
-            <watt-datepicker [formControl]="form().controls.startDate" [label]="t('startDate')" />
           </form>
         }
       </dh-charges-type-selection>
@@ -164,9 +165,12 @@ export default class DhMeteringPointCreateChargeLink {
 
   selectedType = model<ChargeType | null>(null);
 
-  chargeOptions = computed<WattDropdownOptions>(
-    () => this.chargesQuery.data()?.chargesByType ?? []
-  );
+  selectedDate = dhFormControlToSignal(() => this.form().controls.startDate);
+  chargeOptions = computed<WattDropdownOptions>(() => {
+    const opts = this.chargesQuery.data()?.chargesByType ?? [];
+    const date = this.selectedDate();
+    return !date ? [] : opts.filter((o) => o.periods.some(({ period: p }) => contains(p, date)));
+  });
 
   async createLink() {
     const form = this.form();
@@ -193,10 +197,12 @@ export default class DhMeteringPointCreateChargeLink {
   constructor() {
     effect(() => {
       const type = this.selectedType();
+      if (type) this.chargesQuery.refetch({ type });
+    });
 
-      if (type) {
-        this.chargesQuery.refetch({ type });
-      }
+    effect(() => {
+      this.selectedDate();
+      this.form().controls.chargeId.reset();
     });
 
     effect(() => this.toast(this.createChargeLink.status()));

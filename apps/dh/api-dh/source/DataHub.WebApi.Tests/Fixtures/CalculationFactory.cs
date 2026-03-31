@@ -74,13 +74,13 @@ public static class CalculationFactory
         {
             OrchestrationInstanceLifecycleState.Pending or
             OrchestrationInstanceLifecycleState.Queued =>
-                CreateStepLifecycle(StepInstanceLifecycleState.Pending, null),
+                CreateStepLifecycle(StepInstanceLifecycleState.Pending),
             OrchestrationInstanceLifecycleState.Running =>
-                CreateStepLifecycle(StepInstanceLifecycleState.Running, null),
+                CreateStepLifecycle(StepInstanceLifecycleState.Running),
             OrchestrationInstanceLifecycleState.Terminated => terminationState switch
             {
                 OrchestrationInstanceTerminationState.UserCanceled =>
-                    CreateStepLifecycle(StepInstanceLifecycleState.Pending, null),
+                    CreateStepLifecycle(StepInstanceLifecycleState.Pending),
                 OrchestrationInstanceTerminationState.Succeeded =>
                     CreateStepLifecycle(
                         StepInstanceLifecycleState.Terminated,
@@ -95,14 +95,14 @@ public static class CalculationFactory
     private static StepInstanceLifecycleDto CreateStepLifecycle(
         StepInstanceLifecycleState lifecycleState,
         StepInstanceTerminationState? terminationState = null) =>
-        new StepInstanceLifecycleDto(
+        new(
             lifecycleState,
             terminationState,
             lifecycleState == StepInstanceLifecycleState.Pending ? null : DateTimeOffset.Now,
             lifecycleState != StepInstanceLifecycleState.Terminated ? null : DateTimeOffset.Now);
 
     private static StepInstanceDto CreateCalculateStep(StepInstanceLifecycleDto lifecycle) =>
-        new StepInstanceDto(
+        new(
             new("a246b5a3-4a06-42f4-877e-1e1122f092d0"),
             lifecycle,
             "TestCalculationStep",
@@ -110,7 +110,7 @@ public static class CalculationFactory
             string.Empty);
 
     private static StepInstanceDto CreateEnqueueStep(StepInstanceLifecycleDto lifecycle) =>
-        new StepInstanceDto(
+        new(
             new("e2d18a00-77d0-4160-bbda-10b6b6f309d2"),
             lifecycle,
             "TestEnqueueStep",

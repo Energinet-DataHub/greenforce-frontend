@@ -27,7 +27,9 @@ type ActiveEnergySupplyPeriod = NonNullable<CommercialRelation['activeEnergySupp
 
 export type EnergySupplier = {
   gln?: CommercialRelation['energySupplier'];
-  name?: NonNullable<CommercialRelation['energySupplierName']>['value'];
+  displayNameWithoutMarketRole?: NonNullable<
+    CommercialRelation['energySupplierName']
+  >['displayNameWithoutMarketRole'];
   validFrom?: ActiveEnergySupplyPeriod['validFrom'];
 };
 

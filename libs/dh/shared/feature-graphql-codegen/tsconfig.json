@@ -1,14 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES6",
     "module": "CommonJS",
-    "useDefineForClassFields": false,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": false,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "moduleResolution": "node"
   },
   "files": [],
   "include": [],
@@ -17,11 +10,5 @@
       "path": "./tsconfig.lib.json"
     }
   ],
-  "extends": "../../../../tsconfig.base.json",
-  "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+  "extends": "../../tsconfig.json"
 }

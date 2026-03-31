@@ -1,0 +1,5 @@
+mutation CancelEndOfSupply($meteringPointId: String!, $processId: UUID!) {
+  cancelEndOfSupply(input: { meteringPointId: $meteringPointId, processId: $processId }) {
+    boolean
+  }
+}

@@ -18,13 +18,9 @@ public class SendActorConversationMessageInput
 {
     public required Guid ConversationId { get; set; }
 
-    public required string MeteringPointIdentification { get; set; }
-
-    public required string ActorId { get; set; }
-
-    public required string UserId { get; set; }
-
     public required string Content { get; set; }
 
     public required bool Anonymous { get; set; }
+
+    public ICollection<Guid> AttachedDocumentIds { get; set; } = [];
 }

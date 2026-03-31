@@ -31,10 +31,14 @@ import { WattIconComponent } from '@energinet/watt/icon';
       [class.disabled]="disabled()"
       [class.read-only]="readonly()"
     >
-      @if (selected()) {
+      @if (selected() && variant() === 'selectable') {
         <watt-icon class="selected-icon" name="checkmark" size="s" [attr.aria-hidden]="true" />
       }
       <ng-content />
+
+      @if (variant() === 'dismissible') {
+        <watt-icon class="dismissible-icon" name="close" size="s" [attr.aria-hidden]="true" />
+      }
     </label>
   `,
 })
@@ -42,4 +46,5 @@ export class WattChipComponent {
   selected = input(false);
   disabled = input(false);
   readonly = input(false);
+  variant = input<'selectable' | 'dismissible'>('selectable');
 }

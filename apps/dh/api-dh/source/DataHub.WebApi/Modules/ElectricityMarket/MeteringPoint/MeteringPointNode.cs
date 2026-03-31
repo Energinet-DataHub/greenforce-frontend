@@ -14,8 +14,13 @@
 
 using Energinet.DataHub.Core.App.Common.Calendar;
 using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestChangeProductionObligation;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestCloseDownMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestDisconnectMeteringPoint;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestReconnectMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestEndOfSupply.V1.Commands;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetContactCpr.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetRelatedMeteringPoints.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
@@ -23,7 +28,6 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
@@ -74,23 +78,50 @@ public static partial class MeteringPointNode
         FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.ClosedDown);
 
     public static DateTimeOffset? DisconnectedDate([Parent] MeteringPointDto meteringPoint) =>
-        FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.Disconnected);
+        FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.Disconnected, latest: true);
 
     #endregion
 
     [Query]
-    [Authorize(Roles = new[] { "cpr:view" })]
-    public static async Task<Clients.ElectricityMarket.v1.CPRResponse> GetMeteringPointContactCprAsync(
+    [Authorize(Roles = ["cpr:view"])]
+    public static async Task<ContactCprResponse> GetMeteringPointContactCprAsync(
         string meteringPointId,
-        long contactId,
+        string contactId,
+        bool searchMigratedMeteringPoints,
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IFeatureManager featureManager,
+        [Service] IElectricityMarketClient electricityMarketClient)
     {
         if (httpContextAccessor.HttpContext == null)
         {
             throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
+
+        if (isNewMeteringPointsModelEnabled && searchMigratedMeteringPoints == false)
+        {
+            var result = await electricityMarketClient.SendAsync(
+                    new GetContactCprQueryV1(
+                        meteringPointId,
+                        Guid.Parse(contactId)),
+                    ct)
+                .ConfigureAwait(false);
+
+            if (!result.IsSuccess)
+            {
+                throw new InvalidOperationException($"GetContactCprQueryV1 (MeteringPointId={meteringPointId}, ContactId={contactId}) failed with error: " + result.DiagnosticMessage);
+            }
+
+            if (!result.HasData || result.Data is null)
+            {
+                throw new InvalidOperationException($"GetContactCprQueryV1 returned no data (MeteringPointId={meteringPointId}, ContactId={contactId})");
+            }
+
+            return new ContactCprResponse(result.Data.Cpr);
         }
 
         var user = httpContextAccessor.HttpContext.User;
@@ -114,16 +145,16 @@ public static partial class MeteringPointNode
                 MarketRole = Enum.Parse<EicFunction>(user.GetMarketParticipantMarketRole()),
             };
             var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature.Signature);
-            return await authClient.MeteringPointContactCprAsync(meteringPointId, contactId, request, ct).ConfigureAwait(false);
+            var em1Result = await authClient.MeteringPointContactCprAsync(meteringPointId, long.Parse(contactId), request, ct).ConfigureAwait(false);
+            return new ContactCprResponse(em1Result.Result);
         }
 
         throw new InvalidOperationException("User is not authorized to access the requested metering point.");
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<MeteringPointDto> GetMeteringPointExistsAsync(
-            string environment,
             bool searchMigratedMeteringPoints,
             string? internalMeteringPointId,
             string? meteringPointId,
@@ -160,14 +191,13 @@ public static partial class MeteringPointNode
             throw new InvalidOperationException("Could not resolve metering point external ID.");
         }
 
-        return await GetMeteringPointAsync(meteringPointExternalId, environment, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
+        return await GetMeteringPointAsync(meteringPointExternalId, searchMigratedMeteringPoints, ct, httpContextAccessor, requestAuthorization, authorizedHttpClientFactory, electricityMarketClient, featureManager);
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
         string meteringPointId,
-        string? environment,
         bool? searchMigratedMeteringPoints,
         CancellationToken ct,
         [Service] Clients.ElectricityMarket.v1.IElectricityMarketClient_V1 em1Client,
@@ -176,26 +206,22 @@ public static partial class MeteringPointNode
     {
         var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
 
-        if (isNewMeteringPointsModelEnabled)
+        if (isNewMeteringPointsModelEnabled && searchMigratedMeteringPoints == false)
         {
-            if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
-            {
-                return await GetRelatedMeteringPointsAsync(
-                        meteringPointId,
-                        ct,
-                        electricityMarketClient)
-                    .ConfigureAwait(false);
-            }
+            return await GetRelatedMeteringPointsAsync(
+                    meteringPointId,
+                    ct,
+                    electricityMarketClient)
+                .ConfigureAwait(false);
         }
 
         return await GetRelatedMeteringPointsInEm1Async(meteringPointId, ct, em1Client).ConfigureAwait(false);
     }
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<MeteringPointDto> GetMeteringPointAsync(
         string meteringPointId,
-        string? environment,
         bool? searchMigratedMeteringPoints,
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
@@ -214,15 +240,11 @@ public static partial class MeteringPointNode
         var actorNumber = user.GetMarketParticipantNumber();
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
 
-        // New metering points model
         var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
 
-        if (isNewMeteringPointsModelEnabled)
+        if (isNewMeteringPointsModelEnabled && searchMigratedMeteringPoints == false)
         {
-            if (environment == AppEnvironment.PreProd || searchMigratedMeteringPoints == false)
-            {
-                return await GetMeteringPointWithNewModelAsync(meteringPointId, actorNumber, marketRole, ct, electricityMarketClient).ConfigureAwait(false);
-            }
+            return await GetMeteringPointWithNewModelAsync(meteringPointId, actorNumber, marketRole, ct, electricityMarketClient).ConfigureAwait(false);
         }
 
         var accessValidationRequest = new MeteringPointMasterDataAccessValidationRequest
@@ -252,19 +274,88 @@ public static partial class MeteringPointNode
     }
 
     [Mutation]
-    [Authorize(Roles = new[] { "metering-point:connection-state-manage" })]
+    [Authorize(Roles = ["metering-point:connection-state-manage"])]
     public static async Task<bool> RequestConnectionStateChangeAsync(
         string meteringPointId,
         DateTimeOffset validityDate,
-        CancellationToken ct,
-        [Service] IB2CClient ediB2CClient)
+        ConnectionState currentConnectionState,
+        ConnectionState newConnectionState,
+        IB2CClient ediB2CClient,
+        CancellationToken ct)
     {
-        var command = new RequestConnectMeteringPointCommandV1(
-            new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+        switch (newConnectionState)
+        {
+            case ConnectionState.Connected:
+                {
+                    switch (currentConnectionState)
+                    {
+                        case ConnectionState.New:
+                            {
+                                var command = new RequestConnectMeteringPointCommandV1(
+                                    new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+                                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+                                return result.IsSuccess;
+                            }
+
+                        case ConnectionState.Disconnected:
+                            {
+                                var command = new RequestReconnectMeteringPointCommandV1(
+                                    new RequestReconnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+                                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+                                return result.IsSuccess;
+                            }
+                    }
+
+                    return false;
+                }
+
+            case ConnectionState.Disconnected:
+                {
+                    var command = new RequestDisconnectMeteringPointCommandV1(
+                    new RequestDisconnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+                    var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+                    return result.IsSuccess;
+                }
+
+            case ConnectionState.ClosedDown:
+                {
+                    var command = new RequestCloseDownMeteringPointCommandV1(
+                    new RequestCloseDownMeteringPointRequestV1(meteringPointId, validityDate));
+
+                    var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+                    return result.IsSuccess;
+                }
+
+            default:
+                return false;
+        }
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:production-obligation-manage"])]
+    public static async Task<bool> ChangeProductionObligationAsync(
+        string meteringPointId,
+        DateTimeOffset cutOffDate,
+        bool newProductionObligationState,
+        IB2CClient ediB2CClient,
+        CancellationToken ct)
+    {
+        var command = new RequestChangeProductionObligationCommandV1(
+            new RequestChangeProductionObligationRequestV1(meteringPointId, cutOffDate, newProductionObligationState));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess;
+        return result.IsSuccess
+            ? true
+            : throw new GraphQLException(
+                $"Command RequestChangeProductionObligation failed for meteringPointId '{meteringPointId}', cutOffDate '{cutOffDate:O}', newProductionObligationState '{newProductionObligationState}'. EDI response: {result}");
     }
 
     [Mutation]
@@ -279,25 +370,25 @@ public static partial class MeteringPointNode
         var result = await ediB2CClient.SendAsync(command, ct);
         return result.IsSuccess
             ? true
-            : throw new GraphQLException("Command RequestEndOfSupply failed");
+            : throw new GraphQLException(
+                $"Command RequestEndOfSupply failed for meteringPointId '{meteringPointId}', terminationDate '{terminationDate:O}'. EDI response: {result}");
     }
 
     [Query]
-    public static IEnumerable<DateTimeOffset> GetDisabledDatesForEndOfSupply(
+    public static IEnumerable<DateTimeOffset> GetSelectableDatesForEndOfSupply(
         [Service] DataHubCalendar calendar)
     {
-        var firstPossibleWorkingDay = 3;
-        var lastPossibleWorkingDay = 60;
+        var requiredWorkingDaysGap = 3;
+        var lastPossibleDay = 60;
 
-        var start = calendar.GetDateRelativeToCurrentDate(firstPossibleWorkingDay);
-        var end = calendar.GetDateRelativeToCurrentDate(lastPossibleWorkingDay);
-        var workingDays = calendar.GetWorkingDaysInPeriod(start, end);
-        var allDays = Enumerable
-            .Range(firstPossibleWorkingDay, lastPossibleWorkingDay - firstPossibleWorkingDay + 1)
-            .Select(calendar.GetDateRelativeToCurrentDate);
+        var tomorrow = calendar.GetDateRelativeToCurrentDate(1);
+        var end = calendar.GetDateRelativeToCurrentDate(lastPossibleDay);
 
-        return allDays
-            .Except(workingDays)
+        // First selectable date is after 3 working days have passed
+        var allWorkingDays = calendar.GetWorkingDaysInPeriod(tomorrow, end);
+
+        return allWorkingDays
+            .Skip(requiredWorkingDaysGap)
             .Select(date => date.ToDateTimeOffset());
     }
 
@@ -309,8 +400,8 @@ public static partial class MeteringPointNode
             [Service] IElectricityMarketClient electricityMarketClient)
     {
         var result = await electricityMarketClient
-        .SendAsync(new GetMeteringPointQueryV2(meteringPointId, actorNumber, eicFunction.MapToDto()), ct)
-        .ConfigureAwait(false);
+            .SendAsync(new GetMeteringPointQueryV2(meteringPointId, actorNumber, eicFunction.MapToDto()), ct)
+            .ConfigureAwait(false);
 
         var meteringPoint = result.Data?.MeteringPoint ?? throw new InvalidOperationException("No MeteringPoint was returned");
 
@@ -344,12 +435,12 @@ public static partial class MeteringPointNode
         return findWhenHeatingChanged.LastOrDefault();
     }
 
-    private static DateTimeOffset? FindConnectionStateDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods, ConnectionState connectionState)
+    private static DateTimeOffset? FindConnectionStateDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods, ConnectionState connectionState, bool latest = false)
     {
-        return meteringPointPeriods
-            .Where(mp => mp.ConnectionState == connectionState)
-            .OrderBy(mp => mp.ValidFrom)
-            .FirstOrDefault()?.ValidFrom;
+        var filtered = meteringPointPeriods.Where(mp => mp.ConnectionState == connectionState);
+        return latest
+            ? filtered.MaxBy(mp => mp.ValidFrom)?.ValidFrom
+            : filtered.OrderBy(mp => mp.ValidFrom).FirstOrDefault()?.ValidFrom;
     }
 
     private static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
@@ -373,8 +464,7 @@ public static partial class MeteringPointNode
             Parent: data.Parent is not null ? ToDto(data.Parent) : null,
             RelatedMeteringPoints: data.Children.Select(ToDto).ToList(),
             RelatedByGsrn: data.OnSamePowerPlant.Select(ToDto).ToList(),
-            HistoricalMeteringPoints: data.HistoricalChildren.Select(ToDto).ToList(),
-            HistoricalMeteringPointsByGsrn: data.HistoricalOnSamePowerPlant.Select(ToDto).ToList());
+            HistoricalMeteringPoints: data.HistoricalChildren.Select(ToDto).ToList());
     }
 
     private static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsInEm1Async(
@@ -389,8 +479,7 @@ public static partial class MeteringPointNode
             Parent: result.Parent is not null ? ToDto(result.Parent) : null,
             RelatedMeteringPoints: result.RelatedMeteringPoints.Select(ToDto).ToList(),
             RelatedByGsrn: result.RelatedByGsrn.Select(ToDto).ToList(),
-            HistoricalMeteringPoints: result.HistoricalMeteringPoints.Select(ToDto).ToList(),
-            HistoricalMeteringPointsByGsrn: result.HistoricalMeteringPointsByGsrn.Select(ToDto).ToList());
+            HistoricalMeteringPoints: result.HistoricalMeteringPoints.Select(ToDto).ToList());
     }
 
     private static RelatedMeteringPointDto ToDto(GetRelatedMeteringPointsResultDtoV1.MeteringPointData meteringPointData)

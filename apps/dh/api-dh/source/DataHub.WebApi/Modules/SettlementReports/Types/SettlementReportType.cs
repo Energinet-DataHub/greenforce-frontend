@@ -73,6 +73,5 @@ public static partial class SettlementReportType
         descriptor.Field(f => f.GridAreaCount).Name("numberOfGridAreasInReport");
         descriptor.Field(f => f.ContainsBasisData).Name("includesBasisData");
         descriptor.Field(f => f.Progress);
-        descriptor.Field(f => f.IncludeMonthlyAmount);
     }
 }

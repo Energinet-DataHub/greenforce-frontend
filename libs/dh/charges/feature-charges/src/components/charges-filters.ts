@@ -138,7 +138,7 @@ export class DhChargesFilters {
         ...options,
         {
           value: this.selectedActor.gln,
-          displayValue: `${this.selectedActor.gln} • ${this.selectedActor.actorName}`,
+          displayValue: this.selectedActor.displayName,
         },
       ];
     }

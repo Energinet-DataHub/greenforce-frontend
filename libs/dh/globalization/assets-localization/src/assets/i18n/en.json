@@ -78,6 +78,7 @@
     "localhost": "local",
     "d-001": "dev-001",
     "d-002": "dev-002",
+    "d-003": "dev-003",
     "t-001": "test-001",
     "t-002": "test-002",
     "b-001": "preprod",
@@ -103,7 +104,8 @@
       "running": "Running",
       "failed": "Failed",
       "canceled": "Canceled",
-      "succeeded": "Completed"
+      "succeeded": "Completed",
+      "rejected": "Rejected"
     },
     "calculationTypes": {
       "AGGREGATION": "Aggregation",
@@ -226,6 +228,12 @@
   },
   "sidebar": {
     "navigation": {
+      "developer": {
+        "operationTools": {
+          "menuGroupLabel": "Operation tools",
+          "meteringPoint": "Metering point"
+        }
+      },
       "devExamples": {
         "menuGroupLabel": "Dev Examples",
         "processes": "Processes"
@@ -241,6 +249,7 @@
         "menuGroupLabel": "Market participants",
         "userManagement": "User Management",
         "marketParticipantMasterData": "Market participants master data",
+        "actor-conversation": "Actor Conversation",
         "gridAreas": "Grid Areas"
       },
       "eSett": "eSett",
@@ -250,7 +259,6 @@
         "settlements": "Settlements",
         "missingMeasurementsLog": "Request missing measurements log"
       },
-      "meteringPointDebug": "Debug metering point",
       "wholesale": {
         "calculations": "Calculations",
         "overview": "Overview",
@@ -360,12 +368,12 @@
     "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
-    "PT15M": "Quarter hour",
+    "PT15M": "15 min",
     "PT1H": "Hour",
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
-    "QUARTER_HOURLY": "Quarter hour",
+    "QUARTER_HOURLY": "15 min",
     "HOURLY": "Hour",
     "MONTHLY": "Monthly",
     "OTHER": "Other"
@@ -383,7 +391,7 @@
       "TARIFF_TAX": "Tariff, tax"
     },
     "resolutions": {
-      "QUARTER_HOURLY": "Quarter hour",
+      "QUARTER_HOURLY": "15 min",
       "DAILY": "Day",
       "HOURLY": "Hour",
       "MONTHLY": "Month"
@@ -610,7 +618,8 @@
         "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
       },
       "noResultFound": "No result found",
-      "searchMigratedMeteringPoints": "Search migrated metering points"
+      "searchMigratedMeteringPoints": "Search in EM1",
+      "searchMigratedMeteringPointsPreProd": "Search phase 2 test metering points"
     },
     "tabs": {
       "masterData": {
@@ -683,7 +692,10 @@
       "energySupplier": {
         "title": "{{ meteringPoint.overview.shared.energySupplier }}",
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
-        "startDateLabel": "Start date"
+        "startDateLabel": "Start date",
+        "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
+        "changeProductObligationLink": "Change product obligation",
+        "cutOffDateLabel": "Cut-off date"
       },
       "status": {
         "CLOSED_DOWN": "Closed down",
@@ -708,8 +720,8 @@
         "detailsSubtitle": "Details",
         "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
         "meteringPointStatus": "Connection status",
-        "meteringPointSubType": "Meteringpoint subtype",
-        "meteringPointNumber": "Metering point no.",
+        "meteringPointSubType": "Metering point subtype",
+        "meteringPointNumber": "Meter ID",
         "settlementMethod": "Settlement method",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Electrical heating date",
@@ -778,43 +790,112 @@
       }
     },
     "actorConversation": {
+      "topBarTitle": "Actor Conversation",
+      "searchPlaceholder": "Search for case-ID or internal note",
+      "searchPlaceholderWithMeteringPointId": "Search for case-ID, metering point ID or internal note",
       "cases": "Cases",
       "newCaseButton": "New case",
       "newCaseTitle": "New case",
+      "cancelButtonLabel": "Cancel",
+      "meteringPointIdLabel": "Metering point ID",
       "subjectLabel": "Subject",
       "subjects": {
         "QUESTION_FOR_ENERGINET": "Ad hoc question",
-        "disconnectionOrReconnection": "Disconnect/Reconnect",
-        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
-        "incorrectMoveInOrSupplierSwitch": "Incorrect move/switch of supplier",
-        "customerMasterData": "{{ shared.terminology.customerMasterData }}",
-        "measurements": "{{ shared.terminology.measurements }}",
-        "meteringPointMasterData": "{{ shared.terminology.meteringPointMasterData }}",
-        "priceAssociation": "{{ shared.terminology.chargeLink }}",
+        "INTERRUPTION_RECONNECTION": "Disconnect/Reconnect",
+        "ELECTRICAL_HEATING": "Electrical heating",
+        "WRONGFUL_MOVE_OR_SUPPLIER_CHANGE": "Incorrect move/switch of supplier",
+        "CUSTOMER_MASTER_DATA": "Customer master data",
+        "MEASUREMENT_DATA": "Measurements",
+        "MEASUREMENT_POINT_MASTER_DATA": "Metering point master data",
+        "PRICE_LINKING": "Charge link",
         "newCase": "New case"
       },
       "receiverLabel": "To",
-      "receivers": {
+      "onDate": "On date",
+      "role": {
         "ENERGY_SUPPLIER": "Energy supplier",
         "ENERGINET": "Energinet",
         "GRID_ACCESS_PROVIDER": "Grid access provider"
       },
+      "reducedElectricityTaxToggle": "I want to apply for reduced electricity tax",
       "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
+      "idLabel": "Case ID",
       "internalNoteLabel": "Internal note",
-      "messageLabel": "Message",
+      "editInternalNote": {
+        "title": "Internal note",
+        "closeButton": "Close",
+        "saveButton": "Save changes",
+        "toast": {
+          "loading": "Updating internal note...",
+          "success": "Internal note updated",
+          "error": "An error occurred updating the internal note"
+        }
+      },
       "messagePlaceholder": "Write a message",
-      "sendButton": "Send",
+      "sendButton": "Send message",
+      "attachFileButton": "Attach file",
+      "invalidFileType": "File type not allowed. Allowed file types are: .bmp, .csv, .jpeg, .jpg, .pdf, .png, .txt",
+      "fileTooLarge": "The file you are trying to attach is too large. Maximum file size is 25 MB.",
+      "uploadError": "Failed to upload file. Please try again.",
       "emptyState": {
         "noCases": "No cases found",
         "noCaseSelected": "No case selected"
       },
+      "active": "Active",
       "closed": "Closed",
       "closeCaseButton": "Close case",
       "markAsUnreadButton": "Mark as unread",
+      "sentAnonymously": "(sent anonymously)",
       "startConversationError": "One or more fields are not filled correctly.\n\nThis may be due to an invalid combination of subject and recipient, or because anonymous submissions are not permitted for the selected recipient.",
       "conversationCloseError": "An error occurred trying to close the case",
       "anonymousCheckbox": "Send anonymously",
-      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver"
+      "anonymousTooltip": "Market Participant and your name will not be disclosed with the receiver",
+      "closedNotice": "If you send a message, the case will become active again.",
+      "personalDataNoticePrefix": "Do not write unnecessary ",
+      "personalDataNoticeLink": "personal data",
+      "personalDataNoticeMidfix": ", and do ",
+      "personalDataNoticeNot": "not",
+      "personalDataNoticeSuffix": " share confidential or sensitive information, e.g. CPR number, health information or ethnicity.",
+      "closingMessage": "Case closed",
+      "filters": {
+        "placeholder": "Filters",
+        "general": "General",
+        "ownCases": "My cases",
+        "showOnlyUnread": "Show only unread",
+        "status": "Status"
+      },
+      "electricalHeatingForm": {
+        "title": "Apply for reduced electricity tax",
+        "currentElectricalHeatingStatus": "Current electrical heating status",
+        "electricalHeatingDate": "Electrical heating date",
+        "customer": "Customer",
+        "supplierInPeriod": "Energy supplier in period(s)",
+        "addressEligibilityDate": "Address eligibility date (cf. BBR)",
+        "periodTitle": "Period for which reduced electricity tax is applied",
+        "periodStart": "Start",
+        "periodEnd": "End",
+        "attachedBbrNotification": "I have attached current BBR notification",
+        "attachedBbrDocumentation": "I have attached documentation for eligibility date from BBR",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "electricalHeatingInformationStatus": "Current electrical heating status: {{ electricalHeatingStatus }}",
+      "yes": "Yes",
+      "no": "No",
+      "electricalHeatingInformationDate": "Electrical heating date: {{ electricalHeatingDate }}",
+      "electricalHeatingInformationCustomer": "Customer: {{ customerName }}",
+      "electricalHeatingInformationSupplierPeriod": "Energy supplier period: {{ energySupplierPeriodFrom }} - {{ energySupplierPeriodTo }}",
+      "electricalHeatingUserAddressEligibilityDate": "Address eligibility date (cf. BBR): {{ addressEligibilityDate }}",
+      "electricalHeatingUserChargeReductionPeriod": "Period for which reduced electricity tax is requested: {{ chargeReductionPeriodFrom }} - {{ chargeReductionPeriodTo }}",
+      "meteringPointInfo": {
+        "connectionState": "Connection status",
+        "type": "Metering point type",
+        "resolution": "Resolution",
+        "address": "Address",
+        "notValidated": "Please search for a metering point",
+        "notFound": "Metering point ID does not exist",
+        "invalidLength": "Metering point ID consists of 18 digits"
+      }
     },
     "relatedMeteringPointsTitle": "Related metering points",
     "relatedMeteringPointsLoading": "Loading related metering points",
@@ -928,7 +1009,7 @@
     "processOverview": {
       "columns": {
         "createdAt": "Registered in DataHub",
-        "reasonCode": "Type",
+        "businessReason": "Type",
         "state": "State",
         "cutoffDate": "Cut-off date",
         "initiator": "Initiating participant",
@@ -939,16 +1020,25 @@
         "NewMeteringPoint": "Creation of metering point (BRS-004)",
         "ConnectMeteringPoint": "Connection of new metering point (BRS-008)",
         "UpdateMasterDataConsumer": "Update of customer master data (BRS-015)",
-        "CustomerMoveIn": "Move-in (BRS-009)"
+        "CustomerMoveIn": "Move-in (BRS-009)",
+        "CloseDownMeteringPoint": "Close down metering point (BRS-007)",
+        "ChangeConnectionStatus": "Disconnection and reconnection of metering point (BRS-013)",
+        "UpdateMeteringPointMasterData": "Update of metering point master data (BRS-006)",
+        "ProductionObligation": "Change of production obligation (BRS-036)",
+        "ElectricalHeating": "Change of electrical heating (BRS-041)"
       },
-      "reasonCode": {
+      "businessReason": {
         "EndOfSupply": "End of supply (E20)",
         "NewMeteringPoint": "New metering point (E02)",
         "ConnectMeteringPoint": "Connect metering point (D15)",
         "UpdateMasterDataConsumer": "Update master data consumer (E34)",
         "CustomerMoveIn": "Customer move-in (E65)",
         "SecondaryMoveIn": "Secondary move-in (D29)",
-        "Move": "Move (E01)"
+        "Move": "Move (E01)",
+        "CloseDownMeteringPoint": "Close down metering point (D14)",
+        "ChangeConnectionStatus": "Change Connection Status (E79)",
+        "UpdateMeteringPointMasterData": "Update master data metering point (E32)",
+        "ElectricalHeating": "Electrical heating (D20)"
       },
       "filters": {
         "created": "Time",
@@ -958,40 +1048,124 @@
       "actions": {
         "SEND_INFORMATION": "Send information",
         "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information",
-        "CANCEL_WORKFLOW": "Cancel workflow",
-        "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow"
+        "CANCEL_WORKFLOW": "Cancel",
+        "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow",
+        "REJECT_REQUEST": "Reject request",
+        "FAS_REJECT_REQUEST": "Grid operator can reject request"
+      },
+      "rejectProcess": {
+        "title": "End of supply - service request rejected",
+        "requestedService": "Requested service",
+        "cutoffDate": "Cut-off date",
+        "response": "Response",
+        "responseValue": "Rejected",
+        "reasonCodeLabel": "Rejection reason",
+        "reasonCodePlaceholder": "Select",
+        "descriptionLabel": "Description",
+        "cancel": "Cancel",
+        "confirm": "Reject request",
+        "successToast": "Rejection of end of supply submitted",
+        "errorToast": "Rejection of end of supply failed",
+        "reasonCodes": {
+          "THE_MUNICIPALITY_MUST_BE_INVOLVED_IN_THE_DISCONNECTION": "The municipality must be involved in the disconnection (D41)",
+          "THE_POLICE_MUST_BE_INVOLVED_IN_THE_DISCONNECTION": "The police must be involved in the disconnection (D42)",
+          "THE_BAILIFFS_COURT_MUST_BE_INVOLVED_IN_THE_DISCONNECTION": "The bailiff's court must be involved in the disconnection (D43)",
+          "OTHER_REJECTION_REASON": "Other rejection reason (D44)",
+          "NO_ACCESS_TO_THE_METER": "No access to the meter (D58)",
+          "REJECTION5": "Rejection reason 5 (D45)"
+        }
+      },
+      "cancelProcess": {
+        "title": "Cancel {{processType}}",
+        "body": "Are you sure you want to stop the {{processType}} process?",
+        "cancel": "Close window",
+        "confirm": "I'm sure",
+        "loadingToast": "Submitting cancellation of {{processType}}...",
+        "successToast": "Cancellation of {{processType}} submitted",
+        "errorToast": "Cancellation of {{processType}} failed"
+      },
+      "processTypeName": {
+        "EndOfSupply": "end of supply"
       },
       "steps": {
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1": "Request end of supply (RSM-005)",
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2": "Confirm end of supply (RSM-005)",
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_3": "Reject end of supply (RSM-005)",
-        "BRS_002_REQUESTENDOFSUPPLY_V1_STEP_4": "Notify cancellation of end of supply (RSM-020)",
+        "CloseDownMeteringPoint": {
+          "BRS_007_008_013_V1_STEP_1": "Request for close-down of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Confirmation of request for close-down of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Rejection of request for close-down of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_5": "Notification of close-down of metering point (RSM-004)"
+        },
+        "ConnectMeteringPoint": {
+          "BRS_007_008_013_V1_STEP_1": "Request for connection of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Notification of connection of metering point (RSM-022)"
+        },
+        "ChangeConnectionStatus": {
+          "BRS_007_008_013_V1_STEP_1": "Request for change of connection status (RSM-021)",
+          "BRS_007_008_013_V1_STEP_2": "Confirmation of request for change of connection status (RSM-021)",
+          "BRS_007_008_013_V1_STEP_3": "Rejection of request for change of connection status (RSM-021)",
+          "BRS_007_008_013_V1_STEP_4": "Notification of change of connections status (RSM-022)"
+        },
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1": "Request end of supply (RSM-005)",
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2": "Confirm end of supply (RSM-005)",
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_3": "Reject end of supply (RSM-005)",
+        "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_4": "Notify cancellation of end of supply (RSM-020)",
+        "BRS_002_REQUESTFORCANCELLATIONOFENDOFSUPPLY_V1_STEP_1": "Request cancellation of end of supply (RSM-024)",
+        "BRS_002_REQUESTFORCANCELLATIONOFENDOFSUPPLY_V1_STEP_2": "Approve cancellation of end of supply (RSM-024)",
+        "BRS_002_REQUESTFORCANCELLATIONOFENDOFSUPPLY_V1_STEP_4": "Information about cancellation of end of supply (RSM-025)",
+        "BRS_002_REJECTIONOFREQUESTFORDISCONNECTION_V1_STEP_1": "Reject request for end of supply (RSM-020)",
+        "BRS_002_REJECTIONOFREQUESTFORDISCONNECTION_V1_STEP_2": "Reject request for end of supply (RSM-020)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_1": "Request for change of connection status (RSM-021)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_2": "Confirmation of request for change of connection status (RSM-021)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_3": "Rejection of request for change of connection status (RSM-021)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_4": "Notification of actual end date (RSM-004)",
+        "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_5": "Notification of customer master data (RSM-028)",
+        "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_1": "Request for disconnection (RSM-020)",
+        "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_2": "Confirmation of request for disconnection (RSM-020)",
+        "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_4": "Request for disconnection (RSM-020)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Confirmation of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Notification of new metering point (RSM-022)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Notification of charge links (RSM-031)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_1": "Request for connection of metering point (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_2": "Confirmation of request for connection of metering point (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_3": "Rejection of request for connection of metering point (RSM-021)",
-        "BRS_008_CONNECTMETERINGPOINT_V1_STEP_4": "Notification of connection of metering point (RSM-022)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_1": "Request for update of metering point master data (RSM-021)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_2": "Confirmation of request for update of metering point master data (RSM-021)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_3": "Rejection of request for update of metering point master data (RSM-021)",
         "BRS_009_MOVEIN_V1_STEP_1": "Request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Confirm request Change of Supplier (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Reject request Change of Supplier (RSM-001)",
-        "BRS_009_MOVEIN_V1_STEP_4": "Metering point master data information (RSM-022)",
-        "BRS_009_MOVEIN_V1_STEP_5": "Customer master data information (RSM-028)",
-        "BRS_009_MOVEIN_V1_STEP_6": "Price link information (RSM-031)",
+        "BRS_009_MOVEIN_V1_STEP_4": "Notification of metering point master data (RSM-022)",
+        "BRS_009_MOVEIN_V1_STEP_5": "Notification of customer master data (RSM-028)",
+        "BRS_009_MOVEIN_V1_STEP_6": "Notification of charge links (RSM-031)",
         "BRS_009_MOVEIN_V1_STEP_7": "Request update customer master data (RSM-027)",
         "BRS_009_MOVEIN_V1_STEP_8": "Approve update customer master data (RSM-027)",
         "BRS_009_MOVEIN_V1_STEP_9": "Reject update customer master data (RSM-027)",
-        "BRS_009_MOVEIN_V1_STEP_10": "Generic Notification (RSM-004)",
+        "BRS_009_MOVEIN_V1_STEP_10": "Notification of move-in (RSM-004)",
         "BRS_009_MOVEIN_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
-        "BRS_009_MOVEIN_V1_STEP_12": "Generic Notification (RSM-004)",
+        "BRS_009_MOVEIN_V1_STEP_12": "Notification of end of supply (RSM-004)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_1": "Request change customer characteristics (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_3": "Characteristics of a Customer at an AP (RSM-028)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_10": "Notification of move-in (RSM-004)",
+        "BRS_009_EXECUTIONDATE_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
+        "BRS_010_REQUESTFORMOVEOUT_V1_STEP_1": "Request for move-out (RSM-005)",
+        "BRS_010_REQUESTFORMOVEOUT_V1_STEP_2": "Approve request for move-out (RSM-005)",
+        "BRS_010_REQUESTFORMOVEOUT_V1_STEP_3": "Reject request for move-out (RSM-005)",
+        "BRS_010_EXECUTIONDATE_V1_STEP_1": "Notification of customer master data to grid access provider (RSM-028)",
+        "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_1": "Request for cancellation of move-out (RSM-024)",
+        "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_2": "Approve request for cancellation of move-out (RSM-024)",
+        "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_3": "Reject request for cancellation of move-out (RSM-024)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)",
-        "UNKNOWN": "Unknown Step"
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_1": "Request for change of production obligation (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Confirmation of request for change of production obligation (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Rejection of request for change of production obligation (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Notification of change of production obligation (RSM-022)",
+        "BRS_041_V1_STEP_1": "Request for change of electrical heating status (RSM-027)",
+        "BRS_041_V1_STEP_2": "Rejection of request for change of electrical heating status (RSM-027)",
+        "BRS_041_V1_STEP_3": "Confirmation of request for change of electrical heating status (RSM-027)"
       },
       "details": {
         "notFound": "Process not found",
@@ -999,7 +1173,7 @@
         "list": {
           "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",
-          "reasonCode": "Reason code",
+          "businessReason": "Reason code",
           "initiator": "Initiating participant"
         },
         "columns": {
@@ -1115,6 +1289,13 @@
     "moveIn": {
       "title": "Customer move-in (reported by energy supplier)",
       "updateCustomerData": "Update customer data",
+      "updateCustomer": {
+        "toast": {
+          "loading": "Updating customer data...",
+          "success": "Customer data updated",
+          "error": "Update failed"
+        }
+      },
       "customerDetails": {
         "label": "Customer details",
         "cutOffDate": "Cut-off date",
@@ -1128,7 +1309,7 @@
         "cpr": "CPR",
         "companyName": "Company name",
         "cvr": "CVR",
-        "foreignCompany": "Foreign company",
+        "fictitiousCvr": "Fictitious CVR",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "cprError": {
           "containsLetters": "Can only contain letters",
@@ -1249,7 +1430,7 @@
         "3": "Immediate settlement (3)"
       },
       "resolution": {
-        "quarterHourly": "Quarter hour",
+        "quarterHourly": "15 min",
         "hourly": "Hour"
       },
       "other": {
@@ -1271,6 +1452,15 @@
       "cancel": "Cancel",
       "save": "Save changes",
       "saveSuccess": "Connection status is being updated"
+    },
+    "manageProductionObligation": {
+      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductObligationLink }}",
+      "tooltip": "The process takes a few minutes. The desired \n result is displayed here, and rejection reasons \n can be found in business messages.",
+      "changeToLabel": "Change production obligation to",
+      "cutOffDate": "Cut-off date",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saveSuccess": "Production obligation is being updated"
     },
     "endOfSupply": {
       "modalTitle": "Start end of supply",
@@ -1350,6 +1540,7 @@
       "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)",
       "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
       "UPDATE_CHARGE_LINKS": "Request change billing master data (RSM-030)",
+      "B2C_UPDATE_CHARGE_LINKS": "UI: Request change billing master data (RSM-030)",
       "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Confirm request change billing master data (RSM-030)",
       "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Reject request change billing master data (RSM-030)",
       "NOTIFY_BILLING_MASTER_DATA": "Notify billing master data (RSM-031)",
@@ -1360,10 +1551,40 @@
       "NOTIFY_PRICE_LIST": "Notify price list (RSM-034)"
     },
     "businessReason": {
-      "D03": "Aggregation (D03)",
-      "D04": "Balance Fixing (D04)",
-      "D05": "Wholesale Settlement (D05)",
-      "D32": "Correction Settlements (D32)"
+      "D03": "Temporary (D03)",
+      "D04": "Balance settlement (D04)",
+      "D05": "Whole settlement (D05)",
+      "D07": "Rollback Change-of-supplier (D07)",
+      "D08": "Update Charge Prices (D08)",
+      "D11": "Incorrect process (D11)",
+      "D14": "Close down metering point (D14)",
+      "D15": "Connect meteringpoint (D15)",
+      "D17": "Update chargelinks (D17)",
+      "D18": "Update Charge Masterdata (D18)",
+      "D20": "Electrical heating (D20)",
+      "D22": "Service request (D22)",
+      "D24": "Messing measurements log (D24)",
+      "D29": "Secondary move-in (D29)",
+      "D31": "Transfer metering point (D31)",
+      "D32": "Correction settlement (D32)",
+      "D33": "Incorrect move (D33)",
+      "D34": "End supply due to reallocate (D34)",
+      "D35": "Continue supply due to rejected reallocate (D35)",
+      "D39": "Production Obligation (D39)",
+      "D47": "Reminder (D47)",
+      "D48": "Request Charge Prices (D48)",
+      "E01": "Move (E01)",
+      "E02": "New metering point (E02)",
+      "E03": "Change of Energy supplier (E03)",
+      "E0G": "Data alignment for master data metering point (E0G)",
+      "E20": "End of supply (E20)",
+      "E23": "Periodic metering (E23)",
+      "E30": "Historical data (E30)",
+      "E32": "Update master data metering point (E32)",
+      "E34": "Update master data consumer (E34)",
+      "E65": "Customer move-in (E65)",
+      "E66": "Customer move-out (E66)",
+      "E79": "Change Connection Status (E79)"
     },
     "search": {
       "topBarTitle": "Search in request and response messages",
@@ -2031,7 +2252,7 @@
       "fileName": "DataHub grid areas - {{ shared.downloadNameParams }}",
       "columns": {
         "code": "Grid area",
-        "actor": "Grid access provider",
+        "owner": "Grid access provider",
         "organization": "Organisation",
         "status": "Status",
         "type": "Type",
@@ -2114,7 +2335,7 @@
           "RECEIVED": "Received",
           "AWAITING_DISPATCH": "Awaiting dispatch",
           "AWAITING_REPLY": "Awaiting reply from eSett",
-          "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP",
+          "SERVICE_BUS_ACCEPTED": "Awaiting reply from ECP",
           "ACCEPTED": "Accepted",
           "REJECTED": "Rejected",
           "MANUALLY_HANDLED": "Solved manually"
@@ -2337,7 +2558,6 @@
       "noData": "No data",
       "itemsAndCount": "{{ items }}, +{{ remainingCount }} more",
       "drawer": {
-        "monthlySum": "Monthly sum",
         "combined": "Kombineret",
         "gridAreas": "Grid areas"
       },
@@ -3116,15 +3336,112 @@
     }
   },
   "meteringPointDebug": {
-    "topBarTitle": "Debug metering point",
+    "topBarTitle": "Metering point",
     "meteringPoint": {
-      "tabLabel": "Metering point"
+      "tabLabel": "Metering point (EM1)"
     },
     "meteringPointEvents": {
-      "tabLabel": "Metering point events"
+      "tabLabel": "Metering point",
+      "searchLabel": "Metering point ID",
+      "segments": {
+        "meteringPoint": "Metering point",
+        "events": "Events",
+        "relations": "Relations"
+      },
+      "expandAll": "Expand all",
+      "collapseAll": "Collapse all",
+      "compareEm1": "Compare to EM1",
+      "matchCase": "Match case",
+      "ignoreCase": "Ignore case"
+    },
+    "migration": {
+      "tabLabel": "Migration",
+      "countsComparison": {
+        "title": "Migration Counts Comparison",
+        "em1Label": "Migrated Count (EM1):",
+        "em2Label": "Migrated Count (EM2):",
+        "loading": "Loading...",
+        "error": "Error loading count",
+        "total": "Total:",
+        "quarantined": "Quarantined:",
+        "refreshButton": "Refresh"
+      },
+      "dlq": {
+        "title": "Dead Letter Queue for Migration Events",
+        "replayButton": "Replay DLQ Events",
+        "clearButton": "Clear DLQ",
+        "lastOperationResult": "Last Operation Result:",
+        "dlqCount": "DLQ Count:",
+        "processedCount": "Processed Count:",
+        "modal": {
+          "replayTitle": "Replay DLQ Events",
+          "replayMessage": "Are you sure you want to replay all events from the dead letter queue?",
+          "clearTitle": "Clear DLQ",
+          "clearMessage": "Are you sure you want to clear all events from the dead letter queue? This action cannot be undone."
+        }
+      },
+      "syncJob": {
+        "title": "Set start time for migration job in EM1",
+        "startTimeLabel": "Start time (optional)",
+        "hint": "If no start time is provided, everything will be migrated!",
+        "setStartTimeButton": "Set start time",
+        "modal": {
+          "title": "Set Start Time",
+          "message": "Are you sure you want to set the start time for the migration job?"
+        }
+      },
+      "dangerZone": {
+        "title": "Danger Zone",
+        "warning": "Warning:",
+        "warningMessage": "This action will delete ALL event sourcing data. This cannot be undone!",
+        "deleteButton": "Delete All Event Sourcing Data",
+        "modal": {
+          "title": "Delete All Event Sourcing Data",
+          "message": "This action will permanently delete ALL event sourcing data. This cannot be undone!",
+          "validation": "I WANT TO DELETE ALL DATA",
+          "instruction": "To confirm, type I WANT TO DELETE ALL DATA below:",
+          "confirmDelete": "Delete All Data"
+        }
+      },
+      "modal": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "result": "Result:",
+      "success": "Success",
+      "failed": "Failed",
+      "error": "Error:"
+    },
+    "actions": {
+      "tabLabel": "Actions",
+      "rebuildProjection": {
+        "title": "Rebuild Projection",
+        "selectPlaceholder": "Select projection type",
+        "timeout": "Timeout (minutes)",
+        "button": "Rebuild Projection",
+        "projectionTypes": {
+          "METERING_POINT": "Metering Point",
+          "METERING_POINT_WITH_RELATIONS": "Metering Point With Relations"
+        },
+        "modal": {
+          "title": "Rebuild Projection",
+          "message": "Are you sure you want to rebuild the projection?"
+        }
+      },
+      "dangerZone": {
+        "title": "Danger Zone"
+      },
+      "modal": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "result": "Result:",
+      "success": "Success",
+      "failed": "Failed",
+      "error": "Error:"
     },
     "meteringPoints": {
-      "tabLabel": "Metering points",
+      "tabLabel": "Find metering points",
       "gridArea": "Grid area",
       "packageNumber": "Package no. {{ packageNumber }}"
     },

@@ -1,0 +1,12 @@
+query GetOperationToolsMeteringPoint($id: String!) {
+  operationToolsMeteringPoint(id: $id) {
+    meteringPointJson
+    meteringPointWithRelationsJson
+    events {
+      id
+      timestamp
+      type
+      dataJson
+    }
+  }
+}

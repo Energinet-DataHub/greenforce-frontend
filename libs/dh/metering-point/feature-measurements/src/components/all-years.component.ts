@@ -30,7 +30,7 @@ import {
   GetAggregatedMeasurementsForAllYearsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { AggregatedMeasurementsForAllYears } from '../types';

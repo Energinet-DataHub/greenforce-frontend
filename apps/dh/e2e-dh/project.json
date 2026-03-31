@@ -3,40 +3,29 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/dh/e2e-dh/src",
   "projectType": "application",
+  "tags": ["product:dh", "type:e2e"],
+  "implicitDependencies": ["app-dh"],
   "targets": {
     "e2e": {
       "dependsOn": ["^generate"],
-      "executor": "@nx/cypress:cypress",
-      "options": {
-        "cypressConfig": "apps/dh/e2e-dh/cypress.config.ts",
-        "devServerTarget": "app-dh:serve:mocked",
-        "testingType": "e2e",
-        "baseUrl": "https://localhost:4200"
-      },
       "configurations": {
         "ci": {
-          "devServerTarget": "app-dh:serve:mocked",
-          "ignoreTestFiles": "**/*-healthchecks.cy.ts",
-          "browser": "chrome"
+          "args": "--browser chrome --config excludeSpecPattern=**/*-healthchecks.cy.ts"
         },
         "health": {
-          "devServerTarget": "app-dh:serve:mocked",
-          "spec": "**/*-healthchecks.cy.ts",
-          "browser": "chrome"
+          "args": "--browser chrome --spec **/*-healthchecks.cy.ts"
         },
         "dev": {
-          "devServerTarget": "app-dh:serve:development"
+          "env": {
+            "CYPRESS_webServerCommand": "bun nx run app-dh:serve:development"
+          }
         },
         "production": {
-          "devServerTarget": "app-dh:serve:production"
+          "env": {
+            "CYPRESS_webServerCommand": "bun nx run app-dh:serve:production"
+          }
         }
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": ["product:dh", "type:e2e"],
-  "implicitDependencies": ["app-dh"]
+  }
 }

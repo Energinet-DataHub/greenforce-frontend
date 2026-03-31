@@ -1,4 +1,4 @@
-﻿﻿// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@ using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation.Types;
 
-[ObjectType<ConversationInfoDto>]
+[ObjectType<GetConversationsQueryResponseConversationInfo>]
 public static partial class ConversationInfoDtoType
 {
     static partial void Configure(
-        IObjectTypeDescriptor<ConversationInfoDto> descriptor)
+        IObjectTypeDescriptor<GetConversationsQueryResponseConversationInfo> descriptor)
     {
         descriptor
             .Name("ConversationInfo")

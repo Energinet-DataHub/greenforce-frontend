@@ -148,10 +148,13 @@ export class StorybookIconOverviewComponent {
         { name: 'Print', icon: 'print' },
         { name: 'Preview', icon: 'preview' },
         { name: 'AttachFile', icon: 'attachFile' },
+        { name: 'Article', icon: 'article' },
+        { name: 'Contract', icon: 'contract' },
       ],
     },
     {
       icons: [
+        { name: 'Forward', icon: 'forward' },
         { name: 'Forward Message', icon: 'forwardMessage' },
         { name: 'Monetization', icon: 'monetization' },
         { name: 'Payments', icon: 'payments' },
@@ -175,6 +178,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Factory', icon: 'factory' },
         { name: 'Nest Eco Leaf', icon: 'nest_eco_leaf' },
         { name: 'Flash On', icon: 'flash_on' },
+        { name: 'Match Case', icon: 'matchCase' },
       ],
     },
   ];

@@ -29,10 +29,7 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @let formGroup = businessCustomerFormGroup();
-    <ng-container
-      [formGroup]="formGroup"
-      *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'"
-    >
+    <ng-container *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'">
       <watt-text-field [label]="t('companyName')" [formControl]="formGroup.controls.companyName" />
       <watt-text-field [label]="t('cvr')" [formControl]="formGroup.controls.cvr" />
       <watt-checkbox

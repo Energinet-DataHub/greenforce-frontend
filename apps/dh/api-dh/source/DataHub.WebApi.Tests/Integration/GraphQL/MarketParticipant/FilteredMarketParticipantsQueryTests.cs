@@ -24,7 +24,7 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Actor;
+namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.MarketParticipant;
 
 public class FilteredMarketParticipantsQueryTests
 {
@@ -91,7 +91,7 @@ public class FilteredMarketParticipantsQueryTests
             .Setup(x => x.HttpContext)
             .Returns(context);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_filteredMarketParticipants));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_filteredMarketParticipants), CancellationToken.None);
 
         await result.MatchSnapshotAsync($"GetFilteredMarketParticipantsAsync-isFas-{isFas}");
     }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { RouterLink } from '@angular/router';
 
@@ -28,9 +28,11 @@ import { WattDatePipe } from '@energinet/watt/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import {
+  combineWithIdPaths,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-related-metering-points',
@@ -179,15 +181,12 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
   `,
 })
 export class DhRelatedMeteringPointsComponent {
-  private readonly environment = inject(dhAppEnvironmentToken);
-
   meteringPointIdentification = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
   query = query(GetRelatedMeteringPointsByIdDocument, () => ({
     variables: {
       meteringPointIdentification: this.meteringPointIdentification(),
-      environment: this.environment.current,
       searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
     },
   }));
@@ -208,9 +207,6 @@ export class DhRelatedMeteringPointsComponent {
       ...(relatedMeteringPoints.relatedByGsrn ?? []),
       // Historical
       ...(this.showHistorical() ? (relatedMeteringPoints.historicalMeteringPoints ?? []) : []),
-      ...(this.showHistorical()
-        ? (relatedMeteringPoints.historicalMeteringPointsByGsrn ?? [])
-        : []),
     ];
   });
 
@@ -219,10 +215,7 @@ export class DhRelatedMeteringPointsComponent {
 
     if (!relatedMeteringPoints) return false;
 
-    return (
-      relatedMeteringPoints.historicalMeteringPoints?.length > 0 ||
-      relatedMeteringPoints.historicalMeteringPointsByGsrn?.length > 0
-    );
+    return relatedMeteringPoints.historicalMeteringPoints?.length > 0;
   });
 
   toggleHistorical() {

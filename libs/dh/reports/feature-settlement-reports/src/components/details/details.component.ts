@@ -79,7 +79,9 @@ import { DhReportStatus } from '../report-status.component';
       </watt-drawer-topbar>
 
       <watt-drawer-heading>
-        <h2 class="report-heading">{{ t('calculationTypes.' + report().calculationType) }}</h2>
+        <h2 class="report-heading watt-space-stack-m">
+          {{ t('calculationTypes.' + report().calculationType) }}
+        </h2>
         <watt-description-list variant="inline-flow">
           <watt-description-list-item [label]="t('columns.startedAt')">
             {{ report().executionTime.start | wattDate: 'long' }}
@@ -88,7 +90,7 @@ import { DhReportStatus } from '../report-status.component';
             <dh-duration [value]="report().executionTime" />
           </watt-description-list-item>
           <watt-description-list-item [label]="t('columns.actorName')">
-            {{ report().actor?.name }}
+            {{ report().actor?.displayName }}
           </watt-description-list-item>
         </watt-description-list>
       </watt-drawer-heading>
@@ -118,11 +120,6 @@ import { DhReportStatus } from '../report-status.component';
               <watt-description-list-item
                 [label]="t('columns.basisData')"
                 [value]="(report().includesBasisData ? 'yes' : 'no') | transloco"
-              />
-
-              <watt-description-list-item
-                [label]="t('drawer.monthlySum')"
-                [value]="(report().includeMonthlyAmount ? 'yes' : 'no') | transloco"
               />
 
               <watt-description-list-item

@@ -27,7 +27,7 @@ import { WattDataTableComponent } from '@energinet/watt/data';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   ChargeType,
   GetChargeLinksByMeteringPointIdDocument,
@@ -36,7 +36,7 @@ import {
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 import { Charge } from '../types';
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
+import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 @Component({
   selector: 'dh-metering-point-charge-links-fees',
@@ -75,7 +75,7 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/ui-shared';
         </ng-container>
 
         <ng-container *wattTableCell="columns.date; let element">
-          {{ element.period?.interval | wattDate }}
+          {{ element.period.interval | wattDate }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.status; let element">

@@ -19,5 +19,4 @@ public record RelatedMeteringPointsDto(
     RelatedMeteringPointDto? Parent,
     ICollection<RelatedMeteringPointDto> RelatedMeteringPoints,
     ICollection<RelatedMeteringPointDto> RelatedByGsrn,
-    ICollection<RelatedMeteringPointDto> HistoricalMeteringPoints,
-    ICollection<RelatedMeteringPointDto> HistoricalMeteringPointsByGsrn);
+    ICollection<RelatedMeteringPointDto> HistoricalMeteringPoints);

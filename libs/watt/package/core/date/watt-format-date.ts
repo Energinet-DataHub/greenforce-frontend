@@ -20,6 +20,7 @@ import { dayjs } from './dayjs';
 import { WattRange } from './watt-date-range';
 
 export const formatStrings = {
+  year: 'YYYY',
   monthYear: 'MMMM YYYY',
   short: 'DD-MM-YYYY',
   shortAbbr: 'DD. MMM YYYY',

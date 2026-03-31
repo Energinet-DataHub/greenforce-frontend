@@ -1,0 +1,154 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<dh-result vater fill="vertical" [query]="conversationQuery">
+  <vater-flex
+    direction="column"
+    fill="both"
+    *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+  >
+    @if (conversation(); as conversation) {
+      <!-- Header -->
+      <vater-stack fill="horizontal" sticky="top" class="sticky-background">
+        <vater-flex
+          fill="horizontal"
+          direction="row"
+          justify="space-between"
+          gap="m"
+          class="watt-space-reverse-inset-stretch-m"
+        >
+          <vater-stack gap="s" align="start" fill="horizontal">
+            <vater-stack direction="row" gap="xs">
+              @let initiatorRole = t("role." + initiator()?.role);
+              <span class="watt-text-s">
+                @if (initiator()?.actorName; as actorName) {
+                  {{ actorName }} ({{ initiatorRole }})
+                } @else {
+                  {{ initiatorRole }}
+                }
+              </span>
+              <watt-icon name="right" size="xs" />
+              @let receiverRole = t("role." + receiver()?.role);
+              <span class="watt-text-s">
+                @if (receiver()?.actorName; as actorName) {
+                  {{ actorName }} ({{ receiverRole }})
+                } @else {
+                  {{ receiverRole }}
+                }
+              </span>
+            </vater-stack>
+            <vater-stack direction="row" gap="s">
+              <h3 watt-heading>{{ t("subjects." + conversation.subject) }}</h3>
+              @if (conversation.closed) {
+                <watt-badge type="neutral">{{ t("closed") }}</watt-badge>
+              }
+            </vater-stack>
+            <watt-description-list variant="inline-flow">
+              <watt-description-list-item [label]="t('idLabel')" [value]="conversation.displayId" />
+              <watt-description-list-item
+                [label]="t('internalNoteLabel')"
+                [value]="conversation.internalNote"
+              />
+            </watt-description-list>
+            @if (meteringPointConversationInfo(); as meteringPointInfo) {
+              <watt-description-list variant="inline-flow" *transloco="let tBase">
+                <watt-description-list-item [label]="meteringPointInstallLabel()" />
+                <watt-description-list-item
+                  [label]="t('meteringPointInfo.connectionState')"
+                  [value]="
+                    tBase(
+                      'meteringPoint.overview.status.' + meteringPointInfo.metadata.connectionState
+                    )
+                  "
+                />
+                <watt-description-list-item
+                  [label]="t('meteringPointInfo.type')"
+                  [value]="tBase('meteringPointType.' + meteringPointInfo.metadata.type)"
+                />
+                <watt-description-list-item
+                  [label]="t('meteringPointInfo.resolution')"
+                  [value]="tBase('resolution.' + meteringPointInfo.metadata.resolution)"
+                />
+              </watt-description-list>
+            } @else if (meteringPointConversationInfoQuery.loading()) {
+              <vater-stack direction="row" wrap align="start" class="wrap-gap">
+                <watt-skeleton width="400px" height="20px" />
+                <watt-skeleton width="200px" height="20px" />
+                <watt-skeleton width="200px" height="20px" />
+                <watt-skeleton width="200px" height="20px" />
+              </vater-stack>
+            }
+          </vater-stack>
+
+          <vater-stack direction="row" gap="m">
+            <watt-button
+              [disabled]="conversation.closed"
+              (click)="closeConversation()"
+              variant="secondary"
+              >{{ t("closeCaseButton") }}
+            </watt-button>
+            <watt-button variant="secondary" [wattMenuTriggerFor]="menu">
+              <watt-icon name="moreVertical" />
+            </watt-button>
+            <watt-menu #menu>
+              <watt-menu-item (click)="openInternalNoteModal(conversation.internalNote)"
+                >{{ t("internalNoteLabel") }}
+              </watt-menu-item>
+              <watt-menu-item (click)="unreadConversation()"
+                >{{ t("markAsUnreadButton") }}
+              </watt-menu-item>
+            </watt-menu>
+          </vater-stack>
+        </vater-flex>
+        <watt-separator />
+      </vater-stack>
+
+      <!-- Content - Scrollable message area -->
+      <vater-flex
+        direction="column"
+        fill="both"
+        scrollable
+        class="watt-space-reverse-inset-stretch-m"
+      >
+        <vater-stack direction="column" gap="m">
+          @for (message of conversation.messages; track message) {
+            <dh-actor-conversation-message [message]="message" />
+          }
+        </vater-stack>
+        <div #scrollAnchor></div>
+      </vater-flex>
+    }
+    <!-- Footer - Message input form -->
+
+    <form
+      vater
+      sticky="bottom"
+      class="watt-space-inset-ml sticky-background no-padding-top"
+      fill="horizontal"
+      (ngSubmit)="sendMessage()"
+    >
+      @if (isPartOfConversation()) {
+        <dh-actor-conversation-message-form
+          [loading]="uploading() || sendActorConversationMessageMutation.loading()"
+          [closed]="!!conversation()?.closed"
+          [uploadError]="uploadError()"
+          [formControl]="formControl"
+          [disableAnonymous]="disableAnonymous()"
+        />
+      }
+    </form>
+  </vater-flex>
+</dh-result>

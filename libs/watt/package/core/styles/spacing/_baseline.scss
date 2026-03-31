@@ -16,6 +16,7 @@
 :root {
   --watt-space-xs: #{spaceVariables.$watt-space-baseline};
   --watt-space-s: #{spaceVariables.$watt-space-baseline * 2};
+  --watt-space-sm: #{spaceVariables.$watt-space-baseline * 3};
   --watt-space-m: #{spaceVariables.$watt-space-baseline * 4};
   --watt-space-ml: #{spaceVariables.$watt-space-baseline * 6};
   --watt-space-l: #{spaceVariables.$watt-space-baseline * 8};

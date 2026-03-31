@@ -15,7 +15,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Model
 
 public enum CustomerRelationType
 {
-    Contact1 = 0,
-    Contact4 = 1,
+    Technical = 0,
+    Juridical = 1,
     Secondary = 2,
 }

@@ -122,7 +122,7 @@ export class DhMeasurementsDayComponent {
         this.measurements()
           .map((x) => x.current?.quantity)
           .filter((quantity) => quantity !== null && quantity !== undefined)
-          .reduce((acc, quantity) => acc + Number(quantity), 0)
+          .reduce((acc, quantity) => Number.parseFloat((acc + Number(quantity)).toFixed(10)), 0)
       )} ${this.unit()}`
   );
   private readonly unit = computed(() => {
@@ -143,7 +143,6 @@ export class DhMeasurementsDayComponent {
 
   Quality = Quality;
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   columns = computed<WattTableColumnDef<MeasurementPosition>>(() => {
     const measurements = this.measurements();
     const numberOfColumnsNeeded = Math.max(0, ...measurements.map((x) => x.historic.length));

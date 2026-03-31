@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.MarketParticipant.Authorization.Model;
-using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
@@ -22,50 +20,46 @@ using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
-[ObjectType<ConversationsDto>]
+[ObjectType<GetConversationsQueryResponse>]
 public static partial class ActorConversationsNode
 {
     [Query]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task<ConversationsDto> GetConversationsForMeteringPointAsync(
+    public static async Task<GetConversationsQueryResponse> GetConversationsForMeteringPointAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        string meteringPointIdentification,
+        [Service] IActorConversationClient_V1 actorConversationClient,
+        string? meteringPointIdentification,
+        string? searchTerm,
+        bool? ownConversations,
+        bool? unread,
+        bool? opened,
+        bool? closed,
+        IEnumerable<ConversationSubject>? subjects,
         CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
 
         var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
+        var marketParticipantNumber = user.GetMarketParticipantNumber();
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
-        // TODO: Will be replaced with the ActorConversationsRequest when implemented
-        var authRequest = new CreateActorConversationRequest
-        {
-            ActorNumber = actorNumber,
-            MarketRole = marketRole,
-            MeteringPointId = meteringPointIdentification,
-            UserId = userId,
-        };
-
-        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
-        {
-            throw new InvalidOperationException(
-                "User is not authorized to access conversations for the requested metering point.");
-        }
-
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature, userId, actorNumber);
-
-        return await authClient.ApiGetConversationsAsync(meteringPointIdentification, ct);
+        return await actorConversationClient.ApiGetConversationsAsync(
+            meteringPointIdentification: meteringPointIdentification,
+            searchValue: searchTerm,
+            myConversations: ownConversations,
+            unread: unread,
+            opened: opened,
+            closed: closed,
+            subjects: subjects,
+            userId: userId.ToString(),
+            marketRole: MapMarketRoleToActorType(marketRole).ToString(),
+            marketParticipantNumber: marketParticipantNumber,
+            cancellationToken: ct);
     }
 
     static partial void Configure(
-        IObjectTypeDescriptor<ConversationsDto> descriptor)
+        IObjectTypeDescriptor<GetConversationsQueryResponse> descriptor)
     {
         descriptor
             .Name("Conversations")
@@ -73,5 +67,16 @@ public static partial class ActorConversationsNode
 
         descriptor
             .Field(f => f.Conversations);
+    }
+
+    private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)
+    {
+        return marketRole switch
+        {
+            EicFunctionAuth.EnergySupplier => MarketRole.EnergySupplier,
+            EicFunctionAuth.GridAccessProvider => MarketRole.GridAccessProvider,
+            EicFunctionAuth.DataHubAdministrator => MarketRole.Energinet,
+            _ => throw new InvalidOperationException($"Unsupported market role: {marketRole}"),
+        };
     }
 }

@@ -78,6 +78,8 @@ export const WattIconMap = {
   print: 'print',
   preview: 'preview',
   attachFile: 'attach_file',
+  article: 'article',
+  contract: 'contract',
   // Other
   power: 'power',
   location: 'location_on',
@@ -100,4 +102,5 @@ export const WattIconMap = {
   factory: 'factory',
   nest_eco_leaf: 'nest_eco_leaf',
   flash_on: 'flash_on',
+  matchCase: 'match_case',
 };

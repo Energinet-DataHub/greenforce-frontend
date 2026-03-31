@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { Meta, applicationConfig, moduleMetadata, StoryFn } from '@storybook/angular';
+import { provideRouter } from '@angular/router';
 
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WattSegmentedButtonsComponent } from '../watt-segmented-buttons.component';
@@ -27,6 +28,9 @@ const meta: Meta<WattSegmentedButtonsComponent> = {
   title: 'Components/Segmented buttons',
   component: WattSegmentedButtonsComponent,
   decorators: [
+    applicationConfig({
+      providers: [provideRouter([])],
+    }),
     moduleMetadata({
       imports: [
         ReactiveFormsModule,

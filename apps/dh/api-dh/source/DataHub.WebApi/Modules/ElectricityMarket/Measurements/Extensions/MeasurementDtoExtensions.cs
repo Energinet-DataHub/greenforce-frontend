@@ -21,17 +21,24 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Extens
 
 public static class MeasurementDtoExtensions
 {
-    public static IEnumerable<MeasurementPositionDto> PadWithEmptyPositions(this IEnumerable<MeasurementPositionDto> measurementPositions, LocalDate requestDate)
+    public static IEnumerable<MeasurementPositionDto> PadWithEmptyPositions(this IEnumerable<MeasurementPositionDto>? measurementPositions, LocalDate requestDate)
     {
-        if (measurementPositions == null || !measurementPositions.Any())
+        if (measurementPositions == null)
         {
-            return Enumerable.Empty<MeasurementPositionDto>();
+            return [];
         }
 
-        var resolution = DetermineResolution(measurementPositions);
+        var measurementPositionDtos = measurementPositions.ToList();
+
+        if (!measurementPositionDtos.Any())
+        {
+            return [];
+        }
+
+        var resolution = DetermineResolution(measurementPositionDtos);
         var intervalMinutes = GetIntervalMinutes(resolution);
 
-        var existingPositionsByObservationTime = measurementPositions
+        var existingPositionsByObservationTime = measurementPositionDtos
             .ToDictionary(p => p.ObservationTime, p => p);
 
         var result = new List<MeasurementPositionDto>();
@@ -59,7 +66,7 @@ public static class MeasurementDtoExtensions
         return result.OrderBy(p => p.ObservationTime).ToList();
     }
 
-    private static Resolution DetermineResolution(IEnumerable<MeasurementPositionDto> measurementPositions)
+    private static Resolution DetermineResolution(IList<MeasurementPositionDto> measurementPositions)
     {
         if (!measurementPositions.Any())
         {

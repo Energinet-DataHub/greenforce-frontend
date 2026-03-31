@@ -37,7 +37,7 @@ public class MeasurementDtoExtensionsTests
         var result = positions.PadWithEmptyPositions(date).ToList();
 
         // Assert
-        Assert.Equal(96, result.Count());
+        Assert.Equal(96, result.Count);
         Assert.All(result, position =>
         {
             Assert.NotNull(position);
@@ -57,7 +57,7 @@ public class MeasurementDtoExtensionsTests
         var result = positions.PadWithEmptyPositions(date).ToList();
 
         // Assert
-        Assert.Equal(23, result.Count());
+        Assert.Equal(23, result.Count);
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class MeasurementDtoExtensionsTests
         var result = positions.PadWithEmptyPositions(date).ToList();
 
         // Assert
-        Assert.Equal(25, result.Count());
+        Assert.Equal(25, result.Count);
     }
 
     [Fact]
@@ -81,15 +81,15 @@ public class MeasurementDtoExtensionsTests
         var date = new LocalDate(2025, 5, 1); // A standard day
         var positions = new List<MeasurementPositionDto>
             {
-                new MeasurementPositionDto(1, date.ToUtcDateTimeOffset(), new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, date.ToUtcDateTimeOffset().AddMinutes(60), date.ToUtcDateTimeOffset().AddMinutes(60)) }),
-                new MeasurementPositionDto(4, date.ToUtcDateTimeOffset().AddMinutes(60), new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, date.ToUtcDateTimeOffset().AddMinutes(60), date.ToUtcDateTimeOffset().AddMinutes(60)) }),
+                new(1, date.ToUtcDateTimeOffset(), new List<MeasurementPointDto> { new(1, 0, Quality.Calculated, Unit.kVArh, Resolution.QuarterHourly, date.ToUtcDateTimeOffset().AddMinutes(60), date.ToUtcDateTimeOffset().AddMinutes(60)) }),
+                new(4, date.ToUtcDateTimeOffset().AddMinutes(60), new List<MeasurementPointDto> { new(1, 0, Quality.Calculated, Unit.kVArh, Resolution.QuarterHourly, date.ToUtcDateTimeOffset().AddMinutes(60), date.ToUtcDateTimeOffset().AddMinutes(60)) }),
             };
 
         // Act
         var result = positions.PadWithEmptyPositions(date).ToList();
 
         // Assert
-        Assert.Equal(96, result.Count());
+        Assert.Equal(96, result.Count);
         // Verify original positions are preserved
         var position0 = result.FirstOrDefault(p => p.Index == 1);
         var position4 = result.FirstOrDefault(p => p.Index == 4);
@@ -118,7 +118,7 @@ public class MeasurementDtoExtensionsTests
         var result = positions.PadWithEmptyPositions(date).ToList();
 
         // Assert
-        Assert.Equal(92, result.Count());
+        Assert.Equal(92, result.Count);
         Assert.All(result, position =>
         {
             Assert.NotNull(position);
@@ -137,7 +137,7 @@ public class MeasurementDtoExtensionsTests
         var result = position.PadWithEmptyPositions(date).ToList();
 
         // Assert
-        Assert.Equal(100, result.Count());
+        Assert.Equal(100, result.Count);
         Assert.All(result, position =>
         {
             Assert.NotNull(position);
@@ -158,7 +158,7 @@ public class MeasurementDtoExtensionsTests
                 date.AddMinutes(i * 15),
                 new List<MeasurementPointDto>
                 {
-                    new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, date.AddMinutes(60), date.AddMinutes(60)),
+                    new(1, 0, Quality.Calculated, Unit.kVArh, Resolution.QuarterHourly, date.AddMinutes(60), date.AddMinutes(60)),
                 }));
         }
 
@@ -176,7 +176,7 @@ public class MeasurementDtoExtensionsTests
                 date.AddHours(i),
                 new List<MeasurementPointDto>
                 {
-                    new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.Hourly, date.AddMinutes(60), date.AddMinutes(60)),
+                    new(1, 0, Quality.Calculated, Unit.kVArh, Resolution.Hourly, date.AddMinutes(60), date.AddMinutes(60)),
                 }));
         }
 

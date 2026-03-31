@@ -32,7 +32,7 @@ import {
   DhBalanceResponsibleRelation,
   DhBalanceResponsibleRelationFilters,
   DhBalanceResponsibleRelations,
-} from './dh-balance-responsible-relation';
+} from './types';
 import {
   dhGroupByMarketParticipant,
   dhGroupByType,
@@ -124,9 +124,9 @@ export class DhBalanceResponsibleRelationsStore {
       .mapLines((relations) =>
         relations.map((balanceResponsibleRelation) => [
           `"${balanceResponsibleRelation.balanceResponsibleWithName?.id ?? ''}"`,
-          `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
+          `"${balanceResponsibleRelation.balanceResponsibleWithName?.displayNameWithoutMarketRole ?? ''}"`,
           `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
-          `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
+          `"${balanceResponsibleRelation.energySupplierWithName?.displayNameWithoutMarketRole ?? ''}"`,
           `"${balanceResponsibleRelation.gridArea?.code ?? ''}"`,
           `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
           `"${balanceResponsibleRelation.status}"`,
@@ -157,7 +157,7 @@ const applySearch = (
 
   if (
     actor?.marketRole === EicFunction.EnergySupplier &&
-    balanceResponsibleWithName?.actorName.value
+    balanceResponsibleWithName?.displayNameWithoutMarketRole
       ?.toLocaleLowerCase()
       .includes(search.toLocaleLowerCase())
   ) {
@@ -166,7 +166,7 @@ const applySearch = (
 
   return (
     actor?.marketRole === EicFunction.BalanceResponsibleParty &&
-    energySupplierWithName?.actorName.value
+    energySupplierWithName?.displayNameWithoutMarketRole
       ?.toLocaleLowerCase()
       .includes(search.toLocaleLowerCase())
   );

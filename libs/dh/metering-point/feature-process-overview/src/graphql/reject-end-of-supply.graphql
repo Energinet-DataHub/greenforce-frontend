@@ -1,0 +1,19 @@
+mutation RejectEndOfSupply(
+  $meteringPointId: String!
+  $processId: UUID!
+  $reasonCode: ReasonCodeV1!
+  $reasonMessage: String!
+  $description: String
+) {
+  rejectEndOfSupply(
+    input: {
+      meteringPointId: $meteringPointId
+      processId: $processId
+      reasonCode: $reasonCode
+      reasonMessage: $reasonMessage
+      description: $description
+    }
+  ) {
+    boolean
+  }
+}

@@ -33,16 +33,16 @@ import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { combinePaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component';
 import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
+import { dhMeteringPointIdValidator } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-search',
@@ -86,6 +86,7 @@ import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
             [placeholder]="t('placeholder')"
             [autoFocus]="true"
             (keydown.enter)="onSubmit()"
+            (paste)="onPaste($event)"
             [showErrors]="submitted()"
           >
             @if (loading()) {
@@ -121,7 +122,11 @@ import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 
         <ng-content *dhFeatureFlag="'search-migrated-metering-points'">
           <watt-checkbox [formControl]="searchMigratedMeteringPoints">
-            {{ t('searchMigratedMeteringPoints') }}
+            @if (environment.current === 'b-001') {
+              {{ t('searchMigratedMeteringPointsPreProd') }}
+            } @else {
+              {{ t('searchMigratedMeteringPoints') }}
+            }
           </watt-checkbox>
         </ng-content>
       </vater-stack>
@@ -129,9 +134,8 @@ import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
       @if (searchControl.value && meteringPointNotFound()) {
         <watt-empty-state size="small" icon="custom-no-results" [title]="t('noResultFound')" />
 
-        <ng-container *dhPermissionRequired="['fas']">
+        <ng-container *dhPermissionRequired="['operation-tools:view']">
           <watt-button
-            *dhFeatureFlag="'metering-point-debug'"
             variant="secondary"
             icon="contentCopy"
             class="debug-button"
@@ -148,7 +152,8 @@ import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 export class DhSearchComponent {
   private readonly router = inject(Router);
   private readonly modalService = inject(WattModalService);
-  private readonly environment = inject(dhAppEnvironmentToken);
+
+  readonly environment = inject(dhAppEnvironmentToken);
 
   private readonly doesMeteringPointExist = lazyQuery(DoesInternalMeteringPointIdExistDocument);
   protected submitted = signal(false);
@@ -173,13 +178,21 @@ export class DhSearchComponent {
   }
 
   navigateToDebug() {
-    this.router.navigate([combinePaths('metering-point-debug', 'metering-point')]);
+    this.router.navigate([combinePaths('operation-tools', 'metering-point')]);
   }
 
   createMeteringPoint() {
     this.modalService.open({
       component: DhCreateMeteringPointModalComponent,
     });
+  }
+
+  onPaste(event: ClipboardEvent) {
+    const pasted = event.clipboardData?.getData('text');
+    if (!pasted) return;
+
+    event.preventDefault();
+    this.searchControl.setValue(pasted.replace(/\D/g, '').substring(0, 18));
   }
 
   async onSubmit() {
@@ -192,10 +205,10 @@ export class DhSearchComponent {
 
     const meteringPointId = this.searchControl.getRawValue();
     const result = await this.doesMeteringPointExist.query({
+      fetchPolicy: 'cache-and-network',
       variables: {
         meteringPointId,
         searchMigratedMeteringPoints: this.searchMigratedMeteringPoints.value,
-        environment: this.environment.current,
       },
     });
 

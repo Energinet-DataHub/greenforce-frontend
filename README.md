@@ -132,15 +132,15 @@ bun nx g @energinet-datahub/tools/workspace:domain
 
 ### Best Practices$$
 
-Take a look at our dev examples to see how to implement certain features like, and an overall best practice guide:
+Take a look at our developer examples to see how to implement certain features like, and an overall best practice guide:
 
-- [Data table](libs/dh/dev-examples/feature-processes/src/components/table.component.ts)
-- [Form](libs/dh/dev-examples/feature-processes/src/components/edit.component.ts)
-- [Modal](libs/dh/dev-examples/feature-processes/src/components/edit.component.ts)
-- [Dropdown](libs/dh/dev-examples/feature-processes/src/components/filter.component.ts)
-- [Drawer](libs/dh/dev-examples/feature-processes/src/components/details.component.ts)
-- [Description list](libs/dh/dev-examples/feature-processes/src/components/details.component.ts)
-- [Navigation](libs/dh/dev-examples/feature-processes/src/components/table.component.ts)
+- [Data table](libs/dh/developer/feature-examples/src/components/table.component.ts)
+- [Form](libs/dh/developer/feature-examples/src/components/edit.component.ts)
+- [Modal](libs/dh/developer/feature-examples/src/components/edit.component.ts)
+- [Dropdown](libs/dh/developer/feature-examples/src/components/filter.component.ts)
+- [Drawer](libs/dh/developer/feature-examples/src/components/details.component.ts)
+- [Description list](libs/dh/developer/feature-examples/src/components/details.component.ts)
+- [Navigation](libs/dh/developer/feature-examples/src/components/table.component.ts)
 
 ### Backend For Frontend (BFF)
 

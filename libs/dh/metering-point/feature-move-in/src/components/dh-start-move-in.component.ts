@@ -16,14 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  viewChild,
-  Injector,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, viewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -41,6 +34,7 @@ import {
   ChangeOfSupplierBusinessReason,
   InitiateMoveInDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-start-move-in-modal',
@@ -54,7 +48,12 @@ import {
     >
       <dh-start-move-in-form [startMoveInForm]="startMoveInForm" />
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="startMoveIn()">{{ t('save') }} </watt-button>
+        <watt-button
+          variant="secondary"
+          [loading]="initiateMoveInMutation.loading()"
+          (click)="startMoveIn()"
+          >{{ t('save') }}
+        </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
@@ -63,10 +62,9 @@ export class DhStartMoveInComponent extends WattTypedModal<{
   meteringPointId: string;
   energySupplier: string;
 }> {
+  private readonly appEnv = inject(dhAppEnvironmentToken).current;
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly injector = inject(Injector);
   private readonly transloco = inject(TranslocoService);
-  private readonly initiateMoveIn = mutation(InitiateMoveInDocument);
   private readonly toastService = inject(WattToastService);
 
   readonly modal = viewChild.required(WattModalComponent);
@@ -78,6 +76,8 @@ export class DhStartMoveInComponent extends WattTypedModal<{
     cpr: this.fb.control<string>('', [Validators.required, dhCprValidator()]),
   });
 
+  initiateMoveInMutation = mutation(InitiateMoveInDocument);
+
   startMoveInForm = this.fb.group<StartMoveInFormType>({
     cutOffDate: this.fb.control(new Date(), Validators.required),
     businessReason: this.fb.control<ChangeOfSupplierBusinessReason>(
@@ -87,15 +87,13 @@ export class DhStartMoveInComponent extends WattTypedModal<{
     customerType: this.fb.control(this.customerTypeInitialValue),
   });
 
-  readonly isForeignCompanyFormControl = this.fb.control<boolean>(false);
+  readonly isFictitiousCvrFormControl = this.fb.control<boolean>(false);
 
   private customerTypeChanged = toSignal(this.startMoveInForm.controls.customerType.valueChanges, {
     initialValue: this.customerTypeInitialValue,
   });
 
-  private isForeignCompanyChanged = toSignal<boolean>(
-    this.isForeignCompanyFormControl.valueChanges
-  );
+  private isFictitiousCvrChanged = toSignal<boolean>(this.isFictitiousCvrFormControl.valueChanges);
 
   private customerTypeEffect = effect(() => {
     const customerType = this.customerTypeChanged();
@@ -110,9 +108,9 @@ export class DhStartMoveInComponent extends WattTypedModal<{
           companyName: this.fb.control<string>('', Validators.required),
           cvr: this.fb.control<string>('', [
             Validators.required,
-            dhMoveInCvrValidator(this.injector),
+            dhMoveInCvrValidator(this.appEnv),
           ]),
-          isForeignCompany: this.isForeignCompanyFormControl,
+          isFictitiousCvr: this.isFictitiousCvrFormControl,
         })
       );
 
@@ -121,11 +119,11 @@ export class DhStartMoveInComponent extends WattTypedModal<{
     }
   });
 
-  private isForeignCompanyEffect = effect(() => {
-    const isForeignCompany = this.isForeignCompanyChanged();
-    if (isForeignCompany) {
+  private isFictitiousCvrEffect = effect(() => {
+    const isFictitiousCvr = this.isFictitiousCvrChanged();
+    if (isFictitiousCvr) {
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.disable();
-      this.startMoveInForm.controls.businessCustomer?.controls.cvr.setValue('1111110000');
+      this.startMoveInForm.controls.businessCustomer?.controls.cvr.setValue('11111111');
     } else {
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.enable();
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.reset();
@@ -133,7 +131,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
   });
 
   async startMoveIn() {
-    if (this.startMoveInForm.invalid) {
+    if (this.startMoveInForm.invalid || this.initiateMoveInMutation.loading()) {
       return;
     }
 
@@ -145,7 +143,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
       ? this.startMoveInForm.controls.privateCustomer?.controls.name.value
       : this.startMoveInForm.controls.businessCustomer?.controls.companyName.value;
 
-    const result = await this.initiateMoveIn.mutate({
+    const result = await this.initiateMoveInMutation.mutate({
       variables: {
         input: {
           businessReason: this.startMoveInForm.controls.businessReason.value,
