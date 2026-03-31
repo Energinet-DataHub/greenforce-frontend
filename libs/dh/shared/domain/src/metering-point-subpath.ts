@@ -16,10 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-export { dayjs, __ngPackagrDayjsTypeScriptWorkaround } from './dayjs';
-export { danishDatetimeProviders } from './watt-danish-datetime.providers';
-export { WattDateAdapter, WattSupportedLocales } from './watt-date-adapter';
-export { type WattRange, type WattDateRange, contains } from './watt-date-range';
-export { WattDatePipe } from './watt-date.pipe';
-export { wattFormatDate } from './watt-format-date';
-export { WattLocaleService } from './watt-locale.service';
+const em1MeteringPointSubPathRegex = /^\/metering-point\/\d+\//;
+const em2MeteringPointSubPathRegex = /^\/metering-point\/[a-zA-Z0-9]{10,}\//;
+
+export function isMeteringPointSubPath(url: string) {
+  return em1MeteringPointSubPathRegex.test(url) || em2MeteringPointSubPathRegex.test(url);
+}

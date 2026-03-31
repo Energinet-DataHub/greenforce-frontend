@@ -60,7 +60,7 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DhActorConversationMessageFormComponent),
+      useExisting: forwardRef(() => DhActorConversationMessageForm),
       multi: true,
     },
   ],
@@ -180,7 +180,7 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
     </vater-stack>
   `,
 })
-export class DhActorConversationMessageFormComponent implements ControlValueAccessor {
+export class DhActorConversationMessageForm implements ControlValueAccessor {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly elementRef = inject(ElementRef);
   loading = input<boolean>(false);

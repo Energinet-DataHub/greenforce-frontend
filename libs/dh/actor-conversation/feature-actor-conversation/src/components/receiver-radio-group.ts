@@ -68,7 +68,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
     </ng-container>
   `,
 })
-export class DhActorConversationReceiverRadioGroupComponent {
+export class DhActorConversationReceiverRadioGroup {
   marketRole = input.required<EicFunction>();
   receiverControl = input.required<FormControl<MarketRole | null>>();
   dateControl = input.required<FormControl<Date | null>>();

@@ -44,10 +44,10 @@ import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { VATER, VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 
 import { ActorConversationState, Conversation } from '../types';
-import { DhActorConversationListItemComponent } from './actor-conversation-list-item';
-import { DhActorConversationDetailsComponent } from './actor-conversation-details.component';
-import { ActorConversationFilter, ActorConversationFilterValue } from './actor-conversation-filter';
-import { DhActorConversationNewConversationComponent } from './actor-conversation-new-conversation';
+import { DhActorConversationListItem } from './conversation-list-item';
+import { DhActorConversationDetails } from './details';
+import { ActorConversationFilter, ActorConversationFilterValue } from './conversations-filter';
+import { DhActorConversationNewConversation } from './new-conversation';
 
 @Component({
   selector: 'dh-actor-conversation-shell',
@@ -68,9 +68,9 @@ import { DhActorConversationNewConversationComponent } from './actor-conversatio
     WattEmptyStateComponent,
     DhResultComponent,
     ActorConversationFilter,
-    DhActorConversationDetailsComponent,
-    DhActorConversationListItemComponent,
-    DhActorConversationNewConversationComponent,
+    DhActorConversationDetails,
+    DhActorConversationListItem,
+    DhActorConversationNewConversation,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
