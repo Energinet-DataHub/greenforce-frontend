@@ -54,6 +54,7 @@ const SESSION_STORAGE_KEY = 'dh_routing_session_id';
 function generateSessionId(): string {
   const array = new Uint8Array(16);
   crypto.getRandomValues(array);
+
   return Array.from(array, (byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
@@ -119,9 +120,12 @@ function joinWithSlash(start: string, end: string): string {
  *
  * @publicApi
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class HiddenLocationStrategy extends LocationStrategy implements OnDestroy {
   private readonly platformLocation = inject(PlatformLocation);
+
   private readonly sessionStorage = inject(sessionStorageToken);
   private readonly baseHref: string;
   private readonly removeListenerFns: Array<() => void> = [];
@@ -133,6 +137,7 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
 
     // Get the base href from APP_BASE_HREF token, or from DOM, or from document origin
     const href = inject(APP_BASE_HREF, { optional: true });
+
     this.baseHref =
       href ?? this.platformLocation.getBaseHrefFromDOM() ?? this.document.location?.origin ?? '';
 
@@ -149,11 +154,13 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
    */
   private initializeSessionId(): string {
     const existingSessionId = this.sessionStorage.getItem(SESSION_STORAGE_KEY);
+
     if (existingSessionId) {
       return existingSessionId;
     }
 
     const newSessionId = generateSessionId();
+
     this.sessionStorage.setItem(SESSION_STORAGE_KEY, newSessionId);
     return newSessionId;
   }
@@ -182,8 +189,10 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
    */
   clearSession(): void {
     this.sessionStorage.removeItem(SESSION_STORAGE_KEY);
+
     // Generate a new session ID for any subsequent navigations
     this.sessionId = generateSessionId();
+
     this.sessionStorage.setItem(SESSION_STORAGE_KEY, this.sessionId);
   }
 
@@ -226,8 +235,8 @@ export class HiddenLocationStrategy extends LocationStrategy implements OnDestro
       [SESSION_ID_KEY]: this.sessionId,
     };
 
-    // Replace the current state with our hidden URL state, showing only base href
-    this.platformLocation.replaceState(newState, '', this.baseHref || '/');
+    // Replace the current state with our hidden URL state
+    this.platformLocation.replaceState(newState, '', currentPath);
   }
 
   /** @docs-private */
