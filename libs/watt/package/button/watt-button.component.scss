@@ -160,6 +160,12 @@ watt-button {
     }
   }
 
+  &.watt-button--selection watt-icon,
+  & watt-icon.watt-icon-trailing {
+    order: 2;
+    margin-left: auto;
+  }
+
   &.watt-button--icon {
     &.watt-button--disabled .mat-mdc-button.mat-icon {
       background-color: transparent;
