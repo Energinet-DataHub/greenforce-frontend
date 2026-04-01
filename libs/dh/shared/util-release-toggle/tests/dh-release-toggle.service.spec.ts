@@ -18,21 +18,20 @@
 //#endregion
 import { TestBed } from '@angular/core/testing';
 import { describe, it, beforeEach, expect, vi } from 'vitest';
-import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { DhReleaseToggleService } from '../src/dh-release-toggle.service';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { provideMsalTesting } from '@energinet-datahub/dh/shared/test-util';
+import { provideHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
-describe('DhReleaseToggleService', () => {
+import { DhReleaseToggleService } from '../src/dh-release-toggle.service';
+
+describe(DhReleaseToggleService, () => {
   let service: DhReleaseToggleService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        DhReleaseToggleService,
-        provideHttpClient(),
         provideHttpClientTesting(),
         provideMsalTesting(),
         {
@@ -41,6 +40,7 @@ describe('DhReleaseToggleService', () => {
             trackException: vi.fn(),
           },
         },
+        provideHiddenLocationStrategy(),
       ],
     });
 
