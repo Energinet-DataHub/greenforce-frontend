@@ -31,22 +31,22 @@ import { sessionStorageToken } from '@energinet-datahub/dh/shared/util-browser';
  * Key used to store the hidden URL in the history state object.
  * This is prefixed with double underscore to avoid conflicts with user state.
  */
-const HIDDEN_URL_KEY = '__hiddenUrl';
+export const HIDDEN_URL_KEY = '__hiddenUrl';
 
 /**
  * Key used to store the hash portion of the URL in the history state object.
  */
-const HIDDEN_HASH_KEY = '__hiddenHash';
+export const HIDDEN_HASH_KEY = '__hiddenHash';
 
 /**
  * Key used to store the session ID in the history state object.
  */
-const SESSION_ID_KEY = '__sessionId';
+export const SESSION_ID_KEY = '__sessionId';
 
 /**
  * Key used to store the session ID in sessionStorage.
  */
-const SESSION_STORAGE_KEY = 'dh_routing_session_id';
+export const SESSION_STORAGE_KEY = 'dh_routing_session_id';
 
 /**
  * Generates a random session ID using crypto API.
@@ -92,7 +92,7 @@ function joinWithSlash(start: string, end: string): string {
 }
 
 /**
- * A custom LocationStrategy that hides the URL from the browser's address bar.
+ * A custom LocationStrategy that hides the route URLs from the browser's address bar.
  *
  * Instead of displaying the actual route URL in the browser, this strategy:
  * 1. Always shows the base URL (e.g., "/" or the configured base href) in the address bar
