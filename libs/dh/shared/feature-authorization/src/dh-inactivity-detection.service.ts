@@ -112,12 +112,20 @@ export class DhInactivityDetectionService {
   private logout() {
     this.hiddenLocationStrategy.clearSession();
 
-    const postLogoutRedirectUri = isMeteringPointSubPath(this.router.url)
-      ? `/metering-point/search`
-      : this.location.path();
-
     this.msal.logoutRedirect({
-      postLogoutRedirectUri,
+      postLogoutRedirectUri: this.postLogoutRedirectUri(this.router.url),
     });
+  }
+
+  private postLogoutRedirectUri(url: string): string {
+    if (isMeteringPointSubPath(url)) {
+      return `/metering-point/search`;
+    }
+
+    if (url.includes('/admin/users/details')) {
+      return `/admin/users`;
+    }
+
+    return this.location.path();
   }
 }
