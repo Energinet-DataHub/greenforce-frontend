@@ -248,7 +248,6 @@ export const dhMeteringPointRoutes: Routes = [
  */
 function redirectToLandingPage(): RedirectFunction {
   return () => {
-    const router = inject(Router);
     const permissionService = inject(PermissionService);
 
     const hasMarketRoles$ = forkJoin(
