@@ -14,7 +14,7 @@
 @use "@energinet/watt/utils" as watt;
 
 :host {
-  border-radius: 16px;
+  border-radius: var(--watt-radius-l);
   padding: 2px 8px;
   @include watt.typography-watt-label;
   color: var(--watt-color-primary-dark);
