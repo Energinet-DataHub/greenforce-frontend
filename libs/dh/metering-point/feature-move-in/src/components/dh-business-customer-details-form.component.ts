@@ -31,7 +31,7 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
     @let formGroup = businessCustomerFormGroup();
     <ng-container *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'">
       <watt-text-field [label]="t('companyName')" [formControl]="formGroup.controls.companyName" />
-      <watt-text-field [label]="t('cvr')" [formControl]="formGroup.controls.cvr" maxLength="8"/>
+      <watt-text-field [label]="t('cvr')" [formControl]="formGroup.controls.cvr" maxLength="8" />
       <watt-checkbox
         [formControl]="formGroup.controls.nameProtection"
         class="watt-space-stack-l"

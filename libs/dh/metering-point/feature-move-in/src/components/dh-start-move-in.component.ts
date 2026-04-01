@@ -104,10 +104,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
         'businessCustomer',
         this.fb.group({
           companyName: this.fb.control<string>('', Validators.required),
-          cvr: this.fb.control<string>('', [
-            Validators.required,
-            dhMoveInCvrValidator(),
-          ]),
+          cvr: this.fb.control<string>('', [Validators.required, dhMoveInCvrValidator()]),
           isFictitiousCvr: this.isFictitiousCvrFormControl,
         })
       );

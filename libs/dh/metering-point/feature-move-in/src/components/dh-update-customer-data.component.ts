@@ -258,9 +258,7 @@ export class DhUpdateCustomerDataComponent {
           ),
           cvr: dhMakeFormControl<string>(
             this.legalCustomer()?.cvr ?? '',
-            this.isBusinessCustomer()
-              ? [Validators.required, dhMoveInCvrValidator()]
-              : []
+            this.isBusinessCustomer() ? [Validators.required, dhMoveInCvrValidator()] : []
           ),
           nameProtection: dhMakeFormControl<boolean>(
             this.legalCustomer()?.isProtectedName ?? false
