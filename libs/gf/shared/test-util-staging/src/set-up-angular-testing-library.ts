@@ -16,11 +16,17 @@
  * limitations under the License.
  */
 //#endregion
+import { TestBed } from '@angular/core/testing';
 import { Config, configure } from '@testing-library/angular';
 
 /**
  * Configure Angular Testing Library to assume SCAMs and require semantic
  * queries.
+ *
+ * Also installs an `asyncWrapper` that calls `TestBed.tick()` before each
+ * poll so that `waitFor` / `findBy*` queries work correctly with happy-dom,
+ * whose `MutationObserver` implementation does not flush Angular change
+ * detection the way jsdom does.
  */
 export function setUpAngularTestingLibrary(config: Partial<Config> = {}): void {
   configure({
@@ -30,6 +36,10 @@ export function setUpAngularTestingLibrary(config: Partial<Config> = {}): void {
     dom: {
       // Require semantic queries by default
       throwSuggestions: true,
+      asyncWrapper: async (cb: () => Promise<unknown>) => {
+        TestBed.tick();
+        return cb();
+      },
       ...(config.dom ?? {}),
     },
   });
