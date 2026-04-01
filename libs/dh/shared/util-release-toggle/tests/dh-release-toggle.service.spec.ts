@@ -22,6 +22,8 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { provideMsalTesting } from '@energinet-datahub/dh/shared/test-util';
+
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { provideHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhReleaseToggleService } from '../src/dh-release-toggle.service';
