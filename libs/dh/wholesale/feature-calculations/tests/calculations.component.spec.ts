@@ -25,6 +25,7 @@ import {
 } from '@energinet-datahub/dh/shared/test-util';
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
+import { provideHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhCalculationsComponent } from '../src/calculations.component';
 
@@ -35,6 +36,7 @@ async function setup() {
       danishDatetimeProviders,
       provideMsalTesting(),
       WattModalService,
+      provideHiddenLocationStrategy(),
     ],
     imports: [getTranslocoTestingModule()],
   });

@@ -17,3 +17,8 @@
  */
 //#endregion
 export * from './src/dhPaths';
+export {
+  HiddenLocationStrategy,
+  provideHiddenLocationStrategy,
+  injectHiddenLocationStrategy,
+} from './src/hidden-location-strategy';

@@ -24,11 +24,12 @@ import { provideRouter } from '@angular/router';
 
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattShellComponent } from '@energinet/watt/shell';
+import { WattModalService } from '@energinet/watt/modal';
 import {
   getTranslocoTestingModule,
   provideMsalTesting,
 } from '@energinet-datahub/dh/shared/test-util';
-import { WattModalService } from '@energinet/watt/modal';
+import { provideHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhCoreShellComponent } from '../src/dh-core-shell.component';
 
@@ -43,6 +44,7 @@ describe(DhCoreShellComponent, () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         provideRouter([]),
+        provideHiddenLocationStrategy(),
       ],
     });
   });

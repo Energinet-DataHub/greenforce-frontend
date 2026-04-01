@@ -32,6 +32,7 @@ import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { provideHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 
@@ -52,6 +53,7 @@ async function setup(processId = 'process-eos-cancel') {
           hasPermission: () => of(true),
         },
       },
+      provideHiddenLocationStrategy(),
     ],
     imports: [getTranslocoTestingModule()],
     componentInputs: {

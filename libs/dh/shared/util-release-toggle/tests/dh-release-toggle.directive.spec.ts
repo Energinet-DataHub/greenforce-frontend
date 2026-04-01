@@ -17,8 +17,8 @@
  */
 //#endregion
 import { Component, input } from '@angular/core';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/angular';
-import '@testing-library/jest-dom/vitest';
 
 import { DhReleaseToggleDirective, ToggleExpression } from '../src/dh-release-toggle.directive';
 import { DhReleaseToggleService } from '../src/dh-release-toggle.service';
