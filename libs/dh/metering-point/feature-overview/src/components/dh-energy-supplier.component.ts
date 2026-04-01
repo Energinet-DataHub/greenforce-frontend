@@ -64,7 +64,10 @@ import type { EnergySupplier } from '../types';
 
       <watt-description-list variant="stack" [itemSeparators]="false">
         <watt-description-list-item [label]="t('energySupplierLabel')">
-          {{ energySupplier()?.name || energySupplier()?.gln | dhEmDashFallback }}
+          {{
+            energySupplier()?.displayNameWithoutMarketRole || energySupplier()?.gln
+              | dhEmDashFallback
+          }}
         </watt-description-list-item>
 
         <watt-description-list-item
