@@ -100,7 +100,6 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 })
 export class DhEndOfSupplyComponent extends WattTypedModal<{
   meteringPointId: string;
-  internalMeteringPointId: string;
 }> {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly toastService = inject(WattToastService);
@@ -164,7 +163,7 @@ export class DhEndOfSupplyComponent extends WattTypedModal<{
           action: (ref) => {
             this.router.navigate([
               getPath<BasePaths>('metering-point'),
-              this.modalData.internalMeteringPointId,
+              'view',
               getPath<MeteringPointSubPaths>('process-overview'),
             ]);
             ref.dismiss();

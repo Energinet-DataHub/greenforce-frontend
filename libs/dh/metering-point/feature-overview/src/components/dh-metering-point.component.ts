@@ -108,7 +108,10 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     <dh-toolbar-portal>
       <watt-breadcrumbs>
         @for (breadcrumb of breadcrumbs(); track $index) {
-          <watt-breadcrumb [routerLink]="breadcrumb.url">
+          <watt-breadcrumb
+            [routerLink]="breadcrumb.url"
+            (click)="onBreadcrumbClick(breadcrumb.internalMeteringPointId)"
+          >
             {{ breadcrumb.label }}
           </watt-breadcrumb>
         }
@@ -179,7 +182,6 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
 
         <dh-metering-point-actions
           [meteringPointId]="meteringPointId()"
-          [internalMeteringPointId]="internalMeteringPointId()"
           [type]="metadata()?.type"
           [subType]="metadata()?.subType"
           [connectionState]="metadata()?.connectionState"
@@ -239,7 +241,6 @@ export class DhMeteringPointComponent {
   private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   meteringPointId = input.required<string>();
-  internalMeteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
@@ -264,6 +265,7 @@ export class DhMeteringPointComponent {
     {
       label: this.breadcrumbLabel(),
       url: this.router.createUrlTree([getPath<BasePaths>('metering-point')]).toString(),
+      internalMeteringPointId: null,
     },
     ...(this.meteringPoint()?.isChild
       ? [
@@ -272,10 +274,12 @@ export class DhMeteringPointComponent {
             url: this.router
               .createUrlTree([
                 getPath<BasePaths>('metering-point'),
-                this.meteringPoint()?.metadata.internalMeteringPointParentId ?? '',
+                'view',
                 getPath<MeteringPointSubPaths>('master-data'),
               ])
               .toString(),
+            internalMeteringPointId:
+              this.meteringPoint()?.metadata.internalMeteringPointParentId ?? null,
           },
         ]
       : []),
@@ -284,12 +288,19 @@ export class DhMeteringPointComponent {
       url: this.router
         .createUrlTree([
           getPath<BasePaths>('metering-point'),
-          this.internalMeteringPointId(),
+          'view',
           getPath<MeteringPointSubPaths>('master-data'),
         ])
         .toString(),
+      internalMeteringPointId: null,
     },
   ]);
 
   getLink = (path: MeteringPointSubPaths) => getPath(path);
+
+  onBreadcrumbClick(internalMeteringPointId: string | null) {
+    if (internalMeteringPointId) {
+      sessionStorage.setItem('internalMeteringPointId', internalMeteringPointId);
+    }
+  }
 }

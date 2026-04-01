@@ -37,7 +37,7 @@ export class CustomerMoveInActions {
       callback: (ctx) =>
         this.router.navigate([
           getPath<BasePaths>('metering-point'),
-          ctx.internalMeteringPointId,
+          'view',
           getPath<MeteringPointSubPaths>('update-customer-details'),
           ctx.processId,
         ]),

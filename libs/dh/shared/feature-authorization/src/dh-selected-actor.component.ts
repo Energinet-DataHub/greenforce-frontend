@@ -29,8 +29,6 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { GetSelectionMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { isMeteringPointSubPath } from '@energinet-datahub/dh/shared/domain';
 
 import { windowLocationToken } from './window-location';
 import { DhActorStorage } from './dh-actor-storage';
@@ -38,6 +36,8 @@ import { DhActorStorage } from './dh-actor-storage';
 export type SelectionMarketParticipant = ResultOf<
   typeof GetSelectionMarketParticipantsDocument
 >['selectionMarketParticipants'][0];
+
+const meteringPointSubPathRegex = /^\/metering-point\/view\//;
 
 @Component({
   selector: 'dh-selected-actor',
@@ -109,7 +109,7 @@ export class DhSelectedActorComponent {
   selectMarketParticipant = async (marketParticipant: SelectionMarketParticipant) => {
     this.actorStorage.setSelectedActor(marketParticipant);
 
-    if (isMeteringPointSubPath(this.router.url)) {
+    if (meteringPointSubPathRegex.test(this.router.url)) {
       await this.router.navigate(['/metering-point/search']);
     }
 

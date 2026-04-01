@@ -26,11 +26,7 @@ import {
 } from '@energinet-datahub/dh/core/configuration-routing';
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  dhIsValidMeteringPointId,
-  dhIsEM1InternalId,
-  dhIsEM2EncodedId,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { dhIsEM1InternalId, dhIsEM2EncodedId } from '@energinet-datahub/dh/shared/ui-util';
 
 import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 
@@ -44,21 +40,20 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = ():
     getPath<MeteringPointSubPaths>('search'),
   ]);
 
-  const idParam = findIdParam();
+  const maybeIdParam = findIdParam();
 
-  if (dhIsValidMeteringPointId(idParam)) {
-    // Only internal IDs are allowed in the URL
+  if (maybeIdParam === null) {
     return searchRoute;
   }
 
-  const isEM1Id = dhIsEM1InternalId(idParam);
-  const isEM2Id = dhIsEM2EncodedId(idParam);
+  const isEM1Id = dhIsEM1InternalId(maybeIdParam);
+  const isEM2Id = dhIsEM2EncodedId(maybeIdParam);
 
   if (isEM1Id || isEM2Id) {
     return query(DoesInternalMeteringPointIdExistDocument, {
       fetchPolicy: 'cache-and-network',
       variables: {
-        internalMeteringPointId: idParam,
+        internalMeteringPointId: maybeIdParam,
         searchMigratedMeteringPoints: isEM1Id,
       },
     })
@@ -75,12 +70,6 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = ():
   return searchRoute;
 };
 
-function findIdParam(): string {
-  const navigation = inject(Router).currentNavigation();
-
-  const idParamInState: string | undefined =
-    navigation?.extras.state?.[dhInternalMeteringPointIdParam];
-  const idParamInSS = sessionStorage.getItem(dhInternalMeteringPointIdParam);
-
-  return idParamInState ?? idParamInSS ?? '';
+function findIdParam(): string | null {
+  return sessionStorage.getItem(dhInternalMeteringPointIdParam);
 }

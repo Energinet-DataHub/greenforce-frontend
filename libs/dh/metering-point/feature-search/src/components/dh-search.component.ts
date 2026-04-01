@@ -216,8 +216,8 @@ export class DhSearchComponent {
       return this.meteringPointNotFound.set(true);
     }
 
-    this.router.navigate(['/', getPath('metering-point'), 'view'], {
-      state: { [dhInternalMeteringPointIdParam]: result.data.meteringPointExists.id },
-    });
+    sessionStorage.setItem(dhInternalMeteringPointIdParam, result.data.meteringPointExists.id);
+
+    this.router.navigate(['/', getPath('metering-point'), 'view']);
   }
 }
