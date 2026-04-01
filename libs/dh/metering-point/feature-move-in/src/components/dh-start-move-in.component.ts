@@ -34,7 +34,6 @@ import {
   ChangeOfSupplierBusinessReason,
   InitiateMoveInDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-start-move-in-modal',
@@ -62,7 +61,6 @@ export class DhStartMoveInComponent extends WattTypedModal<{
   meteringPointId: string;
   energySupplier: string;
 }> {
-  private readonly appEnv = inject(dhAppEnvironmentToken).current;
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
@@ -108,7 +106,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
           companyName: this.fb.control<string>('', Validators.required),
           cvr: this.fb.control<string>('', [
             Validators.required,
-            dhMoveInCvrValidator(this.appEnv),
+            dhMoveInCvrValidator(),
           ]),
           isFictitiousCvr: this.isFictitiousCvrFormControl,
         })
