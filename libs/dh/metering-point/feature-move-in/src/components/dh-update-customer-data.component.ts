@@ -227,7 +227,6 @@ export class DhUpdateCustomerDataComponent {
   );
   meteringPointId = input.required<string>();
   processId = input<string>();
-  internalMeteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
   form = computed(
@@ -415,7 +414,7 @@ export class DhUpdateCustomerDataComponent {
 
     this.router.navigate([
       getPath<BasePaths>('metering-point'),
-      this.internalMeteringPointId(),
+      'view',
       getPath<MeteringPointSubPaths>('process-overview'),
     ]);
   }

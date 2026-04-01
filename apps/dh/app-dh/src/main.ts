@@ -74,7 +74,10 @@ function bootstrapApp() {
           provideRouter(
             dhCoreShellRoutes,
             withComponentInputBinding(),
-            withRouterConfig({ paramsInheritanceStrategy: 'always' }),
+            withRouterConfig({
+              paramsInheritanceStrategy: 'always',
+              onSameUrlNavigation: 'reload',
+            }),
             withInMemoryScrolling({
               anchorScrolling: 'enabled',
               scrollPositionRestoration: 'enabled',

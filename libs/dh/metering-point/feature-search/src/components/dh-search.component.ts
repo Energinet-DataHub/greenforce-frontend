@@ -41,6 +41,7 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-rele
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component';
+import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 import { dhMeteringPointIdValidator } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
@@ -215,6 +216,8 @@ export class DhSearchComponent {
       return this.meteringPointNotFound.set(true);
     }
 
-    this.router.navigate(['/', getPath('metering-point'), result.data.meteringPointExists.id]);
+    sessionStorage.setItem(dhInternalMeteringPointIdParam, result.data.meteringPointExists.id);
+
+    this.router.navigate(['/', getPath('metering-point'), 'view']);
   }
 }
