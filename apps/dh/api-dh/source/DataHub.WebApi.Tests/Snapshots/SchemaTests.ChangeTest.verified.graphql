@@ -495,6 +495,10 @@ type DeleteAllEventSourcingDataPayload {
   boolean: Boolean
 }
 
+type DisconnectMeteringPointPayload {
+  boolean: Boolean
+}
+
 type DismissAllNotificationsPayload {
   boolean: Boolean
   errors: [DismissAllNotificationsError!]
@@ -1228,6 +1232,7 @@ type Mutation {
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
+  disconnectMeteringPoint(input: DisconnectMeteringPointInput!): DisconnectMeteringPointPayload! @authorize(policy: "GridAccessProvider")
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(policy: "GridAccessProvider")
@@ -2175,6 +2180,11 @@ input DeactivateUserInput {
 
 input DeactivateUserRoleInput {
   roleId: UUID!
+}
+
+input DisconnectMeteringPointInput {
+  meteringPointId: String!
+  validityDate: DateTime!
 }
 
 input DismissAllNotificationsInput {

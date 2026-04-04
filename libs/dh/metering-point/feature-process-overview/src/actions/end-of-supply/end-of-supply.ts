@@ -23,6 +23,7 @@ import {
   EicFunction,
   ProcessManagerBusinessReason,
   CancelEndOfSupplyDocument,
+  DisconnectMeteringPointDocument,
   RejectEndOfSupplyDocument,
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
@@ -31,14 +32,34 @@ import {
 
 import type { ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
+import { disconnectProcessAction } from '../shared/disconnect-process-action';
 import { rejectProcessAction } from '../shared/reject-process-action';
 
 @Injectable({ providedIn: 'root' })
 export class EndOfSupplyActions {
   private readonly cancelEndOfSupply = mutation(CancelEndOfSupplyDocument);
+  private readonly disconnectMeteringPoint = mutation(DisconnectMeteringPointDocument);
   private readonly rejectEndOfSupply = mutation(RejectEndOfSupplyDocument);
 
   readonly handlers: ActionHandlerMap = {
+    [WorkflowAction.ConfirmWorkflow]: {
+      featureFlag: 'end-of-supply',
+      marketRoles: [EicFunction.GridAccessProvider],
+      callback: disconnectProcessAction((ctx, result, onCompleted, onError) => {
+        this.disconnectMeteringPoint.mutate({
+          refetchQueries: [
+            GetMeteringPointProcessByIdDocument,
+            GetMeteringPointProcessOverviewDocument,
+          ],
+          variables: {
+            meteringPointId: ctx.meteringPointId,
+            validityDate: result.validityDate,
+          },
+          onCompleted,
+          onError,
+        });
+      }),
+    },
     [WorkflowAction.RejectRequest]: {
       featureFlag: 'end-of-supply',
       marketRoles: [EicFunction.GridAccessProvider],

@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
@@ -38,6 +45,8 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     TranslocoDirective,
     WATT_DESCRIPTION_LIST,
@@ -49,6 +58,12 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
     WattButtonComponent,
     SupportedActionsPipe,
   ],
+  styles: `
+    dh-metering-point-process-overview-details .watt-drawer header > vater-flex {
+      flex-wrap: wrap;
+      row-gap: var(--watt-space-m);
+    }
+  `,
   template: `
     <watt-drawer size="large" autoOpen [key]="id()" (closed)="navigation.navigate('list')">
       <watt-drawer-topbar>

@@ -1050,6 +1050,8 @@
         "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information",
         "CANCEL_WORKFLOW": "Cancel",
         "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow",
+        "CONFIRM_WORKFLOW": "Request disconnection",
+        "FAS_CONFIRM_WORKFLOW": "Grid operator can request disconnection",
         "REJECT_REQUEST": "Reject request",
         "FAS_REJECT_REQUEST": "Grid operator can reject request"
       },
@@ -1083,6 +1085,15 @@
         "loadingToast": "Submitting cancellation of {{processType}}...",
         "successToast": "Cancellation of {{processType}} submitted",
         "errorToast": "Cancellation of {{processType}} failed"
+      },
+      "disconnectProcess": {
+        "title": "Request disconnection",
+        "validityDateLabel": "Validity date",
+        "cancel": "Cancel",
+        "confirm": "Request disconnection",
+        "successToast": "Request to disconnect metering point submitted",
+        "errorToast": "Request to disconnect metering point failed",
+        "invalidDateError": "The date must be today or yesterday"
       },
       "processTypeName": {
         "EndOfSupply": "end of supply"
