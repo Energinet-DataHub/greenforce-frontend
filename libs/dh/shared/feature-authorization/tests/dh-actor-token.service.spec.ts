@@ -33,6 +33,7 @@ import { provideMsalTesting } from '@energinet-datahub/dh/shared/test-util';
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { localStorageToken, sessionStorageToken } from '@energinet-datahub/dh/shared/util-browser';
+import { provideHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhActorStorage } from '../src/dh-actor-storage';
 
@@ -76,6 +77,7 @@ describe(DhActorTokenService, () => {
           },
         },
         provideHttpClient(),
+        provideHiddenLocationStrategy(),
       ],
     });
   });
