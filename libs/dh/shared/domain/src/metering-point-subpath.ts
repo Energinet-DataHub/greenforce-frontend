@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/permission';
-export * from './src/permission-dto';
-export * from './src/range';
-export * from './src/dh-settlement-report';
-export * from './src/dh-measurements-report';
-export * from './src/metering-point-subpath';
+const em1MeteringPointSubPathRegex = /^\/metering-point\/\d+\//;
+const em2MeteringPointSubPathRegex = /^\/metering-point\/[a-zA-Z0-9]{10,}\//;
+
+export function isMeteringPointSubPath(url: string) {
+  return em1MeteringPointSubPathRegex.test(url) || em2MeteringPointSubPathRegex.test(url);
+}
