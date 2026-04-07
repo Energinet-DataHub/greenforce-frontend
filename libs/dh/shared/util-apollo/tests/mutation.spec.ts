@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { test, vi } from 'vitest';
+import { test, vi, expect } from 'vitest';
 import { ApolloError } from '@apollo/client/core';
 import { TestBed } from '@angular/core/testing';
 import { gql } from '@apollo/client/core';
