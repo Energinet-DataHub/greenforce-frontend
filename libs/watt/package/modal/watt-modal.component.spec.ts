@@ -47,7 +47,7 @@ interface Properties {
 
 function setup(componentProperties?: Properties) {
   return render(template, {
-    imports: [WattButtonComponent, WATT_MODAL],
+    imports: [WattButtonComponent, ...WATT_MODAL],
     providers: [WattModalService],
     componentProperties,
   });
@@ -66,10 +66,14 @@ describe(WattModalComponent, () => {
       },
     });
     userEvent.click(screen.getByRole('button'));
-    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    await waitForAsync(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
     // Close before teardown to avoid NG0953 (closed OutputRef emit after destroy)
     userEvent.click(screen.getByLabelText('Close'));
-    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+    await waitForAsync(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
   });
 
   it('closes when rejected', async () => {
@@ -103,7 +107,9 @@ describe(WattModalComponent, () => {
     const closed = vi.fn();
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
-    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    await waitForAsync(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
 
     userEvent.click(screen.getByLabelText('Close'));
     await waitForAsync(() => expect(closed).toBeCalledWith(false));
@@ -117,7 +123,9 @@ describe(WattModalComponent, () => {
     expect(screen.queryByLabelText('Close')).not.toBeInTheDocument();
     // Close via service to avoid NG0953 (closed OutputRef emit after destroy)
     userEvent.click(screen.getByText('No'));
-    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+    await waitForAsync(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
   });
 
   it('disables ESC', async () => {
@@ -129,7 +137,9 @@ describe(WattModalComponent, () => {
     expect(screen.queryByRole('dialog')).toBeInTheDocument();
     // Close before teardown to avoid NG0953 (closed OutputRef emit after destroy)
     userEvent.click(screen.getByText('No'));
-    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+    await waitForAsync(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
   });
 
   it('displays title', async () => {
@@ -139,10 +149,14 @@ describe(WattModalComponent, () => {
       },
     });
     userEvent.click(screen.getByRole('button'));
-    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    await waitForAsync(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
     expect(screen.getByRole('heading')).toHaveTextContent('Test Modal');
     // Close before teardown to avoid NG0953 (closed OutputRef emit after destroy)
     userEvent.click(screen.getByLabelText('Close'));
-    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+    await waitForAsync(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
   });
 });
