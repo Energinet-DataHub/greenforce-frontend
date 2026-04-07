@@ -48,7 +48,7 @@ const runExecutor: PromiseExecutor<PublishExecutorSchema> = async (options, cont
   }
 
   const tag = options.prerelease ? 'alpha' : 'latest';
-  execSync(`bun publish --tag ${tag} --access public`, {
+  execSync(`npm publish --tag ${tag} --access public --provenance`, {
     stdio: ['inherit', 'inherit', 'inherit'],
     cwd,
   });
