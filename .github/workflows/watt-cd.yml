@@ -17,6 +17,7 @@ name: Watt CD
 
 permissions:
   contents: read
+  id-token: write
 
 env:
   # Nx Cloud
@@ -93,6 +94,11 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.head_ref }}
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: package.json
+
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
         with:
@@ -103,8 +109,6 @@ jobs:
 
       - name: Publish to npm
         run: bun nx run watt:publish --force
-        env:
-          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   #
   # Send notification to teams channel if deployment dispatch failed
