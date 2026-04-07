@@ -37,7 +37,7 @@ class TestDrawerContentComponent {
   timer$ = timer(0, 1000);
 }
 
-describe(WattDrawerComponent.name, () => {
+describe(WattDrawerComponent, () => {
   const DRAWER_SELECTOR = 'watt-drawer';
 
   // Queries
