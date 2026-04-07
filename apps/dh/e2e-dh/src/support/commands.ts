@@ -18,7 +18,7 @@
 //#endregion
 import '@testing-library/cypress/add-commands';
 
-function loginViaB2C(email: string, password: string, initialUrl: string) {
+function loginViaB2C(email: string, password: string) {
   cy.findByRole('button').click();
 
   // Login to B2C.
@@ -69,7 +69,7 @@ Cypress.Commands.add('login', (email: string, password: string, initialUrl = '/'
     cy.removeCookieBanner();
     cy.visit(initialUrl);
 
-    loginViaB2C(email, password, initialUrl);
+    loginViaB2C(email, password);
   });
 
   log.snapshot('after');
