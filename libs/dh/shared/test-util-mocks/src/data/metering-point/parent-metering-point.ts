@@ -42,7 +42,7 @@ const commercialRelation: ElectricityMarketViewCommercialRelationDto = {
   energySupplierName: {
     __typename: 'MarketParticipant',
     id: '222222222222222222',
-    displayName: 'Test Energy Supplier',
+    displayName: 'Test Energy Supplier (Energy Supplier)',
     displayNameWithoutMarketRole: 'Test Energy Supplier',
     gridAreas: [],
     userRoles: [],
