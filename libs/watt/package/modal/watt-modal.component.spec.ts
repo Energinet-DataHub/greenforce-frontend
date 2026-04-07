@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
+import { waitForAsync } from '@energinet-datahub/gf/test-util-staging';
 import userEvent from '@testing-library/user-event';
 
 import { WattButtonComponent } from '../button';
@@ -61,7 +62,7 @@ describe(WattModalComponent, () => {
   it('opens on button click', async () => {
     await setup();
     userEvent.click(screen.getByRole('button'));
-    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
   });
 
   it('closes when rejected', async () => {
@@ -69,7 +70,7 @@ describe(WattModalComponent, () => {
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.click(screen.getByText('No'));
-    await waitFor(() => expect(closed).toBeCalledWith(false));
+    await waitForAsync(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -78,7 +79,7 @@ describe(WattModalComponent, () => {
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.click(screen.getByText('Yes'));
-    await waitFor(() => expect(closed).toBeCalledWith(true));
+    await waitForAsync(() => expect(closed).toBeCalledWith(true));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -87,7 +88,7 @@ describe(WattModalComponent, () => {
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.keyboard('[Escape]');
-    await waitFor(() => expect(closed).toBeCalledWith(false));
+    await waitForAsync(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -95,10 +96,10 @@ describe(WattModalComponent, () => {
     const closed = vi.fn();
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
-    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
 
     userEvent.click(screen.getByLabelText('Close'));
-    await waitFor(() => expect(closed).toBeCalledWith(false));
+    await waitForAsync(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -114,14 +115,14 @@ describe(WattModalComponent, () => {
     await setup({ closed, disableClose: true });
     userEvent.click(screen.getByRole('button'));
     userEvent.keyboard('[Escape]');
-    await waitFor(() => expect(closed).not.toBeCalled());
+    await waitForAsync(() => expect(closed).not.toBeCalled());
     expect(screen.queryByRole('dialog')).toBeInTheDocument();
   });
 
   it('displays title', async () => {
     await setup();
     userEvent.click(screen.getByRole('button'));
-    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
     expect(screen.getByRole('heading')).toHaveTextContent('Test Modal');
   });
 });

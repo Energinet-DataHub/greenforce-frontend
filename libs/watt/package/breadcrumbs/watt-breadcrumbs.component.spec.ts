@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
+import { waitForAsync } from '@energinet-datahub/gf/test-util-staging';
 import userEvent from '@testing-library/user-event';
 import { Component } from '@angular/core';
 import { Router, RouterModule, provideRouter } from '@angular/router';
@@ -123,14 +124,14 @@ describe(WattBreadcrumbsComponent.name, () => {
     await setup();
 
     // Initially should show overview route
-    await waitFor(() => {
+    await waitForAsync(() => {
       expect(screen.getByText(`${ROUTE_PREFIX}Overview`)).toBeInTheDocument();
     });
 
     userEvent.click(getBreadcrumbWithRouterLink() as HTMLElement);
 
     // Should navigate to breadcrumbs route
-    await waitFor(() => {
+    await waitForAsync(() => {
       expect(screen.getByText(`${ROUTE_PREFIX}Breadcrumbs`)).toBeInTheDocument();
     });
 

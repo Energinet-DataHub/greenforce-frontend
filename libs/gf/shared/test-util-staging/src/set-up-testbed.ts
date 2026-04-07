@@ -63,17 +63,19 @@ function setupLocalStorageMock(): void {
 }
 
 /**
- * Patch MutationObserver so that instances always expose `observe`,
- * `disconnect`, and `takeRecords` as proper functions.
+ * Patch MutationObserver so that `observe()` and `disconnect()` never throw.
  *
- * happy-dom's MutationObserver implementation may return instances whose
- * methods are undefined or non-callable, which causes:
- * - Angular CDK's OverlayRef._completeDetachContent to throw on `disconnect`
- * - @testing-library/dom's waitFor to throw on `observe`
+ * Angular CDK uses MutationObserver in two ways that break under happy-dom:
+ * - `OverlayRef._detachContentWhenEmpty` calls `observe()` to watch the
+ *   overlay container after detach.
+ * - `OverlayRef._completeDetachContent` calls `disconnect()` during teardown.
  *
- * We also need to patch `window.MutationObserver` (used by
- * `@testing-library/dom` via `getWindowFromNode`) in addition to
- * `globalThis.MutationObserver`.
+ * happy-dom's MutationObserver may throw on both calls. `takeRecords` is not
+ * patched — it was only needed by `@testing-library/dom`'s `waitFor`, which
+ * we no longer use (replaced by `waitForAsync` from gf/test-util-staging).
+ *
+ * We patch both `globalThis.MutationObserver` and `window.MutationObserver`
+ * because CDK reads it from the global scope.
  */
 function patchMutationObserver(): void {
   if (typeof MutationObserver === 'undefined') return;
@@ -96,21 +98,12 @@ function patchMutationObserver(): void {
         // swallow — happy-dom may throw on disconnect
       }
     }
-
-    override takeRecords(): MutationRecord[] {
-      try {
-        return super.takeRecords();
-      } catch {
-        return [];
-      }
-    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).MutationObserver = PatchedMutationObserver;
 
-  // @testing-library/dom reads MutationObserver from window via
-  // getWindowFromNode(container), so we must also patch it there.
+  // CDK reads MutationObserver from window via getWindowFromNode(container).
   if (typeof window !== 'undefined' && window !== (globalThis as unknown)) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).MutationObserver = PatchedMutationObserver;

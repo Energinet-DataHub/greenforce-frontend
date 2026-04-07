@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
+import { waitForAsync } from '@energinet-datahub/gf/test-util-staging';
 import { Component } from '@angular/core';
 import userEvent from '@testing-library/user-event';
 import { timer } from 'rxjs';
@@ -136,7 +137,7 @@ describe(WattDrawerComponent.name, () => {
 
     userEvent.click(getOpenDrawerButton());
 
-    await waitFor(() => {
+    await waitForAsync(() => {
       expect(getInitialTimer()).toBeInTheDocument();
     });
   });
@@ -169,7 +170,7 @@ describe(WattDrawerComponent.name, () => {
     await setup(defaultTemplate);
 
     userEvent.click(getOpenDrawerButton());
-    await waitFor(
+    await waitForAsync(
       () => {
         expect(getStartedTimer()).toBeInTheDocument();
       },
@@ -178,7 +179,7 @@ describe(WattDrawerComponent.name, () => {
     userEvent.click(getInternalCloseDrawerButton());
     userEvent.click(getOpenDrawerButton());
 
-    await waitFor(() => {
+    await waitForAsync(() => {
       expect(getStartedTimer()).not.toBeInTheDocument();
       expect(getInitialTimer()).toBeInTheDocument();
     });
@@ -189,29 +190,29 @@ describe(WattDrawerComponent.name, () => {
     await setup(defaultTemplate);
 
     userEvent.click(getOpenDrawerButton());
-    await waitFor(() => expect(getDrawerContent()).toBeInTheDocument());
+    await waitForAsync(() => expect(getDrawerContent()).toBeInTheDocument());
 
     userEvent.click(getInternalCloseDrawerButton());
 
-    await waitFor(() => expect(closedOutput).toHaveBeenCalled());
+    await waitForAsync(() => expect(closedOutput).toHaveBeenCalled());
   });
 
   it('should output `closed` when drawer is closed, from outside the drawer', async () => {
     await setup(defaultTemplate);
 
     userEvent.click(getOpenDrawerButton());
-    await waitFor(() => expect(getDrawerContent()).toBeInTheDocument());
+    await waitForAsync(() => expect(getDrawerContent()).toBeInTheDocument());
 
     userEvent.click(getExternalCloseDrawerButton());
 
-    await waitFor(() => expect(closedOutput).toHaveBeenCalled());
+    await waitForAsync(() => expect(closedOutput).toHaveBeenCalled());
   });
 
   it('closes on global Escape', async () => {
     const { container } = await setup(defaultTemplate);
 
     userEvent.click(getOpenDrawerButton());
-    await waitFor(() => expect(getDrawerContent()).toBeInTheDocument());
+    await waitForAsync(() => expect(getDrawerContent()).toBeInTheDocument());
 
     // Find the drawer element and dispatch escape key event on it
     const drawer = container.querySelector(DRAWER_SELECTOR);
@@ -220,14 +221,14 @@ describe(WattDrawerComponent.name, () => {
       drawer.dispatchEvent(event);
     }
 
-    await waitFor(() => expect(closedOutput).toHaveBeenCalled());
+    await waitForAsync(() => expect(closedOutput).toHaveBeenCalled());
   });
 
   it('closes on Escape when focus is in the drawer', async () => {
     const { container } = await setup(defaultTemplate);
 
     userEvent.click(getOpenDrawerButton());
-    await waitFor(() => expect(getDrawerContent()).toBeInTheDocument());
+    await waitForAsync(() => expect(getDrawerContent()).toBeInTheDocument());
 
     // Focus on drawer content and dispatch escape key
     const drawer = container.querySelector(DRAWER_SELECTOR);
@@ -237,14 +238,14 @@ describe(WattDrawerComponent.name, () => {
       drawer.dispatchEvent(event);
     }
 
-    await waitFor(() => expect(closedOutput).toHaveBeenCalled());
+    await waitForAsync(() => expect(closedOutput).toHaveBeenCalled());
   });
 
   it.skip('calls "closed" only once when Escape is pressed multiple times', async () => {
     const { container } = await setup(defaultTemplate);
 
     userEvent.click(getOpenDrawerButton());
-    await waitFor(() => expect(getDrawerContent()).toBeInTheDocument());
+    await waitForAsync(() => expect(getDrawerContent()).toBeInTheDocument());
 
     // Reset the spy
     closedOutput.mockClear();
@@ -257,7 +258,7 @@ describe(WattDrawerComponent.name, () => {
     }
 
     // Wait for closed to be called
-    await waitFor(() => expect(closedOutput).toHaveBeenCalled());
+    await waitForAsync(() => expect(closedOutput).toHaveBeenCalled());
 
     // Now dispatch second escape key event
     if (drawer) {
@@ -307,11 +308,11 @@ describe(WattDrawerComponent.name, () => {
     const secondButton = screen.getByRole('button', { name: /^open second/i });
 
     userEvent.click(firstButton);
-    await waitFor(() => expect(screen.queryByText(/first drawer/i)).toBeInTheDocument());
+    await waitForAsync(() => expect(screen.queryByText(/first drawer/i)).toBeInTheDocument());
 
     userEvent.click(secondButton);
 
-    await waitFor(() => {
+    await waitForAsync(() => {
       expect(closedOutput).toHaveBeenCalled();
       expect(screen.queryByText(/first drawer/i)).not.toBeInTheDocument();
       expect(screen.queryByText(/second drawer/i)).toBeInTheDocument();
@@ -351,6 +352,6 @@ describe(WattDrawerComponent.name, () => {
     userEvent.click(screen.getByRole('button', { name: /^open second/i }));
 
     expect(closedOutput).not.toHaveBeenCalled();
-    await waitFor(() => expect(screen.queryByText(/second drawer/i)).toBeInTheDocument());
+    await waitForAsync(() => expect(screen.queryByText(/second drawer/i)).toBeInTheDocument());
   });
 });
