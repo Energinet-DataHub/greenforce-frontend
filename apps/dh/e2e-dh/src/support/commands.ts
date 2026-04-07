@@ -54,7 +54,7 @@ function loginViaB2C(email: string, password: string, initialUrl: string) {
   //   cy.url().should('equals', Cypress.config('baseUrl') + initialUrl);
   // }
 
-  cy.url().should('equals', Cypress.config('baseUrl'));
+  cy.url().should('equals', Cypress.config('baseUrl') + '/');
 }
 
 Cypress.Commands.add('login', (email: string, password: string, initialUrl = '/') => {
