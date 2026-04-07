@@ -186,7 +186,7 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
     switch (newConnectionState) {
       // Handle NEW -> CONNECTED transition
       case 'CONNECTED': {
-        const maxDaysBackInTime = 7;
+        const maxDaysBackInTime = 90;
 
         if (daysSinceCreated < maxDaysBackInTime) {
           return this.modalData.currentCreatedDate;

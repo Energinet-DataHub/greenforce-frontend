@@ -108,12 +108,6 @@ type Metadata = NonNullable<MeteringPointDetails['metadata']>;
 
 export type InstallationAddress = Metadata['installationAddress'];
 
-export type EnergySupplier = {
-  gln?: CommercialRelation['energySupplier'];
-  name?: NonNullable<CommercialRelation['energySupplierName']>['displayName'];
-  validFrom?: ActiveEnergySupplyPeriod['validFrom'];
-};
-
 export type CustomerWithContacts = ActiveEnergySupplyPeriod['customers'][0];
 export type Customer = Omit<CustomerWithContacts, 'legalContact' | 'technicalContact'>;
 export type Contact =
