@@ -11,6 +11,10 @@
       "sass": "./core/styles/@energinet/watt/_utils.scss"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Energinet-DataHub/greenforce-frontend"
+  }
   "peerDependencies": {
     "@analogjs/vite-plugin-angular": "^2.2.3",
     "@angular/cdk": "^21.2.3",
