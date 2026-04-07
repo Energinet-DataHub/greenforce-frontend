@@ -29,16 +29,19 @@ import { WATT_BREADCRUMBS, WattBreadcrumbsComponent } from './watt-breadcrumbs.c
 const ROUTE_PREFIX = 'Route:';
 
 @Component({
+  selector: 'watt-test-overview',
   template: `${ROUTE_PREFIX}Overview`,
 })
 class OverviewComponent {}
 
 @Component({
+  selector: 'watt-test-components',
   template: `${ROUTE_PREFIX}Components`,
 })
 class ComponentsComponent {}
 
 @Component({
+  selector: 'watt-test-breadcrumbs-route',
   template: `${ROUTE_PREFIX}Breadcrumbs`,
 })
 class BreadcrumbsRouteComponent {}

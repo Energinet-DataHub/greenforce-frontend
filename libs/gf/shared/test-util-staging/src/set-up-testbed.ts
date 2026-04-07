@@ -19,12 +19,12 @@
 import { afterEach, beforeEach } from 'vitest';
 
 import {
-  ComponentFixtureAutoDetect,
   getTestBed,
   TestBed,
   TestModuleMetadata,
   ɵgetCleanupHook as getCleanupHook,
 } from '@angular/core/testing';
+import { ApplicationRef } from '@angular/core';
 import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 
@@ -135,6 +135,7 @@ function disableAnimationsInTests(): void {
 // across setup file re-evaluations (which happen with isolate: false).
 const PATCHED_MARKER = Symbol.for('gf-testbed-patched');
 const WARN_PATCHED_MARKER = Symbol.for('gf-testbed-warn-patched');
+const TICK_PATCHED_MARKER = Symbol.for('gf-testbed-tick-patched');
 
 /**
  * Patch console.warn once (globally, per process) to suppress NG0406 warnings.
@@ -164,6 +165,43 @@ function suppressNg0406Warnings(): void {
       return;
     }
     original.apply(console, args);
+  };
+}
+
+/**
+ * Patch console.error once (globally, per process) to suppress NG0101 errors.
+ *
+ * NG0101 ("ApplicationRef.tick is called recursively") occurs in tests that
+ * use CDK overlays (e.g. WattModalComponent) with happy-dom. The root cause:
+ * happy-dom dispatches `blur` synchronously as a side effect of button clicks.
+ * When CDK opens a dialog, Angular is already inside a `tick()` call
+ * (triggered by the scheduler). The synchronous `blur` event fires
+ * `eventWrapper` → `detectChangesForMountedFixtures()` → `fixture.detectChanges()`
+ * → `ApplicationRef.tick()`, which throws NG0101 because `_runningTick` is
+ * already true. Angular's `TestBedApplicationErrorHandler` catches the throw
+ * and logs it via `console.error`; Vitest captures that as `stderr`. Tests
+ * still pass, but the noise pollutes CI output.
+ *
+ * Fix: monkey-patch `ApplicationRef.prototype.tick` to silently return when
+ * `_runningTick` is already true, instead of throwing. This is safe in tests
+ * because the nested tick is redundant — the in-flight tick will complete and
+ * synchronize all views.
+ */
+function suppressNg0101Errors(): void {
+  const g = globalThis as Record<symbol, unknown>;
+  if (g[TICK_PATCHED_MARKER]) return; // already patched in this process
+  g[TICK_PATCHED_MARKER] = true;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const proto = ApplicationRef.prototype as any;
+  const originalTick = proto.tick as () => void;
+
+  proto.tick = function (this: ApplicationRef & { _runningTick?: boolean }) {
+    if (this._runningTick) {
+      // Already ticking — skip silently. The in-flight tick covers this.
+      return;
+    }
+    originalTick.call(this);
   };
 }
 
@@ -211,8 +249,6 @@ function patchTestbed(): void {
       ...moduleDef,
       imports: [MatIconTestingModule, ...(moduleDef.imports ?? [])],
       providers: [
-        // Use automatic change detection in tests
-        { provide: ComponentFixtureAutoDetect, useValue: true },
         ...(moduleDef.providers ?? []),
         browserConfigurationProviders,
         // Mark as NoopAnimations for Angular Material components that check this token
@@ -257,6 +293,14 @@ export function setUpTestbed(): void {
   // fires after ApplicationRef._destroyed is set to true, triggering NG0406.
   // These warnings are cosmetic — tests still pass — but they pollute CI output.
   suppressNg0406Warnings();
+
+  // Suppress NG0101 ("ApplicationRef.tick is called recursively") errors that
+  // arise when CDK overlays are used with happy-dom. happy-dom dispatches blur
+  // synchronously during button clicks, which can trigger a nested tick() call
+  // while Angular's scheduler already has one in flight. The error is caught by
+  // Angular's TestBedApplicationErrorHandler — tests still pass — but the
+  // console.error output pollutes CI logs.
+  suppressNg0101Errors();
 
   testbed.resetTestEnvironment();
   testbed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {

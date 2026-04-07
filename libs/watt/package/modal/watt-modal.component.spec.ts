@@ -60,9 +60,16 @@ describe(WattModalComponent, () => {
   });
 
   it('opens on button click', async () => {
-    await setup();
+    await setup({
+      closed: () => {
+        /* noop */
+      },
+    });
     userEvent.click(screen.getByRole('button'));
     await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    // Close before teardown to avoid NG0953 (closed OutputRef emit after destroy)
+    userEvent.click(screen.getByLabelText('Close'));
+    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
 
   it('closes when rejected', async () => {
@@ -108,6 +115,9 @@ describe(WattModalComponent, () => {
     await setup({ closed, disableClose: true });
     userEvent.click(screen.getByRole('button'));
     expect(screen.queryByLabelText('Close')).not.toBeInTheDocument();
+    // Close via service to avoid NG0953 (closed OutputRef emit after destroy)
+    userEvent.click(screen.getByText('No'));
+    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
 
   it('disables ESC', async () => {
@@ -117,12 +127,22 @@ describe(WattModalComponent, () => {
     userEvent.keyboard('[Escape]');
     await waitForAsync(() => expect(closed).not.toBeCalled());
     expect(screen.queryByRole('dialog')).toBeInTheDocument();
+    // Close before teardown to avoid NG0953 (closed OutputRef emit after destroy)
+    userEvent.click(screen.getByText('No'));
+    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
 
   it('displays title', async () => {
-    await setup();
+    await setup({
+      closed: () => {
+        /* noop */
+      },
+    });
     userEvent.click(screen.getByRole('button'));
     await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
     expect(screen.getByRole('heading')).toHaveTextContent('Test Modal');
+    // Close before teardown to avoid NG0953 (closed OutputRef emit after destroy)
+    userEvent.click(screen.getByLabelText('Close'));
+    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
 });
