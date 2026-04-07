@@ -456,7 +456,9 @@ describe(WattTableComponent, () => {
     await waitForAsync(() => expect(firstCheckbox).toBeChecked());
     await waitForAsync(() => expect(secondCheckbox).toBeChecked());
 
-    await waitForAsync(() => otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked()));
+    await waitForAsync(() =>
+      otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked())
+    );
   });
 
   it("does NOT reset initial selection when 'selectable' Input is toggled", async () => {
