@@ -17,6 +17,7 @@ name: Watt CD
 
 permissions:
   contents: read
+  id-token: write
 
 env:
   # Nx Cloud
@@ -103,8 +104,6 @@ jobs:
 
       - name: Publish to npm
         run: bun nx run watt:publish --force
-        env:
-          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   #
   # Send notification to teams channel if deployment dispatch failed
