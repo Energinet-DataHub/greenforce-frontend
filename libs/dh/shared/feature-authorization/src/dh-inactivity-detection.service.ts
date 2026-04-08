@@ -44,6 +44,8 @@ enum ActivityState {
   Overdue,
 }
 
+const POST_LOGIN_REDIRECT_KEY = 'dh-post-login-redirect';
+
 @Injectable({ providedIn: 'root' })
 export class DhInactivityDetectionService {
   private readonly router = inject(Router);
@@ -77,6 +79,7 @@ export class DhInactivityDetectionService {
   );
 
   public trackInactivity() {
+    this.restoreRouteAfterLogin();
     this.ngZone.runOutsideAngular(() => {
       this.userInactive$.subscribe((activityState) => {
         switch (activityState) {
@@ -108,12 +111,18 @@ export class DhInactivityDetectionService {
   }
 
   private logout() {
-    const postLogoutRedirectUri = isMeteringPointSubPath(this.router.url)
-      ? `/metering-point/search`
+    const redirectUrl = isMeteringPointSubPath(this.router.url)
+      ? '/metering-point/search'
       : this.location.path();
 
-    this.msal.logoutRedirect({
-      postLogoutRedirectUri,
-    });
+    sessionStorage.setItem(POST_LOGIN_REDIRECT_KEY, redirectUrl);
+    this.msal.logoutRedirect();
+  }
+
+  private restoreRouteAfterLogin() {
+    const redirectUrl = sessionStorage.getItem(POST_LOGIN_REDIRECT_KEY);
+    if (!redirectUrl) return;
+    sessionStorage.removeItem(POST_LOGIN_REDIRECT_KEY);
+    this.router.navigateByUrl(redirectUrl);
   }
 }
