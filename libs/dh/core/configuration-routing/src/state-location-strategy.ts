@@ -45,9 +45,9 @@ const normalizeQueryParams = (params: string) =>
 export class StateLocationStrategy extends PathLocationStrategy {
   override path(includeHash = false) {
     const state = normalizeState(this.getState());
-    const stateUrl = state[ROUTER_URL_KEY];
-    if (typeof stateUrl !== 'string') return super.path(includeHash);
-    return !includeHash ? stateUrl.split('#')[0] : stateUrl;
+    const url = state[ROUTER_URL_KEY];
+    if (typeof url !== 'string') return super.path(includeHash);
+    return !includeHash ? url.split('#')[0] : url;
   }
 
   override prepareExternalUrl(_internal: string) {
@@ -55,14 +55,14 @@ export class StateLocationStrategy extends PathLocationStrategy {
   }
 
   override pushState(state: unknown, title: string, url: string, queryParams: string) {
-    super.pushState(this.withStateUrl(state, url, queryParams), title, '', '');
+    super.pushState(this.withRouterUrl(state, url, queryParams), title, '', '');
   }
 
   override replaceState(state: unknown, title: string, url: string, queryParams: string) {
-    super.replaceState(this.withStateUrl(state, url, queryParams), title, '', '');
+    super.replaceState(this.withRouterUrl(state, url, queryParams), title, '', '');
   }
 
-  private withStateUrl(state: unknown, url: string, queryParams: string) {
+  private withRouterUrl(state: unknown, url: string, queryParams: string) {
     return {
       ...normalizeState(state),
       [ROUTER_URL_KEY]: url + normalizeQueryParams(queryParams),
