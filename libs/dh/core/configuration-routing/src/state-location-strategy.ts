@@ -1,0 +1,77 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import { Injectable, Provider } from '@angular/core';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+
+/** Key used to store the URL in the history state object. */
+export const STATE_URL_KEY = '__stateUrl';
+
+const normalizeState = (state: unknown) => (state as Record<string, unknown>) ?? {};
+const normalizeQueryParams = (params: string) =>
+  params && params[0] !== '?' ? `?${params}` : params;
+
+/**
+ * A custom LocationStrategy that stores the route URL's in history state.
+ *
+ * @usageNotes
+ * ```typescript
+ * import { provideStateLocationStrategy } from '@energinet-datahub/dh/core/routing';
+ *
+ * bootstrapApplication(AppComponent, {
+ *   providers: [
+ *     provideStateLocationStrategy(),
+ *     provideRouter(routes),
+ *   ],
+ * });
+ * ```
+ */
+@Injectable({ providedIn: 'root' })
+export class StateLocationStrategy extends PathLocationStrategy {
+  override path(includeHash = false) {
+    const state = normalizeState(this.getState());
+    const stateUrl = state[STATE_URL_KEY];
+    if (typeof stateUrl !== 'string') return super.path(includeHash);
+    return !includeHash ? stateUrl.split('#')[0] : stateUrl;
+  }
+
+  override prepareExternalUrl(_internal: string) {
+    return this.getBaseHref();
+  }
+
+  override pushState(state: unknown, title: string, url: string, queryParams: string) {
+    super.pushState(this.withStateUrl(state, url, queryParams), title, '', '');
+  }
+
+  override replaceState(state: unknown, title: string, url: string, queryParams: string) {
+    super.replaceState(this.withStateUrl(state, url, queryParams), title, '', '');
+  }
+
+  private withStateUrl(state: unknown, url: string, queryParams: string) {
+    return {
+      ...normalizeState(state),
+      [STATE_URL_KEY]: url + normalizeQueryParams(queryParams),
+    };
+  }
+}
+
+/** Provides the StateLocationStrategy as the LocationStrategy for the application. */
+export const provideStateLocationStrategy = (): Provider => ({
+  provide: LocationStrategy,
+  useExisting: StateLocationStrategy,
+});

@@ -16,5 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/dhPaths';
-export { StateLocationStrategy, provideStateLocationStrategy } from './src/state-location-strategy';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
+import '@angular/compiler';
+
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+// Add structuredClone polyfill if not available
+if (typeof structuredClone === 'undefined') {
+  global.structuredClone = <T>(obj: T): T => JSON.parse(JSON.stringify(obj));
+}
+
+setUpTestbed();
