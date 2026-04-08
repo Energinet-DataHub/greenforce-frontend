@@ -42,7 +42,7 @@ export class EndOfSupplyActions {
   private readonly requestServiceEndOfSupply = mutation(RequestServiceEndOfSupplyDocument);
 
   readonly handlers: ActionHandlerMap = {
-    [WorkflowAction.RequestService]: {
+    [WorkflowAction.SendInformation]: {
       featureFlag: 'end-of-supply',
       marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
       callback: requestServiceAction((ctx, result, onCompleted, onError) => {
@@ -55,7 +55,7 @@ export class EndOfSupplyActions {
             meteringPointId: ctx.meteringPointId,
             processId: ctx.processId,
             serviceKind: result.serviceKind,
-            startDate: result.startDate.toISOString(),
+            startDate: result.startDate,
             description: result.description,
           },
           onCompleted,

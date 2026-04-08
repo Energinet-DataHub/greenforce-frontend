@@ -228,7 +228,7 @@ describe('DhActionsRegistry', () => {
         isGridAccessProvider: false,
         isEnergySupplier: true,
         endOfSupplyHandlers: {
-          [WorkflowAction.RequestService]: {
+          [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
             callback: vi.fn(),
@@ -237,11 +237,11 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.RequestService],
+        [WorkflowAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply
       );
 
-      expect(result).toEqual([WorkflowAction.RequestService]);
+      expect(result).toEqual([WorkflowAction.SendInformation]);
     });
 
     it('should return action when user is GridAccessProvider and action allows both roles', () => {
@@ -249,7 +249,7 @@ describe('DhActionsRegistry', () => {
         isGridAccessProvider: true,
         isEnergySupplier: false,
         endOfSupplyHandlers: {
-          [WorkflowAction.RequestService]: {
+          [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
             callback: vi.fn(),
@@ -258,11 +258,11 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.RequestService],
+        [WorkflowAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply
       );
 
-      expect(result).toEqual([WorkflowAction.RequestService]);
+      expect(result).toEqual([WorkflowAction.SendInformation]);
     });
 
     it('should filter out action when user has neither required role', () => {
@@ -270,7 +270,7 @@ describe('DhActionsRegistry', () => {
         isGridAccessProvider: false,
         isEnergySupplier: false,
         endOfSupplyHandlers: {
-          [WorkflowAction.RequestService]: {
+          [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
             callback: vi.fn(),
@@ -279,7 +279,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.RequestService],
+        [WorkflowAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply
       );
 
