@@ -19,7 +19,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { EventEmitter, Injectable, Injector, TemplateRef, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { map, take } from 'rxjs';
+import { Observable, map, take } from 'rxjs';
 
 export interface WattModalConfig<T> {
   templateRef?: TemplateRef<unknown>;
@@ -44,33 +44,55 @@ export class WattModalService {
   private matDialogRef: MatDialogRef<unknown> | undefined;
 
   /**
-   * Opens the modal. Subsequent calls are ignored while the modal is opened.
-   * @ignore
+   * Opens a modal with a callback-based `onClosed` handler (boolean result).
    */
-  open = <T>(config: WattModalConfig<T>) => {
+  open<T>(config: WattModalConfig<T> & { onClosed: EventEmitter<boolean> | ((result: boolean) => void) }): void;
+
+  /**
+   * Opens a modal and returns an observable with the typed result from `dialogRef.close(result)`.
+   * Emits `undefined` if the modal is dismissed without a result.
+   */
+  open<TResult, TData = void>(config: Omit<WattModalConfig<TData>, 'onClosed'>): Observable<TResult | undefined>;
+
+  /**
+   * @deprecated Use the overload with `onClosed` callback or the observable-returning overload.
+   */
+  open<T>(config: WattModalConfig<T>): Observable<unknown> | void;
+
+  open<T>(config: WattModalConfig<T>): Observable<unknown> | void {
     const template = config.templateRef ?? config.component;
 
     if (!template) return;
 
     this.matDialogRef = this.openModal(template, config);
 
-    this.matDialogRef
-      .afterClosed()
-      .pipe(map(Boolean), take(1))
-      .subscribe((result) => {
-        if (config?.onClosed instanceof EventEmitter) {
-          config?.onClosed.emit(result);
-        } else {
-          config?.onClosed?.(result);
-        }
-      });
-
     if (config.minHeight) this.setMinHeight(config.minHeight);
-  };
+
+    if (config.onClosed) {
+      this.matDialogRef
+        .afterClosed()
+        .pipe(map(Boolean), take(1))
+        .subscribe((result) => {
+          if (config.onClosed instanceof EventEmitter) {
+            config.onClosed.emit(result);
+          } else {
+            config.onClosed?.(result);
+          }
+        });
+      return;
+    }
+
+    return this.matDialogRef.afterClosed().pipe(take(1));
+  }
 
   /**
-   * Opens the modal using the provided template and configuration.
+   * Closes the modal with `true` for acceptance or `false` for rejection.
+   * @ignore
    */
+  close(result: boolean) {
+    this.matDialogRef?.close(result);
+  }
+
   private openModal<T>(
     template: TemplateRef<unknown> | ComponentType<WattTypedModal<T>>,
     config: WattModalConfig<T>
@@ -86,16 +108,8 @@ export class WattModalService {
       data: config.data,
       maxWidth: 'none',
       injector: config.injector,
-      restoreFocus: config.restoreFocus === false ? false : true,
+      restoreFocus: config.restoreFocus !== false,
     });
-  }
-
-  /**
-   * Closes the modal with `true` for acceptance or `false` for rejection.
-   * @ignore
-   */
-  close(result: boolean) {
-    this.matDialogRef?.close(result);
   }
 
   private setMinHeight(minHeight: string) {

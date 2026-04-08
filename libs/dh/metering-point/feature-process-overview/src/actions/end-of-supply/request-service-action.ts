@@ -17,10 +17,9 @@
  */
 //#endregion
 import { inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { take } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 
+import { WattModalService } from '@energinet/watt/modal';
 import { WattToastService } from '@energinet/watt/toast';
 
 import {
@@ -41,20 +40,14 @@ export function requestServiceAction(
     onError: () => void
   ) => void
 ): (ctx: ProcessActionContext) => void {
-  const dialog = inject(MatDialog);
+  const modalService = inject(WattModalService);
   const transloco = inject(TranslocoService);
   const toast = inject(WattToastService);
 
   return (ctx) => {
-    const ref = dialog.open(DhRequestServiceModal, {
-      autoFocus: 'dialog',
-      panelClass: ['watt-modal-panel', 'watt-modal-panel--component'],
-    });
-
-    ref
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((result: RequestServiceResult | undefined) => {
+    modalService
+      .open<RequestServiceResult>({ component: DhRequestServiceModal })
+      .subscribe((result) => {
         if (!result) return;
         executeMutation(
           ctx,
