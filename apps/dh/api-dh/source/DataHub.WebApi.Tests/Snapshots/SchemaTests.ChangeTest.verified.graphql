@@ -88,14 +88,14 @@ type ActorCredentialsDto {
   clientSecretCredentials: ActorClientSecretCredentialsDto
 }
 
-type ActorMessageQueueDto {
+type ActorMessageQueue {
   category: MessageCategoryV1!
   count: Int!
-  messages: [QueuedMessageDto!]!
+  messages: [QueuedMessage!]!
 }
 
 type ActorMessageQueueResult {
-  queues: [ActorMessageQueueDto!]!
+  queues: [ActorMessageQueue!]!
 }
 
 type AddChargeSeriesPayload {
@@ -1493,7 +1493,7 @@ type Query {
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation!]!
 }
 
-type QueuedMessageDto {
+type QueuedMessage {
   messageId: String!
   documentType: OutgoingDocumentTypeV1!
   businessReason: BusinessReasonV1!

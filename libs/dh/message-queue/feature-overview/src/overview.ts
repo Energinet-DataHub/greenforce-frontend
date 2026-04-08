@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WATT_TABS } from '@energinet/watt/tabs';
@@ -27,17 +28,18 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { wattFormatDate } from '@energinet/watt/core/date';
 
-import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
+import { dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 import {
   GetActorMessageQueuesDocument,
   GetMarketParticipantsDocument,
   MessageCategoryV1,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import type { QueuedMessageDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { QueuedMessage } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-message-queue-overview',
@@ -114,17 +116,16 @@ export class DhMessageQueueOverview {
   private readonly permissionService = inject(PermissionService);
   private readonly transloco = inject(TranslocoService);
 
-  private readonly marketParticipantsQuery = query(GetMarketParticipantsDocument, {
-    skip: true,
-  });
+  private readonly marketParticipantsQuery = lazyQuery(GetMarketParticipantsDocument);
   private readonly messageQueuesQuery = lazyQuery(GetActorMessageQueuesDocument);
 
-  isAdmin = signal(false);
-  actorControl = new FormControl<string | null>(null);
+  readonly isAdmin = toSignal(this.permissionService.isFas(), { initialValue: false });
+  readonly actorControl = new FormControl<string | null>(null);
+  private readonly actorValue = dhFormControlToSignal(this.actorControl);
 
-  private readonly dataSources = new Map<string, WattTableDataSource<QueuedMessageDto>>();
+  private readonly dataSources = new Map<string, WattTableDataSource<QueuedMessage>>();
 
-  columns: WattTableColumnDef<QueuedMessageDto> = {
+  readonly columns: WattTableColumnDef<QueuedMessage> = {
     messageId: { accessor: 'messageId' },
     documentType: { accessor: 'documentType' },
     businessReason: { accessor: 'businessReason' },
@@ -133,10 +134,10 @@ export class DhMessageQueueOverview {
     },
   };
 
-  queues = computed(() => this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? []);
-  loading = this.messageQueuesQuery.loading;
+  readonly queues = computed(() => this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? []);
+  readonly loading = this.messageQueuesQuery.loading;
 
-  actorOptions = computed<WattDropdownOptions>(() => {
+  readonly actorOptions = computed<WattDropdownOptions>(() => {
     const participants = this.marketParticipantsQuery.data()?.marketParticipants ?? [];
     return participants.map((p) => ({
       displayValue: p.displayName,
@@ -144,38 +145,35 @@ export class DhMessageQueueOverview {
     }));
   });
 
-  constructor() {
-    this.permissionService.hasPermission('fas').subscribe((isFas) => {
-      this.isAdmin.set(isFas);
+  private readonly loadDataEffect = effect(() => {
+    const admin = this.isAdmin();
+    if (admin) {
+      this.marketParticipantsQuery.query({});
+    } else {
+      const actor = this.actorStorage.getSelectedActor();
+      this.fetchQueues(actor.gln, actor.marketRole);
+    }
+  });
 
-      if (isFas) {
-        this.marketParticipantsQuery.setOptions({ skip: false });
-      } else {
-        const actor = this.actorStorage.getSelectedActor();
-        this.fetchQueues(actor.gln, actor.marketRole);
-      }
-    });
+  private readonly actorSelectionEffect = effect(() => {
+    const value = this.actorValue();
+    if (!value) return;
+    const [gln, role] = value.split('|');
+    this.fetchQueues(gln, role);
+  });
 
-    this.actorControl.valueChanges.subscribe((value) => {
-      if (value) {
-        const [gln, role] = value.split('|');
-        this.fetchQueues(gln, role);
-      }
-    });
+  private readonly updateDataSourcesEffect = effect(() => {
+    const data = this.messageQueuesQuery.data();
+    if (!data) return;
 
-    effect(() => {
-      const data = this.messageQueuesQuery.data();
-      if (!data) return;
-
-      for (const queue of data.actorMessageQueues.queues) {
-        const ds =
-          this.dataSources.get(queue.category) ??
-          new WattTableDataSource<QueuedMessageDto>();
-        ds.data = queue.messages;
-        this.dataSources.set(queue.category, ds);
-      }
-    });
-  }
+    for (const queue of data.actorMessageQueues.queues) {
+      const ds =
+        this.dataSources.get(queue.category) ??
+        new WattTableDataSource<QueuedMessage>();
+      ds.data = queue.messages;
+      this.dataSources.set(queue.category, ds);
+    }
+  });
 
   getCategoryLabel(category: MessageCategoryV1): string {
     const keyMap: Record<string, string> = {
@@ -186,8 +184,8 @@ export class DhMessageQueueOverview {
     return this.transloco.translate(keyMap[category] ?? category);
   }
 
-  getDataSource(category: MessageCategoryV1): WattTableDataSource<QueuedMessageDto> {
-    return this.dataSources.get(category) ?? new WattTableDataSource<QueuedMessageDto>();
+  getDataSource(category: MessageCategoryV1): WattTableDataSource<QueuedMessage> {
+    return this.dataSources.get(category) ?? new WattTableDataSource<QueuedMessage>();
   }
 
   private fetchQueues(actorNumber: string, actorRole: string): void {

@@ -16,7 +16,7 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.ActorMessageQueues.V1.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorMessageQueue;
 
-public record QueuedMessageDto(
+public record QueuedMessage(
     string MessageId,
     OutgoingDocumentTypeV1 DocumentType,
     BusinessReasonV1 BusinessReason,

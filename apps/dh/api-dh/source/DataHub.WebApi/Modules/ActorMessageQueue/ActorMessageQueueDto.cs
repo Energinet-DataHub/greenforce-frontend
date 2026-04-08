@@ -16,7 +16,7 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.ActorMessageQueues.V1.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorMessageQueue;
 
-public record ActorMessageQueueDto(
+public record ActorMessageQueue(
     MessageCategoryV1 Category,
     int Count,
-    IReadOnlyList<QueuedMessageDto> Messages);
+    IReadOnlyList<QueuedMessage> Messages);

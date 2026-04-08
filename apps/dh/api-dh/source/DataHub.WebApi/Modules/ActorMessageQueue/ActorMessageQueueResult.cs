@@ -14,4 +14,4 @@
 
 namespace Energinet.DataHub.WebApi.Modules.ActorMessageQueue;
 
-public record ActorMessageQueueResult(IReadOnlyList<ActorMessageQueueDto> Queues);
+public record ActorMessageQueueResult(IReadOnlyList<ActorMessageQueue> Queues);
