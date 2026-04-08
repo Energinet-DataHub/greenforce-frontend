@@ -31,7 +31,7 @@ const normalizeQueryParams = (params: string) =>
  *
  * @usageNotes
  * ```typescript
- * import { provideStateLocationStrategy } from '@energinet-datahub/dh/core/routing';
+ * import { provideStateLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
  *
  * bootstrapApplication(AppComponent, {
  *   providers: [
