@@ -330,7 +330,7 @@ export class DhUpdateCustomerDataComponent {
 
     sync(
       addressGroup,
-      technicalAddressSameAsInstallation ? installationAddress : contact,
+      technicalAddressSameAsInstallation ? { ...installationAddress, postBox: null } : contact,
       technicalAddressSameAsInstallation
     );
   });
@@ -363,7 +363,7 @@ export class DhUpdateCustomerDataComponent {
 
     sync(
       addressGroup,
-      legalAddressSameAsInstallation ? installationAddress : contact,
+      legalAddressSameAsInstallation ? { ...installationAddress, postBox: null } : contact,
       legalAddressSameAsInstallation
     );
   });
