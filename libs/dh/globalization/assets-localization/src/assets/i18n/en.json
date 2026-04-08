@@ -1039,7 +1039,8 @@
         "CloseDownMeteringPoint": "Close down metering point (D14)",
         "ChangeConnectionStatus": "Change Connection Status (E79)",
         "UpdateMeteringPointMasterData": "Update master data metering point (E32)",
-        "ElectricalHeating": "Electrical heating (D20)"
+        "ElectricalHeating": "Electrical heating (D20)",
+        "CustomerMoveOut": "Move-out (E66)"
       },
       "filters": {
         "created": "Time",

@@ -1039,7 +1039,8 @@
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (D14)",
         "ChangeConnectionStatus": "Ændring af tilslutningsstatus (E79)",
         "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (E32)",
-        "ElectricalHeating": "Elvarme (D20)"
+        "ElectricalHeating": "Elvarme (D20)",
+        "CustomerMoveOut": "Fraflytning (E66)"
       },
       "filters": {
         "created": "Tidspunkt",
