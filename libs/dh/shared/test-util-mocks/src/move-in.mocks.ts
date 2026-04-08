@@ -75,6 +75,7 @@ function getProcessTransactionId() {
       data: {
         __typename: 'Query',
         meteringPointProcessById: {
+          id: '1',
           __typename: 'MeteringPointProcess' as const,
           transactionId: `txn-${args.variables.id}`,
         },
