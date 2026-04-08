@@ -3,4 +3,3 @@ query GetProcessTransactionId($id: String!) {
     transactionId
   }
 }
-
