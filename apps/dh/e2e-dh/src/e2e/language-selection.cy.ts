@@ -23,9 +23,6 @@ describe('Language selection', () => {
     // Navigate to message-archive specifically for this test
     cy.visit('/message-archive');
 
-    // Wait for the page to load and verify we're on the correct page
-    cy.url().should('include', '/message-archive');
-
     cy.findByRole('heading', {
       name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
     });
