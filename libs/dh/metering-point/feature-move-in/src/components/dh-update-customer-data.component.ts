@@ -346,7 +346,11 @@ export class DhUpdateCustomerDataComponent {
 
     sync(
       addressGroup,
-      technicalAddressSameAsInstallation ? installationAddress : contact,
+      technicalAddressSameAsInstallation
+        ? installationAddress
+          ? { ...installationAddress, postBox: null }
+          : null
+        : contact,
       technicalAddressSameAsInstallation
     );
   });
@@ -379,7 +383,11 @@ export class DhUpdateCustomerDataComponent {
 
     sync(
       addressGroup,
-      legalAddressSameAsInstallation ? installationAddress : contact,
+      legalAddressSameAsInstallation
+        ? installationAddress
+          ? { ...installationAddress, postBox: null }
+          : null
+        : contact,
       legalAddressSameAsInstallation
     );
   });
