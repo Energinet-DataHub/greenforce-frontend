@@ -22,9 +22,4 @@ import '@angular/compiler';
 
 import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-// Add structuredClone polyfill if not available
-if (typeof structuredClone === 'undefined') {
-  global.structuredClone = <T>(obj: T): T => JSON.parse(JSON.stringify(obj));
-}
-
 setUpTestbed();
