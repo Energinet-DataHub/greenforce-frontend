@@ -1,0 +1,59 @@
+// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.ActorMessageQueues.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.ActorMessageQueues.V1.Models;
+using HotChocolate.Authorization;
+
+namespace Energinet.DataHub.WebApi.Modules.ActorMessageQueue;
+
+public static class ActorMessageQueueOperations
+{
+    [Query]
+    [Authorize(Roles = ["actor-message-queue:view"])]
+    public static async Task<ActorMessageQueueResult> GetActorMessageQueuesAsync(
+        string actorNumber,
+        string actorRole,
+        IB2CClient ediB2CClient,
+        CancellationToken ct)
+    {
+        if (!Enum.TryParse<ActorRoleV1>(actorRole, ignoreCase: true, out var parsedRole))
+        {
+            throw new GraphQLException($"Invalid actor role: {actorRole}");
+        }
+
+        var request = new ActorMessageQueuesRequestV1(actorNumber, parsedRole);
+        var command = new RequestActorMessageQueuesCommandV1(request);
+        var result = await ediB2CClient.SendAsync(command, ct);
+
+        return result.IsSuccess
+            ? MapToResult(result.Data)
+            : throw new GraphQLException("Failed to retrieve actor message queues");
+    }
+
+    private static ActorMessageQueueResult MapToResult(ActorMessageQueuesResponseV1 response) =>
+        new(response.ActorQueues.Values
+            .Select(q => new ActorMessageQueueDto(
+                q.MessageCategory,
+                q.NumberOfMessagesInQueue,
+                q.Messages
+                    .Select(m => new QueuedMessageDto(
+                        m.MessageId,
+                        m.OutgoingDocumentType,
+                        m.BusinessReason,
+                        m.EnqueuedAt))
+                    .ToList()))
+            .ToList());
+}
