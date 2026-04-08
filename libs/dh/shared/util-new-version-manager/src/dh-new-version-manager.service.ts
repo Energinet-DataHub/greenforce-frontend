@@ -19,7 +19,7 @@
 import { inject, Injectable } from '@angular/core';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { TranslocoService } from '@jsverse/transloco';
-import { filter, switchMap } from 'rxjs';
+import { filter, switchMap, take } from 'rxjs';
 
 import { WattToastService } from '@energinet/watt/toast';
 
@@ -37,7 +37,8 @@ export class DhNewVersionManager {
     this.swUpdate.versionUpdates
       .pipe(
         filter((event): event is VersionReadyEvent => event.type === 'VERSION_READY'),
-        switchMap(() => this.transloco.selectTranslateObject('newVersionAvailable'))
+        switchMap(() => this.transloco.selectTranslateObject('newVersionAvailable')),
+        take(1)
       )
       .subscribe(({ message, action: actionLabel }) => {
         this.toast.open({
