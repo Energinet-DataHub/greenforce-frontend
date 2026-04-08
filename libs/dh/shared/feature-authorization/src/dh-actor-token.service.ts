@@ -33,6 +33,7 @@ import { SeverityLevel } from '@microsoft/applicationinsights-web';
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { localStorageToken } from '@energinet-datahub/dh/shared/util-browser';
+import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhActorStorage } from './dh-actor-storage';
 
@@ -50,6 +51,7 @@ export class DhActorTokenService {
   private httpClient = inject(HttpClient);
   private appInsights = inject(DhApplicationInsights);
   private localStorage = inject(localStorageToken);
+  private hiddenLocationStrategy = injectHiddenLocationStrategy();
 
   private logoutInProgress = false;
 
@@ -103,6 +105,7 @@ export class DhActorTokenService {
                     const givenName = account?.idTokenClaims['given_name'];
                     if (!givenName) {
                       this.localStorage.setItem('mitIdRelogin', 'true');
+                      this.hiddenLocationStrategy.clearSession();
                       this.msalService.instance.logoutRedirect();
                     }
                   }
@@ -131,7 +134,10 @@ export class DhActorTokenService {
                     this.appInsights.flush();
 
                     // Delay redirect to logout so AppInsights has a chance to flush
-                    setTimeout(() => this.msalService.instance.logoutRedirect(), 2_000);
+                    setTimeout(() => {
+                      this.hiddenLocationStrategy.clearSession();
+                      this.msalService.instance.logoutRedirect();
+                    }, 2_000);
 
                     this.logoutInProgress = true;
                   }

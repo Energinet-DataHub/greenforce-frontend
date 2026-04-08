@@ -22,9 +22,7 @@ describe('Application shell', () => {
     cy.findByRole('heading', { name: /Fremsøg forretningsbeskeder/i });
 
     // Page loaded
-    cy.get('.selected-organization-name-label', {
-      timeout: 10_000,
-    }).should('exist');
+    cy.get('.selected-organization-name-label', { timeout: 10_000 }).should('exist');
 
     // Handle the auto-opening modal
     cy.findByRole('dialog').should('exist');

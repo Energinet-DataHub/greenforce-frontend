@@ -20,6 +20,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { map, filter, take } from 'rxjs/operators';
+
 import { DhReleaseToggleService } from './dh-release-toggle.service';
 
 /**

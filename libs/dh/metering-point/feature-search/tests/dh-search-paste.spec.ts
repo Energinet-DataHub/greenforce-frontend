@@ -18,7 +18,7 @@
 //#endregion
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
-
+import { vi } from 'vitest';
 import { render } from '@testing-library/angular';
 
 import {
@@ -28,6 +28,7 @@ import {
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { provideHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhSearchComponent } from '../src/components/dh-search.component';
 
@@ -56,6 +57,7 @@ async function setup() {
       WattModalService,
       { provide: ComponentFixtureAutoDetect, useValue: true },
       { provide: dhAppEnvironmentToken, useValue: { current: 'test' } },
+      provideHiddenLocationStrategy(),
     ],
     imports: [getTranslocoTestingModule()],
   });

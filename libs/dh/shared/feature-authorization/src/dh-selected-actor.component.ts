@@ -29,6 +29,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { GetSelectionMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { isMeteringPointSubPath } from '@energinet-datahub/dh/shared/domain';
 
@@ -49,6 +50,7 @@ export class DhSelectedActorComponent {
   private readonly router = inject(Router);
   private readonly location = inject(windowLocationToken);
   private readonly actorStorage = inject(DhActorStorage);
+  private readonly hiddenLocationStrategy = injectHiddenLocationStrategy();
 
   private query = query(GetSelectionMarketParticipantsDocument);
   private memberOfMarketParticipants = computed(
@@ -108,6 +110,7 @@ export class DhSelectedActorComponent {
 
   selectMarketParticipant = async (marketParticipant: SelectionMarketParticipant) => {
     this.actorStorage.setSelectedActor(marketParticipant);
+    this.hiddenLocationStrategy.clearSession();
 
     if (isMeteringPointSubPath(this.router.url)) {
       await this.router.navigate(['/metering-point/search']);

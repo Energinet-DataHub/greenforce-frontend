@@ -18,21 +18,21 @@
 //#endregion
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
-import { vi } from 'vitest';
-
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
+import { vi, expect, describe, it } from 'vitest';
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
+import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
+import { WattModalService } from '@energinet/watt/modal';
 import {
   getTranslocoTestingModule,
   provideMsalTesting,
   waitForAsync,
 } from '@energinet-datahub/dh/shared/test-util';
-import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
-import { WattModalService } from '@energinet/watt/modal';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { of } from 'rxjs';
-import { Router } from '@angular/router';
+import { provideHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
 
@@ -59,6 +59,7 @@ async function setup(
           hasPermission: () => of(true),
         },
       },
+      provideHiddenLocationStrategy(),
     ],
     imports: [getTranslocoTestingModule()],
     componentInputs: {

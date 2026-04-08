@@ -18,17 +18,6 @@
 //#endregion
 
 describe('Redirect to initial URL', () => {
-  const initialUrl = '/market-participant/actors';
-
-  it('should have correct redirectTo value before login', () => {
-    cy.visit(initialUrl);
-
-    cy.location('href', { timeout: 10_000 }).should((url) => {
-      expect(url).to.include('/login');
-      expect(url).to.include(`dhRedirectTo=${encodeURIComponent(initialUrl)}`);
-    });
-  });
-
   describe.skip('After login', () => {
     const initialUrl = '/market-participant/actors';
 

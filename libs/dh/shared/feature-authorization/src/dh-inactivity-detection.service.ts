@@ -33,6 +33,7 @@ import {
 import { MsalService } from '@azure/msal-angular';
 
 import { WattModalService } from '@energinet/watt/modal';
+import { injectHiddenLocationStrategy } from '@energinet-datahub/dh/core/configuration-routing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { isMeteringPointSubPath } from '@energinet-datahub/dh/shared/domain';
 
@@ -51,6 +52,7 @@ export class DhInactivityDetectionService {
   private readonly ngZone = inject(NgZone);
   private readonly modalService = inject(WattModalService);
   private readonly msal = inject(MsalService);
+  private readonly hiddenLocationStrategy = injectHiddenLocationStrategy();
 
   private readonly secondsUntilWarning = 115 * 60;
 
@@ -108,12 +110,22 @@ export class DhInactivityDetectionService {
   }
 
   private logout() {
-    const postLogoutRedirectUri = isMeteringPointSubPath(this.router.url)
-      ? `/metering-point/search`
-      : this.location.path();
+    this.hiddenLocationStrategy.clearSession();
 
     this.msal.logoutRedirect({
-      postLogoutRedirectUri,
+      postLogoutRedirectUri: this.postLogoutRedirectUri(this.router.url),
     });
+  }
+
+  private postLogoutRedirectUri(url: string): string {
+    if (isMeteringPointSubPath(url)) {
+      return `/metering-point/search`;
+    }
+
+    if (url.includes('/admin/users/details')) {
+      return `/admin/users`;
+    }
+
+    return this.location.path();
   }
 }
