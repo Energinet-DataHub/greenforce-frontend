@@ -33,7 +33,7 @@ import {
 import type { ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
 import { rejectProcessAction } from '../shared/reject-process-action';
-import { requestServiceAction } from '../shared/request-service-action';
+import { requestServiceAction } from './request-service-action';
 
 @Injectable({ providedIn: 'root' })
 export class EndOfSupplyActions {
