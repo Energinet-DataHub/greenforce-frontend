@@ -49,6 +49,11 @@ export class DhActionsRegistry {
     { initialValue: false }
   );
 
+  private readonly isEnergySupplier = toSignal(
+    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
+    { initialValue: false }
+  );
+
   private readonly registry: Partial<Record<ProcessManagerBusinessReason, ActionHandlerMap>> = {
     [ProcessManagerBusinessReason.EndOfSupply]: inject(EndOfSupplyActions).handlers,
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
@@ -58,6 +63,7 @@ export class DhActionsRegistry {
     if (!handler.marketRoles?.length) return true;
     return handler.marketRoles.some((role) => {
       if (role === EicFunction.GridAccessProvider) return this.isGridAccessProvider();
+      if (role === EicFunction.EnergySupplier) return this.isEnergySupplier();
       console.error('[DhActionsRegistry] Unsupported market role:', role);
       return false;
     });

@@ -24,6 +24,7 @@ import {
   ProcessManagerBusinessReason,
   CancelEndOfSupplyDocument,
   RejectEndOfSupplyDocument,
+  RequestServiceEndOfSupplyDocument,
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
   WorkflowAction,
@@ -32,13 +33,36 @@ import {
 import type { ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
 import { rejectProcessAction } from '../shared/reject-process-action';
+import { requestServiceAction } from '../shared/request-service-action';
 
 @Injectable({ providedIn: 'root' })
 export class EndOfSupplyActions {
   private readonly cancelEndOfSupply = mutation(CancelEndOfSupplyDocument);
   private readonly rejectEndOfSupply = mutation(RejectEndOfSupplyDocument);
+  private readonly requestServiceEndOfSupply = mutation(RequestServiceEndOfSupplyDocument);
 
   readonly handlers: ActionHandlerMap = {
+    [WorkflowAction.RequestService]: {
+      featureFlag: 'end-of-supply',
+      marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
+      callback: requestServiceAction((ctx, result, onCompleted, onError) => {
+        this.requestServiceEndOfSupply.mutate({
+          refetchQueries: [
+            GetMeteringPointProcessByIdDocument,
+            GetMeteringPointProcessOverviewDocument,
+          ],
+          variables: {
+            meteringPointId: ctx.meteringPointId,
+            processId: ctx.processId,
+            serviceKind: result.serviceKind,
+            startDate: result.startDate.toISOString(),
+            description: result.description,
+          },
+          onCompleted,
+          onError,
+        });
+      }),
+    },
     [WorkflowAction.RejectRequest]: {
       featureFlag: 'end-of-supply',
       marketRoles: [EicFunction.GridAccessProvider],

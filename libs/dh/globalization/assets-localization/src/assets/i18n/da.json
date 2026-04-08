@@ -1194,6 +1194,24 @@
           "canceled": "Annulleret",
           "succeeded": "Modtaget"
         }
+      },
+      "requestService": {
+        "title": "Leveranceophør: Anmodning om serviceydelse",
+        "serviceKindLabel": "Anmodet serviceydelse",
+        "serviceKindPlaceholder": "Vælg",
+        "startDateLabel": "Udførselsdato",
+        "descriptionLabel": "Bemærkning",
+        "cancel": "Luk vindue",
+        "confirm": "Send anmodning",
+        "successToast": "Anmodning om serviceydelse indsendt",
+        "errorToast": "Anmodning om serviceydelse fejlede",
+        "serviceKinds": {
+          "ORDINARY_DISCONNECTION_AGREED_WITH_THE_CUSTOMER": "Afbrydelse - anmodet kunde",
+          "THE_POLICE_IS_INVOLVED_IN_THE_DISCONNECTION": "Politiet skal inddrages i afbrydelsen",
+          "THE_MUNICIPALITY_IS_INVOLVED_IN_THE_DISCONNECTION": "Kommunen skal inddrages i afbrydelsen",
+          "THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION": "Fogedretten skal inddrages i afbrydelsen",
+          "OTHER_REASON": "Anden årsag"
+        }
       }
     },
     "measurements": {

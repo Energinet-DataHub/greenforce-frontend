@@ -1194,6 +1194,24 @@
           "canceled": "Canceled",
           "succeeded": "Received"
         }
+      },
+      "requestService": {
+        "title": "End of supply: Request service",
+        "serviceKindLabel": "Requested service",
+        "serviceKindPlaceholder": "Select",
+        "startDateLabel": "Execution date",
+        "descriptionLabel": "Remarks",
+        "cancel": "Close",
+        "confirm": "Send request",
+        "successToast": "Service request submitted",
+        "errorToast": "Service request failed",
+        "serviceKinds": {
+          "ORDINARY_DISCONNECTION_AGREED_WITH_THE_CUSTOMER": "Disconnection - requested by customer",
+          "THE_POLICE_IS_INVOLVED_IN_THE_DISCONNECTION": "Police must be involved in disconnection",
+          "THE_MUNICIPALITY_IS_INVOLVED_IN_THE_DISCONNECTION": "Municipality must be involved in disconnection",
+          "THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION": "Bailiffs court must be involved in disconnection",
+          "OTHER_REASON": "Other reason"
+        }
       }
     },
     "measurements": {
