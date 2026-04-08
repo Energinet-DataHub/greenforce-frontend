@@ -1025,7 +1025,8 @@
         "ChangeConnectionStatus": "Disconnection and reconnection of metering point (BRS-013)",
         "UpdateMeteringPointMasterData": "Update of metering point master data (BRS-006)",
         "ProductionObligation": "Change of production obligation (BRS-036)",
-        "ElectricalHeating": "Change of electrical heating (BRS-041)"
+        "ElectricalHeating": "Change of electrical heating (BRS-041)",
+        "CustomerMoveOut": "Move-out (BRS-010)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",

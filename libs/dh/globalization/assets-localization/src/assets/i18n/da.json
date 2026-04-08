@@ -1025,7 +1025,8 @@
         "ChangeConnectionStatus": "Afbrydelse og gentilslutning af målepunkt (BRS-013)",
         "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)",
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)",
-        "ElectricalHeating": "Håndtering af elvarme (BRS-041)"
+        "ElectricalHeating": "Håndtering af elvarme (BRS-041)",
+        "CustomerMoveOut": "Fraflytning (BRS-010)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
