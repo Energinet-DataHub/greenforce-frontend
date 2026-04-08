@@ -35,7 +35,9 @@
       "@energinet-datahub/dh/admin/shell": ["./libs/dh/admin/shell/index.ts"],
       "@energinet-datahub/dh/admin/ui-shared": ["./libs/dh/admin/ui-shared/index.ts"],
       "@energinet-datahub/dh/auth/msal": ["./libs/dh/auth/feature-msal/index.ts"],
-      "@energinet-datahub/dh/charges/feature-charges": ["./libs/dh/charges/feature-charges/index.ts"],
+      "@energinet-datahub/dh/charges/feature-charges": [
+        "./libs/dh/charges/feature-charges/index.ts"
+      ],
       "@energinet-datahub/dh/charges/feature-parse-series": [
         "./libs/dh/charges/feature-parse-series/index.ts"
       ],
@@ -144,7 +146,9 @@
       "@energinet-datahub/dh/reports/feature-missing-measurements-log": [
         "./libs/dh/reports/feature-missing-measurements-log/index.ts"
       ],
-      "@energinet-datahub/dh/reports/feature-reports": ["./libs/dh/reports/feature-reports/index.ts"],
+      "@energinet-datahub/dh/reports/feature-reports": [
+        "./libs/dh/reports/feature-reports/index.ts"
+      ],
       "@energinet-datahub/dh/reports/feature-settlement-reports": [
         "./libs/dh/reports/feature-settlement-reports/index.ts"
       ],
@@ -212,7 +216,9 @@
         "./libs/gf/globalization/data-access-localization/index.ts"
       ],
       "@energinet-datahub/gf/globalization/domain": ["./libs/gf/globalization/domain/index.ts"],
-      "@energinet-datahub/gf/msw/test-util-msw-setup": ["./libs/gf/msw/test-util-msw-setup/index.ts"],
+      "@energinet-datahub/gf/msw/test-util-msw-setup": [
+        "./libs/gf/msw/test-util-msw-setup/index.ts"
+      ],
       "@energinet-datahub/gf/test-util": ["./libs/gf/shared/test-util/index.ts"],
       "@energinet-datahub/gf/test-util-matchers": ["./libs/gf/shared/test-util-matchers/index.ts"],
       "@energinet-datahub/gf/test-util-msw": ["./libs/gf/msw/test-util-msw/index.ts"],
@@ -289,7 +295,9 @@
       "@energinet/watt/toast": ["./libs/watt/package/toast/index.ts"],
       "@energinet/watt/tooltip": ["./libs/watt/package/tooltip/index.ts"],
       "@energinet/watt/utils/css": ["./libs/watt/package/utils/css/index.ts"],
-      "@energinet/watt/utils/resize-observer": ["./libs/watt/package/utils/resize-observer/index.ts"],
+      "@energinet/watt/utils/resize-observer": [
+        "./libs/watt/package/utils/resize-observer/index.ts"
+      ],
       "@energinet/watt/validation-message": ["./libs/watt/package/validation-message/index.ts"],
       "@energinet/watt/validators": ["./libs/watt/package/validators/index.ts"],
       "@energinet/watt/vater": ["./libs/watt/package/vater/index.ts"],
