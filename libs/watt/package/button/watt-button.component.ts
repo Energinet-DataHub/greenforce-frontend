@@ -31,6 +31,7 @@ export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon', 'selecti
 export type WattButtonVariant = (typeof WattButtonTypes)[number];
 export type WattButtonType = 'button' | 'reset' | 'submit';
 export type WattButtonSize = 'small' | 'medium';
+export type WattButtonIconPosition = 'leading' | 'trailing';
 
 @Component({
   selector: 'watt-button',
@@ -57,7 +58,7 @@ export type WattButtonSize = 'small' | 'medium';
       }
       <div [class.content-wrapper]="!loading()" [class.content-wrapper--loading]="loading()">
         @if (hasIcon()) {
-          <watt-icon [name]="icon()" />
+          <watt-icon [name]="icon()" [class.watt-icon-trailing]="hasTrailingIcon()" />
         }
         @if (variant() !== 'icon') {
           <span class="text-content"><ng-content /></span>
@@ -68,6 +69,7 @@ export type WattButtonSize = 'small' | 'medium';
 })
 export class WattButtonComponent {
   icon = input<WattIcon>();
+  iconPosition = input<WattButtonIconPosition>('leading');
   variant = input<WattButtonVariant>('primary');
   size = input<WattButtonSize>('medium');
   type = input<WattButtonType>('button');
@@ -87,4 +89,5 @@ export class WattButtonComponent {
    * @ignore
    */
   hasIcon = computed(() => !!this.icon());
+  hasTrailingIcon = computed(() => this.hasIcon() && this.iconPosition() === 'trailing');
 }
