@@ -17,7 +17,8 @@
  */
 //#endregion
 import { Sort } from '@angular/material/sort';
-import { render, screen, waitFor, fireEvent } from '@testing-library/angular';
+import { render, screen, fireEvent } from '@testing-library/angular';
+import { waitForAsync } from '@energinet-datahub/gf/test-util-staging';
 import userEvent from '@testing-library/user-event';
 
 import { WattTableDataSource } from './watt-table-data-source';
@@ -404,7 +405,7 @@ describe(WattTableComponent, () => {
     await fixture.whenStable();
 
     const [firstCheckbox] = screen.getAllByRole('checkbox');
-    await waitFor(() => expect(firstCheckbox).toBeChecked());
+    await waitForAsync(() => expect(firstCheckbox).toBeChecked());
   });
 
   it('automatically unchecks the select all checkbox', async () => {
@@ -427,7 +428,7 @@ describe(WattTableComponent, () => {
     fireEvent.click(firstCheckbox);
     fireEvent.click(secondCheckbox);
 
-    await waitFor(() => expect(firstCheckbox).not.toBeChecked());
+    await waitForAsync(() => expect(firstCheckbox).not.toBeChecked());
   });
 
   it('can set initially selected rows', async () => {
@@ -451,11 +452,13 @@ describe(WattTableComponent, () => {
     const [selectAllCheckbox, firstCheckbox, secondCheckbox, ...otherCheckboxes] =
       screen.getAllByRole('checkbox');
 
-    await waitFor(() => expect(selectAllCheckbox).not.toBeChecked());
-    await waitFor(() => expect(firstCheckbox).toBeChecked());
-    await waitFor(() => expect(secondCheckbox).toBeChecked());
+    await waitForAsync(() => expect(selectAllCheckbox).not.toBeChecked());
+    await waitForAsync(() => expect(firstCheckbox).toBeChecked());
+    await waitForAsync(() => expect(secondCheckbox).toBeChecked());
 
-    await waitFor(() => otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked()));
+    await waitForAsync(() =>
+      otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked())
+    );
   });
 
   it("does NOT reset initial selection when 'selectable' Input is toggled", async () => {
@@ -480,7 +483,7 @@ describe(WattTableComponent, () => {
 
     let [, firstCheckbox] = screen.getAllByRole('checkbox');
 
-    await waitFor(() => expect(firstCheckbox).toBeChecked());
+    await waitForAsync(() => expect(firstCheckbox).toBeChecked());
     userEvent.click(firstCheckbox);
 
     result.rerender({
@@ -505,7 +508,7 @@ describe(WattTableComponent, () => {
 
     [, firstCheckbox] = screen.getAllByRole('checkbox');
 
-    await waitFor(() => expect(firstCheckbox).not.toBeChecked());
+    await waitForAsync(() => expect(firstCheckbox).not.toBeChecked());
   });
 
   it('renders cell content using template', async () => {
@@ -555,7 +558,7 @@ describe(WattTableComponent, () => {
     await fixture.whenStable();
 
     // Wait a bit for toolbar to update
-    await waitFor(() => {
+    await waitForAsync(() => {
       expect(screen.queryByRole('toolbar')).toHaveTextContent('6');
     });
   });
