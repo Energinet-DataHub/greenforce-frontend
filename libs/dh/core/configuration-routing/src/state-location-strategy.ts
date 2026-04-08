@@ -19,8 +19,8 @@
 import { Injectable, Provider } from '@angular/core';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
-/** Key used to store the URL in the history state object. */
-export const STATE_URL_KEY = '__stateUrl';
+/** Key used to store the router URL in the history state object. */
+export const ROUTER_URL_KEY = '__dhRouterUrl__';
 
 const normalizeState = (state: unknown) => (state as Record<string, unknown>) ?? {};
 const normalizeQueryParams = (params: string) =>
@@ -45,7 +45,7 @@ const normalizeQueryParams = (params: string) =>
 export class StateLocationStrategy extends PathLocationStrategy {
   override path(includeHash = false) {
     const state = normalizeState(this.getState());
-    const stateUrl = state[STATE_URL_KEY];
+    const stateUrl = state[ROUTER_URL_KEY];
     if (typeof stateUrl !== 'string') return super.path(includeHash);
     return !includeHash ? stateUrl.split('#')[0] : stateUrl;
   }
@@ -65,7 +65,7 @@ export class StateLocationStrategy extends PathLocationStrategy {
   private withStateUrl(state: unknown, url: string, queryParams: string) {
     return {
       ...normalizeState(state),
-      [STATE_URL_KEY]: url + normalizeQueryParams(queryParams),
+      [ROUTER_URL_KEY]: url + normalizeQueryParams(queryParams),
     };
   }
 }
