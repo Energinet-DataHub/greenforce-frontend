@@ -42,7 +42,6 @@ import {
   AddressTypeV1,
   ChangeCustomerCharacteristicsBusinessReason,
   GetMeteringPointByIdDocument,
-  GetProcessTransactionIdDocument,
   GetTemporaryStorageDataDocument,
   RequestChangeCustomerCharacteristicsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -191,20 +190,11 @@ export class DhUpdateCustomerDataComponent {
       actorGln: this.actor.gln,
     },
   }));
-  processTransactionIdQuery = query(GetProcessTransactionIdDocument, () => ({
+  temporaryStorageCustomerQuery = query(GetTemporaryStorageDataDocument, () => ({
     skip: !this.processId(),
     variables: {
-      id: this.processId() ?? '',
-    },
-  }));
-  private readonly transactionId = computed(
-    () => this.processTransactionIdQuery.data()?.meteringPointProcessById?.transactionId
-  );
-  temporaryStorageCustomerQuery = query(GetTemporaryStorageDataDocument, () => ({
-    skip: !this.transactionId(),
-    variables: {
       meteringPointId: this.meteringPointId(),
-      transactionId: this.transactionId() ?? '',
+      processId: this.processId() ?? '',
     },
   }));
   private readonly temporaryStorageCustomer = computed(
