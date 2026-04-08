@@ -50,7 +50,7 @@ export class StateLocationStrategy extends PathLocationStrategy {
     return !includeHash ? url.split('#')[0] : url;
   }
 
-  override prepareExternalUrl(_: string) {
+  override prepareExternalUrl() {
     return this.getBaseHref();
   }
 
