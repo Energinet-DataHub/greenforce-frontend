@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
@@ -59,6 +59,7 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
 
 @Component({
   selector: 'dh-request-service-modal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -158,7 +159,7 @@ export class DhRequestServiceModal extends WattTypedModal<RequestServiceModalDat
         processId: this.modalData.processId,
         serviceKind,
         startDate,
-        description,
+        description: description || null,
       },
       onError: () => {
         this.modal().close(false);
