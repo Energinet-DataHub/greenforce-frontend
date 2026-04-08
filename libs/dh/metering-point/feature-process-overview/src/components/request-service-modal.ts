@@ -93,10 +93,7 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
             [showResetOption]="false"
           />
 
-          <watt-datepicker
-            [label]="t('startDateLabel')"
-            [formControl]="form.controls.startDate"
-          />
+          <watt-datepicker [label]="t('startDateLabel')" [formControl]="form.controls.startDate" />
 
           <div>
             <watt-textarea-field
@@ -134,7 +131,10 @@ export class DhRequestServiceModal extends WattTypedModal {
   readonly form = this.fb.group({
     serviceKind: this.fb.control<ServiceKindV1 | null>(null, Validators.required),
     startDate: this.fb.control<Date | null>(null, Validators.required),
-    description: this.fb.control<string | null>(null, Validators.maxLength(this.maxDescriptionLength)),
+    description: this.fb.control<string | null>(
+      null,
+      Validators.maxLength(this.maxDescriptionLength)
+    ),
   });
 
   cancel() {
