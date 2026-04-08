@@ -76,7 +76,7 @@ describe(WattDateRangeChipComponent.name, () => {
   };
 
   it('should render with label content', async () => {
-    // Test using template syntax to verify ng-content projection
+    // Test using template syntax to verify ng-content projection.
     await render(
       `
       <watt-date-range-chip [formControl]="formControl">

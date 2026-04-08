@@ -154,15 +154,16 @@ watt-button {
           .content-wrapper {
             width: 100%;
             display: flex;
-
-            watt-icon {
-              order: 2;
-              margin-left: auto;
-            }
           }
         }
       }
     }
+  }
+
+  &.watt-button--selection watt-icon,
+  & watt-icon.watt-icon-trailing {
+    order: 2;
+    margin-left: auto;
   }
 
   &.watt-button--icon {
