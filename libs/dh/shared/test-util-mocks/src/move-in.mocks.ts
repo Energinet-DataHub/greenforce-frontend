@@ -20,13 +20,19 @@ import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/msw/test-util-msw-setup';
 import {
+  mockGetProcessTransactionIdQuery,
   mockGetTemporaryStorageDataQuery,
   mockInitiateMoveInMutation,
   mockRequestChangeCustomerCharacteristicsMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 export function moveInMocks() {
-  return [initiateMoveInMutation(), changeCustomerCharacteristics(), getTemporaryStorageData()];
+  return [
+    initiateMoveInMutation(),
+    changeCustomerCharacteristics(),
+    getProcessTransactionId(),
+    getTemporaryStorageData(),
+  ];
 }
 
 function initiateMoveInMutation() {
@@ -55,6 +61,22 @@ function changeCustomerCharacteristics() {
         changeCustomerCharacteristics: {
           __typename: 'ChangeCustomerCharacteristicsPayload',
           success: true,
+        },
+      },
+    });
+  });
+}
+
+function getProcessTransactionId() {
+  return mockGetProcessTransactionIdQuery(async (args) => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPointProcessById: {
+          __typename: 'MeteringPointProcess' as const,
+          transactionId: `txn-${args.variables.id}`,
         },
       },
     });
