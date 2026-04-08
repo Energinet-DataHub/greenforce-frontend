@@ -20,6 +20,7 @@
 export const permissions = [
   'actor-credentials:manage',
   'actor-master-data:manage',
+  'actor-message-queue:view',
   'actors:manage',
   'additional-recipients:manage',
   'additional-recipients:view',

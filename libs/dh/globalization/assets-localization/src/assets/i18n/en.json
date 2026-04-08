@@ -240,7 +240,8 @@
       "messageArchive": {
         "menuGroupLabel": "Messages",
         "messageArchive": "Request/Response messages",
-        "requestCalculation": "Request calculation data"
+        "requestCalculation": "Request calculation data",
+        "messageQueue": "Messages in queue"
       },
       "meteringPoints": "Metering Points",
       "prices": "Prices",
@@ -1654,6 +1655,22 @@
       "createdDate": "Date and time",
       "invalidDate": "Invalid date"
     }
+  },
+  "messageQueue": {
+    "topBarTitle": "Messages in queue",
+    "tabs": {
+      "masterdata": "Masterdata",
+      "measureData": "Measure data",
+      "aggregations": "Settlements"
+    },
+    "table": {
+      "messageId": "Message ID",
+      "documentType": "Document type",
+      "businessReason": "Business reason",
+      "enqueuedAt": "Timestamp"
+    },
+    "tableInfo": "The table shows the 10 oldest messages in the queue.",
+    "selectActor": "Select actor"
   },
   "marketParticipant": {
     "status": {

@@ -55,6 +55,13 @@ limitations under the License.
       >
         {{ transloco("messageArchive.requestCalculation") }}
       </watt-nav-list-item>
+
+      <watt-nav-list-item
+        *dhFeatureFlag="'actor-message-queue'"
+        [link]="getLink('message-queue')"
+      >
+        {{ transloco("messageArchive.messageQueue") }}
+      </watt-nav-list-item>
     </watt-nav-list>
 
     <watt-nav-list>

@@ -240,7 +240,8 @@
       "messageArchive": {
         "menuGroupLabel": "Beskeder",
         "messageArchive": "Fremsøg forretningsbeskeder",
-        "requestCalculation": "Anmod om beregnede data"
+        "requestCalculation": "Anmod om beregnede data",
+        "messageQueue": "Beskeder i kø"
       },
       "meteringPoints": "Målepunkter",
       "prices": "Priser",
@@ -1654,6 +1655,22 @@
       "createdDate": "Dato og tid",
       "invalidDate": "Ugyldig dato"
     }
+  },
+  "messageQueue": {
+    "topBarTitle": "Beskeder i kø",
+    "tabs": {
+      "masterdata": "Masterdata",
+      "measureData": "Måledata",
+      "aggregations": "Afregning"
+    },
+    "table": {
+      "messageId": "Besked ID",
+      "documentType": "Dokumenttype",
+      "businessReason": "Forretningskode",
+      "enqueuedAt": "Tidspunkt"
+    },
+    "tableInfo": "Tabellen viser de 10 ældste beskeder i køen.",
+    "selectActor": "Vælg aktør"
   },
   "marketParticipant": {
     "status": {
