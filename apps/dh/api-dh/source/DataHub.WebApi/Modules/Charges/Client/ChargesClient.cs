@@ -257,6 +257,6 @@ public class ChargesClient(
 
     private static PricingCategoryV2 MapToPricingCategoryV2(bool? spotDependingPrice)
         => spotDependingPrice.GetValueOrDefault(false)
-            ? PricingCategoryV2.SpotDependeningPrice
+            ? PricingCategoryV2.SpotDependingPrice
             : PricingCategoryV2.NotSpotDependingPrice;
 }
