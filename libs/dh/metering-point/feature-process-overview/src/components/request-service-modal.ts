@@ -16,27 +16,33 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattToastService } from '@energinet/watt/toast';
 import { VaterStackComponent } from '@energinet/watt/vater';
 
-import { ServiceKindV1 } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ServiceKindV1,
+  RequestServiceEndOfSupplyDocument,
+  GetMeteringPointProcessByIdDocument,
+  GetMeteringPointProcessOverviewDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
-export interface RequestServiceResult {
-  serviceKind: ServiceKindV1;
-  startDate: Date;
-  description: string | null;
+export interface RequestServiceModalData {
+  meteringPointId: string;
+  processId: string;
 }
 
 const allowedServiceKinds: ServiceKindV1[] = [
@@ -79,7 +85,6 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
       *transloco="let t; prefix: 'meteringPoint.processOverview.requestService'"
       [title]="t('title')"
       size="small"
-      #modal
     >
       <form id="request-service-form" [formGroup]="form" (ngSubmit)="submit()">
         <vater-stack direction="column" gap="m">
@@ -109,11 +114,11 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
       </form>
 
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="cancel()">
+        <watt-button variant="secondary" (click)="modal().close(false)">
           {{ t('cancel') }}
         </watt-button>
 
-        <watt-button type="submit" formId="request-service-form">
+        <watt-button type="submit" formId="request-service-form" [loading]="loading()">
           {{ t('confirm') }}
         </watt-button>
       </watt-modal-actions>
@@ -121,32 +126,54 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhRequestServiceModal extends WattTypedModal {
+export class DhRequestServiceModal extends WattTypedModal<RequestServiceModalData> {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly toastService = inject(WattToastService);
+  private readonly requestServiceMutation = mutation(RequestServiceEndOfSupplyDocument);
 
+  readonly modal = viewChild.required(WattModalComponent);
+  readonly loading = this.requestServiceMutation.loading;
   readonly maxDescriptionLength = 1000;
-
   readonly serviceKindOptions = dhEnumToWattDropdownOptions(ServiceKindV1, excludedServiceKinds);
 
   readonly form = this.fb.group({
     serviceKind: this.fb.control<ServiceKindV1 | null>(null, Validators.required),
     startDate: this.fb.control<Date | null>(null, Validators.required),
-    description: this.fb.control<string | null>(
-      null,
-      Validators.maxLength(this.maxDescriptionLength)
-    ),
+    description: this.fb.control<string | null>(null, Validators.maxLength(this.maxDescriptionLength)),
   });
 
-  cancel() {
-    this.dialogRef.close();
-  }
-
-  submit() {
+  async submit() {
     if (this.form.invalid) return;
 
     const { serviceKind, startDate, description } = this.form.getRawValue();
     if (!serviceKind || !startDate) return;
 
-    this.dialogRef.close({ serviceKind, startDate, description } satisfies RequestServiceResult);
+    await this.requestServiceMutation.mutate({
+      refetchQueries: [
+        GetMeteringPointProcessByIdDocument,
+        GetMeteringPointProcessOverviewDocument,
+      ],
+      variables: {
+        meteringPointId: this.modalData.meteringPointId,
+        processId: this.modalData.processId,
+        serviceKind,
+        startDate,
+        description,
+      },
+      onError: () => {
+        this.modal().close(false);
+        this.toastService.open({
+          type: 'danger',
+          message: translate('meteringPoint.processOverview.requestService.errorToast'),
+        });
+      },
+      onCompleted: () => {
+        this.modal().close(true);
+        this.toastService.open({
+          type: 'success',
+          message: translate('meteringPoint.processOverview.requestService.successToast'),
+        });
+      },
+    });
   }
 }

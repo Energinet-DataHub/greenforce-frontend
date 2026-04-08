@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
@@ -34,14 +34,19 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-export interface RejectProcessModalData {
-  cutoffDate?: Date | null;
-}
-
 export interface RejectProcessResult {
   reasonCode: ReasonCodeV1;
   reasonMessage: string;
   description: string | null;
+}
+
+export interface RejectProcessModalData {
+  cutoffDate?: Date | null;
+  executeMutation: (config: {
+    result: RejectProcessResult;
+    onCompleted: () => void;
+    onError: () => void;
+  }) => void;
 }
 
 @Component({
@@ -68,7 +73,6 @@ export interface RejectProcessResult {
       *transloco="let t; prefix: 'meteringPoint.processOverview.rejectProcess'"
       [title]="t('title')"
       size="small"
-      #modal
     >
       <vater-stack class="labels" direction="column" align="start">
         <div>
@@ -106,7 +110,7 @@ export interface RejectProcessResult {
       </form>
 
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="cancel()">
+        <watt-button variant="secondary" (click)="modal().close(false)">
           {{ t('cancel') }}
         </watt-button>
 
@@ -122,6 +126,7 @@ export class DhRejectProcessModal extends WattTypedModal<RejectProcessModalData>
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly transloco = inject(TranslocoService);
 
+  readonly modal = viewChild.required(WattModalComponent);
   readonly reasonCodeOptions = dhEnumToWattDropdownOptions(ReasonCodeV1);
 
   readonly form = this.fb.group({
@@ -129,21 +134,20 @@ export class DhRejectProcessModal extends WattTypedModal<RejectProcessModalData>
     description: this.fb.control<string | null>(null),
   });
 
-  cancel() {
-    this.dialogRef.close();
-  }
-
   submit() {
     if (this.form.invalid) return;
 
     const { reasonCode, description } = this.form.getRawValue();
     if (!reasonCode) return;
 
-    // The reason message is derived from the translation of the reason code, where we remove trailing "(Dxxx)".
     const reasonMessage = this.transloco
       .translate(`meteringPoint.processOverview.rejectProcess.reasonCodes.${reasonCode}`)
       .replace(/\s*\(D\d+\)$/, '');
 
-    this.dialogRef.close({ reasonCode, reasonMessage, description } satisfies RejectProcessResult);
+    this.modalData.executeMutation({
+      result: { reasonCode, reasonMessage, description },
+      onCompleted: () => this.modal().close(true),
+      onError: () => this.modal().close(false),
+    });
   }
 }

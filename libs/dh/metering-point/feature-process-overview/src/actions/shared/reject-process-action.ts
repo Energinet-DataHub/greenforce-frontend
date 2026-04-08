@@ -17,10 +17,9 @@
  */
 //#endregion
 import { inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { take } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 
+import { WattModalService } from '@energinet/watt/modal';
 import { WattToastService } from '@energinet/watt/toast';
 
 import { DhRejectProcessModal, RejectProcessResult } from '../../components/reject-process-modal';
@@ -31,50 +30,48 @@ import { ProcessActionContext } from '../context';
  * (e.g. a field initializer of an @Injectable class).
  */
 export function rejectProcessAction(
-  executeMutation: (
-    ctx: ProcessActionContext,
-    result: RejectProcessResult,
-    onCompleted: () => void,
-    onError: () => void
-  ) => void
+  executeMutation: (config: {
+    ctx: ProcessActionContext;
+    result: RejectProcessResult;
+    onCompleted: () => void;
+    onError: () => void;
+  }) => void
 ): (ctx: ProcessActionContext) => void {
-  const dialog = inject(MatDialog);
+  const modalService = inject(WattModalService);
   const transloco = inject(TranslocoService);
   const toast = inject(WattToastService);
 
   return (ctx) => {
-    const ref = dialog.open(DhRejectProcessModal, {
-      autoFocus: 'dialog',
-      panelClass: ['watt-modal-panel', 'watt-modal-panel--component'],
-      data: { cutoffDate: ctx.cutoffDate },
+    modalService.open({
+      component: DhRejectProcessModal,
+      data: {
+        cutoffDate: ctx.cutoffDate,
+        executeMutation: ({ result, onCompleted, onError }) => {
+          executeMutation({
+            ctx,
+            result,
+            onCompleted: () => {
+              toast.open({
+                type: 'success',
+                message: transloco.translate(
+                  'meteringPoint.processOverview.rejectProcess.successToast'
+                ),
+              });
+              onCompleted();
+              ctx.onSuccess?.();
+            },
+            onError: () => {
+              toast.open({
+                type: 'danger',
+                message: transloco.translate(
+                  'meteringPoint.processOverview.rejectProcess.errorToast'
+                ),
+              });
+              onError();
+            },
+          });
+        },
+      },
     });
-
-    ref
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((result: RejectProcessResult | undefined) => {
-        if (!result) return;
-        executeMutation(
-          ctx,
-          result,
-          () => {
-            toast.open({
-              type: 'success',
-              message: transloco.translate(
-                'meteringPoint.processOverview.rejectProcess.successToast'
-              ),
-            });
-            ctx.onSuccess?.();
-          },
-          () => {
-            toast.open({
-              type: 'danger',
-              message: transloco.translate(
-                'meteringPoint.processOverview.rejectProcess.errorToast'
-              ),
-            });
-          }
-        );
-      });
   };
 }
