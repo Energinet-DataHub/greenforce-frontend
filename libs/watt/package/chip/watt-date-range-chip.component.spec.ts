@@ -22,7 +22,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { render, screen } from '@testing-library/angular';
 import { waitForAsync } from '@energinet-datahub/gf/test-util-staging';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
 import { WattRange } from '@energinet/watt/core/date';
 import { WattDateRangeChipComponent } from './watt-date-range-chip.component';
 import { WattDatepickerIntlService } from '@energinet/watt/picker/datepicker';

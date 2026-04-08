@@ -17,7 +17,6 @@
  */
 //#endregion
 import { FormControl } from '@angular/forms';
-import { describe, expect, it } from 'vitest';
 
 import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 
