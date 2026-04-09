@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+import { Location } from '@angular/common';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -28,7 +29,6 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import {
   dhFormControlToSignal,
   dhMakeFormControl,
-  injectRelativeNavigate,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -116,7 +116,7 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
             }
           </vater-stack>
           <vater-stack direction="row" gap="m">
-            <watt-button (click)="navigate('..')" variant="secondary"
+            <watt-button (click)="location.back()" variant="secondary"
               >{{ t('cancel') }}
             </watt-button>
             <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
@@ -192,6 +192,7 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 })
 export class DhUpdateCustomerDataComponent {
   private readonly router = inject(Router);
+  protected readonly location = inject(Location);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
   private readonly toast = injectToast('meteringPoint.moveIn.updateCustomer.toast');
   private readonly effectToast = effect(() =>
@@ -236,7 +237,6 @@ export class DhUpdateCustomerDataComponent {
   private readonly technicalContact = computed(() => this.technicalCustomer()?.technicalContact);
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
-  navigate = injectRelativeNavigate();
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
