@@ -38,7 +38,7 @@ jobs:
           filter: tree:0
           fetch-depth: 0
 
-      - run: npx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="e2e-ci"
+      - run: npx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="e2e"
 
       - name: Setup toolchains with mise
         uses: jdx/mise-action@v3
@@ -46,8 +46,8 @@ jobs:
       - run: bun install --frozen-lockfile
       - uses: nrwl/nx-set-shas@v4
 
-      - run: bunx nx affected --parallel -t lint test build
-      - run: bunx nx affected -t e2e-ci
+      - run: bun nx affected --parallel -t lint test build
+      - run: bun nx affected -t e2e
       # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
       - run: bun nx fix-ci
         if: always()
