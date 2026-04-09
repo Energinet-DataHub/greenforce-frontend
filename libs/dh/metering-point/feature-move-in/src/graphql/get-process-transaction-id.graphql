@@ -1,6 +1,0 @@
-query GetProcessTransactionId($id: String!) {
-  meteringPointProcessById(id: $id) {
-    id
-    transactionId
-  }
-}
