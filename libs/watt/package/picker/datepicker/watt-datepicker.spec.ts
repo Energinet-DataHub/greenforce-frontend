@@ -172,14 +172,14 @@ describe(WattDatepickerComponent, () => {
         initialState: initialDate.toISOString(),
       });
 
-      userEvent.clear(actualInput);
+      // Do NOT clear first — clearing triggers inputChanged('') which sets value to null.
+      // Typing an incomplete date into an already-populated input should leave the value unchanged.
       userEvent.type(actualInput, '2509');
 
       fixture.detectChanges();
       await fixture.whenStable();
 
-      // With the Maskito input, incomplete dates don't clear the value automatically
-      // so we'll check that the value is still the initial value
+      // Incomplete date input does not overwrite the existing value
       const control = fixture.componentInstance.dateRangeControl;
       expect(control.value).not.toBeNull();
     });

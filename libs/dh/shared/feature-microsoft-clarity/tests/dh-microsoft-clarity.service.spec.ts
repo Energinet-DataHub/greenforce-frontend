@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { vi, describe, it, beforeEach, afterEach, expect } from 'vitest';
 import { DhMicrosoftClarityService } from '../src/dh-microsoft-clarity.service';
 import Clarity from '@microsoft/clarity';
 

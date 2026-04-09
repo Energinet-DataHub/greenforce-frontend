@@ -24,7 +24,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import {
   dhFormControlToSignal,
@@ -61,6 +60,7 @@ import {
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
 import { Router } from '@angular/router';
+import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -76,6 +76,7 @@ import { Router } from '@angular/router';
     DhCustomerAddressDetailsComponent,
     DhPrivateCustomerDetailsComponent,
     DhBusinessCustomerDetailsFormComponent,
+    WattSkeletonComponent,
   ],
   styles: `
     .sticky-header {
@@ -110,7 +111,7 @@ import { Router } from '@angular/router';
         <vater-stack class="margin-medium" direction="row" justify="space-between">
           <vater-stack direction="row" gap="m">
             <h3>{{ t('updateCustomerData') }}</h3>
-            @if (getMeteringPointQuery.loading()) {
+            @if (isLoading()) {
               <watt-spinner [diameter]="22" />
             }
           </vater-stack>
@@ -127,19 +128,34 @@ import { Router } from '@angular/router';
       <vater-flex direction="row" gap="m" class="form-container">
         <!-- Customer -->
         <watt-card class="customer-details-card" data-testid="customer-details-card">
-          <watt-card-title>
-            <h3>
-              {{ t('customerDetails.label') }}
-            </h3>
-          </watt-card-title>
-          @if (isBusinessCustomer()) {
-            <dh-business-customer-details
-              [businessCustomerFormGroup]="this.form().controls.businessCustomerDetails"
-            />
+          @if (isLoading()) {
+            <vater-stack gap="l" align="start">
+              <watt-skeleton width="50%" height="28px" />
+              <watt-skeleton width="25%" height="24px" />
+              <vater-stack fill="horizontal" gap="xs" align="start">
+                <watt-skeleton width="25%" />
+                <watt-skeleton height="46px" />
+              </vater-stack>
+              <vater-stack fill="horizontal" gap="xs" align="start">
+                <watt-skeleton width="25%" />
+                <watt-skeleton height="46px" />
+              </vater-stack>
+            </vater-stack>
           } @else {
-            <dh-private-customer-details
-              [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
-            />
+            <watt-card-title>
+              <h3>
+                {{ t('customerDetails.label') }}
+              </h3>
+            </watt-card-title>
+            @if (isBusinessCustomer()) {
+              <dh-business-customer-details
+                [businessCustomerFormGroup]="this.form().controls.businessCustomerDetails"
+              />
+            } @else {
+              <dh-private-customer-details
+                [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
+              />
+            }
           }
         </watt-card>
         <!-- Legal -->
@@ -177,7 +193,6 @@ import { Router } from '@angular/router';
 export class DhUpdateCustomerDataComponent {
   private readonly router = inject(Router);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
-  private readonly appEnv = inject(dhAppEnvironmentToken).current;
   private readonly toast = injectToast('meteringPoint.moveIn.updateCustomer.toast');
   private readonly effectToast = effect(() =>
     this.toast(this.requestChangeCustomerCharacteristics.status())
@@ -225,6 +240,9 @@ export class DhUpdateCustomerDataComponent {
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
+  isLoading = computed(
+    () => this.getMeteringPointQuery.loading() || this.temporaryStorageCustomerQuery.loading()
+  );
   meteringPointId = input.required<string>();
   processId = input<string>();
   internalMeteringPointId = input.required<string>();
@@ -240,9 +258,7 @@ export class DhUpdateCustomerDataComponent {
           ),
           cvr: dhMakeFormControl<string>(
             this.legalCustomer()?.cvr ?? '',
-            this.isBusinessCustomer()
-              ? [Validators.required, dhMoveInCvrValidator(this.appEnv)]
-              : []
+            this.isBusinessCustomer() ? [Validators.required, dhMoveInCvrValidator()] : []
           ),
           nameProtection: dhMakeFormControl<boolean>(
             this.legalCustomer()?.isProtectedName ?? false
@@ -330,7 +346,11 @@ export class DhUpdateCustomerDataComponent {
 
     sync(
       addressGroup,
-      technicalAddressSameAsInstallation ? installationAddress : contact,
+      technicalAddressSameAsInstallation
+        ? installationAddress
+          ? { ...installationAddress, postBox: null }
+          : null
+        : contact,
       technicalAddressSameAsInstallation
     );
   });
@@ -363,7 +383,11 @@ export class DhUpdateCustomerDataComponent {
 
     sync(
       addressGroup,
-      legalAddressSameAsInstallation ? installationAddress : contact,
+      legalAddressSameAsInstallation
+        ? installationAddress
+          ? { ...installationAddress, postBox: null }
+          : null
+        : contact,
       legalAddressSameAsInstallation
     );
   });

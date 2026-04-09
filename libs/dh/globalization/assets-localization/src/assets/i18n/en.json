@@ -1025,7 +1025,8 @@
         "ChangeConnectionStatus": "Disconnection and reconnection of metering point (BRS-013)",
         "UpdateMeteringPointMasterData": "Update of metering point master data (BRS-006)",
         "ProductionObligation": "Change of production obligation (BRS-036)",
-        "ElectricalHeating": "Change of electrical heating (BRS-041)"
+        "ElectricalHeating": "Change of electrical heating (BRS-041)",
+        "CustomerMoveOut": "Move-out (BRS-010)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",
@@ -1038,7 +1039,8 @@
         "CloseDownMeteringPoint": "Close down metering point (D14)",
         "ChangeConnectionStatus": "Change Connection Status (E79)",
         "UpdateMeteringPointMasterData": "Update master data metering point (E32)",
-        "ElectricalHeating": "Electrical heating (D20)"
+        "ElectricalHeating": "Electrical heating (D20)",
+        "CustomerMoveOut": "Move-out (E66)"
       },
       "filters": {
         "created": "Time",
@@ -1160,9 +1162,9 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)",
-        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_1": "Request for change of production obligation (RSM-021)",
-        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Confirmation of request for change of production obligation (RSM-021)",
-        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Rejection of request for change of production obligation (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_1": "Request for change of production obligation",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Confirmation of request for change of production obligation",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Rejection of request for change of production obligation",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Notification of change of production obligation (RSM-022)",
         "BRS_041_V1_STEP_1": "Request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_2": "Rejection of request for change of electrical heating status (RSM-027)",

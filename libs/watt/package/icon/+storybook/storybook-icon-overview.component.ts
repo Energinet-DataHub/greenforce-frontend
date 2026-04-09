@@ -179,6 +179,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Nest Eco Leaf', icon: 'nest_eco_leaf' },
         { name: 'Flash On', icon: 'flash_on' },
         { name: 'Match Case', icon: 'matchCase' },
+        { name: 'Share', icon: 'share' },
       ],
     },
   ];
