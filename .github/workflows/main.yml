@@ -54,7 +54,7 @@ jobs:
       # Prepend any command with "nx record --" to record its logs to Nx Cloud
       # - run: bun nx record -- echo Hello World
       # When you enable task distribution, run the e2e-ci task instead of e2e
-      - run: bun nx affected -t lint test build e2e-ci --max-parallel=3
+      - run: bun nx affected -t lint test build e2e-ci
       # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
       - run: bun nx fix-ci
         if: always()
