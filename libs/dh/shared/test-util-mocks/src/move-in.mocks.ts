@@ -26,11 +26,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 export function moveInMocks() {
-  return [
-    initiateMoveInMutation(),
-    changeCustomerCharacteristics(),
-    getTemporaryStorageData(),
-  ];
+  return [initiateMoveInMutation(), changeCustomerCharacteristics(), getTemporaryStorageData()];
 }
 
 function initiateMoveInMutation() {
@@ -64,7 +60,6 @@ function changeCustomerCharacteristics() {
     });
   });
 }
-
 
 function getTemporaryStorageData() {
   return mockGetTemporaryStorageDataQuery(async () => {
