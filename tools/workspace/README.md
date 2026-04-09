@@ -1,7 +1,7 @@
-# Tools for generating code
+# Tools for workspace
 
 To run the translation keys executor:
 
 ```sh
-bun nx run @energinet-datahub/tools/workspace:translation-keys
+bun nx run @energinet-datahub/tools/workspace:generate-translation-keys
 ```
