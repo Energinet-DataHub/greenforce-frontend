@@ -831,6 +831,12 @@
           "error": "Der opstod en fejl under opdatering af intern note"
         }
       },
+      "confirmCloseConversation": {
+        "title": "Afslut sag uden at sende besked?",
+        "message": "Du har indtastet en besked, der ikke bliver sendt, hvis du afslutter sagen.",
+        "confirmButton": "Afslut sag",
+        "cancelButton": "Luk"
+      },
       "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send besked",
       "attachFileButton": "Vedhæft fil",

@@ -831,6 +831,12 @@
           "error": "An error occurred updating the internal note"
         }
       },
+      "confirmCloseConversation": {
+        "title": "Close case without sending message?",
+        "message": "You have entered a message that will not be sent if you close the case.",
+        "confirmButton": "Close case",
+        "cancelButton": "Close"
+      },
       "messagePlaceholder": "Write a message",
       "sendButton": "Send message",
       "attachFileButton": "Attach file",
