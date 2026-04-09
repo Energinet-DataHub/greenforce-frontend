@@ -31,8 +31,8 @@
   display: grid;
   padding: 0;
   align-items: center;
-  grid-template-columns: 1fr auto;
   grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr auto;
   grid-template-areas:
     "title close"
     "content content"
