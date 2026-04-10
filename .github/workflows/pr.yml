@@ -14,7 +14,7 @@
 
 name: DH CI Frontend
 permissions:
-  contents: read
+  contents: write
 
 on:
   workflow_call: {}
