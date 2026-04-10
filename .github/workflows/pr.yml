@@ -66,7 +66,7 @@ jobs:
       - run: bun install --frozen-lockfile
       - uses: nrwl/nx-set-shas@v4
       - name: "Lint and fix affected projects"
-        run: bun run affected:lint:fix -- --base="$NX_BASE" --head="$NX_HEAD"
+        run: bun run nx affected -t lint --base="$NX_BASE" --head="$NX_HEAD" --parallel
       - name: Format projects and configuration files
         run: bun run format -- --base="$NX_BASE" --head="$NX_HEAD"
 
@@ -84,9 +84,9 @@ jobs:
 
           git commit -m "style: format and lint"
           git push origin HEAD:${{ github.event.pull_request.head.ref }} --force-with-lease
-      - run: bun nx affected --parallel -t test build --base="$NX_BASE" --head="$NX_HEAD"
+      - run: bun nx affected -t test build --base="$NX_BASE" --head="$NX_HEAD" --parallel
       - name: "PR: End-to-end test affected products"
-        run: bun run affected:e2e:ci -- --base="$NX_BASE" --head="$NX_HEAD"
+        run: bun run affected -t e2e:ci --base="$NX_BASE" --head="$NX_HEAD" --parallel
       - name: Upload artifact
         if: failure()
         uses: actions/upload-artifact@v7
