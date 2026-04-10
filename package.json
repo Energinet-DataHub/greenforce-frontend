@@ -133,6 +133,9 @@
     "@nx/dotnet": "22.6.3",
     "@nx/eslint": "22.6.3",
     "@nx/eslint-plugin": "22.6.3",
+
+
+    
     "@nx/js": "22.6.3",
     "@nx/plugin": "22.6.3",
     "@nx/storybook": "22.6.3",
