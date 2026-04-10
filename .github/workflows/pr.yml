@@ -35,8 +35,19 @@ jobs:
       - run: bunx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="build"
       - run: bun install --frozen-lockfile
       - uses: nrwl/nx-set-shas@v4
+      - name: "Lint and fix affected projects"
+        run: bun run affected:lint:fix --base=origin/$BASE_BRANCH
+      - name: Format projects and configuration files
+        run: bun run format --base=origin/$BASE_BRANCH
 
-      - run: bun nx affected --parallel -t lint test build
+      - name: Commit lint and formatted files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A || cd .
+          git commit -m "style: format and lint" || cd .
+          git push origin --force-with-lease || cd .
+      - run: bun nx affected --parallel -t test build
       # - run: bun nx affected -t e2e
       # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
       - run: bun nx fix-ci
