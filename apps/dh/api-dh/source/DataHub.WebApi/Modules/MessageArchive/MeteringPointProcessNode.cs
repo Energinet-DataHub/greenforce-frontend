@@ -109,6 +109,7 @@ public static partial class MeteringPointProcessNode
         descriptor.Name("MeteringPointProcess");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Id);
+        descriptor.Field(f => f.TransactionId);
         descriptor.Field(f => f.BusinessReason);
         descriptor.Field(f => f.CreatedAt);
         descriptor.Field(f => f.CutoffDate);
@@ -121,8 +122,8 @@ public static partial class MeteringPointProcessNode
     private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceDto workflowInstance) =>
         CreateMeteringPointProcess(
             workflowInstance.Id,
+            workflowInstance.TransactionId,
             workflowInstance.Lifecycle,
-            workflowInstance.BusinessReason.Name,
             workflowInstance.BusinessReason,
             workflowInstance.ExpectedValidityDate,
             actions: workflowInstance.Actions.ToArray(),
@@ -131,8 +132,8 @@ public static partial class MeteringPointProcessNode
     private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps) =>
         CreateMeteringPointProcess(
             workflowInstanceWithSteps.Id,
+            null,
             workflowInstanceWithSteps.Lifecycle,
-            workflowInstanceWithSteps.BusinessReason.Name,
             workflowInstanceWithSteps.BusinessReason,
             workflowInstanceWithSteps.ExpectedValidityDate,
             actions: workflowInstanceWithSteps.Actions.ToArray(),
@@ -140,8 +141,8 @@ public static partial class MeteringPointProcessNode
 
     private static MeteringPointProcess CreateMeteringPointProcess(
         Guid id,
+        string? transactionId,
         WorkflowInstanceLifecycleDto lifecycle,
-        string businessReasonString,
         BusinessReason businessReason,
         DateTimeOffset? cuteoffDate = null,
         WorkflowAction[]? actions = null,
@@ -151,6 +152,7 @@ public static partial class MeteringPointProcessNode
 
         return new MeteringPointProcess(
             Id: id.ToString(),
+            TransactionId: transactionId,
             CreatedAt: lifecycle.CreatedAt,
             CutoffDate: cuteoffDate,
             BusinessReason: businessReason,
