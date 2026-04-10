@@ -52,7 +52,7 @@ jobs:
       - name: Setup toolchains with mise
         uses: jdx/mise-action@v3
 
-      - run: bunx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="e2e:ci"
+      - run: bunx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="e2e"
       - name: Get Bun cache directory
         id: bun_cache
         run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
@@ -86,7 +86,7 @@ jobs:
           git push origin HEAD:${{ github.event.pull_request.head.ref }} --force-with-lease
       - run: bun nx affected --parallel -t test build --base="$NX_BASE" --head="$NX_HEAD"
       - name: "End-to-end test affected products"
-        run: bun nx affected --parallel -t e2e:ci --base="$NX_BASE" --head="$NX_HEAD"
+        run: bun nx affected --parallel -t e2e --base="$NX_BASE" --head="$NX_HEAD"
       - name: Upload artifact
         if: failure()
         uses: actions/upload-artifact@v7
