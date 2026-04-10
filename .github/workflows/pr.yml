@@ -61,7 +61,7 @@ jobs:
       - name: "Lint and fix affected projects"
         run: bun run affected:lint:fix -- --base="$NX_BASE" --head="$NX_HEAD"
       - name: Format projects and configuration files
-        run: bun run affected:format -- --base="$NX_BASE" --head="$NX_HEAD"
+        run: bun run format -- --base="$NX_BASE" --head="$NX_HEAD"
 
       - name: Commit lint and formatted files
         if: ${{ github.event.pull_request.head.ref }}
