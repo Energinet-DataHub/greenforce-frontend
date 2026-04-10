@@ -3443,10 +3443,17 @@ enum PriceType {
 }
 
 enum ProcessManagerBusinessReason {
+  BalanceFixing
+  PreliminaryAggregation
+  WholesaleFixing
+  Correction
+  PeriodicMetering
+  PeriodicFlexMetering
+  YearlyMetering
   EndOfSupply
   UpdateChargeLinks
-  DataAlignmentForMasterDataMeteringPoint
   UpdateChargeInformation
+  UpdateChargeSeries
   CustomerMoveIn
   SecondaryMoveIn
   CustomerMoveOut
@@ -3456,54 +3463,12 @@ enum ProcessManagerBusinessReason {
   ConnectMeteringPoint
   ChangeConnectionStatus
   CloseDownMeteringPoint
+  UpdateMeteringPointMasterData
   ElectricalHeating
   ChangeOfEnergySupplier
   ProcessCancelledByRequestingParty
   ProductionObligation
   NoDisconnectionOfMeteringPoint
-  ServiceRequest
-  CancelServiceRequest
-  RequestForChargeInformation
-  PeriodicMetering
-  PeriodicFlexMetering
-  Cancellation
-  ChangeOfSupplyToSupplierOfLastResort
-  ContinueSupplyDueToRejectedReallocate
-  DateOfSupplierChangeCausedByEndOfSupply
-  EndSupplyDueToReallocate
-  HistoricalInformationAboutConsumption
-  IncorrectMove
-  IncorrectProcess
-  MergeOfGrids
-  MissingFlexTimeSeries
-  MissingMeasurementsLog
-  MissingNonProfiledTimeSeries
-  MissingProfiledReading
-  PreparationForImbalanceSettlement
-  ProcessCancelledByITX
-  ProposalContactInformation
-  Reminder
-  RemovedParentRelationOnMeteringPoint
-  RollbackChangeOfSupplier
-  TransferMeteringPoint
-  UnrequestedChangeOfEnergySupplier
-  UpdateMasterDataMeter
-  BalanceFixing
-  BalanceSettlement
-  PreliminaryAggregation
-  Temporary
-  WholesaleFixing
-  WholeSettlement
-  Correction
-  CorrectionSettlement
-  YearlyMetering
-  HistoricalData
-  UpdateChargeSeries
-  UpdateChargePrices
-  UpdateMeteringPointMasterData
-  UpdateMasterDataMeteringPoint
-  RequestChargePrices
-  RequestForChargePrices
 }
 
 enum ProcessStepState {
