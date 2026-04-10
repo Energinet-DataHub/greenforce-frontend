@@ -18,28 +18,50 @@
 //#endregion
 import '@testing-library/cypress/add-commands';
 
+function getOrigin(url: string) {
+  return new URL(url).origin;
+}
+
+function getConfiguredB2COrigin() {
+  const configuredB2CUrl = Cypress.env('DH_E2E_B2C_URL');
+
+  if (!configuredB2CUrl) {
+    return null;
+  }
+
+  return getOrigin(configuredB2CUrl);
+}
+
 function loginViaB2C(email: string, password: string, initialUrl: string) {
   cy.findByRole('button').click();
 
-  // Login to B2C.
-  cy.origin(
-    Cypress.env('DH_E2E_B2C_URL'),
-    {
-      args: {
-        email,
-        password,
+  const configuredB2COrigin = getConfiguredB2COrigin();
+
+  if (configuredB2COrigin) {
+    cy.url().should('include', configuredB2COrigin);
+  }
+
+  // Login to B2C using the actual redirected origin so local runs do not depend on a separate origin env var.
+  cy.url().then((redirectedUrl) => {
+    cy.origin(
+      getOrigin(redirectedUrl),
+      {
+        args: {
+          email,
+          password,
+        },
       },
-    },
-    ({ email, password }) => {
-      cy.get('#email').type(email, {
-        log: false,
-      });
-      cy.get('#password').type(password, {
-        log: false,
-      });
-      cy.get('#next').click();
-    }
-  );
+      ({ email, password }) => {
+        cy.get('#email').type(email, {
+          log: false,
+        });
+        cy.get('#password').type(password, {
+          log: false,
+        });
+        cy.get('#next').click();
+      }
+    );
+  });
 
   // Ensure Microsoft has redirected us back to the app with our logged in user.
   if (initialUrl === '/') {
