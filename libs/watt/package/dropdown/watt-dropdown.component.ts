@@ -234,7 +234,7 @@ export class WattDropdownComponent<T = string> implements ControlValueAccessor, 
   }
 
   writeValue(value: WattDropdownValue) {
-    this.matSelectControl.setValue(value, { emitEvent: false });
+    this.matSelectControl.setValue(value);
 
     untracked(() => {
       if (this.multiple()) {
