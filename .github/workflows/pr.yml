@@ -52,7 +52,7 @@ jobs:
       - name: Setup toolchains with mise
         uses: jdx/mise-action@v3
 
-      - run: bunx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="e2e"
+      - run: bunx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="e2e" --with-env-vars="CYPRESS_DH_E2E_USERNAME,CYPRESS_DH_E2E_PASSWORD,CYPRESS_DH_E2E_B2C_URL,ELECTRON_EXTRA_LAUNCH_ARGS"
       - name: Get Bun cache directory
         id: bun_cache
         run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
