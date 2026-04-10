@@ -29,6 +29,8 @@ jobs:
         with:
           filter: tree:0
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref || github.sha }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
 
       - name: Setup toolchains with mise
         uses: jdx/mise-action@v3
@@ -42,12 +44,18 @@ jobs:
         run: bun run format --base=origin/$BASE_BRANCH
 
       - name: Commit lint and formatted files
+        if: ${{ github.event.pull_request.head.ref }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A || cd .
-          git commit -m "style: format and lint" || cd .
-          git push origin --force-with-lease || cd .
+          git add -A
+
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+
+          git commit -m "style: format and lint"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }} --force-with-lease
       - run: bun nx affected --parallel -t test build
       # - run: bun nx affected -t e2e
       # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
