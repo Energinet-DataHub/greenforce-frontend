@@ -127,6 +127,10 @@
     "@jsverse/transloco-optimize": "7.0.1",
     "@ngrx/eslint-plugin": "18.1.1",
     "@nx-dotnet/utils": "3.0.2",
+
+
+
+    
     "@nx/angular": "22.6.3",
     "@nx/cypress": "22.6.3",
     "@nx/devkit": "22.6.3",
