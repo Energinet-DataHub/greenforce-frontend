@@ -18,68 +18,28 @@
 //#endregion
 import '@testing-library/cypress/add-commands';
 
-function getOrigin(url: string) {
-  return new URL(url).origin;
-}
-
-function requireEnvValue(name: string, value: string | undefined) {
-  if (value) {
-    return value;
-  }
-
-  throw new Error(
-    `Missing Cypress environment variable ${name}. Set it via apps/dh/e2e-dh/cypress.env.json or the CYPRESS_${name} shell environment variable.`
-  );
-}
-
-function enterCredentials(email: string, password: string) {
-  cy.get('#email').type(email, {
-    log: false,
-  });
-  cy.get('#password').type(password, {
-    log: false,
-  });
-  cy.get('#next').click();
-}
-
-function loginViaB2C(
-  email: string,
-  password: string,
-  initialUrl: string,
-  configuredB2COrigin: string | null
-) {
+function loginViaB2C(email: string, password: string, initialUrl: string) {
   cy.findByRole('button').click();
 
-  cy.location('origin', { timeout: 20_000 }).then((origin) => {
-    if (origin !== Cypress.config('baseUrl')) {
-      if (configuredB2COrigin) {
-        expect(origin).to.equal(configuredB2COrigin);
-      }
-
-      cy.origin(
-        origin,
-        {
-          args: {
-            email,
-            password,
-          },
-        },
-        ({ email, password }) => {
-          cy.get('#email').type(email, {
-            log: false,
-          });
-          cy.get('#password').type(password, {
-            log: false,
-          });
-          cy.get('#next').click();
-        }
-      );
-
-      return;
+  // Login to B2C.
+  cy.origin(
+    Cypress.env('DH_E2E_B2C_URL'),
+    {
+      args: {
+        email,
+        password,
+      },
+    },
+    ({ email, password }) => {
+      cy.get('#email').type(email, {
+        log: false,
+      });
+      cy.get('#password').type(password, {
+        log: false,
+      });
+      cy.get('#next').click();
     }
-
-    enterCredentials(email, password);
-  });
+  );
 
   // Ensure Microsoft has redirected us back to the app with our logged in user.
   if (initialUrl === '/') {
@@ -95,34 +55,24 @@ function loginViaB2C(
   }
 }
 
-Cypress.Commands.add(
-  'login',
-  (email: string | undefined, password: string | undefined, initialUrl = '/') => {
-    const requiredEmail = requireEnvValue('DH_E2E_USERNAME', email);
-    const requiredPassword = requireEnvValue('DH_E2E_PASSWORD', password);
+Cypress.Commands.add('login', (email: string, password: string, initialUrl = '/') => {
+  const log = Cypress.log({
+    displayName: 'B2C Login',
+    message: [`🔐 Authenticating | ${email}`],
+    autoEnd: false,
+  });
+  log.snapshot('before');
 
-    const log = Cypress.log({
-      displayName: 'B2C Login',
-      message: [`🔐 Authenticating | ${requiredEmail}`],
-      autoEnd: false,
-    });
-    log.snapshot('before');
+  cy.session([`b2c-${email}`, initialUrl], () => {
+    cy.removeCookieBanner();
+    cy.visit(initialUrl);
 
-    cy.session([`b2c-${requiredEmail}`, initialUrl], () => {
-      cy.env(['DH_E2E_B2C_URL']).then(({ DH_E2E_B2C_URL }) => {
-        const configuredB2COrigin = DH_E2E_B2C_URL ? getOrigin(DH_E2E_B2C_URL) : null;
+    loginViaB2C(email, password, initialUrl);
+  });
 
-        cy.removeCookieBanner();
-        cy.visit(initialUrl);
-
-        loginViaB2C(requiredEmail, requiredPassword, initialUrl, configuredB2COrigin);
-      });
-    });
-
-    log.snapshot('after');
-    log.end();
-  }
-);
+  log.snapshot('after');
+  log.end();
+});
 
 Cypress.Commands.add('removeCookieBanner', () => {
   Cypress.log({
