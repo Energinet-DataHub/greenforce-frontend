@@ -209,7 +209,7 @@ export class DhUpdateCustomerDataComponent {
     skip: !this.processId(),
     variables: {
       meteringPointId: this.meteringPointId(),
-      transactionId: this.processId() ?? '',
+      processId: this.processId() ?? '',
     },
   }));
   private readonly temporaryStorageCustomer = computed(
