@@ -104,32 +104,6 @@ bun api:dev
 _Note: It is recommended to use mocking as much as possible, see
 [mocking.md](docs/dh/mocking.md)._
 
-### Development
-
-When it is time to add a new library, refrain from writing files manually or
-copying from existing libraries. Instead, use the provided local generators
-that takes care of all the manual work and avoids common pitfalls.
-
-_Note: Make sure to read the [Workspace](#workspace) section beforehand to understand
-which library type to generate. **It is currently not possible to generate
-libraries of type `assets` and `styles`**._
-
-To generate a new library, run the below command\* and follow the instructions:
-
-```sh
-bun nx g @energinet-datahub/tools/workspace:library
-```
-
-While rarely needed, it is also possible to generate an entirely new domain.
-Running the following command\* will create a new domain with
-`data-access-api`, `feature`, and `shell` libraries included:
-
-```sh
-bun nx g @energinet-datahub/tools/workspace:domain
-```
-
-> Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).
-
 ### Best Practices$$
 
 Take a look at our developer examples to see how to implement certain features like, and an overall best practice guide:
@@ -145,7 +119,7 @@ Take a look at our developer examples to see how to implement certain features l
 ### Backend For Frontend (BFF)
 
 There is currenly only one BFF located in `api-dh` under `apps/dh`.
-It is for `app-dh` and is using .NET 8.x.
+It is for `app-dh` and is using .NET 10.x.
 Check the [Development notes](./apps/dh/api-dh/documents/development.md)
 for how to get started.
 

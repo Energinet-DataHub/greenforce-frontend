@@ -1131,6 +1131,8 @@
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_1": "Anmodning om afbrydelse (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_2": "Godkendelse af anmodning om afbrydelse (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
+        "BRS_002_AUTOCANCELLATION_V1_STEP_1": "Information om annullering pga. manglende afbrydelse (RSM-004)",
+        "BRS_002_AUTOCANCELLATION_V1_STEP_2": "Information om annullering pga. manglende afbrydelse (RSM-004)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Anmodning om oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
