@@ -21,8 +21,13 @@ env:
 permissions:
   contents: write
 
+# on:
+#   push:
+#     branches:
+#       - main
+
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -143,31 +148,31 @@ jobs:
         uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@actions/v1
         id: find_pull_request
 
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v4
-        with:
-          token: ${{ steps.generate_token.outputs.token }}
-          repository: ${{ vars.environment_repository_path }}
-          event-type: ui-deployment-request-domain
-          # yamllint disable-line rule:quoted-strings
-          client-payload: '{"pr_number": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet": "true", "frontend": "true"}'
+      # - name: Repository Dispatch
+      #   uses: peter-evans/repository-dispatch@v4
+      #   with:
+      #     token: ${{ steps.generate_token.outputs.token }}
+      #     repository: ${{ vars.environment_repository_path }}
+      #     event-type: ui-deployment-request-domain
+      #     # yamllint disable-line rule:quoted-strings
+      #     client-payload: '{"pr_number": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet": "true", "frontend": "true"}'
 
   #
   # Send notification to teams channel if deployment dispatch failed
   #
 
-  dispatch_failed:
-    needs:
-      [
-        frontend_promote_prerelease,
-        dotnet_promote_prerelease,
-        dispatch_deploment_event,
-      ]
-    if: |
-      always() &&
-      contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@workflows/v1
-    with:
-      team_name: TeamFrontend
-      subject: "Deployment dispatch failed: UI + BFF"
-    secrets: inherit
+  # dispatch_failed:
+  #   needs:
+  #     [
+  #       frontend_promote_prerelease,
+  #       dotnet_promote_prerelease,
+  #       dispatch_deploment_event,
+  #     ]
+  #   if: |
+  #     always() &&
+  #     contains(needs.*.result, 'failure')
+  #   uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@workflows/v1
+  #   with:
+  #     team_name: TeamFrontend
+  #     subject: "Deployment dispatch failed: UI + BFF"
+  #   secrets: inherit
