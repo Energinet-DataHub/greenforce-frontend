@@ -15,9 +15,7 @@
 name: DH CI Frontend
 permissions:
   contents: read
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+
 on:
   workflow_call: {}
 env:
