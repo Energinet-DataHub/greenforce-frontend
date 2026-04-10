@@ -28,11 +28,11 @@ jobs:
         with:
           filter: tree:0
           fetch-depth: 0
-      - run: bunx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="build"
 
       - name: Setup toolchains with mise
         uses: jdx/mise-action@v3
 
+      - run: bunx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="build"
       - run: bun install --frozen-lockfile
       - uses: nrwl/nx-set-shas@v4
 
