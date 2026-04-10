@@ -33,7 +33,11 @@ describe('Redirect to initial URL', () => {
     const initialUrl = '/market-participant/actors';
 
     beforeEach(() => {
-      cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+      cy.env(['DH_E2E_USERNAME', 'DH_E2E_PASSWORD']).then(
+        ({ DH_E2E_USERNAME, DH_E2E_PASSWORD }) => {
+          cy.login(DH_E2E_USERNAME, DH_E2E_PASSWORD, initialUrl);
+        }
+      );
       cy.visit(initialUrl);
     });
 
@@ -49,7 +53,11 @@ describe('Redirect to initial URL', () => {
     const initialUrl = '/grid-areas';
 
     beforeEach(() => {
-      cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+      cy.env(['DH_E2E_USERNAME', 'DH_E2E_PASSWORD']).then(
+        ({ DH_E2E_USERNAME, DH_E2E_PASSWORD }) => {
+          cy.login(DH_E2E_USERNAME, DH_E2E_PASSWORD, initialUrl);
+        }
+      );
       cy.visit(initialUrl);
     });
 

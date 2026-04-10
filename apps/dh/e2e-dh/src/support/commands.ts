@@ -22,45 +22,53 @@ function getOrigin(url: string) {
   return new URL(url).origin;
 }
 
-function getConfiguredB2COrigin() {
-  const configuredB2CUrl = Cypress.env('DH_E2E_B2C_URL');
-
-  if (!configuredB2CUrl) {
-    return null;
-  }
-
-  return getOrigin(configuredB2CUrl);
+function enterCredentials(email: string, password: string) {
+  cy.get('#email').type(email, {
+    log: false,
+  });
+  cy.get('#password').type(password, {
+    log: false,
+  });
+  cy.get('#next').click();
 }
 
-function loginViaB2C(email: string, password: string, initialUrl: string) {
+function loginViaB2C(
+  email: string,
+  password: string,
+  initialUrl: string,
+  configuredB2COrigin: string | null
+) {
   cy.findByRole('button').click();
 
-  const configuredB2COrigin = getConfiguredB2COrigin();
-
-  if (configuredB2COrigin) {
-    cy.url().should('include', configuredB2COrigin);
-  }
-
-  // Login to B2C using the actual redirected origin so local runs do not depend on a separate origin env var.
-  cy.url().then((redirectedUrl) => {
-    cy.origin(
-      getOrigin(redirectedUrl),
-      {
-        args: {
-          email,
-          password,
-        },
-      },
-      ({ email, password }) => {
-        cy.get('#email').type(email, {
-          log: false,
-        });
-        cy.get('#password').type(password, {
-          log: false,
-        });
-        cy.get('#next').click();
+  cy.location('origin', { timeout: 20_000 }).then((origin) => {
+    if (origin !== Cypress.config('baseUrl')) {
+      if (configuredB2COrigin) {
+        expect(origin).to.equal(configuredB2COrigin);
       }
-    );
+
+      cy.origin(
+        origin,
+        {
+          args: {
+            email,
+            password,
+          },
+        },
+        ({ email, password }) => {
+          cy.get('#email').type(email, {
+            log: false,
+          });
+          cy.get('#password').type(password, {
+            log: false,
+          });
+          cy.get('#next').click();
+        }
+      );
+
+      return;
+    }
+
+    enterCredentials(email, password);
   });
 
   // Ensure Microsoft has redirected us back to the app with our logged in user.
@@ -86,10 +94,14 @@ Cypress.Commands.add('login', (email: string, password: string, initialUrl = '/'
   log.snapshot('before');
 
   cy.session([`b2c-${email}`, initialUrl], () => {
-    cy.removeCookieBanner();
-    cy.visit(initialUrl);
+    cy.env(['DH_E2E_B2C_URL']).then(({ DH_E2E_B2C_URL }) => {
+      const configuredB2COrigin = DH_E2E_B2C_URL ? getOrigin(DH_E2E_B2C_URL) : null;
 
-    loginViaB2C(email, password, initialUrl);
+      cy.removeCookieBanner();
+      cy.visit(initialUrl);
+
+      loginViaB2C(email, password, initialUrl, configuredB2COrigin);
+    });
   });
 
   log.snapshot('after');

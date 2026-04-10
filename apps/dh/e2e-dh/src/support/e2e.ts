@@ -34,6 +34,8 @@ import './commands';
 
 beforeEach(() => {
   if (!['b2c-healthchecks.cy.ts', 'redirect-to-initial-url.cy.ts'].includes(Cypress.spec.name)) {
-    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'));
+    cy.env(['DH_E2E_USERNAME', 'DH_E2E_PASSWORD']).then(({ DH_E2E_USERNAME, DH_E2E_PASSWORD }) => {
+      cy.login(DH_E2E_USERNAME, DH_E2E_PASSWORD);
+    });
   }
 });
