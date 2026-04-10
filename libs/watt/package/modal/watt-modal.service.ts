@@ -19,7 +19,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { EventEmitter, Injectable, Injector, TemplateRef, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { last, lastValueFrom, map, take, tap } from 'rxjs';
+import { lastValueFrom, map, take, tap } from 'rxjs';
 
 export interface WattModalConfig<T> {
   templateRef?: TemplateRef<unknown>;
