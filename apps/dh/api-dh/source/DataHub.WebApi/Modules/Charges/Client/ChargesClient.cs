@@ -126,7 +126,10 @@ public class ChargesClient(
 
         return !result.IsSuccess
             ? throw new GraphQLException(result.DiagnosticMessage)
-            : result.Data?.Where(c => c.Periods?.Count > 0)?.Select(MapChargeInformationDtoToCharge) ?? [];
+            : result.Data?
+                .Where(c => c.Periods?.Count > 0)
+                .Where(c => c.TaxIndicator == type.IsTax)
+                .Select(MapChargeInformationDtoToCharge) ?? [];
     }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
