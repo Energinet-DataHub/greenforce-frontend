@@ -53,7 +53,7 @@ limitations under the License.
 
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
-    <PackageReference Include="Energinet.DataHub.Charges.Client" Version="2.0.8" />
+    <PackageReference Include="Energinet.DataHub.Charges.Client" Version="2.14.1" />
     <PackageReference Include="Energinet.DataHub.Core.App.Common" Version="16.0.0" />
     <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="16.0.0" />
     <PackageReference Include="Energinet.DataHub.EDI.B2CClient" Version="2.4.1" />
