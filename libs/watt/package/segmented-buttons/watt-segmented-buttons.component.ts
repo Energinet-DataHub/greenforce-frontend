@@ -16,37 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-import { NgTemplateOutlet } from '@angular/common';
-import { RouterLinkWithHref, RouterLinkActive } from '@angular/router';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   model,
   signal,
   inject,
+  effect,
   Component,
   ElementRef,
   forwardRef,
   contentChildren,
-  ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { WattSegmentedButtonComponent } from './watt-segmented-button.component';
 
-/**
- * Segmented buttons.
- */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  imports: [
-    MatButtonToggleModule,
-    FormsModule,
-    NgTemplateOutlet,
-    RouterLinkWithHref,
-    RouterLinkActive,
-  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -55,63 +41,42 @@ import { WattSegmentedButtonComponent } from './watt-segmented-button.component'
     },
   ],
   selector: 'watt-segmented-buttons',
+  host: {
+    '(segmentSelect)': 'onSegmentSelect($event)',
+  },
   styles: `
-    @use '@energinet/watt/utils' as watt;
-    @use '@angular/material' as mat;
-
-    :root {
-      @include mat.button-toggle-overrides(
-        (
-          selected-state-text-color: white,
-          selected-state-background-color: var(--watt-color-primary),
-          height: 2.5rem,
-        )
-      );
-
-      mat-button-toggle-group {
-        border-color: var(--watt-color-neutral-grey-700);
-
-        mat-button-toggle {
-          border-color: var(--watt-color-neutral-grey-700) !important;
-
-          button {
-            min-width: 6.5rem;
-
-            span {
-              font-size: 0.875rem;
-              font-weight: 600;
-            }
-          }
-        }
-      }
+    :host {
+      display: inline-flex;
     }
   `,
-  template: `
-    <mat-button-toggle-group
-      [(ngModel)]="selected"
-      [multiple]="false"
-      [hideSingleSelectionIndicator]="true"
-      [disabled]="disabled()"
-    >
-      @for (segmentedButton of segmentedButtonElements(); track segmentedButton) {
-        <mat-button-toggle
-          [routerLink]="segmentedButton.link()"
-          queryParamsHandling="merge"
-          routerLinkActive="mat-button-toggle-checked"
-          [disableRipple]="true"
-          [value]="segmentedButton.value()"
-        >
-          <ng-container *ngTemplateOutlet="segmentedButton.templateRef()" />
-        </mat-button-toggle>
-      }
-    </mat-button-toggle-group>
-  `,
+  template: `<ng-content />`,
 })
 export class WattSegmentedButtonsComponent implements ControlValueAccessor {
-  private element = inject(ElementRef);
-  segmentedButtonElements = contentChildren(WattSegmentedButtonComponent);
+  private readonly element = inject(ElementRef);
+  private readonly buttons = contentChildren(WattSegmentedButtonComponent);
   selected = model<string>('');
   disabled = signal(false);
+
+  constructor() {
+    effect(() => {
+      const buttons = this.buttons();
+      const selected = this.selected();
+      const disabled = this.disabled();
+      const last = buttons.length - 1;
+
+      for (let i = 0; i < buttons.length; i++) {
+        const button = buttons[i];
+        button.selected = button.value() === selected;
+        button.disabled = disabled;
+        button.position = i === 0 ? 'first' : i === last ? 'last' : 'middle';
+      }
+    });
+  }
+
+  onSegmentSelect(event: Event): void {
+    if (this.disabled()) return;
+    this.selected.set((event as CustomEvent<string>).detail);
+  }
 
   writeValue(selected: string): void {
     this.selected.set(selected);
