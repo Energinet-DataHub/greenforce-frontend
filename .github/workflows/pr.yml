@@ -14,6 +14,7 @@
 
 name: DH CI Frontend
 permissions:
+  actions: write
   contents: write
 
 on:
@@ -54,6 +55,8 @@ jobs:
 
       - name: Commit lint and formatted files
         if: ${{ github.event.pull_request.head.ref }}
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -66,6 +69,8 @@ jobs:
 
           git commit -m "style: format and lint"
           git push origin HEAD:${{ github.event.pull_request.head.ref }} --force-with-lease
+          echo "Formatting changes were pushed. Canceling this run so a fresh run can start on the updated branch."
+          gh run cancel "$GITHUB_RUN_ID"
       - run: bun nx affected --parallel -t test build --base="$NX_BASE" --head="$NX_HEAD"
       # - run: bun nx affected -t e2e
       # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
