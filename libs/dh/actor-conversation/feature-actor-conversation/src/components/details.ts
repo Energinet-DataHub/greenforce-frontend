@@ -89,7 +89,6 @@ import { DhActorConversationConfirmCloseConversation } from './confirm-close-con
     VaterStackComponent,
     WattButtonComponent,
     WattHeadingComponent,
-    WattHeadingComponent,
     WattMenuItemComponent,
     WattSkeletonComponent,
     WATT_DESCRIPTION_LIST,
@@ -97,7 +96,6 @@ import { DhActorConversationConfirmCloseConversation } from './confirm-close-con
     WattMenuTriggerDirective,
     VaterFlexComponent,
     VaterUtilityDirective,
-    VaterFlexComponent,
     DhResultComponent,
     DhActorConversationMessage,
     DhActorConversationMessageForm,
@@ -215,20 +213,20 @@ export class DhActorConversationDetails {
 
   async closeConversation() {
     if (this.formControl.value.content || (this.formControl.value.files ?? []).length) {
-      this.modalService.open({
+      const confirmed = await this.modalService.open({
         component: DhActorConversationConfirmCloseConversation,
-        onClosed: async (confirmed) => {
-          if (!confirmed) return;
-          await this.closeConversationMutation.mutate({
-            variables: {
-              conversationId: this.conversationId(),
-            },
-            refetchQueries: [GetConversationDocument, GetConversationsDocument],
-          });
-          this.clearMessageForm();
-        },
       });
+      if (!confirmed) return;
     }
+
+    await this.closeConversationMutation.mutate({
+      variables: {
+        conversationId: this.conversationId(),
+      },
+      refetchQueries: [GetConversationDocument, GetConversationsDocument],
+    });
+
+    this.clearMessageForm();
   }
 
   openInternalNoteModal(internalNote: string | null | undefined) {

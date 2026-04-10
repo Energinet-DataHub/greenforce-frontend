@@ -47,25 +47,28 @@ export class WattModalService {
    * Opens the modal. Subsequent calls are ignored while the modal is opened.
    * @ignore
    */
-  open = <T>(config: WattModalConfig<T>) => {
+  open = <T>(config: WattModalConfig<T>): Promise<boolean> => {
     const template = config.templateRef ?? config.component;
 
-    if (!template) return;
+    return new Promise((resolve) => {
+      if (!template) return resolve(false);
 
-    this.matDialogRef = this.openModal(template, config);
+      this.matDialogRef = this.openModal(template, config);
 
-    this.matDialogRef
-      .afterClosed()
-      .pipe(map(Boolean), take(1))
-      .subscribe((result) => {
-        if (config?.onClosed instanceof EventEmitter) {
-          config?.onClosed.emit(result);
-        } else {
-          config?.onClosed?.(result);
-        }
-      });
+      this.matDialogRef
+        .afterClosed()
+        .pipe(map(Boolean), take(1))
+        .subscribe((result) => {
+          resolve(result);
+          if (config?.onClosed instanceof EventEmitter) {
+            config?.onClosed.emit(result);
+          } else {
+            config?.onClosed?.(result);
+          }
+        });
 
-    if (config.minHeight) this.setMinHeight(config.minHeight);
+      if (config.minHeight) this.setMinHeight(config.minHeight);
+    });
   };
 
   /**
