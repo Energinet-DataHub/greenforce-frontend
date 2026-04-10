@@ -12,14 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: DH CI frontend New
-
+name: DH CI Frontend
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-
+  workflow_call: {}
 env:
   # NX_BRANCH: ${{ github.event.number }}
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
@@ -37,8 +32,7 @@ jobs:
         with:
           filter: tree:0
           fetch-depth: 0
-
-      - run: npx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="build"
+      - run: bunx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="build"
 
       - name: Setup toolchains with mise
         uses: jdx/mise-action@v3
