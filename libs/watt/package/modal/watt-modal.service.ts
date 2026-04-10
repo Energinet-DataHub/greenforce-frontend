@@ -19,7 +19,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { EventEmitter, Injectable, Injector, TemplateRef, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { map, take } from 'rxjs';
+import { lastValueFrom, map, take, tap } from 'rxjs';
 
 export interface WattModalConfig<T> {
   templateRef?: TemplateRef<unknown>;
@@ -47,25 +47,28 @@ export class WattModalService {
    * Opens the modal. Subsequent calls are ignored while the modal is opened.
    * @ignore
    */
-  open = <T>(config: WattModalConfig<T>) => {
+  open = async <T>(config: WattModalConfig<T>): Promise<boolean> => {
     const template = config.templateRef ?? config.component;
 
-    if (!template) return;
+    if (!template) return false;
 
     this.matDialogRef = this.openModal(template, config);
 
-    this.matDialogRef
-      .afterClosed()
-      .pipe(map(Boolean), take(1))
-      .subscribe((result) => {
-        if (config?.onClosed instanceof EventEmitter) {
-          config?.onClosed.emit(result);
-        } else {
-          config?.onClosed?.(result);
-        }
-      });
-
     if (config.minHeight) this.setMinHeight(config.minHeight);
+
+    return lastValueFrom(
+      this.matDialogRef.afterClosed().pipe(
+        map(Boolean),
+        take(1),
+        tap((result) => {
+          if (config?.onClosed instanceof EventEmitter) {
+            config?.onClosed.emit(result);
+          } else {
+            config?.onClosed?.(result);
+          }
+        })
+      )
+    );
   };
 
   /**
