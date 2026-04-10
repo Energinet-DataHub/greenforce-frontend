@@ -21,9 +21,9 @@ env:
   NX_CI_EXECUTION_ID: ${{ github.run_id }}
 
 permissions:
+  attestations: write
   contents: write
   id-token: write
-  attestations: write
 on:
   push:
     branches:
@@ -58,6 +58,18 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version-file: package.json
+
+      - name: Get Bun cache directory
+        id: bun_cache
+        run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Bun packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.bun_cache.outputs.dir }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
 
       - name: Install dependencies
         run: bun install --frozen-lockfile --yarn

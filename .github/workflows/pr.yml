@@ -46,6 +46,16 @@ jobs:
         uses: jdx/mise-action@v3
 
       - run: bunx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="build"
+      - name: Get Bun cache directory
+        id: bun_cache
+        run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
+      - name: Cache Bun packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.bun_cache.outputs.dir }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
       - run: bun install --frozen-lockfile
       - uses: nrwl/nx-set-shas@v4
       - name: "Lint and fix affected projects"
