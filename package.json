@@ -187,10 +187,6 @@
     "jsonc-eslint-parser": "2.1.0",
     "minimatch": "10.2.4",
     "msw": "2.7.3",
-
-
-
-    
     "ng-packagr": "21.2.1",
     "nx": "22.6.3",
     "prettier": "3.8.1",
