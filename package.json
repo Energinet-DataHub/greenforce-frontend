@@ -117,9 +117,6 @@
     "@graphql-codegen/cli": "5.0.7",
     "@graphql-codegen/fragment-matcher": "5.1.0",
     "@graphql-codegen/import-types-preset": "3.0.1",
-
-
-    
     "@graphql-codegen/typed-document-node": "5.1.2",
     "@graphql-codegen/typescript": "4.1.6",
     "@graphql-codegen/typescript-msw": "3.0.1",
