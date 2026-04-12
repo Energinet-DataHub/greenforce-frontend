@@ -37,6 +37,7 @@ import {
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  dhFormControlToSignal,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
@@ -45,16 +46,16 @@ export interface RequestServiceModalData {
   processId: string;
 }
 
-const allowedServiceKinds: ServiceKindV1[] = [
+const allowedServiceKinds = new Set<ServiceKindV1>([
   ServiceKindV1.OrdinaryDisconnectionAgreedWithTheCustomer,
   ServiceKindV1.ThePoliceIsInvolvedInTheDisconnection,
   ServiceKindV1.TheMunicipalityIsInvolvedInTheDisconnection,
   ServiceKindV1.TheBailiffsCourtIsInvolvedInTheDisconnection,
   ServiceKindV1.OtherReason,
-];
+]);
 
 const excludedServiceKinds = Object.values(ServiceKindV1).filter(
-  (kind) => !allowedServiceKinds.includes(kind)
+  (kind) => !allowedServiceKinds.has(kind)
 );
 
 @Component({
@@ -108,7 +109,7 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
               [maxLength]="maxDescriptionLength"
             />
             <p class="watt-text-s character-count">
-              {{ (form.controls.description.value ?? '').length }} / {{ maxDescriptionLength }}
+              {{ (description() ?? '').length }} / {{ maxDescriptionLength }}
             </p>
           </div>
         </vater-stack>
@@ -142,6 +143,8 @@ export class DhRequestServiceModal extends WattTypedModal<RequestServiceModalDat
     startDate: this.fb.control<Date | null>(null, Validators.required),
     description: this.fb.control<string | null>(null, Validators.maxLength(this.maxDescriptionLength)),
   });
+
+  readonly description = dhFormControlToSignal(this.form.controls.description);
 
   async submit() {
     if (this.form.invalid) return;

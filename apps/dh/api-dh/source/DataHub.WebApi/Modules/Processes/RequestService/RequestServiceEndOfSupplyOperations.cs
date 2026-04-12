@@ -47,6 +47,7 @@ public static class RequestServiceEndOfSupplyOperations
 
         return result.IsSuccess
             ? true
-            : throw new GraphQLException("Command RequestServiceEndOfSupply failed");
+            : throw new GraphQLException(
+                $"Command RequestServiceEndOfSupply failed for metering point {meteringPointId} (processId: {processId})");
     }
 }

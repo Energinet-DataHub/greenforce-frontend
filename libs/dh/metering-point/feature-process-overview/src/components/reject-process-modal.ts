@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -51,6 +51,7 @@ export interface RejectProcessModalData {
 
 @Component({
   selector: 'dh-reject-process-modal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -114,7 +115,7 @@ export interface RejectProcessModalData {
           {{ t('cancel') }}
         </watt-button>
 
-        <watt-button type="submit" formId="reject-process-form">
+        <watt-button type="submit" formId="reject-process-form" [loading]="submitting()">
           {{ t('confirm') }}
         </watt-button>
       </watt-modal-actions>
@@ -128,6 +129,7 @@ export class DhRejectProcessModal extends WattTypedModal<RejectProcessModalData>
 
   readonly modal = viewChild.required(WattModalComponent);
   readonly reasonCodeOptions = dhEnumToWattDropdownOptions(ReasonCodeV1);
+  readonly submitting = signal(false);
 
   readonly form = this.fb.group({
     reasonCode: this.fb.control<ReasonCodeV1 | null>(null, Validators.required),
@@ -144,10 +146,17 @@ export class DhRejectProcessModal extends WattTypedModal<RejectProcessModalData>
       .translate(`meteringPoint.processOverview.rejectProcess.reasonCodes.${reasonCode}`)
       .replace(/\s*\(D\d+\)$/, '');
 
+    this.submitting.set(true);
     this.modalData.executeMutation({
       result: { reasonCode, reasonMessage, description },
-      onCompleted: () => this.modal().close(true),
-      onError: () => this.modal().close(false),
+      onCompleted: () => {
+        this.submitting.set(false);
+        this.modal().close(true);
+      },
+      onError: () => {
+        this.submitting.set(false);
+        this.modal().close(false);
+      },
     });
   }
 }
