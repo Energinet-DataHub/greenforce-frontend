@@ -310,6 +310,7 @@ export class DhUpdateCustomerDataComponent {
       this.form().controls.businessCustomerDetails.controls.companyName.setValue(
         data.firstCustomerName
       );
+      data.firstCustomerCvr ? this.form().controls.businessCustomerDetails.controls.cvr.setValue(data.firstCustomerCvr) : null;
     } else {
       this.form().controls.privateCustomerDetails.controls.customerName1.setValue(
         data.firstCustomerName
