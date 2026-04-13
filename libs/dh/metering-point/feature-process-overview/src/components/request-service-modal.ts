@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
@@ -39,6 +39,7 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhFormControlToSignal,
+  dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
@@ -144,7 +145,6 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhRequestServiceModal extends WattTypedModal<RequestServiceModalData> {
-  private readonly fb = inject(NonNullableFormBuilder);
   private readonly toastService = inject(WattToastService);
   private readonly requestServiceMutation = mutation(RequestServiceEndOfSupplyDocument);
 
@@ -153,10 +153,10 @@ export class DhRequestServiceModal extends WattTypedModal<RequestServiceModalDat
   readonly maxDescriptionLength = 1000;
   readonly serviceKindOptions = dhEnumToWattDropdownOptions(ServiceKindV1, excludedServiceKinds);
 
-  readonly form = this.fb.group({
-    serviceKind: this.fb.control<ServiceKindV1 | null>(null, Validators.required),
-    startDate: this.fb.control<Date | null>(null, Validators.required),
-    description: this.fb.control<string | null>(
+  readonly form = new FormGroup({
+    serviceKind: dhMakeFormControl<ServiceKindV1 | null>(null, Validators.required),
+    startDate: dhMakeFormControl<Date | null>(null, Validators.required),
+    description: dhMakeFormControl<string | null>(
       null,
       Validators.maxLength(this.maxDescriptionLength)
     ),
