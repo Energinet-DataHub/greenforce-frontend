@@ -1058,7 +1058,7 @@
           "SEND_INFORMATION": "Anmod om serviceydelse",
           "FAS_SEND_INFORMATION": "El kan anmode om serviceydelse",
           "CANCEL_WORKFLOW": "Annuller",
-          "FAS_CANCEL_WORKFLOW": "El kan annullere workflow",
+          "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
           "REJECT_REQUEST": "Afvis anmodning",
           "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
         },

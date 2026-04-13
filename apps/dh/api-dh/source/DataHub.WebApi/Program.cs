@@ -101,7 +101,11 @@ services
             context.User.GetMarketParticipantMarketRole() == nameof(EicFunction.EnergySupplier)))
     .AddPolicy(nameof(EicFunction.GridAccessProvider), policy =>
         policy.RequireAssertion(context =>
-            context.User.GetMarketParticipantMarketRole() == nameof(EicFunction.GridAccessProvider)));
+            context.User.GetMarketParticipantMarketRole() == nameof(EicFunction.GridAccessProvider)))
+    .AddPolicy("EnergySupplierOrGridAccessProvider", policy =>
+        policy.RequireAssertion(context =>
+            context.User.GetMarketParticipantMarketRole() is var role
+            && (role == nameof(EicFunction.EnergySupplier) || role == nameof(EicFunction.GridAccessProvider))));
 
 if (environment.IsDevelopment())
 {

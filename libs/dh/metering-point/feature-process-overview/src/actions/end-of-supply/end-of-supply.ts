@@ -82,7 +82,7 @@ export class EndOfSupplyActions {
     },
     [WorkflowAction.CancelWorkflow]: {
       featureFlag: 'end-of-supply',
-      marketRoles: [EicFunction.EnergySupplier],
+      marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
       callback: cancelProcessAction(
         `meteringPoint.processOverview.processTypeName.${ProcessManagerBusinessReason.EndOfSupply}`,
         (ctx, onCompleted, onError) => {
