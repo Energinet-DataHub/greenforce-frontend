@@ -1058,7 +1058,7 @@
           "SEND_INFORMATION": "Request service",
           "FAS_SEND_INFORMATION": "Electricity supplier can request service",
           "CANCEL_WORKFLOW": "Cancel",
-          "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow",
+          "FAS_CANCEL_WORKFLOW": "Electricity supplier can cancel workflow",
           "REJECT_REQUEST": "Reject request",
           "FAS_REJECT_REQUEST": "Grid operator can reject request"
         },
