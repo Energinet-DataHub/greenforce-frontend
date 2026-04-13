@@ -1054,12 +1054,18 @@
         "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
       },
       "actions": {
-        "SEND_INFORMATION": "Send information",
-        "FAS_SEND_INFORMATION": "Net og el kan sende information",
-        "CANCEL_WORKFLOW": "Annuller",
-        "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
-        "REJECT_REQUEST": "Afvis anmodning",
-        "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
+        "EndOfSupply": {
+          "SEND_INFORMATION": "Anmod om serviceydelse",
+          "FAS_SEND_INFORMATION": "El kan anmode om serviceydelse",
+          "CANCEL_WORKFLOW": "Annuller",
+          "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
+          "REJECT_REQUEST": "Afvis anmodning",
+          "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
+        },
+        "CustomerMoveIn": {
+          "SEND_INFORMATION": "Send information",
+          "FAS_SEND_INFORMATION": "Net og el kan sende information"
+        }
       },
       "rejectProcess": {
         "title": "Leveranceophør - serviceanmodning afvist",

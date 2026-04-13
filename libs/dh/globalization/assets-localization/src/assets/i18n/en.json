@@ -1054,12 +1054,18 @@
         "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
       },
       "actions": {
-        "SEND_INFORMATION": "Send information",
-        "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information",
-        "CANCEL_WORKFLOW": "Cancel",
-        "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow",
-        "REJECT_REQUEST": "Reject request",
-        "FAS_REJECT_REQUEST": "Grid operator can reject request"
+        "EndOfSupply": {
+          "SEND_INFORMATION": "Request service",
+          "FAS_SEND_INFORMATION": "Electricity supplier can request service",
+          "CANCEL_WORKFLOW": "Cancel",
+          "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow",
+          "REJECT_REQUEST": "Reject request",
+          "FAS_REJECT_REQUEST": "Grid operator can reject request"
+        },
+        "CustomerMoveIn": {
+          "SEND_INFORMATION": "Send information",
+          "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information"
+        }
       },
       "rejectProcess": {
         "title": "End of supply - service request rejected",

@@ -1234,7 +1234,7 @@ type Mutation {
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(policy: "GridAccessProvider")
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
-  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(policy: "EnergySupplier") @authorize(policy: "GridAccessProvider")
+  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }

@@ -24,7 +24,6 @@ public static class RequestServiceEndOfSupplyOperations
 {
     [Mutation]
     [Authorize(Policy = nameof(EicFunction.EnergySupplier))]
-    [Authorize(Policy = nameof(EicFunction.GridAccessProvider))]
     public static async Task<bool> RequestServiceEndOfSupplyAsync(
         string meteringPointId,
         Guid processId,

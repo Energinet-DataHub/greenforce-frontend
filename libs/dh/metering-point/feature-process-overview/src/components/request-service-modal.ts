@@ -23,6 +23,7 @@ import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattFieldHintComponent } from '@energinet/watt/field';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattToastService } from '@energinet/watt/toast';
@@ -67,19 +68,28 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
     WATT_MODAL,
     WattButtonComponent,
     WattDropdownComponent,
+    WattFieldHintComponent,
     WattTextAreaFieldComponent,
     WattDatepickerComponent,
     VaterStackComponent,
     DhDropdownTranslatorDirective,
   ],
   styles: `
+    form {
+      margin-top: var(--watt-space-l);
+    }
+
     watt-textarea-field {
       --watt-textarea-max-height: 200px;
     }
 
+    .field {
+      width: 320px;
+    }
+
     .character-count {
+      display: block;
       text-align: right;
-      color: var(--watt-on-light--low-emphasis);
     }
   `,
   template: `
@@ -89,8 +99,9 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
       size="small"
     >
       <form id="request-service-form" [formGroup]="form" (ngSubmit)="submit()">
-        <vater-stack direction="column" gap="m">
+        <vater-stack direction="column" align="start">
           <watt-dropdown
+            class="field"
             dhDropdownTranslator
             translateKey="meteringPoint.processOverview.requestService.serviceKinds"
             [label]="t('serviceKindLabel')"
@@ -100,18 +111,22 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
             [showResetOption]="false"
           />
 
-          <watt-datepicker [label]="t('startDateLabel')" [formControl]="form.controls.startDate" />
+          <watt-datepicker
+            class="field"
+            [label]="t('startDateLabel')"
+            [formControl]="form.controls.startDate"
+          />
 
-          <div>
-            <watt-textarea-field
-              [label]="t('descriptionLabel')"
-              [formControl]="form.controls.description"
-              [maxLength]="maxDescriptionLength"
-            />
-            <p class="watt-text-s character-count">
+          <watt-textarea-field
+            class="field"
+            [label]="t('descriptionLabel')"
+            [formControl]="form.controls.description"
+            [maxLength]="maxDescriptionLength"
+          >
+            <watt-field-hint class="character-count">
               {{ (description() ?? '').length }} / {{ maxDescriptionLength }}
-            </p>
-          </div>
+            </watt-field-hint>
+          </watt-textarea-field>
         </vater-stack>
       </form>
 

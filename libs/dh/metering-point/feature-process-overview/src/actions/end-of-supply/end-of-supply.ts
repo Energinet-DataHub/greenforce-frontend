@@ -45,7 +45,7 @@ export class EndOfSupplyActions {
   readonly handlers: ActionHandlerMap = {
     [WorkflowAction.SendInformation]: {
       featureFlag: 'end-of-supply',
-      marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
+      marketRoles: [EicFunction.EnergySupplier],
       callback: (ctx) => {
         this.modalService.open({
           component: DhRequestServiceModal,
