@@ -54,6 +54,8 @@ export class DhActionsRegistry {
     { initialValue: false }
   );
 
+  private readonly isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
+
   private readonly registry: Partial<Record<ProcessManagerBusinessReason, ActionHandlerMap>> = {
     [ProcessManagerBusinessReason.EndOfSupply]: inject(EndOfSupplyActions).handlers,
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
@@ -75,11 +77,12 @@ export class DhActionsRegistry {
   ): WorkflowAction[] {
     return availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
-      return (
-        handler &&
-        this.featureFlags.isEnabled(handler.featureFlag) &&
-        this.hasRequiredMarketRole(handler)
-      );
+      if (!handler || !this.featureFlags.isEnabled(handler.featureFlag)) return false;
+      // FAS users see all supported actions for informational purposes,
+      // but cannot execute them (gated by canPerformActions in the template
+      // and hasRequiredMarketRole in execute).
+      if (this.isFas()) return true;
+      return this.hasRequiredMarketRole(handler);
     });
   }
 
