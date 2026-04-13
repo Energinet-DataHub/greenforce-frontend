@@ -31,6 +31,10 @@ public static partial class ConversationInfoDtoType
             .Name("id");
 
         descriptor
+        .Field(f => f.ConversationId)
+        .Name("idNew");
+
+        descriptor
             .Field(f => f.DisplayId)
             .Type<NonNullType<IdType>>()
             .Name("displayId");
