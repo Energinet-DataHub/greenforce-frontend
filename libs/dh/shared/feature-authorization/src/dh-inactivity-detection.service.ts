@@ -112,7 +112,7 @@ export class DhInactivityDetectionService {
   }
 
   private logout() {
-    const redirectUrl = this.postLoginRedirectUrl(this.location.path());
+    const redirectUrl = this.postLoginRedirectUrl(this.router.url);
 
     sessionStorage.setItem(POST_LOGIN_REDIRECT_KEY, redirectUrl);
     this.msal.logoutRedirect();
