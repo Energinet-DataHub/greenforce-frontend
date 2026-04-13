@@ -141,7 +141,10 @@ export class DhRequestServiceModal extends WattTypedModal<RequestServiceModalDat
   readonly form = this.fb.group({
     serviceKind: this.fb.control<ServiceKindV1 | null>(null, Validators.required),
     startDate: this.fb.control<Date | null>(null, Validators.required),
-    description: this.fb.control<string | null>(null, Validators.maxLength(this.maxDescriptionLength)),
+    description: this.fb.control<string | null>(
+      null,
+      Validators.maxLength(this.maxDescriptionLength)
+    ),
   });
 
   readonly description = dhFormControlToSignal(this.form.controls.description);
