@@ -831,6 +831,12 @@
           "error": "Der opstod en fejl under opdatering af intern note"
         }
       },
+      "confirmCloseConversation": {
+        "title": "Afslut sag uden at sende besked?",
+        "message": "Du har indtastet en besked, der ikke bliver sendt, hvis du afslutter sagen.",
+        "confirmButton": "Afslut sag",
+        "cancelButton": "Luk"
+      },
       "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send besked",
       "attachFileButton": "Vedhæft fil",
@@ -1125,6 +1131,8 @@
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_1": "Anmodning om afbrydelse (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_2": "Godkendelse af anmodning om afbrydelse (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
+        "BRS_002_AUTOCANCELLATION_V1_STEP_1": "Information om annullering pga. manglende afbrydelse (RSM-004)",
+        "BRS_002_AUTOCANCELLATION_V1_STEP_2": "Information om annullering pga. manglende afbrydelse (RSM-004)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Anmodning om oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
@@ -1162,9 +1170,9 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Information om kundestamdata (RSM-028)",
-        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_1": "Anmodning om ændring af aftagepligt (RSM-021)",
-        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Godkendelse af ændring af aftagepligt (RSM-021)",
-        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Afvisning af ændring af aftagepligt (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_1": "Anmodning om ændring af aftagepligt",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Godkendelse af ændring af aftagepligt",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Afvisning af ændring af aftagepligt",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)",
         "BRS_041_V1_STEP_1": "Anmodning om ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",

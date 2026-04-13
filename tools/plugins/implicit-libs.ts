@@ -16,7 +16,22 @@
  * limitations under the License.
  */
 //#endregion
+import { globSync } from 'glob';
 import { CreateNodesV2 } from '@nx/devkit';
+
+/**
+ * Returns true if the lib directory contains at least one spec file.
+ * Used to skip generating a `test` target for libs that have no tests,
+ * avoiding ~8s of vitest startup overhead per empty lib in CI.
+ */
+function hasSpecFiles(projectRoot: string): boolean {
+  const matches = globSync('**/*.spec.ts', {
+    cwd: projectRoot,
+    ignore: ['node_modules/**'],
+    nodir: true,
+  });
+  return matches.length > 0;
+}
 
 /**
  * Ordered list of known type prefixes, longest-first so that
@@ -115,6 +130,7 @@ export const createNodesV2: CreateNodesV2 = [
         const implicitDeps = implicitDependencies(name);
         // Path from the lib root (cwd) to the shared product-level config
         const sharedConfig = `../../../../${libs}/${product}/vite.config.mts`;
+        const specFilesExist = hasSpecFiles(projectRoot);
 
         return [
           indexPath,
@@ -146,29 +162,31 @@ export const createNodesV2: CreateNodesV2 = [
                     ],
                     outputs: ['{options.outputFile}'],
                   },
-                  test: {
-                    command: `vitest --config ${sharedConfig}`,
-                    options: {
-                      cwd: projectRoot,
-                      env: {
-                        VITEST_ENVIRONMENT: environment,
-                        VITEST_USE_ANGULAR: String(angular),
+                  ...(specFilesExist && {
+                    test: {
+                      command: `vitest --config ${sharedConfig}`,
+                      options: {
+                        cwd: projectRoot,
+                        env: {
+                          VITEST_ENVIRONMENT: environment,
+                          VITEST_USE_ANGULAR: String(angular),
+                        },
                       },
+                      metadata: { technologies: ['vitest'] },
+                      cache: true,
+                      inputs: [
+                        'default',
+                        '^production',
+                        {
+                          externalDependencies: ['vitest'],
+                        },
+                        {
+                          env: 'CI',
+                        },
+                      ],
+                      outputs: [`{workspaceRoot}/coverage/${libs}/${product}/${domain}/${name}`],
                     },
-                    metadata: { technologies: ['vitest'] },
-                    cache: true,
-                    inputs: [
-                      'default',
-                      '^production',
-                      {
-                        externalDependencies: ['vitest'],
-                      },
-                      {
-                        env: 'CI',
-                      },
-                    ],
-                    outputs: [`{workspaceRoot}/coverage/${libs}/${product}/${domain}/${name}`],
-                  },
+                  }),
                 },
               },
             },

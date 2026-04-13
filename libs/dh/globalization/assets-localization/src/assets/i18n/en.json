@@ -831,6 +831,12 @@
           "error": "An error occurred updating the internal note"
         }
       },
+      "confirmCloseConversation": {
+        "title": "Close case without sending message?",
+        "message": "You have entered a message that will not be sent if you close the case.",
+        "confirmButton": "Close case",
+        "cancelButton": "Close"
+      },
       "messagePlaceholder": "Write a message",
       "sendButton": "Send message",
       "attachFileButton": "Attach file",
@@ -1125,6 +1131,8 @@
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_1": "Request for disconnection (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_2": "Confirmation of request for disconnection (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_4": "Request for disconnection (RSM-020)",
+        "BRS_002_AUTOCANCELLATION_V1_STEP_1": "Information about cancellation due to lack of change of connection status (RSM-004)",
+        "BRS_002_AUTOCANCELLATION_V1_STEP_2": "Information about cancellation due to lack of change of connection status (RSM-004)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Confirmation of request for creation of metering point (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Rejection of request for creation of metering point (RSM-021)",
@@ -1162,9 +1170,9 @@
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_4": "Characteristics of a Customer at an AP (RSM-028)",
-        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_1": "Request for change of production obligation (RSM-021)",
-        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Confirmation of request for change of production obligation (RSM-021)",
-        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Rejection of request for change of production obligation (RSM-021)",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_1": "Request for change of production obligation",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Confirmation of request for change of production obligation",
+        "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Rejection of request for change of production obligation",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Notification of change of production obligation (RSM-022)",
         "BRS_041_V1_STEP_1": "Request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_2": "Rejection of request for change of electrical heating status (RSM-027)",

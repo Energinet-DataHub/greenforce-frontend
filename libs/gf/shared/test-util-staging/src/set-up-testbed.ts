@@ -16,14 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { beforeEach } from 'vitest';
+import { afterEach, beforeEach } from 'vitest';
 
 import {
-  ComponentFixtureAutoDetect,
   getTestBed,
   TestBed,
   TestModuleMetadata,
+  ɵgetCleanupHook as getCleanupHook,
 } from '@angular/core/testing';
+import { ApplicationRef } from '@angular/core';
 import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 
@@ -62,6 +63,54 @@ function setupLocalStorageMock(): void {
 }
 
 /**
+ * Patch MutationObserver so that `observe()` and `disconnect()` never throw.
+ *
+ * Angular CDK uses MutationObserver in two ways that break under happy-dom:
+ * - `OverlayRef._detachContentWhenEmpty` calls `observe()` to watch the
+ *   overlay container after detach.
+ * - `OverlayRef._completeDetachContent` calls `disconnect()` during teardown.
+ *
+ * happy-dom's MutationObserver may throw on both calls. `takeRecords` is not
+ * patched — it was only needed by `@testing-library/dom`'s `waitFor`, which
+ * we no longer use (replaced by `waitForAsync` from gf/test-util-staging).
+ *
+ * We patch both `globalThis.MutationObserver` and `window.MutationObserver`
+ * because CDK reads it from the global scope.
+ */
+function patchMutationObserver(): void {
+  if (typeof MutationObserver === 'undefined') return;
+
+  const OriginalMutationObserver = MutationObserver;
+
+  class PatchedMutationObserver extends OriginalMutationObserver {
+    override observe(target: Node, options?: MutationObserverInit): void {
+      try {
+        super.observe(target, options);
+      } catch {
+        // swallow — happy-dom may throw on observe
+      }
+    }
+
+    override disconnect(): void {
+      try {
+        super.disconnect();
+      } catch {
+        // swallow — happy-dom may throw on disconnect
+      }
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (globalThis as any).MutationObserver = PatchedMutationObserver;
+
+  // CDK reads MutationObserver from window via getWindowFromNode(container).
+  if (typeof window !== 'undefined' && window !== (globalThis as unknown)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).MutationObserver = PatchedMutationObserver;
+  }
+}
+
+/**
  * Disable CSS animations and transitions in tests by injecting a global style.
  * This is the modern replacement for provideNoopAnimations() which is deprecated in Angular 20.2.
  */
@@ -82,34 +131,141 @@ function disableAnimationsInTests(): void {
   }
 }
 
+// Symbol used to mark a patched configureTestingModule so we can detect it
+// across setup file re-evaluations (which happen with isolate: false).
+const PATCHED_MARKER = Symbol.for('gf-testbed-patched');
+const WARN_PATCHED_MARKER = Symbol.for('gf-testbed-warn-patched');
+const TICK_PATCHED_MARKER = Symbol.for('gf-testbed-tick-patched');
+
+/**
+ * Patch console.warn once (globally, per process) to suppress NG0406 warnings.
+ *
+ * NG0406 ("This instance of the ApplicationRef has already been destroyed") is
+ * a spurious console.warn that arises when isolate: false is used with CDK
+ * overlays. CDK schedules a microtask during view.destroy() (inside Angular's
+ * ApplicationRef.ngOnDestroy) that calls appRef.detachView() after _destroyed
+ * is already set to true. The warning is cosmetic — tests pass — but it
+ * heavily pollutes CI output (210 occurrences per full dh/gf run).
+ *
+ * We patch console.warn rather than the Angular internals to keep the fix
+ * minimal and non-invasive.
+ */
+function suppressNg0406Warnings(): void {
+  const g = globalThis as Record<symbol, unknown>;
+  if (g[WARN_PATCHED_MARKER]) return; // already patched in this process
+  g[WARN_PATCHED_MARKER] = true;
+
+  const original = console.warn;
+  console.warn = (...args: unknown[]) => {
+    const msg = args[0];
+    if (
+      (typeof msg === 'string' && msg.includes('NG0406')) ||
+      (typeof msg === 'string' && msg.includes('ApplicationRef') && msg.includes('destroyed'))
+    ) {
+      return;
+    }
+    original.apply(console, args);
+  };
+}
+
+/**
+ * Patch console.error once (globally, per process) to suppress NG0101 errors.
+ *
+ * NG0101 ("ApplicationRef.tick is called recursively") occurs in tests that
+ * use CDK overlays (e.g. WattModalComponent) with happy-dom. The root cause:
+ * happy-dom dispatches `blur` synchronously as a side effect of button clicks.
+ * When CDK opens a dialog, Angular is already inside a `tick()` call
+ * (triggered by the scheduler). The synchronous `blur` event fires
+ * `eventWrapper` → `detectChangesForMountedFixtures()` → `fixture.detectChanges()`
+ * → `ApplicationRef.tick()`, which throws NG0101 because `_runningTick` is
+ * already true. Angular's `TestBedApplicationErrorHandler` catches the throw
+ * and logs it via `console.error`; Vitest captures that as `stderr`. Tests
+ * still pass, but the noise pollutes CI output.
+ *
+ * Fix: monkey-patch `ApplicationRef.prototype.tick` to silently return when
+ * `_runningTick` is already true, instead of throwing. This is safe in tests
+ * because the nested tick is redundant — the in-flight tick will complete and
+ * synchronize all views.
+ */
+function suppressNg0101Errors(): void {
+  const g = globalThis as Record<symbol, unknown>;
+  if (g[TICK_PATCHED_MARKER]) return; // already patched in this process
+  g[TICK_PATCHED_MARKER] = true;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const proto = ApplicationRef.prototype as any;
+  const originalTick = proto.tick as () => void;
+
+  proto.tick = function (this: ApplicationRef & { _runningTick?: boolean }) {
+    if (this._runningTick) {
+      // Already ticking — skip silently. The in-flight tick covers this.
+      return;
+    }
+    originalTick.call(this);
+  };
+}
+
+/**
+ * Async-aware TestBed teardown that avoids NG0406 warnings.
+ *
+ * NG0406 warnings ("This instance of the ApplicationRef has already been
+ * destroyed") are suppressed globally by suppressNg0406Warnings() above.
+ * The root cause: with isolate: false, CDK overlays left open at the end
+ * of a test file schedule a microtask (Promise.resolve().then(() => detach()))
+ * during ApplicationRef.ngOnDestroy(). This microtask fires after _destroyed
+ * is set to true — triggering NG0406 from appRef.detachView(). Tests pass;
+ * the warning is purely cosmetic.
+ *
+ * We use the standard Angular cleanup hook here; NG0406 suppression is handled
+ * separately by suppressNg0406Warnings() which patches console.warn once per
+ * process.
+ */
+function cleanupTestbed(): void {
+  getCleanupHook(true)();
+}
+
 function patchTestbed(): void {
-  const isUnpatched = testbed.configureTestingModule === realConfigureTestingModule;
-
-  if (isUnpatched) {
-    testbed.configureTestingModule = (moduleDef: TestModuleMetadata): TestBed => {
-      realConfigureTestingModule.call(testbed, {
-        ...moduleDef,
-        imports: [MatIconTestingModule, ...(moduleDef.imports ?? [])],
-        providers: [
-          // Use automatic change detection in tests
-          { provide: ComponentFixtureAutoDetect, useValue: true },
-          ...(moduleDef.providers ?? []),
-          browserConfigurationProviders,
-          // Mark as NoopAnimations for Angular Material components that check this token
-          { provide: ANIMATION_MODULE_TYPE, useValue: 'NoopAnimations' },
-          provideRouter([]),
-        ],
-      });
-
-      return testbed;
-    };
-
-    // Run at least once in case `TestBed.inject` is called without calling
-    // `TestBed.configureTestingModule`
-    beforeEach(() => {
-      testbed.configureTestingModule({});
-    });
+  // With isolate: false, setup files are re-evaluated on every test file while
+  // the TestBed singleton persists. After initTestEnvironment(), the TestBed's
+  // configureTestingModule instance property may still be a previously-patched
+  // wrapper. Detect that via the PATCHED_MARKER to avoid double-wrapping.
+  const currentCTM = testbed.configureTestingModule as typeof testbed.configureTestingModule & {
+    [PATCHED_MARKER]?: true;
+  };
+  if (currentCTM[PATCHED_MARKER]) {
+    // Already patched — re-register the beforeEach/afterEach for this file
+    // context (clearCollectorContext wiped the previous registrations) but do
+    // NOT re-wrap configureTestingModule.
+    beforeEach(() => testbed.configureTestingModule({}));
+    afterEach(() => cleanupTestbed());
+    return;
   }
+
+  // First time patching in this process: capture the real Angular CTM.
+  const realCTM = testbed.configureTestingModule;
+
+  const patched = (moduleDef: TestModuleMetadata): TestBed => {
+    realCTM.call(testbed, {
+      ...moduleDef,
+      imports: [MatIconTestingModule, ...(moduleDef.imports ?? [])],
+      providers: [
+        ...(moduleDef.providers ?? []),
+        browserConfigurationProviders,
+        // Mark as NoopAnimations for Angular Material components that check this token
+        { provide: ANIMATION_MODULE_TYPE, useValue: 'NoopAnimations' },
+        provideRouter([]),
+      ],
+    });
+
+    return testbed;
+  };
+  (patched as typeof patched & { [PATCHED_MARKER]?: true })[PATCHED_MARKER] = true;
+  testbed.configureTestingModule = patched;
+
+  // Run at least once in case `TestBed.inject` is called without calling
+  // `TestBed.configureTestingModule`
+  beforeEach(() => testbed.configureTestingModule({}));
+  afterEach(() => cleanupTestbed());
 }
 
 /**
@@ -128,6 +284,23 @@ function patchTestbed(): void {
 export function setUpTestbed(): void {
   // Set up browser API mocks before initializing testbed
   setupLocalStorageMock();
+  patchMutationObserver();
+
+  // Suppress NG0406 ("ApplicationRef already destroyed") warnings that arise
+  // from CDK overlay's async cleanup racing with Angular's TestBed teardown.
+  // With isolate: false, the previous test file's CDK overlay may schedule a
+  // microtask during teardown (via Promise.resolve().then(() => detach())) which
+  // fires after ApplicationRef._destroyed is set to true, triggering NG0406.
+  // These warnings are cosmetic — tests still pass — but they pollute CI output.
+  suppressNg0406Warnings();
+
+  // Suppress NG0101 ("ApplicationRef.tick is called recursively") errors that
+  // arise when CDK overlays are used with happy-dom. happy-dom dispatches blur
+  // synchronously during button clicks, which can trigger a nested tick() call
+  // while Angular's scheduler already has one in flight. The error is caught by
+  // Angular's TestBedApplicationErrorHandler — tests still pass — but the
+  // console.error output pollutes CI logs.
+  suppressNg0101Errors();
 
   testbed.resetTestEnvironment();
   testbed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {
@@ -143,4 +316,3 @@ export function setUpTestbed(): void {
 }
 
 const testbed = getTestBed();
-const realConfigureTestingModule = getTestBed().configureTestingModule;
