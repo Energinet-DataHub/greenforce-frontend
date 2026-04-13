@@ -54,4 +54,14 @@ public class MoveInClient(
         return await processManagerClient
             .SearchWorkflowInstanceByCustomQueryAsync<RequestTemporaryStorageResult>(query, ct);
     }
+
+    public async Task<DateTimeOffset?> GetCutOffDateAsync(
+        string processId,
+        CancellationToken ct = default)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var query = new GetWorkflowInstanceByIdQuery(userIdentity, Guid.Parse(processId));
+        var instance = await processManagerClient.GetWorkflowInstanceByIdQueryAsync(query, ct);
+        return instance?.ExpectedValidityDate;
+    }
 }

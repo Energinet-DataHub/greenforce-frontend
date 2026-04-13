@@ -28,4 +28,11 @@ public interface IMoveInClient
         string meteringPointId,
         string processId,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Get the cut-off date for a given process.
+    /// </summary>
+    Task<DateTimeOffset?> GetCutOffDateAsync(
+        string processId,
+        CancellationToken ct = default);
 }

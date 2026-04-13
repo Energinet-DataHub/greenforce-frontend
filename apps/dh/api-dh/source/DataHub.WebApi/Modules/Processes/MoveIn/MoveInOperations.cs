@@ -17,6 +17,7 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1;
@@ -76,8 +77,15 @@ public static class MoveInOperations
         bool electricalHeating,
         IReadOnlyCollection<UsagePointLocationV1>? usagePointLocations,
         CancellationToken ct,
-        [Service] IB2CClient ediB2CClient)
+        [Service] IB2CClient ediB2CClient,
+        [Service] IMoveInClient moveInClient)
     {
+        DateTimeOffset? cutOffDate = null;
+        if (processId != null)
+        {
+            cutOffDate = await moveInClient.GetCutOffDateAsync(processId, ct);
+        }
+
         var command = new RequestChangeCustomerCharacteristicsCommandV1(
             RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV1(
                 MeteringPointId: meteringPointId,
