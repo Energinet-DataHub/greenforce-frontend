@@ -419,7 +419,7 @@ type ConversationAttachment {
 "Conversation info"
 type ConversationInfo {
   "Conversation id"
-  idNew: UUID!
+  id: UUID!
   "Display id of the conversation"
   displayId: ID!
   subject: ConversationSubject!
