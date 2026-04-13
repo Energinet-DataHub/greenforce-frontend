@@ -39,7 +39,7 @@ jobs:
         name: Generate Github token
         id: generate_token
         with:
-          app-id: ${{ vars.dh3serviceaccount_appid }}
+          client-id: ${{ vars.dh3serviceaccount_appid }}
           private-key: ${{ secrets.dh3serviceaccount_privatekey }}
           owner: Energinet-DataHub
       - uses: actions/checkout@v6
@@ -63,14 +63,36 @@ jobs:
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
           restore-keys: |
             ${{ runner.os }}-bun-
-      - run: bun install --frozen-lockfile
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
       - uses: nrwl/nx-set-shas@v4
       - name: "Lint and fix affected projects"
         run: bun run affected:lint:fix -- --base="$NX_BASE" --head="$NX_HEAD"
+
       - name: Format projects and configuration files
         run: bun run format -- --base="$NX_BASE" --head="$NX_HEAD"
 
-      - name: Commit lint and formatted files
+      - name: Generate graphQL schema
+        run: bun nx run dh-shared-domain:generate
+
+      - name: Read .allowed-licenses.json
+        id: allowed-licenses
+        shell: bash
+        run: echo "FILE=$(jq -r .[] .allowed-licenses.json | tr '\n' ';')" >> $GITHUB_OUTPUT
+
+      - name: Run license-checker
+        id: licenseChecker
+        run: echo DEPENDENCIES=$(npx license-checker-rseidelsohn@4.2.10 --direct=0 --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}" --json --excludePrivatePackages) >> $GITHUB_OUTPUT
+
+      - name: Update PRODUCTION_DEPENDENCIES.md
+        uses: ./.github/actions/update-production-dependencies-list
+        with:
+          dependencies-from-license-checker: ${{ steps.licenseChecker.outputs.DEPENDENCIES }}
+
+      - name: Add license to all projects
+        run: bun run nx g @energinet-datahub/tools/license:add -- --base="$NX_BASE" --head="$NX_HEAD"
+
+      - name: Commit CI QA fixes
         if: ${{ github.event.pull_request.head.ref }}
         run: |
           git config user.name "github-actions[bot]"
