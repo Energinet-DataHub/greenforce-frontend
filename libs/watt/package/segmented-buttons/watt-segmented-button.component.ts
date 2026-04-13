@@ -32,6 +32,10 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styles: `
     :host {
       display: flex;
+    }
+
+    a, button {
+      display: flex;
       align-items: center;
       justify-content: center;
       min-width: 6.5rem;
@@ -41,65 +45,76 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       font-size: 1rem;
       font-weight: 600;
       color: var(--watt-on-light-high-emphasis);
+      background: none;
+      text-decoration: none;
       cursor: pointer;
       user-select: none;
       box-sizing: border-box;
+      font-family: inherit;
 
-      a, button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        color: inherit;
-        text-decoration: none;
-        background: none;
-        border: none;
-        font: inherit;
-        cursor: inherit;
-        padding: 0;
+      &:hover,
+      &:focus-visible {
+        background-color: var(--watt-color-neutral-grey-200);
       }
 
       &:focus-visible {
-        outline: 2px solid var(--watt-color-primary);
-        outline-offset: -2px;
+        outline: none;
+        box-shadow: 0 0 0 2px var(--watt-color-primary-dark);
+        position: relative;
+        z-index: 1;
       }
+    }
 
-      &:hover:not(.watt-segmented-button--selected):not(:has(a.active)):not(.watt-segmented-button--disabled),
-      &:focus-within:not(.watt-segmented-button--selected):not(:has(a.active)):not(.watt-segmented-button--disabled) {
-        background-color: var(--watt-color-neutral-grey-200);
-      }
+    a.active,
+    :host(.watt-segmented-button--selected) a,
+    :host(.watt-segmented-button--selected) button {
+      background-color: var(--watt-color-primary);
+      color: var(--watt-color-neutral-white);
 
-      &.watt-segmented-button--selected,
-      &:has(a.active) {
+      &:hover,
+      &:focus-visible {
         background-color: var(--watt-color-primary);
-        color: var(--watt-color-neutral-white);
       }
+    }
 
-      &.watt-segmented-button--disabled {
-        cursor: default;
+    :host(.watt-segmented-button--disabled) a,
+    :host(.watt-segmented-button--disabled) button {
+      cursor: default;
+      background-color: var(--watt-color-neutral-grey-200);
+      color: rgba(0, 0, 0, 0.26); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+
+      &:hover,
+      &:focus-visible {
         background-color: var(--watt-color-neutral-grey-200);
-        color: rgba(0, 0, 0, 0.26); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
-
-        &.watt-segmented-button--selected {
-          background-color: var(--watt-color-neutral-grey-400);
-          color: var(--watt-on-light-high-emphasis); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
-        }
       }
+    }
 
-      &.watt-segmented-button--first {
-        border-right-width: 0;
-        border-radius: 4px 0 0 4px;
-      }
+    :host(.watt-segmented-button--disabled.watt-segmented-button--selected) a,
+    :host(.watt-segmented-button--disabled.watt-segmented-button--selected) button {
+      background-color: var(--watt-color-neutral-grey-400);
+      color: var(--watt-on-light-high-emphasis); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
 
-      &.watt-segmented-button--middle {
-        border-right-width: 0;
-        border-radius: 0;
+      &:hover,
+      &:focus-visible {
+        background-color: var(--watt-color-neutral-grey-400);
       }
+    }
 
-      &.watt-segmented-button--last {
-        border-radius: 0 4px 4px 0;
-      }
+    :host(.watt-segmented-button--first) a,
+    :host(.watt-segmented-button--first) button {
+      border-right-width: 0;
+      border-radius: 4px 0 0 4px;
+    }
+
+    :host(.watt-segmented-button--middle) a,
+    :host(.watt-segmented-button--middle) button {
+      border-right-width: 0;
+      border-radius: 0;
+    }
+
+    :host(.watt-segmented-button--last) a,
+    :host(.watt-segmented-button--last) button {
+      border-radius: 0 4px 4px 0;
     }
   `,
   host: {
