@@ -69,9 +69,6 @@ jobs:
       - name: "Lint and fix affected projects"
         run: bun run affected:lint:fix -- --base="$NX_BASE" --head="$NX_HEAD"
 
-      - name: Format projects and configuration files
-        run: bun run format -- --base="$NX_BASE" --head="$NX_HEAD"
-
       - name: Generate graphQL schema
         run: bun nx run dh-shared-domain:generate
 
@@ -91,6 +88,9 @@ jobs:
 
       - name: Add license to all projects
         run: bun run nx g @energinet-datahub/tools/license:add -- --base="$NX_BASE" --head="$NX_HEAD"
+
+      - name: Format projects and configuration files
+        run: bun run format -- --base="$NX_BASE" --head="$NX_HEAD"
 
       - name: Commit CI QA fixes
         if: ${{ github.event.pull_request.head.ref }}
