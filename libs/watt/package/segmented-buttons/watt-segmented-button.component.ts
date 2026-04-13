@@ -16,13 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  inject,
-  ElementRef,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, inject, ElementRef } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -34,7 +28,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       display: flex;
     }
 
-    a, button {
+    a,
+    button {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -81,7 +76,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     :host(.watt-segmented-button--disabled) button {
       cursor: default;
       background-color: var(--watt-color-neutral-grey-200);
-      color: rgba(0, 0, 0, 0.26); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+      color: rgba(
+        0,
+        0,
+        0,
+        0.26
+      ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
 
       &:hover,
       &:focus-visible {
@@ -92,7 +92,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     :host(.watt-segmented-button--disabled.watt-segmented-button--selected) a,
     :host(.watt-segmented-button--disabled.watt-segmented-button--selected) button {
       background-color: var(--watt-color-neutral-grey-400);
-      color: var(--watt-on-light-high-emphasis); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+      color: var(
+        --watt-on-light-high-emphasis
+      ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
 
       &:hover,
       &:focus-visible {

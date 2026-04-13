@@ -31,11 +31,7 @@ const meta: Meta<WattSegmentedButtonsComponent & { disabled: boolean }> = {
       providers: [provideRouter([])],
     }),
     moduleMetadata({
-      imports: [
-        ReactiveFormsModule,
-        WattSegmentedButtonsComponent,
-        WattSegmentedButtonComponent,
-      ],
+      imports: [ReactiveFormsModule, WattSegmentedButtonsComponent, WattSegmentedButtonComponent],
     }),
   ],
   argTypes: {
