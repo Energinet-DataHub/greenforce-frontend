@@ -113,7 +113,7 @@ describe(StateLocationStrategy, () => {
 
   describe('prepareExternalUrl', () => {
     it('should return base href regardless of internal URL', () => {
-      expect(strategy.prepareExternalUrl('/users')).toBe(strategy.getBaseHref());
+      expect(strategy.prepareExternalUrl()).toBe(strategy.getBaseHref());
     });
   });
 });
