@@ -16,8 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable, Provider } from '@angular/core';
+import { inject, Injectable, Provider } from '@angular/core';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import {
+  DhAppEnvironment,
+  DhAppEnvironmentConfig,
+  dhAppEnvironmentToken,
+} from '@energinet-datahub/dh/shared/environments';
 
 /** Key used to store the router URL in the history state object. */
 export const ROUTER_URL_KEY = '__dhRouterUrl__';
@@ -47,6 +52,7 @@ export class StateLocationStrategy extends PathLocationStrategy {
     const state = normalizeState(this.getState());
     const url = state[ROUTER_URL_KEY];
     if (typeof url !== 'string') return super.path(includeHash);
+
     return !includeHash ? url.split('#')[0] : url;
   }
 
@@ -73,5 +79,12 @@ export class StateLocationStrategy extends PathLocationStrategy {
 /** Provides the StateLocationStrategy as the LocationStrategy for the application. */
 export const provideStateLocationStrategy = (): Provider => ({
   provide: LocationStrategy,
-  useExisting: StateLocationStrategy,
+  useFactory: ({ current }: DhAppEnvironmentConfig) => {
+    if (current === DhAppEnvironment.local) {
+      // return inject(PathLocationStrategy);
+    }
+
+    return inject(StateLocationStrategy);
+  },
+  deps: [dhAppEnvironmentToken],
 });

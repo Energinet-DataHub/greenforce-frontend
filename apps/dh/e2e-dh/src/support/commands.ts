@@ -41,10 +41,8 @@ function loginViaB2C(email: string, password: string) {
     }
   );
 
-  // Ensure Microsoft has redirected us back to the app after login.
-  cy.url({ timeout: 30_000 }).should('satisfy', (url: string) =>
-    url.startsWith(Cypress.config('baseUrl')!)
-  );
+  // Ensure Microsoft has redirected us back to the app with our logged in user.
+  cy.url().should('equals', Cypress.config('baseUrl') + '/');
 }
 
 Cypress.Commands.add('login', (email: string, password: string, initialUrl = '/') => {

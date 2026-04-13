@@ -27,6 +27,9 @@ export default defineConfig({
       webServerCommands: {
         default: 'bun nx run app-dh:serve:mocked',
       },
+      webServerConfig: {
+        timeout: 120_000,
+      },
       ciWebServerCommand: 'bun nx run app-dh:serve:mocked',
     }),
     baseUrl: 'https://localhost:4200',

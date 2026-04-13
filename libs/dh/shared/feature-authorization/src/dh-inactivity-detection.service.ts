@@ -79,7 +79,7 @@ export class DhInactivityDetectionService {
   );
 
   public trackInactivity() {
-    this.restoreRouteAfterLogin();
+    // this.restoreRouteAfterLogin();
     this.ngZone.runOutsideAngular(() => {
       this.userInactive$.subscribe((activityState) => {
         switch (activityState) {
@@ -122,6 +122,7 @@ export class DhInactivityDetectionService {
   private restoreRouteAfterLogin() {
     const redirectUrl = sessionStorage.getItem(POST_LOGIN_REDIRECT_KEY);
     if (!redirectUrl) return;
+
     sessionStorage.removeItem(POST_LOGIN_REDIRECT_KEY);
     this.router.navigateByUrl(redirectUrl);
   }
