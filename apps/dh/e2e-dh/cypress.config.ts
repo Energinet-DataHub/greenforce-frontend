@@ -32,6 +32,7 @@ export default defineConfig({
       },
       ciWebServerCommand: 'bun nx run app-dh:serve:mocked',
     }),
+    supportFile: false,
     baseUrl: 'https://localhost:4200',
     video: true,
     defaultCommandTimeout: 6000,
