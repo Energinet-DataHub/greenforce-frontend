@@ -54,6 +54,7 @@ describe('DhActionsRegistry', () => {
       featureFlagsEnabled?: boolean;
       isGridAccessProvider?: boolean;
       isEnergySupplier?: boolean;
+      isFas?: boolean;
       endOfSupplyHandlers?: ActionHandlerMap;
       customerMoveInHandlers?: ActionHandlerMap;
     } = {}
@@ -62,6 +63,7 @@ describe('DhActionsRegistry', () => {
       featureFlagsEnabled = true,
       isGridAccessProvider = true,
       isEnergySupplier = false,
+      isFas = false,
       endOfSupplyHandlers = {
         [WorkflowAction.CancelWorkflow]: {
           featureFlag: 'end-of-supply',
@@ -89,6 +91,7 @@ describe('DhActionsRegistry', () => {
               if (role === EicFunction.EnergySupplier) return of(isEnergySupplier);
               return of(false);
             },
+            isFas: () => of(isFas),
           },
         },
         {
