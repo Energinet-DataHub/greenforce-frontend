@@ -79,7 +79,8 @@ export class DhInactivityDetectionService {
   );
 
   public trackInactivity() {
-    // this.restoreRouteAfterLogin();
+    this.restoreRouteAfterLogin();
+
     this.ngZone.runOutsideAngular(() => {
       this.userInactive$.subscribe((activityState) => {
         switch (activityState) {
@@ -111,9 +112,7 @@ export class DhInactivityDetectionService {
   }
 
   private logout() {
-    const redirectUrl = isMeteringPointSubPath(this.router.url)
-      ? '/metering-point/search'
-      : this.location.path();
+    const redirectUrl = this.postLoginRedirectUrl(this.location.path());
 
     sessionStorage.setItem(POST_LOGIN_REDIRECT_KEY, redirectUrl);
     this.msal.logoutRedirect();
@@ -125,5 +124,17 @@ export class DhInactivityDetectionService {
 
     sessionStorage.removeItem(POST_LOGIN_REDIRECT_KEY);
     this.router.navigateByUrl(redirectUrl);
+  }
+
+  private postLoginRedirectUrl(url: string): string {
+    if (isMeteringPointSubPath(url)) {
+      return `/metering-point/search`;
+    }
+
+    if (url.includes('/admin/users/details')) {
+      return `/admin/users`;
+    }
+
+    return this.location.path();
   }
 }

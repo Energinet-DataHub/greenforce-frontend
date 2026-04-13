@@ -18,6 +18,7 @@
 //#endregion
 import { inject, Injectable, Provider } from '@angular/core';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+
 import {
   DhAppEnvironment,
   DhAppEnvironmentConfig,
@@ -41,12 +42,14 @@ const normalizeQueryParams = (params: string) =>
  * bootstrapApplication(AppComponent, {
  *   providers: [
  *     provideStateLocationStrategy(),
- *     provideRouter(routes),
+ *     ...
  *   ],
  * });
  * ```
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class StateLocationStrategy extends PathLocationStrategy {
   override path(includeHash = false) {
     const state = normalizeState(this.getState());
