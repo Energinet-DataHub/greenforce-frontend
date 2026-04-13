@@ -25,7 +25,7 @@ export default defineConfig({
     ...nxE2EPreset(__dirname, { bundler: 'vite' }),
     video: true,
     chromeWebSecurity: false,
-    supportFile: `${__dirname}/src/support/e2e.ts`,
+    supportFile: false,
     specPattern: `${__dirname}/src/**/*.cy.ts`,
     excludeSpecPattern: `${__dirname}/src/e2e/b2c-healthchecks.cy.ts`,
     fixturesFolder: `${__dirname}/src/fixtures`,
