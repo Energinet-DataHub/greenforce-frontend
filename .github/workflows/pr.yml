@@ -104,7 +104,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "style: format and lint"
+          git commit -m "QA fixes"
           git push origin HEAD:${{ github.event.pull_request.head.ref }} --force-with-lease
       - run: bun nx affected --parallel -t test build --base="$NX_BASE" --head="$NX_HEAD"
       - name: "End-to-end test affected products"
