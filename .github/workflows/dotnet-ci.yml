@@ -24,18 +24,8 @@ permissions:
   contents: write
   id-token: write
   pull-requests: read
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 on:
-  pull_request:
-    branches:
-      - main
-  merge_group:
-    types: [checks_requested]
-
+  workflow_call: {}
 jobs:
   dotnet_ci_build:
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@workflows/v1

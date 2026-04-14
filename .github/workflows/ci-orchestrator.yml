@@ -38,13 +38,17 @@ jobs:
     uses: ./.github/workflows/pr.yml
     secrets: inherit
 
+  dh_ci_dotnet:
+    uses: ./.github/workflows/dotnet-ci.yml
+    secrets: inherit
+
   #
   # Branch policy status check
   #
   allow_merge_ci_orchestrator:
     permissions: {}
     runs-on: ubuntu-latest
-    needs: [dh_ci_frontend]
+    needs: [dh_ci_frontend, dh_ci_dotnet]
     if: |
       always()
     steps:
