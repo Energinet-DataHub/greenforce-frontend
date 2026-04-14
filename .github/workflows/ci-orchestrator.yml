@@ -38,13 +38,34 @@ jobs:
     uses: ./.github/workflows/pr.yml
     secrets: inherit
 
+  dotnet_ci_build:
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@workflows/v1
+    with:
+      solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
+      release_name_prefix: ui_dotnet
+      sbom_root_directory: apps/dh/api-dh
+
+  dotnet_ci_test_telemetry:
+    needs: dotnet_ci_build
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@workflows/v1
+    with:
+      tests_dll_file_path: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net10.0\Energinet.DataHub.WebApi.Tests.dll
+      tests_filter_expression: DisplayName~TelemetryTests
+      download_attempt_limit: 12
+      environment: AzureAuth
+      run_integration_tests: true
+      azure_integrationtest_tenant_id: ${{ vars.integration_test_azure_tenant_id }}
+      azure_integrationtest_subscription_id: ${{ vars.integration_test_azure_subscription_id }}
+      azure_integrationtest_spn_id: ${{ vars.integration_test_azure_spn_id_oidc }}
+      azure_keyvault_url: ${{ vars.integration_test_azure_keyvault_url }}
+
   #
   # Branch policy status check
   #
   allow_merge_ci_orchestrator:
     permissions: {}
     runs-on: ubuntu-latest
-    needs: [dh_ci_frontend]
+    needs: [dh_ci_frontend, dotnet_ci_test_telemetry]
     if: |
       always()
     steps:
