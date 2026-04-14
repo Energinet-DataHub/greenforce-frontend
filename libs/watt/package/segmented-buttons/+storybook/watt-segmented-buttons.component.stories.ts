@@ -24,7 +24,8 @@ import { Meta, applicationConfig, moduleMetadata, StoryObj } from '@storybook/an
 import { WattSegmentedButtonsComponent } from '../watt-segmented-buttons.component';
 import { WattSegmentedButtonComponent } from '../watt-segmented-button.component';
 
-const BLOCK_ROWS = [0, 1, 2] as const;
+const POSITIONS = ['start', 'middle', 'end'] as const;
+type Position = (typeof POSITIONS)[number];
 
 @Component({
   selector: 'watt-segmented-buttons-showcase',
@@ -87,15 +88,6 @@ const BLOCK_ROWS = [0, 1, 2] as const;
         grid-column: 1 / -1;
         height: 16px;
       }
-
-      /*
-       * Hover is an interaction state and cannot be expressed via FormControl
-       * or component inputs. The block below mirrors the component's own
-       * :hover background so the documentation matches Figma exactly.
-       */
-      .hover-cell watt-segmented-button button {
-        background-color: var(--watt-color-neutral-grey-200);
-      }
     }
   `,
   template: `
@@ -121,33 +113,31 @@ const BLOCK_ROWS = [0, 1, 2] as const;
               <div class="column-header">Hover</div>
               <div class="column-header">Disabled</div>
 
-              @for (i of rows; track i) {
+              @for (position of positions; track position) {
                 <watt-segmented-buttons>
-                  <watt-segmented-button>Label</watt-segmented-button>
+                  <watt-segmented-button [class]="position">Label</watt-segmented-button>
                 </watt-segmented-buttons>
 
-                <div class="hover-cell">
-                  <watt-segmented-buttons>
-                    <watt-segmented-button>Label</watt-segmented-button>
-                  </watt-segmented-buttons>
-                </div>
+                <watt-segmented-buttons>
+                  <watt-segmented-button [class]="position + ' hover'">Label</watt-segmented-button>
+                </watt-segmented-buttons>
 
-                <watt-segmented-buttons [formControl]="disabledBlocks[i]">
-                  <watt-segmented-button value="x">Label</watt-segmented-button>
+                <watt-segmented-buttons [formControl]="disabledBlocks[$index]">
+                  <watt-segmented-button [class]="position" value="x">Label</watt-segmented-button>
                 </watt-segmented-buttons>
               }
 
               <div class="blocks-gap"></div>
 
-              @for (i of rows; track i) {
-                <watt-segmented-buttons [formControl]="selectedBlocks[i]">
-                  <watt-segmented-button value="x">Label</watt-segmented-button>
+              @for (position of positions; track position) {
+                <watt-segmented-buttons [formControl]="selectedBlocks[$index]">
+                  <watt-segmented-button [class]="position" value="x">Label</watt-segmented-button>
                 </watt-segmented-buttons>
 
                 <div></div>
 
-                <watt-segmented-buttons [formControl]="disabledSelectedBlocks[i]">
-                  <watt-segmented-button value="x">Label</watt-segmented-button>
+                <watt-segmented-buttons [formControl]="disabledSelectedBlocks[$index]">
+                  <watt-segmented-button [class]="position" value="x">Label</watt-segmented-button>
                 </watt-segmented-buttons>
               }
             </div>
@@ -160,12 +150,11 @@ const BLOCK_ROWS = [0, 1, 2] as const;
 class WattSegmentedButtonsShowcase {
   disabled = input(false);
 
+  positions = POSITIONS;
   overviewControl = new FormControl('day');
-  disabledBlocks = BLOCK_ROWS.map(() => new FormControl({ value: null, disabled: true }));
-  selectedBlocks = BLOCK_ROWS.map(() => new FormControl('x'));
-  disabledSelectedBlocks = BLOCK_ROWS.map(() => new FormControl({ value: 'x', disabled: true }));
-
-  rows = BLOCK_ROWS;
+  disabledBlocks = POSITIONS.map(() => new FormControl({ value: null, disabled: true }));
+  selectedBlocks = POSITIONS.map(() => new FormControl('x'));
+  disabledSelectedBlocks = POSITIONS.map(() => new FormControl({ value: 'x', disabled: true }));
 
   constructor() {
     effect(() => {

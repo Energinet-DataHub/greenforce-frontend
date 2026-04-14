@@ -59,7 +59,8 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       font-family: inherit;
 
       &:hover,
-      &:focus-visible {
+      &:focus-visible,
+      :host(.hover) & {
         background-color: var(--watt-color-neutral-grey-200);
       }
 
@@ -112,19 +113,25 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
     }
 
     :host(.watt-segmented-button--first) a,
-    :host(.watt-segmented-button--first) button {
+    :host(.watt-segmented-button--first) button,
+    :host(.start) a,
+    :host(.start) button {
       border-right-width: 0;
       border-radius: 4px 0 0 4px;
     }
 
     :host(.watt-segmented-button--middle) a,
-    :host(.watt-segmented-button--middle) button {
+    :host(.watt-segmented-button--middle) button,
+    :host(.middle) a,
+    :host(.middle) button {
       border-right-width: 0;
       border-radius: 0;
     }
 
     :host(.watt-segmented-button--last) a,
-    :host(.watt-segmented-button--last) button {
+    :host(.watt-segmented-button--last) button,
+    :host(.end) a,
+    :host(.end) button {
       border-radius: 0 4px 4px 0;
     }
   `,
