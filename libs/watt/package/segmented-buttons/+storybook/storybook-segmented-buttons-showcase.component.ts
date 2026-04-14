@@ -93,9 +93,9 @@ import { WattSegmentedButtonsComponent } from '../watt-segmented-buttons.compone
           <hr class="divider" />
           <watt-segmented-buttons [formControl]="overviewControl">
             <watt-segmented-button value="day">Dag</watt-segmented-button>
-            <watt-segmented-button value="month">Måned</watt-segmented-button>
+            <watt-segmented-button link="/month">Måned</watt-segmented-button>
             <watt-segmented-button value="year">År</watt-segmented-button>
-            <watt-segmented-button value="all">Alle år</watt-segmented-button>
+            <watt-segmented-button link="/all">Alle år</watt-segmented-button>
           </watt-segmented-buttons>
         </div>
 
