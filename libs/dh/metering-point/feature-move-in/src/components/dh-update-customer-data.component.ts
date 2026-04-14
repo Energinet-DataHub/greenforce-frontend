@@ -18,6 +18,7 @@
 //#endregion
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -28,7 +29,6 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import {
   dhFormControlToSignal,
   dhMakeFormControl,
-  injectRelativeNavigate,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -54,13 +54,12 @@ import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details
 import { createContactAddressDetailsForm } from '../util/create-contact-address-details-form';
 import { createCustomerContactDetailsForm } from '../util/create-customer-contact-details-form';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
+import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import {
   BasePaths,
   getPath,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
-import { Router } from '@angular/router';
-import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -116,9 +115,7 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
             }
           </vater-stack>
           <vater-stack direction="row" gap="m">
-            <watt-button (click)="navigate('..')" variant="secondary"
-              >{{ t('cancel') }}
-            </watt-button>
+            <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }} </watt-button>
             <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
               >{{ t('updateCustomerData') }}
             </watt-button>
@@ -236,7 +233,6 @@ export class DhUpdateCustomerDataComponent {
   private readonly technicalContact = computed(() => this.technicalCustomer()?.technicalContact);
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
-  navigate = injectRelativeNavigate();
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
@@ -442,5 +438,16 @@ export class DhUpdateCustomerDataComponent {
       this.internalMeteringPointId(),
       getPath<MeteringPointSubPaths>('process-overview'),
     ]);
+  }
+
+  cancel() {
+    const previousUrl = this.router.lastSuccessfulNavigation()?.previousNavigation?.finalUrl;
+
+    if (previousUrl) {
+      this.router.navigateByUrl(previousUrl.toString(), { replaceUrl: true });
+      return;
+    }
+
+    this.router.navigate([getPath<BasePaths>('metering-point'), this.internalMeteringPointId()]);
   }
 }
