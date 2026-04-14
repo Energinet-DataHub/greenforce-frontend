@@ -1360,7 +1360,7 @@
         "label": "Kontakdetaljer",
         "legalContactSection": "Juridisk kontakt",
         "technicalContactSection": "Teknisk kontakt",
-        "contactSameAsCustomer": "Samme som kundenavn",
+        "contactSameAsCustomer": "Samme som kunde 1 kundenavn",
         "technicalContactSameAsLegal": "Samme som juridisk kontakt",
         "contactName": "Kontaktnavn",
         "attention": "Att.",
