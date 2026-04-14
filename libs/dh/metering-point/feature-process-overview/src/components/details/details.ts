@@ -100,7 +100,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
           track action
         ) {
           <watt-button variant="secondary" (click)="executeAction(action)">
-            {{ t('actions.' + action) }}
+            {{ t('actions.' + businessReason() + '.' + action) }}
           </watt-button>
         }
       </watt-drawer-actions>

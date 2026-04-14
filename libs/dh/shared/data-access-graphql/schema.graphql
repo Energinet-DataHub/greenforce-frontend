@@ -1228,12 +1228,13 @@ type Mutation {
   dismissAllNotifications(input: DismissAllNotificationsInput!): DismissAllNotificationsPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
-  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
+  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(policy: "EnergySupplierOrGridAccessProvider")
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(policy: "GridAccessProvider")
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
+  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
@@ -1599,6 +1600,10 @@ type RequestOptions {
 }
 
 type RequestPayload {
+  boolean: Boolean
+}
+
+type RequestServiceEndOfSupplyPayload {
   boolean: Boolean
 }
 
@@ -2405,6 +2410,14 @@ input RequestMissingMeasurementsLogInput {
   gridAreaCodes: [String!]!
 }
 
+input RequestServiceEndOfSupplyInput {
+  meteringPointId: String!
+  processId: UUID!
+  serviceKind: ServiceKindV1!
+  startDate: DateTime!
+  description: String
+}
+
 input RequestSettlementReportGridAreaInput {
   calculationId: UUID
   gridAreaCode: String!
@@ -2713,6 +2726,7 @@ enum ArchivedMessageDocumentType {
   CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
   NOTIFY_PRICE_LIST
+  REQUEST_PRICE_LIST
 }
 
 enum AuthEicFunctionType {
@@ -2884,6 +2898,7 @@ enum DocumentType {
   REQUEST_CHANGE_OF_PRICE_LIST
   CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
+  REQUEST_PRICE_LIST
   B2C_REQUEST_AGGREGATED_MEASURE_DATA
   B2C_REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
@@ -3592,6 +3607,17 @@ enum SendMeasurementsResolution {
   MONTHLY
   HOURLY
   QUARTER_HOURLY
+}
+
+enum ServiceKindV1 {
+  ORDINARY_DISCONNECTION_AGREED_WITH_THE_CUSTOMER
+  THE_POLICE_IS_INVOLVED_IN_THE_DISCONNECTION
+  THE_MUNICIPALITY_IS_INVOLVED_IN_THE_DISCONNECTION
+  THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION
+  OTHER_REASON
+  DISCONNECT
+  CONNECT
+  METER_CHECK
 }
 
 enum SettlementReportMarketRole {
