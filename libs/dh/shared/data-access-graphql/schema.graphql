@@ -3764,3 +3764,4 @@ scalar URL @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc3986")
 scalar UUID @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc4122")
 
 "Represents a year and month"
+scalar YearMonth
