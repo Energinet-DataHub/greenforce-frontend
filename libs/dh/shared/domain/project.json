@@ -7,7 +7,6 @@
       "executor": "nx:run-commands",
       "cache": true,
       "inputs": [
-        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql",
         "{workspaceRoot}/codegen.ts",
         "{workspaceRoot}/tools/normalize-schema.js",
         "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
@@ -27,14 +26,13 @@
         "{projectRoot}/src/generated/graphql/msw.ts"
       ],
       "options": {
-        "commands": ["node tools/normalize-schema.js", "graphql-codegen"]
+        "commands": ["node ./tools/normalize-schema.js", "graphql-codegen"]
       }
     },
     "watch-generate": {
       "executor": "nx:run-commands",
       "continuous": true,
       "inputs": [
-        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql",
         "{workspaceRoot}/codegen.ts",
         "{workspaceRoot}/dh/shared/feature-graphql-codegen/**/*.js",
         "{workspaceRoot}/**/*.graphql",
