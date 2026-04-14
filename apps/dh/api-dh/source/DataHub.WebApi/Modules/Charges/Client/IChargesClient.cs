@@ -47,15 +47,7 @@ public interface IChargesClient
     /// </summary>
     Task<IEnumerable<ChargeOverviewItem>> GetChargeOverviewAsync(
         string? filter,
-        string[]? owners,
-        ChargeType[]? types,
-        Resolution[]? resolution,
-        DateTimeOffset? activePeriodStart,
-        DateTimeOffset? activePeriodEnd,
-        bool? vatInclusive,
-        bool? transparentInvoicing,
-        bool? spotDependingPrice,
-        bool? missingPriceSeries,
+        ChargeOverviewQuery? query,
         CancellationToken ct = default);
 
     /// <summary>
