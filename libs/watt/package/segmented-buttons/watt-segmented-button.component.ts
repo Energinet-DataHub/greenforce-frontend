@@ -72,7 +72,8 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       }
 
       &[aria-checked='true'],
-      &.active {
+      &.active,
+      :host(.selected) & {
         background-color: var(--watt-color-primary);
         color: var(--watt-color-neutral-white);
 
@@ -83,7 +84,8 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       }
 
       &[aria-disabled='true'],
-      &:disabled {
+      &:disabled,
+      :host(.disabled) & {
         cursor: default;
         background-color: var(--watt-color-neutral-grey-200);
         color: rgba(
@@ -97,18 +99,21 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
         &:focus-visible {
           background-color: var(--watt-color-neutral-grey-200);
         }
+      }
+    }
 
-        &[aria-checked='true'] {
-          background-color: var(--watt-color-neutral-grey-400);
-          color: var(
-            --watt-on-light-high-emphasis
-          ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+    :host(.disabled.selected) a,
+    :host(.disabled.selected) button,
+    :host(.disabled) a[aria-checked='true'],
+    :host(.disabled) button[aria-checked='true'],
+    a[aria-disabled='true'][aria-checked='true'],
+    button:disabled[aria-checked='true'] {
+      background-color: var(--watt-color-neutral-grey-400);
+      color: var(--watt-on-light-high-emphasis); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
 
-          &:hover,
-          &:focus-visible {
-            background-color: var(--watt-color-neutral-grey-400);
-          }
-        }
+      &:hover,
+      &:focus-visible {
+        background-color: var(--watt-color-neutral-grey-400);
       }
     }
 

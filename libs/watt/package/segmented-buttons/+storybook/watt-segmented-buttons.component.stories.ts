@@ -114,31 +114,17 @@ type Position = (typeof POSITIONS)[number];
               <div class="column-header">Disabled</div>
 
               @for (position of positions; track position) {
-                <watt-segmented-buttons>
-                  <watt-segmented-button [class]="position">Label</watt-segmented-button>
-                </watt-segmented-buttons>
-
-                <watt-segmented-buttons>
-                  <watt-segmented-button [class]="position + ' hover'">Label</watt-segmented-button>
-                </watt-segmented-buttons>
-
-                <watt-segmented-buttons [formControl]="disabledBlocks[$index]">
-                  <watt-segmented-button [class]="position" value="x">Label</watt-segmented-button>
-                </watt-segmented-buttons>
+                <watt-segmented-button [class]="position">Label</watt-segmented-button>
+                <watt-segmented-button [class]="position + ' hover'">Label</watt-segmented-button>
+                <watt-segmented-button [class]="position + ' disabled'">Label</watt-segmented-button>
               }
 
               <div class="blocks-gap"></div>
 
               @for (position of positions; track position) {
-                <watt-segmented-buttons [formControl]="selectedBlocks[$index]">
-                  <watt-segmented-button [class]="position" value="x">Label</watt-segmented-button>
-                </watt-segmented-buttons>
-
+                <watt-segmented-button [class]="position + ' selected'">Label</watt-segmented-button>
                 <div></div>
-
-                <watt-segmented-buttons [formControl]="disabledSelectedBlocks[$index]">
-                  <watt-segmented-button [class]="position" value="x">Label</watt-segmented-button>
-                </watt-segmented-buttons>
+                <watt-segmented-button [class]="position + ' disabled selected'">Label</watt-segmented-button>
               }
             </div>
           </div>
@@ -152,9 +138,6 @@ class WattSegmentedButtonsShowcase {
 
   positions = POSITIONS;
   overviewControl = new FormControl('day');
-  disabledBlocks = POSITIONS.map(() => new FormControl({ value: null, disabled: true }));
-  selectedBlocks = POSITIONS.map(() => new FormControl('x'));
-  disabledSelectedBlocks = POSITIONS.map(() => new FormControl({ value: 'x', disabled: true }));
 
   constructor() {
     effect(() => {
