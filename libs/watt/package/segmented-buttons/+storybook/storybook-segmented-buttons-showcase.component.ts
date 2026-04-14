@@ -22,8 +22,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WattSegmentedButtonComponent } from '../watt-segmented-button.component';
 import { WattSegmentedButtonsComponent } from '../watt-segmented-buttons.component';
 
-const POSITIONS = ['start', 'middle', 'end'] as const;
-
 @Component({
   selector: 'watt-storybook-segmented-buttons-showcase',
   imports: [WattSegmentedButtonsComponent, WattSegmentedButtonComponent, ReactiveFormsModule],
@@ -133,7 +131,7 @@ const POSITIONS = ['start', 'middle', 'end'] as const;
 export class WattStorybookSegmentedButtonsShowcaseComponent {
   disabled = input(false);
 
-  positions = POSITIONS;
+  positions = ['start', 'middle', 'end'] as const;
   overviewControl = new FormControl('day');
 
   constructor() {
