@@ -115,9 +115,7 @@ import {
             }
           </vater-stack>
           <vater-stack direction="row" gap="m">
-            <watt-button (click)="cancel()" variant="secondary"
-              >{{ t('cancel') }}
-            </watt-button>
+            <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }} </watt-button>
             <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
               >{{ t('updateCustomerData') }}
             </watt-button>
@@ -443,17 +441,13 @@ export class DhUpdateCustomerDataComponent {
   }
 
   cancel() {
-    const previousUrl =
-      this.router.lastSuccessfulNavigation()?.previousNavigation?.finalUrl;
+    const previousUrl = this.router.lastSuccessfulNavigation()?.previousNavigation?.finalUrl;
 
     if (previousUrl) {
       this.router.navigateByUrl(previousUrl.toString(), { replaceUrl: true });
       return;
     }
 
-    this.router.navigate([
-      getPath<BasePaths>('metering-point'),
-      this.internalMeteringPointId()
-    ]);
+    this.router.navigate([getPath<BasePaths>('metering-point'), this.internalMeteringPointId()]);
   }
 }
