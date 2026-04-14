@@ -25,6 +25,8 @@ import {
   GetMeteringPointByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+export type ContactType = 'legalContact' | 'technicalContact';
+
 export type StartMoveInFormType = {
   cutOffDate: FormControl<Date>;
   businessReason: FormControl<ChangeOfSupplierBusinessReason>;
