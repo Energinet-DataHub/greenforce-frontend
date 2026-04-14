@@ -141,7 +141,8 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
                 <watt-skeleton height="46px" />
               </vater-stack>
             </vater-stack>
-          } @else {
+          }
+          @if (!isLoading()) {
             <watt-card-title>
               <h3>
                 {{ t('customerDetails.label') }}
