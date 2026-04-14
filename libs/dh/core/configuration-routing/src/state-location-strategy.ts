@@ -55,7 +55,6 @@ export class StateLocationStrategy extends PathLocationStrategy {
     const state = normalizeState(this.getState());
     const url = state[ROUTER_URL_KEY];
     if (typeof url !== 'string') return super.path(includeHash);
-
     return !includeHash ? url.split('#')[0] : url;
   }
 
