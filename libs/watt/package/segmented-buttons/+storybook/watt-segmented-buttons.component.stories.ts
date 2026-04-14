@@ -23,7 +23,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WattSegmentedButtonsComponent } from '../watt-segmented-buttons.component';
 import { WattSegmentedButtonComponent } from '../watt-segmented-button.component';
 
-const meta: Meta<WattSegmentedButtonsComponent & { disabled: boolean }> = {
+const meta: Meta<WattSegmentedButtonsComponent> = {
   title: 'Components/Segmented buttons',
   component: WattSegmentedButtonsComponent,
   decorators: [
@@ -34,225 +34,110 @@ const meta: Meta<WattSegmentedButtonsComponent & { disabled: boolean }> = {
       imports: [ReactiveFormsModule, WattSegmentedButtonsComponent, WattSegmentedButtonComponent],
     }),
   ],
-  argTypes: {
-    disabled: {
-      control: 'boolean',
-      description: 'Disable the segmented buttons group',
-    },
-  },
-  args: {
-    disabled: false,
-  },
 };
 export default meta;
 
-type Story = StoryObj<WattSegmentedButtonsComponent & { disabled: boolean }>;
-
-const sourceCode = `
-<watt-segmented-buttons [formControl]="formControl">
-  <watt-segmented-button value="day">Dag</watt-segmented-button>
-  <watt-segmented-button value="month">Måned</watt-segmented-button>
-  <watt-segmented-button value="year">År</watt-segmented-button>
-  <watt-segmented-button value="all">Alle år</watt-segmented-button>
-</watt-segmented-buttons>
-`.trim();
+type Story = StoryObj<WattSegmentedButtonsComponent>;
 
 export const Overview: Story = {
-  parameters: {
-    docs: {
-      source: { code: sourceCode },
+  render: () => ({
+    props: { formControl: new FormControl('day') },
+    template: `
+      <watt-segmented-buttons [formControl]="formControl">
+        <watt-segmented-button value="day">Dag</watt-segmented-button>
+        <watt-segmented-button value="month">Måned</watt-segmented-button>
+        <watt-segmented-button value="year">År</watt-segmented-button>
+        <watt-segmented-button value="all">Alle år</watt-segmented-button>
+      </watt-segmented-buttons>
+    `,
+  }),
+};
+
+export const Standalone: Story = {
+  render: () => ({
+    props: { formControl: new FormControl('only') },
+    template: `
+      <watt-segmented-buttons [formControl]="formControl">
+        <watt-segmented-button value="only">Only option</watt-segmented-button>
+      </watt-segmented-buttons>
+    `,
+  }),
+};
+
+export const SelectedPositions: Story = {
+  name: 'Selected positions',
+  render: () => ({
+    props: {
+      firstSelected: new FormControl('day'),
+      middleSelected: new FormControl('month'),
+      lastSelected: new FormControl('year'),
+      noneSelected: new FormControl(null),
     },
-  },
-  render: (args) => {
-    const formControl = new FormControl('day');
-    if (args.disabled) formControl.disable();
-    return {
-      props: { formControl },
-      styles: [
-        `
-          :host {
-            display: block;
-            background: #e5e5e5;
-            padding: 40px;
-            margin: -16px;
-          }
+    styles: [`.stack { display: flex; flex-direction: column; gap: 16px; }`],
+    template: `
+      <div class="stack">
+        <watt-segmented-buttons [formControl]="noneSelected">
+          <watt-segmented-button value="day">Dag</watt-segmented-button>
+          <watt-segmented-button value="month">Måned</watt-segmented-button>
+          <watt-segmented-button value="year">År</watt-segmented-button>
+        </watt-segmented-buttons>
 
-          .page {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            max-width: 560px;
-          }
+        <watt-segmented-buttons [formControl]="firstSelected">
+          <watt-segmented-button value="day">Dag</watt-segmented-button>
+          <watt-segmented-button value="month">Måned</watt-segmented-button>
+          <watt-segmented-button value="year">År</watt-segmented-button>
+        </watt-segmented-buttons>
 
-          .section {
-            background: white;
-            border-radius: 12px;
-            padding: 48px 56px;
-          }
+        <watt-segmented-buttons [formControl]="middleSelected">
+          <watt-segmented-button value="day">Dag</watt-segmented-button>
+          <watt-segmented-button value="month">Måned</watt-segmented-button>
+          <watt-segmented-button value="year">År</watt-segmented-button>
+        </watt-segmented-buttons>
 
-          .section-title {
-            font-family: 'Open Sans', sans-serif;
-            font-size: 36px;
-            font-weight: 300;
-            color: rgba(0, 0, 0, 0.87);
-            margin: 0 0 24px;
-          }
+        <watt-segmented-buttons [formControl]="lastSelected">
+          <watt-segmented-button value="day">Dag</watt-segmented-button>
+          <watt-segmented-button value="month">Måned</watt-segmented-button>
+          <watt-segmented-button value="year">År</watt-segmented-button>
+        </watt-segmented-buttons>
+      </div>
+    `,
+  }),
+};
 
-          .divider {
-            border: none;
-            border-top: 1px solid var(--watt-color-neutral-grey-300);
-            margin: 0 0 32px;
-          }
+export const Disabled: Story = {
+  render: () => ({
+    props: {
+      disabledNoSelection: new FormControl({ value: null, disabled: true }),
+      disabledWithSelection: new FormControl({ value: 'month', disabled: true }),
+    },
+    styles: [`.stack { display: flex; flex-direction: column; gap: 16px; }`],
+    template: `
+      <div class="stack">
+        <watt-segmented-buttons [formControl]="disabledNoSelection">
+          <watt-segmented-button value="day">Dag</watt-segmented-button>
+          <watt-segmented-button value="month">Måned</watt-segmented-button>
+          <watt-segmented-button value="year">År</watt-segmented-button>
+        </watt-segmented-buttons>
 
-          .dashed-border {
-            border: 2px dashed #7c4dff;
-            border-radius: 8px;
-            padding: 24px 40px;
-            margin-top: 8px;
-          }
+        <watt-segmented-buttons [formControl]="disabledWithSelection">
+          <watt-segmented-button value="day">Dag</watt-segmented-button>
+          <watt-segmented-button value="month">Måned</watt-segmented-button>
+          <watt-segmented-button value="year">År</watt-segmented-button>
+        </watt-segmented-buttons>
+      </div>
+    `,
+  }),
+};
 
-          .blocks-grid {
-            display: grid;
-            grid-template-columns: repeat(3, auto);
-            gap: 24px 32px;
-            justify-items: start;
-          }
-
-          .column-header {
-            font-family: 'Open Sans', sans-serif;
-            font-size: 14px;
-            color: rgba(0, 0, 0, 0.6);
-          }
-
-          .hover-cell ::ng-deep watt-segmented-button a,
-          .hover-cell ::ng-deep watt-segmented-button button {
-            background-color: var(--watt-color-neutral-grey-200);
-          }
-
-          .blocks-gap {
-            grid-column: 1 / -1;
-            height: 16px;
-          }
-
-          .start ::ng-deep watt-segmented-button a,
-          .start ::ng-deep watt-segmented-button button {
-            border-right-width: 0;
-            border-radius: 4px 0 0 4px;
-          }
-
-          .middle ::ng-deep watt-segmented-button a,
-          .middle ::ng-deep watt-segmented-button button {
-            border-right-width: 0;
-            border-radius: 0;
-          }
-
-          .end ::ng-deep watt-segmented-button a,
-          .end ::ng-deep watt-segmented-button button {
-            border-radius: 0 4px 4px 0;
-          }
-
-          .mock-selected ::ng-deep watt-segmented-button a,
-          .mock-selected ::ng-deep watt-segmented-button button {
-            background-color: var(--watt-color-primary);
-            color: var(--watt-color-neutral-white);
-          }
-
-          .mock-disabled ::ng-deep watt-segmented-button a,
-          .mock-disabled ::ng-deep watt-segmented-button button {
-            background-color: var(--watt-color-neutral-grey-200);
-            color: rgba(0, 0, 0, 0.26);
-            cursor: default;
-          }
-
-          .mock-disabled.mock-selected ::ng-deep watt-segmented-button a,
-          .mock-disabled.mock-selected ::ng-deep watt-segmented-button button {
-            background-color: var(--watt-color-neutral-grey-400);
-            color: var(--watt-on-light-high-emphasis);
-          }
-        `,
-      ],
-      template: `
-        <div class="page">
-          <div class="section">
-            <div class="section-title">Segmented button</div>
-            <hr class="divider" />
-            <watt-segmented-buttons [formControl]="formControl">
-              <watt-segmented-button value="day">Dag</watt-segmented-button>
-              <watt-segmented-button value="month">Måned</watt-segmented-button>
-              <watt-segmented-button value="year">År</watt-segmented-button>
-              <watt-segmented-button value="all">Alle år</watt-segmented-button>
-            </watt-segmented-buttons>
-          </div>
-
-          <div class="section">
-            <div class="section-title">Building blocks</div>
-            <hr class="divider" />
-            <div class="dashed-border">
-              <div class="blocks-grid">
-                <div class="column-header">Enabled</div>
-                <div class="column-header">Hover</div>
-                <div class="column-header">Disabled</div>
-
-                <div class="start">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="start hover-cell">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="start mock-disabled">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-
-                <div class="middle">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="middle hover-cell">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="middle mock-disabled">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-
-                <div class="end">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="end hover-cell">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="end mock-disabled">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-
-                <div class="blocks-gap"></div>
-
-                <div class="start mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div></div>
-                <div class="start mock-disabled mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-
-                <div class="middle mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div></div>
-                <div class="middle mock-disabled mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-
-                <div class="end mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div></div>
-                <div class="end mock-disabled mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-    };
-  },
+export const WithRouterLinks: Story = {
+  name: 'With router links',
+  render: () => ({
+    template: `
+      <watt-segmented-buttons>
+        <watt-segmented-button link="/day">Dag</watt-segmented-button>
+        <watt-segmented-button link="/month">Måned</watt-segmented-button>
+        <watt-segmented-button link="/year">År</watt-segmented-button>
+      </watt-segmented-buttons>
+    `,
+  }),
 };
