@@ -1,10 +1,17 @@
 {
   "targets": {
     "build": {
-      "dependsOn": ["restore", "^build"]
+      "dependsOn": ["restore", "^build"],
+      "defaultConfiguration": "release"
     },
     "test": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
+      "configurations": {
+        "release": {
+          "args": ["--no-build", "--no-restore", "--configuration", "Release"]
+        }
+      },
+      "defaultConfiguration": "release"
     }
   }
 }
